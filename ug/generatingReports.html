@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.15.2">
+  <meta name="generator" content="MarkBind 2.16.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Generating a report</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -14,11 +14,13 @@
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
   <link rel="stylesheet" href="../markbind/css/github.min.css">
-  <link rel="stylesheet" href="../markbind/css/markbind.css">
+  <link rel="stylesheet" href="../markbind/css/markbind.min.css">
+  <script src="../markbind/js/polyfill.min.js"></script>
+  <script src="../markbind/js/vue.min.js"></script>
+  <script src="../markbind/js/markbind.min.js"></script>
+  <script src="../markbind/js/jquery.min.js"></script>
   <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
   <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
-  <link rel="stylesheet" href="../markbind/css/site-nav.css">
-  <link rel="stylesheet" href="../markbind/css/page-nav.css">
   <link rel="icon" href="/RepoSense/favicon.ico">
 </head>
 
@@ -147,7 +149,7 @@
             <p>The above commands will analyze the given repo(s) for commits done within <mark>the last month</mark> and open the report in your default Browser.</p>
           </li>
         </ol>
-        <p><strong>To learn how to generate a report using <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-html-for="_content">e.g., generate a report for a different period, for specific file types, for specific authors, etc.</span>other settings</span></strong>, head over to the <a href="/RepoSense/ug/customizingReports.html"><em><strong>Customizing reports</strong></em></a> section.</p>
+        <p><strong>To learn how to generate a report using <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-slot-name="_content">e.g., generate a report for a different period, for specific file types, for specific authors, etc.</span>other settings</span></strong>, head over to the <a href="/RepoSense/ug/customizingReports.html"><em><strong>Customizing reports</strong></em></a> section.</p>
 
         <h2 id="generating-reports-remotely">Generating reports remotely<a class="fa fa-anchor" href="#generating-reports-remotely" onclick="event.stopPropagation()"></a></h2>
         <p><strong>You can generate a RepoSense report remotely, without installing/running anything in your computer.</strong> This is particularly useful when you are just tyring to decide whether to adopt RepoSense.</p>
@@ -613,7 +615,26 @@
                           <li>the display of an author</li>
                         </ul>
                         <p>To use this feature, add a <code v-pre>_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p>
-                        <pre><code class="no-line-numbers hljs json" v-pre><span>{<br></span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],<br></span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],<br></span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>],<br></span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],<br></span><span>  <span class="hljs-attr">"authors"</span>:<br></span><span>  [<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"alice"</span>,<br></span><span>      <span class="hljs-attr">"emails"</span>: [<span class="hljs-string">"alice@example.com"</span>, <span class="hljs-string">"alicet@example.com"</span>],<br></span><span>      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"Alice T."</span>,<br></span><span>      <span class="hljs-attr">"authorNames"</span>: [<span class="hljs-string">"AT"</span>, <span class="hljs-string">"A"</span>],<br></span><span>      <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"**.css"</span>]<br></span><span>    },<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"bob"</span><br></span><span>    }<br></span><span>  ]<br></span><span>}<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs json" v-pre><span>{
+</span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],
+</span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],
+</span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>],
+</span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],
+</span><span>  <span class="hljs-attr">"authors"</span>:
+</span><span>  [
+</span><span>    {
+</span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"alice"</span>,
+</span><span>      <span class="hljs-attr">"emails"</span>: [<span class="hljs-string">"alice@example.com"</span>, <span class="hljs-string">"alicet@example.com"</span>],
+</span><span>      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"Alice T."</span>,
+</span><span>      <span class="hljs-attr">"authorNames"</span>: [<span class="hljs-string">"AT"</span>, <span class="hljs-string">"A"</span>],
+</span><span>      <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"**.css"</span>]
+</span><span>    },
+</span><span>    {
+</span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"bob"</span>
+</span><span>    }
+</span><span>  ]
+</span><span>}
+</span></code></pre>
                         <p>Note: all fields are optional unless specified otherwise.</p>
                         <p><strong>Fields to provide <em>repository-level</em> info</strong>:</p>
                         <ul>
@@ -639,14 +660,30 @@
                         </ul>
                         <h2 id="a-note-about-git-author-name">A note about git author name<a class="fa fa-anchor" href="#a-note-about-git-author-name" onclick="event.stopPropagation()"></a></h2>
                         <p><code v-pre>Git Author Name</code> refers to the customizable author's display name set in the local <code v-pre>.gitconfig</code> file. For example, in the Git Log's display:</p>
-                        <pre><code class="no-line-numbers hljs" v-pre><span>...<br></span><span>commit cd7f610e0becbdf331d5231887d8010a689f87c7<br></span><span>Author: ConfiguredAuthorName &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:14:41 2018 +0800<br></span><span><br></span><span>    Make some changes to show my new author's name<br></span><span><br></span><span>commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49<br></span><span>Author: ActualGitHubId &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:13:13 2018 +0800<br></span><span><br></span><span>    Initial commit<br></span><span> ...<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs" v-pre><span>...
+</span><span>commit cd7f610e0becbdf331d5231887d8010a689f87c7
+</span><span>Author: ConfiguredAuthorName &lt;author@example.com&gt;
+</span><span>Date:   Fri Feb 9 19:14:41 2018 +0800
+</span><span>
+</span><span>    Make some changes to show my new author's name
+</span><span>
+</span><span>commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49
+</span><span>Author: ActualGitHubId &lt;author@example.com&gt;
+</span><span>Date:   Fri Feb 9 19:13:13 2018 +0800
+</span><span>
+</span><span>    Initial commit
+</span><span> ...
+</span></code></pre>
                         <p><code v-pre>ActualGitHubId</code> and <code v-pre>ConfiguredAuthorName</code> are both <code v-pre>Git Author Name</code> of the same author.<br>
                           To find the author name that you are currently using for your current git repository, run the following command within your git repository:</p>
-                        <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name
+</span></code></pre>
                         <p>To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command (<a href="https://www.git-tower.com/learn/git/faq/change-author-name-email">more info</a>):</p>
-                        <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name &quot;YOUR_AUTHOR_NAME”
+</span></code></pre>
                         <p>To set the author name to use a default value you want for future git repositories, you can use the following command:</p>
-                        <pre><code class="no-line-numbers hljs" v-pre><span>git config --global user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs" v-pre><span>git config --global user.name &quot;YOUR_AUTHOR_NAME”
+</span></code></pre>
                         <p>RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's <code v-pre>Git Author Name</code> is different from her <code v-pre>GitHub ID</code>, the <code v-pre>Git Author Name</code> needs to be specified in the standalone config file. If the author has more than one <code v-pre>Git Author Name</code>, multiple values can be entered too.</p>
                         <box type="warning" seamless>
                           <p>Note: Symbols such as <code v-pre>&quot;</code>, <code v-pre>!</code>, <code v-pre>/</code> etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.
@@ -1105,7 +1142,26 @@
                           <li>the display of an author</li>
                         </ul>
                         <p>To use this feature, add a <code v-pre>_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p>
-                        <pre><code class="no-line-numbers hljs json" v-pre><span>{<br></span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],<br></span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],<br></span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>],<br></span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],<br></span><span>  <span class="hljs-attr">"authors"</span>:<br></span><span>  [<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"alice"</span>,<br></span><span>      <span class="hljs-attr">"emails"</span>: [<span class="hljs-string">"alice@example.com"</span>, <span class="hljs-string">"alicet@example.com"</span>],<br></span><span>      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"Alice T."</span>,<br></span><span>      <span class="hljs-attr">"authorNames"</span>: [<span class="hljs-string">"AT"</span>, <span class="hljs-string">"A"</span>],<br></span><span>      <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"**.css"</span>]<br></span><span>    },<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"bob"</span><br></span><span>    }<br></span><span>  ]<br></span><span>}<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs json" v-pre><span>{
+</span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],
+</span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],
+</span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>],
+</span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],
+</span><span>  <span class="hljs-attr">"authors"</span>:
+</span><span>  [
+</span><span>    {
+</span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"alice"</span>,
+</span><span>      <span class="hljs-attr">"emails"</span>: [<span class="hljs-string">"alice@example.com"</span>, <span class="hljs-string">"alicet@example.com"</span>],
+</span><span>      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"Alice T."</span>,
+</span><span>      <span class="hljs-attr">"authorNames"</span>: [<span class="hljs-string">"AT"</span>, <span class="hljs-string">"A"</span>],
+</span><span>      <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"**.css"</span>]
+</span><span>    },
+</span><span>    {
+</span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"bob"</span>
+</span><span>    }
+</span><span>  ]
+</span><span>}
+</span></code></pre>
                         <p>Note: all fields are optional unless specified otherwise.</p>
                         <p><strong>Fields to provide <em>repository-level</em> info</strong>:</p>
                         <ul>
@@ -1131,14 +1187,30 @@
                         </ul>
                         <h2 id="a-note-about-git-author-name-2">A note about git author name<a class="fa fa-anchor" href="#a-note-about-git-author-name-2" onclick="event.stopPropagation()"></a></h2>
                         <p><code v-pre>Git Author Name</code> refers to the customizable author's display name set in the local <code v-pre>.gitconfig</code> file. For example, in the Git Log's display:</p>
-                        <pre><code class="no-line-numbers hljs" v-pre><span>...<br></span><span>commit cd7f610e0becbdf331d5231887d8010a689f87c7<br></span><span>Author: ConfiguredAuthorName &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:14:41 2018 +0800<br></span><span><br></span><span>    Make some changes to show my new author's name<br></span><span><br></span><span>commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49<br></span><span>Author: ActualGitHubId &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:13:13 2018 +0800<br></span><span><br></span><span>    Initial commit<br></span><span> ...<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs" v-pre><span>...
+</span><span>commit cd7f610e0becbdf331d5231887d8010a689f87c7
+</span><span>Author: ConfiguredAuthorName &lt;author@example.com&gt;
+</span><span>Date:   Fri Feb 9 19:14:41 2018 +0800
+</span><span>
+</span><span>    Make some changes to show my new author's name
+</span><span>
+</span><span>commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49
+</span><span>Author: ActualGitHubId &lt;author@example.com&gt;
+</span><span>Date:   Fri Feb 9 19:13:13 2018 +0800
+</span><span>
+</span><span>    Initial commit
+</span><span> ...
+</span></code></pre>
                         <p><code v-pre>ActualGitHubId</code> and <code v-pre>ConfiguredAuthorName</code> are both <code v-pre>Git Author Name</code> of the same author.<br>
                           To find the author name that you are currently using for your current git repository, run the following command within your git repository:</p>
-                        <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name
+</span></code></pre>
                         <p>To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command (<a href="https://www.git-tower.com/learn/git/faq/change-author-name-email">more info</a>):</p>
-                        <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name &quot;YOUR_AUTHOR_NAME”
+</span></code></pre>
                         <p>To set the author name to use a default value you want for future git repositories, you can use the following command:</p>
-                        <pre><code class="no-line-numbers hljs" v-pre><span>git config --global user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
+                        <pre><code class="no-line-numbers hljs" v-pre><span>git config --global user.name &quot;YOUR_AUTHOR_NAME”
+</span></code></pre>
                         <p>RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's <code v-pre>Git Author Name</code> is different from her <code v-pre>GitHub ID</code>, the <code v-pre>Git Author Name</code> needs to be specified in the standalone config file. If the author has more than one <code v-pre>Git Author Name</code>, multiple values can be entered too.</p>
                         <box type="warning" seamless>
                           <p>Note: Symbols such as <code v-pre>&quot;</code>, <code v-pre>!</code>, <code v-pre>/</code> etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.
@@ -1167,6 +1239,7 @@
           </panel>
         </div>
         <p></p>
+        <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
 
 
@@ -1187,21 +1260,19 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Sun, Sep 13, 2020, 7:45:34 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Mon, Sep 14, 2020, 12:22:48 PM UTC]</small>
       </div>
     </footer>
   </div>
 </body>
-<script src="../markbind/js/vue.min.js"></script>
-<script src="../markbind/js/components.min.js"></script>
 <script src="../markbind/js/bootstrap-utility.min.js"></script>
-<script src="../markbind/js/polyfill.min.js"></script>
-<script src="../markbind/js/bootstrap-vue.min.js"></script>
 <script>
   const baseUrl = '/RepoSense'
-  const enableSearch = true
+  MarkBind.setupWithSearch()
 </script>
-<script src="../markbind/js/setup.js"></script>
 <script src="../markbind/layouts/default/scripts.js"></script>
+<script>
+  if (MarkBind.AfterSetup) MarkBind.AfterSetup()
+</script>
 
 </html>

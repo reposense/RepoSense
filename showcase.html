@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.15.2">
+  <meta name="generator" content="MarkBind 2.16.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Showcase</title>
   <link rel="stylesheet" href="markbind/css/bootstrap.min.css">
@@ -14,7 +14,11 @@
   <link rel="stylesheet" href="markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="markbind/css/octicons.css">
   <link rel="stylesheet" href="markbind/css/github.min.css">
-  <link rel="stylesheet" href="markbind/css/markbind.css">
+  <link rel="stylesheet" href="markbind/css/markbind.min.css">
+  <script src="markbind/js/polyfill.min.js"></script>
+  <script src="markbind/js/vue.min.js"></script>
+  <script src="markbind/js/markbind.min.js"></script>
+  <script src="markbind/js/jquery.min.js"></script>
   <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
   <link rel="stylesheet" href="markbind/layouts/default/styles.css">
   <link rel="icon" href="/RepoSense/favicon.ico">
@@ -74,7 +78,7 @@
             <p><strong>Example usages:</strong></p>
             <ul>
               <li>To find the breakdown of the work done, we can tick the <code v-pre>breakdown by file type</code> checkbox, as shown in <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=true">this view</a>. After that, we can filter out certain file types by un-ticking the file type.</li>
-              <li>To find how teams compare in terms of total work done, we can tick the <code v-pre>merge group</code> check-box and sort groups by <code v-pre>Contribution</code>, as seen in <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=totalCommits&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=week&amp;mergegroup=true&amp;groupSelect=groupByRepos&amp;breakdown=false">this view</a>. Also note how <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-html-for="_content">i.e., each ramp represents the work done by the entire team in the whole week</span>the <code v-pre>granularity</code> of the ramps is set to <code v-pre>Week</code></span> to reduce clutter.</li>
+              <li>To find how teams compare in terms of total work done, we can tick the <code v-pre>merge group</code> check-box and sort groups by <code v-pre>Contribution</code>, as seen in <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=totalCommits&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=week&amp;mergegroup=true&amp;groupSelect=groupByRepos&amp;breakdown=false">this view</a>. Also note how <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-slot-name="_content">i.e., each ramp represents the work done by the entire team in the whole week</span>the <code v-pre>granularity</code> of the ramps is set to <code v-pre>Week</code></span> to reduce clutter.</li>
               <li><a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-04-06&amp;timeframe=commit&amp;mergegroup=false&amp;groupSelect=groupByRepos&amp;breakdown=true">This view</a> shows the activities near the submission deadline (note how some have overshot the deadline and some others show a frenzy of activities very near to the deadline).</li>
             </ul>
           </li>
@@ -97,6 +101,7 @@
             </ul>
           </li>
         </ul>
+        <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
 
 
@@ -104,21 +109,19 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.15.2</a>, generated on Sun, Sep 13, 2020, 7:45:34 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Mon, Sep 14, 2020, 12:22:48 PM UTC]</small>
       </div>
     </footer>
   </div>
 </body>
-<script src="markbind/js/vue.min.js"></script>
-<script src="markbind/js/components.min.js"></script>
 <script src="markbind/js/bootstrap-utility.min.js"></script>
-<script src="markbind/js/polyfill.min.js"></script>
-<script src="markbind/js/bootstrap-vue.min.js"></script>
 <script>
   const baseUrl = '/RepoSense'
-  const enableSearch = true
+  MarkBind.setupWithSearch()
 </script>
-<script src="markbind/js/setup.js"></script>
 <script src="markbind/layouts/default/scripts.js"></script>
+<script>
+  if (MarkBind.AfterSetup) MarkBind.AfterSetup()
+</script>
 
 </html>
