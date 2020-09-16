@@ -14,6 +14,39 @@
   width: 100%;
   z-index: z-index('app-wrapper');
 
+  #tab-resize {
+    background-color: mui-color('black');
+    cursor: col-resize;
+    height: 100%;
+    width: 13.250px;
+    z-index: z-index('center-divider');
+  }
+
+  .tab-close {
+    cursor: pointer;
+    position: relative;
+    top: calc(50vh - 3rem);
+    z-index: z-index('center-divider');
+
+    svg {
+      background-color: mui-color('grey', '300');
+      color: mui-color('black');
+      padding: 3rem .25rem;
+    }
+  }
+
+  .left-resize-container {
+    flex-grow: 1;
+    height: 100%;
+    min-width: 0;
+  }
+
+  .right-resize-container {
+    flex: 0 0 50%;
+    height: 100%;
+    min-width: 0;
+  }
+
   #tab-resize-guide {
     $tabs-width: 50%;
 
@@ -28,25 +61,9 @@
   }
 
   #tabs-wrapper {
-    $tabs-width: 50%;
-
-    background: mui-color('white');
-    flex: 0 0 $tabs-width;
+    height: 100%;
     overflow-y: scroll;
     position: relative;
-
-    .tab-close {
-      cursor: pointer;
-      position: fixed;
-      top: calc(50vh - 3rem);
-      z-index: z-index('center-divider');
-
-      svg {
-        background-color: mui-color('grey', '300');
-        color: mui-color('black');
-        padding: 3rem .25rem;
-      }
-    }
 
     .tab-content {
       display: flex;
@@ -56,20 +73,12 @@
         width: 100%;
       }
     }
-
-    #tab-resize {
-      background-color: mui-color('black');
-      cursor: col-resize;
-      height: 100%;
-      position: fixed;
-      width: 13.250px;
-      z-index: z-index('center-divider');
-    }
   }
 }
 
 .fileTypes {
   align-items: center;
+  display: flex;
   text-align: left;
 
   .checkboxes {
@@ -90,6 +99,16 @@
 .toolbar {
   cursor: pointer;
   float: right;
+
+  &--multiline {
+    float: right;
+
+    > a {
+      display: block;
+      margin: 1px 0;
+      text-align: end;
+    }
+  }
 }
 
 .sorting {
@@ -102,7 +121,12 @@
     padding-right: 15px;
   }
 
+  select {
+    @include medium-font;
+  }
+
   label {
+    @include medium-font;
     overflow-y: hidden;
   }
 
@@ -115,22 +139,24 @@
   }
 }
 
+.panel-title {
+  @include large-font;
+  display: inline;
+}
+
 .panel-heading {
   .group-name {
+    @include large-font;
     cursor: pointer;
-    font-size: 1.5rem;
-    font-weight: bold;
   }
 
   .author {
-    font-size: .875rem;
-    font-weight: normal;
+    @include medium-font;
     margin-left: .3rem;
   }
 
   .period {
-    font-size: .875rem;
-    font-weight: normal;
+    @include medium-font;
     margin-left: 2rem;
   }
 }

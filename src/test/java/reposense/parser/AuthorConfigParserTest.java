@@ -1,6 +1,7 @@
 package reposense.parser;
 
-import java.io.File;
+import static reposense.util.TestUtil.loadResource;
+
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,28 +18,22 @@ import reposense.model.AuthorConfiguration;
 import reposense.model.RepoLocation;
 
 public class AuthorConfigParserTest {
-    private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = new File(AuthorConfigParserTest.class
-            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_emptyLocation_test.csv")
-            .getFile()).toPath();
-    private static final Path AUTHOR_CONFIG_EMPTY_CONFIG_FILE = new File(AuthorConfigParserTest.class.getClassLoader()
-            .getResource("AuthorConfigParserTest/require_trailing_whitespaces/authorconfig_emptyConfig_test.csv")
-            .getFile()).toPath();
-    private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = new File(AuthorConfigParserTest.class
-            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_noSpecialCharacter_test.csv")
-            .getFile()).toPath();
-    private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = new File(AuthorConfigParserTest.class
-            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_specialCharacter_test.csv")
-            .getFile()).toPath();
-    private static final Path AUTHOR_CONFIG_COMMAS_AND_DOUBLEQUOTES_FILE = new File(AuthorConfigParserTest.class
-            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_commasAndDoubleQuotes_test.csv")
-            .getFile()).toPath();
-    private static final Path AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE = new File(AuthorConfigParserTest.class
-            .getClassLoader().getResource("AuthorConfigParserTest/authorconfig_multipleEmails_test.csv")
-            .getFile()).toPath();
-    private static final Path AUTHOR_CONFIG_INVALID_LOCATION = new File(AuthorConfigParserTest.class.getClassLoader()
-            .getResource("AuthorConfigParserTest/authorconfig_invalidLocation_test.csv").getFile()).toPath();
-    private static final Path AUTHOR_CONFIG_INVALID_HEADER_SIZE = new File(AuthorConfigParserTest.class.getClassLoader()
-            .getResource("AuthorConfigParserTest/authorconfig_invalidHeaderSize_test.csv").getFile()).toPath();
+    private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_emptyLocation_test.csv");
+    private static final Path AUTHOR_CONFIG_EMPTY_CONFIG_FILE = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/require_trailing_whitespaces/authorconfig_emptyConfig_test.csv");
+    private static final Path AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_noSpecialCharacter_test.csv");
+    private static final Path AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_specialCharacter_test.csv");
+    private static final Path AUTHOR_CONFIG_COMMAS_AND_DOUBLEQUOTES_FILE = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_commasAndDoubleQuotes_test.csv");
+    private static final Path AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_multipleEmails_test.csv");
+    private static final Path AUTHOR_CONFIG_INVALID_LOCATION = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_invalidLocation_test.csv");
+    private static final Path AUTHOR_CONFIG_INVALID_HEADER_SIZE = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_invalidHeaderSize_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";

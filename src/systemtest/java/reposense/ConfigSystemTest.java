@@ -2,6 +2,8 @@ package reposense;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
+import static reposense.util.TestUtil.loadResource;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -57,16 +59,14 @@ public class ConfigSystemTest {
     @Test
     public void testSinceBeginningDateRange() throws Exception {
         generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"));
-        Path actualFiles = Paths.get(getClass().getClassLoader()
-                .getResource("sinceBeginningDateRange/expected").toURI());
+        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
         generateReport(getInputWithUntilDate("1/11/2017"));
-        Path actualFiles = Paths.get(getClass().getClassLoader()
-                .getResource("30daysFromUntilDate/expected").toURI());
+        Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -76,7 +76,7 @@ public class ConfigSystemTest {
     @Test
     public void testDateRange() throws Exception {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
-        Path actualFiles = Paths.get(getClass().getClassLoader().getResource("dateRange/expected").toURI());
+        Path actualFiles = loadResource(getClass(), "dateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -92,7 +92,7 @@ public class ConfigSystemTest {
      * Generates the testing report to be compared with expected report.
      */
     private void generateReport(String inputDates) throws Exception {
-        Path configFolder = Paths.get(getClass().getClassLoader().getResource("repo-config.csv").toURI()).getParent();
+        Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
         String input = new InputBuilder().addConfig(configFolder)

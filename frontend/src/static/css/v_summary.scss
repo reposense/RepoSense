@@ -106,11 +106,13 @@
       }
 
       &--percentile {
+        @include mini-font;
         color: mui-color('grey');
         margin-left: auto;
       }
 
       &--contribution {
+        @include mini-font;
         display: inline;
       }
     }
@@ -153,7 +155,12 @@
         padding-right: .25rem;
       }
 
+      &--contribution {
+        @include mini-font;
+      }
+
       &--percentile {
+        @include mini-font;
         color: mui-color('grey');
         margin-left: auto;
         padding-right: 0;

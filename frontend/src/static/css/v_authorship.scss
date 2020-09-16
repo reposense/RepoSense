@@ -10,14 +10,6 @@
     border-width: 0 1px 1px 1px;
   }
 
-  .toolbar {
-    > a {
-      display: block;
-      margin: 1px 0;
-      text-align: end;
-    }
-  }
-
   .title {
     .contribution {
       .radio-button--search {
@@ -27,17 +19,19 @@
 
       .radio-button--checkbox {
         float: left;
-        margin: 0 2.0rem 0 -3rem;
+        margin: 0 2.0rem 0 0;
         vertical-align: middle;
       }
 
       #search {
+        @include medium-font;
         margin-top: 1.25rem;
         padding: .5rem 1.0rem .25rem 1.0rem;
         width: 30%;
       }
 
       #submit-button {
+        @include medium-font;
         background-color: mui-color('blue');
         color: mui-color('white');
         margin: 1.0rem 0 0 .25rem;
@@ -112,9 +106,10 @@
       }
 
       .fileTypeLabel {
+        @include medium-font;
         border-radius: 5px;
         display: inline-block;
-        font-weight: bold;
+        font-weight: normal;
         padding: 0 5px;
       }
     }

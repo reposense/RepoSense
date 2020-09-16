@@ -2,8 +2,9 @@
 window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 window.BASE_URL = 'https://github.com';
+window.HOME_PAGE_URL = 'https://reposense.org';
 window.DAY_IN_MS = (1000 * 60 * 60 * 24);
-window.HASH_FILETYPE_DELIMITER = '~';
+window.HASH_DELIMITER = '~';
 window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
@@ -118,6 +119,17 @@ window.getBaseLink = function getBaseLink(repoId) {
     window.REPOS[repoId].location.repoName}`;
 };
 
+window.getGroupName = function getGroupName(group, filterGroupSelection) {
+  switch (filterGroupSelection) {
+  case 'groupByRepos':
+    return group[0].repoName;
+  case 'groupByAuthors':
+    return group[0].name;
+  default:
+    return '';
+  }
+};
+
 window.api = {
   loadJSON(fname) {
     if (REPORT_ZIP) {
@@ -181,7 +193,6 @@ window.api = {
             variance: commits.authorContributionVariance[author],
             displayName: commits.authorDisplayNameMap[author],
             dailyCommits: commits.authorDailyContributionsMap[author],
-            totalCommits: commits.authorFinalContributionMap[author],
             fileTypeContribution: commits.authorFileTypeContributionMap[author],
           };
 

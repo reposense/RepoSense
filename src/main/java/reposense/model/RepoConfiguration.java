@@ -201,7 +201,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Clears authors information and use the information provided from {@code standaloneConfig}.
+     * Clears existing information related to this repository and its authors, and replaces it with information from the
+     * {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
@@ -386,8 +387,9 @@ public class RepoConfiguration {
      * Clears authors information and sets the {@code authorList} to {@code RepoConfiguration}.
      */
     public void setAuthorList(List<Author> authorList) {
+        authorConfig.clear();
         authorConfig.setAuthorList(authorList);
-        authorConfig.resetAuthorInformation();
+        authorConfig.buildFromAuthorList();
         authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
     }
 
