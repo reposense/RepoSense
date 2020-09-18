@@ -70,7 +70,6 @@ public class GitTestTemplate {
     public static void beforeClass() throws Exception {
         deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
-        config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         GitClone.clone(config);
     }
 
