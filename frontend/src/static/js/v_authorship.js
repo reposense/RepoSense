@@ -1,3 +1,4 @@
+/* global Vuex */
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
@@ -118,10 +119,6 @@ window.vAuthorship = {
       } else {
         window.api.loadAuthorship(this.info.repo)
             .then((files) => this.processFiles(files));
-      }
-
-      if (!this.info.fileTypeColors) {
-        this.$root.$emit('restoreFileTypeColors', this.info);
       }
     },
 
@@ -379,6 +376,8 @@ window.vAuthorship = {
           });
       return numLinesModified;
     },
+
+    ...Vuex.mapState(['fileTypeColors']),
   },
 
   created() {
