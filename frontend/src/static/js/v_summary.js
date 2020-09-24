@@ -532,6 +532,7 @@ window.vSummary = {
       });
 
       this.checkedFileTypes = this.fileTypes.slice();
+      this.$store.commit('updateFileTypeColors', this.fileTypeColors);
     },
 
     splitCommitsWeek(user, sinceDate, untilDate) {
@@ -908,10 +909,6 @@ window.vSummary = {
     this.$root.$on('restoreCommits', (info) => {
       const zoomFilteredUser = this.restoreZoomFiltered(info);
       info.zUser = zoomFilteredUser;
-    });
-
-    this.$root.$on('restoreFileTypeColors', (info) => {
-      info.fileTypeColors = this.fileTypeColors;
     });
   },
   mounted() {
