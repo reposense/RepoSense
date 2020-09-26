@@ -59,43 +59,43 @@ a {
 }
 
 .tooltip {
-  position: relative;
   display: inline-block;
+  position: relative;
 
   .tooltip-text {
-    visibility: hidden;
-    opacity: 0;
     background-color: #000000;
+    opacity: 0;
+    visibility: hidden;
     color: #ffffff;
-    width: 6rem;
     margin-left: -3.5rem;
-    text-align: center;
+    width: 6rem;
+    border-radius: .25rem;
+    font-size: .875rem;
     font-weight: normal;
-    font-size: 0.875rem;
-    border-radius: 0.25rem;
-    padding: 0.25rem 0.5rem;
+    text-align: center;
+    padding: .25rem .5rem;
     position: absolute;
-    z-index: z-index('tooltip');
     bottom: 125%;
+    z-index: z-index('tooltip');
     left: 50%;
-    transition: opacity 0.3s;
+    transition: opacity .3s;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
-      top: 100%;
       left: 50%;
-      margin-left: -0.4rem;
-      border-width: 0.4rem;
-      border-style: solid;
+      top: 100%;
       border-color: #000000 transparent transparent transparent;
+      border-style: solid;
+      border-width: .4rem;
+      margin-left: -.4rem;
     }
   }
 
   &:hover {
     .tooltip-text {
-      visibility: visible;
       opacity: 1;
+      visibility: visible;
     }
   }
 }
