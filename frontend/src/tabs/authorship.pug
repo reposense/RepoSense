@@ -89,17 +89,17 @@
             span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
           span.icons
             a(
-              v-bind:href="getFileLink(file, 'commits')", target="_blank",
+              v-bind:href="getFileLink(file, 'commits')", target="_blank"
             )
               .tooltip
                 font-awesome-icon.button(icon="history")
-                span(class="tooltip-text") Click to view the history view of file
+                span.tooltip-text Click to view the history view of file
             a(
-              v-bind:href="getFileLink(file, 'blame')", target="_blank",
+              v-bind:href="getFileLink(file, 'blame')", target="_blank"
             )
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
-                span(class="tooltip-text") Click to view the blame view of file
+                span.tooltip-text Click to view the blame view of file
           span.fileTypeLabel(
             v-bind:style="{\
               'background-color': fileTypeColors[file.fileType],\

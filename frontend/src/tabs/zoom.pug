@@ -86,11 +86,11 @@
         a(
           v-if="slice.messageBody !== ''",
           v-on:click="updateExpandedCommitMessagesCount",
-          onclick="toggleNext(this)",
+          onclick="toggleNext(this)"
         )
           .tooltip
             font-awesome-icon.commit-message--button(icon="ellipsis-h")
-            span(class="tooltip-text") Click to show/hide the commit message body
+            span.tooltip-text Click to show/hide the commit message body
         .body(v-if="slice.messageBody !== ''")
           pre {{ slice.messageBody }}
             .dashed-border

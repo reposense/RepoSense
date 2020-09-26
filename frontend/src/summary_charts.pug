@@ -11,35 +11,35 @@
       .summary-charts__title--contribution
         .tooltip
           | [{{ getGroupTotalContribution(repo) }} lines]
-          span(class="tooltip-text") Total contribution of group
+          span.tooltip-text Total contribution of group
       a(
         v-if="!isGroupMerged(getGroupName(repo))",
-        v-on:click="handleMergeGroup(getGroupName(repo))",
+        v-on:click="handleMergeGroup(getGroupName(repo))"
       )
         .tooltip
           font-awesome-icon.icon-button(:icon="['fas', 'chevron-up']")
-          span(class="tooltip-text") Click to merge group
+          span.tooltip-text Click to merge group
       a(
         v-if="isGroupMerged(getGroupName(repo))",
-        v-on:click="handleExpandGroup(getGroupName(repo))",
+        v-on:click="handleExpandGroup(getGroupName(repo))"
       )
         .tooltip
           font-awesome-icon.icon-button(:icon="['fas', 'chevron-down']")
-          span(class="tooltip-text") Click to expand group
+          span.tooltip-text Click to expand group
       a(
         v-if="filterGroupSelection === 'groupByRepos'",
-        v-bind:href="getRepoLink(repo[0])", target="_blank",
+        v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(:icon="['fab', 'github']")
-          span(class="tooltip-text") Click to view group's repo
+          span.tooltip-text Click to view group's repo
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
-        v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank",
+        v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(icon="user")
-          span(class="tooltip-text") Click to view author's profile
+          span.tooltip-text Click to view author's profile
       template(v-if="isGroupMerged(getGroupName(repo))")
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
@@ -48,14 +48,14 @@
         )
           .tooltip
             font-awesome-icon.icon-button(icon="code")
-            span(class="tooltip-text") Click to view group's code
+            span.tooltip-text Click to view group's code
         a(
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="list-ul")
-            span(class="tooltip-text") Click to view breakdown of commits
+            span.tooltip-text Click to view breakdown of commits
       .summary-charts__title--percentile {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
@@ -80,32 +80,32 @@
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
-          v-bind:href="getRepoLink(repo[j])", target="_blank",
+          v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(:icon="['fab', 'github']")
-            span(class="tooltip-text") Click to view repo
+            span.tooltip-text Click to view repo
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
-          v-bind:href="getAuthorProfileLink(repo[j].name)", target="_blank",
+          v-bind:href="getAuthorProfileLink(repo[j].name)", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="user")
-            span(class="tooltip-text") Click to view author's profile
+            span.tooltip-text Click to view author's profile
         a(
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="code")
-            span(class="tooltip-text") Click to view author's code
+            span.tooltip-text Click to view author's code
         a(
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="list-ul")
-            span(class="tooltip-text") Click to view breakdown of commits
+            span.tooltip-text Click to view breakdown of commits
         .summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone'"
         ) {{ getPercentile(j) }} %
