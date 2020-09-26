@@ -119,9 +119,9 @@ window.vSummary = {
       let totalCount = 0;
       this.repos.forEach((repo) => {
         repo.users.forEach((user) => {
-          if (user.totalCommits > 0) {
+          if (user.checkedFileTypeContribution > 0) {
             totalCount += 1;
-            totalLines += user.totalCommits;
+            totalLines += user.checkedFileTypeContribution;
           }
         });
       });
@@ -259,7 +259,7 @@ window.vSummary = {
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
-      if (hash.checkedFileTypes !== null) {
+      if (hash.checkedFileTypes) {
         const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
@@ -373,26 +373,29 @@ window.vSummary = {
 
     mergeGroupByIndex(filtered, groupIndex) {
       const dateToIndexMap = {};
+      const dailyIndexMap = {};
       const mergedCommits = [];
+      const mergedDailyCommits = [];
       const mergedFileTypeContribution = {};
       let mergedVariance = 0;
-      let totalMergedCommits = 0;
       let totalMergedCheckedFileTypeCommits = 0;
-
       filtered[groupIndex].forEach((user) => {
-        this.mergeCommits(user, mergedCommits, dateToIndexMap);
+        user.commits.forEach((commit) => {
+          this.mergeCommits(commit, user, dateToIndexMap, mergedCommits);
+        });
+        user.dailyCommits.forEach((commit) => {
+          this.mergeCommits(commit, user, dailyIndexMap, mergedDailyCommits);
+        });
 
         this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
-        totalMergedCommits += user.totalCommits;
         totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
         mergedVariance += user.variance;
       });
-
       mergedCommits.sort(window.comparator((ele) => ele.date));
       filtered[groupIndex][0].commits = mergedCommits;
+      filtered[groupIndex][0].dailyCommits = mergedDailyCommits;
       filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
-      filtered[groupIndex][0].totalCommits = totalMergedCommits;
       filtered[groupIndex][0].variance = mergedVariance;
       filtered[groupIndex][0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
 
@@ -404,32 +407,29 @@ window.vSummary = {
       return this.mergedGroups.length > 0;
     },
 
-    mergeCommits(user, merged, dateToIndexMap) {
-      // merge commits with the same date
-      user.commits.forEach((commit) => {
-        const {
-          commitResults, date, insertions, deletions,
-        } = commit;
+    mergeCommits(commit, user, dateToIndexMap, merged) {
+      const {
+        commitResults, date, insertions, deletions,
+      } = commit;
 
-        // bind repoId to each commit
+      // bind repoId to each commit
+      commitResults.forEach((commitResult) => {
+        commitResult.repoId = user.repoId;
+      });
+
+      if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
+        const commitWithSameDate = merged[dateToIndexMap[date]];
+
         commitResults.forEach((commitResult) => {
-          commitResult.repoId = user.repoId;
+          commitWithSameDate.commitResults.push(commitResult);
         });
 
-        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
-          const commitWithSameDate = merged[dateToIndexMap[date]];
-
-          commitResults.forEach((commitResult) => {
-            commitWithSameDate.commitResults.push(commitResult);
-          });
-
-          commitWithSameDate.insertions += insertions;
-          commitWithSameDate.deletions += deletions;
-        } else {
-          dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
-          merged.push(commit);
-        }
-      });
+        commitWithSameDate.insertions += insertions;
+        commitWithSameDate.deletions += deletions;
+      } else {
+        dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
+        merged.push(JSON.parse(JSON.stringify(commit)));
+      }
     },
 
     mergeFileTypeContribution(user, merged) {
@@ -535,6 +535,7 @@ window.vSummary = {
       });
 
       this.checkedFileTypes = this.fileTypes.slice();
+      this.$store.commit('updateFileTypeColors', this.fileTypeColors);
     },
 
     splitCommitsWeek(user, sinceDate, untilDate) {
@@ -615,9 +616,8 @@ window.vSummary = {
         const { date } = commit;
         if (date >= sinceDate && date <= untilDate) {
           const filteredCommit = JSON.parse(JSON.stringify(commit));
-          if (this.filterBreakdown) {
-            this.filterCommitByCheckedFileTypes(filteredCommit);
-          }
+          this.filterCommitByCheckedFileTypes(filteredCommit);
+
           if (filteredCommit.commitResults.length > 0) {
             user.commits.push(filteredCommit);
           }
@@ -649,7 +649,10 @@ window.vSummary = {
     },
 
     isFileTypeChecked(fileType) {
-      return this.checkedFileTypes.includes(fileType);
+      if (this.filterBreakdown) {
+        return this.checkedFileTypes.includes(fileType);
+      }
+      return true;
     },
 
     updateCommitResultWithFileTypes(commitResult, filteredFileTypes) {
@@ -733,7 +736,9 @@ window.vSummary = {
     updateCheckedFileTypeContribution(ele) {
       let validCommits = 0;
       Object.keys(ele.fileTypeContribution).forEach((fileType) => {
-        if (this.checkedFileTypes.includes(fileType)) {
+        if (!this.filterBreakdown) {
+          validCommits += ele.fileTypeContribution[fileType];
+        } else if (this.checkedFileTypes.includes(fileType)) {
           validCommits += ele.fileTypeContribution[fileType];
         }
       });
@@ -748,7 +753,7 @@ window.vSummary = {
       const sortWithinOption = sortingWithinOption === 'title' ? 'displayName' : sortingWithinOption;
       const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
       repos.forEach((users) => {
-        if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
+        if (sortWithinOption === 'totalCommits') {
           users.sort(window.comparator((ele) => ele.checkedFileTypeContribution));
         } else {
           users.sort(window.comparator((ele) => ele[sortWithinOption]));
@@ -779,7 +784,7 @@ window.vSummary = {
         if (isSortingGroupTitle) {
           return repo.searchPath + repo.name;
         }
-        if (this.filterBreakdown && sortingOption === 'totalCommits') {
+        if (sortingOption === 'totalCommits') {
           return repo.checkedFileTypeContribution;
         }
         return repo[sortingOption];
@@ -809,7 +814,7 @@ window.vSummary = {
         });
       });
       Object.keys(authorMap).forEach((author) => {
-        if (this.filterBreakdown && sortWithinOption === 'totalCommits') {
+        if (sortWithinOption === 'totalCommits') {
           authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution));
         } else {
           authorMap[author].sort(window.comparator((repo) => repo[sortWithinOption]));
@@ -828,7 +833,7 @@ window.vSummary = {
     },
 
     getGroupCommitsVariance(total, group) {
-      if (this.filterBreakdown && this.sortingOption === 'totalCommits') {
+      if (this.sortingOption === 'totalCommits') {
         return total + group.checkedFileTypeContribution;
       }
       return total + group[this.sortingOption];
@@ -907,10 +912,6 @@ window.vSummary = {
     this.$root.$on('restoreCommits', (info) => {
       const zoomFilteredUser = this.restoreZoomFiltered(info);
       info.zUser = zoomFilteredUser;
-    });
-
-    this.$root.$on('restoreFileTypeColors', (info) => {
-      info.fileTypeColors = this.fileTypeColors;
     });
   },
   mounted() {

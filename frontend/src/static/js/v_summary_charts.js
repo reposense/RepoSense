@@ -1,6 +1,6 @@
 /* global Vuex */
 window.vSummaryCharts = {
-  props: ['checkedFileTypes', 'filtered', 'fileTypeColors', 'avgContributionSize', 'filterBreakdown',
+  props: ['checkedFileTypes', 'filtered', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
       'minDate', 'maxDate', 'filterSearch'],
   template: window.$('v_summary_charts').innerHTML,
@@ -30,7 +30,7 @@ window.vSummaryCharts = {
       return this.filtered.filter((repo) => repo.length > 0);
     },
 
-    ...Vuex.mapState(['mergedGroups']),
+    ...Vuex.mapState(['mergedGroups', 'fileTypeColors']),
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
@@ -85,12 +85,7 @@ window.vSummaryCharts = {
     },
 
     getGroupTotalContribution(group) {
-      const property = this.filterBreakdown ? 'checkedFileTypeContribution' : 'totalCommits';
-      return group.reduce((acc, ele) => acc + ele[property], 0);
-    },
-
-    getUserTotalContribution(user) {
-      return this.filterBreakdown ? user.checkedFileTypeContribution : user.totalCommits;
+      return group.reduce((acc, ele) => acc + ele.checkedFileTypeContribution, 0);
     },
 
     getContributionBars(totalContribution) {
@@ -127,19 +122,20 @@ window.vSummaryCharts = {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index, isMerged) {
-      const { minDate, maxDate, fileTypeColors } = this;
+      const {
+        minDate, maxDate, checkedFileTypes,
+      } = this;
 
       const info = {
         minDate,
         maxDate,
+        checkedFileTypes,
         author: user.name,
         repo: user.repoName,
         name: user.displayName,
         isMergeGroup: isMerged,
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
-        totalCommits: user.totalCommits,
-        fileTypeColors,
       };
 
       this.$store.commit('updateTabAuthorshipInfo', info);
@@ -183,6 +179,7 @@ window.vSummaryCharts = {
         zSince: since,
         zUntil: until,
         zIsMerge: isMerge,
+        zFromRamp: false,
         zFilterSearch: filterSearch,
       };
 

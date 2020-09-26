@@ -126,8 +126,11 @@ public class RepoSense {
 
     /**
      * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code LocationsCliArguments}.
+     *
+     * @throws ParseException if all repo locations are invalid.
      */
-    public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments) {
+    public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments)
+            throws ParseException {
         List<RepoConfiguration> configs = new ArrayList<>();
         for (String locationString : cliArguments.getLocations()) {
             try {
@@ -135,6 +138,10 @@ public class RepoSense {
             } catch (InvalidLocationException ile) {
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }
+        }
+
+        if (configs.isEmpty()) {
+            throw new ParseException("All repository locations are invalid.");
         }
 
         return configs;

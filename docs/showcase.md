@@ -1,8 +1,9 @@
+<variable name="title">Showcase</variable>
 <frontmatter>
-  title: "Showcase of use cases"
+  title: "{{ title | safe }}"
 </frontmatter>
 
-<h1 class="display-3">Showcase of use cases</h1>
+<h1 class="display-3"><md>{{ title }}</md></h1>
 
 
 ### Case 1: Monitoring student programmers (**individual** projects)

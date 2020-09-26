@@ -1,11 +1,12 @@
+<variable name="title">Appendix: RepoSense with GitHub Actions</variable>
 <frontmatter>
-  title: "Using RepoSense with GitHub Actions"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
 
-<h1 class="display-4">Appendix: Using RepoSense with GitHub Actions</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div id="section-setting-up">
 
@@ -20,14 +21,21 @@ You can use [_GitHub Actions_](https://github.com/features/actions) (together wi
 
 <include src="withTravis.md#section-fork-token" />
 
-{{ step(3)}} Go to the [secrets settings](https://github.com/reposense/publish-RepoSense/settings/secrets) of your _publish-RepoSense_ fork, add a new secret as `ACCESS_TOKEN` or `DEPLOY_KEY` depending on your earlier choice and paste the token/key; then click `Add secret`:<br>
+{{ step(3)}} **Add the token/key as a secret:**
+
+1. Go to the `Settings` page of your fork of the [publish-RepoSense](https://github.com/reposense/publish-RepoSense) repo.
+1. Click on the `Secrets` menu item on the left of that page.
+1. Click on `Add secret`.
+1. Add a new secret with the name `ACCESS_TOKEN` or `DEPLOY_KEY` (depending on your earlier choice) and the value of the token/key you copied earlier.<br>
 ![GitHub Actions Secrets](../images/publishingguide-secrets.png "GitHub Actions Secrets")
 
-{{ step(4)}}
+{{ step(4)}} **Update report configuration:**
 
 <include src="withTravis.md#section-edit-configs" />
 
-{{ step(5)}} To access your site, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]`. It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`.
+{{ step(5)}} **View the generated report:**
+
+To access your regenerated RepoSense report, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]`. It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`.
 ![GitHub Setting](../images/publishingguide-githubsetting.jpg "GitHub Setting")
 </div>
 

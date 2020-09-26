@@ -1,10 +1,11 @@
+<variable name="title">User guide</variable>
 <frontmatter>
-  title: "User guide"
+  title: "{{ title | safe }}"
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step, thumbnail with context %}
 
-<h1 class="display-3">User guide</h1>
+<h1 class="display-3"><md>{{ title }}</md></h1>
 
 <div class="lead">
 

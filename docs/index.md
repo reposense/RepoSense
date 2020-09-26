@@ -1,15 +1,20 @@
+<variable name="title">Home</variable>
 <frontmatter>
-  title: "Home"
+  title: "{{ title | safe }}"
 </frontmatter>
 
-{% from 'scripts/macros.njk' import thumbnail with context %}
+{% from 'scripts/macros.njk' import show_sitenav_items, thumbnail with context %}
 
 <header>
-<div class="jumbotron jumbotron-fluid text-center">
+<div class="jumbotron jumbotron-fluid text-center" style="padding-top: inherit; padding-bottom: inherit">
   <div class="container">
   <h1 class="display-3">RepoSense</h1>
   <div class="lead">
-  Visualize programmer activities across git repositories...
+
+Visualize programmer activities across git repositories...
+<br><br>
+<img src="images/reposenseOverview.png" width="909" alt="RepoSense overview"/>
+<br><br>
   </div>
   </div>
 </div>
@@ -53,10 +58,7 @@ Some example insights RepoSense can provide:
 <div class="jumbotron jumbotron-fluid pt-2">
 <div class="container">
 
-<small tags="public">Below links are for the **latest _released_ version** of RepoSense. See [here](http://reposense.org/RepoSense/) for the website of the _developer_ version (not yet released).</small>
-<br>
-<br>
-<div class="container">
+<div class="container pt-2">
   <div class="row">
   </div>
   <div class="row">
@@ -86,13 +88,20 @@ Deploy previews are powered by Netlify and Surge.
   </div>
   <div class="col-sm">
 
-<include src="_markbind\navigation\ugSiteNav.md" />
+****USER GUIDE****
+
+{% from "_markbind/navigation/ugSiteNav.md" import ug_sitenav_items %}
+{{ show_sitenav_items(ug_sitenav_items, is_flat=true) }}
 
 
   </div>
   <div class="col-sm">
 
-<include src="_markbind\navigation\dgSiteNav.md" />
+
+****DEVELOPER GUIDE****
+
+{% from "_markbind/navigation/dgSiteNav.md" import dg_sitenav_items %}
+{{ show_sitenav_items(dg_sitenav_items, is_flat=true) }}
 
 
   </div>

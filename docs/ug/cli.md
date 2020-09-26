@@ -1,9 +1,10 @@
+<variable name="title">Appendix: CLI syntax reference</variable>
 <frontmatter>
-  title: "Appendix: CLI syntax reference"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
-<h1 class="display-4">Appendix: CLI syntax reference</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div class="lead">
 
@@ -86,6 +87,20 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 * Alias: `-o`
 * Example: `--output ./foo` or `-o ./foo` (the report will be in the `./foo/reposense-report` folder)
 
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--period`, `-p`
+
+**`--period PERIOD`**: Specifies the period of analysis window.
+* Parameter `PERIOD`: The period of analysis window, in the format `nd` (for n days) or `nw` (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.
+* Alias: `-p`
+* Example: `--period 30d` or `--period 4w`
+
+<box type="info" seamless>
+
+* If both start date and end date are not specified, the date of generating the report will be taken as the end date.
+* Cannot be used with both `--since` and `--until`.
+</box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--repos`, `-r`

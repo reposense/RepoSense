@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/extensions
 import store from './store.js';
 
-
 /* global Vue hljs */
 Vue.directive('hljs', {
   inserted(ele, binding) {
@@ -151,6 +150,7 @@ window.app = new window.Vue({
         zFilterSearch: hash.zFS,
         zTimeFrame: hash.zFTF,
         zIsMerge: hash.zMG === 'true',
+        zFromRamp: hash.zFR === 'true',
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
@@ -187,15 +187,35 @@ window.app = new window.Vue({
     },
 
     getRepoSenseHomeLink() {
-      return 'http://reposense.org';
+      const version = window.app.repoSenseVersion;
+      if (version.startsWith('v')) {
+        return `${window.HOME_PAGE_URL}`;
+      }
+      return `${window.HOME_PAGE_URL}/RepoSense/`;
     },
 
-    getUserGuideVersionLink() {
+    getSpecificCommitLink() {
       const version = window.app.repoSenseVersion;
-      if (!version) {
-        return `${window.BASE_URL}/reposense/RepoSense`;
+      if (version.startsWith('v')) {
+        return `${window.BASE_URL}/reposense/RepoSense/releases/tag/${version}`;
       }
-      return `${window.BASE_URL}/reposense/RepoSense/blob/${version}/docs/UserGuide.md`;
+      return `${window.BASE_URL}/reposense/RepoSense/commit/${version}`;
+    },
+
+    getUserGuideLink() {
+      const version = window.app.repoSenseVersion;
+      if (version.startsWith('v')) {
+        return `${window.HOME_PAGE_URL}/ug/index.html`;
+      }
+      return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
+    },
+
+    getUsingReportsUserGuideLink() {
+      const version = window.app.repoSenseVersion;
+      if (version.startsWith('v')) {
+        return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
+      }
+      return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;
     },
 
     receiveDates(dates) {

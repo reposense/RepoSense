@@ -1,13 +1,12 @@
+<variable name="title">Workflow</variable>
 <frontmatter>
-  title: "Workflow"
+  title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed with context %}
 
-<include src="versionWarning.mbdf" />
-
-<h1 class="display-4">Workflow</h1>
+<h1 class="display-4"><md>{{ title }}</md></h1>
 
 <div class="lead">
 
@@ -28,7 +27,7 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 * Make sure you know our coding standards.
   {{ embed('Appendix: Coding Standards', 'styleGuides.md', level=2) }}
 * **Follow [this](https://se-education.org/guides/tutorials/intellijCodeStyle.html) to configure Intellij to follow our coding style**.
-* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyleTutorial.html) to find how to use it.
+* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it.
 * **To check Pug files for style errors**, run `npm run lint` from the project root directory. You can use the `npm run lintfix` to automatically fix some of the javascript and css lint errors.
 
 <!-- ==================================================================================================== -->
@@ -94,4 +93,12 @@ If you encountered an invalid browser error, ensure that you have `Chrome` insta
 
 ## Writing documentation
 
-This project uses [MarkBind](https://markbind.org/) for documentation. Follow [this tutorial](https://se-education.org/guides/tutorials/markbind.html) to learn how to use MarkBind for updating project documentation.
+**This project uses [MarkBind](https://markbind.org/)** for documentation. Follow [this tutorial](https://se-education.org/guides/tutorials/markbind.html) to learn how to use MarkBind for updating project documentation.
+
+**To show some content only in the <tooltip content="i.e., https://reposense.org">production website</tooltip>**, add the `tags="production"` attribute to the HTML element enclosing the content. Similarly, `tags="dev"` will make the content appear only in the <tooltip content="i.e., https://reposense.org/RepoSense">dev website</tooltip>.
+
+```html
+<span tags="production">This will appear in the production website only.</span>
+<span tags="dev">This will appear in the dev website only.</span>
+This will appear in both sites.
+```
