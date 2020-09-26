@@ -90,14 +90,16 @@
           span.icons
             a(
               v-bind:href="getFileLink(file, 'commits')", target="_blank",
-              title="click to view the history view of file"
             )
-              font-awesome-icon.button(icon="history")
+              .tooltip
+                font-awesome-icon.button(icon="history")
+                span(class="tooltip-text") Click to view the history view of file
             a(
               v-bind:href="getFileLink(file, 'blame')", target="_blank",
-              title="click to view the blame view of file"
             )
-              font-awesome-icon.button(icon="user-edit")
+              .tooltip
+                font-awesome-icon.button(icon="user-edit")
+                span(class="tooltip-text") Click to view the blame view of file
           span.fileTypeLabel(
             v-bind:style="{\
               'background-color': fileTypeColors[file.fileType],\

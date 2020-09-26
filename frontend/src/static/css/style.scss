@@ -58,6 +58,48 @@ a {
   }
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+
+  .tooltip-text {
+    visibility: hidden;
+    opacity: 0;
+    background-color: #000000;
+    color: #ffffff;
+    width: 6rem;
+    margin-left: -3.5rem;
+    text-align: center;
+    font-weight: normal;
+    font-size: 0.875rem;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    position: absolute;
+    z-index: z-index('tooltip');
+    bottom: 125%;
+    left: 50%;
+    transition: opacity 0.3s;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -0.4rem;
+      border-width: 0.4rem;
+      border-style: solid;
+      border-color: #000000 transparent transparent transparent;
+    }
+  }
+
+  &:hover {
+    .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
 /** navigation bar **/
 header {
   display: flex;
