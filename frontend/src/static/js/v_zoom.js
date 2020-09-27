@@ -1,3 +1,5 @@
+/* global Vuex */
+
 window.vZoom = {
   props: ['info'],
   template: window.$('v_zoom').innerHTML,
@@ -79,6 +81,7 @@ window.vZoom = {
         }
       },
     },
+    ...Vuex.mapState(['fileTypeColors']),
   },
 
   methods: {
