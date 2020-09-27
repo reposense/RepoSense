@@ -34,7 +34,6 @@ window.vZoom = {
       filteredUser.commits = zUser.commits.filter(
           (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
-      this.selectedCommits = filteredUser.commits;
       this.updateFileTypes(filteredUser.commits);
 
       return filteredUser;
