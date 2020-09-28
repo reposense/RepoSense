@@ -373,22 +373,28 @@ window.vSummary = {
 
     mergeGroupByIndex(filtered, groupIndex) {
       const dateToIndexMap = {};
+      const dailyIndexMap = {};
       const mergedCommits = [];
+      const mergedDailyCommits = [];
       const mergedFileTypeContribution = {};
       let mergedVariance = 0;
       let totalMergedCheckedFileTypeCommits = 0;
-
       filtered[groupIndex].forEach((user) => {
-        this.mergeCommits(user, mergedCommits, dateToIndexMap);
+        user.commits.forEach((commit) => {
+          this.mergeCommits(commit, user, dateToIndexMap, mergedCommits);
+        });
+        user.dailyCommits.forEach((commit) => {
+          this.mergeCommits(commit, user, dailyIndexMap, mergedDailyCommits);
+        });
 
         this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
         totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
         mergedVariance += user.variance;
       });
-
       mergedCommits.sort(window.comparator((ele) => ele.date));
       filtered[groupIndex][0].commits = mergedCommits;
+      filtered[groupIndex][0].dailyCommits = mergedDailyCommits;
       filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
       filtered[groupIndex][0].variance = mergedVariance;
       filtered[groupIndex][0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
@@ -401,32 +407,29 @@ window.vSummary = {
       return this.mergedGroups.length > 0;
     },
 
-    mergeCommits(user, merged, dateToIndexMap) {
-      // merge commits with the same date
-      user.commits.forEach((commit) => {
-        const {
-          commitResults, date, insertions, deletions,
-        } = commit;
+    mergeCommits(commit, user, dateToIndexMap, merged) {
+      const {
+        commitResults, date, insertions, deletions,
+      } = commit;
 
-        // bind repoId to each commit
+      // bind repoId to each commit
+      commitResults.forEach((commitResult) => {
+        commitResult.repoId = user.repoId;
+      });
+
+      if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
+        const commitWithSameDate = merged[dateToIndexMap[date]];
+
         commitResults.forEach((commitResult) => {
-          commitResult.repoId = user.repoId;
+          commitWithSameDate.commitResults.push(commitResult);
         });
 
-        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
-          const commitWithSameDate = merged[dateToIndexMap[date]];
-
-          commitResults.forEach((commitResult) => {
-            commitWithSameDate.commitResults.push(commitResult);
-          });
-
-          commitWithSameDate.insertions += insertions;
-          commitWithSameDate.deletions += deletions;
-        } else {
-          dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
-          merged.push(commit);
-        }
-      });
+        commitWithSameDate.insertions += insertions;
+        commitWithSameDate.deletions += deletions;
+      } else {
+        dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
+        merged.push(JSON.parse(JSON.stringify(commit)));
+      }
     },
 
     mergeFileTypeContribution(user, merged) {
