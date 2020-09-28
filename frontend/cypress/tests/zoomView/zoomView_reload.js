@@ -2,7 +2,7 @@ describe('reload page', () => {
   it('reload page should restore all controls', () => {
     Cypress.wait();
 
-    //open the commit panel
+    // open the commit panel
     cy.get('.icon-button.fa-list-ul')
       .should('be.visible')
       .first()

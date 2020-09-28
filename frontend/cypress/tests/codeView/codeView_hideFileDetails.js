@@ -2,7 +2,7 @@ describe('hide all file details', () => {
   it('check hide all file details hides the content of all the files', () => {
     Cypress.wait();
 
-    //open the code panel
+    // open the code panel
     cy.get('.icon-button.fa-code')
       .should('be.visible')
       .first()

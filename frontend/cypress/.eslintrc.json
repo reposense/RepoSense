@@ -4,7 +4,7 @@
     ],
     "globals": {
         "Cypress": false,
-        "cy": true,
+        "cy": false,
         "describe": false,
         "expect": false,
         "it": false,
