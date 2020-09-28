@@ -8,7 +8,7 @@ describe('check file types', () => {
         .first()
         .click();
 
-    cy.get('#tab-authorstejaship .files', {timeout: 90000 })
+    cy.get('#tab-authorship .files', { timeout: 90000 })
         .should('be.visible');
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="all"]')
