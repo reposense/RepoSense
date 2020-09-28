@@ -18,7 +18,7 @@ describe('check file types', () => {
   it('uncheck all files types should show no files', () => {
     Cypress.wait();
 
-    //open the code panel
+    // open the code panel
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()

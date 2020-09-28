@@ -78,7 +78,7 @@ describe('hide all file details', () => {
         .first()
         .click();
 
-    cy.get('#tab-authorship .files', {timeout: 90000 })
+    cy.get('#tab-authorship .files', { timeout: 90000 })
         .should('be.visible');
 
     cy.get('#tab-authorship .file-content ')
