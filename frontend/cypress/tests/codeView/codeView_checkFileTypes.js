@@ -2,13 +2,13 @@ describe('check file types', () => {
   it('check if all files types are visible by default', () => {
     Cypress.wait();
 
-    //open the code panel
+    // open the code panel
     cy.get('.icon-button.fa-code')
       .should('be.visible')
       .first()
       .click();
 
-    cy.get('#tab-authorship .files', {timeout: 90000})
+    cy.get('#tab-authorstejaship .files', { timeout: 90000})
       .should('be.visible');
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="all"]')
@@ -25,7 +25,7 @@ describe('check file types', () => {
       .first()
       .click();
 
-    cy.get('#tab-authorship .files', {timeout: 90000})
+    cy.get('#tab-authorship .files', { timeout: 90000})
       .should('be.visible');
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="all"]')
@@ -34,7 +34,6 @@ describe('check file types', () => {
 
     cy.get('#tab-authorship .files')
       .should('not.be.visible');
-
   });
 
   it('uncheck file type should uncheck all option and not show legend', () => {
@@ -61,7 +60,6 @@ describe('check file types', () => {
 
     cy.get('.file > .title > .fileTypeLabel')
       .should('contain.text', 'gradle');
-
   });
 
 });
