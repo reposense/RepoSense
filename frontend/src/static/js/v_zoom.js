@@ -80,7 +80,7 @@ window.vZoom = {
       const { addHash, encodeHash } = window;
       const {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
-        zTimeFrame, zIsMerge, zAuthor, zRepo, zFilterSearch,
+        zTimeFrame, zIsMerge, zAuthor, zRepo, zFromRamp, zFilterSearch,
       } = this.info;
 
       addHash('zA', zAuthor);
@@ -92,6 +92,7 @@ window.vZoom = {
       addHash('zMG', zIsMerge);
       addHash('zFTF', zTimeFrame);
       addHash('zFGS', zFilterGroup);
+      addHash('zFR', zFromRamp);
       encodeHash();
     },
 

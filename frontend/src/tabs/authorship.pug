@@ -68,8 +68,8 @@
             label(
               v-bind:key="fileType",
               v-bind:style="{\
-                'background-color': info.fileTypeColors[fileType],\
-                'color': this.getFontColor(info.fileTypeColors[fileType])\
+                'background-color': fileTypeColors[fileType],\
+                'color': this.getFontColor(fileTypeColors[fileType])\
                 }"
             )
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
@@ -100,8 +100,8 @@
               font-awesome-icon.button(icon="user-edit")
           span.fileTypeLabel(
             v-bind:style="{\
-              'background-color': info.fileTypeColors[file.fileType],\
-              'color': this.getFontColor(info.fileTypeColors[file.fileType])\
+              'background-color': fileTypeColors[file.fileType],\
+              'color': this.getFontColor(fileTypeColors[file.fileType])\
               }"
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}&nbsp;({{ file.blankLineCount }})
         pre.hljs.file-content(v-if="file.wasCodeLoaded", v-show="file.active")
