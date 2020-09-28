@@ -8,12 +8,11 @@ describe('check file types', () => {
         .first()
         .click();
 
-    cy.get('#tab-authorstejaship .files', {timeout: 90000})
+    cy.get('#tab-authorstejaship .files', {timeout: 90000 })
         .should('be.visible');
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="all"]')
         .should('be.checked');
-
   });
 
   it('uncheck all files types should show no files', () => {
@@ -39,7 +38,7 @@ describe('check file types', () => {
   it('uncheck file type should uncheck all option and not show legend', () => {
     Cypress.wait();
 
-    //open the code panel
+    // open the code panel
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()

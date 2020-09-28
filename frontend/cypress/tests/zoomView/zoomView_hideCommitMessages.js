@@ -31,7 +31,7 @@ describe('hide all commit messages ', () => {
   it('check message of one file is shown, rest are hidden', () => {
     Cypress.wait();
 
-    //open the commit panel
+    // open the commit panel
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
         .first()
