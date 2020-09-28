@@ -2,8 +2,13 @@
     "extends": [
         "../../.eslintrc.json"
     ],
-    "env": {
-        "cypress/globals": true
+    "globals": {
+        "Cypress": true,
+        "cy": true,
+        "describe": false,
+        "expect": false,
+        "it": false,
+        "beforeEach": false
     },
     "rules": {
         "no-unused-expressions": "off"
