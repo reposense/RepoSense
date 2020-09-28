@@ -8,7 +8,7 @@ describe('hide all file details', () => {
         .first()
         .click();
 
-    cy.get('#tab-authorship .files', {timeout: 90000})
+    cy.get('#tab-authorship .files', { timeout: 90000 })
         .should('be.visible');
 
     // the contents of all the files should be visible
@@ -36,7 +36,7 @@ describe('hide all file details', () => {
         .first()
         .click();
 
-    cy.get('#tab-authorship .files', {timeout: 90000})
+    cy.get('#tab-authorship .files', { timeout: 90000 })
         .should('be.visible');
 
     cy.get('#tab-authorship .toolbar--multiline')
@@ -99,6 +99,5 @@ describe('hide all file details', () => {
 
     cy.get('#tab-authorship .file-content ')
         .should('be.visible');
-
   });
 });

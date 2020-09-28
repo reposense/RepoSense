@@ -4,15 +4,15 @@ describe('check file types', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
-      .first()
-      .click();
+        .should('be.visible')
+        .first()
+        .click();
 
-    cy.get('#tab-authorstejaship .files', { timeout: 90000})
-      .should('be.visible');
+    cy.get('#tab-authorstejaship .files', {timeout: 90000})
+        .should('be.visible');
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="all"]')
-      .should('be.checked');
+        .should('be.checked');
 
   });
 
@@ -21,19 +21,19 @@ describe('check file types', () => {
 
     //open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
-      .first()
-      .click();
+        .should('be.visible')
+        .first()
+        .click();
 
-    cy.get('#tab-authorship .files', { timeout: 90000})
-      .should('be.visible');
+    cy.get('#tab-authorship .files', { timeout: 90000 })
+        .should('be.visible');
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="all"]')
-      .uncheck()
-      .should('not.be.checked');
+        .uncheck()
+        .should('not.be.checked');
 
     cy.get('#tab-authorship .files')
-      .should('not.be.visible');
+        .should('not.be.visible');
   });
 
   it('uncheck file type should uncheck all option and not show legend', () => {
@@ -41,25 +41,24 @@ describe('check file types', () => {
 
     //open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
-      .first()
-      .click();
+        .should('be.visible')
+        .first()
+        .click();
 
-    cy.get('#tab-authorship .files', {timeout: 90000})
-      .should('be.visible');
+    cy.get('#tab-authorship .files', { timeout: 90000 })
+        .should('be.visible');
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="java"]')
-      .uncheck()
-      .should('not.be.checked');
+        .uncheck()
+        .should('not.be.checked');
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="all"]')
-      .should('not.be.checked');
+        .should('not.be.checked');
 
     cy.get('.file > .title > .fileTypeLabel')
-      .should('not.contain.text', 'java');
+        .should('not.contain.text', 'java');
 
     cy.get('.file > .title > .fileTypeLabel')
-      .should('contain.text', 'gradle');
+        .should('contain.text', 'gradle');
   });
-
 });
