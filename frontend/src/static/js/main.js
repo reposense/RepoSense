@@ -191,7 +191,7 @@ window.app = new window.Vue({
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/`;
       }
-        return `${window.HOME_PAGE_URL}`;
+      return `${window.HOME_PAGE_URL}`;
     },
 
     getSpecificCommitLink() {
@@ -210,7 +210,7 @@ window.app = new window.Vue({
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
       }
-        return `${window.HOME_PAGE_URL}/ug/index.html`;
+      return `${window.HOME_PAGE_URL}/ug/index.html`;
     },
 
     getUsingReportsUserGuideLink() {
@@ -218,7 +218,7 @@ window.app = new window.Vue({
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;
       }
-        return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
+      return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
     },
 
     receiveDates(dates) {
