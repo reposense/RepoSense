@@ -40,7 +40,6 @@ html
           v-on:close-tab="deactivateTab"
         )
           #summary-wrapper(slot="left")
-            .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
             v-summary.tab-padding(
               ref="summary",
               v-bind:repos="users",
