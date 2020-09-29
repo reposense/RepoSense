@@ -12,5 +12,6 @@
     },
     "rules": {
         "no-unused-expressions": "off"
+        // "no-undef": "off"
     }
 }
