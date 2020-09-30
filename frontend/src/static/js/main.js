@@ -197,7 +197,7 @@ window.app = new window.Vue({
     getSpecificCommitLink() {
       const version = window.app.repoSenseVersion;
       if (!version) {
-        return `${window.BASE_URL}reposense/RepoSense`;
+        return `${window.BASE_URL}/reposense/RepoSense`;
       }
       if (version.startsWith('v')) {
         return `${window.BASE_URL}/reposense/RepoSense/releases/tag/${version}`;
