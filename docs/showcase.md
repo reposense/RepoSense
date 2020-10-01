@@ -14,7 +14,7 @@
 
 * **Example usages:**
   * To compare students based on the amount of code written, we can sort by contribution, as done in [this view](https://nus-cs2103-ay2021s1.github.io/ip-dashboard/#sort=totalCommits%20dsc&groupSelect=groupByAuthors&search=&sortWithin=title&since=2020-08-14&until=2020-09-27&timeframe=day&mergegroup=&breakdown=false).
-  * [This view](https://nus-cs2103-ay2021s1.github.io/ip-dashboard/#sort=totalCommits%20dsc&groupSelect=groupByAuthors&search=&sortWithin=title&since=2020-08-14&until=2020-09-27&timeframe=day&mergegroup=&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=joshualiangxy&tabRepo=joshualiangxy%2Fip%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=java~md~sh~bat~gradle~txtn=false&tabOpen=true&tabType=authorship&tabAuthor=andy-aw-why&tabRepo=andy-aw-why%2Fduke%5Bmaster%5D) shows us code written by a specific student.
+  * [This view](https://nus-cs2103-ay2021s1.github.io/ip-dashboard/#sort=groupTitle&groupSelect=groupByAuthors&search=&sortWithin=title&since=2020-08-14&until=2020-09-27&timeframe=commit&mergegroup=&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor=sc-arecrow&tabRepo=sc-arecrow%2Fip%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=java~md~fxml~sh~bat~gradle~txt) shows us code written by a specific student.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
