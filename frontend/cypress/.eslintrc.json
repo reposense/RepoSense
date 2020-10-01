@@ -4,7 +4,7 @@
     ],
     "globals": {
         "Cypress": "readonly",
-        "cy": "readonly",
+        "cy": "writeable",
         "describe": "readonly",
         "it": "readonly"
     },
