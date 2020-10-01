@@ -5,7 +5,8 @@
     "globals": {
         "Cypress": "readonly",
         "cy": "readonly",
-        "beforeEach": false
+        "describe": "readonly",
+        "it": "readonly"
     },
     "rules": {
         "no-unused-expressions": "off"
