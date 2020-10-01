@@ -1,6 +1,3 @@
-/* global cy*/
-/* global Cypress*/
-
 describe('hide all commit messages ', () => {
   it('check hide all commit messages hides the commit messages', () => {
     Cypress.wait();

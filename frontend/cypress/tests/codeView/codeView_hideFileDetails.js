@@ -1,6 +1,3 @@
-/* global cy*/
-/* global Cypress*/
-
 describe('hide all file details', () => {
   it('check hide all file details hides the content of all the files', () => {
     Cypress.wait();

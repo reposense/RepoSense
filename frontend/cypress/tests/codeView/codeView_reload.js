@@ -1,6 +1,3 @@
-/* global cy*/
-/* global Cypress*/
-
 describe('reload page', () => {
   it('reload page should restore all controls', () => {
     Cypress.wait();
