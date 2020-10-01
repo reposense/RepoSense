@@ -1,3 +1,6 @@
+/* global cy*/
+/* global Cypress*/
+
 describe('check file types', () => {
   it('check if all files types are visible by default', () => {
     Cypress.wait();
