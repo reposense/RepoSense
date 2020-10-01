@@ -9,7 +9,7 @@ describe('reload page', () => {
             .click();
 
         //sort by
-        cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select:visible')
+        cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select')
             .select('LoC');
 
         //sort order
@@ -34,7 +34,7 @@ describe('reload page', () => {
 
         cy.reload();
 
-        cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select:visible')
+        cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select')
             .should('have.value', 'lineOfCode');
 
         cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')
