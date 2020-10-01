@@ -2,21 +2,21 @@ describe('reload page', () => {
   it('reload page should restore all controls', () => {
     Cypress.wait();
 
-    //open the code panel
+    // open the code panel
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()
         .click();
 
-    //sort by
+    // sort by
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select')
         .select('LoC');
 
-    //sort order
+    // sort order
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')
         .select('Descending');
 
-    //select radio-button
+    // select radio-button
     cy.get('#tab-authorship > .title > .contribution > .fileTypes > .radio-button--checkbox')
         .should('be.visible')
         .check()
@@ -51,6 +51,5 @@ describe('reload page', () => {
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="pug"]')
         .should('be.checked');
-
   });
 });
