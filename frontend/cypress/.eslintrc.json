@@ -4,9 +4,10 @@
     ],
     "globals": {
         "Cypress": "readonly",
-        "cy": "writeable",
+        "cy": "readonly",
         "describe": "readonly",
-        "it": "readonly"
+        "it": "readonly",
+        "beforeEach": "readonly"
     },
     "rules": {
         "no-unused-expressions": "off"
