@@ -19,8 +19,6 @@ window.app = new window.Vue({
   data: {
     repos: {},
     users: [],
-    repoLength: 0,
-    loadedRepo: 0,
     userUpdated: false,
 
     isLoading: false,
@@ -66,16 +64,12 @@ window.app = new window.Vue({
     async updateReportView() {
       await window.api.loadSummary().then((names) => {
         this.repos = window.REPOS;
-        this.repoLength = Object.keys(window.REPOS).length;
-        this.loadedRepo = 0;
 
         this.userUpdated = false;
         this.isLoading = true;
-        this.loadedRepo = 0;
 
         return Promise.all(names.map((name) => (
           window.api.loadCommits(name)
-              .then(() => { this.loadedRepo += 1; })
         )));
       }).then(() => {
         this.userUpdated = true;
