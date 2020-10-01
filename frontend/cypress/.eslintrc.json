@@ -5,9 +5,6 @@
     "globals": {
         "Cypress": "readonly",
         "cy": "readonly",
-        "describe": false,
-        "expect": false,
-        "it": false,
         "beforeEach": false
     },
     "rules": {
