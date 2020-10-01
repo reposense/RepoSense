@@ -5,10 +5,10 @@
     "globals": {
         "Cypress": "readonly",
         "cy": "readonly",
-        "describe": "readonly",
-        "expect": "readonly",
-        "it": "readonly",
-        "beforeEach": "readonly"
+        "describe": false
+        "expect": false
+        "it": false
+        "beforeEach": false
     },
     "rules": {
         "no-unused-expressions": "off"
