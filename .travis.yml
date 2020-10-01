@@ -1,6 +1,7 @@
 matrix:
   include:
     - name: Deploy MarkBind to gh pages
+      if: branch = master
       language: node
       node_js:
         - lts/*
