@@ -78,6 +78,7 @@ window.vZoom = {
         } else {
           this.selectedFileTypes = [];
         }
+        this.updateSelectedFileTypesHash();
       },
     },
     ...Vuex.mapState(['fileTypeColors']),
@@ -88,6 +89,7 @@ window.vZoom = {
       if (this.isCommitsFinalized) {
         this.updateFileTypes(this.filteredUser.commits);
         this.selectedFileTypes = this.fileTypes.slice();
+        this.retrieveSelectedFileTypesHash();
       }
     },
   },
@@ -135,6 +137,26 @@ window.vZoom = {
         });
       });
       this.fileTypes.sort();
+    },
+
+    retrieveSelectedFileTypesHash() {
+      window.decodeHash();
+      const hash = window.hashParams;
+
+      if (hash.zFT) {
+        this.selectedFileTypes = hash.zFT
+            .split(window.HASH_DELIMITER)
+            .filter((fileType) => this.fileTypes.includes(fileType));
+      }
+    },
+
+    updateSelectedFileTypesHash() {
+      const fileTypeHash = this.selectedFileTypes.length > 0
+          ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
+          : '';
+
+      window.addHash('zFT', fileTypeHash);
+      window.encodeHash();
     },
 
     setInfoHash() {
@@ -185,6 +207,7 @@ window.vZoom = {
       window.removeHash('zFGS');
       window.removeHash('zFTF');
       window.removeHash('zMG');
+      window.removeHash('zFT');
       window.encodeHash();
     },
 

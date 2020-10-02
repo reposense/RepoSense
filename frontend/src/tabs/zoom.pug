@@ -78,7 +78,7 @@
                   }"
         )
           input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
-            v-model="selectedFileTypes")
+            v-on:change="updateSelectedFileTypesHash", v-model="selectedFileTypes")
           span {{ fileType }} &nbsp;
 
   .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")
