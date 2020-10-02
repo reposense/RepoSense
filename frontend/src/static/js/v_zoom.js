@@ -9,6 +9,7 @@ window.vZoom = {
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
       commitsSortType: 'time',
       toReverseSortedCommits: true,
+      isCommitsFinalized: false,
       selectedFileTypes: [],
       fileTypes: [],
     };
@@ -33,7 +34,7 @@ window.vZoom = {
       filteredUser.commits = zUser.commits.filter(
           (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
-      this.updateFileTypes(filteredUser.commits);
+      this.isCommitsFinalized = true;
 
       return filteredUser;
     },
@@ -82,6 +83,15 @@ window.vZoom = {
     ...Vuex.mapState(['fileTypeColors']),
   },
 
+  watch: {
+    isCommitsFinalized() {
+      if (this.isCommitsFinalized) {
+        this.updateFileTypes(this.filteredUser.commits);
+        this.selectedFileTypes = this.fileTypes.slice();
+      }
+    },
+  },
+
   methods: {
     initiate() {
       if (!this.info.zUser) { // restoring zoom tab from reloaded page
@@ -125,7 +135,6 @@ window.vZoom = {
         });
       });
       this.fileTypes.sort();
-      this.selectedFileTypes = this.fileTypes.slice();
     },
 
     setInfoHash() {
