@@ -87,7 +87,7 @@ window.vZoom = {
   watch: {
     isCommitsFinalized() {
       if (this.isCommitsFinalized) {
-        this.updateFileTypes(this.filteredUser.commits);
+        this.updateFileTypes();
         this.selectedFileTypes = this.fileTypes.slice();
         this.retrieveSelectedFileTypesHash();
       }
@@ -125,18 +125,19 @@ window.vZoom = {
       this.$root.$emit('restoreCommits', this.info);
     },
 
-    updateFileTypes(commits) {
-      this.fileTypes = [];
-      commits.forEach((day) => {
+    updateFileTypes() {
+      const commitsFileTypes = new Set();
+      this.filteredUser.commits.forEach((day) => {
         day.commitResults.forEach((slice) => {
           Object.keys(slice.fileTypesAndContributionMap).forEach((fileType) => {
-            if (this.fileTypes.indexOf(fileType) === -1) {
-              this.fileTypes.push(fileType);
-            }
+            commitsFileTypes.add(fileType);
           });
         });
       });
-      this.fileTypes.sort();
+      this.fileTypes = Object.keys(this.filteredUser.fileTypeContribution).filter(
+          (fileType) => commitsFileTypes.has(fileType),
+      );
+      this.isFileTypesLoaded = true;
     },
 
     retrieveSelectedFileTypesHash() {
