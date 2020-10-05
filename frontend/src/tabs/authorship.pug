@@ -63,7 +63,7 @@
             span(v-bind:title="getTotalFileBlankLineInfo()")
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
-              span ({{ totalBlankLineCount }})&nbsp;
+              span ({{ totalLineCount - totalBlankLineCount }})&nbsp;
           template(v-for="fileType in Object.keys(fileTypeLinesObj)")
             label(
               v-bind:key="fileType",
@@ -76,7 +76,7 @@
                 v-on:change="indicateCheckBoxes", v-model="selectedFileTypes")
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
-                span ({{ fileTypeBlankLinesObj[fileType] }})&nbsp;
+                span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
@@ -103,7 +103,7 @@
               'background-color': fileTypeColors[file.fileType],\
               'color': this.getFontColor(fileTypeColors[file.fileType])\
               }"
-          ) {{ file.fileType }}&nbsp;{{ file.lineCount }}&nbsp;({{ file.blankLineCount }})
+          ) {{ file.fileType }}&nbsp;{{ file.lineCount }}&nbsp;({{ file.lineCount - file.blankLineCount }})&nbsp;
         pre.hljs.file-content(v-if="file.wasCodeLoaded", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
