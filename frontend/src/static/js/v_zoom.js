@@ -40,18 +40,18 @@ window.vZoom = {
     },
     selectedCommits() {
       const commits = [];
-      this.filteredUser.commits.forEach((commitDay) => {
-        const filteredDay = { ...commitDay };
-        filteredDay.commitResults = [];
-        commitDay.commitResults.forEach((slice) => {
+      this.filteredUser.commits.forEach((commit) => {
+        const filteredCommit = { ...commit };
+        filteredCommit.commitResults = [];
+        commit.commitResults.forEach((slice) => {
           if (Object.keys(slice.fileTypesAndContributionMap).some(
               (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
           )) {
-            filteredDay.commitResults.push(slice);
+            filteredCommit.commitResults.push(slice);
           }
         });
-        if (filteredDay.commitResults.length > 0) {
-          commits.push(filteredDay);
+        if (filteredCommit.commitResults.length > 0) {
+          commits.push(filteredCommit);
         }
       });
       return commits;
@@ -127,8 +127,8 @@ window.vZoom = {
 
     updateFileTypes() {
       const commitsFileTypes = new Set();
-      this.filteredUser.commits.forEach((day) => {
-        day.commitResults.forEach((slice) => {
+      this.filteredUser.commits.forEach((commit) => {
+        commit.commitResults.forEach((slice) => {
           Object.keys(slice.fileTypesAndContributionMap).forEach((fileType) => {
             commitsFileTypes.add(fileType);
           });
