@@ -182,14 +182,17 @@ window.app = new window.Vue({
 
     getRepoSenseHomeLink() {
       const version = window.app.repoSenseVersion;
-      if (version.startsWith('v')) {
-        return `${window.HOME_PAGE_URL}`;
+      if (!version) {
+        return `${window.HOME_PAGE_URL}/RepoSense/`;
       }
-      return `${window.HOME_PAGE_URL}/RepoSense/`;
+      return `${window.HOME_PAGE_URL}`;
     },
 
     getSpecificCommitLink() {
       const version = window.app.repoSenseVersion;
+      if (!version) {
+        return `${window.BASE_URL}/reposense/RepoSense`;
+      }
       if (version.startsWith('v')) {
         return `${window.BASE_URL}/reposense/RepoSense/releases/tag/${version}`;
       }
@@ -198,18 +201,18 @@ window.app = new window.Vue({
 
     getUserGuideLink() {
       const version = window.app.repoSenseVersion;
-      if (version.startsWith('v')) {
-        return `${window.HOME_PAGE_URL}/ug/index.html`;
+      if (!version) {
+        return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
       }
-      return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
+      return `${window.HOME_PAGE_URL}/ug/index.html`;
     },
 
     getUsingReportsUserGuideLink() {
       const version = window.app.repoSenseVersion;
-      if (version.startsWith('v')) {
-        return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
+      if (!version) {
+        return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;
       }
-      return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;
+      return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
     },
 
     receiveDates(dates) {
