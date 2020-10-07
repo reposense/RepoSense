@@ -30,7 +30,7 @@ a {
 
 .loader {
   align-items: center;
-  background: #FFF;
+  background: mui-color('white');
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -63,10 +63,10 @@ a {
   position: relative;
 
   .tooltip-text {
-    background-color: #000000;
+    background-color: mui-color('black');
     border-radius: .25rem;
     bottom: 125%;
-    color: #ffffff;
+    color: mui-color('white');
     font-size: .875rem;
     font-weight: normal;
     left: 50%;
@@ -81,7 +81,7 @@ a {
     z-index: z-index('tooltip');
 
     &::after {
-      border-color: #000000 transparent transparent transparent;
+      border-color: mui-color('black') transparent transparent transparent;
       border-style: solid;
       border-width: .4rem;
       content: '';

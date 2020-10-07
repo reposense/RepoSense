@@ -11,7 +11,12 @@
       .summary-charts__title--contribution
         .tooltip
           | [{{ getGroupTotalContribution(repo) }} lines]
-          span.tooltip-text Total contribution of group
+          span.tooltip-text(
+            v-if="filterGroupSelection === 'groupByRepos'"
+          ) Total contribution of group
+          span.tooltip-text(
+            v-else-if="filterGroupSelection === 'groupByAuthors'"
+          ) Total contribution of author
       a(
         v-if="!isGroupMerged(getGroupName(repo))",
         v-on:click="handleMergeGroup(getGroupName(repo))"
