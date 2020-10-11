@@ -63,12 +63,11 @@ a {
   position: relative;
 
   .tooltip-text {
+    @include medium-font;
     background-color: mui-color('black');
     border-radius: .25rem;
     bottom: 125%;
     color: mui-color('white');
-    font-size: .875rem;
-    font-weight: normal;
     left: 50%;
     margin-left: -3.5rem;
     opacity: 0;
