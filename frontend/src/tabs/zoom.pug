@@ -67,7 +67,7 @@
   .fileTypes
     .checkboxes.mui-form--inline(v-if="fileTypes.length > 0")
       label(style='background-color: #000000; color: #ffffff')
-        input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
+        input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked", value="all")
         span All&nbsp;
       template(v-for="fileType in fileTypes")
         label(
