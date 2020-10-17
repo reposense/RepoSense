@@ -26,7 +26,7 @@ describe('check file types ', () => {
       .should('exist');
 
     cy.get('#tab-zoom .fileTypes input[value="all"]')
-      .uncheck()
+      .uncheck();
 
     cy.get('#tab-zoom .zoom__day')
       .should('not.exist');
