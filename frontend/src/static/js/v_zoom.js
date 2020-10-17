@@ -58,7 +58,7 @@ window.vZoom = {
     },
     totalCommitMessageBodyCount() {
       let nonEmptyCommitMessageCount = 0;
-      this.filteredUser.commits.forEach((commit) => {
+      this.selectedCommits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
           if (commitResult.messageBody !== '') {
             nonEmptyCommitMessageCount += 1;
@@ -91,6 +91,11 @@ window.vZoom = {
         this.selectedFileTypes = this.fileTypes.slice();
         this.retrieveSelectedFileTypesHash();
       }
+    },
+    selectedFileTypes() {
+      this.$nextTick(() => {
+        this.updateExpandedCommitMessagesCount();
+      });
     },
   },
 
@@ -221,7 +226,6 @@ window.vZoom = {
   },
   mounted() {
     this.setInfoHash();
-    this.updateExpandedCommitMessagesCount();
   },
   beforeDestroy() {
     this.removeZoomHashes();
