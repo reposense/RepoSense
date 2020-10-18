@@ -23,7 +23,7 @@ public class ConfigCliArguments extends CliArguments {
     private Path groupConfigFilePath;
     private Path reportConfigFilePath;
 
-    public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Date sinceDate,
+    public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Path assetsFilePath, Date sinceDate,
             Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
             List<FileType> formats, boolean isAutomaticallyLaunching,
             boolean isStandaloneConfigIgnored, ZoneId zoneId) {
@@ -35,6 +35,7 @@ public class ConfigCliArguments extends CliArguments {
         this.groupConfigFilePath = configFolderPath.resolve(GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
         this.reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
         this.outputFilePath = outputFilePath;
+        this.assetsFilePath = assetsFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.isSinceDateProvided = isSinceDateProvided;
