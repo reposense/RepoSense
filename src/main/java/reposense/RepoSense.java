@@ -74,7 +74,8 @@ public class RepoSense {
             RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
                     cliArguments.isStandaloneConfigIgnored());
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
-                    cliArguments.getOutputFilePath().toAbsolutePath().toString(), reportConfig,
+                    cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+                    cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),

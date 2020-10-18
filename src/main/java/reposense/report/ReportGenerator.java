@@ -91,7 +91,7 @@ public class ReportGenerator {
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
+    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
             ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
             boolean isSinceDateProvided, boolean isUntilDateProvided,
             Supplier<String> reportGenerationTimeProvider) throws IOException {

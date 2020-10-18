@@ -37,6 +37,7 @@ import reposense.util.TestUtil;
 
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
+    private static final String DUMMY_ASSETS_DIR = "dummy";
     private static final String EXPECTED_FOLDER = "expected";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
@@ -117,7 +118,7 @@ public class ConfigSystemTest {
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, new ReportConfiguration(),
+        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, new ReportConfiguration(),
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                 cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(), () ->
                 TEST_REPORT_GENERATION_TIME);
