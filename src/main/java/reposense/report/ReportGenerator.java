@@ -96,6 +96,9 @@ public class ReportGenerator {
             boolean isSinceDateProvided, boolean isUntilDateProvided,
             Supplier<String> reportGenerationTimeProvider) throws IOException {
         prepareTemplateFile(reportConfig, outputPath);
+        if (Files.exists(Paths.get(assetsPath))) {
+            FileUtil.copyDirectoryContents(assetsPath, outputPath);
+        }
 
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
