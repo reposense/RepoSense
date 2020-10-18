@@ -56,6 +56,8 @@ public class ReportGenerator {
 
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
+    private static final String INDEX_PAGE_TEMPLATE = "index.html";
+    private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>RepoSense Report</title>";
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
@@ -93,7 +95,7 @@ public class ReportGenerator {
             ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
             boolean isSinceDateProvided, boolean isUntilDateProvided,
             Supplier<String> reportGenerationTimeProvider) throws IOException {
-        prepareTemplateFile(outputPath);
+        prepareTemplateFile(reportConfig, outputPath);
 
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
@@ -119,9 +121,24 @@ public class ReportGenerator {
      * Copies the template file to the specified {@code outputPath} for the repo report to be generated.
      * @throws IOException if template resource is not found.
      */
-    private static void prepareTemplateFile(String outputPath) throws IOException {
+    private static void prepareTemplateFile(ReportConfiguration config, String outputPath) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
+        setReportConfiguration(config, outputPath);
+    }
+
+    private static void setReportConfiguration(ReportConfiguration config, String outputPath) throws IOException {
+        setLandingPageTitle(outputPath, config.getTitle());
+    }
+
+    /**
+     * Set title of template file located at {@code filePath} to {@code pageTitle}
+     */
+    private static void setLandingPageTitle(String filePath, String pageTitle) throws IOException {
+        Path indexPagePath = Paths.get(filePath, INDEX_PAGE_TEMPLATE);
+        String line = new String(Files.readAllBytes(indexPagePath));
+        String newLine = line.replaceAll(INDEX_PAGE_DEFAULT_TITLE, "<title>" + pageTitle + "</title>");
+        Files.write(indexPagePath, newLine.getBytes());
     }
 
     /**
