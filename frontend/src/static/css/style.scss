@@ -30,7 +30,7 @@ a {
 
 .loader {
   align-items: center;
-  background: #FFF;
+  background: mui-color('white');
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -55,6 +55,47 @@ a {
 
   .summary-charts__title--contribution {
     color: mui-color('black');
+  }
+}
+
+.tooltip {
+  display: inline-block;
+  position: relative;
+
+  .tooltip-text {
+    @include medium-font;
+    background-color: mui-color('black');
+    border-radius: .25rem;
+    bottom: 125%;
+    color: mui-color('white');
+    left: 50%;
+    margin-left: -3.5rem;
+    opacity: 0;
+    padding: .25rem .5rem;
+    position: absolute;
+    text-align: center;
+    transition: opacity .3s;
+    visibility: hidden;
+    width: 6rem;
+    z-index: z-index('tooltip');
+
+    &::after {
+      border-color: mui-color('black') transparent transparent transparent;
+      border-style: solid;
+      border-width: .4rem;
+      content: '';
+      left: 50%;
+      margin-left: -.4rem;
+      position: absolute;
+      top: 100%;
+    }
+  }
+
+  &:hover {
+    .tooltip-text {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 }
 
