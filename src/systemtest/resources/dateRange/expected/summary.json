@@ -1,6 +1,7 @@
 {
   "reportGeneratedTime": "Tue Jul 24 17:45:15 SGT 2018",
   "reportGenerationTime": "15 second(s)",
+  "reportTitle": "RepoSense Report Test Title",
   "repos": [
     {
       "location": {
@@ -52,6 +53,5 @@
   "sinceDate": "2017-09-01",
   "untilDate": "2017-10-30",
   "isSinceDateProvided": true,
-  "isUntilDateProvided": true,
-  "reportTitle": "RepoSense Report"
+  "isUntilDateProvided": true
 }

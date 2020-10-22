@@ -28,6 +28,7 @@ import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.parser.ReportConfigJsonParser;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
@@ -110,6 +111,8 @@ public class ConfigSystemTest {
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         List<GroupConfiguration> groupConfigs =
                 new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath()).parse();
+        ReportConfiguration reportConfig = new ReportConfigJsonParser().parse((
+                (ConfigCliArguments) cliArguments).getReportConfigFilePath());
 
         RepoConfiguration.merge(repoConfigs, authorConfigs);
         RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
@@ -118,7 +121,7 @@ public class ConfigSystemTest {
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, new ReportConfiguration(),
+        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                 cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(), () ->
                 TEST_REPORT_GENERATION_TIME);

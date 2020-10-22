@@ -109,7 +109,7 @@ public class ReportGenerator {
                 ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
-                new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
+                new SummaryJson(configs, reportConfig, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
                         reportGenerationTimeProvider.get()),
                 getSummaryResultPath(outputPath));
