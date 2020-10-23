@@ -1,3 +1,5 @@
+/* global Vuex */
+
 window.vZoom = {
   props: ['info'],
   template: window.$('v_zoom').innerHTML,
@@ -7,6 +9,9 @@ window.vZoom = {
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
       commitsSortType: 'time',
       toReverseSortedCommits: true,
+      isCommitsFinalized: false,
+      selectedFileTypes: [],
+      fileTypes: [],
     };
   },
 
@@ -29,12 +34,31 @@ window.vZoom = {
       filteredUser.commits = zUser.commits.filter(
           (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
+      this.isCommitsFinalized = true;
 
       return filteredUser;
     },
+    selectedCommits() {
+      const commits = [];
+      this.filteredUser.commits.forEach((commit) => {
+        const filteredCommit = { ...commit };
+        filteredCommit.commitResults = [];
+        commit.commitResults.forEach((slice) => {
+          if (Object.keys(slice.fileTypesAndContributionMap).some(
+              (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
+          )) {
+            filteredCommit.commitResults.push(slice);
+          }
+        });
+        if (filteredCommit.commitResults.length > 0) {
+          commits.push(filteredCommit);
+        }
+      });
+      return commits;
+    },
     totalCommitMessageBodyCount() {
       let nonEmptyCommitMessageCount = 0;
-      this.filteredUser.commits.forEach((commit) => {
+      this.selectedCommits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
           if (commitResult.messageBody !== '') {
             nonEmptyCommitMessageCount += 1;
@@ -44,7 +68,37 @@ window.vZoom = {
 
       return nonEmptyCommitMessageCount;
     },
+    isSelectAllChecked: {
+      get() {
+        return this.selectedFileTypes.length === this.fileTypes.length;
+      },
+      set(value) {
+        if (value) {
+          this.selectedFileTypes = this.fileTypes.slice();
+        } else {
+          this.selectedFileTypes = [];
+        }
+        this.updateSelectedFileTypesHash();
+      },
+    },
+    ...Vuex.mapState(['fileTypeColors']),
   },
+
+  watch: {
+    isCommitsFinalized() {
+      if (this.isCommitsFinalized) {
+        this.updateFileTypes();
+        this.selectedFileTypes = this.fileTypes.slice();
+        this.retrieveSelectedFileTypesHash();
+      }
+    },
+    selectedFileTypes() {
+      this.$nextTick(() => {
+        this.updateExpandedCommitMessagesCount();
+      });
+    },
+  },
+
   methods: {
     initiate() {
       if (!this.info.zUser) { // restoring zoom tab from reloaded page
@@ -72,8 +126,43 @@ window.vZoom = {
     },
 
     restoreZoomTab() {
-      // restore selected user's commits from v_summary
+      // restore selected user's commits and file type colors from v_summary
       this.$root.$emit('restoreCommits', this.info);
+    },
+
+    updateFileTypes() {
+      const commitsFileTypes = new Set();
+      this.filteredUser.commits.forEach((commit) => {
+        commit.commitResults.forEach((slice) => {
+          Object.keys(slice.fileTypesAndContributionMap).forEach((fileType) => {
+            commitsFileTypes.add(fileType);
+          });
+        });
+      });
+      this.fileTypes = Object.keys(this.filteredUser.fileTypeContribution).filter(
+          (fileType) => commitsFileTypes.has(fileType),
+      );
+      this.isFileTypesLoaded = true;
+    },
+
+    retrieveSelectedFileTypesHash() {
+      window.decodeHash();
+      const hash = window.hashParams;
+
+      if (hash.zFT) {
+        this.selectedFileTypes = hash.zFT
+            .split(window.HASH_DELIMITER)
+            .filter((fileType) => this.fileTypes.includes(fileType));
+      }
+    },
+
+    updateSelectedFileTypesHash() {
+      const fileTypeHash = this.selectedFileTypes.length > 0
+          ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
+          : '';
+
+      window.addHash('zFT', fileTypeHash);
+      window.encodeHash();
     },
 
     setInfoHash() {
@@ -124,7 +213,12 @@ window.vZoom = {
       window.removeHash('zFGS');
       window.removeHash('zFTF');
       window.removeHash('zMG');
+      window.removeHash('zFT');
       window.encodeHash();
+    },
+
+    filterSelectedFileTypes(fileTypes) {
+      return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
     },
   },
   created() {
@@ -132,7 +226,6 @@ window.vZoom = {
   },
   mounted() {
     this.setInfoHash();
-    this.updateExpandedCommitMessagesCount();
   },
   beforeDestroy() {
     this.removeZoomHashes();
