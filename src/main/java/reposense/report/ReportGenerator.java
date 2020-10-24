@@ -1,5 +1,7 @@
 package reposense.report;
 
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -140,7 +142,7 @@ public class ReportGenerator {
     private static void setLandingPageTitle(String filePath, String pageTitle) throws IOException {
         Path indexPagePath = Paths.get(filePath, INDEX_PAGE_TEMPLATE);
         String line = new String(Files.readAllBytes(indexPagePath));
-        String newLine = line.replaceAll(INDEX_PAGE_DEFAULT_TITLE, "<title>" + pageTitle + "</title>");
+        String newLine = line.replaceAll(INDEX_PAGE_DEFAULT_TITLE, "<title>" + escapeHtml4(pageTitle) + "</title>");
         Files.write(indexPagePath, newLine.getBytes());
     }
 
