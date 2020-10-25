@@ -37,6 +37,7 @@ import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.model.ReportConfiguration;
 import reposense.model.StandaloneConfig;
 import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
@@ -89,7 +90,7 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date untilDate,
+            ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
             boolean isSinceDateProvided, boolean isUntilDateProvided,
             Supplier<String> reportGenerationTimeProvider) throws IOException {
         prepareTemplateFile(outputPath);
