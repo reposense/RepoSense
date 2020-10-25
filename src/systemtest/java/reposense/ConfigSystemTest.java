@@ -23,6 +23,7 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoConfiguration;
+import reposense.model.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
@@ -116,9 +117,10 @@ public class ConfigSystemTest {
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
 
-        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
-                cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.isSinceDateProvided(),
-                cliArguments.isUntilDateProvided(), () -> TEST_REPORT_GENERATION_TIME);
+        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, new ReportConfiguration(),
+                TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
+                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(), () ->
+                TEST_REPORT_GENERATION_TIME);
     }
 
     /**
