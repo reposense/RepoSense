@@ -18,7 +18,7 @@
   .title
     .contribution(v-if="isLoaded && files.length!=0")
       .sorting.mui-form--inline
-        .mui-select
+        .mui-select.sort-by
           select(v-model="filesSortType")
             option(value="lineOfCode") LoC
             option(value="path") Path
@@ -59,7 +59,7 @@
         )
         .checkboxes.mui-form--inline(v-if="files.length > 0")
           label(style='background-color: #000000; color: #ffffff')
-            input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
+            input.mui-checkbox--fileType#all(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
@@ -84,20 +84,25 @@
       .file(v-bind:key="file.path")
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)")
-            font-awesome-icon(icon="caret-down", fixed-width, v-show="file.active")
-            font-awesome-icon(icon="caret-right", fixed-width, v-show="!file.active")
+            .tooltip
+              font-awesome-icon(icon="caret-down", fixed-width, v-show="file.active")
+              span.tooltip-text(v-show="file.active") Click to hide file details
+              font-awesome-icon(icon="caret-right", fixed-width, v-show="!file.active")
+              span.tooltip-text(v-show="!file.active") Click to show file details
             span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
           span.icons
             a(
-              v-bind:href="getFileLink(file, 'commits')", target="_blank",
-              title="click to view the history view of file"
+              v-bind:href="getFileLink(file, 'commits')", target="_blank"
             )
-              font-awesome-icon.button(icon="history")
+              .tooltip
+                font-awesome-icon.button(icon="history")
+                span.tooltip-text Click to view the history view of file
             a(
-              v-bind:href="getFileLink(file, 'blame')", target="_blank",
-              title="click to view the blame view of file"
+              v-bind:href="getFileLink(file, 'blame')", target="_blank"
             )
-              font-awesome-icon.button(icon="user-edit")
+              .tooltip
+                font-awesome-icon.button(icon="user-edit")
+                span.tooltip-text Click to view the blame view of file
           span.fileTypeLabel(
             v-bind:style="{\
               'background-color': fileTypeColors[file.fileType],\
