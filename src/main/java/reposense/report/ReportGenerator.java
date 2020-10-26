@@ -7,6 +7,7 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -89,7 +90,7 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date untilDate,
+            String generationDate, ZoneId zoneId, Date cliSinceDate, Date untilDate,
             boolean isSinceDateProvided, boolean isUntilDateProvided,
             Supplier<String> reportGenerationTimeProvider) throws IOException {
         prepareTemplateFile(outputPath);
@@ -97,7 +98,7 @@ public class ReportGenerator {
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
 
-        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath);
+        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath, zoneId);
 
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
@@ -146,7 +147,7 @@ public class ReportGenerator {
      *
      * @return A list of paths to the JSON report files generated for each repository.
      */
-    private static List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
+    private static List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath, ZoneId zoneId) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         RepoCloner repoCloner = new RepoCloner();
         RepoLocation clonedRepoLocation = null;
@@ -170,7 +171,7 @@ public class ReportGenerator {
                 handleCloningFailed(configs, currRepoLocation);
             } else {
                 generatedFiles.addAll(analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
-                        repoCloner.getCurrentRepoDefaultBranch()));
+                        repoCloner.getCurrentRepoDefaultBranch(), zoneId));
             }
             currRepoLocation = nextRepoLocation;
         }
@@ -185,7 +186,7 @@ public class ReportGenerator {
      * @return A list of paths to the JSON report files generated for the repositories in {@code configsToAnalyze}.
      */
     private static List<Path> analyzeRepos(String outputPath, List<RepoConfiguration> configs,
-            List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
+            List<RepoConfiguration> configsToAnalyze, String defaultBranch, ZoneId zoneId) {
         Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
         List<Path> generatedFiles = new ArrayList<>();
         while (itr.hasNext()) {
@@ -203,7 +204,7 @@ public class ReportGenerator {
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
-                generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
+                generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString(), zoneId));
             } catch (IOException ioe) {
                 String logMessage = String.format(MESSAGE_ERROR_CREATING_DIRECTORY,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch());
@@ -238,14 +239,14 @@ public class ReportGenerator {
      * Analyzes repo specified by {@code config} and generates the report.
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      */
-    private static List<Path> analyzeRepo(
-            RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
+    private static List<Path> analyzeRepo(RepoConfiguration config, String repoReportDirectory, ZoneId zoneId)
+            throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
 
-        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
-        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config, zoneId);
+        AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config, zoneId);
         List<Path> generatedFiles = generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
         return generatedFiles;

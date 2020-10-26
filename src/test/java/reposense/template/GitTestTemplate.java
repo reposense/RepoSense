@@ -1,6 +1,7 @@
 package reposense.template;
 
 import java.io.IOException;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -55,6 +56,7 @@ public class GitTestTemplate {
     protected static final CommitHash MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
             new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING);
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
+    protected static final ZoneId SYSTEM_DEFAULT_ZONE_ID = ZoneId.systemDefault();
 
 
     protected static RepoConfiguration config;
@@ -101,7 +103,7 @@ public class GitTestTemplate {
 
     public FileResult getFileResult(String relativePath) {
         FileInfo fileinfo = generateTestFileInfo(relativePath);
-        return FileInfoAnalyzer.analyzeFile(config, fileinfo);
+        return FileInfoAnalyzer.analyzeFile(config, fileinfo, SYSTEM_DEFAULT_ZONE_ID);
     }
 
     /**

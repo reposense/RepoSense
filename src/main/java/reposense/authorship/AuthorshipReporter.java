@@ -1,5 +1,6 @@
 package reposense.authorship;
 
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -15,13 +16,14 @@ import reposense.model.RepoConfiguration;
 public class AuthorshipReporter {
 
     /**
-     * Generates and returns the authorship summary for each repo in {@code config}.
+     * Generates and returns the authorship summary for each repo in {@code config}, where the time is given in
+     * {@code zoneId} timezone.
      */
-    public static AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config) {
+    public static AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config, ZoneId zoneId) {
         List<FileInfo> fileInfos = FileInfoExtractor.extractFileInfos(config);
 
         List<FileResult> fileResults = fileInfos.stream()
-                .map(fileInfo -> FileInfoAnalyzer.analyzeFile(config, fileInfo))
+                .map(fileInfo -> FileInfoAnalyzer.analyzeFile(config, fileInfo, zoneId))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 

@@ -3,6 +3,7 @@ package reposense.authorship;
 import static org.junit.Assert.assertEquals;
 import static reposense.model.Author.UNKNOWN_AUTHOR;
 
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -36,6 +37,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
             UNKNOWN_AUTHOR, UNKNOWN_AUTHOR, UNKNOWN_AUTHOR, UNKNOWN_AUTHOR, UNKNOWN_AUTHOR,
             FAKE_AUTHOR, FAKE_AUTHOR
     };
+    private static final ZoneId SYSTEM_DEFAULT_ZONE_ID = ZoneId.systemDefault();
 
 
     @Before
@@ -61,7 +63,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
     public FileResult getFileResult(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
-        return FileInfoAnalyzer.analyzeFile(config, fileInfo);
+        return FileInfoAnalyzer.analyzeFile(config, fileInfo, SYSTEM_DEFAULT_ZONE_ID);
     }
 
     /**

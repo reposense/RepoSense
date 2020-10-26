@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.HashMap;
@@ -37,11 +38,11 @@ public class FileInfoAnalyzer {
 
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
-     * by {@code config}.
+     * by {@code config}, where the time is given in {@code zoneId} timezone.
      * Returns null if the file is missing from the local system, or none of the
      * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
+    public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo, ZoneId zoneId) {
         String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
@@ -53,7 +54,7 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        aggregateBlameAuthorInfo(config, fileInfo);
+        aggregateBlameAuthorInfo(config, fileInfo, zoneId);
         fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
         AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
@@ -78,15 +79,18 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Sets the {@code Author} for each line in {@code fileInfo} based on the git blame analysis on the file.
+     * Sets the {@code Author} for each line in {@code fileInfo} based on the git blame analysis on the file, where the
+     * time is based on the {@code zoneId} timezone.
      */
-    private static void aggregateBlameAuthorInfo(RepoConfiguration config, FileInfo fileInfo) {
+    private static void aggregateBlameAuthorInfo(RepoConfiguration config, FileInfo fileInfo, ZoneId zoneId) {
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
         Long sinceDateInMs = config.getSinceDate().getTime();
         Long untilDateInMs = config.getUntilDate().getTime();
-        int systemRawOffset = TimeZone.getTimeZone(ZoneId.systemDefault()).getRawOffset();
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
+        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
 
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
@@ -98,9 +102,9 @@ public class FileInfoAnalyzer {
             Author author = config.getAuthor(authorName, authorEmail);
 
             int authorRawOffset = TimeZone.getTimeZone(ZoneOffset.of(authorTimeZone)).getRawOffset();
-            if (systemRawOffset != authorRawOffset) {
+            if (zoneRawOffset != authorRawOffset) {
                 // adjust commit date according to difference in timezone
-                commitDateInMs += authorRawOffset - systemRawOffset;
+                commitDateInMs += authorRawOffset - zoneRawOffset;
             }
 
             if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
