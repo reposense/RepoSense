@@ -179,6 +179,7 @@ window.vSummaryCharts = {
         zSince: since,
         zUntil: until,
         zIsMerge: isMerge,
+        zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
