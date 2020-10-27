@@ -43,6 +43,10 @@ public class LineInfo {
         this.isTracked = isTracked;
     }
 
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
     public void setLastModifiedDate(Date lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
