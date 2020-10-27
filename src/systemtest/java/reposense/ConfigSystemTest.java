@@ -71,16 +71,6 @@ public class ConfigSystemTest {
     }
 
     /**
-     * System test with a specified since date and until date.
-     */
-    @Test
-    public void testDateRange() throws Exception {
-        generateReport(getInputWithDates("1/9/2017", "30/10/2017"), false);
-        Path actualFiles = loadResource(getClass(), "dateRange/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
-    }
-
-    /**
      * System test with a specified since date and until date, with the last modified date time in each
      * line of code.
      */
