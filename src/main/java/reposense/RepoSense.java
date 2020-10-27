@@ -66,6 +66,8 @@ public class RepoSense {
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
                     cliArguments.isStandaloneConfigIgnored());
+            RepoConfiguration.setShouldIncludeLastModifiedDateToRepoConfigs(configs,
+                    cliArguments.shouldIncludeLastModifiedDate());
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),

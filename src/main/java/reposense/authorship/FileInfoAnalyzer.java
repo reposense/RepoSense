@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 import java.util.logging.Logger;
@@ -53,7 +54,7 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        aggregateBlameAuthorInfo(config, fileInfo);
+        aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo);
         fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
         AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
@@ -78,9 +79,10 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Sets the {@code Author} for each line in {@code fileInfo} based on the git blame analysis on the file.
+     * Sets the {@code Author} and {@code Date} for each line in {@code fileInfo} based on the git blame analysis
+     * on the file.
      */
-    private static void aggregateBlameAuthorInfo(RepoConfiguration config, FileInfo fileInfo) {
+    private static void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo) {
         String blameResults = getGitBlameResult(config, fileInfo.getPath());
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
@@ -109,6 +111,9 @@ public class FileInfoAnalyzer {
                 author = Author.UNKNOWN_AUTHOR;
             }
 
+            if (config.shouldIncludeLastModifiedDate()) {
+                fileInfo.setLineLastModifiedDate(lineCount / 5, new Date(commitDateInMs));
+            }
             fileInfo.setLineAuthor(lineCount / 5, author);
         }
     }
