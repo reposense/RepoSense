@@ -137,11 +137,12 @@ public class CommitResultAggregator {
         ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
         int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
 
-        cal.setTimeInMillis(current.getTime() - cal.getTimeZone().getRawOffset() + zoneRawOffset);
+        cal.setTime(current);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
+        cal.setTimeInMillis(cal.getTimeInMillis() + zoneRawOffset);
         return cal.getTime();
     }
 

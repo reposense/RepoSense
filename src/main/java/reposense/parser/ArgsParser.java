@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
@@ -181,6 +182,7 @@ public class ArgsParser {
             Path configFolderPath = results.get(CONFIG_FLAGS[0]);
             Path reportFolderPath = results.get(VIEW_FLAGS[0]);
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
+            ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
             Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
             boolean isSinceDateProvided = cliSinceDate.isPresent();
@@ -191,11 +193,11 @@ public class ArgsParser {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
             Date sinceDate = cliSinceDate.orElse(isPeriodProvided
-                    ? getDateMinusNDays(cliUntilDate, cliPeriod.get())
-                    : getDateMinusAMonth(cliUntilDate));
-            Date currentDate = getCurrentDate();
+                    ? getDateMinusNDays(cliUntilDate, zoneId, cliPeriod.get())
+                    : getDateMinusAMonth(cliUntilDate, zoneId));
+            Date currentDate = getCurrentDate(zoneId);
             Date untilDate = cliUntilDate.orElse((isSinceDateProvided && isPeriodProvided)
-                    ? getDatePlusNDays(cliSinceDate, cliPeriod.get())
+                    ? getDatePlusNDays(cliSinceDate, zoneId, cliPeriod.get())
                     : currentDate);
             untilDate = untilDate.compareTo(currentDate) < 0
                     ? untilDate
@@ -203,7 +205,6 @@ public class ArgsParser {
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
-            ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
@@ -240,26 +241,29 @@ public class ArgsParser {
 
     /**
      * Returns a {@code Date} that is one month before {@code cliUntilDate} (if present) or one month before report
-     * generation date otherwise.
+     * generation date otherwise. The time zone is adjusted to the given {@code zoneId}.
      */
-    private static Date getDateMinusAMonth(Optional<Date> cliUntilDate) {
+    private static Date getDateMinusAMonth(Optional<Date> cliUntilDate, ZoneId zoneId) {
         Calendar cal = Calendar.getInstance();
         cliUntilDate.ifPresent(cal::setTime);
+        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         cal.add(Calendar.MONTH, -1);
+        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
         return cal.getTime();
     }
 
     /**
      * Returns a {@code Date} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month before
-     * report generation date otherwise.
+     * report generation date otherwise. The time zone is adjusted to the given {@code zoneId}.
      */
-    private static Date getDateMinusNDays(Optional<Date> cliUntilDate, int numOfDays) {
+    private static Date getDateMinusNDays(Optional<Date> cliUntilDate, ZoneId zoneId, int numOfDays) {
         Calendar cal = Calendar.getInstance();
         cliUntilDate.ifPresent(cal::setTime);
+        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
@@ -269,11 +273,13 @@ public class ArgsParser {
     }
 
     /**
-     * Returns a {@code Date} that is {@code numOfDays} after {@code cliSinceDate} (if present).
+     * Returns a {@code Date} that is {@code numOfDays} after {@code cliSinceDate} (if present). The time zone is
+     * adjusted to the given {@code zoneId}.
      */
-    private static Date getDatePlusNDays(Optional<Date> cliSinceDate, int numOfDays) {
+    private static Date getDatePlusNDays(Optional<Date> cliSinceDate, ZoneId zoneId, int numOfDays) {
         Calendar cal = Calendar.getInstance();
         cliSinceDate.ifPresent(cal::setTime);
+        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);
@@ -283,10 +289,11 @@ public class ArgsParser {
     }
 
     /**
-     * Returns current date with time set to 23:59:59.
+     * Returns current date with time set to 23:59:59. The time zone is adjusted to the given {@code zoneId}.
      */
-    private static Date getCurrentDate() {
+    private static Date getCurrentDate(ZoneId zoneId) {
         Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -24,6 +25,7 @@ import reposense.model.RepoConfiguration;
 public class TestUtil {
     private static final int[] END_OF_DAY_TIME = {23, 59, 59};
     private static final int[] START_OF_DAY_TIME = {0, 0, 0};
+    private static final ZoneId TIME_ZONE_ID = TestUtil.getZoneId("Asia/Singapore");
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
     private static final String MESSAGE_LINE_CONTENT_DIFFERENT = "Content different at line number %d:\n"
@@ -107,6 +109,7 @@ public class TestUtil {
     private static Date getDate(int year, int month, int date, int[] time) {
         return new Calendar
                 .Builder()
+                .setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID))
                 .setDate(year, month, date)
                 .setTimeOfDay(time[0], time[1], time[2])
                 .build()

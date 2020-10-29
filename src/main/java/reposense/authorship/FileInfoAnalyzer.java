@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.HashMap;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
@@ -88,7 +87,6 @@ public class FileInfoAnalyzer {
         Long untilDateInMs = config.getUntilDate().getTime();
         Instant now = Instant.now();
         ZoneOffset zoneOffset = config.getZoneId().getRules().getOffset(now);
-        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
 
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
@@ -98,12 +96,6 @@ public class FileInfoAnalyzer {
             Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
             String authorTimeZone = blameResultLines[lineCount + 4].substring(AUTHOR_TIMEZONE_OFFSET);
             Author author = config.getAuthor(authorName, authorEmail);
-
-            int authorRawOffset = TimeZone.getTimeZone(ZoneOffset.of(authorTimeZone)).getRawOffset();
-            if (zoneRawOffset != authorRawOffset) {
-                // adjust commit date according to difference in timezone
-                commitDateInMs += authorRawOffset - zoneRawOffset;
-            }
 
             if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())

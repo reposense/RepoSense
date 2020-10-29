@@ -326,7 +326,10 @@ public class ArgsParserTest {
 
     @Test
     public void sinceDate_correctFormat_success() throws Exception {
-        String input = DEFAULT_INPUT_BUILDER.addSinceDate("01/07/2017").build();
+        String input = DEFAULT_INPUT_BUILDER
+                .addSinceDate("01/07/2017")
+                .addTimezone(DEFAULT_TIMEZONE)
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
@@ -335,7 +338,10 @@ public class ArgsParserTest {
 
     @Test
     public void untilDate_correctFormat_success() throws Exception {
-        String input = DEFAULT_INPUT_BUILDER.addUntilDate("30/11/2017").build();
+        String input = DEFAULT_INPUT_BUILDER
+                .addUntilDate("30/11/2017")
+                .addTimezone(DEFAULT_TIMEZONE)
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
@@ -344,7 +350,10 @@ public class ArgsParserTest {
 
     @Test
     public void sinceDate_withExtraDate_success() throws Exception {
-        String input = DEFAULT_INPUT_BUILDER.addSinceDate("\"01/07/2017 01/07/2018\"").build();
+        String input = DEFAULT_INPUT_BUILDER
+                .addSinceDate("\"01/07/2017 01/07/2018\"")
+                .addTimezone(DEFAULT_TIMEZONE)
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
@@ -353,7 +362,10 @@ public class ArgsParserTest {
 
     @Test
     public void untilDate_withExtraTime_success() throws Exception {
-        String input = DEFAULT_INPUT_BUILDER.addUntilDate("\"30/11/2017 10:10:10\"").build();
+        String input = DEFAULT_INPUT_BUILDER
+                .addUntilDate("\"30/11/2017 10:10:10\"")
+                .addTimezone(DEFAULT_TIMEZONE)
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
@@ -365,6 +377,7 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER
                 .addSinceDate("01/07/2017")
                 .addPeriod("2d")
+                .addTimezone(DEFAULT_TIMEZONE)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -376,6 +389,7 @@ public class ArgsParserTest {
     public void period_inWeeksWithUntilDate_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER
                 .addUntilDate("14/07/2017")
+                .addTimezone(DEFAULT_TIMEZONE)
                 .addPeriod("2w")
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
