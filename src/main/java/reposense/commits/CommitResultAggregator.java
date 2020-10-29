@@ -27,11 +27,10 @@ public class CommitResultAggregator {
     private static final int DAYS_IN_MS = 24 * 60 * 60 * 1000;
 
     /**
-     * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}, where the
-     * time is given in {@code zoneId} timezone.
+     * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
      */
     public static CommitContributionSummary aggregateCommitResults(
-            RepoConfiguration config, List<CommitResult> commitResults, ZoneId zoneId) {
+            RepoConfiguration config, List<CommitResult> commitResults) {
         Date startDate;
         startDate = (config.getSinceDate().equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? getStartDate(commitResults)
@@ -39,14 +38,15 @@ public class CommitResultAggregator {
         ReportGenerator.setEarliestSinceDate(startDate);
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
-                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults, zoneId);
+                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults,
+                        config.getZoneId());
 
         Date lastDate = commitResults.size() == 0
                 ? null
-                : getStartOfDate(commitResults.get(commitResults.size() - 1).getTime(), zoneId);
+                : getStartOfDate(commitResults.get(commitResults.size() - 1).getTime(), config.getZoneId());
 
         Map<Author, Float> authorContributionVariance =
-                calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate, zoneId);
+                calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate, config.getZoneId());
 
         return new CommitContributionSummary(
                 config.getAuthorDisplayNameMap(),

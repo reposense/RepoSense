@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -124,6 +125,13 @@ public class TestUtil {
      */
     public static Date getUntilDate(int year, int month, int date) {
         return getDate(year, month, date, END_OF_DAY_TIME);
+    }
+
+    /**
+     * Returns a {@code ZoneId} object for the specified {@code timezone}.
+     */
+    public static ZoneId getZoneId(String timezone) {
+        return ZoneId.of(timezone);
     }
 
     /**

@@ -10,7 +10,10 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Alpha[master]",
-      "outputFolderName": "reposense_testrepo-Alpha_master"
+      "outputFolderName": "reposense_testrepo-Alpha_master",
+      "zoneId": {
+        "id": "Asia/Singapore"
+      }
     },
     {
       "location": {
@@ -20,7 +23,10 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Beta[master]",
-      "outputFolderName": "reposense_testrepo-Beta_master"
+      "outputFolderName": "reposense_testrepo-Beta_master",
+      "zoneId": {
+        "id": "Asia/Singapore"
+      }
     },
     {
       "location": {
@@ -30,7 +36,10 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Charlie[master]",
-      "outputFolderName": "reposense_testrepo-Charlie_master"
+      "outputFolderName": "reposense_testrepo-Charlie_master",
+      "zoneId": {
+        "id": "Asia/Singapore"
+      }
     },
     {
       "location": {
@@ -40,7 +49,10 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Delta[master]",
-      "outputFolderName": "reposense_testrepo-Delta_master"
+      "outputFolderName": "reposense_testrepo-Delta_master",
+      "zoneId": {
+        "id": "Asia/Singapore"
+      }
     }
   ],
   "errorList": [

@@ -1,6 +1,5 @@
 package reposense.commits;
 
-import java.time.ZoneId;
 import java.util.List;
 
 import reposense.commits.model.CommitContributionSummary;
@@ -14,14 +13,13 @@ import reposense.model.RepoConfiguration;
 public class CommitsReporter {
 
     /**
-     * Generates and returns the commit contribution summary for each repo in {@code config}, where the time is given
-     * in {@code zoneId} timezone.
+     * Generates and returns the commit contribution summary for each repo in {@code config}.
      */
-    public static CommitContributionSummary generateCommitSummary(RepoConfiguration config, ZoneId zoneId) {
+    public static CommitContributionSummary generateCommitSummary(RepoConfiguration config) {
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
 
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
-        return CommitResultAggregator.aggregateCommitResults(config, commitResults, zoneId);
+        return CommitResultAggregator.aggregateCommitResults(config, commitResults);
     }
 }
