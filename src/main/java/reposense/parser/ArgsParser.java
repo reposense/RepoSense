@@ -3,13 +3,14 @@ package reposense.parser;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.TimeZone;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
@@ -178,6 +179,8 @@ public class ArgsParser {
         try {
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
+            Date sinceDate;
+            Date untilDate;
 
             Path configFolderPath = results.get(CONFIG_FLAGS[0]);
             Path reportFolderPath = results.get(VIEW_FLAGS[0]);
@@ -192,13 +195,25 @@ public class ArgsParser {
             if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
-            Date sinceDate = cliSinceDate.orElse(isPeriodProvided
-                    ? getDateMinusNDays(cliUntilDate, zoneId, cliPeriod.get())
-                    : getDateMinusAMonth(cliUntilDate, zoneId));
+
             Date currentDate = getCurrentDate(zoneId);
-            Date untilDate = cliUntilDate.orElse((isSinceDateProvided && isPeriodProvided)
-                    ? getDatePlusNDays(cliSinceDate, zoneId, cliPeriod.get())
-                    : currentDate);
+
+            if (isSinceDateProvided) {
+                sinceDate = getZonedSinceDate(cliSinceDate.get(), zoneId);
+            } else {
+                sinceDate = isPeriodProvided
+                        ? getDateMinusNDays(cliUntilDate, zoneId, cliPeriod.get())
+                        : getDateMinusAMonth(cliUntilDate, zoneId);
+            }
+
+            if (isUntilDateProvided) {
+                untilDate = getZonedUntilDate(cliUntilDate.get(), zoneId);
+            } else {
+                untilDate = (isSinceDateProvided && isPeriodProvided)
+                        ? getDatePlusNDays(cliSinceDate, zoneId, cliPeriod.get())
+                        : currentDate;
+            }
+
             untilDate = untilDate.compareTo(currentDate) < 0
                     ? untilDate
                     : currentDate;
@@ -240,19 +255,62 @@ public class ArgsParser {
     }
 
     /**
+     * Returns a {@code Date} that is set to midnight for the given {@code zoneId}.
+     */
+    private static Date getZonedSinceDate(Date sinceDate, ZoneId zoneId) {
+        if (sinceDate.equals(new Date(Long.MIN_VALUE))) {
+            return sinceDate;
+        }
+
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
+        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
+        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
+        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+
+        Calendar cal = new Calendar
+                .Builder()
+                .setInstant(sinceDate.getTime())
+                .build();
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
+        return cal.getTime();
+    }
+
+    /**
+     * Returns a {@code Date} that is set to 23:59:59 for the given {@code zoneId}.
+     */
+    private static Date getZonedUntilDate(Date untilDate, ZoneId zoneId) {
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
+        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
+        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
+        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+
+        Calendar cal = new Calendar
+                .Builder()
+                .setInstant(untilDate.getTime())
+                .build();
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
+        return cal.getTime();
+    }
+
+    /**
      * Returns a {@code Date} that is one month before {@code cliUntilDate} (if present) or one month before report
      * generation date otherwise. The time zone is adjusted to the given {@code zoneId}.
      */
     private static Date getDateMinusAMonth(Optional<Date> cliUntilDate, ZoneId zoneId) {
         Calendar cal = Calendar.getInstance();
         cliUntilDate.ifPresent(cal::setTime);
-        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
+        cal.setTime(getZonedSinceDate(cal.getTime(), zoneId));
         cal.add(Calendar.MONTH, -1);
-        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
         return cal.getTime();
     }
 
@@ -263,11 +321,7 @@ public class ArgsParser {
     private static Date getDateMinusNDays(Optional<Date> cliUntilDate, ZoneId zoneId, int numOfDays) {
         Calendar cal = Calendar.getInstance();
         cliUntilDate.ifPresent(cal::setTime);
-        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
+        cal.setTime(getZonedSinceDate(cal.getTime(), zoneId));
         cal.add(Calendar.DATE, -numOfDays + 1);
         return cal.getTime();
     }
@@ -279,11 +333,7 @@ public class ArgsParser {
     private static Date getDatePlusNDays(Optional<Date> cliSinceDate, ZoneId zoneId, int numOfDays) {
         Calendar cal = Calendar.getInstance();
         cliSinceDate.ifPresent(cal::setTime);
-        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        cal.set(Calendar.MILLISECOND, 0);
+        cal.setTime(getZonedUntilDate(cal.getTime(), zoneId));
         cal.add(Calendar.DATE, numOfDays - 1);
         return cal.getTime();
     }
@@ -293,11 +343,7 @@ public class ArgsParser {
      */
     private static Date getCurrentDate(ZoneId zoneId) {
         Calendar cal = Calendar.getInstance();
-        cal.setTimeZone(TimeZone.getTimeZone(zoneId));
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        cal.set(Calendar.MILLISECOND, 0);
+        cal.setTime(getZonedUntilDate(cal.getTime(), zoneId));
         return cal.getTime();
     }
 

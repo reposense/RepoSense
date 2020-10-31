@@ -25,7 +25,7 @@ import reposense.model.RepoConfiguration;
 public class TestUtil {
     private static final int[] END_OF_DAY_TIME = {23, 59, 59};
     private static final int[] START_OF_DAY_TIME = {0, 0, 0};
-    private static final ZoneId TIME_ZONE_ID = TestUtil.getZoneId("Asia/Singapore");
+    private static final ZoneId TIME_ZONE_ID = getZoneId("Asia/Singapore");
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
     private static final String MESSAGE_LINE_CONTENT_DIFFERENT = "Content different at line number %d:\n"
@@ -107,13 +107,16 @@ public class TestUtil {
      * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}.
      */
     private static Date getDate(int year, int month, int date, int[] time) {
-        return new Calendar
-                .Builder()
-                .setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID))
-                .setDate(year, month, date)
-                .setTimeOfDay(time[0], time[1], time[2])
-                .build()
-                .getTime();
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID));
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, date);
+        cal.set(Calendar.HOUR_OF_DAY, time[0]);
+        cal.set(Calendar.MINUTE, time[1]);
+        cal.set(Calendar.SECOND, time[2]);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
     }
 
     /**

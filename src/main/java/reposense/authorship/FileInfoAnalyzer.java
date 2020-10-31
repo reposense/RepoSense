@@ -3,8 +3,6 @@ package reposense.authorship;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -85,8 +83,6 @@ public class FileInfoAnalyzer {
         Path filePath = Paths.get(fileInfo.getPath());
         Long sinceDateInMs = config.getSinceDate().getTime();
         Long untilDateInMs = config.getUntilDate().getTime();
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = config.getZoneId().getRules().getOffset(now);
 
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);

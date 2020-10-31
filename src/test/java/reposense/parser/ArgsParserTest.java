@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,6 +58,7 @@ public class ArgsParserTest {
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
     private static final String DEFAULT_TIMEZONE = "UTC+08";
+    private static final ZoneId TIME_ZONE_ID = TestUtil.getZoneId(DEFAULT_TIMEZONE);
 
     @Before
     public void before() {
@@ -174,7 +177,10 @@ public class ArgsParserTest {
 
     @Test
     public void parse_configFolderOnly_success() throws Exception {
-        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).build();
+        String input = new InputBuilder()
+                .addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addTimezone(DEFAULT_TIMEZONE)
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -188,7 +194,10 @@ public class ArgsParserTest {
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
 
-        input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE).build();
+        input = new InputBuilder()
+                .addConfig(CONFIG_FOLDER_RELATIVE)
+                .addTimezone(DEFAULT_TIMEZONE)
+                .build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -201,7 +210,7 @@ public class ArgsParserTest {
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
-        Assert.assertEquals(ZoneId.systemDefault(), cliArguments.getZoneId());
+        Assert.assertEquals(TIME_ZONE_ID, cliArguments.getZoneId());
     }
 
     @Test
@@ -652,14 +661,23 @@ public class ArgsParserTest {
      * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.
      */
     private void assertDateDiffOneMonth(Date actualSinceDate, Date untilDate) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(untilDate);
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = TIME_ZONE_ID.getRules().getOffset(now);
+        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
+        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
+        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+
+        Calendar cal = new Calendar
+                .Builder()
+                .setInstant(untilDate.getTime())
+                .build();
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
         cal.add(Calendar.MONTH, -1);
-        assert actualSinceDate.equals(cal.getTime());
+        Assert.assertTrue(actualSinceDate.equals(cal.getTime()));
     }
 
     /**
@@ -668,11 +686,18 @@ public class ArgsParserTest {
      * with time at 23:59:59.
      */
     private void assertDateDiffEndOfDay(Date actualUntilDate) {
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = TIME_ZONE_ID.getRules().getOffset(now);
+        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
+        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
+        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 23);
         cal.set(Calendar.MINUTE, 59);
         cal.set(Calendar.SECOND, 59);
         cal.set(Calendar.MILLISECOND, 0);
-        assert actualUntilDate.equals(cal.getTime());
+        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
+        Assert.assertTrue(actualUntilDate.equals(cal.getTime()));
     }
 }
