@@ -7,6 +7,9 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -91,7 +94,7 @@ public class ReportGenerator {
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
             String generationDate, Date cliSinceDate, Date untilDate,
             boolean isSinceDateProvided, boolean isUntilDateProvided,
-            Supplier<String> reportGenerationTimeProvider) throws IOException {
+            Supplier<String> reportGenerationTimeProvider, ZoneId zoneId) throws IOException {
         prepareTemplateFile(outputPath);
 
         earliestSinceDate = null;
@@ -103,7 +106,8 @@ public class ReportGenerator {
                 ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
-                new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
+                new SummaryJson(configs, generationDate, getSystemDateFromZonedDate(reportSinceDate, zoneId),
+                        getSystemDateFromZonedDate(untilDate, zoneId), isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
                         reportGenerationTimeProvider.get()),
                 getSummaryResultPath(outputPath));
@@ -385,5 +389,18 @@ public class ReportGenerator {
         if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
             earliestSinceDate = newEarliestSinceDate;
         }
+    }
+
+    /**
+     * Get the {@code current} date that is in {@code zoneId} timezone into the system's timezone.
+     */
+    private static Date getSystemDateFromZonedDate(Date current, ZoneId zoneId) {
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
+        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
+        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
+        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+
+        return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
     }
 }

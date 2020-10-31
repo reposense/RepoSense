@@ -258,7 +258,7 @@ public class ArgsParser {
      * Returns a {@code Date} that is set to midnight for the given {@code zoneId}.
      */
     private static Date getZonedSinceDate(Date sinceDate, ZoneId zoneId) {
-        if (sinceDate.equals(new Date(Long.MIN_VALUE))) {
+        if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {
             return sinceDate;
         }
 
