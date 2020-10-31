@@ -36,7 +36,7 @@ Branch | The branch to analyze in the target repository e.g., `master`. Default:
 File formats<sup>*+</sup> | The file extensions to analyze. Default: all file formats
 Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
 Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
-Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
+Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` where `abc123` is an earlier commit compared to `def456`. 
 Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
@@ -100,7 +100,7 @@ To use this feature, add a `_reposense/config.json` to the root of your repo usi
 {
   "ignoreGlobList": ["about-us/**", "**index.html"],
   "formats": ["html", "css"],
-  "ignoreCommitList": ["90018e49f129ce7e0abdc8b18e91c9813588c601", "67890def"],
+  "ignoreCommitList": ["90018e49f129ce7e0abdc8b18e91c9813588c601", "67890def", "abc123..def456"],
   "ignoreAuthorList": ["charlie"],
   "authors":
   [
@@ -123,7 +123,7 @@ Note: all fields are optional unless specified otherwise.
 
 * `ignoreGlobList`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
 * `formats`: File formats to analyze. Default: all file formats
-* `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.
+* `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` where `abc123` is an earlier commit compared to `def456`.
 * `ignoreAuthorList`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
 
 **Fields to provide _author-level_ info**:<br>

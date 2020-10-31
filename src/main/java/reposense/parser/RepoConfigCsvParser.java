@@ -53,6 +53,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     protected void processLine(List<RepoConfiguration> results, CSVRecord record) throws InvalidLocationException {
         RepoLocation location = new RepoLocation(get(record, LOCATION_POSITION));
         String branch = getOrDefault(record, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
+        RepoConfiguration tempConfig = new RepoConfiguration(location, branch);
 
         boolean isFormatsOverriding = isElementOverridingStandaloneConfig(record, FILE_FORMATS_POSITION);
         List<FileType> formats = FileType.convertFormatStringsToFileTypes(
@@ -63,8 +64,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
         boolean isIgnoreCommitListOverriding =
                 isElementOverridingStandaloneConfig(record, IGNORE_COMMIT_LIST_CONFIG_POSITION);
-        List<CommitHash> ignoreCommitList = CommitHash.convertStringsToCommits(
-                getAsListWithoutOverridePrefix(record, IGNORE_COMMIT_LIST_CONFIG_POSITION));
+        List<CommitHash> ignoreCommitList = CommitHash.convertStringsToCommits(tempConfig.getRepoRoot(),
+                tempConfig.getBranch(), getAsListWithoutOverridePrefix(record, IGNORE_COMMIT_LIST_CONFIG_POSITION));
 
         boolean isIgnoredAuthorsListOverriding =
                 isElementOverridingStandaloneConfig(record, IGNORE_AUTHOR_LIST_CONFIG_POSITION);

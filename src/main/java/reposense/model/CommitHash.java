@@ -2,6 +2,9 @@ package reposense.model;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import reposense.git.GitRevList;
 
 /**
  * Represents a git commit hash in {@code RepoConfiguration}.
@@ -49,14 +52,29 @@ public class CommitHash {
      * Returns null if {@code commits} is null.
      * @throws IllegalArgumentException if any of the strings are in invalid formats.
      */
-    public static List<CommitHash> convertStringsToCommits(List<String> commits) throws IllegalArgumentException {
+    public static List<CommitHash> convertStringsToCommits(String root, String branchName, List<String> commits)
+            throws IllegalArgumentException {
         if (commits == null) {
             return null;
         }
 
         return commits.stream()
+                .flatMap(x -> getHashOrHashes(root, branchName, x))
                 .map(CommitHash::new)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Converts a commit {@code entry} into either itself, or a list of hashes if a range was provided.
+     */
+    public static Stream<String> getHashOrHashes(String root, String branchName, String entry) {
+        if (entry.matches(COMMIT_HASH_REGEX)) {
+            return Stream.of(entry);
+        }
+
+        String[] startAndEnd = entry.split("\\.\\.");
+        String revList = GitRevList.getCommitHashInRange(root, branchName, startAndEnd[0], startAndEnd[1]);
+        return Stream.of(revList.split("\n"));
     }
 
     /**

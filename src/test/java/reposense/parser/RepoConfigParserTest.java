@@ -81,8 +81,8 @@ public class RepoConfigParserTest {
 
         Assert.assertTrue(config.isStandaloneConfigIgnored());
 
-        Assert.assertEquals(config.getIgnoreCommitList(),
-                CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+        Assert.assertEquals(config.getIgnoreCommitList(), CommitHash.convertStringsToCommits(config.getRepoRoot(),
+                config.getBranch(), TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
 
         Assert.assertFalse(config.isFormatsOverriding());
         Assert.assertFalse(config.isIgnoreGlobListOverriding());
@@ -206,8 +206,8 @@ public class RepoConfigParserTest {
         Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
         Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
         Assert.assertFalse(config.isStandaloneConfigIgnored());
-        Assert.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
-                config.getIgnoreCommitList());
+        Assert.assertEquals(CommitHash.convertStringsToCommits(config.getRepoRoot(), config.getBranch(),
+                TEST_REPO_BETA_CONFIG_IGNORED_COMMITS), config.getIgnoreCommitList());
 
         Assert.assertTrue(config.isFormatsOverriding());
         Assert.assertTrue(config.isIgnoreGlobListOverriding());

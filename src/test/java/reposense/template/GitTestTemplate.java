@@ -3,6 +3,7 @@ package reposense.template;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -54,6 +55,19 @@ public class GitTestTemplate {
             "8d0ac2ee20f04dce8df0591caed460bffacb65a4";
     protected static final CommitHash MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
             new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING);
+    protected static final String FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING =
+            "7d7584fc204922cc5ff3bd5ca073cad6bed2c46a";
+    protected static final String FAKE_AUTHOR_BLAME_RANGED_COMMIT_TWO_06022018_STRING =
+            "8d0ac2ee20f04dce8df0591caed460bffacb65a4";
+    protected static final String FAKE_AUTHOR_BLAME_RANGED_COMMIT_THREE_07022018_STRING =
+            "8e4ca1da5d413e9ab84a1e8d1474918afa97f7a1";
+    protected static final String FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING =
+            "768015345e70f06add2a8b7d1f901dc07bf70582";
+    protected static final List<CommitHash> FAKE_AUTHOR_BLAME_RANGED_COMMIT_LIST_09022018 = Arrays.asList(
+            new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING),
+            new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_TWO_06022018_STRING),
+            new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_THREE_07022018_STRING),
+            new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING));
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
 
 
