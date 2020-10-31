@@ -913,6 +913,7 @@ window.vSummary = {
     this.$root.$on('restoreCommits', (info) => {
       const zoomFilteredUser = this.restoreZoomFiltered(info);
       info.zUser = zoomFilteredUser;
+      info.zFileTypeColors = this.fileTypeColors;
     });
   },
   mounted() {
