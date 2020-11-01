@@ -57,7 +57,7 @@ public class ArgsParserTest {
     private static final String TEST_REPO_CHARLIE = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
-    private static final String DEFAULT_TIMEZONE = "UTC+08";
+    private static final String DEFAULT_TIMEZONE = "Asia/Singapore";
     private static final ZoneId TIME_ZONE_ID = TestUtil.getZoneId(DEFAULT_TIMEZONE);
 
     @Before
@@ -179,7 +179,6 @@ public class ArgsParserTest {
     public void parse_configFolderOnly_success() throws Exception {
         String input = new InputBuilder()
                 .addConfig(CONFIG_FOLDER_ABSOLUTE)
-                .addTimezone(DEFAULT_TIMEZONE)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -196,7 +195,6 @@ public class ArgsParserTest {
 
         input = new InputBuilder()
                 .addConfig(CONFIG_FOLDER_RELATIVE)
-                .addTimezone(DEFAULT_TIMEZONE)
                 .build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -661,11 +659,8 @@ public class ArgsParserTest {
      * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.
      */
     private void assertDateDiffOneMonth(Date actualSinceDate, Date untilDate) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = TIME_ZONE_ID.getRules().getOffset(now);
-        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
-        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
-        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+        int zoneRawOffset = getZoneRawOffset(TIME_ZONE_ID);
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = new Calendar
                 .Builder()
@@ -686,11 +681,8 @@ public class ArgsParserTest {
      * with time at 23:59:59.
      */
     private void assertDateDiffEndOfDay(Date actualUntilDate) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = TIME_ZONE_ID.getRules().getOffset(now);
-        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
-        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
-        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+        int zoneRawOffset = getZoneRawOffset(TIME_ZONE_ID);
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 23);
@@ -699,5 +691,14 @@ public class ArgsParserTest {
         cal.set(Calendar.MILLISECOND, 0);
         cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
         Assert.assertTrue(actualUntilDate.equals(cal.getTime()));
+    }
+
+    /**
+     * Get the raw offset in milliseconds for the {@code zoneId} timezone compared to UTC.
+     */
+    private int getZoneRawOffset(ZoneId zoneId) {
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
+        return zoneOffset.getTotalSeconds() * 1000;
     }
 }

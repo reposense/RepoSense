@@ -262,11 +262,8 @@ public class ArgsParser {
             return sinceDate;
         }
 
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
-        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
-        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+        int zoneRawOffset = getZoneRawOffset(zoneId);
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = new Calendar
                 .Builder()
@@ -284,11 +281,8 @@ public class ArgsParser {
      * Returns a {@code Date} that is set to 23:59:59 for the given {@code zoneId}.
      */
     private static Date getZonedUntilDate(Date untilDate, ZoneId zoneId) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
-        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
-        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+        int zoneRawOffset = getZoneRawOffset(zoneId);
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = new Calendar
                 .Builder()
@@ -369,5 +363,14 @@ public class ArgsParser {
         if (sinceDate.getTime() > dateToday.getTime()) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
+    }
+
+    /**
+     * Get the raw offset in milliseconds for the {@code zoneId} timezone compared to UTC.
+     */
+    private static int getZoneRawOffset(ZoneId zoneId) {
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
+        return zoneOffset.getTotalSeconds() * 1000;
     }
 }

@@ -1,7 +1,6 @@
 package reposense.template;
 
 import java.io.IOException;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -24,7 +23,6 @@ import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.FileUtil;
-import reposense.util.TestUtil;
 
 /**
  * Contains templates for git testing.
@@ -57,7 +55,7 @@ public class GitTestTemplate {
     protected static final CommitHash MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
             new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING);
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
-    protected static final ZoneId TIME_ZONE_ID = TestUtil.getZoneId("Asia/Singapore");
+    protected static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
 
     protected static RepoConfiguration config;
@@ -73,7 +71,7 @@ public class GitTestTemplate {
     public static void beforeClass() throws Exception {
         deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
-        config.setZoneId(TIME_ZONE_ID);
+        config.setZoneId(TIME_ZONE_ID_STRING);
         GitClone.clone(config);
     }
 

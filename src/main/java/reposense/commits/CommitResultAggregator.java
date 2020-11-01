@@ -59,7 +59,7 @@ public class CommitResultAggregator {
      */
     private static Map<Author, Float> calcAuthorContributionVariance(
             Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, Date startDate, Date lastDate,
-            ZoneId zoneId) {
+            String zoneId) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()) {
             List<AuthorDailyContribution> contributions = intervalContributionMaps.get(author);
@@ -69,7 +69,7 @@ public class CommitResultAggregator {
     }
 
     private static float getContributionVariance(List<AuthorDailyContribution> contributions,
-            Date startDate, Date lastDate, ZoneId zoneId) {
+            Date startDate, Date lastDate, String zoneId) {
         if (contributions.size() == 0) {
             return 0;
         }
@@ -99,7 +99,7 @@ public class CommitResultAggregator {
     }
 
     private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
-            Set<Author> authorSet, List<CommitResult> commitResults, ZoneId zoneId) {
+            Set<Author> authorSet, List<CommitResult> commitResults, String zoneId) {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
         authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
 
@@ -130,16 +130,13 @@ public class CommitResultAggregator {
     /**
      * Get the starting point of the {@code current} date with respect to the {@code zoneId} timezone.
      */
-    private static Date getStartOfDate(Date current, ZoneId zoneId) {
+    private static Date getStartOfDate(Date current, String zoneId) {
         if (current.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {
             return current;
         }
 
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
-        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
-        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+        int zoneRawOffset = getZoneRawOffset(ZoneId.of(zoneId));
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = new Calendar
                 .Builder()
@@ -157,12 +154,9 @@ public class CommitResultAggregator {
      * Get the starting point of the {@code current} date that was given in {@code zoneId} timezone and convert into the
      * system's timezone.
      */
-    private static Date getSystemStartOfDate(Date current, ZoneId zoneId) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
-        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
-        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
+    private static Date getSystemStartOfDate(Date current, String zoneId) {
+        int zoneRawOffset = getZoneRawOffset(ZoneId.of(zoneId));
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = new Calendar
                 .Builder()
@@ -175,13 +169,9 @@ public class CommitResultAggregator {
     /**
      * Get the {@code current} date that is in {@code zoneId} timezone into the system's timezone.
      */
-    private static Date getSystemDateFromZonedDate(Date current, ZoneId zoneId) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
-        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
-        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
-
+    private static Date getSystemDateFromZonedDate(Date current, String zoneId) {
+        int zoneRawOffset = getZoneRawOffset(ZoneId.of(zoneId));
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
         return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
     }
 
@@ -191,5 +181,14 @@ public class CommitResultAggregator {
             min = commitInfos.get(0).getTime();
         }
         return min;
+    }
+
+    /**
+     * Get the raw offset in milliseconds for the {@code zoneId} timezone compared to UTC.
+     */
+    private static int getZoneRawOffset(ZoneId zoneId) {
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
+        return zoneOffset.getTotalSeconds() * 1000;
     }
 }
