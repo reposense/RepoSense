@@ -208,7 +208,7 @@ public class ArgsParserTest {
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
-        Assert.assertEquals(TIME_ZONE_ID, cliArguments.getZoneId());
+        Assert.assertEquals(ZoneId.systemDefault(), cliArguments.getZoneId());
     }
 
     @Test
