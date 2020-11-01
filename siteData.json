@@ -82,7 +82,7 @@
         "html-report": "HTML report",
         "report-architecture": "Report architecture",
         "javascript-files": "Javascript files",
-        "json-report-files": "JSON Report files",
+        "json-report-files": "JSON report files",
         "main-main-js": "Main (main.js)",
         "loading-of-report-information": "Loading of report information",
         "activating-additional-view-modules": "Activating additional view modules",
@@ -280,7 +280,7 @@
         "report-structure": "Report structure",
         "chart-panel": "Chart panel",
         "code-panel": "Code panel",
-        "commits-panel": "Commits Panel"
+        "commits-panel": "Commits panel"
       },
       "headingKeywords": {}
     },
