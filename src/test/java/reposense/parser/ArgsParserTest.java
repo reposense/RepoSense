@@ -187,8 +187,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         // Optional arguments have default values
-        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
-        assertDateDiffEndOfDay(cliArguments.getUntilDate());
+        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.getZoneId());
+        assertDateDiffEndOfDay(cliArguments.getUntilDate(), cliArguments.getZoneId());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
@@ -203,8 +203,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         // Optional arguments have default values
-        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
-        assertDateDiffEndOfDay(cliArguments.getUntilDate());
+        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.getZoneId());
+        assertDateDiffEndOfDay(cliArguments.getUntilDate(), cliArguments.getZoneId());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
@@ -658,8 +658,8 @@ public class ArgsParserTest {
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
      * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.
      */
-    private void assertDateDiffOneMonth(Date actualSinceDate, Date untilDate) {
-        int zoneRawOffset = getZoneRawOffset(TIME_ZONE_ID);
+    private void assertDateDiffOneMonth(Date actualSinceDate, Date untilDate, ZoneId zoneId) {
+        int zoneRawOffset = getZoneRawOffset(zoneId);
         int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = new Calendar
@@ -676,12 +676,13 @@ public class ArgsParserTest {
     }
 
     /**
-     * Ensures that {@code actualUntilDate} falls on the date of report generation with time at 23:59:59.
+     * Ensures that {@code actualUntilDate} falls on the date of report generation with time at 23:59:59 for the given
+     * {@code zoneId} time zone.
      * @throws AssertionError if {@code actualUntilDate} does not fall on the date of report generation
      * with time at 23:59:59.
      */
-    private void assertDateDiffEndOfDay(Date actualUntilDate) {
-        int zoneRawOffset = getZoneRawOffset(TIME_ZONE_ID);
+    private void assertDateDiffEndOfDay(Date actualUntilDate, ZoneId zoneId) {
+        int zoneRawOffset = getZoneRawOffset(zoneId);
         int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = Calendar.getInstance();
