@@ -106,7 +106,7 @@ public class TestUtil {
     /**
      * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}.
      */
-    private static Date getDate(int year, int month, int date, int[] time) {
+    public static Date getDate(int year, int month, int date, int[] time) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID));
         cal.set(Calendar.YEAR, year);

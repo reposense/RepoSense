@@ -635,11 +635,12 @@ public class ArgsParserTest {
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
 
-        input = DEFAULT_INPUT_BUILDER.addTimezone("UTC+00").build();
+        zoneId = "UTC";
+        input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertEquals(ZoneId.of("UTC"), cliArguments.getZoneId());
+        Assert.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
     }
 
     @Test(expected = ParseException.class)
@@ -652,6 +653,54 @@ public class ArgsParserTest {
     public void parse_timezoneWithoutArgument_throwsParseException() throws Exception {
         String input = DEFAULT_INPUT_BUILDER.addTimezone("").build();
         ArgsParser.parse(translateCommandline(input));
+    }
+
+    @Test
+    public void parse_withDatesAndTimezone_success() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER
+                .addTimezone("UTC+11")
+                .addSinceDate("01/07/2017")
+                .addUntilDate("30/11/2017")
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        int[] expectedSinceTime = {21, 0, 0};
+        Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JUNE, 30, expectedSinceTime);
+        int[] expectedUntilTime = {20, 59, 59};
+        Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30, expectedUntilTime);
+
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
+        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
+
+        input = DEFAULT_INPUT_BUILDER
+                .addTimezone("UTC-0930")
+                .addSinceDate("01/07/2017")
+                .addUntilDate("30/11/2017")
+                .build();
+        cliArguments = ArgsParser.parse(translateCommandline(input));
+        expectedSinceTime = new int[]{17, 30, 0};
+        expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1, expectedSinceTime);
+        expectedUntilTime = new int[]{17, 29, 59};
+        expectedUntilDate = TestUtil.getDate(2017, Calendar.DECEMBER, 1, expectedUntilTime);
+
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
+        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
+
+        input = DEFAULT_INPUT_BUILDER
+                .addTimezone("UTC")
+                .addSinceDate("01/07/2017")
+                .addUntilDate("30/11/2017")
+                .build();
+        cliArguments = ArgsParser.parse(translateCommandline(input));
+        expectedSinceTime = new int[]{8, 0, 0};
+        expectedSinceDate = TestUtil.getDate(2017, Calendar.JULY, 1, expectedSinceTime);
+        expectedUntilTime = new int[]{7, 59, 59};
+        expectedUntilDate = TestUtil.getDate(2017, Calendar.DECEMBER, 1, expectedUntilTime);
+
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
+        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 
     /**
