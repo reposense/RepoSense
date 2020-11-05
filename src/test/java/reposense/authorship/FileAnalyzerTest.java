@@ -66,8 +66,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
     @Test
     public void movedFileBlameTestDateRange() throws Exception {
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), MOVED_FILE_UNTIL_DATE);
-        System.out.println(MOVED_FILE_SINCE_DATE);
-        System.out.println(MOVED_FILE_UNTIL_DATE);
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
 
