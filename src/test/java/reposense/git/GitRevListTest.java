@@ -56,13 +56,15 @@ public class GitRevListTest extends GitTestTemplate {
 
     @Test
     public void getCommitHashInRange_nullStartHash_success() {
-        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(), null, LATEST_COMMIT_HASH);
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(), null,
+                LATEST_COMMIT_HASH);
         Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
     }
 
     @Test
     public void getCommitHashInRange_nullEndHash_success() {
-        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(), LATEST_COMMIT_HASH, null);
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                LATEST_COMMIT_HASH, null);
         Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
     }
 }
