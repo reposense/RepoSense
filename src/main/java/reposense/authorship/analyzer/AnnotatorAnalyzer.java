@@ -28,13 +28,12 @@ public class AnnotatorAnalyzer {
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             if (lineInfo.getContent().contains(AUTHOR_TAG)) {
-                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap);
+                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap,
+                        currentAnnotatedAuthor);
 
                 if (!newAnnotatedAuthor.isPresent()) {
                     // end of an author tag should belong to the current author too.
-                    // if an end author tag was used without a corresponding starting tag, attribute the
-                    // line to UNKNOWN_AUTHOR
-                    lineInfo.setAuthor(currentAnnotatedAuthor.orElse(Author.UNKNOWN_AUTHOR));
+                    lineInfo.setAuthor(currentAnnotatedAuthor.get());
                 } else if (newAnnotatedAuthor.get().isIgnoringFile(filePath)) {
                     newAnnotatedAuthor = Optional.empty();
                 }
@@ -53,15 +52,22 @@ public class AnnotatorAnalyzer {
      *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
      *         or if the extracted author name is too short.
      */
-    private static Optional<Author> findAuthorInLine(String line, Map<String, Author> authorAliasMap) {
+    private static Optional<Author> findAuthorInLine(String line, Map<String, Author> authorAliasMap,
+                                                     Optional<Author> currentAnnotatedAuthor) {
         try {
             String[] split = line.split(AUTHOR_TAG);
             String name = extractAuthorName(split[1]);
             if (name == null) {
-                return Optional.empty();
+                if (!currentAnnotatedAuthor.isPresent()) {
+                    return Optional.of(Author.UNKNOWN_AUTHOR);
+                }
+            return Optional.empty();
             }
             return Optional.of(authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR));
         } catch (ArrayIndexOutOfBoundsException e) {
+            if (!currentAnnotatedAuthor.isPresent()) {
+                return Optional.of(Author.UNKNOWN_AUTHOR);
+            }
             return Optional.empty();
         }
     }
