@@ -14252,7 +14252,7 @@
   "authorFileTypeContributionMap": {
     "charlesgoh": {
       "code": 1825,
-      "test": 1433,
+      "test": 1430,
       "docs": 970
     },
     "jeffreygohkw": {
@@ -14262,12 +14262,12 @@
     },
     "Esilocke": {
       "code": 4308,
-      "test": 4058,
+      "test": 4051,
       "docs": 2578
     },
     "wangyiming1019": {
       "code": 1142,
-      "test": 1327,
+      "test": 1324,
       "docs": 0
     }
   },
