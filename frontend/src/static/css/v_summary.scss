@@ -6,12 +6,17 @@
     text-align: center;
   }
 
-  .icon-button {
+  .icon-button::before {
     color: mui-color('grey');
     cursor: pointer;
     text-decoration: none;
   }
 
+  .icon-button::after {
+    color: mui-color('blue');
+    cursor: pointer;
+    text-decoration: none;
+  }
   .summary-picker {
     align-items: center;
     display: flex;
