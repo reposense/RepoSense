@@ -134,8 +134,6 @@ The `Code panel` allows users to see the code attributed to a specific author. C
     * Type file path glob in glob filter to include files matching the glob expression.
     * Select the checkboxes to include files of preferred file extensions. 
     The number right beside the file extension shows the total number of lines written by the author in such file extension files. In contrast, the number inside the parenthesis indicates the number of non-blank lines written by the author.
-
-    while the number inside the parenthesis shows the number of non-blank lines written by the author.
 * Clicking the file title toggles the file content.
 * Clicking the first icon beside the file title opens the history view of the file on github.
 * Clicking the second icon beside the file title opens the blame view of the file on github.
