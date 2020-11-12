@@ -126,13 +126,15 @@ Notes:<br>
 <!-- ==================================================================================================== -->
 
 ## Code panel
-<img src="../images/code-panel.png" alt="code panel" width="468">
+<img src="../images/code-panel-new.png" alt="code panel" width="468">
 
 The `Code panel` allows users to see the code attributed to a specific author. Click on the `</>` icon beside the name of the author in the `Chart panel` to display the `Code panel` on the right.
 * The Code panel shows the files that contain author's contributions, sorted by the number of lines written.
 * Select the radio button to enable one of the following 2 filters. Note that only 1 of the 2 filters is active at any time.
     * Type file path glob in glob filter to include files matching the glob expression.
-    * Select the checkboxes to include files of preferred file extensions.
+    * Select the checkboxes to include files of preferred file extensions. 
+    The number right beside the file extension shows the total number of lines written by the author in the files of such file extension,
+    while the number inside the parenthesis shows the number of non-blank lines written by the author.
 * Clicking the file title toggles the file content.
 * Clicking the first icon beside the file title opens the history view of the file on github.
 * Clicking the second icon beside the file title opens the blame view of the file on github.
