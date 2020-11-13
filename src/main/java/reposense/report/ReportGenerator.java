@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -85,6 +86,8 @@ public class ReportGenerator {
 
     private static Date earliestSinceDate = null;
     private static ProgressTracker progressTracker = null;
+    private static final List<String> assetsFilesWhiteList =
+            Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -99,7 +102,7 @@ public class ReportGenerator {
             Supplier<String> reportGenerationTimeProvider) throws IOException {
         prepareTemplateFile(reportConfig, outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
-            FileUtil.copyDirectoryContents(assetsPath, outputPath);
+            FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
         }
 
         earliestSinceDate = null;
