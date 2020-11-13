@@ -81,8 +81,8 @@ public class RepoConfigParserTest {
 
         Assert.assertTrue(config.isStandaloneConfigIgnored());
 
-        Assert.assertEquals(config.getIgnoreCommitList(), CommitHash.convertStringsToCommits(
-                TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+        Assert.assertEquals(config.getIgnoreCommitList(),
+                CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
 
         Assert.assertFalse(config.isFormatsOverriding());
         Assert.assertFalse(config.isIgnoreGlobListOverriding());
