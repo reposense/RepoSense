@@ -35,6 +35,7 @@ import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
+import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
@@ -243,6 +244,7 @@ public class ReportGenerator {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
+        updateIgnoreCommitList(config);
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
@@ -299,6 +301,16 @@ public class ReportGenerator {
             config.setAuthorList(authorList);
         }
         config.removeIgnoredAuthors();
+    }
+
+    /**
+     * Updates {@code config} with the exact list of commits if commit ranges are provided.
+     */
+    private static void updateIgnoreCommitList(RepoConfiguration config) {
+        List<CommitHash> updatedIgnoreCommitList = config.getIgnoreCommitList().stream()
+                .flatMap(x -> CommitHash.getHashes(config.getRepoRoot(), config.getBranch(), x))
+                .collect(Collectors.toList());
+        config.setIgnoreCommitList(updatedIgnoreCommitList);
     }
 
     /**

@@ -57,15 +57,28 @@ public class GitRevList {
             return startHash;
         }
 
-        Path rootPath = Paths.get(root);
-        String revListCommand = "git rev-list " + startHash + ".." + endHash + " " + branchName
-                + REVISION_PATH_SEPARATOR;
-        String output = runCommand(rootPath, revListCommand);
+        String fromStartHash = getAllCommitHashSince(root, branchName, startHash);
+        String fromEndHash = getAllCommitHashSince(root, branchName, endHash);
+        StringBuilder output = new StringBuilder();
 
-        if (output.equals("")) {
-            return endHash + "\n" + startHash;
+        if (fromStartHash.length() > fromEndHash.length()) {
+            output.append(fromStartHash.substring(fromEndHash.length()));
+            output.append(startHash);
         } else {
-            return output + startHash + "\n";
+            output.append(fromEndHash.substring(fromStartHash.length()));
+            output.append(endHash);
         }
+
+        output.append("\n");
+        return output.toString();
+    }
+
+    /**
+     * Returns a list of commit hashes separated by newline that exist since {@code hash} until HEAD.
+     */
+    private static String getAllCommitHashSince(String root, String branchName, String hash) {
+        Path rootPath = Paths.get(root);
+        String revListCommand = "git rev-list " + hash + "..HEAD " + branchName + REVISION_PATH_SEPARATOR;
+        return runCommand(rootPath, revListCommand);
     }
 }

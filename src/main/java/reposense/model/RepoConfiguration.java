@@ -216,8 +216,7 @@ public class RepoConfiguration {
             fileTypeManager.setFormats(replacementFileTypes);
         }
         if (!isIgnoreCommitListOverriding) {
-            ignoreCommitList = CommitHash.convertStringsToCommits(this.getRepoRoot(), this.getBranch(),
-                    standaloneConfig.getIgnoreCommitList());
+            ignoreCommitList = CommitHash.convertStringsToCommits(standaloneConfig.getIgnoreCommitList());
         }
         if (!isIgnoredAuthorsListOverriding) {
             ignoredAuthorsList = standaloneConfig.getIgnoreAuthorList();

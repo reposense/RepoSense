@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -97,7 +98,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfoAnalyzer.analyzeFile(config, fileInfoFull);
 
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
-        config.setIgnoreCommitList(CommitHash.convertStringsToCommits(config.getRepoRoot(), config.getBranch(),
+        config.setIgnoreCommitList(CommitHash.convertStringsToCommits(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
                         MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
         FileInfoAnalyzer.analyzeFile(config, fileInfoShort);
@@ -118,8 +119,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoRanged = generateTestFileInfo("blameTest.java");
         String rangedCommit = FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING + ".."
                 + FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING;
-        config.setIgnoreCommitList(CommitHash.convertStringsToCommits(config.getRepoRoot(), config.getBranch(),
-                Arrays.asList(rangedCommit)));
+        config.setIgnoreCommitList(CommitHash.getHashes(config.getRepoRoot(), config.getBranch(),
+                new CommitHash(rangedCommit)).collect(Collectors.toList()));
         FileInfoAnalyzer.analyzeFile(config, fileInfoRanged);
 
         Assert.assertEquals(fileInfoFull, fileInfoRanged);
@@ -138,8 +139,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoRangedShort = generateTestFileInfo("blameTest.java");
         String rangedCommitShort = FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING.substring(0, 8) + ".."
                 + FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING.substring(0, 8);
-        config.setIgnoreCommitList(CommitHash.convertStringsToCommits(config.getRepoRoot(), config.getBranch(),
-                Arrays.asList(rangedCommitShort)));
+        config.setIgnoreCommitList(CommitHash.getHashes(config.getRepoRoot(), config.getBranch(),
+                new CommitHash(rangedCommitShort)).collect(Collectors.toList()));
         FileInfoAnalyzer.analyzeFile(config, fileInfoRangedShort);
 
         Assert.assertEquals(fileInfoFull, fileInfoRangedShort);
