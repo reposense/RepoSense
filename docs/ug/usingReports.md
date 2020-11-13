@@ -126,7 +126,7 @@ Notes:<br>
 <!-- ==================================================================================================== -->
 
 ## Code panel
-<img src="../images/code-panel-new.png" alt="code panel" width="468">
+<img src="../images/code-panel.png" alt="code panel" width="468">
 
 The `Code panel` allows users to see the code attributed to a specific author. Click on the `</>` icon beside the name of the author in the `Chart panel` to display the `Code panel` on the right.
 * The Code panel shows the files that contain author's contributions, sorted by the number of lines written.
