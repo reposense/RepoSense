@@ -179,18 +179,30 @@ public class FileUtil {
     }
 
     /**
-     * Copies assets from {@code sourcePath} to the {@code outputPath}.
+     * Copies files from {@code sourcePath} to the {@code outputPath}.
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyDirectoryContents(String sourcePath, String outputPath) throws IOException {
+        copyDirectoryContents(sourcePath, outputPath, null);
+    }
+
+    /**
+     * Copies files from {@code sourcePath} to the {@code outputPath}.
+     * If {@code whiteList} is provided, only filenames specified by the whitelist will be copied.
+     * @throws IOException if {@code is} refers to an invalid path.
+     */
+    public static void copyDirectoryContents(String sourcePath, String outputPath, List<String> whiteList)
+            throws IOException {
         Path source = Paths.get(sourcePath);
         Path out = Paths.get(outputPath);
 
         Files.walk(source, 1).skip(1).forEach(file -> {
-            try {
-                Files.copy(file, out.resolve(source.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException ioe) {
-                logger.severe(MESSAGE_FAIL_TO_COPY_ASSETS);
+            if (whiteList == null || whiteList != null && whiteList.contains(file.getFileName().toString())) {
+                try {
+                    Files.copy(file, out.resolve(source.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ioe) {
+                    logger.severe(MESSAGE_FAIL_TO_COPY_ASSETS);
+                }
             }
         });
     }
