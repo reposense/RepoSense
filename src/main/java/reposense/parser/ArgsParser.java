@@ -117,7 +117,7 @@ public class ArgsParser {
                 .metavar("PATH")
                 .type(new AssetsFolderArgumentType())
                 .setDefault(DEFAULT_ASSETS_PATH)
-                .help("The directory to place arbitrary resource files when building the report. "
+                .help("The directory to place assets files to customize report generation. "
                         + "If not provided, the assets folder in the current working directory will be used.");
 
         parser.addArgument(SINCE_FLAGS)
