@@ -61,15 +61,26 @@ public class GitRevList {
         String fromEndHash = getAllCommitHashSince(root, branchName, endHash);
         StringBuilder output = new StringBuilder();
 
-        if (fromStartHash.length() > fromEndHash.length()) {
-            output.append(fromStartHash.substring(fromEndHash.length()));
-            output.append(startHash);
-        } else {
-            output.append(fromEndHash.substring(fromStartHash.length()));
-            output.append(endHash);
+        // If invalid hashes were given, do not use the results obtained from rev-list
+        if (fromStartHash.equals("") && fromEndHash.equals("")) {
+            return "";
+        } else if (fromStartHash.equals("")) {
+            return endHash;
+        } else if (fromEndHash.equals("")) {
+            return startHash;
         }
 
-        output.append("\n");
+        // Perform a set difference in the list of commits to get the commits within the given range, since both lists
+        // will have the list of commits starting from the given commit to HEAD, hence this removes the overlap part.
+        // Also ensure that both hashes are present in the final output
+        if (fromStartHash.length() > fromEndHash.length()) {
+            output.append(endHash);
+            output.append(fromStartHash.substring(fromEndHash.length()));
+        } else {
+            output.append(startHash);
+            output.append(fromEndHash.substring(fromStartHash.length()));
+        }
+
         return output.toString();
     }
 
@@ -79,6 +90,12 @@ public class GitRevList {
     private static String getAllCommitHashSince(String root, String branchName, String hash) {
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list " + hash + "..HEAD " + branchName + REVISION_PATH_SEPARATOR;
-        return runCommand(rootPath, revListCommand);
+
+        try {
+            return runCommand(rootPath, revListCommand) + hash;
+        } catch (RuntimeException rte) {
+            // An invalid commit hash was provided
+            return "";
+        }
     }
 }

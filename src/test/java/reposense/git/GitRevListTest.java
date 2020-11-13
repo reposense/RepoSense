@@ -67,4 +67,32 @@ public class GitRevListTest extends GitTestTemplate {
                 LATEST_COMMIT_HASH, null);
         Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
     }
+
+    @Test
+    public void getCommitHashInRange_sameStartAndEndHash_success() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                LATEST_COMMIT_HASH, LATEST_COMMIT_HASH);
+        Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
+    }
+
+    @Test
+    public void getCommitHashInRange_invalidStartAndEndHash_emptyResult() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                NONEXISTENT_COMMIT_HASH, NONEXISTENT_COMMIT_HASH);
+        Assert.assertTrue(commitHash.isEmpty());
+    }
+
+    @Test
+    public void getCommitHashInRange_invalidStartHash_success() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                NONEXISTENT_COMMIT_HASH, LATEST_COMMIT_HASH);
+        Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
+    }
+
+    @Test
+    public void getCommitHashInRange_invalidEndHash_success() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                LATEST_COMMIT_HASH, NONEXISTENT_COMMIT_HASH);
+        Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
+    }
 }
