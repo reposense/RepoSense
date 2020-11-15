@@ -177,9 +177,7 @@ public class ArgsParserTest {
 
     @Test
     public void parse_configFolderOnly_success() throws Exception {
-        String input = new InputBuilder()
-                .addConfig(CONFIG_FOLDER_ABSOLUTE)
-                .build();
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -193,9 +191,7 @@ public class ArgsParserTest {
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
 
-        input = new InputBuilder()
-                .addConfig(CONFIG_FOLDER_RELATIVE)
-                .build();
+        input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE).build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
