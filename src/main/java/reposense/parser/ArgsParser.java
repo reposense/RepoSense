@@ -39,6 +39,7 @@ public class ArgsParser {
     public static final String[] REPO_FLAGS = new String[]{"--repo", "--repos", "-r"};
     public static final String[] VIEW_FLAGS = new String[]{"--view", "-v"};
     public static final String[] OUTPUT_FLAGS = new String[]{"--output", "-o"};
+    public static final String[] ASSETS_FLAGS = new String[]{"--assets", "-a"};
     public static final String[] SINCE_FLAGS = new String[]{"--since", "-s"};
     public static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
     public static final String[] PERIOD_FLAGS = new String[]{"--period", "-p"};
@@ -64,6 +65,8 @@ public class ArgsParser {
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
+    private static final Path DEFAULT_ASSETS_PATH = Paths.get(System.getProperty("user.dir")
+            + File.separator + "assets" + File.separator);
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -108,6 +111,14 @@ public class ArgsParser {
                 .setDefault(Paths.get(ArgsParser.DEFAULT_REPORT_NAME))
                 .help("The directory to output the report folder, reposense-report. "
                         + "If not provided, the report folder will be created in the current working directory.");
+
+        parser.addArgument(ASSETS_FLAGS)
+                .dest(ASSETS_FLAGS[0])
+                .metavar("PATH")
+                .type(new AssetsFolderArgumentType())
+                .setDefault(DEFAULT_ASSETS_PATH)
+                .help("The directory to place assets files to customize report generation. "
+                        + "If not provided, the assets folder in the current working directory will be used.");
 
         parser.addArgument(SINCE_FLAGS)
                 .dest(SINCE_FLAGS[0])
@@ -181,6 +192,7 @@ public class ArgsParser {
             Path configFolderPath = results.get(CONFIG_FLAGS[0]);
             Path reportFolderPath = results.get(VIEW_FLAGS[0]);
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
+            Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
             Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
             boolean isSinceDateProvided = cliSinceDate.isPresent();
@@ -222,15 +234,17 @@ public class ArgsParser {
             }
 
             if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, sinceDate, untilDate, isSinceDateProvided,
-                        isUntilDateProvided, formats, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
+                        isSinceDateProvided, isUntilDateProvided, formats, isAutomaticallyLaunching,
+                        isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, sinceDate, untilDate, isSinceDateProvided,
-                    isUntilDateProvided, formats, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
+                    isSinceDateProvided, isUntilDateProvided, formats, isAutomaticallyLaunching,
+                    isStandaloneConfigIgnored, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
