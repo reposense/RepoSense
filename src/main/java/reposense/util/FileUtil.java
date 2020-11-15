@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,8 @@ public class FileUtil {
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
     private static final String MESSAGE_FAIL_TO_ZIP_FILES =
             "Exception occurred while attempting to zip the report files.";
+    private static final String MESSAGE_FAIL_TO_COPY_ASSETS =
+            "Exception occurred while attempting to copy custom assets.";
 
     /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
@@ -175,6 +178,34 @@ public class FileUtil {
         FileUtil.unzip(is, Paths.get(outputPath));
     }
 
+    /**
+     * Copies files from {@code sourcePath} to the {@code outputPath}.
+     * @throws IOException if {@code is} refers to an invalid path.
+     */
+    public static void copyDirectoryContents(String sourcePath, String outputPath) throws IOException {
+        copyDirectoryContents(sourcePath, outputPath, null);
+    }
+
+    /**
+     * Copies files from {@code sourcePath} to the {@code outputPath}.
+     * If {@code whiteList} is provided, only filenames specified by the whitelist will be copied.
+     * @throws IOException if {@code is} refers to an invalid path.
+     */
+    public static void copyDirectoryContents(String sourcePath, String outputPath, List<String> whiteList)
+            throws IOException {
+        Path source = Paths.get(sourcePath);
+        Path out = Paths.get(outputPath);
+
+        Files.walk(source, 1).skip(1).forEach(file -> {
+            if (whiteList == null || whiteList != null && whiteList.contains(file.getFileName().toString())) {
+                try {
+                    Files.copy(file, out.resolve(source.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ioe) {
+                    logger.severe(MESSAGE_FAIL_TO_COPY_ASSETS);
+                }
+            }
+        });
+    }
     /**
      * Creates the {@code dest} directory if it does not exist.
      */

@@ -1,5 +1,7 @@
 package reposense.report;
 
+import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -8,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,6 +40,7 @@ import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.model.ReportConfiguration;
 import reposense.model.StandaloneConfig;
 import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
@@ -55,6 +59,8 @@ public class ReportGenerator {
 
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
+    private static final String INDEX_PAGE_TEMPLATE = "index.html";
+    private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>RepoSense Report</title>";
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
@@ -80,6 +86,8 @@ public class ReportGenerator {
 
     private static Date earliestSinceDate = null;
     private static ProgressTracker progressTracker = null;
+    private static final List<String> assetsFilesWhiteList =
+            Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -88,11 +96,14 @@ public class ReportGenerator {
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
-    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath,
-            String generationDate, Date cliSinceDate, Date untilDate,
+    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
+            ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
             boolean isSinceDateProvided, boolean isUntilDateProvided,
             Supplier<String> reportGenerationTimeProvider) throws IOException {
-        prepareTemplateFile(outputPath);
+        prepareTemplateFile(reportConfig, outputPath);
+        if (Files.exists(Paths.get(assetsPath))) {
+            FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
+        }
 
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
@@ -103,7 +114,7 @@ public class ReportGenerator {
                 ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
-                new SummaryJson(configs, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
+                new SummaryJson(configs, reportConfig, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
                         reportGenerationTimeProvider.get()),
                 getSummaryResultPath(outputPath));
@@ -118,9 +129,24 @@ public class ReportGenerator {
      * Copies the template file to the specified {@code outputPath} for the repo report to be generated.
      * @throws IOException if template resource is not found.
      */
-    private static void prepareTemplateFile(String outputPath) throws IOException {
+    private static void prepareTemplateFile(ReportConfiguration config, String outputPath) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
+        setReportConfiguration(config, outputPath);
+    }
+
+    private static void setReportConfiguration(ReportConfiguration config, String outputPath) throws IOException {
+        setLandingPageTitle(outputPath, config.getTitle());
+    }
+
+    /**
+     * Set title of template file located at {@code filePath} to {@code pageTitle}
+     */
+    private static void setLandingPageTitle(String filePath, String pageTitle) throws IOException {
+        Path indexPagePath = Paths.get(filePath, INDEX_PAGE_TEMPLATE);
+        String line = new String(Files.readAllBytes(indexPagePath));
+        String newLine = line.replaceAll(INDEX_PAGE_DEFAULT_TITLE, "<title>" + escapeHtml4(pageTitle) + "</title>");
+        Files.write(indexPagePath, newLine.getBytes());
     }
 
     /**

@@ -11,11 +11,12 @@ import java.util.List;
 public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
 
-    public LocationsCliArguments(List<String> locations, Path outputFilePath, Date sinceDate,
+    public LocationsCliArguments(List<String> locations, Path outputFilePath, Path assetsFilePath, Date sinceDate,
             Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, List<FileType> formats,
             boolean isAutomaticallyLaunching, boolean isStandaloneConfigIgnored, ZoneId zoneId) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;
+        this.assetsFilePath = assetsFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.isSinceDateProvided = isSinceDateProvided;
