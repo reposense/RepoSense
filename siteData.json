@@ -159,6 +159,7 @@
       "title": "Appendix: CLI syntax reference",
       "headings": {
         "appendix-cli-syntax-reference": "Appendix: CLI syntax reference",
+        "assets-a": "--assets, -a",
         "config-c": "--config, -c",
         "formats-f": "--formats, -f",
         "help-h": "--help, -h",
@@ -182,6 +183,7 @@
         "repo-config-csv": "repo-config.csv",
         "author-config-csv": "author-config.csv",
         "group-config-csv": "group-config.csv",
+        "report-config-json": "report-config.json",
         "config-json-standalone-config-file": "config.json (standalone config file)",
         "a-note-about-git-author-name": "A note about git author name"
       },

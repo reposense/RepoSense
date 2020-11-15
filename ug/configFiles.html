@@ -255,6 +255,13 @@
         <p>Note that a file in a given repository should only be tagged to one group. <br>
           e.g.: <code v-pre>example.java</code> in <code v-pre>example-repo</code> can either be in <code v-pre>test</code> group or in <code v-pre>code</code> group, but not in both <code v-pre>test</code> and <code v-pre>code</code> group. If multiple groups are specified for a given file, the latter group (i.e.: <code v-pre>code</code> group) is set for the file.</p>
 
+        <h2 id="report-config-json"><code v-pre>report-config.json</code><a class="fa fa-anchor" href="#report-config-json" onclick="event.stopPropagation()"></a></h2>
+        <p>You can optionally use <code v-pre>report-config.json</code> to customize report generation by providing the following information . (<a href="/RepoSense/ug/report-config.csv">example</a>)</p>
+        <p><strong>Fields to provide</strong>:</p>
+        <ul>
+          <li><code v-pre>title</code>: Title of the generated report, which is also the title of the deployed dashboard. Default: &quot;RepoSense Report&quot;</li>
+        </ul>
+
         <div id="section-standalone">
           <h2 id="config-json-standalone-config-file"><code v-pre>config.json</code> (standalone config file)<a class="fa fa-anchor" href="#config-json-standalone-config-file" onclick="event.stopPropagation()"></a></h2>
           <p>Repo owners can provide the following additional information to RepoSense using a config file that we call the <strong><em>standalone config file</em></strong>:</p>
@@ -353,6 +360,7 @@
               <a class="nav-link py-1" href="#repo-config-csv">repo-config.csv&#x200E;</a>
               <a class="nav-link py-1" href="#author-config-csv">author-config.csv&#x200E;</a>
               <a class="nav-link py-1" href="#group-config-csv">group-config.csv&#x200E;</a>
+              <a class="nav-link py-1" href="#report-config-json">report-config.json&#x200E;</a>
               <a class="nav-link py-1" href="#config-json-standalone-config-file">config.json (standalone config file)&#x200E;</a>
               <a class="nav-link py-1" href="#a-note-about-git-author-name">A note about git author name&#x200E;</a>
             </nav>
@@ -364,7 +372,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sun, 15 Nov 2020, 11:54:14 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sun, 15 Nov 2020, 12:59:17 UTC]</small>
       </div>
     </footer>
   </div>

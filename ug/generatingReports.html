@@ -291,11 +291,27 @@
                             <p></p>
                             <p>The sections below explains each flag.</p>
 
+                            <h3 id="assets-a"><code v-pre>--assets</code>, <code v-pre>-a</code><a class="fa fa-anchor" href="#assets-a" onclick="event.stopPropagation()"></a></h3>
+                            <div id="section-config">
+                              <p><strong><code v-pre>--assets ASSETS_DIRECTORY</code></strong>: Specifies where to place assets for report generation.</p>
+                              <ul>
+                                <li>Parameter: <code v-pre>ASSETS_DIRECTORY</code> The directory containing the assets files. A <code v-pre>favicon.ico</code> file can be placed here to customize the favicon of the dashboard.</li>
+                                <li>Alias: <code v-pre>-a</code></li>
+                                <li>Example: <code v-pre>--assets ./assets</code> or <code v-pre>-a ./assets</code></li>
+                              </ul>
+                              <box type="info" seamless>
+                                <ul>
+                                  <li>If <code v-pre>--assets</code> is not specified, Reposense looks for assets in the <code v-pre>./assets</code> directory.
+                                  </li>
+                                </ul>
+                              </box>
+                            </div>
+
                             <h3 id="config-c"><code v-pre>--config</code>, <code v-pre>-c</code><a class="fa fa-anchor" href="#config-c" onclick="event.stopPropagation()"></a></h3>
                             <div id="section-config">
                               <p><strong><code v-pre>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code v-pre>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
                               <ul>
-                                <li>Parameter: <code v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code v-pre>repo-config.csv</code> file. Optionally, can contain an <code v-pre>author-config.csv</code> file or/and a <code v-pre>group-config.csv</code> file.</li>
+                                <li>Parameter: <code v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code v-pre>repo-config.csv</code> file. Optionally, can contain an <code v-pre>author-config.csv</code> file or/and a <code v-pre>group-config.csv</code> file or/and a <code v-pre>report-config.json</code> file.</li>
                                 <li>Alias: <code v-pre>-c</code></li>
                                 <li>Example: <code v-pre>java -jar RepoSense.jar --config ./config</code></li>
                               </ul>
@@ -606,6 +622,13 @@
                       <p>Note that a file in a given repository should only be tagged to one group. <br>
                         e.g.: <code v-pre>example.java</code> in <code v-pre>example-repo</code> can either be in <code v-pre>test</code> group or in <code v-pre>code</code> group, but not in both <code v-pre>test</code> and <code v-pre>code</code> group. If multiple groups are specified for a given file, the latter group (i.e.: <code v-pre>code</code> group) is set for the file.</p>
 
+                      <h2 id="report-config-json"><code v-pre>report-config.json</code><a class="fa fa-anchor" href="#report-config-json" onclick="event.stopPropagation()"></a></h2>
+                      <p>You can optionally use <code v-pre>report-config.json</code> to customize report generation by providing the following information . (<a href="/RepoSense/ug/report-config.csv">example</a>)</p>
+                      <p><strong>Fields to provide</strong>:</p>
+                      <ul>
+                        <li><code v-pre>title</code>: Title of the generated report, which is also the title of the deployed dashboard. Default: &quot;RepoSense Report&quot;</li>
+                      </ul>
+
                       <div id="section-standalone">
                         <h2 id="config-json-standalone-config-file"><code v-pre>config.json</code> (standalone config file)<a class="fa fa-anchor" href="#config-json-standalone-config-file" onclick="event.stopPropagation()"></a></h2>
                         <p>Repo owners can provide the following additional information to RepoSense using a config file that we call the <strong><em>standalone config file</em></strong>:</p>
@@ -818,11 +841,27 @@
                             <p></p>
                             <p>The sections below explains each flag.</p>
 
+                            <h3 id="assets-a-2"><code v-pre>--assets</code>, <code v-pre>-a</code><a class="fa fa-anchor" href="#assets-a-2" onclick="event.stopPropagation()"></a></h3>
+                            <div id="section-config">
+                              <p><strong><code v-pre>--assets ASSETS_DIRECTORY</code></strong>: Specifies where to place assets for report generation.</p>
+                              <ul>
+                                <li>Parameter: <code v-pre>ASSETS_DIRECTORY</code> The directory containing the assets files. A <code v-pre>favicon.ico</code> file can be placed here to customize the favicon of the dashboard.</li>
+                                <li>Alias: <code v-pre>-a</code></li>
+                                <li>Example: <code v-pre>--assets ./assets</code> or <code v-pre>-a ./assets</code></li>
+                              </ul>
+                              <box type="info" seamless>
+                                <ul>
+                                  <li>If <code v-pre>--assets</code> is not specified, Reposense looks for assets in the <code v-pre>./assets</code> directory.
+                                  </li>
+                                </ul>
+                              </box>
+                            </div>
+
                             <h3 id="config-c-2"><code v-pre>--config</code>, <code v-pre>-c</code><a class="fa fa-anchor" href="#config-c-2" onclick="event.stopPropagation()"></a></h3>
                             <div id="section-config">
                               <p><strong><code v-pre>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code v-pre>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
                               <ul>
-                                <li>Parameter: <code v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code v-pre>repo-config.csv</code> file. Optionally, can contain an <code v-pre>author-config.csv</code> file or/and a <code v-pre>group-config.csv</code> file.</li>
+                                <li>Parameter: <code v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code v-pre>repo-config.csv</code> file. Optionally, can contain an <code v-pre>author-config.csv</code> file or/and a <code v-pre>group-config.csv</code> file or/and a <code v-pre>report-config.json</code> file.</li>
                                 <li>Alias: <code v-pre>-c</code></li>
                                 <li>Example: <code v-pre>java -jar RepoSense.jar --config ./config</code></li>
                               </ul>
@@ -1133,6 +1172,13 @@
                       <p>Note that a file in a given repository should only be tagged to one group. <br>
                         e.g.: <code v-pre>example.java</code> in <code v-pre>example-repo</code> can either be in <code v-pre>test</code> group or in <code v-pre>code</code> group, but not in both <code v-pre>test</code> and <code v-pre>code</code> group. If multiple groups are specified for a given file, the latter group (i.e.: <code v-pre>code</code> group) is set for the file.</p>
 
+                      <h2 id="report-config-json-2"><code v-pre>report-config.json</code><a class="fa fa-anchor" href="#report-config-json-2" onclick="event.stopPropagation()"></a></h2>
+                      <p>You can optionally use <code v-pre>report-config.json</code> to customize report generation by providing the following information . (<a href="/RepoSense/ug/report-config.csv">example</a>)</p>
+                      <p><strong>Fields to provide</strong>:</p>
+                      <ul>
+                        <li><code v-pre>title</code>: Title of the generated report, which is also the title of the deployed dashboard. Default: &quot;RepoSense Report&quot;</li>
+                      </ul>
+
                       <div id="section-standalone">
                         <h2 id="config-json-standalone-config-file-2"><code v-pre>config.json</code> (standalone config file)<a class="fa fa-anchor" href="#config-json-standalone-config-file-2" onclick="event.stopPropagation()"></a></h2>
                         <p>Repo owners can provide the following additional information to RepoSense using a config file that we call the <strong><em>standalone config file</em></strong>:</p>
@@ -1260,7 +1306,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sun, 15 Nov 2020, 11:54:14 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sun, 15 Nov 2020, 12:59:17 UTC]</small>
       </div>
     </footer>
   </div>
