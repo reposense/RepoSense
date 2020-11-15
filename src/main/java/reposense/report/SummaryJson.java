@@ -16,6 +16,7 @@ public class SummaryJson {
     private final String repoSenseVersion;
     private final String reportGeneratedTime;
     private final String reportGenerationTime;
+    private final String zoneId;
     private final String reportTitle;
     private final List<RepoConfiguration> repos;
     private final List<Map<String, String>> errorList;
@@ -25,8 +26,8 @@ public class SummaryJson {
     private final boolean isUntilDateProvided;
 
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
-                       Date sinceDate, Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
-                       String repoSenseVersion, List<Map<String, String>> errorList, String reportGenerationTime) {
+            Date sinceDate, Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
+            String repoSenseVersion, List<Map<String, String>> errorList, String reportGenerationTime, String zoneId) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;
@@ -37,5 +38,6 @@ public class SummaryJson {
         this.isUntilDateProvided = isUntilDateProvided;
         this.repoSenseVersion = repoSenseVersion;
         this.errorList = errorList;
+        this.zoneId = zoneId;
     }
 }

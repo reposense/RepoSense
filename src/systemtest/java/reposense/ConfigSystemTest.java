@@ -43,6 +43,7 @@ public class ConfigSystemTest {
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
     private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
+    private static final String TEST_TIME_ZONE = "Asia/Singapore";
 
     @Before
     public void setUp() throws Exception {
@@ -100,6 +101,7 @@ public class ConfigSystemTest {
         String formats = String.join(" ", TESTING_FILE_FORMATS);
         String input = new InputBuilder().addConfig(configFolder)
                 .addFormats(formats)
+                .addTimezone(TEST_TIME_ZONE)
                 .add(inputDates)
                 .build();
 
@@ -120,11 +122,12 @@ public class ConfigSystemTest {
         RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
+        RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId().toString());
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                 cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(), () ->
-                TEST_REPORT_GENERATION_TIME);
+                TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId());
     }
 
     /**
