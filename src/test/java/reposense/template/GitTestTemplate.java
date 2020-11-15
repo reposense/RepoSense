@@ -55,6 +55,7 @@ public class GitTestTemplate {
     protected static final CommitHash MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
             new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING);
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
+    protected static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
 
     protected static RepoConfiguration config;
@@ -70,6 +71,7 @@ public class GitTestTemplate {
     public static void beforeClass() throws Exception {
         deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        config.setZoneId(TIME_ZONE_ID_STRING);
         GitClone.clone(config);
     }
 

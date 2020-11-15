@@ -25,6 +25,7 @@ public class RepoConfiguration {
     private String branch;
     private String displayName;
     private String outputFolderName;
+    private transient String zoneId;
     private transient Date sinceDate;
     private transient Date untilDate;
     private transient String repoFolderName;
@@ -80,6 +81,12 @@ public class RepoConfiguration {
         for (RepoConfiguration config : configs) {
             config.setSinceDate(sinceDate);
             config.setUntilDate(untilDate);
+        }
+    }
+
+    public static void setZoneIdToRepoConfigs(List<RepoConfiguration> configs, String zoneId) {
+        for (RepoConfiguration config : configs) {
+            config.setZoneId(zoneId);
         }
     }
 
@@ -442,6 +449,14 @@ public class RepoConfiguration {
 
     public void setUntilDate(Date untilDate) {
         this.untilDate = untilDate;
+    }
+
+    public String getZoneId() {
+        return zoneId;
+    }
+
+    public void setZoneId(String zoneId) {
+        this.zoneId = zoneId;
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {
