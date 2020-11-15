@@ -9,6 +9,7 @@ import java.util.List;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.parser.ReportConfigJsonParser;
 
 /**
  * Represents command line arguments user supplied when running the program with mandatory field -config.
@@ -20,8 +21,9 @@ public class ConfigCliArguments extends CliArguments {
     private Path repoConfigFilePath;
     private Path authorConfigFilePath;
     private Path groupConfigFilePath;
+    private Path reportConfigFilePath;
 
-    public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Date sinceDate,
+    public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Path assetsFilePath, Date sinceDate,
             Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
             List<FileType> formats, boolean isAutomaticallyLaunching,
             boolean isStandaloneConfigIgnored, ZoneId zoneId) {
@@ -31,7 +33,9 @@ public class ConfigCliArguments extends CliArguments {
         this.repoConfigFilePath = configFolderPath.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
         this.authorConfigFilePath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
         this.groupConfigFilePath = configFolderPath.resolve(GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
+        this.reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
         this.outputFilePath = outputFilePath;
+        this.assetsFilePath = assetsFilePath;
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.isSinceDateProvided = isSinceDateProvided;
@@ -58,6 +62,10 @@ public class ConfigCliArguments extends CliArguments {
         return groupConfigFilePath;
     }
 
+    public Path getReportConfigFilePath() {
+        return reportConfigFilePath;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -75,6 +83,7 @@ public class ConfigCliArguments extends CliArguments {
         return super.equals(other)
                 && this.repoConfigFilePath.equals(otherConfigCliArguments.repoConfigFilePath)
                 && this.authorConfigFilePath.equals(otherConfigCliArguments.authorConfigFilePath)
-                && this.groupConfigFilePath.equals(otherConfigCliArguments.groupConfigFilePath);
+                && this.groupConfigFilePath.equals(otherConfigCliArguments.groupConfigFilePath)
+                && this.reportConfigFilePath.equals(otherConfigCliArguments.reportConfigFilePath);
     }
 }
