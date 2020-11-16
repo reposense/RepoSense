@@ -462,7 +462,7 @@
                         </tr>
                         <tr>
                           <td>Ignore Commit List<sup>*+</sup></td>
-                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.</td>
+                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code v-pre>..</code> notation e.g. <code v-pre>abc123..def456</code> (both inclusive).</td>
                         </tr>
                         <tr>
                           <td>Ignore Authors List<sup>*+</sup></td>
@@ -574,7 +574,7 @@
                     <pre><code class="no-line-numbers hljs json" v-pre><span>{
 </span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],
 </span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],
-</span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>],
+</span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>, <span class="hljs-string">"abc123..def456"</span>],
 </span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],
 </span><span>  <span class="hljs-attr">"authors"</span>:
 </span><span>  [
@@ -596,7 +596,7 @@
                     <ul>
                       <li><code v-pre>ignoreGlobList</code>: Folders/files to ignore, specified using the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>.</li>
                       <li><code v-pre>formats</code>: File formats to analyze. Default: all file formats</li>
-                      <li><code v-pre>ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash.</li>
+                      <li><code v-pre>ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code v-pre>..</code> notation e.g. <code v-pre>abc123..def456</code> (both inclusive).</li>
                       <li><code v-pre>ignoreAuthorList</code>: The list of authors to ignore during analysis. Authors specified in <code v-pre>authors</code> field or <code v-pre>author-config.csv</code> will be also be omitted if they are in this list. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</li>
                     </ul>
                     <p><strong>Fields to provide <em>author-level</em> info</strong>:<br>
@@ -701,7 +701,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sun, 15 Nov 2020, 20:15:39 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Mon, 16 Nov 2020, 4:38:44 UTC]</small>
       </div>
     </footer>
   </div>
