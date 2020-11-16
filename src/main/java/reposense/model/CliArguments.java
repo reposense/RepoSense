@@ -10,6 +10,7 @@ import java.util.List;
  */
 public abstract class CliArguments {
     protected Path outputFilePath;
+    protected Path assetsFilePath;
     protected Date sinceDate;
     protected Date untilDate;
     protected boolean isSinceDateProvided;
@@ -25,6 +26,10 @@ public abstract class CliArguments {
 
     public Path getOutputFilePath() {
         return outputFilePath;
+    }
+
+    public Path getAssetsFilePath() {
+        return assetsFilePath;
     }
 
     public Date getSinceDate() {

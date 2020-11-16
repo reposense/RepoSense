@@ -1,5 +1,8 @@
 package reposense.commits;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,19 +33,20 @@ public class CommitResultAggregator {
             RepoConfiguration config, List<CommitResult> commitResults) {
         Date startDate;
         startDate = (config.getSinceDate().equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
-                ? getStartDate(commitResults)
+                ? getStartOfDate(getStartDate(commitResults), config.getZoneId())
                 : config.getSinceDate();
         ReportGenerator.setEarliestSinceDate(startDate);
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
-                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
+                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults,
+                        config.getZoneId());
 
         Date lastDate = commitResults.size() == 0
                 ? null
-                : getStartOfDate(commitResults.get(commitResults.size() - 1).getTime());
+                : getStartOfDate(commitResults.get(commitResults.size() - 1).getTime(), config.getZoneId());
 
         Map<Author, Float> authorContributionVariance =
-                calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate);
+                calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate, config.getZoneId());
 
         return new CommitContributionSummary(
                 config.getAuthorDisplayNameMap(),
@@ -54,23 +58,24 @@ public class CommitResultAggregator {
      * Calculates the contribution variance of all authors.
      */
     private static Map<Author, Float> calcAuthorContributionVariance(
-            Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, Date startDate, Date lastDate) {
+            Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, Date startDate, Date lastDate,
+            String zoneId) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()) {
             List<AuthorDailyContribution> contributions = intervalContributionMaps.get(author);
-            result.put(author, getContributionVariance(contributions, startDate, lastDate));
+            result.put(author, getContributionVariance(contributions, startDate, lastDate, zoneId));
         }
         return result;
     }
 
     private static float getContributionVariance(List<AuthorDailyContribution> contributions,
-            Date startDate, Date lastDate) {
+            Date startDate, Date lastDate, String zoneId) {
         if (contributions.size() == 0) {
             return 0;
         }
         //get mean
         float total = 0;
-        long totalDays = (lastDate.getTime() - getStartOfDate(startDate).getTime()) / DAYS_IN_MS + 1;
+        long totalDays = (lastDate.getTime() - startDate.getTime()) / DAYS_IN_MS + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
@@ -78,7 +83,7 @@ public class CommitResultAggregator {
         float mean = total / totalDays;
 
         float variance = 0;
-        long currentDate = getStartOfDate(startDate).getTime();
+        long currentDate = getSystemDateFromZonedDate(startDate, zoneId).getTime();
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
             if (contributionIndex < contributions.size()
@@ -94,13 +99,13 @@ public class CommitResultAggregator {
     }
 
     private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
-            Set<Author> authorSet, List<CommitResult> commitResults) {
+            Set<Author> authorSet, List<CommitResult> commitResults, String zoneId) {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
         authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
 
         Date commitStartDate = null;
         for (CommitResult commitResult : commitResults) {
-            commitStartDate = getStartOfDate(commitResult.getTime());
+            commitStartDate = getSystemStartOfDate(commitResult.getTime(), zoneId);
             Author commitAuthor = commitResult.getAuthor();
 
             List<AuthorDailyContribution> authorDailyContributions = authorDailyContributionsMap.get(commitAuthor);
@@ -122,14 +127,52 @@ public class CommitResultAggregator {
         authorDailyContributions.add(new AuthorDailyContribution(date));
     }
 
-    private static Date getStartOfDate(Date current) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(current);
+    /**
+     * Get the starting point of the {@code current} date with respect to the {@code zoneId} timezone.
+     */
+    private static Date getStartOfDate(Date current, String zoneId) {
+        if (current.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {
+            return current;
+        }
+
+        int zoneRawOffset = getZoneRawOffset(ZoneId.of(zoneId));
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
+
+        Calendar cal = new Calendar
+                .Builder()
+                .setInstant(current.getTime())
+                .build();
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
+        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
         return cal.getTime();
+    }
+
+    /**
+     * Get the starting point of the {@code current} date that was given in {@code zoneId} timezone and convert into the
+     * system's timezone.
+     */
+    private static Date getSystemStartOfDate(Date current, String zoneId) {
+        int zoneRawOffset = getZoneRawOffset(ZoneId.of(zoneId));
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
+
+        Calendar cal = new Calendar
+                .Builder()
+                .setInstant(getStartOfDate(current, zoneId).getTime())
+                .build();
+        cal.add(Calendar.MILLISECOND, zoneRawOffset - systemRawOffset);
+        return cal.getTime();
+    }
+
+    /**
+     * Get the {@code current} date that is in {@code zoneId} timezone into the system's timezone.
+     */
+    private static Date getSystemDateFromZonedDate(Date current, String zoneId) {
+        int zoneRawOffset = getZoneRawOffset(ZoneId.of(zoneId));
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
+        return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
     }
 
     private static Date getStartDate(List<CommitResult> commitInfos) {
@@ -138,5 +181,14 @@ public class CommitResultAggregator {
             min = commitInfos.get(0).getTime();
         }
         return min;
+    }
+
+    /**
+     * Get the raw offset in milliseconds for the {@code zoneId} timezone compared to UTC.
+     */
+    private static int getZoneRawOffset(ZoneId zoneId) {
+        Instant now = Instant.now();
+        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
+        return zoneOffset.getTotalSeconds() * 1000;
     }
 }
