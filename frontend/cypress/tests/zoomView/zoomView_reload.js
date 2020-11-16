@@ -9,10 +9,10 @@ describe('reload page', () => {
         .click();
 
     cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
-        .select('Time');
+        .select('LoC');
 
     cy.get('#tab-zoom > .sorting > .sort-order > select:visible')
-        .select('Descending');
+        .select('Ascending');
 
     cy.get('#tab-zoom > .fileTypes input[value="gradle"]')
         .uncheck()
@@ -25,10 +25,10 @@ describe('reload page', () => {
     cy.reload();
 
     cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
-        .should('have.value', 'time');
+        .should('have.value', 'lineOfCode');
 
     cy.get('#tab-zoom > .sorting > .sort-order > select:visible')
-        .should('have.value', 'true');
+        .should('have.value', 'false');
 
     cy.get('#tab-zoom > .fileTypes input[value="all"]')
         .should('not.be.checked');
