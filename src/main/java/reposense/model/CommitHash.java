@@ -1,13 +1,18 @@
 package reposense.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import reposense.git.GitRevList;
 
 /**
  * Represents a git commit hash in {@code RepoConfiguration}.
  */
 public class CommitHash {
     private static final String COMMIT_HASH_REGEX = "^[0-9a-f]+$";
+    private static final String COMMIT_RANGED_HASH_REGEX = "^[0-9a-f]+\\.\\.[0-9a-f]+$";
     private static final String INVALID_COMMIT_HASH_MESSAGE =
             "The provided commit hash, %s, contains illegal characters.";
 
@@ -60,6 +65,20 @@ public class CommitHash {
     }
 
     /**
+     * Converts a commit {@code entry} into either itself, or a stream of CommitHashes if a range was provided.
+     */
+    public static Stream<CommitHash> getHashes(String root, String branchName, CommitHash entry) {
+        if (entry.toString().matches(COMMIT_HASH_REGEX)) {
+            return Stream.of(entry);
+        }
+
+        String[] startAndEnd = entry.toString().split("\\.\\.");
+        String revList = GitRevList.getCommitHashInRange(root, branchName, startAndEnd[0], startAndEnd[1]);
+        return Arrays.stream(revList.split("\n"))
+                .map(CommitHash::new);
+    }
+
+    /**
      * Checks if {@code commitList} contains {@code commitHash}
      */
     public static boolean isInsideCommitList(String commitHash, List<CommitHash> commitList) {
@@ -81,7 +100,7 @@ public class CommitHash {
      * @throws IllegalArgumentException if {@code commitHash} does not meet the criteria.
      */
     private static void validateCommit(String commitHash) throws IllegalArgumentException {
-        if (!commitHash.matches(COMMIT_HASH_REGEX)) {
+        if (!commitHash.matches(COMMIT_HASH_REGEX) && !commitHash.matches(COMMIT_RANGED_HASH_REGEX)) {
             throw new IllegalArgumentException(String.format(INVALID_COMMIT_HASH_MESSAGE, commitHash));
         }
     }

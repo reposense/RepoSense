@@ -26,6 +26,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     private static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
     private static final Date SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 8);
     private static final Date UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 10);
+    private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
     private static final Author[] EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST = {
             FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR,
             MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR,
@@ -43,6 +44,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         super.before();
         config.setSinceDate(SINCE_DATE);
         config.setUntilDate(UNTIL_DATE);
+        config.setZoneId(TIME_ZONE_ID_STRING);
     }
 
     @Test

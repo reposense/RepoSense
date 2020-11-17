@@ -26,12 +26,29 @@ The sections below explains each flag.
 
 <!-- --------------------------◘---------------------------------------------------------------------------- -->
 
+### `--assets`, `-a`
+
+<div id="section-config">
+
+**`--assets ASSETS_DIRECTORY`**: Specifies where to place assets for report generation.
+* Parameter: `ASSETS_DIRECTORY` The directory containing the assets files. A `favicon.ico` file can be placed here to customize the favicon of the dashboard.
+* Alias: `-a`
+* Example: `--assets ./assets` or `-a ./assets`
+
+<box type="info" seamless>
+
+* If `--assets` is not specified, Reposense looks for assets in the `./assets` directory.
+</box>
+</div>
+
+<!-- --------------------------◘---------------------------------------------------------------------------- -->
+
 ### `--config`, `-c`
 
 <div id="section-config">
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
-* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file.
+* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `report-config.json` file.
 * Alias: `-c`
 * Example: `java -jar RepoSense.jar --config  ./config`
 

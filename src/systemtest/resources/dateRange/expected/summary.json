@@ -51,8 +51,8 @@
       "errorMessage": "Branch \"nonExistentBranch\" does not exist."
     }
   ],
-  "sinceDate": "2017-09-30",
-  "untilDate": "2019-03-02",
+  "sinceDate": "2017-09-01",
+  "untilDate": "2017-10-30",
   "isSinceDateProvided": true,
   "isUntilDateProvided": true
 }
