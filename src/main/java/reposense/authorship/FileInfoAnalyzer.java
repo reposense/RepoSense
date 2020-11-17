@@ -105,8 +105,8 @@ public class FileInfoAnalyzer {
 
             if (config.shouldIncludeLastModifiedDate()) {
                 // convert the commit date from the author time zone to cli-specified timezone
-                Date convertedCommitDate = TimeUtil.convertDateWithZones(new Date(commitDateInMs),
-                        ZoneId.systemDefault(), ZoneId.of(config.getZoneId()));
+                Date convertedCommitDate = TimeUtil.getSystemDateFromZonedDate(new Date(commitDateInMs),
+                        ZoneId.of(config.getZoneId()));
 
                 fileInfo.setLineLastModifiedDate(lineCount / 5, convertedCommitDate);
             }

@@ -59,11 +59,11 @@ public class TimeUtil {
     }
 
     /**
-     * Get the {@code current} date that is in {@code fromZoneId} timezone into {@code toZoneId} timezone.
+     * Get the {@code current} date that is in {@code zoneId} timezone into the system's timezone.
      */
-    public static Date convertDateWithZones(Date current, ZoneId fromZoneId, ZoneId toZoneId) {
-        int fromZoneRawOffset = getZoneRawOffset(fromZoneId);
-        int toZoneRawOffset = getZoneRawOffset(toZoneId);
-        return new Date(current.getTime() + toZoneRawOffset - fromZoneRawOffset);
+    public static Date getSystemDateFromZonedDate(Date current, ZoneId zoneId) {
+        int zoneRawOffset = getZoneRawOffset(zoneId);
+        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
+        return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
     }
 }

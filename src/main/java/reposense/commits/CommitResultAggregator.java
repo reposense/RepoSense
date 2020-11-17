@@ -82,8 +82,7 @@ public class CommitResultAggregator {
         float mean = total / totalDays;
 
         float variance = 0;
-        long currentDate = TimeUtil.convertDateWithZones(startDate, ZoneId.systemDefault(),
-                ZoneId.of(zoneId)).getTime();
+        long currentDate = TimeUtil.getSystemDateFromZonedDate(startDate, ZoneId.of(zoneId)).getTime();
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
             if (contributionIndex < contributions.size()
