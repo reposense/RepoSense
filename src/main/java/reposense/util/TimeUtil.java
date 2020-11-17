@@ -50,15 +50,6 @@ public class TimeUtil {
     }
 
     /**
-     * Get the {@code current} date that is in {@code zoneId} timezone into the system's timezone.
-     */
-    public static Date getSystemDateFromZonedDate(Date current, ZoneId zoneId) {
-        int zoneRawOffset = getZoneRawOffset(zoneId);
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
-        return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
-    }
-
-    /**
      * Get the raw offset in milliseconds for the {@code zoneId} timezone compared to UTC.
      */
     public static int getZoneRawOffset(ZoneId zoneId) {
@@ -71,8 +62,8 @@ public class TimeUtil {
      * Get the {@code current} date that is in {@code fromZoneId} timezone into {@code toZoneId} timezone.
      */
     public static Date convertDateWithZones(Date current, ZoneId fromZoneId, ZoneId toZoneId) {
-        int zoneRawOffset = getZoneRawOffset(toZoneId);
-        int systemRawOffset = getZoneRawOffset(fromZoneId);
-        return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
+        int fromZoneRawOffset = getZoneRawOffset(fromZoneId);
+        int toZoneRawOffset = getZoneRawOffset(toZoneId);
+        return new Date(current.getTime() + toZoneRawOffset - fromZoneRawOffset);
     }
 }

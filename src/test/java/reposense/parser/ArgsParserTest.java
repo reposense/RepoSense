@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,6 +32,7 @@ import reposense.model.ViewCliArguments;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
+import reposense.util.TimeUtil;
 
 public class ArgsParserTest {
 
@@ -704,8 +703,8 @@ public class ArgsParserTest {
      * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.
      */
     private void assertDateDiffOneMonth(Date actualSinceDate, Date untilDate, ZoneId zoneId) {
-        int zoneRawOffset = getZoneRawOffset(zoneId);
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
+        int zoneRawOffset = TimeUtil.getZoneRawOffset(zoneId);
+        int systemRawOffset = TimeUtil.getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = new Calendar
                 .Builder()
@@ -727,8 +726,8 @@ public class ArgsParserTest {
      * with time at 23:59:59.
      */
     private void assertDateDiffEndOfDay(Date actualUntilDate, ZoneId zoneId) {
-        int zoneRawOffset = getZoneRawOffset(zoneId);
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
+        int zoneRawOffset = TimeUtil.getZoneRawOffset(zoneId);
+        int systemRawOffset = TimeUtil.getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 23);
@@ -737,14 +736,5 @@ public class ArgsParserTest {
         cal.set(Calendar.MILLISECOND, 0);
         cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
         Assert.assertTrue(actualUntilDate.equals(cal.getTime()));
-    }
-
-    /**
-     * Get the raw offset in milliseconds for the {@code zoneId} timezone compared to UTC.
-     */
-    private int getZoneRawOffset(ZoneId zoneId) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        return zoneOffset.getTotalSeconds() * 1000;
     }
 }
