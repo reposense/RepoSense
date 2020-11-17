@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -23,6 +25,7 @@ import reposense.model.RepoConfiguration;
 public class TestUtil {
     private static final int[] END_OF_DAY_TIME = {23, 59, 59};
     private static final int[] START_OF_DAY_TIME = {0, 0, 0};
+    private static final ZoneId TIME_ZONE_ID = getZoneId("Asia/Singapore");
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
     private static final String MESSAGE_LINE_CONTENT_DIFFERENT = "Content different at line number %d:\n"
@@ -103,13 +106,17 @@ public class TestUtil {
     /**
      * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}.
      */
-    private static Date getDate(int year, int month, int date, int[] time) {
-        return new Calendar
-                .Builder()
-                .setDate(year, month, date)
-                .setTimeOfDay(time[0], time[1], time[2])
-                .build()
-                .getTime();
+    public static Date getDate(int year, int month, int date, int[] time) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID));
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, date);
+        cal.set(Calendar.HOUR_OF_DAY, time[0]);
+        cal.set(Calendar.MINUTE, time[1]);
+        cal.set(Calendar.SECOND, time[2]);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
     }
 
     /**
@@ -124,6 +131,13 @@ public class TestUtil {
      */
     public static Date getUntilDate(int year, int month, int date) {
         return getDate(year, month, date, END_OF_DAY_TIME);
+    }
+
+    /**
+     * Returns a {@code ZoneId} object for the specified {@code timezone}.
+     */
+    public static ZoneId getZoneId(String timezone) {
+        return ZoneId.of(timezone);
     }
 
     /**

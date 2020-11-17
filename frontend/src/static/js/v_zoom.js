@@ -89,13 +89,21 @@ window.vZoom = {
       if (this.isCommitsFinalized) {
         this.updateFileTypes();
         this.selectedFileTypes = this.fileTypes.slice();
-        this.retrieveSelectedFileTypesHash();
+        this.retrieveHashes();
       }
     },
     selectedFileTypes() {
       this.$nextTick(() => {
         this.updateExpandedCommitMessagesCount();
       });
+    },
+    commitsSortType() {
+      window.addHash('zCST', this.commitsSortType);
+      window.encodeHash();
+    },
+    toReverseSortedCommits() {
+      window.addHash('zRSC', this.toReverseSortedCommits);
+      window.encodeHash();
     },
   },
 
@@ -142,6 +150,22 @@ window.vZoom = {
       this.fileTypes = Object.keys(this.filteredUser.fileTypeContribution).filter(
           (fileType) => commitsFileTypes.has(fileType),
       );
+    },
+
+    retrieveHashes() {
+      this.retrieveSortHash();
+      this.retrieveSelectedFileTypesHash();
+    },
+
+    retrieveSortHash() {
+      window.decodeHash();
+      const hash = window.hashParams;
+      if (hash.zCST) {
+        this.commitsSortType = hash.zCST;
+      }
+      if (hash.zRSC) {
+        this.toReverseSortedCommits = (hash.zRSC === 'true');
+      }
     },
 
     retrieveSelectedFileTypesHash() {
@@ -213,6 +237,8 @@ window.vZoom = {
       window.removeHash('zFTF');
       window.removeHash('zMG');
       window.removeHash('zFT');
+      window.removeHash('zCST');
+      window.removeHash('zRSC');
       window.encodeHash();
     },
 
