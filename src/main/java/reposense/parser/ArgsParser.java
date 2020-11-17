@@ -258,16 +258,16 @@ public class ArgsParser {
 
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                        isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate, isAutomaticallyLaunching,
-                        isStandaloneConfigIgnored, zoneId);
+                        isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
+                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                    isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate, isAutomaticallyLaunching,
-                    isStandaloneConfigIgnored, zoneId);
+                    isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
+                    isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
