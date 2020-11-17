@@ -66,4 +66,13 @@ public class TimeUtil {
         ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
         return zoneOffset.getTotalSeconds() * 1000;
     }
+
+    /**
+     * Get the {@code current} date that is in {@code fromZoneId} timezone into {@code toZoneId} timezone.
+     */
+    public static Date convertDateWithZones(Date current, ZoneId fromZoneId, ZoneId toZoneId) {
+        int zoneRawOffset = getZoneRawOffset(toZoneId);
+        int systemRawOffset = getZoneRawOffset(fromZoneId);
+        return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
+    }
 }

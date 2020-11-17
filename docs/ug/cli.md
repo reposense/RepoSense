@@ -103,6 +103,8 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 * Alias: `-l` (lowercase L)
 * Example:`--last-modified-date` or `-l`
 
+The last modified dates will be in the same timezone specified with the `--timezone` flag.
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--output`, `-o`

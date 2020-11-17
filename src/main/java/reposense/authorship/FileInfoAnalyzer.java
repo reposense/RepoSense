@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -17,6 +18,7 @@ import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
+import reposense.util.TimeUtil;
 
 /**
  * Analyzes the target and information given in the {@code FileInfo}.
@@ -102,7 +104,11 @@ public class FileInfoAnalyzer {
             }
 
             if (config.shouldIncludeLastModifiedDate()) {
-                fileInfo.setLineLastModifiedDate(lineCount / 5, new Date(commitDateInMs));
+                // convert the commit date from the author time zone to cli-specified timezone
+                Date convertedCommitDate = TimeUtil.convertDateWithZones(new Date(commitDateInMs),
+                        ZoneId.of(authorTimeZone), ZoneId.of(config.getZoneId()));
+
+                fileInfo.setLineLastModifiedDate(lineCount / 5, convertedCommitDate);
             }
             fileInfo.setLineAuthor(lineCount / 5, author);
         }
