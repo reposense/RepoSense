@@ -1,8 +1,6 @@
 package reposense.commits;
 
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,6 +16,7 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ReportGenerator;
+import reposense.util.TimeUtil;
 
 /**
  * Uses the commit analysis results to generate the summary information of a repository.
@@ -83,7 +82,7 @@ public class CommitResultAggregator {
         float mean = total / totalDays;
 
         float variance = 0;
-        long currentDate = getSystemDateFromZonedDate(startDate, zoneId).getTime();
+        long currentDate = TimeUtil.getSystemDateFromZonedDate(startDate, ZoneId.of(zoneId)).getTime();
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
             if (contributionIndex < contributions.size()
@@ -135,8 +134,8 @@ public class CommitResultAggregator {
             return current;
         }
 
-        int zoneRawOffset = getZoneRawOffset(ZoneId.of(zoneId));
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
+        int zoneRawOffset = TimeUtil.getZoneRawOffset(ZoneId.of(zoneId));
+        int systemRawOffset = TimeUtil.getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = new Calendar
                 .Builder()
@@ -155,8 +154,8 @@ public class CommitResultAggregator {
      * system's timezone.
      */
     private static Date getSystemStartOfDate(Date current, String zoneId) {
-        int zoneRawOffset = getZoneRawOffset(ZoneId.of(zoneId));
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
+        int zoneRawOffset = TimeUtil.getZoneRawOffset(ZoneId.of(zoneId));
+        int systemRawOffset = TimeUtil.getZoneRawOffset(ZoneId.systemDefault());
 
         Calendar cal = new Calendar
                 .Builder()
@@ -166,29 +165,11 @@ public class CommitResultAggregator {
         return cal.getTime();
     }
 
-    /**
-     * Get the {@code current} date that is in {@code zoneId} timezone into the system's timezone.
-     */
-    private static Date getSystemDateFromZonedDate(Date current, String zoneId) {
-        int zoneRawOffset = getZoneRawOffset(ZoneId.of(zoneId));
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
-        return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
-    }
-
     private static Date getStartDate(List<CommitResult> commitInfos) {
         Date min = new Date(Long.MIN_VALUE);
         if (!commitInfos.isEmpty()) {
             min = commitInfos.get(0).getTime();
         }
         return min;
-    }
-
-    /**
-     * Get the raw offset in milliseconds for the {@code zoneId} timezone compared to UTC.
-     */
-    private static int getZoneRawOffset(ZoneId zoneId) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        return zoneOffset.getTotalSeconds() * 1000;
     }
 }
