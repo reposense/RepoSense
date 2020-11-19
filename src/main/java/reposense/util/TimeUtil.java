@@ -59,9 +59,9 @@ public class TimeUtil {
     }
 
     /**
-     * Get the {@code current} date that is in {@code zoneId} timezone into the system's timezone.
+     * Get the {@code current} date that is in the system's timezone into the {@code zoneId} timezone.
      */
-    public static Date getSystemDateFromZonedDate(Date current, ZoneId zoneId) {
+    public static Date getZonedDateFromSystemDate(Date current, ZoneId zoneId) {
         int zoneRawOffset = getZoneRawOffset(zoneId);
         int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
         return new Date(current.getTime() + zoneRawOffset - systemRawOffset);

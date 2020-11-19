@@ -118,8 +118,8 @@ public class ReportGenerator {
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
-                        TimeUtil.getSystemDateFromZonedDate(reportSinceDate, zoneId),
-                        TimeUtil.getSystemDateFromZonedDate(untilDate, zoneId), isSinceDateProvided,
+                        TimeUtil.getZonedDateFromSystemDate(reportSinceDate, zoneId),
+                        TimeUtil.getZonedDateFromSystemDate(untilDate, zoneId), isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
                         reportGenerationTimeProvider.get(), zoneId.toString()),
                 getSummaryResultPath(outputPath));
