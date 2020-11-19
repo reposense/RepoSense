@@ -79,7 +79,7 @@ public class GitTestTemplate {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
-        config.setShouldIncludeLastModifiedDate(false);
+        config.setIsLastModifiedDateIncluded(false);
     }
 
     @BeforeClass

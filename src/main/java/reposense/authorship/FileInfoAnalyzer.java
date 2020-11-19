@@ -103,7 +103,7 @@ public class FileInfoAnalyzer {
                 author = Author.UNKNOWN_AUTHOR;
             }
 
-            if (config.shouldIncludeLastModifiedDate()) {
+            if (config.isLastModifiedDateIncluded()) {
                 // convert the commit date from the author time zone to cli-specified timezone
                 Date convertedCommitDate = TimeUtil.getSystemDateFromZonedDate(new Date(commitDateInMs),
                         ZoneId.of(config.getZoneId()));

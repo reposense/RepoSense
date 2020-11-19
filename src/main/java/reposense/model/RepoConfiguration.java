@@ -36,7 +36,7 @@ public class RepoConfiguration {
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
-    private transient boolean shouldIncludeLastModifiedDate;
+    private transient boolean isLastModifiedDateIncluded;
     private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
@@ -91,10 +91,10 @@ public class RepoConfiguration {
         }
     }
 
-    public static void setShouldIncludeLastModifiedDateToRepoConfigs(List<RepoConfiguration> configs,
-                                                                     boolean shouldIncludeLastModifiedDate) {
+    public static void setIsLastModifiedDateIncludedToRepoConfigs(List<RepoConfiguration> configs,
+                                                                  boolean isLastModifiedDateIncluded) {
         for (RepoConfiguration config : configs) {
-            config.setShouldIncludeLastModifiedDate(shouldIncludeLastModifiedDate);
+            config.setIsLastModifiedDateIncluded(isLastModifiedDateIncluded);
         }
     }
 
@@ -306,7 +306,7 @@ public class RepoConfiguration {
                 && ignoredAuthorsList.equals(otherRepoConfig.ignoredAuthorsList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
                 && fileTypeManager.equals(otherRepoConfig.fileTypeManager)
-                && shouldIncludeLastModifiedDate == otherRepoConfig.shouldIncludeLastModifiedDate
+                && isLastModifiedDateIncluded == otherRepoConfig.isLastModifiedDateIncluded
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding
@@ -368,12 +368,12 @@ public class RepoConfiguration {
         return this.isIgnoredAuthorsListOverriding;
     }
 
-    public void setShouldIncludeLastModifiedDate(boolean shouldIncludeLastModifiedDate) {
-        this.shouldIncludeLastModifiedDate = shouldIncludeLastModifiedDate;
+    public void setIsLastModifiedDateIncluded(boolean lastModifiedDateIncluded) {
+        this.isLastModifiedDateIncluded = lastModifiedDateIncluded;
     }
 
-    public boolean shouldIncludeLastModifiedDate() {
-        return this.shouldIncludeLastModifiedDate;
+    public boolean isLastModifiedDateIncluded() {
+        return this.isLastModifiedDateIncluded;
     }
 
     public void setIsIgnoredAuthorsListOverriding(boolean isIgnoredAuthorsListOverriding) {

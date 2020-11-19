@@ -74,8 +74,8 @@ public class RepoSense {
             RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId().toString());
             RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
                     cliArguments.isStandaloneConfigIgnored());
-            RepoConfiguration.setShouldIncludeLastModifiedDateToRepoConfigs(configs,
-                    cliArguments.shouldIncludeLastModifiedDate());
+            RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(configs,
+                    cliArguments.isLastModifiedDateIncluded());
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,

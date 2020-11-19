@@ -188,7 +188,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     public void analyzeFile_shouldIncludeLastModifiedDateInLines_success() {
         config.setSinceDate(SHOULD_INCLUDE_LAST_MODIFIED_IN_LINES_SINCE_DATE);
         config.setUntilDate(SHOULD_INCLUDE_LAST_MODIFIED_IN_LINES_UNTIL_DATE);
-        config.setShouldIncludeLastModifiedDate(true);
+        config.setIsLastModifiedDateIncluded(true);
         config.setBranch("1345-FileAnalyzerTest-analyzeFile_shouldIncludeLastModifiedDateInLines_success");
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
         Author author = new Author(JAMES_AUTHOR_NAME);
