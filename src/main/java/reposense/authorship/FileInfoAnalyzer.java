@@ -104,7 +104,7 @@ public class FileInfoAnalyzer {
             }
 
             if (config.isLastModifiedDateIncluded()) {
-                // convert the commit date from the author time zone to cli-specified timezone
+                // convert the commit date from the system default time zone to cli-specified timezone
                 Date convertedCommitDate = TimeUtil.getZonedDateFromSystemDate(new Date(commitDateInMs),
                         ZoneId.of(config.getZoneId()));
 
