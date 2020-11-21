@@ -220,10 +220,10 @@
                               <box>
                                 <p><strong>Examples</strong>:</p>
                                 <p>An example of a command using most parameters:<br>
-                                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code>
+                                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08</code>
                                 </p>
                                 <p>Same command as above but using most parameters in alias format:<br>
-                                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code>
+                                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l</code>
                                 </p>
                               </box>
                               <p></p>
@@ -294,6 +294,15 @@
                                 </p>
                               </box>
                               <p></p>
+
+                              <h3 id="last-modified-date-l"><code v-pre>--last-modified-date</code>, <code v-pre>-l</code><a class="fa fa-anchor" href="#last-modified-date-l" onclick="event.stopPropagation()"></a></h3>
+                              <p><strong><code v-pre>--last-modified-date</code></strong>: Specifies that the last modified date of each line of code should be added to <code v-pre>authorship.json</code></p>
+                              <ul>
+                                <li>Default: the last modified date of each line of code will not be added to <code v-pre>authorship.json</code></li>
+                                <li>Alias: <code v-pre>-l</code> (lowercase L)</li>
+                                <li>Example:<code v-pre>--last-modified-date</code> or <code v-pre>-l</code></li>
+                              </ul>
+                              <p>The last modified dates will be in the same timezone specified with the <code v-pre>--timezone</code> flag.</p>
 
                               <h3 id="output-o"><code v-pre>--output</code>, <code v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
                               <p><strong><code v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
@@ -789,10 +798,10 @@
                               <box>
                                 <p><strong>Examples</strong>:</p>
                                 <p>An example of a command using most parameters:<br>
-                                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08</code>
+                                  <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08</code>
                                 </p>
                                 <p>Same command as above but using most parameters in alias format:<br>
-                                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i</code>
+                                  <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l</code>
                                 </p>
                               </box>
                               <p></p>
@@ -863,6 +872,15 @@
                                 </p>
                               </box>
                               <p></p>
+
+                              <h3 id="last-modified-date-l-2"><code v-pre>--last-modified-date</code>, <code v-pre>-l</code><a class="fa fa-anchor" href="#last-modified-date-l-2" onclick="event.stopPropagation()"></a></h3>
+                              <p><strong><code v-pre>--last-modified-date</code></strong>: Specifies that the last modified date of each line of code should be added to <code v-pre>authorship.json</code></p>
+                              <ul>
+                                <li>Default: the last modified date of each line of code will not be added to <code v-pre>authorship.json</code></li>
+                                <li>Alias: <code v-pre>-l</code> (lowercase L)</li>
+                                <li>Example:<code v-pre>--last-modified-date</code> or <code v-pre>-l</code></li>
+                              </ul>
+                              <p>The last modified dates will be in the same timezone specified with the <code v-pre>--timezone</code> flag.</p>
 
                               <h3 id="output-o-2"><code v-pre>--output</code>, <code v-pre>-o</code><a class="fa fa-anchor" href="#output-o-2" onclick="event.stopPropagation()"></a></h3>
                               <p><strong><code v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
@@ -1369,7 +1387,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Fri, 20 Nov 2020, 22:04:24 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 21 Nov 2020, 14:28:32 UTC]</small>
       </div>
     </footer>
   </div>

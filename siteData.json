@@ -164,6 +164,7 @@
         "formats-f": "--formats, -f",
         "help-h": "--help, -h",
         "ignore-standalone-config-i": "--ignore-standalone-config, -i",
+        "last-modified-date-l": "--last-modified-date, -l",
         "output-o": "--output, -o",
         "period-p": "--period, -p",
         "repos-r": "--repos, -r",
