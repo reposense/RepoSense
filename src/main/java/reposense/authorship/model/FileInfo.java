@@ -1,6 +1,7 @@
 package reposense.authorship.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import reposense.model.Author;
@@ -62,6 +63,13 @@ public class FileInfo {
      */
     public void setLineAuthor(int lineNumber, Author author) {
         lines.get(lineNumber).setAuthor(author);
+    }
+
+    /**
+     * Sets the {@code lastModifiedDate} of the {@code LineInfo} in {@code lineNumber} for this {@code FileInfo}.
+     */
+    public void setLineLastModifiedDate(int lineNumber, Date lastModifiedDate) {
+        lines.get(lineNumber).setLastModifiedDate(lastModifiedDate);
     }
 
     /**

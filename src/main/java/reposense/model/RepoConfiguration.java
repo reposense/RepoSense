@@ -36,6 +36,7 @@ public class RepoConfiguration {
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
+    private transient boolean isLastModifiedDateIncluded;
     private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
@@ -87,6 +88,13 @@ public class RepoConfiguration {
     public static void setZoneIdToRepoConfigs(List<RepoConfiguration> configs, String zoneId) {
         for (RepoConfiguration config : configs) {
             config.setZoneId(zoneId);
+        }
+    }
+
+    public static void setIsLastModifiedDateIncludedToRepoConfigs(List<RepoConfiguration> configs,
+                                                                  boolean isLastModifiedDateIncluded) {
+        for (RepoConfiguration config : configs) {
+            config.setIsLastModifiedDateIncluded(isLastModifiedDateIncluded);
         }
     }
 
@@ -298,6 +306,7 @@ public class RepoConfiguration {
                 && ignoredAuthorsList.equals(otherRepoConfig.ignoredAuthorsList)
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
                 && fileTypeManager.equals(otherRepoConfig.fileTypeManager)
+                && isLastModifiedDateIncluded == otherRepoConfig.isLastModifiedDateIncluded
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding
@@ -357,6 +366,14 @@ public class RepoConfiguration {
 
     public boolean isIgnoredAuthorsListOverriding() {
         return this.isIgnoredAuthorsListOverriding;
+    }
+
+    public void setIsLastModifiedDateIncluded(boolean lastModifiedDateIncluded) {
+        this.isLastModifiedDateIncluded = lastModifiedDateIncluded;
+    }
+
+    public boolean isLastModifiedDateIncluded() {
+        return this.isLastModifiedDateIncluded;
     }
 
     public void setIsIgnoredAuthorsListOverriding(boolean isIgnoredAuthorsListOverriding) {

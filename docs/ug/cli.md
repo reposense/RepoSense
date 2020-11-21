@@ -16,10 +16,10 @@ The command `java -jar RepoSense.jar` takes several flags.
 **Examples**:
 
 An example of a command using most parameters:<br>
-`java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08`
+`java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08`
 
 Same command as above but using most parameters in alias format:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l`
 </box>
 
 The sections below explains each flag.
@@ -93,6 +93,17 @@ Cannot be used with any other flags
 
 This flag overrides the `Ignore standalone config` field in the CSV config file.
 </box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--last-modified-date`, `-l`
+
+**`--last-modified-date`**: Specifies that the last modified date of each line of code should be added to `authorship.json`
+* Default: the last modified date of each line of code will not be added to `authorship.json`
+* Alias: `-l` (lowercase L)
+* Example:`--last-modified-date` or `-l`
+
+The last modified dates will be in the same timezone specified with the `--timezone` flag.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
