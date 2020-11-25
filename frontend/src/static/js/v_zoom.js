@@ -150,7 +150,6 @@ window.vZoom = {
       this.fileTypes = Object.keys(this.filteredUser.fileTypeContribution).filter(
           (fileType) => commitsFileTypes.has(fileType),
       );
-      this.isFileTypesLoaded = true;
     },
 
     retrieveHashes() {
