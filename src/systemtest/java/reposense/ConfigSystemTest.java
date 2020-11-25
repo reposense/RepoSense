@@ -23,10 +23,12 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoConfiguration;
+import reposense.model.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.parser.ReportConfigJsonParser;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
@@ -36,10 +38,12 @@ import reposense.util.TestUtil;
 
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
+    private static final String DUMMY_ASSETS_DIR = "dummy";
     private static final String EXPECTED_FOLDER = "expected";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
     private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
+    private static final String TEST_TIME_ZONE = "Asia/Singapore";
 
     @Before
     public void setUp() throws Exception {
@@ -58,25 +62,26 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRange() throws Exception {
-        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"));
+        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"), false);
         Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"));
+        generateReport(getInputWithUntilDate("1/11/2017"), false);
         Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     /**
-     * System test with a specified since date and until date.
+     * System test with a specified since date and until date, with the last modified date time in each
+     * line of code.
      */
     @Test
-    public void testDateRange() throws Exception {
-        generateReport(getInputWithDates("1/9/2017", "30/10/2017"));
-        Path actualFiles = loadResource(getClass(), "dateRange/expected");
+    public void testDateRangeWithModifiedDateTimeInLines() throws Exception {
+        generateReport(getInputWithDates("1/9/2017", "30/10/2017"), true);
+        Path actualFiles = loadResource(getClass(), "dateRangeWithModifiedDateTimeInLines/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -91,12 +96,13 @@ public class ConfigSystemTest {
     /**
      * Generates the testing report to be compared with expected report.
      */
-    private void generateReport(String inputDates) throws Exception {
+    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines) throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
         String input = new InputBuilder().addConfig(configFolder)
                 .addFormats(formats)
+                .addTimezone(TEST_TIME_ZONE)
                 .add(inputDates)
                 .build();
 
@@ -108,6 +114,8 @@ public class ConfigSystemTest {
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         List<GroupConfiguration> groupConfigs =
                 new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath()).parse();
+        ReportConfiguration reportConfig = new ReportConfigJsonParser().parse((
+                (ConfigCliArguments) cliArguments).getReportConfigFilePath());
 
         RepoConfiguration.merge(repoConfigs, authorConfigs);
         RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
@@ -115,10 +123,13 @@ public class ConfigSystemTest {
         RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
+        RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId().toString());
+        RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(repoConfigs, shouldIncludeModifiedDateInLines);
 
-        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, TEST_REPORT_GENERATED_TIME,
-                cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.isSinceDateProvided(),
-                cliArguments.isUntilDateProvided(), () -> TEST_REPORT_GENERATION_TIME);
+        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
+                TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
+                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(), () ->
+                TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId());
     }
 
     /**

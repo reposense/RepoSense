@@ -16,13 +16,30 @@ The command `java -jar RepoSense.jar` takes several flags.
 **Examples**:
 
 An example of a command using most parameters:<br>
-`java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --timezone UTC+08`
+`java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08`
 
 Same command as above but using most parameters in alias format:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l`
 </box>
 
 The sections below explains each flag.
+
+<!-- --------------------------◘---------------------------------------------------------------------------- -->
+
+### `--assets`, `-a`
+
+<div id="section-config">
+
+**`--assets ASSETS_DIRECTORY`**: Specifies where to place assets for report generation.
+* Parameter: `ASSETS_DIRECTORY` The directory containing the assets files. A `favicon.ico` file can be placed here to customize the favicon of the dashboard.
+* Alias: `-a`
+* Example: `--assets ./assets` or `-a ./assets`
+
+<box type="info" seamless>
+
+* If `--assets` is not specified, Reposense looks for assets in the `./assets` directory.
+</box>
+</div>
 
 <!-- --------------------------◘---------------------------------------------------------------------------- -->
 
@@ -31,7 +48,7 @@ The sections below explains each flag.
 <div id="section-config">
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
-* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file.
+* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `report-config.json` file.
 * Alias: `-c`
 * Example: `java -jar RepoSense.jar --config  ./config`
 
@@ -76,6 +93,17 @@ Cannot be used with any other flags
 
 This flag overrides the `Ignore standalone config` field in the CSV config file.
 </box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--last-modified-date`, `-l`
+
+**`--last-modified-date`**: Specifies that the last modified date of each line of code should be added to `authorship.json`
+* Default: the last modified date of each line of code will not be added to `authorship.json`
+* Alias: `-l` (lowercase L)
+* Example:`--last-modified-date` or `-l`
+
+The last modified dates will be in the same timezone specified with the `--timezone` flag.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
