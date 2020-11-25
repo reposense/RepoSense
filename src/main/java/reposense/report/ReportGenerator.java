@@ -9,9 +9,7 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -52,6 +50,7 @@ import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 import reposense.util.ProgressTracker;
+import reposense.util.TimeUtil;
 
 /**
  * Contains report generation related functionalities.
@@ -119,8 +118,8 @@ public class ReportGenerator {
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
-                        getSystemDateFromZonedDate(reportSinceDate, zoneId),
-                        getSystemDateFromZonedDate(untilDate, zoneId), isSinceDateProvided,
+                        TimeUtil.getZonedDateFromSystemDate(reportSinceDate, zoneId),
+                        TimeUtil.getZonedDateFromSystemDate(untilDate, zoneId), isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
                         reportGenerationTimeProvider.get(), zoneId.toString()),
                 getSummaryResultPath(outputPath));
@@ -428,18 +427,5 @@ public class ReportGenerator {
         if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
             earliestSinceDate = newEarliestSinceDate;
         }
-    }
-
-    /**
-     * Get the {@code current} date that is in {@code zoneId} timezone into the system's timezone.
-     */
-    private static Date getSystemDateFromZonedDate(Date current, ZoneId zoneId) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        ZoneOffset systemOffset = ZoneId.systemDefault().getRules().getOffset(now);
-        int zoneRawOffset = zoneOffset.getTotalSeconds() * 1000;
-        int systemRawOffset = systemOffset.getTotalSeconds() * 1000;
-
-        return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
     }
 }

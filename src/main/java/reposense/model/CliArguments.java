@@ -16,6 +16,7 @@ public abstract class CliArguments {
     protected boolean isSinceDateProvided;
     protected boolean isUntilDateProvided;
     protected List<FileType> formats;
+    protected boolean isLastModifiedDateIncluded;
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
     protected ZoneId zoneId;
@@ -46,6 +47,10 @@ public abstract class CliArguments {
 
     public boolean isUntilDateProvided() {
         return isUntilDateProvided;
+    }
+
+    public boolean isLastModifiedDateIncluded() {
+        return isLastModifiedDateIncluded;
     }
 
     public List<FileType> getFormats() {
@@ -80,6 +85,7 @@ public abstract class CliArguments {
                 && this.isSinceDateProvided == otherCliArguments.isSinceDateProvided
                 && this.isUntilDateProvided == otherCliArguments.isUntilDateProvided
                 && this.formats.equals(otherCliArguments.formats)
+                && this.isLastModifiedDateIncluded == otherCliArguments.isLastModifiedDateIncluded
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
                 && this.zoneId.equals(otherCliArguments.zoneId);

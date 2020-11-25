@@ -1,5 +1,6 @@
 package reposense.authorship.model;
 
+import java.util.Date;
 import java.util.Objects;
 
 import reposense.model.Author;
@@ -11,6 +12,7 @@ public class LineInfo {
     private int lineNumber;
     private Author author;
     private String content;
+    private Date lastModifiedDate;
 
     private transient boolean isTracked;
 
@@ -41,6 +43,14 @@ public class LineInfo {
         this.isTracked = isTracked;
     }
 
+    public Date getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(Date lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
     public boolean isTracked() {
         return isTracked;
     }
@@ -59,7 +69,9 @@ public class LineInfo {
         return lineNumber == otherLineInfo.lineNumber
                 && Objects.equals(author, otherLineInfo.author)
                 && content.equals(otherLineInfo.content)
-                && isTracked == otherLineInfo.isTracked;
+                && isTracked == otherLineInfo.isTracked
+                && ((lastModifiedDate == null && otherLineInfo.lastModifiedDate == null)
+                    || (lastModifiedDate.equals(otherLineInfo.lastModifiedDate)));
     }
 }
 
