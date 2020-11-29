@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Appendix: RepoSense with Travis</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="../markbind/css/markbind.min.css">
   <script src="../markbind/js/polyfill.min.js"></script>
   <script src="../markbind/js/vue.min.js"></script>
@@ -46,7 +46,7 @@
     </header>
     <header>
       <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
+        <p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang" v-pre>master</code> branch of RepoSense (not released to the public yet).
           <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
         </p>
       </div>
@@ -84,7 +84,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code v-pre>@@author</code> tags</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></div>
@@ -96,7 +96,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html" class="current">RepoSense with Travis</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code class="hljs inline no-lang" v-pre>run.sh</code> format</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html">FAQ</a></div>
@@ -111,53 +111,55 @@
       </nav>
 
 
+
+
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="appendix-reposense-with-travis"><span>Appendix: RepoSense with Travis</span><a class="fa fa-anchor" href="#appendix-reposense-with-travis" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="appendix-reposense-with-travis"><span id="appendix-reposense-with-travis" class="anchor"></span><span>Appendix: RepoSense with Travis</span><a class="fa fa-anchor" href="#appendix-reposense-with-travis" onclick="event.stopPropagation()"></a></h1>
         <div id="section-setting-up">
           <div class="lead">
             <p>You can use the CI tool Travis to automate generating and publishing of RepoSense reports.</p>
           </div>
 
-          <h2 id="setting-up">Setting up<a class="fa fa-anchor" href="#setting-up" onclick="event.stopPropagation()"></a></h2>
+          <h2 id="setting-up"><span id="setting-up" class="anchor"></span>Setting up<a class="fa fa-anchor" href="#setting-up" onclick="event.stopPropagation()"></a></h2>
           <div id="section-fork-token">
             <box type="info" seamless>
               <p>The instructions below assume you are using GitHub pages to host your report.
               </p>
             </box>
             <p></p>
-            <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code v-pre>project-code-dashboard</code>.</p>
+            <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code class="hljs inline no-lang" v-pre>project-code-dashboard</code>.</p>
             <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Generate a <em>personal access token</em> or <em>deploy key</em> on GitHub</strong> as explained in the panel below.</p>
             <div class="indented-level0">
-              <panel minimized><template slot="_header">
+              <panel minimized><template slot="header">
                   <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Granting write access on GitHub</p>
                 </template>
                 <div>
-                  <h2 id="granting-write-access-to-a-repository">Granting write-access to a repository<a class="fa fa-anchor" href="#granting-write-access-to-a-repository" onclick="event.stopPropagation()"></a></h2>
+                  <h2 id="granting-write-access-to-a-repository"><span id="granting-write-access-to-a-repository" class="anchor"></span>Granting write-access to a repository<a class="fa fa-anchor" href="#granting-write-access-to-a-repository" onclick="event.stopPropagation()"></a></h2>
                   <p>We recommend using a <a href="https://github.blog/2013-05-16-personal-api-tokens/">personal access token</a> if aiming for the ease of setup and <a href="https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys">deploy key</a> if aiming for enhanced security.</p>
-                  <h3 id="if-you-wish-to-use-personal-access-token">If you wish to use <em>personal access token</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-personal-access-token" onclick="event.stopPropagation()"></a></h3>
+                  <h3 id="if-you-wish-to-use-personal-access-token"><span id="if-you-wish-to-use-personal-access-token" class="anchor"></span>If you wish to use <em>personal access token</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-personal-access-token" onclick="event.stopPropagation()"></a></h3>
                   <ol>
-                    <li><strong>Create a <em>personal access token</em></strong> by following this <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">guide</a> and give only <code v-pre>public_repo</code> permission.</li>
+                    <li><strong>Create a <em>personal access token</em></strong> by following this <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">guide</a> and give only <code class="hljs inline no-lang" v-pre>public_repo</code> permission.</li>
                     <li><strong>Copy the token</strong> for later use.</li>
                   </ol>
-                  <h3 id="if-you-wish-to-use-deploy-key">If you wish to use <em>deploy key</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-deploy-key" onclick="event.stopPropagation()"></a></h3>
+                  <h3 id="if-you-wish-to-use-deploy-key"><span id="if-you-wish-to-use-deploy-key" class="anchor"></span>If you wish to use <em>deploy key</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-deploy-key" onclick="event.stopPropagation()"></a></h3>
                   <box type="info"><template slot="icon"><span aria-hidden="true" class="fab fa-windows"></span></template>
-                    <p>[Windows users] <code v-pre>ssh-keygen</code> and <code v-pre>base64</code> are accessible using <a href="https://gitforwindows.org/">Git Bash</a>.
+                    <p>[Windows users] <code class="hljs inline no-lang" v-pre>ssh-keygen</code> and <code class="hljs inline no-lang" v-pre>base64</code> are accessible using <a href="https://gitforwindows.org/">Git Bash</a>.
                     </p>
                   </box>
                   <p></p>
                   <ol>
-                    <li><strong>Create a public-private key pair</strong> (without a passphrase) using the <code v-pre>ssh-keygen</code>. <br>
-                      i.e., <code v-pre>ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N &quot;&quot;</code></li>
+                    <li><strong>Create a public-private key pair</strong> (without a passphrase) using the <code class="hljs inline no-lang" v-pre>ssh-keygen</code>. <br>
+                      i.e., <code class="hljs inline no-lang" v-pre>ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N &quot;&quot;</code></li>
                     <li><strong>Create a deploy key</strong> as follows:
                       <ol>
-                        <li>Go to the <code v-pre>settings</code> page of your publish-RepoSense fork</li>
-                        <li>Click on the <code v-pre>Deploy keys</code> item in the navigation menu in that page</li>
-                        <li>Click on the <code v-pre>Add deploy key</code> button and create a new deploy key with the contents of <code v-pre>id_reposense.pub</code>.</li>
+                        <li>Go to the <code class="hljs inline no-lang" v-pre>settings</code> page of your publish-RepoSense fork</li>
+                        <li>Click on the <code class="hljs inline no-lang" v-pre>Deploy keys</code> item in the navigation menu in that page</li>
+                        <li>Click on the <code class="hljs inline no-lang" v-pre>Add deploy key</code> button and create a new deploy key with the contents of <code class="hljs inline no-lang" v-pre>id_reposense.pub</code>.</li>
                       </ol>
                     </li>
                     <li><strong>Copy the private key</strong> in base64 encoded format for later use. <br>
-                      i.e., <code v-pre>cat id_reposense | base64 -w 0</code></li>
+                      i.e., <code class="hljs inline no-lang" v-pre>cat id_reposense | base64 -w 0</code></li>
                   </ol>
                 </div>
               </panel>
@@ -168,108 +170,108 @@
           <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>Syncy your Travis account with GitHub:</strong></p>
           <ol>
             <li>Go to <a href="https://travis-ci.org/account/repositories">your account</a>.</li>
-            <li>Click on <code v-pre>Sync account</code> to fetch all your repositories into Travis-CI.</li>
+            <li>Click on <code class="hljs inline no-lang" v-pre>Sync account</code> to fetch all your repositories into Travis-CI.</li>
           </ol>
           <p><span class="badge badge-dark bigger-level0">Step 5</span> <strong>Activate the repository:</strong></p>
           <ol>
             <li>Go to your <a href="https://travis-ci.org/search/publish-RepoSense/">publish-RepoSense fork in Travis-CI</a></li>
-            <li>Under <code v-pre>Current</code> tab, click on <code v-pre>Activate repository</code>.</li>
+            <li>Under <code class="hljs inline no-lang" v-pre>Current</code> tab, click on <code class="hljs inline no-lang" v-pre>Activate repository</code>.</li>
           </ol>
           <p><span class="badge badge-dark bigger-level0">Step 6</span> <strong>Set the token/key:</strong></p>
           <ol>
-            <li>In the same page, click on <code v-pre>More options</code> on the right.</li>
-            <li>Then, click on the <code v-pre>Settings</code> option:<br>
+            <li>In the same page, click on <code class="hljs inline no-lang" v-pre>More options</code> on the right.</li>
+            <li>Then, click on the <code class="hljs inline no-lang" v-pre>Settings</code> option:<br>
               <a href="/RepoSense/images/publishingguide-travissetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-travissetting.jpg" alt class="img-fluid" title="Travis-CI Dashboard"></a>
             </li>
-            <li>Under <code v-pre>Environment Variables</code>, name a variable as <code v-pre>GITHUB_TOKEN</code> or <code v-pre>GITHUB_DEPLOY_KEY</code> depending on your earlier choice and paste the token/key into its value field; then click <code v-pre>Add</code>.</li>
-            <li>Ensure that the <code v-pre>Display value in build log</code> is <code v-pre>switched off</code> for security reasons:<br>
+            <li>Under <code class="hljs inline no-lang" v-pre>Environment Variables</code>, name a variable as <code class="hljs inline no-lang" v-pre>GITHUB_TOKEN</code> or <code class="hljs inline no-lang" v-pre>GITHUB_DEPLOY_KEY</code> depending on your earlier choice and paste the token/key into its value field; then click <code class="hljs inline no-lang" v-pre>Add</code>.</li>
+            <li>Ensure that the <code class="hljs inline no-lang" v-pre>Display value in build log</code> is <code class="hljs inline no-lang" v-pre>switched off</code> for security reasons:<br>
               <a href="/RepoSense/images/publishingguide-githubtoken.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubtoken.jpg" alt class="img-fluid" title="Travis-CI Environment Variable"></a>
             </li>
           </ol>
           <p><span class="badge badge-dark bigger-level0">Step 7</span> <strong>Update the report configuration:</strong></p>
           <span id="section-edit-configs">
-            <p>In your fork, edit <code v-pre>run.sh</code> (and if applicable, <code v-pre>repo-config.csv</code>, <code v-pre>author-config.csv</code>, <code v-pre>group-config.csv</code>) to customize the command line parameters or repositories to be analyzed.</p>
+            <p>In your fork, edit <code class="hljs inline no-lang" v-pre>run.sh</code> (and if applicable, <code class="hljs inline no-lang" v-pre>repo-config.csv</code>, <code class="hljs inline no-lang" v-pre>author-config.csv</code>, <code class="hljs inline no-lang" v-pre>group-config.csv</code>) to customize the command line parameters or repositories to be analyzed.</p>
             <div class="indented-level0">
-              <panel minimized><template slot="_header">
-                  <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendix: <strong><code v-pre>run.sh</code> format</strong></p>
+              <panel minimized><template slot="header">
+                  <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendix: <strong><code class="hljs inline no-lang" v-pre>run.sh</code> format</strong></p>
                 </template>
                 <div>
                   <div></div>
-                  <h1 class="display-4" id="appendix-run-sh-format"><span>Appendix: <code v-pre>run.sh</code> format</span><a class="fa fa-anchor" href="#appendix-run-sh-format" onclick="event.stopPropagation()"></a></h1>
+                  <h1 class="display-4" id="appendix-run-sh-format"><span id="appendix-run-sh-format" class="anchor"></span><span>Appendix: <code class="hljs inline no-lang" v-pre>run.sh</code> format</span><a class="fa fa-anchor" href="#appendix-run-sh-format" onclick="event.stopPropagation()"></a></h1>
                   <div class="lead">
-                    <p><a href="https://github.com/reposense/publish-RepoSense/blob/master/run.sh"><code v-pre>run.sh</code></a> is a script used for automating RepoSense report generation.</p>
+                    <p><a href="https://github.com/reposense/publish-RepoSense/blob/master/run.sh"><code class="hljs inline no-lang" v-pre>run.sh</code></a> is a script used for automating RepoSense report generation.</p>
                   </div>
 
-                  <h3 id="customizing-the-reposense-command">Customizing the RepoSense command<a class="fa fa-anchor" href="#customizing-the-reposense-command" onclick="event.stopPropagation()"></a></h3>
-                  <p>You can update the RepoSense command (i.e., the last line) in the <code v-pre>run.sh</code> to match your needs.</p>
+                  <h3 id="customizing-the-reposense-command"><span id="customizing-the-reposense-command" class="anchor"></span>Customizing the RepoSense command<a class="fa fa-anchor" href="#customizing-the-reposense-command" onclick="event.stopPropagation()"></a></h3>
+                  <p>You can update the RepoSense command (i.e., the last line) in the <code class="hljs inline no-lang" v-pre>run.sh</code> to match your needs.</p>
                   <div class="indented-level0">
-                    <panel minimized><template slot="_header">
+                    <panel minimized><template slot="header">
                         <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendix: <strong>CLI syntax reference</strong></p>
                       </template>
                       <div>
                         <div></div>
-                        <h1 class="display-4" id="appendix-cli-syntax-reference"><span>Appendix: CLI syntax reference</span><a class="fa fa-anchor" href="#appendix-cli-syntax-reference" onclick="event.stopPropagation()"></a></h1>
+                        <h1 class="display-4" id="appendix-cli-syntax-reference"><span id="appendix-cli-syntax-reference" class="anchor"></span><span>Appendix: CLI syntax reference</span><a class="fa fa-anchor" href="#appendix-cli-syntax-reference" onclick="event.stopPropagation()"></a></h1>
                         <div class="lead">
-                          <p>The command <code v-pre>java -jar RepoSense.jar</code> takes several flags.</p>
+                          <p>The command <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar</code> takes several flags.</p>
                         </div>
                         <box>
                           <p><strong>Examples</strong>:</p>
                           <p>An example of a command using most parameters:<br>
-                            <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08</code>
+                            <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08</code>
                           </p>
                           <p>Same command as above but using most parameters in alias format:<br>
-                            <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l</code>
+                            <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l</code>
                           </p>
                         </box>
                         <p></p>
                         <p>The sections below explains each flag.</p>
 
-                        <h3 id="assets-a"><code v-pre>--assets</code>, <code v-pre>-a</code><a class="fa fa-anchor" href="#assets-a" onclick="event.stopPropagation()"></a></h3>
+                        <h3 id="assets-a"><span id="assets-a" class="anchor"></span><code class="hljs inline no-lang" v-pre>--assets</code>, <code class="hljs inline no-lang" v-pre>-a</code><a class="fa fa-anchor" href="#assets-a" onclick="event.stopPropagation()"></a></h3>
                         <div id="section-config">
-                          <p><strong><code v-pre>--assets ASSETS_DIRECTORY</code></strong>: Specifies where to place assets for report generation.</p>
+                          <p><strong><code class="hljs inline no-lang" v-pre>--assets ASSETS_DIRECTORY</code></strong>: Specifies where to place assets for report generation.</p>
                           <ul>
-                            <li>Parameter: <code v-pre>ASSETS_DIRECTORY</code> The directory containing the assets files. A <code v-pre>favicon.ico</code> file can be placed here to customize the favicon of the dashboard.</li>
-                            <li>Alias: <code v-pre>-a</code></li>
-                            <li>Example: <code v-pre>--assets ./assets</code> or <code v-pre>-a ./assets</code></li>
+                            <li>Parameter: <code class="hljs inline no-lang" v-pre>ASSETS_DIRECTORY</code> The directory containing the assets files. A <code class="hljs inline no-lang" v-pre>favicon.ico</code> file can be placed here to customize the favicon of the dashboard.</li>
+                            <li>Alias: <code class="hljs inline no-lang" v-pre>-a</code></li>
+                            <li>Example: <code class="hljs inline no-lang" v-pre>--assets ./assets</code> or <code class="hljs inline no-lang" v-pre>-a ./assets</code></li>
                           </ul>
                           <box type="info" seamless>
                             <ul>
-                              <li>If <code v-pre>--assets</code> is not specified, Reposense looks for assets in the <code v-pre>./assets</code> directory.
+                              <li>If <code class="hljs inline no-lang" v-pre>--assets</code> is not specified, Reposense looks for assets in the <code class="hljs inline no-lang" v-pre>./assets</code> directory.
                               </li>
                             </ul>
                           </box>
                         </div>
 
-                        <h3 id="config-c"><code v-pre>--config</code>, <code v-pre>-c</code><a class="fa fa-anchor" href="#config-c" onclick="event.stopPropagation()"></a></h3>
+                        <h3 id="config-c"><span id="config-c" class="anchor"></span><code class="hljs inline no-lang" v-pre>--config</code>, <code class="hljs inline no-lang" v-pre>-c</code><a class="fa fa-anchor" href="#config-c" onclick="event.stopPropagation()"></a></h3>
                         <div id="section-config">
-                          <p><strong><code v-pre>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code v-pre>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
+                          <p><strong><code class="hljs inline no-lang" v-pre>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code class="hljs inline no-lang" v-pre>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
                           <ul>
-                            <li>Parameter: <code v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code v-pre>repo-config.csv</code> file. Optionally, can contain an <code v-pre>author-config.csv</code> file or/and a <code v-pre>group-config.csv</code> file or/and a <code v-pre>report-config.json</code> file.</li>
-                            <li>Alias: <code v-pre>-c</code></li>
-                            <li>Example: <code v-pre>java -jar RepoSense.jar --config ./config</code></li>
+                            <li>Parameter: <code class="hljs inline no-lang" v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code class="hljs inline no-lang" v-pre>repo-config.csv</code> file. Optionally, can contain an <code class="hljs inline no-lang" v-pre>author-config.csv</code> file or/and a <code class="hljs inline no-lang" v-pre>group-config.csv</code> file or/and a <code class="hljs inline no-lang" v-pre>report-config.json</code> file.</li>
+                            <li>Alias: <code class="hljs inline no-lang" v-pre>-c</code></li>
+                            <li>Example: <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --config ./config</code></li>
                           </ul>
                           <box type="info" seamless>
                             <ul>
-                              <li>Cannot be used with <code v-pre>--repos</code></li>
-                              <li>If both <code v-pre>--repos</code> and <code v-pre>--config</code> are not specified, RepoSense looks for config files in the <code v-pre>./config</code> directory.
+                              <li>Cannot be used with <code class="hljs inline no-lang" v-pre>--repos</code></li>
+                              <li>If both <code class="hljs inline no-lang" v-pre>--repos</code> and <code class="hljs inline no-lang" v-pre>--config</code> are not specified, RepoSense looks for config files in the <code class="hljs inline no-lang" v-pre>./config</code> directory.
                               </li>
                             </ul>
                           </box>
                         </div>
 
-                        <h3 id="formats-f"><code v-pre>--formats</code>, <code v-pre>-f</code><a class="fa fa-anchor" href="#formats-f" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--formats LIST_OF_FORMATS</code></strong>: specifies which file extensions to be included in the analysis</p>
+                        <h3 id="formats-f"><span id="formats-f" class="anchor"></span><code class="hljs inline no-lang" v-pre>--formats</code>, <code class="hljs inline no-lang" v-pre>-f</code><a class="fa fa-anchor" href="#formats-f" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--formats LIST_OF_FORMATS</code></strong>: specifies which file extensions to be included in the analysis</p>
                         <ul>
-                          <li>Parameter: <code v-pre>LIST_OF_FORMATS</code> a space-separated list of file extensions that should be included in the analysis<br>
+                          <li>Parameter: <code class="hljs inline no-lang" v-pre>LIST_OF_FORMATS</code> a space-separated list of file extensions that should be included in the analysis<br>
                             Default: all file formats</li>
-                          <li>Alias: <code v-pre>-f</code></li>
-                          <li>Example:<code v-pre>--formats css fxml gradle</code> or <code v-pre>-f css fxml gradle</code></li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-f</code></li>
+                          <li>Example:<code class="hljs inline no-lang" v-pre>--formats css fxml gradle</code> or <code class="hljs inline no-lang" v-pre>-f css fxml gradle</code></li>
                         </ul>
 
-                        <h3 id="help-h"><code v-pre>--help</code>, <code v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--help</code></strong>: Shows the help message.</p>
+                        <h3 id="help-h"><span id="help-h" class="anchor"></span><code class="hljs inline no-lang" v-pre>--help</code>, <code class="hljs inline no-lang" v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--help</code></strong>: Shows the help message.</p>
                         <ul>
-                          <li>Alias: <code v-pre>-h</code></li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-h</code></li>
                         </ul>
                         <box type="info" seamless>
                           <p>Cannot be used with any other flags
@@ -277,103 +279,103 @@
                         </box>
                         <p></p>
 
-                        <h3 id="ignore-standalone-config-i"><code v-pre>--ignore-standalone-config</code>, <code v-pre>-i</code><a class="fa fa-anchor" href="#ignore-standalone-config-i" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--ignore-standalone-config</code></strong>: Specifies that the standalone config file in the repo should be ignored.</p>
+                        <h3 id="ignore-standalone-config-i"><span id="ignore-standalone-config-i" class="anchor"></span><code class="hljs inline no-lang" v-pre>--ignore-standalone-config</code>, <code class="hljs inline no-lang" v-pre>-i</code><a class="fa fa-anchor" href="#ignore-standalone-config-i" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--ignore-standalone-config</code></strong>: Specifies that the standalone config file in the repo should be ignored.</p>
                         <ul>
                           <li>Default: the standalone config file is not ignored</li>
-                          <li>Alias: <code v-pre>-i</code></li>
-                          <li>Example:<code v-pre>--ignore-standalone-config</code> or <code v-pre>-i</code></li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-i</code></li>
+                          <li>Example:<code class="hljs inline no-lang" v-pre>--ignore-standalone-config</code> or <code class="hljs inline no-lang" v-pre>-i</code></li>
                         </ul>
                         <box type="info" seamless>
-                          <p>This flag overrides the <code v-pre>Ignore standalone config</code> field in the CSV config file.
+                          <p>This flag overrides the <code class="hljs inline no-lang" v-pre>Ignore standalone config</code> field in the CSV config file.
                           </p>
                         </box>
                         <p></p>
 
-                        <h3 id="last-modified-date-l"><code v-pre>--last-modified-date</code>, <code v-pre>-l</code><a class="fa fa-anchor" href="#last-modified-date-l" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--last-modified-date</code></strong>: Specifies that the last modified date of each line of code should be added to <code v-pre>authorship.json</code></p>
+                        <h3 id="last-modified-date-l"><span id="last-modified-date-l" class="anchor"></span><code class="hljs inline no-lang" v-pre>--last-modified-date</code>, <code class="hljs inline no-lang" v-pre>-l</code><a class="fa fa-anchor" href="#last-modified-date-l" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--last-modified-date</code></strong>: Specifies that the last modified date of each line of code should be added to <code class="hljs inline no-lang" v-pre>authorship.json</code></p>
                         <ul>
-                          <li>Default: the last modified date of each line of code will not be added to <code v-pre>authorship.json</code></li>
-                          <li>Alias: <code v-pre>-l</code> (lowercase L)</li>
-                          <li>Example:<code v-pre>--last-modified-date</code> or <code v-pre>-l</code></li>
+                          <li>Default: the last modified date of each line of code will not be added to <code class="hljs inline no-lang" v-pre>authorship.json</code></li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-l</code> (lowercase L)</li>
+                          <li>Example:<code class="hljs inline no-lang" v-pre>--last-modified-date</code> or <code class="hljs inline no-lang" v-pre>-l</code></li>
                         </ul>
-                        <p>The last modified dates will be in the same timezone specified with the <code v-pre>--timezone</code> flag.</p>
+                        <p>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.</p>
 
-                        <h3 id="output-o"><code v-pre>--output</code>, <code v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
+                        <h3 id="output-o"><span id="output-o" class="anchor"></span><code class="hljs inline no-lang" v-pre>--output</code>, <code class="hljs inline no-lang" v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
                         <ul>
-                          <li>Parameter: <code v-pre>OUTPUT_DIRECTORY</code> location for the generated <code v-pre>reposense-report</code> folder<br>
+                          <li>Parameter: <code class="hljs inline no-lang" v-pre>OUTPUT_DIRECTORY</code> location for the generated <code class="hljs inline no-lang" v-pre>reposense-report</code> folder<br>
                             Default: current directory</li>
-                          <li>Alias: <code v-pre>-o</code></li>
-                          <li>Example: <code v-pre>--output ./foo</code> or <code v-pre>-o ./foo</code> (the report will be in the <code v-pre>./foo/reposense-report</code> folder)</li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-o</code></li>
+                          <li>Example: <code class="hljs inline no-lang" v-pre>--output ./foo</code> or <code class="hljs inline no-lang" v-pre>-o ./foo</code> (the report will be in the <code class="hljs inline no-lang" v-pre>./foo/reposense-report</code> folder)</li>
                         </ul>
 
-                        <h3 id="period-p"><code v-pre>--period</code>, <code v-pre>-p</code><a class="fa fa-anchor" href="#period-p" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--period PERIOD</code></strong>: Specifies the period of analysis window.</p>
+                        <h3 id="period-p"><span id="period-p" class="anchor"></span><code class="hljs inline no-lang" v-pre>--period</code>, <code class="hljs inline no-lang" v-pre>-p</code><a class="fa fa-anchor" href="#period-p" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--period PERIOD</code></strong>: Specifies the period of analysis window.</p>
                         <ul>
-                          <li>Parameter <code v-pre>PERIOD</code>: The period of analysis window, in the format <code v-pre>nd</code> (for n days) or <code v-pre>nw</code> (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.</li>
-                          <li>Alias: <code v-pre>-p</code></li>
-                          <li>Example: <code v-pre>--period 30d</code> or <code v-pre>--period 4w</code></li>
+                          <li>Parameter <code class="hljs inline no-lang" v-pre>PERIOD</code>: The period of analysis window, in the format <code class="hljs inline no-lang" v-pre>nd</code> (for n days) or <code class="hljs inline no-lang" v-pre>nw</code> (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.</li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-p</code></li>
+                          <li>Example: <code class="hljs inline no-lang" v-pre>--period 30d</code> or <code class="hljs inline no-lang" v-pre>--period 4w</code></li>
                         </ul>
                         <box type="info" seamless>
                           <ul>
                             <li>If both start date and end date are not specified, the date of generating the report will be taken as the end date.</li>
-                            <li>Cannot be used with both <code v-pre>--since</code> and <code v-pre>--until</code>.
+                            <li>Cannot be used with both <code class="hljs inline no-lang" v-pre>--since</code> and <code class="hljs inline no-lang" v-pre>--until</code>.
                             </li>
                           </ul>
                         </box>
 
 
-                        <h3 id="repos-r"><code v-pre>--repos</code>, <code v-pre>-r</code><a class="fa fa-anchor" href="#repos-r" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--repos REPO_LOCATION</code></strong>: Specifies which repositories to analyze.</p>
+                        <h3 id="repos-r"><span id="repos-r" class="anchor"></span><code class="hljs inline no-lang" v-pre>--repos</code>, <code class="hljs inline no-lang" v-pre>-r</code><a class="fa fa-anchor" href="#repos-r" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--repos REPO_LOCATION</code></strong>: Specifies which repositories to analyze.</p>
                         <ul>
-                          <li>Parameter <code v-pre>REPO_LOCATION</code>: A list of URLs or the disk location of the git repositories to analyze, separated by spaces.</li>
-                          <li>Alias: <code v-pre>-r</code></li>
+                          <li>Parameter <code class="hljs inline no-lang" v-pre>REPO_LOCATION</code>: A list of URLs or the disk location of the git repositories to analyze, separated by spaces.</li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-r</code></li>
                           <li>Examples:
                             <ul>
-                              <li><code v-pre>--repos https://github.com/reposense/RepoSense.git</code></li>
-                              <li><code v-pre>--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar</code>: analyzes the two specified repos (one remote, one local) and generates one report containing details of both</li>
+                              <li><code class="hljs inline no-lang" v-pre>--repos https://github.com/reposense/RepoSense.git</code></li>
+                              <li><code class="hljs inline no-lang" v-pre>--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar</code>: analyzes the two specified repos (one remote, one local) and generates one report containing details of both</li>
                             </ul>
                           </li>
                         </ul>
                         <box type="info" seamless>
-                          <p>Cannot be used with <code v-pre>--repos</code></p>
+                          <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--repos</code></p>
                         </box>
                         <p></p>
 
-                        <h3 id="since-s"><code v-pre>--since</code>, <code v-pre>-s</code><a class="fa fa-anchor" href="#since-s" onclick="event.stopPropagation()"></a></h3>
-                        <p><code v-pre>--since START_DATE</code>**: Specifies the start date for the period to be analyzed.</p>
+                        <h3 id="since-s"><span id="since-s" class="anchor"></span><code class="hljs inline no-lang" v-pre>--since</code>, <code class="hljs inline no-lang" v-pre>-s</code><a class="fa fa-anchor" href="#since-s" onclick="event.stopPropagation()"></a></h3>
+                        <p><code class="hljs inline no-lang" v-pre>--since START_DATE</code>**: Specifies the start date for the period to be analyzed.</p>
                         <ul>
-                          <li>Parameter: <code v-pre>START_DATE</code> the first day of the period to be analyzed, in the format <code v-pre>DD/MM/YYYY</code><br>
+                          <li>Parameter: <code class="hljs inline no-lang" v-pre>START_DATE</code> the first day of the period to be analyzed, in the format <code class="hljs inline no-lang" v-pre>DD/MM/YYYY</code><br>
                             Default: one month before the current date</li>
-                          <li>Alias: <code v-pre>-s</code></li>
-                          <li>Example:<code v-pre>--since 21/10/2017</code> or <code v-pre>-s 21/10/2017</code></li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-s</code></li>
+                          <li>Example:<code class="hljs inline no-lang" v-pre>--since 21/10/2017</code> or <code class="hljs inline no-lang" v-pre>-s 21/10/2017</code></li>
                         </ul>
                         <box type="info" seamless>
                           <ul>
                             <li>If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.</li>
-                            <li>If <code v-pre>d1</code> is specified as the start date (<code v-pre>--since d1</code> or <code v-pre>-s d1</code>), then the earliest commit date of all repositories will be taken as the since date.
+                            <li>If <code class="hljs inline no-lang" v-pre>d1</code> is specified as the start date (<code class="hljs inline no-lang" v-pre>--since d1</code> or <code class="hljs inline no-lang" v-pre>-s d1</code>), then the earliest commit date of all repositories will be taken as the since date.
                             </li>
                           </ul>
                         </box>
 
 
-                        <h3 id="timezone-t"><code v-pre>--timezone</code>, <code v-pre>-t</code><a class="fa fa-anchor" href="#timezone-t" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--timezone ZONE_ID</code></strong>: Indicates the timezone to be used for the analysis.</p>
+                        <h3 id="timezone-t"><span id="timezone-t" class="anchor"></span><code class="hljs inline no-lang" v-pre>--timezone</code>, <code class="hljs inline no-lang" v-pre>-t</code><a class="fa fa-anchor" href="#timezone-t" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--timezone ZONE_ID</code></strong>: Indicates the timezone to be used for the analysis.</p>
                         <ul>
-                          <li>Parameter: <code v-pre>ZONE_ID</code> timezones in the format <code v-pre>ZONE_ID[±hh[mm]]</code><br>
+                          <li>Parameter: <code class="hljs inline no-lang" v-pre>ZONE_ID</code> timezones in the format <code class="hljs inline no-lang" v-pre>ZONE_ID[±hh[mm]]</code><br>
                             Default: system's default timezone</li>
-                          <li>Alias: <code v-pre>-t</code></li>
-                          <li>Example:<code v-pre>--timezone UTC+08</code> or <code v-pre>-t UTC-1030</code></li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-t</code></li>
+                          <li>Example:<code class="hljs inline no-lang" v-pre>--timezone UTC+08</code> or <code class="hljs inline no-lang" v-pre>-t UTC-1030</code></li>
                         </ul>
 
-                        <h3 id="until-u"><code v-pre>--until</code>, <code v-pre>-u</code><a class="fa fa-anchor" href="#until-u" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--until END_DATE</code></strong>: Specifies the end date of the analysis period.</p>
+                        <h3 id="until-u"><span id="until-u" class="anchor"></span><code class="hljs inline no-lang" v-pre>--until</code>, <code class="hljs inline no-lang" v-pre>-u</code><a class="fa fa-anchor" href="#until-u" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--until END_DATE</code></strong>: Specifies the end date of the analysis period.</p>
                         <ul>
-                          <li>Parameter: <code v-pre>END_DATE</code> The last date of the period to be analyzed, in the format <code v-pre>DD/MM/YYYY</code><br>
+                          <li>Parameter: <code class="hljs inline no-lang" v-pre>END_DATE</code> The last date of the period to be analyzed, in the format <code class="hljs inline no-lang" v-pre>DD/MM/YYYY</code><br>
                             Default: current date</li>
-                          <li>Alias: <code v-pre>-u</code></li>
-                          <li>Example:<code v-pre>--until 21/10/2017</code> or <code v-pre>-u 21/10/2017</code></li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-u</code></li>
+                          <li>Example:<code class="hljs inline no-lang" v-pre>--until 21/10/2017</code> or <code class="hljs inline no-lang" v-pre>-u 21/10/2017</code></li>
                         </ul>
                         <box type="info" seamless>
                           <p>Note: If the end date is not specified, the date of generating the report will be taken as the end date.
@@ -381,10 +383,10 @@
                         </box>
                         <p></p>
 
-                        <h3 id="version-v"><code v-pre>--version</code>, <code v-pre>-V</code><a class="fa fa-anchor" href="#version-v" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--version</code></strong>: Shows the version of RepoSense.</p>
+                        <h3 id="version-v"><span id="version-v" class="anchor"></span><code class="hljs inline no-lang" v-pre>--version</code>, <code class="hljs inline no-lang" v-pre>-V</code><a class="fa fa-anchor" href="#version-v" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--version</code></strong>: Shows the version of RepoSense.</p>
                         <ul>
-                          <li>Alias: <code v-pre>-V</code> (upper case)</li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-V</code> (upper case)</li>
                         </ul>
                         <box type="info" seamless>
                           <p>Cannot be used with any other flags
@@ -392,38 +394,38 @@
                         </box>
                         <p></p>
 
-                        <h3 id="view-v"><code v-pre>--view</code>, <code v-pre>-v</code><a class="fa fa-anchor" href="#view-v" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code v-pre>--view [REPORT_FOLDER]</code></strong>: Specifies the report should be opened in the default browser.</p>
+                        <h3 id="view-v"><span id="view-v" class="anchor"></span><code class="hljs inline no-lang" v-pre>--view</code>, <code class="hljs inline no-lang" v-pre>-v</code><a class="fa fa-anchor" href="#view-v" onclick="event.stopPropagation()"></a></h3>
+                        <p><strong><code class="hljs inline no-lang" v-pre>--view [REPORT_FOLDER]</code></strong>: Specifies the report should be opened in the default browser.</p>
                         <ul>
-                          <li>Parameter: <code v-pre>REPORT_FOLDER</code> Optional. If specified, no analysis will be performed and the report specified by the argument will be opened.<br>
-                            Default: <code v-pre>./reposense-report</code></li>
-                          <li>Alias: <code v-pre>-v</code></li>
-                          <li>Example:<code v-pre>--view</code> or <code v-pre>-v</code></li>
+                          <li>Parameter: <code class="hljs inline no-lang" v-pre>REPORT_FOLDER</code> Optional. If specified, no analysis will be performed and the report specified by the argument will be opened.<br>
+                            Default: <code class="hljs inline no-lang" v-pre>./reposense-report</code></li>
+                          <li>Alias: <code class="hljs inline no-lang" v-pre>-v</code></li>
+                          <li>Example:<code class="hljs inline no-lang" v-pre>--view</code> or <code class="hljs inline no-lang" v-pre>-v</code></li>
                         </ul>
                       </div>
                     </panel>
                   </div>
                   <p></p>
 
-                  <h3 id="specifying-which-version-of-reposense-to-use">Specifying which version of RepoSense to use<a class="fa fa-anchor" href="#specifying-which-version-of-reposense-to-use" onclick="event.stopPropagation()"></a></h3>
-                  <p>Depending on which version you wish to use for report generation, add one of the following flags to the line <code v-pre>./get-reposense.py</code> in <code v-pre>run.sh</code> (e.g., <code v-pre>./get-reposense.py --release</code>):</p>
+                  <h3 id="specifying-which-version-of-reposense-to-use"><span id="specifying-which-version-of-reposense-to-use" class="anchor"></span>Specifying which version of RepoSense to use<a class="fa fa-anchor" href="#specifying-which-version-of-reposense-to-use" onclick="event.stopPropagation()"></a></h3>
+                  <p>Depending on which version you wish to use for report generation, add one of the following flags to the line <code class="hljs inline no-lang" v-pre>./get-reposense.py</code> in <code class="hljs inline no-lang" v-pre>run.sh</code> (e.g., <code class="hljs inline no-lang" v-pre>./get-reposense.py --release</code>):</p>
                   <ul>
-                    <li><code v-pre>--release</code>: Use the latest release (Stable)</li>
-                    <li><code v-pre>--master</code>: Use the latest version of the master branch</li>
-                    <li><code v-pre>--tag TAG</code> e.g., <code v-pre>--tag v1.6.1</code>: use the version identified by the git tag given</li>
+                    <li><code class="hljs inline no-lang" v-pre>--release</code>: Use the latest release (Stable)</li>
+                    <li><code class="hljs inline no-lang" v-pre>--master</code>: Use the latest version of the master branch</li>
+                    <li><code class="hljs inline no-lang" v-pre>--tag TAG</code> e.g., <code class="hljs inline no-lang" v-pre>--tag v1.6.1</code>: use the version identified by the git tag given</li>
                   </ul>
                 </div>
               </panel>
             </div>
             <p></p>
             <div class="indented-level0">
-              <panel minimized><template slot="_header">
+              <panel minimized><template slot="header">
                   <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendix: <strong>Config files format</strong></p>
                 </template>
                 <div>
                   <div></div>
                   <div></div>
-                  <h1 class="display-4" id="appendix-config-files-format"><span>Appendix: Config files format</span><a class="fa fa-anchor" href="#appendix-config-files-format" onclick="event.stopPropagation()"></a></h1>
+                  <h1 class="display-4" id="appendix-config-files-format"><span id="appendix-config-files-format" class="anchor"></span><span>Appendix: Config files format</span><a class="fa fa-anchor" href="#appendix-config-files-format" onclick="event.stopPropagation()"></a></h1>
                   <div class="lead">
                     <p>Given below are the details of the various config files used by RepoSense.</p>
                   </div>
@@ -438,8 +440,8 @@
                   </box>
                   <p></p>
 
-                  <h2 id="repo-config-csv"><code v-pre>repo-config.csv</code><a class="fa fa-anchor" href="#repo-config-csv" onclick="event.stopPropagation()"></a></h2>
-                  <p><strong><code v-pre>repo-config.csv</code> file contains repo-level config data.</strong> Each row represents a repository's configuration (<a href="/RepoSense/ug/repo-config.csv">example</a>).</p>
+                  <h2 id="repo-config-csv"><span id="repo-config-csv" class="anchor"></span><code class="hljs inline no-lang" v-pre>repo-config.csv</code><a class="fa fa-anchor" href="#repo-config-csv" onclick="event.stopPropagation()"></a></h2>
+                  <p><strong><code class="hljs inline no-lang" v-pre>repo-config.csv</code> file contains repo-level config data.</strong> Each row represents a repository's configuration (<a href="/RepoSense/ug/repo-config.csv">example</a>).</p>
                   <div class="table-responsive">
                     <table class="markbind-table table table-bordered table-striped">
                       <thead>
@@ -451,11 +453,11 @@
                       <tbody>
                         <tr>
                           <td>Repository's Location <span class="badge badge-danger">mandatory</span></td>
-                          <td>The <code v-pre>GitHub URL</code> or <code v-pre>Disk Path</code> to the git repository e.g., <code v-pre>https://github.com/foo/bar.git</code> or <code v-pre>C:\Users\user\Desktop\GitHub\foo\bar</code></td>
+                          <td>The <code class="hljs inline no-lang" v-pre>GitHub URL</code> or <code class="hljs inline no-lang" v-pre>Disk Path</code> to the git repository e.g., <code class="hljs inline no-lang" v-pre>https://github.com/foo/bar.git</code> or <code class="hljs inline no-lang" v-pre>C:\Users\user\Desktop\GitHub\foo\bar</code></td>
                         </tr>
                         <tr>
                           <td>Branch</td>
-                          <td>The branch to analyze in the target repository e.g., <code v-pre>master</code>. Default: the default branch of the repo</td>
+                          <td>The branch to analyze in the target repository e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the default branch of the repo</td>
                         </tr>
                         <tr>
                           <td>File formats<sup>*+</sup></td>
@@ -463,15 +465,15 @@
                         </tr>
                         <tr>
                           <td>Ignore Glob List<sup>*+</sup></td>
-                          <td>The list of file path globs to ignore during analysis for each author. e.g., <code v-pre>test/**;temp/**</code></td>
+                          <td>The list of file path globs to ignore during analysis for each author. e.g., <code class="hljs inline no-lang" v-pre>test/**;temp/**</code></td>
                         </tr>
                         <tr>
                           <td>Ignore standalone config</td>
-                          <td>To ignore the standalone config file (if any) in target repository, enter <strong><code v-pre>yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td>
+                          <td>To ignore the standalone config file (if any) in target repository, enter <strong><code class="hljs inline no-lang" v-pre>yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td>
                         </tr>
                         <tr>
                           <td>Ignore Commit List<sup>*+</sup></td>
-                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code v-pre>..</code> notation e.g. <code v-pre>abc123..def456</code> (both inclusive).</td>
+                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation e.g. <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</td>
                         </tr>
                         <tr>
                           <td>Ignore Authors List<sup>*+</sup></td>
@@ -480,17 +482,17 @@
                       </tbody>
                     </table>
                   </div>
-                  <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code v-pre>;</code> as the separator.</sup>
-                    <sup>+ <strong>Overrideable column</strong>: prepend with <code v-pre>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup>
+                  <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code class="hljs inline no-lang" v-pre>;</code> as the separator.</sup>
+                    <sup>+ <strong>Overrideable column</strong>: prepend with <code class="hljs inline no-lang" v-pre>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup>
                   </p>
                   <box type="info" seamless>
-                    <p>When using <a href="#config-json-standalone-config-file">standalone config</a> (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code v-pre>override:</code>.
+                    <p>When using <a href="#config-json-standalone-config-file">standalone config</a> (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code class="hljs inline no-lang" v-pre>override:</code>.
                     </p>
                   </box>
                   <p></p>
 
-                  <h2 id="author-config-csv"><code v-pre>author-config.csv</code><a class="fa fa-anchor" href="#author-config-csv" onclick="event.stopPropagation()"></a></h2>
-                  <p>Optionally, you can use a <code v-pre>author-config.csv</code> (which should be in the same directory as <code v-pre>repo-config.csv</code> file) to provide more details about the authors to analyze (<a href="/RepoSense/ug/author-config.csv">example</a>). It should contain the following columns:</p>
+                  <h2 id="author-config-csv"><span id="author-config-csv" class="anchor"></span><code class="hljs inline no-lang" v-pre>author-config.csv</code><a class="fa fa-anchor" href="#author-config-csv" onclick="event.stopPropagation()"></a></h2>
+                  <p>Optionally, you can use a <code class="hljs inline no-lang" v-pre>author-config.csv</code> (which should be in the same directory as <code class="hljs inline no-lang" v-pre>repo-config.csv</code> file) to provide more details about the authors to analyze (<a href="/RepoSense/ug/author-config.csv">example</a>). It should contain the following columns:</p>
                   <div class="table-responsive">
                     <table class="markbind-table table table-bordered table-striped">
                       <thead>
@@ -502,15 +504,15 @@
                       <tbody>
                         <tr>
                           <td>Repository's Location</td>
-                          <td>Same as <code v-pre>repo-config.csv</code>. Default: all the repos in <code v-pre>repo-config.csv</code></td>
+                          <td>Same as <code class="hljs inline no-lang" v-pre>repo-config.csv</code>. Default: all the repos in <code class="hljs inline no-lang" v-pre>repo-config.csv</code></td>
                         </tr>
                         <tr>
                           <td>Branch</td>
-                          <td>The branch to analyze for this author e.g., <code v-pre>master</code>. Default: the author will be bound to all the repos in <code v-pre>repo-config.csv</code> that has the same repo's location, irregardless of branch</td>
+                          <td>The branch to analyze for this author e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the author will be bound to all the repos in <code class="hljs inline no-lang" v-pre>repo-config.csv</code> that has the same repo's location, irregardless of branch</td>
                         </tr>
                         <tr>
                           <td>Author's GitHub ID <span class="badge badge-danger">mandatory</span></td>
-                          <td>GitHub username of the target author e.g., <code v-pre>JohnDoe</code></td>
+                          <td>GitHub username of the target author e.g., <code class="hljs inline no-lang" v-pre>JohnDoe</code></td>
                         </tr>
                         <tr>
                           <td>Author's Emails<sup>*</sup></td>
@@ -526,16 +528,16 @@
                         </tr>
                         <tr>
                           <td>Ignore Glob List<sup>*</sup></td>
-                          <td>Files to ignore for this author, in addition to files ignored by the patterns specified in <code v-pre>repo-config.csv</code></td>
+                          <td>Files to ignore for this author, in addition to files ignored by the patterns specified in <code class="hljs inline no-lang" v-pre>repo-config.csv</code></td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                  <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code v-pre>;</code> as the separator.</sup></p>
-                  <p>If <code v-pre>author-config.csv</code> is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.</p>
+                  <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code class="hljs inline no-lang" v-pre>;</code> as the separator.</sup></p>
+                  <p>If <code class="hljs inline no-lang" v-pre>author-config.csv</code> is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.</p>
 
-                  <h2 id="group-config-csv"><code v-pre>group-config.csv</code><a class="fa fa-anchor" href="#group-config-csv" onclick="event.stopPropagation()"></a></h2>
-                  <p>Optionally, you can provide a <code v-pre>group-config.csv</code>(which should be in the same directory as <code v-pre>repo-config.csv</code> file) to provide details on any custom groupings for files in specified repositories (<a href="/RepoSense/ug/group-config.csv">example</a>). It should contain the following columns:</p>
+                  <h2 id="group-config-csv"><span id="group-config-csv" class="anchor"></span><code class="hljs inline no-lang" v-pre>group-config.csv</code><a class="fa fa-anchor" href="#group-config-csv" onclick="event.stopPropagation()"></a></h2>
+                  <p>Optionally, you can provide a <code class="hljs inline no-lang" v-pre>group-config.csv</code>(which should be in the same directory as <code class="hljs inline no-lang" v-pre>repo-config.csv</code> file) to provide details on any custom groupings for files in specified repositories (<a href="/RepoSense/ug/group-config.csv">example</a>). It should contain the following columns:</p>
                   <div class="table-responsive">
                     <table class="markbind-table table table-bordered table-striped">
                       <thead>
@@ -547,39 +549,39 @@
                       <tbody>
                         <tr>
                           <td>Repository's Location</td>
-                          <td>Same as <code v-pre>repo-config.csv</code>. Default: all the repos in <code v-pre>repo-config.csv</code></td>
+                          <td>Same as <code class="hljs inline no-lang" v-pre>repo-config.csv</code>. Default: all the repos in <code class="hljs inline no-lang" v-pre>repo-config.csv</code></td>
                         </tr>
                         <tr>
                           <td>Group Name <span class="badge badge-danger">mandatory</span></td>
-                          <td>Name of the group e.g.,<code v-pre>test</code>.</td>
+                          <td>Name of the group e.g.,<code class="hljs inline no-lang" v-pre>test</code>.</td>
                         </tr>
                         <tr>
                           <td>Globs * <span class="badge badge-danger">mandatory</span></td>
-                          <td>The list of file path globs to include for specified group. e.g.,<code v-pre>**/test/*;**.java</code>.</td>
+                          <td>The list of file path globs to include for specified group. e.g.,<code class="hljs inline no-lang" v-pre>**/test/*;**.java</code>.</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
-                  <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code v-pre>;</code> as the separator.</sup></p>
+                  <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code class="hljs inline no-lang" v-pre>;</code> as the separator.</sup></p>
                   <p>Note that a file in a given repository should only be tagged to one group. <br>
-                    e.g.: <code v-pre>example.java</code> in <code v-pre>example-repo</code> can either be in <code v-pre>test</code> group or in <code v-pre>code</code> group, but not in both <code v-pre>test</code> and <code v-pre>code</code> group. If multiple groups are specified for a given file, the latter group (i.e.: <code v-pre>code</code> group) is set for the file.</p>
+                    e.g.: <code class="hljs inline no-lang" v-pre>example.java</code> in <code class="hljs inline no-lang" v-pre>example-repo</code> can either be in <code class="hljs inline no-lang" v-pre>test</code> group or in <code class="hljs inline no-lang" v-pre>code</code> group, but not in both <code class="hljs inline no-lang" v-pre>test</code> and <code class="hljs inline no-lang" v-pre>code</code> group. If multiple groups are specified for a given file, the latter group (i.e.: <code class="hljs inline no-lang" v-pre>code</code> group) is set for the file.</p>
 
-                  <h2 id="report-config-json"><code v-pre>report-config.json</code><a class="fa fa-anchor" href="#report-config-json" onclick="event.stopPropagation()"></a></h2>
-                  <p>You can optionally use <code v-pre>report-config.json</code> to customize report generation by providing the following information . (<a href="/RepoSense/ug/report-config.csv">example</a>)</p>
+                  <h2 id="report-config-json"><span id="report-config-json" class="anchor"></span><code class="hljs inline no-lang" v-pre>report-config.json</code><a class="fa fa-anchor" href="#report-config-json" onclick="event.stopPropagation()"></a></h2>
+                  <p>You can optionally use <code class="hljs inline no-lang" v-pre>report-config.json</code> to customize report generation by providing the following information . (<a href="/RepoSense/ug/report-config.csv">example</a>)</p>
                   <p><strong>Fields to provide</strong>:</p>
                   <ul>
-                    <li><code v-pre>title</code>: Title of the generated report, which is also the title of the deployed dashboard. Default: &quot;RepoSense Report&quot;</li>
+                    <li><code class="hljs inline no-lang" v-pre>title</code>: Title of the generated report, which is also the title of the deployed dashboard. Default: &quot;RepoSense Report&quot;</li>
                   </ul>
 
                   <div id="section-standalone">
-                    <h2 id="config-json-standalone-config-file"><code v-pre>config.json</code> (standalone config file)<a class="fa fa-anchor" href="#config-json-standalone-config-file" onclick="event.stopPropagation()"></a></h2>
+                    <h2 id="config-json-standalone-config-file"><span id="config-json-standalone-config-file" class="anchor"></span><code class="hljs inline no-lang" v-pre>config.json</code> (standalone config file)<a class="fa fa-anchor" href="#config-json-standalone-config-file" onclick="event.stopPropagation()"></a></h2>
                     <p>Repo owners can provide the following additional information to RepoSense using a config file that we call the <strong><em>standalone config file</em></strong>:</p>
                     <ul>
                       <li>which files/authors/commits to analyze/omit</li>
                       <li>which git and GitHub usernames belong to which authors</li>
                       <li>the display of an author</li>
                     </ul>
-                    <p>To use this feature, add a <code v-pre>_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p>
+                    <p>To use this feature, add a <code class="hljs inline no-lang" v-pre>_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p>
                     <pre><code class="no-line-numbers hljs json" v-pre><span>{
 </span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],
 </span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],
@@ -603,28 +605,28 @@
                     <p>Note: all fields are optional unless specified otherwise.</p>
                     <p><strong>Fields to provide <em>repository-level</em> info</strong>:</p>
                     <ul>
-                      <li><code v-pre>ignoreGlobList</code>: Folders/files to ignore, specified using the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>.</li>
-                      <li><code v-pre>formats</code>: File formats to analyze. Default: all file formats</li>
-                      <li><code v-pre>ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code v-pre>..</code> notation e.g. <code v-pre>abc123..def456</code> (both inclusive).</li>
-                      <li><code v-pre>ignoreAuthorList</code>: The list of authors to ignore during analysis. Authors specified in <code v-pre>authors</code> field or <code v-pre>author-config.csv</code> will be also be omitted if they are in this list. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</li>
+                      <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: Folders/files to ignore, specified using the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>.</li>
+                      <li><code class="hljs inline no-lang" v-pre>formats</code>: File formats to analyze. Default: all file formats</li>
+                      <li><code class="hljs inline no-lang" v-pre>ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation e.g. <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</li>
+                      <li><code class="hljs inline no-lang" v-pre>ignoreAuthorList</code>: The list of authors to ignore during analysis. Authors specified in <code class="hljs inline no-lang" v-pre>authors</code> field or <code class="hljs inline no-lang" v-pre>author-config.csv</code> will be also be omitted if they are in this list. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</li>
                     </ul>
                     <p><strong>Fields to provide <em>author-level</em> info</strong>:<br>
-                      Note: <code v-pre>authors</code> field should contain <em>all</em> authors that should be captured in the analysis.</p>
+                      Note: <code class="hljs inline no-lang" v-pre>authors</code> field should contain <em>all</em> authors that should be captured in the analysis.</p>
                     <ul>
-                      <li><code v-pre>githubId</code>: GitHub username of the author. <span class="badge badge-danger">mandatory</span> field.</li>
-                      <li><code v-pre>emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li>
-                      <li><code v-pre>displayName</code>: Name to display on the report for this author.</li>
-                      <li><code v-pre>authorNames</code>: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
-                      <li><code v-pre>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code v-pre>ignoreGlobList</code>) folders/files to ignore for a specific author . In the example above, the actual <code v-pre>ignoreGlobList</code> for <code v-pre>alice</code> would be <code v-pre>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code></li>
+                      <li><code class="hljs inline no-lang" v-pre>githubId</code>: GitHub username of the author. <span class="badge badge-danger">mandatory</span> field.</li>
+                      <li><code class="hljs inline no-lang" v-pre>emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li>
+                      <li><code class="hljs inline no-lang" v-pre>displayName</code>: Name to display on the report for this author.</li>
+                      <li><code class="hljs inline no-lang" v-pre>authorNames</code>: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
+                      <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code class="hljs inline no-lang" v-pre>ignoreGlobList</code>) folders/files to ignore for a specific author . In the example above, the actual <code class="hljs inline no-lang" v-pre>ignoreGlobList</code> for <code class="hljs inline no-lang" v-pre>alice</code> would be <code class="hljs inline no-lang" v-pre>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code></li>
                     </ul>
-                    <p>To verify your standalone configuration is as intended, add the <code v-pre>_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p>
+                    <p>To verify your standalone configuration is as intended, add the <code class="hljs inline no-lang" v-pre>_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p>
                     <ul>
-                      <li>Format : <code v-pre>java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li>
-                      <li>Example: <code v-pre>java -jar RepoSense.jar --repo c:/myRepose/foo/bar</code><br>
+                      <li>Format : <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li>
+                      <li>Example: <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo c:/myRepose/foo/bar</code><br>
                         After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.</li>
                     </ul>
-                    <h2 id="a-note-about-git-author-name">A note about git author name<a class="fa fa-anchor" href="#a-note-about-git-author-name" onclick="event.stopPropagation()"></a></h2>
-                    <p><code v-pre>Git Author Name</code> refers to the customizable author's display name set in the local <code v-pre>.gitconfig</code> file. For example, in the Git Log's display:</p>
+                    <h2 id="a-note-about-git-author-name"><span id="a-note-about-git-author-name" class="anchor"></span>A note about git author name<a class="fa fa-anchor" href="#a-note-about-git-author-name" onclick="event.stopPropagation()"></a></h2>
+                    <p><code class="hljs inline no-lang" v-pre>Git Author Name</code> refers to the customizable author's display name set in the local <code class="hljs inline no-lang" v-pre>.gitconfig</code> file. For example, in the Git Log's display:</p>
                     <pre><code class="no-line-numbers hljs" v-pre><span>...
 </span><span>commit cd7f610e0becbdf331d5231887d8010a689f87c7
 </span><span>Author: ConfiguredAuthorName &lt;author@example.com&gt;
@@ -639,7 +641,7 @@
 </span><span>    Initial commit
 </span><span> ...
 </span></code></pre>
-                    <p><code v-pre>ActualGitHubId</code> and <code v-pre>ConfiguredAuthorName</code> are both <code v-pre>Git Author Name</code> of the same author.<br>
+                    <p><code class="hljs inline no-lang" v-pre>ActualGitHubId</code> and <code class="hljs inline no-lang" v-pre>ConfiguredAuthorName</code> are both <code class="hljs inline no-lang" v-pre>Git Author Name</code> of the same author.<br>
                       To find the author name that you are currently using for your current git repository, run the following command within your git repository:</p>
                     <pre><code class="no-line-numbers hljs" v-pre><span>git config user.name
 </span></code></pre>
@@ -649,9 +651,9 @@
                     <p>To set the author name to use a default value you want for future git repositories, you can use the following command:</p>
                     <pre><code class="no-line-numbers hljs" v-pre><span>git config --global user.name &quot;YOUR_AUTHOR_NAME”
 </span></code></pre>
-                    <p>RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's <code v-pre>Git Author Name</code> is different from her <code v-pre>GitHub ID</code>, the <code v-pre>Git Author Name</code> needs to be specified in the standalone config file. If the author has more than one <code v-pre>Git Author Name</code>, multiple values can be entered too.</p>
+                    <p>RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's <code class="hljs inline no-lang" v-pre>Git Author Name</code> is different from her <code class="hljs inline no-lang" v-pre>GitHub ID</code>, the <code class="hljs inline no-lang" v-pre>Git Author Name</code> needs to be specified in the standalone config file. If the author has more than one <code class="hljs inline no-lang" v-pre>Git Author Name</code>, multiple values can be entered too.</p>
                     <box type="warning" seamless>
-                      <p>Note: Symbols such as <code v-pre>&quot;</code>, <code v-pre>!</code>, <code v-pre>/</code> etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.
+                      <p>Note: Symbols such as <code class="hljs inline no-lang" v-pre>&quot;</code>, <code class="hljs inline no-lang" v-pre>!</code>, <code class="hljs inline no-lang" v-pre>/</code> etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.
                       </p>
                     </box>
                     <p></p>
@@ -663,8 +665,8 @@
           </span>
           <p><span class="badge badge-dark bigger-level0">Step 8</span> <strong>View the generated report:</strong></p>
           <ol>
-            <li>Go to the <code v-pre>Settings</code> page of your fork in GitHub.</li>
-            <li>Under the <code v-pre>GitHub Pages</code> section, look for <code v-pre>Your site is published at [LINK]</code>. It should look something like <code v-pre>https://[YOUR_GITHUB_ID].github.io/publish-RepoSense</code>.
+            <li>Go to the <code class="hljs inline no-lang" v-pre>Settings</code> page of your fork in GitHub.</li>
+            <li>Under the <code class="hljs inline no-lang" v-pre>GitHub Pages</code> section, look for <code class="hljs inline no-lang" v-pre>Your site is published at [LINK]</code>. It should look something like <code class="hljs inline no-lang" v-pre>https://[YOUR_GITHUB_ID].github.io/publish-RepoSense</code>.
               <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a>
             </li>
           </ol>
@@ -675,24 +677,22 @@
           <p></p>
         </div>
 
-        <h2 id="updating-the-report">Updating the report<a class="fa fa-anchor" href="#updating-the-report" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="updating-the-report"><span id="updating-the-report" class="anchor"></span>Updating the report<a class="fa fa-anchor" href="#updating-the-report" onclick="event.stopPropagation()"></a></h2>
         <p><strong>Manual:</strong> Travis UI has a way for you to trigger a build, using which you can cause the report to be updated.</p>
         <ol>
-          <li>Go to <a href="https://travis-ci.org/search/publish-RepoSense/">your fork in Travis-CI</a>, click on <code v-pre>More options</code> on the right then <code v-pre>Trigger build</code>.</li>
-          <li>In the pop up, click <code v-pre>Trigger custom build</code>.</li>
+          <li>Go to <a href="https://travis-ci.org/search/publish-RepoSense/">your fork in Travis-CI</a>, click on <code class="hljs inline no-lang" v-pre>More options</code> on the right then <code class="hljs inline no-lang" v-pre>Trigger build</code>.</li>
+          <li>In the pop up, click <code class="hljs inline no-lang" v-pre>Trigger custom build</code>.</li>
         </ol>
-        <p><strong>Automated:</strong> <a href="https://travis-ci.org/">Travis-CI</a> offers <code v-pre>Cron Jobs</code> in intervals of daily, weekly or monthly.</p>
+        <p><strong>Automated:</strong> <a href="https://travis-ci.org/">Travis-CI</a> offers <code class="hljs inline no-lang" v-pre>Cron Jobs</code> in intervals of daily, weekly or monthly.</p>
         <ol>
           <li>Login to <a href="https://travis-ci.org/">Travis-CI</a>.</li>
-          <li>Go to <a href="https://travis-ci.org/search/publish-RepoSense/">your fork in Travis-CI</a>, click on <code v-pre>More options</code> on the right then access <code v-pre>Settings</code>.</li>
-          <li>Under <code v-pre>Cron Jobs</code>, choose <code v-pre>master</code> for <code v-pre>Branch</code>, <code v-pre>Always run</code> for <code v-pre>Options</code> and pick an <code v-pre>Interval</code> of your choice; then click <code v-pre>Add</code>.
+          <li>Go to <a href="https://travis-ci.org/search/publish-RepoSense/">your fork in Travis-CI</a>, click on <code class="hljs inline no-lang" v-pre>More options</code> on the right then access <code class="hljs inline no-lang" v-pre>Settings</code>.</li>
+          <li>Under <code class="hljs inline no-lang" v-pre>Cron Jobs</code>, choose <code class="hljs inline no-lang" v-pre>master</code> for <code class="hljs inline no-lang" v-pre>Branch</code>, <code class="hljs inline no-lang" v-pre>Always run</code> for <code class="hljs inline no-lang" v-pre>Options</code> and pick an <code class="hljs inline no-lang" v-pre>Interval</code> of your choice; then click <code class="hljs inline no-lang" v-pre>Add</code>.
             <a href="/RepoSense/images/publishingguide-cronsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-cronsetting.jpg" alt class="img-fluid" title="Travis-CI Cron"></a>
           </li>
         </ol>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
       <nav id="page-nav" class="navbar navbar-light bg-transparent">
         <div class="border-left-grey nav-inner position-sticky slim-scroll">
 
@@ -710,7 +710,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>

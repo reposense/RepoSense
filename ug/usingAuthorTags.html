@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Appendix: Using `@@author` tags</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="../markbind/css/markbind.min.css">
   <script src="../markbind/js/polyfill.min.js"></script>
   <script src="../markbind/js/vue.min.js"></script>
@@ -46,7 +46,7 @@
     </header>
     <header>
       <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
+        <p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang" v-pre>master</code> branch of RepoSense (not released to the public yet).
           <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
         </p>
       </div>
@@ -84,7 +84,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html" class="current">Using <code v-pre>@@author</code> tags</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html" class="current">Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></div>
@@ -96,7 +96,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code class="hljs inline no-lang" v-pre>run.sh</code> format</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html">FAQ</a></div>
@@ -111,36 +111,36 @@
       </nav>
 
 
+
+
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="appendix-using-author-tags"><span>Appendix: Using <code v-pre>@@author</code> tags</span><a class="fa fa-anchor" href="#appendix-using-author-tags" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="appendix-using-author-tags"><span id="appendix-using-author-tags" class="anchor"></span><span>Appendix: Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</span><a class="fa fa-anchor" href="#appendix-using-author-tags" onclick="event.stopPropagation()"></a></h1>
         <div class="lead">
-          <p><code v-pre>@@author</code> tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.</p>
+          <p><code class="hljs inline no-lang" v-pre>@@author</code> tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.</p>
         </div>
-        <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code v-pre>@@author</code> tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p>
-        <p>There are 2 types of <code v-pre>@@author</code> tags:</p>
+        <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code class="hljs inline no-lang" v-pre>@@author</code> tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p>
+        <p>There are 2 types of <code class="hljs inline no-lang" v-pre>@@author</code> tags:</p>
         <ul>
-          <li>Start Tags (format: <code v-pre>@@author AUTHOR_GITHUB_ID</code>): A start tag indicates the start of a code segment written by the author identified by the <code v-pre>AUTHOR_GITHUB_ID</code>.</li>
-          <li>End Tags (format: <code v-pre>@@author</code>): Optional. An end tag indicates the end of a code segment written by the author identified by the <code v-pre>AUTHOR_GITHUB_ID</code> of the start tag.</li>
+          <li>Start Tags (format: <code class="hljs inline no-lang" v-pre>@@author AUTHOR_GITHUB_ID</code>): A start tag indicates the start of a code segment written by the author identified by the <code class="hljs inline no-lang" v-pre>AUTHOR_GITHUB_ID</code>.</li>
+          <li>End Tags (format: <code class="hljs inline no-lang" v-pre>@@author</code>): Optional. An end tag indicates the end of a code segment written by the author identified by the <code class="hljs inline no-lang" v-pre>AUTHOR_GITHUB_ID</code> of the start tag.</li>
         </ul>
         <box type="info" seamless>
           <p>If an end tag is not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
           </p>
         </box>
         <p></p>
-        <p>The <code v-pre>@@author</code> tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:</p>
+        <p>The <code class="hljs inline no-lang" v-pre>@@author</code> tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:</p>
         <p><a href="/RepoSense/images/add-author-tags.png" target="_self"><img src="/RepoSense/images/add-author-tags.png" alt class="img-fluid"></a></p>
         <p>Note: Remember to <strong>commit</strong> the files after the changes. (reason: RepoSense can see committed code only)</p>
         <p>Special thanks to <a href="https://github.com/se-edu/collate">Collate project</a> for providing the inspiration for this functionality.</p>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
     </div>
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>

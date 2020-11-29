@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Appendix: Troubleshooting</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="../markbind/css/markbind.min.css">
   <script src="../markbind/js/polyfill.min.js"></script>
   <script src="../markbind/js/vue.min.js"></script>
@@ -46,7 +46,7 @@
     </header>
     <header>
       <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
+        <p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang" v-pre>master</code> branch of RepoSense (not released to the public yet).
           <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
         </p>
       </div>
@@ -84,7 +84,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code v-pre>@@author</code> tags</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></div>
@@ -96,7 +96,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code class="hljs inline no-lang" v-pre>run.sh</code> format</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html">FAQ</a></div>
@@ -111,32 +111,32 @@
       </nav>
 
 
+
+
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="appendix-troubleshooting"><span>Appendix: Troubleshooting</span><a class="fa fa-anchor" href="#appendix-troubleshooting" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="appendix-troubleshooting"><span id="appendix-troubleshooting" class="anchor"></span><span>Appendix: Troubleshooting</span><a class="fa fa-anchor" href="#appendix-troubleshooting" onclick="event.stopPropagation()"></a></h1>
 
-        <h3 id="contributions-missing-in-the-ramp-chart-but-appear-in-the-contribution-bar-and-code-panel">Contributions missing in the ramp chart (but appear in the contribution bar and code panel)<a class="fa fa-anchor" href="#contributions-missing-in-the-ramp-chart-but-appear-in-the-contribution-bar-and-code-panel" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="contributions-missing-in-the-ramp-chart-but-appear-in-the-contribution-bar-and-code-panel"><span id="contributions-missing-in-the-ramp-chart-but-appear-in-the-contribution-bar-and-code-panel" class="anchor"></span>Contributions missing in the ramp chart (but appear in the contribution bar and code panel)<a class="fa fa-anchor" href="#contributions-missing-in-the-ramp-chart-but-appear-in-the-contribution-bar-and-code-panel" onclick="event.stopPropagation()"></a></h3>
         <p>This is probably a case of giving an incorrect author name alias (or github ID) in your <a href="#author-config-csv">author-config file</a>.<br>
           Please refer to <a href="#a-note-about-git-author-name">A Note About Git Author Name</a> above on how to find out the correct author name you are using, and how to change it.<br>
           Also ensure that you have added all author name aliases that you may be using (if you are using multiple computers or have previously changed your author name).<br>
           Alternatively, you may choose to configure RepoSense to track using your GitHub email instead in your <a href="#provide-data-using-a-json-config-file">standalone config file</a> or <a href="#author-config-csv">author-config file</a>, which is more accurate compared to author name aliases. The associated GitHub email you are using can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</p>
 
-        <h3 id="contribution-bar-and-code-panel-is-empty-despite-a-non-empty-ramp-chart">Contribution bar and code panel is empty (despite a non-empty ramp chart)<a class="fa fa-anchor" href="#contribution-bar-and-code-panel-is-empty-despite-a-non-empty-ramp-chart" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="contribution-bar-and-code-panel-is-empty-despite-a-non-empty-ramp-chart"><span id="contribution-bar-and-code-panel-is-empty-despite-a-non-empty-ramp-chart" class="anchor"></span>Contribution bar and code panel is empty (despite a non-empty ramp chart)<a class="fa fa-anchor" href="#contribution-bar-and-code-panel-is-empty-despite-a-non-empty-ramp-chart" onclick="event.stopPropagation()"></a></h3>
         <p>The contribution bar and code panel records the lines you have authored to the <strong>latest</strong> commit of the repository and branch you are analyzing. As such, it is possible that while you have lots of commit contributions, your final authorship contribution is low if you have only deleted lines, someone else have overwritten your code and taken authorship for it (currently, <em>RepoSense</em> does not have functionality to track overwritten lines).<br>
           It is also possible that another user has overriden the authorship of your lines using the <a href="#provide-data-using-author-tags">@@author tags</a>.</p>
 
-        <h3 id="reposense-is-not-using-the-standalone-config-file-in-my-local-repository">RepoSense is not using the standalone config file in my local repository<a class="fa fa-anchor" href="#reposense-is-not-using-the-standalone-config-file-in-my-local-repository" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="reposense-is-not-using-the-standalone-config-file-in-my-local-repository"><span id="reposense-is-not-using-the-standalone-config-file-in-my-local-repository" class="anchor"></span>RepoSense is not using the standalone config file in my local repository<a class="fa fa-anchor" href="#reposense-is-not-using-the-standalone-config-file-in-my-local-repository" onclick="event.stopPropagation()"></a></h3>
         <p>Ensure that you have committed the changes to your standalone config file first before running the analysis, as <em>RepoSense</em> is unable to detect uncommitted changes to your local repository.</p>
 
-        <h3 id="reposense-fails-on-windows-but-works-on-linux-mac-os">RepoSense fails on Windows (but works on Linux/Mac OS)<a class="fa fa-anchor" href="#reposense-fails-on-windows-but-works-on-linux-mac-os" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="reposense-fails-on-windows-but-works-on-linux-mac-os"><span id="reposense-fails-on-windows-but-works-on-linux-mac-os" class="anchor"></span>RepoSense fails on Windows (but works on Linux/Mac OS)<a class="fa fa-anchor" href="#reposense-fails-on-windows-but-works-on-linux-mac-os" onclick="event.stopPropagation()"></a></h3>
         <p>It is possible you may have some file names with <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions">special characters</a> in them, which is disallowed in Windows OS. As such, <em>RepoSense</em> is unable to fully clone your repository, thus failing the analysis.</p>
 
-        <h3 id="some-files-are-not-captured-by-reposense">Some files are not captured by RepoSense<a class="fa fa-anchor" href="#some-files-are-not-captured-by-reposense" onclick="event.stopPropagation()"></a></h3>
-        <p>The files may be <a href="https://en.wikipedia.org/wiki/Binary_file">binary files</a>. RepoSense does not analyze binary files. Common binary files include images (<code v-pre>.jpg</code>, <code v-pre>.png</code>), applications (<code v-pre>.exe</code>), zip files (<code v-pre>.zip</code>, <code v-pre>.rar</code>) and certain document types (<code v-pre>.docx</code>, <code v-pre>.pptx</code>).</p>
+        <h3 id="some-files-are-not-captured-by-reposense"><span id="some-files-are-not-captured-by-reposense" class="anchor"></span>Some files are not captured by RepoSense<a class="fa fa-anchor" href="#some-files-are-not-captured-by-reposense" onclick="event.stopPropagation()"></a></h3>
+        <p>The files may be <a href="https://en.wikipedia.org/wiki/Binary_file">binary files</a>. RepoSense does not analyze binary files. Common binary files include images (<code class="hljs inline no-lang" v-pre>.jpg</code>, <code class="hljs inline no-lang" v-pre>.png</code>), applications (<code class="hljs inline no-lang" v-pre>.exe</code>), zip files (<code class="hljs inline no-lang" v-pre>.zip</code>, <code class="hljs inline no-lang" v-pre>.rar</code>) and certain document types (<code class="hljs inline no-lang" v-pre>.docx</code>, <code class="hljs inline no-lang" v-pre>.pptx</code>).</p>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
       <nav id="page-nav" class="navbar navbar-light bg-transparent">
         <div class="border-left-grey nav-inner position-sticky slim-scroll">
 
@@ -157,7 +157,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>

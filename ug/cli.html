@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Appendix: CLI syntax reference</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="../markbind/css/markbind.min.css">
   <script src="../markbind/js/polyfill.min.js"></script>
   <script src="../markbind/js/vue.min.js"></script>
@@ -46,7 +46,7 @@
     </header>
     <header>
       <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
+        <p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang" v-pre>master</code> branch of RepoSense (not released to the public yet).
           <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
         </p>
       </div>
@@ -84,7 +84,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code v-pre>@@author</code> tags</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></div>
@@ -96,7 +96,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code class="hljs inline no-lang" v-pre>run.sh</code> format</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html">FAQ</a></div>
@@ -111,70 +111,72 @@
       </nav>
 
 
+
+
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="appendix-cli-syntax-reference"><span>Appendix: CLI syntax reference</span><a class="fa fa-anchor" href="#appendix-cli-syntax-reference" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="appendix-cli-syntax-reference"><span id="appendix-cli-syntax-reference" class="anchor"></span><span>Appendix: CLI syntax reference</span><a class="fa fa-anchor" href="#appendix-cli-syntax-reference" onclick="event.stopPropagation()"></a></h1>
         <div class="lead">
-          <p>The command <code v-pre>java -jar RepoSense.jar</code> takes several flags.</p>
+          <p>The command <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar</code> takes several flags.</p>
         </div>
         <box>
           <p><strong>Examples</strong>:</p>
           <p>An example of a command using most parameters:<br>
-            <code v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08</code>
+            <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08</code>
           </p>
           <p>Same command as above but using most parameters in alias format:<br>
-            <code v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l</code>
+            <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l</code>
           </p>
         </box>
         <p></p>
         <p>The sections below explains each flag.</p>
 
-        <h3 id="assets-a"><code v-pre>--assets</code>, <code v-pre>-a</code><a class="fa fa-anchor" href="#assets-a" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="assets-a"><span id="assets-a" class="anchor"></span><code class="hljs inline no-lang" v-pre>--assets</code>, <code class="hljs inline no-lang" v-pre>-a</code><a class="fa fa-anchor" href="#assets-a" onclick="event.stopPropagation()"></a></h3>
         <div id="section-config">
-          <p><strong><code v-pre>--assets ASSETS_DIRECTORY</code></strong>: Specifies where to place assets for report generation.</p>
+          <p><strong><code class="hljs inline no-lang" v-pre>--assets ASSETS_DIRECTORY</code></strong>: Specifies where to place assets for report generation.</p>
           <ul>
-            <li>Parameter: <code v-pre>ASSETS_DIRECTORY</code> The directory containing the assets files. A <code v-pre>favicon.ico</code> file can be placed here to customize the favicon of the dashboard.</li>
-            <li>Alias: <code v-pre>-a</code></li>
-            <li>Example: <code v-pre>--assets ./assets</code> or <code v-pre>-a ./assets</code></li>
+            <li>Parameter: <code class="hljs inline no-lang" v-pre>ASSETS_DIRECTORY</code> The directory containing the assets files. A <code class="hljs inline no-lang" v-pre>favicon.ico</code> file can be placed here to customize the favicon of the dashboard.</li>
+            <li>Alias: <code class="hljs inline no-lang" v-pre>-a</code></li>
+            <li>Example: <code class="hljs inline no-lang" v-pre>--assets ./assets</code> or <code class="hljs inline no-lang" v-pre>-a ./assets</code></li>
           </ul>
           <box type="info" seamless>
             <ul>
-              <li>If <code v-pre>--assets</code> is not specified, Reposense looks for assets in the <code v-pre>./assets</code> directory.
+              <li>If <code class="hljs inline no-lang" v-pre>--assets</code> is not specified, Reposense looks for assets in the <code class="hljs inline no-lang" v-pre>./assets</code> directory.
               </li>
             </ul>
           </box>
         </div>
 
-        <h3 id="config-c"><code v-pre>--config</code>, <code v-pre>-c</code><a class="fa fa-anchor" href="#config-c" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="config-c"><span id="config-c" class="anchor"></span><code class="hljs inline no-lang" v-pre>--config</code>, <code class="hljs inline no-lang" v-pre>-c</code><a class="fa fa-anchor" href="#config-c" onclick="event.stopPropagation()"></a></h3>
         <div id="section-config">
-          <p><strong><code v-pre>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code v-pre>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
+          <p><strong><code class="hljs inline no-lang" v-pre>--config CONFIG_DIRECTORY</code></strong>: Specifies that config files located in <code class="hljs inline no-lang" v-pre>CONFIG_DIRECTORY</code> should be used to customize the report.</p>
           <ul>
-            <li>Parameter: <code v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code v-pre>repo-config.csv</code> file. Optionally, can contain an <code v-pre>author-config.csv</code> file or/and a <code v-pre>group-config.csv</code> file or/and a <code v-pre>report-config.json</code> file.</li>
-            <li>Alias: <code v-pre>-c</code></li>
-            <li>Example: <code v-pre>java -jar RepoSense.jar --config ./config</code></li>
+            <li>Parameter: <code class="hljs inline no-lang" v-pre>CONFIG_DIRECTORY</code> The directory containing the config files. Should contain a <code class="hljs inline no-lang" v-pre>repo-config.csv</code> file. Optionally, can contain an <code class="hljs inline no-lang" v-pre>author-config.csv</code> file or/and a <code class="hljs inline no-lang" v-pre>group-config.csv</code> file or/and a <code class="hljs inline no-lang" v-pre>report-config.json</code> file.</li>
+            <li>Alias: <code class="hljs inline no-lang" v-pre>-c</code></li>
+            <li>Example: <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --config ./config</code></li>
           </ul>
           <box type="info" seamless>
             <ul>
-              <li>Cannot be used with <code v-pre>--repos</code></li>
-              <li>If both <code v-pre>--repos</code> and <code v-pre>--config</code> are not specified, RepoSense looks for config files in the <code v-pre>./config</code> directory.
+              <li>Cannot be used with <code class="hljs inline no-lang" v-pre>--repos</code></li>
+              <li>If both <code class="hljs inline no-lang" v-pre>--repos</code> and <code class="hljs inline no-lang" v-pre>--config</code> are not specified, RepoSense looks for config files in the <code class="hljs inline no-lang" v-pre>./config</code> directory.
               </li>
             </ul>
           </box>
         </div>
 
-        <h3 id="formats-f"><code v-pre>--formats</code>, <code v-pre>-f</code><a class="fa fa-anchor" href="#formats-f" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--formats LIST_OF_FORMATS</code></strong>: specifies which file extensions to be included in the analysis</p>
+        <h3 id="formats-f"><span id="formats-f" class="anchor"></span><code class="hljs inline no-lang" v-pre>--formats</code>, <code class="hljs inline no-lang" v-pre>-f</code><a class="fa fa-anchor" href="#formats-f" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--formats LIST_OF_FORMATS</code></strong>: specifies which file extensions to be included in the analysis</p>
         <ul>
-          <li>Parameter: <code v-pre>LIST_OF_FORMATS</code> a space-separated list of file extensions that should be included in the analysis<br>
+          <li>Parameter: <code class="hljs inline no-lang" v-pre>LIST_OF_FORMATS</code> a space-separated list of file extensions that should be included in the analysis<br>
             Default: all file formats</li>
-          <li>Alias: <code v-pre>-f</code></li>
-          <li>Example:<code v-pre>--formats css fxml gradle</code> or <code v-pre>-f css fxml gradle</code></li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-f</code></li>
+          <li>Example:<code class="hljs inline no-lang" v-pre>--formats css fxml gradle</code> or <code class="hljs inline no-lang" v-pre>-f css fxml gradle</code></li>
         </ul>
 
-        <h3 id="help-h"><code v-pre>--help</code>, <code v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--help</code></strong>: Shows the help message.</p>
+        <h3 id="help-h"><span id="help-h" class="anchor"></span><code class="hljs inline no-lang" v-pre>--help</code>, <code class="hljs inline no-lang" v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--help</code></strong>: Shows the help message.</p>
         <ul>
-          <li>Alias: <code v-pre>-h</code></li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-h</code></li>
         </ul>
         <box type="info" seamless>
           <p>Cannot be used with any other flags
@@ -182,103 +184,103 @@
         </box>
         <p></p>
 
-        <h3 id="ignore-standalone-config-i"><code v-pre>--ignore-standalone-config</code>, <code v-pre>-i</code><a class="fa fa-anchor" href="#ignore-standalone-config-i" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--ignore-standalone-config</code></strong>: Specifies that the standalone config file in the repo should be ignored.</p>
+        <h3 id="ignore-standalone-config-i"><span id="ignore-standalone-config-i" class="anchor"></span><code class="hljs inline no-lang" v-pre>--ignore-standalone-config</code>, <code class="hljs inline no-lang" v-pre>-i</code><a class="fa fa-anchor" href="#ignore-standalone-config-i" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--ignore-standalone-config</code></strong>: Specifies that the standalone config file in the repo should be ignored.</p>
         <ul>
           <li>Default: the standalone config file is not ignored</li>
-          <li>Alias: <code v-pre>-i</code></li>
-          <li>Example:<code v-pre>--ignore-standalone-config</code> or <code v-pre>-i</code></li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-i</code></li>
+          <li>Example:<code class="hljs inline no-lang" v-pre>--ignore-standalone-config</code> or <code class="hljs inline no-lang" v-pre>-i</code></li>
         </ul>
         <box type="info" seamless>
-          <p>This flag overrides the <code v-pre>Ignore standalone config</code> field in the CSV config file.
+          <p>This flag overrides the <code class="hljs inline no-lang" v-pre>Ignore standalone config</code> field in the CSV config file.
           </p>
         </box>
         <p></p>
 
-        <h3 id="last-modified-date-l"><code v-pre>--last-modified-date</code>, <code v-pre>-l</code><a class="fa fa-anchor" href="#last-modified-date-l" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--last-modified-date</code></strong>: Specifies that the last modified date of each line of code should be added to <code v-pre>authorship.json</code></p>
+        <h3 id="last-modified-date-l"><span id="last-modified-date-l" class="anchor"></span><code class="hljs inline no-lang" v-pre>--last-modified-date</code>, <code class="hljs inline no-lang" v-pre>-l</code><a class="fa fa-anchor" href="#last-modified-date-l" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--last-modified-date</code></strong>: Specifies that the last modified date of each line of code should be added to <code class="hljs inline no-lang" v-pre>authorship.json</code></p>
         <ul>
-          <li>Default: the last modified date of each line of code will not be added to <code v-pre>authorship.json</code></li>
-          <li>Alias: <code v-pre>-l</code> (lowercase L)</li>
-          <li>Example:<code v-pre>--last-modified-date</code> or <code v-pre>-l</code></li>
+          <li>Default: the last modified date of each line of code will not be added to <code class="hljs inline no-lang" v-pre>authorship.json</code></li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-l</code> (lowercase L)</li>
+          <li>Example:<code class="hljs inline no-lang" v-pre>--last-modified-date</code> or <code class="hljs inline no-lang" v-pre>-l</code></li>
         </ul>
-        <p>The last modified dates will be in the same timezone specified with the <code v-pre>--timezone</code> flag.</p>
+        <p>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.</p>
 
-        <h3 id="output-o"><code v-pre>--output</code>, <code v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
+        <h3 id="output-o"><span id="output-o" class="anchor"></span><code class="hljs inline no-lang" v-pre>--output</code>, <code class="hljs inline no-lang" v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
         <ul>
-          <li>Parameter: <code v-pre>OUTPUT_DIRECTORY</code> location for the generated <code v-pre>reposense-report</code> folder<br>
+          <li>Parameter: <code class="hljs inline no-lang" v-pre>OUTPUT_DIRECTORY</code> location for the generated <code class="hljs inline no-lang" v-pre>reposense-report</code> folder<br>
             Default: current directory</li>
-          <li>Alias: <code v-pre>-o</code></li>
-          <li>Example: <code v-pre>--output ./foo</code> or <code v-pre>-o ./foo</code> (the report will be in the <code v-pre>./foo/reposense-report</code> folder)</li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-o</code></li>
+          <li>Example: <code class="hljs inline no-lang" v-pre>--output ./foo</code> or <code class="hljs inline no-lang" v-pre>-o ./foo</code> (the report will be in the <code class="hljs inline no-lang" v-pre>./foo/reposense-report</code> folder)</li>
         </ul>
 
-        <h3 id="period-p"><code v-pre>--period</code>, <code v-pre>-p</code><a class="fa fa-anchor" href="#period-p" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--period PERIOD</code></strong>: Specifies the period of analysis window.</p>
+        <h3 id="period-p"><span id="period-p" class="anchor"></span><code class="hljs inline no-lang" v-pre>--period</code>, <code class="hljs inline no-lang" v-pre>-p</code><a class="fa fa-anchor" href="#period-p" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--period PERIOD</code></strong>: Specifies the period of analysis window.</p>
         <ul>
-          <li>Parameter <code v-pre>PERIOD</code>: The period of analysis window, in the format <code v-pre>nd</code> (for n days) or <code v-pre>nw</code> (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.</li>
-          <li>Alias: <code v-pre>-p</code></li>
-          <li>Example: <code v-pre>--period 30d</code> or <code v-pre>--period 4w</code></li>
+          <li>Parameter <code class="hljs inline no-lang" v-pre>PERIOD</code>: The period of analysis window, in the format <code class="hljs inline no-lang" v-pre>nd</code> (for n days) or <code class="hljs inline no-lang" v-pre>nw</code> (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.</li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-p</code></li>
+          <li>Example: <code class="hljs inline no-lang" v-pre>--period 30d</code> or <code class="hljs inline no-lang" v-pre>--period 4w</code></li>
         </ul>
         <box type="info" seamless>
           <ul>
             <li>If both start date and end date are not specified, the date of generating the report will be taken as the end date.</li>
-            <li>Cannot be used with both <code v-pre>--since</code> and <code v-pre>--until</code>.
+            <li>Cannot be used with both <code class="hljs inline no-lang" v-pre>--since</code> and <code class="hljs inline no-lang" v-pre>--until</code>.
             </li>
           </ul>
         </box>
 
 
-        <h3 id="repos-r"><code v-pre>--repos</code>, <code v-pre>-r</code><a class="fa fa-anchor" href="#repos-r" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--repos REPO_LOCATION</code></strong>: Specifies which repositories to analyze.</p>
+        <h3 id="repos-r"><span id="repos-r" class="anchor"></span><code class="hljs inline no-lang" v-pre>--repos</code>, <code class="hljs inline no-lang" v-pre>-r</code><a class="fa fa-anchor" href="#repos-r" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--repos REPO_LOCATION</code></strong>: Specifies which repositories to analyze.</p>
         <ul>
-          <li>Parameter <code v-pre>REPO_LOCATION</code>: A list of URLs or the disk location of the git repositories to analyze, separated by spaces.</li>
-          <li>Alias: <code v-pre>-r</code></li>
+          <li>Parameter <code class="hljs inline no-lang" v-pre>REPO_LOCATION</code>: A list of URLs or the disk location of the git repositories to analyze, separated by spaces.</li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-r</code></li>
           <li>Examples:
             <ul>
-              <li><code v-pre>--repos https://github.com/reposense/RepoSense.git</code></li>
-              <li><code v-pre>--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar</code>: analyzes the two specified repos (one remote, one local) and generates one report containing details of both</li>
+              <li><code class="hljs inline no-lang" v-pre>--repos https://github.com/reposense/RepoSense.git</code></li>
+              <li><code class="hljs inline no-lang" v-pre>--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar</code>: analyzes the two specified repos (one remote, one local) and generates one report containing details of both</li>
             </ul>
           </li>
         </ul>
         <box type="info" seamless>
-          <p>Cannot be used with <code v-pre>--repos</code></p>
+          <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--repos</code></p>
         </box>
         <p></p>
 
-        <h3 id="since-s"><code v-pre>--since</code>, <code v-pre>-s</code><a class="fa fa-anchor" href="#since-s" onclick="event.stopPropagation()"></a></h3>
-        <p><code v-pre>--since START_DATE</code>**: Specifies the start date for the period to be analyzed.</p>
+        <h3 id="since-s"><span id="since-s" class="anchor"></span><code class="hljs inline no-lang" v-pre>--since</code>, <code class="hljs inline no-lang" v-pre>-s</code><a class="fa fa-anchor" href="#since-s" onclick="event.stopPropagation()"></a></h3>
+        <p><code class="hljs inline no-lang" v-pre>--since START_DATE</code>**: Specifies the start date for the period to be analyzed.</p>
         <ul>
-          <li>Parameter: <code v-pre>START_DATE</code> the first day of the period to be analyzed, in the format <code v-pre>DD/MM/YYYY</code><br>
+          <li>Parameter: <code class="hljs inline no-lang" v-pre>START_DATE</code> the first day of the period to be analyzed, in the format <code class="hljs inline no-lang" v-pre>DD/MM/YYYY</code><br>
             Default: one month before the current date</li>
-          <li>Alias: <code v-pre>-s</code></li>
-          <li>Example:<code v-pre>--since 21/10/2017</code> or <code v-pre>-s 21/10/2017</code></li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-s</code></li>
+          <li>Example:<code class="hljs inline no-lang" v-pre>--since 21/10/2017</code> or <code class="hljs inline no-lang" v-pre>-s 21/10/2017</code></li>
         </ul>
         <box type="info" seamless>
           <ul>
             <li>If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.</li>
-            <li>If <code v-pre>d1</code> is specified as the start date (<code v-pre>--since d1</code> or <code v-pre>-s d1</code>), then the earliest commit date of all repositories will be taken as the since date.
+            <li>If <code class="hljs inline no-lang" v-pre>d1</code> is specified as the start date (<code class="hljs inline no-lang" v-pre>--since d1</code> or <code class="hljs inline no-lang" v-pre>-s d1</code>), then the earliest commit date of all repositories will be taken as the since date.
             </li>
           </ul>
         </box>
 
 
-        <h3 id="timezone-t"><code v-pre>--timezone</code>, <code v-pre>-t</code><a class="fa fa-anchor" href="#timezone-t" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--timezone ZONE_ID</code></strong>: Indicates the timezone to be used for the analysis.</p>
+        <h3 id="timezone-t"><span id="timezone-t" class="anchor"></span><code class="hljs inline no-lang" v-pre>--timezone</code>, <code class="hljs inline no-lang" v-pre>-t</code><a class="fa fa-anchor" href="#timezone-t" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--timezone ZONE_ID</code></strong>: Indicates the timezone to be used for the analysis.</p>
         <ul>
-          <li>Parameter: <code v-pre>ZONE_ID</code> timezones in the format <code v-pre>ZONE_ID[±hh[mm]]</code><br>
+          <li>Parameter: <code class="hljs inline no-lang" v-pre>ZONE_ID</code> timezones in the format <code class="hljs inline no-lang" v-pre>ZONE_ID[±hh[mm]]</code><br>
             Default: system's default timezone</li>
-          <li>Alias: <code v-pre>-t</code></li>
-          <li>Example:<code v-pre>--timezone UTC+08</code> or <code v-pre>-t UTC-1030</code></li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-t</code></li>
+          <li>Example:<code class="hljs inline no-lang" v-pre>--timezone UTC+08</code> or <code class="hljs inline no-lang" v-pre>-t UTC-1030</code></li>
         </ul>
 
-        <h3 id="until-u"><code v-pre>--until</code>, <code v-pre>-u</code><a class="fa fa-anchor" href="#until-u" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--until END_DATE</code></strong>: Specifies the end date of the analysis period.</p>
+        <h3 id="until-u"><span id="until-u" class="anchor"></span><code class="hljs inline no-lang" v-pre>--until</code>, <code class="hljs inline no-lang" v-pre>-u</code><a class="fa fa-anchor" href="#until-u" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--until END_DATE</code></strong>: Specifies the end date of the analysis period.</p>
         <ul>
-          <li>Parameter: <code v-pre>END_DATE</code> The last date of the period to be analyzed, in the format <code v-pre>DD/MM/YYYY</code><br>
+          <li>Parameter: <code class="hljs inline no-lang" v-pre>END_DATE</code> The last date of the period to be analyzed, in the format <code class="hljs inline no-lang" v-pre>DD/MM/YYYY</code><br>
             Default: current date</li>
-          <li>Alias: <code v-pre>-u</code></li>
-          <li>Example:<code v-pre>--until 21/10/2017</code> or <code v-pre>-u 21/10/2017</code></li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-u</code></li>
+          <li>Example:<code class="hljs inline no-lang" v-pre>--until 21/10/2017</code> or <code class="hljs inline no-lang" v-pre>-u 21/10/2017</code></li>
         </ul>
         <box type="info" seamless>
           <p>Note: If the end date is not specified, the date of generating the report will be taken as the end date.
@@ -286,10 +288,10 @@
         </box>
         <p></p>
 
-        <h3 id="version-v"><code v-pre>--version</code>, <code v-pre>-V</code><a class="fa fa-anchor" href="#version-v" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--version</code></strong>: Shows the version of RepoSense.</p>
+        <h3 id="version-v"><span id="version-v" class="anchor"></span><code class="hljs inline no-lang" v-pre>--version</code>, <code class="hljs inline no-lang" v-pre>-V</code><a class="fa fa-anchor" href="#version-v" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--version</code></strong>: Shows the version of RepoSense.</p>
         <ul>
-          <li>Alias: <code v-pre>-V</code> (upper case)</li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-V</code> (upper case)</li>
         </ul>
         <box type="info" seamless>
           <p>Cannot be used with any other flags
@@ -297,18 +299,16 @@
         </box>
         <p></p>
 
-        <h3 id="view-v"><code v-pre>--view</code>, <code v-pre>-v</code><a class="fa fa-anchor" href="#view-v" onclick="event.stopPropagation()"></a></h3>
-        <p><strong><code v-pre>--view [REPORT_FOLDER]</code></strong>: Specifies the report should be opened in the default browser.</p>
+        <h3 id="view-v"><span id="view-v" class="anchor"></span><code class="hljs inline no-lang" v-pre>--view</code>, <code class="hljs inline no-lang" v-pre>-v</code><a class="fa fa-anchor" href="#view-v" onclick="event.stopPropagation()"></a></h3>
+        <p><strong><code class="hljs inline no-lang" v-pre>--view [REPORT_FOLDER]</code></strong>: Specifies the report should be opened in the default browser.</p>
         <ul>
-          <li>Parameter: <code v-pre>REPORT_FOLDER</code> Optional. If specified, no analysis will be performed and the report specified by the argument will be opened.<br>
-            Default: <code v-pre>./reposense-report</code></li>
-          <li>Alias: <code v-pre>-v</code></li>
-          <li>Example:<code v-pre>--view</code> or <code v-pre>-v</code></li>
+          <li>Parameter: <code class="hljs inline no-lang" v-pre>REPORT_FOLDER</code> Optional. If specified, no analysis will be performed and the report specified by the argument will be opened.<br>
+            Default: <code class="hljs inline no-lang" v-pre>./reposense-report</code></li>
+          <li>Alias: <code class="hljs inline no-lang" v-pre>-v</code></li>
+          <li>Example:<code class="hljs inline no-lang" v-pre>--view</code> or <code class="hljs inline no-lang" v-pre>-v</code></li>
         </ul>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
       <nav id="page-nav" class="navbar navbar-light bg-transparent">
         <div class="border-left-grey nav-inner position-sticky slim-scroll">
 
@@ -338,7 +338,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>

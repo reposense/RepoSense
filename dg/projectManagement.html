@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Project management</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="../markbind/css/markbind.min.css">
   <script src="../markbind/js/polyfill.min.js"></script>
   <script src="../markbind/js/vue.min.js"></script>
@@ -90,20 +90,22 @@
         </div>
       </nav>
 
+
+
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="project-management"><span>Project management</span><a class="fa fa-anchor" href="#project-management" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="project-management"><span id="project-management" class="anchor"></span><span>Project management</span><a class="fa fa-anchor" href="#project-management" onclick="event.stopPropagation()"></a></h1>
         <div class="lead">
           <p>This page contains information about project management tasks. The target audience is senior developers (and above).</p>
         </div>
 
-        <h2 id="merging-prs">Merging PRs<a class="fa fa-anchor" href="#merging-prs" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="merging-prs"><span id="merging-prs" class="anchor"></span>Merging PRs<a class="fa fa-anchor" href="#merging-prs" onclick="event.stopPropagation()"></a></h2>
         <ul>
           <li><strong>Use the 'squash and merge' option</strong> unless the situation warrants a different option.</li>
           <li><strong>For the merge commit</strong>, follow conventions at <a href="https://se-education.org/guides/conventions/github.html"><em>GitHub conventions</em> @SE-EDU</a>.</li>
         </ul>
 
-        <h2 id="deploying-the-production-website">Deploying the production website<a class="fa fa-anchor" href="#deploying-the-production-website" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="deploying-the-production-website"><span id="deploying-the-production-website" class="anchor"></span>Deploying the production website<a class="fa fa-anchor" href="#deploying-the-production-website" onclick="event.stopPropagation()"></a></h2>
         <p>We have two versions of the website:</p>
         <ol>
           <li><strong>Production website</strong> at <a href="https://reposense.org">https://reposense.org</a>
@@ -114,29 +116,27 @@
           </li>
           <li><strong>Dev website</strong> at <a href="https://reposense.org/RepoSense">https://reposense.org/RepoSense</a>
             <ul>
-              <li>matches the latest <code v-pre>master</code> branch</li>
-              <li>deployed automatically by Travis whenever the <code v-pre>master</code> branch is updated</li>
+              <li>matches the latest <code class="hljs inline no-lang" v-pre>master</code> branch</li>
+              <li>deployed automatically by Travis whenever the <code class="hljs inline no-lang" v-pre>master</code> branch is updated</li>
             </ul>
           </li>
         </ol>
         <p>The production website differs from the dev website in some ways e.g.,</p>
         <ul>
-          <li>It has a <code v-pre>CNAME</code> file (to indicate that it is the target destination for the <code v-pre>reposense.org</code> domain name)</li>
+          <li>It has a <code class="hljs inline no-lang" v-pre>CNAME</code> file (to indicate that it is the target destination for the <code class="hljs inline no-lang" v-pre>reposense.org</code> domain name)</li>
           <li>Its DG pages show a warning that it is not the latest version of the DG.</li>
         </ul>
-        <p>These variations are mainly managed by MarkBind via the <code v-pre>site.config</code> file. That is why the <code v-pre>site.config</code> file in the <code v-pre>release</code> branch is slightly different from the one in the <code v-pre>master</code> branch.</p>
+        <p>These variations are mainly managed by MarkBind via the <code class="hljs inline no-lang" v-pre>site.config</code> file. That is why the <code class="hljs inline no-lang" v-pre>site.config</code> file in the <code class="hljs inline no-lang" v-pre>release</code> branch is slightly different from the one in the <code class="hljs inline no-lang" v-pre>master</code> branch.</p>
         <p>After each release, do the following steps to deploy the production website:</p>
         <ol>
-          <li>Switch to the <code v-pre>release</code> branch</li>
-          <li><code v-pre>cd docs</code></li>
-          <li><code v-pre>markbind build</code></li>
-          <li><code v-pre>markbind deploy</code></li>
+          <li>Switch to the <code class="hljs inline no-lang" v-pre>release</code> branch</li>
+          <li><code class="hljs inline no-lang" v-pre>cd docs</code></li>
+          <li><code class="hljs inline no-lang" v-pre>markbind build</code></li>
+          <li><code class="hljs inline no-lang" v-pre>markbind deploy</code></li>
           <li>After a few minutes, check <a href="https://markbind.org">https://markbind.org</a> to ensure it has been updated as intended.</li>
         </ol>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
       <nav id="page-nav" class="navbar navbar-light bg-transparent">
         <div class="border-left-grey nav-inner position-sticky slim-scroll">
 
@@ -154,7 +154,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>

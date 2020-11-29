@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Using reports</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="../markbind/css/markbind.min.css">
   <script src="../markbind/js/polyfill.min.js"></script>
   <script src="../markbind/js/vue.min.js"></script>
@@ -46,7 +46,7 @@
     </header>
     <header>
       <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
+        <p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang" v-pre>master</code> branch of RepoSense (not released to the public yet).
           <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
         </p>
       </div>
@@ -84,7 +84,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code v-pre>@@author</code> tags</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></div>
@@ -96,7 +96,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code class="hljs inline no-lang" v-pre>run.sh</code> format</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html">FAQ</a></div>
@@ -111,14 +111,16 @@
       </nav>
 
 
+
+
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="using-reports"><span>Using reports</span><a class="fa fa-anchor" href="#using-reports" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="using-reports"><span id="using-reports" class="anchor"></span><span>Using reports</span><a class="fa fa-anchor" href="#using-reports" onclick="event.stopPropagation()"></a></h1>
         <div class="lead">
           <p>Let's look at how to view, interpret, and interact with a RepoSense report.</p>
         </div>
 
-        <h2 id="viewing-the-report">Viewing the report<a class="fa fa-anchor" href="#viewing-the-report" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="viewing-the-report"><span id="viewing-the-report" class="anchor"></span>Viewing the report<a class="fa fa-anchor" href="#viewing-the-report" onclick="event.stopPropagation()"></a></h2>
         <p>As the report consist of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.</p>
         <ul>
           <li><strong>Situation 1: The report has been hosted on a website</strong>
@@ -128,30 +130,30 @@
           </li>
           <li><strong>Situation 2: You generated the report in your computer earlier</strong>
             <ul>
-              <li>Run RepoSense with the <code v-pre>--view</code> option:<br>
-                Format: <code v-pre>java -jar RepoSense.jar --view REPORT_FOLDER</code><br>
-                e.g., <code v-pre>java -jar RepoSense.jar --view ./myReport/reposense-report</code></li>
+              <li>Run RepoSense with the <code class="hljs inline no-lang" v-pre>--view</code> option:<br>
+                Format: <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --view REPORT_FOLDER</code><br>
+                e.g., <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --view ./myReport/reposense-report</code></li>
             </ul>
           </li>
           <li><strong>Situation 3: The report was given to you as a zip file or as a folder</strong>
             <ol>
               <li>If it is a zip file, unzip it.</li>
-              <li>Open the <code v-pre>index.html</code> (in the unzipped report directory) using a browser.</li>
-              <li>If the report was not loaded automatically, click on the <code v-pre>choose file</code> button in the shown web page, and select the <code v-pre>archive.zip</code> (in the same directory) manually.<br>
-                If even the <code v-pre>choose file</code> button is not showing up, try a different browser.</li>
+              <li>Open the <code class="hljs inline no-lang" v-pre>index.html</code> (in the unzipped report directory) using a browser.</li>
+              <li>If the report was not loaded automatically, click on the <code class="hljs inline no-lang" v-pre>choose file</code> button in the shown web page, and select the <code class="hljs inline no-lang" v-pre>archive.zip</code> (in the same directory) manually.<br>
+                If even the <code class="hljs inline no-lang" v-pre>choose file</code> button is not showing up, try a different browser.</li>
             </ol>
           </li>
         </ul>
 
-        <h2 id="report-structure">Report structure<a class="fa fa-anchor" href="#report-structure" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="report-structure"><span id="report-structure" class="anchor"></span>Report structure<a class="fa fa-anchor" href="#report-structure" onclick="event.stopPropagation()"></a></h2>
         <p>Here is an example of how a typical report looks like:</p>
         <p><a href="/RepoSense/images/report-features.png" target="_self"><img src="/RepoSense/images/report-features.png" alt class="img-fluid"></a></p>
         <p>The report is divided into two sections: <a href="#chart-panel"><em><strong>Chart panel</strong></em></a> and the <a href="#code-panel"><em><strong>Code panel</strong></em></a>. In some situations, the <a href="#commits-panel"><em><strong>Commits panel</strong></em></a> will appear in place of the <em>code panel</em>. All three are explained in the sections below.</p>
 
-        <h2 id="chart-panel">Chart panel<a class="fa fa-anchor" href="#chart-panel" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="chart-panel"><span id="chart-panel" class="anchor"></span>Chart panel<a class="fa fa-anchor" href="#chart-panel" onclick="event.stopPropagation()"></a></h2>
         <p><a href="/RepoSense/images/rampchart.png" target="_self"><img src="/RepoSense/images/rampchart.png" alt class="img-fluid"></a><br></p>
-        <p>The <code v-pre>Chart panel</code> (an example is shown above) contains a series of <em>ramp chart</em> + <em>contribution bar</em> pairs, possibly organized into sub-groups, with a <em>tool bar</em> at the top.</p>
-        <h4 id="ramp-charts">Ramp charts<a class="fa fa-anchor" href="#ramp-charts" onclick="event.stopPropagation()"></a></h4>
+        <p>The <code class="hljs inline no-lang" v-pre>Chart panel</code> (an example is shown above) contains a series of <em>ramp chart</em> + <em>contribution bar</em> pairs, possibly organized into sub-groups, with a <em>tool bar</em> at the top.</p>
+        <h4 id="ramp-charts"><span id="ramp-charts" class="anchor"></span>Ramp charts<a class="fa fa-anchor" href="#ramp-charts" onclick="event.stopPropagation()"></a></h4>
         <box type="definition" seamless>
           <p><strong>Ramp chart</strong>: This is a visualization of frequency and quantity of contributions of an author for a specific repository. Each ramp chart (i.e., light blue rectangle) represents the <em>contribution timeline</em> of an author for a specific repository. Contributions appear as ramps in the timeline.
           </p>
@@ -170,7 +172,7 @@
           <li>To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.</li>
           <li>Ramps representing big contributions can overlap with earlier time periods. This represents the possibility that if the work committed during a specific period is big, it could have started in an earlier time period.</li>
         </ul>
-        <h4 id="contribution-bars">Contribution bars<a class="fa fa-anchor" href="#contribution-bars" onclick="event.stopPropagation()"></a></h4>
+        <h4 id="contribution-bars"><span id="contribution-bars" class="anchor"></span>Contribution bars<a class="fa fa-anchor" href="#contribution-bars" onclick="event.stopPropagation()"></a></h4>
         <box type="definition" seamless>
           <p><strong>Contribution bar</strong>: It's the bar that appears below each ramp chart. Its length represents the total amount of code contributed by an author during the <em>total analysis period</em>.
           </p>
@@ -185,61 +187,61 @@
           </p>
         </box>
         <p></p>
-        <h4 id="tool-bar">Tool bar<a class="fa fa-anchor" href="#tool-bar" onclick="event.stopPropagation()"></a></h4>
-        <p>The <code v-pre>Tool Bar</code> at the top of the Chart panel provides a set of configuration options that control the Chart panel.</p>
+        <h4 id="tool-bar"><span id="tool-bar" class="anchor"></span>Tool bar<a class="fa fa-anchor" href="#tool-bar" onclick="event.stopPropagation()"></a></h4>
+        <p>The <code class="hljs inline no-lang" v-pre>Tool Bar</code> at the top of the Chart panel provides a set of configuration options that control the Chart panel.</p>
         <ul>
-          <li><code v-pre>Search</code> : filters the author and repository by keywords.
+          <li><code class="hljs inline no-lang" v-pre>Search</code> : filters the author and repository by keywords.
             <ul>
               <li>Multiple keywords/terms can be used, separated by spaces.</li>
               <li>Entries that contain <em>any</em> (not necessarily <em>all</em>) of the search terms will be displayed.</li>
               <li>The keywords used to filter author and repository are case-insensitive.</li>
             </ul>
           </li>
-          <li><code v-pre>Group by</code> : grouping criteria for the rows of results
+          <li><code class="hljs inline no-lang" v-pre>Group by</code> : grouping criteria for the rows of results
             <ul>
-              <li><code v-pre>None</code> : results will not be grouped in any particular way.</li>
-              <li><code v-pre>Repo/Branch</code> : results will be grouped by repositories and its' associating branches.</li>
-              <li><code v-pre>Author</code> : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.</li>
+              <li><code class="hljs inline no-lang" v-pre>None</code> : results will not be grouped in any particular way.</li>
+              <li><code class="hljs inline no-lang" v-pre>Repo/Branch</code> : results will be grouped by repositories and its' associating branches.</li>
+              <li><code class="hljs inline no-lang" v-pre>Author</code> : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.</li>
             </ul>
           </li>
-          <li><code v-pre>Sort groups by</code>: sorting criteria for the main group. See note [1] below.
+          <li><code class="hljs inline no-lang" v-pre>Sort groups by</code>: sorting criteria for the main group. See note [1] below.
             <ul>
-              <li><code v-pre>Group title</code> : groups will be sorted by the title of the group (in bold text) in alphabetical order.</li>
-              <li><code v-pre>Contribution</code> : groups will be sorted by the combined contributions within a group, in the order of number of lines added</li>
-              <li><code v-pre>Variance</code> : groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. Detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li>
+              <li><code class="hljs inline no-lang" v-pre>Group title</code> : groups will be sorted by the title of the group (in bold text) in alphabetical order.</li>
+              <li><code class="hljs inline no-lang" v-pre>Contribution</code> : groups will be sorted by the combined contributions within a group, in the order of number of lines added</li>
+              <li><code class="hljs inline no-lang" v-pre>Variance</code> : groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. Detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li>
             </ul>
           </li>
-          <li><code v-pre>Sort within groups by</code>: sorting criteria within each group
+          <li><code class="hljs inline no-lang" v-pre>Sort within groups by</code>: sorting criteria within each group
             <ul>
-              <li><code v-pre>Title</code> : each group will be internally sorted by it's title in alphabetical order.</li>
-              <li><code v-pre>Contribution</code> : each group will be internally sorted by individual contributions in the order of number of lines added</li>
-              <li><code v-pre>Variance</code> : each group will be internally sorted by how far the daily contributions are spread out from their average value by each author into a particular repo. Detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li>
+              <li><code class="hljs inline no-lang" v-pre>Title</code> : each group will be internally sorted by it's title in alphabetical order.</li>
+              <li><code class="hljs inline no-lang" v-pre>Contribution</code> : each group will be internally sorted by individual contributions in the order of number of lines added</li>
+              <li><code class="hljs inline no-lang" v-pre>Variance</code> : each group will be internally sorted by how far the daily contributions are spread out from their average value by each author into a particular repo. Detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li>
             </ul>
           </li>
-          <li><code v-pre>Granularity</code> : the period of time for which commits are aggregated in the Ramp Chart.
+          <li><code class="hljs inline no-lang" v-pre>Granularity</code> : the period of time for which commits are aggregated in the Ramp Chart.
             <ul>
-              <li><code v-pre>Commit</code>: each commit made is shown as one ramp</li>
-              <li><code v-pre>Day</code>: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp</li>
-              <li><code v-pre>Week</code>: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp</li>
+              <li><code class="hljs inline no-lang" v-pre>Commit</code>: each commit made is shown as one ramp</li>
+              <li><code class="hljs inline no-lang" v-pre>Day</code>: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp</li>
+              <li><code class="hljs inline no-lang" v-pre>Week</code>: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp</li>
             </ul>
           </li>
-          <li><code v-pre>Since</code>, <code v-pre>Until</code> : the date range for the Ramp Chart (not applied to the Contribution Bars).</li>
-          <li><code v-pre>Reset date range</code> : resets the date range of the Ramp Chart to the default date range.</li>
-          <li><code v-pre>Breakdown by file type</code> : toggles the contribution bar to either display the bar by :
+          <li><code class="hljs inline no-lang" v-pre>Since</code>, <code class="hljs inline no-lang" v-pre>Until</code> : the date range for the Ramp Chart (not applied to the Contribution Bars).</li>
+          <li><code class="hljs inline no-lang" v-pre>Reset date range</code> : resets the date range of the Ramp Chart to the default date range.</li>
+          <li><code class="hljs inline no-lang" v-pre>Breakdown by file type</code> : toggles the contribution bar to either display the bar by :
             <ul>
               <li>the total lines of codes added (if checkbox is left unchecked), or</li>
               <li>a breakdown of the number of lines of codes added to each file type (if checkbox is checked). More info on note [3] below.</li>
             </ul>
           </li>
-          <li><code v-pre>Merge group</code> : merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
+          <li><code class="hljs inline no-lang" v-pre>Merge group</code> : merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
             <ul>
-              <li>viewing of authored code of the group as a whole is available when <code v-pre>group by repos</code>.</li>
+              <li>viewing of authored code of the group as a whole is available when <code class="hljs inline no-lang" v-pre>group by repos</code>.</li>
             </ul>
           </li>
         </ul>
         <p>Notes:<br>
-          [1] <strong><code v-pre>Sort groups by</code></strong>: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>
-          [2] <strong><code v-pre>Repo/Branch</code></strong>: the repo/branch name is constructed as <code v-pre>ORGANIZATION/REPOSITORY[BRANCH]</code> (e.g., <code v-pre>resposense/reposense[master]</code>)<br>
+          [1] <strong><code class="hljs inline no-lang" v-pre>Sort groups by</code></strong>: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>
+          [2] <strong><code class="hljs inline no-lang" v-pre>Repo/Branch</code></strong>: the repo/branch name is constructed as <code class="hljs inline no-lang" v-pre>ORGANIZATION/REPOSITORY[BRANCH]</code> (e.g., <code class="hljs inline no-lang" v-pre>resposense/reposense[master]</code>)<br>
           [3] The total contribution of each group will get updated based on the checked file types and will be taken into account when sorting criteria is contribution.</p>
         <box type="tip" seamless>
           <p><strong>RepoSense support <em>intelligent</em> bookmarks</strong>: Note how the browser URL changes as you modify settings in the report. If you send that URL to someone else, that person will be able to use that URL to view the report in the same <em>view configuration</em> you had at the time you copied the URL. For example, <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/">this URL</a> and <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=day&amp;mergegroup=true&amp;groupSelect=groupByRepos&amp;breakdown=true">this URL</a> give two different views of the same report.
@@ -247,9 +249,9 @@
         </box>
         <p></p>
 
-        <h2 id="code-panel">Code panel<a class="fa fa-anchor" href="#code-panel" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="code-panel"><span id="code-panel" class="anchor"></span>Code panel<a class="fa fa-anchor" href="#code-panel" onclick="event.stopPropagation()"></a></h2>
         <img src="/RepoSense/images/code-panel.png" alt="code panel" width="468">
-        <p>The <code v-pre>Code panel</code> allows users to see the code attributed to a specific author. Click on the <code v-pre>&lt;/&gt;</code> icon beside the name of the author in the <code v-pre>Chart panel</code> to display the <code v-pre>Code panel</code> on the right.</p>
+        <p>The <code class="hljs inline no-lang" v-pre>Code panel</code> allows users to see the code attributed to a specific author. Click on the <code class="hljs inline no-lang" v-pre>&lt;/&gt;</code> icon beside the name of the author in the <code class="hljs inline no-lang" v-pre>Chart panel</code> to display the <code class="hljs inline no-lang" v-pre>Code panel</code> on the right.</p>
         <ul>
           <li>The Code panel shows the files that contain author's contributions, sorted by the number of lines written.</li>
           <li>Select the radio button to enable one of the following 2 filters. Note that only 1 of the 2 filters is active at any time.
@@ -266,9 +268,9 @@
           <li>Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the <span class="dimmed"><span aria-hidden="true" class="fas fa-plus-circle"></span></span> icon.</li>
         </ul>
 
-        <h2 id="commits-panel">Commits panel<a class="fa fa-anchor" href="#commits-panel" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="commits-panel"><span id="commits-panel" class="anchor"></span>Commits panel<a class="fa fa-anchor" href="#commits-panel" onclick="event.stopPropagation()"></a></h2>
         <img src="/RepoSense/images/commits-panel.png" alt="commits panel" width="468">
-        <p>The <code v-pre>Commits panel</code> allows users to see the commits attributed to a specific author.</p>
+        <p>The <code class="hljs inline no-lang" v-pre>Commits panel</code> allows users to see the commits attributed to a specific author.</p>
         <ul>
           <li>To view all commits attributed to an author, locate the author's ramp chart in the chart panel, and click on the <span class="dimmed"><span aria-hidden="true" class="fas fa-list-ul"></span></span> icon above the ramp chart.</li>
           <li>To view commits of a specific period, locate the author's ramp chart in the chart panel, hold down the <kbd>Ctrl</kbd> key (<kbd>⌘</kbd> in MacOS), and click on the start and end positions of the period (on the ramp chart) you want to view. <br></li>
@@ -277,8 +279,8 @@
         <ul>
           <li>The commits can be sorted by the date it was committed or by LoC.</li>
           <li>The tags of the commits will also be displayed on top, if any. Clicking on a tag will direct you to the commit having that particular tag.</li>
-          <li>The date range for the <code v-pre>Chart panel</code> can be updated by clicking on the &quot;Show ramp chart for this period&quot; below the name of the author.</li>
-          <li>The ramp chart at the top of the <code v-pre>Commits panel</code> represents individual commits (not weekly or daily contributions).</li>
+          <li>The date range for the <code class="hljs inline no-lang" v-pre>Chart panel</code> can be updated by clicking on the &quot;Show ramp chart for this period&quot; below the name of the author.</li>
+          <li>The ramp chart at the top of the <code class="hljs inline no-lang" v-pre>Commits panel</code> represents individual commits (not weekly or daily contributions).</li>
           <li>The commit messages body can be expanded or collapsed by clicking on the <span class="dimmed"><span aria-hidden="true" class="fas fa-ellipsis-h"></span></span> icon beside each commit message title.</li>
           <li>To promote and encourage the 50/72 rule for commit messages, a dotted vertical line will be shown for:
             <ul>
@@ -289,8 +291,6 @@
         </ul>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
       <nav id="page-nav" class="navbar navbar-light bg-transparent">
         <div class="border-left-grey nav-inner position-sticky slim-scroll">
 
@@ -311,7 +311,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>

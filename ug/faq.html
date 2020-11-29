@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Appendix: FAQ</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="../markbind/css/markbind.min.css">
   <script src="../markbind/js/polyfill.min.js"></script>
   <script src="../markbind/js/vue.min.js"></script>
@@ -46,7 +46,7 @@
     </header>
     <header>
       <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code v-pre>master</code> branch of RepoSense (not released to the public yet).
+        <p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang" v-pre>master</code> branch of RepoSense (not released to the public yet).
           <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
         </p>
       </div>
@@ -84,7 +84,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code v-pre>@@author</code> tags</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html">Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></div>
@@ -96,7 +96,7 @@
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code class="hljs inline no-lang" v-pre>run.sh</code> format</a></div>
                 </li>
                 <li>
                   <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html" class="current">FAQ</a></div>
@@ -111,25 +111,25 @@
       </nav>
 
 
+
+
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="appendix-faq"><span>Appendix: FAQ</span><a class="fa fa-anchor" href="#appendix-faq" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="appendix-faq"><span id="appendix-faq" class="anchor"></span><span>Appendix: FAQ</span><a class="fa fa-anchor" href="#appendix-faq" onclick="event.stopPropagation()"></a></h1>
 
-        <h3 id="q-does-reposense-work-on-private-repositories">Q: Does RepoSense work on private repositories?<a class="fa fa-anchor" href="#q-does-reposense-work-on-private-repositories" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="q-does-reposense-work-on-private-repositories"><span id="q-does-reposense-work-on-private-repositories" class="anchor"></span>Q: Does RepoSense work on private repositories?<a class="fa fa-anchor" href="#q-does-reposense-work-on-private-repositories" onclick="event.stopPropagation()"></a></h3>
         <p><strong>A:</strong> <em>RepoSense</em> will first clone the git repository to be analyzed, thus if you do not have access to the repository, we are unable to run the analysis.<br>
           To enable <em>RepoSense</em> to work on private repositories, ensure that you have enabled access to your private repository in your git terminal first, before running the analysis.</p>
 
-        <h3 id="q-how-does-formats-work">Q: How does formats work?<a class="fa fa-anchor" href="#q-how-does-formats-work" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="q-how-does-formats-work"><span id="q-how-does-formats-work" class="anchor"></span>Q: How does formats work?<a class="fa fa-anchor" href="#q-how-does-formats-work" onclick="event.stopPropagation()"></a></h3>
         <p><strong>A:</strong> <strong>Formats</strong> are the <a href="https://techterms.com/definition/fileextension">file extensions</a>, which is the <strong>suffix</strong> at the end of a filename that indicates what type of file it is.<br>
           The formats/file extensions to be analyzed by <em>RepoSense</em> can be specified through the <a href="#provide-data-using-a-json-config-file">standalone config file</a>, <a href="#repo-configcsv">repo-config file</a> and <a href="#customize-using-command-line-parameters">command line</a>.</p>
 
-        <h3 id="q-how-does-ignore-glob-list-work">Q: How does ignore glob list work?<a class="fa fa-anchor" href="#q-how-does-ignore-glob-list-work" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="q-how-does-ignore-glob-list-work"><span id="q-how-does-ignore-glob-list-work" class="anchor"></span>Q: How does ignore glob list work?<a class="fa fa-anchor" href="#q-how-does-ignore-glob-list-work" onclick="event.stopPropagation()"></a></h3>
         <p><strong>A:</strong> <a href="https://en.wikipedia.org/wiki/Glob_(programming)">Glob</a> is the pattern to specify a set of filenames with <a href="https://www.computerhope.com/jargon/w/wildcard.htm">wildcard characters</a>. <strong>Ignore glob list</strong> is the list of patterns to specify all the files in the repository which should be ignored from analysis.<br>
           The ignore glob list can be specified through the <a href="#provide-data-using-a-json-config-file">standalone config file</a>, <a href="#repo-config-csv">repo-config file</a> and <a href="#author-config-csv">author-config file</a>.</p>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
       <nav id="page-nav" class="navbar navbar-light bg-transparent">
         <div class="border-left-grey nav-inner position-sticky slim-scroll">
 
@@ -148,7 +148,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>

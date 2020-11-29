@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Home</title>
   <link rel="stylesheet" href="markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="markbind/css/octicons.css">
-  <link rel="stylesheet" href="markbind/css/github.min.css">
+  <link rel="stylesheet" href="markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="markbind/css/markbind.min.css">
   <script src="markbind/js/polyfill.min.js"></script>
   <script src="markbind/js/vue.min.js"></script>
@@ -47,7 +47,7 @@
     <header>
       <div class="jumbotron jumbotron-fluid text-center" style="padding-top: inherit; padding-bottom: inherit">
         <div class="container">
-          <h1 class="display-3" id="reposense">RepoSense<a class="fa fa-anchor" href="#reposense" onclick="event.stopPropagation()"></a></h1>
+          <h1 class="display-3" id="reposense"><span id="reposense" class="anchor"></span>RepoSense<a class="fa fa-anchor" href="#reposense" onclick="event.stopPropagation()"></a></h1>
           <div class="lead">
             <p>Visualize programmer activities across git repositories...
               <br><br>
@@ -60,13 +60,15 @@
     </header>
     <div id="flex-body">
 
+
+
       <div id="content-wrapper">
         <div></div>
 
         <span id="overview">
           <p><strong>RepoSense can generate interactive visualizations of programmer activities, even across multiple repositories.</strong> It's ideal for educators and managers to get insights on programming activities of their mentees. The visualizations can be <strong>easily shared</strong> with others (e.g., as an online dashboard) and updating of the visualizations periodically <strong>can be automated</strong>.</p>
           <p>Some example insights RepoSense can provide:</p>
-          <h4 id="insights-about-the-code">
+          <h4 id="insights-about-the-code"><span id="insights-about-the-code" class="anchor"></span>
             <thumbnail circle background="#006600" font-color="white" size="50"><span aria-hidden="true" class="fas fa-code"></span></thumbnail> <span class="lead font-weight-bold text-green">Insights about the code</span><a class="fa fa-anchor" href="#insights-about-the-code" onclick="event.stopPropagation()"></a>
           </h4>
           <ul>
@@ -74,7 +76,7 @@
             <li>Which test cases were written by Kim?</li>
             <li>Which commit messages were written by Serene?</li>
           </ul>
-          <h4 id="insights-about-the-type-of-work">
+          <h4 id="insights-about-the-type-of-work"><span id="insights-about-the-type-of-work" class="anchor"></span>
             <thumbnail circle background="#006600" font-color="white" size="50"><span aria-hidden="true" class="fas fa-chart-pie"></span></thumbnail> <span class="lead font-weight-bold text-green">Insights about the type of work</span><a class="fa fa-anchor" href="#insights-about-the-type-of-work" onclick="event.stopPropagation()"></a>
           </h4>
           <ul>
@@ -82,7 +84,7 @@
             <li>Who hasn't written any test code yet?</li>
             <li>Which project did Jolene contribute to in the last month?</li>
           </ul>
-          <h4 id="insights-about-the-timing-of-work">
+          <h4 id="insights-about-the-timing-of-work"><span id="insights-about-the-timing-of-work" class="anchor"></span>
             <thumbnail circle background="#006600" font-color="white" size="50"><span aria-hidden="true" class="fas fa-business-time"></span></thumbnail> <span class="lead font-weight-bold text-green">Insights about the timing of work</span><a class="fa fa-anchor" href="#insights-about-the-timing-of-work" onclick="event.stopPropagation()"></a>
           </h4>
           <ul>
@@ -90,7 +92,7 @@
             <li>Who waits till the deadline to do the work?</li>
             <li>Who hasn't started any work yet?</li>
           </ul>
-          <h4 id="insights-based-on-comparisons">
+          <h4 id="insights-based-on-comparisons"><span id="insights-based-on-comparisons" class="anchor"></span>
             <thumbnail circle background="#006600" font-color="white" size="50"><span aria-hidden="true" class="fas fa-list-ol"></span></thumbnail> <span class="lead font-weight-bold text-green">Insights based on comparisons</span><a class="fa fa-anchor" href="#insights-based-on-comparisons" onclick="event.stopPropagation()"></a>
           </h4>
           <ul>
@@ -148,7 +150,7 @@
                           <p><a href="/RepoSense/ug/configFiles.html">Config files format</a></p>
                         </li>
                         <li>
-                          <p><a href="/RepoSense/ug/usingAuthorTags.html">Using <code v-pre>@@author</code> tags</a></p>
+                          <p><a href="/RepoSense/ug/usingAuthorTags.html">Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</a></p>
                         </li>
                         <li>
                           <p><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></p>
@@ -160,7 +162,7 @@
                           <p><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></p>
                         </li>
                         <li>
-                          <p><a href="/RepoSense/ug/runSh.html"><code v-pre>run.sh</code> format</a></p>
+                          <p><a href="/RepoSense/ug/runSh.html"><code class="hljs inline no-lang" v-pre>run.sh</code> format</a></p>
                         </li>
                         <li>
                           <p><a href="/RepoSense/ug/faq.html">FAQ</a></p>
@@ -214,13 +216,11 @@
         </div>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
     </div>
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>

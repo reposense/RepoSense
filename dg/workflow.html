@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Workflow</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="../markbind/css/markbind.min.css">
   <script src="../markbind/js/polyfill.min.js"></script>
   <script src="../markbind/js/vue.min.js"></script>
@@ -90,9 +90,11 @@
         </div>
       </nav>
 
+
+
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="workflow"><span>Workflow</span><a class="fa fa-anchor" href="#workflow" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="workflow"><span id="workflow" class="anchor"></span><span>Workflow</span><a class="fa fa-anchor" href="#workflow" onclick="event.stopPropagation()"></a></h1>
         <div class="lead">
           <p>Our workflow is mostly based on the guidelines given at <a href="http://se-education.org/guides">se-education.org/guides</a>.</p>
         </div>
@@ -104,17 +106,17 @@
           <li>The sections below has more information about various stages of submitting a PR.</li>
         </ul>
 
-        <h2 id="following-the-code-style">Following the code style<a class="fa fa-anchor" href="#following-the-code-style" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="following-the-code-style"><span id="following-the-code-style" class="anchor"></span>Following the code style<a class="fa fa-anchor" href="#following-the-code-style" onclick="event.stopPropagation()"></a></h2>
         <ul>
           <li>Make sure you know our coding standards.</li>
         </ul>
         <div class="indented-level2">
-          <panel minimized><template slot="_header">
+          <panel minimized><template slot="header">
               <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Appendix: Coding Standards</p>
             </template>
             <div>
               <div></div>
-              <h1 class="display-4" id="appendix-style-guides"><span>Appendix: Style guides</span><a class="fa fa-anchor" href="#appendix-style-guides" onclick="event.stopPropagation()"></a></h1>
+              <h1 class="display-4" id="appendix-style-guides"><span id="appendix-style-guides" class="anchor"></span><span>Appendix: Style guides</span><a class="fa fa-anchor" href="#appendix-style-guides" onclick="event.stopPropagation()"></a></h1>
               <div class="lead">
                 <p>Our coding standards are mostly based on those at <a href="https://se-education.org/guides">se-education.org/guides</a>.</p>
               </div>
@@ -134,26 +136,26 @@
         <ul>
           <li><strong>Follow <a href="https://se-education.org/guides/tutorials/intellijCodeStyle.html">this</a> to configure Intellij to follow our coding style</strong>.</li>
           <li><strong>This project uses Checkstyle</strong> to check the compliance of Java code. You can use <a href="https://se-education.org/guides/tutorials/checkstyle.html">this document</a> to find how to use it.</li>
-          <li><strong>To check Pug files for style errors</strong>, run <code v-pre>npm run lint</code> from the project root directory. You can use the <code v-pre>npm run lintfix</code> to automatically fix some of the javascript and css lint errors.</li>
+          <li><strong>To check Pug files for style errors</strong>, run <code class="hljs inline no-lang" v-pre>npm run lint</code> from the project root directory. You can use the <code class="hljs inline no-lang" v-pre>npm run lintfix</code> to automatically fix some of the javascript and css lint errors.</li>
         </ul>
 
-        <h2 id="running-the-app-from-code">Running the app from code<a class="fa fa-anchor" href="#running-the-app-from-code" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="running-the-app-from-code"><span id="running-the-app-from-code" class="anchor"></span>Running the app from code<a class="fa fa-anchor" href="#running-the-app-from-code" onclick="event.stopPropagation()"></a></h2>
         <div id="section-running-from-code">
           <ul>
-            <li>To run the app from code, run <code v-pre>gradlew run</code> from the project root. By default, it will run based on the config files in the <code v-pre>[project root]/config</code> folder.</li>
-            <li>To supply flags, you can use the <code v-pre>-Dargs=&quot;[FLAGS]&quot;</code> format.<br>
-              e.g., <code v-pre>gradlew run -Dargs=&quot;--since 31/12/2019 --formats java adoc xml&quot;</code></li>
+            <li>To run the app from code, run <code class="hljs inline no-lang" v-pre>gradlew run</code> from the project root. By default, it will run based on the config files in the <code class="hljs inline no-lang" v-pre>[project root]/config</code> folder.</li>
+            <li>To supply flags, you can use the <code class="hljs inline no-lang" v-pre>-Dargs=&quot;[FLAGS]&quot;</code> format.<br>
+              e.g., <code class="hljs inline no-lang" v-pre>gradlew run -Dargs=&quot;--since 31/12/2019 --formats java adoc xml&quot;</code></li>
           </ul>
         </div>
 
-        <h2 id="debugging-front-end">Debugging (front-end)<a class="fa fa-anchor" href="#debugging-front-end" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="debugging-front-end"><span id="debugging-front-end" class="anchor"></span>Debugging (front-end)<a class="fa fa-anchor" href="#debugging-front-end" onclick="event.stopPropagation()"></a></h2>
         <p><strong>You can use Vue.js devtools for frontend debugging on Chrome.</strong> Here are the steps:</p>
         <ol>
           <li>On your Chrome, visit the website of <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">Vue.js devtools</a> and add the extension.</li>
-          <li>Go the detail page of this extension in Chrome's extension management panel and select <code v-pre>Allow access to file URLs</code>. If you are unable to locate it, copy the link: <code v-pre>chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd</code> and visit it on your Chrome.</li>
+          <li>Go the detail page of this extension in Chrome's extension management panel and select <code class="hljs inline no-lang" v-pre>Allow access to file URLs</code>. If you are unable to locate it, copy the link: <code class="hljs inline no-lang" v-pre>chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd</code> and visit it on your Chrome.</li>
           <li>Open any report generated by RepoSense.</li>
-          <li>Press <code v-pre>F12</code> or right click and choose <code v-pre>inspect</code> at the report page.</li>
-          <li>Choose <code v-pre>Vue</code> at the navigation bar.<br>
+          <li>Press <code class="hljs inline no-lang" v-pre>F12</code> or right click and choose <code class="hljs inline no-lang" v-pre>inspect</code> at the report page.</li>
+          <li>Choose <code class="hljs inline no-lang" v-pre>Vue</code> at the navigation bar.<br>
             <a href="/RepoSense/images/choose-vue.png" target="_self"><img src="/RepoSense/images/choose-vue.png" alt class="img-fluid"></a>
           </li>
           <li>Debug using the tool.<br>
@@ -166,13 +168,13 @@
         </box>
         <p></p>
 
-        <h2 id="testing-front-end">Testing (front-end)<a class="fa fa-anchor" href="#testing-front-end" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="testing-front-end"><span id="testing-front-end" class="anchor"></span>Testing (front-end)<a class="fa fa-anchor" href="#testing-front-end" onclick="event.stopPropagation()"></a></h2>
         <p><strong>We use <a href="https://www.cypress.io/">Cypress</a> for automated end-to-end front-end testing.</strong></p>
-        <h3 id="writing-tests">Writing tests<a class="fa fa-anchor" href="#writing-tests" onclick="event.stopPropagation()"></a></h3>
+        <h3 id="writing-tests"><span id="writing-tests" class="anchor"></span>Writing tests<a class="fa fa-anchor" href="#writing-tests" onclick="event.stopPropagation()"></a></h3>
         <ol>
-          <li>Create a new test file in <code v-pre>frontend/cypress/tests</code></li>
-          <li>At project root start <em>Cypress Test Runner</em> by running <code v-pre>gradlew cypress</code></li>
-          <li>On the top right hand corner, set <code v-pre>Chrome</code> as the default browser</li>
+          <li>Create a new test file in <code class="hljs inline no-lang" v-pre>frontend/cypress/tests</code></li>
+          <li>At project root start <em>Cypress Test Runner</em> by running <code class="hljs inline no-lang" v-pre>gradlew cypress</code></li>
+          <li>On the top right hand corner, set <code class="hljs inline no-lang" v-pre>Chrome</code> as the default browser</li>
           <li>Under <strong>Integration Tests</strong>, click on the newly created test file to run it
             <a href="/RepoSense/images/cypress-test-runner.jpg" target="_self"><img src="/RepoSense/images/cypress-test-runner.jpg" alt class="img-fluid" title="Cypress Test Runner"></a>
           </li>
@@ -183,25 +185,23 @@
         </box>
         <p></p>
 
-        <h3 id="running-tests">Running tests<a class="fa fa-anchor" href="#running-tests" onclick="event.stopPropagation()"></a></h3>
-        <p>To run all tests locally, run <code v-pre>gradlew frontendTest</code>.</p>
+        <h3 id="running-tests"><span id="running-tests" class="anchor"></span>Running tests<a class="fa fa-anchor" href="#running-tests" onclick="event.stopPropagation()"></a></h3>
+        <p>To run all tests locally, run <code class="hljs inline no-lang" v-pre>gradlew frontendTest</code>.</p>
         <box type="info" seamless>
-          <p>If you encountered an invalid browser error, ensure that you have <code v-pre>Chrome</code> installed in the default installation directory. Otherwise, follow the instructions <a href="https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers">here</a> to create symbolic links so Cypress can locate <code v-pre>Chrome</code> in your system.
+          <p>If you encountered an invalid browser error, ensure that you have <code class="hljs inline no-lang" v-pre>Chrome</code> installed in the default installation directory. Otherwise, follow the instructions <a href="https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers">here</a> to create symbolic links so Cypress can locate <code class="hljs inline no-lang" v-pre>Chrome</code> in your system.
           </p>
         </box>
         <p></p>
 
-        <h2 id="writing-documentation">Writing documentation<a class="fa fa-anchor" href="#writing-documentation" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="writing-documentation"><span id="writing-documentation" class="anchor"></span>Writing documentation<a class="fa fa-anchor" href="#writing-documentation" onclick="event.stopPropagation()"></a></h2>
         <p><strong>This project uses <a href="https://markbind.org/">MarkBind</a></strong> for documentation. Follow <a href="https://se-education.org/guides/tutorials/markbind.html">this tutorial</a> to learn how to use MarkBind for updating project documentation.</p>
-        <p><strong>To show some content only in the <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-slot-name="_content">i.e., <a href="https://reposense.org">https://reposense.org</a></span>production website</span></strong>, add the <code v-pre>tags=&quot;production&quot;</code> attribute to the HTML element enclosing the content. Similarly, <code v-pre>tags=&quot;dev&quot;</code> will make the content appear only in the <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-slot-name="_content">i.e., <a href="https://reposense.org/RepoSense">https://reposense.org/RepoSense</a></span>dev website</span>.</p>
+        <p><strong>To show some content only in the <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-slot-name="_content">i.e., <a href="https://reposense.org">https://reposense.org</a></span>production website</span></strong>, add the <code class="hljs inline no-lang" v-pre>tags=&quot;production&quot;</code> attribute to the HTML element enclosing the content. Similarly, <code class="hljs inline no-lang" v-pre>tags=&quot;dev&quot;</code> will make the content appear only in the <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-slot-name="_content">i.e., <a href="https://reposense.org/RepoSense">https://reposense.org/RepoSense</a></span>dev website</span>.</p>
         <pre><code class="hljs html" v-pre><span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">tags</span>=<span class="hljs-string">"production"</span>&gt;</span>This will appear in the production website only.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 </span><span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">tags</span>=<span class="hljs-string">"dev"</span>&gt;</span>This will appear in the dev website only.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 </span><span>This will appear in both sites.
 </span></code></pre>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
       <nav id="page-nav" class="navbar navbar-light bg-transparent">
         <div class="border-left-grey nav-inner position-sticky slim-scroll">
 
@@ -226,7 +226,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>

@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.16.0">
+  <meta name="generator" content="MarkBind 2.17.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Setting up</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
   <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-dark.min.css">
   <link rel="stylesheet" href="../markbind/css/markbind.min.css">
   <script src="../markbind/js/polyfill.min.js"></script>
   <script src="../markbind/js/vue.min.js"></script>
@@ -90,33 +90,35 @@
         </div>
       </nav>
 
+
+
       <div id="content-wrapper">
         <div></div>
-        <h1 class="display-4" id="setting-up"><span>Setting up</span><a class="fa fa-anchor" href="#setting-up" onclick="event.stopPropagation()"></a></h1>
+        <h1 class="display-4" id="setting-up"><span id="setting-up" class="anchor"></span><span>Setting up</span><a class="fa fa-anchor" href="#setting-up" onclick="event.stopPropagation()"></a></h1>
         <p><strong>Prerequisites:</strong></p>
         <ul>
           <li>
-            <p><strong>JDK <code v-pre>1.8.0_60</code></strong> or later (<a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
+            <p><strong>JDK <code class="hljs inline no-lang" v-pre>1.8.0_60</code></strong> or later (<a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
           </li>
           <li>
-            <p><strong>npm</strong> <code v-pre>6.0</code> or later (<a href="https://www.npmjs.com/get-npm">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
+            <p><strong>npm</strong> <code class="hljs inline no-lang" v-pre>6.0</code> or later (<a href="https://www.npmjs.com/get-npm">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
           </li>
           <li>
-            <p><strong>git <code v-pre>2.14</code></strong> or later (<a href="https://git-scm.com/downloads">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
+            <p><strong>git <code class="hljs inline no-lang" v-pre>2.14</code></strong> or later (<a href="https://git-scm.com/downloads">download <span aria-hidden="true" class="fas fa-download"></span></a>).</p>
             <box type="info" seamless>
-              <p>Type <code v-pre>git --version</code> on your OS terminal and ensure that you have the correct version of <strong>git</strong>.
+              <p>Type <code class="hljs inline no-lang" v-pre>git --version</code> on your OS terminal and ensure that you have the correct version of <strong>git</strong>.
               </p>
             </box>
             <p></p>
           </li>
         </ul>
 
-        <h2 id="getting-the-code">Getting the code<a class="fa fa-anchor" href="#getting-the-code" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="getting-the-code"><span id="getting-the-code" class="anchor"></span>Getting the code<a class="fa fa-anchor" href="#getting-the-code" onclick="event.stopPropagation()"></a></h2>
         <ol>
           <li><strong>Fork</strong> the <a href="https://github.com/reposense/RepoSense">reposense/reposense</a> repo.</li>
           <li><strong>clone</strong> the fork to your computer.</li>
         </ol>
-        <h2 id="setting-up-the-ide">Setting up the IDE<a class="fa fa-anchor" href="#setting-up-the-ide" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="setting-up-the-ide"><span id="setting-up-the-ide" class="anchor"></span>Setting up the IDE<a class="fa fa-anchor" href="#setting-up-the-ide" onclick="event.stopPropagation()"></a></h2>
         <box type="warning" seamless>
           <p>The recommended IDE is <strong>Intellij IDEA</strong>. While it is not compulsory to use it, note that we will not be able to help you troubleshoot IDE problems if you use any other IDE.
           </p>
@@ -127,7 +129,7 @@
           <li><strong>Import the project as a Gradle project</strong>, as explained in <a href="https://se-education.org/guides/tutorials/intellijImportGradleProject.html">this tutorial</a>.</li>
         </ol>
 
-        <h2 id="verifying-the-setup">Verifying the setup<a class="fa fa-anchor" href="#verifying-the-setup" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="verifying-the-setup"><span id="verifying-the-setup" class="anchor"></span>Verifying the setup<a class="fa fa-anchor" href="#verifying-the-setup" onclick="event.stopPropagation()"></a></h2>
         <box type="info" seamless>
           <p>This project is already configured to use Gradle for build automation. If you are new to Gradle, see <a href="https://se-education.org/guides/tutorials/gradle.html">this tutorial</a> to learn how to use it.
           </p>
@@ -135,30 +137,28 @@
         <p></p>
         <ol>
           <li>Open a command prompt and navigate to the project root.</li>
-          <li>Run <code v-pre>gradlew clean build</code> (<code v-pre>./gradlew clean build</code> if you on a Unix-like OS), and ensure that it finishes with a <code v-pre>BUILD SUCCESSFUL</code> message.</li>
-          <li>Run the tests using the <code v-pre>gradlew test systemtest</code> command and ensure it succeeds too.</li>
+          <li>Run <code class="hljs inline no-lang" v-pre>gradlew clean build</code> (<code class="hljs inline no-lang" v-pre>./gradlew clean build</code> if you on a Unix-like OS), and ensure that it finishes with a <code class="hljs inline no-lang" v-pre>BUILD SUCCESSFUL</code> message.</li>
+          <li>Run the tests using the <code class="hljs inline no-lang" v-pre>gradlew test systemtest</code> command and ensure it succeeds too.</li>
           <li>You can also try running the app using code, as given in the panel below.</li>
         </ol>
         <div class="indented-level2">
-          <panel minimized><template slot="_header">
+          <panel minimized><template slot="header">
               <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Developer guide → <strong>Workflow → Running the app from code</strong></p>
             </template>
             <div>
               <ul>
-                <li>To run the app from code, run <code v-pre>gradlew run</code> from the project root. By default, it will run based on the config files in the <code v-pre>[project root]/config</code> folder.</li>
-                <li>To supply flags, you can use the <code v-pre>-Dargs=&quot;[FLAGS]&quot;</code> format.<br>
-                  e.g., <code v-pre>gradlew run -Dargs=&quot;--since 31/12/2019 --formats java adoc xml&quot;</code></li>
+                <li>To run the app from code, run <code class="hljs inline no-lang" v-pre>gradlew run</code> from the project root. By default, it will run based on the config files in the <code class="hljs inline no-lang" v-pre>[project root]/config</code> folder.</li>
+                <li>To supply flags, you can use the <code class="hljs inline no-lang" v-pre>-Dargs=&quot;[FLAGS]&quot;</code> format.<br>
+                  e.g., <code class="hljs inline no-lang" v-pre>gradlew run -Dargs=&quot;--since 31/12/2019 --formats java adoc xml&quot;</code></li>
               </ul>
             </div>
           </panel>
         </div>
         <p></p>
-        <h2 id="before-you-start-coding">Before you start coding<a class="fa fa-anchor" href="#before-you-start-coding" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="before-you-start-coding"><span id="before-you-start-coding" class="anchor"></span>Before you start coding<a class="fa fa-anchor" href="#before-you-start-coding" onclick="event.stopPropagation()"></a></h2>
         <p>... read the <a href="/RepoSense/dg/workflow.html">Workflow</a> section.</p>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
-
-
       <nav id="page-nav" class="navbar navbar-light bg-transparent">
         <div class="border-left-grey nav-inner position-sticky slim-scroll">
 
@@ -178,7 +178,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.16.0</a>, generated on Sat, 28 Nov 2020, 20:31:22 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Sun, 29 Nov 2020, 20:29:04 UTC]</small>
       </div>
     </footer>
   </div>
