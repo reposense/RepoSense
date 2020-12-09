@@ -421,8 +421,8 @@ public class RepoConfiguration {
         return authorConfig.getAuthorDetailsToAuthorMap();
     }
 
-    public void setAuthorEmailsAndAliasesMap(Map<String, Author> authorEmailsAndAliasesMap) {
-        authorConfig.setAuthorDetailsToAuthorMap(authorEmailsAndAliasesMap);
+    public void setAuthorDetailsToAuthorMap(Map<String, Author> authorDetailsToAuthorMap) {
+        authorConfig.setAuthorDetailsToAuthorMap(authorDetailsToAuthorMap);
     }
 
     public void setFormats(List<FileType> formats) {
