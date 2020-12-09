@@ -365,7 +365,7 @@ public class RepoConfigurationTest {
         }
         expectedConfig.setAuthorList(expectedAuthorList);
         expectedConfig.setAuthorDisplayNameMap(repoDeltaStandaloneConfig.getAuthorDisplayNameMap());
-        expectedConfig.setAuthorDetailsToAuthorMap(repoDeltaStandaloneConfig.getAuthorEmailsAndAliasesMap());
+        expectedConfig.setAuthorDetailsToAuthorMap(repoDeltaStandaloneConfig.getAuthorDetailsToAuthorMap());
 
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(OVERRIDE_STANDALONE_TEST_CONFIG_FILE)

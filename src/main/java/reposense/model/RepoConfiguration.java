@@ -417,7 +417,7 @@ public class RepoConfiguration {
         authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
     }
 
-    public Map<String, Author> getAuthorEmailsAndAliasesMap() {
+    public Map<String, Author> getAuthorDetailsToAuthorMap() {
         return authorConfig.getAuthorDetailsToAuthorMap();
     }
 
