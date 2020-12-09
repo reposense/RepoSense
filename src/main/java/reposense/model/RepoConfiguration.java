@@ -480,7 +480,7 @@ public class RepoConfiguration {
         authorConfig.setAuthorDisplayName(author, displayName);
     }
 
-    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
+    public void addAuthorDetailsToAuthorMapEntry(Author author, List<String> values) {
         authorConfig.addAuthorDetailsToAuthorMapEntry(author, values);
     }
 
