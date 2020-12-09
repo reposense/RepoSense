@@ -418,11 +418,11 @@ public class RepoConfiguration {
     }
 
     public Map<String, Author> getAuthorEmailsAndAliasesMap() {
-        return authorConfig.getAuthorEmailsAndAliasesMap();
+        return authorConfig.getAuthorDetailsToAuthorMap();
     }
 
     public void setAuthorEmailsAndAliasesMap(Map<String, Author> authorEmailsAndAliasesMap) {
-        authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
+        authorConfig.setAuthorDetailsToAuthorMap(authorEmailsAndAliasesMap);
     }
 
     public void setFormats(List<FileType> formats) {
