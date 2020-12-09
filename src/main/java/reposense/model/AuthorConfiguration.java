@@ -42,7 +42,7 @@ public class AuthorConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
-        Map<String, Author> newAuthorEmailsAndAliasesMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<String, Author> newAuthorDetailsToAuthorMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
@@ -55,24 +55,24 @@ public class AuthorConfiguration {
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
             aliases.forEach(alias -> {
-                checkDuplicateAliases(newAuthorEmailsAndAliasesMap, alias, author.getGitId());
-                newAuthorEmailsAndAliasesMap.put(alias, author);
+                checkDuplicateAliases(newAuthorDetailsToAuthorMap, alias, author.getGitId());
+                newAuthorDetailsToAuthorMap.put(alias, author);
             });
-            emails.forEach(email -> newAuthorEmailsAndAliasesMap.put(email, author));
+            emails.forEach(email -> newAuthorDetailsToAuthorMap.put(email, author));
         }
 
         setAuthorList(newAuthorList);
-        setAuthorDetailsToAuthorMap(newAuthorEmailsAndAliasesMap);
+        setAuthorDetailsToAuthorMap(newAuthorDetailsToAuthorMap);
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
     }
 
     /**
-     * Checks for duplicate aliases in {@code authorEmailsAndAliasesMap} and generates warnings
-     * @param authorEmailsAndAliasesMap
+     * Checks for duplicate aliases in {@code authorDetailsToAuthorMap} and generates warnings
+     * @param authorDetailsToAuthorMap
      * @param alias
      */
-    public void checkDuplicateAliases(Map<String, Author> authorEmailsAndAliasesMap, String alias, String gitId) {
-        if (authorEmailsAndAliasesMap.containsKey(alias)) {
+    public void checkDuplicateAliases(Map<String, Author> authorDetailsToAuthorMap, String alias, String gitId) {
+        if (authorDetailsToAuthorMap.containsKey(alias)) {
             logger.warning(String.format(
                     "Duplicate alias %s found. The alias will belong to the last author - %s", alias, gitId));
         }
@@ -123,10 +123,10 @@ public class AuthorConfiguration {
      */
     private void setAuthorDetails(Author author) {
         // Set GitHub Id and its corresponding email as default
-        addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
+        addAuthorDetailsToAuthorMapEntry(author, Arrays.asList(author.getGitId()));
 
-        addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases());
-        addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
+        addAuthorDetailsToAuthorMapEntry(author, author.getAuthorAliases());
+        addAuthorDetailsToAuthorMapEntry(author, author.getEmails());
 
         setAuthorDisplayName(author, author.getDisplayName());
     }
@@ -167,7 +167,7 @@ public class AuthorConfiguration {
 
     /**
      * Removes all information of the {@code author} from the configs
-     * Precondition: {@code author} must be present in {@code authorEmailsAndAliasesMap}
+     * Precondition: {@code author} must be present in {@code authorDetailsToAuthorMap}
      * @param author Can be an author's git ID, email, or alias
      */
     public void removeAuthorInformation(String author) {
@@ -239,7 +239,7 @@ public class AuthorConfiguration {
      * @param author
      * @param values
      */
-    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
+    public void addAuthorDetailsToAuthorMapEntry(Author author, List<String> values) {
         values.forEach(value -> {
             checkDuplicateAliases(authorDetailsToAuthorMap, value, author.getGitId());
             authorDetailsToAuthorMap.put(value, author);

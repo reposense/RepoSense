@@ -481,7 +481,7 @@ public class RepoConfiguration {
     }
 
     public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
-        authorConfig.addAuthorEmailsAndAliasesMapEntry(author, values);
+        authorConfig.addAuthorDetailsToAuthorMapEntry(author, values);
     }
 
     public String getDisplayName() {
