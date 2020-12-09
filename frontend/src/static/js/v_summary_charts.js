@@ -7,6 +7,8 @@ window.vSummaryCharts = {
   data() {
     return {
       drags: [],
+      activeIndex: null,
+      activeRepo: null
     };
   },
   computed: {
@@ -116,7 +118,8 @@ window.vSummaryCharts = {
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
         return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
-
+      this.activeIndex = null;
+      this.activeRepo = null;
       return repo.location;
     },
 
@@ -137,7 +140,8 @@ window.vSummaryCharts = {
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
       };
-
+      this.activeIndex = index;
+      this.activeRepo = repo;
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
@@ -183,7 +187,8 @@ window.vSummaryCharts = {
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
-
+      this.activeIndex = null;
+      this.activeRepo = null;
       this.$store.commit('updateTabZoomInfo', info);
     },
 
