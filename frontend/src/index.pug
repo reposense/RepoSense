@@ -69,15 +69,15 @@ html
           #tabs-wrapper(ref="tabWrapper", slot="right")
             .tab-content.panel-padding
               .tab-panes
-                v-authorship#tab-authorship.tab-pane(
+                v-authorship#tab-authorship(
                   v-if="tabType === 'authorship'",
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
                   v-bind:info="tabInfo.tabAuthorship")
-                v-zoom#tab-zoom.tab-pane(
+                v-zoom#tab-zoom(
                   v-else-if="tabType === 'zoom'",
                   v-bind:key="generateKey(tabInfo.tabZoom)",
                   v-bind:info="tabInfo.tabZoom")
-                #tab-empty.tab-pane(v-else)
+                #tab-empty(v-else)
                   .title
                     h2 Welcome to this RepoSense report!
                     p The charts on the left show the contribution activities, grouped by repository and author.
