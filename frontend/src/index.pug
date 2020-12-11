@@ -68,7 +68,7 @@ html
 
           #tabs-wrapper(ref="tabWrapper", slot="right")
             .tab-content.panel-padding
-              .tab-panes
+              .tab-pane
                 v-authorship#tab-authorship(
                   v-if="tabType === 'authorship'",
                   v-bind:key="generateKey(tabInfo.tabAuthorship)",
