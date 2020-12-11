@@ -77,12 +77,12 @@
       .summary-chart__title(v-if="!isGroupMerged(getGroupName(repo))")
         .summary-chart__title--index {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
-        div(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
-        div(
+        .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
+        .summary-chart__title--name(
           v-if="filterGroupSelection !== 'groupByAuthors'",
           v-bind:class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
-        .summary-chart__title--contribution [{{ user.checkedFileTypeContribution }} lines]
+        .summary-chart__title--contribution.mini-font[{{ user.checkedFileTypeContribution }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
           v-bind:href="getRepoLink(repo[j])", target="_blank"
@@ -129,7 +129,7 @@
           v-bind:filtersearch="filterSearch")
         .overlay
 
-      div
+      .summary-chart__contribution
         template(v-if="filterBreakdown")
           .summary-chart__contrib(
             v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
