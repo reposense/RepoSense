@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.17.0">
+  <meta name="generator" content="MarkBind 2.17.1">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - Generating a report</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -650,21 +650,21 @@
                         </ul>
                         <p>To use this feature, add a <code class="hljs inline no-lang" v-pre>_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p>
                         <pre><code class="no-line-numbers hljs json" v-pre><span>{
-</span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],
-</span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],
-</span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>, <span class="hljs-string">"abc123..def456"</span>],
-</span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],
-</span><span>  <span class="hljs-attr">"authors"</span>:
+</span><span>  <span class="hljs-attr">&quot;ignoreGlobList&quot;</span>: [<span class="hljs-string">&quot;about-us/**&quot;</span>, <span class="hljs-string">&quot;**index.html&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;formats&quot;</span>: [<span class="hljs-string">&quot;html&quot;</span>, <span class="hljs-string">&quot;css&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;ignoreCommitList&quot;</span>: [<span class="hljs-string">&quot;90018e49f129ce7e0abdc8b18e91c9813588c601&quot;</span>, <span class="hljs-string">&quot;67890def&quot;</span>, <span class="hljs-string">&quot;abc123..def456&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;ignoreAuthorList&quot;</span>: [<span class="hljs-string">&quot;charlie&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;authors&quot;</span>:
 </span><span>  [
 </span><span>    {
-</span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"alice"</span>,
-</span><span>      <span class="hljs-attr">"emails"</span>: [<span class="hljs-string">"alice@example.com"</span>, <span class="hljs-string">"alicet@example.com"</span>],
-</span><span>      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"Alice T."</span>,
-</span><span>      <span class="hljs-attr">"authorNames"</span>: [<span class="hljs-string">"AT"</span>, <span class="hljs-string">"A"</span>],
-</span><span>      <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"**.css"</span>]
+</span><span>      <span class="hljs-attr">&quot;githubId&quot;</span>: <span class="hljs-string">&quot;alice&quot;</span>,
+</span><span>      <span class="hljs-attr">&quot;emails&quot;</span>: [<span class="hljs-string">&quot;alice@example.com&quot;</span>, <span class="hljs-string">&quot;alicet@example.com&quot;</span>],
+</span><span>      <span class="hljs-attr">&quot;displayName&quot;</span>: <span class="hljs-string">&quot;Alice T.&quot;</span>,
+</span><span>      <span class="hljs-attr">&quot;authorNames&quot;</span>: [<span class="hljs-string">&quot;AT&quot;</span>, <span class="hljs-string">&quot;A&quot;</span>],
+</span><span>      <span class="hljs-attr">&quot;ignoreGlobList&quot;</span>: [<span class="hljs-string">&quot;**.css&quot;</span>]
 </span><span>    },
 </span><span>    {
-</span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"bob"</span>
+</span><span>      <span class="hljs-attr">&quot;githubId&quot;</span>: <span class="hljs-string">&quot;bob&quot;</span>
 </span><span>    }
 </span><span>  ]
 </span><span>}
@@ -1209,21 +1209,21 @@
                         </ul>
                         <p>To use this feature, add a <code class="hljs inline no-lang" v-pre>_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p>
                         <pre><code class="no-line-numbers hljs json" v-pre><span>{
-</span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],
-</span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],
-</span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>, <span class="hljs-string">"abc123..def456"</span>],
-</span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],
-</span><span>  <span class="hljs-attr">"authors"</span>:
+</span><span>  <span class="hljs-attr">&quot;ignoreGlobList&quot;</span>: [<span class="hljs-string">&quot;about-us/**&quot;</span>, <span class="hljs-string">&quot;**index.html&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;formats&quot;</span>: [<span class="hljs-string">&quot;html&quot;</span>, <span class="hljs-string">&quot;css&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;ignoreCommitList&quot;</span>: [<span class="hljs-string">&quot;90018e49f129ce7e0abdc8b18e91c9813588c601&quot;</span>, <span class="hljs-string">&quot;67890def&quot;</span>, <span class="hljs-string">&quot;abc123..def456&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;ignoreAuthorList&quot;</span>: [<span class="hljs-string">&quot;charlie&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;authors&quot;</span>:
 </span><span>  [
 </span><span>    {
-</span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"alice"</span>,
-</span><span>      <span class="hljs-attr">"emails"</span>: [<span class="hljs-string">"alice@example.com"</span>, <span class="hljs-string">"alicet@example.com"</span>],
-</span><span>      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"Alice T."</span>,
-</span><span>      <span class="hljs-attr">"authorNames"</span>: [<span class="hljs-string">"AT"</span>, <span class="hljs-string">"A"</span>],
-</span><span>      <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"**.css"</span>]
+</span><span>      <span class="hljs-attr">&quot;githubId&quot;</span>: <span class="hljs-string">&quot;alice&quot;</span>,
+</span><span>      <span class="hljs-attr">&quot;emails&quot;</span>: [<span class="hljs-string">&quot;alice@example.com&quot;</span>, <span class="hljs-string">&quot;alicet@example.com&quot;</span>],
+</span><span>      <span class="hljs-attr">&quot;displayName&quot;</span>: <span class="hljs-string">&quot;Alice T.&quot;</span>,
+</span><span>      <span class="hljs-attr">&quot;authorNames&quot;</span>: [<span class="hljs-string">&quot;AT&quot;</span>, <span class="hljs-string">&quot;A&quot;</span>],
+</span><span>      <span class="hljs-attr">&quot;ignoreGlobList&quot;</span>: [<span class="hljs-string">&quot;**.css&quot;</span>]
 </span><span>    },
 </span><span>    {
-</span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"bob"</span>
+</span><span>      <span class="hljs-attr">&quot;githubId&quot;</span>: <span class="hljs-string">&quot;bob&quot;</span>
 </span><span>    }
 </span><span>  ]
 </span><span>}
@@ -1324,7 +1324,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.0</a>, generated on Fri, 11 Dec 2020, 22:27:58 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.1</a>, generated on Sat, 12 Dec 2020, 21:00:50 UTC]</small>
       </div>
     </footer>
   </div>
