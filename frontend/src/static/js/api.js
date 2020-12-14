@@ -63,10 +63,10 @@ window.encodeHash = function encodeHash() {
 window.decodeHash = function decodeHash() {
   const hashParams = {};
 
-  const hash_index = window.location.href.indexOf(HASH_ANCHOR);
-  const parameter_string = hash_index == -1 ? '' : window.location.href.slice(hash_index + 1);
+  const hashIndex = window.location.href.indexOf(HASH_ANCHOR);
+  const parameterString = hashIndex === -1 ? '' : window.location.href.slice(hashIndex + 1);
 
-  parameter_string.split('&')
+  parameterString.split('&')
       .forEach((param) => {
         const [key, val] = param.split('=');
         if (key) {
