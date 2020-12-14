@@ -56,7 +56,7 @@ window.encodeHash = function encodeHash() {
       .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
       .join('&');
 
-  const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + HASH_ANCHOR + hash;
+  const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}${HASH_ANCHOR}${hash}`;
   window.history.replaceState(null, '', newUrl);
 };
 
@@ -64,7 +64,7 @@ window.decodeHash = function decodeHash() {
   const hashParams = {};
 
   const hash_index = window.location.href.indexOf(HASH_ANCHOR);
-  const parameter_string = hash_index == -1 ? "" : window.location.href.slice(hash_index + 1);
+  const parameter_string = hash_index == -1 ? '' : window.location.href.slice(hash_index + 1);
 
   parameter_string.split('&')
       .forEach((param) => {
