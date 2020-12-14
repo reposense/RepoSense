@@ -56,7 +56,7 @@ public class FileInfoAnalyzer {
         aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo);
         fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
-        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorEmailsAndAliasesMap());
+        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorDetailsToAuthorMap());
 
         if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())) {
             return null;
