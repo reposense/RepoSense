@@ -923,6 +923,12 @@ window.vSummary = {
       this.filterGroupSelectionWatcherFlag = true;
     }, 0);
   },
+  beforeUpdate() {
+    this.$store.commit('updateIsLoading', true);
+  },
+  updated() {
+    this.$store.commit('updateIsLoading', false);
+  },
   components: {
     vSummaryCharts: window.vSummaryCharts,
   },

@@ -40,6 +40,9 @@ window.app = new window.Vue({
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
+    '$store.state.isLoading': function () {
+      this.isLoading = this.$store.state.isLoading;
+    },
   },
   methods: {
     // model functions //
