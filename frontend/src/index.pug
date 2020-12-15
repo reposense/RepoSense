@@ -40,7 +40,7 @@ html
         loading(:active.sync="isLoadingOverlayEnabled"
           :is-full-page="true"
         )
-          i#overlay-loading-icon.fa.fa-spinner.fa-spin
+          i#overlay-loading-icon.fa.fa-spinner.fa-spin(slot='default')
         v-resizer(
           v-bind:is-tab-active="isTabActive",
           v-on:close-tab="deactivateTab"
