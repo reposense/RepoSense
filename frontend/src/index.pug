@@ -37,7 +37,8 @@ html
   body
     #app
       template(v-if="userUpdated")
-        loading(:active.sync="isLoadingOverlayEnabled"
+        loading(
+          :active.sync="isLoadingOverlayEnabled"
           :is-full-page="true"
         )
           i#overlay-loading-icon.fa.fa-spinner.fa-spin(slot='default')
