@@ -64,7 +64,7 @@ window.vSummary = {
       this.$store.commit('updateIsLoadingOverlayEnabled', true);
       setTimeout(() => {
         this.getFilteredRepos();
-        this.getMergedGroup();
+        this.getMergedGroup(allGroupsMerged);
       });
     },
 
@@ -361,7 +361,7 @@ window.vSummary = {
       this.filtered = this.sortFiltered(this.filtered, filterControl);
     },
 
-    getMergedGroup() {
+    getMergedGroup(allGroupsMerged) {
       // merge group is not allowed when group by none
       // also reset merged groups
       if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
