@@ -63,8 +63,8 @@ window.vSummary = {
 
       this.$store.commit('updateIsLoadingOverlayEnabled', true);
       setTimeout(() => {
-         this.getFilteredRepos();
-         this.getMergedGroup();
+        this.getFilteredRepos();
+        this.getMergedGroup();
       });
     },
 
@@ -316,8 +316,8 @@ window.vSummary = {
       this.$store.commit('updateIsLoadingOverlayEnabled', true);
       // Use setTimeout() to force this.filtered to update only after loading screen is displayed.
       setTimeout(() => {
-         this.getFilteredRepos();
-         this.getMergedRepos();
+        this.getFilteredRepos();
+        this.getMergedRepos();
       });
     },
 
