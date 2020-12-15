@@ -6,7 +6,7 @@ const store = new Vuex.Store({
     summaryDates: {},
     mergedGroups: [],
     fileTypeColors: {},
-    isLoading: false,
+    isLoadingOverlayEnabled: false,
   },
   mutations: {
     updateTabZoomInfo(state, info) {
@@ -24,8 +24,8 @@ const store = new Vuex.Store({
     updateMergedGroup(state, info) {
       state.mergedGroups = info;
     },
-    updateIsLoading(state, info) {
-      state.isLoading = info;
+    updateIsLoadingOverlayEnabled(state, info) {
+      state.isLoadingOverlayEnabled = info;
     },
   },
 });

@@ -12,6 +12,7 @@ Vue.directive('hljs', {
 });
 
 Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
+Vue.component('loading', window['VueLoading'])
 
 window.app = new window.Vue({
   el: '#app',
@@ -21,6 +22,7 @@ window.app = new window.Vue({
     users: [],
     userUpdated: false,
 
+    isLoadingOverlayEnabled: false,
     isLoading: false,
     isCollapsed: false,
     isTabActive: true, // to force tab wrapper to load
@@ -40,8 +42,8 @@ window.app = new window.Vue({
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
-    '$store.state.isLoading': function () {
-      this.isLoading = this.$store.state.isLoading;
+    '$store.state.isLoadingOverlayEnabled': function () {
+      this.isLoadingOverlayEnabled = this.$store.state.isLoadingOverlayEnabled;
     },
   },
   methods: {

@@ -60,19 +60,12 @@ window.vSummary = {
         return;
       }
       const { allGroupsMerged } = this;
-      this.getFilteredRepos();
 
-      // merge group is not allowed when group by none
-      // also reset merged groups
-      if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
-        this.$store.commit('updateMergedGroup', []);
-      } else {
-        const mergedGroups = [];
-        this.filtered.forEach((group) => {
-          mergedGroups.push(this.getGroupName(group));
-        });
-        this.$store.commit('updateMergedGroup', mergedGroups);
-      }
+      this.$store.commit('updateIsLoadingOverlayEnabled', true);
+      setTimeout(() => {
+         this.getFilteredRepos();
+         this.getMergedGroup();
+      });
     },
 
     tmpFilterSinceDate() {
@@ -320,8 +313,12 @@ window.vSummary = {
       this.getDates();
       window.deactivateAllOverlays();
 
-      this.getFilteredRepos();
-      this.getMergedRepos();
+      this.$store.commit('updateIsLoadingOverlayEnabled', true);
+      // Use setTimeout() to force this.filtered to update only after loading screen is displayed.
+      setTimeout(() => {
+         this.getFilteredRepos();
+         this.getMergedRepos();
+      });
     },
 
     getFilteredRepos() {
@@ -362,6 +359,20 @@ window.vSummary = {
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
       this.filtered = this.sortFiltered(this.filtered, filterControl);
+    },
+
+    getMergedGroup() {
+      // merge group is not allowed when group by none
+      // also reset merged groups
+      if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
+        this.$store.commit('updateMergedGroup', []);
+      } else {
+        const mergedGroups = [];
+        this.filtered.forEach((group) => {
+          mergedGroups.push(this.getGroupName(group));
+        });
+        this.$store.commit('updateMergedGroup', mergedGroups);
+      }
     },
 
     getMergedRepos() {
@@ -922,12 +933,6 @@ window.vSummary = {
     setTimeout(() => {
       this.filterGroupSelectionWatcherFlag = true;
     }, 0);
-  },
-  beforeUpdate() {
-    this.$store.commit('updateIsLoading', true);
-  },
-  updated() {
-    this.$store.commit('updateIsLoading', false);
   },
   components: {
     vSummaryCharts: window.vSummaryCharts,
