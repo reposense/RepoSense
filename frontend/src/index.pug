@@ -37,7 +37,7 @@ html
   body
     #app
       template(v-if="userUpdated")
-        loading(
+        loading-overlay(
           :active.sync="isLoadingOverlayEnabled",
           :is-full-page="true"
         )
@@ -113,7 +113,7 @@ html
 
         form#file-upload(onsubmit="return false;")
           input(type="file", accept=".zip", v-on:change="updateReportZip")
-          .loader(v-if="isLoading")
+          .loader(v-if="isLoadingResources")
             circle-spinner
             .loading Loading resources...
 

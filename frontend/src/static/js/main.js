@@ -12,7 +12,7 @@ Vue.directive('hljs', {
 });
 
 Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
-Vue.component('loading', window.VueLoading);
+Vue.component('loading-overlay', window.VueLoading);
 
 window.app = new window.Vue({
   el: '#app',
@@ -23,7 +23,7 @@ window.app = new window.Vue({
     userUpdated: false,
 
     isLoadingOverlayEnabled: false,
-    isLoading: false,
+    isLoadingResources: false,
     isCollapsed: false,
     isTabActive: true, // to force tab wrapper to load
 
@@ -71,18 +71,18 @@ window.app = new window.Vue({
         this.repos = window.REPOS;
 
         this.userUpdated = false;
-        this.isLoading = true;
+        this.isLoadingResources = true;
 
         return Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
       }).then(() => {
         this.userUpdated = true;
-        this.isLoading = false;
+        this.isLoadingResources = false;
         this.getUsers();
       }).catch((error) => {
         this.userUpdated = false;
-        this.isLoading = false;
+        this.isLoadingResources = false;
         window.alert(error);
       });
     },
