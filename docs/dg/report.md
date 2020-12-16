@@ -45,7 +45,7 @@ The tabbed interface is responsible for loading various modules such as authorsh
 
 <!-- ==================================================================================================== -->
 
-## JSON Report files
+## JSON report files
 
 - **summary.json** - a list of all the repositories and their respective details
 - **projName/commits.json** - contains information of the users' commits information (e.g. line deletion, insertion, etc), grouped by date

@@ -2,12 +2,14 @@
 window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
 window.BASE_URL = 'https://github.com';
+window.HOME_PAGE_URL = 'https://reposense.org';
 window.DAY_IN_MS = (1000 * 60 * 60 * 24);
 window.HASH_DELIMITER = '~';
 window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
 
+const HASH_ANCHOR = '?';
 const REPORT_DIR = '.';
 const REPORT_ZIP = null;
 
@@ -50,15 +52,21 @@ window.removeHash = function removeHash(key) {
 window.encodeHash = function encodeHash() {
   const { hashParams } = window;
 
-  window.location.hash = Object.keys(hashParams)
+  const hash = Object.keys(hashParams)
       .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
       .join('&');
+
+  const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}${HASH_ANCHOR}${hash}`;
+  window.history.replaceState(null, '', newUrl);
 };
 
 window.decodeHash = function decodeHash() {
   const hashParams = {};
 
-  window.location.hash.slice(1).split('&')
+  const hashIndex = window.location.href.indexOf(HASH_ANCHOR);
+  const parameterString = hashIndex === -1 ? '' : window.location.href.slice(hashIndex + 1);
+
+  parameterString.split('&')
       .forEach((param) => {
         const [key, val] = param.split('=');
         if (key) {

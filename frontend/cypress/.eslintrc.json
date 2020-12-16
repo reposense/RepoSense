@@ -3,12 +3,11 @@
         "../../.eslintrc.json"
     ],
     "globals": {
-        "Cypress": false,
-        "cy": false,
-        "describe": false,
-        "expect": false,
-        "it": false,
-        "beforeEach": false
+        "Cypress": true,
+        "cy": true,
+        "describe": true,
+        "it": true,
+        "beforeEach": true
     },
     "rules": {
         "no-unused-expressions": "off"

@@ -1,6 +1,9 @@
 {
   "baseUrl": "",
   "titlePrefix": "RepoSense",
+  "style": {
+    "codeTheme": "light"
+  },
   "ignore": [
     "_markbind/layouts/*",
     "_markbind/logs/*",

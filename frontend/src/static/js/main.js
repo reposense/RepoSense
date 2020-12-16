@@ -1,7 +1,6 @@
 // eslint-disable-next-line import/extensions
 import store from './store.js';
 
-
 /* global Vue hljs */
 Vue.directive('hljs', {
   inserted(ele, binding) {
@@ -20,8 +19,6 @@ window.app = new window.Vue({
   data: {
     repos: {},
     users: [],
-    repoLength: 0,
-    loadedRepo: 0,
     userUpdated: false,
 
     isLoading: false,
@@ -67,16 +64,12 @@ window.app = new window.Vue({
     async updateReportView() {
       await window.api.loadSummary().then((names) => {
         this.repos = window.REPOS;
-        this.repoLength = Object.keys(window.REPOS).length;
-        this.loadedRepo = 0;
 
         this.userUpdated = false;
         this.isLoading = true;
-        this.loadedRepo = 0;
 
         return Promise.all(names.map((name) => (
           window.api.loadCommits(name)
-              .then(() => { this.loadedRepo += 1; })
         )));
       }).then(() => {
         this.userUpdated = true;
@@ -151,6 +144,7 @@ window.app = new window.Vue({
         zFilterSearch: hash.zFS,
         zTimeFrame: hash.zFTF,
         zIsMerge: hash.zMG === 'true',
+        zFromRamp: hash.zFR === 'true',
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
@@ -187,15 +181,38 @@ window.app = new window.Vue({
     },
 
     getRepoSenseHomeLink() {
-      return 'http://reposense.org';
+      const version = window.app.repoSenseVersion;
+      if (!version) {
+        return `${window.HOME_PAGE_URL}/RepoSense/`;
+      }
+      return `${window.HOME_PAGE_URL}`;
     },
 
-    getUserGuideVersionLink() {
+    getSpecificCommitLink() {
       const version = window.app.repoSenseVersion;
       if (!version) {
         return `${window.BASE_URL}/reposense/RepoSense`;
       }
-      return `${window.BASE_URL}/reposense/RepoSense/blob/${version}/docs/UserGuide.md`;
+      if (version.startsWith('v')) {
+        return `${window.BASE_URL}/reposense/RepoSense/releases/tag/${version}`;
+      }
+      return `${window.BASE_URL}/reposense/RepoSense/commit/${version}`;
+    },
+
+    getUserGuideLink() {
+      const version = window.app.repoSenseVersion;
+      if (!version) {
+        return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
+      }
+      return `${window.HOME_PAGE_URL}/ug/index.html`;
+    },
+
+    getUsingReportsUserGuideLink() {
+      const version = window.app.repoSenseVersion;
+      if (!version) {
+        return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;
+      }
+      return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
     },
 
     receiveDates(dates) {

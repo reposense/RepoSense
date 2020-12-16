@@ -37,7 +37,7 @@ Here is an example of how a typical report looks like:
 
 ![report](../images/report-features.png)
 
-The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits Panel**_](#commits-panel) will appear in place of the _code panel_. All three are explained in the sections below.
+The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits panel**_](#commits-panel) will appear in place of the _code panel_. All three are explained in the sections below.
 
 <!-- ==================================================================================================== -->
 
@@ -132,7 +132,8 @@ The `Code panel` allows users to see the code attributed to a specific author. C
 * The Code panel shows the files that contain author's contributions, sorted by the number of lines written.
 * Select the radio button to enable one of the following 2 filters. Note that only 1 of the 2 filters is active at any time.
     * Type file path glob in glob filter to include files matching the glob expression.
-    * Select the checkboxes to include files of preferred file extensions.
+    * Select the checkboxes to include files of preferred file extensions. 
+    The number right beside the file extension shows the total number of lines written by the author in such file extension files. In contrast, the number inside the parenthesis indicates the number of non-blank lines written by the author.
 * Clicking the file title toggles the file content.
 * Clicking the first icon beside the file title opens the history view of the file on github.
 * Clicking the second icon beside the file title opens the blame view of the file on github.
@@ -141,10 +142,10 @@ The `Code panel` allows users to see the code attributed to a specific author. C
 
 <!-- ==================================================================================================== -->
 
-## Commits Panel
+## Commits panel
 <img src="../images/commits-panel.png" alt="commits panel" width="468">
 
-The `Commits Panel` allows users to see the commits attributed to a specific author.
+The `Commits panel` allows users to see the commits attributed to a specific author.
 * To view all commits attributed to an author, locate the author's ramp chart in the chart panel, and click on the %%:fas-list-ul:%% icon above the ramp chart.
 * To view commits of a specific period, locate the author's ramp chart in the chart panel, hold down the <kbd>Ctrl</kbd> key (<kbd>&#8984;</kbd> in MacOS), and click on the start and end positions of the period (on the ramp chart) you want to view. <br>
 
@@ -153,7 +154,7 @@ The `Commits Panel` allows users to see the commits attributed to a specific aut
 * The commits can be sorted by the date it was committed or by LoC.
 * The tags of the commits will also be displayed on top, if any. Clicking on a tag will direct you to the commit having that particular tag.
 * The date range for the `Chart panel` can be updated by clicking on the "Show ramp chart for this period" below the name of the author.
-* The ramp chart at the top of the `Commits Panel` represents individual commits (not weekly or daily contributions).
+* The ramp chart at the top of the `Commits panel` represents individual commits (not weekly or daily contributions).
 * The commit messages body can be expanded or collapsed by clicking on the %%:fas-ellipsis-h:%% icon beside each commit message title.
 * To promote and encourage the 50/72 rule for commit messages, a dotted vertical line will be shown for:
   * Commit message subject that exceeds 50 characters.

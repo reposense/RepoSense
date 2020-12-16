@@ -79,6 +79,7 @@
 .fileTypes {
   align-items: center;
   display: flex;
+  margin: 5px 0 5px 0;
   text-align: left;
 
   .checkboxes {
@@ -94,6 +95,13 @@
       margin-left: .25rem;
     }
   }
+}
+
+.fileTypeLabel {
+  border-radius: 5px;
+  display: inline-block;
+  margin: 0 5px 5px 0;
+  padding: 0 5px;
 }
 
 .toolbar {

@@ -32,6 +32,7 @@ window.vSummary = {
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       // eslint-disable-next-line new-cap
       randomGenerator: new Math.seedrandom('Seeded Random Generator'),
+      filterGroupSelectionWatcherFlag: false,
     };
   },
   watch: {
@@ -54,6 +55,10 @@ window.vSummary = {
     },
 
     filterGroupSelection() {
+      // Deactivates watcher
+      if (!this.filterGroupSelectionWatcherFlag) {
+        return;
+      }
       const { allGroupsMerged } = this;
       this.getFilteredRepos();
 
@@ -119,6 +124,9 @@ window.vSummary = {
       let totalCount = 0;
       this.repos.forEach((repo) => {
         repo.users.forEach((user) => {
+          if (user.checkedFileTypeContribution === undefined) {
+            this.updateCheckedFileTypeContribution(user);
+          }
           if (user.checkedFileTypeContribution > 0) {
             totalCount += 1;
             totalLines += user.checkedFileTypeContribution;
@@ -243,8 +251,10 @@ window.vSummary = {
 
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.mergegroup) {
-        // make a copy to prevent custom merged groups from overwritten
-        this.customMergedGroups = hash.mergegroup;
+        this.$store.commit(
+            'updateMergedGroup',
+            hash.mergegroup.split(window.HASH_DELIMITER),
+        );
       }
       if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
@@ -264,15 +274,6 @@ window.vSummary = {
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
       window.decodeHash();
-    },
-
-    restoreMergedGroups() {
-      if (this.customMergedGroups) {
-        this.$store.commit(
-            'updateMergedGroup',
-            this.customMergedGroups.split(window.HASH_DELIMITER),
-        );
-      }
     },
 
     getDates() {
@@ -373,22 +374,28 @@ window.vSummary = {
 
     mergeGroupByIndex(filtered, groupIndex) {
       const dateToIndexMap = {};
+      const dailyIndexMap = {};
       const mergedCommits = [];
+      const mergedDailyCommits = [];
       const mergedFileTypeContribution = {};
       let mergedVariance = 0;
       let totalMergedCheckedFileTypeCommits = 0;
-
       filtered[groupIndex].forEach((user) => {
-        this.mergeCommits(user, mergedCommits, dateToIndexMap);
+        user.commits.forEach((commit) => {
+          this.mergeCommits(commit, user, dateToIndexMap, mergedCommits);
+        });
+        user.dailyCommits.forEach((commit) => {
+          this.mergeCommits(commit, user, dailyIndexMap, mergedDailyCommits);
+        });
 
         this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
         totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
         mergedVariance += user.variance;
       });
-
       mergedCommits.sort(window.comparator((ele) => ele.date));
       filtered[groupIndex][0].commits = mergedCommits;
+      filtered[groupIndex][0].dailyCommits = mergedDailyCommits;
       filtered[groupIndex][0].fileTypeContribution = mergedFileTypeContribution;
       filtered[groupIndex][0].variance = mergedVariance;
       filtered[groupIndex][0].checkedFileTypeContribution = totalMergedCheckedFileTypeCommits;
@@ -401,32 +408,29 @@ window.vSummary = {
       return this.mergedGroups.length > 0;
     },
 
-    mergeCommits(user, merged, dateToIndexMap) {
-      // merge commits with the same date
-      user.commits.forEach((commit) => {
-        const {
-          commitResults, date, insertions, deletions,
-        } = commit;
+    mergeCommits(commit, user, dateToIndexMap, merged) {
+      const {
+        commitResults, date, insertions, deletions,
+      } = commit;
 
-        // bind repoId to each commit
+      // bind repoId to each commit
+      commitResults.forEach((commitResult) => {
+        commitResult.repoId = user.repoId;
+      });
+
+      if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
+        const commitWithSameDate = merged[dateToIndexMap[date]];
+
         commitResults.forEach((commitResult) => {
-          commitResult.repoId = user.repoId;
+          commitWithSameDate.commitResults.push(commitResult);
         });
 
-        if (Object.prototype.hasOwnProperty.call(dateToIndexMap, date)) {
-          const commitWithSameDate = merged[dateToIndexMap[date]];
-
-          commitResults.forEach((commitResult) => {
-            commitWithSameDate.commitResults.push(commitResult);
-          });
-
-          commitWithSameDate.insertions += insertions;
-          commitWithSameDate.deletions += deletions;
-        } else {
-          dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
-          merged.push(commit);
-        }
-      });
+        commitWithSameDate.insertions += insertions;
+        commitWithSameDate.deletions += deletions;
+      } else {
+        dateToIndexMap[date] = Object.keys(dateToIndexMap).length;
+        merged.push(JSON.parse(JSON.stringify(commit)));
+      }
     },
 
     mergeFileTypeContribution(user, merged) {
@@ -532,6 +536,7 @@ window.vSummary = {
       });
 
       this.checkedFileTypes = this.fileTypes.slice();
+      this.$store.commit('updateFileTypeColors', this.fileTypeColors);
     },
 
     splitCommitsWeek(user, sinceDate, untilDate) {
@@ -908,18 +913,14 @@ window.vSummary = {
     this.$root.$on('restoreCommits', (info) => {
       const zoomFilteredUser = this.restoreZoomFiltered(info);
       info.zUser = zoomFilteredUser;
-    });
-
-    this.$root.$on('restoreFileTypeColors', (info) => {
-      info.fileTypeColors = this.fileTypeColors;
+      info.zFileTypeColors = this.fileTypeColors;
     });
   },
   mounted() {
-    this.$store.commit('updateMergedGroup', []);
-
-    // restoring custom merged groups after watchers finish their job
+    // Delay execution of filterGroupSelection watcher
+    // to prevent clearing of merged groups
     setTimeout(() => {
-      this.restoreMergedGroups();
+      this.filterGroupSelectionWatcherFlag = true;
     }, 0);
   },
   components: {

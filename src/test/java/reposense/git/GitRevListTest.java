@@ -47,4 +47,52 @@ public class GitRevListTest extends GitTestTemplate {
         Date date = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 9);
         GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), "invalidBranch", date);
     }
+
+    @Test
+    public void getCommitHashInRange_nullStartAndEndHash_emptyResult() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(), null, null);
+        Assert.assertTrue(commitHash.isEmpty());
+    }
+
+    @Test
+    public void getCommitHashInRange_nullStartHash_success() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(), null,
+                LATEST_COMMIT_HASH);
+        Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
+    }
+
+    @Test
+    public void getCommitHashInRange_nullEndHash_success() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                LATEST_COMMIT_HASH, null);
+        Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
+    }
+
+    @Test
+    public void getCommitHashInRange_sameStartAndEndHash_success() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                LATEST_COMMIT_HASH, LATEST_COMMIT_HASH);
+        Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
+    }
+
+    @Test
+    public void getCommitHashInRange_invalidStartAndEndHash_emptyResult() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                NONEXISTENT_COMMIT_HASH, NONEXISTENT_COMMIT_HASH);
+        Assert.assertTrue(commitHash.isEmpty());
+    }
+
+    @Test
+    public void getCommitHashInRange_invalidStartHash_success() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                NONEXISTENT_COMMIT_HASH, LATEST_COMMIT_HASH);
+        Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
+    }
+
+    @Test
+    public void getCommitHashInRange_invalidEndHash_success() {
+        String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
+                LATEST_COMMIT_HASH, NONEXISTENT_COMMIT_HASH);
+        Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
+    }
 }
