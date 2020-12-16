@@ -28,26 +28,12 @@ a {
   text-align: center;
 }
 
-.loader {
-  align-items: center;
-  background: mui-color('white');
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  opacity: 1;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: z-index('loader');
-
-  .loading {
-    margin-top: 12px;
-  }
+.overlay-loader {
+  text-align: center;
 }
 
-#overlay-loading-icon {
-  font-size: 45px;
+.overlay-loading-icon {
+  font-size: 3em;
 }
 
 .tab-padding {

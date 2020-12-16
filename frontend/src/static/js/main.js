@@ -233,7 +233,6 @@ window.app = new window.Vue({
     vZoom: window.vZoom,
     vSummary: window.vSummary,
     vAuthorship: window.vAuthorship,
-    CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {
     this.updateReportDir();
