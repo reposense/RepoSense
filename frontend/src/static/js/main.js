@@ -64,7 +64,7 @@ window.app = new window.Vue({
       window.REPORT_ZIP = null;
 
       this.users = [];
-      this.updateReportView().then(() => this.renderTabHash());
+      this.updateReportView();
     },
     async updateReportView() {
       await window.api.loadSummary().then((names) => {
@@ -77,6 +77,7 @@ window.app = new window.Vue({
           window.api.loadCommits(name)
         )));
       }).then(() => {
+        this.renderTabHash();
         this.userUpdated = true;
         this.isLoadingResources = false;
         this.getUsers();
