@@ -16,6 +16,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
+      selectedFiles: [],
       filterType: 'checkboxes',
       selectedFileTypes: [],
       fileTypes: [],
@@ -31,6 +32,18 @@ window.vAuthorship = {
     filesSortType() {
       window.addHash('authorshipSortBy', this.filesSortType);
       window.encodeHash();
+    },
+
+    searchBarValue() {
+      this.updateSelectedFiles();
+    },
+
+    selectedFileTypes() {
+      this.updateSelectedFiles();
+    },
+
+    sortingFunction() {
+      this.updateSelectedFiles();
     },
 
     toReverseSortFiles() {
@@ -264,6 +277,7 @@ window.vAuthorship = {
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
+      this.updateSelectedFiles();
     },
 
     getContributionFromAllAuthors(contributionMap) {
@@ -296,6 +310,16 @@ window.vAuthorship = {
       window.addHash('authorshipFileTypes', fileTypeHash);
       window.removeHash('authorshipFilesGlob');
       window.encodeHash();
+    },
+
+    updateSelectedFiles() {
+      this.$store.commit('updateIsLoadingOverlayEnabled', true);
+      const selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
+          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }))
+          .sort(this.sortingFunction);
+      setTimeout(() => {
+        this.selectedFiles = selectedFiles
+      });
     },
 
     indicateSearchBar() {
@@ -349,12 +373,6 @@ window.vAuthorship = {
       },
     },
 
-    selectedFiles() {
-      return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
-          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }))
-          .sort(this.sortingFunction);
-    },
-
     activeFilesCount() {
       return this.selectedFiles.filter((file) => file.active).length;
     },
@@ -386,6 +404,10 @@ window.vAuthorship = {
 
   beforeDestroy() {
     this.removeAuthorshipHashes();
+  },
+
+  updated() {
+    this.$store.commit('updateIsLoadingOverlayEnabled', false);
   },
 
   components: {
