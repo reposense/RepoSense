@@ -148,7 +148,7 @@ Cannot be used with `--repos`
 
 ### `--since`, `-s`
 
-`--since START_DATE`**: Specifies the start date for the period to be analyzed.
+**`--since START_DATE`**: Specifies the start date for the period to be analyzed.
 * Parameter: `START_DATE` the first day of the period to be analyzed, in the format `DD/MM/YYYY`<br>
   Default: one month before the current date
 * Alias: `-s`
