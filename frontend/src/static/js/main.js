@@ -181,8 +181,8 @@ window.app = new window.Vue({
       }
     },
 
-    generateKey(dataObj, keys_to_use) {
-      const picked = keys_to_use.map((key) => dataObj[key]);
+    generateKey(dataObj, keysToUse) {
+      const picked = keysToUse.map((key) => dataObj[key]);
       return JSON.stringify(picked);
     },
 
