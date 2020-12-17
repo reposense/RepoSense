@@ -333,14 +333,15 @@ public class RepoConfiguration {
     }
 
     /**
-     * Updates the branch in the {@code displayName} to the current {@code branch}.
+     * Updates the branch in the {@code displayName} to the
+     * current {@code branch}.
      */
     public void updateDisplayName(String branch) {
         this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
     }
 
     /**
-     * Updates the branch in the {@code outputFolderName} with the
+     * Updates the branch in the {@code outputFolderName} to the
      * current {@code branch}.
      */
     public void updateOutputFolderName(String branch) {
