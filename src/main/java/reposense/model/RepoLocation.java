@@ -1,7 +1,5 @@
 package reposense.model;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -17,7 +15,7 @@ import reposense.parser.InvalidLocationException;
 public class RepoLocation {
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
+            Pattern.compile("^https?:\\/\\/github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
 
     private final String location;
     private final String repoName;
@@ -66,12 +64,8 @@ public class RepoLocation {
             // Ignore exception
         }
 
-        try {
-            new URL(location);
-            isValidGitUrl = location.endsWith(GIT_LINK_SUFFIX);
-        } catch (MalformedURLException mue) {
-            // Ignore exception
-        }
+        Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
+        isValidGitUrl = matcher.matches();
 
         if (!isValidPathLocation && !isValidGitUrl) {
             throw new InvalidLocationException(location + " is an invalid location.");
