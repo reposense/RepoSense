@@ -24,9 +24,6 @@ public class StreamGobbler extends Thread {
         return value;
     }
 
-    /**
-     * Reads from input stream {@code is} and stores it into {@code value}.
-     */
     @Override
     public void run() {
         try {
