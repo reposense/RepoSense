@@ -77,11 +77,11 @@ html
               .tab-panes
                 v-authorship#tab-authorship.tab-pane(
                   v-if="tabType === 'authorship'",
-                  v-bind:key="generateKey(tabInfo.tabAuthorship)",
+                  v-bind:key="generateKey(tabInfo.tabAuthorship, ['author', 'repo', 'isMergeGroup'])",
                   v-bind:info="tabInfo.tabAuthorship")
                 v-zoom#tab-zoom.tab-pane(
                   v-else-if="tabType === 'zoom'",
-                  v-bind:key="generateKey(tabInfo.tabZoom)",
+                  v-bind:key="generateKey(tabInfo.tabZoom, ['zRepo', 'zAuthor', 'zFilterGroup', 'zTimeFrame'])",
                   v-bind:info="tabInfo.tabZoom")
                 #tab-empty.tab-pane(v-else)
                   .title

@@ -64,7 +64,7 @@ window.app = new window.Vue({
       window.REPORT_ZIP = null;
 
       this.users = [];
-      this.updateReportView();
+      this.updateReportView().then(() => this.renderTabHash());
     },
     async updateReportView() {
       await window.api.loadSummary().then((names) => {
@@ -77,7 +77,6 @@ window.app = new window.Vue({
           window.api.loadCommits(name)
         )));
       }).then(() => {
-        this.renderTabHash();
         this.userUpdated = true;
         this.isLoadingResources = false;
         this.getUsers();
@@ -182,8 +181,9 @@ window.app = new window.Vue({
       }
     },
 
-    generateKey(dataObj) {
-      return JSON.stringify(dataObj);
+    generateKey(dataObj, keys_to_use) {
+      const picked = keys_to_use.map((key) => dataObj[key]);
+      return JSON.stringify(picked);
     },
 
     getRepoSenseHomeLink() {
