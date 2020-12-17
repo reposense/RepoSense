@@ -63,7 +63,7 @@ The sections below provide explanations for the flags.
 
 ### `--formats`, `-f`
 
-**`--formats LIST_OF_FORMATS`**: specifies which file extensions to be included in the analysis
+**`--formats LIST_OF_FORMATS`**: Specifies which file extensions to be included in the analysis
 * Parameter: `LIST_OF_FORMATS` a space-separated list of file extensions that should be included in the analysis<br>
   Default: all file formats
 * Alias: `-f`
