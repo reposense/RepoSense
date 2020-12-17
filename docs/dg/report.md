@@ -60,7 +60,7 @@ This contains the logic for main VueJS object, `window.app`, which is responsibl
 `v_summary`, `v_authorship`, `v_zoom`, `v_segment` and `v_ramp` are components which will be embedded into report and will render the corresponding content based on the data passed into it from the main `window.app`.
 
 ### Loading of report information
-The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive, `archive.zip`, have to be used.
+The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js` which loads the relevant file information from the network files if it is available, otherwise a report archive, `archive.zip`, has to be used.
 
 Once the relevant `commit.json` files are loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the relevant ramp charts.
 
@@ -97,7 +97,7 @@ The `v_summary` module is in charge of loading the ramp charts from the correspo
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
 
 ### Filtering users and repositories
-The commits information is retrieved from the corresponding project folders for each repository. These information will be filtered and sorted before passed into the template to be displayed as ramp charts.
+The commits information is retrieved from the corresponding project folders for each repository. This information will be filtered and sorted before getting passed into the template to be displayed as ramp charts.
 
 <!-- ==================================================================================================== -->
 
