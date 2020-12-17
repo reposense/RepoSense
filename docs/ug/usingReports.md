@@ -15,7 +15,7 @@ Let's look at how to view, interpret, and interact with a RepoSense report.
 
 ## Viewing the report
 
-As the report consist of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.
+As a report consists of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.
 
 * **Situation 1: The report has been hosted on a website**
   * Simply go to the URL of the report ([example](https://nus-cs2113-ay1920s2.github.io/tp-dashboard)) in your browser .
@@ -89,7 +89,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
   * The keywords used to filter author and repository are case-insensitive.
-* `Group by` : grouping criteria for the rows of results
+* `Group by` : grouping criteria for the rows of results.
   * `None` : results will not be grouped in any particular way.
   * `Repo/Branch` : results will be grouped by repositories and its' associating branches.
   * `Author` : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
@@ -97,7 +97,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
   * `Group title` : groups will be sorted by the title of the group (in bold text) in alphabetical order.
   * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
   * `Variance` : groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
-* `Sort within groups by`: sorting criteria within each group
+* `Sort within groups by`: sorting criteria within each group.
   * `Title` : each group will be internally sorted by it's title in alphabetical order.
   * `Contribution` : each group will be internally sorted by individual contributions in the order of number of lines added
   * `Variance` : each group will be internally sorted by how far the daily contributions are spread out from their average value by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
