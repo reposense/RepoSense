@@ -314,11 +314,13 @@ window.vAuthorship = {
 
     updateSelectedFiles() {
       this.$store.commit('updateIsLoadingOverlayEnabled', true);
-      const selectedFiles = this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
-          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }))
+      const selectedFiles = this.files.filter(
+          (file) => this.selectedFileTypes.includes(file.fileType)
+          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
+      )
           .sort(this.sortingFunction);
       setTimeout(() => {
-        this.selectedFiles = selectedFiles
+        this.selectedFiles = selectedFiles;
       });
     },
 
