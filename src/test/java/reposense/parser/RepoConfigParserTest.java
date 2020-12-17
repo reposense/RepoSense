@@ -104,14 +104,14 @@ public class RepoConfigParserTest {
         firstRepo.setAuthorList(expectedAuthors);
         firstRepo.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         firstRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        firstRepo.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        firstRepo.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         firstRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         RepoConfiguration secondRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
                 TEST_REPO_BETA_ADD_CONFIG_JSON_BRANCH);
         secondRepo.setAuthorList(Arrays.asList(SECOND_AUTHOR));
         secondRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        secondRepo.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        secondRepo.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         secondRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         String input = new InputBuilder().addConfig(TEST_CONFIG_FOLDER).build();
@@ -146,7 +146,7 @@ public class RepoConfigParserTest {
         expectedBetaConfig.setAuthorList(expectedBetaAuthors);
         expectedBetaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedBetaConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        expectedBetaConfig.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        expectedBetaConfig.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         expectedBetaConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         RepoConfiguration expectedDeltaConfig =

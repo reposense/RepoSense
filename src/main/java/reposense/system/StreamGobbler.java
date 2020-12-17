@@ -26,8 +26,6 @@ public class StreamGobbler extends Thread {
 
     /**
      * Reads from input stream {@code is} and stores it into {@code value}.
-     * The method will attempt to iteratively read 8KB of data from {@code is}, until no
-     * more data is available from {@code is}.
      */
     @Override
     public void run() {
