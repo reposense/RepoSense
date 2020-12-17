@@ -125,8 +125,9 @@ public class LogsManager {
         return consoleHandler;
     }
 
-    /** Sets the log folder location using {@code location} and adds file handler with this location to all the loggers
-     *  created.
+    /**
+     * Sets the log folder location using {@code location} and adds file handler with this location to all the loggers
+     * created.
      */
     public static void setLogFolderLocation(Path location) {
         logFolderLocation = location;
