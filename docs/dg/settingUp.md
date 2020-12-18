@@ -23,7 +23,7 @@
 ## Getting the code
 
 1. **Fork** the [reposense/reposense](https://github.com/reposense/RepoSense) repo.
-1. **Clone** the fork to your computer.
+1. **clone** the fork to your computer.
 
 ## Setting up the IDE
 

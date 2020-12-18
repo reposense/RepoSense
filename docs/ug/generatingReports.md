@@ -15,7 +15,7 @@ Let's look at different ways to generate RepoSense reports.
 
 * **If you have Java in your computer**, the straight-forward way to generate a report is to use the RepoSense executable to generate the report locally in your computer, as explained in [the next section](#generating-reports-locally).
 
-* **If you don't have Java on your computer or do not wish to run the executable in your computer**, some alternatives are provided in the [_Generating a report remotely_](#generating-reports-remotely) section below.
+* **If you don't have Java on your computer or do not wish to run the executable in your computer**, some alternatives are provided [in the _Generating a report remotely_ section below](#generating-reports-remotely).
 
 <!-- ==================================================================================================== -->
 
