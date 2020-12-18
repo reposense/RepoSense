@@ -22,7 +22,7 @@ Same command as above but using most parameters in alias format:<br>
 `java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l`
 </box>
 
-The section below explains each flag.
+The sections below explains each flag.
 
 <!-- --------------------------◘---------------------------------------------------------------------------- -->
 
