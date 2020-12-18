@@ -51,7 +51,6 @@ window.app = new window.Vue({
     },
     '$store.state.loadingOverlayMessage': function () {
       this.loadingOverlayMessage = this.$store.state.loadingOverlayMessage;
-      console.log(this.loadingOverlayMessage);
     },
   },
   methods: {
