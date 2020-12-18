@@ -32,6 +32,10 @@ public class FileType {
         setPaths(paths);
     }
 
+    /**
+     * Returns a list of {@code FileType} from {@code formats}, with each {@code FileType}
+     * containing the format name and associated files ending with the format.
+     */
     public static List<FileType> convertFormatStringsToFileTypes(List<String> formats) {
         return formats.stream().map(FileType::convertStringFormatToFileType).collect(Collectors.toList());
     }
