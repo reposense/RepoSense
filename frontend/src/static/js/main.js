@@ -14,7 +14,7 @@ Vue.directive('hljs', {
 Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
 Vue.component('loading-overlay', window.VueLoading);
 
-const loadingResourcesMessage = "Loading resources...";
+const loadingResourcesMessage = 'Loading resources...';
 
 window.app = new window.Vue({
   el: '#app',
@@ -25,7 +25,7 @@ window.app = new window.Vue({
     userUpdated: false,
 
     isLoadingOverlayEnabled: false,
-    loadingOverlayMessage: "Loading resources...",
+    loadingOverlayMessage: 'Loading resources...',
     loadingOverlayOpacity: 1,
 
     isCollapsed: false,

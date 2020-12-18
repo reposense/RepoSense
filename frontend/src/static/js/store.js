@@ -7,7 +7,7 @@ const store = new Vuex.Store({
     mergedGroups: [],
     fileTypeColors: {},
     loadingOverlayCount: 0,
-    loadingOverlayMessage: "",
+    loadingOverlayMessage: '',
   },
   mutations: {
     updateTabZoomInfo(state, info) {

@@ -1,6 +1,6 @@
 /* global Vuex */
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-const renderSummaryChartsMessage = "Rendering Summary Charts, Please wait ...";
+const renderSummaryChartsMessage = 'Rendering Summary Charts, Please wait ...';
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],

@@ -8,7 +8,8 @@ const filesSortDict = {
 
 const repoCache = [];
 const minimatch = require('minimatch');
-const renderAuthorshipMessage = "Rendering Code Panel, Please wait ...";
+
+const renderAuthorshipMessage = 'Rendering Code Panel, Please wait ...';
 
 window.vAuthorship = {
   props: ['info'],
