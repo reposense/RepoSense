@@ -22,7 +22,7 @@ Same command as above but using most parameters in alias format:<br>
 `java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l`
 </box>
 
-The sections below provide explanations for each flag.
+The section below provides explanations for each of the flags.
 
 <!-- --------------------------◘---------------------------------------------------------------------------- -->
 
@@ -63,7 +63,7 @@ The sections below provide explanations for each flag.
 
 ### `--formats`, `-f`
 
-**`--formats LIST_OF_FORMATS`**: Specifies which file extensions to be included in the analysis
+**`--formats LIST_OF_FORMATS`**: Specifies which file extensions to be included in the analysis.
 * Parameter: `LIST_OF_FORMATS` a space-separated list of file extensions that should be included in the analysis<br>
   Default: all file formats
 * Alias: `-f`

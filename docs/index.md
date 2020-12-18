@@ -43,7 +43,7 @@ Some example insights RepoSense can provide:
 
 {{ heading(":fas-business-time:", "Insights about the timing of work") }}
 
-* Who is putting in consistent effort?
+* Who is putting in the consistent effort?
 * Who waits till the deadline to do the work?
 * Who hasn't started any work yet?
 

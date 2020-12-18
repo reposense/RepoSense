@@ -95,11 +95,11 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
   * `Author` : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.
 * `Sort groups by`: sorting criteria for the main group. See note [1] below.
   * `Group title` : groups will be sorted by the title of the group (in bold text) in alphabetical order.
-  * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added
+  * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added.
   * `Variance` : groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Sort within groups by`: sorting criteria within each group.
   * `Title` : each group will be internally sorted by it's title in alphabetical order.
-  * `Contribution` : each group will be internally sorted by individual contributions in the order of number of lines added
+  * `Contribution` : each group will be internally sorted by individual contributions in the order of number of lines added.
   * `Variance` : each group will be internally sorted by how far the daily contributions are spread out from their average value by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
     * `Commit`: each commit made is shown as one ramp
