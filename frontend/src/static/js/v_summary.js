@@ -1,5 +1,6 @@
 /* global Vuex */
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
+const renderSummaryChartsMessage = "Rendering Summary Charts, Please wait ...";
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -61,10 +62,12 @@ window.vSummary = {
       }
       const { allGroupsMerged } = this;
 
-      this.$store.commit('updateIsLoadingOverlayEnabled', true);
+      this.$store.commit('incrementLoadingOverlayCount', 1);
+      this.$store.commit('updateLoadingOverlayMessage', renderSummaryChartsMessage);
       setTimeout(() => {
         this.getFilteredRepos();
         this.updateMergedGroup(allGroupsMerged);
+        this.$store.commit('incrementLoadingOverlayCount', -1);
       });
     },
 
@@ -313,11 +316,13 @@ window.vSummary = {
       this.getDates();
       window.deactivateAllOverlays();
 
-      this.$store.commit('updateIsLoadingOverlayEnabled', true);
+      this.$store.commit('incrementLoadingOverlayCount', 1);
+      this.$store.commit('updateLoadingOverlayMessage', renderSummaryChartsMessage);
       // Use setTimeout() to force this.filtered to update only after loading screen is displayed.
       setTimeout(() => {
         this.getFilteredRepos();
         this.getMergedRepos();
+        this.$store.commit('incrementLoadingOverlayCount', -1);
       });
     },
 

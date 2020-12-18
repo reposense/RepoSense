@@ -252,9 +252,6 @@ window.vSummaryCharts = {
       this.$store.commit('updateMergedGroup', info);
     },
   },
-  updated() {
-    this.$store.commit('updateIsLoadingOverlayEnabled', false);
-  },
   components: {
     vRamp: window.vRamp,
   },

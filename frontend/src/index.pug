@@ -34,13 +34,15 @@ html
     script(src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.14/build/languages/yaml.min.js")
   body
     #app
+      loading-overlay.overlay-loader(
+        :active.sync="isLoadingOverlayEnabled",
+        :opacity='loadingOverlayOpacity',
+        :is-full-page="true"
+      )
+        i.overlay-loading-icon.fa.fa-spinner.fa-spin(slot='default')
+        h3(slot='after') {{ loadingOverlayMessage }}
+
       template(v-if="userUpdated")
-        loading-overlay.overlay-loader(
-          :active.sync="isLoadingOverlayEnabled",
-          :is-full-page="true"
-        )
-          i.overlay-loading-icon.fa.fa-spinner.fa-spin(slot='default')
-          h3(slot='after') Working. Please wait ...
         v-resizer(
           v-bind:is-tab-active="isTabActive",
           v-on:close-tab="deactivateTab"
@@ -112,13 +114,6 @@ html
 
         form#file-upload(onsubmit="return false;")
           input(type="file", accept=".zip", v-on:change="updateReportZip")
-          loading-overlay.overlay-loader(
-            :active.sync="isLoadingResources",
-            :opacity='1',
-            :is-full-page="true"
-          )
-            i.overlay-loading-icon.fa.fa-spinner.fa-spin(slot='default')
-            h3(slot='after') Loading resources...
 
     vuetemplate#v_resizer
       include resizer.pug

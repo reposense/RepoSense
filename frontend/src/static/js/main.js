@@ -14,6 +14,8 @@ Vue.directive('hljs', {
 Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
 Vue.component('loading-overlay', window.VueLoading);
 
+const loadingResourcesMessage = "Loading resources...";
+
 window.app = new window.Vue({
   el: '#app',
   store,
@@ -23,7 +25,9 @@ window.app = new window.Vue({
     userUpdated: false,
 
     isLoadingOverlayEnabled: false,
-    isLoadingResources: false,
+    loadingOverlayMessage: "Loading resources...",
+    loadingOverlayOpacity: 1,
+
     isCollapsed: false,
     isTabActive: true, // to force tab wrapper to load
 
@@ -42,8 +46,12 @@ window.app = new window.Vue({
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
-    '$store.state.isLoadingOverlayEnabled': function () {
-      this.isLoadingOverlayEnabled = this.$store.state.isLoadingOverlayEnabled;
+    '$store.state.loadingOverlayCount': function () {
+      this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
+    },
+    '$store.state.loadingOverlayMessage': function () {
+      this.loadingOverlayMessage = this.$store.state.loadingOverlayMessage;
+      console.log(this.loadingOverlayMessage);
     },
   },
   methods: {
@@ -71,18 +79,20 @@ window.app = new window.Vue({
         this.repos = window.REPOS;
 
         this.userUpdated = false;
-        this.isLoadingResources = true;
+        this.$store.commit('incrementLoadingOverlayCount', 1);
+        this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
 
         return Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
       }).then(() => {
         this.userUpdated = true;
-        this.isLoadingResources = false;
+        this.$store.commit('incrementLoadingOverlayCount', -1);
+        this.loadingOverlayOpacity = 0.5;
         this.getUsers();
       }).catch((error) => {
         this.userUpdated = false;
-        this.isLoadingResources = false;
+        this.$store.commit('incrementLoadingOverlayCount', -1);
         window.alert(error);
       });
     },
