@@ -10,10 +10,10 @@ const repoCache = [];
 const minimatch = require('minimatch');
 
 window.vAuthorship = {
-  props: ['info'],
   template: window.$('v_authorship').innerHTML,
   data() {
     return {
+      info: this.$store.state.tabAuthorshipInfo,
       isLoaded: false,
       files: [],
       selectedFiles: [],
@@ -56,6 +56,14 @@ window.vAuthorship = {
         this.retrieveHashes();
         this.setInfoHash();
       }
+    },
+
+    authorshipKey() {
+      this.initiate();
+    },
+
+    '$store.state.tabAuthorshipInfo': function () {
+      this.info = this.$store.state.tabAuthorshipInfo;
     },
   },
 
@@ -356,6 +364,10 @@ window.vAuthorship = {
   },
 
   computed: {
+    authorshipKey() {
+      return `${this.info.author}|${this.info.repo}|${this.info.isMergeGroup}`;
+    },
+
     sortingFunction() {
       return (a, b) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);

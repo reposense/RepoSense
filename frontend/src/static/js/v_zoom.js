@@ -1,10 +1,10 @@
 /* global Vuex */
 
 window.vZoom = {
-  props: ['info'],
   template: window.$('v_zoom').innerHTML,
   data() {
     return {
+      info: this.$store.state.tabZoomInfo,
       showAllCommitMessageBody: true,
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
       commitsSortType: 'time',
@@ -15,7 +15,21 @@ window.vZoom = {
     };
   },
 
+  watch: {
+    zoomKey() {
+      this.initiate();
+    },
+
+    '$store.state.tabZoomInfo': function () {
+      this.info = this.$store.state.tabZoomInfo;
+    },
+  },
+
   computed: {
+    zoomKey() {
+      return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${zTimeFrame}`;
+    },
+
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === 'time'
         ? (commit) => commit.date

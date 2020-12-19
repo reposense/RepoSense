@@ -78,7 +78,7 @@
                 span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
                 span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
 
-  .files
+  .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles")
       .file(v-bind:key="file.path")
