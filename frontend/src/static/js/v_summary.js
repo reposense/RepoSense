@@ -1,6 +1,5 @@
 /* global Vuex */
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-const renderSummaryChartsMessage = 'Rendering Summary Charts, Please wait ...';
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -63,7 +62,7 @@ window.vSummary = {
       const { allGroupsMerged } = this;
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
-      this.$store.commit('updateLoadingOverlayMessage', renderSummaryChartsMessage);
+      this.$store.commit('updateLoadingOverlayMessage', "Working. Please wait ...");
       setTimeout(() => {
         this.getFilteredRepos();
         this.updateMergedGroup(allGroupsMerged);
@@ -317,7 +316,7 @@ window.vSummary = {
       window.deactivateAllOverlays();
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
-      this.$store.commit('updateLoadingOverlayMessage', renderSummaryChartsMessage);
+      this.$store.commit('updateLoadingOverlayMessage', "Working. Please wait ...");
       // Use setTimeout() to force this.filtered to update only after loading screen is displayed.
       setTimeout(() => {
         this.getFilteredRepos();

@@ -9,8 +9,6 @@ const filesSortDict = {
 const repoCache = [];
 const minimatch = require('minimatch');
 
-const renderAuthorshipMessage = 'Rendering Code Panel, Please wait ...';
-
 window.vAuthorship = {
   props: ['info'],
   template: window.$('v_authorship').innerHTML,
@@ -316,7 +314,7 @@ window.vAuthorship = {
 
     updateSelectedFiles() {
       this.$store.commit('incrementLoadingOverlayCount', 1);
-      this.$store.commit('updateLoadingOverlayMessage', renderAuthorshipMessage);
+      this.$store.commit('updateLoadingOverlayMessage', "Working. Please wait ...");
       setTimeout(() => {
         this.selectedFiles = this.files.filter(
             (file) => this.selectedFileTypes.includes(file.fileType)
