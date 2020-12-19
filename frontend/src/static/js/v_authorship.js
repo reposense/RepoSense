@@ -314,7 +314,6 @@ window.vAuthorship = {
 
     updateSelectedFiles() {
       this.$store.commit('incrementLoadingOverlayCount', 1);
-      this.$store.commit('updateLoadingOverlayMessage', 'Working. Please wait ...');
       setTimeout(() => {
         this.selectedFiles = this.files.filter(
             (file) => this.selectedFileTypes.includes(file.fileType)
