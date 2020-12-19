@@ -18,7 +18,7 @@ Let's look at how to view, interpret, and interact with a RepoSense report.
 As a report consists of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.
 
 * **Situation 1: The report has been hosted on a website**
-  * Simply go to the URL of the report ([example](https://nus-cs2113-ay1920s2.github.io/tp-dashboard)) in your browser .
+  * Simply go to the URL of the report ([example](https://nus-cs2113-ay1920s2.github.io/tp-dashboard)) in your browser.
 * **Situation 2: You generated the report in your computer earlier**
   * Run RepoSense with the `--view` option:<br>
     Format: `java -jar RepoSense.jar --view REPORT_FOLDER`<br>
@@ -98,13 +98,13 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
   * `Contribution` : groups will be sorted by the combined contributions within a group, in the order of number of lines added.
   * `Variance` : groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Sort within groups by`: sorting criteria within each group.
-  * `Title` : each group will be internally sorted by it's title in alphabetical order.
+  * `Title` : each group will be internally sorted by its title in alphabetical order.
   * `Contribution` : each group will be internally sorted by individual contributions in the order of number of lines added.
   * `Variance` : each group will be internally sorted by how far the daily contributions are spread out from their average value by each author into a particular repo. Detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
 * `Granularity` : the period of time for which commits are aggregated in the Ramp Chart.
-    * `Commit`: each commit made is shown as one ramp
-    * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp
-    * `Week`: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp
+    * `Commit`: each commit made is shown as one ramp.
+    * `Day`: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp.
+    * `Week`: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp.
 * `Since`, `Until` : the date range for the Ramp Chart (not applied to the Contribution Bars).
 * `Reset date range` : resets the date range of the Ramp Chart to the default date range.
 * `Breakdown by file type` : toggles the contribution bar to either display the bar by :
@@ -114,8 +114,8 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
     * viewing of authored code of the group as a whole is available when `group by repos`.
 
 Notes:<br>
-[1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>
-[2] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` (e.g., `resposense/reposense[master]`)<br>
+[1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>.
+[2] **`Repo/Branch`**: the repo/branch name is constructed as `ORGANIZATION/REPOSITORY[BRANCH]` (e.g., `resposense/reposense[master]`)<br>.
 [3] The total contribution of each group will get updated based on the checked file types and will be taken into account when sorting criteria is contribution.
 
 <box type="tip" seamless>
