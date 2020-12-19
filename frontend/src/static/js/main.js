@@ -1,3 +1,4 @@
+/* global Vuex */
 // eslint-disable-next-line import/extensions
 import store from './store.js';
 
@@ -25,7 +26,6 @@ window.app = new window.Vue({
     userUpdated: false,
 
     isLoadingOverlayEnabled: false,
-    loadingOverlayMessage: 'Loading resources...',
     loadingOverlayOpacity: 1,
 
     isCollapsed: false,
@@ -48,9 +48,6 @@ window.app = new window.Vue({
     },
     '$store.state.loadingOverlayCount': function () {
       this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
-    },
-    '$store.state.loadingOverlayMessage': function () {
-      this.loadingOverlayMessage = this.$store.state.loadingOverlayMessage;
     },
   },
   methods: {
@@ -238,6 +235,11 @@ window.app = new window.Vue({
       }
     },
   },
+
+  computed: {
+    ...Vuex.mapState(['loadingOverlayMessage']),
+  },
+
   components: {
     vResizer: window.vResizer,
     vZoom: window.vZoom,
