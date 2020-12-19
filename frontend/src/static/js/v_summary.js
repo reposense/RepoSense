@@ -145,6 +145,7 @@ window.vSummary = {
           this.filtered.forEach((group) => {
             mergedGroups.push(this.getGroupName(group));
           });
+          this.filtered = [];
           this.$store.commit('updateMergedGroup', mergedGroups);
         } else {
           this.$store.commit('updateMergedGroup', []);
