@@ -27,7 +27,7 @@ const store = new Vuex.Store({
     },
     incrementLoadingOverlayCount(state, increment) {
       state.loadingOverlayCount += increment;
-      if (state.loadingOverlayCount == 0) {
+      if (state.loadingOverlayCount === 0) {
         state.loadingOverlayMessage = 'Working. Please wait ...';
       }
     },
