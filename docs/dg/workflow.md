@@ -66,8 +66,6 @@ See [vue-devtools project home](https://github.com/vuejs/vue-devtools) page for 
 
 **We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing.**
 
-Note that it is **compulsory** to write tests for the front end UI changes that you made in order to prevent regression bugs.
-
 ### Writing tests
 1. Create a new test file in `frontend/cypress/tests`
 1. At project root start *Cypress Test Runner* by running `gradlew cypress`
@@ -79,6 +77,8 @@ Note that it is **compulsory** to write tests for the front end UI changes that 
 
 Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
 </box>
+
+Note that it is **compulsory** to write tests for the new front end changes that you made in order to prevent regression bugs.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
