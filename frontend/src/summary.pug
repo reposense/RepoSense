@@ -2,7 +2,7 @@
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
       .mui-textfield.search_box
-        input.summary-picker__search(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
+        input(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
         label search
         button.mui-btn.mui-btn--raised(type="button", v-on:click.prevent="resetFilterSearch") x
       .mui-select.grouping
@@ -38,31 +38,31 @@
           option(value="day") Day
           option(value="week") Week
         label granularity
-      .mui-textfield.summary-picker__date
+      .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
         input(v-else, type="date", name="since", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
           v-bind:min="minDate", v-bind:max="filterUntilDate")
         label since
-      .mui-textfield.summary-picker__date
+      .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
         input(v-else, type="date", name="until", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
           v-bind:min="filterSinceDate", v-bind:max="maxDate")
         label until
-      .mui-textfield.summary-picker__date
+      .mui-textfield
         a(v-on:click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
         label.filter-breakdown
-          input.mui-checkbox.summary-picker__checkbox(type="checkbox", v-model="filterBreakdown",
+          input.mui-checkbox(type="checkbox", v-model="filterBreakdown",
             v-on:change="setSummaryHash()")
           span breakdown by file type
         label.merge-group(
           v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
         )
-          input.summary-picker__checkbox.mui-checkbox(
+          input.mui-checkbox(
             type="checkbox",
             v-model="allGroupsMerged",
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
