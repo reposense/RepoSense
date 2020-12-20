@@ -35,9 +35,9 @@ html
   body
     #app
       loading-overlay.overlay-loader(
-        :active.sync="isLoadingOverlayEnabled",
-        :opacity='loadingOverlayOpacity',
-        :is-full-page="true"
+        v-bind:active.sync="isLoadingOverlayEnabled",
+        v-bind:opacity='loadingOverlayOpacity',
+        v-bind:is-full-page="true"
       )
         i.overlay-loading-icon.fa.fa-spinner.fa-spin(slot='default')
         h3(slot='after') {{ loadingOverlayMessage }}
