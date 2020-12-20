@@ -17,7 +17,7 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 
 * As we squash the commits when merging a PR, there is ==no need to follow a strict commit organization or write elaborate commit messages for each commit==.<br>
   However, when pushing new commits to your PR branch, do clean up _new_ commits (i.e., commits not yet pushed) e.g., delete temporary print statements added for debugging purposes.
-* You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) to learn about the design and implementation of RepoSense. 
+* You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) to learn about the design and implementation of RepoSense.
 * The sections below has more information about various stages of submitting a PR.
 
 <!-- ==================================================================================================== -->
