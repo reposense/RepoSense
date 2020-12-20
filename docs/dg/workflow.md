@@ -78,7 +78,10 @@ See [vue-devtools project home](https://github.com/vuejs/vue-devtools) page for 
 Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
 </box>
 
+<box type="warning" seamless>
+
 Note that it is **compulsory** to write tests for the new front end changes that you made in order to prevent regression bugs.
+</box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
