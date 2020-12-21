@@ -91,12 +91,17 @@ public class FileUtil {
      * @return An Optional containing the Path to the JSON file, or an empty Optional
      *         if there was an error while writing the JSON file.
      */
-    public static Optional<Path> writeJsonFile(Object object, String path) {
-        Gson gson = new GsonBuilder()
+    public static Optional<Path> writeJsonFile(Object object, String path, boolean isPrettyPrinting) {
+        GsonBuilder gsonBuilder = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
-                .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
-                .setPrettyPrinting()
-                .create();
+                .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer());
+        Gson gson;
+        if (isPrettyPrinting) {
+            gson = gsonBuilder.setPrettyPrinting().create();
+        } else {
+            gson = gsonBuilder.create();
+        }
+
         String result = gson.toJson(object);
 
         try (PrintWriter out = new PrintWriter(path)) {

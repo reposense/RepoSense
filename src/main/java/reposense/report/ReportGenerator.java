@@ -122,7 +122,8 @@ public class ReportGenerator {
                         TimeUtil.getZonedDateFromSystemDate(untilDate, zoneId), isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
                         reportGenerationTimeProvider.get(), zoneId.toString()),
-                getSummaryResultPath(outputPath));
+                getSummaryResultPath(outputPath),
+                false);
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
@@ -387,9 +388,9 @@ public class ReportGenerator {
         CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
 
         List<Path> generatedFiles = new ArrayList<>();
-        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory))
+        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory), false)
                 .ifPresent(generatedFiles::add);
-        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory))
+        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory), false)
                 .ifPresent(generatedFiles::add);
 
         return generatedFiles;
@@ -404,9 +405,9 @@ public class ReportGenerator {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
 
         List<Path> generatedFiles = new ArrayList<>();
-        FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory))
+        FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory), false)
                 .ifPresent(generatedFiles::add);
-        FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory))
+        FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory), false)
                 .ifPresent(generatedFiles::add);
         return generatedFiles;
     }
