@@ -186,7 +186,7 @@ public class ArgsParser {
         parser.addArgument(DISABLE_JSON_PRETTY_PRINT_FLAGS)
                 .dest(DISABLE_JSON_PRETTY_PRINT_FLAGS[0])
                 .action(Arguments.storeTrue())
-                .help("A flag to use json pretty printing when generating the json files.");
+                .help("A flag to disable json pretty printing when generating the json files.");
 
         return parser;
     }
