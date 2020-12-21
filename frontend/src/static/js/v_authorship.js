@@ -348,11 +348,8 @@ window.vAuthorship = {
 
   computed: {
     selectedFilesWatchable() {
-      this.filesSortType;
-      this.searchBarValue;
-      this.selectedFileTypes;
-      this.toReverseSortFiles;
-      return Date.now();
+      return this.filesSortType, this.searchBarValue,
+        this.selectedFileTypes, this.toReverseSortFiles, Date.now();
     },
 
     sortingFunction() {
