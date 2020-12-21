@@ -92,6 +92,7 @@ public class ReportGenerator {
     private static final List<String> assetsFilesWhiteList =
             Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
 
+    private static boolean isPrettyPrintingUsed = false;
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
@@ -100,8 +101,8 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
-            ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided,
+            ReportConfiguration reportConfig, String generationDate,
+            Date cliSinceDate, Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
             Supplier<String> reportGenerationTimeProvider, ZoneId zoneId) throws IOException {
         prepareTemplateFile(reportConfig, outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
@@ -123,7 +124,7 @@ public class ReportGenerator {
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
                         reportGenerationTimeProvider.get(), zoneId.toString()),
                 getSummaryResultPath(outputPath),
-                false);
+                isPrettyPrintingUsed);
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 
         logger.info(String.format(MESSAGE_REPORT_GENERATED, outputPath));
@@ -388,9 +389,13 @@ public class ReportGenerator {
         CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
 
         List<Path> generatedFiles = new ArrayList<>();
-        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory), false)
+        FileUtil.writeJsonFile(emptyCommitReportJson,
+                getIndividualCommitsPath(repoReportDirectory),
+                isPrettyPrintingUsed)
                 .ifPresent(generatedFiles::add);
-        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory), false)
+        FileUtil.writeJsonFile(Collections.emptyList(),
+                getIndividualAuthorshipPath(repoReportDirectory),
+                isPrettyPrintingUsed)
                 .ifPresent(generatedFiles::add);
 
         return generatedFiles;
@@ -405,9 +410,11 @@ public class ReportGenerator {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
 
         List<Path> generatedFiles = new ArrayList<>();
-        FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory), false)
+        FileUtil.writeJsonFile(commitReportJson, getIndividualCommitsPath(repoReportDirectory), isPrettyPrintingUsed)
                 .ifPresent(generatedFiles::add);
-        FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory), false)
+        FileUtil.writeJsonFile(authorshipSummary.getFileResults(),
+                getIndividualAuthorshipPath(repoReportDirectory),
+                isPrettyPrintingUsed)
                 .ifPresent(generatedFiles::add);
         return generatedFiles;
     }
@@ -428,5 +435,9 @@ public class ReportGenerator {
         if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
             earliestSinceDate = newEarliestSinceDate;
         }
+    }
+
+    public static void setPrettyPrintingMode(boolean isPrettyPrintingAdopted) {
+        isPrettyPrintingUsed = isPrettyPrintingAdopted;
     }
 }

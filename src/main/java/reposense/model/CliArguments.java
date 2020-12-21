@@ -20,6 +20,7 @@ public abstract class CliArguments {
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
     protected ZoneId zoneId;
+    protected boolean isPrettyPrintingUsed;
 
     public ZoneId getZoneId() {
         return zoneId;
@@ -63,6 +64,10 @@ public abstract class CliArguments {
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
+    }
+
+    public boolean isPrettyPrintingUsed() {
+        return isPrettyPrintingUsed;
     }
 
     @Override

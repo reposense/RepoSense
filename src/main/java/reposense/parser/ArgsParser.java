@@ -50,6 +50,7 @@ public class ArgsParser {
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
     public static final String[] VERSION_FLAGS = new String[]{"--version", "-V"};
     public static final String[] LAST_MODIFIED_DATE_FLAGS = new String[]{"--last-modified-date", "-l"};
+    public static final String[] JSON_PRINT_MODE_FLAGS = new String[]{"--use-json-pretty-printing", "-j"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -182,6 +183,11 @@ public class ArgsParser {
                         + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
                         + "If not provided, system default timezone will be used.");
 
+        parser.addArgument(JSON_PRINT_MODE_FLAGS)
+                .dest(JSON_PRINT_MODE_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to use json pretty printing when generating the json files.");
+
         return parser;
     }
 
@@ -265,9 +271,11 @@ public class ArgsParser {
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
+
+            boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
-                    isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                    isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId, isJsonPrettyPrintingUsed);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
