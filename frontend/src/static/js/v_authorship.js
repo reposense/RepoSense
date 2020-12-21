@@ -34,15 +34,7 @@ window.vAuthorship = {
       window.encodeHash();
     },
 
-    searchBarValue() {
-      this.updateSelectedFiles();
-    },
-
-    selectedFileTypes() {
-      this.updateSelectedFiles();
-    },
-
-    sortingFunction() {
+    selectedFilesWatchable() {
       this.updateSelectedFiles();
     },
 
@@ -355,6 +347,14 @@ window.vAuthorship = {
   },
 
   computed: {
+    selectedFilesWatchable() {
+      this.filesSortType;
+      this.searchBarValue;
+      this.selectedFileTypes;
+      this.toReverseSortFiles;
+      return Date.now();
+    },
+
     sortingFunction() {
       return (a, b) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
