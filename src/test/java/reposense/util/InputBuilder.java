@@ -144,6 +144,15 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the jsonPrettyPrinting flag to the input.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addJsonPrettyPrinting() {
+        input.append(ArgsParser.DISABLE_JSON_PRETTY_PRINT_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds the timezone flag with the {@code zoneId} as argument to the input.
      * This method should only be called once in one build.
      */

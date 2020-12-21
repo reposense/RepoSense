@@ -92,7 +92,7 @@ public class ReportGenerator {
     private static final List<String> assetsFilesWhiteList =
             Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
 
-    private static boolean isPrettyPrintingUsed = false;
+    private static boolean isPrettyPrintingUsed = true;
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
@@ -437,7 +437,7 @@ public class ReportGenerator {
         }
     }
 
-    public static void setPrettyPrintingMode(boolean isPrettyPrintingAdopted) {
-        isPrettyPrintingUsed = isPrettyPrintingAdopted;
+    public static void setPrettyPrintingMode(boolean isPrettyPrintingDisabled) {
+        isPrettyPrintingUsed = !isPrettyPrintingDisabled;
     }
 }

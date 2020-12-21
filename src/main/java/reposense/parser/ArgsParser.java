@@ -50,7 +50,7 @@ public class ArgsParser {
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
     public static final String[] VERSION_FLAGS = new String[]{"--version", "-V"};
     public static final String[] LAST_MODIFIED_DATE_FLAGS = new String[]{"--last-modified-date", "-l"};
-    public static final String[] JSON_PRINT_MODE_FLAGS = new String[]{"--use-json-pretty-printing", "-j"};
+    public static final String[] DISABLE_JSON_PRETTY_PRINT_FLAGS = new String[]{"--disable-json-pretty-printing", "-j"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -183,8 +183,8 @@ public class ArgsParser {
                         + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
                         + "If not provided, system default timezone will be used.");
 
-        parser.addArgument(JSON_PRINT_MODE_FLAGS)
-                .dest(JSON_PRINT_MODE_FLAGS[0])
+        parser.addArgument(DISABLE_JSON_PRETTY_PRINT_FLAGS)
+                .dest(DISABLE_JSON_PRETTY_PRINT_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to use json pretty printing when generating the json files.");
 
@@ -245,6 +245,7 @@ public class ArgsParser {
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
             boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
+            boolean isJsonPrettyPrintingDisabled = results.get(DISABLE_JSON_PRETTY_PRINT_FLAGS[0]);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
@@ -265,17 +266,16 @@ public class ArgsParser {
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                         isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
-                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId, isJsonPrettyPrintingDisabled);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
 
-            boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
-                    isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId, isJsonPrettyPrintingUsed);
+                    isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId, isJsonPrettyPrintingDisabled);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

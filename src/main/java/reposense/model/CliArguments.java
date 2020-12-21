@@ -20,7 +20,7 @@ public abstract class CliArguments {
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
     protected ZoneId zoneId;
-    protected boolean isPrettyPrintingUsed;
+    protected boolean isPrettyPrintingDisabled;
 
     public ZoneId getZoneId() {
         return zoneId;
@@ -66,8 +66,8 @@ public abstract class CliArguments {
         return isStandaloneConfigIgnored;
     }
 
-    public boolean isPrettyPrintingUsed() {
-        return isPrettyPrintingUsed;
+    public boolean isPrettyPrintingDisabled() {
+        return isPrettyPrintingDisabled;
     }
 
     @Override

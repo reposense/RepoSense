@@ -246,6 +246,36 @@ public class ArgsParserTest {
     }
 
     @Test
+    public void parse_withPrettyPrintingDisabled_success() throws Exception {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .addJsonPrettyPrinting()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        String inputWithAlias = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .add("-j")
+                .build();
+        CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertTrue(cliArgumentsWithAlias instanceof LocationsCliArguments);
+
+        Assert.assertTrue(((LocationsCliArguments) cliArguments).isPrettyPrintingDisabled());
+        Assert.assertTrue(((LocationsCliArguments) cliArgumentsWithAlias).isPrettyPrintingDisabled());
+
+        Assert.assertEquals(cliArguments, cliArgumentsWithAlias);
+    }
+
+    @Test
+    public void parse_withoutPrettyPrintingDisabled_success() throws Exception {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
+        Assert.assertFalse(((LocationsCliArguments) cliArguments).isPrettyPrintingDisabled());
+    }
+
+    @Test
     public void parse_viewOnlyWithoutArgs_returnsConfigCliArguments() throws Exception {
         String input = new InputBuilder().addView().build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
