@@ -40,7 +40,7 @@ html
         v-bind:is-full-page="true"
       )
         i.overlay-loading-icon.fa.fa-spinner.fa-spin(slot='default')
-        h3(slot='after') {{ loadingOverlayMessage }}
+        h3(v-cloak, slot='after') {{ loadingOverlayMessage }}
 
       template(v-if="userUpdated")
         v-resizer(
