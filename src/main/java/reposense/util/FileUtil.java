@@ -96,7 +96,6 @@ public class FileUtil {
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
                 .create();
-
         String result = gson.toJson(object);
 
         try (PrintWriter out = new PrintWriter(path)) {
