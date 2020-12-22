@@ -16,7 +16,7 @@ import reposense.model.Author;
  */
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
-    private static final String REGEX_AUTHOR_NAME_FORMAT = "([a-zA-Z0-9-]*)";
+    private static final String REGEX_AUTHOR_NAME_FORMAT = "([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])";
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
     private static final int MATCHER_GROUP_AUTHOR_NAME = 1;
 

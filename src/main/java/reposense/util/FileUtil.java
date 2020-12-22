@@ -95,6 +95,7 @@ public class FileUtil {
         Gson gson = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
+                .setPrettyPrinting()
                 .create();
         String result = gson.toJson(object);
 
