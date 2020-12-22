@@ -32,6 +32,7 @@ window.vAuthorship = {
     filesSortType() {
       window.addHash('authorshipSortBy', this.filesSortType);
       window.encodeHash();
+      this.updateSelectedFiles();
     },
 
     searchBarValue() {
@@ -42,17 +43,10 @@ window.vAuthorship = {
       this.updateSelectedFiles();
     },
 
-    filesSortType() {
-      this.updateSelectedFiles();
-    },
-
-    toReverseSortFiles() {
-      this.updateSelectedFiles();
-    },
-
     toReverseSortFiles() {
       window.addHash('reverseAuthorshipOrder', this.toReverseSortFiles);
       window.encodeHash();
+      this.updateSelectedFiles();
     },
 
     isLoaded() {
