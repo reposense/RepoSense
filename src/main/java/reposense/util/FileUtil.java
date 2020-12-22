@@ -50,6 +50,7 @@ public class FileUtil {
             "Exception occurred while attempting to zip the report files.";
     private static final String MESSAGE_FAIL_TO_COPY_ASSETS =
             "Exception occurred while attempting to copy custom assets.";
+    private static boolean isPrettyPrintingEnabled = false;
 
     /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
@@ -92,11 +93,16 @@ public class FileUtil {
      *         if there was an error while writing the JSON file.
      */
     public static Optional<Path> writeJsonFile(Object object, String path) {
-        Gson gson = new GsonBuilder()
+        GsonBuilder gsonBuilder = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
-                .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
-                .setPrettyPrinting()
-                .create();
+                .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer());
+        Gson gson;
+        if (isPrettyPrintingEnabled) {
+            gson = gsonBuilder.setPrettyPrinting().create();
+        } else {
+            gson = gsonBuilder.create();
+        }
+
         String result = gson.toJson(object);
 
         try (PrintWriter out = new PrintWriter(path)) {
@@ -260,5 +266,9 @@ public class FileUtil {
      */
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
+    }
+
+    public static void setPrettyPrintingEnabled(boolean isPrettyPrintingAdopted) {
+        isPrettyPrintingEnabled = isPrettyPrintingAdopted;
     }
 }

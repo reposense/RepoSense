@@ -48,6 +48,7 @@ public class ConfigSystemTest {
     @Before
     public void setUp() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
+        FileUtil.setPrettyPrintingEnabled(true);
         ErrorSummary.getInstance().clearErrorList();
     }
 
