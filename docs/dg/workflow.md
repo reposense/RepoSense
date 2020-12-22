@@ -80,7 +80,7 @@ Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.htm
 
 <box type="warning" seamless>
 
-Note that it is **compulsory** to add tests for the new front end changes that you made in order to prevent regression bugs, except for trivial changes that are unlikely to cause any regression, or for other situations where testing is not applicable for the change.
+Note that it is **compulsory** to add tests for the new front-end changes that you made to prevent regression bugs, except for trivial changes that are unlikely to cause any regression or other situations where testing does not apply to the change.
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
