@@ -32,6 +32,10 @@ public class CustomLogFormatter extends SimpleFormatter {
         AnsiConsole.systemInstall();
     }
 
+    /**
+     * Returns the string representation of the {@code record} with
+     * the timestamp in hh:mm:ss and the record severity level if applicable.
+     */
     @Override
     public synchronized String format(LogRecord record) {
         StringBuilder builder = new StringBuilder();

@@ -21,6 +21,8 @@ matrix:
       language: java
       os: linux
       jdk: openjdk8
+      env:
+        - NODE_VERSION="lts/*"
       before_install:
         - sudo apt-get update
         - sudo apt-get --only-upgrade install openjdk-8-jdk
@@ -77,6 +79,8 @@ after_success:
   - |
     if [ "$TRAVIS_JOB_NAME" = "Ubuntu 14.04 JDK 8" ];
     then
+      nvm install $NODE_VERSION
+      nvm use $NODE_VERSION
       git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
       npm install -g surge
       npm install -g markbind-cli
