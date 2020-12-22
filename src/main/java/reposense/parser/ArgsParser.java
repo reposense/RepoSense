@@ -240,6 +240,7 @@ public class ArgsParser {
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
             boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
 
+
             LogsManager.setLogFolderLocation(outputFolderPath);
 
             verifySinceDateIsValid(sinceDate);
@@ -265,6 +266,7 @@ public class ArgsParser {
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
+
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
                     isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);

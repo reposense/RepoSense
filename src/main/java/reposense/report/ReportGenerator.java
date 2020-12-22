@@ -92,6 +92,7 @@ public class ReportGenerator {
     private static final List<String> assetsFilesWhiteList =
             Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
 
+    private static boolean isPrettyPrintingUsed = true;
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
@@ -100,8 +101,8 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
-            ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided,
+            ReportConfiguration reportConfig, String generationDate,
+            Date cliSinceDate, Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
             Supplier<String> reportGenerationTimeProvider, ZoneId zoneId) throws IOException {
         prepareTemplateFile(reportConfig, outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
@@ -387,9 +388,11 @@ public class ReportGenerator {
         CommitReportJson emptyCommitReportJson = new CommitReportJson(displayName);
 
         List<Path> generatedFiles = new ArrayList<>();
-        FileUtil.writeJsonFile(emptyCommitReportJson, getIndividualCommitsPath(repoReportDirectory))
+        FileUtil.writeJsonFile(emptyCommitReportJson,
+                getIndividualCommitsPath(repoReportDirectory))
                 .ifPresent(generatedFiles::add);
-        FileUtil.writeJsonFile(Collections.emptyList(), getIndividualAuthorshipPath(repoReportDirectory))
+        FileUtil.writeJsonFile(Collections.emptyList(),
+                getIndividualAuthorshipPath(repoReportDirectory))
                 .ifPresent(generatedFiles::add);
 
         return generatedFiles;
