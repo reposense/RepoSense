@@ -4,7 +4,6 @@ window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
     return {
-      info: this.$store.state.tabZoomInfo,
       showAllCommitMessageBody: true,
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
       commitsSortType: 'time',
@@ -16,17 +15,13 @@ window.vZoom = {
   },
 
   watch: {
-    zoomKey() {
+    zoomOwnerWatchable() {
       this.initiate();
-    },
-
-    '$store.state.tabZoomInfo': function () {
-      this.info = this.$store.state.tabZoomInfo;
     },
   },
 
   computed: {
-    zoomKey() {
+    zoomOwnerWatchable() {
       return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${zTimeFrame}`;
     },
 
@@ -95,7 +90,11 @@ window.vZoom = {
         this.updateSelectedFileTypesHash();
       },
     },
-    ...Vuex.mapState(['fileTypeColors']),
+
+    ...Vuex.mapState({
+      fileTypeColors: 'fileTypeColors',
+      info: 'tabZoomInfo'
+    }),
   },
 
   watch: {

@@ -13,7 +13,6 @@ window.vAuthorship = {
   template: window.$('v_authorship').innerHTML,
   data() {
     return {
-      info: this.$store.state.tabAuthorshipInfo,
       isLoaded: false,
       files: [],
       selectedFiles: [],
@@ -56,12 +55,8 @@ window.vAuthorship = {
       }
     },
 
-    authorshipKey() {
+    authorshipOwnerWatchable() {
       this.initiate();
-    },
-
-    '$store.state.tabAuthorshipInfo': function () {
-      this.info = this.$store.state.tabAuthorshipInfo;
     },
   },
 
@@ -361,7 +356,7 @@ window.vAuthorship = {
   },
 
   computed: {
-    authorshipKey() {
+    authorshipOwnerWatchable() {
       return `${this.info.author}|${this.info.repo}|${this.info.isMergeGroup}`;
     },
 
@@ -407,7 +402,10 @@ window.vAuthorship = {
       return numLinesModified;
     },
 
-    ...Vuex.mapState(['fileTypeColors']),
+    ...Vuex.mapState({
+      fileTypeColors: 'fileTypeColors',
+      info: 'tabAuthorshipInfo'
+    }),
   },
 
   created() {
