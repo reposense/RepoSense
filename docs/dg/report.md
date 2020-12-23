@@ -36,12 +36,13 @@ The tabbed interface is responsible for loading various modules such as authorsh
 ## Javascript files
 
 - [**main.js**](#main-main-js) - main controller that pushes content into different modules
-- [**api.js**](#data-loader-api-js) - loading and parsing of the report content
+- [**api.js**](#data-loader-api-js) - loading and parsing of the report content, and providing other window wise util service
 - [**v_summary.js**](#summary-view-v-summary-js) - module that supports the summary view
 - [**v_authorship.js**](#authorship-view-v-authorship-js) - module that supports the authorship tab view
 - [**v_zoom.js**](#zoom-view-v-zoom-js) - module that supports the zoom tab view
 - [**v_ramp.js**](#ramp-view-v-ramp-js) - module that supports the ramp chart view
 - [**v_segment.js**](#segment-view-v-segment-js) - module that supports the code segment view
+- [**v_resizer.js**](#resizer-v-resizer-js) - module that handles tab resizing
 
 <!-- ==================================================================================================== -->
 
@@ -84,6 +85,9 @@ The API module will be handling all request for all the JSON data files. If the 
 After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, `window.REPOS`,  in the right format.
 
 For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` file in the report for more details.
+
+### Providing window wise util service
+The API module also provides other window wise util service, such as deciding the font colour, getting the date string to be rendered, and so on.
 
 <!-- ==================================================================================================== -->
 
@@ -130,3 +134,9 @@ For ramps between the date ranges, the slices will be selected and it will be pr
 ## Segment view ([v_segment.js](https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_segment.js))
 
 The `v-segment` module is used as a component in `v_authorship`. It separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled.
+
+<!-- ==================================================================================================== -->
+
+## Resizer ([v_resizer.js](https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_resizer.js))
+
+The `v-resizer` module is used to handle the resizing of the rendered components when the user uses tab resizer to change the width of the left and right panel.
