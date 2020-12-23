@@ -139,4 +139,4 @@ The `v-segment` module is used as a component in `v_authorship`. It separates th
 
 ## Resizer ([v_resizer.js](https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_resizer.js))
 
-The `v-resizer` module is used to handle the resizing of the rendered components when the user uses tab resizer to change the width of the left and right panel.
+The `v-resizer` module is used to handle the resizing of the rendered components when the user uses tab resizer to change the width of the left and right panels.
