@@ -32,6 +32,7 @@ window.vAuthorship = {
     filesSortType() {
       window.addHash('authorshipSortBy', this.filesSortType);
       window.encodeHash();
+      this.updateSelectedFiles();
     },
 
     searchBarValue() {
@@ -42,13 +43,10 @@ window.vAuthorship = {
       this.updateSelectedFiles();
     },
 
-    sortingFunction() {
-      this.updateSelectedFiles();
-    },
-
     toReverseSortFiles() {
       window.addHash('reverseAuthorshipOrder', this.toReverseSortFiles);
       window.encodeHash();
+      this.updateSelectedFiles();
     },
 
     isLoaded() {
@@ -322,7 +320,6 @@ window.vAuthorship = {
 
     updateSelectedFiles() {
       this.$store.commit('incrementLoadingOverlayCount', 1);
-      this.$store.commit('updateLoadingOverlayMessage', 'Working. Please wait ...');
       setTimeout(() => {
         this.selectedFiles = this.files.filter(
             (file) => this.selectedFileTypes.includes(file.fileType)

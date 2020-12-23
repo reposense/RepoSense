@@ -62,7 +62,6 @@ window.vSummary = {
       const { allGroupsMerged } = this;
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
-      this.$store.commit('updateLoadingOverlayMessage', 'Working. Please wait ...');
       setTimeout(() => {
         this.getFilteredRepos();
         this.updateMergedGroup(allGroupsMerged);
@@ -317,7 +316,6 @@ window.vSummary = {
       window.deactivateAllOverlays();
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
-      this.$store.commit('updateLoadingOverlayMessage', 'Working. Please wait ...');
       // Use setTimeout() to force this.filtered to update only after loading screen is displayed.
       setTimeout(() => {
         this.getFilteredRepos();

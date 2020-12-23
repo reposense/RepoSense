@@ -332,10 +332,18 @@ public class RepoConfiguration {
         authorConfig.setBranch(branch);
     }
 
+    /**
+     * Updates the branch in the {@code displayName} to the
+     * current {@code branch}.
+     */
     public void updateDisplayName(String branch) {
         this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
     }
 
+    /**
+     * Updates the branch in the {@code outputFolderName} to the
+     * current {@code branch}.
+     */
     public void updateOutputFolderName(String branch) {
         this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch;
     }
@@ -417,12 +425,12 @@ public class RepoConfiguration {
         authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
     }
 
-    public Map<String, Author> getAuthorEmailsAndAliasesMap() {
-        return authorConfig.getAuthorEmailsAndAliasesMap();
+    public Map<String, Author> getAuthorDetailsToAuthorMap() {
+        return authorConfig.getAuthorDetailsToAuthorMap();
     }
 
-    public void setAuthorEmailsAndAliasesMap(Map<String, Author> authorEmailsAndAliasesMap) {
-        authorConfig.setAuthorEmailsAndAliasesMap(authorEmailsAndAliasesMap);
+    public void setAuthorDetailsToAuthorMap(Map<String, Author> authorDetailsToAuthorMap) {
+        authorConfig.setAuthorDetailsToAuthorMap(authorDetailsToAuthorMap);
     }
 
     public void setFormats(List<FileType> formats) {
@@ -480,8 +488,8 @@ public class RepoConfiguration {
         authorConfig.setAuthorDisplayName(author, displayName);
     }
 
-    public void addAuthorEmailsAndAliasesMapEntry(Author author, List<String> values) {
-        authorConfig.addAuthorEmailsAndAliasesMapEntry(author, values);
+    public void addAuthorDetailsToAuthorMapEntry(Author author, List<String> values) {
+        authorConfig.addAuthorDetailsToAuthorMapEntry(author, values);
     }
 
     public String getDisplayName() {

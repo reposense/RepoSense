@@ -35,9 +35,10 @@ html
   body
     #app
       loading-overlay.overlay-loader(
-        :active.sync="isLoadingOverlayEnabled",
-        :opacity='loadingOverlayOpacity',
-        :is-full-page="true"
+        v-cloak,
+        v-bind:active.sync="isLoadingOverlayEnabled",
+        v-bind:opacity='loadingOverlayOpacity',
+        v-bind:is-full-page="true"
       )
         i.overlay-loading-icon.fa.fa-spinner.fa-spin(slot='default')
         h3(slot='after') {{ loadingOverlayMessage }}
@@ -77,9 +78,9 @@ html
           #tabs-wrapper(ref="tabWrapper", slot="right")
             .tab-content.panel-padding
               .tab-panes
-                v-authorship#tab-authorship.tab-pane(v-if="tabType === 'authorship'")
-                v-zoom#tab-zoom.tab-pane(v-else-if="tabType === 'zoom'")
-                #tab-empty.tab-pane(v-else)
+                v-authorship#tab-authorship(v-if="tabType === 'authorship'")
+                v-zoom#tab-zoom(v-else-if="tabType === 'zoom'")
+                #tab-empty(v-else)
                   .title
                     h2 Welcome to this RepoSense report!
                     p The charts on the left show the contribution activities, grouped by repository and author.
