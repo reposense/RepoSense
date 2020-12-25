@@ -34,7 +34,7 @@
 
 ### Case 3: Monitoring student programmers (**multiple** external projects)
 
-* **Scenario:**Similar to cases 1 and 2 above, but this time, each student works on multiple projects. Furthermore, most projects are external OSS projects, not within the control of the teacher.
+* **Scenario:** Similar to cases 1 and 2 above, but this time, each student works on multiple projects. Furthermore, most projects are external OSS projects, not within the control of the teacher.
 
 * **Links:** [report](https://nus-cs3281.github.io/2020-dashboard/#search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=false&groupSelect=groupByAuthors&breakdown=false&since=2019-12-01) | [settings](https://github.com/nus-cs2113-AY1920S2/tp-dashboard)
 
