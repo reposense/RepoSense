@@ -22,7 +22,7 @@ Visualize programmer activities across git repositories...
 
 <span id="overview">
 
-**RepoSense can generate interactive visualizations of programmer activities, even across multiple repositories.** It's ideal for educators and managers to get insights into the programming activities of their mentees. The visualizations can be **easily shared** with others (e.g., as an online dashboard), and updating the visualizations periodically **can be automated.**
+**RepoSense can generate interactive visualizations of programmer activities, even across multiple repositories.** It's ideal for educators and managers to get insights into the programming activities of their mentees. The visualizations can be **easily shared** with others (e.g., as an online dashboard), and updating the visualizations periodically **can be automated**.
 
 {% macro heading(icon, text) %}<h4>{{ thumbnail(icon) }} <span class="lead font-weight-bold text-green">{{ text }}</span></h4>{% endmacro %}
 
