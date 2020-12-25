@@ -114,7 +114,7 @@ The files will be filtered, picking only files the selected author has written i
 
 ## Zoom view ([v_zoom.js](https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_zoom.js))
 
-The `v_zoom module` is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.
+The `v_zoom` module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.
 
 <!-- ==================================================================================================== -->
 
