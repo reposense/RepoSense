@@ -14,6 +14,9 @@ Vue.directive('hljs', {
 
 Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
 Vue.component('loading-overlay', window.VueLoading);
+Vue.component('dynamic-scroller', window['VueVirtualScroller'].DynamicScroller);
+Vue.component('dynamic-scroller-item', window['VueVirtualScroller'].DynamicScrollerItem);
+
 
 const loadingResourcesMessage = 'Loading resources...';
 

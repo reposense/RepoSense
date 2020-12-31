@@ -80,8 +80,18 @@
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
-    template(v-for="(file, i) in selectedFiles")
-      .file(v-bind:key="file.path")
+    dynamic-scroller.scroller(
+      :items="selectedFiles",
+      :min-item-size="100",
+      key-field="path",
+      v-slot="{ item: file, index: i, active }",
+      )
+      dynamic-scroller-item.file(
+        :item="file",
+        :active="active",
+        :size-dependencies="[file.lineCount]",
+        :data-index="i"
+        )
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)")
             .tooltip
