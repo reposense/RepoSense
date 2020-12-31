@@ -77,7 +77,7 @@ html
 
           #tabs-wrapper(ref="tabWrapper", slot="right")
             .tab-content.panel-padding
-              .tab-panes
+              .tab-pane
                 v-authorship#tab-authorship(v-if="tabType === 'authorship'")
                 v-zoom#tab-zoom(v-else-if="tabType === 'zoom'")
                 #tab-empty(v-else)
