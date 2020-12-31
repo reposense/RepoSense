@@ -404,7 +404,7 @@ window.vAuthorship = {
 
     ...Vuex.mapState({
       fileTypeColors: 'fileTypeColors',
-      info: 'tabAuthorshipInfo'
+      info: 'tabAuthorshipInfo',
     }),
   },
 

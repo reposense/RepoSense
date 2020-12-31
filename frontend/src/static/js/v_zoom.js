@@ -14,15 +14,9 @@ window.vZoom = {
     };
   },
 
-  watch: {
-    zoomOwnerWatchable() {
-      this.initiate();
-    },
-  },
-
   computed: {
     zoomOwnerWatchable() {
-      return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${zTimeFrame}`;
+      return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${this.info.zTimeFrame}`;
     },
 
     sortingFunction() {
@@ -93,11 +87,14 @@ window.vZoom = {
 
     ...Vuex.mapState({
       fileTypeColors: 'fileTypeColors',
-      info: 'tabZoomInfo'
+      info: 'tabZoomInfo',
     }),
   },
 
   watch: {
+    zoomOwnerWatchable() {
+      this.initiate();
+    },
     isCommitsFinalized() {
       if (this.isCommitsFinalized) {
         this.updateFileTypes();
