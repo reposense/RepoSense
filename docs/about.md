@@ -17,36 +17,24 @@ RepoSense is a project based in the [National University of Singapore, School of
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Peh Xian Bin, Eugene](https://github.com/eugenepeh)
-![](https://avatars.githubusercontent.com/u/19277206?s=150&v=4)<br/>
-**Role**: Project Lead [2018 May - ]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Teng Yong Hao](https://github.com/yong24s)
-![](https://avatars2.githubusercontent.com/u/2003406?s=150&v=4)<br/>
-**Role**: Mentor [2018 Dec - ]<br/>
-Committer [2018 Aug - 2018 Dec]<br/>
-Contributor [2018 May - 2018 Aug]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
 ### [Wang Chao](https://github.com/fzdy1914)
 ![](https://avatars3.githubusercontent.com/u/35621726?s=150&v=4)<br/>
-**Role**: Committer [2019 May - ]<br/>
+**Role**: Project Lead [2021 Jan - ]<br/>
+Committer [2019 May - 2021 Jan]<br/>
 Contributor [2018 Dec - 2019 May]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [James Pang Mun Wai](https://github.com/jamessspanggg)
-![](https://avatars1.githubusercontent.com/u/32864116?s=150&v=4)<br/>
-**Role**: Contributor [2019 May - ]<br/>
-
+### [Peh Xian Bin, Eugene](https://github.com/eugenepeh)
+![](https://avatars.githubusercontent.com/u/19277206?s=150&v=4)<br/>
+**Role**: Maintainer [2021 Jan - ]<br/>
+Project Lead [2018 May - 2021 Jan]<br/>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Lee Jin Yao](https://github.com/jylee-git)
-![](https://avatars3.githubusercontent.com/u/35756209?s=150&v=4)<br/>
-**Role**: Contributor [2019 May - ]<br/>
+### [James Pang Mun Wai](https://github.com/jamessspanggg)
+![](https://avatars1.githubusercontent.com/u/32864116?s=150&v=4)<br/>
+**Role**: Maintainer [2021 Jan - ]<br/>
+Contributor [2019 May - 2021 Jan]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -70,22 +58,6 @@ Contributor [2018 Dec - 2019 May]<br/>
 **Role**: Contributor [2020 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Chong Chee Yuan](https://github.com/ccyccyccy)
-**Role**: Contributor [2020 January - ]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Ni Tianzhen](https://github.com/niqiukun)
-**Role**: Contributor [2020 January - ]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Yash Chowdhary](https://github.com/yash-chowdhary)
-![](https://avatars2.githubusercontent.com/u/21968718?s=150&v=4)<br/>
-**Role**: Contributor [2020 January - ]<br/>
-
-<!-- ==================================================================================================== -->
 
 ## Past Members
 
@@ -136,3 +108,34 @@ Contributor [2018 Dec - 2019 May]
 
 ### [Jin Minjia](https://github.com/bluein-green)
 **Role**: Contributor [2019 May - 2019 Aug]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Chong Chee Yuan](https://github.com/ccyccyccy)
+**Role**: Contributor [2020 January - 2020 May]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Lee Jin Yao](https://github.com/jylee-git)
+![](https://avatars3.githubusercontent.com/u/35756209?s=150&v=4)<br/>
+**Role**: Contributor [2019 May - 2020 May]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Ni Tianzhen](https://github.com/niqiukun)
+**Role**: Contributor [2020 January - 2020 May]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Yash Chowdhary](https://github.com/yash-chowdhary)
+![](https://avatars2.githubusercontent.com/u/21968718?s=150&v=4)<br/>
+**Role**: Contributor [2020 January - 2020 May]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Teng Yong Hao](https://github.com/yong24s)
+![](https://avatars2.githubusercontent.com/u/2003406?s=150&v=4)<br/>
+**Role**: 
+Mentor [2018 Dec - 2021 Jan]<br/>
+Committer [2018 Aug - 2018 Dec]<br/>
+Contributor [2018 May - 2018 Aug]<br/>
