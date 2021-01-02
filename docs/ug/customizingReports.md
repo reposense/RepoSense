@@ -27,7 +27,7 @@ The report can be customized using several ways, as explained below.
 
 **Another, more powerful, way to customize the report is by using dedicated config files.** In this case you need to use the `--config` flag instead of the `--repo` flag when running RepoSense, as follows:
 
-  {{ embed("Appendx: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
+  {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
 
 <box type="tip" seamless>
 

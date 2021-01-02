@@ -27,7 +27,7 @@ You can point the recipients to the [_**Using reports**_](usingReports.html) sec
 
 ### Publish on the web
 
-As RepoSense reports are in a web page format, you can publish a report by simply uploading it onto any web hosting service. Given below are several options that not only allows publishing reports, but **also allows various levels of automating** the whole process (example: automatically update the report daily).
+As RepoSense reports are in a web page format, you can publish a report by simply uploading it onto any web hosting service. Given below are several options that not only allow to publish reports, but **also enable various levels of automating** the entire process (e.g., automatically update the report daily).
 
 {{ embed("Appendix: **Using RepoSense with GitHub Actions**", "withGithubActions.md") }}
 
