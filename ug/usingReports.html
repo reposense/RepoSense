@@ -121,11 +121,11 @@
         </div>
 
         <h2 id="viewing-the-report"><span id="viewing-the-report" class="anchor"></span>Viewing the report<a class="fa fa-anchor" href="#viewing-the-report" onclick="event.stopPropagation()"></a></h2>
-        <p>As the report consist of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.</p>
+        <p>As a report consists of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.</p>
         <ul>
           <li><strong>Situation 1: The report has been hosted on a website</strong>
             <ul>
-              <li>Simply go to the URL of the report (<a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard">example</a>) in your browser .</li>
+              <li>Simply go to the URL of the report (<a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard">example</a>) in your browser.</li>
             </ul>
           </li>
           <li><strong>Situation 2: You generated the report in your computer earlier</strong>
@@ -197,7 +197,7 @@
               <li>The keywords used to filter author and repository are case-insensitive.</li>
             </ul>
           </li>
-          <li><code class="hljs inline no-lang" v-pre>Group by</code> : grouping criteria for the rows of results
+          <li><code class="hljs inline no-lang" v-pre>Group by</code> : grouping criteria for the rows of results.
             <ul>
               <li><code class="hljs inline no-lang" v-pre>None</code> : results will not be grouped in any particular way.</li>
               <li><code class="hljs inline no-lang" v-pre>Repo/Branch</code> : results will be grouped by repositories and its' associating branches.</li>
@@ -207,22 +207,22 @@
           <li><code class="hljs inline no-lang" v-pre>Sort groups by</code>: sorting criteria for the main group. See note [1] below.
             <ul>
               <li><code class="hljs inline no-lang" v-pre>Group title</code> : groups will be sorted by the title of the group (in bold text) in alphabetical order.</li>
-              <li><code class="hljs inline no-lang" v-pre>Contribution</code> : groups will be sorted by the combined contributions within a group, in the order of number of lines added</li>
+              <li><code class="hljs inline no-lang" v-pre>Contribution</code> : groups will be sorted by the combined contributions within a group, in the order of number of lines added.</li>
               <li><code class="hljs inline no-lang" v-pre>Variance</code> : groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. Detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li>
             </ul>
           </li>
-          <li><code class="hljs inline no-lang" v-pre>Sort within groups by</code>: sorting criteria within each group
+          <li><code class="hljs inline no-lang" v-pre>Sort within groups by</code>: sorting criteria within each group.
             <ul>
-              <li><code class="hljs inline no-lang" v-pre>Title</code> : each group will be internally sorted by it's title in alphabetical order.</li>
-              <li><code class="hljs inline no-lang" v-pre>Contribution</code> : each group will be internally sorted by individual contributions in the order of number of lines added</li>
+              <li><code class="hljs inline no-lang" v-pre>Title</code> : each group will be internally sorted by its title in alphabetical order.</li>
+              <li><code class="hljs inline no-lang" v-pre>Contribution</code> : each group will be internally sorted by individual contributions in the order of number of lines added.</li>
               <li><code class="hljs inline no-lang" v-pre>Variance</code> : each group will be internally sorted by how far the daily contributions are spread out from their average value by each author into a particular repo. Detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li>
             </ul>
           </li>
           <li><code class="hljs inline no-lang" v-pre>Granularity</code> : the period of time for which commits are aggregated in the Ramp Chart.
             <ul>
-              <li><code class="hljs inline no-lang" v-pre>Commit</code>: each commit made is shown as one ramp</li>
-              <li><code class="hljs inline no-lang" v-pre>Day</code>: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp</li>
-              <li><code class="hljs inline no-lang" v-pre>Week</code>: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp</li>
+              <li><code class="hljs inline no-lang" v-pre>Commit</code>: each commit made is shown as one ramp.</li>
+              <li><code class="hljs inline no-lang" v-pre>Day</code>: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp.</li>
+              <li><code class="hljs inline no-lang" v-pre>Week</code>: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp.</li>
             </ul>
           </li>
           <li><code class="hljs inline no-lang" v-pre>Since</code>, <code class="hljs inline no-lang" v-pre>Until</code> : the date range for the Ramp Chart (not applied to the Contribution Bars).</li>
@@ -240,8 +240,8 @@
           </li>
         </ul>
         <p>Notes:<br>
-          [1] <strong><code class="hljs inline no-lang" v-pre>Sort groups by</code></strong>: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>
-          [2] <strong><code class="hljs inline no-lang" v-pre>Repo/Branch</code></strong>: the repo/branch name is constructed as <code class="hljs inline no-lang" v-pre>ORGANIZATION/REPOSITORY[BRANCH]</code> (e.g., <code class="hljs inline no-lang" v-pre>resposense/reposense[master]</code>)<br>
+          [1] <strong><code class="hljs inline no-lang" v-pre>Sort groups by</code></strong>: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>.
+          [2] <strong><code class="hljs inline no-lang" v-pre>Repo/Branch</code></strong>: the repo/branch name is constructed as <code class="hljs inline no-lang" v-pre>ORGANIZATION/REPOSITORY[BRANCH]</code> (e.g., <code class="hljs inline no-lang" v-pre>resposense/reposense[master]</code>)<br>.
           [3] The total contribution of each group will get updated based on the checked file types and will be taken into account when sorting criteria is contribution.</p>
         <box type="tip" seamless>
           <p><strong>RepoSense support <em>intelligent</em> bookmarks</strong>: Note how the browser URL changes as you modify settings in the report. If you send that URL to someone else, that person will be able to use that URL to view the report in the same <em>view configuration</em> you had at the time you copied the URL. For example, <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/">this URL</a> and <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=day&amp;mergegroup=true&amp;groupSelect=groupByRepos&amp;breakdown=true">this URL</a> give two different views of the same report.
@@ -311,7 +311,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.2</a>, generated on Sat, 2 Jan 2021, 8:22:05 UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.2</a>, generated on Sat, 2 Jan 2021, 13:23:17 UTC]</small>
       </div>
     </footer>
   </div>
