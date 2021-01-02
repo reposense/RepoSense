@@ -19,7 +19,7 @@ The report can be customized using several ways, as explained below.
 
 **The simplest approach is to provide additional flags when running RepoSense.** The various flags are given in the panel below.
 
-  {{ embed("Appendx: **CLI syntax reference**", "cli.md") }}
+  {{ embed("Appendix: **CLI syntax reference**", "cli.md") }}
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -27,7 +27,7 @@ The report can be customized using several ways, as explained below.
 
 **Another, more powerful, way to customize the report is by using dedicated config files.** In this case you need to use the `--config` flag instead of the `--repo` flag when running RepoSense, as follows:
 
-  {{ embed("Appendx: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
+  {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
 
 <box type="tip" seamless>
 
@@ -47,7 +47,7 @@ To ensure that their PRs are correct, you can use [Netlify _deploy previews_](ht
 **If feasible, you can also customize the target repos to play well with RepoSense** in the following two ways:
 
 1\. Add a _stand-alone config file_ to the repo to provide more config details to RepoSense. The format of the file is given below.
-  {{ embed("Appendx: **Standalone config file format**", "configFiles.md#section-standalone") }}
+  {{ embed("Appendix: **Standalone config file format**", "configFiles.md#section-standalone") }}
 
 2\. To have more precise control over which code segment is attributed to which author, authors can annotate their code using `@@author` tags, as explained below.
-  {{ embed("Appendx: **Using `@@author` tags**", "usingAuthorTags.md") }}
+  {{ embed("Appendix: **Using `@@author` tags**", "usingAuthorTags.md") }}
