@@ -1,3 +1,4 @@
+/* global Vuex */
 // eslint-disable-next-line import/extensions
 import store from './store.js';
 
@@ -12,6 +13,9 @@ Vue.directive('hljs', {
 });
 
 Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
+Vue.component('loading-overlay', window.VueLoading);
+
+const loadingResourcesMessage = 'Loading resources...';
 
 window.app = new window.Vue({
   el: '#app',
@@ -21,7 +25,9 @@ window.app = new window.Vue({
     users: [],
     userUpdated: false,
 
-    isLoading: false,
+    isLoadingOverlayEnabled: false,
+    loadingOverlayOpacity: 1,
+
     isCollapsed: false,
     isTabActive: true, // to force tab wrapper to load
 
@@ -39,6 +45,9 @@ window.app = new window.Vue({
     '$store.state.tabAuthorshipInfo': function () {
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
+    },
+    '$store.state.loadingOverlayCount': function () {
+      this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
     },
   },
   methods: {
@@ -66,18 +75,20 @@ window.app = new window.Vue({
         this.repos = window.REPOS;
 
         this.userUpdated = false;
-        this.isLoading = true;
+        this.$store.commit('incrementLoadingOverlayCount', 1);
+        this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
 
         return Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
       }).then(() => {
         this.userUpdated = true;
-        this.isLoading = false;
+        this.$store.commit('incrementLoadingOverlayCount', -1);
+        this.loadingOverlayOpacity = 0.5;
         this.getUsers();
       }).catch((error) => {
         this.userUpdated = false;
-        this.isLoading = false;
+        this.$store.commit('incrementLoadingOverlayCount', -1);
         window.alert(error);
       });
     },
@@ -176,8 +187,9 @@ window.app = new window.Vue({
       }
     },
 
-    generateKey(dataObj) {
-      return JSON.stringify(dataObj);
+    generateKey(dataObj, keysToUse) {
+      const picked = keysToUse.map((key) => dataObj[key]);
+      return JSON.stringify(picked);
     },
 
     getRepoSenseHomeLink() {
@@ -223,12 +235,16 @@ window.app = new window.Vue({
       }
     },
   },
+
+  computed: {
+    ...Vuex.mapState(['loadingOverlayMessage']),
+  },
+
   components: {
     vResizer: window.vResizer,
     vZoom: window.vZoom,
     vSummary: window.vSummary,
     vAuthorship: window.vAuthorship,
-    CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {
     this.updateReportDir();
