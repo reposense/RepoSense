@@ -27,8 +27,8 @@ Contributor [2018 Dec - 2019 May]<br/>
 
 ### [Peh Xian Bin, Eugene](https://github.com/eugenepeh)
 ![](https://avatars.githubusercontent.com/u/19277206?s=150&v=4)<br/>
-**Role**: Maintainer [2021 Jan - ]<br/>
-Project Lead [2018 May - 2021 Jan]<br/>
+**Role**: Maintainer [2020 May - ]<br/>
+Project Lead [2018 May - 2020 May]<br/>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [James Pang Mun Wai](https://github.com/jamessspanggg)
@@ -81,6 +81,15 @@ Committer [2018 May - 2018 Aug]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### [Teng Yong Hao](https://github.com/yong24s)
+![](https://avatars2.githubusercontent.com/u/2003406?s=150&v=4)<br/>
+**Role**: 
+Mentor [2018 Dec - 2020 May]<br/>
+Committer [2018 Aug - 2018 Dec]<br/>
+Contributor [2018 May - 2018 Aug]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### [Aditya Agarwal](https://github.com/adityaa1998)
 Contributor [2018 May - 2018 Aug]
 
@@ -111,14 +120,14 @@ Contributor [2018 Dec - 2019 May]
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Chong Chee Yuan](https://github.com/ccyccyccy)
-**Role**: Contributor [2020 January - 2020 May]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
 ### [Lee Jin Yao](https://github.com/jylee-git)
 ![](https://avatars3.githubusercontent.com/u/35756209?s=150&v=4)<br/>
 **Role**: Contributor [2019 May - 2020 May]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Chong Chee Yuan](https://github.com/ccyccyccy)
+**Role**: Contributor [2020 January - 2020 May]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -130,12 +139,3 @@ Contributor [2018 Dec - 2019 May]
 ### [Yash Chowdhary](https://github.com/yash-chowdhary)
 ![](https://avatars2.githubusercontent.com/u/21968718?s=150&v=4)<br/>
 **Role**: Contributor [2020 January - 2020 May]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Teng Yong Hao](https://github.com/yong24s)
-![](https://avatars2.githubusercontent.com/u/2003406?s=150&v=4)<br/>
-**Role**: 
-Mentor [2018 Dec - 2021 Jan]<br/>
-Committer [2018 Aug - 2018 Dec]<br/>
-Contributor [2018 May - 2018 Aug]<br/>
