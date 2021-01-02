@@ -20,7 +20,8 @@ RepoSense is a project based in the [National University of Singapore, School of
 ### [Wang Chao](https://github.com/fzdy1914)
 ![](https://avatars3.githubusercontent.com/u/35621726?s=150&v=4)<br/>
 **Role**: Project Lead [2021 Jan - ]<br/>
-Committer [2019 May - 2021 Jan]<br/>
+Maintainer [2020 May- 2021 Jan]<br/>
+Committer [2019 May - 2020 May]<br/>
 Contributor [2018 Dec - 2019 May]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -34,7 +35,8 @@ Project Lead [2018 May - 2020 May]<br/>
 ### [James Pang Mun Wai](https://github.com/jamessspanggg)
 ![](https://avatars1.githubusercontent.com/u/32864116?s=150&v=4)<br/>
 **Role**: Maintainer [2021 Jan - ]<br/>
-Contributor [2019 May - 2021 Jan]<br/>
+Committer [2020 May - 2021 Jan]<br/>
+Contributor [2019 May - 2020 May]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
