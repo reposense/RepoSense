@@ -13,9 +13,9 @@
 Let's look at different ways to generate RepoSense reports.
 </div>
 
-* **If you have Java in your computer**, the straight-forward way to generate a report is to use the RepoSense executable to generate the report locally in your computer, as explained in [the next section](#generating-reports-locally).
+* **If you have Java in your computer**, the straight-forward way to generate a report is to use the RepoSense executable to generate the report locally in your computer, as explained in the [_Generating reports locally_](#generating-reports-locally) section below.
 
-* **If you don't have Java on your computer or do not wish to run the executable in your computer**, some alternatives are provided [in the _Generating a report remotely_ section below](#generating-reports-remotely).
+* **If you don't have Java on your computer or do not wish to run the executable in your computer**, some alternatives are provided in the [_Generating reports remotely_](#generating-reports-remotely) section below.
 
 <!-- ==================================================================================================== -->
 
@@ -41,7 +41,7 @@ Let's look at different ways to generate RepoSense reports.
 
 ## Generating reports remotely
 
-**You can generate a RepoSense report remotely, without installing/running anything in your computer.** This is particularly useful when you are just tyring to decide whether to adopt RepoSense.
+**You can generate a RepoSense report remotely without installing/running anything on your computer.** This is particularly useful when you are deciding whether to adopt RepoSense.
 
 **The easiest option is to use Netlify.** The instructions are given below.
 
