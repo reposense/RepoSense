@@ -97,7 +97,7 @@ The `v_summary` module is in charge of loading the ramp charts from the correspo
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
 
 ### Filtering users and repositories
-The commits information is retrieved from the corresponding project folders for each repository. This information will be filtered and sorted before passed into the template to be displayed as ramp charts.
+The commits information is retrieved from the corresponding project folders for each repository. This information will be filtered and sorted before being passed into the template to be displayed as ramp charts.
 
 <!-- ==================================================================================================== -->
 

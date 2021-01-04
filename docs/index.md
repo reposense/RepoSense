@@ -37,13 +37,13 @@ Some example insights RepoSense can provide:
 
 {{ heading(":fas-chart-pie:", "Insights about the type of work") }}
 
-* Which portion of Jacob's code was documentation?
+* Which portion of Jacob's code is documentation?
 * Who hasn't written any test code yet?
 * Which project did Jolene contribute to in the last month?
 
 {{ heading(":fas-business-time:", "Insights about the timing of work") }}
 
-* Who are putting in a consistent effort?
+* Who is putting in the consistent effort?
 * Who waits till the deadline to do the work?
 * Who hasn't started any work yet?
 
