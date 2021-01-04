@@ -139,7 +139,7 @@ The `Code panel` allows users to see the code attributed to a specific author. C
 * Clicking the first icon beside the file title opens the history view of the file on GitHub.
 * Clicking the second icon beside the file title opens the blame view of the file on GitHub.
 * Code attributed to the author is highlighted in green.
-* Non-trivial code segments that the selected author does not write are hidden by default, but you can toggle them by clicking on the icon.
+* Non-trivial code segments that the selected author does not write are hidden by default, but you can toggle them by clicking on the %%:fas-plus-circle:%% icon.
 
 <!-- ==================================================================================================== -->
 
