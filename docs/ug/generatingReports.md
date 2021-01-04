@@ -41,6 +41,7 @@ Let's look at different ways to generate RepoSense reports.
 <!-- ==================================================================================================== -->
 
 ## Generating reports remotely
+
 **You can generate a RepoSense report remotely without installing/running anything on your computer.** This is particularly useful when you are deciding whether to adopt RepoSense.
 
 **The easiest option is to use Netlify.** The instructions are given below.
