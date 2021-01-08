@@ -68,10 +68,10 @@ See [vue-devtools project home](https://github.com/vuejs/vue-devtools) page for 
 **We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing.**
 
 ### Writing tests
-1. Create a new test file in `frontend/cypress/tests`
-1. At project root start *Cypress Test Runner* by running `gradlew cypress`
-1. On the top right hand corner, set `Chrome` as the default browser
-1. Under **Integration Tests**, click on the newly created test file to run it
+1. Create a new test file in `frontend/cypress/tests`.
+1. At project root start *Cypress Test Runner* by running `gradlew cypress`.
+1. On the top right hand corner, set `Chrome` as the default browser.
+1. Under **Integration Tests**, click on the newly created test file to run it.
 ![Cypress Test Runner](../images/cypress-test-runner.jpg "Cypress Test Runner")
 
 <box type="info" seamless>
