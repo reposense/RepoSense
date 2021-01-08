@@ -17,8 +17,9 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 
 * As we squash the commits when merging a PR, there is ==no need to follow a strict commit organization or write elaborate commit messages for each commit==.<br>
   However, when pushing new commits to your PR branch, do clean up _new_ commits (i.e., commits not yet pushed) e.g., delete temporary print statements added for debugging purposes.
-* You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) to learn about the design and implementation of RepoSense.
-* The sections below has more information about various stages of submitting a PR.
+* In the PR description, please propose a commit message to be used when the PR is merged eventually. The commit message should follow the guidelines given [here](https://se-education.org/guides/guidelines/PRs.html). You may refer to [this PR](https://github.com/reposense/RepoSense/pull/1057) for an example.
+* You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) sections to learn about the design and implementation of RepoSense. 
+* The section below has more information about the various stages of submitting a PR.
 
 <!-- ==================================================================================================== -->
 
@@ -67,10 +68,10 @@ See [vue-devtools project home](https://github.com/vuejs/vue-devtools) page for 
 **We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing.**
 
 ### Writing tests
-1. Create a new test file in `frontend/cypress/tests`
-1. At project root start *Cypress Test Runner* by running `gradlew cypress`
-1. On the top right hand corner, set `Chrome` as the default browser
-1. Under **Integration Tests**, click on the newly created test file to run it
+1. Create a new test file in `frontend/cypress/tests`.
+1. At project root start *Cypress Test Runner* by running `gradlew cypress`.
+1. On the top right hand corner, set `Chrome` as the default browser.
+1. Under **Integration Tests**, click on the newly created test file to run it.
 ![Cypress Test Runner](../images/cypress-test-runner.jpg "Cypress Test Runner")
 
 <box type="info" seamless>
