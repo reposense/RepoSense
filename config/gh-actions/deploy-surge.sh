@@ -12,6 +12,7 @@ ACTION_IS_PULL_REQUEST=${GITHUB_HEAD_REF:-false}
 # Get middle section of refs. Branches are "heads" and tags are "tags"
 TEMP_REPO_REFS=${GITHUB_REF#*/}
 ACTION_BRANCH_TAG_INDICATOR=${TEMP_REPO_REFS%/*}
+# Get the actual branch or tag name
 ACTION_BRANCH_TAG=${TEMP_REPO_REFS#*/}
 
 DEPLOY_SUBDOMAIN_UNFORMATTED_LIST=()
