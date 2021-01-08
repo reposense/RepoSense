@@ -1,0 +1,26 @@
+name: Close Stale Pull Requests
+
+on:
+  schedule:
+  # Runs every day at 00:00 UTC
+  - cron: '0 0 * * *'
+
+jobs:
+  stale:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/stale@v3.0.7
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        days-before-stale: 30
+        days-before-close: 7
+        exempt-pr-labels: 's.DoNotMerge'
+        remove-stale-when-updated: 'True'
+        stale-pr-label: 'Stale'
+        stale-pr-message: |
+          Hi,
+          We are going to mark this PR as stale because it has been inactive for the past 30 days.
+          If no further activity occurs within the following 7 days, it will be automatically closed so that others can take up the issue.
+          If you are still working on this PR, please make a follow-up commit within 7 days and leave a comment to remove the stale label.
+          Do let us know if you are stuck so that we can help you!'
