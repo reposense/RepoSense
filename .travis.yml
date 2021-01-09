@@ -1,0 +1,44 @@
+matrix:
+  include:
+    - name: Ubuntu 14.04 JDK 8
+      language: java
+      os: linux
+      jdk: openjdk8
+      env:
+        - NODE_VERSION="lts/*"
+      before_install:
+        - sudo apt-get update
+        - sudo apt-get --only-upgrade install openjdk-8-jdk
+        - echo -e "Actual JDK in use -- "; java -version
+
+script:
+  - echo "NOTE: Continuous integration has been moved to GitHub Actions"
+  - echo "Travis CI is only used for deployment to surge.sh"
+
+before_install: &common_before_install
+  - npm install --only=dev
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  npm: true,
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/Library/Caches/Homebrew
+    - $HOME/.cache
+
+after_success:
+  - |
+    if [ "$TRAVIS_JOB_NAME" = "Ubuntu 14.04 JDK 8" ];
+    then
+      nvm install $NODE_VERSION
+      nvm use $NODE_VERSION
+      git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+      npm install -g surge
+      npm install -g markbind-cli
+      (cd docs && markbind build)
+      ./config/travis/deploy-surge.sh
+    fi

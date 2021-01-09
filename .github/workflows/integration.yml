@@ -73,15 +73,6 @@ jobs:
       if: ${{ success() }}
       run: bash <(curl -s https://codecov.io/bash)
 
-    - name: Deploy to surge.sh
-      if: ${{ success() }}
-      run: |
-        git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
-        npm install -g surge
-        npm install -g markbind-cli
-        (cd docs && markbind build)
-        ./config/gh-actions/deploy-surge.sh
-
   macos-1015:
     name: macOS 10.15 JDK 8
     runs-on: macos-10.15
