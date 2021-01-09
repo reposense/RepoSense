@@ -12,7 +12,7 @@ matrix:
         - echo -e "Actual JDK in use -- "; java -version
 
 script:
-  - echo "NOTE: Continuous integration has been moved to GitHub Actions"
+  - echo "Continuous integration has been moved to GitHub Actions"
   - echo "Travis CI is only used for deployment to surge.sh"
 
 before_install: &common_before_install
