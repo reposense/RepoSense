@@ -86,7 +86,7 @@ jobs:
 
     - name: Deploy to surge.sh
       if: ${{ success() }}
-      with:
+      env:
         SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
       run: |
