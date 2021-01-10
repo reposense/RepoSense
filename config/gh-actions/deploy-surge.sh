@@ -64,13 +64,15 @@ do
   then
     # Create github statuses that redirects users to the deployed dashboard and markbind docs
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${GITHUB_SHA}" \
-    -H "authorization: Bearer ${GITHUB_TOKEN}" \
+    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+    -H "Accept: application/vnd.github.v3+json" \
     -H "Content-Type: application/json" \
     -X POST \
     -d "{\"state\": \"success\",\"context\": \"dashboard/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}\", \"target_url\": \"${DASHBOARD_DEPLOY_DOMAIN}\"}"
 
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${GITHUB_SHA}" \
-    -H "authorization: Bearer ${GITHUB_TOKEN}" \
+    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+    -H "Accept: application/vnd.github.v3+json" \
     -H "Content-Type: application/json" \
     -X POST \
     -d "{\"state\": \"success\",\"context\": \"docs/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}\", \"target_url\": \"${MARKBIND_DEPLOY_DOMAIN}\"}"
