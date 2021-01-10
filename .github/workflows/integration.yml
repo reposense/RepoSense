@@ -86,6 +86,9 @@ jobs:
 
     - name: Deploy to surge.sh
       if: ${{ success() }}
+      with:
+        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
       run: |
         git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
         npm install -g surge
