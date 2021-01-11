@@ -17,7 +17,7 @@ public class GitBranchTest extends GitTestTemplate {
     @Test
     public void getCurrentBranch_masterBranch_success() throws Exception {
         String currentBranch = GitBranch.getCurrentBranch(config.getRepoRoot());
-        Assert.assertEquals("master", currentBranch);
+        Assert.assertEquals("release", currentBranch);
     }
 
     @Test
