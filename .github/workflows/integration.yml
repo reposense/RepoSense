@@ -1,0 +1,236 @@
+# This workflow executes the various RepoSense tests
+
+name: Continuous Integration
+
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+  pull_request_target:
+    branches-ignore:
+      - gh-pages
+
+env:
+  ACTION_PULL_REQUEST_NUMBER: ${{ github.event.number }}
+
+jobs:
+  ubuntu-1604:
+    name: Ubuntu 16.04 JDK 8
+    runs-on: ubuntu-16.04
+    env:
+      NODE_VERSION: "lts/*"
+
+    steps:
+    - name: Checkout repository (pull request)
+      uses: actions/checkout@v2
+      if: ${{ github.event_name == 'pull_request_target' }}
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+    - name: Checkout repository (push)
+      uses: actions/checkout@v2
+      if: ${{ github.event_name == 'push' }}
+      with:
+        fetch-depth: 0
+
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+
+    - name: Verify Java version
+      run: echo -e "Actual JDK in use -- "; java -version
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    - name: Set up Gradle caching
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Set up Node caching
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Run environmental checks
+      run: ./config/gh-actions/run-checks.sh
+
+    - name: Run linter
+      run: |
+        npm install
+        npm run lint
+
+    - name: Build with Gradle
+      run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
+
+    - name: Run code coverage
+      if: ${{ success() }}
+      run: bash <(curl -s https://codecov.io/bash)
+
+    - name: Deploy to surge.sh
+      if: ${{ success() }}
+      env:
+        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        ACTIONS_PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+        GITHUB_TOKEN: ${{ github.token }}
+      run: |
+        git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+        npm install -g surge
+        npm install -g markbind-cli
+        (cd docs && markbind build)
+        ./config/gh-actions/deploy-surge.sh
+
+  macos-1015:
+    name: macOS 10.15 JDK 8
+    runs-on: macos-10.15
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: 1 # Prevent time-consuming brew update
+
+    steps:
+    - name: Checkout repository (pull request)
+      uses: actions/checkout@v2
+      if: ${{ github.event_name == 'pull_request_target' }}
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+    - name: Checkout repository (push)
+      uses: actions/checkout@v2
+      if: ${{ github.event_name == 'push' }}
+      with:
+        fetch-depth: 0
+
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+
+    - name: Verify Java version
+      run: echo -e "Actual JDK in use -- "; java -version
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    - name: Set up Gradle caching
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Set up Node caching
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Run environmental checks
+      run: ./config/gh-actions/run-checks.sh
+
+    - name: Run linter
+      run: |
+        npm install
+        npm run lint
+
+    - name: Build with Gradle
+      run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
+
+  cypress:
+    name: Cypress frontend tests
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Checkout repository (pull request)
+      uses: actions/checkout@v2
+      if: ${{ github.event_name == 'pull_request_target' }}
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+    - name: Checkout repository (push)
+      uses: actions/checkout@v2
+      if: ${{ github.event_name == 'push' }}
+      with:
+        fetch-depth: 0
+
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+
+    - name: Verify Java version
+      run: echo -e "Actual JDK in use -- "; java -version
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    - name: Set up Gradle caching
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Set up Node caching
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Install packages
+      run: npm install
+
+    - name: Set up Cypress
+      uses: cypress-io/github-action@v2
+      with:
+        build: npm i -D cypress
+        project: ./frontend/cypress
+        browser: chrome
+        headless: true
+        runTests: false # Just perform installation
+
+    - name: Set up environment
+      run: sudo apt-get install -y libgtk2.0-0 libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+
+    - name: Run frontend tests
+      run: ./gradlew frontendTest -Pci

@@ -68,15 +68,20 @@ See [vue-devtools project home](https://github.com/vuejs/vue-devtools) page for 
 **We use [Cypress](https://www.cypress.io/) for automated end-to-end front-end testing.**
 
 ### Writing tests
-1. Create a new test file in `frontend/cypress/tests`
-1. At project root start *Cypress Test Runner* by running `gradlew cypress`
-1. On the top right hand corner, set `Chrome` as the default browser
-1. Under **Integration Tests**, click on the newly created test file to run it
+1. Create a new test file in `frontend/cypress/tests`.
+1. At project root start *Cypress Test Runner* by running `gradlew cypress`.
+1. On the top right hand corner, set `Chrome` as the default browser.
+1. Under **Integration Tests**, click on the newly created test file to run it.
 ![Cypress Test Runner](../images/cypress-test-runner.jpg "Cypress Test Runner")
 
 <box type="info" seamless>
 
 Read [Cypress's Documentation](https://docs.cypress.io/api/commands/document.html#Syntax) to familiarize yourself with its syntax and [Cypress's debugging guide](https://docs.cypress.io/guides/guides/debugging.html#Log-Cypress-events) to tackle problems with your tests.
+</box>
+
+<box type="warning" seamless>
+
+Note that it is **compulsory** to add tests for the new front-end changes that you made to prevent regression bugs, except for trivial changes that are unlikely to cause any regression or other situations where testing does not apply to the change.
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->

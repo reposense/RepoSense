@@ -13,7 +13,7 @@
 This is probably a case of giving an incorrect author name alias (or github ID) in your [author-config file](#author-config-csv).<br>
 Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using, and how to change it.<br>
 Also ensure that you have added all author name aliases that you may be using (if you are using multiple computers or have previously changed your author name).<br>
-Alternatively, you may choose to configure RepoSense to track using your GitHub email instead in your [standalone config file](#provide-data-using-a-json-config-file) or [author-config file](#author-config-csv), which is more accurate compared to author name aliases. The associated GitHub email you are using can be found in your [GitHub settings](https://github.com/settings/emails).
+Alternatively, you may choose to configure *RepoSense* to track using your GitHub email instead in your [standalone config file](#provide-data-using-a-json-config-file) or [author-config file](#author-config-csv), which is more accurate compared to author name aliases. The associated GitHub email you are using can be found in your [GitHub settings](https://github.com/settings/emails).
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -38,4 +38,4 @@ It is possible you may have some file names with [special characters](https://do
 
 ### Some files are not captured by RepoSense
 
-The files may be [binary files](https://en.wikipedia.org/wiki/Binary_file). RepoSense does not analyze binary files. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
+The files may be [binary files](https://en.wikipedia.org/wiki/Binary_file). *RepoSense* does not analyze binary files. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
