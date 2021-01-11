@@ -85,7 +85,7 @@ jobs:
       run: bash <(curl -s https://codecov.io/bash)
 
     - name: Deploy to surge.sh
-      if: ${{ success() }}
+      if: ${{ success() && github.event_name == 'pull_request_target' }}
       env:
         SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
