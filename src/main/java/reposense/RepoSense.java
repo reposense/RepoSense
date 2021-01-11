@@ -68,8 +68,7 @@ public class RepoSense {
             } else {
                 throw new AssertionError("CliArguments's subclass type is unhandled.");
             }
-
-            RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
+            
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
             RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId().toString());
             RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
