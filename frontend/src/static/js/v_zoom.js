@@ -37,7 +37,6 @@ window.vZoom = {
       filteredUser.commits = zUser.commits.filter(
           (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
-      this.isCommitsFinalized = true;
 
       return filteredUser;
     },
@@ -93,15 +92,17 @@ window.vZoom = {
 
   watch: {
     zoomOwnerWatchable() {
+      this.showAllCommitMessageBody = true;
+      this.expandedCommitMessagesCount = this.totalCommitMessageBodyCount;
+      this.commitsSortType = 'time';
+      this.toReverseSortedCommits = true;
+      this.selectedFileTypes = [];
+      this.fileTypes = [];
+
       this.initiate();
+      this.setInfoHash();
     },
-    isCommitsFinalized() {
-      if (this.isCommitsFinalized) {
-        this.updateFileTypes();
-        this.selectedFileTypes = this.fileTypes.slice();
-        this.retrieveHashes();
-      }
-    },
+
     selectedFileTypes() {
       this.$nextTick(() => {
         this.updateExpandedCommitMessagesCount();
@@ -120,8 +121,12 @@ window.vZoom = {
   methods: {
     initiate() {
       if (!this.info.zUser) { // restoring zoom tab from reloaded page
-        this.restoreZoomTab();
+          this.restoreZoomTab();
       }
+
+      this.updateFileTypes();
+      this.selectedFileTypes = this.fileTypes.slice();
+      this.retrieveHashes();
     },
 
     openSummary() {
@@ -258,8 +263,6 @@ window.vZoom = {
   },
   created() {
     this.initiate();
-  },
-  mounted() {
     this.setInfoHash();
   },
   beforeDestroy() {

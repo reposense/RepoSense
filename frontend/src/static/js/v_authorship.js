@@ -6,24 +6,28 @@ const filesSortDict = {
   fileType: (file) => file.fileType,
 };
 
+function initialState() {
+  return {
+    files: [],
+    selectedFiles: [],
+    filterType: 'checkboxes',
+    selectedFileTypes: [],
+    fileTypes: [],
+    filesLinesObj: {},
+    fileTypeBlankLinesObj: {},
+    filesSortType: 'lineOfCode',
+    toReverseSortFiles: true,
+    searchBarValue: '',
+  }
+}
+
 const repoCache = [];
 const minimatch = require('minimatch');
 
 window.vAuthorship = {
   template: window.$('v_authorship').innerHTML,
   data() {
-    return {
-      files: [],
-      selectedFiles: [],
-      filterType: 'checkboxes',
-      selectedFileTypes: [],
-      fileTypes: [],
-      filesLinesObj: {},
-      fileTypeBlankLinesObj: {},
-      filesSortType: 'lineOfCode',
-      toReverseSortFiles: true,
-      searchBarValue: '',
-    };
+    return initialState();
   },
 
   watch: {
@@ -48,6 +52,7 @@ window.vAuthorship = {
     },
 
     authorshipOwnerWatchable() {
+      Object.assign(this.$data, initialState());
       this.initiate();
     },
   },
@@ -69,19 +74,24 @@ window.vAuthorship = {
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
 
-      this.selectedFileTypes = this.info.checkedFileTypes
-        ? this.info.checkedFileTypes.filter((fileType) => this.fileTypes.includes(fileType))
-        : [];
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
             .split(window.HASH_DELIMITER)
             .filter((fileType) => this.fileTypes.includes(fileType));
+      } else {
+        this.resetSelectedFileTypes();
       }
 
       if ('authorshipFilesGlob' in hash) {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
       }
+    },
+
+    resetSelectedFileTypes() {
+      this.selectedFileTypes = this.info.checkedFileTypes
+        ? this.info.checkedFileTypes.filter((fileType) => this.fileTypes.includes(fileType))
+        : [];
     },
 
     setInfoHash() {
@@ -105,15 +115,6 @@ window.vAuthorship = {
     },
 
     initiate() {
-      this.filterType = 'checkboxes';
-      this.selectedFileTypes = [];
-      this.fileTypes = [];
-      this.filesLinesObj = {};
-      this.fileTypeBlankLinesObj = {};
-      this.filesSortType = 'lineOfCode';
-      this.toReverseSortFiles = true;
-      this.searchBarValue = '';
-
       const repo = window.REPOS[this.info.repo];
 
       this.getRepoProps(repo);
@@ -131,9 +132,16 @@ window.vAuthorship = {
 
       if (repo.files) {
         this.processFiles(repo.files);
+        this.resetSelectedFileTypes();
+        this.setInfoHash();
       } else {
+        // Indication that it is a refresh
         window.api.loadAuthorship(this.info.repo)
-            .then((files) => this.processFiles(files));
+            .then((files) => {
+              this.processFiles(files);
+              this.retrieveHashes();
+              this.setInfoHash();
+            });
       }
     },
 
@@ -276,11 +284,8 @@ window.vAuthorship = {
         }
       });
 
-      this.isSelectAllChecked = true;
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
-      this.retrieveHashes();
-      this.setInfoHash();
       this.updateSelectedFiles();
     },
 
