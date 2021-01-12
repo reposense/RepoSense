@@ -13,7 +13,6 @@ window.vAuthorship = {
   template: window.$('v_authorship').innerHTML,
   data() {
     return {
-      isLoaded: false,
       files: [],
       selectedFiles: [],
       filterType: 'checkboxes',
@@ -46,13 +45,6 @@ window.vAuthorship = {
       window.addHash('reverseAuthorshipOrder', this.toReverseSortFiles);
       window.encodeHash();
       this.updateSelectedFiles();
-    },
-
-    isLoaded() {
-      if (this.isLoaded) {
-        this.retrieveHashes();
-        this.setInfoHash();
-      }
     },
 
     authorshipOwnerWatchable() {
@@ -113,6 +105,15 @@ window.vAuthorship = {
     },
 
     initiate() {
+      this.filterType = 'checkboxes';
+      this.selectedFileTypes = [];
+      this.fileTypes = [];
+      this.filesLinesObj = {};
+      this.fileTypeBlankLinesObj = {};
+      this.filesSortType = 'lineOfCode';
+      this.toReverseSortFiles = true;
+      this.searchBarValue = '';
+
       const repo = window.REPOS[this.info.repo];
 
       this.getRepoProps(repo);
@@ -269,7 +270,6 @@ window.vAuthorship = {
 
       res.sort((a, b) => b.lineCount - a.lineCount);
 
-      this.fileTypes = [];
       Object.keys(this.filesLinesObj).forEach((file) => {
         if (this.filesLinesObj[file] !== 0) {
           this.fileTypes.push(file);
@@ -279,7 +279,8 @@ window.vAuthorship = {
       this.isSelectAllChecked = true;
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
-      this.isLoaded = true;
+      this.retrieveHashes();
+      this.setInfoHash();
       this.updateSelectedFiles();
     },
 
