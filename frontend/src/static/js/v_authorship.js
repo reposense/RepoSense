@@ -18,7 +18,7 @@ function initialState() {
     filesSortType: 'lineOfCode',
     toReverseSortFiles: true,
     searchBarValue: '',
-  }
+  };
 }
 
 const repoCache = [];

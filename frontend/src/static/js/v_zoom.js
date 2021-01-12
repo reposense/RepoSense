@@ -1,17 +1,21 @@
 /* global Vuex */
 
+function initialState() {
+  return {
+    showAllCommitMessageBody: true,
+    expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+    commitsSortType: 'time',
+    toReverseSortedCommits: true,
+    isCommitsFinalized: false,
+    selectedFileTypes: [],
+    fileTypes: [],
+  };
+}
+
 window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
-    return {
-      showAllCommitMessageBody: true,
-      expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
-      commitsSortType: 'time',
-      toReverseSortedCommits: true,
-      isCommitsFinalized: false,
-      selectedFileTypes: [],
-      fileTypes: [],
-    };
+    return initialState();
   },
 
   computed: {
@@ -92,13 +96,7 @@ window.vZoom = {
 
   watch: {
     zoomOwnerWatchable() {
-      this.showAllCommitMessageBody = true;
-      this.expandedCommitMessagesCount = this.totalCommitMessageBodyCount;
-      this.commitsSortType = 'time';
-      this.toReverseSortedCommits = true;
-      this.selectedFileTypes = [];
-      this.fileTypes = [];
-
+      Object.assign(this.$data, initialState());
       this.initiate();
       this.setInfoHash();
     },
@@ -121,12 +119,11 @@ window.vZoom = {
   methods: {
     initiate() {
       if (!this.info.zUser) { // restoring zoom tab from reloaded page
-          this.restoreZoomTab();
+        this.restoreZoomTab();
       }
 
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
-      this.retrieveHashes();
     },
 
     openSummary() {
@@ -263,6 +260,7 @@ window.vZoom = {
   },
   created() {
     this.initiate();
+    this.retrieveHashes();
     this.setInfoHash();
   },
   beforeDestroy() {
