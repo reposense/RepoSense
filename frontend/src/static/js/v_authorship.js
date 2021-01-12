@@ -269,12 +269,14 @@ window.vAuthorship = {
 
       res.sort((a, b) => b.lineCount - a.lineCount);
 
+      this.fileTypes = [];
       Object.keys(this.filesLinesObj).forEach((file) => {
         if (this.filesLinesObj[file] !== 0) {
           this.fileTypes.push(file);
         }
       });
 
+      this.isSelectAllChecked = true;
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
