@@ -28,7 +28,6 @@ window.app = new window.Vue({
     isLoadingOverlayEnabled: false,
     loadingOverlayOpacity: 1,
 
-    isCollapsed: false,
     isTabActive: true, // to force tab wrapper to load
 
     tabType: 'empty',
@@ -106,7 +105,6 @@ window.app = new window.Vue({
       }
 
       this.isTabActive = true;
-      this.isCollapsed = false;
       this.tabType = tabName;
 
       window.addHash('tabOpen', this.isTabActive);
