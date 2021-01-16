@@ -37,9 +37,12 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 
 <div id="section-running-from-code">
 
-* To run the app from code, run `gradlew run` from the project root. By default, it will run based on the config files in the `[project root]/config` folder.
-* To supply flags, you can use the `-Dargs="[FLAGS]"` format.<br>
+* To run the app from code, run `gradlew run` from the project root. By default, it will run based on the config files in the `[project root]/config` folder, and generate the report in the `[project root]/reposense-report` folder.
+* To supply flags to customize the report, you can use the `-Dargs="[FLAGS]"` format.<br>
   e.g., `gradlew run -Dargs="--since 31/12/2019 --formats java adoc xml"`
+* Run `gradlew run -Dargs="--view ./reposense-report"` to view the generated report in the default browser.
+* You can refer to the panel below for the format of the flags that can be supplied in `-Dargs="[FLAGS]"`.
+{{ embed("User guide → Appendix: **CLI syntax reference**", "../ug/cli.md") }}
 </div>
 
 <!-- ==================================================================================================== -->
