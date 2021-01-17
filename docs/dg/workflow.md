@@ -28,7 +28,7 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 * Make sure you know our coding standards.
   {{ embed('Appendix: Coding Standards', 'styleGuides.md', level=2) }}
 * **Follow [this](https://se-education.org/guides/tutorials/intellijCodeStyle.html) to configure Intellij to follow our coding style**.
-* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it. In Particular, run `gradlew checkstyleMain checkstyleTest checkstyleSystemtest` to check the style of all the relevant Java code.
+* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it. In particular, run `gradlew checkstyleMain checkstyleTest checkstyleSystemtest` to check the style of all the relevant Java code.
 * **To check Pug files for style errors**, run `npm run lint` from the project root directory. You can use the `npm run lintfix` to automatically fix some of the javascript and css lint errors.
 
 <!-- ==================================================================================================== -->
