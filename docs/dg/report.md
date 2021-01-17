@@ -20,7 +20,7 @@ The following is a snapshot of the report:
 
 ## Report architecture
 
-![report architecture](../images/report-architecture.png)
+<puml src="../diagrams/ReportArchitecture.puml"/>
 
 The main Vue object (`window.app`) is responsible for the loading of the report (through `summary.json`). Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
 
@@ -91,7 +91,7 @@ For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` 
 
 The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
-![summary architecture](../images/report-architecture-summary.png)
+<puml src="../diagrams/ReportArchitectureSummary.puml"/>
 
 ### Initializing the data for the ramp charts
 The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the `repo` attribute is populated with the `window.REPOS` object, which contains information loaded from `summary.json`.
@@ -105,7 +105,7 @@ The commits information is retrieved from the corresponding project folders for 
 
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
 
-![authorship architecture](../images/report-architecture-authorship.png)
+<puml src="../diagrams/ReportArchitectureAuthorship.puml"/>
 
 ### Showing relevant information by authors
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code segments to be displayed in the tab view which will be popped up on the right side of the screen.

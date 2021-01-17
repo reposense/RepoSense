@@ -1,5 +1,7 @@
 @startuml
-!include style.puml
+hide footbox
+skinparam monochrome true
+skinparam Shadowing false
 
 Participant ":Main\n(window.app)" as main
 Participant ":Summary\n(v_summary.js)" as summary
