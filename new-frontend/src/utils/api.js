@@ -8,9 +8,10 @@ window.HASH_DELIMITER = '~';
 window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
+window.appErrorMessages = {};
 
 const HASH_ANCHOR = '?';
-const REPORT_DIR = '.';
+const REPORT_DIR = './data';
 const REPORT_ZIP = null;
 
 window.deactivateAllOverlays = function deactivateAllOverlays() {
@@ -173,7 +174,7 @@ window.api = {
           window.app.isUntilDateProvided = data.isUntilDateProvided;
 
           Object.entries(data.errorList).forEach(([repoName, message]) => {
-            window.app.errorMessages[repoName] = message;
+            window.appErrorMessages[repoName] = message;
           });
 
           const names = [];
@@ -189,6 +190,7 @@ window.api = {
   loadCommits(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
     return this.loadJSON(`${REPORT_DIR}/${folderName}/commits.json`).then((commits) => {
+      // eslint-disable-next-line no-debugger
       const res = [];
       const repo = window.REPOS[repoName];
 

@@ -37,6 +37,7 @@
     "stylelint-config-standard": "^18.3.0",
     "vue": "^3.0.0",
     "vue-loading-overlay": "^3.4.2",
+    "vue3-loading-overlay": "0.0.0",
     "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {

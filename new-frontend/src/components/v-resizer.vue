@@ -23,6 +23,11 @@
 
 
 <script>
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faCaretRight);
+
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
@@ -40,7 +45,10 @@ const throttledEvent = (delay, handler) => {
 export default {
   name: 'v-resizer',
   props: {
-    isTabActive: true,
+    isTabActive: {
+      type: Boolean,
+      default: true,
+    },
   },
 
   data() {
@@ -100,21 +108,3 @@ export default {
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
