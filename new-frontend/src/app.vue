@@ -364,8 +364,8 @@ export default {
 
 
 <style lang="scss">
-@import "./scss/_colors.scss";
-@import "./scss/_z-indices.scss";
+@import "./styles/_colors.scss";
+@import "./styles/_z-indices.scss";
 
 /** global **/
 body {
