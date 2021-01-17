@@ -1,0 +1,18 @@
+@import 'utils';
+
+@function z-index($key) {
+  @if validate-map-key($z-indices, $key) == false {
+    @return null;
+  }
+
+  $mapVal: map-get($z-indices, $key);
+  @return $mapVal;
+}
+
+$z-indices: (
+  'app-wrapper': 50,
+  'center-divider': 100,
+  'header': 100,
+  'loader': 10,
+  'tooltip': 100,
+);

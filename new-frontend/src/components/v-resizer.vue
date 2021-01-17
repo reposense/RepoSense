@@ -1,0 +1,120 @@
+<template lang="pug">
+#app-wrapper(
+  v-bind:style="appStyles",
+  @mousemove="mouseMove",
+  @mouseup="deregisterMouseMove",
+  @mouseleave="deregisterMouseMove"
+)
+  #tab-resize-guide(v-bind:style="guideStyles")
+  .left-resize-container
+    slot(name="left")
+  #tab-resize(
+    @mousedown.left="registerMouseMove",
+    v-show="isTabActive"
+  )
+    .tab-close(v-on:click="$emit('close-tab')")
+      i.fas.fa-caret-right
+  .right-resize-container(
+    v-bind:style="rightContainerStyles",
+    v-if="isTabActive"
+  )
+    slot(name="right")
+</template>
+
+
+<script>
+const DRAG_BAR_WIDTH = 13.25;
+const SCROLL_BAR_WIDTH = 17;
+const GUIDE_BAR_WIDTH = 2;
+
+const throttledEvent = (delay, handler) => {
+  let lastCalled = 0;
+  return (...args) => {
+    if (Date.now() - lastCalled > delay) {
+      lastCalled = Date.now();
+      handler(...args);
+    }
+  };
+};
+
+export default {
+  name: 'v-resizer',
+  props: {
+    isTabActive: true,
+  },
+
+  data() {
+    return {
+      guideWidth: (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2)) / window.innerWidth,
+      flexWidth: 0.5,
+      isResizing: false,
+    };
+  },
+
+  methods: {
+    registerMouseMove() {
+      this.isResizing = true;
+    },
+
+    deregisterMouseMove() {
+      this.isResizing = false;
+      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
+        / window.innerWidth;
+    },
+  },
+
+  computed: {
+    appStyles() {
+      return this.isResizing
+        ? 'user-select: none; cursor: col-resize;'
+        : '';
+    },
+
+    guideStyles() {
+      return this.isResizing
+        ? `display: block; right: ${this.guideWidth * 100}%;`
+        : '';
+    },
+
+    rightContainerStyles() {
+      return `flex: 0 0 ${this.flexWidth * 100}%;`;
+    },
+
+    mouseMove() {
+      if (this.isResizing) {
+        return throttledEvent(25, (event) => {
+          this.guideWidth = (
+            Math.min(
+                Math.max(
+                    window.innerWidth - event.clientX,
+                    SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+                ),
+                window.innerWidth - SCROLL_BAR_WIDTH,
+            )
+            - (GUIDE_BAR_WIDTH / 2)
+          ) / window.innerWidth;
+        });
+      }
+      return () => {};
+    },
+  },
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+h3 {
+  margin: 40px 0 0;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
+</style>

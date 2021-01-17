@@ -1,0 +1,22 @@
+@function validate-map-key($map, $key) {
+  @if map-has-key($map, $key) == false {
+    @error 'Key `#{$key}` not found';
+    @return false;
+  }
+  @return true;
+}
+
+@mixin mini-font {
+  font-size: .65rem;
+  font-weight: normal;
+}
+
+@mixin medium-font {
+  font-size: .875rem;
+  font-weight: normal;
+}
+
+@mixin large-font {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
