@@ -130,6 +130,8 @@
 
 <script>
 import { mapState } from 'vuex';
+import vSummaryCharts from '../components/v-resizer.vue';
+
 
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
@@ -1070,7 +1072,7 @@ export default {
     }, 0);
   },
   components: {
-    vSummaryCharts: window.vSummaryCharts,
+    vSummaryCharts,
   },
 };
 </script>

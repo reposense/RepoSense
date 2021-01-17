@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 import { dom } from '@fortawesome/fontawesome-svg-core';
-import App from './App.vue';
+import App from './app.vue';
 import store from './store/store';
 
 
