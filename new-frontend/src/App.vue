@@ -88,9 +88,11 @@
 
 
 <script>
+import Vue from 'vue'
 import LoadingOverlay from 'vue-loading-overlay';
 // Import stylesheet
 import 'vue-loading-overlay/dist/vue-loading.css';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import vResizer from './components/v-resizer.vue';
 import vZoom from './views/v-zoom.vue';
@@ -110,7 +112,7 @@ Vue.directive('hljs', {
   },
 });
 
-Vue.component('FontAwesomeIcon', window['vue-fontawesome'].FontAwesomeIcon);
+Vue.component(FontAwesomeIcon);
 
 const loadingResourcesMessage = 'Loading resources...';
 

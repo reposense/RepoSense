@@ -27,6 +27,8 @@
   },
   "homepage": "https://github.com/reposense/RepoSense#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^3.0.0-3",
     "core-js": "^3.6.5",
     "minimatch": "^3.0.4",
@@ -35,7 +37,7 @@
     "stylelint-config-standard": "^18.3.0",
     "vue": "^3.0.0",
     "vue-loading-overlay": "^3.4.2",
-    "vuex": "^3.6.0"
+    "vuex": "^4.0.0-rc.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
