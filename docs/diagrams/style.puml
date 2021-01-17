@@ -1,0 +1,11 @@
+/'
+ 'Defined styles for sequence diagrams.
+ 'Refer to https://plantuml-documentation.readthedocs.io/en/latest for a more details.
+ '/
+
+hide footbox
+skinparam monochrome true
+skinparam ParticipantFontColor Black
+skinparam Shadowing false
+
+
