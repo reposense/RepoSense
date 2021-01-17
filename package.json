@@ -14,7 +14,7 @@
     "spuild": "spuild frontend",
     "serve": "vue-cli-service serve ./new-frontend/src/main.js",
     "vlint": "eslint new-frontend/src/App.vue",
-    "vlintfix": "eslint --fix new-frontend/src/App.vue"
+    "vlintfix": "eslint --fix new-frontend/src/main.js"
   },
   "repository": {
     "type": "git",
@@ -28,11 +28,12 @@
   "homepage": "https://github.com/reposense/RepoSense#readme",
   "dependencies": {
     "core-js": "^3.6.5",
-    "vue": "^3.0.0",
     "minimatch": "^3.0.4",
     "pug-lint": "^2.6.0",
     "spuild": "1.0.2",
-    "stylelint-config-standard": "^18.3.0"
+    "stylelint-config-standard": "^18.3.0",
+    "vue": "^3.0.0",
+    "vuex": "^3.6.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
