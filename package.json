@@ -12,9 +12,9 @@
     "lintfix": "eslint --fix frontend/src/**/*js frontend/cypress/**.js && stylelint --fix frontend/src/**/*.scss",
     "browserify": "browserify -t vueify -e frontend/src/static/js/v_authorship.js -o frontend/build/static/js/v_authorship.js",
     "spuild": "spuild frontend",
-    "serve": "vue-cli-service serve ./new-frontend/src/main.js",
-    "vlint": "eslint new-frontend/src/App.vue",
-    "vlintfix": "eslint --fix new-frontend/src/main.js"
+    "serve": "vue-cli-service serve",
+    "vlint": "eslint new-frontend/src/**/*vue",
+    "vlintfix": "eslint --fix new-frontend/src/**/*vue"
   },
   "repository": {
     "type": "git",
@@ -30,9 +30,11 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^3.0.0-3",
+    "copy-webpack-plugin": "^6.2.1",
     "core-js": "^3.6.5",
     "minimatch": "^3.0.4",
     "pug-lint": "^2.6.0",
+    "seedrandom": "^3.0.5",
     "spuild": "1.0.2",
     "stylelint-config-standard": "^18.3.0",
     "vue": "^3.0.0",

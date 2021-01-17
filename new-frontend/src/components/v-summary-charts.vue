@@ -57,7 +57,8 @@
             span.tooltip-text Click to view group's code
         a(
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate,\
+            isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="list-ul")
@@ -77,8 +78,10 @@
     .summary-chart(v-for="(user, j) in repo")
       .summary-chart__title(v-if="!isGroupMerged(getGroupName(repo))")
         .summary-chart__title--index {{ j+1 }}
-        .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
-        .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
+        .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'")
+          |{{ user.repoName }}
+        .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'")
+            |{{ user.repoName }}
         .summary-chart__title--name(
           v-if="filterGroupSelection !== 'groupByAuthors'",
           v-bind:class="{ warn: user.name === '-' }"

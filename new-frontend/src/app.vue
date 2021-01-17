@@ -364,6 +364,11 @@ export default {
 
 
 <style lang="scss">
+@import "https://fonts.googleapis.com/css?family=Titillium+Web";
+@import "https://cdn.jsdelivr.net/npm/normalize.css@8.0/normalize.min.css";
+@import "https://cdn.jsdelivr.net/npm/highlight.js@9.14/styles/color-brewer.min.css";
+@import "https://cdn.jsdelivr.net/npm/vue-loading-overlay@3/dist/vue-loading.css";
+
 @import "./styles/_colors.scss";
 @import "./styles/_z-indices.scss";
 

@@ -42,18 +42,18 @@
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
-          onkeydown="formatInputDateOnKeyDown(event)", 
+          onkeydown="formatInputDateOnKeyDown(event)",
           oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="since", v-bind:value="filterSinceDate", 
+        input(v-else, type="date", name="since", v-bind:value="filterSinceDate",
           v-on:input="updateTmpFilterSinceDate",
           v-bind:min="minDate", v-bind:max="filterUntilDate")
         label since
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
-          onkeydown="formatInputDateOnKeyDown(event)", 
+          onkeydown="formatInputDateOnKeyDown(event)",
           oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="until", v-bind:value="filterUntilDate", 
+        input(v-else, type="date", name="until", v-bind:value="filterUntilDate",
           v-on:input="updateTmpFilterUntilDate",
           v-bind:min="filterSinceDate", v-bind:max="maxDate")
         label until
@@ -77,7 +77,9 @@
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message
       |The following issues occurred when analyzing the following repositories:
-    .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+    .error-message-box__failed-repo(v-for="errorBlock in errorMessages",
+      vbind:key="errorBlock.repoName"
+    )
       font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
@@ -100,9 +102,8 @@
       label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
         span All:&nbsp;
-      template(v-for="fileType in Object.keys(fileTypeColors)" )
+      template(v-for="fileType in Object.keys(fileTypeColors)", v-bind:key="fileType")
         label(
-          v-bind:key="fileType",
           v-bind:style="{ 'background-color': fileTypeColors[fileType], \
             'color': this.getFontColor(fileTypeColors[fileType])}"
         )
@@ -129,6 +130,7 @@
 </template>
 
 <script>
+import seedrandom from 'seedrandom';
 import { mapState } from 'vuex';
 import vSummaryCharts from '../components/v-resizer.vue';
 
@@ -165,7 +167,7 @@ export default {
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       // eslint-disable-next-line new-cap
-      randomGenerator: new Math.seedrandom('Seeded Random Generator'),
+      randomGenerator: new seedrandom('Seeded Random Generator'),
       filterGroupSelectionWatcherFlag: false,
     };
   },
@@ -1079,7 +1081,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-@import "./styles/_colors.scss";
+@import "../styles/_colors.scss";
 
 /* Summary */
 #summary {
