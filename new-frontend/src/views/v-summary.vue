@@ -1059,13 +1059,13 @@ export default {
     this.renderFilterHash();
     this.getFiltered();
   },
-  beforeMount() {
-    this.$root.$on('restoreCommits', (info) => {
-      const zoomFilteredUser = this.restoreZoomFiltered(info);
-      info.zUser = zoomFilteredUser;
-      info.zFileTypeColors = this.fileTypeColors;
-    });
-  },
+  // beforeMount() {
+  //   this.$root.$on('restoreCommits', (info) => {
+  //     const zoomFilteredUser = this.restoreZoomFiltered(info);
+  //     info.zUser = zoomFilteredUser;
+  //     info.zFileTypeColors = this.fileTypeColors;
+  //   });
+  // },
   mounted() {
     // Delay execution of filterGroupSelection watcher
     // to prevent clearing of merged groups
