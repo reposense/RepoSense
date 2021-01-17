@@ -37,7 +37,7 @@ The section below provides explanations for each of the flags.
 
 <box type="info" seamless>
 
-* If `--assets` is not specified, Reposense looks for assets in the `./assets` directory.
+* If `--assets` is not specified, RepoSense looks for assets in the `./assets` directory.
 </box>
 </div>
 
@@ -54,7 +54,7 @@ The section below provides explanations for each of the flags.
 
 <box type="info" seamless>
 
-* Cannot be used with `--repos`
+* Cannot be used with `--repos`.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
 </box>
 </div>
@@ -78,7 +78,7 @@ The section below provides explanations for each of the flags.
 
 <box type="info" seamless>
 
-Cannot be used with any other flags
+Cannot be used with any other flags.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -193,7 +193,7 @@ Note: If the end date is not specified, the date of generating the report will b
 
 <box type="info" seamless>
 
-Cannot be used with any other flags
+Cannot be used with any other flags.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
