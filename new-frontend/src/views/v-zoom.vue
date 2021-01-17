@@ -33,11 +33,12 @@
   .zoom__title
     .zoom__title--granularity granularity: one ramp per {{ info.zTimeFrame }}
     .zoom__title--tags
-      template(v-for="commit in filteredUser.commits")
-        template(v-for="commitResult in commit.commitResults")
+      template(v-for="commit in filteredUser.commits", vbind:key="commit.date")
+        template(v-for="commitResult in commit.commitResults", vbind:key="commitResult.hash")
           template(v-if="commitResult.tags")
             .tag(
               v-for="tag in commitResult.tags",
+              vbind:key="tag",
               v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
             )
               font-awesome-icon(icon="tags")
@@ -70,9 +71,8 @@
       label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked", value="all")
         span All&nbsp;
-      template(v-for="fileType in fileTypes")
+      template(v-for="fileType in fileTypes", v-bind:key="fileType")
         label(
-          v-bind:key="fileType",
           v-bind:style="{\
                   'background-color': fileTypeColors[fileType],\
                   'color': this.getFontColor(fileTypeColors[fileType])\
@@ -102,12 +102,13 @@
           span.fileTypeLabel(
             v-for="fileType in\
               filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
+            vbind:key="fileType",
             v-bind:style="{\
               'background-color': fileTypeColors[fileType],\
               'color': this.getFontColor(fileTypeColors[fileType])\
               }"
           ) {{ fileType }}
-        template(v-if="slice.tags", v-for="tag in slice.tags")
+        template(v-if="slice.tags", v-for="tag in slice.tags", vbind:key="tag")
           .tag(tabindex="-1", v-bind:class="[`${slice.hash}`, tag]")
             font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
@@ -126,7 +127,12 @@
 
 <script>
 import { mapState } from 'vuex';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTags, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import vRamp from '../components/v-ramp.vue';
+
+library.add(faTags, faEllipsisH);
 
 export default {
   name: 'v-zoom',
@@ -384,6 +390,7 @@ export default {
     this.removeZoomHashes();
   },
   components: {
+    FontAwesomeIcon,
     vRamp,
   },
 };

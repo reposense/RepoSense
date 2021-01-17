@@ -161,6 +161,8 @@
 
 <script>
 import { mapState } from 'vuex';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
 import vRamp from './v-ramp.vue';
 
 export default {
@@ -417,6 +419,7 @@ export default {
     },
   },
   components: {
+    FontAwesomeIcon,
     vRamp,
   },
 };

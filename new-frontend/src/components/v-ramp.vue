@@ -1,27 +1,27 @@
 <template lang="pug">
 .ramp
   template(v-if="tframe === 'commit'")
-    template(v-for="(slice, j) in user.commits")
-      a.ramp__slice(
-        draggable="false",
-        v-on:click="rampClick",
-        v-for="(commit, k) in slice.commitResults",
-        v-if="commit.insertions>0",
-        v-bind:href="getLink(user, commit)", target="_blank",
-        v-bind:title="getContributionMessage(slice, commit)",
-        v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
-        v-bind:style="{\
-          zIndex: user.commits.length - j,\
-          borderLeftWidth: getWidth(commit) + 'em',\
-          right: ((getSlicePos(slice.date)\
-            + (getCommitPos(k, slice.commitResults.length))) * 100) + '%'\
-          }"
-      )
+    template(v-for="(slice, j) in user.commits", vbind:key="slice.commitResults[0].hash")
+      template(v-for="(commit, k) in slice.commitResults", vbind:key="commit.hash")
+        a.ramp__slice(
+          draggable="false",
+          v-on:click="rampClick",
+          v-if="commit.insertions>0",
+          v-bind:href="getLink(user, commit)", target="_blank",
+          v-bind:title="getContributionMessage(slice, commit)",
+          v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
+          v-bind:style="{\
+            zIndex: user.commits.length - j,\
+            borderLeftWidth: getWidth(commit) + 'em',\
+            right: ((getSlicePos(slice.date)\
+              + (getCommitPos(k, slice.commitResults.length))) * 100) + '%'\
+            }"
+        )
 
   template(v-else)
+    template(v-for="(commit, k) in user.commits", vbind:key="commit.hash")
     a.ramp__slice(
       draggable="false",
-      v-for="(slice, j) in user.commits",
       v-if="slice.insertions > 0",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",

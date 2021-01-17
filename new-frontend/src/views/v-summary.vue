@@ -80,7 +80,7 @@
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages",
       vbind:key="errorBlock.repoName"
     )
-      font-awesome-icon(icon="exclamation")
+      i.fas.fa-exclamation
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
         v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
@@ -132,7 +132,12 @@
 <script>
 import seedrandom from 'seedrandom';
 import { mapState } from 'vuex';
-import vSummaryCharts from '../components/v-resizer.vue';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faExclamation } from '@fortawesome/free-solid-svg-icons';
+
+import vSummaryCharts from '../components/v-summary-charts.vue';
+
+library.add(faExclamation);
 
 
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
@@ -486,6 +491,7 @@ export default {
           full.push(res);
         }
       });
+      console.log(full);
       this.filtered = full;
 
       this.getOptionWithOrder();
