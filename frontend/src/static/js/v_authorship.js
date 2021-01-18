@@ -24,6 +24,7 @@ window.vAuthorship = {
       fileTypeBlankLinesObj: {},
       filesSortType: 'lineOfCode',
       toReverseSortFiles: true,
+      isBinaryFilesChecked: true,
       searchBarValue: '',
     };
   },
@@ -246,22 +247,32 @@ window.vAuthorship = {
             ? this.getContributionFromAllAuthors(contributionMap)
             : contributionMap[this.info.author];
 
-        if (lineCnt) {
-          const out = {};
-          out.path = file.path;
-          out.lineCount = lineCnt;
-          out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
-          out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
-          out.fileType = file.fileType;
+        // skip file not touched by author
+        if (!this.info.isMergeGroup && !(this.info.author in contributionMap)) {
+          return;
+        }
 
+        if (this.info.isMergeGroup && lineCnt === 0) {
+          return;
+        }
+
+        const out = {
+          path: file.path,
+          lineCount: lineCnt,
+          active: lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD,
+          wasCodeLoaded: lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD,
+          fileType: file.fileType,
+          isBinary: file.isBinary, // either undefined or true
+        };
+
+        if (!file.isBinary) {
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           out.blankLineCount = segmentInfo.blankLineCount;
-
-          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
-              fileTypeBlanksInfoObj);
-          res.push(out);
+          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount, fileTypeBlanksInfoObj);
         }
+
+        res.push(out);
       });
 
       res.sort((a, b) => b.lineCount - a.lineCount);
@@ -290,6 +301,10 @@ window.vAuthorship = {
       }
 
       filesInfoObj[fileType] += lineCount;
+    },
+
+    selectBinaryFile() {
+      this.isBinaryFilesChecked = !this.isBinaryFilesChecked;
     },
 
     updateSearchBarValue() {
@@ -324,6 +339,7 @@ window.vAuthorship = {
 
     indicateSearchBar() {
       this.selectedFileTypes = this.fileTypes.slice();
+      this.isBinaryFilesChecked = true;
       this.filterType = 'search';
     },
 
@@ -360,17 +376,27 @@ window.vAuthorship = {
 
     isSelectAllChecked: {
       get() {
-        return this.selectedFileTypes.length === this.fileTypes.length;
+        return this.selectedFileTypes.length === this.fileTypes.length && this.isBinaryFilesChecked;
       },
       set(value) {
         if (value) {
           this.selectedFileTypes = this.fileTypes.slice();
+          this.isBinaryFilesChecked = true;
         } else {
           this.selectedFileTypes = [];
+          this.isBinaryFilesChecked = false;
         }
 
         this.indicateCheckBoxes();
       },
+    },
+
+    selectedFiles() {
+      return this.files.filter((file) => (
+        (this.selectedFileTypes.includes(file.fileType) && !file.isBinary)
+            || (file.isBinary && this.isBinaryFilesChecked))
+          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }))
+          .sort(this.sortingFunction);
     },
 
     activeFilesCount() {
@@ -396,6 +422,11 @@ window.vAuthorship = {
     },
 
     ...Vuex.mapState(['fileTypeColors']),
+
+    binaryFilesCount() {
+      return this.files.filter((file) => file.isBinary).length;
+    },
+
   },
 
   created() {

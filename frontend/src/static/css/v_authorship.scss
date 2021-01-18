@@ -53,6 +53,11 @@
       .mui-checkbox--fileType {
         vertical-align: middle;
       }
+
+      .binary-fileType {
+        background-color: mui-color('yellow', '100');
+        color: mui-color('green', '900');
+      }
     }
   }
 
@@ -103,6 +108,21 @@
       .icons {
         margin-right: 8px;
         vertical-align: middle;
+      }
+    }
+
+    .binary-segment {
+      background-color: mui-color('white');
+
+      .indicator {
+        float: left;
+        font-weight: bold;
+        padding-left: 1rem;
+      }
+
+      .bin-text {
+        color: mui-color('grey', '800');
+        padding-left: 4rem;
       }
     }
 
