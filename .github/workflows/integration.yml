@@ -10,9 +10,6 @@ on:
     branches-ignore:
       - gh-pages
 
-env:
-  ACTION_PULL_REQUEST_NUMBER: ${{ github.event.number }}
-
 jobs:
   ubuntu-1604:
     name: Ubuntu 16.04 JDK 8

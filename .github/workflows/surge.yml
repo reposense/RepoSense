@@ -6,8 +6,6 @@ name: Surge.sh build preview
 on:
   workflow_run:
     workflows: ["Continuous Integration"]
-    branches-ignore:
-      - gh-pages
     types:
       - completed
 
@@ -15,7 +13,7 @@ jobs:
   deploy:
     name: Deploy to surge.sh
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.event == 'pull_request' }}
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     env:
       NODE_VERSION: "lts/*"
 
