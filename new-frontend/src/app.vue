@@ -54,7 +54,7 @@
                 v-bind:info="tabInfo.tabAuthorship")
               v-zoom#tab-zoom(
                 v-else-if="tabType === 'zoom'",
-                v-bind:key=`generateKey(tabInfo.tabZoom,
+                v-bind:key=`generateKey(tabInfo.tabZoom,\
                   ['zRepo', 'zAuthor', 'zFilterGroup', 'zTimeFrame'])`,
                 v-bind:info="tabInfo.tabZoom")
               #tab-empty(v-else)
@@ -93,34 +93,12 @@
 
 <script>
 import LoadingOverlay from 'vue3-loading-overlay';
-// Import stylesheet
-import 'vue-loading-overlay/dist/vue-loading.css';
 import { mapState } from 'vuex';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faExclamation, faSpinner, faCode, faListUl,
-} from '@fortawesome/free-solid-svg-icons';
-
 
 import vResizer from './components/v-resizer.vue';
 import vZoom from './views/v-zoom.vue';
 import vSummary from './views/v-summary.vue';
 import vAuthorship from './views/v-authorship.vue';
-import test1 from './utils/api';
-import test2 from './utils/safari_date';
-
-console.log(test1);
-console.log(test2);
-library.add(faExclamation, faSpinner, faCode, faListUl);
-// Vue.directive('hljs', {
-//   inserted(ele, binding) {
-//     const element = ele;
-//     element.className = binding.value.split('.').pop();
-
-//     hljs.highlightBlock(element);
-//   },
-// });
 
 
 const loadingResourcesMessage = 'Loading resources...';
@@ -349,7 +327,6 @@ export default {
   },
 
   components: {
-    FontAwesomeIcon,
     LoadingOverlay,
     vResizer,
     vZoom,

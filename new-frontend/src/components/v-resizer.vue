@@ -23,11 +23,6 @@
 
 
 <script>
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faCaretRight } from '@fortawesome/free-solid-svg-icons';
-
-library.add(faCaretRight);
-
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;

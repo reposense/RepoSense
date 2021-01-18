@@ -161,16 +161,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faChevronUp, faChevronDown,
-  faUser, faCode, faListUl, faCircle,
-} from '@fortawesome/free-solid-svg-icons';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 import vRamp from './v-ramp.vue';
-
-library.add(faChevronUp, faChevronDown, faGithub, faUser, faCode, faListUl, faCircle);
 
 export default {
   name: 'v-summary-charts',

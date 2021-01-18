@@ -3,7 +3,7 @@
   .panel-title
     span Code Panel
   .toolbar--multiline
-    a(v-if="activeFilesCount < this.selectedFiles.length", v-on:click="expandAll()")
+    a(v-if="activeFilesCount < selectedFiles.length", v-on:click="expandAll()")
       |show all file details
     a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
   .panel-heading
@@ -71,7 +71,7 @@
             label(
               v-bind:style="{\
                 'background-color': fileTypeColors[fileType],\
-                'color': this.getFontColor(fileTypeColors[fileType])\
+                'color': getFontColor(fileTypeColors[fileType])\
                 }"
             )
               input.mui-checkbox--fileType(type="checkbox",
@@ -109,7 +109,7 @@
           span.fileTypeLabel(
             v-bind:style="{\
               'background-color': fileTypeColors[file.fileType],\
-              'color': this.getFontColor(fileTypeColors[file.fileType])\
+              'color': getFontColor(fileTypeColors[file.fileType])\
               }"
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}
             |&nbsp;({{ file.lineCount - file.blankLineCount }})
@@ -254,6 +254,10 @@ export default {
         window.api.loadAuthorship(this.info.repo)
             .then((files) => this.processFiles(files));
       }
+    },
+
+    getFontColor(color) {
+      return window.getFontColor(color);
     },
 
     getRepoProps(repo) {
@@ -525,7 +529,7 @@ export default {
     this.initiate();
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     this.removeAuthorshipHashes();
   },
 

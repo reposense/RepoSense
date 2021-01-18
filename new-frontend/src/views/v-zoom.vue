@@ -128,11 +128,8 @@
 <script>
 import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTags, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import vRamp from '../components/v-ramp.vue';
 
-library.add(faTags, faEllipsisH);
 
 export default {
   name: 'v-zoom',
@@ -386,7 +383,7 @@ export default {
   mounted() {
     this.setInfoHash();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.removeZoomHashes();
   },
   components: {
