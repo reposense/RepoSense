@@ -23,6 +23,11 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
     - name: Download workflow artifacts
       uses: dawidd6/action-download-artifact@v2
       with:
