@@ -75,7 +75,7 @@
         label(
           v-bind:style="{\
                   'background-color': fileTypeColors[fileType],\
-                  'color': this.getFontColor(fileTypeColors[fileType])\
+                  'color': getFontColor(fileTypeColors[fileType])\
                   }"
         )
           input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
@@ -105,7 +105,7 @@
             vbind:key="fileType",
             v-bind:style="{\
               'background-color': fileTypeColors[fileType],\
-              'color': this.getFontColor(fileTypeColors[fileType])\
+              'color': getFontColor(fileTypeColors[fileType])\
               }"
           ) {{ fileType }}
         template(v-if="slice.tags", v-for="tag in slice.tags", vbind:key="tag")
@@ -165,7 +165,6 @@ export default {
       filteredUser.commits = zUser.commits.filter(
           (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
-      this.isCommitsFinalized = true;
 
       return filteredUser;
     },
@@ -216,13 +215,6 @@ export default {
   },
 
   watch: {
-    isCommitsFinalized() {
-      if (this.isCommitsFinalized) {
-        this.updateFileTypes();
-        this.selectedFileTypes = this.fileTypes.slice();
-        this.retrieveHashes();
-      }
-    },
     selectedFileTypes() {
       this.$nextTick(() => {
         this.updateExpandedCommitMessagesCount();
@@ -240,9 +232,12 @@ export default {
 
   methods: {
     initiate() {
-      if (!this.info.zUser) { // restoring zoom tab from reloaded page
-        this.restoreZoomTab();
-      }
+      this.updateFileTypes();
+      this.selectedFileTypes = this.fileTypes.slice();
+    },
+
+    getFontColor(color) {
+      return window.getFontColor(color);
     },
 
     openSummary() {
@@ -262,11 +257,6 @@ export default {
       if (el) {
         el.focus();
       }
-    },
-
-    restoreZoomTab() {
-      // restore selected user's commits and file type colors from v_summary
-      this.$root.$emit('restoreCommits', this.info);
     },
 
     updateFileTypes() {
@@ -377,9 +367,9 @@ export default {
       return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
     },
   },
-  // created() {
-  //   this.initiate();
-  // },
+  created() {
+    this.initiate();
+  },
   mounted() {
     this.setInfoHash();
   },
