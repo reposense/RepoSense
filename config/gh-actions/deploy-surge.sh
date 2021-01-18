@@ -1,45 +1,53 @@
 #!/bin/bash
+# This script automatically deploys RepoSense and documentation to surge.sh
+# This is intended to be run for pull_request and workflow_run workflows
+
+# Set to false if unset, ref: http://stackoverflow.com/a/39296583/1320290
+CI=${CI:-false}
+ACTIONS_STATUS=${1:-false}
+
+if [ "$CI" == "false" ]
+then
+  echo "ERROR: This script is intended to be run on GitHub Actions only!"
+  exit 1
+fi
+
+if [ "$ACTIONS_STATUS" == "false" ]
+then
+  echo "ERROR: This script requires a status supplied as the first parameter"
+  echo "Available values: failure, pending, success"
+  exit 1
+elif [ "$ACTIONS_STATUS" != "failure" ] && [ "$ACTIONS_STATUS" != "pending" ] && [ "$ACTIONS_STATUS" != "success" ]
+then
+  echo "ERROR: The status supplied is not a valid status"
+  echo "Available values: failure, pending, success"
+  exit 1
+fi
+
+if [ "$GITHUB_EVENT_NAME" != "workflow_run" ] && [ "$GITHUB_EVENT_NAME" != "pull_request" ]
+then
+  echo "ERROR: This script is intended to be run for either the pull_request or workflow_run workflows only!"
+  exit 1
+fi
+
 # Split on "/", ref: http://stackoverflow.com/a/5257398/689223
 REPO_SLUG_ARRAY=(${GITHUB_REPOSITORY//\// })
 REPO_OWNER=${REPO_SLUG_ARRAY[0]}
 REPO_NAME=${REPO_SLUG_ARRAY[1]}
 DASHBOARD_DEPLOY_PATH=./reposense-report
 MARKBIND_DEPLOY_PATH=./docs/_site
-ACTIONS_PULL_REQUEST_HEAD=$(cat ./pr/SHA)
-ACTION_PULL_REQUEST_NUMBER=$(cat ./pr/NUMBER)
+ACTIONS_DEPLOY="false"
+ACTIONS_WORKFLOW_RUN_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
-# Set to false if unset, ref: http://stackoverflow.com/a/39296583/1320290
-ACTION_IS_PULL_REQUEST=${ACTION_PULL_REQUEST_NUMBER:-false}
-echo "Deploying for pull request $ACTION_IS_PULL_REQUEST"
-
-# Get middle section of refs. Branches are "heads" and tags are "tags"
-TEMP_REPO_REFS=${GITHUB_REF#*/}
-ACTION_BRANCH_TAG_INDICATOR=${TEMP_REPO_REFS%/*}
-# Get the actual branch or tag name
-ACTION_BRANCH_TAG=${TEMP_REPO_REFS#*/}
+if [ "$GITHUB_EVENT_NAME" == "workflow_run" ]
+then
+  ACTIONS_DEPLOY="true"
+  ACTIONS_PULL_REQUEST_HEAD=$(cat ./pr/SHA)
+  ACTIONS_PULL_REQUEST_NUMBER=$(cat ./pr/NUMBER)
+fi
 
 DEPLOY_SUBDOMAIN_UNFORMATTED_LIST=()
-if [ "$ACTION_IS_PULL_REQUEST" != "false" ]
-then
-  DEPLOY_SUBDOMAIN_UNFORMATTED_LIST+=(${ACTION_PULL_REQUEST_NUMBER}-pr)
-elif [ "$ACTION_BRANCH_TAG_INDICATOR" == "tags" ]
-then
-  #sorts the tags and picks the latest
-  #sort -V does not work on the travis machine
-  #sort -V              ref: http://stackoverflow.com/a/14273595/689223
-  #sort -t ...          ref: http://stackoverflow.com/a/4495368/689223
-  #reverse with sed     ref: http://stackoverflow.com/a/744093/689223
-  #git tags | ignore release candidates | sort versions | reverse | pick first line
-  LATEST_TAG=$(git tag | grep -v rc | sort -t. -k 1,1n -k 2,2n -k 3,3n -k 4,4n | sed '1!G;h;$!d' | sed -n 1p)
-  echo $LATEST_TAG
-  if [ "$ACTION_BRANCH_TAG" == "$LATEST_TAG" ]
-  then
-    DEPLOY_SUBDOMAIN_UNFORMATTED_LIST+=(latest)
-  fi
-  DEPLOY_SUBDOMAIN_UNFORMATTED_LIST+=(${ACTION_BRANCH_TAG}-tag)
-else
-  DEPLOY_SUBDOMAIN_UNFORMATTED_LIST+=(${ACTION_BRANCH_TAG}-branch)
-fi
+DEPLOY_SUBDOMAIN_UNFORMATTED_LIST+=(${ACTIONS_PULL_REQUEST_NUMBER}-pr)
 
 for DEPLOY_SUBDOMAIN_UNFORMATTED in "${DEPLOY_SUBDOMAIN_UNFORMATTED_LIST[@]}"
 do
@@ -55,16 +63,40 @@ do
     continue
   fi
 
-  DASHBOARD_DEPLOY_DOMAIN=https://dashboard-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
-  echo "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}"
-  surge --project ${DASHBOARD_DEPLOY_PATH} --domain $DASHBOARD_DEPLOY_DOMAIN;
-
-  MARKBIND_DEPLOY_DOMAIN=https://docs-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
-  echo "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}"
-  surge --project ${MARKBIND_DEPLOY_PATH} --domain $MARKBIND_DEPLOY_DOMAIN;
-
-  if [ "$ACTION_IS_PULL_REQUEST" != "false" ] # only create github statuses when it is a PR
+  if [ "$ACTIONS_STATUS" == "failure" ]
   then
+    # Update GitHub status to failed
+    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -X POST \
+    -d "{\"state\": \"failure\",\"context\": \"dashboard/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Dashboard deploy failed\", \"target_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\"}"
+
+    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -X POST \
+    -d "{\"state\": \"failure\",\"context\": \"docs/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Docs deploy failed\", \"target_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\"}"
+  elif [ "$ACTIONS_STATUS" == "pending" ]
+  then
+    # Set GitHub status to pending so that reviewers know that it is part of the checklist
+    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -X POST \
+    -d "{\"state\": \"pending\",\"context\": \"dashboard/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Dashboard deployment in progress...\", \"target_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\"}"
+
+    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
+    -H "Content-Type: application/json" \
+    -X POST \
+    -d "{\"state\": \"pending\",\"context\": \"docs/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Docs deployment in progress...\", \"target_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\"}"
+  elif [ "$ACTIONS_STATUS" == "success" ] && [ "$ACTIONS_DEPLOY" == "true" ]
+  then
+    DASHBOARD_DEPLOY_DOMAIN=https://dashboard-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
+    echo "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}"
+    surge --project ${DASHBOARD_DEPLOY_PATH} --domain $DASHBOARD_DEPLOY_DOMAIN;
+
+    MARKBIND_DEPLOY_DOMAIN=https://docs-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
+    echo "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}"
+    surge --project ${MARKBIND_DEPLOY_PATH} --domain $MARKBIND_DEPLOY_DOMAIN;
+
     # Create github statuses that redirects users to the deployed dashboard and markbind docs
     curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
     -H "Content-Type: application/json" \
