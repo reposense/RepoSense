@@ -46,7 +46,4 @@ jobs:
         SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         GITHUB_TOKEN: ${{ github.token }}
-      run: |
-        echo "ACTIONS_PULL_REQUEST_HEAD=$(cat ./pr/SHA)" >> $GITHUB_ENV
-        echo "ACTION_PULL_REQUEST_NUMBER=$(cat ./pr/NUMBER)" >> $GITHUB_ENV
-        ./config/gh-actions/deploy-surge.sh
+      run: ./config/gh-actions/deploy-surge.sh
