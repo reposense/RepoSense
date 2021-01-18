@@ -114,7 +114,7 @@
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}
             |&nbsp;({{ file.lineCount - file.blankLineCount }})
         pre.hljs.file-content(v-if="file.wasCodeLoaded", v-show="file.active")
-          template(v-for="segment in file.segments", v-bind:key="segment.lines")
+          template(v-for="segment in file.segments", v-bind:key="segment.lineNumbers[0]")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
 </template>
 
