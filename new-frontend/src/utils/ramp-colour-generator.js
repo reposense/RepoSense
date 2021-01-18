@@ -62,4 +62,4 @@ function getNonRepeatingColor(existingColors) {
   return generatedHex;
 }
 
-export default { getNonRepeatingColor };
+export default getNonRepeatingColor;

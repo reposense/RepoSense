@@ -138,6 +138,7 @@ import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 
 import vSummaryCharts from '../components/v-summary-charts.vue';
 import getNonRepeatingColor from '../utils/ramp-colour-generator';
+import sortFiltered from '../utils/repo-sorter';
 
 library.add(faExclamation);
 
@@ -526,7 +527,8 @@ export default {
         isSortingDsc: this.isSortingDsc,
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
-      this.filtered = this.sortFiltered(this.filtered, filterControl);
+      this.getOptionWithOrder();
+      this.filtered = sortFiltered(full, filterControl);
     },
 
     updateMergedGroup(allGroupsMerged) {
@@ -784,23 +786,6 @@ export default {
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
     },
 
-    sortFiltered(filtered, filterControl) {
-      const { filterGroupSelection } = filterControl;
-      this.getOptionWithOrder();
-      let full = [];
-
-      if (filterGroupSelection === 'groupByNone') {
-        // push all repos into the same group
-        full[0] = this.groupByNone(filtered, filterControl);
-      } else if (filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(filtered, filterControl);
-      } else {
-        full = this.groupByRepos(filtered, filterControl);
-      }
-
-      return full;
-    },
-
     // updating filters programically //
     resetDateRange() {
       this.hasModifiedSinceDate = false;
@@ -859,106 +844,6 @@ export default {
         }
       });
       ele.checkedFileTypeContribution = validCommits;
-    },
-
-    groupByRepos(repos, sortingControl) {
-      const sortedRepos = [];
-      const {
-        sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
-      } = sortingControl;
-      const sortWithinOption = sortingWithinOption === 'title' ? 'displayName' : sortingWithinOption;
-      const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
-      repos.forEach((users) => {
-        if (sortWithinOption === 'totalCommits') {
-          users.sort(window.comparator((ele) => ele.checkedFileTypeContribution));
-        } else {
-          users.sort(window.comparator((ele) => ele[sortWithinOption]));
-        }
-
-        if (isSortingWithinDsc) {
-          users.reverse();
-        }
-        sortedRepos.push(users);
-      });
-      sortedRepos.sort(window.comparator(this.sortingHelper, sortOption));
-      if (isSortingDsc) {
-        sortedRepos.reverse();
-      }
-      return sortedRepos;
-    },
-
-    groupByNone(repos, sortingControl) {
-      const sortedRepos = [];
-      const { sortingOption, isSortingDsc } = sortingControl;
-      const isSortingGroupTitle = sortingOption === 'groupTitle';
-      repos.forEach((users) => {
-        users.forEach((user) => {
-          sortedRepos.push(user);
-        });
-      });
-      sortedRepos.sort(window.comparator((repo) => {
-        if (isSortingGroupTitle) {
-          return repo.searchPath + repo.name;
-        }
-        if (sortingOption === 'totalCommits') {
-          return repo.checkedFileTypeContribution;
-        }
-        return repo[sortingOption];
-      }));
-      if (isSortingDsc) {
-        sortedRepos.reverse();
-      }
-
-      return sortedRepos;
-    },
-
-    groupByAuthors(repos, sortingControl) {
-      const authorMap = {};
-      const filtered = [];
-      const {
-        sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
-      } = sortingControl;
-      const sortWithinOption = sortingWithinOption === 'title' ? 'searchPath' : sortingWithinOption;
-      const sortOption = sortingOption === 'groupTitle' ? 'displayName' : sortingOption;
-      repos.forEach((users) => {
-        users.forEach((user) => {
-          if (Object.keys(authorMap).includes(user.name)) {
-            authorMap[user.name].push(user);
-          } else {
-            authorMap[user.name] = [user];
-          }
-        });
-      });
-      Object.keys(authorMap).forEach((author) => {
-        if (sortWithinOption === 'totalCommits') {
-          authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution));
-        } else {
-          authorMap[author].sort(window.comparator((repo) => repo[sortWithinOption]));
-        }
-        if (isSortingWithinDsc) {
-          authorMap[author].reverse();
-        }
-        filtered.push(authorMap[author]);
-      });
-
-      filtered.sort(window.comparator(this.sortingHelper, sortOption));
-      if (isSortingDsc) {
-        filtered.reverse();
-      }
-      return filtered;
-    },
-
-    getGroupCommitsVariance(total, group) {
-      if (this.sortingOption === 'totalCommits') {
-        return total + group.checkedFileTypeContribution;
-      }
-      return total + group[this.sortingOption];
-    },
-
-    sortingHelper(element, sortingOption) {
-      return sortingOption === 'totalCommits' || sortingOption === 'variance'
-          ? element.reduce(this.getGroupCommitsVariance, 0)
-          : element[0][sortingOption];
     },
 
     restoreZoomFiltered(info) {
