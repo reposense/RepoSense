@@ -9,6 +9,7 @@ window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
 window.appErrorMessages = {};
+window.appReportGenerationTime = '';
 
 const HASH_ANCHOR = '?';
 const REPORT_DIR = './data';
@@ -169,10 +170,10 @@ window.api = {
           window.app.sinceDate = data.sinceDate;
           window.app.untilDate = data.untilDate;
           window.app.repoSenseVersion = data.repoSenseVersion;
-          window.app.reportGenerationTime = data.reportGenerationTime;
           window.app.isSinceDateProvided = data.isSinceDateProvided;
           window.app.isUntilDateProvided = data.isUntilDateProvided;
 
+          window.appReportGenerationTime = data.reportGenerationTime;
           Object.entries(data.errorList).forEach(([repoName, message]) => {
             window.appErrorMessages[repoName] = message;
           });

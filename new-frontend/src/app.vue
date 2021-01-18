@@ -122,6 +122,7 @@ export default {
       creationDate: '',
 
       errorMessages: window.appErrorMessages,
+      reportGenerationTime: window.appReportGenerationTime,
     };
   },
   watch: {
