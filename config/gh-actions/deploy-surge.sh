@@ -7,7 +7,7 @@ DASHBOARD_DEPLOY_PATH=./reposense-report
 MARKBIND_DEPLOY_PATH=./docs/_site
 
 # Set to false if unset, ref: http://stackoverflow.com/a/39296583/1320290
-ACTION_IS_PULL_REQUEST=${GITHUB_HEAD_REF:-false}
+ACTION_IS_PULL_REQUEST=${ACTION_PULL_REQUEST_NUMBER:-false}
 
 # Get middle section of refs. Branches are "heads" and tags are "tags"
 TEMP_REPO_REFS=${GITHUB_REF#*/}
