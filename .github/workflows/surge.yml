@@ -1,0 +1,49 @@
+# This workflow deploys a RepoSense report and the MarkBind documentation
+# website to surge.sh in a secure manner for pull requests
+
+name: Surge.sh build preview
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    branches-ignore:
+      - gh-pages
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy to surge.sh
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.event == 'pull_request' }}
+    env:
+      NODE_VERSION: "lts/*"
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Download workflow artifacts
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: integration.yml
+        workflow_conclusion: success
+        name: reposense-report-docs
+        path: .
+
+    - name: Install surge
+      if: ${{ success() }}
+      run: npm install -g surge
+
+    - name: Deploy to surge.sh
+      if: ${{ success() }}
+      env:
+        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+        GITHUB_TOKEN: ${{ github.token }}
+      run: |
+        ACTIONS_PULL_REQUEST_HEAD=$(cat ./pr/SHA)
+        ACTION_PULL_REQUEST_NUMBER=$(cat ./pr/NUMBER)
+        ./config/gh-actions/deploy-surge.sh
