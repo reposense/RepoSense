@@ -1,6 +1,9 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/tp-dashboard/'
+    : '/',
   outputDir: 'new-frontend/build/',
   pages: {
     index: {
