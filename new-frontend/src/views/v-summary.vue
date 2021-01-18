@@ -125,7 +125,8 @@
     v-bind:filter-until-date="filterUntilDate",
     v-bind:filter-search="filterSearch",
     v-bind:min-date="minDate",
-    v-bind:max-date="maxDate"
+    v-bind:max-date="maxDate",
+    @restoreZoomCommits="restoreZoomFiltered"
   )
 </template>
 
@@ -1031,7 +1032,9 @@ export default {
       if (zIsMerge) {
         this.mergeGroupByIndex(filtered, 0);
       }
-      return filtered[0][0];
+      info.zUser = filtered[0][0];
+      info.zFileTypeColors = this.fileTypeColors;
+      this.$store.commit('updateTabZoomInfo', info);
     },
     matchZoomUser(info, user) {
       const {

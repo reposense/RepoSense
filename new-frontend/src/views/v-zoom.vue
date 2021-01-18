@@ -377,9 +377,9 @@ export default {
       return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
     },
   },
-  created() {
-    this.initiate();
-  },
+  // created() {
+  //   this.initiate();
+  // },
   mounted() {
     this.setInfoHash();
   },
