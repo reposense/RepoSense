@@ -13,7 +13,7 @@
     ) {{ info.repo }}
     .author(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
-      span {{ info.name }} ({{ info.author }})
+      span {{ authorDisplayName }} ({{ info.author }})
     .period
       span &#8627; &nbsp;
       span {{ info.minDate }} to {{ info.maxDate }}
@@ -137,6 +137,7 @@ export default {
   props: ['info'],
   data() {
     return {
+      authorDisplayName: '',
       isLoaded: false,
       files: [],
       selectedFiles: [],
@@ -270,7 +271,7 @@ export default {
         } else {
           const author = repo.users.find((user) => user.name === this.info.author);
           if (author) {
-            this.info.name = author.displayName;
+            this.authorDisplayName = author.displayName;
             this.filesLinesObj = author.fileTypeContribution;
           }
         }

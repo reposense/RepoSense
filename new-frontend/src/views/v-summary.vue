@@ -296,6 +296,25 @@ export default {
 
     ...mapState(['mergedGroups']),
   },
+  created() {
+    this.processFileTypes();
+    this.renderFilterHash();
+    this.getFiltered();
+  },
+  // beforeMount() {
+  //   this.$root.$on('restoreCommits', (info) => {
+  //     const zoomFilteredUser = this.restoreZoomFiltered(info);
+  //     info.zUser = zoomFilteredUser;
+  //     info.zFileTypeColors = this.fileTypeColors;
+  //   });
+  // },
+  mounted() {
+    // Delay execution of filterGroupSelection watcher
+    // to prevent clearing of merged groups
+    setTimeout(() => {
+      this.filterGroupSelectionWatcherFlag = true;
+    }, 0);
+  },
   methods: {
     dismissTab(event) {
       event.target.parentNode.style.display = 'none';
@@ -1061,25 +1080,6 @@ export default {
 
       return window.getDateStr(datems);
     },
-  },
-  created() {
-    this.processFileTypes();
-    this.renderFilterHash();
-    this.getFiltered();
-  },
-  // beforeMount() {
-  //   this.$root.$on('restoreCommits', (info) => {
-  //     const zoomFilteredUser = this.restoreZoomFiltered(info);
-  //     info.zUser = zoomFilteredUser;
-  //     info.zFileTypeColors = this.fileTypeColors;
-  //   });
-  // },
-  mounted() {
-    // Delay execution of filterGroupSelection watcher
-    // to prevent clearing of merged groups
-    setTimeout(() => {
-      this.filterGroupSelectionWatcherFlag = true;
-    }, 0);
   },
   components: {
     vSummaryCharts,

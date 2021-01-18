@@ -228,6 +228,15 @@ export default {
       window.encodeHash();
     },
   },
+  created() {
+    this.initiate();
+  },
+  mounted() {
+    this.setInfoHash();
+  },
+  beforeUnmount() {
+    this.removeZoomHashes();
+  },
 
   methods: {
     initiate() {
@@ -365,15 +374,6 @@ export default {
     filterSelectedFileTypes(fileTypes) {
       return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
     },
-  },
-  created() {
-    this.initiate();
-  },
-  mounted() {
-    this.setInfoHash();
-  },
-  beforeUnmount() {
-    this.removeZoomHashes();
   },
   components: {
     FontAwesomeIcon,

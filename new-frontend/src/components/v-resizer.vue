@@ -54,18 +54,6 @@ export default {
     };
   },
 
-  methods: {
-    registerMouseMove() {
-      this.isResizing = true;
-    },
-
-    deregisterMouseMove() {
-      this.isResizing = false;
-      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
-        / window.innerWidth;
-    },
-  },
-
   computed: {
     appStyles() {
       return this.isResizing
@@ -99,6 +87,18 @@ export default {
         });
       }
       return () => {};
+    },
+  },
+
+  methods: {
+    registerMouseMove() {
+      this.isResizing = true;
+    },
+
+    deregisterMouseMove() {
+      this.isResizing = false;
+      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
+        / window.innerWidth;
     },
   },
 };
