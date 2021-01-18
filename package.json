@@ -14,7 +14,8 @@
     "spuild": "spuild frontend",
     "serve": "vue-cli-service serve",
     "vlint": "eslint new-frontend/src/**/*.vue new-frontend/src/**/*.js",
-    "vlintfix": "eslint --fix new-frontend/src/**/*.vue new-frontend/src/**/*.js"
+    "vlintfix": "eslint --fix new-frontend/src/**/*.vue new-frontend/src/**/*.js",
+    "vbuild": "vue-cli-service build"
   },
   "repository": {
     "type": "git",
@@ -58,6 +59,7 @@
     "node-sass": "^5.0.0",
     "pug": "^3.0.0",
     "pug-plain-loader": "^1.1.0",
+    "sass": "^1.32.4",
     "sass-loader": "^10.1.1",
     "stylelint": "^10.1.0",
     "stylelint-order": "^3.0.1",

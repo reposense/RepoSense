@@ -1,1 +1,7 @@
-data/
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!favicon.ico
+!index.html
