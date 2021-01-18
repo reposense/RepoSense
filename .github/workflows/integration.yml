@@ -75,7 +75,7 @@ jobs:
       if: ${{ success() }}
       run: bash <(curl -s https://codecov.io/bash)
 
-    - name: Build MarkBind documentation (pull request)
+    - name: Build preview website (pull request)
       if: ${{ success() && github.event_name == 'pull_request' }}
       run: |
         git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
@@ -99,20 +99,6 @@ jobs:
           ./docs/_site
           ./pr
 
-    - name: Deploy to surge.sh (push)
-      if: ${{ success() && github.event_name == 'push' }}
-      env:
-        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-        ACTIONS_PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
-        GITHUB_TOKEN: ${{ github.token }}
-      run: |
-        git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
-        npm install -g surge
-        npm install -g markbind-cli
-        (cd docs && markbind build)
-        ./config/gh-actions/deploy-surge.sh
-
   macos-1015:
     name: macOS 10.15 JDK 8
     runs-on: macos-10.15
@@ -120,17 +106,8 @@ jobs:
       HOMEBREW_NO_AUTO_UPDATE: 1 # Prevent time-consuming brew update
 
     steps:
-    - name: Checkout repository (pull request)
+    - name: Checkout repository
       uses: actions/checkout@v2
-      if: ${{ github.event_name == 'pull_request_target' }}
-      with:
-        fetch-depth: 0
-        ref: ${{ github.event.pull_request.head.ref }}
-        repository: ${{ github.event.pull_request.head.repo.full_name }}
-
-    - name: Checkout repository (push)
-      uses: actions/checkout@v2
-      if: ${{ github.event_name == 'push' }}
       with:
         fetch-depth: 0
 
@@ -184,17 +161,8 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - name: Checkout repository (pull request)
+    - name: Checkout repository
       uses: actions/checkout@v2
-      if: ${{ github.event_name == 'pull_request_target' }}
-      with:
-        fetch-depth: 0
-        ref: ${{ github.event.pull_request.head.ref }}
-        repository: ${{ github.event.pull_request.head.repo.full_name }}
-
-    - name: Checkout repository (push)
-      uses: actions/checkout@v2
-      if: ${{ github.event_name == 'push' }}
       with:
         fetch-depth: 0
 
