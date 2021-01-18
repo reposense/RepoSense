@@ -18,8 +18,6 @@ app.mount('#app');
 // app.use(hljs.vuePlugin);
 app.directive('hljs', {
   mounted(ele, binding) {
-    console.log(ele);
-    console.log(binding);
     const element = ele;
     element.className = binding.value.split('.').pop();
 
