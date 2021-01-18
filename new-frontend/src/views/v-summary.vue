@@ -137,6 +137,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 
 import vSummaryCharts from '../components/v-summary-charts.vue';
+import getNonRepeatingColor from '../utils/ramp-colour-generator';
 
 library.add(faExclamation);
 
@@ -177,6 +178,63 @@ export default {
       filterGroupSelectionWatcherFlag: false,
     };
   },
+
+  computed: {
+    checkAllFileTypes: {
+      get() {
+        return this.checkedFileTypes.length === this.fileTypes.length;
+      },
+      set(value) {
+        if (value) {
+          this.checkedFileTypes = this.fileTypes.slice();
+        } else {
+          this.checkedFileTypes = [];
+        }
+      },
+    },
+
+    avgContributionSize() {
+      let totalLines = 0;
+      let totalCount = 0;
+      this.repos.forEach((repo) => {
+        repo.users.forEach((user) => {
+          if (user.checkedFileTypeContribution === undefined) {
+            this.updateCheckedFileTypeContribution(user);
+          }
+          if (user.checkedFileTypeContribution > 0) {
+            totalCount += 1;
+            totalLines += user.checkedFileTypeContribution;
+          }
+        });
+      });
+
+      return totalLines / totalCount;
+    },
+
+    allGroupsMerged: {
+      get() {
+        if (this.mergedGroups.length === 0) {
+          return false;
+        }
+        return this.mergedGroups.length === this.filtered.length;
+      },
+      set(value) {
+        if (value) {
+          const mergedGroups = [];
+          this.filtered.forEach((group) => {
+            mergedGroups.push(this.getGroupName(group));
+          });
+          this.filtered = [];
+          this.$store.commit('updateMergedGroup', mergedGroups);
+        } else {
+          this.$store.commit('updateMergedGroup', []);
+        }
+      },
+    },
+
+    ...mapState(['mergedGroups']),
+  },
+
   watch: {
     checkedFileTypes() {
       this.getFiltered();
@@ -241,61 +299,7 @@ export default {
       this.getFiltered();
     },
   },
-  computed: {
-    checkAllFileTypes: {
-      get() {
-        return this.checkedFileTypes.length === this.fileTypes.length;
-      },
-      set(value) {
-        if (value) {
-          this.checkedFileTypes = this.fileTypes.slice();
-        } else {
-          this.checkedFileTypes = [];
-        }
-      },
-    },
 
-    avgContributionSize() {
-      let totalLines = 0;
-      let totalCount = 0;
-      this.repos.forEach((repo) => {
-        repo.users.forEach((user) => {
-          if (user.checkedFileTypeContribution === undefined) {
-            this.updateCheckedFileTypeContribution(user);
-          }
-          if (user.checkedFileTypeContribution > 0) {
-            totalCount += 1;
-            totalLines += user.checkedFileTypeContribution;
-          }
-        });
-      });
-
-      return totalLines / totalCount;
-    },
-
-    allGroupsMerged: {
-      get() {
-        if (this.mergedGroups.length === 0) {
-          return false;
-        }
-        return this.mergedGroups.length === this.filtered.length;
-      },
-      set(value) {
-        if (value) {
-          const mergedGroups = [];
-          this.filtered.forEach((group) => {
-            mergedGroups.push(this.getGroupName(group));
-          });
-          this.filtered = [];
-          this.$store.commit('updateMergedGroup', mergedGroups);
-        } else {
-          this.$store.commit('updateMergedGroup', []);
-        }
-      },
-    },
-
-    ...mapState(['mergedGroups']),
-  },
   created() {
     this.processFileTypes();
     this.renderFilterHash();
@@ -620,70 +624,6 @@ export default {
       });
     },
 
-    getRandomHex() {
-      const maxHexColorValue = 16777214;
-      // excludes #000000 and #FFFFFF as they are reserved
-      return `#${Math.round(this.randomGenerator() * maxHexColorValue + 1).toString(16).padStart(6, '0')}`;
-    },
-
-    getNonRepeatingColor(existingColors) {
-      let generatedHex = this.getRandomHex();
-      while (this.hasSimilarExistingColors(existingColors, generatedHex)) {
-        generatedHex = this.getRandomHex();
-      }
-      return generatedHex;
-    },
-
-    hasSimilarExistingColors(existingColors, newHex) {
-      const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
-      return existingColors.some((existingHex) => {
-        const existingRGB = window.getHexToRGB(existingHex);
-        const newRGB = window.getHexToRGB(newHex);
-        return this.deltaE(existingRGB, newRGB) < deltaEThreshold;
-      });
-    },
-
-    // this delta E (perceptual color distance) implementation taken from @antimatter15 from
-    // github: https://github.com/antimatter15/rgb-lab
-    deltaE(rgbA, rgbB) {
-      const labA = this.rgb2lab(rgbA);
-      const labB = this.rgb2lab(rgbB);
-      const deltaL = labA[0] - labB[0];
-      const deltaA = labA[1] - labB[1];
-      const deltaB = labA[2] - labB[2];
-      const c1 = Math.sqrt(labA[1] * labA[1] + labA[2] * labA[2]);
-      const c2 = Math.sqrt(labB[1] * labB[1] + labB[2] * labB[2]);
-      const deltaC = c1 - c2;
-      let deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC;
-      deltaH = deltaH < 0 ? 0 : Math.sqrt(deltaH);
-      const sc = 1.0 + 0.045 * c1;
-      const sh = 1.0 + 0.015 * c1;
-      const deltaLKLSL = deltaL / (1.0);
-      const deltaCKCSC = deltaC / (sc);
-      const deltaHKSHS = deltaH / (sh);
-      const distance = deltaLKLSL * deltaLKLSL + deltaCKCSC * deltaCKCSC + deltaHKSHS * deltaHKSHS;
-      return distance < 0 ? 0 : Math.sqrt(distance);
-    },
-
-    rgb2lab(rgb) {
-      let r = rgb[0] / 255;
-      let g = rgb[1] / 255;
-      let b = rgb[2] / 255;
-      let x;
-      let y;
-      let z;
-      r = (r > 0.04045) ? ((r + 0.055) / 1.055) ** 2.4 : r / 12.92;
-      g = (g > 0.04045) ? ((g + 0.055) / 1.055) ** 2.4 : g / 12.92;
-      b = (b > 0.04045) ? ((b + 0.055) / 1.055) ** 2.4 : b / 12.92;
-      x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
-      y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.00000;
-      z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
-      x = (x > 0.008856) ? (x ** (1 / 3)) : (7.787 * x) + 16 / 116;
-      y = (y > 0.008856) ? (y ** (1 / 3)) : (7.787 * y) + 16 / 116;
-      z = (z > 0.008856) ? (z ** (1 / 3)) : (7.787 * z) + 16 / 116;
-      return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)];
-    },
-
     processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
           '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
@@ -699,7 +639,7 @@ export default {
                 fileTypeColors[fileType] = selectedColors[i];
                 i += 1;
               } else {
-                fileTypeColors[fileType] = this.getNonRepeatingColor(Object.values(fileTypeColors));
+                fileTypeColors[fileType] = getNonRepeatingColor(Object.values(fileTypeColors));
               }
             }
             if (!this.fileTypes.includes(fileType)) {
