@@ -133,14 +133,10 @@
 <script>
 import seedrandom from 'seedrandom';
 import { mapState } from 'vuex';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faExclamation } from '@fortawesome/free-solid-svg-icons';
 
 import vSummaryCharts from '../components/v-summary-charts.vue';
 import getNonRepeatingColor from '../utils/ramp-colour-generator';
 import sortFiltered from '../utils/repo-sorter';
-
-library.add(faExclamation);
 
 
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
