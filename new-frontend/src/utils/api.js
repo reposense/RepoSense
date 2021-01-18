@@ -12,7 +12,7 @@ window.appErrorMessages = {};
 window.appReportGenerationTime = '';
 
 const HASH_ANCHOR = '?';
-const REPORT_DIR = './data';
+const REPORT_DIR = '.';
 const REPORT_ZIP = null;
 
 window.deactivateAllOverlays = function deactivateAllOverlays() {
