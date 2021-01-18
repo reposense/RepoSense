@@ -28,6 +28,7 @@
   "homepage": "https://github.com/reposense/RepoSense#readme",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-brands-svg-icons": "^5.15.2",
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@fortawesome/vue-fontawesome": "^3.0.0-3",
     "copy-webpack-plugin": "^6.2.1",

@@ -491,7 +491,6 @@ export default {
           full.push(res);
         }
       });
-      console.log(full);
       this.filtered = full;
 
       this.getOptionWithOrder();
