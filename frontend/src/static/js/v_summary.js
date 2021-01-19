@@ -475,7 +475,8 @@ window.vSummary = {
                 fileTypeColors[fileType] = selectedColors[i];
                 i += 1;
               } else {
-                fileTypeColors[fileType] = window.utilsGetNonRepeatingColor(Object.values(fileTypeColors));
+                fileTypeColors[fileType] = window
+                    .utilsGetNonRepeatingColor(Object.values(fileTypeColors));
               }
             }
             if (!this.fileTypes.includes(fileType)) {
