@@ -7,7 +7,7 @@
     v-bind:is-full-page="true"
   )
     template(v-slot:default)
-      i.overlay-loading-icon.fas.fa-spinner
+      i.overlay-loading-icon.fas.fa-spin.fa-spinner
     template(v-slot:after)
       h3 {{ loadingOverlayMessage }}
 
@@ -156,6 +156,7 @@ export default {
       window.REPORT_ZIP = null;
 
       this.users = [];
+      window.decodeHash();
       this.updateReportView().then(() => this.renderTabHash());
     },
     async updateReportView() {
@@ -247,14 +248,13 @@ export default {
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
-        this.$store.commit('updateTabZoomInfo', zoomInfo);
+        this.$refs.summary.restoreZoomFiltered(zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
     },
 
     renderTabHash() {
-      window.decodeHash();
       const hash = window.hashParams;
       if (!hash.tabOpen) {
         return;

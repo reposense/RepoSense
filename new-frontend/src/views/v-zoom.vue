@@ -240,8 +240,11 @@ export default {
 
   methods: {
     initiate() {
-      this.updateFileTypes();
-      this.selectedFileTypes = this.fileTypes.slice();
+      if (this.info.zUser) {
+        // This code should always run since zUser must be defined
+        this.updateFileTypes();
+        this.selectedFileTypes = this.fileTypes.slice();
+      }
     },
 
     getFontColor(color) {
