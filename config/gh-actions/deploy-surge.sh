@@ -30,6 +30,20 @@ then
   exit 1
 fi
 
+# Function to update GitHub commit status via a cURL command
+# $1: Type of status to update (can be dashboard or docs)
+# $2: Status (can be failure, pending or success)
+# $3: Description
+# $4: Target URL
+update_status() {
+  ACTIONS_STATUS_CONTEXT="$1/surge/deploy/${DEPLOY_SUBDOMAIN}"
+
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -X POST \
+  -d "{\"state\": \"$2\",\"context\": \"${ACTIONS_STATUS_CONTEXT}\", \"description\": \"$3\", \"target_url\": \"$4\"}"
+}
+
 # Split on "/", ref: http://stackoverflow.com/a/5257398/689223
 REPO_SLUG_ARRAY=(${GITHUB_REPOSITORY//\// })
 REPO_OWNER=${REPO_SLUG_ARRAY[0]}
@@ -66,27 +80,13 @@ do
   if [ "$ACTIONS_STATUS" == "failure" ]
   then
     # Update GitHub status to failed
-    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
-    -H "Content-Type: application/json" \
-    -X POST \
-    -d "{\"state\": \"failure\",\"context\": \"dashboard/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Dashboard deploy failed\", \"target_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\"}"
-
-    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
-    -H "Content-Type: application/json" \
-    -X POST \
-    -d "{\"state\": \"failure\",\"context\": \"docs/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Docs deploy failed\", \"target_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\"}"
+    update_status "dashboard" "failure" "Dashboard deploy failed" "${ACTIONS_WORKFLOW_RUN_URL}"
+    update_status "docs" "failure" "Docs deploy failed" "${ACTIONS_WORKFLOW_RUN_URL}"
   elif [ "$ACTIONS_STATUS" == "pending" ]
   then
     # Set GitHub status to pending so that reviewers know that it is part of the checklist
-    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
-    -H "Content-Type: application/json" \
-    -X POST \
-    -d "{\"state\": \"pending\",\"context\": \"dashboard/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Dashboard deployment in progress...\", \"target_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\"}"
-
-    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
-    -H "Content-Type: application/json" \
-    -X POST \
-    -d "{\"state\": \"pending\",\"context\": \"docs/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Docs deployment in progress...\", \"target_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\"}"
+    update_status "dashboard" "pending" "Dashboard deployment in progress..." "${ACTIONS_WORKFLOW_RUN_URL}"
+    update_status "docs" "pending" "Docs deployment in progress..." "${ACTIONS_WORKFLOW_RUN_URL}"
   elif [ "$ACTIONS_STATUS" == "success" ] && [ "$ACTIONS_DEPLOY" == "true" ]
   then
     DASHBOARD_DEPLOY_DOMAIN=https://dashboard-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
@@ -98,14 +98,7 @@ do
     surge --project ${MARKBIND_DEPLOY_PATH} --domain $MARKBIND_DEPLOY_DOMAIN;
 
     # Create github statuses that redirects users to the deployed dashboard and markbind docs
-    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
-    -H "Content-Type: application/json" \
-    -X POST \
-    -d "{\"state\": \"success\",\"context\": \"dashboard/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}\", \"target_url\": \"${DASHBOARD_DEPLOY_DOMAIN}\"}"
-
-    curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
-    -H "Content-Type: application/json" \
-    -X POST \
-    -d "{\"state\": \"success\",\"context\": \"docs/surge/deploy/${DEPLOY_SUBDOMAIN}\", \"description\": \"Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}\", \"target_url\": \"${MARKBIND_DEPLOY_DOMAIN}\"}"
+    update_status "dashboard" "success" "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}" "${DASHBOARD_DEPLOY_DOMAIN}"
+    update_status "docs" "success" "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}" "${MARKBIND_DEPLOY_DOMAIN}"
   fi
 done
