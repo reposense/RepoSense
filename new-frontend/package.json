@@ -10,7 +10,7 @@
     "serve": "vue-cli-service serve",
     "lint": "eslint src/**/*.{js,vue} && stylelint ./src/**/*.{vue,scss}",
     "lintfix": "eslint --fix src/**/*.{js,vue} && stylelint --fix ./src/**/*.{vue,scss}",
-    "vbuild": "vue-cli-service build"
+    "build": "vue-cli-service build"
   },
   "repository": {
     "type": "git",
