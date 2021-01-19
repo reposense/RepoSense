@@ -180,11 +180,16 @@ String getRepoSenseVersion() {
 }
 
 // New Frontend Tasks
+task deleteOldFrontend (type: Delete) {
+    delete "new-reposense-report/css", "new-reposense-report/js", "new-reposense-report/index.html"
+}
+
 task copyNewFrontend(type: Copy) {
     from 'new-frontend/build'
     into 'new-reposense-report'
     includes = ['css', 'js', 'index.html', 'favicon.ico']
 }
+tasks.copyNewFrontend.dependsOn('deleteOldFrontend');
 
 task copyGeneratedJson(type: Copy) {
     from 'reposense-report'
