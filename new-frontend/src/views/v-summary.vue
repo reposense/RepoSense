@@ -125,8 +125,7 @@
     v-bind:filter-until-date="filterUntilDate",
     v-bind:filter-search="filterSearch",
     v-bind:min-date="minDate",
-    v-bind:max-date="maxDate",
-    @restoreZoomCommits="restoreZoomFiltered"
+    v-bind:max-date="maxDate"
   )
 </template>
 

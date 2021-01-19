@@ -348,7 +348,7 @@ export default {
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
-      this.$emit('restoreZoomCommits', info);
+      this.$store.commit('updateTabZoomInfo', info);
     },
 
     getBaseTarget(target) {
