@@ -10,10 +10,10 @@ window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
 window.appErrorMessages = {};
 window.appReportGenerationTime = '';
+window.REPORT_ZIP = null;
 
 const HASH_ANCHOR = '?';
 const REPORT_DIR = '.';
-const REPORT_ZIP = null;
 
 window.deactivateAllOverlays = function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
@@ -140,26 +140,28 @@ window.getGroupName = function getGroupName(group, filterGroupSelection) {
 };
 
 window.api = {
-  loadJSON(fname) {
-    if (REPORT_ZIP) {
-      const zipObject = REPORT_ZIP.file(fname.slice(2));
+  async loadJSON(fname) {
+    let txt = '';
+    if (window.REPORT_ZIP) {
+      const zipObject = window.REPORT_ZIP.file(fname.slice(2));
       if (zipObject) {
-        return zipObject.async('text').then((txt) => JSON.parse(txt));
-      }
-      return Promise.reject(new Error('Zip file is invalid.'));
-    }
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', fname);
-      xhr.onload = function xhrOnload() {
-        if (xhr.status === 200) {
-          resolve(JSON.parse(xhr.responseText));
-        } else {
-          reject(new Error('Unable to get file.'));
+        txt = await zipObject.async('text');
+        try {
+          return JSON.parse(txt);
+        } catch (e) {
+          throw new Error('Json is invalid.');
         }
-      };
-      xhr.send(null);
-    });
+      } else {
+        throw new Error('Zip file is invalid.');
+      }
+    }
+    try {
+      const response = await fetch(fname);
+      const json = await response.json();
+      return json;
+    } catch (e) {
+      throw new Error('Json file not found.');
+    }
   },
   loadSummary() {
     window.REPOS = {};

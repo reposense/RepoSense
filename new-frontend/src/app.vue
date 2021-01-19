@@ -92,6 +92,7 @@
 
 
 <script>
+import JSZip from 'jszip';
 import LoadingOverlay from 'vue3-loading-overlay';
 import { mapState } from 'vuex';
 
@@ -143,21 +144,22 @@ export default {
     updateReportZip(evt) {
       this.users = [];
 
-      window.JSZip.loadAsync(evt.target.files[0])
+      JSZip.loadAsync(evt.target.files[0])
           .then((zip) => {
             window.REPORT_ZIP = zip;
           }, () => {
             window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
           + 'by RepoSense.');
           })
-          .then(() => this.updateReportView().then(() => this.renderTabHash()));
+          .then(() => this.updateReportView()
+              .then((isSuccess) => isSuccess && this.renderTabHash()));
     },
     updateReportDir() {
       window.REPORT_ZIP = null;
 
       this.users = [];
       window.decodeHash();
-      this.updateReportView().then(() => this.renderTabHash());
+      this.updateReportView().then((isSuccess) => isSuccess && this.renderTabHash());
     },
     async updateReportView() {
       await window.api.loadSummary().then((names) => {
@@ -175,10 +177,12 @@ export default {
         this.$store.commit('incrementLoadingOverlayCount', -1);
         this.loadingOverlayOpacity = 0.5;
         this.getUsers();
+        return true;
       }).catch((error) => {
         this.userUpdated = false;
         this.$store.commit('incrementLoadingOverlayCount', -1);
         window.alert(error);
+        return false;
       });
     },
     getUsers() {
