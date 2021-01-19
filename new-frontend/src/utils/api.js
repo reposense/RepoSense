@@ -141,13 +141,11 @@ window.getGroupName = function getGroupName(group, filterGroupSelection) {
 
 window.api = {
   async loadJSON(fname) {
-    let txt = '';
     if (window.REPORT_ZIP) {
       const zipObject = window.REPORT_ZIP.file(fname.slice(2));
       if (zipObject) {
-        txt = await zipObject.async('text');
         try {
-          return JSON.parse(txt);
+          return JSON.parse(await zipObject.async('text'));
         } catch (e) {
           throw new Error('Json is invalid.');
         }
