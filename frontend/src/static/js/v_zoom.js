@@ -109,8 +109,10 @@ window.vZoom = {
 
   methods: {
     initiate() {
-      if (!this.info.zUser) { // restoring zoom tab from reloaded page
-        this.restoreZoomTab();
+      if (this.info.zUser) {
+        // This code should always run since zUser must be defined
+        this.updateFileTypes();
+        this.selectedFileTypes = this.fileTypes.slice();
       }
     },
 
@@ -131,11 +133,6 @@ window.vZoom = {
       if (el) {
         el.focus();
       }
-    },
-
-    restoreZoomTab() {
-      // restore selected user's commits and file type colors from v_summary
-      this.$root.$emit('restoreCommits', this.info);
     },
 
     updateFileTypes() {

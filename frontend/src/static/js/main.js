@@ -159,7 +159,7 @@ window.app = new window.Vue({
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
-        this.$store.commit('updateTabZoomInfo', zoomInfo);
+        this.$refs.summary.restoreZoomFiltered(zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
