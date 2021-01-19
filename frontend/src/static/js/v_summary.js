@@ -890,7 +890,7 @@ window.vSummary = {
       if (zIsMerge) {
         this.mergeGroupByIndex(filtered, 0);
       }
-      info.zUser = filtered[0][0];
+      [[info.zUser]] = filtered;
       info.zFileTypeColors = this.fileTypeColors;
       this.$store.commit('updateTabZoomInfo', info);
     },
