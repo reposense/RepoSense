@@ -12,6 +12,7 @@ ft_temp/
 *.zip
 
 build/
+frontend/build
 node_modules
 package-lock.json
 reposense-report/
