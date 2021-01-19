@@ -1,7 +1,5 @@
 /* global Vuex */
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
-const getNonRepeatingColor = window.utilsGetNonRepeatingColor;
-const sortFiltered = window.utilsSortFiltered;
 
 window.vSummary = {
   props: ['repos', 'errorMessages'],
@@ -364,7 +362,7 @@ window.vSummary = {
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
       this.getOptionWithOrder();
-      this.filtered = sortFiltered(this.filtered, filterControl);
+      this.filtered = window.utilsSortFiltered(this.filtered, filterControl);
     },
 
     updateMergedGroup(allGroupsMerged) {
@@ -477,7 +475,7 @@ window.vSummary = {
                 fileTypeColors[fileType] = selectedColors[i];
                 i += 1;
               } else {
-                fileTypeColors[fileType] = getNonRepeatingColor(Object.values(fileTypeColors));
+                fileTypeColors[fileType] = window.utilsGetNonRepeatingColor(Object.values(fileTypeColors));
               }
             }
             if (!this.fileTypes.includes(fileType)) {
