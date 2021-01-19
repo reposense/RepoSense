@@ -155,6 +155,7 @@ window.api = {
     }
     try {
       const response = await fetch(fname);
+      // Not directly returned in case response is not actually json.
       const json = await response.json();
       return json;
     } catch (e) {
