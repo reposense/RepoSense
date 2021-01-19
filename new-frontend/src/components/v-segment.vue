@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/_colors.scss";
+@import '../styles/_colors.scss';
 
 .segment {
   border-left: .25rem solid mui-color('green');

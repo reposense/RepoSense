@@ -1,0 +1,59 @@
+{
+  "name": "reposense",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/reposense/RepoSense.svg?branch=master)](https://travis-ci.org/reposense/RepoSense) [![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "lint": "eslint src/**/*.{js,vue} && stylelint ./src/**/*.{vue,scss}",
+    "lintfix": "eslint --fix src/**/*.{js,vue} && stylelint --fix ./src/**/*.{vue,scss}",
+    "vbuild": "vue-cli-service build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reposense/RepoSense.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reposense/RepoSense/issues"
+  },
+  "homepage": "https://github.com/reposense/RepoSense#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.34",
+    "@fortawesome/free-brands-svg-icons": "^5.15.2",
+    "@fortawesome/free-solid-svg-icons": "^5.15.2",
+    "@fortawesome/vue-fontawesome": "^3.0.0-3",
+    "core-js": "^3.6.5",
+    "highlight.js": "^10.5.0",
+    "minimatch": "^3.0.4",
+    "seedrandom": "^3.0.5",
+    "vue": "^3.0.0",
+    "vue3-loading-overlay": "0.0.0",
+    "vuex": "^4.0.0-rc.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-vue": "^7.4.1",
+    "node-sass": "^5.0.0",
+    "pug": "^3.0.0",
+    "pug-plain-loader": "^1.1.0",
+    "sass": "^1.32.4",
+    "sass-loader": "^10.1.1",
+    "stylelint": "^10.1.0",
+    "stylelint-config-recommended-scss": "^4.2.0",
+    "stylelint-order": "^3.0.1",
+    "stylelint-scss": "^3.18.0",
+    "stylelint-webpack-plugin": "^2.1.1"
+  }
+}

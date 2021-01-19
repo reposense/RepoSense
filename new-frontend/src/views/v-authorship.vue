@@ -541,7 +541,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../styles/_colors.scss";
+@import '../styles/_colors.scss';
 
 /* Authorship */
 #tab-authorship {
