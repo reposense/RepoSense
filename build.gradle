@@ -179,6 +179,20 @@ String getRepoSenseVersion() {
     return repoSenseVersion
 }
 
+// New Frontend Tasks
+task copyNewFrontend(type: Copy) {
+    from 'new-frontend/build'
+    into 'new-reposense-report'
+    includes = ['css', 'js', 'index.html', 'favicon.ico']
+}
+
+task copyGeneratedJson(type: Copy) {
+    from 'reposense-report'
+    into 'new-reposense-report'
+    include '**/*.json'
+}
+// End of New Frontend Tasks
+
 jacocoTestReport.executionData(systemtest)
 jacocoTestReport.executionData(frontendTest)
 
