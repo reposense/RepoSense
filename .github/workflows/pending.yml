@@ -1,0 +1,39 @@
+# This workflow marks a deployment to surge.sh as pending
+
+name: Surge.sh pending build
+
+on:
+  pull_request_target:
+    branches-ignore:
+      - gh-pages
+
+jobs:
+  deploy:
+    name: Deployment status
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+      ACTIONS_PULL_REQUEST_NUMBER: ${{ github.event.number }}
+      GITHUB_TOKEN: ${{ github.token }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Update PR checklist for surge.sh as queued
+      run: |
+        mkdir -p ./pr
+        ./config/gh-actions/deploy.sh queued
+
+    - name: Upload artifacts
+      if: ${{ success() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: reposense-deployment-id
+        path: ./pr
+
+    - name: Update PR checklist for surge.sh as failure
+      if: ${{ failure() }}
+      run: ./config/gh-actions/deploy.sh failure
