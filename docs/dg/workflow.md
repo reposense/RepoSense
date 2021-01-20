@@ -18,7 +18,7 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 * As we squash the commits when merging a PR, there is ==no need to follow a strict commit organization or write elaborate commit messages for each commit==.<br>
   However, when pushing new commits to your PR branch, do clean up _new_ commits (i.e., commits not yet pushed) e.g., delete temporary print statements added for debugging purposes.
 * In the PR description, please propose a commit message to be used when the PR is merged eventually. The commit message should follow the guidelines given [here](https://se-education.org/guides/guidelines/PRs.html). You may refer to [this PR](https://github.com/reposense/RepoSense/pull/1057) for an example.
-*  For simple documentation fixes or tasks with clear instructions, it is not necessary to create an issue before creating a PR.
+*  For simple documentation fixes or tasks with clear instructions, it is unnecessary to create an issue before creating a PR.
 * You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) sections to learn about the design and implementation of RepoSense. 
 * The section below has more information about the various stages of submitting a PR.
 
