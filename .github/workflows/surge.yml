@@ -34,15 +34,6 @@ jobs:
       with:
         workflow: integration.yml
         workflow_conclusion: success
-        name: reposense-deployment
-        path: .
-
-    - name: Download deployment status artifacts
-      uses: dawidd6/action-download-artifact@v2
-      with:
-        workflow: integration.yml
-        workflow_conclusion: success
-        name: reposense-deployment-id
         path: .
 
     - name: Update PR checklist for surge.sh as in progress
