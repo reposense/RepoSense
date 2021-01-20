@@ -36,6 +36,12 @@ jobs:
         name: reposense-report-docs
         path: .
 
+    - name: Update PR checklist for surge.sh as in progress
+      if: ${{ success() }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      run: ./config/gh-actions/deploy-surge.sh in_progress
+
     - name: Install surge
       if: ${{ success() }}
       run: npm install -g surge
@@ -47,3 +53,9 @@ jobs:
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
         GITHUB_TOKEN: ${{ github.token }}
       run: ./config/gh-actions/deploy-surge.sh success
+
+    - name: Update PR checklist for surge.sh as failure
+      if: ${{ failure() }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      run: ./config/gh-actions/deploy-surge.sh failure

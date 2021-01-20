@@ -17,10 +17,10 @@ then
   echo "ERROR: This script requires a status supplied as the first parameter"
   echo "Available values: failure, pending, success"
   exit 1
-elif [ "$ACTIONS_STATUS" != "failure" ] && [ "$ACTIONS_STATUS" != "pending" ] && [ "$ACTIONS_STATUS" != "success" ]
+elif [ "$ACTIONS_STATUS" != "failure" ] && [ "$ACTIONS_STATUS" != "in_progress" ] && [ "$ACTIONS_STATUS" != "queued" ] && [ "$ACTIONS_STATUS" != "success" ]
 then
   echo "ERROR: The status supplied is not a valid status"
-  echo "Available values: failure, pending, success"
+  echo "Available values: failure, in_progress, queued, success"
   exit 1
 fi
 
@@ -30,18 +30,40 @@ then
   exit 1
 fi
 
-# Function to update GitHub commit status via a cURL command
-# $1: Type of status to update (can be dashboard or docs)
-# $2: Status (can be failure, pending or success)
-# $3: Description
-# $4: Target URL
-update_status() {
-  ACTIONS_STATUS_CONTEXT="$1/surge/deploy/${DEPLOY_SUBDOMAIN}"
-
-  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/statuses/${ACTIONS_PULL_REQUEST_HEAD}?access_token=${GITHUB_TOKEN}" \
+# Function to create a deployment via a cURL command, then using Python to
+# parse the JSON output to obtain the deployment ID.
+# $1: Type of deployment to create (can be dashboard or docs)
+# $2: Description of the deployment
+# Returns the deployment ID that was created.
+create_deployment() {
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments" \
   -H "Content-Type: application/json" \
+  -H "Authorization: token ${GITHUB_TOKEN}" \
   -X POST \
-  -d "{\"state\": \"$2\",\"context\": \"${ACTIONS_STATUS_CONTEXT}\", \"description\": \"$3\", \"target_url\": \"$4\"}"
+  -d "{\"ref\": \"${ACTIONS_PULL_REQUEST_HEAD}\",\"auto_merge\": false, \"required_contexts\": [], \"environment\": \"$1\", \"description\": \"$2\"}" | \
+  python3 -c "import sys, json; print(json.load(sys.stdin)['id'])"
+}
+
+# Function to update GitHub deployment status via a cURL command
+# $1: The deployment ID to update the status for
+# $2: Status (can be failure, in_progress, queued or success)
+# $3: Description of the deployment status
+# $4: Type of deployment (can be dashboard or docs)
+# $5: URL for accessing the deployment (optional)
+update_deployment() {
+  if [ -z "$5" ]
+  then
+    ACTIONS_ENVIRONMENT_URL=""
+  else
+    ACTIONS_ENVIRONMENT_URL=$5
+  fi
+
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1/statuses" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: token ${GITHUB_TOKEN}" \
+  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
+  -X POST \
+  -d "{\"state\": \"$2\",\"description\": \"$3\", \"log_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\", \"environment\": \"$4\", \"environment_url\": \"$5\"}"
 }
 
 # Split on "/", ref: http://stackoverflow.com/a/5257398/689223
@@ -58,6 +80,12 @@ then
   ACTIONS_DEPLOY="true"
   ACTIONS_PULL_REQUEST_HEAD=$(cat ./pr/SHA)
   ACTIONS_PULL_REQUEST_NUMBER=$(cat ./pr/NUMBER)
+fi
+
+if [ -e "./pr/DASHBOARD_ID" ] && [ -e "./pr/DOCS_ID" ]
+then
+  ACTIONS_DASHBOARD_ID=$(cat ./pr/DASHBOARD_ID)
+  ACTIONS_DOCS_ID=$(cat ./pr/DOCS_ID)
 fi
 
 DEPLOY_SUBDOMAIN_UNFORMATTED_LIST=()
@@ -80,13 +108,24 @@ do
   if [ "$ACTIONS_STATUS" == "failure" ]
   then
     # Update GitHub status to failed
-    update_status "dashboard" "failure" "Dashboard deploy failed" "${ACTIONS_WORKFLOW_RUN_URL}"
-    update_status "docs" "failure" "Docs deploy failed" "${ACTIONS_WORKFLOW_RUN_URL}"
-  elif [ "$ACTIONS_STATUS" == "pending" ]
+    update_deployment "${ACTIONS_DASHBOARD_ID}" "failure" "Dashboard deploy failed" "dashboard"
+    update_deployment "${ACTIONS_DOCS_ID}" "failure" "Docs deploy failed" "docs"
+  elif [ "$ACTIONS_STATUS" == "in_progress" ]
   then
-    # Set GitHub status to pending so that reviewers know that it is part of the checklist
-    update_status "dashboard" "pending" "Dashboard deployment in progress..." "${ACTIONS_WORKFLOW_RUN_URL}"
-    update_status "docs" "pending" "Docs deployment in progress..." "${ACTIONS_WORKFLOW_RUN_URL}"
+    # Set GitHub status to in_progress to indicate that deployment is in progress
+    update_deployment "${ACTIONS_DASHBOARD_ID}" "in_progress" "Dashboard deployment in progress..." "dashboard"
+    update_deployment "${ACTIONS_DOCS_ID}" "in_progress" "Docs deployment in progress..." "docs"
+  elif [ "$ACTIONS_STATUS" == "queued" ]
+  then
+    # Set GitHub status to queued so that reviewers know that it is part of the checklist
+    ACTIONS_DASHBOARD_ID=$(create_deployment "dashboard" "RepoSense dashboard preview")
+    ACTIONS_DOCS_ID=$(create_deployment "docs" "RepoSense documentation preview")
+
+    update_deployment "${ACTIONS_DASHBOARD_ID}" "queued" "Dashboard queued for deployment" "dashboard"
+    update_deployment "${ACTIONS_DOCS_ID}" "queued" "Docs queued for deployment" "docs"
+
+    echo "$ACTIONS_DASHBOARD_ID" > ./pr/DASHBOARD_ID
+    echo "$ACTIONS_DOCS_ID" > ./pr/DOCS_ID
   elif [ "$ACTIONS_STATUS" == "success" ] && [ "$ACTIONS_DEPLOY" == "true" ]
   then
     DASHBOARD_DEPLOY_DOMAIN=https://dashboard-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
@@ -98,7 +137,7 @@ do
     surge --project ${MARKBIND_DEPLOY_PATH} --domain $MARKBIND_DEPLOY_DOMAIN;
 
     # Create github statuses that redirects users to the deployed dashboard and markbind docs
-    update_status "dashboard" "success" "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}" "${DASHBOARD_DEPLOY_DOMAIN}"
-    update_status "docs" "success" "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}" "${MARKBIND_DEPLOY_DOMAIN}"
+    update_deployment "${ACTIONS_DASHBOARD_ID}" "success" "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}" "dashboard" "${DASHBOARD_DEPLOY_DOMAIN}"
+    update_deployment "${ACTIONS_DOCS_ID}" "success" "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}" "docs" "${MARKBIND_DEPLOY_DOMAIN}"
   fi
 done
