@@ -86,6 +86,7 @@ jobs:
     - name: Save PR number and HEAD commit (pull request)
       if: ${{ success() && github.event_name == 'pull_request' }}
       run: |
+        mkdir -p ./pr
         echo ${{ github.event.number }} > ./pr/NUMBER
         echo ${{ github.event.pull_request.head.sha }} > ./pr/SHA
 
