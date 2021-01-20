@@ -6,13 +6,11 @@ function getGroupCommitsVariance(total, group) {
   return total + group.variance;
 }
 
-// function getGroupCommitsVariance(sortingOption) {
-//   return function (total, group) {
-//     if (sortingOption === 'totalCommits') {
-//       return total + group.checkedFileTypeContribution;
-//     }
-//     return total + group[sortingOption];
-//   };
+// function getGroupCommitsVariance(total, group) {
+//   if (this.sortingOption === 'totalCommits') {
+//     return total + group.checkedFileTypeContribution;
+//   }
+//   return total + group[this.sortingOption];
 // }
 
 function sortingHelper(element, sortingOption) {
