@@ -24,9 +24,9 @@ then
   exit 1
 fi
 
-if [ "$GITHUB_EVENT_NAME" != "workflow_run" ] && [ "$GITHUB_EVENT_NAME" != "pull_request" ]
+if [ "$GITHUB_EVENT_NAME" != "workflow_run" ] && [ "$GITHUB_EVENT_NAME" != "pull_request" ] && [ "$GITHUB_EVENT_NAME" != "pull_request_target" ]
 then
-  echo "ERROR: This script is intended to be run for either the pull_request or workflow_run workflows only!"
+  echo "ERROR: This script is intended to be run for either the pull_request, pull_request_target or workflow_run workflows only!"
   exit 1
 fi
 
@@ -108,8 +108,8 @@ do
   if [ "$ACTIONS_STATUS" == "failure" ]
   then
     # Update GitHub status to failed
-    update_deployment "${ACTIONS_DASHBOARD_ID}" "failure" "Dashboard deploy failed" "dashboard"
-    update_deployment "${ACTIONS_DOCS_ID}" "failure" "Docs deploy failed" "docs"
+    update_deployment "${ACTIONS_DASHBOARD_ID}" "failure" "Dashboard deploy failed" "dashboard" "${ACTIONS_WORKFLOW_RUN_URL}"
+    update_deployment "${ACTIONS_DOCS_ID}" "failure" "Docs deploy failed" "docs" "${ACTIONS_WORKFLOW_RUN_URL}"
   elif [ "$ACTIONS_STATUS" == "in_progress" ]
   then
     # Set GitHub status to in_progress to indicate that deployment is in progress

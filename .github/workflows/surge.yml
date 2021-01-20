@@ -16,6 +16,7 @@ jobs:
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     env:
       NODE_VERSION: "lts/*"
+      GITHUB_TOKEN: ${{ github.token }}
 
     steps:
     - name: Checkout repository
@@ -28,19 +29,25 @@ jobs:
       with:
         node-version: '12.x'
 
-    - name: Download workflow artifacts
+    - name: Download deployment artifacts
       uses: dawidd6/action-download-artifact@v2
       with:
         workflow: integration.yml
         workflow_conclusion: success
-        name: reposense-report-docs
+        name: reposense-deployment
+        path: .
+
+    - name: Download deployment status artifacts
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: integration.yml
+        workflow_conclusion: success
+        name: reposense-deployment-id
         path: .
 
     - name: Update PR checklist for surge.sh as in progress
       if: ${{ success() }}
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      run: ./config/gh-actions/deploy-surge.sh in_progress
+      run: ./config/gh-actions/deploy.sh in_progress
 
     - name: Install surge
       if: ${{ success() }}
@@ -51,11 +58,8 @@ jobs:
       env:
         SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
         SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
-        GITHUB_TOKEN: ${{ github.token }}
-      run: ./config/gh-actions/deploy-surge.sh success
+      run: ./config/gh-actions/deploy.sh success
 
     - name: Update PR checklist for surge.sh as failure
       if: ${{ failure() }}
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-      run: ./config/gh-actions/deploy-surge.sh failure
+      run: ./config/gh-actions/deploy.sh failure

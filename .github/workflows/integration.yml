@@ -9,11 +9,15 @@ on:
   pull_request:
     branches-ignore:
       - gh-pages
+  pull_request_target:
+    branches-ignore:
+      - gh-pages
 
 jobs:
   ubuntu-1604:
     name: Ubuntu 16.04 JDK 8
     runs-on: ubuntu-16.04
+    if: ${{ github.event_name != 'pull_request_target' }}
     env:
       NODE_VERSION: "lts/*"
 
@@ -31,7 +35,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       run: |
         mkdir -p ./pr
-        ./config/gh-actions/deploy-surge.sh queued
+        ./config/gh-actions/deploy.sh queued
 
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
@@ -99,7 +103,7 @@ jobs:
       if: ${{ success() && github.event_name == 'pull_request' }}
       uses: actions/upload-artifact@v2
       with:
-        name: reposense-report-docs
+        name: reposense-deployment
         path: |
           ./reposense-report
           ./docs/_site
@@ -111,10 +115,11 @@ jobs:
         ACTIONS_PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
         ACTIONS_PULL_REQUEST_NUMBER: ${{ github.event.number }}
         GITHUB_TOKEN: ${{ github.token }}
-      run: ./config/gh-actions/deploy-surge.sh failure
+      run: ./config/gh-actions/deploy.sh failure
 
   macos-1015:
     name: macOS 10.15 JDK 8
+    if: ${{ github.event_name != 'pull_request_target' }}
     runs-on: macos-10.15
     env:
       HOMEBREW_NO_AUTO_UPDATE: 1 # Prevent time-consuming brew update
@@ -172,6 +177,7 @@ jobs:
 
   cypress:
     name: Cypress frontend tests
+    if: ${{ github.event_name != 'pull_request_target' }}
     runs-on: ubuntu-18.04
 
     steps:
@@ -231,3 +237,34 @@ jobs:
 
     - name: Run frontend tests
       run: ./gradlew frontendTest -Pci
+
+  deploy:
+    name: Deployment status
+    if: ${{ github.event_name == 'pull_request_target' }}
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+      ACTIONS_PULL_REQUEST_NUMBER: ${{ github.event.number }}
+      GITHUB_TOKEN: ${{ github.token }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Update PR checklist for surge.sh as queued
+      run: |
+        mkdir -p ./pr
+        ./config/gh-actions/deploy.sh queued
+
+    - name: Upload artifacts
+      if: ${{ success() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: reposense-deployment-id
+        path: ./pr
+
+    - name: Update PR checklist for surge.sh as failure
+      if: ${{ failure() }}
+      run: ./config/gh-actions/deploy.sh failure
