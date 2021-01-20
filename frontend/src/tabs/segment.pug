@@ -11,11 +11,10 @@
       icon="chevron-circle-down",
       v-bind:title="'Click to hide code'"
     )
-  template(v-if="isLoaded")
-    div(v-show="isOpen", v-hljs="path")
-      .code(v-for="(line, index) in segment.lines", v-bind:key="index")
-        .line-number {{ segment.lineNumbers[index] + "\n" }}
-        .line-content {{ line + "\n" }}
+  div(v-if="isOpen", v-hljs="path")
+    .code(v-for="(line, index) in segment.lines", v-bind:key="index")
+      .line-number {{ segment.lineNumbers[index] + "\n" }}
+      .line-content {{ line + "\n" }}
   .closer.bottom(v-if="hasCloser", v-on:click="toggleCode")
     font-awesome-icon.icon(
       v-show="isOpen",
