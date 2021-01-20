@@ -79,13 +79,6 @@ jobs:
         npm install -g markbind-cli
         (cd docs && markbind build)
 
-    - name: Save PR number and HEAD commit (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' }}
-      run: |
-        mkdir -p ./pr
-        echo ${{ github.event.number }} > ./pr/NUMBER
-        echo ${{ github.event.pull_request.head.sha }} > ./pr/SHA
-
     - name: Upload artifacts (pull request)
       if: ${{ success() && github.event_name == 'pull_request' }}
       uses: actions/upload-artifact@v2

@@ -22,10 +22,14 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Update PR checklist for surge.sh as queued
+    - name: Save PR number and HEAD commit
       run: |
         mkdir -p ./pr
-        ./config/gh-actions/deploy.sh queued
+        echo ${{ github.event.number }} > ./pr/NUMBER
+        echo ${{ github.event.pull_request.head.sha }} > ./pr/SHA
+
+    - name: Update PR checklist for surge.sh as pending
+      run: ./config/gh-actions/deploy.sh pending
 
     - name: Upload artifacts
       if: ${{ success() }}
