@@ -46,7 +46,7 @@ create_deployment() {
 
 # Function to update GitHub deployment status via a cURL command
 # $1: The deployment ID to update the status for
-# $2: Status (can be failure, in_progress, queued or success)
+# $2: Status (can be failure, in_progress or success)
 # $3: Description of the deployment status
 # $4: Type of deployment (can be dashboard or docs)
 # $5: URL for accessing the deployment (optional)
@@ -120,9 +120,6 @@ do
     # Set GitHub status to queued so that reviewers know that it is part of the checklist
     ACTIONS_DASHBOARD_ID=$(create_deployment "dashboard" "RepoSense dashboard preview")
     ACTIONS_DOCS_ID=$(create_deployment "docs" "RepoSense documentation preview")
-
-    update_deployment "${ACTIONS_DASHBOARD_ID}" "queued" "Dashboard queued for deployment" "dashboard"
-    update_deployment "${ACTIONS_DOCS_ID}" "queued" "Docs queued for deployment" "docs"
 
     echo "$ACTIONS_DASHBOARD_ID" > ./pr/DASHBOARD_ID
     echo "$ACTIONS_DOCS_ID" > ./pr/DOCS_ID
