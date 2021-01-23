@@ -23,7 +23,7 @@ opt files not in cache
 authorship -> api : loadAuthorship()
 activate api
 
-api --> authorship : "authorship.json"
+api --> authorship: "authorship.json"
 deactivate api
 
 end

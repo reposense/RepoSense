@@ -19,7 +19,7 @@ v_zoom -> v_ramp
 main -down-> v_authorship
 v_authorship -down-> v_segment
 
-api -down--> main : "summary.json"
-api -down-> v_summary : "projectName/commits.json"
-api -down-> v_authorship : "projectName/authorship.json"
+api -down--> main : summary.json
+api -down-> v_summary : projectName/commits.json
+api -down-> v_authorship : projectName/authorship.json
 @enduml
