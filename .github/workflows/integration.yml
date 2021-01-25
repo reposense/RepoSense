@@ -80,6 +80,7 @@ jobs:
         (cd docs && markbind build)
 
     - name: Save PR number and HEAD commit
+      if: ${{ success() && github.event_name == 'pull_request' }}
       run: |
         mkdir -p ./pr
         echo ${{ github.event.number }} > ./pr/NUMBER
