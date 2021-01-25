@@ -33,14 +33,19 @@ jobs:
       uses: dawidd6/action-download-artifact@v2
       with:
         workflow: integration.yml
-        workflow_conclusion: success
+        run_id: ${{ github.event.workflow_run.id }}
         name: reposense-deployment
         path: .
+
+    - name: Extract PR number
+      id: pr-number
+      run: echo '::set-output name=ACTIONS_PR_NUMBER::$(cat ./pr/NUMBER)'
 
     - name: Download deployment status artifacts
       uses: dawidd6/action-download-artifact@v2
       with:
         workflow: pending.yml
+        pr: ${{ steps.pr-number.outputs.ACTIONS_PR_NUMBER }}
         workflow_conclusion: success
         name: reposense-deployment-id
         path: ./pr
