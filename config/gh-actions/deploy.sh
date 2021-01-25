@@ -63,7 +63,7 @@ update_deployment() {
   -H "Authorization: token ${GITHUB_TOKEN}" \
   -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
   -X POST \
-  -d "{\"state\": \"$2\",\"description\": \"$3\", \"log_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\", \"environment\": \"$4\", \"environment_url\": \"$5\"}"
+  -d "{\"state\": \"$2\",\"description\": \"$3\", \"log_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\", \"environment\": \"$4\", \"environment_url\": \"$5\", \"auto_inactive\": false}"
 }
 
 # Split on "/", ref: http://stackoverflow.com/a/5257398/689223
