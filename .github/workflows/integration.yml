@@ -79,7 +79,7 @@ jobs:
         npm install -g markbind-cli
         (cd docs && markbind build)
 
-    - name: Save PR number and HEAD commit
+    - name: Save PR number and HEAD commit (pull request)
       if: ${{ success() && github.event_name == 'pull_request' }}
       run: |
         mkdir -p ./pr

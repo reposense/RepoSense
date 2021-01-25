@@ -63,7 +63,7 @@ update_deployment() {
   -H "Authorization: token ${GITHUB_TOKEN}" \
   -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
   -X POST \
-  -d "{\"state\": \"$2\",\"description\": \"$3\", \"log_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\", \"environment\": \"$4\", \"environment_url\": \"$5\", \"auto_inactive\": false}"
+  -d "{\"state\": \"$2\",\"description\": \"$3\", \"log_url\": \"${ACTIONS_WORKFLOW_RUN_URL}\", \"environment\": \"$4\", \"environment_url\": \"$5\"}"
 }
 
 # Split on "/", ref: http://stackoverflow.com/a/5257398/689223
@@ -83,6 +83,9 @@ then
   ACTIONS_DASHBOARD_ID=$(cat ./pr/DASHBOARD_ID)
   ACTIONS_DOCS_ID=$(cat ./pr/DOCS_ID)
 fi
+
+ACTIONS_DASHBOARD_ENV="dashboard-${ACTIONS_PULL_REQUEST_NUMBER}"
+ACTIONS_DOCS_ENV="docs-${ACTIONS_PULL_REQUEST_NUMBER}"
 
 DEPLOY_SUBDOMAIN_UNFORMATTED_LIST=()
 DEPLOY_SUBDOMAIN_UNFORMATTED_LIST+=(${ACTIONS_PULL_REQUEST_NUMBER}-pr)
@@ -104,18 +107,18 @@ do
   if [ "$ACTIONS_STATUS" == "failure" ]
   then
     # Update GitHub status to failed
-    update_deployment "${ACTIONS_DASHBOARD_ID}" "failure" "Dashboard deploy failed" "dashboard" "${ACTIONS_WORKFLOW_RUN_URL}"
-    update_deployment "${ACTIONS_DOCS_ID}" "failure" "Docs deploy failed" "docs" "${ACTIONS_WORKFLOW_RUN_URL}"
+    update_deployment "${ACTIONS_DASHBOARD_ID}" "failure" "Dashboard deploy failed" "${ACTIONS_DASHBOARD_ENV}" "${ACTIONS_WORKFLOW_RUN_URL}"
+    update_deployment "${ACTIONS_DOCS_ID}" "failure" "Docs deploy failed" "${ACTIONS_DOCS_ENV}" "${ACTIONS_WORKFLOW_RUN_URL}"
   elif [ "$ACTIONS_STATUS" == "in_progress" ]
   then
     # Set GitHub status to in_progress to indicate that deployment is in progress
-    update_deployment "${ACTIONS_DASHBOARD_ID}" "in_progress" "Dashboard deployment in progress..." "dashboard"
-    update_deployment "${ACTIONS_DOCS_ID}" "in_progress" "Docs deployment in progress..." "docs"
+    update_deployment "${ACTIONS_DASHBOARD_ID}" "in_progress" "Dashboard deployment in progress..." "${ACTIONS_DASHBOARD_ENV}"
+    update_deployment "${ACTIONS_DOCS_ID}" "in_progress" "Docs deployment in progress..." "${ACTIONS_DOCS_ENV}"
   elif [ "$ACTIONS_STATUS" == "pending" ]
   then
     # Set GitHub status to pending so that reviewers know that it is part of the checklist
-    ACTIONS_DASHBOARD_ID=$(create_deployment "dashboard" "RepoSense dashboard preview")
-    ACTIONS_DOCS_ID=$(create_deployment "docs" "RepoSense documentation preview")
+    ACTIONS_DASHBOARD_ID=$(create_deployment "${ACTIONS_DASHBOARD_ENV}" "RepoSense dashboard preview")
+    ACTIONS_DOCS_ID=$(create_deployment "${ACTIONS_DOCS_ENV}" "RepoSense documentation preview")
 
     echo "$ACTIONS_DASHBOARD_ID" > ./pr/DASHBOARD_ID
     echo "$ACTIONS_DOCS_ID" > ./pr/DOCS_ID
@@ -130,7 +133,7 @@ do
     surge --project ${MARKBIND_DEPLOY_PATH} --domain $MARKBIND_DEPLOY_DOMAIN;
 
     # Create github statuses that redirects users to the deployed dashboard and markbind docs
-    update_deployment "${ACTIONS_DASHBOARD_ID}" "success" "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}" "dashboard" "${DASHBOARD_DEPLOY_DOMAIN}"
-    update_deployment "${ACTIONS_DOCS_ID}" "success" "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}" "docs" "${MARKBIND_DEPLOY_DOMAIN}"
+    update_deployment "${ACTIONS_DASHBOARD_ID}" "success" "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}" "${ACTIONS_DASHBOARD_ENV}" "${DASHBOARD_DEPLOY_DOMAIN}"
+    update_deployment "${ACTIONS_DOCS_ID}" "success" "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}" "${ACTIONS_DOCS_ENV}" "${MARKBIND_DEPLOY_DOMAIN}"
   fi
 done
