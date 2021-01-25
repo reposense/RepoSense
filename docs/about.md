@@ -7,6 +7,8 @@
 
 RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a _Teaching Enhancement Grant_ from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
 
+This sentence is extra.
+
 <!-- ==================================================================================================== -->
 
 ## Current team
@@ -105,7 +107,7 @@ Committer [2018 May - 2018 Aug]<br/>
 
 ### [Teng Yong Hao](https://github.com/yong24s)
 ![](https://avatars2.githubusercontent.com/u/2003406?s=150&v=4)<br/>
-**Role**: 
+**Role**:
 Mentor [2018 Dec - 2020 May]<br/>
 Committer [2018 Aug - 2018 Dec]<br/>
 Contributor [2018 May - 2018 Aug]<br/>
