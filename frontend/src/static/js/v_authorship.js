@@ -265,8 +265,7 @@ window.vAuthorship = {
             out.segments = segmentInfo.segments;
             out.blankLineCount = segmentInfo.blankLineCount;
 
-            this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
-              fileTypeBlanksInfoObj);
+            this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount, fileTypeBlanksInfoObj);
           }
 
           res.push(out);
