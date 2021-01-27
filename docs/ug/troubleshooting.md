@@ -33,12 +33,9 @@ Ensure that you have committed the changes to your standalone config file first 
 ### RepoSense fails on Windows (but works on Linux/Mac OS)
 
 It is possible you may have some file names with [special characters](https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#naming-conventions) in them, which is disallowed in Windows OS. As such, *RepoSense* is unable to fully clone your repository, thus failing the analysis.
-<<<<<<< HEAD
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### Some files are not captured by RepoSense
+### Some file types are not shown in the file type filter even if I have included them in the file formats when generating the report
 
-The files may be [binary files](https://en.wikipedia.org/wiki/Binary_file). *RepoSense* does not analyze binary files. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
-=======
->>>>>>> 25c0d4d4837f8799a417fabefc47a02c849f56cc
+The files of these types may be [binary files](https://en.wikipedia.org/wiki/Binary_file). *RepoSense* will group binary files under one single file type `Binary`. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).

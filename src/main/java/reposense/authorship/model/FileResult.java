@@ -42,10 +42,6 @@ public class FileResult {
         return isBinary != null;
     }
 
-    public void setBinary(boolean binary) {
-        isBinary = binary;
-    }
-
     public List<LineInfo> getLines() {
         return lines;
     }

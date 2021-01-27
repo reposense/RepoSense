@@ -6,12 +6,9 @@ import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
-<<<<<<< HEAD
-=======
+
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TimeZone;
->>>>>>> 25c0d4d4837f8799a417fabefc47a02c849f56cc
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
