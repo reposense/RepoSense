@@ -141,8 +141,8 @@ The last modified dates will be in the same timezone specified with the `--timez
   * `--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar`: analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
 
 <box type="info" seamless>
- 
-Cannot be used with `--repos`.
+
+Cannot be used with `--config`.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
