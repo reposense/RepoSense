@@ -152,13 +152,13 @@ export default {
           + 'by RepoSense.');
           })
           .then(() => this.updateReportView()
-              .then((isSuccess) => isSuccess && this.renderTabHash()));
+              .then(() => this.renderTabHash()));
     },
     updateReportDir() {
       window.REPORT_ZIP = null;
 
       this.users = [];
-      this.updateReportView().then((isSuccess) => isSuccess && this.renderTabHash());
+      this.updateReportView().then(() => this.renderTabHash());
     },
     async updateReportView() {
       await window.api.loadSummary().then((names) => {
@@ -176,12 +176,10 @@ export default {
         this.$store.commit('incrementLoadingOverlayCount', -1);
         this.loadingOverlayOpacity = 0.5;
         this.getUsers();
-        return true;
       }).catch((error) => {
         this.userUpdated = false;
         this.$store.commit('incrementLoadingOverlayCount', -1);
         window.alert(error);
-        return false;
       });
     },
     getUsers() {
