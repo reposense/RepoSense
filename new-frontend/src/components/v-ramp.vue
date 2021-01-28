@@ -19,19 +19,19 @@
         )
 
   template(v-else)
-    template(v-for="(commit, k) in user.commits", vbind:key="commit.hash")
-    a.ramp__slice(
-      draggable="false",
-      v-if="slice.insertions > 0",
-      v-bind:title="getContributionMessage(slice)",
-      v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
-      v-bind:style="{\
-        zIndex: user.commits.length - j,\
-        borderLeftWidth: getWidth(slice) + 'em',\
-        right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%' \
-        }"
-    )
+    template(v-for="(slice, j) in user.commits", vbind:key="slice.commitResults[0].hash")
+      a.ramp__slice(
+        draggable="false",
+        v-if="slice.insertions > 0",
+        v-bind:title="getContributionMessage(slice)",
+        v-on:click="openTabZoom(user, slice, $event)",
+        v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
+        v-bind:style="{\
+          zIndex: user.commits.length - j,\
+          borderLeftWidth: getWidth(slice) + 'em',\
+          right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%' \
+          }"
+      )
 </template>
 
 <script>
