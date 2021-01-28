@@ -421,7 +421,6 @@ export default {
         const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
-      window.decodeHash();
     },
 
     getDates() {

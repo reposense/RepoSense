@@ -158,7 +158,6 @@ export default {
       window.REPORT_ZIP = null;
 
       this.users = [];
-      window.decodeHash();
       this.updateReportView().then((isSuccess) => isSuccess && this.renderTabHash());
     },
     async updateReportView() {
@@ -339,6 +338,7 @@ export default {
     vAuthorship,
   },
   created() {
+    window.decodeHash();
     this.updateReportDir();
   },
 };

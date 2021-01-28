@@ -183,7 +183,6 @@ export default {
 
   methods: {
     retrieveHashes() {
-      window.decodeHash();
       const hash = window.hashParams;
 
       switch (hash.authorshipSortBy) {
