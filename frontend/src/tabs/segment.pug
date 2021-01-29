@@ -1,5 +1,5 @@
 .segment(v-bind:class="{ untouched: !segment.authored, active: isOpen }")
-  .closer(v-if="hasCloser",
+  .closer(v-if="canOpen",
     v-on:click="toggleCode", ref="topButton")
     font-awesome-icon.icon(
       v-show="!isOpen",
@@ -15,7 +15,7 @@
     .code(v-for="(line, index) in segment.lines", v-bind:key="index")
       .line-number {{ segment.lineNumbers[index] + "\n" }}
       .line-content {{ line + "\n" }}
-  .closer.bottom(v-if="hasCloser", v-on:click="toggleCode")
+  .closer.bottom(v-if="canOpen", v-on:click="toggleCode")
     font-awesome-icon.icon(
       v-show="isOpen",
       icon="chevron-circle-up",
