@@ -297,8 +297,8 @@ export default {
   },
 
   created() {
-    this.processFileTypes();
     this.renderFilterHash();
+    this.processFileTypes();
     this.getFiltered();
   },
 
