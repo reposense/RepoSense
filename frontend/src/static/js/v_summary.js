@@ -87,7 +87,7 @@ window.vSummary = {
       this.getFiltered();
     },
 
-    '$store.state.summaryDates': function () {
+    '$store.state.summaryDates': function storeStateSummaryDates() {
       this.hasModifiedSinceDate = true;
       this.hasModifiedUntilDate = true;
       this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
