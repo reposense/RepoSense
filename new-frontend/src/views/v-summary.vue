@@ -13,7 +13,7 @@
           option(value="groupByAuthors") Author
         label group by
       .mui-select.sort-group
-        select(v-model="sortGroupSelection")
+        select(v-model="sortGroupSelection", v-on:change="getFiltered")
           option(value="groupTitle") &uarr; group title
           option(value="groupTitle dsc") &darr; group title
           option(value="totalCommits") &uarr; contribution
@@ -24,7 +24,8 @@
       .mui-select.sort-within-group
         select(
           v-model="sortWithinGroupSelection",
-          v-bind:disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged"
+          v-bind:disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged",
+          v-on:change="getFiltered"
         )
           option(value="title") &uarr; title
           option(value="title dsc") &darr; title
@@ -34,7 +35,7 @@
           option(value="variance dsc") &darr; variance
         label sort within groups by
       .mui-select.granularity
-        select(v-model="filterTimeFrame")
+        select(v-model="filterTimeFrame", v-on:change="getFiltered")
           option(value="commit") Commit
           option(value="day") Day
           option(value="week") Week
@@ -61,8 +62,11 @@
         a(v-on:click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
         label.filter-breakdown
-          input.mui-checkbox(type="checkbox", v-model="filterBreakdown",
-            v-on:change="setSummaryHash()")
+          input.mui-checkbox(
+            type="checkbox",
+            v-model="filterBreakdown",
+            v-on:change="getFiltered"
+          )
           span breakdown by file type
         label.merge-group(
           v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
@@ -111,7 +115,8 @@
             type="checkbox",
             v-bind:id="fileType",
             v-bind:value="fileType",
-            v-model="checkedFileTypes"
+            v-model="checkedFileTypes",
+            v-on:change="getFiltered"
           )
           span {{ fileType }}
   v-summary-charts(
@@ -232,24 +237,6 @@ export default {
   },
 
   watch: {
-    checkedFileTypes() {
-      this.getFiltered();
-    },
-    filterBreakdown() {
-      this.getFiltered();
-    },
-    sortGroupSelection() {
-      this.getFiltered();
-    },
-
-    sortWithinGroupSelection() {
-      this.getFiltered();
-    },
-
-    filterTimeFrame() {
-      this.getFiltered();
-    },
-
     filterGroupSelection() {
       // Deactivates watcher
       if (!this.filterGroupSelectionWatcherFlag) {
