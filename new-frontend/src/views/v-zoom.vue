@@ -52,7 +52,8 @@
     v-bind:udate="info.zUntil",
     v-bind:avgsize="info.zAvgCommitSize",
     v-bind:mergegroup="info.zIsMerge",
-    v-bind:fromramp="info.zFromRamp")
+    v-bind:fromramp="info.zFromRamp",
+    v-bind:filtersearch="info.zFilterSearch")
 
   .sorting.mui-form--inline
     .mui-select.sort-by
