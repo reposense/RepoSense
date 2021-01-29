@@ -27,7 +27,7 @@ In case you missed it, the overview of RepoSense is given below.
 # {{ thumbnail('1') }} **Explore** real-life examples
 
 
-If still not entirely sure if RepoSense matches your needs, you can use the examples of real-life RepoSense reports given below to get some sense of what visualizations it produces.
+If you are still not entirely sure if RepoSense matches your needs, you can use the examples of real-life RepoSense reports given below to get some sense of what visualizations it produces.
   {{ embed("**A showcase of RepoSense reports**", "../showcase.md") }}
 
 As you explore the above examples, you can refer to the following section to learn how to read and interact with those reports.
