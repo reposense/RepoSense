@@ -38,15 +38,15 @@ window.app = new window.Vue({
     errorMessages: {},
   },
   watch: {
-    '$store.state.tabZoomInfo': function () {
+    '$store.state.tabZoomInfo': function storeStateTabZoomInfo() {
       this.tabInfo.tabZoom = Object.assign({}, this.$store.state.tabZoomInfo);
       this.activateTab('zoom');
     },
-    '$store.state.tabAuthorshipInfo': function () {
+    '$store.state.tabAuthorshipInfo': function storeStateTabAuthorshipInfo() {
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
-    '$store.state.loadingOverlayCount': function () {
+    '$store.state.loadingOverlayCount': function storeStateLoadingOverlayCount() {
       this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
     },
   },
