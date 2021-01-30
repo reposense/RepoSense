@@ -1,6 +1,6 @@
 <template lang="pug">
 .segment(v-bind:class="{ untouched: !segment.authored, active: isOpen }")
-  .closer(v-if="hasCloser",
+  .closer(v-if="canOpen",
     v-on:click="toggleCode", ref="topButton")
     font-awesome-icon.icon(
       v-show="!isOpen",
@@ -12,12 +12,11 @@
       icon="chevron-circle-down",
       v-bind:title="'Click to hide code'"
     )
-  template(v-if="isLoaded")
-    div(v-show="isOpen", v-hljs="path")
-      .code(v-for="(line, index) in segment.lines", v-bind:key="index")
-        .line-number {{ segment.lineNumbers[index] + "\n" }}
-        .line-content {{ line + "\n" }}
-  .closer.bottom(v-if="hasCloser", v-on:click="toggleCode")
+  div(v-if="isOpen", v-hljs="path")
+    .code(v-for="(line, index) in segment.lines", v-bind:key="index")
+      .line-number {{ segment.lineNumbers[index] + "\n" }}
+      .line-content {{ line + "\n" }}
+  .closer.bottom(v-if="canOpen", v-on:click="toggleCode")
     font-awesome-icon.icon(
       v-show="isOpen",
       icon="chevron-circle-up",
@@ -31,14 +30,12 @@ export default {
   props: ['segment', 'path'],
   data() {
     return {
-      isLoaded: this.segment.authored || this.segment.lines.length < 5,
       isOpen: this.segment.authored || this.segment.lines.length < 5,
-      hasCloser: !this.segment.authored && this.segment.lines.length > 4,
+      canOpen: !this.segment.authored && this.segment.lines.length > 4,
     };
   },
   methods: {
     toggleCode() {
-      this.isLoaded = true;
       this.isOpen = !this.isOpen;
     },
   },
