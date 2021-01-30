@@ -170,7 +170,6 @@ window.vZoom = {
     },
 
     retrieveSortHash() {
-      window.decodeHash();
       const hash = window.hashParams;
       if (hash.zCST) {
         this.commitsSortType = hash.zCST;
@@ -181,7 +180,6 @@ window.vZoom = {
     },
 
     retrieveSelectedFileTypesHash() {
-      window.decodeHash();
       const hash = window.hashParams;
 
       if (hash.zFT) {
