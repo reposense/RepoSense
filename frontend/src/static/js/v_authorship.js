@@ -8,6 +8,7 @@ const filesSortDict = {
 
 function initialState() {
   return {
+    isLoaded: false,
     files: [],
     selectedFiles: [],
     filterType: 'checkboxes',
@@ -128,7 +129,6 @@ window.vAuthorship = {
         }
       }
       repoCache.push(this.info.repo);
-
       if (repo.files) {
         this.processFiles(repo.files);
         this.resetSelectedFileTypes();
@@ -328,6 +328,7 @@ window.vAuthorship = {
             && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
         )
             .sort(this.sortingFunction);
+        this.isLoaded = true;
         this.$store.commit('incrementLoadingOverlayCount', -1);
       });
     },
