@@ -146,7 +146,7 @@ The last modified dates will be in the same timezone specified with the `--timez
 
 <box type="info" seamless>
 
-Cannot be used with `--repos`
+Cannot be used with `--config`
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
