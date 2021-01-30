@@ -98,16 +98,15 @@
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
       span &nbsp; ({{ slice.insertions }} lines) &nbsp;
-      template
-        span.fileTypeLabel(
-          v-for="fileType in\
-            filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
-          vbind:key="fileType",
-          v-bind:style="{\
-            'background-color': fileTypeColors[fileType],\
-            'color': getFontColor(fileTypeColors[fileType])\
-            }"
-        ) {{ fileType }}
+      span.fileTypeLabel(
+        v-for="fileType in\
+          filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
+        vbind:key="fileType",
+        v-bind:style="{\
+          'background-color': fileTypeColors[fileType],\
+          'color': getFontColor(fileTypeColors[fileType])\
+          }"
+      ) {{ fileType }}
       template(v-if="slice.tags", v-for="tag in slice.tags", vbind:key="tag")
         .tag(tabindex="-1", v-bind:class="[`${slice.hash}`, tag]")
           font-awesome-icon(icon="tags")
