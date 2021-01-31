@@ -376,15 +376,13 @@ window.vAuthorship = {
 
     isSelectAllChecked: {
       get() {
-        return this.selectedFileTypes.length === this.fileTypes.length && this.isBinaryFilesChecked;
+        return this.selectedFileTypes.length === this.fileTypes.length;
       },
       set(value) {
         if (value) {
           this.selectedFileTypes = this.fileTypes.slice();
-          this.isBinaryFilesChecked = true;
         } else {
           this.selectedFileTypes = [];
-          this.isBinaryFilesChecked = false;
         }
 
         this.indicateCheckBoxes();
@@ -421,12 +419,11 @@ window.vAuthorship = {
       return numLinesModified;
     },
 
-    ...Vuex.mapState(['fileTypeColors']),
-
     binaryFilesCount() {
       return this.files.filter((file) => file.isBinary).length;
     },
 
+    ...Vuex.mapState(['fileTypeColors']),
   },
 
   created() {

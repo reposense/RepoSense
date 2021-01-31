@@ -83,7 +83,7 @@
             span(
               v-bind:title="this.binaryFilesCount + ' binary files (not included in total line count)'"
             )
-              span Binary: {{ binaryFilesCount }}&nbsp;
+              span binary: {{ binaryFilesCount }}&nbsp;file(s)
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
@@ -122,7 +122,7 @@
           span.fileTypeLabel(
             v-if='file.isBinary',
             style='background-color: #FFF9C4; color: #1B5E20'
-          ) {{ 'Binary' }}&nbsp;
+          ) {{ 'binary' }}&nbsp;
         pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
@@ -130,5 +130,3 @@
           .binary-segment
             .indicator BIN
             .bin-text Binary file not shown.
-
-  .empty(v-else) loading...
