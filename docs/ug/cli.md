@@ -19,7 +19,7 @@ An example of a command using most parameters:<br>
 `java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08`
 
 Same command as above but using most parameters in alias format:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08`
 </box>
 
 The section below provides explanations for each of the flags.
@@ -98,7 +98,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 ### `--last-modified-date`, `-l`
 
-**`--last-modified-date`**: Specifies that the last modified date of each line of code should be added to `authorship.json`
+**`--last-modified-date`**: Specifies that the last modified date of each line of code should be added to `authorship.json`.
 * Default: the last modified date of each line of code will not be added to `authorship.json`
 * Alias: `-l` (lowercase L)
 * Example:`--last-modified-date` or `-l`
@@ -199,7 +199,7 @@ Cannot be used with any other flags.
 
 ### `--view`, `-v`
 
-**`--view [REPORT_FOLDER]`**: Specifies the report should be opened in the default browser.
+**`--view [REPORT_FOLDER]`**: Specifies that the report should be opened in the default browser.
 * Parameter: `REPORT_FOLDER` Optional. If specified, no analysis will be performed and the report specified by the argument will be opened.<br>
   Default: `./reposense-report`
 * Alias: `-v`
