@@ -169,7 +169,6 @@ window.app = new window.Vue({
     },
 
     renderTabHash() {
-      window.decodeHash();
       const hash = window.hashParams;
       if (!hash.tabOpen) {
         return;
@@ -250,6 +249,7 @@ window.app = new window.Vue({
     vAuthorship: window.vAuthorship,
   },
   created() {
+    window.decodeHash();
     this.updateReportDir();
   },
 });
