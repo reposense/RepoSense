@@ -231,8 +231,6 @@ window.vSummary = {
     },
 
     renderFilterHash() {
-      window.decodeHash();
-
       const convertBool = (txt) => (txt === 'true');
       const hash = window.hashParams;
 
@@ -268,7 +266,6 @@ window.vSummary = {
         const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
-      window.decodeHash();
     },
 
     getDates() {
