@@ -12,7 +12,7 @@
 `@@author` tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.
 </div>
 
-If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use `@@author` tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.
+If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use `@@author` tags to specify certain code segments that should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case, RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.
 
 There are 2 types of `@@author` tags:
 - Start Tags (format: `@@author AUTHOR_GITHUB_ID`): A start tag indicates the start of a code segment written by the author identified by the `AUTHOR_GITHUB_ID`.
