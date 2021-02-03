@@ -20,7 +20,7 @@ Given below are the details of the various config files used by RepoSense.
 
 <box type="info" seamless>
 
-**A value in a config file is optional to provide unless it specified as {{ mandatory }}**.
+**A value in a config file is optional to provide unless it is specified as {{ mandatory }}**.
 </box>
 <!-- ==================================================================================================== -->
 
@@ -51,13 +51,13 @@ When using [standalone config](#config-json-standalone-config-file) (if it is no
 
 ## `author-config.csv`
 
-Optionally, you can use a `author-config.csv` (which should be in the same directory as `repo-config.csv` file) to provide more details about the authors to analyze ([example](author-config.csv)). It should contain the following columns:
+Optionally, you can use an `author-config.csv` (which should be in the same directory as the `repo-config.csv` file) to provide more details about the authors to analyze ([example](author-config.csv)). It should contain the following columns:
 
 Column Name | Explanation
 ----------- | -----------
 Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
-Branch | The branch to analyze for this author e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, irregardless of branch
-Author's GitHub ID {{ mandatory }}| GitHub username of the target author e.g., `JohnDoe`
+Branch | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch.
+Author's GitHub ID {{ mandatory }}| GitHub username of the target author, e.g., `JohnDoe`
 Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 Author's Display Name | The name to display for the author. Default: author's GitHub username.
 Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
@@ -65,7 +65,7 @@ Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to f
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
-If `author-config.csv` is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
+If `author-config.csv` is not given and the repo has not provided author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
 <!-- ==================================================================================================== -->
 
@@ -76,19 +76,19 @@ Optionally, you can provide a `group-config.csv`(which should be in the same dir
 Column Name | Explanation
 ----------- | -----------
 Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
-Group Name {{ mandatory }}| Name of the group e.g.,`test`.
-Globs * {{ mandatory }}| The list of file path globs to include for specified group. e.g.,`**/test/*;**.java`.
+Group Name {{ mandatory }}| Name of the group, e.g.,`test`.
+Globs * {{ mandatory }}| The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`.
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
 Note that a file in a given repository should only be tagged to one group. <br>
-e.g.: `example.java` in `example-repo` can either be in `test` group or in `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group (i.e.: `code` group) is set for the file.
+e.g.: `example.java` in `example-repo` can either be in the `test` group or the `code` group, but not in both `test` and `code` group. If multiple groups are specified for a given file, the latter group (i.e., `code` group) is set for the file.
 
 <!-- ==================================================================================================== -->
 
 ## `report-config.json`
 
-You can optionally use `report-config.json` to customize report generation by providing the following information . ([example](report-config.csv))
+You can optionally use `report-config.json` to customize report generation by providing the following information. ([example](report-config.csv))
 
 **Fields to provide**:
 * `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report"
@@ -140,11 +140,11 @@ Note: `authors` field should contain _all_ authors that should be captured in th
 * `githubId`: GitHub username of the author. {{ mandatory }} field.
 * `emails`: Associated GitHub emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
-* `authorNames`: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
+* `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author . In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`
 
 To verify your standalone configuration is as intended, add the `_reposense/config.json` to your local copy of repo and run RepoSense against it as follows:<br>
-* Format : `java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION` <br>
+* Format: `java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION` <br>
 * Example: `java -jar RepoSense.jar --repo c:/myRepose/foo/bar`<br>
 After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.
 

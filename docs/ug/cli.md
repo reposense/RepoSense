@@ -16,10 +16,10 @@ The command `java -jar RepoSense.jar` takes several flags.
 **Examples**:
 
 An example of a command using most parameters:<br>
-`java -jar RepoSense.jar --repo https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08`
+`java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08`
 
 Same command as above but using most parameters in alias format:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08`
 </box>
 
 The section below provides explanations for each of the flags.
@@ -37,7 +37,7 @@ The section below provides explanations for each of the flags.
 
 <box type="info" seamless>
 
-* If `--assets` is not specified, Reposense looks for assets in the `./assets` directory.
+* If `--assets` is not specified, RepoSense looks for assets in the `./assets` directory.
 </box>
 </div>
 
@@ -54,7 +54,7 @@ The section below provides explanations for each of the flags.
 
 <box type="info" seamless>
 
-* Cannot be used with `--repos`
+* Cannot be used with `--repos`.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
 </box>
 </div>
@@ -64,7 +64,7 @@ The section below provides explanations for each of the flags.
 ### `--formats`, `-f`
 
 **`--formats LIST_OF_FORMATS`**: Specifies which file extensions to be included in the analysis.
-* Parameter: `LIST_OF_FORMATS` a space-separated list of file extensions that should be included in the analysis<br>
+* Parameter: `LIST_OF_FORMATS` A space-separated list of file extensions that should be included in the analysis.<br>
   Default: all file formats
 * Alias: `-f`
 * Example:`--formats css fxml gradle` or `-f css fxml gradle`
@@ -82,7 +82,7 @@ Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`
 
 <box type="info" seamless>
 
-Cannot be used with any other flags
+Cannot be used with any other flags.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -102,7 +102,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 ### `--last-modified-date`, `-l`
 
-**`--last-modified-date`**: Specifies that the last modified date of each line of code should be added to `authorship.json`
+**`--last-modified-date`**: Specifies that the last modified date of each line of code should be added to `authorship.json`.
 * Default: the last modified date of each line of code will not be added to `authorship.json`
 * Alias: `-l` (lowercase L)
 * Example:`--last-modified-date` or `-l`
@@ -114,7 +114,7 @@ The last modified dates will be in the same timezone specified with the `--timez
 ### `--output`, `-o`
 
 **`--output OUTPUT_DIRECTORY`**: Indicates where to save the report generated.
-* Parameter: `OUTPUT_DIRECTORY` location for the generated `reposense-report` folder<br>
+* Parameter: `OUTPUT_DIRECTORY` The location for the generated `reposense-report` folder.<br>
   Default: current directory
 * Alias: `-o`
 * Example: `--output ./foo` or `-o ./foo` (the report will be in the `./foo/reposense-report` folder)
@@ -124,7 +124,7 @@ The last modified dates will be in the same timezone specified with the `--timez
 ### `--period`, `-p`
 
 **`--period PERIOD`**: Specifies the period of analysis window.
-* Parameter `PERIOD`: The period of analysis window, in the format `nd` (for n days) or `nw` (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.
+* Parameter: `PERIOD` The period of analysis window, in the format `nd` (for n days) or `nw` (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.
 * Alias: `-p`
 * Example: `--period 30d` or `--period 4w`
 
@@ -138,22 +138,22 @@ The last modified dates will be in the same timezone specified with the `--timez
 ### `--repos`, `-r`
 
 **`--repos REPO_LOCATION`**: Specifies which repositories to analyze.
-* Parameter `REPO_LOCATION`: A list of URLs or the disk location of the git repositories to analyze, separated by spaces.
+* Parameter: `REPO_LOCATION` A list of URLs or the disk location of the git repositories to analyze, separated by spaces.
 * Alias: `-r`
 * Examples:
   * `--repos https://github.com/reposense/RepoSense.git`
-  * `--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar`: analyzes the two specified repos (one remote, one local) and generates one report containing details of both
+  * `--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar`: analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
 
 <box type="info" seamless>
 
-Cannot be used with `--config`
+Cannot be used with `--config`.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--since`, `-s`
 
 **`--since START_DATE`**: Specifies the start date for the period to be analyzed.
-* Parameter: `START_DATE` the first day of the period to be analyzed, in the format `DD/MM/YYYY`<br>
+* Parameter: `START_DATE` The first day of the period to be analyzed, in the format `DD/MM/YYYY`.<br>
   Default: one month before the current date
 * Alias: `-s`
 * Example:`--since 21/10/2017` or `-s 21/10/2017`
@@ -168,7 +168,7 @@ Cannot be used with `--config`
 ### `--timezone`, `-t`
 
 **`--timezone ZONE_ID`**: Indicates the timezone to be used for the analysis.
-* Parameter: `ZONE_ID` timezones in the format `ZONE_ID[±hh[mm]]`<br>
+* Parameter: `ZONE_ID` The timezone in the format `ZONE_ID[±hh[mm]]`.<br>
   Default: system's default timezone
 * Alias: `-t`
 * Example:`--timezone UTC+08` or `-t UTC-1030`
@@ -178,7 +178,7 @@ Cannot be used with `--config`
 ### `--until`, `-u`
 
 **`--until END_DATE`**: Specifies the end date of the analysis period.
-* Parameter: `END_DATE` The last date of the period to be analyzed, in the format `DD/MM/YYYY`<br>
+* Parameter: `END_DATE` The last date of the period to be analyzed, in the format `DD/MM/YYYY`.<br>
   Default: current date
 * Alias: `-u`
 * Example:`--until 21/10/2017` or `-u 21/10/2017`
@@ -197,13 +197,13 @@ Note: If the end date is not specified, the date of generating the report will b
 
 <box type="info" seamless>
 
-Cannot be used with any other flags
+Cannot be used with any other flags.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--view`, `-v`
 
-**`--view [REPORT_FOLDER]`**: Specifies the report should be opened in the default browser.
+**`--view [REPORT_FOLDER]`**: Specifies that the report should be opened in the default browser.
 * Parameter: `REPORT_FOLDER` Optional. If specified, no analysis will be performed and the report specified by the argument will be opened.<br>
   Default: `./reposense-report`
 * Alias: `-v`
