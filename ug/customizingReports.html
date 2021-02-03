@@ -452,12 +452,12 @@
                 <li><code class="hljs inline no-lang" v-pre>githubId</code>: GitHub username of the author. <span class="badge badge-danger">mandatory</span> field.</li>
                 <li><code class="hljs inline no-lang" v-pre>emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li>
                 <li><code class="hljs inline no-lang" v-pre>displayName</code>: Name to display on the report for this author.</li>
-                <li><code class="hljs inline no-lang" v-pre>authorNames</code>: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
+                <li><code class="hljs inline no-lang" v-pre>authorNames</code>: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
                 <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code class="hljs inline no-lang" v-pre>ignoreGlobList</code>) folders/files to ignore for a specific author . In the example above, the actual <code class="hljs inline no-lang" v-pre>ignoreGlobList</code> for <code class="hljs inline no-lang" v-pre>alice</code> would be <code class="hljs inline no-lang" v-pre>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code></li>
               </ul>
               <p>To verify your standalone configuration is as intended, add the <code class="hljs inline no-lang" v-pre>_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p>
               <ul>
-                <li>Format : <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li>
+                <li>Format: <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li>
                 <li>Example: <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo c:/myRepose/foo/bar</code><br>
                   After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.</li>
               </ul>
@@ -508,7 +508,7 @@
               <div class="lead">
                 <p><code class="hljs inline no-lang" v-pre>@@author</code> tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.</p>
               </div>
-              <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code class="hljs inline no-lang" v-pre>@@author</code> tags to specify certain code segments should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p>
+              <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code class="hljs inline no-lang" v-pre>@@author</code> tags to specify certain code segments that should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case, RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p>
               <p>There are 2 types of <code class="hljs inline no-lang" v-pre>@@author</code> tags:</p>
               <ul>
                 <li>Start Tags (format: <code class="hljs inline no-lang" v-pre>@@author AUTHOR_GITHUB_ID</code>): A start tag indicates the start of a code segment written by the author identified by the <code class="hljs inline no-lang" v-pre>AUTHOR_GITHUB_ID</code>.</li>
@@ -547,7 +547,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.3</a>, generated on Wed, Feb 3, 2021, 4:52:13 AM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.3</a>, generated on Wed, Feb 3, 2021, 7:17:27 AM UTC]</small>
       </div>
     </footer>
   </div>

@@ -211,7 +211,7 @@
       "headings": {
         "appendix-faq": "Appendix: FAQ",
         "q-does-reposense-work-on-private-repositories": "Q: Does RepoSense work on private repositories?",
-        "q-how-does-formats-work": "Q: How does formats work?",
+        "q-how-do-formats-work": "Q: How do formats work?",
         "q-how-does-ignore-glob-list-work": "Q: How does ignore glob list work?"
       },
       "headingKeywords": {}

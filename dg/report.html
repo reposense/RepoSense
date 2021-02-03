@@ -95,9 +95,9 @@
       <div id="content-wrapper">
         <div></div>
         <h1 class="display-4" id="html-report"><span id="html-report" class="anchor"></span><span>HTML report</span><a class="fa fa-anchor" href="#html-report" onclick="event.stopPropagation()"></a></h1>
-        <p>The source files for the report is located in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src"><code class="hljs inline no-lang" v-pre>frontend/src</code></a> and is built by <a href="https://github.com/ongspxm/spuild2">spuild</a> before being packaged into the JAR file to be extracted as part of the report.</p>
+        <p>The report's source files are located in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src"><code class="hljs inline no-lang" v-pre>frontend/src</code></a> and are built by <a href="https://github.com/ongspxm/spuild2">spuild</a> before being packaged into the JAR file to be extracted as part of the report.</p>
         <p>The main HTML file is generated from <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/index.pug"><code class="hljs inline no-lang" v-pre>frontend/src/index.pug</code></a>.</p>
-        <p><a href="https://vuejs.org/v2/api/">Vue</a> (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to dynamically update the information in the various views. (Style guide available <a href="https://vuejs.org/v2/style-guide/">here</a>, Developer tool available <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">here</a>). Vue lifecycle hooks are the defined methods which gets executed in a certain stage of the Vue object lifespan. The following is the Vue lifecycle diagram taken from <a href="https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram">here</a> indicating the hook sequence:
+        <p><a href="https://vuejs.org/v2/api/">Vue</a> (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to update the information in the various views dynamically. (Style guide available <a href="https://vuejs.org/v2/style-guide/">here</a>, Developer tool available <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">here</a>). Vue lifecycle hooks are the defined methods that get executed in a particular stage of the Vue object lifespan. The following is the Vue lifecycle diagram taken from <a href="https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram">here</a> indicating the hook sequence:
           <a href="/RepoSense/images/vue-lifecycle-diagram.png" target="_self"><img src="/RepoSense/images/vue-lifecycle-diagram.png" alt class="img-fluid"></a>
         </p>
         <p>The following is a snapshot of the report:
@@ -106,13 +106,13 @@
 
         <h2 id="report-architecture"><span id="report-architecture" class="anchor"></span>Report architecture<a class="fa fa-anchor" href="#report-architecture" onclick="event.stopPropagation()"></a></h2>
         <p><a href="/RepoSense/images/report-architecture.png" target="_self"><img src="/RepoSense/images/report-architecture.png" alt class="img-fluid"></a></p>
-        <p>The main Vue object (<code class="hljs inline no-lang" v-pre>window.app</code>) is responsible for the loading of the report (through <code class="hljs inline no-lang" v-pre>summary.json</code>). Its <code class="hljs inline no-lang" v-pre>repos</code> attribute is tied to the global <code class="hljs inline no-lang" v-pre>window.REPOS</code>, and is passed into the various other modules when the information is needed.</p>
+        <p>The main Vue object (<code class="hljs inline no-lang" v-pre>window.app</code>) is responsible for loading the report (through <code class="hljs inline no-lang" v-pre>summary.json</code>). Its <code class="hljs inline no-lang" v-pre>repos</code> attribute is tied to the global <code class="hljs inline no-lang" v-pre>window.REPOS</code>, and is passed into the various other modules when the information is needed.</p>
         <p><code class="hljs inline no-lang" v-pre>window.app</code> is broken down into two main parts</p>
         <ul>
           <li>the summary view</li>
           <li>and the tabbed interface</li>
         </ul>
-        <p>The summary view acts as the main report which shows the various calculations. <br>
+        <p>The summary view acts as the main report, which shows the various calculations. <br>
           The tabbed interface is responsible for loading various modules such as authorship and zoom to display additional information.</p>
 
         <h2 id="javascript-files"><span id="javascript-files" class="anchor"></span>Javascript files<a class="fa fa-anchor" href="#javascript-files" onclick="event.stopPropagation()"></a></h2>
@@ -129,26 +129,26 @@
         <h2 id="json-report-files"><span id="json-report-files" class="anchor"></span>JSON report files<a class="fa fa-anchor" href="#json-report-files" onclick="event.stopPropagation()"></a></h2>
         <ul>
           <li><strong>summary.json</strong> - a list of all the repositories and their respective details</li>
-          <li><strong>projName/commits.json</strong> - contains information of the users' commits information (e.g. line deletion, insertion, etc), grouped by date</li>
+          <li><strong>projName/commits.json</strong> - contains information of the users' commits information (e.g., line deletion, insertion, etc.), grouped by date</li>
           <li><strong>projName/authorship.json</strong> - contains information from git blame, detailing the author of each line for all the processed files</li>
         </ul>
 
         <h2 id="main-main-js"><span id="main-main-js" class="anchor"></span>Main (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/main.js">main.js</a>)<a class="fa fa-anchor" href="#main-main-js" onclick="event.stopPropagation()"></a></h2>
-        <p>This contains the logic for main VueJS object, <code class="hljs inline no-lang" v-pre>window.app</code>, which is responsible for passing the necessary data into the relevant modules to be loaded.</p>
-        <p><code class="hljs inline no-lang" v-pre>v_summary</code>, <code class="hljs inline no-lang" v-pre>v_authorship</code>, <code class="hljs inline no-lang" v-pre>v_zoom</code>, <code class="hljs inline no-lang" v-pre>v_segment</code> and <code class="hljs inline no-lang" v-pre>v_ramp</code> are components which will be embedded into report and will render the corresponding content based on the data passed into it from the main <code class="hljs inline no-lang" v-pre>window.app</code>.</p>
+        <p>This contains the logic for the main VueJS object, <code class="hljs inline no-lang" v-pre>window.app</code>, which is responsible for passing the necessary data into the relevant modules to be loaded.</p>
+        <p><code class="hljs inline no-lang" v-pre>v_summary</code>, <code class="hljs inline no-lang" v-pre>v_authorship</code>, <code class="hljs inline no-lang" v-pre>v_zoom</code>, <code class="hljs inline no-lang" v-pre>v_segment</code>, and <code class="hljs inline no-lang" v-pre>v_ramp</code> are components embedded into the report and will render the corresponding content based on the data passed into it from the main <code class="hljs inline no-lang" v-pre>window.app</code>.</p>
         <h3 id="loading-of-report-information"><span id="loading-of-report-information" class="anchor"></span>Loading of report information<a class="fa fa-anchor" href="#loading-of-report-information" onclick="event.stopPropagation()"></a></h3>
-        <p>The main Vue object depends on the <code class="hljs inline no-lang" v-pre>summary.json</code> data to determine the right <code class="hljs inline no-lang" v-pre>commits.json</code> files to load into memory. This is handled by <code class="hljs inline no-lang" v-pre>api.js</code>, which loads the relevant file information from the network files if it is available; otherwise, a report archive, <code class="hljs inline no-lang" v-pre>archive.zip</code>, has to be used.</p>
+        <p>The main Vue object depends on the <code class="hljs inline no-lang" v-pre>summary.json</code> data to determine the right <code class="hljs inline no-lang" v-pre>commits.json</code> files to load into memory. This is handled by <code class="hljs inline no-lang" v-pre>api.js</code>, which loads the relevant file information from the network files if available; otherwise, a report archive, <code class="hljs inline no-lang" v-pre>archive.zip</code>, has to be used.</p>
         <p>Once the relevant <code class="hljs inline no-lang" v-pre>commit.json</code> files are loaded, all the repo information will be passed into <code class="hljs inline no-lang" v-pre>v_summary</code> to be loaded in the summary view as the relevant ramp charts.</p>
         <h3 id="activating-additional-view-modules"><span id="activating-additional-view-modules" class="anchor"></span>Activating additional view modules<a class="fa fa-anchor" href="#activating-additional-view-modules" onclick="event.stopPropagation()"></a></h3>
         <p>Most activity or actions should happen within the module itself, but in the case where there is a need to spawn or alter the view of another module, an event is emitted from the first module to the main Vue object (<code class="hljs inline no-lang" v-pre>window.app</code>), which then handles the data received and passes it along to the relevant modules.</p>
         <h3 id="hash-link"><span id="hash-link" class="anchor"></span>Hash link<a class="fa fa-anchor" href="#hash-link" onclick="event.stopPropagation()"></a></h3>
-        <p>Other than the global main Vue object, another global variable we have is the <code class="hljs inline no-lang" v-pre>window.hashParams</code>. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the report.</p>
+        <p>Other than the global main Vue object, another global variable we have is the <code class="hljs inline no-lang" v-pre>window.hashParams</code>. This object is responsible for generating the relevant permalink for a specific view of the report's summary module.</p>
         <h2 id="data-loader-api-js"><span id="data-loader-api-js" class="anchor"></span>Data loader (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/api.js">api.js</a>)<a class="fa fa-anchor" href="#data-loader-api-js" onclick="event.stopPropagation()"></a></h2>
         <p>This is the module that is in charge of loading and parsing the data files generated as part of the report.</p>
         <h3 id="loading-from-zip-file"><span id="loading-from-zip-file" class="anchor"></span>Loading from ZIP file<a class="fa fa-anchor" href="#loading-from-zip-file" onclick="event.stopPropagation()"></a></h3>
-        <p>Due to security design, most modern browsers (e.g. Chrome) do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.</p>
-        <p>This archive will be used in place of the network files to load information into the report, in the case when the network files are unavailable.</p>
-        <p>The API module will be handling all request for all the JSON data files. If the network file is not available, the files will be obtained from the zip archive provided.</p>
+        <p>Due to security design, most modern browsers (e.g., Chrome) do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.</p>
+        <p>This archive will be used in place of the network files to load information into the report when the network files are unavailable.</p>
+        <p>The API module will be handling all requests for all the JSON data files. If the network file is not available, the files will be obtained from the zip archive provided.</p>
         <h3 id="retrieving-and-parsing-information"><span id="retrieving-and-parsing-information" class="anchor"></span>Retrieving and parsing information<a class="fa fa-anchor" href="#retrieving-and-parsing-information" onclick="event.stopPropagation()"></a></h3>
         <p>After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, <code class="hljs inline no-lang" v-pre>window.REPOS</code>, in the right format.</p>
         <p>For the basic skeleton of <code class="hljs inline no-lang" v-pre>window.REPOS</code>, refer to the generated <code class="hljs inline no-lang" v-pre>summary.json</code> file in the report for more details.</p>
@@ -165,10 +165,10 @@
         <p>The authorship module retrieves the relevant information from the corresponding <code class="hljs inline no-lang" v-pre>authorship.json</code> file if it is not yet loaded. If it has been loaded, the data will be written into <code class="hljs inline no-lang" v-pre>window.REPOS</code> and be read from there instead.</p>
         <p><a href="/RepoSense/images/report-architecture-authorship.png" target="_self"><img src="/RepoSense/images/report-architecture-authorship.png" alt class="img-fluid"></a></p>
         <h3 id="showing-relevant-information-by-authors"><span id="showing-relevant-information-by-authors" class="anchor"></span>Showing relevant information by authors<a class="fa fa-anchor" href="#showing-relevant-information-by-authors" onclick="event.stopPropagation()"></a></h3>
-        <p>The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of &quot;touched&quot; and &quot;untouched&quot; code segments to be displayed in the tab view which will be popped up on the right side of the screen.</p>
+        <p>The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of &quot;touched&quot; and &quot;untouched&quot; code segments displayed in the tab view which will be popped up on the right side of the screen.</p>
 
         <h2 id="zoom-view-v-zoom-js"><span id="zoom-view-v-zoom-js" class="anchor"></span>Zoom view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_zoom.js">v_zoom.js</a>)<a class="fa fa-anchor" href="#zoom-view-v-zoom-js" onclick="event.stopPropagation()"></a></h2>
-        <p>The <code class="hljs inline no-lang" v-pre>v_zoom</code> module is in charge of filtering and displaying the commits from selected sub-range of a ramp chart.</p>
+        <p>The <code class="hljs inline no-lang" v-pre>v_zoom</code> module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.</p>
 
         <h2 id="ramp-view-v-ramp-js"><span id="ramp-view-v-ramp-js" class="anchor"></span>Ramp view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_ramp.js">v_ramp.js</a>)<a class="fa fa-anchor" href="#ramp-view-v-ramp-js" onclick="event.stopPropagation()"></a></h2>
         <p>The <code class="hljs inline no-lang" v-pre>v_ramp</code> module is responsible for receiving the relevant information from <code class="hljs inline no-lang" v-pre>v_summary</code> and generating ramp charts that contain ramp slices.</p>
@@ -223,7 +223,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.3</a>, generated on Wed, Feb 3, 2021, 4:52:13 AM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.3</a>, generated on Wed, Feb 3, 2021, 7:17:27 AM UTC]</small>
       </div>
     </footer>
   </div>

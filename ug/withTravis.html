@@ -436,7 +436,7 @@
                   </box>
                   <p></p>
                   <box type="info" seamless>
-                    <p><strong>A value in a config file is optional to provide unless it specified as <span class="badge badge-danger">mandatory</span></strong>.
+                    <p><strong>A value in a config file is optional to provide unless it is specified as <span class="badge badge-danger">mandatory</span></strong>.
                     </p>
                   </box>
                   <p></p>
@@ -458,7 +458,7 @@
                         </tr>
                         <tr>
                           <td>Branch</td>
-                          <td>The branch to analyze in the target repository e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the default branch of the repo</td>
+                          <td>The branch to analyze in the target repository, e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the default branch of the repo</td>
                         </tr>
                         <tr>
                           <td>File formats<sup>*+</sup></td>
@@ -466,15 +466,15 @@
                         </tr>
                         <tr>
                           <td>Ignore Glob List<sup>*+</sup></td>
-                          <td>The list of file path globs to ignore during analysis for each author. e.g., <code class="hljs inline no-lang" v-pre>test/**;temp/**</code></td>
+                          <td>The list of file path globs to ignore during analysis for each author, e.g., <code class="hljs inline no-lang" v-pre>test/**;temp/**</code></td>
                         </tr>
                         <tr>
                           <td>Ignore standalone config</td>
-                          <td>To ignore the standalone config file (if any) in target repository, enter <strong><code class="hljs inline no-lang" v-pre>yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td>
+                          <td>To ignore the standalone config file (if any) in the target repository, enter <strong><code class="hljs inline no-lang" v-pre>yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td>
                         </tr>
                         <tr>
                           <td>Ignore Commit List<sup>*+</sup></td>
-                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation e.g. <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</td>
+                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation, e.g., <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</td>
                         </tr>
                         <tr>
                           <td>Ignore Authors List<sup>*+</sup></td>
@@ -493,7 +493,7 @@
                   <p></p>
 
                   <h2 id="author-config-csv"><span id="author-config-csv" class="anchor"></span><code class="hljs inline no-lang" v-pre>author-config.csv</code><a class="fa fa-anchor" href="#author-config-csv" onclick="event.stopPropagation()"></a></h2>
-                  <p>Optionally, you can use a <code class="hljs inline no-lang" v-pre>author-config.csv</code> (which should be in the same directory as <code class="hljs inline no-lang" v-pre>repo-config.csv</code> file) to provide more details about the authors to analyze (<a href="/RepoSense/ug/author-config.csv">example</a>). It should contain the following columns:</p>
+                  <p>Optionally, you can use an <code class="hljs inline no-lang" v-pre>author-config.csv</code> (which should be in the same directory as the <code class="hljs inline no-lang" v-pre>repo-config.csv</code> file) to provide more details about the authors to analyze (<a href="/RepoSense/ug/author-config.csv">example</a>). It should contain the following columns:</p>
                   <div class="table-responsive">
                     <table class="markbind-table table table-bordered table-striped">
                       <thead>
@@ -509,11 +509,11 @@
                         </tr>
                         <tr>
                           <td>Branch</td>
-                          <td>The branch to analyze for this author e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the author will be bound to all the repos in <code class="hljs inline no-lang" v-pre>repo-config.csv</code> that has the same repo's location, irregardless of branch</td>
+                          <td>The branch to analyze for this author, e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the author will be bound to all the repos in <code class="hljs inline no-lang" v-pre>repo-config.csv</code> that has the same repo's location, regardless of branch.</td>
                         </tr>
                         <tr>
                           <td>Author's GitHub ID <span class="badge badge-danger">mandatory</span></td>
-                          <td>GitHub username of the target author e.g., <code class="hljs inline no-lang" v-pre>JohnDoe</code></td>
+                          <td>GitHub username of the target author, e.g., <code class="hljs inline no-lang" v-pre>JohnDoe</code></td>
                         </tr>
                         <tr>
                           <td>Author's Emails<sup>*</sup></td>
@@ -535,7 +535,7 @@
                     </table>
                   </div>
                   <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code class="hljs inline no-lang" v-pre>;</code> as the separator.</sup></p>
-                  <p>If <code class="hljs inline no-lang" v-pre>author-config.csv</code> is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.</p>
+                  <p>If <code class="hljs inline no-lang" v-pre>author-config.csv</code> is not given and the repo has not provided author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.</p>
 
                   <h2 id="group-config-csv"><span id="group-config-csv" class="anchor"></span><code class="hljs inline no-lang" v-pre>group-config.csv</code><a class="fa fa-anchor" href="#group-config-csv" onclick="event.stopPropagation()"></a></h2>
                   <p>Optionally, you can provide a <code class="hljs inline no-lang" v-pre>group-config.csv</code>(which should be in the same directory as <code class="hljs inline no-lang" v-pre>repo-config.csv</code> file) to provide details on any custom groupings for files in specified repositories (<a href="/RepoSense/ug/group-config.csv">example</a>). It should contain the following columns:</p>
@@ -554,21 +554,21 @@
                         </tr>
                         <tr>
                           <td>Group Name <span class="badge badge-danger">mandatory</span></td>
-                          <td>Name of the group e.g.,<code class="hljs inline no-lang" v-pre>test</code>.</td>
+                          <td>Name of the group, e.g.,<code class="hljs inline no-lang" v-pre>test</code>.</td>
                         </tr>
                         <tr>
                           <td>Globs * <span class="badge badge-danger">mandatory</span></td>
-                          <td>The list of file path globs to include for specified group. e.g.,<code class="hljs inline no-lang" v-pre>**/test/*;**.java</code>.</td>
+                          <td>The list of file path globs to include for specified group, e.g.,<code class="hljs inline no-lang" v-pre>**/test/*;**.java</code>.</td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                   <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code class="hljs inline no-lang" v-pre>;</code> as the separator.</sup></p>
                   <p>Note that a file in a given repository should only be tagged to one group. <br>
-                    e.g.: <code class="hljs inline no-lang" v-pre>example.java</code> in <code class="hljs inline no-lang" v-pre>example-repo</code> can either be in <code class="hljs inline no-lang" v-pre>test</code> group or in <code class="hljs inline no-lang" v-pre>code</code> group, but not in both <code class="hljs inline no-lang" v-pre>test</code> and <code class="hljs inline no-lang" v-pre>code</code> group. If multiple groups are specified for a given file, the latter group (i.e.: <code class="hljs inline no-lang" v-pre>code</code> group) is set for the file.</p>
+                    e.g.: <code class="hljs inline no-lang" v-pre>example.java</code> in <code class="hljs inline no-lang" v-pre>example-repo</code> can either be in the <code class="hljs inline no-lang" v-pre>test</code> group or the <code class="hljs inline no-lang" v-pre>code</code> group, but not in both <code class="hljs inline no-lang" v-pre>test</code> and <code class="hljs inline no-lang" v-pre>code</code> group. If multiple groups are specified for a given file, the latter group (i.e., <code class="hljs inline no-lang" v-pre>code</code> group) is set for the file.</p>
 
                   <h2 id="report-config-json"><span id="report-config-json" class="anchor"></span><code class="hljs inline no-lang" v-pre>report-config.json</code><a class="fa fa-anchor" href="#report-config-json" onclick="event.stopPropagation()"></a></h2>
-                  <p>You can optionally use <code class="hljs inline no-lang" v-pre>report-config.json</code> to customize report generation by providing the following information . (<a href="/RepoSense/ug/report-config.csv">example</a>)</p>
+                  <p>You can optionally use <code class="hljs inline no-lang" v-pre>report-config.json</code> to customize report generation by providing the following information. (<a href="/RepoSense/ug/report-config.csv">example</a>)</p>
                   <p><strong>Fields to provide</strong>:</p>
                   <ul>
                     <li><code class="hljs inline no-lang" v-pre>title</code>: Title of the generated report, which is also the title of the deployed dashboard. Default: &quot;RepoSense Report&quot;</li>
@@ -617,12 +617,12 @@
                       <li><code class="hljs inline no-lang" v-pre>githubId</code>: GitHub username of the author. <span class="badge badge-danger">mandatory</span> field.</li>
                       <li><code class="hljs inline no-lang" v-pre>emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li>
                       <li><code class="hljs inline no-lang" v-pre>displayName</code>: Name to display on the report for this author.</li>
-                      <li><code class="hljs inline no-lang" v-pre>authorNames</code>: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
+                      <li><code class="hljs inline no-lang" v-pre>authorNames</code>: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
                       <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code class="hljs inline no-lang" v-pre>ignoreGlobList</code>) folders/files to ignore for a specific author . In the example above, the actual <code class="hljs inline no-lang" v-pre>ignoreGlobList</code> for <code class="hljs inline no-lang" v-pre>alice</code> would be <code class="hljs inline no-lang" v-pre>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code></li>
                     </ul>
                     <p>To verify your standalone configuration is as intended, add the <code class="hljs inline no-lang" v-pre>_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p>
                     <ul>
-                      <li>Format : <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li>
+                      <li>Format: <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li>
                       <li>Example: <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repo c:/myRepose/foo/bar</code><br>
                         After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.</li>
                     </ul>
@@ -711,7 +711,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.3</a>, generated on Wed, Feb 3, 2021, 4:52:13 AM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.3</a>, generated on Wed, Feb 3, 2021, 7:17:27 AM UTC]</small>
       </div>
     </footer>
   </div>
