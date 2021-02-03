@@ -71,7 +71,7 @@ The section below provides explanations for each of the flags.
 
 <box type="info" seamless>
 
-Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`, will all be labelled as the file type `Binary` in the generated report.
+Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`, will all be labelled as the file type `binary` in the generated report.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 

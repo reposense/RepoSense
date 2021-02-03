@@ -38,4 +38,4 @@ It is possible you may have some file names with [special characters](https://do
 
 ### Some file types are not shown in the file type filter even if I have included them in the file formats when generating the report
 
-The files of these types may be [binary files](https://en.wikipedia.org/wiki/Binary_file). *RepoSense* will group binary files under one single file type `Binary`. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
+The files of these types may be [binary files](https://en.wikipedia.org/wiki/Binary_file). *RepoSense* will group binary files under one single file type `binary`. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).

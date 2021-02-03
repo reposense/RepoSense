@@ -77,13 +77,14 @@
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
                 span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
+          span &nbsp;&nbsp;&nbsp;&nbsp;
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-bind:checked="isBinaryFilesChecked",
               v-on:change="selectBinaryFile")
             span(
               v-bind:title="this.binaryFilesCount + ' binary files (not included in total line count)'"
             )
-              span binary: {{ binaryFilesCount }}&nbsp;file(s)
+              span {{ binaryFilesCount }} binary file(s)
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
@@ -121,8 +122,8 @@
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}&nbsp;({{ file.lineCount - file.blankLineCount }})
           span.fileTypeLabel(
             v-if='file.isBinary',
-            style='background-color: #FFF9C4; color: #1B5E20'
-          ) {{ 'binary' }}&nbsp;
+            style="background-color: #FFF; color: #424242; border: 1px solid #424242"
+          ) binary&nbsp;
         pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
