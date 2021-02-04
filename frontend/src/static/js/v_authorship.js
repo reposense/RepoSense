@@ -246,12 +246,6 @@ window.vAuthorship = {
             ? this.getContributionFromAllAuthors(contributionMap)
             : contributionMap[this.info.author];
 
-        // skip file not touched by author
-        /*
-        if (!this.info.isMergeGroup && !(this.info.author in contributionMap)) {
-          return;
-        }
-        */
         if (this.isValidFile(this.info.isMergeGroup,
             this.info.author, contributionMap, lineCnt, file.isBinary)) {
           const out = {};
@@ -308,11 +302,6 @@ window.vAuthorship = {
       filesInfoObj[fileType] += lineCount;
     },
 
-    selectBinaryFile() {
-      this.isBinaryFilesChecked = !this.isBinaryFilesChecked;
-      this.updateSelectedFiles();
-    },
-
     updateSearchBarValue() {
       this.searchBarValue = this.$refs.searchBar.value;
 
@@ -346,7 +335,7 @@ window.vAuthorship = {
 
     indicateSearchBar() {
       this.selectedFileTypes = this.fileTypes.slice();
-      this.isBinaryFilesChecked = false;
+      this.isBinaryFilesChecked = true;
       this.filterType = 'search';
     },
 
@@ -392,6 +381,22 @@ window.vAuthorship = {
           this.selectedFileTypes = [];
         }
 
+        this.indicateCheckBoxes();
+      },
+    },
+
+    isBinaryChecked: {
+      get() {
+        return this.isBinaryFilesChecked;
+      },
+      set(value) {
+        if (value) {
+          this.isBinaryFilesChecked = true;
+        } else {
+          this.isBinaryFilesChecked = false;
+        }
+
+        this.updateSelectedFiles();
         this.indicateCheckBoxes();
       },
     },

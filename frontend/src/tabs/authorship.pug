@@ -59,7 +59,7 @@
         )
         .checkboxes.mui-form--inline(v-if="files.length > 0")
           label(style='background-color: #000000; color: #ffffff')
-            input.mui-checkbox--fileType#all(type="checkbox", v-model="isSelectAllChecked")
+            input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
@@ -79,8 +79,7 @@
                 span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
           span &nbsp;&nbsp;&nbsp;&nbsp;
           label.binary-fileType(v-if="binaryFilesCount > 0")
-            input.mui-checkbox--fileType(type="checkbox", v-bind:checked="isBinaryFilesChecked",
-              v-on:change="selectBinaryFile")
+            input.mui-checkbox--fileType#all(type="checkbox", v-model="isBinaryChecked")
             span(
               v-bind:title="this.binaryFilesCount + ' binary files (not included in total line count)'"
             )
