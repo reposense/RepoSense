@@ -79,7 +79,7 @@
                 span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
           span &nbsp;&nbsp;&nbsp;&nbsp;
           label.binary-fileType(v-if="binaryFilesCount > 0")
-            input.mui-checkbox--fileType#all(type="checkbox", v-model="isBinaryChecked")
+            input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
             span(
               v-bind:title="this.binaryFilesCount + ' binary files (not included in total line count)'"
             )
