@@ -35,4 +35,35 @@ describe('switch authorship', () => {
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="yml"]')
         .should('be.checked');
   });
+
+  it('switch authorship view should not retain information from previous visited tabs', () => {
+    Cypress.wait();
+
+    // open the code panel
+    cy.get('.icon-button.fa-code')
+        .should('be.visible')
+        .first()
+        .click();
+
+    cy.get('#tab-authorship .panel-heading .author span')
+        .should('contain.text', 'eugenepeh')
+
+    cy.get('#tab-authorship .title .path')
+        .first()
+        .should('contain.text', 'frontend/src/static/js/v_summary.js')
+
+    // switch authorship view
+    cy.get('.icon-button.fa-code')
+        .should('be.visible')
+        .last()
+        .click();
+
+    cy.get('#tab-authorship .panel-heading .author span')
+        .should('not.contain.text', 'eugenepeh')
+        .should('contain.text', 'yong24s')
+
+    cy.get('#tab-authorship .title .path')
+        .first()
+        .should('contain.text', 'src/test/java/reposense/parser/ArgsParserTest.java')
+  });
 });
