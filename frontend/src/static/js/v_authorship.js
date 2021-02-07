@@ -83,6 +83,10 @@ window.vAuthorship = {
             .filter((fileType) => this.fileTypes.includes(fileType));
       }
 
+      if (hash.authorshipIsBinaryChecked) {
+        this.isBinaryFilesChecked = true;
+      }
+
       if ('authorshipFilesGlob' in hash) {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
@@ -100,6 +104,7 @@ window.vAuthorship = {
 
     removeAuthorshipHashes() {
       window.removeHash('authorshipFileTypes');
+      window.removeHash('authorshipIsBinaryChecked');
       window.removeHash('authorshipFilesGlob');
       window.removeHash('authorshipSortBy');
       window.removeHash('reverseAuthorshipOrder');
@@ -246,8 +251,7 @@ window.vAuthorship = {
             ? this.getContributionFromAllAuthors(contributionMap)
             : contributionMap[this.info.author];
 
-        if (this.isValidFile(this.info.isMergeGroup,
-            this.info.author, contributionMap, lineCnt, file.isBinary)) {
+        if (this.isValidFile(contributionMap, lineCnt, file.isBinary)) {
           const out = {};
           out.path = file.path;
           out.lineCount = lineCnt;
@@ -283,8 +287,8 @@ window.vAuthorship = {
       this.updateSelectedFiles();
     },
 
-    isValidFile(isMergeGroup, author, contributionMap, lineCnt, isBinary) {
-      return (isMergeGroup || (author in contributionMap))
+    isValidFile(contributionMap, lineCnt, isBinary) {
+      return (this.info.isMergeGroup || (this.info.author in contributionMap))
         && (lineCnt || isBinary);
     },
 
@@ -307,6 +311,7 @@ window.vAuthorship = {
 
       window.addHash('authorshipFilesGlob', this.searchBarValue);
       window.removeHash('authorshipFileTypes');
+      window.removeHash('authorshipIsBinaryChecked');
       window.encodeHash();
     },
 
@@ -315,7 +320,12 @@ window.vAuthorship = {
           ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
           : '';
 
+      const binaryHash = this.isBinaryFilesChecked
+          ? 'binary'
+          : '';
+
       window.addHash('authorshipFileTypes', fileTypeHash);
+      window.addHash('authorshipIsBinaryChecked', binaryHash);
       window.removeHash('authorshipFilesGlob');
       window.encodeHash();
     },
@@ -399,14 +409,6 @@ window.vAuthorship = {
         this.updateSelectedFiles();
         this.indicateCheckBoxes();
       },
-    },
-
-    selectedFiles() {
-      return this.files.filter((file) => (
-        (this.selectedFileTypes.includes(file.fileType) && !file.isBinary)
-            || (file.isBinary && this.isBinaryFilesChecked))
-          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }))
-          .sort(this.sortingFunction);
     },
 
     activeFilesCount() {
