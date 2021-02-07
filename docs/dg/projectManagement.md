@@ -33,12 +33,12 @@ We have two versions of the website:
    * matches the latest `master` branch
    * deployed automatically by Travis whenever the `master` branch is updated
 
-The production website differs from the dev website in some ways e.g.,
+The production website differs from the dev website in some ways, e.g.,
 
 * It has a `CNAME` file (to indicate that it is the target destination for the `reposense.org` domain name)
 * Its DG pages show a warning that it is not the latest version of the DG.
 
-These variations are mainly managed by MarkBind via the `site.config` file. That is why the `site.config` file in the `release` branch is slightly different from the one in the `master` branch.
+MarkBind mainly manages these variations via the `site.config` file. That is why the `site.config` file in the `release` branch is slightly different from the one in the `master` branch.
 
 After each release, do the following steps to deploy the production website:
 1. Switch to the `release` branch
