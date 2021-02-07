@@ -29,7 +29,7 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 * Make sure you know our coding standards.
   {{ embed('Appendix: Coding Standards', 'styleGuides.md', level=2) }}
 * **Follow [this](https://se-education.org/guides/tutorials/intellijCodeStyle.html) to configure Intellij to follow our coding style**.
-* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it.
+* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it. In particular, run `gradlew checkstyleMain checkstyleTest checkstyleSystemtest` to check the style of all the relevant Java code.
 * **To check Pug files for style errors**, run `npm run lint` from the project root directory. You can use the `npm run lintfix` to automatically fix some of the javascript and css lint errors.
 
 <!-- ==================================================================================================== -->
@@ -95,6 +95,18 @@ To run all tests locally, run `gradlew frontendTest`.
 
 If you encountered an invalid browser error, ensure that you have `Chrome` installed in the default installation directory. Otherwise, follow the instructions [here](https://docs.cypress.io/guides/guides/debugging.html#Launching-browsers) to create symbolic links so Cypress can locate `Chrome` in your system.
 </box>
+
+<!-- ==================================================================================================== -->
+
+## Testing (back-end)
+
+The back-end tests can be found at `[project root]/systemtest` and `[project root]/test`. 
+
+### Running tests
+
+To run all the system tests, run `gradlew systemtest`.
+
+To run all the unit and integration tests, run `gradlew test`.
 
 <!-- ==================================================================================================== -->
 
