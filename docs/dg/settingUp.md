@@ -15,7 +15,7 @@
 
   <box type="info" seamless>
 
-  Type `git --version` on your OS terminal and ensure that you have the correct version of **git**.
+  Type `java -version`, `npm -v` and `git --version` respectively on your OS terminal and ensure that you have the correct version of each prerequisite installed.
   </box>
 
 <!-- ==================================================================================================== -->
@@ -23,7 +23,7 @@
 ## Getting the code
 
 1. **Fork** the [reposense/reposense](https://github.com/reposense/RepoSense) repo.
-1. **clone** the fork to your computer.
+1. **Clone** the fork to your computer.
 
 ## Setting up the IDE
 

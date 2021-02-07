@@ -1,0 +1,70 @@
+# This workflow deploys a RepoSense report and the MarkBind documentation
+# website to surge.sh in a secure manner for pull requests
+
+name: Surge.sh build preview
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy to surge.sh
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
+    env:
+      NODE_VERSION: "lts/*"
+      GITHUB_TOKEN: ${{ github.token }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+
+    - name: Download deployment artifacts
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: integration.yml
+        run_id: ${{ github.event.workflow_run.id }}
+        name: reposense-deployment
+        path: .
+
+    - name: Extract PR number
+      id: pr-number
+      run: echo '::set-output name=ACTIONS_PR_NUMBER::'$(cat ./pr/NUMBER)
+
+    - name: Download deployment status artifacts
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        workflow: pending.yml
+        pr: ${{ steps.pr-number.outputs.ACTIONS_PR_NUMBER }}
+        workflow_conclusion: success
+        name: reposense-deployment-id
+        path: ./pr
+
+    - name: Update PR checklist for surge.sh as in progress
+      if: ${{ success() }}
+      run: ./config/gh-actions/deploy.sh in_progress
+
+    - name: Install surge
+      if: ${{ success() }}
+      run: npm install -g surge
+
+    - name: Deploy to surge.sh
+      if: ${{ success() }}
+      env:
+        SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      run: ./config/gh-actions/deploy.sh success
+
+    - name: Update PR checklist for surge.sh as failure
+      if: ${{ failure() }}
+      run: ./config/gh-actions/deploy.sh failure

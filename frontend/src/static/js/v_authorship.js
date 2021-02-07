@@ -16,6 +16,7 @@ window.vAuthorship = {
     return {
       isLoaded: false,
       files: [],
+      selectedFiles: [],
       filterType: 'checkboxes',
       selectedFileTypes: [],
       fileTypes: [],
@@ -31,11 +32,21 @@ window.vAuthorship = {
     filesSortType() {
       window.addHash('authorshipSortBy', this.filesSortType);
       window.encodeHash();
+      this.updateSelectedFiles();
+    },
+
+    searchBarValue() {
+      this.updateSelectedFiles();
+    },
+
+    selectedFileTypes() {
+      this.updateSelectedFiles();
     },
 
     toReverseSortFiles() {
       window.addHash('reverseAuthorshipOrder', this.toReverseSortFiles);
       window.encodeHash();
+      this.updateSelectedFiles();
     },
 
     isLoaded() {
@@ -48,7 +59,6 @@ window.vAuthorship = {
 
   methods: {
     retrieveHashes() {
-      window.decodeHash();
       const hash = window.hashParams;
 
       switch (hash.authorshipSortBy) {
@@ -264,6 +274,7 @@ window.vAuthorship = {
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.isLoaded = true;
+      this.updateSelectedFiles();
     },
 
     getContributionFromAllAuthors(contributionMap) {
@@ -296,6 +307,18 @@ window.vAuthorship = {
       window.addHash('authorshipFileTypes', fileTypeHash);
       window.removeHash('authorshipFilesGlob');
       window.encodeHash();
+    },
+
+    updateSelectedFiles() {
+      this.$store.commit('incrementLoadingOverlayCount', 1);
+      setTimeout(() => {
+        this.selectedFiles = this.files.filter(
+            (file) => this.selectedFileTypes.includes(file.fileType)
+            && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
+        )
+            .sort(this.sortingFunction);
+        this.$store.commit('incrementLoadingOverlayCount', -1);
+      });
     },
 
     indicateSearchBar() {
@@ -347,12 +370,6 @@ window.vAuthorship = {
 
         this.indicateCheckBoxes();
       },
-    },
-
-    selectedFiles() {
-      return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
-          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }))
-          .sort(this.sortingFunction);
     },
 
     activeFilesCount() {

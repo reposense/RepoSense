@@ -1,3 +1,4 @@
+/* global Vuex */
 // eslint-disable-next-line import/extensions
 import store from './store.js';
 
@@ -12,6 +13,9 @@ Vue.directive('hljs', {
 });
 
 Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
+Vue.component('loading-overlay', window.VueLoading);
+
+const loadingResourcesMessage = 'Loading resources...';
 
 window.app = new window.Vue({
   el: '#app',
@@ -21,7 +25,9 @@ window.app = new window.Vue({
     users: [],
     userUpdated: false,
 
-    isLoading: false,
+    isLoadingOverlayEnabled: false,
+    loadingOverlayOpacity: 1,
+
     isCollapsed: false,
     isTabActive: true, // to force tab wrapper to load
 
@@ -40,6 +46,9 @@ window.app = new window.Vue({
       this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
+    '$store.state.loadingOverlayCount': function () {
+      this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
+    },
   },
   methods: {
     // model functions //
@@ -53,33 +62,38 @@ window.app = new window.Vue({
             window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
                 + 'by RepoSense.');
           })
-          .then(() => this.updateReportView().then(() => this.renderTabHash()));
+          .then(() => this.updateReportView());
     },
+
     updateReportDir() {
       window.REPORT_ZIP = null;
 
       this.users = [];
-      this.updateReportView().then(() => this.renderTabHash());
+      this.updateReportView();
     },
+
     async updateReportView() {
-      await window.api.loadSummary().then((names) => {
+      this.$store.commit('incrementLoadingOverlayCount', 1);
+      this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
+      this.userUpdated = false;
+      try {
+        const names = await window.api.loadSummary();
+        if (names === null) {
+          return;
+        }
         this.repos = window.REPOS;
-
-        this.userUpdated = false;
-        this.isLoading = true;
-
-        return Promise.all(names.map((name) => (
+        await Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
-      }).then(() => {
         this.userUpdated = true;
-        this.isLoading = false;
+        this.loadingOverlayOpacity = 0.5;
         this.getUsers();
-      }).catch((error) => {
-        this.userUpdated = false;
-        this.isLoading = false;
+        this.renderTabHash();
+      } catch (error) {
         window.alert(error);
-      });
+      } finally {
+        this.$store.commit('incrementLoadingOverlayCount', -1);
+      }
     },
     getUsers() {
       const full = [];
@@ -155,7 +169,6 @@ window.app = new window.Vue({
     },
 
     renderTabHash() {
-      window.decodeHash();
       const hash = window.hashParams;
       if (!hash.tabOpen) {
         return;
@@ -176,8 +189,9 @@ window.app = new window.Vue({
       }
     },
 
-    generateKey(dataObj) {
-      return JSON.stringify(dataObj);
+    generateKey(dataObj, keysToUse) {
+      const picked = keysToUse.map((key) => dataObj[key]);
+      return JSON.stringify(picked);
     },
 
     getRepoSenseHomeLink() {
@@ -223,14 +237,19 @@ window.app = new window.Vue({
       }
     },
   },
+
+  computed: {
+    ...Vuex.mapState(['loadingOverlayMessage']),
+  },
+
   components: {
     vResizer: window.vResizer,
     vZoom: window.vZoom,
     vSummary: window.vSummary,
     vAuthorship: window.vAuthorship,
-    CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {
+    window.decodeHash();
     this.updateReportDir();
   },
 });
