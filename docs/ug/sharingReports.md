@@ -13,7 +13,7 @@
 **Often, you would want to share the RepoSense report with others.** For example, a teacher using RepoSense for a programming class might want to share the report privately with tutors or publish it so that everyone can see it.
 </div>
 
-The sections below explains various ways of sharing a RepoSense report.
+The sections below explain various ways of sharing a RepoSense report.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
