@@ -151,36 +151,36 @@ export default {
             window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
           + 'by RepoSense.');
           })
-          .then(() => this.updateReportView()
-              .then(() => this.renderTabHash()));
+          .then(() => this.updateReportView());
     },
     updateReportDir() {
       window.REPORT_ZIP = null;
 
       this.users = [];
-      this.updateReportView().then(() => this.renderTabHash());
+      this.updateReportView();
     },
     async updateReportView() {
-      await window.api.loadSummary().then((names) => {
+      this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
+      this.$store.commit('incrementLoadingOverlayCount', 1);
+      this.userUpdated = false;
+      try {
+        const names = await window.api.loadSummary();
+        if (names === null) {
+          return;
+        }
         this.repos = window.REPOS;
-
-        this.userUpdated = false;
-        this.$store.commit('incrementLoadingOverlayCount', 1);
-        this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
-
-        return Promise.all(names.map((name) => (
+        await Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
-      }).then(() => {
         this.userUpdated = true;
-        this.$store.commit('incrementLoadingOverlayCount', -1);
         this.loadingOverlayOpacity = 0.5;
         this.getUsers();
-      }).catch((error) => {
-        this.userUpdated = false;
+        this.renderTabHash();
+      } catch (error) {
+        throw error;
+      } finally {
         this.$store.commit('incrementLoadingOverlayCount', -1);
-        window.alert(error);
-      });
+      }
     },
     getUsers() {
       const full = [];
