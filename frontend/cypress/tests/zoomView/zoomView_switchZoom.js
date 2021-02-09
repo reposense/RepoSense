@@ -8,13 +8,30 @@ describe('switch zoom', () => {
         .first()
         .click();
 
+    // change sort by
+    cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
+        .select('LoC')
+        .should('have.value', 'lineOfCode');
+
+    // change sort order
+    cy.get('#tab-zoom > .sorting > .sort-order > select:visible')
+        .select('Ascending')
+        .should('have.value', 'false');
+
+    // uncheck a file type
+    cy.get('#tab-zoom > .fileTypes input[value="gradle"]')
+        .uncheck()
+        .should('not.be.checked');
+
     // switch zoom view
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
         .last()
         .click();
 
+    // check default controls
     cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
+        .should('not.have.value', 'lineOfCode')
         .should('have.value', 'time');
 
     cy.get('#tab-zoom > .sorting > .sort-order > select:visible')

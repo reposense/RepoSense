@@ -8,13 +8,30 @@ describe('switch authorship', () => {
         .first()
         .click();
 
+    // change sort by
+    cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select')
+        .select('Path')
+        .should('have.value', 'path');
+
+    // change sort order
+    cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')
+        .select('Ascending')
+        .should('have.value', 'false');
+
+    // uncheck a file type
+    cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="gradle"]')
+        .uncheck()
+        .should('not.be.checked');
+
     // switch authorship view
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .last()
         .click();
 
+    // check default controls
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select')
+        .should('not.have.value', 'path')
         .should('have.value', 'lineOfCode');
 
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')
