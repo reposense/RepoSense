@@ -286,7 +286,7 @@ window.vAuthorship = {
 
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
-      this.updateSelectedFiles();
+      this.updateSelectedFiles(true);
     },
 
     getContributionFromAllAuthors(contributionMap) {
@@ -321,7 +321,7 @@ window.vAuthorship = {
       window.encodeHash();
     },
 
-    updateSelectedFiles() {
+    updateSelectedFiles(setIsLoaded = false) {
       this.$store.commit('incrementLoadingOverlayCount', 1);
       setTimeout(() => {
         this.selectedFiles = this.files.filter(
@@ -329,7 +329,9 @@ window.vAuthorship = {
             && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
         )
             .sort(this.sortingFunction);
-        this.isLoaded = true;
+        if (setIsLoaded) {
+          this.isLoaded = true;
+        }
         this.$store.commit('incrementLoadingOverlayCount', -1);
       });
     },
