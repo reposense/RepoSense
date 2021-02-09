@@ -889,6 +889,7 @@ window.vSummary = {
       }
       [[info.zUser]] = filtered;
       info.zFileTypeColors = this.fileTypeColors;
+      info.isRefreshing = false;
       this.$store.commit('updateTabZoomInfo', info);
     },
     matchZoomUser(info, user) {
@@ -921,6 +922,10 @@ window.vSummary = {
     this.processFileTypes();
     this.renderFilterHash();
     this.getFiltered();
+    if (this.$store.state.tabZoomInfo.isRefreshing) {
+      const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
+      this.restoreZoomFiltered(zoomInfo);
+    }
   },
   mounted() {
     // Delay execution of filterGroupSelection watcher

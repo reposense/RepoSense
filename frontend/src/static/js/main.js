@@ -39,6 +39,9 @@ window.app = new window.Vue({
   },
   watch: {
     '$store.state.tabZoomInfo': function () {
+      if (this.$store.state.tabZoomInfo.isRefreshing) {
+        return;
+      }
       this.tabInfo.tabZoom = Object.assign({}, this.$store.state.tabZoomInfo);
       this.activateTab('zoom');
     },
@@ -85,10 +88,10 @@ window.app = new window.Vue({
         await Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
-        this.userUpdated = true;
         this.loadingOverlayOpacity = 0.5;
         this.getUsers();
         this.renderTabHash();
+        this.userUpdated = true;
       } catch (error) {
         window.alert(error);
       } finally {
@@ -149,6 +152,7 @@ window.app = new window.Vue({
     renderZoomTabHash() {
       const hash = window.hashParams;
       const zoomInfo = {
+        isRefreshing: true,
         zAuthor: hash.zA,
         zRepo: hash.zR,
         zAvgCommitSize: hash.zACS,
@@ -162,7 +166,7 @@ window.app = new window.Vue({
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
-        this.$refs.summary.restoreZoomFiltered(zoomInfo);
+        this.$store.commit('updateTabZoomInfo', zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
