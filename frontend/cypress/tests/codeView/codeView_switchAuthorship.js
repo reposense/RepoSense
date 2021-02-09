@@ -69,6 +69,12 @@ describe('switch authorship', () => {
         .first()
         .should('contain.text', 'frontend/src/static/js/v_summary.js');
 
+    cy.url()
+        .should('include', 'http://localhost:9000/?search=&sort=groupTitle&sortWithin=title&since=2018-05-03&time' +
+        'frame=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor' +
+        '=eugenepeh&tabRepo=reposense%2FRepoSense%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=' +
+        'gradle~pug~java~js~md~scss~yml');
+
     // switch authorship view
     cy.get('.icon-button.fa-code')
         .should('be.visible')
@@ -82,5 +88,11 @@ describe('switch authorship', () => {
     cy.get('#tab-authorship .title .path')
         .first()
         .should('contain.text', 'src/test/java/reposense/parser/ArgsParserTest.java');
+
+    cy.url()
+        .should('include', 'http://localhost:9000/?search=&sort=groupTitle&sortWithin=title&since=2018-05-03&time' +
+        'frame=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=authorship&tabAuthor' +
+        '=yong24s&tabRepo=reposense%2FRepoSense%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=' +
+        'gradle~java~yml');
   });
 });
