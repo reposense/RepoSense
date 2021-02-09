@@ -63,11 +63,11 @@ describe('switch authorship', () => {
         .click();
 
     cy.get('#tab-authorship .panel-heading .author span')
-        .should('contain.text', 'eugenepeh')
+        .should('contain.text', 'eugenepeh');
 
     cy.get('#tab-authorship .title .path')
         .first()
-        .should('contain.text', 'frontend/src/static/js/v_summary.js')
+        .should('contain.text', 'frontend/src/static/js/v_summary.js');
 
     // switch authorship view
     cy.get('.icon-button.fa-code')
@@ -77,10 +77,10 @@ describe('switch authorship', () => {
 
     cy.get('#tab-authorship .panel-heading .author span')
         .should('not.contain.text', 'eugenepeh')
-        .should('contain.text', 'yong24s')
+        .should('contain.text', 'yong24s');
 
     cy.get('#tab-authorship .title .path')
         .first()
-        .should('contain.text', 'src/test/java/reposense/parser/ArgsParserTest.java')
+        .should('contain.text', 'src/test/java/reposense/parser/ArgsParserTest.java');
   });
 });

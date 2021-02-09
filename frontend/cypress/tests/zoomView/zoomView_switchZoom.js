@@ -63,10 +63,10 @@ describe('switch zoom', () => {
         .click();
 
     cy.get('#tab-zoom .panel-heading .author span')
-        .should('contain.text', 'eugenepeh')
+        .should('contain.text', 'eugenepeh');
 
     cy.get('#tab-zoom .zoom__day h3')
-        .should('contain.text', '2019-12-24')
+        .should('contain.text', '2019-12-24');
 
     // switch zoom view
     cy.get('.icon-button.fa-list-ul')
@@ -76,11 +76,11 @@ describe('switch zoom', () => {
 
     cy.get('#tab-zoom .panel-heading .author span')
         .should('not.contain.text', 'eugenepeh')
-        .should('contain.text', 'yong24s')
+        .should('contain.text', 'yong24s');
 
     cy.get('#tab-zoom .zoom__day h3')
         .should('not.contain.text', '2019-12-24')
-        .should('contain.text', '2019-06-10')
+        .should('contain.text', '2019-06-10');
   });
 });
 
