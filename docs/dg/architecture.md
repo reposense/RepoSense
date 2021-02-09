@@ -43,8 +43,8 @@
 
 ## CommitsReporter
 
-[`CommitsReporter`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitsReporter.java) is responsible for analyzing the **commit** history and generating a [`CommitContributionSummary`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitContributionSummary.java) for each repository. `CommitContributionSummary` contains information such as each author's daily and weekly contribution and the variance of their contribution. `CommitsReporter`,
- 1. uses [`CommitInfoExtractor`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitInfoExtractor.java) to run the `git log` command, which generates the statistics of each commit made within date range.
+[`CommitsReporter`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitsReporter.java) is responsible for analyzing the **commit** history and generating a [`CommitContributionSummary`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitContributionSummary.java) for each repository. `CommitContributionSummary` contains information such as each author's daily and weekly contribution and the variance of their contribution. `CommitsReporter`
+ 1. uses [`CommitInfoExtractor`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitInfoExtractor.java) to run the `git log` command, which generates each commit's statistics within the date range.
  1. generates a [`CommitInfo`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitInfo.java) for each commit, which contains the `infoLine` and `statLine`.
  1. uses [`CommitInfoAnalyzer`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitInfoAnalyzer.java) to extract the relevant data from `CommitInfo` into a [`CommitResult`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitResult.java), such as the number of line insertions and deletions in the commit and the author of the commit.
  1. uses [`CommitResultAggregator`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/CommitResultAggregator.java) to aggregate all `CommitResult` into a [`CommitContributionSummary`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/commits/model/CommitContributionSummary.java).
@@ -53,7 +53,7 @@
 
 ## AuthorshipReporter
 
-[`AuthorshipReporter`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/AuthorshipReporter.java) is responsible for analyzing the white listed **files**, traces the original author for each line of text/code, and generating an [`AuthorshipSummary`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/AuthorshipSummary.java) for each repository. `AuthorshipSummary` contains the analysis results of the white listed files and the amount of line contributions each author made. `AuthorshipReporter`,
+[`AuthorshipReporter`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/AuthorshipReporter.java) is responsible for analyzing the whitelisted **files**, traces the original author for each line of text/code, and generating an [`AuthorshipSummary`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/AuthorshipSummary.java) for each repository. `AuthorshipSummary` contains the analysis results of the whitelisted files and the number of line contributions each author made. `AuthorshipReporter`
  1. uses [`FileInfoExtractor`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/FileInfoExtractor.java) to traverse the repository to find all relevant files.
  1. generates a [`FileInfo`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/FileInfo.java) for each relevant file, which contains the path to the file and a list of [`LineInfo`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/model/LineInfo.java) representing each line of the file.
  1. uses [`FileInfoAnalyzer`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/authorship/FileInfoAnalyzer.java) to analyze each file, using `git blame` or annotations, and finds the `Author` for each `LineInfo`.
@@ -64,10 +64,10 @@
 
 ## ReportGenerator(Main)
 
-[`ReportGenerator`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java),
+[`ReportGenerator`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java)
  1. uses `GitClone` API to clone the repository from *GitHub*.
  1. copies the template files into the designated output directory.
- 1. uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary respectively.
+ 1. uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary, respectively.
  1. generates the `JSON` files needed to generate the `HTML` report.
 
 <!-- ==================================================================================================== -->
@@ -75,7 +75,7 @@
 ## System
 
 [`System`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system) contains the classes that interact with the Operating System and external processes.
- * [`CommandRunner`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/CommandRunner.java) creates processes that executes commands on the terminal. It consists of many *git* commands.
+ * [`CommandRunner`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/CommandRunner.java) creates processes that execute commands on the terminal. It consists of many *git* commands.
  * [`LogsManager`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/LogsManager.java) uses the `java.util.logging` package for logging. The `LogsManager` class is used to manage the logging levels and logging destinations. Log messages are output through: `Console` and to a `.log` file.
  * [`ReportServer`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/system/ReportServer.java) starts a server to display the report on the browser. It depends on the `net.freeutils.httpserver` package.
 
@@ -84,11 +84,11 @@
 ## Model
 
 [`Model`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model) holds the data structures that are commonly used by the different aspects of *RepoSense*.
- * [`Author`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contributions or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. It is used by `AuthorshipReporter` and `CommitsReporter` to attribute the commit and file contributions to the respective authors.
- * [`CliArguments`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/CliArguments.java) stores the parsed command line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
+ * [`Author`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/Author.java) stores the `GitHub ID` of an author. Any contributions or commits made by the author, using his/her `GitHub ID` or aliases, will be attributed to the same `Author` object. `AuthorshipReporter` and `CommitsReporter` use it to attribute the commit and file contributions to the respective authors.
+ * [`CliArguments`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/CliArguments.java) stores the parsed command-line arguments supplied by the user. It contains the configuration settings such as the CSV config file to read from, the directory to output the report to, and the date range of commits to analyze. These configuration settings are passed into `RepoConfiguration`.
  * [`FileTypeManager`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/FileTypeManager.java) stores the file format to be analyzed and the custom groups specified by the user for any repository.
- * [`RepoConfiguration`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository, which are the repository's orgarization, name, branch, list of authors to analyse, date range to analyze commits and files from `CliArguments`.
- These configuration information are used by:
+ * [`RepoConfiguration`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/model/RepoConfiguration.java) stores the configuration information from the CSV config file for a single repository: the repository's organization, name, branch, list of authors to analyse, date range to analyze commits, and files from `CliArguments`.
+ This configuration information is used by:
     - `GitClone` to determine the location to clone the repository from and which branch to check out to.
     - `AuthorshipReporter` and `CommitsReporter` to determine the range of commits and files to analyze.
     - `ReportGenerator` to determine the directory to output the report.
