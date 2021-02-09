@@ -114,7 +114,7 @@ window.vAuthorship = {
       window.encodeHash();
     },
 
-    initiate() {
+    async initiate() {
       const repo = window.REPOS[this.info.repo];
 
       this.getRepoProps(repo);
@@ -129,19 +129,20 @@ window.vAuthorship = {
         }
       }
       repoCache.push(this.info.repo);
-      if (repo.files) {
-        this.processFiles(repo.files);
-        this.resetSelectedFileTypes();
-        this.setInfoHash();
-      } else {
-        // Indication that it is a refresh
-        window.api.loadAuthorship(this.info.repo)
-            .then((files) => {
-              this.processFiles(files);
-              this.retrieveHashes();
-              this.setInfoHash();
-            });
+
+      let { files } = repo;
+      if (!files) {
+        files = await window.api.loadAuthorship(this.info.repo);
       }
+      this.processFiles(files);
+
+      if (this.info.isRefresh) {
+        this.retrieveHashes();
+      } else {
+        this.resetSelectedFileTypes();
+      }
+
+      this.setInfoHash();
     },
 
     getRepoProps(repo) {

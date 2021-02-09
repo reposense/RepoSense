@@ -128,6 +128,7 @@ window.app = new window.Vue({
         author: hash.tabAuthor,
         repo: hash.tabRepo,
         isMergeGroup: hash.authorshipIsMergeGroup === 'true',
+        isRefresh: true,
         minDate,
         maxDate,
       };
