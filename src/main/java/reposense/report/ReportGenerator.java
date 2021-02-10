@@ -19,10 +19,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -173,39 +180,51 @@ public class ReportGenerator {
 
     /**
      * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
-     * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
+     * Performs cloning, analysis and report generation of each repository in parallel.
      *
      * @return A list of paths to the JSON report files generated for each repository.
      */
     private static List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
-        RepoCloner repoCloner = new RepoCloner();
-        RepoLocation clonedRepoLocation = null;
-
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
 
-        RepoLocation currRepoLocation = repoLocationList.get(0);
-        repoCloner.cloneBare(repoLocationMap.get(currRepoLocation).get(0));
+        ExecutorService executor = Executors.newFixedThreadPool(4);
 
-        List<Path> generatedFiles = new ArrayList<>();
-        for (int index = 1; index <= repoLocationList.size(); index++) {
-            RepoLocation nextRepoLocation = (index < repoLocationList.size()) ? repoLocationList.get(index) : null;
-            clonedRepoLocation = repoCloner.getClonedRepoLocation();
+        List<Path> generatedFiles = new ArrayList();
 
-            // Clones the next location while analyzing the previously cloned repos in parallel.
-            if (nextRepoLocation != null) {
-                repoCloner.cloneBare(repoLocationMap.get(nextRepoLocation).get(0));
+        Stream<Callable<List<Path>>> jobs = repoLocationList.stream()
+                .map(location -> {
+                    return () -> {
+                        List<Path> files;
+                        RepoCloner repoCloner = new RepoCloner();
+                        RepoConfiguration config = repoLocationMap.get(location).get(0);
+                        repoCloner.cloneBare(config);
+                        RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
+                        if (clonedRepoLocation == null) {
+                            handleCloningFailed(configs, clonedRepoLocation);
+                            files = new ArrayList();
+                        } else {
+                            files = analyzeRepos(outputPath, configs, repoLocationMap.get(location),
+                                    repoCloner.getCurrentRepoDefaultBranch());
+                        }
+                        repoCloner.cleanupRepo(config);
+                        return files;
+                    };
+                });
+        try {
+            List<Future<List<Path>>> jobsOutput = executor.invokeAll(jobs.collect(Collectors.toList()));
+            for (Future<List<Path>> out : jobsOutput) {
+                try {
+                    List<Path> outList =  out.get();
+                    generatedFiles.addAll(outList);
+                } catch (ExecutionException | CancellationException e) {
+                    e.printStackTrace();
+                }
             }
-
-            if (clonedRepoLocation == null) {
-                handleCloningFailed(configs, currRepoLocation);
-            } else {
-                generatedFiles.addAll(analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
-                        repoCloner.getCurrentRepoDefaultBranch()));
-            }
-            currRepoLocation = nextRepoLocation;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        repoCloner.cleanup();
+        executor.shutdown();
         return generatedFiles;
     }
 
@@ -216,7 +235,7 @@ public class ReportGenerator {
      * @return A list of paths to the JSON report files generated for the repositories in {@code configsToAnalyze}.
      */
     private static List<Path> analyzeRepos(String outputPath, List<RepoConfiguration> configs,
-            List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
+                                           List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
         Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
         List<Path> generatedFiles = new ArrayList<>();
         while (itr.hasNext()) {
@@ -359,7 +378,7 @@ public class ReportGenerator {
      * removes {@code failedConfig} from the list of {@code configs}.
      */
     private static void handleAnalysisFailed(List<RepoConfiguration> configs, RepoConfiguration failedConfig,
-            String errorMessage) {
+                                             String errorMessage) {
         handleFailedConfigs(configs, Collections.singletonList(failedConfig), errorMessage);
     }
 
