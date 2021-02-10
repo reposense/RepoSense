@@ -266,7 +266,12 @@ window.vAuthorship = {
         out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
         out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
         out.fileType = file.fileType;
-        out.isBinary = file.isBinary ? true : false;
+
+        if (file.isBinary) {
+          out.isBinary = true; 
+        } else {
+          out.isBinary = false;
+        }
 
         if (!file.isBinary) {
           const segmentInfo = this.splitSegments(file.lines);
