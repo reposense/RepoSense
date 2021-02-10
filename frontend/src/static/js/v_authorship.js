@@ -268,7 +268,7 @@ window.vAuthorship = {
         out.fileType = file.fileType;
 
         if (file.isBinary) {
-          out.isBinary = true; 
+          out.isBinary = true;
         } else {
           out.isBinary = false;
         }
