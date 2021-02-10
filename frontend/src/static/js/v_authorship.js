@@ -274,7 +274,7 @@ window.vAuthorship = {
           out.blankLineCount = segmentInfo.blankLineCount;
 
           this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
-               fileTypeBlanksInfoObj);
+              fileTypeBlanksInfoObj);
         }
 
         res.push(out);
@@ -295,7 +295,7 @@ window.vAuthorship = {
     },
 
     isValidFile(contributionMap) {
-      return this.info.isMergeGroup || (this.info.author in contributionMap)
+      return this.info.isMergeGroup || (this.info.author in contributionMap);
     },
 
     isEmptyFile(lineCnt, isBinary) {
