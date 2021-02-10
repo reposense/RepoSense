@@ -119,10 +119,7 @@
               'color': this.getFontColor(fileTypeColors[file.fileType])\
               }"
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}&nbsp;({{ file.lineCount - file.blankLineCount }})
-          span.fileTypeLabel(
-            v-if='file.isBinary',
-            style="background-color: #FFF; color: #424242; border: 1px solid #424242"
-          ) binary&nbsp;
+          span.fileTypeLabel.binary(v-if='file.isBinary') binary&nbsp;
         pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")

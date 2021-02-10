@@ -102,6 +102,12 @@
   display: inline-block;
   margin: 0 5px 5px 0;
   padding: 0 5px;
+
+  &.binary {
+    background-color: mui-color('white');
+    color: mui-color('grey', '800');
+    border: 1px solid mui-color('grey', '800');
+  }
 }
 
 .toolbar {

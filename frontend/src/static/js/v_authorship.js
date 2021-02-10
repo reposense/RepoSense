@@ -83,7 +83,7 @@ window.vAuthorship = {
             .filter((fileType) => this.fileTypes.includes(fileType));
       }
 
-      if (hash.authorshipIsBinaryChecked) {
+      if (hash.authorshipBinaryFileType) {
         this.isBinaryFilesChecked = true;
       }
 
@@ -104,7 +104,7 @@ window.vAuthorship = {
 
     removeAuthorshipHashes() {
       window.removeHash('authorshipFileTypes');
-      window.removeHash('authorshipIsBinaryChecked');
+      window.removeHash('authorshipBinaryFileType');
       window.removeHash('authorshipFilesGlob');
       window.removeHash('authorshipSortBy');
       window.removeHash('reverseAuthorshipOrder');
@@ -247,30 +247,37 @@ window.vAuthorship = {
 
       files.forEach((file) => {
         const contributionMap = file.authorContributionMap;
+
+        if (!this.isValidFile(contributionMap)) {
+          return;
+        }
+
         const lineCnt = this.info.isMergeGroup
             ? this.getContributionFromAllAuthors(contributionMap)
             : contributionMap[this.info.author];
 
-        if (this.isValidFile(contributionMap, lineCnt, file.isBinary)) {
-          const out = {};
-          out.path = file.path;
-          out.lineCount = lineCnt;
-          out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
-          out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
-          out.fileType = file.fileType;
-          out.isBinary = file.isBinary;
-
-          if (!file.isBinary) {
-            const segmentInfo = this.splitSegments(file.lines);
-            out.segments = segmentInfo.segments;
-            out.blankLineCount = segmentInfo.blankLineCount;
-
-            this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
-                fileTypeBlanksInfoObj);
-          }
-
-          res.push(out);
+        if (this.isEmptyFile(lineCnt, file.isBinary)) {
+          return;
         }
+
+        const out = {};
+        out.path = file.path;
+        out.lineCount = lineCnt;
+        out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
+        out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
+        out.fileType = file.fileType;
+        out.isBinary = file.isBinary ? true : false;
+
+        if (!file.isBinary) {
+          const segmentInfo = this.splitSegments(file.lines);
+          out.segments = segmentInfo.segments;
+          out.blankLineCount = segmentInfo.blankLineCount;
+
+          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
+               fileTypeBlanksInfoObj);
+        }
+
+        res.push(out);
       });
 
       res.sort((a, b) => b.lineCount - a.lineCount);
@@ -287,9 +294,12 @@ window.vAuthorship = {
       this.updateSelectedFiles();
     },
 
-    isValidFile(contributionMap, lineCnt, isBinary) {
-      return (this.info.isMergeGroup || (this.info.author in contributionMap))
-        && (lineCnt || isBinary);
+    isValidFile(contributionMap) {
+      return this.info.isMergeGroup || (this.info.author in contributionMap)
+    },
+
+    isEmptyFile(lineCnt, isBinary) {
+      return lineCnt === 0 && !isBinary;
     },
 
     getContributionFromAllAuthors(contributionMap) {
@@ -311,7 +321,7 @@ window.vAuthorship = {
 
       window.addHash('authorshipFilesGlob', this.searchBarValue);
       window.removeHash('authorshipFileTypes');
-      window.removeHash('authorshipIsBinaryChecked');
+      window.removeHash('authorshipBinaryFileType');
       window.encodeHash();
     },
 
@@ -320,12 +330,12 @@ window.vAuthorship = {
           ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
           : '';
 
-      const binaryHash = this.isBinaryFilesChecked
+      const binaryFileTypeHash = this.isBinaryFilesChecked
           ? 'binary'
           : '';
 
       window.addHash('authorshipFileTypes', fileTypeHash);
-      window.addHash('authorshipIsBinaryChecked', binaryHash);
+      window.addHash('authorshipBinaryFileType', binaryFileTypeHash);
       window.removeHash('authorshipFilesGlob');
       window.encodeHash();
     },
@@ -334,7 +344,7 @@ window.vAuthorship = {
       this.$store.commit('incrementLoadingOverlayCount', 1);
       setTimeout(() => {
         this.selectedFiles = this.files.filter(
-            (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary)
+            (file) => (this.selectedFileTypes.includes(file.fileType)
             || (file.isBinary && this.isBinaryFilesChecked))
             && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
         )
