@@ -152,7 +152,8 @@ public class RepoCloner {
     }
 
     /**
-     * Spawns a process to shallow clone repo specified in {@code config}. Does not wait for process to finish executing.
+     * Spawns a process to shallow clone repo specified in {@code config}.
+     * Does not wait for process to finish executing.
      * Should only handle a maximum of one spawned process at any time.
      */
     private boolean spawnShallowCloneProcess(RepoConfiguration config, Date shallowSinceDate) {
