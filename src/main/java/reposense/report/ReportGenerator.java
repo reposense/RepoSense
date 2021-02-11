@@ -225,7 +225,8 @@ public class ReportGenerator {
             e.printStackTrace();
         }
         executor.shutdown();
-        (new RepoCloner()).cleanup();
+        RepoCloner repoCloner = new RepoCloner();
+        repoCloner.cleanup();
         return generatedFiles;
     }
 
