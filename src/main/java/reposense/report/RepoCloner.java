@@ -9,7 +9,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import reposense.git.*;
+import reposense.git.GitBranch;
+import reposense.git.GitCatFile;
+import reposense.git.GitClone;
+import reposense.git.GitRevList;
+import reposense.git.GitShow;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
