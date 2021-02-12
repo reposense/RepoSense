@@ -9,7 +9,7 @@ window.vSummaryCharts = {
       drags: [],
       isAuthorshipTabSelected: false,
       activeIndex: null,
-      activeRepo: null
+      activeRepo: null,
     };
   },
 
