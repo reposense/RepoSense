@@ -7,8 +7,20 @@ window.vSummaryCharts = {
   data() {
     return {
       drags: [],
+      isAuthorshipTabSelected: false,
+      activeIndex: null,
+      activeRepo: null
     };
   },
+
+  watch: {
+    isAuthorshipTabSelected() {
+      if (this.isAuthorshipTabSelected) {
+        this.retrievedIndexHash();
+      }
+    },
+  },
+
   computed: {
     avgCommitSize() {
       let totalCommits = 0;
@@ -116,7 +128,11 @@ window.vSummaryCharts = {
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
         return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
-
+      this.activeIndex = null;
+      this.activeRepo = null;
+      window.removeHash('activeIndex');
+      window.removeHash('activeRepo');
+      window.encodeHash();
       return repo.location;
     },
 
@@ -137,7 +153,12 @@ window.vSummaryCharts = {
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
       };
-
+      this.activeIndex = index;
+      this.activeRepo = repo;
+      window.addHash('activeIndex', index);
+      window.addHash('activeRepo', repo);
+      window.encodeHash();
+      this.isAuthorshipTabSelected = true;
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
@@ -183,7 +204,12 @@ window.vSummaryCharts = {
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
-
+      this.activeIndex = null;
+      this.activeRepo = null;
+      window.removeHash('activeIndex');
+      window.removeHash('activeRepo');
+      window.encodeHash();
+      this.isAuthorshipTabSelected = false;
       this.$store.commit('updateTabZoomInfo', info);
     },
 
@@ -250,6 +276,14 @@ window.vSummaryCharts = {
     handleExpandGroup(groupName) {
       const info = this.mergedGroups.filter((x) => x !== groupName);
       this.$store.commit('updateMergedGroup', info);
+    },
+
+    retrievedIndexHash() {
+      const hash = window.hashParams;
+      if (hash.activeIndex && hash.activeRepo) {
+        this.activeIndex = hash.activeIndex;
+        this.activeRepo = hash.activeRepo;
+      }
     },
   },
   components: {

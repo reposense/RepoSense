@@ -102,7 +102,8 @@
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button(icon="code")
+            font-awesome-icon.icon-button.active(icon="code" v-if="j == activeIndex && repo == activeRepo")
+            font-awesome-icon.icon-button(icon="code" v-if="j != activeIndex || repo != activeRepo")
             span.tooltip-text Click to view author's contribution
         a(
           onclick="deactivateAllOverlays()",
