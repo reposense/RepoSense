@@ -246,7 +246,6 @@ window.vAuthorship = {
       const fileTypeBlanksInfoObj = {};
 
       files.filter((file) => this.isValidFile(file)).forEach((file) => {
-
         const contributionMap = file.authorContributionMap;
 
         const lineCnt = this.info.isMergeGroup
