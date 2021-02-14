@@ -7,18 +7,9 @@ window.vSummaryCharts = {
   data() {
     return {
       drags: [],
-      isAuthorshipTabSelected: false,
       activeIndex: null,
       activeRepo: null,
     };
-  },
-
-  watch: {
-    isAuthorshipTabSelected() {
-      if (this.isAuthorshipTabSelected) {
-        this.retrievedIndexHash();
-      }
-    },
   },
 
   computed: {
@@ -130,9 +121,7 @@ window.vSummaryCharts = {
       }
       this.activeIndex = null;
       this.activeRepo = null;
-      window.removeHash('activeIndex');
-      window.removeHash('activeRepo');
-      window.encodeHash();
+      this.removeSelectedTabHash();
       return repo.location;
     },
 
@@ -155,10 +144,7 @@ window.vSummaryCharts = {
       };
       this.activeIndex = index;
       this.activeRepo = repo;
-      window.addHash('activeIndex', index);
-      window.addHash('activeRepo', repo);
-      window.encodeHash();
-      this.isAuthorshipTabSelected = true;
+      this.addSelectedTabHash(index, repo);
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
@@ -206,10 +192,7 @@ window.vSummaryCharts = {
       };
       this.activeIndex = null;
       this.activeRepo = null;
-      window.removeHash('activeIndex');
-      window.removeHash('activeRepo');
-      window.encodeHash();
-      this.isAuthorshipTabSelected = false;
+      this.removeSelectedTabHash();
       this.$store.commit('updateTabZoomInfo', info);
     },
 
@@ -278,12 +261,36 @@ window.vSummaryCharts = {
       this.$store.commit('updateMergedGroup', info);
     },
 
-    retrievedIndexHash() {
+    getCurrentIndex() {
       const hash = window.hashParams;
-      if (hash.activeIndex && hash.activeRepo) {
+
+      if (hash.activeIndex) {
         this.activeIndex = hash.activeIndex;
+      }
+
+      return this.activeIndex;
+    },
+
+    getCurrentRepo() {
+      const hash = window.hashParams;
+
+      if (hash.activeIndex) {
         this.activeRepo = hash.activeRepo;
       }
+
+      return this.activeRepo;
+    },
+
+    addSelectedTabHash(index, repo) {
+      window.addHash('activeIndex', index);
+      window.addHash('activeRepo', repo);
+      window.encodeHash();
+    },
+
+    removeSelectedTabHash() {
+      window.removeHash('activeIndex');
+      window.removeHash('activeRepo');
+      window.encodeHash();
     },
   },
   components: {
