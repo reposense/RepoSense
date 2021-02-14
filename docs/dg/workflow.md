@@ -18,6 +18,7 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 * As we squash the commits when merging a PR, there is ==no need to follow a strict commit organization or write elaborate commit messages for each commit==.<br>
   However, when pushing new commits to your PR branch, do clean up _new_ commits (i.e., commits not yet pushed) e.g., delete temporary print statements added for debugging purposes.
 * In the PR description, please propose a commit message to be used when the PR is merged eventually. The commit message should follow the guidelines given [here](https://se-education.org/guides/guidelines/PRs.html). You may refer to [this PR](https://github.com/reposense/RepoSense/pull/1057) for an example.
+* For simple documentation fixes or tasks with clear instructions, it is unnecessary to create an issue before creating a PR.
 * You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) sections to learn about the design and implementation of RepoSense. 
 * The section below has more information about the various stages of submitting a PR.
 
@@ -37,9 +38,13 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 
 <div id="section-running-from-code">
 
-* To run the app from code, run `gradlew run` from the project root. By default, it will run based on the config files in the `[project root]/config` folder.
-* To supply flags, you can use the `-Dargs="[FLAGS]"` format.<br>
+* To run the app from code, run `gradlew run` from the project root. By default, it will run based on the config files in the `[project root]/config` folder, and generate the report in the `[project root]/reposense-report` folder.
+* To supply flags to customize the report, you can use the `-Dargs="[FLAGS]"` format.<br>
   e.g., `gradlew run -Dargs="--since 31/12/2019 --formats java adoc xml"`
+* Run `gradlew run -Dargs="--view"` to generate the report and view it in the default browser.
+* You can refer to the panel below for the format of the flags that can be supplied in `-Dargs="[FLAGS]"`.
+
+{{ embed("User guide → Appendix: **CLI syntax reference**", "../ug/cli.md") }}
 </div>
 
 <!-- ==================================================================================================== -->
