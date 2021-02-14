@@ -245,20 +245,13 @@ window.vAuthorship = {
       const res = [];
       const fileTypeBlanksInfoObj = {};
 
-      files.forEach((file) => {
+      files.filter((file) => this.isValidFile(file)).forEach((file) => {
+
         const contributionMap = file.authorContributionMap;
 
-        if (!this.isValidFile(contributionMap)) {
-          return;
-        }
-
         const lineCnt = this.info.isMergeGroup
-            ? this.getContributionFromAllAuthors(contributionMap)
+            ? file.groupLineCnt
             : contributionMap[this.info.author];
-
-        if (this.isEmptyFile(lineCnt, file.isBinary)) {
-          return;
-        }
 
         const out = {};
         out.path = file.path;
@@ -299,12 +292,14 @@ window.vAuthorship = {
       this.updateSelectedFiles();
     },
 
-    isValidFile(contributionMap) {
-      return this.info.isMergeGroup || (this.info.author in contributionMap);
-    },
+    isValidFile(file) {
+      file.groupLineCnt = this.info.isMergeGroup
+          ? this.getContributionFromAllAuthors(file.authorContributionMap)
+          : -1;
 
-    isEmptyFile(lineCnt, isBinary) {
-      return lineCnt === 0 && !isBinary;
+      return this.info.isMergeGroup
+        ? file.groupLineCnt > 0 || file.isBinary
+        : this.info.author in file.authorContributionMap;
     },
 
     getContributionFromAllAuthors(contributionMap) {
@@ -349,7 +344,7 @@ window.vAuthorship = {
       this.$store.commit('incrementLoadingOverlayCount', 1);
       setTimeout(() => {
         this.selectedFiles = this.files.filter(
-            (file) => (this.selectedFileTypes.includes(file.fileType)
+            (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary)
             || (file.isBinary && this.isBinaryFilesChecked))
             && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
         )
