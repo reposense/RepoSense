@@ -3,15 +3,29 @@
     b-row
       b-col(cols="9") Repository URL:
       b-col(cols="2") Branch
+    template(v-for='(repo, i) in repos')
+      b-row
+        b-col(cols="9") 
+          b-form-input(
+            v-model="repo.url",
+            placeholder="Repo",
+          )
+        b-col(cols="2")
+          b-form-input(
+            v-model="repo.branch",
+            placeholder="Branch",
+          )
+        b-col
+          button.plus-button(v-bind:onClick="addRepo") -
     b-row
       b-col(cols="9") 
-        b-form-textarea(
-          size="sm",
+        b-form-input(
+          v-model="newUrl",
           placeholder="Repo",
         )
       b-col(cols="2")
-        b-form-textarea(
-          size="sm",
+        b-form-input(
+          v-model="newBranch",
           placeholder="Branch",
         )
       b-col
@@ -23,6 +37,12 @@ export default {
   name: 'RepoList',
   props: {
     repos: Array
+  },
+  data() {
+    return {
+      newUrl: '',
+      newBranch: '',
+    };
   },
   methods: {
     addRepo() {

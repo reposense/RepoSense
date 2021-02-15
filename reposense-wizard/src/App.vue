@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  .app
     img(alt="Vue logo", src="./assets/reposense_logo.svg")
     h1 Create your first RepoSense report
     h2 Repositories
@@ -18,7 +18,10 @@ export default {
   },
   data() {
     return {
-      repos: []
+      repos: [{'url': 'aaa.com', 'branch': 'bbb'}],
+      startDate: '',
+      endDate: '',
+      timezone: 8,
     };
   },
 }
@@ -30,7 +33,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #E9ECEF;
   margin-top: 60px;
 }
 </style>
