@@ -237,7 +237,7 @@ public class ReportGenerator {
      * @return A list of paths to the JSON report files generated for the repositories in {@code configsToAnalyze}.
      */
     private static List<Path> analyzeRepos(String outputPath, List<RepoConfiguration> configs,
-                                           List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
+            List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
         Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
         List<Path> generatedFiles = new ArrayList<>();
         while (itr.hasNext()) {
@@ -380,7 +380,7 @@ public class ReportGenerator {
      * removes {@code failedConfig} from the list of {@code configs}.
      */
     private static void handleAnalysisFailed(List<RepoConfiguration> configs, RepoConfiguration failedConfig,
-                                             String errorMessage) {
+            String errorMessage) {
         handleFailedConfigs(configs, Collections.singletonList(failedConfig), errorMessage);
     }
 
