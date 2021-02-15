@@ -24,21 +24,16 @@
   },
   "homepage": "https://github.com/reposense/RepoSense#readme",
   "dependencies": {
-    "bootstrap": "^4.6.0",
-    "bootstrap-vue": "^2.21.2",
     "minimatch": "^3.0.4",
     "pug-lint": "^2.6.0",
     "spuild": "1.0.2",
-    "stylelint-config-standard": "^18.3.0",
-    "vue": "^2.6.12"
+    "stylelint-config-standard": "^18.3.0"
   },
   "devDependencies": {
     "browserify": "^16.2.3",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.13.0",
-    "pug": "^3.0.0",
-    "pug-plain-loader": "^1.1.0",
     "stylelint": "^10.1.0",
     "stylelint-order": "^3.0.1",
     "vueify": "^9.4.1"

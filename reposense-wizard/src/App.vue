@@ -1,16 +1,26 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+<template lang="pug">
+  div
+    img(alt="Vue logo", src="./assets/reposense_logo.svg")
+    h1 Create your first RepoSense report
+    h2 Repositories
+    RepoList(v-bind:repos="repos")
+    p Repositories must be in Git and publicly accessible
+    h2 Advanced Options
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import RepoList from './components/RepoList.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    RepoList
+  },
+  data() {
+    return {
+      repos: []
+    };
+  },
 }
 </script>
 
