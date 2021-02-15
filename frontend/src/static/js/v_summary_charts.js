@@ -7,8 +7,8 @@ window.vSummaryCharts = {
   data() {
     return {
       drags: [],
-      activeIndex: null,
       activeRepo: null,
+      activeUser: null,
     };
   },
 
@@ -119,7 +119,7 @@ window.vSummaryCharts = {
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
         return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
-      this.activeIndex = null;
+      this.activeUser = null;
       this.activeRepo = null;
       this.removeSelectedTabHash();
       return repo.location;
@@ -142,9 +142,9 @@ window.vSummaryCharts = {
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
       };
-      this.activeIndex = index;
-      this.activeRepo = repo;
-      this.addSelectedTabHash(index, repo);
+      this.activeUser = user.name;
+      this.activeRepo = user.repoName;
+      this.addSelectedTabHash(user.name, user.repoName);
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
@@ -190,7 +190,7 @@ window.vSummaryCharts = {
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
-      this.activeIndex = null;
+      this.activeUser = null;
       this.activeRepo = null;
       this.removeSelectedTabHash();
       this.$store.commit('updateTabZoomInfo', info);
@@ -261,34 +261,34 @@ window.vSummaryCharts = {
       this.$store.commit('updateMergedGroup', info);
     },
 
-    getCurrentIndex() {
+    getCurrentUser() {
       const hash = window.hashParams;
 
-      if (hash.activeIndex) {
-        this.activeIndex = hash.activeIndex;
+      if (hash.activeUser) {
+        this.activeUser = hash.activeUser;
       }
 
-      return this.activeIndex;
+      return this.activeUser;
     },
 
     getCurrentRepo() {
       const hash = window.hashParams;
 
-      if (hash.activeIndex) {
+      if (hash.activeRepo) {
         this.activeRepo = hash.activeRepo;
       }
 
       return this.activeRepo;
     },
 
-    addSelectedTabHash(index, repo) {
-      window.addHash('activeIndex', index);
+    addSelectedTabHash(userName, repo) {
+      window.addHash('activeUser', userName);
       window.addHash('activeRepo', repo);
       window.encodeHash();
     },
 
     removeSelectedTabHash() {
-      window.removeHash('activeIndex');
+      window.removeHash('activeUser');
       window.removeHash('activeRepo');
       window.encodeHash();
     },
