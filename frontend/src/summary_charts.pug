@@ -52,8 +52,8 @@
           v-on:click="openTabAuthorship(repo[0], repo, 0, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button.active(icon="code", v-if="repo[0].repoName == getCurrentRepo()")
-            font-awesome-icon.icon-button(icon="code", v-if="repo[0].repoName != getCurrentRepo()")
+            font-awesome-icon.icon-button.active(icon="code", v-if="repo[0].repoName == activeRepo")
+            font-awesome-icon.icon-button(icon="code", v-if="repo[0].repoName != activeRepo")
             span.tooltip-text Click to view group's code
         a(
           onclick="deactivateAllOverlays()",
@@ -105,11 +105,11 @@
           .tooltip
             font-awesome-icon.icon-button.active(
               icon="code",
-              v-if="user.name == getCurrentUser() && user.repoName == getCurrentRepo()"
+              v-if="user.name == activeUser && user.repoName == activeRepo"
             )
             font-awesome-icon.icon-button(
               icon="code",
-              v-if="user.name != getCurrentUser() || user.repoName != getCurrentRepo()"
+              v-if="user.name != activeUser || user.repoName != activeRepo"
             )
             span.tooltip-text Click to view author's contribution.
         a(

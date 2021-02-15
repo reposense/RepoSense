@@ -119,9 +119,7 @@ window.vSummaryCharts = {
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
         return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
-      this.activeUser = null;
-      this.activeRepo = null;
-      this.removeSelectedTabHash();
+      this.removeSelectedTab();
       return repo.location;
     },
 
@@ -142,9 +140,7 @@ window.vSummaryCharts = {
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
       };
-      this.activeUser = user.name;
-      this.activeRepo = user.repoName;
-      this.addSelectedTabHash(user.name, user.repoName);
+      this.addSelectedTab(user.name, user.repoName, isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
@@ -190,9 +186,7 @@ window.vSummaryCharts = {
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
-      this.activeUser = null;
-      this.activeRepo = null;
-      this.removeSelectedTabHash();
+      this.removeSelectedTab();
       this.$store.commit('updateTabZoomInfo', info);
     },
 
@@ -261,37 +255,42 @@ window.vSummaryCharts = {
       this.$store.commit('updateMergedGroup', info);
     },
 
-    getCurrentUser() {
+    retrieveSelectedAuthorHash() {
       const hash = window.hashParams;
 
       if (hash.activeUser) {
         this.activeUser = hash.activeUser;
       }
 
-      return this.activeUser;
-    },
-
-    getCurrentRepo() {
-      const hash = window.hashParams;
-
       if (hash.activeRepo) {
         this.activeRepo = hash.activeRepo;
       }
-
-      return this.activeRepo;
     },
 
-    addSelectedTabHash(userName, repo) {
+    addSelectedTab(userName, repo, isMerged) {
+      if (!isMerged) {
+        this.activeUser = userName;
+      } else {
+        this.activeUser = null;
+      }
+      this.activeRepo = repo;
+
       window.addHash('activeUser', userName);
       window.addHash('activeRepo', repo);
       window.encodeHash();
     },
 
-    removeSelectedTabHash() {
+    removeSelectedTab() {
+      this.activeUser = null;
+      this.activeRepo = null;
+
       window.removeHash('activeUser');
       window.removeHash('activeRepo');
       window.encodeHash();
     },
+  },
+  created() {
+    this.retrieveSelectedAuthorHash();
   },
   components: {
     vRamp: window.vRamp,
