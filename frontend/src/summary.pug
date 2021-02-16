@@ -76,7 +76,17 @@
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
         v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
-      ) span {{errorBlock.errorMessage}}
+      )
+        span Oops, an unexpected error occurred. If this is due to a problem in RepoSense, please report in&nbsp;
+        a(
+          v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
+        )
+          strong our issue tracker&nbsp;
+        span or email us at&nbsp;
+        a(
+          v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
+        )
+          span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
   .fileTypes(v-if="filterBreakdown")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
