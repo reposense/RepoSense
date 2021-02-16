@@ -76,8 +76,7 @@
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
         v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
-      )
-        span {{errorBlock.errorMessage}}
+      ) span {{errorBlock.errorMessage}}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
   .fileTypes(v-if="filterBreakdown")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
