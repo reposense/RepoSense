@@ -8,10 +8,10 @@ window.HASH_DELIMITER = '~';
 window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
+window.REPORT_ZIP = null;
 
 const HASH_ANCHOR = '?';
 const REPORT_DIR = '.';
-const REPORT_ZIP = null;
 
 window.deactivateAllOverlays = function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
@@ -138,96 +138,101 @@ window.getGroupName = function getGroupName(group, filterGroupSelection) {
 };
 
 window.api = {
-  loadJSON(fname) {
-    if (REPORT_ZIP) {
-      const zipObject = REPORT_ZIP.file(fname.slice(2));
+  async loadJSON(fname) {
+    if (window.REPORT_ZIP) {
+      const zipObject = window.REPORT_ZIP.file(fname);
       if (zipObject) {
-        return zipObject.async('text').then((txt) => JSON.parse(txt));
+        try {
+          return JSON.parse(await zipObject.async('text'));
+        } catch (e) {
+          throw new Error('Uploaded JSON is invalid.');
+        }
+      } else {
+        throw new Error('Uploaded zip file is invalid.');
       }
-      return Promise.reject(new Error('Zip file is invalid.'));
     }
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', fname);
-      xhr.onload = function xhrOnload() {
-        if (xhr.status === 200) {
-          resolve(JSON.parse(xhr.responseText));
-        } else {
-          reject(new Error('Unable to get file.'));
-        }
-      };
-      xhr.send(null);
-    });
+    try {
+      const response = await fetch(`${REPORT_DIR}/${fname}`);
+      // Not directly returned in case response is not actually json.
+      const json = await response.json();
+      return json;
+    } catch (e) {
+      throw new Error(`Unable to read ${fname}.`);
+    }
   },
-  loadSummary() {
+  async loadSummary() {
     window.REPOS = {};
+    let data = {};
+    try {
+      data = await this.loadJSON('summary.json');
+    } catch (error) {
+      if (error.message === 'Unable to read summary.json.') {
+        return null;
+      }
+      throw error;
+    }
+    window.app.creationDate = data.reportGeneratedTime;
+    window.app.sinceDate = data.sinceDate;
+    window.app.untilDate = data.untilDate;
+    window.app.repoSenseVersion = data.repoSenseVersion;
+    window.app.reportGenerationTime = data.reportGenerationTime;
+    window.app.isSinceDateProvided = data.isSinceDateProvided;
+    window.app.isUntilDateProvided = data.isUntilDateProvided;
 
-    return this.loadJSON(`${REPORT_DIR}/summary.json`)
-        .then((data) => {
-          window.app.creationDate = data.reportGeneratedTime;
-          window.app.sinceDate = data.sinceDate;
-          window.app.untilDate = data.untilDate;
-          window.app.repoSenseVersion = data.repoSenseVersion;
-          window.app.reportGenerationTime = data.reportGenerationTime;
-          window.app.isSinceDateProvided = data.isSinceDateProvided;
-          window.app.isUntilDateProvided = data.isUntilDateProvided;
+    Object.entries(data.errorList).forEach(([repoName, message]) => {
+      window.app.errorMessages[repoName] = message;
+    });
 
-          Object.entries(data.errorList).forEach(([repoName, message]) => {
-            window.app.errorMessages[repoName] = message;
-          });
-
-          const names = [];
-          data.repos.forEach((repo) => {
-            const repoName = `${repo.displayName}`;
-            window.REPOS[repoName] = repo;
-            names.push(repoName);
-          });
-          return names;
-        });
+    const names = [];
+    data.repos.forEach((repo) => {
+      const repoName = `${repo.displayName}`;
+      window.REPOS[repoName] = repo;
+      names.push(repoName);
+    });
+    return names;
   },
 
-  loadCommits(repoName) {
+  async loadCommits(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
-    return this.loadJSON(`${REPORT_DIR}/${folderName}/commits.json`).then((commits) => {
-      const res = [];
-      const repo = window.REPOS[repoName];
+    const commits = await this.loadJSON(`${folderName}/commits.json`);
+    const res = [];
+    const repo = window.REPOS[repoName];
 
-      Object.keys(commits.authorDisplayNameMap).forEach((author) => {
-        if (author) {
-          const obj = {
-            name: author,
-            repoId: repoName,
-            variance: commits.authorContributionVariance[author],
-            displayName: commits.authorDisplayNameMap[author],
-            dailyCommits: commits.authorDailyContributionsMap[author],
-            fileTypeContribution: commits.authorFileTypeContributionMap[author],
-          };
+    Object.keys(commits.authorDisplayNameMap).forEach((author) => {
+      if (author) {
+        const obj = {
+          name: author,
+          repoId: repoName,
+          variance: commits.authorContributionVariance[author],
+          displayName: commits.authorDisplayNameMap[author],
+          dailyCommits: commits.authorDailyContributionsMap[author],
+          fileTypeContribution: commits.authorFileTypeContributionMap[author],
+        };
 
-          this.setContributionOfCommitResults(obj.dailyCommits);
+        this.setContributionOfCommitResults(obj.dailyCommits);
 
-          const searchParams = [
-              repo.displayName,
-              obj.displayName, author,
-          ];
+        const searchParams = [
+            repo.displayName,
+            obj.displayName, author,
+        ];
 
-          obj.searchPath = searchParams.join('_').toLowerCase();
-          obj.repoName = `${repo.displayName}`;
-          obj.location = `${repo.location.location}`;
+        obj.searchPath = searchParams.join('_').toLowerCase();
+        obj.repoName = `${repo.displayName}`;
+        obj.location = `${repo.location.location}`;
 
-          res.push(obj);
-        }
-      });
-
-      repo.commits = commits;
-      repo.users = res;
-
-      return res;
+        res.push(obj);
+      }
     });
+
+    repo.commits = commits;
+    repo.users = res;
+
+    return res;
   },
 
   loadAuthorship(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
-    return this.loadJSON(`${REPORT_DIR}/${folderName}/authorship.json`)
+    return this.loadJSON(`${folderName}/authorship.json`)
         .then((files) => {
           window.REPOS[repoName].files = files;
           return files;

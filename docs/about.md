@@ -5,7 +5,7 @@
 
 <h1 class="display-3"><md>{{ title }}</md></h1>
 
-RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), and is funded by a _Teaching Enhancement Grant_ from [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
+RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), funded by a _Teaching Enhancement Grant_ from the [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
 
 <!-- ==================================================================================================== -->
 
