@@ -68,7 +68,7 @@ Once the relevant `commit.json` files are loaded, all the repo information will 
 Most activity or actions should happen within the module itself, but in the case where there is a need to spawn or alter the view of another module, an event is emitted from the first module to the main Vue object (`window.app`), which then handles the data received and passes it along to the relevant modules.
 
 ### Hash link
-Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is reponsible for generating the relevant permalink for a specific view of the summary module for the report.
+Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is responsible for generating the relevant permalink for a specific view of the summary module for the report.
 
 ## Data loader ([api.js](https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/api.js))
 This is the module that is in charge of loading and parsing the data files generated as part of the report.
