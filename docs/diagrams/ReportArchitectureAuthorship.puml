@@ -9,7 +9,7 @@ Participant ":Authorship\n(v_authorship.js)" as authorship
 Participant ":API\n(api.js)" as api
 Participant ":Segment\n(v_segment.js)" as segment
 
--> summary : View code icon clicked
+-> summary : view code icon clicked
 activate summary
 
 summary -> main : view-authorship event
