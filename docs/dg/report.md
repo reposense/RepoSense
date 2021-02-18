@@ -20,7 +20,7 @@ The following is a snapshot of the report:
 
 ## Report architecture
 
-<puml src="../diagrams/ReportArchitecture.puml"/>
+![report architecture](../images/report-architecture.png)
 
 The main Vue object (`window.app`) is responsible for loading the report (through `summary.json`). Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
 
