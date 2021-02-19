@@ -270,9 +270,11 @@ window.vSummaryCharts = {
     addSelectedTab(userName, repo, isMerged) {
       if (!isMerged) {
         this.activeUser = userName;
+
         window.addHash('activeUser', userName);
       } else {
         this.activeUser = null;
+
         window.removeHash('activeUser');
       }
       this.activeRepo = repo;
