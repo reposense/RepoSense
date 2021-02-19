@@ -7,16 +7,16 @@ on:
 
 jobs:
   stale:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/stale@v3.0.7
+    - uses: actions/stale@v3
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         days-before-stale: 30
         days-before-close: 7
         exempt-pr-labels: 's.DoNotMerge'
-        remove-stale-when-updated: 'True'
+        remove-stale-when-updated: true
         stale-pr-label: 'Stale'
         stale-pr-message: |
           Hi,
@@ -24,3 +24,6 @@ jobs:
           If no further activity occurs within the following 7 days, it will be automatically closed so that others can take up the issue.
           If you are still working on this PR, please make a follow-up commit within 7 days and leave a comment to remove the stale label.
           Do let us know if you are stuck so that we can help you!'
+        close-pr-message: |
+          This PR was closed because it has been marked as stale for 7 days with no activity.
+          Feel free to reopen this PR if you would like to continue working on it.
