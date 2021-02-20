@@ -83,7 +83,7 @@ window.vAuthorship = {
             .filter((fileType) => this.fileTypes.includes(fileType));
       }
 
-      if (hash.authorshipBinaryFileType) {
+      if (hash.authorshipIsBinaryFileTypeChecked) {
         this.isBinaryFilesChecked = true;
       }
 
@@ -104,7 +104,7 @@ window.vAuthorship = {
 
     removeAuthorshipHashes() {
       window.removeHash('authorshipFileTypes');
-      window.removeHash('authorshipBinaryFileType');
+      window.removeHash('authorshipIsBinaryFileTypeChecked');
       window.removeHash('authorshipFilesGlob');
       window.removeHash('authorshipSortBy');
       window.removeHash('reverseAuthorshipOrder');
@@ -320,7 +320,7 @@ window.vAuthorship = {
 
       window.addHash('authorshipFilesGlob', this.searchBarValue);
       window.removeHash('authorshipFileTypes');
-      window.removeHash('authorshipBinaryFileType');
+      window.removeHash('authorshipIsBinaryFileTypeChecked');
       window.encodeHash();
     },
 
@@ -328,13 +328,13 @@ window.vAuthorship = {
       const fileTypeHash = this.selectedFileTypes.length > 0
           ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
           : '';
-
+      /*
       const binaryFileTypeHash = this.isBinaryFilesChecked
           ? 'binary'
           : '';
-
+      */
       window.addHash('authorshipFileTypes', fileTypeHash);
-      window.addHash('authorshipBinaryFileType', binaryFileTypeHash);
+      window.addHash('authorshipIsBinaryFileTypeChecked', this.isBinaryFilesChecked);
       window.removeHash('authorshipFilesGlob');
       window.encodeHash();
     },
