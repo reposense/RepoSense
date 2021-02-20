@@ -84,7 +84,7 @@ window.vAuthorship = {
       }
 
       if (hash.authorshipIsBinaryFileTypeChecked) {
-        this.isBinaryFilesChecked = true;
+        this.isBinaryFilesChecked = hash.authorshipIsBinaryFileTypeChecked === 'true';
       }
 
       if ('authorshipFilesGlob' in hash) {
@@ -295,7 +295,6 @@ window.vAuthorship = {
       file.groupLineCnt = this.info.isMergeGroup
           ? this.getContributionFromAllAuthors(file.authorContributionMap)
           : -1;
-
       return this.info.isMergeGroup
         ? file.groupLineCnt > 0 || file.isBinary
         : this.info.author in file.authorContributionMap;
@@ -328,11 +327,7 @@ window.vAuthorship = {
       const fileTypeHash = this.selectedFileTypes.length > 0
           ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
           : '';
-      /*
-      const binaryFileTypeHash = this.isBinaryFilesChecked
-          ? 'binary'
-          : '';
-      */
+
       window.addHash('authorshipFileTypes', fileTypeHash);
       window.addHash('authorshipIsBinaryFileTypeChecked', this.isBinaryFilesChecked);
       window.removeHash('authorshipFilesGlob');
