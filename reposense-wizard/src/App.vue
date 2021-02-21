@@ -3,18 +3,26 @@
     img(alt="Vue logo", src="./assets/reposense_logo.svg")
     h1 Create your first RepoSense report
     h2 Repositories
-    RepoList(v-bind:repos="repos")
+    RepoList(
+      v-bind:repos="repos",
+      v-on:updateRepo="updateRepo($event)",
+      v-on:addRepo="repos.push($event)",
+      v-on:removeRepo="repos.splice($event, 1)",
+    )
     p Repositories must be in Git and publicly accessible
     h2 Advanced Options
+    AdvancedOptions
 </template>
 
 <script>
 import RepoList from './components/RepoList.vue'
+import AdvancedOptions from './components/AdvancedOptions.vue'
 
 export default {
   name: 'App',
   components: {
-    RepoList
+    RepoList,
+    AdvancedOptions,
   },
   data() {
     return {
@@ -23,6 +31,11 @@ export default {
       endDate: '',
       timezone: 8,
     };
+  },
+  methods: {
+    updateRepo(e) {
+      this.$set(this.repos[e.index], e.field, e.newValue);
+    },
   },
 }
 </script>

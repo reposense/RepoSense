@@ -7,16 +7,18 @@
       b-row
         b-col(cols="9") 
           b-form-input(
-            v-model="repo.url",
+            v-bind:value="repo.url",
+            v-on:change="updateRepoUrl(i, $event)",
             placeholder="Repo",
           )
         b-col(cols="2")
           b-form-input(
             v-model="repo.branch",
+            v-on:change="updateRepoBranch(i, $event)",
             placeholder="Branch",
           )
         b-col
-          button.plus-button(v-bind:onClick="addRepo") -
+          b-icon.cross-button(icon='x-circle', v-on:click="removeRepo(i)")
     b-row
       b-col(cols="9") 
         b-form-input(
@@ -29,14 +31,14 @@
           placeholder="Branch",
         )
       b-col
-        button.plus-button(v-bind:onClick="addRepo") +
+        b-icon.plus-button(icon='plus-circle', v-on:click="addRepo()")
 </template>
 
 <script>
 export default {
   name: 'RepoList',
   props: {
-    repos: Array
+    repos: Array,
   },
   data() {
     return {
@@ -46,40 +48,44 @@ export default {
   },
   methods: {
     addRepo() {
-      return null;
+      this.$emit('addRepo', {url: this.newUrl, branch: this.newBranch});
+      this.newUrl = '';
+      this.newBranch = '';
     },
-  }
+    removeRepo(index) {
+      this.$emit('removeRepo', index);
+    },
+    updateRepoUrl(index, newUrl) {
+      console.log(newUrl);
+      this.$emit('updateRepo', {index: index, field: 'url', newValue: newUrl});
+    },
+    updateRepoBranch(index, newBranch) {
+      this.$emit('updateRepo', {index: index, field: 'branch', newValue: newBranch});
+    },
+  },
 }
 </script>
 
 <style>
 .cross-button {
   background-color: #e80e0e;
-  border: none;
-  color: white;
-  height: 15px;
-  padding: 0px;
-  text-align: center;
-  font-size: 9px;
-  margin: 5px 5px;
-  border-radius: 50%;
-  position: absolute;
-  right: 0px;
-  width: 15px;
+  margin: auto;
+  height: 50%;
+  width: 50%;
+}
+
+.cross-button:hover {
+  color: #275c2a;
 }
 
 .plus-button {
-  background-color: #4CAF50;
-  height: 15px;
-  width: 15px;
-  border: none;
-  color: white;
-  padding: 0px;
-  text-align: center;
-  font-size: 10px;
-  margin: 5px 5px;
-  border-radius: 50%;
-  position: absolute;
-  right: 0px;
+  color: #4CAF50;
+  margin: auto;
+  height: 50%;
+  width: 50%;
+}
+
+.plus-button:hover {
+  color: #275c2a;
 }
 </style>
