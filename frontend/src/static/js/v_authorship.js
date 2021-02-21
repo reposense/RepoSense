@@ -292,13 +292,10 @@ window.vAuthorship = {
     },
 
     isValidFile(file) {
-      if (this.info.isMergeGroup) {
-        const fileAuthorCnt = Object.entries(file.authorContributionMap)
-            .filter((authorCount) => !this.isUnknownAuthor(authorCount[0]))
-            .length;
-        return fileAuthorCnt > 0;
-      }
-      return this.info.author in file.authorContributionMap;
+      return this.info.isMergeGroup
+          ? Object.entries(file.authorContributionMap)
+              .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
+          : this.info.author in file.authorContributionMap;
     },
 
     getContributionFromAllAuthors(contributionMap) {
