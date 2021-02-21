@@ -12,6 +12,7 @@
     p Repositories must be in Git and publicly accessible
     h2 Advanced Options
     AdvancedOptions
+    b-button(variant="success") Generate
 </template>
 
 <script>
