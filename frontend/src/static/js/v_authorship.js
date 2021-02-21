@@ -249,7 +249,7 @@ window.vAuthorship = {
         const contributionMap = file.authorContributionMap;
 
         const lineCnt = this.info.isMergeGroup
-            ? file.groupLineCnt
+            ? this.getContributionFromAllAuthors(contributionMap)
             : contributionMap[this.info.author];
 
         const out = {};
@@ -292,12 +292,13 @@ window.vAuthorship = {
     },
 
     isValidFile(file) {
-      file.groupLineCnt = this.info.isMergeGroup
-          ? this.getContributionFromAllAuthors(file.authorContributionMap)
-          : -1;
-      return this.info.isMergeGroup
-        ? file.groupLineCnt > 0 || file.isBinary
-        : this.info.author in file.authorContributionMap;
+      if (this.info.isMergeGroup) {
+        const fileAuthorCnt = Object.entries(file.authorContributionMap)
+            .filter((authorCount) => !this.isUnknownAuthor(authorCount[0]))
+            .length;
+        return fileAuthorCnt > 0;
+      }
+      return this.info.author in file.authorContributionMap;
     },
 
     getContributionFromAllAuthors(contributionMap) {
