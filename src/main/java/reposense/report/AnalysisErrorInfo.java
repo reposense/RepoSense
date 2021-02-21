@@ -2,9 +2,12 @@ package reposense.report;
 
 import reposense.model.RepoConfiguration;
 
+/**
+ * Stores the RepoConfiguration and error message associated with errors encountered when analyzing repo.
+ */
 public class AnalysisErrorInfo {
-    RepoConfiguration failedConfig;
-    String errorMessage;
+    private RepoConfiguration failedConfig;
+    private String errorMessage;
 
     public AnalysisErrorInfo(RepoConfiguration failedConfig, String errorMessage) {
         this.failedConfig = failedConfig;

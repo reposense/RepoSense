@@ -2,6 +2,9 @@ package reposense.report;
 
 import reposense.model.RepoLocation;
 
+/**
+ * Represents the output of threaded repo clone job.
+ */
 public class CloneJobOutput {
     private RepoLocation location;
     private boolean cloneSuccessful;
