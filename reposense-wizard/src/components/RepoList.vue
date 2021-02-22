@@ -5,7 +5,7 @@
       b-col(cols="2") Branch
     template(v-for='(repo, i) in repos')
       b-row
-        b-col(cols="9") 
+        b-col(cols="9")
           b-form-input(
             v-bind:value="repo.url",
             v-on:change="updateRepoUrl(i, $event)",
@@ -20,7 +20,7 @@
         b-col
           b-icon.cross-button(icon='x-circle', v-on:click="removeRepo(i)")
     b-row
-      b-col(cols="9") 
+      b-col(cols="9")
         b-form-input(
           v-model="newUrl",
           placeholder="Repo",
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     addRepo() {
-      this.$emit('addRepo', {url: this.newUrl, branch: this.newBranch});
+      this.$emit('addRepo', { url: this.newUrl, branch: this.newBranch });
       this.newUrl = '';
       this.newBranch = '';
     },
@@ -62,7 +62,7 @@ export default {
       this.$emit('updateRepo', { index, field: 'branch', newValue: newBranch });
     },
   },
-}
+};
 </script>
 
 <style>
