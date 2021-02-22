@@ -56,11 +56,10 @@ export default {
       this.$emit('removeRepo', index);
     },
     updateRepoUrl(index, newUrl) {
-      console.log(newUrl);
-      this.$emit('updateRepo', {index: index, field: 'url', newValue: newUrl});
+      this.$emit('updateRepo', { index, field: 'url', newValue: newUrl });
     },
     updateRepoBranch(index, newBranch) {
-      this.$emit('updateRepo', {index: index, field: 'branch', newValue: newBranch});
+      this.$emit('updateRepo', { index, field: 'branch', newValue: newBranch });
     },
   },
 }

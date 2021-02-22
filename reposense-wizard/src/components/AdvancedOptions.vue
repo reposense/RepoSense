@@ -22,7 +22,7 @@ export default {
       this.$emit('updateStartDate', endDate);
     },
   },
-}
+};
 </script>
 
 <style>

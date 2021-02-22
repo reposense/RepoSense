@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import RepoList from './components/RepoList.vue'
-import AdvancedOptions from './components/AdvancedOptions.vue'
+import RepoList from './components/RepoList.vue';
+import AdvancedOptions from './components/AdvancedOptions.vue';
 
 export default {
   name: 'App',
@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      repos: [{'url': 'aaa.com', 'branch': 'bbb'}],
+      repos: [{ url: 'aaa.com', branch: 'bbb' }],
       startDate: '',
       endDate: '',
       timezone: 8,
@@ -38,7 +38,7 @@ export default {
       this.$set(this.repos[e.index], e.field, e.newValue);
     },
   },
-}
+};
 </script>
 
 <style>
