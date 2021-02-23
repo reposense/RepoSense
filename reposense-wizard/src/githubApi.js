@@ -72,7 +72,7 @@ export default class GithubApi {
   }
 
   async updateFile(path, strContent) {
-    const content = btoa(strContent);
+    const content = Buffer.from(strContent).toString('base64');
     await this.octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: this.loginUser,
       repo: REPO_NAME,
