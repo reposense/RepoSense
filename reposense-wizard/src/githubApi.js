@@ -91,4 +91,13 @@ export default class GithubApi {
       sha,
     });
   }
+
+  async enableGithubActions() {
+    await this.octokit.request('PUT /repos/{owner}/{repo}/actions/permissions', {
+      owner: this.loginUser,
+      repo: REPO_NAME,
+      enabled: true,
+      allowed_actions: 'all',
+    });
+  }
 }

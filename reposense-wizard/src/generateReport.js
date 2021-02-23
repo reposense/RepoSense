@@ -27,6 +27,7 @@ async function generateReport(data, githubApi) {
     return 'Invalid personal access token';
   }
   await githubApi.forkReposense();
+  await githubApi.enableGithubActions();
   githubApi.addSecret();
   const repoConfigArr = generateRepoConfigHeader();
   repos.forEach((repo) => repoConfigArr.push([repo.url, repo.branch, '', '', '', '', '']));
