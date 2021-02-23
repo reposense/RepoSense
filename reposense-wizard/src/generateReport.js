@@ -26,9 +26,12 @@ async function generateReport(data, githubApi) {
   } catch {
     return 'Invalid personal access token';
   }
-  await githubApi.forkReposense();
-  await githubApi.enableGithubActions();
-  githubApi.addSecret();
+  const repoExists = await githubApi.repoExists();
+  if (!repoExists) {
+    await githubApi.forkReposense();
+    await githubApi.addSecret();
+    await githubApi.enableGithubActions();
+  }
   const repoConfigArr = generateRepoConfigHeader();
   repos.forEach((repo) => repoConfigArr.push([repo.url, repo.branch, '', '', '', '', '']));
   const repoConfig = matrixToCsvString(repoConfigArr);

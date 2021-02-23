@@ -2,6 +2,11 @@ import { seal } from 'tweetsodium';
 import { Octokit } from '@octokit/core';
 
 const REPO_NAME = 'publish-RepoSense';
+const WAIT_FOR_FORK = 5;
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 export default class GithubApi {
   constructor() {
@@ -34,6 +39,23 @@ export default class GithubApi {
       owner: 'reposense',
       repo: REPO_NAME,
     });
+    let forkSuccess = false;
+    let tryCounter = 1;
+    while (!forkSuccess && tryCounter < WAIT_FOR_FORK) {
+      // eslint-disable-next-line no-await-in-loop
+      await sleep(tryCounter * 1000);
+      // eslint-disable-next-line no-await-in-loop
+      forkSuccess = await this.repoExists();
+      tryCounter += 1;
+    }
+  }
+
+  async repoExists() {
+    const repo = await this.octokit.request('GET /repos/{owner}/{repo}', {
+      owner: 'reposense',
+      repo: REPO_NAME,
+    });
+    return repo.status === 200;
   }
 
   async getPublicKey() {
