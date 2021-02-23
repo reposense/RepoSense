@@ -221,4 +221,19 @@ public class FileAnalyzerTest extends GitTestTemplate {
             Assert.assertEquals(0, binaryFileInfo.getLines().size());
         }
     }
+
+    @Test
+    public void analyzeBinaryFile_nonExistingFilePath_success() {
+        config.setSinceDate(ANALYZE_BINARY_FILES_SINCE_DATE);
+        config.setUntilDate(ANALYZE_BINARY_FILES_UNTIL_DATE);
+        config.setBranch("728-FileInfoExtractorTest-getNonBinaryFilesList_directoryWithBinaryFiles_success");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+
+        List<FileInfo> binaryFileInfos = Arrays.asList(new FileInfo("/nonExistingJpgPicture.jpg"),
+                new FileInfo("/nonExistingPngPicture.png"));
+
+        for (FileInfo binaryFileInfo: binaryFileInfos) {
+            Assert.assertNull(FileInfoAnalyzer.analyzeBinaryFile(config, binaryFileInfo));
+        }
+    }
 }
