@@ -18,9 +18,7 @@
 <script>
 import RepoList from './components/RepoList.vue';
 import AdvancedOptions from './components/AdvancedOptions.vue';
-import githubApi from './githubApi';
-
-console.log(githubApi);
+import GithubApi from './githubApi';
 
 export default {
   name: 'App',
@@ -30,6 +28,7 @@ export default {
   },
   data() {
     return {
+      githubApi: new GithubApi(),
       repos: [{ url: 'aaa.com', branch: 'bbb' }],
       startDate: '',
       endDate: '',

@@ -3,26 +3,38 @@ import { Octokit } from '@octokit/core';
 
 const REPO_NAME = 'publish-RepoSense';
 
-const githubApi = {
-  debug: true,
-  octokit: null,
-  publicKey: '',
-  publicKeyId: '',
-  loginUser: '',
+export default class GithubApi {
+  constructor() {
+    this.octokit = null;
+    this.publicKey = '';
+    this.publicKeyId = '';
+    this.loginUser = '';
+    this.pat = '';
+  }
+
+  setPat(pat) {
+    // Personal access token
+    this.pat = pat;
+  }
 
   async authenticate(accessToken) {
+    accessToken = accessToken || this.pat;
+    if (!accessToken) {
+      throw Error('Access token not found.');
+    }
     this.octokit = new Octokit({ auth: accessToken });
 
     const userResp = await this.octokit.request('GET /user');
     this.loginUser = userResp.data.login;
-  },
+    await this.getPublicKey();
+  }
 
   async forkReposense() {
     await this.octokit.request('POST /repos/{owner}/{repo}/forks', {
       owner: 'reposense',
       repo: REPO_NAME,
     });
-  },
+  }
 
   async getPublicKey() {
     const response = await this.octokit.request('GET /repos/{owner}/{repo}/actions/secrets/public-key', {
@@ -31,9 +43,10 @@ const githubApi = {
     });
     this.publicKey = response.data.key;
     this.publicKeyId = response.data.key_id;
-  },
+  }
 
   async addSecret(value) {
+    value = value || this.pat;
     if (!this.publicKey) {
       await this.getPublicKey();
     }
@@ -52,13 +65,20 @@ const githubApi = {
     await this.octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
       owner: this.loginUser,
       repo: REPO_NAME,
-      secret_name: 'ACCESS_TOKEN',
+      secret_name: 'TEST_ACCESS_TOKEN',
       encrypted_value: encrypted,
       key_id: this.publicKeyId,
     });
-  },
-};
+  }
 
-window.githubApi = githubApi;
-
-export default githubApi;
+  async updateFile(path, strContent) {
+    const content = btoa(strContent);
+    await this.octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      owner: this.loginUser,
+      repo: REPO_NAME,
+      path,
+      message: `Update ${path} using Reposense Wizard.`,
+      content,
+    });
+  }
+}
