@@ -9,6 +9,7 @@ window.vSummaryCharts = {
       drags: [],
       activeRepo: null,
       activeUser: null,
+      activeTabType: null,
     };
   },
 
@@ -140,7 +141,7 @@ window.vSummaryCharts = {
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
       };
-      this.addSelectedTab(user.name, user.repoName, isMerged);
+      this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
@@ -186,7 +187,7 @@ window.vSummaryCharts = {
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
-      this.removeSelectedTab();
+      this.addSelectedTab(user.name, user.repoName, 'zoom', isMerge);
       this.$store.commit('updateTabZoomInfo', info);
     },
 
@@ -265,9 +266,13 @@ window.vSummaryCharts = {
       if (hash.activeRepo) {
         this.activeRepo = hash.activeRepo;
       }
+
+      if (hash.activeTabType) {
+        this.activeTabType = hash.activeTabType;
+      }
     },
 
-    addSelectedTab(userName, repo, isMerged) {
+    addSelectedTab(userName, repo, tabType, isMerged) {
       if (!isMerged) {
         this.activeUser = userName;
 
@@ -278,18 +283,29 @@ window.vSummaryCharts = {
         window.removeHash('activeUser');
       }
       this.activeRepo = repo;
+      this.activeTabType = tabType;
 
       window.addHash('activeRepo', repo);
+      window.addHash('activeTabType', tabType);
       window.encodeHash();
     },
 
     removeSelectedTab() {
       this.activeUser = null;
       this.activeRepo = null;
+      this.activeTabType = null;
 
       window.removeHash('activeUser');
       window.removeHash('activeRepo');
+      window.removeHash('activeTabType');
       window.encodeHash();
+    },
+
+    isSelectedTab(userName, repo, tabType, isMerged) {
+      return isMerged
+          ? this.activeRepo === repo && this.activeTabType === tabType
+          : this.activeUser === userName && this.activeRepo === repo
+            && this.activeTabType === tabType;
     },
   },
   created() {

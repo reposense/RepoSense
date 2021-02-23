@@ -9,6 +9,8 @@
   .icon-button {
     color: mui-color('grey');
     cursor: pointer;
+    padding-left: 1.2px;
+    padding-right: 1.2px;
     text-decoration: none;
   }
 
@@ -199,6 +201,8 @@
   }
 
   .active {
-    color: mui-color('green');
+    background-color: mui-color('green');
+    border-radius: 2px;
+    color: mui-color('white');
   }
 }
