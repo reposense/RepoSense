@@ -9,13 +9,13 @@
           b-form-input(
             v-bind:value="repo.url",
             v-on:change="updateRepoUrl(i, $event)",
-            placeholder="Repo",
+            placeholder="Please enter the full github url of the repository.",
           )
         b-col(cols="2")
           b-form-input(
             v-model="repo.branch",
             v-on:change="updateRepoBranch(i, $event)",
-            placeholder="Branch",
+            placeholder="master",
           )
         b-col
           b-icon.cross-button(icon='x-circle', v-on:click="removeRepo(i)")
@@ -23,12 +23,12 @@
       b-col(cols="9")
         b-form-input(
           v-model="newUrl",
-          placeholder="Repo",
+          placeholder="Please enter the full github url of the repository.",
         )
       b-col(cols="2")
         b-form-input(
           v-model="newBranch",
-          placeholder="Branch",
+          placeholder="master",
         )
       b-col
         b-icon.plus-button(icon='plus-circle', v-on:click="addRepo()")

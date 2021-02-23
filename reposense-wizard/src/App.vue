@@ -1,7 +1,7 @@
 <template lang="pug">
   .app
     img(alt="Vue logo", src="./assets/reposense_logo.svg")
-    h1 Create your first RepoSense report
+    h1 Create your first RepoSense report with ReposenseWizard!
     h2 Repositories
     RepoList(
       v-bind:repos="repos",
@@ -12,13 +12,27 @@
     p Repositories must be in Git and publicly accessible
     h2 Advanced Options
     AdvancedOptions
-    b-button(variant="success") Generate
+    h2 Personal Access Token
+    p Follow this&nbsp;
+      a(href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/")
+        | guide
+      | &nbsp;and give only&nbsp;
+      code public_repo
+      | &nbsp;permission.
+    b-form-input(
+      v-model="pat",
+      placeholder="Personal Access Token",
+    )
+    br
+    b-button(variant="success", v-on:click="startGenerateReport()") Generate
+    p {{generateReportResult}}
 </template>
 
 <script>
 import RepoList from './components/RepoList.vue';
 import AdvancedOptions from './components/AdvancedOptions.vue';
 import GithubApi from './githubApi';
+import generateReport from './generateReport';
 
 export default {
   name: 'App',
@@ -29,15 +43,26 @@ export default {
   data() {
     return {
       githubApi: new GithubApi(),
-      repos: [{ url: 'aaa.com', branch: 'bbb' }],
+      pat: '',
+      repos: [],
       startDate: '',
       endDate: '',
       timezone: 8,
+      generateReportResult: '',
     };
   },
   methods: {
     updateRepo(e) {
       this.$set(this.repos[e.index], e.field, e.newValue);
+    },
+
+    async startGenerateReport() {
+      const data = {
+        repos: this.repos,
+        pat: this.pat,
+      };
+      this.generateReportResult = 'Generating Report, please wait...';
+      this.generateReportResult = await generateReport(data, this.githubApi);
     },
   },
 };

@@ -65,13 +65,22 @@ export default class GithubApi {
     await this.octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
       owner: this.loginUser,
       repo: REPO_NAME,
-      secret_name: 'TEST_ACCESS_TOKEN',
+      secret_name: 'ACCESS_TOKEN',
       encrypted_value: encrypted,
       key_id: this.publicKeyId,
     });
   }
 
   async updateFile(path, strContent) {
+    // Get file sha
+    const resp = await this.octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+      owner: this.loginUser,
+      repo: REPO_NAME,
+      path,
+    });
+    const { sha } = resp.data;
+
+    // Update the file
     const content = Buffer.from(strContent).toString('base64');
     await this.octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: this.loginUser,
@@ -79,6 +88,7 @@ export default class GithubApi {
       path,
       message: `Update ${path} using Reposense Wizard.`,
       content,
+      sha,
     });
   }
 }
