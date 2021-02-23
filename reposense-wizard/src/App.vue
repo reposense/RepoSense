@@ -18,6 +18,9 @@
 <script>
 import RepoList from './components/RepoList.vue';
 import AdvancedOptions from './components/AdvancedOptions.vue';
+import githubApi from './githubApi';
+
+console.log(githubApi);
 
 export default {
   name: 'App',

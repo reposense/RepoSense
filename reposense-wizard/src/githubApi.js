@@ -1,5 +1,5 @@
-const { Octokit } = require('@octokit/core');
-const sodium = require('tweetsodium');
+import { seal } from 'tweetsodium';
+import { Octokit } from '@octokit/core';
 
 const REPO_NAME = 'publish-RepoSense';
 
@@ -7,10 +7,14 @@ const githubApi = {
   debug: true,
   octokit: null,
   publicKey: '',
+  publicKeyId: '',
   loginUser: '',
 
-  authenticate(accessToken) {
+  async authenticate(accessToken) {
     this.octokit = new Octokit({ auth: accessToken });
+
+    const userResp = await this.octokit.request('GET /user');
+    this.loginUser = userResp.data.login;
   },
 
   async forkReposense() {
@@ -21,20 +25,25 @@ const githubApi = {
   },
 
   async getPublicKey() {
-    this.publicKey = await this.octokit.request('GET /repos/{owner}/{repo}/actions/secrets/public-key', {
+    const response = await this.octokit.request('GET /repos/{owner}/{repo}/actions/secrets/public-key', {
       owner: this.loginUser,
       repo: REPO_NAME,
     });
+    this.publicKey = response.data.key;
+    this.publicKeyId = response.data.key_id;
   },
 
   async addSecret(value) {
+    if (!this.publicKey) {
+      await this.getPublicKey();
+    }
     // Convert the message and key to Uint8Array's (Buffer implements that interface)
     const messageBytes = Buffer.from(value);
     const keyBytes = Buffer.from(this.publicKey, 'base64');
 
 
     // Encrypt using LibSodium.
-    const encryptedBytes = sodium.seal(messageBytes, keyBytes);
+    const encryptedBytes = seal(messageBytes, keyBytes);
 
 
     // Base64 the encrypted secret
@@ -45,8 +54,11 @@ const githubApi = {
       repo: REPO_NAME,
       secret_name: 'ACCESS_TOKEN',
       encrypted_value: encrypted,
+      key_id: this.publicKeyId,
     });
   },
 };
+
+window.githubApi = githubApi;
 
 export default githubApi;
