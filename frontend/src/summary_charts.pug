@@ -58,11 +58,11 @@
           .tooltip
             font-awesome-icon.icon-button.active-icon(
               icon="code",
-              v-if="isSelectedTab(null, repo[0].repoName, 'authorship', true)"
+              v-if="isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true)"
             )
             font-awesome-icon.icon-button(
               icon="code",
-              v-if="!isSelectedTab(null, repo[0].repoName, 'authorship', true)"
+              v-if="!isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true)"
             )
             span.tooltip-text Click to view group's code
         a(
@@ -72,11 +72,11 @@
           .tooltip
             font-awesome-icon.icon-button.active-icon(
               icon="list-ul",
-              v-if="isSelectedTab(null, repo[0].repoName, 'zoom', true)"
+              v-if="isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true)"
             )
             font-awesome-icon.icon-button(
               icon="list-ul",
-              v-if="!isSelectedTab(null, repo[0].repoName, 'zoom', true)"
+              v-if="!isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true)"
             )
             span.tooltip-text Click to view breakdown of commits
       .summary-charts__title--percentile {{ getPercentile(i) }} %

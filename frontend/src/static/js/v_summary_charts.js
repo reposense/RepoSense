@@ -259,34 +259,51 @@ window.vSummaryCharts = {
     retrieveSelectedAuthorHash() {
       const hash = window.hashParams;
 
-      if (hash.activeUser) {
-        this.activeUser = hash.activeUser;
+      if (hash.tabAuthor) {
+        this.activeUser = hash.tabAuthor;
+      } else if (hash.zA) {
+        this.activeUser = hash.zA;
       }
 
-      if (hash.activeRepo) {
-        this.activeRepo = hash.activeRepo;
+      if (hash.tabRepo) {
+        this.activeRepo = hash.tabRepo;
+      } else if (hash.zR) {
+        this.activeRepo = hash.zR;
       }
 
-      if (hash.activeTabType) {
-        this.activeTabType = hash.activeTabType;
+      if (hash.isPreviouslyMerged) {
+        if (this.filterGroupSelection === 'groupByAuthors') {
+          this.activeRepo = null;
+        } else if (this.filterGroupSelection === 'groupByRepos') {
+          this.activeUser = null;
+        }
+      }
+
+      if (hash.tabType) {
+        this.activeTabType = hash.tabType;
       }
     },
 
     addSelectedTab(userName, repo, tabType, isMerged) {
-      if (!isMerged) {
+      if (!isMerged || this.filterGroupSelection === 'groupByAuthors') {
         this.activeUser = userName;
-
-        window.addHash('activeUser', userName);
       } else {
         this.activeUser = null;
-
-        window.removeHash('activeUser');
       }
-      this.activeRepo = repo;
-      this.activeTabType = tabType;
 
-      window.addHash('activeRepo', repo);
-      window.addHash('activeTabType', tabType);
+      if (isMerged && this.filterGroupSelection === 'groupByAuthors') {
+        this.activeRepo = null;
+      } else {
+        this.activeRepo = repo;
+      }
+
+      if (isMerged) {
+        window.addHash('isPreviouslyMerged', 'true');
+      } else {
+        window.removeHash('isPreviouslyMerged');
+      }
+
+      this.activeTabType = tabType;
       window.encodeHash();
     },
 
@@ -295,17 +312,21 @@ window.vSummaryCharts = {
       this.activeRepo = null;
       this.activeTabType = null;
 
-      window.removeHash('activeUser');
-      window.removeHash('activeRepo');
-      window.removeHash('activeTabType');
+      window.removeHash('isPreviouslyMerged');
       window.encodeHash();
     },
 
     isSelectedTab(userName, repo, tabType, isMerged) {
-      return isMerged
-          ? this.activeRepo === repo && this.activeTabType === tabType
-          : this.activeUser === userName && this.activeRepo === repo
+      if (!isMerged) {
+        return this.activeUser === userName && this.activeRepo === repo
             && this.activeTabType === tabType;
+      }
+
+      if (this.filterGroupSelection === 'groupByAuthors') {
+        return this.activeUser === userName && this.activeTabType === tabType;
+      }
+
+      return this.activeRepo === repo && this.activeTabType === tabType;
     },
 
     isSelectedGroup(userName, repo, isMerged) {
