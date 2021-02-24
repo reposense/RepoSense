@@ -1,0 +1,45 @@
+@startuml
+hide footbox
+skinparam monochrome true
+skinparam Shadowing false
+
+Participant ":Main\n(window.app)" as main
+Participant ":Summary\n(v_summary.js)" as summary
+Participant ":API\n(api.js)" as api
+Participant ":Ramp\n(v_ramp.js)" as ramp
+
+-> main : page load
+activate main
+
+loop repo in summary.json
+
+main -> api : loadCommits(repo)
+activate api
+
+api --> main
+deactivate api
+
+end
+
+main -> summary : get summary view
+activate summary
+
+summary -> main : get filter params
+activate main
+
+main --> summary : window.hashParams
+deactivate main
+
+create ramp
+summary -> ramp : get ramp view
+activate ramp
+
+ramp --> summary : ramp view
+deactivate ramp
+
+summary --> main : summary view
+deactivate summary
+
+<-- main
+deactivate main
+@enduml
