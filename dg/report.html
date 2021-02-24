@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.17.3">
+  <meta name="generator" content="MarkBind 2.18.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>RepoSense - HTML report</title>
   <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
@@ -155,7 +155,9 @@
 
         <h2 id="summary-view-v-summary-js"><span id="summary-view-v-summary-js" class="anchor"></span>Summary view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_summary.js">v_summary.js</a>)<a class="fa fa-anchor" href="#summary-view-v-summary-js" onclick="event.stopPropagation()"></a></h2>
         <p>The <code class="hljs inline no-lang" v-pre>v_summary</code> module is in charge of loading the ramp charts from the corresponding <code class="hljs inline no-lang" v-pre>commits.json</code>.</p>
-        <p><a href="/RepoSense/images/report-architecture-summary.png" target="_self"><img src="/RepoSense/images/report-architecture-summary.png" alt class="img-fluid"></a></p>
+        <p>
+          <pic src="/RepoSense/diagrams/ReportArchitectureSummary.png"></pic>
+        </p>
         <h3 id="initializing-the-data-for-the-ramp-charts"><span id="initializing-the-data-for-the-ramp-charts" class="anchor"></span>Initializing the data for the ramp charts<a class="fa fa-anchor" href="#initializing-the-data-for-the-ramp-charts" onclick="event.stopPropagation()"></a></h3>
         <p>The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the <code class="hljs inline no-lang" v-pre>repo</code> attribute is populated with the <code class="hljs inline no-lang" v-pre>window.REPOS</code> object, which contains information loaded from <code class="hljs inline no-lang" v-pre>summary.json</code>.</p>
         <h3 id="filtering-users-and-repositories"><span id="filtering-users-and-repositories" class="anchor"></span>Filtering users and repositories<a class="fa fa-anchor" href="#filtering-users-and-repositories" onclick="event.stopPropagation()"></a></h3>
@@ -163,7 +165,9 @@
 
         <h2 id="authorship-view-v-authorship-js"><span id="authorship-view-v-authorship-js" class="anchor"></span>Authorship view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_authorship.js">v_authorship.js</a>)<a class="fa fa-anchor" href="#authorship-view-v-authorship-js" onclick="event.stopPropagation()"></a></h2>
         <p>The authorship module retrieves the relevant information from the corresponding <code class="hljs inline no-lang" v-pre>authorship.json</code> file if it is not yet loaded. If it has been loaded, the data will be written into <code class="hljs inline no-lang" v-pre>window.REPOS</code> and be read from there instead.</p>
-        <p><a href="/RepoSense/images/report-architecture-authorship.png" target="_self"><img src="/RepoSense/images/report-architecture-authorship.png" alt class="img-fluid"></a></p>
+        <p>
+          <pic src="/RepoSense/diagrams/ReportArchitectureAuthorship.png"></pic>
+        </p>
         <h3 id="showing-relevant-information-by-authors"><span id="showing-relevant-information-by-authors" class="anchor"></span>Showing relevant information by authors<a class="fa fa-anchor" href="#showing-relevant-information-by-authors" onclick="event.stopPropagation()"></a></h3>
         <p>The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of &quot;touched&quot; and &quot;untouched&quot; code segments displayed in the tab view which will be popped up on the right side of the screen.</p>
 
@@ -223,7 +227,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.17.3</a>, generated on Mon, Feb 22, 2021, 8:26:26 AM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.0</a>, generated on Wed, Feb 24, 2021, 3:27:24 AM UTC]</small>
       </div>
     </footer>
   </div>
