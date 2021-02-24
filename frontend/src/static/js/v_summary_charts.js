@@ -141,7 +141,7 @@ window.vSummaryCharts = {
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
-    openTabZoomSubrange(user, evt, isMerge) {
+    openTabZoomSubrange(user, evt, isMerged) {
       const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
 
       if (isKeyPressed) {
@@ -159,11 +159,11 @@ window.vSummaryCharts = {
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
         this.drags = [];
-        this.openTabZoom(user, tsince, tuntil, isMerge);
+        this.openTabZoom(user, tsince, tuntil, isMerged);
       }
     },
 
-    openTabZoom(user, since, until, isMerge) {
+    openTabZoom(user, since, until, isMerged) {
       const {
         avgCommitSize, filterGroupSelection, filterTimeFrame, filterSearch,
       } = this;
@@ -178,7 +178,7 @@ window.vSummaryCharts = {
         zLocation: this.getRepoLink(user),
         zSince: since,
         zUntil: until,
-        zIsMerge: isMerge,
+        zIsMerge: isMerged,
         zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
         zFilterSearch: filterSearch,
