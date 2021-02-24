@@ -2,7 +2,8 @@
   .summary-charts(v-for="(repo, i) in filteredRepos")
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone'",
-      v-bind:class="{ 'active-background': repo[0].repoName === activeRepo && isGroupMerged(getGroupName(repo))}"
+      v-bind:class="{ 'active-background': \
+        isSelectedGroup(repo[0].name, repo[0].repoName, isGroupMerged(getGroupName(repo))) }"
     )
       .summary-charts__title--index {{ i+1 }}
       .summary-charts__title--groupname
