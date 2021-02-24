@@ -1,0 +1,46 @@
+@startuml
+hide footbox
+skinparam monochrome true
+skinparam Shadowing false
+
+Participant ":Summary\n(v_summary.js)" as summary
+Participant ":Main\n(window.app)" as main
+Participant ":Authorship\n(v_authorship.js)" as authorship
+Participant ":API\n(api.js)" as api
+Participant ":Segment\n(v_segment.js)" as segment
+
+-> summary : view code icon clicked
+activate summary
+
+summary -> main : view-authorship event
+activate main
+
+main -> authorship : update code view
+activate authorship
+
+opt files not in cache
+
+authorship -> api : loadAuthorship()
+activate api
+
+api --> authorship: "authorship.json"
+deactivate api
+
+end
+
+create segment
+authorship -> segment : update segment view
+activate segment
+
+segment --> authorship : generated segment view
+deactivate segment
+
+authorship --> main : generated code view
+deactivate authorship
+
+main --> summary
+deactivate main
+
+<-- summary
+deactivate summary
+@enduml
