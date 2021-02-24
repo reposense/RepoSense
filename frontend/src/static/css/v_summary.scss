@@ -144,7 +144,10 @@
         padding-right: .5rem;
       }
 
-      &--index,
+      &--index {
+        margin-left: 3px;
+      }
+
       &--repo {
         font-weight: bold;
       }
@@ -200,9 +203,13 @@
     }
   }
 
-  .active {
+  .active-icon {
     background-color: mui-color('green');
     border-radius: 2px;
     color: mui-color('white');
+  }
+
+  .active-background {
+    background-color: mui-color('yellow', '200');
   }
 }
