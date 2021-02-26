@@ -1,8 +1,14 @@
+const GITHUB_OAUTH_URL = 'https://github.com/login/oauth/authorize';
 const GATEKEEPER_URL = 'http://localhost:9999/authenticate';
 const CLIENT_ID = 'c498493d4c565ced8d0b';
 
 export function oAuthAuthenticate() {
-  window.location = `https://github.com/login/oauth/authorize?client_id=${CLIENT_ID}`;
+  const queries = {
+    client_id: CLIENT_ID,
+    scope: 'public_repo',
+  };
+  const queryString = new URLSearchParams(queries).toString();
+  window.location = `${GITHUB_OAUTH_URL}?${queryString}`;
 }
 
 export function checkRedirect() {
