@@ -1,6 +1,8 @@
 <template lang="pug">
   .app
     img(alt="Vue logo", src="./assets/reposense_logo.svg")
+    b-button(variant="success", v-on:click="oAuthAuthenticate()")
+      | {{isLoggedIn ? 'already in' : 'login'}}
     h1 Create your first RepoSense report with ReposenseWizard!
     h2 Repositories
     RepoList(
@@ -33,6 +35,7 @@ import RepoList from './components/RepoList.vue';
 import AdvancedOptions from './components/AdvancedOptions.vue';
 import GithubApi from './githubApi';
 import generateReport from './generateReport';
+import { oAuthAuthenticate, handleAuthRedirect } from './auth';
 
 export default {
   name: 'App',
@@ -43,6 +46,7 @@ export default {
   data() {
     return {
       githubApi: new GithubApi(),
+      isLoggedIn: false,
       pat: '',
       repos: [],
       startDate: '',
@@ -51,9 +55,16 @@ export default {
       generateReportResult: '',
     };
   },
+  created() {
+    this.initiate();
+  },
   methods: {
     updateRepo(e) {
       this.$set(this.repos[e.index], e.field, e.newValue);
+    },
+
+    async initiate() {
+      this.isLoggedIn = await handleAuthRedirect(this.githubApi);
     },
 
     async startGenerateReport() {
@@ -63,6 +74,10 @@ export default {
       };
       this.generateReportResult = 'Generating Report, please wait...';
       this.generateReportResult = await generateReport(data, this.githubApi);
+    },
+
+    oAuthAuthenticate() {
+      oAuthAuthenticate();
     },
   },
 };

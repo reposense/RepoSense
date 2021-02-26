@@ -16,16 +16,16 @@ function matrixToCsvString(matrix) {
 }
 
 async function generateReport(data, githubApi) {
-  const { pat, repos } = data;
+  const { repos } = data;
   if (repos.length === 0) {
     return 'Please input at least 1 repository';
   }
-  githubApi.setPat(pat);
-  try {
-    await githubApi.authenticate();
-  } catch {
-    return 'Invalid personal access token';
-  }
+  // githubApi.setPat(pat);
+  // try {
+  //   await githubApi.authenticate();
+  // } catch {
+  //   return 'Invalid personal access token';
+  // }
   const repoExists = await githubApi.repoExists();
   if (!repoExists) {
     await githubApi.forkReposense();
