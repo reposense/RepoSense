@@ -14,13 +14,6 @@
     p Repositories must be in Git and publicly accessible
     h2 Advanced Options
     AdvancedOptions
-    h2 Personal Access Token
-    p Follow this&nbsp;
-      a(href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/")
-        | guide
-      | &nbsp;and give only&nbsp;
-      code public_repo
-      | &nbsp;permission.
     b-form-input(
       v-model="pat",
       placeholder="Personal Access Token",
@@ -33,9 +26,9 @@
 <script>
 import RepoList from './components/RepoList.vue';
 import AdvancedOptions from './components/AdvancedOptions.vue';
-import GithubApi from './githubApi';
-import generateReport from './generateReport';
-import { oAuthAuthenticate, handleAuthRedirect } from './auth';
+import GithubApi from './utils/githubApi';
+import generateReport from './utils/generateReport';
+import { oAuthAuthenticate, handleAuthRedirect } from './utils/auth';
 
 export default {
   name: 'App',
@@ -47,7 +40,6 @@ export default {
     return {
       githubApi: new GithubApi(),
       isLoggedIn: false,
-      pat: '',
       repos: [],
       startDate: '',
       endDate: '',
@@ -70,7 +62,6 @@ export default {
     async startGenerateReport() {
       const data = {
         repos: this.repos,
-        pat: this.pat,
       };
       this.generateReportResult = 'Generating Report, please wait...';
       this.generateReportResult = await generateReport(data, this.githubApi);
