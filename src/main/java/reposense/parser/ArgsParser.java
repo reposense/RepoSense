@@ -106,9 +106,9 @@ public class ArgsParser {
         parser.addArgument(OPTIMIZE_FLAGS)
                 .dest(OPTIMIZE_FLAGS[0])
                 .action(Arguments.storeTrue())
-                .help("A flag to enable optimized cloning using Git's shallow cloning functionality, which can"
-                        + "significantly reduce the time taken to clone large repositories. Note: this option is not"
-                        + " compatible with --last-modified-date.");
+                .help("A flag to enable optimized cloning using Git's shallow cloning functionality, which can "
+                        + "significantly reduce the time taken to clone large repositories. Note: this option is not "
+                        + "compatible with --last-modified-date.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
