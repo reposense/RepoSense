@@ -107,6 +107,17 @@ The last modified dates will be in the same timezone specified with the `--timez
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### `--optimize-cloning`, `-m`
+
+**`--optimize-cloning`**: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories. Note: this flag is incompatible with the `--last-modified-date`.
+* Default: RepoSense does not clone repositories using Git's shallow cloning functionality.
+* Alias: `-m` (lowercase M)
+* Example:`--optimize-cloning` or `-m`
+
+The last modified dates will be in the same timezone specified with the `--timezone` flag.
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### `--output`, `-o`
 
 **`--output OUTPUT_DIRECTORY`**: Indicates where to save the report generated.
