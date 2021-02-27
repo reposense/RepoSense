@@ -1,6 +1,6 @@
 import VueRouter from 'vue-router';
-import Home from './Home.vue';
-import Auth from './Auth.vue';
+import Home from './views/Home.vue';
+import Auth from './views/Auth.vue';
 
 const routes = [
     {

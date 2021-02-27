@@ -1,6 +1,6 @@
 <template lang="pug">
   .app
-    img(alt="Vue logo", src="./assets/reposense_logo.svg")
+    img(alt="Vue logo", src="../assets/reposense_logo.svg")
     b-button(variant="success", v-on:click="oAuthAuthenticate()")
       | {{isLoggedIn ? 'already in' : 'login'}}
     h1 Create your first RepoSense report with ReposenseWizard!
@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import RepoList from './components/RepoList.vue';
-import AdvancedOptions from './components/AdvancedOptions.vue';
-import { oAuthAuthenticate, generateReport } from './utils';
+import RepoList from '../components/RepoList.vue';
+import AdvancedOptions from '../components/AdvancedOptions.vue';
+import { oAuthAuthenticate, generateReport } from '../utils';
 
 export default {
   name: 'Home',
