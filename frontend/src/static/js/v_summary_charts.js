@@ -178,7 +178,7 @@ window.vSummaryCharts = {
         zLocation: this.getRepoLink(user),
         zSince: since,
         zUntil: until,
-        zIsMerge: isMerged,
+        zIsMerged: isMerged,
         zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
         zFilterSearch: filterSearch,
