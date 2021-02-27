@@ -1,3 +1,15 @@
+const GITHUB_OAUTH_URL = 'https://github.com/login/oauth/authorize';
+const CLIENT_ID = 'c498493d4c565ced8d0b';
+
+export function oAuthAuthenticate() {
+  const queries = {
+    client_id: CLIENT_ID,
+    scope: 'public_repo',
+  };
+  const queryString = new URLSearchParams(queries).toString();
+  window.location = `${GITHUB_OAUTH_URL}?${queryString}`;
+}
+
 function generateRepoConfigHeader() {
   return [[
       "Repository's Location",
@@ -15,7 +27,7 @@ function matrixToCsvString(matrix) {
   return strArr.join('\n');
 }
 
-async function generateReport(data, githubApi) {
+export async function generateReport(data, store) {
   const { repos } = data;
   if (repos.length === 0) {
     return 'Please input at least 1 repository';
@@ -26,21 +38,22 @@ async function generateReport(data, githubApi) {
   // } catch {
   //   return 'Invalid personal access token';
   // }
-  const repoExists = await githubApi.repoExists();
+  const repoExists = await store.dispatch('repoExists');
   if (!repoExists) {
-    await githubApi.forkReposense();
-    await githubApi.addSecret();
-    await githubApi.enableGithubActions();
+    await store.dispatch('forkReposense');
+    // await store.dispatch('addSecret');
+    // await store.dispatch('enableGithubActions');
   }
   const repoConfigArr = generateRepoConfigHeader();
   repos.forEach((repo) => repoConfigArr.push([repo.url, repo.branch, '', '', '', '', '']));
   const repoConfig = matrixToCsvString(repoConfigArr);
   try {
-    await githubApi.updateFile('configs/repo-config.csv', repoConfig);
+    await store.dispatch('updateFile', {
+      path: 'configs/repo-config.csv',
+      strContent: repoConfig,
+    });
   } catch {
     return 'Invalid permissions given';
   }
   return 'Success!';
 }
-
-export default generateReport;
