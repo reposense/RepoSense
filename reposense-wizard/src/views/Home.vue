@@ -13,7 +13,14 @@
     )
     p Repositories must be in Git and publicly accessible
     h2 Advanced Options
-    AdvancedOptions
+    AdvancedOptions(
+      v-bind:startDate="startDate",
+      v-bind:endDate="endDate",
+      v-bind:timezone="timezone",
+      v-on:updateStartDate="startDate = $event",
+      v-on:updateEndDate="endDate = $event",
+      v-on:updateTimezone="timezone = $event",
+    )
     br
     b-button(variant="success", v-on:click="startGenerateReport()") Generate
     p {{generateReportResult}}

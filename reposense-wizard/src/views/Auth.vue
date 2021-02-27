@@ -20,18 +20,17 @@ export default {
 
     async handleAuthRedirect() {
       const { code } = this.$route.query;
-      if (code == null) {
+      if (!code) {
         this.$router.push({ path: '/', query: {} });
         return;
       }
       try {
         const token = await this.requestToken(code);
         await this.$store.dispatch('authenticate', token);
+        this.$router.push({ path: '/', query: {} });
       } catch {
         this.$router.push({ path: '/', query: {} });
-        return;
       }
-      this.$router.push({ path: '/', query: {} });
     },
   },
 };

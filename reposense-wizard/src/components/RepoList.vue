@@ -13,7 +13,7 @@
           )
         b-col(cols="2")
           b-form-input(
-            v-model="repo.branch",
+            v-bind:value="repo.branch",
             v-on:change="updateRepoBranch(i, $event)",
             placeholder="master",
           )
@@ -40,6 +40,12 @@ export default {
   props: {
     repos: Array,
   },
+  emits: [
+      'addRepo',
+      'removeRepo',
+      'updateRepo',
+      'updateRepo',
+  ],
   data() {
     return {
       newUrl: '',
