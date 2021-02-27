@@ -45,7 +45,7 @@ public class ArgsParser {
     public static final String[] SINCE_FLAGS = new String[]{"--since", "-s"};
     public static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
     public static final String[] PERIOD_FLAGS = new String[]{"--period", "-p"};
-    public static final String[] OPTIMIZE_FLAGS = new String[]{"--optimize-cloning", "-s"};
+    public static final String[] OPTIMIZE_FLAGS = new String[]{"--optimize-cloning", "-m"};
     public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
     public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
