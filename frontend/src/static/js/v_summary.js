@@ -23,8 +23,6 @@ window.vSummary = {
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.app.isSinceDateProvided,
       hasModifiedUntilDate: window.app.isUntilDateProvided,
-      filterSinceDate: '',
-      filterUntilDate: '',
       filterHash: '',
       minDate: '',
       maxDate: '',
@@ -60,37 +58,13 @@ window.vSummary = {
         return;
       }
       const { allGroupsMerged } = this;
-      this.getFilteredRepos();
 
-      // merge group is not allowed when group by none
-      // also reset merged groups
-      if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
-        this.$store.commit('updateMergedGroup', []);
-      } else {
-        const mergedGroups = [];
-        this.filtered.forEach((group) => {
-          mergedGroups.push(this.getGroupName(group));
-        });
-        this.$store.commit('updateMergedGroup', mergedGroups);
-      }
-    },
-
-    tmpFilterSinceDate() {
-      if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
-        this.filterSinceDate = this.tmpFilterSinceDate;
-      } else if (!this.tmpFilterSinceDate) { // If user clears the since date field
-        this.filterSinceDate = this.minDate;
-      }
-      this.getFiltered();
-    },
-
-    tmpFilterUntilDate() {
-      if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
-        this.filterUntilDate = this.tmpFilterUntilDate;
-      } else if (!this.tmpFilterUntilDate) { // If user clears the until date field
-        this.filterUntilDate = this.maxDate;
-      }
-      this.getFiltered();
+      this.$store.commit('incrementLoadingOverlayCount', 1);
+      setTimeout(() => {
+        this.getFilteredRepos();
+        this.updateMergedGroup(allGroupsMerged);
+        this.$store.commit('incrementLoadingOverlayCount', -1);
+      });
     },
 
     '$store.state.summaryDates': function () {
@@ -99,6 +73,7 @@ window.vSummary = {
       this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
       this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
       window.deactivateAllOverlays();
+      this.getFiltered();
     },
 
     mergedGroups() {
@@ -150,11 +125,27 @@ window.vSummary = {
           this.filtered.forEach((group) => {
             mergedGroups.push(this.getGroupName(group));
           });
+          this.filtered = [];
           this.$store.commit('updateMergedGroup', mergedGroups);
         } else {
           this.$store.commit('updateMergedGroup', []);
         }
       },
+    },
+
+    filterSinceDate() {
+      if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
+        return this.tmpFilterSinceDate;
+      }
+      // If user clears the since date field
+      return this.minDate;
+    },
+
+    filterUntilDate() {
+      if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
+        return this.tmpFilterUntilDate;
+      }
+      return this.maxDate;
     },
 
     ...Vuex.mapState(['mergedGroups']),
@@ -236,8 +227,6 @@ window.vSummary = {
     },
 
     renderFilterHash() {
-      window.decodeHash();
-
       const convertBool = (txt) => (txt === 'true');
       const hash = window.hashParams;
 
@@ -273,7 +262,6 @@ window.vSummary = {
         const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
-      window.decodeHash();
     },
 
     getDates() {
@@ -285,21 +273,17 @@ window.vSummary = {
       const maxDate = window.app.untilDate;
 
       if (!this.filterSinceDate) {
+        this.minDate = minDate;
         if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
           this.tmpFilterSinceDate = minDate;
         }
-
-        this.filterSinceDate = minDate;
-        this.minDate = minDate;
       }
 
       if (!this.filterUntilDate) {
+        this.maxDate = maxDate;
         if (!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate) {
           this.tmpFilterUntilDate = maxDate;
         }
-
-        this.filterUntilDate = maxDate;
-        this.maxDate = maxDate;
       }
       this.$emit('get-dates', [this.minDate, this.maxDate]);
     },
@@ -320,8 +304,13 @@ window.vSummary = {
       this.getDates();
       window.deactivateAllOverlays();
 
-      this.getFilteredRepos();
-      this.getMergedRepos();
+      this.$store.commit('incrementLoadingOverlayCount', 1);
+      // Use setTimeout() to force this.filtered to update only after loading screen is displayed.
+      setTimeout(() => {
+        this.getFilteredRepos();
+        this.getMergedRepos();
+        this.$store.commit('incrementLoadingOverlayCount', -1);
+      });
     },
 
     getFilteredRepos() {
@@ -362,6 +351,20 @@ window.vSummary = {
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
       this.filtered = this.sortFiltered(this.filtered, filterControl);
+    },
+
+    updateMergedGroup(allGroupsMerged) {
+      // merge group is not allowed when group by none
+      // also reset merged groups
+      if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
+        this.$store.commit('updateMergedGroup', []);
+      } else {
+        const mergedGroups = [];
+        this.filtered.forEach((group) => {
+          mergedGroups.push(this.getGroupName(group));
+        });
+        this.$store.commit('updateMergedGroup', mergedGroups);
+      }
     },
 
     getMergedRepos() {
@@ -694,6 +697,7 @@ window.vSummary = {
       this.tmpFilterUntilDate = '';
       window.removeHash('since');
       window.removeHash('until');
+      this.getFiltered();
     },
 
     updateTmpFilterSinceDate(event) {
@@ -703,12 +707,11 @@ window.vSummary = {
       if (!this.isSafariBrowser) {
         this.tmpFilterSinceDate = since;
         event.target.value = this.filterSinceDate;
-        return;
-      }
-
-      if (dateFormatRegex.test(since) && since >= this.minDate) {
+        this.getFiltered();
+      } else if (dateFormatRegex.test(since) && since >= this.minDate) {
         this.tmpFilterSinceDate = since;
         event.currentTarget.style.removeProperty('border-bottom-color');
+        this.getFiltered();
       } else {
         // invalid since date detected
         event.currentTarget.style.borderBottomColor = 'red';
@@ -722,12 +725,11 @@ window.vSummary = {
       if (!this.isSafariBrowser) {
         this.tmpFilterUntilDate = until;
         event.target.value = this.filterUntilDate;
-        return;
-      }
-
-      if (dateFormatRegex.test(until) && until <= this.maxDate) {
+        this.getFiltered();
+      } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
         this.tmpFilterUntilDate = until;
         event.currentTarget.style.removeProperty('border-bottom-color');
+        this.getFiltered();
       } else {
         // invalid until date detected
         event.currentTarget.style.borderBottomColor = 'red';

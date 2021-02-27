@@ -22,7 +22,7 @@ Visualize programmer activities across git repositories...
 
 <span id="overview">
 
-**RepoSense can generate interactive visualizations of programmer activities, even across multiple repositories.** It's ideal for educators and managers to get insights on programming activities of their mentees. The visualizations can be **easily shared** with others (e.g., as an online dashboard) and updating of the visualizations periodically **can be automated**.
+**RepoSense can generate interactive visualizations of programmer activities, even across multiple repositories.** It's ideal for educators and managers to get insights into the programming activities of their mentees. The visualizations can be **easily shared** with others (e.g., as an online dashboard), and updating the visualizations periodically **can be automated**.
 
 {% macro heading(icon, text) %}<h4>{{ thumbnail(icon) }} <span class="lead font-weight-bold text-green">{{ text }}</span></h4>{% endmacro %}
 
@@ -37,13 +37,13 @@ Some example insights RepoSense can provide:
 
 {{ heading(":fas-chart-pie:", "Insights about the type of work") }}
 
-* Which portion of Jacob's code was documentation?
+* Which portion of Jacob's code is documentation?
 * Who hasn't written any test code yet?
 * Which project did Jolene contribute to in the last month?
 
 {{ heading(":fas-business-time:", "Insights about the timing of work") }}
 
-* Who are putting in a consistent effort?
+* Who is putting in the consistent effort?
 * Who waits till the deadline to do the work?
 * Who hasn't started any work yet?
 

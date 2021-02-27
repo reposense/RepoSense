@@ -6,49 +6,60 @@ const filesSortDict = {
   fileType: (file) => file.fileType,
 };
 
+function initialState() {
+  return {
+    isLoaded: false,
+    files: [],
+    selectedFiles: [],
+    filterType: 'checkboxes',
+    selectedFileTypes: [],
+    fileTypes: [],
+    filesLinesObj: {},
+    fileTypeBlankLinesObj: {},
+    filesSortType: 'lineOfCode',
+    toReverseSortFiles: true,
+    searchBarValue: '',
+  };
+}
+
 const repoCache = [];
 const minimatch = require('minimatch');
 
 window.vAuthorship = {
-  props: ['info'],
   template: window.$('v_authorship').innerHTML,
   data() {
-    return {
-      isLoaded: false,
-      files: [],
-      filterType: 'checkboxes',
-      selectedFileTypes: [],
-      fileTypes: [],
-      filesLinesObj: {},
-      fileTypeBlankLinesObj: {},
-      filesSortType: 'lineOfCode',
-      toReverseSortFiles: true,
-      searchBarValue: '',
-    };
+    return initialState();
   },
 
   watch: {
     filesSortType() {
       window.addHash('authorshipSortBy', this.filesSortType);
       window.encodeHash();
+      this.updateSelectedFiles();
+    },
+
+    searchBarValue() {
+      this.updateSelectedFiles();
+    },
+
+    selectedFileTypes() {
+      this.updateSelectedFiles();
     },
 
     toReverseSortFiles() {
       window.addHash('reverseAuthorshipOrder', this.toReverseSortFiles);
       window.encodeHash();
+      this.updateSelectedFiles();
     },
 
-    isLoaded() {
-      if (this.isLoaded) {
-        this.retrieveHashes();
-        this.setInfoHash();
-      }
+    authorshipOwnerWatchable() {
+      Object.assign(this.$data, initialState());
+      this.initiate();
     },
   },
 
   methods: {
     retrieveHashes() {
-      window.decodeHash();
       const hash = window.hashParams;
 
       switch (hash.authorshipSortBy) {
@@ -63,19 +74,24 @@ window.vAuthorship = {
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
 
-      this.selectedFileTypes = this.info.checkedFileTypes
-        ? this.info.checkedFileTypes.filter((fileType) => this.fileTypes.includes(fileType))
-        : [];
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
             .split(window.HASH_DELIMITER)
             .filter((fileType) => this.fileTypes.includes(fileType));
+      } else {
+        this.resetSelectedFileTypes();
       }
 
       if ('authorshipFilesGlob' in hash) {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
       }
+    },
+
+    resetSelectedFileTypes() {
+      this.selectedFileTypes = this.info.checkedFileTypes
+        ? this.info.checkedFileTypes.filter((fileType) => this.fileTypes.includes(fileType))
+        : [];
     },
 
     setInfoHash() {
@@ -98,7 +114,7 @@ window.vAuthorship = {
       window.encodeHash();
     },
 
-    initiate() {
+    async initiate() {
       const repo = window.REPOS[this.info.repo];
 
       this.getRepoProps(repo);
@@ -114,12 +130,19 @@ window.vAuthorship = {
       }
       repoCache.push(this.info.repo);
 
-      if (repo.files) {
-        this.processFiles(repo.files);
-      } else {
-        window.api.loadAuthorship(this.info.repo)
-            .then((files) => this.processFiles(files));
+      let { files } = repo;
+      if (!files) {
+        files = await window.api.loadAuthorship(this.info.repo);
       }
+      this.processFiles(files);
+
+      if (this.info.isRefresh) {
+        this.retrieveHashes();
+      } else {
+        this.resetSelectedFileTypes();
+      }
+
+      this.setInfoHash();
     },
 
     getRepoProps(repo) {
@@ -263,7 +286,7 @@ window.vAuthorship = {
 
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
-      this.isLoaded = true;
+      this.updateSelectedFiles(true);
     },
 
     getContributionFromAllAuthors(contributionMap) {
@@ -298,6 +321,21 @@ window.vAuthorship = {
       window.encodeHash();
     },
 
+    updateSelectedFiles(setIsLoaded = false) {
+      this.$store.commit('incrementLoadingOverlayCount', 1);
+      setTimeout(() => {
+        this.selectedFiles = this.files.filter(
+            (file) => this.selectedFileTypes.includes(file.fileType)
+            && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
+        )
+            .sort(this.sortingFunction);
+        if (setIsLoaded) {
+          this.isLoaded = true;
+        }
+        this.$store.commit('incrementLoadingOverlayCount', -1);
+      });
+    },
+
     indicateSearchBar() {
       this.selectedFileTypes = this.fileTypes.slice();
       this.filterType = 'search';
@@ -329,6 +367,10 @@ window.vAuthorship = {
   },
 
   computed: {
+    authorshipOwnerWatchable() {
+      return `${this.info.author}|${this.info.repo}|${this.info.isMergeGroup}`;
+    },
+
     sortingFunction() {
       return (a, b) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
@@ -347,12 +389,6 @@ window.vAuthorship = {
 
         this.indicateCheckBoxes();
       },
-    },
-
-    selectedFiles() {
-      return this.files.filter((file) => this.selectedFileTypes.includes(file.fileType)
-          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }))
-          .sort(this.sortingFunction);
     },
 
     activeFilesCount() {
@@ -377,7 +413,10 @@ window.vAuthorship = {
       return numLinesModified;
     },
 
-    ...Vuex.mapState(['fileTypeColors']),
+    ...Vuex.mapState({
+      fileTypeColors: 'fileTypeColors',
+      info: 'tabAuthorshipInfo',
+    }),
   },
 
   created() {
