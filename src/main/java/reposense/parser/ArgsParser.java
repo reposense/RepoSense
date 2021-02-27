@@ -45,6 +45,7 @@ public class ArgsParser {
     public static final String[] SINCE_FLAGS = new String[]{"--since", "-s"};
     public static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
     public static final String[] PERIOD_FLAGS = new String[]{"--period", "-p"};
+    public static final String[] OPTIMIZE_FLAGS = new String[]{"--optimize-cloning", "-s"};
     public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
     public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
@@ -101,6 +102,12 @@ public class ArgsParser {
                 .dest(LAST_MODIFIED_DATE_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to keep track of the last modified date of each line of code.");
+
+        parser.addArgument(OPTIMIZE_FLAGS)
+                .dest(OPTIMIZE_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to enable optimized cloning, which can significantly reduce the time taken to clone" +
+                        "large repositories. Note: this option is not compatible with --last-modified-date.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
@@ -239,6 +246,7 @@ public class ArgsParser {
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
             boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
+            boolean shouldOptimizeCloning = results.get(OPTIMIZE_FLAGS[0]);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
@@ -259,7 +267,7 @@ public class ArgsParser {
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                         isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
-                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                        shouldOptimizeCloning, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
@@ -267,7 +275,7 @@ public class ArgsParser {
             }
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
-                    isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                    shouldOptimizeCloning, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

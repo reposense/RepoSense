@@ -37,6 +37,7 @@ public class RepoConfiguration {
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
     private transient boolean isLastModifiedDateIncluded;
+    private transient boolean isCloningOptimized;
     private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
@@ -48,12 +49,12 @@ public class RepoConfiguration {
 
     public RepoConfiguration(RepoLocation location, String branch) {
         this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
-                false, false, false);
+                false, false, false, false);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
-            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding) {
+            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding, boolean isCloningOptimized) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
@@ -95,6 +96,13 @@ public class RepoConfiguration {
                                                                   boolean isLastModifiedDateIncluded) {
         for (RepoConfiguration config : configs) {
             config.setIsLastModifiedDateIncluded(isLastModifiedDateIncluded);
+        }
+    }
+
+    public static void setIsCloningOptimizedToRepoConfigs(List<RepoConfiguration> configs,
+                                                                  boolean isCloningOptimized) {
+        for (RepoConfiguration config : configs) {
+            config.setIsCloningOptimized(isCloningOptimized);
         }
     }
 
@@ -380,8 +388,16 @@ public class RepoConfiguration {
         this.isLastModifiedDateIncluded = lastModifiedDateIncluded;
     }
 
+    public void setIsCloningOptimized(boolean isCloningOptimized) {
+        this.isCloningOptimized = isCloningOptimized;
+    }
+
     public boolean isLastModifiedDateIncluded() {
         return this.isLastModifiedDateIncluded;
+    }
+
+    public boolean isCloningOptimized() {
+        return this.isCloningOptimized;
     }
 
     public void setIsIgnoredAuthorsListOverriding(boolean isIgnoredAuthorsListOverriding) {

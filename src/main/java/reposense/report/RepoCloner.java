@@ -62,34 +62,43 @@ public class RepoCloner {
     public void cloneBare(RepoConfiguration config) {
         configs[currentIndex] = config;
 
-        boolean didShallowPartialCloneSucceed = spawnShallowPartialCloneProcess(config);
-        String shallowPartialBareRoot = FileUtil.getShallowPartialBareRepoPath(config).toString();
-
-        if (!didShallowPartialCloneSucceed || GitRevList.getIsEmptyRepo(shallowPartialBareRoot)) {
+        if (!config.isCloningOptimized()) {
             isCurrentRepoCloned = spawnCloneProcess(config);
-            return;
-        }
+        } else {
+            boolean didShallowPartialCloneSucceed = spawnShallowPartialCloneProcess(config);
+            String shallowPartialBareRoot = FileUtil.getShallowPartialBareRepoPath(config).toString();
 
-        List<String> graftedCommits = GitRevList.getRootCommits(shallowPartialBareRoot);
-        List<String> graftedCommitParents = GitCatFile.getParentsOfCommits(shallowPartialBareRoot, graftedCommits);
+            if (!didShallowPartialCloneSucceed || GitRevList.getIsEmptyRepo(shallowPartialBareRoot)) {
+                isCurrentRepoCloned = spawnCloneProcess(config);
+                return;
+            }
 
-        boolean didPartialCloneSucceed = spawnPartialCloneProcess(config);
-        if (!didPartialCloneSucceed) {
-            isCurrentRepoCloned = spawnCloneProcess(config);
-            return;
-        }
+            List<String> graftedCommits = GitRevList.getRootCommits(shallowPartialBareRoot);
+            List<String> graftedCommitParents = GitCatFile.getParentsOfCommits(shallowPartialBareRoot, graftedCommits);
 
-        String partialBareRoot = FileUtil.getPartialBareRepoPath(config).toString();
-        try {
-            Date sinceDate = graftedCommitParents
-                    .stream()
-                    .distinct()
-                    .map(hash -> GitShow.getCommitDate(partialBareRoot, hash))
-                    .min(Date::compareTo)
-                    .get();
-            isCurrentRepoCloned = spawnShallowCloneProcess(config, sinceDate);
-        } catch (RuntimeException rte) {
-            isCurrentRepoCloned = spawnCloneProcess(config);
+            boolean didPartialCloneSucceed = spawnPartialCloneProcess(config);
+            if (!didPartialCloneSucceed) {
+                isCurrentRepoCloned = spawnCloneProcess(config);
+                return;
+            }
+
+            String partialBareRoot = FileUtil.getPartialBareRepoPath(config).toString();
+            Date sinceDate;
+            try {
+                sinceDate = graftedCommitParents
+                        .stream()
+                        .distinct()
+                        .map(hash -> GitShow.getCommitDate(partialBareRoot, hash))
+                        .min(Date::compareTo)
+                        .get();
+            } catch (RuntimeException rte) {
+                sinceDate = null;
+            }
+            if (sinceDate != null) {
+                isCurrentRepoCloned = spawnShallowCloneProcess(config, sinceDate);
+            } else {
+                isCurrentRepoCloned = spawnCloneProcess(config);
+            }
         }
     }
 
