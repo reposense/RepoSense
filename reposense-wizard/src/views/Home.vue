@@ -29,7 +29,10 @@
 <script>
 import RepoList from '../components/RepoList.vue';
 import AdvancedOptions from '../components/AdvancedOptions.vue';
-import { oAuthAuthenticate, generateReport } from '../utils';
+import { generateReport } from '../utils';
+
+const GITHUB_OAUTH_URL = 'https://github.com/login/oauth/authorize';
+const CLIENT_ID = 'c498493d4c565ced8d0b';
 
 export default {
   name: 'Home',
@@ -63,13 +66,22 @@ export default {
     async startGenerateReport() {
       const data = {
         repos: this.repos,
+        since: this.startDate,
+        until: this.endDate,
+        timezone: this.timezone,
       };
       this.generateReportResult = 'Generating Report, please wait...';
       this.generateReportResult = await generateReport(data, this.$store);
     },
 
     oAuthAuthenticate() {
-      oAuthAuthenticate();
+      const queries = {
+        client_id: CLIENT_ID,
+        scope: 'public_repo',
+      };
+      const queryString = new URLSearchParams(queries).toString();
+      // This redirects to the github website.
+      window.location = `${GITHUB_OAUTH_URL}?${queryString}`;
     },
   },
 };
