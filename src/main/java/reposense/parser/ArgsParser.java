@@ -106,7 +106,7 @@ public class ArgsParser {
         parser.addArgument(OPTIMIZE_FLAGS)
                 .dest(OPTIMIZE_FLAGS[0])
                 .action(Arguments.storeTrue())
-                .help("A flag to enable optimized cloning, which can significantly reduce the time taken to clone" +
+                .help("A flag to enable optimized cloning, which can significantly reduce the time taken to clone " +
                         "large repositories. Note: this option is not compatible with --last-modified-date.");
 
         parser.addArgument(VIEW_FLAGS)
