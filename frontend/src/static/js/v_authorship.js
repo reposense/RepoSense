@@ -268,7 +268,7 @@ window.vAuthorship = {
         const out = {};
         out.path = file.path;
         out.lineCount = lineCnt;
-        out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
+        out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD && !file.isBinary;
         out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
         out.fileType = file.fileType;
 
