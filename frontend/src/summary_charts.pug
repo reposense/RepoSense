@@ -58,8 +58,7 @@
           .tooltip
             font-awesome-icon.icon-button(
               icon="code",
-              v-bind:class="{ 'active-icon': \
-                isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true) }"
+              v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true) }"
             )
             span.tooltip-text Click to view group's code
         a(
@@ -69,8 +68,7 @@
           .tooltip
             font-awesome-icon.icon-button(
               icon="list-ul",
-              v-bind:class="{ 'active-icon': \
-                isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
+              v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
             )
             span.tooltip-text Click to view breakdown of commits
       .summary-charts__title--percentile {{ getPercentile(i) }} %
@@ -119,8 +117,7 @@
           .tooltip
             font-awesome-icon.icon-button(
               icon="code",
-              v-bind:class="{ 'active-icon': \
-                isSelectedTab(user.name, user.repoName, 'authorship', false) }"
+              v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'authorship', false) }"
             )
             span.tooltip-text Click to view author's contribution.
         a(
@@ -130,8 +127,7 @@
           .tooltip
             font-awesome-icon.icon-button(
               icon="list-ul",
-              v-bind:class="{ 'active-icon': \
-                isSelectedTab(user.name, user.repoName, 'zoom', false) }"
+              v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'zoom', false) }"
             )
             span.tooltip-text Click to view breakdown of commits
         .summary-chart__title--percentile(
