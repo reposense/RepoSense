@@ -10,6 +10,7 @@ window.vSummaryCharts = {
       activeRepo: null,
       activeUser: null,
       activeTabType: null,
+      isTabOnMergedGroup: false,
     };
   },
 
@@ -256,7 +257,7 @@ window.vSummaryCharts = {
       this.$store.commit('updateMergedGroup', info);
     },
 
-    retrieveSelectedAuthorHash() {
+    retrieveSelectedTabHash() {
       const hash = window.hashParams;
 
       if (hash.tabAuthor) {
@@ -271,12 +272,13 @@ window.vSummaryCharts = {
         this.activeRepo = hash.zR;
       }
 
-      if (hash.isPreviouslyMerged) {
+      if (hash.isTabOnMergedGroup) {
         if (this.filterGroupSelection === 'groupByAuthors') {
           this.activeRepo = null;
         } else if (this.filterGroupSelection === 'groupByRepos') {
           this.activeUser = null;
         }
+        this.isTabOnMergedGroup = true;
       }
 
       if (hash.tabType) {
@@ -298,9 +300,11 @@ window.vSummaryCharts = {
       }
 
       if (isMerged) {
-        window.addHash('isPreviouslyMerged', 'true');
+        window.addHash('isTabOnMergedGroup', 'true');
+        this.isTabOnMergedGroup = true;
       } else {
-        window.removeHash('isPreviouslyMerged');
+        window.removeHash('isTabOnMergedGroup');
+        this.isTabOnMergedGroup = false;
       }
 
       this.activeTabType = tabType;
@@ -312,7 +316,7 @@ window.vSummaryCharts = {
       this.activeRepo = null;
       this.activeTabType = null;
 
-      window.removeHash('isPreviouslyMerged');
+      window.removeHash('isTabOnMergedGroup');
       window.encodeHash();
     },
 
@@ -330,12 +334,13 @@ window.vSummaryCharts = {
     },
 
     isSelectedGroup(userName, repo, isMerged) {
-      return isMerged && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
+      return (this.isTabOnMergedGroup || isMerged)
+          && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
           || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
     },
   },
   created() {
-    this.retrieveSelectedAuthorHash();
+    this.retrieveSelectedTabHash();
   },
   components: {
     vRamp: window.vRamp,

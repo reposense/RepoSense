@@ -56,13 +56,10 @@
           v-on:click="openTabAuthorship(repo[0], repo, 0, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button.active-icon(
-              icon="code",
-              v-if="isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true)"
-            )
             font-awesome-icon.icon-button(
               icon="code",
-              v-if="!isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true)"
+              v-bind:class="{ 'active-icon': \
+                isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true) }"
             )
             span.tooltip-text Click to view group's code
         a(
@@ -70,13 +67,10 @@
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button.active-icon(
-              icon="list-ul",
-              v-if="isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true)"
-            )
             font-awesome-icon.icon-button(
               icon="list-ul",
-              v-if="!isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true)"
+              v-bind:class="{ 'active-icon': \
+                isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
             )
             span.tooltip-text Click to view breakdown of commits
       .summary-charts__title--percentile {{ getPercentile(i) }} %
@@ -123,13 +117,10 @@
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button.active-icon(
-              icon="code",
-              v-if="isSelectedTab(user.name, user.repoName, 'authorship', false)"
-            )
             font-awesome-icon.icon-button(
               icon="code",
-              v-if="!isSelectedTab(user.name, user.repoName, 'authorship', false)"
+              v-bind:class="{ 'active-icon': \
+                isSelectedTab(user.name, user.repoName, 'authorship', false) }"
             )
             span.tooltip-text Click to view author's contribution.
         a(
@@ -137,13 +128,10 @@
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button.active-icon(
-              icon="list-ul",
-              v-if="isSelectedTab(user.name, user.repoName, 'zoom', false)"
-            )
             font-awesome-icon.icon-button(
               icon="list-ul",
-              v-if="!isSelectedTab(user.name, user.repoName, 'zoom', false)"
+              v-bind:class="{ 'active-icon': \
+                isSelectedTab(user.name, user.repoName, 'zoom', false) }"
             )
             span.tooltip-text Click to view breakdown of commits
         .summary-chart__title--percentile(
