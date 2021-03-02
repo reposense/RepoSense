@@ -1,6 +1,7 @@
 import VueRouter from 'vue-router';
 import Home from './views/Home.vue';
 import Auth from './views/Auth.vue';
+import NotFound from './views/404.vue';
 
 const routes = [
     {
@@ -10,6 +11,10 @@ const routes = [
     {
       path: '/authenticating',
       component: Auth,
+    },
+    {
+      path: '/*',
+      component: NotFound,
     },
 ];
 

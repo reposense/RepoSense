@@ -34,7 +34,6 @@ const githubStore = {
     },
 
     logout(state) {
-      console.log(state);
       state.accessToken = null;
       state.octokit = null;
       state.loginUser = '';
