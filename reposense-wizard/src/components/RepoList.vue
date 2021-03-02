@@ -1,10 +1,10 @@
 <template lang="pug">
-  b-container(fluid)
+  b-container.repolist(fluid)
     b-row
       b-col(cols="9") Repository URL:
-      b-col(cols="2") Branch
+      b-col(cols="2") Branch:
     template(v-for='(repo, i) in repos')
-      b-row
+      b-row.repolist-row-input
         b-col(cols="9")
           b-form-input(
             v-bind:value="repo.url",
@@ -27,6 +27,9 @@
             v-else,
             icon='x-circle',
             v-on:click="removeRepo(i)")
+    b-row
+      b-col
+        .repolist-comment Repositories must be in Git and publicly accessible
 </template>
 
 <script>
@@ -41,17 +44,9 @@ export default {
       'updateRepo',
       'updateRepo',
   ],
-  data() {
-    return {
-      newUrl: '',
-      newBranch: '',
-    };
-  },
   methods: {
     addRepo() {
-      this.$emit('addRepo', { url: this.newUrl, branch: this.newBranch });
-      this.newUrl = '';
-      this.newBranch = '';
+      this.$emit('addRepo', { url: '', branch: '' });
     },
     removeRepo(index) {
       this.$emit('removeRepo', index);
@@ -69,9 +64,9 @@ export default {
 <style>
 .cross-button {
   color: #e80e0e;
-  margin: auto;
-  height: 50%;
-  width: 50%;
+  margin-top: 10px;
+  height: 20px;
+  width: 20px;
 }
 
 .cross-button:hover {
@@ -80,12 +75,29 @@ export default {
 
 .plus-button {
   color: #4CAF50;
-  margin: auto;
-  height: 50%;
-  width: 50%;
+  margin-top: 10px;
+  height: 20px;
+  width: 20px;
 }
 
 .plus-button:hover {
   color: #275c2a;
+}
+
+.repolist {
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+.repolist-comment {
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.429;
+  color: grey;
+}
+
+.repolist-row-input {
+  margin-top: 5px;
 }
 </style>

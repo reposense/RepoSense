@@ -3,7 +3,7 @@
     img(alt="Vue logo", src="../assets/reposense_logo.svg")
     b-button(variant="success", v-on:click="oAuthAuthenticate()")
       | {{isLoggedIn ? `Logged in as ${loginUser}` : 'login'}}
-    h1 Create your first RepoSense report with ReposenseWizard!
+    h1 Create your first RepoSense report!
     h2 Repositories
     RepoList(
       v-bind:repos="repos",
@@ -11,7 +11,6 @@
       v-on:addRepo="repos.push($event)",
       v-on:removeRepo="repos.splice($event, 1)",
     )
-    p Repositories must be in Git and publicly accessible
     h2 Advanced Options
     AdvancedOptions(
       v-bind:startDate="startDate",
@@ -94,12 +93,15 @@ export default {
 </script>
 
 <style>
-#app {
+body {
+  background-color: #E9ECEF;
+}
+
+.app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #E9ECEF;
-  margin-top: 60px;
+  margin: 15px;
+  margin-top: 30px;
 }
 </style>

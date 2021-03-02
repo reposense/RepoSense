@@ -1,20 +1,20 @@
 <template lang="pug">
-  b-container(fluid)
+  b-container.advanced-options(fluid)
     b-row
       b-col Start Date:&nbsp;
-        i {{ startDate ? '' : "First commit date used"}}
         b-form-input(
           type="date",
           v-bind:value="startDate",
           v-on:change="updateStartDate($event)",
         )
+        i {{ startDate ? '' : "Default first commit date used"}}
       b-col Until Date:&nbsp;
-        i {{ endDate ? '' : "Today's date used"}}
         b-form-input(
           type="date",
           v-bind:value="endDate",
           v-on:change="updateEndDate($event)",
         )
+        i {{ endDate ? '' : "Default today's date used"}}
       b-col Time Zone:&nbsp;
         i UTC{{timezoneStr}}
         b-form-input(
@@ -62,4 +62,12 @@ export default {
 </script>
 
 <style>
+.advanced-options {
+  padding: 0;
+}
+
+.advanced-options-col {
+  margin-bottom: 15px;
+}
+
 </style>
