@@ -52,8 +52,15 @@ export default {
     AdvancedOptions,
   },
   data() {
+    const reposStr = localStorage.getItem('savedRepos');
+    let repos = null;
+    if (reposStr) {
+      repos = JSON.parse(reposStr);
+    } else {
+      repos = [{ url: '', branch: '' }];
+    }
     return {
-      repos: [{ url: '', branch: '' }],
+      repos,
       startDate: '',
       endDate: '',
       timezone: 8,
@@ -67,6 +74,14 @@ export default {
     ...mapGetters({
       isLoggedIn: 'isAuthenticated',
     }),
+  },
+  watch: {
+    repos: {
+      handler(val) {
+        localStorage.setItem('savedRepos', JSON.stringify(val));
+      },
+      deep: true,
+    },
   },
   created() {
     this.initiate();

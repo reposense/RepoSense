@@ -51,7 +51,7 @@ function generateRunSh(since, until, timezone) {
 ### ./get-reposense.py --tag v1.6.1            # Gets a specific version
 ### ./get-reposense.py --release --overwrite   # Overwrite RepoSense.jar, if exists, with the latest release
 
-./get-reposense.py --release
+./get-reposense.py --master
 
 # Executes RepoSense
 # Do not change the default output folder name (reposense-report)
@@ -78,20 +78,15 @@ export async function generateReport(data, store) {
       return 'Repository names should start with: https://github.com/';
     }
   }
-  // githubApi.setPat(pat);
-  // try {
-  //   await githubApi.authenticate();
-  // } catch {
-  //   return 'Invalid personal access token';
-  // }
   const repoExists = await store.dispatch('repoExists');
   if (!repoExists) {
     await store.dispatch('forkReposense');
-    // await store.dispatch('addSecret');
+    // await store.dispatch('addSecret', store.state.githubStore.accessToken);
     await store.dispatch('enableGithubActions');
+    store.dispatch('enableGithubPages');
   }
   const repoConfigArr = generateRepoConfigHeader();
-  repos.forEach((repo) => repoConfigArr.push([repo.url, repo.branch, '', '', '', '', '']));
+  repos.forEach((repo) => repoConfigArr.push([`${repo.url}.git`, repo.branch, '', '', '', '', '']));
   const repoConfig = matrixToCsvString(repoConfigArr);
   const runsh = generateRunSh(since, until, timezone);
   try {

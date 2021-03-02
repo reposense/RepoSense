@@ -1,4 +1,4 @@
-// import { seal } from 'tweetsodium';
+import { seal } from 'tweetsodium';
 import { Octokit } from '@octokit/core';
 
 const REPO_NAME = 'publish-RepoSense';
@@ -20,7 +20,7 @@ const githubStore = {
   mutations: {
     setOctokit(state, accessToken) {
       state.accessToken = accessToken;
-      window.localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('accessToken', accessToken);
       state.octokit = new Octokit({ auth: accessToken });
     },
 
@@ -37,7 +37,7 @@ const githubStore = {
       state.accessToken = null;
       state.octokit = null;
       state.loginUser = '';
-      window.localStorage.removeItem('accessToken');
+      localStorage.removeItem('accessToken');
     },
   },
 
@@ -59,6 +59,7 @@ const githubStore = {
     },
 
     async forkReposense({ state, dispatch }) {
+      // https://docs.github.com/en/rest/reference/repos#forks
       await state.octokit.request('POST /repos/{owner}/{repo}/forks', {
         owner: 'reposense',
         repo: REPO_NAME,
@@ -90,33 +91,34 @@ const githubStore = {
       commit('setPublicKey', { publicKey: response.data.key, publicKeyId: response.data.key_id });
     },
 
-    // async addSecret(value) {
-    //   value = value || this.pat;
-    //   if (!this.publicKey) {
-    //     await this.getPublicKey();
-    //   }
-    //   // Convert the message and key to Uint8Array's (Buffer implements that interface)
-    //   const messageBytes = Buffer.from(value);
-    //   const keyBytes = Buffer.from(this.publicKey, 'base64');
+    async addSecret({ state }, value) {
+      // https://docs.github.com/en/rest/reference/actions#create-or-update-a-repository-secret
+      if (!state.publicKey) {
+        await state.getPublicKey();
+      }
+      // Convert the message and key to Uint8Array's (Buffer implements that interface)
+      const messageBytes = Buffer.from(value);
+      const keyBytes = Buffer.from(state.publicKey, 'base64');
 
 
-    //   // Encrypt using LibSodium.
-    //   const encryptedBytes = seal(messageBytes, keyBytes);
+      // Encrypt using LibSodium.
+      const encryptedBytes = seal(messageBytes, keyBytes);
 
 
-    //   // Base64 the encrypted secret
-    //   const encrypted = Buffer.from(encryptedBytes).toString('base64');
+      // Base64 the encrypted secret
+      const encrypted = Buffer.from(encryptedBytes).toString('base64');
 
-    //   await this.octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
-    //     owner: this.loginUser,
-    //     repo: REPO_NAME,
-    //     secret_name: 'ACCESS_TOKEN',
-    //     encrypted_value: encrypted,
-    //     key_id: this.publicKeyId,
-    //   });
-    // },
+      await state.octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
+        owner: state.loginUser,
+        repo: REPO_NAME,
+        secret_name: 'ACCESS_TOKEN',
+        encrypted_value: encrypted,
+        key_id: state.publicKeyId,
+      });
+    },
 
     async updateFile({ state }, { path, strContent }) {
+      // https://docs.github.com/en/rest/reference/repos#create-or-update-file-contents
       // Get file sha
       const resp = await state.octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
         owner: state.loginUser,
@@ -143,6 +145,22 @@ const githubStore = {
         repo: REPO_NAME,
         enabled: true,
         allowed_actions: 'all',
+      });
+    },
+
+    async enableGithubPages({ state }) {
+      // https://docs.github.com/en/rest/reference/repos#pages
+      await state.octokit.request('POST /repos/{owner}/{repo}/pages', {
+        owner: state.loginUser,
+        repo: REPO_NAME,
+        source: {
+          branch: 'gh-pages',
+        },
+        mediaType: {
+          previews: [
+              'switcheroo',
+          ],
+        },
       });
     },
   },
