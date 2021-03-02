@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       isLoggedIn: false,
-      repos: [],
+      repos: [{ url: '', branch: '' }],
       startDate: '',
       endDate: '',
       timezone: 8,

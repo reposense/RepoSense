@@ -18,20 +18,15 @@
             placeholder="master",
           )
         b-col
-          b-icon.cross-button(icon='x-circle', v-on:click="removeRepo(i)")
-    b-row
-      b-col(cols="9")
-        b-form-input(
-          v-model="newUrl",
-          placeholder="Please enter the full github url of the repository.",
-        )
-      b-col(cols="2")
-        b-form-input(
-          v-model="newBranch",
-          placeholder="master",
-        )
-      b-col
-        b-icon.plus-button(icon='plus-circle', v-on:click="addRepo()")
+          b-icon.plus-button(
+            v-if='i+1 == repos.length',
+            icon='plus-circle',
+            v-on:click="addRepo()"
+          )
+          b-icon.cross-button(
+            v-else,
+            icon='x-circle',
+            v-on:click="removeRepo(i)")
 </template>
 
 <script>
@@ -73,14 +68,14 @@ export default {
 
 <style>
 .cross-button {
-  background-color: #e80e0e;
+  color: #e80e0e;
   margin: auto;
   height: 50%;
   width: 50%;
 }
 
 .cross-button:hover {
-  color: #275c2a;
+  color: #8a0808;
 }
 
 .plus-button {

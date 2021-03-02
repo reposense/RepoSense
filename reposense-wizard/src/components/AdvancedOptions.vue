@@ -23,7 +23,7 @@
           type="range",
           min="-12",
           max="14",
-          step="1"
+          step="0.5"
         )
 </template>
 
@@ -44,7 +44,7 @@ export default {
   ],
   computed: {
     timezoneStr() {
-      return timezoneToStr(this.timezone);
+      return timezoneToStr(this.timezone, true);
     },
   },
   methods: {

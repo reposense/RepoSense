@@ -10,12 +10,15 @@ function generateRepoConfigHeader() {
   ]];
 }
 
-export function timezoneToStr(hours) {
+const zeroPad = (num, places) => String(num).padStart(places, '0');
+
+export function timezoneToStr(hours, useColon) {
   const sign = hours >= 0 ? '+' : '-';
   hours = Math.abs(hours);
-  const roundedHours = Math.floor(hours / 60);
-  const minutes = hours % 60;
-  return `${sign}${roundedHours}${minutes}`;
+  const roundedHours = Math.floor(hours);
+  const minutes = (hours - roundedHours) * 60;
+  const colon = useColon ? ':' : '';
+  return `${sign}${zeroPad(roundedHours, 2)}${colon}${zeroPad(minutes, 2)}`;
 }
 
 function formatDateStr(dateStr) {
