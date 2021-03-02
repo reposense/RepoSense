@@ -6,7 +6,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -33,13 +40,13 @@ public abstract class CsvParser<T> {
             + "Content: %s\n"
             + "Error: %s";
     private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
-    private static final String MESSAGE_MANDATORY_HEADER_MISSING = "Required column header, %s, not found in " +
-            "CSV file, %s";
+    private static final String MESSAGE_MANDATORY_HEADER_MISSING = "Required column header, %s, not found in "
+            + "CSV file, %s";
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
 
     private Path csvFilePath;
     private int headerSize;
-    private Map<String,Integer> headerMap = new HashMap();
+    private Map<String, Integer> headerMap = new HashMap();
     private int numOfLinesBeforeFirstRecord = 0;
 
     /**

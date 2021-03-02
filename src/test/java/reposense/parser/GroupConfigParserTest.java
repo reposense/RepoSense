@@ -106,7 +106,8 @@ public class GroupConfigParserTest {
 
     @Test (expected = InvalidCsvException.class)
     public void groupConfig_missingMandatoryHeader_throwsInvalidCsvException() throws Exception {
-        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_MISSING_MANDATORY_HEADER_FILE);
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(
+                GROUP_CONFIG_MISSING_MANDATORY_HEADER_FILE);
         groupConfigCsvParser.parse();
     }
 }
