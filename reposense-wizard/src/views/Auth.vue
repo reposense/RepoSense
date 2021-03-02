@@ -4,7 +4,7 @@
 </template>
 
 <script>
-const GATEKEEPER_URL = 'http://localhost:9999/authenticate';
+const GATEKEEPER_URL = 'https://ghrepowizard.herokuapp.com/authenticate';
 
 export default {
   name: 'Auth',

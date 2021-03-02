@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { timezoneToStr } from '../utils';
+import { timezoneToStr } from '../generateReport';
 
 export default {
   name: 'AdvancedOptions',

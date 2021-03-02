@@ -55,7 +55,7 @@ function generateRunSh(since, until, timezone) {
 ## Examples of other valid options; For more, please view the user guide
 ### java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git
 
-java -jar RepoSense.jar --config ./configs -s ${sinceStr} -t UTC${timezoneToStr(timezone)} -u ${untilStr}`;
+java -jar RepoSense.jar --config ./configs -s ${sinceStr} -t UTC${timezoneToStr(timezone)} ${untilStr}`;
 }
 
 function matrixToCsvString(matrix) {
@@ -83,7 +83,7 @@ export async function generateReport(data, store) {
   if (!repoExists) {
     await store.dispatch('forkReposense');
     // await store.dispatch('addSecret');
-    // await store.dispatch('enableGithubActions');
+    await store.dispatch('enableGithubActions');
   }
   const repoConfigArr = generateRepoConfigHeader();
   repos.forEach((repo) => repoConfigArr.push([repo.url, repo.branch, '', '', '', '', '']));
@@ -101,5 +101,6 @@ export async function generateReport(data, store) {
   } catch {
     return 'Invalid permissions given';
   }
-  return 'Success!';
+  const { loginUser } = store.state.githubStore;
+  return `Success! Your report will be generated at https://${loginUser}.github.io/publish-RepoSense/`;
 }

@@ -65,10 +65,10 @@ const githubStore = {
 
     async repoExists({ state }) {
       const repo = await state.octokit.request('GET /repos/{owner}/{repo}', {
-        owner: 'reposense',
+        owner: state.loginUser,
         repo: REPO_NAME,
       });
-      return repo.status === 200;
+      return repo.status === 200 && repo.data.fork;
     },
 
     async getPublicKey({ state, commit }) {
@@ -126,14 +126,14 @@ const githubStore = {
       });
     },
 
-    // async enableGithubActions() {
-    //   await this.octokit.request('PUT /repos/{owner}/{repo}/actions/permissions', {
-    //     owner: this.loginUser,
-    //     repo: REPO_NAME,
-    //     enabled: true,
-    //     allowed_actions: 'all',
-    //   });
-    // },
+    async enableGithubActions({ state }) {
+      await state.octokit.request('PUT /repos/{owner}/{repo}/actions/permissions', {
+        owner: state.loginUser,
+        repo: REPO_NAME,
+        enabled: true,
+        allowed_actions: 'all',
+      });
+    },
   },
 
   getters: {

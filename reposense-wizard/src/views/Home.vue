@@ -2,7 +2,7 @@
   .app
     img(alt="Vue logo", src="../assets/reposense_logo.svg")
     b-button(variant="success", v-on:click="oAuthAuthenticate()")
-      | {{isLoggedIn ? 'already in' : 'login'}}
+      | {{isLoggedIn ? `Logged in as ${loginUser}` : 'login'}}
     h1 Create your first RepoSense report with ReposenseWizard!
     h2 Repositories
     RepoList(
@@ -27,9 +27,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import RepoList from '../components/RepoList.vue';
 import AdvancedOptions from '../components/AdvancedOptions.vue';
-import { generateReport } from '../utils';
+import { generateReport } from '../generateReport';
 
 const GITHUB_OAUTH_URL = 'https://github.com/login/oauth/authorize';
 const CLIENT_ID = 'c498493d4c565ced8d0b';
@@ -49,6 +50,11 @@ export default {
       timezone: 8,
       generateReportResult: '',
     };
+  },
+  computed: {
+    ...mapState({
+      loginUser: (state) => state.githubStore.loginUser,
+    }),
   },
   created() {
     this.initiate();
