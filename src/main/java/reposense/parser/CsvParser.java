@@ -42,6 +42,8 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
     private static final String MESSAGE_MANDATORY_HEADER_MISSING = "Required column header, %s, not found in "
             + "CSV file, %s";
+    private static final String MESSAGE_COLUMNS_RECOGNIZED = "Parsed header of CSV file, %s, and recognized columns: "
+            + "%s";
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
 
     private Path csvFilePath;
@@ -244,6 +246,8 @@ public abstract class CsvParser<T> {
                         MESSAGE_MANDATORY_HEADER_MISSING, mandatory, csvFilePath.getFileName()));
             }
         }
+        logger.info(String.format(MESSAGE_COLUMNS_RECOGNIZED, csvFilePath.getFileName(),
+                String.join(",  ", headerMap.keySet())));
     }
 
     /**
