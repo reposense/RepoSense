@@ -81,6 +81,9 @@ export default {
     },
 
     async startGenerateReport() {
+      if (!this.isLoggedIn) {
+        this.generateReportResult = 'Please login first.';
+      }
       const data = {
         repos: this.repos,
         since: this.startDate,
