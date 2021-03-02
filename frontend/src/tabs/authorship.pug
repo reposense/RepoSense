@@ -11,7 +11,7 @@
     ) {{ info.repo }}
     .author(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
-      span {{ info.name }} ({{ info.author }})
+      span {{ authorDisplayName }} ({{ info.author }})
     .period
       span &#8627; &nbsp;
       span {{ info.minDate }} to {{ info.maxDate }} &nbsp;&nbsp; ({{ selectedFiles.length }} files changed)
