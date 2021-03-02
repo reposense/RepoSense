@@ -4,7 +4,7 @@
 </template>
 
 <script>
-const GATEKEEPER_URL = 'https://ghrepowizard.herokuapp.com/authenticate';
+const GATEKEEPER_URL = process.env.VUE_APP_GATEKEEPER_URL;
 
 export default {
   name: 'Auth',

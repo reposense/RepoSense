@@ -33,7 +33,7 @@ import AdvancedOptions from '../components/AdvancedOptions.vue';
 import { generateReport } from '../generateReport';
 
 const GITHUB_OAUTH_URL = 'https://github.com/login/oauth/authorize';
-const CLIENT_ID = 'c498493d4c565ced8d0b';
+const CLIENT_ID = process.env.VUE_APP_CLIENT_ID;
 
 export default {
   name: 'Home',
