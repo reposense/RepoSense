@@ -4,7 +4,7 @@
     b-button.login-button(
       v-if='isLoggedIn',
       variant="danger",
-      v-on:click="oAuthAuthenticate()"
+      v-on:click="logout()"
     ) logout
     b-button.login-button(
       v-else,
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import RepoList from '../components/RepoList.vue';
 import AdvancedOptions from '../components/AdvancedOptions.vue';
 import { generateReport } from '../generateReport';
@@ -53,7 +53,6 @@ export default {
   },
   data() {
     return {
-      isLoggedIn: false,
       repos: [{ url: '', branch: '' }],
       startDate: '',
       endDate: '',
@@ -64,6 +63,9 @@ export default {
   computed: {
     ...mapState({
       loginUser: (state) => state.githubStore.loginUser,
+    }),
+    ...mapGetters({
+      isLoggedIn: 'isAuthenticated',
     }),
   },
   created() {
@@ -76,7 +78,6 @@ export default {
 
     async initiate() {
       await this.$store.dispatch('authenticate');
-      this.isLoggedIn = this.$store.getters.isAuthenticated;
     },
 
     async startGenerateReport() {
@@ -98,6 +99,10 @@ export default {
       const queryString = new URLSearchParams(queries).toString();
       // This redirects to the github website.
       window.location = `${GITHUB_OAUTH_URL}?${queryString}`;
+    },
+
+    logout() {
+      this.$store.commit('logout');
     },
   },
 };

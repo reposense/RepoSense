@@ -73,8 +73,10 @@ export async function generateReport(data, store) {
     until,
     timezone,
   } = data;
-  if (repos.length === 0) {
-    return 'Please input at least 1 repository';
+  for (let i = 0; i < repos.length; i += 1) {
+    if (repos[i].url.substring(0, 19) !== 'https://github.com/') {
+      return 'Repository names should start with: https://github.com/';
+    }
   }
   // githubApi.setPat(pat);
   // try {

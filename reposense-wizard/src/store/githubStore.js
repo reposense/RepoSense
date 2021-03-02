@@ -32,6 +32,14 @@ const githubStore = {
       state.publicKey = publicKey;
       state.publicKeyId = publicKeyId;
     },
+
+    logout(state) {
+      console.log(state);
+      state.accessToken = null;
+      state.octokit = null;
+      state.loginUser = '';
+      window.localStorage.removeItem('accessToken');
+    },
   },
 
   actions: {
@@ -43,6 +51,10 @@ const githubStore = {
       commit('setOctokit', accessToken);
 
       const userResp = await state.octokit.request('GET /user');
+      if (userResp.status !== 200) {
+        commit('logout');
+        return;
+      }
       commit('setLoginUser', userResp.data.login);
       await dispatch('getPublicKey');
     },
