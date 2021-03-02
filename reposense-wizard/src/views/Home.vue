@@ -1,8 +1,19 @@
 <template lang="pug">
   .app
-    img(alt="Vue logo", src="../assets/reposense_logo.svg")
-    b-button(variant="success", v-on:click="oAuthAuthenticate()")
-      | {{isLoggedIn ? `Logged in as ${loginUser}` : 'login'}}
+    img.banner-img(alt="Vue logo", src="../assets/reposense_logo.svg")
+    b-button.login-button(
+      v-if='isLoggedIn',
+      variant="danger",
+      v-on:click="oAuthAuthenticate()"
+    ) logout
+    b-button.login-button(
+      v-else,
+      variant="success",
+      v-on:click="oAuthAuthenticate()"
+    ) login
+    br
+    p {{isLoggedIn ? `Logged in as: ${loginUser}` : 'Please log in'}}
+    br
     h1 Create your first RepoSense report!
     h2 Repositories
     RepoList(
@@ -103,5 +114,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   margin: 15px;
   margin-top: 30px;
+}
+
+.banner-img {
+  width: 50vw;
+  max-width: 460px;
+}
+
+.login-button {
+  position: absolute;
+  right: 20px;
+  top: 60px;
 }
 </style>
