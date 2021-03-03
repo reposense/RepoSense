@@ -33,8 +33,6 @@ public class GitShow {
             return format.parse(output);
         } catch (RuntimeException re) {
             throw new CommitNotFoundException("Commit not found: " + commitHash);
-        } catch (ParseException pe) {
-            throw new RuntimeException(pe);
         }
     }
 
