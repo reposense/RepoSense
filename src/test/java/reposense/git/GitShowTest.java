@@ -1,11 +1,11 @@
 package reposense.git;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 import reposense.git.exception.CommitNotFoundException;
 import reposense.template.GitTestTemplate;
