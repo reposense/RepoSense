@@ -1,2 +1,2 @@
-Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List,Optimize Cloning
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List,Shallow Cloning
 https://github.com/reposense/testrepo-Beta.git,master,,docs**,yes,,,
