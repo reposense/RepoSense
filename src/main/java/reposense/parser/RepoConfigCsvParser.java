@@ -17,7 +17,7 @@ import reposense.model.RepoLocation;
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
     private static final String IGNORE_STANDALONE_CONFIG_KEYWORD = "yes";
-    private static final String OPTIMIZE_CLONING_CONFIG_KEYWORD = "yes";
+    private static final String SHALLOW_CLONING_CONFIG_KEYWORD = "yes";
 
     /**
      * Positions of the elements of a line in repo-config.csv config file
@@ -81,7 +81,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         }
 
         String shallowCloningConfig = get(record, SHALLOW_CLONING_CONFIG_POSITION);
-        boolean isShallowCloningPerformed = shallowCloningConfig.equalsIgnoreCase(OPTIMIZE_CLONING_CONFIG_KEYWORD);
+        boolean isShallowCloningPerformed = shallowCloningConfig.equalsIgnoreCase(SHALLOW_CLONING_CONFIG_KEYWORD);
 
         if (!isShallowCloningPerformed && !shallowCloningConfig.isEmpty()) {
             logger.warning(
