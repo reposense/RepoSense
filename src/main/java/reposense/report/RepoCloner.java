@@ -8,12 +8,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import reposense.git.GitBranch;
 import reposense.git.GitCatFile;
 import reposense.git.GitClone;
 import reposense.git.GitRevList;
 import reposense.git.GitShow;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
@@ -85,13 +87,9 @@ public class RepoCloner {
             String partialBareRoot = FileUtil.getPartialBareRepoPath(config).toString();
             Date sinceDate;
             try {
-                sinceDate = graftedCommitParents
-                        .stream()
-                        .distinct()
-                        .map(hash -> GitShow.getCommitDate(partialBareRoot, hash))
-                        .min(Date::compareTo)
-                        .get();
-            } catch (RuntimeException rte) {
+                List<String> distinctParents = graftedCommitParents.stream().distinct().collect(Collectors.toList());
+                sinceDate = GitShow.getEarliestCommitDate(partialBareRoot, distinctParents);
+            } catch (CommitNotFoundException e) {
                 sinceDate = null;
             }
             if (sinceDate != null) {

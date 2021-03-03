@@ -30,7 +30,7 @@ public class GitCatFileTest extends GitTestTemplate {
     }
 
     @Test
-    public void getParentsOfCommits_singleCommit_success() throws Exception {
+    public void getParentsOfCommits_singleCommit_success() {
         List<String> parentsList = GitCatFile.getParentsOfCommits(
                 config.getRepoRoot(), Arrays.asList(TEST_COMMIT_HASH));
         Assert.assertEquals(1, parentsList.size());
@@ -41,7 +41,7 @@ public class GitCatFileTest extends GitTestTemplate {
     }
 
     @Test
-    public void getParentsOfCommits_multipleCommits_success() throws Exception {
+    public void getParentsOfCommits_multipleCommits_success() {
         List<String> parentsList = GitCatFile.getParentsOfCommits(
                 config.getRepoRoot(), Arrays.asList(TEST_COMMIT_HASH, ROOT_COMMIT_HASH, LATEST_COMMIT_HASH));
         Assert.assertEquals(2, parentsList.size());

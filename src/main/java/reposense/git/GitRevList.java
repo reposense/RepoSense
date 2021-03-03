@@ -112,7 +112,7 @@ public class GitRevList {
     }
 
     /**
-     * Returns a list of commit hashes for the root commits in the tree.
+     * Returns true if the repository is empty.
      */
     public static boolean getIsEmptyRepo(String root) {
         String revListCommand = "git rev-list -n 1 --all";

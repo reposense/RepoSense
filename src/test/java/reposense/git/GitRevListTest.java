@@ -2,6 +2,7 @@ package reposense.git;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -94,5 +95,18 @@ public class GitRevListTest extends GitTestTemplate {
         String commitHash = GitRevList.getCommitHashInRange(config.getRepoRoot(), config.getBranch(),
                 LATEST_COMMIT_HASH, NONEXISTENT_COMMIT_HASH);
         Assert.assertEquals(LATEST_COMMIT_HASH, commitHash);
+    }
+
+    @Test
+    public void getRootCommits_success() {
+        List<String> rootCommits = GitRevList.getRootCommits(config.getRepoRoot());
+        Assert.assertEquals(1, rootCommits.size());
+        Assert.assertEquals(ROOT_COMMIT_HASH, rootCommits.get(0));
+    }
+
+    @Test
+    public void getIsEmptyRepo_success() {
+        boolean isEmpty = GitRevList.getIsEmptyRepo(config.getRepoRoot());
+        Assert.assertEquals(false, isEmpty);
     }
 }
