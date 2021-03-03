@@ -25,7 +25,7 @@ public class ConfigCliArguments extends CliArguments {
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Path assetsFilePath, Date sinceDate,
             Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
-            List<FileType> formats, boolean isLastModifiedDateIncluded, boolean isCloningOptimized,
+            List<FileType> formats, boolean isLastModifiedDateIncluded, boolean isShallowCloning,
             boolean isAutomaticallyLaunching, boolean isStandaloneConfigIgnored, ZoneId zoneId) {
         this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
@@ -42,7 +42,7 @@ public class ConfigCliArguments extends CliArguments {
         this.isUntilDateProvided = isUntilDateProvided;
         this.formats = formats;
         this.isLastModifiedDateIncluded = isLastModifiedDateIncluded;
-        this.isCloningOptimized = isCloningOptimized;
+        this.isShallowCloning = isShallowCloning;
         this.isAutomaticallyLaunching = isAutomaticallyLaunching;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.zoneId = zoneId;

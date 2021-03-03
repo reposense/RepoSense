@@ -17,7 +17,7 @@ public abstract class CliArguments {
     protected boolean isUntilDateProvided;
     protected List<FileType> formats;
     protected boolean isLastModifiedDateIncluded;
-    protected boolean isCloningOptimized;
+    protected boolean isShallowCloning;
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
     protected ZoneId zoneId;
@@ -54,8 +54,8 @@ public abstract class CliArguments {
         return isLastModifiedDateIncluded;
     }
 
-    public boolean isCloningOptimized() {
-        return isCloningOptimized;
+    public boolean isShallowCloning() {
+        return isShallowCloning;
     }
 
     public List<FileType> getFormats() {
@@ -91,7 +91,7 @@ public abstract class CliArguments {
                 && this.isUntilDateProvided == otherCliArguments.isUntilDateProvided
                 && this.formats.equals(otherCliArguments.formats)
                 && this.isLastModifiedDateIncluded == otherCliArguments.isLastModifiedDateIncluded
-                && this.isCloningOptimized == otherCliArguments.isCloningOptimized
+                && this.isShallowCloning == otherCliArguments.isShallowCloning
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
                 && this.zoneId.equals(otherCliArguments.zoneId);
