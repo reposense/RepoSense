@@ -44,6 +44,10 @@ public class RepoConfigurationTest {
             "RepoConfigurationTest/repoconfig_ignoreAuthors_test");
     private static final Path IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST = loadResource(RepoConfigurationTest.class,
             "RepoConfigurationTest/repoconfig_ignoreStandaloneOverrideCsv_test");
+    private static final Path SHALLOW_CLONING_TEST_CONFIG_FILES =
+            loadResource(RepoConfigurationTest.class, "RepoConfigurationTest/repoconfig_shallowCloning_test");
+    private static final Path SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES = loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_shallowCloningOverrideCsv_test");
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
@@ -257,6 +261,118 @@ public class RepoConfigurationTest {
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(repoDeltaStandaloneConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_shallowCloning_success() throws Exception {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedConfig.setFormats(CONFIG_FORMATS);
+        expectedConfig.setStandaloneConfigIgnored(true);
+        expectedConfig.setIsShallowCloningPerformed(true);
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addConfig(SHALLOW_CLONING_TEST_CONFIG_FILES)
+                .addFormats(formats)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_shallowCloningInCli_success() throws Exception {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        expectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        expectedConfig.setStandaloneConfigIgnored(true);
+        expectedConfig.setIsShallowCloningPerformed(true);
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addRepos(TEST_REPO_DELTA)
+                .addFormats(formats)
+                .addShallowCloning()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(actualConfigs,
+                cliArguments.isShallowCloningPerformed());
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_shallowCloningInCli_overrideCsv() throws Exception {
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoBetaExpectedConfig.setIsShallowCloningPerformed(true);
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_DELTA), "master");
+        repoDeltaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoDeltaExpectedConfig.setIsShallowCloningPerformed(true);
+
+        String input = new InputBuilder().addConfig(SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES)
+                .addShallowCloning()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(actualConfigs,
+                cliArguments.isShallowCloningPerformed());
+
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        GitClone.clone(repoBetaActualConfig);
+        GitClone.clone(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
+        TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
+    }
+
+    @Test
+    public void repoConfig_withoutShallowCloningInInCli_useCsv() throws Exception {
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoBetaExpectedConfig.setIsShallowCloningPerformed(true);
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_DELTA), "master");
+        repoDeltaExpectedConfig.setStandaloneConfigIgnored(true);
+
+        String input = new InputBuilder().addConfig(SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(actualConfigs,
+                cliArguments.isShallowCloningPerformed());
+
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        GitClone.clone(repoBetaActualConfig);
+        GitClone.clone(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
+        TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
     }
 
     @Test

@@ -65,6 +65,7 @@ public class RepoConfiguration {
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
+        this.isShallowCloningPerformed = isShallowCloningPerformed;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -101,8 +102,8 @@ public class RepoConfiguration {
 
     public static void setIsShallowCloningPerformedToRepoConfigs(List<RepoConfiguration> configs,
                                                                  boolean isShallowCloningPerformed) {
-        for (RepoConfiguration config : configs) {
-            config.setIsShallowCloningPerformed(isShallowCloningPerformed);
+        if (isShallowCloningPerformed) {
+            configs.stream().forEach(config -> config.setIsShallowCloningPerformed(true));
         }
     }
 
@@ -316,6 +317,7 @@ public class RepoConfiguration {
                 && fileTypeManager.equals(otherRepoConfig.fileTypeManager)
                 && isLastModifiedDateIncluded == otherRepoConfig.isLastModifiedDateIncluded
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
+                && isShallowCloningPerformed == otherRepoConfig.isShallowCloningPerformed
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding
                 && isIgnoredAuthorsListOverriding == otherRepoConfig.isIgnoredAuthorsListOverriding;
