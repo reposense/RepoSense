@@ -32,7 +32,9 @@ public class GitTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
+    protected static final String ROOT_COMMIT_HASH = "fd42507";
     protected static final String TEST_COMMIT_HASH = "2fb6b9b";
+    protected static final String TEST_COMMIT_HASH_PARENT = "c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151";
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
@@ -42,6 +44,7 @@ public class GitTestTemplate {
     protected static final String JAMES_ALTERNATIVE_AUTHOR_NAME = "James Pang";
     protected static final String JINYAO_AUTHOR_NAME = "jylee-git";
     protected static final String LATEST_COMMIT_HASH = "136c6713fc00cfe79a1598e8ce83c6ef3b878660";
+    protected static final String LATEST_COMMIT_HASH_PARENT = "b28dfac5bd449825c1a372e58485833b35fdbd50";
     protected static final String EMPTY_TREE_HASH = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
     protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING =
             "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
