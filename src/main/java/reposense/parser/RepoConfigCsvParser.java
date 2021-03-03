@@ -29,8 +29,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final int IGNORE_STANDALONE_CONFIG_POSITION = 4;
     private static final int IGNORE_COMMIT_LIST_CONFIG_POSITION = 5;
     private static final int IGNORE_AUTHOR_LIST_CONFIG_POSITION = 6;
-    private static final int OPTIMIZE_CLONING_CONFIG_POSITION = 7;
-    private static final int HEADER_SIZE = OPTIMIZE_CLONING_CONFIG_POSITION + 1; // last position + 1
+    private static final int SHALLOW_CLONING_CONFIG_POSITION = 7;
+    private static final int HEADER_SIZE = SHALLOW_CLONING_CONFIG_POSITION + 1; // last position + 1
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath, HEADER_SIZE);
@@ -75,17 +75,23 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         String ignoreStandaloneConfig = get(record, IGNORE_STANDALONE_CONFIG_POSITION);
         boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 
-        String optimizeCloning = get(record, OPTIMIZE_CLONING_CONFIG_POSITION);
-        boolean isCloningOptimized = ignoreStandaloneConfig.equalsIgnoreCase(OPTIMIZE_CLONING_CONFIG_KEYWORD);
-
         if (!isStandaloneConfigIgnored && !ignoreStandaloneConfig.isEmpty()) {
             logger.warning(
                     "Ignoring unknown value " + ignoreStandaloneConfig + " in ignore standalone config column.");
         }
 
+        String shallowCloningConfig = get(record, SHALLOW_CLONING_CONFIG_POSITION);
+        boolean isShallowCloningPerformed = shallowCloningConfig.equalsIgnoreCase(OPTIMIZE_CLONING_CONFIG_KEYWORD);
+
+        if (!isShallowCloningPerformed && !shallowCloningConfig.isEmpty()) {
+            logger.warning(
+                    "Ignoring unknown value " + shallowCloningConfig + " in shallow cloning column.");
+        }
+
         RepoConfiguration config = new RepoConfiguration(
                 location, branch, formats, ignoreGlobList, isStandaloneConfigIgnored, ignoreCommitList,
-                isFormatsOverriding, isIgnoreGlobListOverriding, isIgnoreCommitListOverriding, isCloningOptimized);
+                isFormatsOverriding, isIgnoreGlobListOverriding, isIgnoreCommitListOverriding,
+                isShallowCloningPerformed);
         config.setIgnoredAuthorsList(ignoredAuthorsList);
         config.setIsIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding);
 

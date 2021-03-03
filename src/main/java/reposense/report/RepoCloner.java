@@ -62,7 +62,7 @@ public class RepoCloner {
     public void cloneBare(RepoConfiguration config) {
         configs[currentIndex] = config;
 
-        if (!config.isCloningOptimized()) {
+        if (!config.isShallowCloningPerformed()) {
             isCurrentRepoCloned = spawnCloneProcess(config);
         } else {
             boolean didShallowPartialCloneSucceed = spawnShallowPartialCloneProcess(config);

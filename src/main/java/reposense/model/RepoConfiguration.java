@@ -37,7 +37,7 @@ public class RepoConfiguration {
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
     private transient boolean isLastModifiedDateIncluded;
-    private transient boolean isCloningOptimized;
+    private transient boolean isShallowCloningPerformed;
     private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
@@ -54,7 +54,7 @@ public class RepoConfiguration {
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
-            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding, boolean isCloningOptimized) {
+            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding, boolean isShallowCloningPerformed) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
@@ -99,10 +99,10 @@ public class RepoConfiguration {
         }
     }
 
-    public static void setIsCloningOptimizedToRepoConfigs(List<RepoConfiguration> configs,
-                                                                  boolean isCloningOptimized) {
+    public static void setIsShallowCloningPerformedToRepoConfigs(List<RepoConfiguration> configs,
+                                                                 boolean isShallowCloningPerformed) {
         for (RepoConfiguration config : configs) {
-            config.setIsCloningOptimized(isCloningOptimized);
+            config.setIsShallowCloningPerformed(isShallowCloningPerformed);
         }
     }
 
@@ -388,16 +388,16 @@ public class RepoConfiguration {
         this.isLastModifiedDateIncluded = lastModifiedDateIncluded;
     }
 
-    public void setIsCloningOptimized(boolean isCloningOptimized) {
-        this.isCloningOptimized = isCloningOptimized;
+    public void setIsShallowCloningPerformed(boolean isShallowCloningPerformed) {
+        this.isShallowCloningPerformed = isShallowCloningPerformed;
     }
 
     public boolean isLastModifiedDateIncluded() {
         return this.isLastModifiedDateIncluded;
     }
 
-    public boolean isCloningOptimized() {
-        return this.isCloningOptimized;
+    public boolean isShallowCloningPerformed() {
+        return this.isShallowCloningPerformed;
     }
 
     public void setIsIgnoredAuthorsListOverriding(boolean isIgnoredAuthorsListOverriding) {
