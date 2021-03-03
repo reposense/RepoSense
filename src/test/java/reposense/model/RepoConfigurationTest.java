@@ -46,7 +46,8 @@ public class RepoConfigurationTest {
             "RepoConfigurationTest/repoconfig_ignoreStandaloneOverrideCsv_test");
     private static final Path SHALLOW_CLONING_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class, "RepoConfigurationTest/repoconfig_shallowCloning_test");
-    private static final Path SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES = loadResource(RepoConfigurationTest.class,
+    private static final Path SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES =
+            loadResource(RepoConfigurationTest.class,
             "RepoConfigurationTest/repoconfig_shallowCloningOverrideCsv_test");
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";

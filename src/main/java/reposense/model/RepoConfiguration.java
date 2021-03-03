@@ -54,7 +54,8 @@ public class RepoConfiguration {
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
-            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding, boolean isShallowCloningPerformed) {
+            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding,
+            boolean isShallowCloningPerformed) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
