@@ -38,7 +38,7 @@ Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during ana
 Ignore standalone config | To ignore the standalone config file (if any) in the target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
 Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation, e.g., `abc123..def456` (both inclusive).
 Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
-Optimize Cloning | Enter **`yes`** to clone the repository using git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories. Note: this is incompatible with the "Ignore standalone config" option.
+Shallow Cloning | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories, where the .git file is smaller than 500 MB. Note: this is incompatible with the "Ignore standalone config" option.
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 <sup>+ **Overrideable column**: prepend with `override:` to use entered value(s) instead of value(s) from standalone config.</sup>

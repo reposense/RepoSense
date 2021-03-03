@@ -107,9 +107,9 @@ public class ArgsParser {
                 .dest(SHALLOW_CLONING_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to make RepoSense employ Git's shallow cloning functionality, which can significantly "
-                        + "reduce the time taken to clone large repositories. This flag should not be used for small "
-                        + "repositories, where the .git file is smaller than 500MB. Note: this flag is not compatible "
-                        + "with the --last-modified-date flag.");
+                        + "reduce the time taken to clone large repositories. This flag should not be used for "
+                        + "smaller repositories, where the .git file is smaller than 500 MB. Note: this flag is not "
+                        + "compatible with the --last-modified-date flag.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
