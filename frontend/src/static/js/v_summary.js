@@ -843,9 +843,13 @@ window.vSummary = {
     },
 
     sortingHelper(element, sortingOption) {
-      return sortingOption === 'totalCommits' || sortingOption === 'variance'
-          ? element.reduce(this.getGroupCommitsVariance, 0)
-          : element[0][sortingOption];
+      if (sortingOption === 'totalCommits' || sortingOption === 'variance') {
+        return element.reduce(this.getGroupCommitsVariance, 0);
+      }
+      if (sortingOption === 'displayName') {
+        return window.getGroupByAuthorDisplayName(element);
+      }
+      return element[0][sortingOption];
     },
 
     restoreZoomFiltered(info) {

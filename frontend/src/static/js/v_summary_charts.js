@@ -251,6 +251,10 @@ window.vSummaryCharts = {
       const info = this.mergedGroups.filter((x) => x !== groupName);
       this.$store.commit('updateMergedGroup', info);
     },
+
+    getGroupByAuthorDisplayName(repo) {
+      return window.getGroupByAuthorDisplayName(repo);
+    },
   },
   components: {
     vRamp: window.vRamp,
