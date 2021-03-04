@@ -171,7 +171,7 @@ public class GitClone {
     }
 
     /**
-     * Constructs the command to clone a bare repo specified in the {@code config}
+     * Constructs the command to shallow clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneShallowBareCommand(RepoConfiguration config,
@@ -181,7 +181,7 @@ public class GitClone {
     }
 
     /**
-     * Constructs the command to clone a bare repo specified in the {@code config}
+     * Constructs the command to partial clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
      */
     private static String getClonePartialBareCommand(RepoConfiguration config, String outputFolderName) {
@@ -189,7 +189,7 @@ public class GitClone {
     }
 
     /**
-     * Constructs the command to clone a bare repo specified in the {@code config}
+     * Constructs the command to shallow partial clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneShallowPartialBareCommand(RepoConfiguration config,

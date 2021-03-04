@@ -107,15 +107,6 @@ The last modified dates will be in the same timezone specified with the `--timez
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### `--shallow-cloning`, `-S`
-
-**`--shallow-cloning`**: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories where the .git file is smaller than 500 MB, as it would create overhead. Note: this flag is incompatible with the `--last-modified-date` flag.
-* Default: RepoSense does not clone repositories using Git's shallow cloning functionality.
-* Alias: `-S` (uppercase S)
-* Example:`--shallow-cloning` or `-S`
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
 ### `--output`, `-o`
 
 **`--output OUTPUT_DIRECTORY`**: Indicates where to save the report generated.
@@ -153,6 +144,19 @@ The last modified dates will be in the same timezone specified with the `--timez
 
 Cannot be used with `--config`.
 </box>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--shallow-cloning`, `-S`
+
+**`--shallow-cloning`**: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories where the .git file is smaller than 500 MB, as it would create overhead.
+* Default: RepoSense does not clone repositories using Git's shallow cloning functionality.
+* Alias: `-S` (uppercase S)
+* Example:`--shallow-cloning` or `-S`
+
+<box type="info" seamless>
+This flag is incompatible with the `--last-modified-date` flag.
+</box>
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--since`, `-s`
