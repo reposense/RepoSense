@@ -68,6 +68,9 @@ public class ReportGenerator {
     private static final String INDEX_PAGE_TEMPLATE = "index.html";
     private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>RepoSense Report</title>";
 
+    private static final int NUM_THREADS_CLONING = 4;
+    private static final int NUM_THREADS_ANALYSIS_MAX = 8;
+
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
             "Error has occurred while creating repo directory for %s (%s), will skip this repo.";
@@ -178,6 +181,8 @@ public class ReportGenerator {
      * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
      * Performs cloning and analysis of each repository in parallel, and generates the report.
      * Also removes any configs that failed to clone or analyze from {@code configs}.
+     * By default, runs in multi-threaded mode. To turn off multi-threading, set the constants
+     * {@code NUM_THREADS_CLONING} and {@code NUM_THREADS_ANALYSIS_MAX} to 1.
      *
      * @return A list of paths to the JSON report files generated for each repository.
      */
@@ -185,9 +190,9 @@ public class ReportGenerator {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
 
-        ExecutorService cloneExecutor = Executors.newFixedThreadPool(4);
+        ExecutorService cloneExecutor = Executors.newFixedThreadPool(NUM_THREADS_CLONING);
         int cpuThreads = Runtime.getRuntime().availableProcessors();
-        ExecutorService analyzeExecutor = Executors.newFixedThreadPool(cpuThreads);
+        ExecutorService analyzeExecutor = Executors.newFixedThreadPool(Math.min(cpuThreads, NUM_THREADS_ANALYSIS_MAX));
 
         List<CompletableFuture<CloneJobOutput>> cloneJobFutures = repoLocationList.stream()
                 .map(location -> CompletableFuture.supplyAsync(() ->
