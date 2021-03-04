@@ -350,7 +350,8 @@ window.vSummary = {
         isSortingDsc: this.isSortingDsc,
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
-      this.filtered = this.sortFiltered(this.filtered, filterControl);
+      this.getOptionWithOrder();
+      this.filtered = window.utilsSortFiltered(this.filtered, filterControl);
     },
 
     updateMergedGroup(allGroupsMerged) {
@@ -448,70 +449,6 @@ window.vSummary = {
       });
     },
 
-    getRandomHex() {
-      const maxHexColorValue = 16777214;
-      // excludes #000000 and #FFFFFF as they are reserved
-      return `#${Math.round(this.randomGenerator() * maxHexColorValue + 1).toString(16).padStart(6, '0')}`;
-    },
-
-    getNonRepeatingColor(existingColors) {
-      let generatedHex = this.getRandomHex();
-      while (this.hasSimilarExistingColors(existingColors, generatedHex)) {
-        generatedHex = this.getRandomHex();
-      }
-      return generatedHex;
-    },
-
-    hasSimilarExistingColors(existingColors, newHex) {
-      const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
-      return existingColors.some((existingHex) => {
-        const existingRGB = window.getHexToRGB(existingHex);
-        const newRGB = window.getHexToRGB(newHex);
-        return this.deltaE(existingRGB, newRGB) < deltaEThreshold;
-      });
-    },
-
-    // this delta E (perceptual color distance) implementation taken from @antimatter15 from
-    // github: https://github.com/antimatter15/rgb-lab
-    deltaE(rgbA, rgbB) {
-      const labA = this.rgb2lab(rgbA);
-      const labB = this.rgb2lab(rgbB);
-      const deltaL = labA[0] - labB[0];
-      const deltaA = labA[1] - labB[1];
-      const deltaB = labA[2] - labB[2];
-      const c1 = Math.sqrt(labA[1] * labA[1] + labA[2] * labA[2]);
-      const c2 = Math.sqrt(labB[1] * labB[1] + labB[2] * labB[2]);
-      const deltaC = c1 - c2;
-      let deltaH = deltaA * deltaA + deltaB * deltaB - deltaC * deltaC;
-      deltaH = deltaH < 0 ? 0 : Math.sqrt(deltaH);
-      const sc = 1.0 + 0.045 * c1;
-      const sh = 1.0 + 0.015 * c1;
-      const deltaLKLSL = deltaL / (1.0);
-      const deltaCKCSC = deltaC / (sc);
-      const deltaHKSHS = deltaH / (sh);
-      const distance = deltaLKLSL * deltaLKLSL + deltaCKCSC * deltaCKCSC + deltaHKSHS * deltaHKSHS;
-      return distance < 0 ? 0 : Math.sqrt(distance);
-    },
-
-    rgb2lab(rgb) {
-      let r = rgb[0] / 255;
-      let g = rgb[1] / 255;
-      let b = rgb[2] / 255;
-      let x;
-      let y;
-      let z;
-      r = (r > 0.04045) ? ((r + 0.055) / 1.055) ** 2.4 : r / 12.92;
-      g = (g > 0.04045) ? ((g + 0.055) / 1.055) ** 2.4 : g / 12.92;
-      b = (b > 0.04045) ? ((b + 0.055) / 1.055) ** 2.4 : b / 12.92;
-      x = (r * 0.4124 + g * 0.3576 + b * 0.1805) / 0.95047;
-      y = (r * 0.2126 + g * 0.7152 + b * 0.0722) / 1.00000;
-      z = (r * 0.0193 + g * 0.1192 + b * 0.9505) / 1.08883;
-      x = (x > 0.008856) ? (x ** (1 / 3)) : (7.787 * x) + 16 / 116;
-      y = (y > 0.008856) ? (y ** (1 / 3)) : (7.787 * y) + 16 / 116;
-      z = (z > 0.008856) ? (z ** (1 / 3)) : (7.787 * z) + 16 / 116;
-      return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)];
-    },
-
     processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
           '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
@@ -527,7 +464,8 @@ window.vSummary = {
                 fileTypeColors[fileType] = selectedColors[i];
                 i += 1;
               } else {
-                fileTypeColors[fileType] = this.getNonRepeatingColor(Object.values(fileTypeColors));
+                fileTypeColors[fileType] = window
+                    .utilsGetNonRepeatingColor(Object.values(fileTypeColors));
               }
             }
             if (!this.fileTypes.includes(fileType)) {
@@ -672,23 +610,6 @@ window.vSummary = {
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
     },
 
-    sortFiltered(filtered, filterControl) {
-      const { filterGroupSelection } = filterControl;
-      this.getOptionWithOrder();
-      let full = [];
-
-      if (filterGroupSelection === 'groupByNone') {
-        // push all repos into the same group
-        full[0] = this.groupByNone(filtered, filterControl);
-      } else if (filterGroupSelection === 'groupByAuthors') {
-        full = this.groupByAuthors(filtered, filterControl);
-      } else {
-        full = this.groupByRepos(filtered, filterControl);
-      }
-
-      return full;
-    },
-
     // updating filters programically //
     resetDateRange() {
       this.hasModifiedSinceDate = false;
@@ -746,106 +667,6 @@ window.vSummary = {
         }
       });
       ele.checkedFileTypeContribution = validCommits;
-    },
-
-    groupByRepos(repos, sortingControl) {
-      const sortedRepos = [];
-      const {
-        sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
-      } = sortingControl;
-      const sortWithinOption = sortingWithinOption === 'title' ? 'displayName' : sortingWithinOption;
-      const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
-      repos.forEach((users) => {
-        if (sortWithinOption === 'totalCommits') {
-          users.sort(window.comparator((ele) => ele.checkedFileTypeContribution));
-        } else {
-          users.sort(window.comparator((ele) => ele[sortWithinOption]));
-        }
-
-        if (isSortingWithinDsc) {
-          users.reverse();
-        }
-        sortedRepos.push(users);
-      });
-      sortedRepos.sort(window.comparator(this.sortingHelper, sortOption));
-      if (isSortingDsc) {
-        sortedRepos.reverse();
-      }
-      return sortedRepos;
-    },
-
-    groupByNone(repos, sortingControl) {
-      const sortedRepos = [];
-      const { sortingOption, isSortingDsc } = sortingControl;
-      const isSortingGroupTitle = sortingOption === 'groupTitle';
-      repos.forEach((users) => {
-        users.forEach((user) => {
-          sortedRepos.push(user);
-        });
-      });
-      sortedRepos.sort(window.comparator((repo) => {
-        if (isSortingGroupTitle) {
-          return repo.searchPath + repo.name;
-        }
-        if (sortingOption === 'totalCommits') {
-          return repo.checkedFileTypeContribution;
-        }
-        return repo[sortingOption];
-      }));
-      if (isSortingDsc) {
-        sortedRepos.reverse();
-      }
-
-      return sortedRepos;
-    },
-
-    groupByAuthors(repos, sortingControl) {
-      const authorMap = {};
-      const filtered = [];
-      const {
-        sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
-      } = sortingControl;
-      const sortWithinOption = sortingWithinOption === 'title' ? 'searchPath' : sortingWithinOption;
-      const sortOption = sortingOption === 'groupTitle' ? 'displayName' : sortingOption;
-      repos.forEach((users) => {
-        users.forEach((user) => {
-          if (Object.keys(authorMap).includes(user.name)) {
-            authorMap[user.name].push(user);
-          } else {
-            authorMap[user.name] = [user];
-          }
-        });
-      });
-      Object.keys(authorMap).forEach((author) => {
-        if (sortWithinOption === 'totalCommits') {
-          authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution));
-        } else {
-          authorMap[author].sort(window.comparator((repo) => repo[sortWithinOption]));
-        }
-        if (isSortingWithinDsc) {
-          authorMap[author].reverse();
-        }
-        filtered.push(authorMap[author]);
-      });
-
-      filtered.sort(window.comparator(this.sortingHelper, sortOption));
-      if (isSortingDsc) {
-        filtered.reverse();
-      }
-      return filtered;
-    },
-
-    getGroupCommitsVariance(total, group) {
-      if (this.sortingOption === 'totalCommits') {
-        return total + group.checkedFileTypeContribution;
-      }
-      return total + group[this.sortingOption];
-    },
-
-    sortingHelper(element, sortingOption) {
-      return sortingOption === 'totalCommits' || sortingOption === 'variance'
-          ? element.reduce(this.getGroupCommitsVariance, 0)
-          : element[0][sortingOption];
     },
 
     restoreZoomFiltered(info) {
