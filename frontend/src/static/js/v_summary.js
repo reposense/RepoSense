@@ -699,7 +699,10 @@ window.vSummary = {
       if (zIsMerge) {
         this.mergeGroupByIndex(filtered, 0);
       }
-      return filtered[0][0];
+      [[info.zUser]] = filtered;
+      info.zFileTypeColors = this.fileTypeColors;
+      info.isRefreshing = false;
+      this.$store.commit('updateTabZoomInfo', info);
     },
     matchZoomUser(info, user) {
       const {
@@ -731,13 +734,10 @@ window.vSummary = {
     this.processFileTypes();
     this.renderFilterHash();
     this.getFiltered();
-  },
-  beforeMount() {
-    this.$root.$on('restoreCommits', (info) => {
-      const zoomFilteredUser = this.restoreZoomFiltered(info);
-      info.zUser = zoomFilteredUser;
-      info.zFileTypeColors = this.fileTypeColors;
-    });
+    if (this.$store.state.tabZoomInfo.isRefreshing) {
+      const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
+      this.restoreZoomFiltered(zoomInfo);
+    }
   },
   mounted() {
     // Delay execution of filterGroupSelection watcher
