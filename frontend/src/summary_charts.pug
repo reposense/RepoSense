@@ -1,6 +1,10 @@
 #summary-charts
   .summary-charts(v-for="(repo, i) in filteredRepos")
-    .summary-charts__title(v-if="filterGroupSelection !== 'groupByNone'")
+    .summary-charts__title(
+      v-if="filterGroupSelection !== 'groupByNone'",
+      v-bind:class="{ 'active-background': \
+        isSelectedGroup(repo[0].name, repo[0].repoName, isGroupMerged(getGroupName(repo))) }"
+    )
       .summary-charts__title--index {{ i+1 }}
       .summary-charts__title--groupname
         template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
@@ -52,14 +56,20 @@
           v-on:click="openTabAuthorship(repo[0], repo, 0, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button(icon="code")
+            font-awesome-icon.icon-button(
+              icon="code",
+              v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true) }"
+            )
             span.tooltip-text Click to view group's code
         a(
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button(icon="list-ul")
+            font-awesome-icon.icon-button(
+              icon="list-ul",
+              v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
+            )
             span.tooltip-text Click to view breakdown of commits
       .summary-charts__title--percentile {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
@@ -74,7 +84,10 @@
           )
           span &nbsp; {{ fileType }} &nbsp;
     .summary-chart(v-for="(user, j) in repo")
-      .summary-chart__title(v-if="!isGroupMerged(getGroupName(repo))")
+      .summary-chart__title(
+        v-if="!isGroupMerged(getGroupName(repo))",
+        v-bind:class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo }"
+      )
         .summary-chart__title--index {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
@@ -102,14 +115,20 @@
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button(icon="code")
-            span.tooltip-text Click to view author's contribution
+            font-awesome-icon.icon-button(
+              icon="code",
+              v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'authorship', false) }"
+            )
+            span.tooltip-text Click to view author's contribution.
         a(
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button(icon="list-ul")
+            font-awesome-icon.icon-button(
+              icon="list-ul",
+              v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'zoom', false) }"
+            )
             span.tooltip-text Click to view breakdown of commits
         .summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone'"

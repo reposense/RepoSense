@@ -37,6 +37,9 @@ window.app = new window.Vue({
   },
   watch: {
     '$store.state.tabZoomInfo': function () {
+      if (this.$store.state.tabZoomInfo.isRefreshing) {
+        return;
+      }
       this.activateTab('zoom');
     },
     '$store.state.tabAuthorshipInfo': function () {
@@ -81,10 +84,10 @@ window.app = new window.Vue({
         await Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
-        this.userUpdated = true;
         this.loadingOverlayOpacity = 0.5;
         this.getUsers();
         this.renderTabHash();
+        this.userUpdated = true;
       } catch (error) {
         window.alert(error);
       } finally {
@@ -143,6 +146,7 @@ window.app = new window.Vue({
     renderZoomTabHash() {
       const hash = window.hashParams;
       const zoomInfo = {
+        isRefreshing: true,
         zAuthor: hash.zA,
         zRepo: hash.zR,
         zAvgCommitSize: hash.zACS,
