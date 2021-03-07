@@ -1,7 +1,10 @@
 //- use tabindex to enable focus property on div
 .commit-message(
   tabindex="-1",
-  v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
+  v-bind:class="{\
+    'message-body': slice.messageBody !== '',\
+    'active': isExpanded\
+  }"
 )
   a.message-title(v-bind:href="sliceLink", target="_blank")
     .within-border {{ slice.messageTitle.substr(0, 50) }}
