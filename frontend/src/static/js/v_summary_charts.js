@@ -327,14 +327,16 @@ window.vSummaryCharts = {
       }
 
       if (this.filterGroupSelection === 'groupByAuthors') {
-        return this.activeUser === userName && this.activeTabType === tabType;
+        return this.isTabOnMergedGroup && this.activeUser === userName
+            && this.activeTabType === tabType;
       }
 
-      return this.activeRepo === repo && this.activeTabType === tabType;
+      return this.isTabOnMergedGroup && this.activeRepo === repo
+          && this.activeTabType === tabType;
     },
 
     isSelectedGroup(userName, repo, isMerged) {
-      return (this.isTabOnMergedGroup || isMerged)
+      return (this.isTabOnMergedGroup && isMerged)
           && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
           || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
     },
