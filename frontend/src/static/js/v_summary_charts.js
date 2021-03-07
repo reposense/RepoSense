@@ -188,7 +188,7 @@ window.vSummaryCharts = {
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
-      this.addSelectedTab(user.name, user.repoName, 'zoom', isMerge);
+      this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
     },
 
