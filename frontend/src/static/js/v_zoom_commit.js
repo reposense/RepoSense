@@ -1,7 +1,12 @@
 /* global Vuex */
 
 window.vZoomCommit = {
-  props: ['defaultExpansionState', 'slice', 'selectedFileTypes'],
+  props: [
+      'defaultExpansionState',
+      'defaultExpansionStateSignal',
+      'slice',
+      'selectedFileTypes',
+  ],
   emits: [
       'increment-expanded-count',
       'decrement-expanded-count',
@@ -33,8 +38,7 @@ window.vZoomCommit = {
   },
 
   watch: {
-    defaultExpansionState() {
-      console.log(this.defaultExpansionState);
+    defaultExpansionStateSignal() {
       if (this.isExpanded !== this.defaultExpansionState) {
         this.toggleExpansion();
       }

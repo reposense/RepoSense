@@ -88,7 +88,8 @@
     template(v-for="slice in day.commitResults")
       v-zoom-commit(
         v-bind:key="slice.hash",
-        v-bind:default-expansion-state='showAllCommitMessageBody', 
+        v-bind:default-expansion-state='showAllCommitMessageBody',
+        v-bind:default-expansion-state-signal='defaultExpansionStateSignal',
         v-bind:slice='slice',
         v-bind:selected-file-types='selectedFileTypes',
         v-on:increment-expanded-count='expandedCommitMessagesCount += 1',

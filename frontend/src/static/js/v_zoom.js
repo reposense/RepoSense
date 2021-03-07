@@ -16,6 +16,7 @@ window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
     return {
+      defaultExpansionStateSignal: false,
       expandedCommitMessagesCount: 0,
       ...initialState(),
     };
@@ -214,6 +215,7 @@ window.vZoom = {
 
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
+      this.defaultExpansionStateSignal = !this.defaultExpansionStateSignal;
 
       // const toRename = this.showAllCommitMessageBody
       // ? 'commit-message message-body active' : 'commit-message message-body';
