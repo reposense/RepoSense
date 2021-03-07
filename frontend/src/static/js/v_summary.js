@@ -34,23 +34,6 @@ window.vSummary = {
     };
   },
   watch: {
-    checkedFileTypes() {
-      this.getFiltered();
-    },
-    filterBreakdown() {
-      this.getFiltered();
-    },
-    sortGroupSelection() {
-      this.getFiltered();
-    },
-
-    sortWithinGroupSelection() {
-      this.getFiltered();
-    },
-
-    filterTimeFrame() {
-      this.getFiltered();
-    },
 
     filterGroupSelection() {
       // Deactivates watcher
