@@ -103,23 +103,6 @@ window.comparator = (fn, sortingOption = '') => function compare(a, b) {
   return 1;
 };
 
-window.toggleNext = function toggleNext(ele) {
-  // function for toggling unopened code
-  const targetClass = 'active';
-
-  const parent = ele.parentNode;
-  const classes = parent.className.split(' ');
-  const idx = classes.indexOf(targetClass);
-
-  if (idx === -1) {
-    classes.push(targetClass);
-  } else {
-    classes.splice(idx, 1);
-  }
-
-  parent.className = classes.join(' ');
-};
-
 window.getBaseLink = function getBaseLink(repoId) {
   return `${window.BASE_URL}/${
     window.REPOS[repoId].location.organization}/${
