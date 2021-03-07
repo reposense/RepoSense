@@ -7,8 +7,13 @@ window.vSummaryCharts = {
   data() {
     return {
       drags: [],
+      activeRepo: null,
+      activeUser: null,
+      activeTabType: null,
+      isTabOnMergedGroup: false,
     };
   },
+
   computed: {
     avgCommitSize() {
       let totalCommits = 0;
@@ -116,7 +121,7 @@ window.vSummaryCharts = {
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
         return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
-
+      this.removeSelectedTab();
       return repo.location;
     },
 
@@ -137,7 +142,7 @@ window.vSummaryCharts = {
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
       };
-
+      this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
@@ -183,7 +188,7 @@ window.vSummaryCharts = {
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
-
+      this.addSelectedTab(user.name, user.repoName, 'zoom', isMerge);
       this.$store.commit('updateTabZoomInfo', info);
     },
 
@@ -251,6 +256,91 @@ window.vSummaryCharts = {
       const info = this.mergedGroups.filter((x) => x !== groupName);
       this.$store.commit('updateMergedGroup', info);
     },
+
+    retrieveSelectedTabHash() {
+      const hash = window.hashParams;
+
+      if (hash.tabAuthor) {
+        this.activeUser = hash.tabAuthor;
+      } else if (hash.zA) {
+        this.activeUser = hash.zA;
+      }
+
+      if (hash.tabRepo) {
+        this.activeRepo = hash.tabRepo;
+      } else if (hash.zR) {
+        this.activeRepo = hash.zR;
+      }
+
+      if (hash.isTabOnMergedGroup) {
+        if (this.filterGroupSelection === 'groupByAuthors') {
+          this.activeRepo = null;
+        } else if (this.filterGroupSelection === 'groupByRepos') {
+          this.activeUser = null;
+        }
+        this.isTabOnMergedGroup = true;
+      }
+
+      if (hash.tabType) {
+        this.activeTabType = hash.tabType;
+      }
+    },
+
+    addSelectedTab(userName, repo, tabType, isMerged) {
+      if (!isMerged || this.filterGroupSelection === 'groupByAuthors') {
+        this.activeUser = userName;
+      } else {
+        this.activeUser = null;
+      }
+
+      if (isMerged && this.filterGroupSelection === 'groupByAuthors') {
+        this.activeRepo = null;
+      } else {
+        this.activeRepo = repo;
+      }
+
+      if (isMerged) {
+        window.addHash('isTabOnMergedGroup', 'true');
+        this.isTabOnMergedGroup = true;
+      } else {
+        window.removeHash('isTabOnMergedGroup');
+        this.isTabOnMergedGroup = false;
+      }
+
+      this.activeTabType = tabType;
+      window.encodeHash();
+    },
+
+    removeSelectedTab() {
+      this.activeUser = null;
+      this.activeRepo = null;
+      this.activeTabType = null;
+
+      window.removeHash('isTabOnMergedGroup');
+      window.encodeHash();
+    },
+
+    isSelectedTab(userName, repo, tabType, isMerged) {
+      if (!isMerged) {
+        return this.activeUser === userName && this.activeRepo === repo
+            && this.activeTabType === tabType;
+      }
+
+      if (this.filterGroupSelection === 'groupByAuthors') {
+        return this.activeUser === userName && this.activeTabType === tabType;
+      }
+
+      return this.activeRepo === repo && this.activeTabType === tabType;
+    },
+
+    isSelectedGroup(userName, repo, isMerged) {
+      return (this.isTabOnMergedGroup || isMerged)
+          && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
+          || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
+    },
+  },
+  created() {
+    this.retrieveSelectedTabHash();
   },
   components: {
     vRamp: window.vRamp,
