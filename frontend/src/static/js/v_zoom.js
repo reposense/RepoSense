@@ -131,13 +131,6 @@ window.vZoom = {
       this.$store.commit('updateSummaryDates', info);
     },
 
-    getSliceLink(slice) {
-      if (this.info.zIsMerge) {
-        return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
-      }
-      return `${window.getBaseLink(this.info.zUser.repoId)}/commit/${slice.hash}`;
-    },
-
     scrollToCommit(tag, commit) {
       const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
@@ -216,17 +209,6 @@ window.vZoom = {
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
       this.defaultExpansionStateSignal = !this.defaultExpansionStateSignal;
-
-      // const toRename = this.showAllCommitMessageBody
-      // ? 'commit-message message-body active' : 'commit-message message-body';
-
-      // const commitMessageClasses =
-      // document.getElementsByClassName('commit-message message-body');
-      // Array.from(commitMessageClasses).forEach((commitMessageClass) => {
-      //   commitMessageClass.className = toRename;
-      // });
-
-      // this.expandedCommitMessagesCount = isActive ? this.totalCommitMessageBodyCount : 0;
     },
 
     removeZoomHashes() {
@@ -243,10 +225,6 @@ window.vZoom = {
       window.removeHash('zCST');
       window.removeHash('zRSC');
       window.encodeHash();
-    },
-
-    filterSelectedFileTypes(fileTypes) {
-      return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
     },
   },
   created() {
