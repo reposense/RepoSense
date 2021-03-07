@@ -3,7 +3,7 @@
 function initialState() {
   return {
     showAllCommitMessageBody: true,
-    expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+    // expandedCommitMessagesCount: 0,
     commitsSortType: 'time',
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
@@ -15,7 +15,10 @@ function initialState() {
 window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
-    return initialState();
+    return {
+      expandedCommitMessagesCount: 0,
+      ...initialState(),
+    };
   },
 
   computed: {
@@ -99,12 +102,6 @@ window.vZoom = {
       Object.assign(this.$data, initialState());
       this.initiate();
       this.setInfoHash();
-    },
-
-    selectedFileTypes() {
-      this.$nextTick(() => {
-        this.updateExpandedCommitMessagesCount();
-      });
     },
     commitsSortType() {
       window.addHash('zCST', this.commitsSortType);
@@ -218,19 +215,16 @@ window.vZoom = {
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
-      const toRename = this.showAllCommitMessageBody ? 'commit-message message-body active' : 'commit-message message-body';
+      // const toRename = this.showAllCommitMessageBody
+      // ? 'commit-message message-body active' : 'commit-message message-body';
 
-      const commitMessageClasses = document.getElementsByClassName('commit-message message-body');
-      Array.from(commitMessageClasses).forEach((commitMessageClass) => {
-        commitMessageClass.className = toRename;
-      });
+      // const commitMessageClasses =
+      // document.getElementsByClassName('commit-message message-body');
+      // Array.from(commitMessageClasses).forEach((commitMessageClass) => {
+      //   commitMessageClass.className = toRename;
+      // });
 
-      this.expandedCommitMessagesCount = isActive ? this.totalCommitMessageBodyCount : 0;
-    },
-
-    updateExpandedCommitMessagesCount() {
-      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message message-body active')
-          .length;
+      // this.expandedCommitMessagesCount = isActive ? this.totalCommitMessageBodyCount : 0;
     },
 
     removeZoomHashes() {
@@ -263,5 +257,6 @@ window.vZoom = {
   },
   components: {
     vRamp: window.vRamp,
+    vZoomCommit: window.vZoomCommit,
   },
 };
