@@ -24,8 +24,7 @@ You can use [_GitHub Actions_](https://github.com/features/actions) (together wi
 {{ step(2)}} **Activate GitHub Actions on the forked repository**
 
 1. Go to the `Actions` page of your fork of the [publish-RepoSense](https://github.com/reposense/publish-RepoSense) repo.
-1. Click on the green button that says `I understand my workflows, go ahead and enable them` to enable GitHub Actions on your new repository.<br>
-![GitHub Actions Page](../images/publishingguide-actions.png "GitHub Actions Page")
+1. Click on the green button that says `I understand my workflows, go ahead and enable them` to enable GitHub Actions on your new repository.
 
 {{ step(3)}} **Update report configuration:**
 
