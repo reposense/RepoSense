@@ -83,6 +83,10 @@ public class ArgsParser {
                 .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
                 .required(false);
 
+        MutuallyExclusiveGroup mutexParser2 = parser
+                .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
+                .required(false);
+
         // Boolean flags
         parser.addArgument(HELP_FLAGS)
                 .help("Show help message.")
@@ -97,19 +101,6 @@ public class ArgsParser {
                 .dest(IGNORE_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to ignore the standalone config file in the repo.");
-
-        parser.addArgument(LAST_MODIFIED_DATE_FLAGS)
-                .dest(LAST_MODIFIED_DATE_FLAGS[0])
-                .action(Arguments.storeTrue())
-                .help("A flag to keep track of the last modified date of each line of code.");
-
-        parser.addArgument(SHALLOW_CLONING_FLAGS)
-                .dest(SHALLOW_CLONING_FLAGS[0])
-                .action(Arguments.storeTrue())
-                .help("A flag to make RepoSense employ Git's shallow cloning functionality, which can significantly "
-                        + "reduce the time taken to clone large repositories. This flag should not be used for "
-                        + "smaller repositories, where the .git file is smaller than 500 MB. Note: this flag is not "
-                        + "compatible with the --last-modified-date flag.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
@@ -168,6 +159,15 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
+        parser.addArgument(TIMEZONE_FLAGS)
+                .dest(TIMEZONE_FLAGS[0])
+                .metavar("ZONE_ID[±hh[mm]]")
+                .type(new ZoneIdArgumentType())
+                .setDefault(ZoneId.systemDefault())
+                .help("The timezone to use for the generated report. "
+                        + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
+                        + "If not provided, system default timezone will be used.");
+
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)
                 .dest(CONFIG_FLAGS[0])
@@ -182,14 +182,18 @@ public class ArgsParser {
                 .metavar("LOCATION")
                 .help("The GitHub URL or disk locations to clone repository.");
 
-        parser.addArgument(TIMEZONE_FLAGS)
-                .dest(TIMEZONE_FLAGS[0])
-                .metavar("ZONE_ID[±hh[mm]]")
-                .type(new ZoneIdArgumentType())
-                .setDefault(ZoneId.systemDefault())
-                .help("The timezone to use for the generated report. "
-                        + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
-                        + "If not provided, system default timezone will be used.");
+        mutexParser2.addArgument(LAST_MODIFIED_DATE_FLAGS)
+                .dest(LAST_MODIFIED_DATE_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to keep track of the last modified date of each line of code.");
+
+        mutexParser2.addArgument(SHALLOW_CLONING_FLAGS)
+                .dest(SHALLOW_CLONING_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to make RepoSense employ Git's shallow cloning functionality, which can significantly "
+                        + "reduce the time taken to clone large repositories. This flag should not be used for "
+                        + "smaller repositories, where the .git file is smaller than 500 MB. Note: this flag is not "
+                        + "compatible with the --last-modified-date flag.");
 
         return parser;
     }
