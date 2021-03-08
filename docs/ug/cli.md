@@ -103,7 +103,11 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 * Alias: `-l` (lowercase L)
 * Example:`--last-modified-date` or `-l`
 
-The last modified dates will be in the same timezone specified with the `--timezone` flag.
+<box type="info" seamless>
+
+* Cannot be used with ``--shallow-cloning`.
+* The last modified dates will be in the same timezone specified with the `--timezone` flag.
+</box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -154,7 +158,8 @@ Cannot be used with `--config`.
 * Example:`--shallow-cloning` or `-S`
 
 <box type="info" seamless>
-This flag is incompatible with the `--last-modified-date` flag.
+
+Cannot be used with ``--last-modified-date`.
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
