@@ -28,8 +28,6 @@ window.vSummary = {
       maxDate: '',
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
-      // eslint-disable-next-line new-cap
-      randomGenerator: new Math.seedrandom('Seeded Random Generator'),
       filterGroupSelectionWatcherFlag: false,
     };
   },
