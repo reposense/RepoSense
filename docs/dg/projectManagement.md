@@ -21,6 +21,26 @@ This page contains information about project management tasks. The target audien
 
 <!-- ==================================================================================================== -->
 
+## Making a release on Github
+
+Before making a release, please check the following prerequisite.
+
+* Ensure that you have a proper version of **JDK `1.8.0`** installed (==Not **JDK `11`** or other later version==).
+* Ensure that the `JAVA_HOME` environment variable is correctly set to your JDK installation directory. You can refer to the guide [here](https://docs.oracle.com/cd/E19182-01/821-0917/inst_jdk_javahome_t/index.html).
+
+To make a release for RepoSense on Github, please follow the `Creating a release` section in the [Github Docs](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository).<br>
+  
+Take note of the following:
+* In step 4, follow the recommendation and use semantic versioning with some small tweak:
+  * Use `MAJOR.MINOR` as the version number when the release includes new features major changes.
+  * Use `MAJOR.MINOR.PATCH` as the version number when the release only includes bug fixes and minor changes.
+  * Append `rc` to the version number to indicate that the release is a pre-release with no guarantee of stability.
+* In step 6, enter the title as `RepoSense vxxx` where `xxx` is the version number. Enter the release description by referring to the previous RepoSense release [here](https://github.com/reposense/RepoSense/releases).  
+* In step 7, generate the `RepoSense.jar` file and include it in the release.
+  * Change the directory to the project root directory.
+  * In the terminal, run `gradlew shadowJar`, and the jar file will be generated at `{buildDir}/jar/`.
+  
+<!-- ==================================================================================================== -->
 
 ## Deploying the production website
 
