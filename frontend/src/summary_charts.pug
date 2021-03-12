@@ -86,7 +86,8 @@
     .summary-chart(v-for="(user, j) in repo")
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
-        v-bind:class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo }"
+        v-bind:class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo }",
+        v-bind:key="isTabOpen"
       )
         .summary-chart__title--index {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
