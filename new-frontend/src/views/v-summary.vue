@@ -285,6 +285,9 @@ export default {
     this.renderFilterHash();
     this.processFileTypes();
     this.getFiltered();
+    if (this.$store.state.tabZoomInfo.isRefreshing) {
+      this.restoreZoomFiltered(this.$store.state.tabZoomInfo);
+    }
   },
 
   mounted() {
@@ -821,7 +824,8 @@ export default {
       ele.checkedFileTypeContribution = validCommits;
     },
 
-    restoreZoomFiltered(info) {
+    restoreZoomFiltered(zoomInfo) {
+      const info = Object.assign({}, zoomInfo);
       const {
         zSince, zUntil, zTimeFrame, zIsMerge, zFilterSearch,
       } = info;
@@ -851,8 +855,9 @@ export default {
       if (zIsMerge) {
         this.mergeGroupByIndex(filtered, 0);
       }
-      info.zUser = filtered[0][0];
+      [[info.zUser]] = filtered;
       info.zFileTypeColors = this.fileTypeColors;
+      info.isRefreshing = false;
       this.$store.commit('updateTabZoomInfo', info);
     },
     matchZoomUser(info, user) {

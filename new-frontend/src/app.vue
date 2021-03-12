@@ -19,7 +19,6 @@
       template(v-slot:left)
         #summary-wrapper
           v-summary.tab-padding(
-            ref="summary",
             v-bind:repos="users",
             v-bind:error-messages="errorMessages",
             v-on:get-dates="receiveDates"
@@ -128,6 +127,9 @@ export default {
   },
   watch: {
     '$store.state.tabZoomInfo': function () {
+      if (this.$store.state.tabZoomInfo.isRefreshing) {
+        return;
+      }
       this.tabInfo.tabZoom = Object.assign({}, this.$store.state.tabZoomInfo);
       this.activateTab('zoom');
     },
@@ -172,10 +174,10 @@ export default {
         await Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
-        this.userUpdated = true;
         this.loadingOverlayOpacity = 0.5;
         this.getUsers();
         this.renderTabHash();
+        this.userUpdated = true;
       } catch (error) {
         throw error;
       } finally {
@@ -236,6 +238,7 @@ export default {
     renderZoomTabHash() {
       const hash = window.hashParams;
       const zoomInfo = {
+        isRefreshing: true,
         zAuthor: hash.zA,
         zRepo: hash.zR,
         zAvgCommitSize: hash.zACS,
@@ -249,7 +252,7 @@ export default {
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
-        this.$refs.summary.restoreZoomFiltered(zoomInfo);
+        this.$store.commit('updateTabZoomInfo', zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
         window.app.isTabActive = false;
       }
