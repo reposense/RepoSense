@@ -174,8 +174,6 @@ export default {
       maxDate: '',
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
-      // eslint-disable-next-line new-cap
-      randomGenerator: new seedrandom('Seeded Random Generator'),
       filterGroupSelectionWatcherFlag: false,
     };
   },
