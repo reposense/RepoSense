@@ -21,6 +21,8 @@
         }],
         "prefer-destructuring": 0,
         "sort-imports": ["error", { "ignoreDeclarationSort": true }],
+        "func-names": ["error", "as-needed"],
+        "no-alert": 0,
         "linebreak-style": 0
     }
 }
