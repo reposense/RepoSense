@@ -1,5 +1,6 @@
-// eslint-disable-next-line new-cap
-const randomGenerator = new Math.seedrandom('Seeded Random Generator');
+import seedrandom from 'seedrandom';
+
+const randomGenerator = seedrandom('Seeded Random Generator');
 
 function getRandomHex() {
   const maxHexColorValue = 16777214;
