@@ -1,4 +1,4 @@
-/* global Vuex */
+/* global Vuex VueObserveVisibility */
 // eslint-disable-next-line import/extensions
 import store from './store.js';
 
@@ -11,6 +11,8 @@ Vue.directive('hljs', {
     hljs.highlightBlock(element);
   },
 });
+
+Vue.use(VueObserveVisibility);
 
 Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
 Vue.component('loading-overlay', window.VueLoading);

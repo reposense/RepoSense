@@ -1,13 +1,21 @@
+const rampSize = 0.01;
+
 window.vRamp = {
   props: ['groupby', 'user', 'tframe', 'avgsize', 'sdate', 'udate', 'mergegroup', 'fromramp', 'filtersearch'],
   template: window.$('v_ramp').innerHTML,
   data() {
     return {
-      rampSize: 0.01,
+      isRendered: false,
     };
   },
 
   methods: {
+    visibilityChanged(isVisible) {
+      if (isVisible) {
+        this.isRendered = true;
+      }
+    },
+
     getLink(user, slice) {
       if (this.mergegroup) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
@@ -21,7 +29,7 @@ window.vRamp = {
       }
 
       const newSize = 100 * (slice.insertions / this.avgsize);
-      return Math.max(newSize * this.rampSize, 0.5);
+      return Math.max(newSize * rampSize, 0.5);
     },
     getContributionMessage(slice, commit) {
       let title = '';
