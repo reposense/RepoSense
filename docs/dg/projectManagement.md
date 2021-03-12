@@ -30,10 +30,10 @@ Before making a release, please check the following prerequisite.
 
 To make a release for RepoSense on Github, please follow the `Creating a release` section in the [Github Docs](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository).<br>
   
-Take note of the following:
+Take note of the following in the section above:
 * In step 4, follow the recommendation and use semantic versioning with some small tweak:
-  * Use `MAJOR.MINOR` as the version number when the release includes new features major changes.
-  * Use `MAJOR.MINOR.PATCH` as the version number when the release only includes bug fixes and minor changes.
+  * Use `MAJOR.MINOR` as the version number when the release includes new features and/or major changes.
+  * Use `MAJOR.MINOR.PATCH` as the version number when the release only includes bug fixes and/or minor changes.
   * Append `rc` to the version number to indicate that the release is a pre-release with no guarantee of stability.
 * In step 6, enter the title as `RepoSense vxxx` where `xxx` is the version number. Enter the release description by referring to the previous RepoSense release [here](https://github.com/reposense/RepoSense/releases).  
 * In step 7, generate the `RepoSense.jar` file and include it in the release.
