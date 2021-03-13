@@ -98,8 +98,8 @@ public abstract class CliArguments {
                 && this.isLastModifiedDateIncluded == otherCliArguments.isLastModifiedDateIncluded
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
-                && this.numCloningThreads.equals(otherCliArguments.numCloningThreads)
-                && this.numAnalysisThreads.equals(otherCliArguments.numAnalysisThreads)
+                && this.numCloningThreads == otherCliArguments.numCloningThreads
+                && this.numAnalysisThreads == otherCliArguments.numAnalysisThreads
                 && this.zoneId.equals(otherCliArguments.zoneId);
     }
 }
