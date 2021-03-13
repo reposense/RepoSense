@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
@@ -19,7 +18,11 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.impl.action.VersionArgumentAction;
-import net.sourceforge.argparse4j.inf.*;
+import net.sourceforge.argparse4j.inf.ArgumentParser;
+import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.FeatureControl;
+import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
+import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -185,7 +188,6 @@ public class ArgsParser {
                         + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
                         + "If not provided, system default timezone will be used.");
 
-        // Hidden flags - these will not appear in help message.
         parser.addArgument(CLONING_THREADS_FLAG)
                 .dest(CLONING_THREADS_FLAG[0])
                 .type(int.class)
