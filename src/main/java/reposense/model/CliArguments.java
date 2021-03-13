@@ -19,8 +19,8 @@ public abstract class CliArguments {
     protected boolean isLastModifiedDateIncluded;
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
-    protected Integer numCloningThreads;
-    protected Integer numAnalysisThreads;
+    protected int numCloningThreads;
+    protected int numAnalysisThreads;
     protected ZoneId zoneId;
 
     public ZoneId getZoneId() {
@@ -67,11 +67,11 @@ public abstract class CliArguments {
         return isStandaloneConfigIgnored;
     }
 
-    public Integer getNumCloningThreads() {
+    public int getNumCloningThreads() {
         return numCloningThreads;
     }
 
-    public Integer getNumAnalysisThreads() {
+    public int getNumAnalysisThreads() {
         return numAnalysisThreads;
     }
 
