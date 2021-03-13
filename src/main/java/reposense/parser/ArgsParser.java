@@ -74,6 +74,7 @@ public class ArgsParser {
     private static final Path DEFAULT_ASSETS_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "assets" + File.separator);
     private static final int DEFAULT_NUM_CLONING_THREADS = 4;
+    private static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -243,7 +244,7 @@ public class ArgsParser {
             if (cliNumAnalysisThreads.isPresent()) {
                 numAnalysisThreads = cliNumAnalysisThreads.get();
             } else {
-                numAnalysisThreads = Runtime.getRuntime().availableProcessors();
+                numAnalysisThreads = DEFAULT_NUM_ANALYSIS_THREADS;
             }
 
             Date currentDate = getCurrentDate(zoneId);
