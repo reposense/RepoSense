@@ -19,10 +19,7 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.impl.action.VersionArgumentAction;
-import net.sourceforge.argparse4j.inf.ArgumentParser;
-import net.sourceforge.argparse4j.inf.ArgumentParserException;
-import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
-import net.sourceforge.argparse4j.inf.Namespace;
+import net.sourceforge.argparse4j.inf.*;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -188,15 +185,18 @@ public class ArgsParser {
                         + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
                         + "If not provided, system default timezone will be used.");
 
+        // Hidden flags - these will not appear in help message.
         parser.addArgument(CLONING_THREADS_FLAG)
                 .dest(CLONING_THREADS_FLAG[0])
                 .type(int.class)
-                .setDefault(DEFAULT_NUM_CLONING_THREADS);
+                .setDefault(DEFAULT_NUM_CLONING_THREADS)
+                .help(FeatureControl.SUPPRESS);
 
         parser.addArgument(ANALYSIS_THREADS_FLAG)
                 .dest(ANALYSIS_THREADS_FLAG[0])
                 .type(int.class)
-                .setDefault(DEFAULT_NUM_ANALYSIS_THREADS);
+                .setDefault(DEFAULT_NUM_ANALYSIS_THREADS)
+                .help(FeatureControl.SUPPRESS);
 
         return parser;
     }
