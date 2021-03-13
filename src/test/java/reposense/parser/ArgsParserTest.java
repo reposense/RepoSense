@@ -425,6 +425,7 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER
                 .addNumCloningThreads(2)
                 .build();
+        System.out.println(input);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         int expectedNumThreads = 2;
@@ -449,7 +450,7 @@ public class ArgsParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         int expectedNumThreads = 2;
-        Assert.assertEquals(expectedNumThreads, cliArguments.getNumCloningThreads());
+        Assert.assertEquals(expectedNumThreads, cliArguments.getNumAnalysisThreads());
     }
 
     @Test

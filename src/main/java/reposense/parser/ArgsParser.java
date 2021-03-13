@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
@@ -189,15 +190,13 @@ public class ArgsParser {
 
         parser.addArgument(CLONING_THREADS_FLAG)
                 .dest(CLONING_THREADS_FLAG[0])
-                .metavar("NUMBER")
-                .type(Integer.class)
-                .setDefault(Optional.empty());
+                .type(int.class)
+                .setDefault(DEFAULT_NUM_CLONING_THREADS);
 
         parser.addArgument(ANALYSIS_THREADS_FLAG)
                 .dest(ANALYSIS_THREADS_FLAG[0])
-                .metavar("NUMBER")
-                .type(Integer.class)
-                .setDefault(Optional.empty());
+                .type(int.class)
+                .setDefault(DEFAULT_NUM_ANALYSIS_THREADS);
 
         return parser;
     }
@@ -230,22 +229,8 @@ public class ArgsParser {
             if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
-
-            int numCloningThreads;
-            Optional<Integer> cliNumCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
-            if (cliNumCloningThreads.isPresent()) {
-                numCloningThreads = cliNumCloningThreads.get();
-            } else {
-                numCloningThreads = DEFAULT_NUM_CLONING_THREADS;
-            }
-
-            int numAnalysisThreads;
-            Optional<Integer> cliNumAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
-            if (cliNumAnalysisThreads.isPresent()) {
-                numAnalysisThreads = cliNumAnalysisThreads.get();
-            } else {
-                numAnalysisThreads = DEFAULT_NUM_ANALYSIS_THREADS;
-            }
+            int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
+            int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
 
             Date currentDate = getCurrentDate(zoneId);
 
