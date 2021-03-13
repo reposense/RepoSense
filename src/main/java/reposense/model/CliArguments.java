@@ -21,8 +21,6 @@ public abstract class CliArguments {
     protected boolean isStandaloneConfigIgnored;
     protected Integer numCloningThreads;
     protected Integer numAnalysisThreads;
-    protected boolean isCloningThreadsProvided;
-    protected boolean isAnalysisThreadsProvided;
     protected ZoneId zoneId;
 
     public ZoneId getZoneId() {
