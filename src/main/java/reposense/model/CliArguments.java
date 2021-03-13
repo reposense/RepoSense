@@ -106,8 +106,12 @@ public abstract class CliArguments {
                 && this.isLastModifiedDateIncluded == otherCliArguments.isLastModifiedDateIncluded
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
-                && this.cloningThreads.equals(otherCliArguments.cloningThreads)
-                && this.analysisThreads.equals(otherCliArguments.analysisThreads)
+                && ((this.cloningThreads == null && otherCliArguments.cloningThreads == null) ||
+                        (this.cloningThreads != null && otherCliArguments.cloningThreads != null &&
+                                this.cloningThreads.equals(otherCliArguments.cloningThreads)))
+                && ((this.analysisThreads == null && otherCliArguments.analysisThreads == null) ||
+                        (this.analysisThreads != null && otherCliArguments.analysisThreads != null &&
+                                this.analysisThreads.equals(otherCliArguments.analysisThreads)))
                 && this.isCloningThreadsProvided == otherCliArguments.isCloningThreadsProvided
                 && this.isAnalysisThreadsProvided == otherCliArguments.isAnalysisThreadsProvided
                 && this.zoneId.equals(otherCliArguments.zoneId);

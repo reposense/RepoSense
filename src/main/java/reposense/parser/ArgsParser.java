@@ -229,10 +229,10 @@ public class ArgsParser {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
             Optional<Integer> cliCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
-            Integer cloningThreads = cliCloningThreads.orElseGet(null);
+            Integer cloningThreads = cliCloningThreads.orElse(null);
             boolean isCloningThreadsProvided = cliCloningThreads.isPresent();
             Optional<Integer> cliAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
-            Integer analysisThreads = cliAnalysisThreads.orElseGet(null);
+            Integer analysisThreads = cliAnalysisThreads.orElse(null);
             boolean isAnalysisThreadsProvided = cliAnalysisThreads.isPresent();
 
             Date currentDate = getCurrentDate(zoneId);
