@@ -19,8 +19,8 @@ public abstract class CliArguments {
     protected boolean isLastModifiedDateIncluded;
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
-    protected Integer cloningThreads;
-    protected Integer analysisThreads;
+    protected Integer numCloningThreads;
+    protected Integer numAnalysisThreads;
     protected boolean isCloningThreadsProvided;
     protected boolean isAnalysisThreadsProvided;
     protected ZoneId zoneId;
@@ -69,18 +69,12 @@ public abstract class CliArguments {
         return isStandaloneConfigIgnored;
     }
 
-    public Integer getCloningThreads() {
-        return cloningThreads;
+    public Integer getNumCloningThreads() {
+        return numCloningThreads;
     }
 
-    public Integer getAnalysisThreads() {
-        return analysisThreads;
-    }
-
-    public boolean isCloningThreadsProvided() { return isCloningThreadsProvided; }
-
-    public boolean isAnalysisThreadsProvided() {
-        return isAnalysisThreadsProvided;
+    public Integer getNumAnalysisThreads() {
+        return numAnalysisThreads;
     }
 
     @Override
@@ -106,14 +100,8 @@ public abstract class CliArguments {
                 && this.isLastModifiedDateIncluded == otherCliArguments.isLastModifiedDateIncluded
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
-                && ((this.cloningThreads == null && otherCliArguments.cloningThreads == null) ||
-                        (this.cloningThreads != null && otherCliArguments.cloningThreads != null &&
-                                this.cloningThreads.equals(otherCliArguments.cloningThreads)))
-                && ((this.analysisThreads == null && otherCliArguments.analysisThreads == null) ||
-                        (this.analysisThreads != null && otherCliArguments.analysisThreads != null &&
-                                this.analysisThreads.equals(otherCliArguments.analysisThreads)))
-                && this.isCloningThreadsProvided == otherCliArguments.isCloningThreadsProvided
-                && this.isAnalysisThreadsProvided == otherCliArguments.isAnalysisThreadsProvided
+                && this.numCloningThreads.equals(otherCliArguments.numCloningThreads)
+                && this.numAnalysisThreads.equals(otherCliArguments.numAnalysisThreads)
                 && this.zoneId.equals(otherCliArguments.zoneId);
     }
 }

@@ -24,10 +24,9 @@ public class ConfigCliArguments extends CliArguments {
     private Path reportConfigFilePath;
 
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Path assetsFilePath, Date sinceDate,
-            Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, Integer cloningThreads,
-            Integer analysisThreads, boolean isCloningThreadsProvided, boolean isAnalysisThreadsProvided,
-            List<FileType> formats, boolean isLastModifiedDateIncluded, boolean isAutomaticallyLaunching,
-            boolean isStandaloneConfigIgnored, ZoneId zoneId) {
+            Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
+            int numAnalysisThreads, List<FileType> formats, boolean isLastModifiedDateIncluded,
+            boolean isAutomaticallyLaunching, boolean isStandaloneConfigIgnored, ZoneId zoneId) {
         this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
                 : configFolderPath;
@@ -45,10 +44,8 @@ public class ConfigCliArguments extends CliArguments {
         this.isLastModifiedDateIncluded = isLastModifiedDateIncluded;
         this.isAutomaticallyLaunching = isAutomaticallyLaunching;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.cloningThreads = cloningThreads;
-        this.analysisThreads = analysisThreads;
-        this.isCloningThreadsProvided = isCloningThreadsProvided;
-        this.isAnalysisThreadsProvided = isAnalysisThreadsProvided;
+        this.numCloningThreads = numCloningThreads;
+        this.numAnalysisThreads = numAnalysisThreads;
         this.zoneId = zoneId;
     }
 

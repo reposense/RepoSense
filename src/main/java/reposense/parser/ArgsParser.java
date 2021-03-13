@@ -73,6 +73,7 @@ public class ArgsParser {
             + File.separator + "config" + File.separator);
     private static final Path DEFAULT_ASSETS_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "assets" + File.separator);
+    private static final int DEFAULT_NUM_CLONING_THREADS = 4;
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -228,12 +229,22 @@ public class ArgsParser {
             if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
-            Optional<Integer> cliCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
-            Integer cloningThreads = cliCloningThreads.orElse(null);
-            boolean isCloningThreadsProvided = cliCloningThreads.isPresent();
-            Optional<Integer> cliAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
-            Integer analysisThreads = cliAnalysisThreads.orElse(null);
-            boolean isAnalysisThreadsProvided = cliAnalysisThreads.isPresent();
+
+            int numCloningThreads;
+            Optional<Integer> cliNumCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
+            if (cliNumCloningThreads.isPresent()) {
+                numCloningThreads = cliNumCloningThreads.get();
+            } else {
+                numCloningThreads = DEFAULT_NUM_CLONING_THREADS;
+            }
+
+            int numAnalysisThreads;
+            Optional<Integer> cliNumAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
+            if (cliNumAnalysisThreads.isPresent()) {
+                numAnalysisThreads = cliNumAnalysisThreads.get();
+            } else {
+                numAnalysisThreads = Runtime.getRuntime().availableProcessors();
+            }
 
             Date currentDate = getCurrentDate(zoneId);
 
@@ -279,18 +290,16 @@ public class ArgsParser {
 
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                        isSinceDateProvided, isUntilDateProvided, cloningThreads, analysisThreads,
-                        isCloningThreadsProvided, isAnalysisThreadsProvided, formats, shouldIncludeLastModifiedDate,
-                        isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                        isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
+                        shouldIncludeLastModifiedDate, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                    isSinceDateProvided, isUntilDateProvided, cloningThreads, analysisThreads,
-                    isCloningThreadsProvided, isAnalysisThreadsProvided, formats, shouldIncludeLastModifiedDate,
-                    isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                    isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
+                    shouldIncludeLastModifiedDate, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
