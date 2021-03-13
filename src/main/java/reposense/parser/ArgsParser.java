@@ -35,6 +35,8 @@ import reposense.system.LogsManager;
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
+    public static final int DEFAULT_NUM_CLONING_THREADS = 4;
+    public static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
 
     public static final String[] HELP_FLAGS = new String[]{"--help", "-h"};
     public static final String[] CONFIG_FLAGS = new String[]{"--config", "-c"};
@@ -73,8 +75,6 @@ public class ArgsParser {
             + File.separator + "config" + File.separator);
     private static final Path DEFAULT_ASSETS_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "assets" + File.separator);
-    private static final int DEFAULT_NUM_CLONING_THREADS = 4;
-    private static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
