@@ -69,7 +69,6 @@ public class ReportGenerator {
     private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>RepoSense Report</title>";
 
     private static final int NUM_THREADS_CLONING = 4;
-    private static final int NUM_THREADS_ANALYSIS_MAX = 8;
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
@@ -108,6 +107,8 @@ public class ReportGenerator {
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
             ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
             boolean isSinceDateProvided, boolean isUntilDateProvided,
+            Integer cloningThreads, Integer analysisThreads,
+            boolean isCloningThreadsProvided, boolean isAnalysisThreadsProvided,
             Supplier<String> reportGenerationTimeProvider, ZoneId zoneId) throws IOException {
         prepareTemplateFile(reportConfig, outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
@@ -117,7 +118,9 @@ public class ReportGenerator {
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
 
-        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath);
+        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath,
+                cloningThreads, analysisThreads,
+                isCloningThreadsProvided, isAnalysisThreadsProvided);
 
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
@@ -181,18 +184,26 @@ public class ReportGenerator {
      * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
      * Performs cloning and analysis of each repository in parallel, and generates the report.
      * Also removes any configs that failed to clone or analyze from {@code configs}.
-     * By default, runs in multi-threaded mode. To turn off multi-threading, set the constants
-     * {@code NUM_THREADS_CLONING} and {@code NUM_THREADS_ANALYSIS_MAX} to 1.
+     * By default, runs in multi-threaded mode. To turn off multi-threading, run the program with
+     * the flags {@code --cloning-threads 1 --analysis-threads 1}.
      *
      * @return A list of paths to the JSON report files generated for each repository.
      */
-    private static List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
+    private static List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath,
+            Integer cloningThreads, Integer analysisThreads,
+            boolean isCloningThreadsProvided, boolean isAnalysisThreadsProvided) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
 
-        ExecutorService cloneExecutor = Executors.newFixedThreadPool(NUM_THREADS_CLONING);
-        int cpuThreads = Runtime.getRuntime().availableProcessors();
-        ExecutorService analyzeExecutor = Executors.newFixedThreadPool(Math.min(cpuThreads, NUM_THREADS_ANALYSIS_MAX));
+        if (!isCloningThreadsProvided) {
+            cloningThreads = NUM_THREADS_CLONING;
+        }
+        if (!isAnalysisThreadsProvided) {
+            analysisThreads = Runtime.getRuntime().availableProcessors();
+        }
+
+        ExecutorService cloneExecutor = Executors.newFixedThreadPool(cloningThreads);
+        ExecutorService analyzeExecutor = Executors.newFixedThreadPool(analysisThreads);
 
         List<CompletableFuture<CloneJobOutput>> cloneJobFutures = repoLocationList.stream()
                 .map(location -> CompletableFuture.supplyAsync(() ->

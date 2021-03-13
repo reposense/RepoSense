@@ -51,6 +51,9 @@ public class ArgsParser {
     public static final String[] VERSION_FLAGS = new String[]{"--version", "-V"};
     public static final String[] LAST_MODIFIED_DATE_FLAGS = new String[]{"--last-modified-date", "-l"};
 
+    public static final String[] CLONING_THREADS_FLAG = new String[]{"--cloning-threads"};
+    public static final String[] ANALYSIS_THREADS_FLAG = new String[]{"--analysis-threads"};
+
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
     private static final String PROGRAM_USAGE = "java -jar RepoSense.jar";
@@ -182,6 +185,18 @@ public class ArgsParser {
                         + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
                         + "If not provided, system default timezone will be used.");
 
+        parser.addArgument(CLONING_THREADS_FLAG)
+                .dest(CLONING_THREADS_FLAG[0])
+                .metavar("NUMBER")
+                .type(Integer.class)
+                .setDefault(Optional.empty());
+
+        parser.addArgument(ANALYSIS_THREADS_FLAG)
+                .dest(ANALYSIS_THREADS_FLAG[0])
+                .metavar("NUMBER")
+                .type(Integer.class)
+                .setDefault(Optional.empty());
+
         return parser;
     }
 
@@ -213,6 +228,12 @@ public class ArgsParser {
             if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
+            Optional<Integer> cliCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
+            Integer cloningThreads = cliCloningThreads.orElseGet(null);
+            boolean isCloningThreadsProvided = cliCloningThreads.isPresent();
+            Optional<Integer> cliAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
+            Integer analysisThreads = cliAnalysisThreads.orElseGet(null);
+            boolean isAnalysisThreadsProvided = cliAnalysisThreads.isPresent();
 
             Date currentDate = getCurrentDate(zoneId);
 
@@ -258,7 +279,8 @@ public class ArgsParser {
 
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                        isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
+                        isSinceDateProvided, isUntilDateProvided, cloningThreads, analysisThreads,
+                        isCloningThreadsProvided, isAnalysisThreadsProvided, formats, shouldIncludeLastModifiedDate,
                         isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
             }
 
@@ -266,7 +288,8 @@ public class ArgsParser {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                    isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
+                    isSinceDateProvided, isUntilDateProvided, cloningThreads, analysisThreads,
+                    isCloningThreadsProvided, isAnalysisThreadsProvided, formats, shouldIncludeLastModifiedDate,
                     isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
