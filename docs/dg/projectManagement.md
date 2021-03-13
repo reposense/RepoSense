@@ -26,19 +26,20 @@ This page contains information about project management tasks. The target audien
 Before making a release, please check the following prerequisite.
 
 * Ensure that you have a proper version of **JDK `1.8.0`** installed (==Not **JDK `11`** or other later version==).
-* Ensure that the `JAVA_HOME` environment variable is correctly set to your JDK installation directory. You can refer to the guide [here](https://docs.oracle.com/cd/E19182-01/821-0917/inst_jdk_javahome_t/index.html).
+* Ensure that the `JAVA_HOME` environment variable is correctly set to your JDK installation directory. You can refer to the [JDK Installation Guide](https://docs.oracle.com/cd/E19182-01/821-0917/inst_jdk_javahome_t/index.html).
 
 To make a release for RepoSense on Github, please follow the `Creating a release` section in the [Github Docs](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository).<br>
   
-Take note of the following in the section above:
-* In step 4, follow the recommendation and use semantic versioning with some small tweak:
+Take note of the following the section above:
+* When entering a release version number, use semantic versioning with some small tweak:
   * Use `MAJOR.MINOR` as the version number when the release includes new features and/or major changes.
   * Use `MAJOR.MINOR.PATCH` as the version number when the release only includes bug fixes and/or minor changes.
   * Append `rc` to the version number to indicate that the release is a pre-release with no guarantee of stability.
-* In step 6, enter the title as `RepoSense vxxx` where `xxx` is the version number. Enter the release description by referring to the previous RepoSense release [here](https://github.com/reposense/RepoSense/releases).  
-* In step 7, generate the `RepoSense.jar` file and include it in the release.
+* Enter the release title as `RepoSense vxxx` where `xxx` is the version number. Enter the release description by referring to the previous [RepoSense releases](https://github.com/reposense/RepoSense/releases). 
+* Before launching the release, generate the `RepoSense.jar` file and attach it to the release.
   * Change the directory to the project root directory.
   * In the terminal, run `gradlew shadowJar`, and the jar file will be generated at `{buildDir}/jar/`.
+  * Check that the Jar file is working. You may need to check that the report can be generated from the Jar file both locally and remotely by following the [Generating Reports Guide](../ug/generatingReports.html). 
   
 <!-- ==================================================================================================== -->
 
