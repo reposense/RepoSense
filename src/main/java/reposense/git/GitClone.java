@@ -17,6 +17,7 @@ import reposense.system.CommandRunner;
 import reposense.system.CommandRunnerProcess;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
+import reposense.util.SystemUtil;
 
 /**
  * Contains git clone related functionalities.
@@ -46,16 +47,22 @@ public class GitClone {
      */
     public static void clone(RepoConfiguration config) throws GitCloneException {
         try {
-            FileUtil.deleteDirectory(config.getRepoRoot());
-            logger.info("Cloning from " + config.getLocation() + "...");
-
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
-            Files.createDirectories(rootPath);
-            String command = String.format("git clone %s %s", addQuote(config.getLocation().toString()),
-                    config.getRepoName());
-            runCommand(rootPath, command);
+            Path repoPath = Paths.get(rootPath.toString(), config.getRepoName());
 
-            logger.info("Cloning completed!");
+            if (!SystemUtil.isTestEnvironment()) {
+                FileUtil.deleteDirectory(config.getRepoRoot());
+            } else if (SystemUtil.isTestEnvironment() && Files.exists(repoPath)) {
+                logger.info("Skipped cloning from " + config.getLocation() + " as it was cloned before.");
+            } else {
+                logger.info("Cloning from " + config.getLocation() + "...");
+                Files.createDirectories(rootPath);
+                String command = String.format("git clone %s %s", addQuote(config.getLocation().toString()),
+                        config.getRepoName());
+                runCommand(rootPath, command);
+
+                logger.info("Cloning completed!");
+            }
         } catch (RuntimeException rte) {
             logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
             throw new GitCloneException(rte);
@@ -84,8 +91,15 @@ public class GitClone {
      */
     public static void cloneBare(RepoConfiguration config, String outputFolderName) throws IOException {
         Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
-        FileUtil.deleteDirectory(Paths.get(rootPath.toString(), outputFolderName).toString());
-        Files.createDirectories(rootPath);
+        Path outputFolderPath = Paths.get(rootPath.toString(), outputFolderName);
+
+        if (!SystemUtil.isTestEnvironment()) {
+            FileUtil.deleteDirectory(outputFolderPath.toString());
+            Files.createDirectories(rootPath);
+        } else if (SystemUtil.isTestEnvironment() && Files.exists(outputFolderPath)) {
+            return;
+        }
+
         String command = getCloneBareCommand(config, outputFolderName);
         runCommand(rootPath, command);
     }
@@ -100,9 +114,18 @@ public class GitClone {
             throws GitCloneException, IOException {
         Path relativePath = rootPath.relativize(FileUtil.getBareRepoPath(config));
         String outputFolderName = Paths.get(config.getRepoFolderName(), config.getRepoName()).toString();
-        FileUtil.deleteDirectory(Paths.get(FileUtil.REPOS_ADDRESS, outputFolderName).toString());
+        Path outputFolderPath = Paths.get(FileUtil.REPOS_ADDRESS, outputFolderName);
+
+        if (!SystemUtil.isTestEnvironment()) {
+            FileUtil.deleteDirectory(outputFolderPath.toString());
+        } else if (SystemUtil.isTestEnvironment() && Files.exists(outputFolderPath)) {
+            GitCheckout.checkoutBranch(outputFolderPath.toString(), config.getBranch());
+            return;
+        }
+
         String command = String.format(
                 "git clone %s --branch %s %s", relativePath, config.getBranch(), outputFolderName);
+
         try {
             runCommand(rootPath, command);
         } catch (RuntimeException rte) {

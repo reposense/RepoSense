@@ -12,7 +12,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,7 +22,6 @@ import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
-import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
 
@@ -113,11 +111,6 @@ public class RepoConfigurationTest {
 
         repoDeltaStandaloneConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         repoDeltaStandaloneConfig.setFormats(CONFIG_FORMATS);
-    }
-
-    @Before
-    public void cleanRepoDirectory() throws Exception {
-        FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
     }
 
     @Test
