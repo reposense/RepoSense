@@ -341,7 +341,6 @@ window.vSummaryCharts = {
     },
 
     isSelectedGroup(userName, repo, isMerged) {
-
       return (this.isTabOnMergedGroup || isMerged)
           && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
           || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
