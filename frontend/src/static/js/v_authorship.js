@@ -20,6 +20,7 @@ function initialState() {
     toReverseSortFiles: true,
     isBinaryFilesChecked: false,
     searchBarValue: '',
+    authorDisplayName: '',
   };
 }
 
@@ -161,7 +162,7 @@ window.vAuthorship = {
         } else {
           const author = repo.users.find((user) => user.name === this.info.author);
           if (author) {
-            this.info.name = author.displayName;
+            this.authorDisplayName = author.displayName;
             this.filesLinesObj = author.fileTypeContribution;
           }
         }
