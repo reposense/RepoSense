@@ -11,7 +11,6 @@ window.vSummaryCharts = {
       activeUser: null,
       activeTabType: null,
       isTabOnMergedGroup: false,
-      isTabOpen: true,
     };
   },
 
@@ -39,13 +38,10 @@ window.vSummaryCharts = {
     ...Vuex.mapState(['mergedGroups', 'fileTypeColors']),
   },
   watch: {
-    'window.hashParams.tabOpen': {
-      handler: function () {
-        console.log("triggered");
-        this.isTabOpen = window.hashParams.tabOpen !== 'false';
-      },
-      deep: true,
-      immediate: true,
+    '$store.state.isTabActive': function () {
+      if (!this.$store.state.isTabActive) {
+        this.removeSelectedTab();
+      }
     },
   },
   methods: {
@@ -295,10 +291,6 @@ window.vSummaryCharts = {
       if (hash.tabType) {
         this.activeTabType = hash.tabType;
       }
-
-      if (hash.tabOpen) {
-        this.isTabOpen = hash.tabOpen !== 'false';
-      }
     },
 
     addSelectedTab(userName, repo, tabType, isMerged) {
@@ -336,11 +328,6 @@ window.vSummaryCharts = {
     },
 
     isSelectedTab(userName, repo, tabType, isMerged) {
-      //console.log(this.isTabOpen);
-      if (window.hashParams.tabOpen === 'false') {
-        return false;
-      }
-
       if (!isMerged) {
         return this.activeUser === userName && this.activeRepo === repo
             && this.activeTabType === tabType;
@@ -354,10 +341,6 @@ window.vSummaryCharts = {
     },
 
     isSelectedGroup(userName, repo, isMerged) {
-      //console.log(this.isTabOpen);
-      if (window.hashParams.tabOpen === 'false') {
-        return false;
-      }
 
       return (this.isTabOnMergedGroup || isMerged)
           && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)

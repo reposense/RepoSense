@@ -112,7 +112,7 @@ window.app = new window.Vue({
 
       this.isTabActive = true;
       this.tabType = tabName;
-
+      this.$store.commit('updateTabState', this.isTabActive);
       window.addHash('tabOpen', this.isTabActive);
       window.addHash('tabType', this.tabType);
       window.encodeHash();
@@ -120,6 +120,7 @@ window.app = new window.Vue({
 
     deactivateTab() {
       this.isTabActive = false;
+      this.$store.commit('updateTabState', this.isTabActive);
       window.addHash('tabOpen', this.isTabActive);
       window.removeHash('tabType');
       window.encodeHash();
