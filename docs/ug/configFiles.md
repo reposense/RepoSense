@@ -32,11 +32,11 @@ Given below are the details of the various config files used by RepoSense.
 Column Name | Explanation
 ----------- | -----------
 Repository's Location {{ mandatory }}| The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
-Branch | The branch to analyze in the target repository, e.g., `master`. Default: the default branch of the repo
-File formats<sup>*+</sup> | The file extensions to analyze. Default: all file formats
-Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author, e.g., `test/**;temp/**`
-Ignore standalone config | To ignore the standalone config file (if any) in the target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
-Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation, e.g., `abc123..def456` (both inclusive).
+Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
+File formats<sup>*+</sup> | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats
+Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author. e.g., `test/**;temp/**`
+Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
+Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
 Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
@@ -131,7 +131,7 @@ Note: all fields are optional unless specified otherwise.
 **Fields to provide _repository-level_ info**:
 
 * `ignoreGlobList`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-* `formats`: File formats to analyze. Default: all file formats
+* `formats`: File formats to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
 * `ignoreAuthorList`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
 
