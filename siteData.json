@@ -268,7 +268,7 @@
         "contribution-bar-and-code-panel-is-empty-despite-a-non-empty-ramp-chart": "Contribution bar and code panel is empty (despite a non-empty ramp chart)",
         "reposense-is-not-using-the-standalone-config-file-in-my-local-repository": "RepoSense is not using the standalone config file in my local repository",
         "reposense-fails-on-windows-but-works-on-linux-mac-os": "RepoSense fails on Windows (but works on Linux/Mac OS)",
-        "some-files-are-not-captured-by-reposense": "Some files are not captured by RepoSense"
+        "some-file-types-are-not-shown-in-the-file-type-filter-even-if-i-have-included-them-in-the-file-formats-when-generating-the-report": "Some file types are not shown in the file type filter even if I have included them in the file formats when generating the report"
       },
       "headingKeywords": {}
     },

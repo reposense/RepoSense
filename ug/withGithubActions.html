@@ -254,6 +254,11 @@
                           <li>Alias: <code class="hljs inline no-lang" v-pre>-f</code></li>
                           <li>Example:<code class="hljs inline no-lang" v-pre>--formats css fxml gradle</code> or <code class="hljs inline no-lang" v-pre>-f css fxml gradle</code></li>
                         </ul>
+                        <box type="info" seamless>
+                          <p>Binary file formats, such as <code class="hljs inline no-lang" v-pre>jpg</code>, <code class="hljs inline no-lang" v-pre>png</code>,<code class="hljs inline no-lang" v-pre>exe</code>,<code class="hljs inline no-lang" v-pre>zip</code>, <code class="hljs inline no-lang" v-pre>rar</code>, <code class="hljs inline no-lang" v-pre>docx</code>, and <code class="hljs inline no-lang" v-pre>pptx</code>, all will be labelled as the file type <code class="hljs inline no-lang" v-pre>binary</code> in the generated report.
+                          </p>
+                        </box>
+                        <p></p>
 
                         <h3 id="help-h"><span id="help-h" class="anchor"></span><code class="hljs inline no-lang" v-pre>--help</code>, <code class="hljs inline no-lang" v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
                         <p><strong><code class="hljs inline no-lang" v-pre>--help</code></strong>: Shows the help message.</p>
@@ -445,23 +450,23 @@
                         </tr>
                         <tr>
                           <td>Branch</td>
-                          <td>The branch to analyze in the target repository, e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the default branch of the repo</td>
+                          <td>The branch to analyze in the target repository e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the default branch of the repo</td>
                         </tr>
                         <tr>
                           <td>File formats<sup>*+</sup></td>
-                          <td>The file extensions to analyze. Default: all file formats</td>
+                          <td>The file extensions to analyze. Binary file formats, such as <code class="hljs inline no-lang" v-pre>png</code> and <code class="hljs inline no-lang" v-pre>jpg</code>, will be automatically labelled as the file type <code class="hljs inline no-lang" v-pre>binary</code> in the generated report. Default: all file formats</td>
                         </tr>
                         <tr>
                           <td>Ignore Glob List<sup>*+</sup></td>
-                          <td>The list of file path globs to ignore during analysis for each author, e.g., <code class="hljs inline no-lang" v-pre>test/**;temp/**</code></td>
+                          <td>The list of file path globs to ignore during analysis for each author. e.g., <code class="hljs inline no-lang" v-pre>test/**;temp/**</code></td>
                         </tr>
                         <tr>
                           <td>Ignore standalone config</td>
-                          <td>To ignore the standalone config file (if any) in the target repository, enter <strong><code class="hljs inline no-lang" v-pre>yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td>
+                          <td>To ignore the standalone config file (if any) in target repository, enter <strong><code class="hljs inline no-lang" v-pre>yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td>
                         </tr>
                         <tr>
                           <td>Ignore Commit List<sup>*+</sup></td>
-                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation, e.g., <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</td>
+                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation e.g. <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</td>
                         </tr>
                         <tr>
                           <td>Ignore Authors List<sup>*+</sup></td>
@@ -594,7 +599,7 @@
                     <p><strong>Fields to provide <em>repository-level</em> info</strong>:</p>
                     <ul>
                       <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: Folders/files to ignore, specified using the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>.</li>
-                      <li><code class="hljs inline no-lang" v-pre>formats</code>: File formats to analyze. Default: all file formats</li>
+                      <li><code class="hljs inline no-lang" v-pre>formats</code>: File formats to analyze. Binary file formats, such as <code class="hljs inline no-lang" v-pre>png</code> and <code class="hljs inline no-lang" v-pre>jpg</code>, will be automatically labelled as the file type <code class="hljs inline no-lang" v-pre>binary</code> in the generated report. Default: all file formats</li>
                       <li><code class="hljs inline no-lang" v-pre>ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation e.g. <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</li>
                       <li><code class="hljs inline no-lang" v-pre>ignoreAuthorList</code>: The list of authors to ignore during analysis. Authors specified in <code class="hljs inline no-lang" v-pre>authors</code> field or <code class="hljs inline no-lang" v-pre>author-config.csv</code> will be also be omitted if they are in this list. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</li>
                     </ul>
@@ -690,7 +695,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Mon, Mar 15, 2021, 9:12:18 AM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Mon, Mar 15, 2021, 9:40:47 AM UTC]</small>
       </div>
     </footer>
   </div>
