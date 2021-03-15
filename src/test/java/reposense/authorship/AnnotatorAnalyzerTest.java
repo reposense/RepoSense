@@ -63,7 +63,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
     public FileResult getFileResult(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
-        return FileInfoAnalyzer.analyzeFile(config, fileInfo);
+        return FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
     }
 
     /**
