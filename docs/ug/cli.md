@@ -69,6 +69,10 @@ The section below provides explanations for each of the flags.
 * Alias: `-f`
 * Example:`--formats css fxml gradle` or `-f css fxml gradle`
 
+<box type="info" seamless>
+
+Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`, all will be labelled as the file type `binary` in the generated report.
+</box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--help`, `-h`

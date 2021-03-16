@@ -9,6 +9,7 @@
   .icon-button {
     color: mui-color('grey');
     cursor: pointer;
+    padding: 0 1.2px 0 1.2px;
     text-decoration: none;
   }
 
@@ -142,7 +143,10 @@
         padding-right: .5rem;
       }
 
-      &--index,
+      &--index {
+        margin-left: 3px;
+      }
+
       &--repo {
         font-weight: bold;
       }
@@ -196,5 +200,15 @@
         margin-top: 2px;
       }
     }
+  }
+
+  .active-icon {
+    background-color: mui-color('green');
+    border-radius: 2px;
+    color: mui-color('white');
+  }
+
+  .active-background {
+    background-color: mui-color('yellow', '200');
   }
 }
