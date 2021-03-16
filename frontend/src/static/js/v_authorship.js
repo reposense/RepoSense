@@ -1,4 +1,4 @@
-/* global Vuex */
+/* global Vuex minimatch */
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
@@ -25,7 +25,6 @@ function initialState() {
 }
 
 const repoCache = [];
-const minimatch = require('minimatch');
 
 window.vAuthorship = {
   template: window.$('v_authorship').innerHTML,
