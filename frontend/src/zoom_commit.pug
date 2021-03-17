@@ -24,7 +24,7 @@
       span &nbsp;{{ tag }}
   a(
     v-if="slice.messageBody !== ''",
-    v-on:click="toggleExpansion",
+    v-on:click="toggleExpansion"
   )
     .tooltip
       font-awesome-icon.commit-message--button(icon="ellipsis-h")
