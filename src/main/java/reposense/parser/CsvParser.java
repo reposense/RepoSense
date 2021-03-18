@@ -17,6 +17,7 @@ import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -42,6 +43,8 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
     private static final String MESSAGE_MANDATORY_HEADER_MISSING = "Required column header, %s, not found in "
             + "CSV file, %s";
+    private static final String MESSAGE_DUPLICATE_COLUMN_HEADER = "Column header. %s, appears twice in CSV file, %s. "
+            + "The rightmost occurrence will be used.";
     private static final String MESSAGE_COLUMNS_RECOGNIZED = "Parsed header of CSV file, %s, and recognized columns: "
             + "%s";
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
@@ -227,14 +230,12 @@ public abstract class CsvParser<T> {
         headerSize = possibleHeader.length;
         for (int i = 0; i < headerSize; i++) {
             String possible = possibleHeader[i].trim();
-            for (String parsedHeader : mandatoryHeaders()) {
+            for (String parsedHeader : mandatoryAndOptionalHeaders()) {
                 if (possible.equalsIgnoreCase(parsedHeader)) {
-                    headerMap.put(parsedHeader, i);
-                    break;
-                }
-            }
-            for (String parsedHeader : optionalHeaders()) {
-                if (possible.equalsIgnoreCase(parsedHeader)) {
+                    if (headerMap.containsKey(parsedHeader)) {
+                        logger.warning(String.format(
+                                MESSAGE_DUPLICATE_COLUMN_HEADER, parsedHeader, csvFilePath.getFileName()));
+                    }
                     headerMap.put(parsedHeader, i);
                     break;
                 }
@@ -259,6 +260,14 @@ public abstract class CsvParser<T> {
      * Gets the list of optional headers that can be parsed.
      */
     protected abstract String[] optionalHeaders();
+
+    /**
+     * Gets the list of all mandatory and optional headers that can be parsed.
+     */
+    protected List<String> mandatoryAndOptionalHeaders() {
+        return Stream.concat(Arrays.stream(mandatoryHeaders()), Arrays.stream(optionalHeaders()))
+                .collect(Collectors.toList());
+    }
 
     /**
      * Processes the csv file line by line.
