@@ -199,6 +199,7 @@ window.vSummary = {
         const checkedFileTypesHash = this.checkedFileTypes.length > 0
           ? this.checkedFileTypes.join(window.HASH_DELIMITER)
           : '';
+        this.$store.commit('updateCheckedBreakDownFileTypes', this.checkedFileTypes);
         addHash('checkedFileTypes', checkedFileTypesHash);
       } else {
         window.removeHash('checkedFileTypes');
