@@ -173,7 +173,6 @@ window.vSummaryCharts = {
         avgCommitSize, filterGroupSelection, filterTimeFrame, filterSearch,
       } = this;
       const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
-      console.log(isMerged);
       const info = {
         zRepo: user.repoName,
         zAuthor: user.name,

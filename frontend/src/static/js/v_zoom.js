@@ -142,7 +142,7 @@ window.vZoom = {
     },
 
     getSliceLink(slice) {
-      if (this.info.zIsMerged) {
+      if (this.info.zIsMerge) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
       return `${window.getBaseLink(this.info.zUser.repoId)}/commit/${slice.hash}`;
@@ -209,7 +209,7 @@ window.vZoom = {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
         zTimeFrame, zIsMerge, zAuthor, zRepo, zFromRamp, zFilterSearch,
       } = this.info;
-      //console.log("triggered");
+
       addHash('zA', zAuthor);
       addHash('zR', zRepo);
       addHash('zACS', zAvgCommitSize);
