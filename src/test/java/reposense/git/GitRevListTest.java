@@ -106,7 +106,7 @@ public class GitRevListTest extends GitTestTemplate {
 
     @Test
     public void getIsEmptyRepo_success() {
-        boolean isEmpty = GitRevList.getIsEmptyRepo(config.getRepoRoot());
+        boolean isEmpty = GitRevList.checkIsEmptyRepo(config.getRepoRoot());
         Assert.assertEquals(false, isEmpty);
     }
 }

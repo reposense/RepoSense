@@ -70,7 +70,7 @@ public class RepoCloner {
             boolean didShallowPartialCloneSucceed = spawnShallowPartialCloneProcess(config);
             String shallowPartialBareRoot = FileUtil.getShallowPartialBareRepoPath(config).toString();
 
-            if (!didShallowPartialCloneSucceed || GitRevList.getIsEmptyRepo(shallowPartialBareRoot)) {
+            if (!didShallowPartialCloneSucceed || GitRevList.checkIsEmptyRepo(shallowPartialBareRoot)) {
                 isCurrentRepoCloned = spawnCloneProcess(config);
                 return;
             }
