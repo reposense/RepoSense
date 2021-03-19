@@ -1,21 +1,28 @@
 /* global Vuex */
 
+function initialState() {
+  return {
+    showAllCommitMessageBody: true,
+    expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+    commitsSortType: 'time',
+    toReverseSortedCommits: true,
+    isCommitsFinalized: false,
+    selectedFileTypes: [],
+    fileTypes: [],
+  };
+}
+
 window.vZoom = {
-  props: ['info'],
   template: window.$('v_zoom').innerHTML,
   data() {
-    return {
-      showAllCommitMessageBody: true,
-      expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
-      commitsSortType: 'time',
-      toReverseSortedCommits: true,
-      isCommitsFinalized: false,
-      selectedFileTypes: [],
-      fileTypes: [],
-    };
+    return initialState();
   },
 
   computed: {
+    zoomOwnerWatchable() {
+      return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${this.info.zTimeFrame}`;
+    },
+
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === 'time'
         ? (commit) => commit.date
@@ -34,7 +41,6 @@ window.vZoom = {
       filteredUser.commits = zUser.commits.filter(
           (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
-      this.isCommitsFinalized = true;
 
       return filteredUser;
     },
@@ -81,17 +87,20 @@ window.vZoom = {
         this.updateSelectedFileTypesHash();
       },
     },
-    ...Vuex.mapState(['fileTypeColors']),
+
+    ...Vuex.mapState({
+      fileTypeColors: 'fileTypeColors',
+      info: 'tabZoomInfo',
+    }),
   },
 
   watch: {
-    isCommitsFinalized() {
-      if (this.isCommitsFinalized) {
-        this.updateFileTypes();
-        this.selectedFileTypes = this.fileTypes.slice();
-        this.retrieveHashes();
-      }
+    zoomOwnerWatchable() {
+      Object.assign(this.$data, initialState());
+      this.initiate();
+      this.setInfoHash();
     },
+
     selectedFileTypes() {
       this.$nextTick(() => {
         this.updateExpandedCommitMessagesCount();
@@ -109,9 +118,14 @@ window.vZoom = {
 
   methods: {
     initiate() {
-      if (!this.info.zUser) { // restoring zoom tab from reloaded page
-        this.restoreZoomTab();
+      if (this.info.zUser) {
+        // This code should always run since zUser must be defined
+        this.updateFileTypes();
+        this.selectedFileTypes = this.fileTypes.slice();
       }
+
+      this.updateFileTypes();
+      this.selectedFileTypes = this.fileTypes.slice();
     },
 
     openSummary() {
@@ -131,11 +145,6 @@ window.vZoom = {
       if (el) {
         el.focus();
       }
-    },
-
-    restoreZoomTab() {
-      // restore selected user's commits and file type colors from v_summary
-      this.$root.$emit('restoreCommits', this.info);
     },
 
     updateFileTypes() {
@@ -246,8 +255,7 @@ window.vZoom = {
   },
   created() {
     this.initiate();
-  },
-  mounted() {
+    this.retrieveHashes();
     this.setInfoHash();
   },
   beforeDestroy() {

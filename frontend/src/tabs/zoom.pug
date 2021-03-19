@@ -21,7 +21,7 @@
         v-bind:title="'Click to open the repo'"
       )
         span {{ filteredUser.repoName }}
-    .author(v-if="!info.zIsMerge")
+    .author(v-if="!info.zIsMerged")
       span &#8627; &nbsp;
       span(v-if="info.zFilterGroup === 'groupByAuthors'") {{ filteredUser.repoName }}
       span(v-else) {{ filteredUser.displayName }} ({{ filteredUser.name }})
@@ -49,8 +49,9 @@
     v-bind:sdate="info.zSince",
     v-bind:udate="info.zUntil",
     v-bind:avgsize="info.zAvgCommitSize",
-    v-bind:mergegroup="info.zIsMerge",
-    v-bind:fromramp="info.zFromRamp")
+    v-bind:mergegroup="info.zIsMerged",
+    v-bind:fromramp="info.zFromRamp",
+    v-bind:filtersearch="info.zFilterSearch")
 
   .sorting.mui-form--inline
     .mui-select.sort-by
