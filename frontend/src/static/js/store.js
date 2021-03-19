@@ -8,7 +8,6 @@ const store = new Vuex.Store({
     fileTypeColors: {},
     loadingOverlayCount: 0,
     loadingOverlayMessage: '',
-    checkedBreakDownFileTypes: [],
   },
   mutations: {
     updateTabZoomInfo(state, info) {
@@ -35,9 +34,6 @@ const store = new Vuex.Store({
     updateLoadingOverlayMessage(state, message) {
       state.loadingOverlayMessage = message;
     },
-    updateCheckedBreakDownFileTypes(state, checkedFileTypes) {
-      state.checkedBreakDownFileTypes = checkedFileTypes;
-    }
   },
 });
 

@@ -118,8 +118,6 @@ window.vZoom = {
       const hash = window.hashParams;
       if (hash.breakdown !== 'false') {
         this.updateFileTypes();
-        this.fileTypes = this.fileTypes
-          .filter((fileType) => this.$store.state.checkedBreakDownFileTypes.includes(fileType));
         this.updateSelectedFileTypesHash();
         this.retrieveSelectedFileTypesHash();
       }
