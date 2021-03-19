@@ -20,7 +20,7 @@ window.vZoom = {
 
   computed: {
     zoomOwnerWatchable() {
-      return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${this.info.zTimeFrame}|${this.info.zIsMerged}`;
+      return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${this.info.zTimeFrame}`;
     },
 
     sortingFunction() {
@@ -114,22 +114,14 @@ window.vZoom = {
       window.addHash('zRSC', this.toReverseSortedCommits);
       window.encodeHash();
     },
-    '$store.state.checkedBreakDownFileTypes': function () {
+    '$store.state.tabZoomInfo': function () {
       const hash = window.hashParams;
-      console.log('triggered');
-      console.log(this.fileTypes.length);
       if (hash.breakdown !== 'false') {
-        console.log(Object.keys(this.filteredUser.fileTypeContribution));
-        console.log(this.info.zUser);
         this.updateFileTypes();
         this.fileTypes = this.fileTypes
           .filter((fileType) => this.$store.state.checkedBreakDownFileTypes.includes(fileType));
         this.updateSelectedFileTypesHash();
         this.retrieveSelectedFileTypesHash();
-
-        //this.initiate();
-        //this.retrieveHashes();
-        //this.setInfoHash();
       }
     }
   },
@@ -181,7 +173,6 @@ window.vZoom = {
 
     retrieveHashes() {
       this.retrieveSortHash();
-      this.retrieveMergeHash();
       this.retrieveSelectedFileTypesHash();
     },
 
@@ -205,12 +196,6 @@ window.vZoom = {
       }
     },
 
-    retrieveMergeHash() {
-      if (window.hashParams.zMG) {
-        this.info.zIsMerged = window.hashParams.zMG !== 'false';
-      }
-    },
-
     updateSelectedFileTypesHash() {
       const fileTypeHash = this.selectedFileTypes.length > 0
           ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
@@ -224,7 +209,7 @@ window.vZoom = {
       const { addHash, encodeHash } = window;
       const {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
-        zTimeFrame, zIsMerged, zAuthor, zRepo, zFromRamp, zFilterSearch,
+        zTimeFrame, zIsMerge, zAuthor, zRepo, zFromRamp, zFilterSearch,
       } = this.info;
       //console.log("triggered");
       addHash('zA', zAuthor);
@@ -233,7 +218,7 @@ window.vZoom = {
       addHash('zS', zSince);
       addHash('zFS', zFilterSearch);
       addHash('zU', zUntil);
-      addHash('zMG', zIsMerged);
+      addHash('zMG', zIsMerge);
       addHash('zFTF', zTimeFrame);
       addHash('zFGS', zFilterGroup);
       addHash('zFR', zFromRamp);

@@ -286,6 +286,8 @@ window.vSummary = {
       this.getDates();
       window.deactivateAllOverlays();
 
+      this.updateCheckedBreakDownFileTypesInZoomTab();
+
       this.$store.commit('incrementLoadingOverlayCount', 1);
       // Use setTimeout() to force this.filtered to update only after loading screen is displayed.
       setTimeout(() => {
@@ -649,6 +651,14 @@ window.vSummary = {
         }
       });
       ele.checkedFileTypeContribution = validCommits;
+    },
+
+    updateCheckedBreakDownFileTypesInZoomTab() {
+      const hash = window.hashParams;
+      if (this.filterBreakdown && hash.tabOpen && hash.tabType === 'zoom') {
+        const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
+        this.restoreZoomFiltered(zoomInfo);
+      }
     },
 
     restoreZoomFiltered(info) {
