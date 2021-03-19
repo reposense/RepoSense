@@ -21,7 +21,7 @@ You can use [_GitHub Actions_](https://github.com/features/actions) (together wi
 
 <include src="withTravis.md#section-fork-token" />
 
-{{ step(2)}} **Activate GitHub Actions on the forked repository**
+{{ step(2)}} **Activate GitHub Actions on the forked repository:**
 
 1. Go to the `Actions` page of your fork of the [publish-RepoSense](https://github.com/reposense/publish-RepoSense) repo.
 1. Click on the green button that says `I understand my workflows, go ahead and enable them` to enable GitHub Actions on your new repository.
