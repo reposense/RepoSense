@@ -3,7 +3,6 @@
 function initialState() {
   return {
     showAllCommitMessageBody: true,
-    expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
     commitsSortType: 'time',
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
@@ -15,7 +14,10 @@ function initialState() {
 window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
-    return initialState();
+    return {
+      expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+      ...initialState(),
+    };
   },
 
   computed: {
@@ -96,7 +98,11 @@ window.vZoom = {
 
   watch: {
     zoomOwnerWatchable() {
-      Object.assign(this.$data, initialState());
+      const newData = {
+        expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+        ...initialState(),
+      };
+      Object.assign(this.$data, newData);
       this.initiate();
       this.setInfoHash();
     },
