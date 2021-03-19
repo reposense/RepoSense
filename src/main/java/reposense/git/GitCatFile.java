@@ -27,13 +27,13 @@ public class GitCatFile {
         String catFileCommand = "git cat-file -p " + commitHash;
         try {
             String output = runCommand(rootPath, catFileCommand);
-            List<String> parents = new ArrayList();
+            List<String> parentCommits = new ArrayList();
             for (String line : output.split("\n")) {
                 if (line.startsWith("parent")) {
-                    parents.add(line.substring(7).trim());
+                    parentCommits.add(line.substring(7).trim());
                 }
             }
-            return parents;
+            return parentCommits;
         } catch (RuntimeException e) {
             throw new CommitNotFoundException("Commit not found: " + commitHash);
         }
@@ -44,14 +44,14 @@ public class GitCatFile {
      * commits of all the commits.
      */
     public static List<String> getParentsOfCommits(String root, List<String> commitHashes) {
-        List<String> parents = new ArrayList();
+        List<String> parentCommits = new ArrayList();
         for (String commitHash : commitHashes) {
             try {
-                parents.addAll(getParentCommits(root, commitHash));
+                parentCommits.addAll(getParentCommits(root, commitHash));
             } catch (CommitNotFoundException e) {
                 logger.warning("Invalid commit hash ignored: " + commitHash);
             }
         }
-        return parents;
+        return parentCommits;
     }
 }

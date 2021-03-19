@@ -20,7 +20,7 @@ public class GitShowTest extends GitTestTemplate {
     }
 
     @Test(expected = CommitNotFoundException.class)
-    public void getCommitDate_nonexistentCommit_throwsEmptyCommitException() throws Exception {
+    public void getParentCommits_nonExistentCommit_throwsEmptyCommitException() throws Exception {
         GitShow.getCommitDate(config.getRepoRoot(), NONEXISTENT_COMMIT_HASH);
     }
 

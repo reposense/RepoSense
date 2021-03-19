@@ -25,7 +25,7 @@ public class GitCatFileTest extends GitTestTemplate {
     }
 
     @Test(expected = CommitNotFoundException.class)
-    public void getParentCommits_nonexistentCommit_throwsEmptyCommitException() throws Exception {
+    public void getParentCommits_nonExistentCommit_throwsEmptyCommitException() throws Exception {
         GitCatFile.getParentCommits(config.getRepoRoot(), NONEXISTENT_COMMIT_HASH);
     }
 

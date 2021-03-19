@@ -114,7 +114,7 @@ public class GitRevList {
     /**
      * Returns true if the repository is empty.
      */
-    public static boolean getIsEmptyRepo(String root) {
+    public static boolean isEmptyRepo(String root) {
         String revListCommand = "git rev-list -n 1 --all";
         Path rootPath = Paths.get(root);
         String output = runCommand(rootPath, revListCommand);
