@@ -1,6 +1,6 @@
 /* global Vuex */
 
-function initialState() {
+function zoomInitialState() {
   return {
     showAllCommitMessageBody: true,
     commitsSortType: 'time',
@@ -16,7 +16,7 @@ window.vZoom = {
   data() {
     return {
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
-      ...initialState(),
+      ...zoomInitialState(),
     };
   },
 
@@ -100,7 +100,7 @@ window.vZoom = {
     zoomOwnerWatchable() {
       const newData = {
         expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
-        ...initialState(),
+        ...zoomInitialState(),
       };
       Object.assign(this.$data, newData);
       this.initiate();
@@ -207,7 +207,6 @@ window.vZoom = {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
         zTimeFrame, zIsMerge, zAuthor, zRepo, zFromRamp, zFilterSearch,
       } = this.info;
-
       addHash('zA', zAuthor);
       addHash('zR', zRepo);
       addHash('zACS', zAvgCommitSize);

@@ -6,7 +6,7 @@ const filesSortDict = {
   fileType: (file) => file.fileType,
 };
 
-function initialState() {
+function authorshipInitialState() {
   return {
     isLoaded: false,
     files: [],
@@ -29,7 +29,7 @@ const repoCache = [];
 window.vAuthorship = {
   template: window.$('v_authorship').innerHTML,
   data() {
-    return initialState();
+    return authorshipInitialState();
   },
 
   watch: {
@@ -54,7 +54,7 @@ window.vAuthorship = {
     },
 
     authorshipOwnerWatchable() {
-      Object.assign(this.$data, initialState());
+      Object.assign(this.$data, authorshipInitialState());
       this.initiate();
     },
   },
