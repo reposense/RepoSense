@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/reposense/RepoSense#readme",
   "dependencies": {
-    "minimatch": "^3.0.4",
+    "minimatch": "1.0.0",
     "pug-lint": "^2.6.0",
     "spuild": "1.0.2",
     "stylelint-config-standard": "^18.3.0"
