@@ -121,7 +121,7 @@ window.vZoom = {
         this.updateSelectedFileTypesHash();
         this.retrieveSelectedFileTypesHash();
       }
-    }
+    },
   },
 
   methods: {
