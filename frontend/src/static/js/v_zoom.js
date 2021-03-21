@@ -162,7 +162,6 @@ window.vZoom = {
 
     retrieveHashes() {
       this.retrieveSortHash();
-      this.retrieveMergeHash();
       this.retrieveSelectedFileTypesHash();
     },
 
@@ -183,12 +182,6 @@ window.vZoom = {
         this.selectedFileTypes = hash.zFT
             .split(window.HASH_DELIMITER)
             .filter((fileType) => this.fileTypes.includes(fileType));
-      }
-    },
-
-    retrieveMergeHash() {
-      if (window.hashParams.zMG) {
-        this.info.zIsMerged = window.hashParams.zMG !== 'false';
       }
     },
 
