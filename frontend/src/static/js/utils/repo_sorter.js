@@ -21,7 +21,7 @@ function sortingHelper(element, sortingOption) {
     return element.reduce(getGroupCommitsVariance, 0);
   }
   if (sortingOption === 'displayName') {
-    return window.getGroupByAuthorDisplayName(element);
+    return window.getAuthorDisplayName(element);
   }
   return element[0][sortingOption];
 }

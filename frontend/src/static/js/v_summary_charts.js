@@ -257,8 +257,8 @@ window.vSummaryCharts = {
       this.$store.commit('updateMergedGroup', info);
     },
 
-    getGroupByAuthorDisplayName(repo) {
-      return window.getGroupByAuthorDisplayName(repo);
+    getAuthorDisplayName(repo) {
+      return window.getAuthorDisplayName(repo);
     },
 
     retrieveSelectedTabHash() {
