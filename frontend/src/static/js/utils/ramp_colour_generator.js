@@ -1,7 +1,10 @@
+// eslint-disable-next-line new-cap
+const randomGenerator = new Math.seedrandom('Seeded Random Generator');
+
 function getRandomHex() {
   const maxHexColorValue = 16777214;
   // excludes #000000 and #FFFFFF as they are reserved
-  return `#${Math.round(this.randomGenerator() * maxHexColorValue + 1).toString(16).padStart(6, '0')}`;
+  return `#${Math.round(randomGenerator() * maxHexColorValue + 1).toString(16).padStart(6, '0')}`;
 }
 
 function rgb2lab(rgb) {
