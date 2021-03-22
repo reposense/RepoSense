@@ -286,8 +286,6 @@ window.vSummary = {
       this.getDates();
       window.deactivateAllOverlays();
 
-      //this.updateCheckedBreakDownFileTypes();
-
       this.$store.commit('incrementLoadingOverlayCount', 1);
       // Use setTimeout() to force this.filtered to update only after loading screen is displayed.
       setTimeout(() => {
