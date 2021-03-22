@@ -66,7 +66,7 @@ public class FileUtil {
      * {@code sourcePath} into {@code outputPath}.
      */
     public static void zipFoldersAndFiles(List<Path> pathsToZip,
-                                          Path sourcePath, Path outputPath, String... fileTypes) {
+            Path sourcePath, Path outputPath, String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
