@@ -20,7 +20,7 @@ Here is a quick overview of how to get started.
 
 <box type="info" seamless>
 
-To gain a more solid understanding of the project implementation and workflow, you may want to start by working on pull requests on [issues for first timers](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers). 
+To gain a more solid understanding of the project implementation and workflow, you may want to start by working on [issues that are suitable for first timers](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers). 
 </box>
 
 We look forward to your PR. Happy coding!
