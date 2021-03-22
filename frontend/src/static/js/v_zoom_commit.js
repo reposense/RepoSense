@@ -62,7 +62,7 @@ window.vZoomCommit = {
     },
   },
   created() {
-    if (this.defaultExpansionState === 1) {
+    if (this.defaultExpansionState) {
       this.toggleExpansion();
     }
   },
