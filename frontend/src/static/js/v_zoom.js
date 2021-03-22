@@ -17,6 +17,7 @@ window.vZoom = {
   data() {
     return {
       defaultExpansionStateSignal: false,
+      // Signal to reset the expansion state of all v_zoom_commit.
       expandedCommitMessagesCount: 0,
       ...initialState(),
     };
