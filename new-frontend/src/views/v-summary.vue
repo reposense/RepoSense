@@ -147,6 +147,9 @@ const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 export default {
   name: 'v-summary',
+  components: {
+    vSummaryCharts,
+  },
   props: ['repos', 'errorMessages'],
   data() {
     return {
@@ -296,10 +299,6 @@ export default {
   methods: {
     dismissTab(event) {
       event.target.parentNode.style.display = 'none';
-    },
-
-    getFontColor(color) {
-      return window.getFontColor(color);
     },
 
     // view functions //
@@ -498,7 +497,7 @@ export default {
         isSortingWithinDsc: this.isSortingWithinDsc,
       };
       this.getOptionWithOrder();
-      this.filtered = sortFiltered(full, filterControl);
+      this.filtered = sortFiltered(this.filtered, filterControl);
     },
 
     updateMergedGroup(allGroupsMerged) {
@@ -774,15 +773,15 @@ export default {
       if (!this.isSafariBrowser) {
         this.tmpFilterSinceDate = since;
         event.target.value = this.filterSinceDate;
+        this.getFiltered();
       } else if (dateFormatRegex.test(since) && since >= this.minDate) {
         this.tmpFilterSinceDate = since;
         event.currentTarget.style.removeProperty('border-bottom-color');
+        this.getFiltered();
       } else {
         // invalid since date detected
         event.currentTarget.style.borderBottomColor = 'red';
-        return;
       }
-      this.getFiltered();
     },
 
     updateTmpFilterUntilDate(event) {
@@ -792,15 +791,15 @@ export default {
       if (!this.isSafariBrowser) {
         this.tmpFilterUntilDate = until;
         event.target.value = this.filterUntilDate;
+        this.getFiltered();
       } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
         this.tmpFilterUntilDate = until;
         event.currentTarget.style.removeProperty('border-bottom-color');
+        this.getFiltered();
       } else {
         // invalid until date detected
         event.currentTarget.style.borderBottomColor = 'red';
-        return;
       }
-      this.getFiltered();
     },
 
     updateCheckedFileTypeContribution(ele) {
@@ -815,8 +814,7 @@ export default {
       ele.checkedFileTypeContribution = validCommits;
     },
 
-    restoreZoomFiltered(zoomInfo) {
-      const info = Object.assign({}, zoomInfo);
+    restoreZoomFiltered(info) {
       const {
         zSince, zUntil, zTimeFrame, zIsMerge, zFilterSearch,
       } = info;
@@ -877,9 +875,6 @@ export default {
       return window.getDateStr(datems);
     },
   },
-  components: {
-    vSummaryCharts,
-  },
 };
 </script>
 
@@ -896,6 +891,7 @@ export default {
   .icon-button {
     color: mui-color('grey');
     cursor: pointer;
+    padding: 0 1.2px 0 1.2px;
     text-decoration: none;
   }
 
@@ -1029,7 +1025,10 @@ export default {
         padding-right: .5rem;
       }
 
-      &--index,
+      &--index {
+        margin-left: 3px;
+      }
+
       &--repo {
         font-weight: bold;
       }
@@ -1083,6 +1082,16 @@ export default {
         margin-top: 2px;
       }
     }
+  }
+
+  .active-icon {
+    background-color: mui-color('green');
+    border-radius: 2px;
+    color: mui-color('white');
+  }
+
+  .active-background {
+    background-color: mui-color('yellow', '200');
   }
 }
 </style>

@@ -3,8 +3,10 @@
   .panel-title
     span Code Panel
   .toolbar--multiline
-    a(v-if="activeFilesCount < selectedFiles.length", v-on:click="expandAll()")
-      |show all file details
+    a(
+      v-if="activeFilesCount < this.selectedFiles.length",
+      v-on:click="expandAll()"
+    ) show all file details
     a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
   .panel-heading
     a.group-name(
@@ -81,6 +83,13 @@
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
                 span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
+          label.binary-fileType(v-if="binaryFilesCount > 0")
+            input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
+            span(
+              v-bind:title="this.binaryFilesCount + \
+              ' binary files (not included in total line count)'"
+            )
+              span {{ binaryFilesCount }} binary file(s)
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
@@ -102,29 +111,34 @@
                 font-awesome-icon.button(icon="history")
                 span.tooltip-text Click to view the history view of file
             a(
-              v-bind:href="getFileLink(file, 'blame')", target="_blank"
+              v-if='!file.isBinary',
+              v-bind:href="getFileLink(file, 'blame')", target="_blank",
+              title="click to view the blame view of file"
             )
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
                 span.tooltip-text Click to view the blame view of file
           span.fileTypeLabel(
+            v-if='!file.isBinary',
             v-bind:style="{\
               'background-color': fileTypeColors[file.fileType],\
               'color': getFontColor(fileTypeColors[file.fileType])\
               }"
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}
             |&nbsp;({{ file.lineCount - file.blankLineCount }})
-        pre.hljs.file-content(v-if="file.wasCodeLoaded", v-show="file.active")
+          span.fileTypeLabel.binary(v-if='file.isBinary') binary&nbsp;
+        pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary", v-show="file.active")
           template(v-for="segment in file.segments")
-            v-segment(
-              v-bind:key="segment.lineNumbers[0]",
-              v-bind:segment="segment",
-              v-bind:path="file.path"
-            )
+            v-segment(v-bind:segment="segment", v-bind:path="file.path")
+        pre.file-content(v-if="file.isBinary", v-show="file.active")
+          .binary-segment
+            .indicator BIN
+            .bin-text Binary file not shown.
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import minimatch from 'minimatch';
 import vSegment from '../components/v-segment.vue';
 
 const filesSortDict = {
@@ -134,27 +148,33 @@ const filesSortDict = {
   fileType: (file) => file.fileType,
 };
 
+function authorshipInitialState() {
+  return {
+    isLoaded: false,
+    files: [],
+    selectedFiles: [],
+    filterType: 'checkboxes',
+    selectedFileTypes: [],
+    fileTypes: [],
+    filesLinesObj: {},
+    fileTypeBlankLinesObj: {},
+    filesSortType: 'lineOfCode',
+    toReverseSortFiles: true,
+    isBinaryFilesChecked: false,
+    searchBarValue: '',
+    authorDisplayName: '',
+  };
+}
+
 const repoCache = [];
-const minimatch = require('minimatch');
 
 export default {
   name: 'v-authorship',
-  props: ['info'],
+  components: {
+    vSegment,
+  },
   data() {
-    return {
-      authorDisplayName: '',
-      isLoaded: false,
-      files: [],
-      selectedFiles: [],
-      filterType: 'checkboxes',
-      selectedFileTypes: [],
-      fileTypes: [],
-      filesLinesObj: {},
-      fileTypeBlankLinesObj: {},
-      filesSortType: 'lineOfCode',
-      toReverseSortFiles: true,
-      searchBarValue: '',
-    };
+    return authorshipInitialState();
   },
 
   watch: {
@@ -178,11 +198,9 @@ export default {
       this.updateSelectedFiles();
     },
 
-    isLoaded() {
-      if (this.isLoaded) {
-        this.retrieveHashes();
-        this.setInfoHash();
-      }
+    authorshipOwnerWatchable() {
+      Object.assign(this.$data, authorshipInitialState());
+      this.initiate();
     },
   },
 
@@ -202,19 +220,28 @@ export default {
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
 
-      this.selectedFileTypes = this.info.checkedFileTypes
-        ? this.info.checkedFileTypes.filter((fileType) => this.fileTypes.includes(fileType))
-        : [];
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
             .split(window.HASH_DELIMITER)
             .filter((fileType) => this.fileTypes.includes(fileType));
+      } else {
+        this.resetSelectedFileTypes();
+      }
+
+      if (hash.authorshipIsBinaryFileTypeChecked) {
+        this.isBinaryFilesChecked = hash.authorshipIsBinaryFileTypeChecked === 'true';
       }
 
       if ('authorshipFilesGlob' in hash) {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
       }
+    },
+
+    resetSelectedFileTypes() {
+      this.selectedFileTypes = this.info.checkedFileTypes
+        ? this.info.checkedFileTypes.filter((fileType) => this.fileTypes.includes(fileType))
+        : [];
     },
 
     setInfoHash() {
@@ -228,6 +255,7 @@ export default {
 
     removeAuthorshipHashes() {
       window.removeHash('authorshipFileTypes');
+      window.removeHash('authorshipIsBinaryFileTypeChecked');
       window.removeHash('authorshipFilesGlob');
       window.removeHash('authorshipSortBy');
       window.removeHash('reverseAuthorshipOrder');
@@ -237,7 +265,7 @@ export default {
       window.encodeHash();
     },
 
-    initiate() {
+    async initiate() {
       const repo = window.REPOS[this.info.repo];
 
       this.getRepoProps(repo);
@@ -253,12 +281,19 @@ export default {
       }
       repoCache.push(this.info.repo);
 
-      if (repo.files) {
-        this.processFiles(repo.files);
-      } else {
-        window.api.loadAuthorship(this.info.repo)
-            .then((files) => this.processFiles(files));
+      let { files } = repo;
+      if (!files) {
+        files = await window.api.loadAuthorship(this.info.repo);
       }
+      this.processFiles(files);
+
+      if (this.info.isRefresh) {
+        this.retrieveHashes();
+      } else {
+        this.resetSelectedFileTypes();
+      }
+
+      this.setInfoHash();
     },
 
     getFontColor(color) {
@@ -372,28 +407,36 @@ export default {
       const res = [];
       const fileTypeBlanksInfoObj = {};
 
-      files.forEach((file) => {
+      files.filter((file) => this.isValidFile(file)).forEach((file) => {
         const contributionMap = file.authorContributionMap;
+
         const lineCnt = this.info.isMergeGroup
             ? this.getContributionFromAllAuthors(contributionMap)
             : contributionMap[this.info.author];
 
-        if (lineCnt) {
-          const out = {};
-          out.path = file.path;
-          out.lineCount = lineCnt;
-          out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
-          out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
-          out.fileType = file.fileType;
+        const out = {};
+        out.path = file.path;
+        out.lineCount = lineCnt;
+        out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD && !file.isBinary;
+        out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
+        out.fileType = file.fileType;
 
+        if (file.isBinary) {
+          out.isBinary = true;
+        } else {
+          out.isBinary = false;
+        }
+
+        if (!file.isBinary) {
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           out.blankLineCount = segmentInfo.blankLineCount;
 
           this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
               fileTypeBlanksInfoObj);
-          res.push(out);
         }
+
+        res.push(out);
       });
 
       res.sort((a, b) => b.lineCount - a.lineCount);
@@ -406,8 +449,14 @@ export default {
 
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
-      this.isLoaded = true;
-      this.updateSelectedFiles();
+      this.updateSelectedFiles(true);
+    },
+
+    isValidFile(file) {
+      return this.info.isMergeGroup
+          ? Object.entries(file.authorContributionMap)
+              .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
+          : this.info.author in file.authorContributionMap;
     },
 
     getContributionFromAllAuthors(contributionMap) {
@@ -429,6 +478,7 @@ export default {
 
       window.addHash('authorshipFilesGlob', this.searchBarValue);
       window.removeHash('authorshipFileTypes');
+      window.removeHash('authorshipIsBinaryFileTypeChecked');
       window.encodeHash();
     },
 
@@ -438,24 +488,30 @@ export default {
           : '';
 
       window.addHash('authorshipFileTypes', fileTypeHash);
+      window.addHash('authorshipIsBinaryFileTypeChecked', this.isBinaryFilesChecked);
       window.removeHash('authorshipFilesGlob');
       window.encodeHash();
     },
 
-    updateSelectedFiles() {
+    updateSelectedFiles(setIsLoaded = false) {
       this.$store.commit('incrementLoadingOverlayCount', 1);
       setTimeout(() => {
         this.selectedFiles = this.files.filter(
-            (file) => this.selectedFileTypes.includes(file.fileType)
+            (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary)
+            || (file.isBinary && this.isBinaryFilesChecked))
             && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
         )
             .sort(this.sortingFunction);
+        if (setIsLoaded) {
+          this.isLoaded = true;
+        }
         this.$store.commit('incrementLoadingOverlayCount', -1);
       });
     },
 
     indicateSearchBar() {
       this.selectedFileTypes = this.fileTypes.slice();
+      this.isBinaryFilesChecked = true;
       this.filterType = 'search';
     },
 
@@ -485,6 +541,10 @@ export default {
   },
 
   computed: {
+    authorshipOwnerWatchable() {
+      return `${this.info.author}|${this.info.repo}|${this.info.isMergeGroup}`;
+    },
+
     sortingFunction() {
       return (a, b) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
@@ -501,6 +561,22 @@ export default {
           this.selectedFileTypes = [];
         }
 
+        this.indicateCheckBoxes();
+      },
+    },
+
+    isBinaryChecked: {
+      get() {
+        return this.isBinaryFilesChecked;
+      },
+      set(value) {
+        if (value) {
+          this.isBinaryFilesChecked = true;
+        } else {
+          this.isBinaryFilesChecked = false;
+        }
+
+        this.updateSelectedFiles();
         this.indicateCheckBoxes();
       },
     },
@@ -527,7 +603,14 @@ export default {
       return numLinesModified;
     },
 
-    ...mapState(['fileTypeColors']),
+    binaryFilesCount() {
+      return this.files.filter((file) => file.isBinary).length;
+    },
+
+    ...mapState({
+      fileTypeColors: 'fileTypeColors',
+      info: 'tabAuthorshipInfo',
+    }),
   },
 
   created() {
@@ -536,10 +619,6 @@ export default {
 
   beforeUnmount() {
     this.removeAuthorshipHashes();
-  },
-
-  components: {
-    vSegment,
   },
 };
 </script>
@@ -600,6 +679,12 @@ export default {
       .mui-checkbox--fileType {
         vertical-align: middle;
       }
+
+      .binary-fileType {
+        background-color: mui-color('white');
+        color: mui-color('grey', '800');
+        float: right;
+      }
     }
   }
 
@@ -650,6 +735,76 @@ export default {
       .icons {
         margin-right: 8px;
         vertical-align: middle;
+      }
+    }
+
+    .binary-segment {
+      background-color: mui-color('white');
+
+      .indicator {
+        float: left;
+        font-weight: bold;
+        padding-left: 1rem;
+      }
+
+      .bin-text {
+        color: mui-color('grey', '800');
+        padding-left: 4rem;
+      }
+    }
+
+    .segment {
+      border-left: .25rem solid mui-color('green');
+      .code {
+        background-color: mui-color('github', 'authored-code-background');
+        padding-left: 1rem;
+      }
+      .line-number {
+        color: mui-color('grey');
+        float: left;
+        // Not allowing user to select text
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+        width: 2rem;
+        // overwrite all hljs colours
+        [class^='hljs'] {
+          color: mui-color('grey');
+        }
+      }
+      .line-content {
+        padding-left: 2rem;
+        word-break: break-word;
+      }
+      &.untouched {
+        $grey: mui-color('grey', '400');
+        border-left: .25rem solid $grey;
+        height: 20px; /* height of a single line of code */
+        position: relative;
+        &.active {
+          height: auto;
+          .code {
+            background-color: mui-color('white');
+          }
+        }
+        .closer {
+          cursor: pointer;
+          // custom margin for position of toggle icon
+          margin: .2rem 0 0 -.45rem;
+          position: absolute;
+          &.bottom {
+            //custom margin for position of toggle icon at the bottom of segment
+            margin: -1.05rem 0 0 -.45rem;
+          }
+          .icon {
+            background-color: mui-color('white');
+            color: mui-color('grey');
+            width: .75em;
+          }
+        }
       }
     }
   }

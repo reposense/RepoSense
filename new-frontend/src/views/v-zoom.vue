@@ -134,23 +134,35 @@ import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import vRamp from '../components/v-ramp.vue';
 
+function zoomInitialState() {
+  return {
+    showAllCommitMessageBody: true,
+    commitsSortType: 'time',
+    toReverseSortedCommits: true,
+    isCommitsFinalized: false,
+    selectedFileTypes: [],
+    fileTypes: [],
+  };
+}
 
 export default {
   name: 'v-zoom',
-  props: ['info'],
+  components: {
+    FontAwesomeIcon,
+    vRamp,
+  },
   data() {
     return {
-      showAllCommitMessageBody: true,
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
-      commitsSortType: 'time',
-      toReverseSortedCommits: true,
-      isCommitsFinalized: false,
-      selectedFileTypes: [],
-      fileTypes: [],
+      ...zoomInitialState(),
     };
   },
 
   computed: {
+    zoomOwnerWatchable() {
+      return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${this.info.zTimeFrame}`;
+    },
+
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === 'time'
         ? (commit) => commit.date
@@ -215,10 +227,23 @@ export default {
         this.updateSelectedFileTypesHash();
       },
     },
-    ...mapState(['fileTypeColors']),
+    ...mapState({
+      fileTypeColors: 'fileTypeColors',
+      info: 'tabZoomInfo',
+    }),
   },
 
   watch: {
+    zoomOwnerWatchable() {
+      const newData = {
+        expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+        ...zoomInitialState(),
+      };
+      Object.assign(this.$data, newData);
+      this.initiate();
+      this.setInfoHash();
+    },
+
     selectedFileTypes() {
       this.$nextTick(() => {
         this.updateExpandedCommitMessagesCount();
@@ -235,8 +260,7 @@ export default {
   },
   created() {
     this.initiate();
-  },
-  mounted() {
+    this.retrieveHashes();
     this.setInfoHash();
   },
   beforeUnmount() {
@@ -250,6 +274,9 @@ export default {
         this.updateFileTypes();
         this.selectedFileTypes = this.fileTypes.slice();
       }
+
+      this.updateFileTypes();
+      this.selectedFileTypes = this.fileTypes.slice();
     },
 
     getFontColor(color) {
@@ -329,7 +356,6 @@ export default {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
         zTimeFrame, zIsMerge, zAuthor, zRepo, zFromRamp, zFilterSearch,
       } = this.info;
-
       addHash('zA', zAuthor);
       addHash('zR', zRepo);
       addHash('zACS', zAvgCommitSize);
@@ -346,7 +372,9 @@ export default {
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
-      const toRename = this.showAllCommitMessageBody ? 'commit-message message-body active' : 'commit-message message-body';
+      const toRename = this.showAllCommitMessageBody
+        ? 'commit-message message-body active'
+        : 'commit-message message-body';
 
       const commitMessageClasses = document.getElementsByClassName('commit-message message-body');
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {
@@ -380,10 +408,6 @@ export default {
     filterSelectedFileTypes(fileTypes) {
       return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
     },
-  },
-  components: {
-    FontAwesomeIcon,
-    vRamp,
   },
 };
 

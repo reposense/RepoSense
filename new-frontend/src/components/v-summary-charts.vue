@@ -1,7 +1,11 @@
 <template lang="pug">
 #summary-charts
   .summary-charts(v-for="(repo, i) in filteredRepos")
-    .summary-charts__title(v-if="filterGroupSelection !== 'groupByNone'")
+    .summary-charts__title(
+      v-if="filterGroupSelection !== 'groupByNone'",
+      v-bind:class="{ 'active-background': \
+        isSelectedGroup(repo[0].name, repo[0].repoName, isGroupMerged(getGroupName(repo))) }"
+    )
       .summary-charts__title--index {{ i+1 }}
       .summary-charts__title--groupname
         template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
@@ -53,15 +57,20 @@
           v-on:click="openTabAuthorship(repo[0], repo, 0, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button(icon="code")
+            font-awesome-icon.icon-button(
+              icon="code",
+              v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true) }"
+            )
             span.tooltip-text Click to view group's code
         a(
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate,\
-            isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button(icon="list-ul")
+            font-awesome-icon.icon-button(
+              icon="list-ul",
+              v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
+            )
             span.tooltip-text Click to view breakdown of commits
       .summary-charts__title--percentile {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
@@ -76,12 +85,18 @@
           )
           span &nbsp; {{ fileType }} &nbsp;
     .summary-chart(v-for="(user, j) in repo")
-      .summary-chart__title(v-if="!isGroupMerged(getGroupName(repo))")
+      .summary-chart__title(
+        v-if="!isGroupMerged(getGroupName(repo))",
+        v-bind:class="{ 'active-background': user.name === activeUser\
+          && user.repoName === activeRepo }"
+      )
         .summary-chart__title--index {{ j+1 }}
-        .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'")
-          |{{ user.repoName }}
-        .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'")
-            |{{ user.repoName }}
+        .summary-chart__title--repo(
+          v-if="filterGroupSelection === 'groupByNone'"
+        ) {{ user.repoName }}
+        .summary-chart__title--author-repo(
+          v-if="filterGroupSelection === 'groupByAuthors'"
+        ) {{ user.repoName }}
         .summary-chart__title--name(
           v-if="filterGroupSelection !== 'groupByAuthors'",
           v-bind:class="{ warn: user.name === '-' }"
@@ -106,15 +121,23 @@
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button(icon="code")
-            span.tooltip-text Click to view author's contribution
+            font-awesome-icon.icon-button(
+              icon="code",
+              v-bind:class="{ 'active-icon': isSelectedTab(user.name,\
+                user.repoName, 'authorship', false) }"
+            )
+            span.tooltip-text Click to view author's contribution.
         a(
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate,\
             isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
-            font-awesome-icon.icon-button(icon="list-ul")
+            font-awesome-icon.icon-button(
+              icon="list-ul",
+              v-bind:class="{ 'active-icon': isSelectedTab(user.name,\
+                user.repoName, 'zoom', false) }"
+            )
             span.tooltip-text Click to view breakdown of commits
         .summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone'"
@@ -145,8 +168,7 @@
                 'background-color': fileTypeColors[fileType] }",
               v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
                 + 'total: ' + user.checkedFileTypeContribution + ' lines '\
-                + '(contribution from ' + minDate + ' to '\
-                + maxDate + ')'"
+                + '(contribution from ' + minDate + ' to ' + maxDate + ')'"
             )
         template(v-else)
           .summary-chart__contrib(
@@ -166,12 +188,19 @@ import vRamp from './v-ramp.vue';
 
 export default {
   name: 'v-summary-charts',
+  components: {
+    vRamp,
+  },
   props: ['checkedFileTypes', 'filtered', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
       'minDate', 'maxDate', 'filterSearch'],
   data() {
     return {
       drags: [],
+      activeRepo: null,
+      activeUser: null,
+      activeTabType: null,
+      isTabOnMergedGroup: false,
     };
   },
   computed: {
@@ -196,6 +225,9 @@ export default {
     },
 
     ...mapState(['mergedGroups', 'fileTypeColors']),
+  },
+  created() {
+    this.retrieveSelectedTabHash();
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
@@ -281,7 +313,7 @@ export default {
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
         return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
       }
-
+      this.removeSelectedTab();
       return repo.location;
     },
 
@@ -302,11 +334,11 @@ export default {
         location: this.getRepoLink(repo[index]),
         repoIndex: index,
       };
-
+      this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
-    openTabZoomSubrange(user, evt, isMerge) {
+    openTabZoomSubrange(user, evt, isMerged) {
       const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
 
       if (isKeyPressed) {
@@ -324,11 +356,11 @@ export default {
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
         this.drags = [];
-        this.openTabZoom(user, tsince, tuntil, isMerge);
+        this.openTabZoom(user, tsince, tuntil, isMerged);
       }
     },
 
-    openTabZoom(user, since, until, isMerge) {
+    openTabZoom(user, since, until, isMerged) {
       const {
         avgCommitSize, filterGroupSelection, filterTimeFrame, filterSearch,
       } = this;
@@ -343,11 +375,12 @@ export default {
         zLocation: this.getRepoLink(user),
         zSince: since,
         zUntil: until,
-        zIsMerge: isMerge,
+        zIsMerged: isMerged,
         zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
         zFilterSearch: filterSearch,
       };
+      this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
     },
 
@@ -415,9 +448,88 @@ export default {
       const info = this.mergedGroups.filter((x) => x !== groupName);
       this.$store.commit('updateMergedGroup', info);
     },
-  },
-  components: {
-    vRamp,
+
+    retrieveSelectedTabHash() {
+      const hash = window.hashParams;
+
+      if (hash.tabAuthor) {
+        this.activeUser = hash.tabAuthor;
+      } else if (hash.zA) {
+        this.activeUser = hash.zA;
+      }
+
+      if (hash.tabRepo) {
+        this.activeRepo = hash.tabRepo;
+      } else if (hash.zR) {
+        this.activeRepo = hash.zR;
+      }
+
+      if (hash.isTabOnMergedGroup) {
+        if (this.filterGroupSelection === 'groupByAuthors') {
+          this.activeRepo = null;
+        } else if (this.filterGroupSelection === 'groupByRepos') {
+          this.activeUser = null;
+        }
+        this.isTabOnMergedGroup = true;
+      }
+
+      if (hash.tabType) {
+        this.activeTabType = hash.tabType;
+      }
+    },
+
+    addSelectedTab(userName, repo, tabType, isMerged) {
+      if (!isMerged || this.filterGroupSelection === 'groupByAuthors') {
+        this.activeUser = userName;
+      } else {
+        this.activeUser = null;
+      }
+
+      if (isMerged && this.filterGroupSelection === 'groupByAuthors') {
+        this.activeRepo = null;
+      } else {
+        this.activeRepo = repo;
+      }
+
+      if (isMerged) {
+        window.addHash('isTabOnMergedGroup', 'true');
+        this.isTabOnMergedGroup = true;
+      } else {
+        window.removeHash('isTabOnMergedGroup');
+        this.isTabOnMergedGroup = false;
+      }
+
+      this.activeTabType = tabType;
+      window.encodeHash();
+    },
+
+    removeSelectedTab() {
+      this.activeUser = null;
+      this.activeRepo = null;
+      this.activeTabType = null;
+
+      window.removeHash('isTabOnMergedGroup');
+      window.encodeHash();
+    },
+
+    isSelectedTab(userName, repo, tabType, isMerged) {
+      if (!isMerged) {
+        return this.activeUser === userName && this.activeRepo === repo
+            && this.activeTabType === tabType;
+      }
+
+      if (this.filterGroupSelection === 'groupByAuthors') {
+        return this.activeUser === userName && this.activeTabType === tabType;
+      }
+
+      return this.activeRepo === repo && this.activeTabType === tabType;
+    },
+
+    isSelectedGroup(userName, repo, isMerged) {
+      return (this.isTabOnMergedGroup || isMerged)
+          && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
+          || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
+    },
   },
 };
 </script>

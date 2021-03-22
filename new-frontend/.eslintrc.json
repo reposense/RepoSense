@@ -23,6 +23,7 @@
         // "sort-imports": ["error", { "ignoreDeclarationSort": true }],
         "func-names": ["error", "as-needed"],
         "no-alert": 0,
-        "linebreak-style": 0
+        "linebreak-style": 0,
+        "max-len": ["error", { "code": 120 }]
     }
 }

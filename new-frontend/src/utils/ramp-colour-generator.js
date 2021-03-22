@@ -50,7 +50,8 @@ function deltaE(rgbA, rgbB) {
 }
 
 function hasSimilarExistingColors(existingColors, newHex) {
-  const deltaEThreshold = 11; // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
+  const deltaEThreshold = 11;
+  // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
   return existingColors.some((existingHex) => {
     const existingRGB = window.getHexToRGB(existingHex);
     const newRGB = window.getHexToRGB(newHex);

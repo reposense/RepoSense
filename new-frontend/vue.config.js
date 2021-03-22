@@ -18,6 +18,5 @@ module.exports = {
         .use('pug-plain-loader')
         .loader('pug-plain-loader')
         .end();
-    config.optimization.minimize(false);
   },
 };
