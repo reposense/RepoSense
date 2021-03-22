@@ -33,8 +33,8 @@
   .zoom__title
     .zoom__title--granularity granularity: one ramp per {{ info.zTimeFrame }}
     .zoom__title--tags
-      template(v-for="commit in filteredUser.commits", vbind:key="commit.date")
-        template(v-for="commitResult in commit.commitResults", vbind:key="commitResult.hash")
+      template(v-for="commit in filteredUser.commits")
+        template(v-for="commitResult in commit.commitResults")
           template(v-if="commitResult.tags")
             .tag(
               v-for="tag in commitResult.tags",
@@ -72,16 +72,17 @@
       label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked", value="all")
         span All&nbsp;
-      template(v-for="fileType in fileTypes", v-bind:key="fileType")
-        label(
-          v-bind:style="{\
-                  'background-color': fileTypeColors[fileType],\
-                  'color': getFontColor(fileTypeColors[fileType])\
-                  }"
-        )
-          input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
-            v-on:change="updateSelectedFileTypesHash", v-model="selectedFileTypes")
-          span {{ fileType }} &nbsp;
+      label(
+        v-for="fileType in fileTypes",
+        v-bind:key="fileType",
+        v-bind:style="{\
+                'background-color': fileTypeColors[fileType],\
+                'color': getFontColor(fileTypeColors[fileType])\
+                }"
+      )
+        input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
+          v-on:change="updateSelectedFileTypesHash", v-model="selectedFileTypes")
+        span {{ fileType }} &nbsp;
 
   .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
@@ -107,8 +108,12 @@
           'color': getFontColor(fileTypeColors[fileType])\
           }"
       ) {{ fileType }}
-      template(v-if="slice.tags", v-for="tag in slice.tags", vbind:key="tag")
-        .tag(tabindex="-1", v-bind:class="[`${slice.hash}`, tag]")
+      template(v-if="slice.tags")
+        .tag(
+          v-for="tag in slice.tags",
+          vbind:key="tag",
+          tabindex="-1", v-bind:class="[`${slice.hash}`, tag]"
+        )
           font-awesome-icon(icon="tags")
           span &nbsp;{{ tag }}
       a(

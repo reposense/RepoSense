@@ -1,9 +1,10 @@
 <template lang="pug">
 .ramp
   template(v-if="tframe === 'commit'")
-    template(v-for="(slice, j) in user.commits", vbind:key="slice.commitResults[0].hash")
-      template(v-for="(commit, k) in slice.commitResults", vbind:key="commit.hash")
+    template(v-for="(slice, j) in user.commits")
+      template(v-for="(commit, k) in slice.commitResults")
         a.ramp__slice(
+          vbind:key="commit.hash",
           draggable="false",
           v-on:click="rampClick",
           v-if="commit.insertions>0",
@@ -19,7 +20,7 @@
         )
 
   template(v-else)
-    template(v-for="(slice, j) in user.commits", vbind:key="slice.commitResults[0].hash")
+    template(v-for="(slice, j) in user.commits")
       a.ramp__slice(
         draggable="false",
         v-if="slice.insertions > 0",

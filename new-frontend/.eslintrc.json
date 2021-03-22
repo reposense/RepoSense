@@ -5,7 +5,7 @@
     "extends": [
         "airbnb-base",
         // "plugin:vue/base"
-        "plugin:vue/vue3-recommended"
+        "plugin:vue/recommended"
     ],
     "rules": {
         "vue/component-definition-name-casing": ["error", "kebab-case"],
@@ -20,7 +20,7 @@
             ]
         }],
         "prefer-destructuring": 0,
-        "sort-imports": ["error", { "ignoreDeclarationSort": true }],
+        // "sort-imports": ["error", { "ignoreDeclarationSort": true }],
         "func-names": ["error", "as-needed"],
         "no-alert": 0,
         "linebreak-style": 0

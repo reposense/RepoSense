@@ -67,8 +67,9 @@
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
               span ({{ totalLineCount - totalBlankLineCount }})&nbsp;
-          template(v-for="fileType in Object.keys(fileTypeLinesObj)", v-bind:key="fileType")
+          template(v-for="fileType in Object.keys(fileTypeLinesObj)")
             label(
+              v-bind:key="fileType",
               v-bind:style="{\
                 'background-color': fileTypeColors[fileType],\
                 'color': getFontColor(fileTypeColors[fileType])\
@@ -83,8 +84,8 @@
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
-    template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
-      .file
+    template(v-for="(file, i) in selectedFiles")
+      .file(v-bind:key="file.path")
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)")
             .tooltip
@@ -114,8 +115,12 @@
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}
             |&nbsp;({{ file.lineCount - file.blankLineCount }})
         pre.hljs.file-content(v-if="file.wasCodeLoaded", v-show="file.active")
-          template(v-for="segment in file.segments", v-bind:key="segment.lineNumbers[0]")
-            v-segment(v-bind:segment="segment", v-bind:path="file.path")
+          template(v-for="segment in file.segments")
+            v-segment(
+              v-bind:key="segment.lineNumbers[0]",
+              v-bind:segment="segment",
+              v-bind:path="file.path"
+            )
 </template>
 
 <script>

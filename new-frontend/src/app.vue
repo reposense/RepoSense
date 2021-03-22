@@ -92,7 +92,7 @@
 
 <script>
 import JSZip from 'jszip';
-import LoadingOverlay from 'vue3-loading-overlay';
+import LoadingOverlay from 'vue-loading-overlay';
 import { mapState } from 'vuex';
 
 import vResizer from './components/v-resizer.vue';
@@ -104,7 +104,7 @@ import vAuthorship from './views/v-authorship.vue';
 const loadingResourcesMessage = 'Loading resources...';
 
 export default {
-  el: '#app',
+  name: 'app',
   data() {
     return {
       repos: {},
