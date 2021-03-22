@@ -3,6 +3,7 @@
 window.vZoomCommit = {
   props: [
       'defaultExpansionState',
+      'defaultExpansionStateSignal',
       'slice',
       'selectedFileTypes',
   ],
@@ -37,12 +38,8 @@ window.vZoomCommit = {
   },
 
   watch: {
-    defaultExpansionState() {
-      // 1 means all expanded, 0 means all collapsed, -1 means inconsistent
-      if (this.defaultExpansionState === -1) {
-        return;
-      }
-      if (this.isExpanded !== (this.defaultExpansionState === 1)) {
+    defaultExpansionStateSignal() {
+      if (this.isExpanded !== this.defaultExpansionState) {
         this.toggleExpansion();
       }
     },
