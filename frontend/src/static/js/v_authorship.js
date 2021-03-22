@@ -18,7 +18,9 @@ function initialState() {
     fileTypeBlankLinesObj: {},
     filesSortType: 'lineOfCode',
     toReverseSortFiles: true,
+    isBinaryFilesChecked: false,
     searchBarValue: '',
+    authorDisplayName: '',
   };
 }
 
@@ -82,6 +84,10 @@ window.vAuthorship = {
         this.resetSelectedFileTypes();
       }
 
+      if (hash.authorshipIsBinaryFileTypeChecked) {
+        this.isBinaryFilesChecked = hash.authorshipIsBinaryFileTypeChecked === 'true';
+      }
+
       if ('authorshipFilesGlob' in hash) {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
@@ -105,6 +111,7 @@ window.vAuthorship = {
 
     removeAuthorshipHashes() {
       window.removeHash('authorshipFileTypes');
+      window.removeHash('authorshipIsBinaryFileTypeChecked');
       window.removeHash('authorshipFilesGlob');
       window.removeHash('authorshipSortBy');
       window.removeHash('reverseAuthorshipOrder');
@@ -155,7 +162,7 @@ window.vAuthorship = {
         } else {
           const author = repo.users.find((user) => user.name === this.info.author);
           if (author) {
-            this.info.name = author.displayName;
+            this.authorDisplayName = author.displayName;
             this.filesLinesObj = author.fileTypeContribution;
           }
         }
@@ -252,28 +259,36 @@ window.vAuthorship = {
       const res = [];
       const fileTypeBlanksInfoObj = {};
 
-      files.forEach((file) => {
+      files.filter((file) => this.isValidFile(file)).forEach((file) => {
         const contributionMap = file.authorContributionMap;
+
         const lineCnt = this.info.isMergeGroup
             ? this.getContributionFromAllAuthors(contributionMap)
             : contributionMap[this.info.author];
 
-        if (lineCnt) {
-          const out = {};
-          out.path = file.path;
-          out.lineCount = lineCnt;
-          out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
-          out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
-          out.fileType = file.fileType;
+        const out = {};
+        out.path = file.path;
+        out.lineCount = lineCnt;
+        out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD && !file.isBinary;
+        out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
+        out.fileType = file.fileType;
 
+        if (file.isBinary) {
+          out.isBinary = true;
+        } else {
+          out.isBinary = false;
+        }
+
+        if (!file.isBinary) {
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
           out.blankLineCount = segmentInfo.blankLineCount;
 
           this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
               fileTypeBlanksInfoObj);
-          res.push(out);
         }
+
+        res.push(out);
       });
 
       res.sort((a, b) => b.lineCount - a.lineCount);
@@ -287,6 +302,13 @@ window.vAuthorship = {
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.files = res;
       this.updateSelectedFiles(true);
+    },
+
+    isValidFile(file) {
+      return this.info.isMergeGroup
+          ? Object.entries(file.authorContributionMap)
+              .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
+          : this.info.author in file.authorContributionMap;
     },
 
     getContributionFromAllAuthors(contributionMap) {
@@ -308,6 +330,7 @@ window.vAuthorship = {
 
       window.addHash('authorshipFilesGlob', this.searchBarValue);
       window.removeHash('authorshipFileTypes');
+      window.removeHash('authorshipIsBinaryFileTypeChecked');
       window.encodeHash();
     },
 
@@ -317,6 +340,7 @@ window.vAuthorship = {
           : '';
 
       window.addHash('authorshipFileTypes', fileTypeHash);
+      window.addHash('authorshipIsBinaryFileTypeChecked', this.isBinaryFilesChecked);
       window.removeHash('authorshipFilesGlob');
       window.encodeHash();
     },
@@ -325,7 +349,8 @@ window.vAuthorship = {
       this.$store.commit('incrementLoadingOverlayCount', 1);
       setTimeout(() => {
         this.selectedFiles = this.files.filter(
-            (file) => this.selectedFileTypes.includes(file.fileType)
+            (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary)
+            || (file.isBinary && this.isBinaryFilesChecked))
             && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
         )
             .sort(this.sortingFunction);
@@ -338,6 +363,7 @@ window.vAuthorship = {
 
     indicateSearchBar() {
       this.selectedFileTypes = this.fileTypes.slice();
+      this.isBinaryFilesChecked = true;
       this.filterType = 'search';
     },
 
@@ -391,6 +417,22 @@ window.vAuthorship = {
       },
     },
 
+    isBinaryChecked: {
+      get() {
+        return this.isBinaryFilesChecked;
+      },
+      set(value) {
+        if (value) {
+          this.isBinaryFilesChecked = true;
+        } else {
+          this.isBinaryFilesChecked = false;
+        }
+
+        this.updateSelectedFiles();
+        this.indicateCheckBoxes();
+      },
+    },
+
     activeFilesCount() {
       return this.selectedFiles.filter((file) => file.active).length;
     },
@@ -411,6 +453,10 @@ window.vAuthorship = {
             numLinesModified[langType] = value;
           });
       return numLinesModified;
+    },
+
+    binaryFilesCount() {
+      return this.files.filter((file) => file.isBinary).length;
     },
 
     ...Vuex.mapState({
