@@ -54,7 +54,7 @@ window.vAuthorship = {
       this.updateSelectedFiles();
     },
 
-    authorshipOwnerWatchable() {
+    info() {
       Object.assign(this.$data, initialState());
       this.initiate();
     },
@@ -393,10 +393,6 @@ window.vAuthorship = {
   },
 
   computed: {
-    authorshipOwnerWatchable() {
-      return `${this.info.author}|${this.info.repo}|${this.info.isMergeGroup}`;
-    },
-
     sortingFunction() {
       return (a, b) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
