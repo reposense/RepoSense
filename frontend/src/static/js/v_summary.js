@@ -72,6 +72,7 @@ window.vSummary = {
         } else {
           this.checkedFileTypes = [];
         }
+        this.synchronizeCheckedFileTypes();
       },
     },
 
@@ -285,7 +286,7 @@ window.vSummary = {
       this.getDates();
       window.deactivateAllOverlays();
 
-      this.updateCheckedBreakDownFileTypesInZoomTab();
+      //this.updateCheckedBreakDownFileTypes();
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
       // Use setTimeout() to force this.filtered to update only after loading screen is displayed.
@@ -652,12 +653,13 @@ window.vSummary = {
       ele.checkedFileTypeContribution = validCommits;
     },
 
-    updateCheckedBreakDownFileTypesInZoomTab() {
+    synchronizeCheckedFileTypes() {
       const hash = window.hashParams;
       if (this.filterBreakdown && hash.tabOpen && hash.tabType === 'zoom') {
         const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
         this.restoreZoomFiltered(zoomInfo);
       }
+      this.getFiltered();
     },
 
     restoreZoomFiltered(info) {

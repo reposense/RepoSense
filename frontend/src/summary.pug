@@ -108,7 +108,7 @@
             v-bind:id="fileType",
             v-bind:value="fileType",
             v-model="checkedFileTypes",
-            v-on:change="getFiltered"
+            v-on:change="synchronizeCheckedFileTypes"
           )
           span {{ fileType }}
   v-summary-charts(
