@@ -2,8 +2,8 @@
 
 function initialState() {
   return {
-    showAllCommitMessageBody: true,
-    // expandedCommitMessagesCount: 0,
+    showAllCommitMessageBody: 1,
+    // 1 means all expanded, 0 means all collapsed, -1 means inconsistent
     commitsSortType: 'time',
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
@@ -16,7 +16,6 @@ window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
     return {
-      defaultExpansionStateSignal: false,
       expandedCommitMessagesCount: 0,
       ...initialState(),
     };
@@ -111,6 +110,9 @@ window.vZoom = {
     toReverseSortedCommits() {
       window.addHash('zRSC', this.toReverseSortedCommits);
       window.encodeHash();
+    },
+    expandedCommitMessagesCount() {
+      this.showAllCommitMessageBody = -1;
     },
   },
 
@@ -207,8 +209,7 @@ window.vZoom = {
     },
 
     toggleAllCommitMessagesBody(isActive) {
-      this.showAllCommitMessageBody = isActive;
-      this.defaultExpansionStateSignal = !this.defaultExpansionStateSignal;
+      this.showAllCommitMessageBody = isActive ? 1 : 0;
     },
 
     removeZoomHashes() {
