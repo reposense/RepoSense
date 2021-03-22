@@ -18,4 +18,9 @@ Here is a quick overview of how to get started.
 1. **Learn our workflow** (see [the _Workflow_ page](workflow.html))
 1. **Submit PRs** as per the workflow. If you encounter any problems, post in [our issue tracker](https://github.com/reposense/RepoSense/issues).
 
+<box type="info" seamless>
+
+To gain a more solid understanding of the project implementation and workflow, you may want to start by working on pull requests on [issues for first timers](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers). 
+</box>
+
 We look forward to your PR. Happy coding!
