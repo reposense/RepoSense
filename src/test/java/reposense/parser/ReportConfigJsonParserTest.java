@@ -59,14 +59,14 @@ public class ReportConfigJsonParserTest {
     @Test
     public void reportConfig_parseValidSinceDateJsonFile_getCustomStartDate() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigJsonParser().parse(VALID_SINCE_DATE_REPORT_CONFIG);
-        Optional<Date> expectedDate = Optional.of(TestUtil.getSinceDate(2019, Calendar.MAY, 20));
+        Optional<Date> expectedDate = Optional.of(TestUtil.getLocalSinceDate(2019, Calendar.MAY, 20));
         Assert.assertEquals(expectedDate, reportConfig.getSinceDate());
     }
 
     @Test
     public void reportConfig_parseValidUntilDateJsonFile_getCustomEndDate() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigJsonParser().parse(VALID_UNTIL_DATE_REPORT_CONFIG);
-        Optional<Date> expectedDate = Optional.of(TestUtil.getUntilDate(2020, Calendar.JULY, 9));
+        Optional<Date> expectedDate = Optional.of(TestUtil.getLocalUntilDate(2020, Calendar.JULY, 9));
         Assert.assertEquals(expectedDate, reportConfig.getUntilDate());
     }
 

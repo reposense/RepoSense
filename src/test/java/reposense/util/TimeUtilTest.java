@@ -26,7 +26,7 @@ public class TimeUtilTest {
     @Test
     public void parseDate_validDateAndTime_success() throws Exception {
         String originalDateAndTime = "20/05/2020 00:00:00";
-        Date expectedDate = TestUtil.getSinceDate(2020, Calendar.MAY, 20);
+        Date expectedDate = TestUtil.getLocalSinceDate(2020, Calendar.MAY, 20);
         Date actualDate = TimeUtil.parseDate(originalDateAndTime);
         Assert.assertEquals(expectedDate, actualDate);
     }
