@@ -112,16 +112,3 @@ To run all the system tests, run `gradlew systemtest`.
 
 To run all the unit and integration tests, run `gradlew test`.
 
-<!-- ==================================================================================================== -->
-
-## Writing documentation
-
-**This project uses [MarkBind](https://markbind.org/)** for documentation. Follow [this tutorial](https://se-education.org/guides/tutorials/markbind.html) to learn how to use MarkBind for updating project documentation.
-
-**To show some content only in the <tooltip content="i.e., https://reposense.org">production website</tooltip>**, add the `tags="production"` attribute to the HTML element enclosing the content. Similarly, `tags="dev"` will make the content appear only in the <tooltip content="i.e., https://reposense.org/RepoSense">dev website</tooltip>.
-
-```html
-<span tags="production">This will appear in the production website only.</span>
-<span tags="dev">This will appear in the dev website only.</span>
-This will appear in both sites.
-```
