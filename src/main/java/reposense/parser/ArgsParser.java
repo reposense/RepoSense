@@ -1,17 +1,17 @@
 package reposense.parser;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import com.google.gson.JsonSyntaxException;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
@@ -27,8 +27,10 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.FileType;
 import reposense.model.LocationsCliArguments;
+import reposense.model.ReportConfiguration;
 import reposense.model.ViewCliArguments;
 import reposense.system.LogsManager;
+import reposense.util.TimeUtil;
 
 /**
  * Verifies and parses a string-formatted date to a {@code CliArguments} object.
@@ -57,14 +59,21 @@ public class ArgsParser {
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
-    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
-            "\"Since Date\" cannot be later than \"Until Date\".";
-    private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
-            "\"Since Date\" must not be later than today's date.";
     private static final String MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
             "\"Since Date\", \"Until Date\", and \"Period\" cannot be applied together.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
+    private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
+    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
+    private static final String MESSAGE_IGNORING_REPORT_CONFIG_SINCE_DATE =
+            "Ignoring \"Since Date\" in report config, it has already been provided as a command line argument.";
+    private static final String MESSAGE_IGNORING_REPORT_CONFIG_UNTIL_DATE =
+            "Ignoring \"Until Date\" in report config, it has already been provided as a command line argument.";
+    private static final String MESSAGE_IGNORING_REPORT_CONFIG_PERIOD =
+            "Ignoring \"Period\" in report config, it has already been provided as a command line argument.";
+    private static final String MESSAGE_IGNORING_REPORT_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
+            "Ignoring \"Since Date\", \"Until Date\" and/or \"Period\" in report config as they cannot be applied "
+                    + "together.";
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
@@ -194,10 +203,14 @@ public class ArgsParser {
      */
     public static CliArguments parse(String[] args) throws HelpScreenException, ParseException {
         try {
+            ReportConfiguration reportConfig = new ReportConfiguration();
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
             Date sinceDate;
             Date untilDate;
+            Optional<Date> tempSinceDate = Optional.empty();
+            Optional<Date> tempUntilDate = Optional.empty();
+            Optional<Integer> tempPeriod = Optional.empty();
 
             Path configFolderPath = results.get(CONFIG_FLAGS[0]);
             Path reportFolderPath = results.get(VIEW_FLAGS[0]);
@@ -206,44 +219,98 @@ public class ArgsParser {
             Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
             Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
-            boolean isSinceDateProvided = cliSinceDate.isPresent();
-            boolean isUntilDateProvided = cliUntilDate.isPresent();
             Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
-            boolean isPeriodProvided = cliPeriod.isPresent();
-            if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
+            List<String> locations = results.get(REPO_FLAGS[0]);
+            List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
+            boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
+            boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
+
+            // Report config is ignored if --repos is provided
+            if (locations == null) {
+                Path reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+
+                try {
+                    reportConfig = new ReportConfigJsonParser().parse(reportConfigFilePath);
+                } catch (JsonSyntaxException jse) {
+                    logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
+                } catch (IllegalArgumentException iae) {
+                    logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
+                } catch (IOException ioe) {
+                    // IOException thrown as report-config.json is not found.
+                    // Ignore exception as the file is optional.
+                }
+            }
+
+            // CLI arguments are treated with the highest priority and will throw an Exception if a conflict occurs
+            if (cliSinceDate.isPresent() && cliUntilDate.isPresent() && cliPeriod.isPresent()) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
 
-            Date currentDate = getCurrentDate(zoneId);
+            boolean isSinceDateProvided = cliSinceDate.isPresent() || reportConfig.getSinceDate().isPresent();
+            boolean isUntilDateProvided = cliUntilDate.isPresent() || reportConfig.getUntilDate().isPresent();
+            boolean isPeriodProvided = cliPeriod.isPresent() || reportConfig.getPeriod().isPresent();
+
+            // Report config is treated with less priority and will be ignored if there is a conflict
+            if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
+                logger.warning(MESSAGE_IGNORING_REPORT_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
+                reportConfig.ignoreSinceUntilDateAndPeriod();
+                isSinceDateProvided = cliSinceDate.isPresent();
+                isUntilDateProvided = cliUntilDate.isPresent();
+                isPeriodProvided = cliPeriod.isPresent();
+            }
+            if (cliSinceDate.isPresent() && reportConfig.getSinceDate().isPresent()) {
+                logger.warning(MESSAGE_IGNORING_REPORT_CONFIG_SINCE_DATE);
+            }
+            if (cliUntilDate.isPresent() && reportConfig.getUntilDate().isPresent()) {
+                logger.warning(MESSAGE_IGNORING_REPORT_CONFIG_UNTIL_DATE);
+            }
+            if (cliPeriod.isPresent() && reportConfig.getPeriod().isPresent()) {
+                logger.warning(MESSAGE_IGNORING_REPORT_CONFIG_PERIOD);
+            }
+
+            // Set the values to those provided by the CLI arguments first, otherwise take from report config
+            if (cliPeriod.isPresent()) {
+                tempPeriod = cliPeriod;
+            } else if (reportConfig.getPeriod().isPresent()) {
+                tempPeriod = reportConfig.getPeriod();
+            }
+            if (cliSinceDate.isPresent()) {
+                tempSinceDate = cliSinceDate;
+            } else if (reportConfig.getSinceDate().isPresent()) {
+                tempSinceDate = reportConfig.getSinceDate();
+            }
+            if (cliUntilDate.isPresent()) {
+                tempUntilDate = cliUntilDate;
+            } else if (reportConfig.getUntilDate().isPresent()) {
+                tempUntilDate = reportConfig.getUntilDate();
+            }
+
+            Date currentDate = TimeUtil.getCurrentDate(zoneId);
 
             if (isSinceDateProvided) {
-                sinceDate = getZonedSinceDate(cliSinceDate.get(), zoneId);
+                sinceDate = TimeUtil.getZonedSinceDate(tempSinceDate.get(), zoneId);
             } else {
                 sinceDate = isPeriodProvided
-                        ? getDateMinusNDays(cliUntilDate, zoneId, cliPeriod.get())
-                        : getDateMinusAMonth(cliUntilDate, zoneId);
+                        ? TimeUtil.getDateMinusNDays(tempUntilDate, zoneId, tempPeriod.get())
+                        : TimeUtil.getDateMinusAMonth(tempUntilDate, zoneId);
             }
 
             if (isUntilDateProvided) {
-                untilDate = getZonedUntilDate(cliUntilDate.get(), zoneId);
+                untilDate = TimeUtil.getZonedUntilDate(tempUntilDate.get(), zoneId);
             } else {
                 untilDate = (isSinceDateProvided && isPeriodProvided)
-                        ? getDatePlusNDays(cliSinceDate, zoneId, cliPeriod.get())
+                        ? TimeUtil.getDatePlusNDays(tempSinceDate, zoneId, tempPeriod.get())
                         : currentDate;
             }
 
             untilDate = untilDate.compareTo(currentDate) < 0
                     ? untilDate
                     : currentDate;
-            List<String> locations = results.get(REPO_FLAGS[0]);
-            List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
-            boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
-            boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
-            verifySinceDateIsValid(sinceDate);
-            verifyDatesRangeIsCorrect(sinceDate, untilDate);
+            TimeUtil.verifySinceDateIsValid(sinceDate);
+            TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)
                     && configFolderPath.equals(DEFAULT_CONFIG_PATH) && locations == null) {
@@ -267,131 +334,11 @@ public class ArgsParser {
             }
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
-                    isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                    isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId, reportConfig);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
-    }
-
-    /**
-     * Returns a {@code Date} that is set to midnight for the given {@code zoneId}.
-     */
-    private static Date getZonedSinceDate(Date sinceDate, ZoneId zoneId) {
-        if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {
-            return sinceDate;
-        }
-
-        int zoneRawOffset = getZoneRawOffset(zoneId);
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
-
-        Calendar cal = new Calendar
-                .Builder()
-                .setInstant(sinceDate.getTime())
-                .build();
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
-        return cal.getTime();
-    }
-
-    /**
-     * Returns a {@code Date} that is set to 23:59:59 for the given {@code zoneId}.
-     */
-    private static Date getZonedUntilDate(Date untilDate, ZoneId zoneId) {
-        int zoneRawOffset = getZoneRawOffset(zoneId);
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
-
-        Calendar cal = new Calendar
-                .Builder()
-                .setInstant(untilDate.getTime())
-                .build();
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
-        return cal.getTime();
-    }
-
-    /**
-     * Returns a {@code Date} that is one month before {@code cliUntilDate} (if present) or one month before report
-     * generation date otherwise. The time zone is adjusted to the given {@code zoneId}.
-     */
-    private static Date getDateMinusAMonth(Optional<Date> cliUntilDate, ZoneId zoneId) {
-        Calendar cal = Calendar.getInstance();
-        cliUntilDate.ifPresent(cal::setTime);
-        cal.setTime(getZonedSinceDate(cal.getTime(), zoneId));
-        cal.add(Calendar.MONTH, -1);
-        return cal.getTime();
-    }
-
-    /**
-     * Returns a {@code Date} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month before
-     * report generation date otherwise. The time zone is adjusted to the given {@code zoneId}.
-     */
-    private static Date getDateMinusNDays(Optional<Date> cliUntilDate, ZoneId zoneId, int numOfDays) {
-        Calendar cal = Calendar.getInstance();
-        cliUntilDate.ifPresent(cal::setTime);
-        cal.setTime(getZonedSinceDate(cal.getTime(), zoneId));
-        cal.add(Calendar.DATE, -numOfDays + 1);
-        return cal.getTime();
-    }
-
-    /**
-     * Returns a {@code Date} that is {@code numOfDays} after {@code cliSinceDate} (if present). The time zone is
-     * adjusted to the given {@code zoneId}.
-     */
-    private static Date getDatePlusNDays(Optional<Date> cliSinceDate, ZoneId zoneId, int numOfDays) {
-        Calendar cal = Calendar.getInstance();
-        cliSinceDate.ifPresent(cal::setTime);
-        cal.setTime(getZonedUntilDate(cal.getTime(), zoneId));
-        cal.add(Calendar.DATE, numOfDays - 1);
-        return cal.getTime();
-    }
-
-    /**
-     * Returns current date with time set to 23:59:59. The time zone is adjusted to the given {@code zoneId}.
-     */
-    private static Date getCurrentDate(ZoneId zoneId) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(getZonedUntilDate(cal.getTime(), zoneId));
-        return cal.getTime();
-    }
-
-    /**
-     * Verifies that {@code sinceDate} is earlier than {@code untilDate}.
-     *
-     * @throws ParseException if {@code sinceDate} supplied is later than {@code untilDate}.
-     */
-    private static void verifyDatesRangeIsCorrect(Date sinceDate, Date untilDate)
-            throws ParseException {
-        if (sinceDate.getTime() > untilDate.getTime()) {
-            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
-        }
-    }
-
-    /**
-     * Verifies that {@code sinceDate} is no later than the date of report generation.
-     *
-     * @throws ParseException if {@code sinceDate} supplied is later than date of report generation.
-     */
-    private static void verifySinceDateIsValid(Date sinceDate) throws ParseException {
-        Date dateToday = new Date();
-        if (sinceDate.getTime() > dateToday.getTime()) {
-            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
-        }
-    }
-
-    /**
-     * Get the raw offset in milliseconds for the {@code zoneId} timezone compared to UTC.
-     */
-    private static int getZoneRawOffset(ZoneId zoneId) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        return zoneOffset.getTotalSeconds() * 1000;
     }
 }
