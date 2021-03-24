@@ -33,6 +33,12 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_overrideKeyword_test.csv");
     private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
+    private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE =
+            loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_duplicateHeadersCaseSensitive_test.csv");
+    private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE =
+            loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_duplicateHeadersCaseInsensitive_test.csv");
     private static final Path REPO_CONFIG_DIFFERENT_COLUMN_ORDER_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_differentColumnOrder_test.csv");
     private static final Path REPO_CONFIG_OPTIONAL_HEADER_MISSING_FILE = loadResource(RepoConfigParserTest.class,
@@ -291,6 +297,20 @@ public class RepoConfigParserTest {
     @Test (expected = InvalidCsvException.class)
     public void repoConfig_zeroValidRecords_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_ZERO_VALID_RECORDS);
+        repoConfigCsvParser.parse();
+    }
+
+    @Test (expected = InvalidCsvException.class)
+    public void repoConfig_duplicateHeadersCaseSensitive_throwsInvalidCsvException() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE);
+        repoConfigCsvParser.parse();
+    }
+
+    @Test (expected = InvalidCsvException.class)
+    public void repoConfig_duplicateHeadersCaseInsensitive_throwsInvalidCsvException() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE);
         repoConfigCsvParser.parse();
     }
 }

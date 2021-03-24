@@ -43,8 +43,7 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
     private static final String MESSAGE_MANDATORY_HEADER_MISSING = "Required column header, %s, not found in "
             + "CSV file, %s";
-    private static final String MESSAGE_DUPLICATE_COLUMN_HEADER = "Column header. %s, appears twice in CSV file, %s. "
-            + "The rightmost occurrence will be used.";
+    private static final String MESSAGE_DUPLICATE_COLUMN_HEADER = "Duplicate columns are present in CSV file, %s.";
     private static final String MESSAGE_COLUMNS_RECOGNIZED = "Parsed header of CSV file, %s, and recognized columns: "
             + "%s";
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
@@ -78,7 +77,13 @@ public abstract class CsvParser<T> {
 
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
             String[] header = getHeader(csvReader);
-            records = CSVFormat.DEFAULT.withIgnoreEmptyLines(false).withHeader(header).parse(csvReader);
+            try {
+                records = CSVFormat.DEFAULT.withIgnoreEmptyLines(false).withHeader(header).withTrim()
+                        .withIgnoreHeaderCase().parse(csvReader);
+            } catch (IllegalArgumentException iae) {
+                throw new InvalidCsvException(
+                        String.format(MESSAGE_DUPLICATE_COLUMN_HEADER, csvFilePath.getFileName()));
+            }
 
             for (CSVRecord record : records) {
                 if (isLineMalformed(record)) {
@@ -231,10 +236,6 @@ public abstract class CsvParser<T> {
             String possible = possibleHeader[i].trim();
             for (String parsedHeader : mandatoryAndOptionalHeaders()) {
                 if (possible.equalsIgnoreCase(parsedHeader)) {
-                    if (headerMap.containsKey(parsedHeader)) {
-                        logger.warning(String.format(
-                                MESSAGE_DUPLICATE_COLUMN_HEADER, parsedHeader, csvFilePath.getFileName()));
-                    }
                     headerMap.put(parsedHeader, i);
                     break;
                 }
