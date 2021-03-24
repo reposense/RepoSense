@@ -41,6 +41,8 @@ Take note of the following when making the release according to the above guide:
   * In the terminal, run `gradlew --version` to check that the JDK version is 1.8.0.
   * Run `gradlew shadowJar`, and the Jar file will be generated at `{buildDir}/jar/`.
   * Check that the Jar file is working. You may need to check that the report can be generated from the Jar file both locally and remotely by following the [Generating Reports Guide](../ug/generatingReports.html). 
+
+After making the release, please also remember to deploy the production website using the [deploy guide](#deploying-the-production-website).
   
 <!-- ==================================================================================================== -->
 
@@ -67,4 +69,4 @@ After each release, do the following steps to deploy the production website:
 1. `cd docs`
 1. `markbind build`
 1. `markbind deploy`
-1. After a few minutes, check https://markbind.org to ensure it has been updated as intended.
+1. After a few minutes, check https://reposense.org to ensure it has been updated as intended.
