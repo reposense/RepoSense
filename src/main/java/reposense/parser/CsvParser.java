@@ -50,7 +50,6 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
 
     private Path csvFilePath;
-    private int headerSize;
     private Map<String, Integer> headerMap = new HashMap();
     private int numOfLinesBeforeFirstRecord = 0;
 
@@ -227,7 +226,7 @@ public abstract class CsvParser<T> {
      * @throws InvalidCsvException if {@code possibleHeader} does not contain all the mandatory headers.
      */
     private void validateHeader(String[] possibleHeader) throws InvalidCsvException {
-        headerSize = possibleHeader.length;
+        int headerSize = possibleHeader.length;
         for (int i = 0; i < headerSize; i++) {
             String possible = possibleHeader[i].trim();
             for (String parsedHeader : mandatoryAndOptionalHeaders()) {
