@@ -71,21 +71,28 @@ This section is for developers who want to contribute to the back-end of RepoSen
 
 The front-end implementation of RepoSense is located in `frontend/src`.
 
-{{ step(1) }} Meet the language requirement
+{{ step(1) }} Learn the necessary tools
 
-{{ step(2) }} Vue, Css, and Pug
+It is necessary for you to learn the basics of `Vue.js`, `pug`, and `scss` before working on the project. 
+
+  {{ embed('Appendix: tools to learn for front-end development', 'tools.md', level=2) }}
 
 {{ step(3) }} Learn the RepoSense front-end architecture
 
-You may want to refer to the [front-end architecture](report.html) to understand the implementation logic.
+* You may want to refer to the [front-end architecture](report.html#report-architecture) to understand the relationship
+* Another way for you to understand the front is to use **Vue.js devtools** to inspect the how the various Vue Components interact with each other. You can refer to the [front-end debugging guide](workflow.html#debugging-front-end) for more information.
 
 {{ step(4) }} Get started with contributing
 
-Here is a small task for you to get started on contributing to RepoSense front-end.
+Here is a small [task](https://github.com/reposense/RepoSense/issues/1268) for you to get started on contributing to RepoSense front-end.
 
-1.
-1.
-1.
+* The general goal is to eliminate the passing of variables that can be shared across different components, and move these variables to the **Vuex store**.
+* You can try to move `minDate`, `maxDate`, and `filterSearch` to **Vuex store**. 
+* When in doubt, you can refer to the pull request [#1319](https://github.com/reposense/RepoSense/pull/1319) and [#1320](https://github.com/reposense/RepoSense/pull/1320).
+
+{{ step(4) }} Familiarize yourself with the workflow
+
+1. The next step is to verify that your changes passes the testing and then submit the pull request. You can refer to [the _Workflow_ page](workflow.html).
 
 <!-- ==================================================================================================== -->
 
