@@ -192,19 +192,30 @@ public class ReportGenerator {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
 
+        // Fixed thread pools are used to limit the number of threads used by cloning and analysis jobs at any one time
         ExecutorService cloneExecutor = Executors.newFixedThreadPool(numCloningThreads);
         ExecutorService analyzeExecutor = Executors.newFixedThreadPool(numAnalysisThreads);
 
+
+        // For each RepoLocation in the list, we use the `CompletableFuture.supplyAsync` method to clone the repos in
+        // parallel. Note that the `cloneExecutor` is passed as a parameter to ensure that the number of threads used
+        // is no more than `numCloningThreads`. Also note that we need to run `collect` since Java streams use lazy
+        // evaluation. The output is a list of CompletableFutures, each holding the output of a clone job.
         List<CompletableFuture<CloneJobOutput>> cloneJobFutures = repoLocationList.stream()
                 .map(location -> CompletableFuture.supplyAsync(() ->
                         cloneRepo(repoLocationMap, location), cloneExecutor))
                 .collect(Collectors.toList());
 
+        // For each CompletableFuture in the list, we use the `thenApplyAsync` method to analyze the cloned repos in
+        // parallel. This ensures that the analysis job for each repo will only be done after it has been cloned.
+        // Note that the `analyzeExecutor` is passed as a parameter to ensure that the number of threads used
+        // is no more than `numAnalysisThreads`.
         List<CompletableFuture<AnalyzeJobOutput>> analyzeJobFutures = cloneJobFutures.stream()
                 .map(cloneFuture -> cloneFuture.thenApplyAsync(cloneJobOutput ->
                         analyzeRepos(outputPath, repoLocationMap, cloneJobOutput), analyzeExecutor))
                 .collect(Collectors.toList());
 
+        // Finally we collect the list of outputs from all the analyze jobs
         List<AnalyzeJobOutput> jobOutputs = analyzeJobFutures.stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
