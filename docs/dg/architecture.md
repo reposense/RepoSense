@@ -65,9 +65,12 @@
 ## ReportGenerator(Main)
 
 [`ReportGenerator`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java)
- 1. uses `GitClone` API to clone the repository from *GitHub*.
- 1. copies the template files into the designated output directory.
- 1. uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary, respectively.
+ 1. clones repositories from *GitHub* using the `GitClone` API, in a multi-threaded fashion.
+    * by default, 4 threads are used for cloning; the number of threads can be specified using the CLI argument `--cloning-threads <threads>`.
+ 1. analyzes the repositories using the `CommitReporter` and `AuthorshipReporter`, in a multi-threaded fashion.
+    * first, copies the template files into the designated output directory. 
+    * then, uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary, respectively.
+    * by default, the number of threads used for analysis is equal to the number of CPU cores available; the number of threads can be specified using the CLI argument `--analysis-threads <threads>`. 
  1. generates the `JSON` files needed to generate the `HTML` report.
 
 <!-- ==================================================================================================== -->
