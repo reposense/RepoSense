@@ -109,7 +109,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 <box type="info" seamless>
 
-* Cannot be used with ``--shallow-cloning`.
+* Cannot be used with `--shallow-cloning`.
 * The last modified dates will be in the same timezone specified with the `--timezone` flag.
 </box>
 
@@ -163,7 +163,7 @@ Cannot be used with `--config`.
 
 <box type="info" seamless>
 
-Cannot be used with ``--last-modified-date`.
+Cannot be used with `--last-modified-date`.
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
