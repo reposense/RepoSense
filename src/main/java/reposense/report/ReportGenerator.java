@@ -196,29 +196,32 @@ public class ReportGenerator {
         ExecutorService cloneExecutor = Executors.newFixedThreadPool(numCloningThreads);
         ExecutorService analyzeExecutor = Executors.newFixedThreadPool(numAnalysisThreads);
 
+        List<CompletableFuture<AnalyzeJobOutput>> analyzeJobFutures = new ArrayList<>();
+        for (RepoLocation location : repoLocationList) {
+            List<RepoConfiguration> configsToAnalyze = repoLocationMap.get(location);
 
-        // For each RepoLocation in the list, we use the `CompletableFuture.supplyAsync` method to clone the repos in
-        // parallel. Note that the `cloneExecutor` is passed as a parameter to ensure that the number of threads used
-        // is no more than `numCloningThreads`. Also note that we need to run `collect` since Java streams use lazy
-        // evaluation. The output is a list of CompletableFutures, each holding the output of a clone job.
-        List<CompletableFuture<CloneJobOutput>> cloneJobFutures = repoLocationList.stream()
-                .map(location -> CompletableFuture.supplyAsync(() ->
-                        cloneRepo(repoLocationMap, location), cloneExecutor))
-                .collect(Collectors.toList());
+            // The `CompletableFuture.supplyAsync` method is used to clone the repo in parallel.
+            // Note that the `cloneExecutor` is passed as a parameter to ensure that the number of threads used
+            // for cloning is no more than `numCloningThreads`.
+            CompletableFuture<CloneJobOutput> cloneFuture = CompletableFuture.supplyAsync(() ->
+                    cloneRepo(configsToAnalyze.get(0), location), cloneExecutor);
 
-        // For each CompletableFuture in the list, we use the `thenApplyAsync` method to analyze the cloned repos in
-        // parallel. This ensures that the analysis job for each repo will only be done after it has been cloned.
-        // Note that the `analyzeExecutor` is passed as a parameter to ensure that the number of threads used
-        // is no more than `numAnalysisThreads`.
-        List<CompletableFuture<AnalyzeJobOutput>> analyzeJobFutures = cloneJobFutures.stream()
-                .map(cloneFuture -> cloneFuture.thenApplyAsync(cloneJobOutput ->
-                        analyzeRepos(outputPath, repoLocationMap, cloneJobOutput), analyzeExecutor))
-                .collect(Collectors.toList());
+            // The `thenApplyAsync` method is used to analyze the cloned repo in parallel.
+            // This ensures that the analysis job for each repo will only be run after the repo has been cloned.
+            // Note that the `analyzeExecutor` is passed as a parameter to ensure that the number of threads used
+            // for analysis is no more than `numAnalysisThreads`.
+            CompletableFuture<AnalyzeJobOutput> analyzeFuture = cloneFuture.thenApplyAsync(
+                    cloneJobOutput -> analyzeRepos(outputPath, configsToAnalyze, cloneJobOutput), analyzeExecutor);
 
-        // Finally we collect the list of outputs from all the analyze jobs
+            analyzeJobFutures.add(analyzeFuture);
+        }
+
+        // Finally, we collect the list of outputs from all the analyze jobs
         List<AnalyzeJobOutput> jobOutputs = analyzeJobFutures.stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
+
+        // Finally, the ExecutorService objects are shut down to prevent memory leaks
         cloneExecutor.shutdown();
         analyzeExecutor.shutdown();
 
@@ -246,15 +249,13 @@ public class ReportGenerator {
     }
 
     /**
-     * Clones repo at {@code locaation}.
+     * Clones repo at {@code location}.
      *
      * @return A {@code CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, and the {@code defaultBranch} of the repo.
      */
-    private static CloneJobOutput cloneRepo(Map<RepoLocation, List<RepoConfiguration>> repoLocationMap,
-            RepoLocation location) {
+    private static CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location) {
         RepoCloner repoCloner = new RepoCloner();
-        RepoConfiguration config = repoLocationMap.get(location).get(0);
         repoCloner.cloneBare(config);
         RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
         if (clonedRepoLocation != null) {
@@ -266,17 +267,15 @@ public class ReportGenerator {
     }
 
     /**
-     * Analyzes all repos in the configs associated with  and generates their report.
+     * Analyzes all repos in {@code configsToAnalyze} and generates their report.
      *
      * @return An {@code AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, the list of {@code filesGenerated} by the analysis and a list of {@code analysisErrors} encountered.
      */
-    private static AnalyzeJobOutput analyzeRepos(String outputPath,
-            Map<RepoLocation, List<RepoConfiguration>> repoLocationMap,
+    private static AnalyzeJobOutput analyzeRepos(String outputPath, List<RepoConfiguration> configsToAnalyze,
             CloneJobOutput cloneJobOutput) {
         RepoLocation location = cloneJobOutput.getLocation();
         boolean cloneSuccessful = cloneJobOutput.isCloneSuccessful();
-        List<RepoConfiguration> configsToAnalyze = repoLocationMap.get(location);
 
         List<Path> generatedFiles = new ArrayList<>();
         List<AnalysisErrorInfo> analysisErrors = new ArrayList<>();
