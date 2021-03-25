@@ -65,7 +65,7 @@
 ## ReportGenerator(Main)
 
 [`ReportGenerator`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java)
- 1. clones repositories from *GitHub* using the `GitClone` API, in a multi-threaded fashion.
+ 1. clones repositories using the `GitClone` API, in a multi-threaded fashion.
     * By default, 4 threads are used for cloning; the number of threads can be specified using the CLI argument `--cloning-threads <threads>`.
  1. analyzes the repositories using the `CommitReporter` and `AuthorshipReporter`, in a multi-threaded fashion.
     * First, copies the template files into the designated output directory. 
