@@ -279,53 +279,55 @@ public class ReportGenerator {
 
         List<Path> generatedFiles = new ArrayList<>();
         List<AnalysisErrorInfo> analysisErrors = new ArrayList<>();
-        if (cloneSuccessful) {
-            Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
-            while (itr.hasNext()) {
-                progressTracker.incrementProgress();
-                RepoConfiguration configToAnalyze = itr.next();
-                configToAnalyze.updateBranch(cloneJobOutput.getDefaultBranch());
+        RepoCloner repoCloner = new RepoCloner();
+        if (!cloneSuccessful) {
+            repoCloner.cleanupRepo(configsToAnalyze.get(0));
+            return new AnalyzeJobOutput(location, cloneSuccessful, generatedFiles, analysisErrors);
+        }
+        Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
+        while (itr.hasNext()) {
+            progressTracker.incrementProgress();
+            RepoConfiguration configToAnalyze = itr.next();
+            configToAnalyze.updateBranch(cloneJobOutput.getDefaultBranch());
 
-                Path repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
-                logger.info(
-                        String.format(progressTracker.getProgress() + " "
-                                + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
-                try {
-                    GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
-                    GitLsTree.validateFilePaths(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
-                    GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
+            Path repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
+            logger.info(
+                    String.format(progressTracker.getProgress() + " "
+                            + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
+            try {
+                GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
+                GitLsTree.validateFilePaths(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
+                GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
 
-                    FileUtil.createDirectory(repoReportDirectory);
-                    generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
-                } catch (IOException ioe) {
-                    String logMessage = String.format(MESSAGE_ERROR_CREATING_DIRECTORY,
-                            configToAnalyze.getLocation(), configToAnalyze.getBranch());
-                    logger.log(Level.WARNING, logMessage, ioe);
-                } catch (GitBranchException gbe) {
-                    logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
-                            configToAnalyze.getBranch(), configToAnalyze.getLocation()), gbe);
-                    analysisErrors.add(new AnalysisErrorInfo(configToAnalyze,
-                            String.format(LOG_BRANCH_DOES_NOT_EXIST, configToAnalyze.getBranch())));
-                } catch (InvalidFilePathException ipe) {
-                    analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH));
-                } catch (GitCloneException gce) {
-                    analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_ERROR_CLONING_OR_BRANCHING));
-                } catch (NoAuthorsWithCommitsFoundException nafe) {
-                    logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
-                            configToAnalyze.getLocation(), configToAnalyze.getBranch()));
-                    generatedFiles.addAll(generateEmptyRepoReport(repoReportDirectory.toString(),
-                            Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND));
-                    generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
-                } catch (Exception e) {
-                    StringWriter sw = new StringWriter();
-                    e.printStackTrace(new PrintWriter(sw));
-                    logger.log(Level.SEVERE, sw.toString());
-                    analysisErrors.add(new AnalysisErrorInfo(configToAnalyze,
-                            String.format(LOG_UNEXPECTED_ERROR, configToAnalyze.getLocation(), sw.toString())));
-                }
+                FileUtil.createDirectory(repoReportDirectory);
+                generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
+            } catch (IOException ioe) {
+                String logMessage = String.format(MESSAGE_ERROR_CREATING_DIRECTORY,
+                        configToAnalyze.getLocation(), configToAnalyze.getBranch());
+                logger.log(Level.WARNING, logMessage, ioe);
+            } catch (GitBranchException gbe) {
+                logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
+                        configToAnalyze.getBranch(), configToAnalyze.getLocation()), gbe);
+                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze,
+                        String.format(LOG_BRANCH_DOES_NOT_EXIST, configToAnalyze.getBranch())));
+            } catch (InvalidFilePathException ipe) {
+                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH));
+            } catch (GitCloneException gce) {
+                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_ERROR_CLONING_OR_BRANCHING));
+            } catch (NoAuthorsWithCommitsFoundException nafe) {
+                logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
+                        configToAnalyze.getLocation(), configToAnalyze.getBranch()));
+                generatedFiles.addAll(generateEmptyRepoReport(repoReportDirectory.toString(),
+                        Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND));
+                generateEmptyRepoReport(repoReportDirectory.toString(), Author.NAME_NO_AUTHOR_WITH_COMMITS_FOUND);
+            } catch (Exception e) {
+                StringWriter sw = new StringWriter();
+                e.printStackTrace(new PrintWriter(sw));
+                logger.log(Level.SEVERE, sw.toString());
+                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze,
+                        String.format(LOG_UNEXPECTED_ERROR, configToAnalyze.getLocation(), sw.toString())));
             }
         }
-        RepoCloner repoCloner = new RepoCloner();
         repoCloner.cleanupRepo(configsToAnalyze.get(0));
         return new AnalyzeJobOutput(location, cloneSuccessful, generatedFiles, analysisErrors);
     }
