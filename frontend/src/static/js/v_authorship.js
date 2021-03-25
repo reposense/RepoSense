@@ -1,4 +1,4 @@
-/* global Vuex */
+/* global Vuex minimatch */
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
@@ -6,7 +6,7 @@ const filesSortDict = {
   fileType: (file) => file.fileType,
 };
 
-function initialState() {
+function authorshipInitialState() {
   return {
     isLoaded: false,
     files: [],
@@ -25,12 +25,11 @@ function initialState() {
 }
 
 const repoCache = [];
-const minimatch = require('minimatch');
 
 window.vAuthorship = {
   template: window.$('v_authorship').innerHTML,
   data() {
-    return initialState();
+    return authorshipInitialState();
   },
 
   watch: {
@@ -55,7 +54,7 @@ window.vAuthorship = {
     },
 
     info() {
-      Object.assign(this.$data, initialState());
+      Object.assign(this.$data, authorshipInitialState());
       this.initiate();
     },
   },
