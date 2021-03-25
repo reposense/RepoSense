@@ -412,8 +412,7 @@ public class ArgsParserTest {
 
     @Test
     public void numCloningThreads_default_success() throws Exception {
-        String input = DEFAULT_INPUT_BUILDER
-                .build();
+        String input = DEFAULT_INPUT_BUILDER.build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         int expectedNumThreads = ArgsParser.DEFAULT_NUM_CLONING_THREADS;
@@ -434,8 +433,7 @@ public class ArgsParserTest {
 
     @Test
     public void numAnalysisThreads_default_success() throws Exception {
-        String input = DEFAULT_INPUT_BUILDER
-                .build();
+        String input = DEFAULT_INPUT_BUILDER.build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         int expectedNumThreads = ArgsParser.DEFAULT_NUM_ANALYSIS_THREADS;
