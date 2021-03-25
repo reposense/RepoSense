@@ -190,13 +190,13 @@ public class ArgsParser {
 
         parser.addArgument(CLONING_THREADS_FLAG)
                 .dest(CLONING_THREADS_FLAG[0])
-                .type(int.class)
+                .type(new CloningThreadsArgumentType())
                 .setDefault(DEFAULT_NUM_CLONING_THREADS)
                 .help(FeatureControl.SUPPRESS);
 
         parser.addArgument(ANALYSIS_THREADS_FLAG)
                 .dest(ANALYSIS_THREADS_FLAG[0])
-                .type(int.class)
+                .type(new AnalysisThreadsArgumentType())
                 .setDefault(DEFAULT_NUM_ANALYSIS_THREADS)
                 .help(FeatureControl.SUPPRESS);
 
