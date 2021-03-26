@@ -222,7 +222,14 @@
                 <li>Alias: <code class="hljs inline no-lang" v-pre>-l</code> (lowercase L)</li>
                 <li>Example:<code class="hljs inline no-lang" v-pre>--last-modified-date</code> or <code class="hljs inline no-lang" v-pre>-l</code></li>
               </ul>
-              <p>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.</p>
+              <box type="info" seamless>
+                <ul>
+                  <li>Cannot be used with <code class="hljs inline no-lang" v-pre>--shallow-cloning</code>.</li>
+                  <li>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.
+                  </li>
+                </ul>
+              </box>
+
 
               <h3 id="output-o"><span id="output-o" class="anchor"></span><code class="hljs inline no-lang" v-pre>--output</code>, <code class="hljs inline no-lang" v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
               <p><strong><code class="hljs inline no-lang" v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
@@ -263,6 +270,19 @@
               </ul>
               <box type="info" seamless>
                 <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--config</code>.
+                </p>
+              </box>
+              <p></p>
+
+              <h3 id="shallow-cloning-s"><span id="shallow-cloning-s" class="anchor"></span><code class="hljs inline no-lang" v-pre>--shallow-cloning</code>, <code class="hljs inline no-lang" v-pre>-S</code><a class="fa fa-anchor" href="#shallow-cloning-s" onclick="event.stopPropagation()"></a></h3>
+              <p><strong><code class="hljs inline no-lang" v-pre>--shallow-cloning</code></strong>: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories where the <code class="hljs inline no-lang" v-pre>.git</code> file is smaller than 500 MB, as it would create overhead.</p>
+              <ul>
+                <li>Default: RepoSense does not clone repositories using Git's shallow cloning functionality.</li>
+                <li>Alias: <code class="hljs inline no-lang" v-pre>-S</code> (uppercase S)</li>
+                <li>Example:<code class="hljs inline no-lang" v-pre>--shallow-cloning</code> or <code class="hljs inline no-lang" v-pre>-S</code></li>
+              </ul>
+              <box type="info" seamless>
+                <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--last-modified-date</code>.
                 </p>
               </box>
               <p></p>
@@ -552,7 +572,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Tue, Mar 23, 2021, 6:42:23 AM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Fri, Mar 26, 2021, 4:46:57 PM UTC]</small>
       </div>
     </footer>
   </div>
