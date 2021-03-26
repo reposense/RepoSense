@@ -37,6 +37,7 @@ public class RepoConfiguration {
     private transient boolean isStandaloneConfigIgnored;
     private transient List<CommitHash> ignoreCommitList;
     private transient boolean isLastModifiedDateIncluded;
+    private transient boolean isShallowCloningPerformed;
     private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
@@ -48,12 +49,13 @@ public class RepoConfiguration {
 
     public RepoConfiguration(RepoLocation location, String branch) {
         this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
-                false, false, false);
+                false, false, false, false);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
-            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding) {
+            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding,
+            boolean isShallowCloningPerformed) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
@@ -64,6 +66,7 @@ public class RepoConfiguration {
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
+        this.isShallowCloningPerformed = isShallowCloningPerformed;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -95,6 +98,13 @@ public class RepoConfiguration {
                                                                   boolean isLastModifiedDateIncluded) {
         for (RepoConfiguration config : configs) {
             config.setIsLastModifiedDateIncluded(isLastModifiedDateIncluded);
+        }
+    }
+
+    public static void setIsShallowCloningPerformedToRepoConfigs(List<RepoConfiguration> configs,
+                                                                 boolean isShallowCloningPerformed) {
+        if (isShallowCloningPerformed) {
+            configs.stream().forEach(config -> config.setIsShallowCloningPerformed(true));
         }
     }
 
@@ -308,6 +318,7 @@ public class RepoConfiguration {
                 && fileTypeManager.equals(otherRepoConfig.fileTypeManager)
                 && isLastModifiedDateIncluded == otherRepoConfig.isLastModifiedDateIncluded
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
+                && isShallowCloningPerformed == otherRepoConfig.isShallowCloningPerformed
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding
                 && isIgnoredAuthorsListOverriding == otherRepoConfig.isIgnoredAuthorsListOverriding;
@@ -380,8 +391,16 @@ public class RepoConfiguration {
         this.isLastModifiedDateIncluded = lastModifiedDateIncluded;
     }
 
+    public void setIsShallowCloningPerformed(boolean isShallowCloningPerformed) {
+        this.isShallowCloningPerformed = isShallowCloningPerformed;
+    }
+
     public boolean isLastModifiedDateIncluded() {
         return this.isLastModifiedDateIncluded;
+    }
+
+    public boolean isShallowCloningPerformed() {
+        return this.isShallowCloningPerformed;
     }
 
     public void setIsIgnoredAuthorsListOverriding(boolean isIgnoredAuthorsListOverriding) {
