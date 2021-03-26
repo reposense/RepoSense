@@ -1,6 +1,6 @@
-<variable name="title">Tools to learn for front-end development</variable>
+<variable name="title">Appendix: Tools to learn for front-end development</variable>
 <frontmatter>
-  title: "Tools to learn for front-end development"
+  title: "{{ title | safe }}"
 </frontmatter>
 
 <h1 class="display-4"><md>{{ title }}</md></h1>
@@ -9,8 +9,6 @@
 
 The tools that you need to learn before working on the project include `Vue.js`, `pug`, and `scss`. 
 </div>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### Vue.js
 
