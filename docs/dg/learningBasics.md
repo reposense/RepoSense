@@ -43,18 +43,29 @@ To gain a more concrete idea of how the backend works, you can use the IDE Debug
 The steps are for **Intellij**. If you are using a different IDE, you may need to check the documentation of how to use the debugger separately.
 </box>
 
-1. 
-1.
-1.
-1.
+ ![tracing-using-debugger](../images/trace-using-debugger.jpg)
+*Figure 1. Tracing the execution using the debugger*
+
+1. Check the [debugging guide](https://www.jetbrains.com/help/idea/debugging-your-first-java-application.html) if you are not familiar with debugging in **Intelij**. In particular, learn how to use features such as `step into` and `step over` to trace the program execution.
+1. In `RepoSense.java`, set appropriate break points. For example, you can set it according to the diagram above. The first 3 breakpoints are set to inspect how CLI arguments, `csv` files configuration, and `Json` file configuration are retrieved, corresponding to the first step in the architecture diagram. The last break point is set at the `generateReposReport` method, where the bulk of work is conducted, including cloning the repository, analyzing the repository, and generating the `Json` files to be used by the report.
+1. In `Edit Confiurations` of **Intellij**, set the current task to be the gradle task `RepoSense [run]`, and click the debugging button on the right to start debugging (Make sure that you import the project as a gradle project according to [the tutorial](https://se-education.org/guides/tutorials/intellijImportGradleProject.html)).
+1. Step into each break point when you think it is necessary to know more about the implementation, and step over otherwise to continue the execution.
+
+<box type="info" seamless>
+
+When tracing through the program execution, you can cross reference the architecture diagram and `javadoc` of the class and method to check your understanding of the procedure.
+</box>
 
 {{ step(3) }} Get started with contributing
 
 Here is a small [task](https://github.com/reposense/RepoSense/issues/1118) for you to get started on contributing to RepoSense back-end.
 
-1. The basic idea is to remove the validation located in `AnnotatorAnalyzer.java`
-1.
-1.
+* The basic idea is to change or remove the validation for the author name tag located in `AnnotatorAnalyzer.java` by modifying the`REGEX_AUTHOR_NAME_FORMAT` argument.
+* You may need to check that the unit and system testing still passes after making the change by running the command `gradlew systemtest` and `gradlew test`.
+
+Here is more explanation about the usage of author tag.
+
+{{ embed("Appendix: **Using `@@author` tags**", "../ug/usingAuthorTags.md") }}
 
 {{ step(4) }} Get familiar with the workflow
 
@@ -119,3 +130,9 @@ This will appear in both sites.
 * **Follow [this](https://se-education.org/guides/tutorials/intellijCodeStyle.html) to configure Intellij to follow our coding style**.
 * **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it. In particular, run `gradlew checkstyleMain checkstyleTest checkstyleSystemtest` to check the style of all the relevant Java code.
 * **To check Pug files for style errors**, run `npm run lint` from the project root directory. You can use the `npm run lintfix` to automatically fix some of the javascript and css lint errors.
+
+<!-- ==================================================================================================== -->
+
+## DevOps
+
+If you want to work on the Continuous integration of RepoSense, you can refer to the [DevOps guide](https://github.com/reposense/RepoSense/wiki/DevOps-guide) for more information.
