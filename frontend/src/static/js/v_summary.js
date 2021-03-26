@@ -28,29 +28,10 @@ window.vSummary = {
       maxDate: '',
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
-      // eslint-disable-next-line new-cap
-      randomGenerator: new Math.seedrandom('Seeded Random Generator'),
       filterGroupSelectionWatcherFlag: false,
     };
   },
   watch: {
-    checkedFileTypes() {
-      this.getFiltered();
-    },
-    filterBreakdown() {
-      this.getFiltered();
-    },
-    sortGroupSelection() {
-      this.getFiltered();
-    },
-
-    sortWithinGroupSelection() {
-      this.getFiltered();
-    },
-
-    filterTimeFrame() {
-      this.getFiltered();
-    },
 
     filterGroupSelection() {
       // Deactivates watcher

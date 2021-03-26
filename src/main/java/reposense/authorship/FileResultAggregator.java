@@ -20,6 +20,9 @@ public class FileResultAggregator {
             List<FileType> fileTypes) {
         AuthorshipSummary authorContributionSummary = new AuthorshipSummary(fileResults, authors, fileTypes);
         for (FileResult fileResult : fileResults) {
+            if (fileResult.isBinary()) {
+                continue;
+            }
             for (LineInfo lineInfo : fileResult.getLines()) {
                 Author author = lineInfo.getAuthor();
                 if (!authors.contains(author)) {

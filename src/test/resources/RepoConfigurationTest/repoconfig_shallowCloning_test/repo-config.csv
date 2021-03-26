@@ -1,2 +1,2 @@
 Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List,Shallow Cloning
-https://github.com/reposense/testrepo-Delta.git,master,override:,override:,no,override:,override:lithiumlkid,
+https://github.com/reposense/testrepo-Delta.git,master,java;adoc;md,collated**,,,,yes
