@@ -216,7 +216,7 @@ public class ReportGenerator {
             analyzeJobFutures.add(analyzeFuture);
         }
 
-        // Finally, we collect the list of outputs from all the analyze jobs
+        // Next, we collect the list of outputs from all the analyze jobs
         List<AnalyzeJobOutput> jobOutputs = analyzeJobFutures.stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
