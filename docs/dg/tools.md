@@ -1,4 +1,4 @@
-<variable name="title">Appendix: Tools to learn for front-end development</variable>
+<variable name="title">Appendix: Tools for front-end development</variable>
 <frontmatter>
   title: "{{ title | safe }}"
 </frontmatter>
@@ -54,7 +54,7 @@ Since `pug` is used to generate the `html` template, it is recommended that you 
 
 ### Scss
 
-* `scss` is used for styling the `pug` template. The corresponding `css` will later be generated from the `scss` files by [squlid](https://github.com/ongspxm/spuild2) when generating the report. The corresponding source files are in `frontend/src/static/css`. 
+`scss` is used for styling the `pug` template. The corresponding `css` will later be generated from the `scss` files by [squlid](https://github.com/ongspxm/spuild2) when generating the report. The corresponding source files are in `frontend/src/static/css`. 
 
 <box type="info" seamless>
 

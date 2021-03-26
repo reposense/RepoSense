@@ -1,10 +1,10 @@
-<variable name="title">Learn the Basics</variable>
+<variable name="title">Learning the Basics</variable>
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
-{% from 'scripts/macros.njk' import embed with context %}
+{% from 'scripts/macros.njk' import embed, step with context %}
 
 <h1 class="display-4"><md>{{ title }}</md></h1>
 

@@ -9,7 +9,7 @@
   {name: "Project management", link: "dg/projectManagement.html"},
   {name: "Appendices"},
   {level: 2, name: "Style guides", link: "dg/styleGuides.html"},
-  {level: 2, name: "Tools to learn for front-end development", link: "dg/tools.html"}
+  {level: 2, name: "Tools for front-end development", link: "dg/tools.html"}
 ]
 %}
 
