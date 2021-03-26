@@ -28,22 +28,21 @@ window.app = new window.Vue({
     isLoadingOverlayEnabled: false,
     loadingOverlayOpacity: 1,
 
-    isCollapsed: false,
     isTabActive: true, // to force tab wrapper to load
 
     tabType: 'empty',
-    tabInfo: {},
     creationDate: '',
 
     errorMessages: {},
   },
   watch: {
     '$store.state.tabZoomInfo': function () {
-      this.tabInfo.tabZoom = Object.assign({}, this.$store.state.tabZoomInfo);
+      if (this.$store.state.tabZoomInfo.isRefreshing) {
+        return;
+      }
       this.activateTab('zoom');
     },
     '$store.state.tabAuthorshipInfo': function () {
-      this.tabInfo.tabAuthorship = Object.assign({}, this.$store.state.tabAuthorshipInfo);
       this.activateTab('authorship');
     },
     '$store.state.loadingOverlayCount': function () {
@@ -85,10 +84,10 @@ window.app = new window.Vue({
         await Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
-        this.userUpdated = true;
         this.loadingOverlayOpacity = 0.5;
         this.getUsers();
         this.renderTabHash();
+        this.userUpdated = true;
       } catch (error) {
         window.alert(error);
       } finally {
@@ -107,14 +106,11 @@ window.app = new window.Vue({
 
     // handle opening of sidebar //
     activateTab(tabName) {
-      // changing isTabActive to trigger redrawing of component
-      this.isTabActive = false;
       if (this.$refs.tabWrapper) {
         this.$refs.tabWrapper.scrollTop = 0;
       }
 
       this.isTabActive = true;
-      this.isCollapsed = false;
       this.tabType = tabName;
 
       window.addHash('tabOpen', this.isTabActive);
@@ -135,6 +131,7 @@ window.app = new window.Vue({
         author: hash.tabAuthor,
         repo: hash.tabRepo,
         isMergeGroup: hash.authorshipIsMergeGroup === 'true',
+        isRefresh: true,
         minDate,
         maxDate,
       };
@@ -149,6 +146,7 @@ window.app = new window.Vue({
     renderZoomTabHash() {
       const hash = window.hashParams;
       const zoomInfo = {
+        isRefreshing: true,
         zAuthor: hash.zA,
         zRepo: hash.zR,
         zAvgCommitSize: hash.zACS,
@@ -187,11 +185,6 @@ window.app = new window.Vue({
           this.renderZoomTabHash();
         }
       }
-    },
-
-    generateKey(dataObj, keysToUse) {
-      const picked = keysToUse.map((key) => dataObj[key]);
-      return JSON.stringify(picked);
     },
 
     getRepoSenseHomeLink() {

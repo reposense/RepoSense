@@ -19,6 +19,7 @@ html
     script(src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js")
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
 
+    script(src="https://cdn.jsdelivr.net/npm/minimatch@1.0.0/minimatch.min.js")
     script(src="https://cdn.jsdelivr.net/npm/@fortawesome/vue-fontawesome@0.1.9/index.min.js")
     script(src="https://cdn.jsdelivr.net/npm/jszip@3.1/dist/jszip.min.js")
     script(src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js")
@@ -78,14 +79,8 @@ html
           #tabs-wrapper(ref="tabWrapper", slot="right")
             .tab-content.panel-padding
               .tab-pane
-                v-authorship#tab-authorship(
-                  v-if="tabType === 'authorship'",
-                  v-bind:key="generateKey(tabInfo.tabAuthorship, ['author', 'repo', 'isMergeGroup'])",
-                  v-bind:info="tabInfo.tabAuthorship")
-                v-zoom#tab-zoom(
-                  v-else-if="tabType === 'zoom'",
-                  v-bind:key="generateKey(tabInfo.tabZoom, ['zRepo', 'zAuthor', 'zFilterGroup', 'zTimeFrame'])",
-                  v-bind:info="tabInfo.tabZoom")
+                v-authorship#tab-authorship(v-if="tabType === 'authorship'")
+                v-zoom#tab-zoom(v-else-if="tabType === 'zoom'")
                 #tab-empty(v-else)
                   .title
                     h2 Welcome to this RepoSense report!
@@ -147,4 +142,6 @@ html
     script(src="static/js/v_segment.js")
     script(src="static/js/v_summary.js")
     script(src="static/js/v_authorship.js")
+    script(src="static/js/utils/ramp_colour_generator.js")
+    script(src="static/js/utils/repo_sorter.js")
     script(type="module", src="static/js/main.js")

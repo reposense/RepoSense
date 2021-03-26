@@ -48,6 +48,7 @@ public class ArgsParser {
     public static final String[] SINCE_FLAGS = new String[]{"--since", "-s"};
     public static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
     public static final String[] PERIOD_FLAGS = new String[]{"--period", "-p"};
+    public static final String[] SHALLOW_CLONING_FLAGS = new String[]{"--shallow-cloning", "-S"};
     public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
     public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
@@ -88,6 +89,10 @@ public class ArgsParser {
                 .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
                 .required(false);
 
+        MutuallyExclusiveGroup mutexParser2 = parser
+                .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
+                .required(false);
+
         // Boolean flags
         parser.addArgument(HELP_FLAGS)
                 .help("Show help message.")
@@ -102,11 +107,6 @@ public class ArgsParser {
                 .dest(IGNORE_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to ignore the standalone config file in the repo.");
-
-        parser.addArgument(LAST_MODIFIED_DATE_FLAGS)
-                .dest(LAST_MODIFIED_DATE_FLAGS[0])
-                .action(Arguments.storeTrue())
-                .help("A flag to keep track of the last modified date of each line of code.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
@@ -165,20 +165,6 @@ public class ArgsParser {
                         + "If not provided, default file formats will be used.\n"
                         + "Please refer to userguide for more information.");
 
-        // Mutex flags - these will always be the last parameters in help message.
-        mutexParser.addArgument(CONFIG_FLAGS)
-                .dest(CONFIG_FLAGS[0])
-                .type(new ConfigFolderArgumentType())
-                .metavar("PATH")
-                .setDefault(DEFAULT_CONFIG_PATH)
-                .help("The directory containing the config files."
-                        + "If not provided, the config files will be obtained from the config folder.");
-        mutexParser.addArgument(REPO_FLAGS)
-                .nargs("+")
-                .dest(REPO_FLAGS[0])
-                .metavar("LOCATION")
-                .help("The GitHub URL or disk locations to clone repository.");
-
         parser.addArgument(TIMEZONE_FLAGS)
                 .dest(TIMEZONE_FLAGS[0])
                 .metavar("ZONE_ID[±hh[mm]]")
@@ -187,6 +173,33 @@ public class ArgsParser {
                 .help("The timezone to use for the generated report. "
                         + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
                         + "If not provided, system default timezone will be used.");
+
+        // Mutex flags - these will always be the last parameters in help message.
+        mutexParser.addArgument(CONFIG_FLAGS)
+                .dest(CONFIG_FLAGS[0])
+                .type(new ConfigFolderArgumentType())
+                .metavar("PATH")
+                .setDefault(DEFAULT_CONFIG_PATH)
+                .help("The directory containing the config files."
+                        + "If not provided, the config files will be obtained from the config folder.");
+
+        mutexParser.addArgument(REPO_FLAGS)
+                .nargs("+")
+                .dest(REPO_FLAGS[0])
+                .metavar("LOCATION")
+                .help("The GitHub URL or disk locations to clone repository.");
+
+        mutexParser2.addArgument(LAST_MODIFIED_DATE_FLAGS)
+                .dest(LAST_MODIFIED_DATE_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to keep track of the last modified date of each line of code.");
+
+        mutexParser2.addArgument(SHALLOW_CLONING_FLAGS)
+                .dest(SHALLOW_CLONING_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to make RepoSense employ Git's shallow cloning functionality, which can significantly "
+                        + "reduce the time taken to clone large repositories. This flag should not be used for "
+                        + "smaller repositories, where the .git file is smaller than 500 MB.");
 
         parser.addArgument(CLONING_THREADS_FLAG)
                 .dest(CLONING_THREADS_FLAG[0])
@@ -259,6 +272,7 @@ public class ArgsParser {
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
             boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
+            boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
@@ -279,7 +293,8 @@ public class ArgsParser {
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                         isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
-                        shouldIncludeLastModifiedDate, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                        shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
+                        isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
@@ -287,7 +302,8 @@ public class ArgsParser {
             }
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
-                    shouldIncludeLastModifiedDate, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                    shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
+                    isStandaloneConfigIgnored, zoneId);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

@@ -44,6 +44,8 @@ public class FileUtil {
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     private static final String BARE_REPO_SUFFIX = "_bare";
+    private static final String PARTIAL_REPO_SUFFIX = "_partial";
+    private static final String SHALLOW_PARTIAL_REPO_SUFFIX = "_shallow_partial";
 
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
     private static final String MESSAGE_FAIL_TO_ZIP_FILES =
@@ -228,10 +230,40 @@ public class FileUtil {
     }
 
     /**
+     * Returns the relative path to the partial bare repo version of {@code config}.
+     */
+    public static Path getPartialBareRepoPath(RepoConfiguration config) {
+        return Paths.get(FileUtil.REPOS_ADDRESS,
+                config.getRepoFolderName(), config.getRepoName() + PARTIAL_REPO_SUFFIX);
+    }
+
+    /**
+     * Returns the relative path to the shallow partial bare repo version of {@code config}.
+     */
+    public static Path getShallowPartialBareRepoPath(RepoConfiguration config) {
+        return Paths.get(FileUtil.REPOS_ADDRESS,
+                config.getRepoFolderName(), config.getRepoName() + SHALLOW_PARTIAL_REPO_SUFFIX);
+    }
+
+    /**
      * Returns the folder name of the bare repo version of {@code config}.
      */
     public static String getBareRepoFolderName(RepoConfiguration config) {
         return config.getRepoName() + BARE_REPO_SUFFIX;
+    }
+
+    /**
+     * Returns the folder name of the partial bare repo version of {@code config}.
+     */
+    public static String getPartialBareRepoFolderName(RepoConfiguration config) {
+        return config.getRepoName() + PARTIAL_REPO_SUFFIX;
+    }
+
+    /**
+     * Returns the folder name of the shallow partial bare repo version of {@code config}.
+     */
+    public static String getShallowPartialBareRepoFolderName(RepoConfiguration config) {
+        return config.getRepoName() + SHALLOW_PARTIAL_REPO_SUFFIX;
     }
 
     /**

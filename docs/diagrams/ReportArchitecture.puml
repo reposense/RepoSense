@@ -1,0 +1,25 @@
+@startuml
+hide footbox
+skinparam monochrome true
+skinparam Shadowing false
+
+rectangle "main.js\n(window.app)" as main
+rectangle "v_zoom.js" as v_zoom
+rectangle "v_ramp.js" as v_ramp
+rectangle "v_summary.js" as v_summary
+rectangle "v_authorship.js" as v_authorship
+rectangle "v_segment.js" as v_segment
+database "api.js\n" as api
+
+main -down-> v_summary
+v_summary -down-> v_zoom
+v_summary -> v_ramp
+v_zoom -> v_ramp
+
+main -down-> v_authorship
+v_authorship -down-> v_segment
+
+api -down--> main : summary.json
+api -down-> v_summary : projectName/commits.json
+api -down-> v_authorship : projectName/authorship.json
+@enduml
