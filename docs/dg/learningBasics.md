@@ -50,9 +50,9 @@ The steps are for **Intellij**. If you are using a different IDE, you may need t
 
 {{ step(3) }} Get started with contributing
 
-Here is a small task for you to get started on contributing to RepoSense back-end
+Here is a small [task](https://github.com/reposense/RepoSense/issues/1118) for you to get started on contributing to RepoSense back-end.
 
-1.
+1. The basic idea is to remove the validation located in `AnnotatorAnalyzer.java`
 1.
 1.
 
@@ -88,7 +88,7 @@ Here is a small [task](https://github.com/reposense/RepoSense/issues/1268) for y
 
 * The general goal is to eliminate the passing of variables that can be shared across different components, and move these variables to the **Vuex store**.
 * You can try to move `minDate`, `maxDate`, and `filterSearch` to **Vuex store**. 
-* When in doubt, you can refer to the pull request [#1319](https://github.com/reposense/RepoSense/pull/1319) and [#1320](https://github.com/reposense/RepoSense/pull/1320).
+* When in doubt, you can refer to the pull request [#1319](https://github.com/reposense/RepoSense/pull/1319) and [#1320](https://github.com/reposense/RepoSense/pull/1320) to view the implementation detail.
 
 {{ step(4) }} Familiarize yourself with the workflow
 
