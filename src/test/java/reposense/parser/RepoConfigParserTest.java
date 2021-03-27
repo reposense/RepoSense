@@ -84,6 +84,8 @@ public class RepoConfigParserTest {
         Assert.assertEquals(config.getIgnoreCommitList(),
                 CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
 
+        Assert.assertTrue(config.isShallowCloningPerformed());
+
         Assert.assertFalse(config.isFormatsOverriding());
         Assert.assertFalse(config.isIgnoreGlobListOverriding());
         Assert.assertFalse(config.isIgnoreCommitListOverriding());
@@ -148,6 +150,7 @@ public class RepoConfigParserTest {
         expectedBetaConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
         expectedBetaConfig.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         expectedBetaConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedBetaConfig.setIsShallowCloningPerformed(true);
 
         RepoConfiguration expectedDeltaConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA_LOCATION), TEST_REPO_DELTA_BRANCH);
