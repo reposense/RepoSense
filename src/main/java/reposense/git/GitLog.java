@@ -1,6 +1,7 @@
 package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
+import static reposense.util.StringsUtil.addQuote;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,6 +48,20 @@ public class GitLog {
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
         command += GitUtil.convertToGitExcludeGlobArgs(rootPath.toFile(), author.getIgnoreGlobList());
+
+        return runCommand(rootPath, command);
+    }
+
+    /**
+     * Returns the authors who modified the binary file at {@code filePath}, in the repository specified in
+     * {@code config}.
+     */
+    public static String getBinaryFileAuthors(RepoConfiguration config, String filePath) {
+        Path rootPath = Paths.get(config.getRepoRoot());
+
+        String command = "git log --pretty=format:\"%an\t%ae\" ";
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
+        command += " " + addQuote(filePath);
 
         return runCommand(rootPath, command);
     }

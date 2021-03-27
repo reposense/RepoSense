@@ -6,6 +6,9 @@ import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
@@ -13,6 +16,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitBlame;
+import reposense.git.GitLog;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
@@ -35,13 +39,16 @@ public class FileInfoAnalyzer {
     private static final String MESSAGE_FILE_MISSING = "Unable to analyze the file located at \"%s\" "
             + "as the file is missing from your system. Skipping this file.";
 
+    private static final String MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT = "Repo %s was cloned using "
+            + "shallow cloning. As such, the \"last modified date\" values may be incorrect.";
+
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
      * Returns null if the file is missing from the local system, or none of the
      * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public static FileResult analyzeFile(RepoConfiguration config, FileInfo fileInfo) {
+    public static FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
@@ -62,19 +69,68 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        return generateFileResult(fileInfo);
+        return generateTextFileResult(fileInfo);
+    }
+
+    /**
+     * Analyzes the binary file, given in the {@code fileInfo}, that has changed in the time period provided
+     * by {@code config}.
+     * Returns null if the file is missing from the local system, or none of the
+     * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     */
+    public static FileResult analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
+        String relativePath = fileInfo.getPath();
+
+        if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
+            logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
+            return null;
+        }
+
+        fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
+
+        return generateBinaryFileResult(config, fileInfo);
     }
 
     /**
      * Generates and returns a {@code FileResult} with the authorship results from {@code fileInfo} consolidated.
      */
-    private static FileResult generateFileResult(FileInfo fileInfo) {
+    private static FileResult generateTextFileResult(FileInfo fileInfo) {
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
         for (LineInfo line : fileInfo.getLines()) {
             Author author = line.getAuthor();
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
-        return new FileResult(fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
+        return FileResult.createTextFileResult(
+            fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
+    }
+
+    /**
+     * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
+     * Authorship results are indicated in the {@code authorContributionMap} as contributions with zero line counts.
+     * Returns {@code null} if none of the {@code Author} specified in {@code config} contributed to the file in
+     * {@code fileInfo}.
+     */
+    private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
+        String authorsString = GitLog.getBinaryFileAuthors(config, fileInfo.getPath());
+        if (authorsString.isEmpty()) { // Empty string, means no author at all
+            return null;
+        }
+
+        Set<Author> authors = new HashSet<>();
+        HashMap<Author, Integer> authorContributionMap = new HashMap<>();
+
+        for (String authorString : authorsString.split("\n")) {
+            String[] arr = authorString.split("\t");
+            String authorName = arr[0];
+            String authorEmail = arr[1];
+            authors.add(config.getAuthor(authorName, authorEmail));
+        }
+
+        for (Author author : authors) {
+            authorContributionMap.put(author, 0);
+        }
+
+        return FileResult.createBinaryFileResult(fileInfo.getPath(), fileInfo.getFileType(), authorContributionMap);
     }
 
     /**
@@ -104,6 +160,10 @@ public class FileInfoAnalyzer {
             }
 
             if (config.isLastModifiedDateIncluded()) {
+                if (config.isShallowCloningPerformed()) {
+                    logger.warning(String.format(
+                            MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT, config.getRepoName()));
+                }
                 // convert the commit date from the system default time zone to cli-specified timezone
                 Date convertedCommitDate = TimeUtil.getZonedDateFromSystemDate(new Date(commitDateInMs),
                         ZoneId.of(config.getZoneId()));

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +38,55 @@ public class GitClone {
             String outputFolderName) throws GitCloneException {
         try {
             return CommandRunner.runCommandAsync(rootPath, getCloneBareCommand(config, outputFolderName));
+        } catch (RuntimeException rte) {
+            throw new GitCloneException(rte);
+        }
+    }
+
+    /**
+     * Runs "git clone --bare" command asynchronously to clone a bare repo specified in the {@code config}
+     * into the folder {@code outputFolderName}.
+     *
+     * @return an instance of {@code CommandRunnerProcess} to allow tracking the status of the cloning process.
+     * @throws GitCloneException when an error occurs during command execution.
+     */
+    public static CommandRunnerProcess cloneShallowBareAsync(RepoConfiguration config, Path rootPath,
+                                                  String outputFolderName, Date sinceDate) throws GitCloneException {
+        try {
+            return CommandRunner.runCommandAsync(rootPath,
+                                                    getCloneShallowBareCommand(config, outputFolderName, sinceDate));
+        } catch (RuntimeException rte) {
+            throw new GitCloneException(rte);
+        }
+    }
+
+    /**
+     * Runs "git clone --bare" command asynchronously to clone a bare repo specified in the {@code config}
+     * into the folder {@code outputFolderName}.
+     *
+     * @throws GitCloneException when an error occurs during command execution.
+     */
+    public static void clonePartialBare(RepoConfiguration config, Path rootPath,
+                                                      String outputFolderName) throws GitCloneException {
+        try {
+            CommandRunner.runCommand(rootPath, getClonePartialBareCommand(config, outputFolderName));
+            return;
+        } catch (RuntimeException rte) {
+            throw new GitCloneException(rte);
+        }
+    }
+
+    /**
+     * Runs "git clone --bare" command asynchronously to clone a bare repo specified in the {@code config}
+     * into the folder {@code outputFolderName}.
+     *
+     * @throws GitCloneException when an error occurs during command execution.
+     */
+    public static void cloneShallowPartialBare(RepoConfiguration config, Path rootPath,
+                                                  String outputFolderName, Date sinceDate) throws GitCloneException {
+        try {
+            CommandRunner.runCommand(rootPath, getCloneShallowPartialBareCommand(config, outputFolderName, sinceDate));
+            return;
         } catch (RuntimeException rte) {
             throw new GitCloneException(rte);
         }
@@ -141,5 +191,33 @@ public class GitClone {
      */
     private static String getCloneBareCommand(RepoConfiguration config, String outputFolderName) {
         return "git clone --bare " + config.getLocation() + " " + outputFolderName;
+    }
+
+    /**
+     * Constructs the command to shallow clone a bare repo specified in the {@code config}
+     * into the folder {@code outputFolderName}.
+     */
+    private static String getCloneShallowBareCommand(RepoConfiguration config,
+                                                    String outputFolderName, Date shallowSinceDate) {
+        return "git clone --bare --shallow-since=\"" + shallowSinceDate + "\" "
+                + config.getLocation() + " " + outputFolderName;
+    }
+
+    /**
+     * Constructs the command to partial clone a bare repo specified in the {@code config}
+     * into the folder {@code outputFolderName}.
+     */
+    private static String getClonePartialBareCommand(RepoConfiguration config, String outputFolderName) {
+        return "git clone --bare --filter=blob:none " + config.getLocation() + " " + outputFolderName;
+    }
+
+    /**
+     * Constructs the command to shallow partial clone a bare repo specified in the {@code config}
+     * into the folder {@code outputFolderName}.
+     */
+    private static String getCloneShallowPartialBareCommand(RepoConfiguration config,
+                                                            String outputFolderName, Date shallowSinceDate) {
+        return "git clone --bare --filter=blob:none --shallow-since=\"" + shallowSinceDate + "\" "
+                + config.getLocation() + " " + outputFolderName;
     }
 }
