@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import reposense.parser.InvalidLocationException;
+import reposense.report.ErrorSummary;
 
 /**
  * Represents a repository location.
@@ -68,6 +69,7 @@ public class RepoLocation {
         isValidGitUrl = matcher.matches();
 
         if (!isValidPathLocation && !isValidGitUrl) {
+            ErrorSummary.getInstance().addErrorMessage(location, "Invalid location");
             throw new InvalidLocationException(location + " is an invalid location.");
         }
     }
