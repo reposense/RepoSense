@@ -26,9 +26,7 @@ public class ErrorSummary {
         Map<String, String> errorDetails = new HashMap<>();
         errorDetails.put("repoName", repoName);
         errorDetails.put("errorMessage", errorMessage);
-        if (!errorList.contains(errorDetails)) {
-            errorList.add(errorDetails);
-        }
+        errorList.add(errorDetails);
     }
 
     /**
