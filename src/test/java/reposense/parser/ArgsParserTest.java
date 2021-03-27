@@ -859,6 +859,24 @@ public class ArgsParserTest {
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 
+    @Test
+    public void parse_shallowCloning_success() throws Exception {
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(false, cliArguments.isShallowCloningPerformed());
+
+        String inputShallow = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
+                .addShallowCloning()
+                .build();
+        CliArguments cliArgumentsShallow = ArgsParser.parse(translateCommandline(inputShallow));
+        Assert.assertTrue(cliArgumentsShallow instanceof ConfigCliArguments);
+        Assert.assertEquals(true, cliArgumentsShallow.isShallowCloningPerformed());
+    }
+
     /**
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
      * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.

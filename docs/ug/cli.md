@@ -107,7 +107,11 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 * Alias: `-l` (lowercase L)
 * Example:`--last-modified-date` or `-l`
 
-The last modified dates will be in the same timezone specified with the `--timezone` flag.
+<box type="info" seamless>
+
+* Cannot be used with `--shallow-cloning`.
+* The last modified dates will be in the same timezone specified with the `--timezone` flag.
+</box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -148,6 +152,20 @@ The last modified dates will be in the same timezone specified with the `--timez
 
 Cannot be used with `--config`.
 </box>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--shallow-cloning`, `-S`
+
+**`--shallow-cloning`**: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead.
+* Default: RepoSense does not clone repositories using Git's shallow cloning functionality.
+* Alias: `-S` (uppercase S)
+* Example:`--shallow-cloning` or `-S`
+
+<box type="info" seamless>
+
+Cannot be used with `--last-modified-date`.
+</box>
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--since`, `-s`

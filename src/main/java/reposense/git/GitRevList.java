@@ -4,7 +4,9 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Contains git rev list related functionalities.
@@ -97,5 +99,25 @@ public class GitRevList {
             // An invalid commit hash was provided
             return "";
         }
+    }
+
+    /**
+     * Returns a list of commit hashes for the root commits in the tree.
+     */
+    public static List<String> getRootCommits(String root) {
+        String revListCommand = "git rev-list --max-parents=0 HEAD";
+        Path rootPath = Paths.get(root);
+        String output = runCommand(rootPath, revListCommand);
+        return Arrays.asList(output.split("\n"));
+    }
+
+    /**
+     * Returns true if the repository is empty.
+     */
+    public static boolean checkIsEmptyRepo(String root) {
+        String revListCommand = "git rev-list -n 1 --all";
+        Path rootPath = Paths.get(root);
+        String output = runCommand(rootPath, revListCommand);
+        return output == null || output.trim().isEmpty();
     }
 }
