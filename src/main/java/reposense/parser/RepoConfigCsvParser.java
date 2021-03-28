@@ -17,6 +17,7 @@ import reposense.model.RepoLocation;
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
     private static final String IGNORE_STANDALONE_CONFIG_KEYWORD = "yes";
+    private static final String SHALLOW_CLONING_CONFIG_KEYWORD = "yes";
 
     /**
      * Positions of the elements of a line in repo-config.csv config file
@@ -28,6 +29,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String IGNORE_STANDALONE_CONFIG_HEADER = "Ignore standalone config";
     private static final String IGNORE_COMMIT_LIST_CONFIG_HEADER = "Ignore Commit List";
     private static final String IGNORE_AUTHOR_LIST_CONFIG_HEADER = "Ignore Authors List";
+    private static final String SHALLOW_CLONING_CONFIG_HEADER = "Shallow Cloning";
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -88,9 +90,18 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                     "Ignoring unknown value " + ignoreStandaloneConfig + " in ignore standalone config column.");
         }
 
+        String shallowCloningConfig = get(record, SHALLOW_CLONING_CONFIG_HEADER);
+        boolean isShallowCloningPerformed = shallowCloningConfig.equalsIgnoreCase(SHALLOW_CLONING_CONFIG_KEYWORD);
+
+        if (!isShallowCloningPerformed && !shallowCloningConfig.isEmpty()) {
+            logger.warning(
+                    "Ignoring unknown value " + shallowCloningConfig + " in shallow cloning column.");
+        }
+
         RepoConfiguration config = new RepoConfiguration(
                 location, branch, formats, ignoreGlobList, isStandaloneConfigIgnored, ignoreCommitList,
-                isFormatsOverriding, isIgnoreGlobListOverriding, isIgnoreCommitListOverriding);
+                isFormatsOverriding, isIgnoreGlobListOverriding, isIgnoreCommitListOverriding,
+                isShallowCloningPerformed);
         config.setIgnoredAuthorsList(ignoredAuthorsList);
         config.setIsIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding);
 
