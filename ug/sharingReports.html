@@ -147,53 +147,13 @@
                   </box>
                   <p></p>
                   <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code class="hljs inline no-lang" v-pre>project-code-dashboard</code>.</p>
-                  <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Generate a <em>personal access token</em> or <em>deploy key</em> on GitHub</strong> as explained in the panel below.</p>
-                  <div class="indented-level0">
-                    <panel minimized><template slot="header">
-                        <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Granting write access on GitHub</p>
-                      </template>
-                      <div>
-                        <h2 id="granting-write-access-to-a-repository"><span id="granting-write-access-to-a-repository" class="anchor"></span>Granting write-access to a repository<a class="fa fa-anchor" href="#granting-write-access-to-a-repository" onclick="event.stopPropagation()"></a></h2>
-                        <p>We recommend using a <a href="https://github.blog/2013-05-16-personal-api-tokens/">personal access token</a> if aiming for the ease of setup and <a href="https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys">deploy key</a> if aiming for enhanced security.</p>
-                        <h3 id="if-you-wish-to-use-personal-access-token"><span id="if-you-wish-to-use-personal-access-token" class="anchor"></span>If you wish to use <em>personal access token</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-personal-access-token" onclick="event.stopPropagation()"></a></h3>
-                        <ol>
-                          <li><strong>Create a <em>personal access token</em></strong> by following this <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">guide</a> and give only <code class="hljs inline no-lang" v-pre>public_repo</code> permission.</li>
-                          <li><strong>Copy the token</strong> for later use.</li>
-                        </ol>
-                        <h3 id="if-you-wish-to-use-deploy-key"><span id="if-you-wish-to-use-deploy-key" class="anchor"></span>If you wish to use <em>deploy key</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-deploy-key" onclick="event.stopPropagation()"></a></h3>
-                        <box type="info"><template slot="icon"><span aria-hidden="true" class="fab fa-windows"></span></template>
-                          <p>[Windows users] <code class="hljs inline no-lang" v-pre>ssh-keygen</code> and <code class="hljs inline no-lang" v-pre>base64</code> are accessible using <a href="https://gitforwindows.org/">Git Bash</a>.
-                          </p>
-                        </box>
-                        <p></p>
-                        <ol>
-                          <li><strong>Create a public-private key pair</strong> (without a passphrase) using the <code class="hljs inline no-lang" v-pre>ssh-keygen</code>. <br>
-                            i.e., <code class="hljs inline no-lang" v-pre>ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N &quot;&quot;</code></li>
-                          <li><strong>Create a deploy key</strong> as follows:
-                            <ol>
-                              <li>Go to the <code class="hljs inline no-lang" v-pre>settings</code> page of your publish-RepoSense fork</li>
-                              <li>Click on the <code class="hljs inline no-lang" v-pre>Deploy keys</code> item in the navigation menu in that page</li>
-                              <li>Click on the <code class="hljs inline no-lang" v-pre>Add deploy key</code> button and create a new deploy key with the contents of <code class="hljs inline no-lang" v-pre>id_reposense.pub</code>.</li>
-                            </ol>
-                          </li>
-                          <li><strong>Copy the private key</strong> in base64 encoded format for later use. <br>
-                            i.e., <code class="hljs inline no-lang" v-pre>cat id_reposense | base64 -w 0</code></li>
-                        </ol>
-                      </div>
-                    </panel>
-                  </div>
-                  <p></p>
                 </div>
-                <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Add the token/key as a secret:</strong></p>
+                <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Activate GitHub Actions on the forked repository:</strong></p>
                 <ol>
-                  <li>Go to the <code class="hljs inline no-lang" v-pre>Settings</code> page of your fork of the <a href="https://github.com/reposense/publish-RepoSense">publish-RepoSense</a> repo.</li>
-                  <li>Click on the <code class="hljs inline no-lang" v-pre>Secrets</code> menu item on the left of that page.</li>
-                  <li>Click on <code class="hljs inline no-lang" v-pre>Add secret</code>.</li>
-                  <li>Add a new secret with the name <code class="hljs inline no-lang" v-pre>ACCESS_TOKEN</code> or <code class="hljs inline no-lang" v-pre>DEPLOY_KEY</code> (depending on your earlier choice) and the value of the token/key you copied earlier.<br>
-                    <a href="/RepoSense/images/publishingguide-secrets.png" target="_self"><img src="/RepoSense/images/publishingguide-secrets.png" alt class="img-fluid" title="GitHub Actions Secrets"></a>
-                  </li>
+                  <li>Go to the <code class="hljs inline no-lang" v-pre>Actions</code> page of your fork of the <a href="https://github.com/reposense/publish-RepoSense">publish-RepoSense</a> repo.</li>
+                  <li>Click on the green button that says <code class="hljs inline no-lang" v-pre>I understand my workflows, go ahead and enable them</code> to enable GitHub Actions on your new repository.</li>
                 </ol>
-                <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>Update report configuration:</strong></p>
+                <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Update report configuration:</strong></p>
                 <div>
                   <p>In your fork, edit <code class="hljs inline no-lang" v-pre>run.sh</code> (and if applicable, <code class="hljs inline no-lang" v-pre>repo-config.csv</code>, <code class="hljs inline no-lang" v-pre>author-config.csv</code>, <code class="hljs inline no-lang" v-pre>group-config.csv</code>) to customize the command line parameters or repositories to be analyzed.</p>
                   <div class="indented-level0">
@@ -701,7 +661,7 @@
                   </div>
                   <p></p>
                 </div>
-                <p><span class="badge badge-dark bigger-level0">Step 5</span> <strong>View the generated report:</strong></p>
+                <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>View the generated report:</strong></p>
                 <p>To access your regenerated RepoSense report, go to the settings of your fork in GitHub, under <strong>GitHub Pages</strong> section, look for <code class="hljs inline no-lang" v-pre>Your site is published at [LINK]</code>. It should look something like <code class="hljs inline no-lang" v-pre>https://[YOUR_GITHUB_ID].github.io/publish-RepoSense</code>.
                   <a href="/RepoSense/images/publishingguide-githubsetting.jpg" target="_self"><img src="/RepoSense/images/publishingguide-githubsetting.jpg" alt class="img-fluid" title="GitHub Setting"></a>
                 </p>
@@ -745,43 +705,43 @@
                   </box>
                   <p></p>
                   <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code class="hljs inline no-lang" v-pre>project-code-dashboard</code>.</p>
-                  <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Generate a <em>personal access token</em> or <em>deploy key</em> on GitHub</strong> as explained in the panel below.</p>
-                  <div class="indented-level0">
-                    <panel minimized><template slot="header">
-                        <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Granting write access on GitHub</p>
-                      </template>
-                      <div>
-                        <h2 id="granting-write-access-to-a-repository-2"><span id="granting-write-access-to-a-repository-2" class="anchor"></span>Granting write-access to a repository<a class="fa fa-anchor" href="#granting-write-access-to-a-repository-2" onclick="event.stopPropagation()"></a></h2>
-                        <p>We recommend using a <a href="https://github.blog/2013-05-16-personal-api-tokens/">personal access token</a> if aiming for the ease of setup and <a href="https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys">deploy key</a> if aiming for enhanced security.</p>
-                        <h3 id="if-you-wish-to-use-personal-access-token-2"><span id="if-you-wish-to-use-personal-access-token-2" class="anchor"></span>If you wish to use <em>personal access token</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-personal-access-token-2" onclick="event.stopPropagation()"></a></h3>
-                        <ol>
-                          <li><strong>Create a <em>personal access token</em></strong> by following this <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">guide</a> and give only <code class="hljs inline no-lang" v-pre>public_repo</code> permission.</li>
-                          <li><strong>Copy the token</strong> for later use.</li>
-                        </ol>
-                        <h3 id="if-you-wish-to-use-deploy-key-2"><span id="if-you-wish-to-use-deploy-key-2" class="anchor"></span>If you wish to use <em>deploy key</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-deploy-key-2" onclick="event.stopPropagation()"></a></h3>
-                        <box type="info"><template slot="icon"><span aria-hidden="true" class="fab fa-windows"></span></template>
-                          <p>[Windows users] <code class="hljs inline no-lang" v-pre>ssh-keygen</code> and <code class="hljs inline no-lang" v-pre>base64</code> are accessible using <a href="https://gitforwindows.org/">Git Bash</a>.
-                          </p>
-                        </box>
-                        <p></p>
-                        <ol>
-                          <li><strong>Create a public-private key pair</strong> (without a passphrase) using the <code class="hljs inline no-lang" v-pre>ssh-keygen</code>. <br>
-                            i.e., <code class="hljs inline no-lang" v-pre>ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N &quot;&quot;</code></li>
-                          <li><strong>Create a deploy key</strong> as follows:
-                            <ol>
-                              <li>Go to the <code class="hljs inline no-lang" v-pre>settings</code> page of your publish-RepoSense fork</li>
-                              <li>Click on the <code class="hljs inline no-lang" v-pre>Deploy keys</code> item in the navigation menu in that page</li>
-                              <li>Click on the <code class="hljs inline no-lang" v-pre>Add deploy key</code> button and create a new deploy key with the contents of <code class="hljs inline no-lang" v-pre>id_reposense.pub</code>.</li>
-                            </ol>
-                          </li>
-                          <li><strong>Copy the private key</strong> in base64 encoded format for later use. <br>
-                            i.e., <code class="hljs inline no-lang" v-pre>cat id_reposense | base64 -w 0</code></li>
-                        </ol>
-                      </div>
-                    </panel>
-                  </div>
-                  <p></p>
                 </div>
+                <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Generate a <em>personal access token</em> or <em>deploy key</em> on GitHub</strong> as explained in the panel below.</p>
+                <div class="indented-level0">
+                  <panel minimized><template slot="header">
+                      <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Granting write access on GitHub</p>
+                    </template>
+                    <div>
+                      <h2 id="granting-write-access-to-a-repository"><span id="granting-write-access-to-a-repository" class="anchor"></span>Granting write-access to a repository<a class="fa fa-anchor" href="#granting-write-access-to-a-repository" onclick="event.stopPropagation()"></a></h2>
+                      <p>We recommend using a <a href="https://github.blog/2013-05-16-personal-api-tokens/">personal access token</a> if aiming for the ease of setup and <a href="https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys">deploy key</a> if aiming for enhanced security.</p>
+                      <h3 id="if-you-wish-to-use-personal-access-token"><span id="if-you-wish-to-use-personal-access-token" class="anchor"></span>If you wish to use <em>personal access token</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-personal-access-token" onclick="event.stopPropagation()"></a></h3>
+                      <ol>
+                        <li><strong>Create a <em>personal access token</em></strong> by following this <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">guide</a> and give only <code class="hljs inline no-lang" v-pre>public_repo</code> permission.</li>
+                        <li><strong>Copy the token</strong> for later use.</li>
+                      </ol>
+                      <h3 id="if-you-wish-to-use-deploy-key"><span id="if-you-wish-to-use-deploy-key" class="anchor"></span>If you wish to use <em>deploy key</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-deploy-key" onclick="event.stopPropagation()"></a></h3>
+                      <box type="info"><template slot="icon"><span aria-hidden="true" class="fab fa-windows"></span></template>
+                        <p>[Windows users] <code class="hljs inline no-lang" v-pre>ssh-keygen</code> and <code class="hljs inline no-lang" v-pre>base64</code> are accessible using <a href="https://gitforwindows.org/">Git Bash</a>.
+                        </p>
+                      </box>
+                      <p></p>
+                      <ol>
+                        <li><strong>Create a public-private key pair</strong> (without a passphrase) using the <code class="hljs inline no-lang" v-pre>ssh-keygen</code>. <br>
+                          i.e., <code class="hljs inline no-lang" v-pre>ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N &quot;&quot;</code></li>
+                        <li><strong>Create a deploy key</strong> as follows:
+                          <ol>
+                            <li>Go to the <code class="hljs inline no-lang" v-pre>settings</code> page of your publish-RepoSense fork</li>
+                            <li>Click on the <code class="hljs inline no-lang" v-pre>Deploy keys</code> item in the navigation menu in that page</li>
+                            <li>Click on the <code class="hljs inline no-lang" v-pre>Add deploy key</code> button and create a new deploy key with the contents of <code class="hljs inline no-lang" v-pre>id_reposense.pub</code>.</li>
+                          </ol>
+                        </li>
+                        <li><strong>Copy the private key</strong> in base64 encoded format for later use. <br>
+                          i.e., <code class="hljs inline no-lang" v-pre>cat id_reposense | base64 -w 0</code></li>
+                      </ol>
+                    </div>
+                  </panel>
+                </div>
+                <p></p>
                 <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Login to <a href="https://travis-ci.org/">Travis-CI</a>.</strong> You may have to sign up first.</p>
                 <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>Syncy your Travis account with GitHub:</strong></p>
                 <ol>
@@ -1453,7 +1413,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Sun, Mar 28, 2021, 3:16:49 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Sun, Mar 28, 2021, 4:10:59 PM UTC]</small>
       </div>
     </footer>
   </div>
