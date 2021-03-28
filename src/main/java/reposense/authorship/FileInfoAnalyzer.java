@@ -39,6 +39,9 @@ public class FileInfoAnalyzer {
     private static final String MESSAGE_FILE_MISSING = "Unable to analyze the file located at \"%s\" "
             + "as the file is missing from your system. Skipping this file.";
 
+    private static final String MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT = "Repo %s was cloned using "
+            + "shallow cloning. As such, the \"last modified date\" values may be incorrect.";
+
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
@@ -157,6 +160,10 @@ public class FileInfoAnalyzer {
             }
 
             if (config.isLastModifiedDateIncluded()) {
+                if (config.isShallowCloningPerformed()) {
+                    logger.warning(String.format(
+                            MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT, config.getRepoName()));
+                }
                 // convert the commit date from the system default time zone to cli-specified timezone
                 Date convertedCommitDate = TimeUtil.getZonedDateFromSystemDate(new Date(commitDateInMs),
                         ZoneId.of(config.getZoneId()));
