@@ -137,6 +137,12 @@ window.getGroupName = function getGroupName(group, filterGroupSelection) {
   }
 };
 
+window.getAuthorDisplayName = function getAuthorDisplayName(authorRepos) {
+  return authorRepos.reduce((displayName, user) => (
+    user.displayName > displayName ? user.displayName : displayName
+  ), authorRepos[0].displayName);
+};
+
 window.api = {
   async loadJSON(fname) {
     if (window.REPORT_ZIP) {
