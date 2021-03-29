@@ -47,10 +47,10 @@ The information below is for **Intellij**. If you are using a different IDE, you
 
 * Check the [debugging guide](https://www.jetbrains.com/help/idea/debugging-your-first-java-application.html) if you are not familiar with debugging in **Intelij**.
 * In `RepoSense.java`, the main class, set appropriate break points. Here are some relevant method calls in the `main` method at which you can set the breakpoints:
-  * `ArgsParser.parse(args);`: RepoSense parses the CLI arguments from the command.
-  * `getRepoConfigurations(cliArguments);`: RepoSense gets the configuration for each repository by parsing the CSV files.
-  * `getReportConfigurations(cliArguments);`: RepoSense gets the report configuration (report title) by parsing the JSON files.
-  * `ReportGenerator.generateReposReport(...);` This is where the bulk of the work is conducted, including cloning repositories, analyzing repositories, and generating the JSON files to be used by the report.
+  * `ArgsParser.parse(args)`: RepoSense parses the CLI arguments from the command.
+  * `getRepoConfigurations(cliArguments)`: RepoSense gets the configuration for each repository by parsing the CSV files.
+  * `getReportConfigurations(cliArguments)`: RepoSense gets the report configuration (report title) by parsing the JSON files.
+  * `ReportGenerator.generateReposReport(...)` This is where the bulk of the work is conducted, including cloning repositories, analyzing repositories, and generating the JSON files to be used by the report.
 
 <box type="info" seamless>
 
@@ -97,6 +97,11 @@ In `RepoCloner`, the potential exceptions in `spawnCloneProcess` and `waitForClo
   ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), e.getMessage());
   ```
 </panel>
+
+<box type="info" seamless>
+
+This is only for your practice. There is no need for you to commit this change and submit it in a pull request.
+</box>
 
 {{ step(4) }} Get familiar with the workflow
 
