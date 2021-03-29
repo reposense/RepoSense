@@ -24,7 +24,7 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 
 <!-- ==================================================================================================== -->
 
-## Coding standards
+## Following the coding standards
 
 * Make sure you know our coding standards.
   {{ embed('Appendix: Coding Standards', 'styleGuides.md', level=2) }}
@@ -115,8 +115,6 @@ To run all the unit and integration tests, run `gradlew test`.
 <!-- ==================================================================================================== -->
 
 ## Writing documentation
-
-If you want to make contribution to the RepoSense documentation, you can refer to the guide below.
 
 **This project uses [MarkBind](https://markbind.org/)** for documentation. Follow [this tutorial](https://se-education.org/guides/tutorials/markbind.html) to learn how to use MarkBind for updating project documentation.
 
