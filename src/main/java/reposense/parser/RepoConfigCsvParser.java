@@ -17,30 +17,42 @@ import reposense.model.RepoLocation;
 public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public static final String REPO_CONFIG_FILENAME = "repo-config.csv";
     private static final String IGNORE_STANDALONE_CONFIG_KEYWORD = "yes";
+    private static final String SHALLOW_CLONING_CONFIG_KEYWORD = "yes";
 
     /**
      * Positions of the elements of a line in repo-config.csv config file
      */
-    private static final int LOCATION_POSITION = 0;
-    private static final int BRANCH_POSITION = 1;
-    private static final int FILE_FORMATS_POSITION = 2;
-    private static final int IGNORE_GLOB_LIST_POSITION = 3;
-    private static final int IGNORE_STANDALONE_CONFIG_POSITION = 4;
-    private static final int IGNORE_COMMIT_LIST_CONFIG_POSITION = 5;
-    private static final int IGNORE_AUTHOR_LIST_CONFIG_POSITION = 6;
-    private static final int HEADER_SIZE = IGNORE_AUTHOR_LIST_CONFIG_POSITION + 1; // last position + 1
+    private static final String LOCATION_HEADER = "Repository's Location";
+    private static final String BRANCH_HEADER = "Branch";
+    private static final String FILE_FORMATS_HEADER = "File formats";
+    private static final String IGNORE_GLOB_LIST_HEADER = "Ignore Glob List";
+    private static final String IGNORE_STANDALONE_CONFIG_HEADER = "Ignore standalone config";
+    private static final String IGNORE_COMMIT_LIST_CONFIG_HEADER = "Ignore Commit List";
+    private static final String IGNORE_AUTHOR_LIST_CONFIG_HEADER = "Ignore Authors List";
+    private static final String SHALLOW_CLONING_CONFIG_HEADER = "Shallow Cloning";
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
-        super(csvFilePath, HEADER_SIZE);
+        super(csvFilePath);
     }
 
     /**
-     * Gets the list of positions that are mandatory for verification.
+     * Gets the list of headers that are mandatory for verification.
      */
     @Override
-    protected int[] mandatoryPositions() {
-        return new int[] {
-            LOCATION_POSITION,
+    protected String[] mandatoryHeaders() {
+        return new String[] {
+                LOCATION_HEADER,
+        };
+    }
+
+    /**
+     * Gets the list of optional headers that can be parsed.
+     */
+    @Override
+    protected String[] optionalHeaders() {
+        return new String[] {
+                BRANCH_HEADER, FILE_FORMATS_HEADER, IGNORE_GLOB_LIST_HEADER, IGNORE_STANDALONE_CONFIG_HEADER,
+                IGNORE_COMMIT_LIST_CONFIG_HEADER, IGNORE_AUTHOR_LIST_CONFIG_HEADER, SHALLOW_CLONING_CONFIG_HEADER,
         };
     }
 
@@ -51,26 +63,26 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     @Override
     protected void processLine(List<RepoConfiguration> results, CSVRecord record) throws InvalidLocationException {
-        RepoLocation location = new RepoLocation(get(record, LOCATION_POSITION));
-        String branch = getOrDefault(record, BRANCH_POSITION, RepoConfiguration.DEFAULT_BRANCH);
+        RepoLocation location = new RepoLocation(get(record, LOCATION_HEADER));
+        String branch = getOrDefault(record, BRANCH_HEADER, RepoConfiguration.DEFAULT_BRANCH);
 
-        boolean isFormatsOverriding = isElementOverridingStandaloneConfig(record, FILE_FORMATS_POSITION);
+        boolean isFormatsOverriding = isElementOverridingStandaloneConfig(record, FILE_FORMATS_HEADER);
         List<FileType> formats = FileType.convertFormatStringsToFileTypes(
-                getAsListWithoutOverridePrefix(record, FILE_FORMATS_POSITION));
+                getAsListWithoutOverridePrefix(record, FILE_FORMATS_HEADER));
 
-        boolean isIgnoreGlobListOverriding = isElementOverridingStandaloneConfig(record, IGNORE_GLOB_LIST_POSITION);
-        List<String> ignoreGlobList = getAsListWithoutOverridePrefix(record, IGNORE_GLOB_LIST_POSITION);
+        boolean isIgnoreGlobListOverriding = isElementOverridingStandaloneConfig(record, IGNORE_GLOB_LIST_HEADER);
+        List<String> ignoreGlobList = getAsListWithoutOverridePrefix(record, IGNORE_GLOB_LIST_HEADER);
 
         boolean isIgnoreCommitListOverriding =
-                isElementOverridingStandaloneConfig(record, IGNORE_COMMIT_LIST_CONFIG_POSITION);
+                isElementOverridingStandaloneConfig(record, IGNORE_COMMIT_LIST_CONFIG_HEADER);
         List<CommitHash> ignoreCommitList = CommitHash.convertStringsToCommits(
-                getAsListWithoutOverridePrefix(record, IGNORE_COMMIT_LIST_CONFIG_POSITION));
+                getAsListWithoutOverridePrefix(record, IGNORE_COMMIT_LIST_CONFIG_HEADER));
 
         boolean isIgnoredAuthorsListOverriding =
-                isElementOverridingStandaloneConfig(record, IGNORE_AUTHOR_LIST_CONFIG_POSITION);
-        List<String> ignoredAuthorsList = getAsListWithoutOverridePrefix(record, IGNORE_AUTHOR_LIST_CONFIG_POSITION);
+                isElementOverridingStandaloneConfig(record, IGNORE_AUTHOR_LIST_CONFIG_HEADER);
+        List<String> ignoredAuthorsList = getAsListWithoutOverridePrefix(record, IGNORE_AUTHOR_LIST_CONFIG_HEADER);
 
-        String ignoreStandaloneConfig = get(record, IGNORE_STANDALONE_CONFIG_POSITION);
+        String ignoreStandaloneConfig = get(record, IGNORE_STANDALONE_CONFIG_HEADER);
         boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 
         if (!isStandaloneConfigIgnored && !ignoreStandaloneConfig.isEmpty()) {
@@ -78,9 +90,18 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                     "Ignoring unknown value " + ignoreStandaloneConfig + " in ignore standalone config column.");
         }
 
+        String shallowCloningConfig = get(record, SHALLOW_CLONING_CONFIG_HEADER);
+        boolean isShallowCloningPerformed = shallowCloningConfig.equalsIgnoreCase(SHALLOW_CLONING_CONFIG_KEYWORD);
+
+        if (!isShallowCloningPerformed && !shallowCloningConfig.isEmpty()) {
+            logger.warning(
+                    "Ignoring unknown value " + shallowCloningConfig + " in shallow cloning column.");
+        }
+
         RepoConfiguration config = new RepoConfiguration(
                 location, branch, formats, ignoreGlobList, isStandaloneConfigIgnored, ignoreCommitList,
-                isFormatsOverriding, isIgnoreGlobListOverriding, isIgnoreCommitListOverriding);
+                isFormatsOverriding, isIgnoreGlobListOverriding, isIgnoreCommitListOverriding,
+                isShallowCloningPerformed);
         config.setIgnoredAuthorsList(ignoredAuthorsList);
         config.setIsIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding);
 
