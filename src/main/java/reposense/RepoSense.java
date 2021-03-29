@@ -76,6 +76,8 @@ public class RepoSense {
                     cliArguments.isStandaloneConfigIgnored());
             RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(configs,
                     cliArguments.isLastModifiedDateIncluded());
+            RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(configs,
+                    cliArguments.isShallowCloningPerformed());
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
