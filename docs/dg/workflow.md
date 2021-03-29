@@ -24,6 +24,16 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 
 <!-- ==================================================================================================== -->
 
+## Coding standards
+
+* Make sure you know our coding standards.
+  {{ embed('Appendix: Coding Standards', 'styleGuides.md', level=2) }}
+* **Follow [the tutorial](https://se-education.org/guides/tutorials/intellijCodeStyle.html) to configure Intellij to follow our coding style**.
+* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it. In particular, run `gradlew checkstyleMain checkstyleTest checkstyleSystemtest` to check the style of all the relevant Java code.
+* **To check Pug files for style errors**, run `npm run lint` from the project root directory. You can use the `npm run lintfix` to automatically fix some of the JavaScript and CSS lint errors.
+
+<!-- ==================================================================================================== -->
+
 ## Running the app from code
 
 <div id="section-running-from-code">
@@ -102,3 +112,18 @@ To run all the system tests, run `gradlew systemtest`.
 
 To run all the unit and integration tests, run `gradlew test`.
 
+<!-- ==================================================================================================== -->
+
+## Writing documentation
+
+If you want to make contribution to the RepoSense documentation, you can refer to the guide below.
+
+**This project uses [MarkBind](https://markbind.org/)** for documentation. Follow [this tutorial](https://se-education.org/guides/tutorials/markbind.html) to learn how to use MarkBind for updating project documentation.
+
+**To show some content only in the <tooltip content="i.e., https://reposense.org">production website</tooltip>**, add the `tags="production"` attribute to the HTML element enclosing the content. Similarly, `tags="dev"` will make the content appear only in the <tooltip content="i.e., https://reposense.org/RepoSense">dev website</tooltip>.
+
+```html
+<span tags="production">This will appear in the production website only.</span>
+<span tags="dev">This will appear in the dev website only.</span>
+This will appear in both sites.
+```
