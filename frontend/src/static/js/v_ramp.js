@@ -9,6 +9,12 @@ window.vRamp = {
     };
   },
 
+  watch: {
+    user() {
+      this.isRendered = false;
+    },
+  },
+
   methods: {
     visibilityChanged(isVisible) {
       if (isVisible) {
