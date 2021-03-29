@@ -46,7 +46,7 @@ The information below is for **Intellij**. If you are using a different IDE, you
 </box>
 
 * Check the [debugging guide](https://www.jetbrains.com/help/idea/debugging-your-first-java-application.html) if you are not familiar with debugging in **Intelij**.
-* In `RepoSense.java`, the main class, set appropriate break points. Here are some relevant method calls in the `main` method at which you can set the breakpoints: For example, you can set the first 3 breakpoints to be at ``  to inspect how CLI arguments, CSV files configuration, and JSON file configuration are retrieved, corresponding to the first step in the architecture diagram. The last break point is set at the `generateReposReport` method, where 
+* In `RepoSense.java`, the main class, set appropriate break points. Here are some relevant method calls in the `main` method at which you can set the breakpoints:
   * `ArgsParser.parse(args);`: RepoSense parses the CLI arguments from the command.
   * `getRepoConfigurations(cliArguments);`: RepoSense gets the configuration for each repository by parsing the CSV files.
   * `getReportConfigurations(cliArguments);`: RepoSense gets the report configuration (report title) by parsing the JSON files.
