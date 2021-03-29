@@ -177,7 +177,7 @@ Some of the CSS styling for `summart_charts.pug` is in [`v_summary.scss`](https:
   
   ``` 
   .active-text {
-    color: mui-color('red', '200');
+    color: mui-color('green');
   }
   ```
 
