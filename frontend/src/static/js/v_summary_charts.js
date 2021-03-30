@@ -264,6 +264,10 @@ window.vSummaryCharts = {
       this.$store.commit('updateMergedGroup', info);
     },
 
+    getAuthorDisplayName(repo) {
+      return window.getAuthorDisplayName(repo);
+    },
+
     retrieveSelectedTabHash() {
       const hash = window.hashParams;
 
