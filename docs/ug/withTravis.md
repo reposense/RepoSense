@@ -30,10 +30,11 @@ The instructions below assume you are using GitHub pages to host your report.
 
 {{ step(1)}} **Fork the _publish-RepoSense_ repository** using this [link](https://github.com/RepoSense/publish-RepoSense/fork). Optionally, you can rename the fork to match your RepoSense report e.g., `project-code-dashboard`.
 
+</div>
+
 {{ step(2)}} **Generate a _personal access token_ or _deploy key_ on GitHub** as explained in the panel below.
 
   {{ embed("Granting write access on GitHub", "grantingWriteAccess.mbdf") }}
-</div>
 
 {{ step(3) }} **Login to [Travis-CI](https://travis-ci.org/).** You may have to sign up first.
 

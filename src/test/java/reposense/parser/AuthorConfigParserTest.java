@@ -32,8 +32,12 @@ public class AuthorConfigParserTest {
             "AuthorConfigParserTest/authorconfig_multipleEmails_test.csv");
     private static final Path AUTHOR_CONFIG_INVALID_LOCATION = loadResource(AuthorConfigParserTest.class,
             "AuthorConfigParserTest/authorconfig_invalidLocation_test.csv");
-    private static final Path AUTHOR_CONFIG_INVALID_HEADER_SIZE = loadResource(AuthorConfigParserTest.class,
-            "AuthorConfigParserTest/authorconfig_invalidHeaderSize_test.csv");
+    private static final Path AUTHOR_CONFIG_DIFFERENT_COLUMN_ORDER = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_differentColumnOrder_test.csv");
+    private static final Path AUTHOR_CONFIG_MISSING_OPTIONAL_HEADER = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_missingOptionalHeader_test.csv");
+    private static final Path AUTHOR_CONFIG_MISSING_MANDATORY_HEADER = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_missingMandatoryHeader_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
@@ -153,9 +157,37 @@ public class AuthorConfigParserTest {
         Assert.assertEquals(3, config.getAuthorList().size());
     }
 
+    @Test
+    public void authorConfig_differentColumnOrder_success() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser =
+                new AuthorConfigCsvParser(AUTHOR_CONFIG_DIFFERENT_COLUMN_ORDER);
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        AuthorConfiguration config = configs.get(0);
+
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+
+        Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
+    }
+
+    @Test
+    public void authorConfig_missingOptionalHeader_success() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MISSING_OPTIONAL_HEADER);
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        AuthorConfiguration config = configs.get(0);
+
+        Assert.assertEquals(4, config.getAuthorList().size());
+    }
+
     @Test (expected = InvalidCsvException.class)
-    public void authorConfig_invalidHeaderSize_throwsInvalidCsvException() throws Exception {
-        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_HEADER_SIZE);
+    public void authorConfig_missingMandatoryHeader_throwsInvalidCsvException() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MISSING_MANDATORY_HEADER);
         authorConfigCsvParser.parse();
     }
 
