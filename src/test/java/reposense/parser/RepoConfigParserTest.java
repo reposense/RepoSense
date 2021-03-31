@@ -33,8 +33,6 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_overrideKeyword_test.csv");
     private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
-    private static final Path REPO_CONFIG_INVALID_HEADER_SIZE_FILE = loadResource(RepoConfigParserTest.class,
-            "RepoConfigParserTest/repoconfig_invalidHeaderSize_test.csv");
     private static final Path REPO_CONFIG_INVALID_LOCATION_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_invalidLocation_test.csv");
     private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE =

@@ -565,13 +565,13 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_invalidLocation_success() throws Exception {
         String formats = String.join(" ", CLI_FORMATS);
-        String input = new InputBuilder().addRepos(TEST_REPO_DELTA, INVALID_TEST_REPO)
+        String input = new InputBuilder().addRepos(TEST_REPO_BETA, TEST_REPO_DELTA, INVALID_TEST_REPO)
                 .addFormats(formats)
                 .addIgnoreStandaloneConfig()
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
 
-        Assert.assertEquals(1, actualConfigs.size());
+        Assert.assertEquals(2, actualConfigs.size());
     }
 }
