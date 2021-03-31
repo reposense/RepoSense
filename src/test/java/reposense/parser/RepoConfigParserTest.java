@@ -35,6 +35,8 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
     private static final Path REPO_CONFIG_INVALID_HEADER_SIZE_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_invalidHeaderSize_test.csv");
+    private static final Path REPO_CONFIG_INVALID_LOCATION_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_invalidLocation_test.csv");
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_merge_empty_location_test");
     private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
@@ -246,5 +248,13 @@ public class RepoConfigParserTest {
     public void repoConfig_zeroValidRecords_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_ZERO_VALID_RECORDS);
         repoConfigCsvParser.parse();
+    }
+
+    @Test
+    public void repoConfig_invalidLocation_success() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_LOCATION_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assert.assertEquals(2, configs.size());
     }
 }

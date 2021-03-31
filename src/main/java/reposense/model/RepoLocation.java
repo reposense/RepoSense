@@ -69,7 +69,7 @@ public class RepoLocation {
         isValidGitUrl = matcher.matches();
 
         if (!isValidPathLocation && !isValidGitUrl) {
-            ErrorSummary.getInstance().addErrorMessage(location, "Invalid location");
+            ErrorSummary.getInstance().addErrorMessage(location, "Invalid location.");
             throw new InvalidLocationException(location + " is an invalid location.");
         }
     }
