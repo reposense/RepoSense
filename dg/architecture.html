@@ -155,9 +155,18 @@
         <h2 id="reportgenerator-main"><span id="reportgenerator-main" class="anchor"></span>ReportGenerator(Main)<a class="fa fa-anchor" href="#reportgenerator-main" onclick="event.stopPropagation()"></a></h2>
         <p><a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java"><code class="hljs inline no-lang" v-pre>ReportGenerator</code></a></p>
         <ol>
-          <li>uses <code class="hljs inline no-lang" v-pre>GitClone</code> API to clone the repository from <em>GitHub</em>.</li>
-          <li>copies the template files into the designated output directory.</li>
-          <li>uses <code class="hljs inline no-lang" v-pre>CommitReporter</code> and <code class="hljs inline no-lang" v-pre>AuthorshipReporter</code> to produce the commit and authorship summary, respectively.</li>
+          <li>clones repositories using the <code class="hljs inline no-lang" v-pre>GitClone</code> API in a multi-threaded fashion.
+            <ul>
+              <li>By default, 4 threads are used for cloning; the number of threads can be specified using the CLI argument <code class="hljs inline no-lang" v-pre>--cloning-threads &lt;threads&gt;</code>.</li>
+            </ul>
+          </li>
+          <li>analyzes the repositories using the <code class="hljs inline no-lang" v-pre>CommitReporter</code> and <code class="hljs inline no-lang" v-pre>AuthorshipReporter</code> in a multi-threaded fashion.
+            <ul>
+              <li>First, copies the template files into the designated output directory.</li>
+              <li>Then, uses <code class="hljs inline no-lang" v-pre>CommitReporter</code> and <code class="hljs inline no-lang" v-pre>AuthorshipReporter</code> to produce the commit and authorship summary, respectively.</li>
+              <li>By default, the number of threads used for analysis is equal to the number of CPU cores available; the number of threads can be specified using the CLI argument <code class="hljs inline no-lang" v-pre>--analysis-threads &lt;threads&gt;</code>.</li>
+            </ul>
+          </li>
           <li>generates the <code class="hljs inline no-lang" v-pre>JSON</code> files needed to generate the <code class="hljs inline no-lang" v-pre>HTML</code> report.</li>
         </ol>
 
@@ -208,7 +217,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Mar 31, 2021, 8:33:30 AM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Mar 31, 2021, 11:48:41 AM UTC]</small>
       </div>
     </footer>
   </div>
