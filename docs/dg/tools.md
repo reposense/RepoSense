@@ -1,4 +1,4 @@
-<variable name="title">Appendix: Tools for front-end development</variable>
+<variable name="title">Appendix: Tools for frontend development</variable>
 <frontmatter>
   title: "{{ title | safe }}"
 </frontmatter>
