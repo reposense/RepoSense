@@ -1,4 +1,4 @@
-Repository's Location,Group Name, Globs
+Repository's Location,Group Name,Globs
 https://github.com/reposense/testrepo-Alpha.git,code,**.java
 https://github.com/reposense/testrepo-Charlie.git,code,**.java
 https://github.com/reposense/testrepo-Charlie.git,test,src/test**
