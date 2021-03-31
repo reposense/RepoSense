@@ -217,6 +217,13 @@ public class FileUtil {
     /**
      * Returns the relative path to the bare repo version of {@code config}.
      */
+    public static Path getRepoParentFolder(RepoConfiguration config) {
+        return Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
+    }
+
+    /**
+     * Returns the relative path to the bare repo version of {@code config}.
+     */
     public static Path getBareRepoPath(RepoConfiguration config) {
         return Paths.get(FileUtil.REPOS_ADDRESS,
                 config.getRepoFolderName(), config.getRepoName() + BARE_REPO_SUFFIX);
