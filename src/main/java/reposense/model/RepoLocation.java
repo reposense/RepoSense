@@ -15,6 +15,7 @@ import reposense.report.ErrorSummary;
  */
 public class RepoLocation {
     private static final String GIT_LINK_SUFFIX = ".git";
+    private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^https?:\\/\\/github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
 
@@ -69,8 +70,8 @@ public class RepoLocation {
         isValidGitUrl = matcher.matches();
 
         if (!isValidPathLocation && !isValidGitUrl) {
-            ErrorSummary.getInstance().addErrorMessage(location, "Invalid location.");
-            throw new InvalidLocationException(location + " is an invalid location.");
+            ErrorSummary.getInstance().addErrorMessage(location, String.format(MESSAGE_INVALID_LOCATION, location));
+            throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
         }
     }
 
