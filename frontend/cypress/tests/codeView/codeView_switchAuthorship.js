@@ -56,38 +56,66 @@ describe('switch authorship', () => {
   it('switch authorship view should not retain information from previous visited tabs', () => {
     Cypress.wait();
 
-    // open the code panel
-    cy.get('.icon-button.fa-code')
+    // Assumptions:
+    // The first repository has more than one person listed.
+    // The first displayed file which the first and last person worked on is different.
+    const betweenBracketsRegex = /\((.*)\)/;
+
+    let firstAuthor;
+    let firstFilename;
+    let lastAuthor;
+
+    cy.get('#summary-charts > .summary-charts').first().as('firstChart');
+
+    // open the first code panel
+    cy.get('@firstChart')
+        .find('.icon-button.fa-code')
         .should('be.visible')
         .first()
         .click();
 
-    cy.get('#tab-authorship .panel-heading .author span')
-        .should('contain.text', 'eugenepeh');
+    cy.get('#tab-authorship > .panel-heading > .author > span')
+        .last()
+        .then(($span) => {
+          firstAuthor = $span.text().match(betweenBracketsRegex).pop();
+          cy.url()
+              .should('include', firstAuthor);
+        });
 
     cy.get('#tab-authorship .title .path')
+        .children('span')
         .first()
-        .should('contain.text', 'frontend/src/static/js/v_summary.js');
-
-    cy.url()
-        .should('include', 'eugenepeh');
+        .then(($span) => {
+          firstFilename = $span.text();
+        });
 
     // switch authorship view
-    cy.get('.icon-button.fa-code')
+    cy.get('@firstChart')
+        .find('.icon-button.fa-code')
         .should('be.visible')
         .last()
         .click();
 
-    cy.get('#tab-authorship .panel-heading .author span')
-        .should('not.contain.text', 'eugenepeh')
-        .should('contain.text', 'yong24s');
+    cy.get('#tab-authorship > .panel-heading > .author > span')
+        .last()
+        .should(($span) => {
+          lastAuthor = $span.text().match(betweenBracketsRegex).pop();
+          expect(firstAuthor, 'First author to have different name from the last author')
+              .to.not.equal(lastAuthor);
+        })
+        .then(() => {
+          cy.url()
+              .should('not.include', firstAuthor)
+              .should('include', lastAuthor);
+        });
 
-    cy.get('#tab-authorship .title .path')
+    cy.get('#tab-authorship > .files > .file > .title > .path')
+        .children('span')
         .first()
-        .should('contain.text', 'src/test/java/reposense/parser/ArgsParserTest.java');
-
-    cy.url()
-        .should('not.include', 'eugenepeh')
-        .should('include', 'yong24s');
+        .should(($span) => {
+          const lastFilename = $span.text();
+          expect(firstFilename, 'First displayed filenames should be different for different authors')
+              .to.not.equal(lastFilename);
+        });
   });
 });
