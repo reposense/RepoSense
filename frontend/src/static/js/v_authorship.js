@@ -1,3 +1,6 @@
+// eslint-disable-next-line import/no-unresolved
+import minimatch from 'https://cdn.skypack.dev/minimatch@v3.0.4';
+
 /* global Vuex */
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
@@ -6,7 +9,7 @@ const filesSortDict = {
   fileType: (file) => file.fileType,
 };
 
-function initialState() {
+function authorshipInitialState() {
   return {
     isLoaded: false,
     files: [],
@@ -25,12 +28,11 @@ function initialState() {
 }
 
 const repoCache = [];
-const minimatch = require('minimatch');
 
 window.vAuthorship = {
   template: window.$('v_authorship').innerHTML,
   data() {
-    return initialState();
+    return authorshipInitialState();
   },
 
   watch: {
@@ -54,8 +56,8 @@ window.vAuthorship = {
       this.updateSelectedFiles();
     },
 
-    authorshipOwnerWatchable() {
-      Object.assign(this.$data, initialState());
+    info() {
+      Object.assign(this.$data, authorshipInitialState());
       this.initiate();
     },
   },
@@ -393,10 +395,6 @@ window.vAuthorship = {
   },
 
   computed: {
-    authorshipOwnerWatchable() {
-      return `${this.info.author}|${this.info.repo}|${this.info.isMergeGroup}`;
-    },
-
     sortingFunction() {
       return (a, b) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
