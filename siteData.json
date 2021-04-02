@@ -75,6 +75,7 @@
       "headings": {
         "project-management": "Project management",
         "merging-prs": "Merging PRs",
+        "making-a-release-on-github": "Making a release on Github",
         "deploying-the-production-website": "Deploying the production website"
       },
       "headingKeywords": {}
