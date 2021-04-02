@@ -69,7 +69,7 @@ describe('switch zoom', () => {
 
     // open the commit panel
     cy.get('@firstChart')
-        .find('summary-chart__title > .tooltip > .fa-list-ul')
+        .find('.summary-chart__title > .tooltip > .fa-list-ul')
         .should('be.visible')
         .first()
         .click();
@@ -90,7 +90,8 @@ describe('switch zoom', () => {
 
     // switch zoom view
     cy.get('@firstChart')
-        .find('summary-chart__title > .tooltip > .fa-list-ul')
+        .find('.summary-chart__title > .tooltip > .fa-list-ul')
+        .should('be.visible')
         .last()
         .click();
 

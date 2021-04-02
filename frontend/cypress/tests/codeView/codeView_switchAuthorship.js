@@ -69,7 +69,7 @@ describe('switch authorship', () => {
 
     // open the first code panel
     cy.get('@firstChart')
-        .find('summary-chart__title > .tooltip > .fa-code')
+        .find('.summary-chart__title > .tooltip > .fa-code')
         .should('be.visible')
         .first()
         .click();
@@ -91,7 +91,7 @@ describe('switch authorship', () => {
 
     // switch authorship view
     cy.get('@firstChart')
-        .find('summary-chart__title > .tooltip > .fa-code')
+        .find('.summary-chart__title > .tooltip > .fa-code')
         .should('be.visible')
         .last()
         .click();
