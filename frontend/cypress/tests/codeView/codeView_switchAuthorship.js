@@ -69,7 +69,7 @@ describe('switch authorship', () => {
 
     // open the first code panel
     cy.get('@firstChart')
-        .find('.icon-button .fa-code')
+        .find('.icon-button.fa-code')
         .should('be.visible')
         .first()
         .click();
@@ -82,7 +82,7 @@ describe('switch authorship', () => {
               .should('include', firstAuthor);
         });
 
-    cy.get('#tab-authorship > .title > .path')
+    cy.get('#tab-authorship > .files > .file > .title > .path')
         .children('span')
         .first()
         .then(($span) => {
@@ -91,7 +91,7 @@ describe('switch authorship', () => {
 
     // switch authorship view
     cy.get('@firstChart')
-        .find('.icon-button .fa-code')
+        .find('.icon-button.fa-code')
         .should('be.visible')
         .last()
         .click();
