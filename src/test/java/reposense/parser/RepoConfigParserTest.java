@@ -294,7 +294,7 @@ public class RepoConfigParserTest {
     }
 
     @Test
-    public void repoConfig_invalidLocation_success() throws Exception {
+    public void repoConfig_withInvalidLocation_success() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_LOCATION_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
