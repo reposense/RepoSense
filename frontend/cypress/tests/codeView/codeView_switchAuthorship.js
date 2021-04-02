@@ -65,10 +65,8 @@ describe('switch authorship', () => {
     let firstFilename;
     let lastAuthor;
 
-    cy.get('#summary-charts > .summary-charts').first().as('firstChart');
-
     // open the first code panel
-    cy.get('@firstChart')
+    cy.get('#summary-charts > .summary-charts').first()
         .find('.summary-chart__title > .tooltip > .fa-code')
         .should('be.visible')
         .first()
@@ -90,7 +88,7 @@ describe('switch authorship', () => {
         });
 
     // switch authorship view
-    cy.get('@firstChart')
+    cy.get('#summary-charts > .summary-charts').first()
         .find('.summary-chart__title > .tooltip > .fa-code')
         .should('be.visible')
         .last()

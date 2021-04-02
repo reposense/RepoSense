@@ -65,10 +65,8 @@ describe('switch zoom', () => {
     let firstDay;
     let lastAuthor;
 
-    cy.get('#summary-charts > .summary-charts').first().as('firstChart');
-
     // open the commit panel
-    cy.get('@firstChart')
+    cy.get('#summary-charts > .summary-charts').first()
         .find('.summary-chart__title > .tooltip > .fa-list-ul')
         .should('be.visible')
         .first()
@@ -89,7 +87,7 @@ describe('switch zoom', () => {
         });
 
     // switch zoom view
-    cy.get('@firstChart')
+    cy.get('#summary-charts > .summary-charts').first()
         .find('.summary-chart__title > .tooltip > .fa-list-ul')
         .should('be.visible')
         .last()
