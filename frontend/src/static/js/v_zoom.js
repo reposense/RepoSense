@@ -1,9 +1,8 @@
 /* global Vuex */
 
-function initialState() {
+function zoomInitialState() {
   return {
     showAllCommitMessageBody: true,
-    expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
     commitsSortType: 'time',
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
@@ -15,14 +14,13 @@ function initialState() {
 window.vZoom = {
   template: window.$('v_zoom').innerHTML,
   data() {
-    return initialState();
+    return {
+      expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+      ...zoomInitialState(),
+    };
   },
 
   computed: {
-    zoomOwnerWatchable() {
-      return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${this.info.zTimeFrame}`;
-    },
-
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === 'time'
         ? (commit) => commit.date
@@ -95,8 +93,12 @@ window.vZoom = {
   },
 
   watch: {
-    zoomOwnerWatchable() {
-      Object.assign(this.$data, initialState());
+    info() {
+      const newData = {
+        expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
+        ...zoomInitialState(),
+      };
+      Object.assign(this.$data, newData);
       this.initiate();
       this.setInfoHash();
     },
@@ -118,8 +120,10 @@ window.vZoom = {
 
   methods: {
     initiate() {
-      if (!this.info.zUser) { // restoring zoom tab from reloaded page
-        this.restoreZoomTab();
+      if (this.info.zUser) {
+        // This code should always run since zUser must be defined
+        this.updateFileTypes();
+        this.selectedFileTypes = this.fileTypes.slice();
       }
 
       this.updateFileTypes();
@@ -143,11 +147,6 @@ window.vZoom = {
       if (el) {
         el.focus();
       }
-    },
-
-    restoreZoomTab() {
-      // restore selected user's commits and file type colors from v_summary
-      this.$root.$emit('restoreCommits', this.info);
     },
 
     updateFileTypes() {
@@ -204,7 +203,6 @@ window.vZoom = {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
         zTimeFrame, zIsMerge, zAuthor, zRepo, zFromRamp, zFilterSearch,
       } = this.info;
-
       addHash('zA', zAuthor);
       addHash('zR', zRepo);
       addHash('zACS', zAvgCommitSize);

@@ -19,22 +19,31 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     /**
      * Positions of the elements of a line in group-config.csv config file
      */
-    private static final int LOCATION_POSITION = 0;
-    private static final int GROUP_NAME_POSITION = 1;
-    private static final int FILES_GLOB_POSITION = 2;
-    private static final int HEADER_SIZE = FILES_GLOB_POSITION + 1; // last position + 1
+    private static final String LOCATION_HEADER = "Repository's Location";
+    private static final String GROUP_NAME_HEADER = "Group Name";
+    private static final String FILES_GLOB_HEADER = "Globs";
 
     public GroupConfigCsvParser(Path csvFilePath) throws IOException {
-        super(csvFilePath, HEADER_SIZE);
+        super(csvFilePath);
     }
 
     /**
-     * Gets the list of positions that are mandatory for verification.
+     * Gets the list of headers that are mandatory for verification.
      */
     @Override
-    protected int[] mandatoryPositions() {
-        return new int[] {
-            GROUP_NAME_POSITION, FILES_GLOB_POSITION,
+    protected String[] mandatoryHeaders() {
+        return new String[] {
+                GROUP_NAME_HEADER, FILES_GLOB_HEADER,
+        };
+    }
+
+    /**
+     * Gets the list of optional headers that can be parsed.
+     */
+    @Override
+    protected String[] optionalHeaders() {
+        return new String[] {
+                LOCATION_HEADER,
         };
     }
 
@@ -43,9 +52,9 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      */
     @Override
     protected void processLine(List<GroupConfiguration> results, CSVRecord record) throws InvalidLocationException {
-        String location = get(record, LOCATION_POSITION);
-        String groupName = get(record, GROUP_NAME_POSITION);
-        List<String> globList = getAsList(record, FILES_GLOB_POSITION);
+        String location = get(record, LOCATION_HEADER);
+        String groupName = get(record, GROUP_NAME_HEADER);
+        List<String> globList = getAsList(record, FILES_GLOB_HEADER);
 
         GroupConfiguration groupConfig = null;
         groupConfig = findMatchingGroupConfiguration(results, location);
