@@ -20,26 +20,36 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     /**
      * Positions of the elements of a line in author-config.csv config file.
      */
-    private static final int LOCATION_POSITION = 0;
-    private static final int BRANCH_POSITION = 1;
-    private static final int GITHUB_ID_POSITION = 2;
-    private static final int EMAIL_POSITION = 3;
-    private static final int DISPLAY_NAME_POSITION = 4;
-    private static final int ALIAS_POSITION = 5;
-    private static final int IGNORE_GLOB_LIST_POSITION = 6;
-    private static final int HEADER_SIZE = IGNORE_GLOB_LIST_POSITION + 1; // last position + 1
+    private static final String LOCATION_HEADER = "Repository's Location";
+    private static final String BRANCH_HEADER = "Branch";
+    private static final String GITHUB_ID_HEADER = "Author's GitHub ID";
+    private static final String EMAIL_HEADER = "Author's Emails";
+    private static final String DISPLAY_NAME_HEADER = "Author's Display Name";
+    private static final String ALIAS_HEADER = "Author's Git Author Name";
+    private static final String IGNORE_GLOB_LIST_HEADER = "Ignore Glob List";
 
     public AuthorConfigCsvParser(Path csvFilePath) throws IOException {
-        super(csvFilePath, HEADER_SIZE);
+        super(csvFilePath);
     }
 
     /**
-     * Gets the list of positions that are mandatory for verification.
+     * Gets the list of headers that are mandatory for verification.
      */
     @Override
-    protected int[] mandatoryPositions() {
-        return new int[] {
-            GITHUB_ID_POSITION,
+    protected String[] mandatoryHeaders() {
+        return new String[] {
+                GITHUB_ID_HEADER,
+        };
+    }
+
+    /**
+     * Gets the list of optional headers that can be parsed.
+     */
+    @Override
+    protected String[] optionalHeaders() {
+        return new String[] {
+                LOCATION_HEADER, BRANCH_HEADER, EMAIL_HEADER, DISPLAY_NAME_HEADER, ALIAS_HEADER,
+                IGNORE_GLOB_LIST_HEADER,
         };
     }
 
@@ -51,13 +61,13 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     @Override
     protected void processLine(List<AuthorConfiguration> results, CSVRecord record)
             throws ParseException {
-        String location = get(record, LOCATION_POSITION);
-        String branch = getOrDefault(record, BRANCH_POSITION, AuthorConfiguration.DEFAULT_BRANCH);
-        String gitHubId = get(record, GITHUB_ID_POSITION);
-        List<String> emails = getAsList(record, EMAIL_POSITION);
-        String displayName = get(record, DISPLAY_NAME_POSITION);
-        List<String> aliases = getAsList(record, ALIAS_POSITION);
-        List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_POSITION);
+        String location = get(record, LOCATION_HEADER);
+        String branch = getOrDefault(record, BRANCH_HEADER, AuthorConfiguration.DEFAULT_BRANCH);
+        String gitHubId = get(record, GITHUB_ID_HEADER);
+        List<String> emails = getAsList(record, EMAIL_HEADER);
+        String displayName = get(record, DISPLAY_NAME_HEADER);
+        List<String> aliases = getAsList(record, ALIAS_HEADER);
+        List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_HEADER);
 
         AuthorConfiguration config = findMatchingAuthorConfiguration(results, location, branch);
 

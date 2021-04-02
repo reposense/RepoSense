@@ -20,6 +20,7 @@ import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.impl.action.VersionArgumentAction;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import net.sourceforge.argparse4j.inf.FeatureControl;
 import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
@@ -37,6 +38,8 @@ import reposense.util.TimeUtil;
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
+    public static final int DEFAULT_NUM_CLONING_THREADS = 4;
+    public static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
 
     public static final String[] HELP_FLAGS = new String[]{"--help", "-h"};
     public static final String[] CONFIG_FLAGS = new String[]{"--config", "-c"};
@@ -53,6 +56,9 @@ public class ArgsParser {
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
     public static final String[] VERSION_FLAGS = new String[]{"--version", "-V"};
     public static final String[] LAST_MODIFIED_DATE_FLAGS = new String[]{"--last-modified-date", "-l"};
+
+    public static final String[] CLONING_THREADS_FLAG = new String[]{"--cloning-threads"};
+    public static final String[] ANALYSIS_THREADS_FLAG = new String[]{"--analysis-threads"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -204,6 +210,18 @@ public class ArgsParser {
                         + "reduce the time taken to clone large repositories. This flag should not be used for "
                         + "smaller repositories, where the .git file is smaller than 500 MB.");
 
+        parser.addArgument(CLONING_THREADS_FLAG)
+                .dest(CLONING_THREADS_FLAG[0])
+                .type(new CloningThreadsArgumentType())
+                .setDefault(DEFAULT_NUM_CLONING_THREADS)
+                .help(FeatureControl.SUPPRESS);
+
+        parser.addArgument(ANALYSIS_THREADS_FLAG)
+                .dest(ANALYSIS_THREADS_FLAG[0])
+                .type(new AnalysisThreadsArgumentType())
+                .setDefault(DEFAULT_NUM_ANALYSIS_THREADS)
+                .help(FeatureControl.SUPPRESS);
+
         return parser;
     }
 
@@ -259,6 +277,8 @@ public class ArgsParser {
             if (cliSinceDate.isPresent() && cliUntilDate.isPresent() && cliPeriod.isPresent()) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
+            int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
+            int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
 
             boolean isSinceDateProvided = cliSinceDate.isPresent() || reportConfig.getSinceDate().isPresent();
             boolean isUntilDateProvided = cliUntilDate.isPresent() || reportConfig.getUntilDate().isPresent();
@@ -339,17 +359,18 @@ public class ArgsParser {
 
             if (locations != null) {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                        isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
-                        shouldPerformShallowCloning, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId);
+                        isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
+                        shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
+                        isStandaloneConfigIgnored, zoneId);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                    isSinceDateProvided, isUntilDateProvided, formats, shouldIncludeLastModifiedDate,
-                    shouldPerformShallowCloning, isAutomaticallyLaunching, isStandaloneConfigIgnored, zoneId,
-                    reportConfig);
+                    isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
+                    shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
+                    isStandaloneConfigIgnored, zoneId, reportConfig);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
