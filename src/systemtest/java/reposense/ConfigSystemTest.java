@@ -153,7 +153,8 @@ public class ConfigSystemTest {
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(), () ->
+                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
+                cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
                 TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId());
     }
 

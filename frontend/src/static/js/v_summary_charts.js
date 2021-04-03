@@ -257,6 +257,10 @@ window.vSummaryCharts = {
       this.$store.commit('updateMergedGroup', info);
     },
 
+    getAuthorDisplayName(repo) {
+      return window.getAuthorDisplayName(repo);
+    },
+
     retrieveSelectedTabHash() {
       const hash = window.hashParams;
 
@@ -327,14 +331,16 @@ window.vSummaryCharts = {
       }
 
       if (this.filterGroupSelection === 'groupByAuthors') {
-        return this.activeUser === userName && this.activeTabType === tabType;
+        return this.isTabOnMergedGroup && this.activeUser === userName
+            && this.activeTabType === tabType;
       }
 
-      return this.activeRepo === repo && this.activeTabType === tabType;
+      return this.isTabOnMergedGroup && this.activeRepo === repo
+          && this.activeTabType === tabType;
     },
 
-    isSelectedGroup(userName, repo, isMerged) {
-      return (this.isTabOnMergedGroup || isMerged)
+    isSelectedGroup(userName, repo) {
+      return this.isTabOnMergedGroup
           && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
           || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
     },
