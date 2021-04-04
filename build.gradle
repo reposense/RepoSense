@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
     id 'application'
     id 'checkstyle'
@@ -179,8 +181,23 @@ String getRepoSenseVersion() {
 }
 
 // New Frontend Tasks
-task deleteOldFrontend (type: Delete) {
+task deleteNewReport (type: Delete) {
     delete "new-reposense-report/css", "new-reposense-report/js", "new-reposense-report/index.html"
+}
+
+task buildNewFrontend() {
+    String npm = 'npm';
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        npm = 'npm.cmd'
+    }
+    exec {
+        workingDir './new-frontend'
+        commandLine npm, 'install'
+    }
+    exec {
+        workingDir './new-frontend'
+        commandLine npm, 'run', 'devbuild'
+    }
 }
 
 task copyNewFrontend(type: Copy) {
@@ -188,13 +205,22 @@ task copyNewFrontend(type: Copy) {
     into 'new-reposense-report'
     includes = ['css', 'js', 'index.html', 'favicon.ico']
 }
-tasks.copyNewFrontend.dependsOn('deleteOldFrontend');
+tasks.copyNewFrontend.dependsOn('buildNewFrontend');
+tasks.copyNewFrontend.dependsOn('deleteNewReport');
 
 task copyGeneratedJson(type: Copy) {
     from 'reposense-report'
     into 'new-reposense-report'
     include '**/*.json'
 }
+
+task buildNewReport {
+    doLast {
+        println 'New report built at ./new-reposense-report.'
+    }
+}
+tasks.buildNewReport.dependsOn('buildNewFrontend');
+tasks.buildNewReport.dependsOn('copyGeneratedJson');
 // End of New Frontend Tasks
 
 jacocoTestReport.executionData(systemtest)
