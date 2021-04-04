@@ -59,7 +59,7 @@ When tracing through the program execution, you can cross reference the architec
 
 {{ step(3) }} Gain some hands-on experience
 
-Here is a small task for you to get started on contributing to RepoSense backend. Select an issue and try to work on it according to the guidance given in the issue comment.
+Here is a small task for you to get started on RepoSense backend contribution.
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. You should see that there is a red panel in the summary view containing the following message, indicating that there is an issue in the cloning process of the repository `reposense/testrepo-Empty`.
@@ -140,7 +140,7 @@ It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before work
 
 {{ step(3) }} Gain some hands-on experience
 
-Here are some small tasks for you to get started on contributing to RepoSense frontend. Select an issue and try to work on it according to the guidance given in the issue comment.
+Here are some small tasks for you to get started on RepoSense frontend contribution.
 
 **Summary View**
 
