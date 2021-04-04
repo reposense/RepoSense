@@ -204,22 +204,26 @@ task copyNewFrontend(type: Copy) {
     from 'new-frontend/build'
     into 'new-reposense-report'
 }
-tasks.copyNewFrontend.dependsOn('buildNewFrontend');
-tasks.copyNewFrontend.dependsOn('deleteNewReport');
 
 task copyGeneratedJson(type: Copy) {
     from 'reposense-report'
     into 'new-reposense-report'
     include '**/*.json'
+    includeEmptyDirs = false
 }
-tasks.copyGeneratedJson.dependsOn('buildNewFrontend');
 
-task buildNewReport {
+task buildNewReport() {
+    dependsOn(deleteNewReport)
+    dependsOn(copyNewFrontend)
+    dependsOn(copyGeneratedJson)
+    dependsOn(buildNewFrontend)
+    copyNewFrontend.mustRunAfter(buildNewFrontend)
+    copyNewFrontend.mustRunAfter(deleteNewReport)
+    copyGeneratedJson.mustRunAfter(deleteNewReport)
     doLast {
         println 'New report built at ./new-reposense-report.'
     }
 }
-tasks.buildNewReport.dependsOn('copyGeneratedJson');
 // End of New Frontend Tasks
 
 jacocoTestReport.executionData(systemtest)
