@@ -109,11 +109,11 @@ The next step is to learn how to enhance the code quality according to the codin
 
 {{ step(5) }} Get started with contributing
 
-RepoSense currently has a lot of open issues, and some may be challenging. Now that you are ready, you can check the issues in the [roadmap for contributors](https://github.com/reposense/RepoSense/projects/2#column-13522966) to work on actual pull requests.
+RepoSense currently has a lot of open issues, and some may be challenging. Now that you are ready, you can check the [issues for first timers](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Aa-Backend+label%3Ad.FirstTimers) or issues in the [roadmap for contributors](https://github.com/reposense/RepoSense/projects/2#column-13522966) to work on actual pull requests.
 
 <box type="info" seamless>
 
-Some issues, such as [#937](https://github.com/reposense/RepoSense/issues/937), have linked pull requests from previous contributors. You can refer to these pull requests for implementation details.
+The issues for first timers usually have guidance provided in the comment or have linked pull requests from previous contributors. You can refer to them for implementation details.
 </box>
 
 <!-- ==================================================================================================== -->
@@ -199,11 +199,11 @@ The next step is to learn how to enhance the code quality according to the codin
 
 {{ step(5) }} Get started with contributing
 
-RepoSense currently has a lot of open issues, and some may be challenging. Now that you are ready, you can check the issues in the [roadmap for contributors](https://github.com/reposense/RepoSense/projects/2#column-13522966) to work on actual pull requests.
+RepoSense currently has a lot of open issues, and some may be challenging. Now that you are ready, you can check the [issues for first timers](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers+label%3Aa-FrontEnd) or issues in the [roadmap for contributors](https://github.com/reposense/RepoSense/projects/2#column-13522966) to work on actual pull requests.
 
 <box type="info" seamless>
 
-Some issues, such as [#1205](https://github.com/reposense/RepoSense/issues/1205), have linked pull requests from previous contributors. You can refer to these pull requests for implementation details.
+The issues for first timers usually have guidance provided in the comment or have linked pull requests from previous contributors. You can refer to them for implementation details.
 </box>
 
 <!-- ==================================================================================================== -->
