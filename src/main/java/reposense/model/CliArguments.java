@@ -17,8 +17,11 @@ public abstract class CliArguments {
     protected boolean isUntilDateProvided;
     protected List<FileType> formats;
     protected boolean isLastModifiedDateIncluded;
+    protected boolean isShallowCloningPerformed;
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
+    protected int numCloningThreads;
+    protected int numAnalysisThreads;
     protected ZoneId zoneId;
 
     public ZoneId getZoneId() {
@@ -53,6 +56,10 @@ public abstract class CliArguments {
         return isLastModifiedDateIncluded;
     }
 
+    public boolean isShallowCloningPerformed() {
+        return isShallowCloningPerformed;
+    }
+
     public List<FileType> getFormats() {
         return formats;
     }
@@ -63,6 +70,14 @@ public abstract class CliArguments {
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
+    }
+
+    public int getNumCloningThreads() {
+        return numCloningThreads;
+    }
+
+    public int getNumAnalysisThreads() {
+        return numAnalysisThreads;
     }
 
     @Override
@@ -86,8 +101,11 @@ public abstract class CliArguments {
                 && this.isUntilDateProvided == otherCliArguments.isUntilDateProvided
                 && this.formats.equals(otherCliArguments.formats)
                 && this.isLastModifiedDateIncluded == otherCliArguments.isLastModifiedDateIncluded
+                && this.isShallowCloningPerformed == otherCliArguments.isShallowCloningPerformed
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
+                && this.numCloningThreads == otherCliArguments.numCloningThreads
+                && this.numAnalysisThreads == otherCliArguments.numAnalysisThreads
                 && this.zoneId.equals(otherCliArguments.zoneId);
     }
 }
