@@ -140,7 +140,9 @@ It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before work
 
 {{ step(3) }} Gain some hands-on experience
 
-Here is a small task for you to get started on contributing to RepoSense frontend. Select an issue and try to work on it according to the guidance given in the issue comment.
+Here are some small tasks for you to get started on contributing to RepoSense frontend. Select an issue and try to work on it according to the guidance given in the issue comment.
+
+**Summary View**
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
@@ -185,6 +187,84 @@ Some of the CSS styling for `summart_charts.pug` is in [`v_summary.scss`](https:
   
   ```
   'active-text': user.name === activeUser && user.repoName === activeRepo
+  ```
+</panel>
+
+**Authorship Contribution Panel**
+
+1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
+2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
+3. Select a random file in the authorship contribution panel, and hover your mouse on the icons on the of the file title, the corresponding tooltip will show up, but when you hover the mouse over the file path, there is no tip shown. For example, if you select an author in `reposense/RepoSense[master]` and hover the mouse over the triangular icon of the file with path `src/main/java/reposense/model/Author.java`, you should see a tooltip saying `Click to hide file details` showing up on the icon. However, when you hover the mouse over the file path `src/main/java/reposense/model/Author.java`, there is no corresponding tip shown.
+
+**Your Task** 
+
+Make corresponding `authorship contribution panel` so that in step 3, when hovering your mouse over the file path, a tip saying `This is the file path. Click to hide file details` will show up when the file details is shown, and `This is the file path. Click to show file details` will show up when the file details is not shown.
+
+<panel header="Hint 1">
+
+Try to locate where the file title and the file path are in [`authorship.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/authorship.pug).
+</panel>
+
+<panel header="Hint 2">
+
+You can check how tooltip is added for the triangular icon in the file title in [`authorship.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/authorship.pug).
+</panel>
+
+<panel header="Hint 3">
+
+You can check what `file.active` does and how it is used to switch between different tooltip messages when hovering the mouse on the icon.. 
+</panel>
+
+<panel header="Suggested solution">
+  There is more than 1 way to achieve this. One solution is shown as the following:
+  
+  In the [individual file section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/frontend/src/tabs/authorship.pug#L89-L102) of `authorship.pug`, replace line 98 with the following content.
+  
+  ``` 
+  span {{ i + 1 }}. &nbsp;&nbsp;
+  .tooltip
+    span {{ file.path }} &nbsp;
+    span.tooltip-text(v-show="file.active") This is the file path. Click to hide file details
+    span.tooltip-text(v-show="!file.active") This is the file path. Click to show file details
+  ```
+</panel>
+
+**Commits Panel**
+
+1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
+2. Randomly open the commits panel of an author.
+3. Select a random commit in the commits panel, and hover your mouse on the icons on the commit title, there is no tooltip shown. For example, given the [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/?search=&sort=groupTitle&sortWithin=title&since=&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=eugenepeh&zR=reposense%2FRepoSense%5Bmaster%5D&zACS=99.28792569659443&zS=2017-10-09&zFS=&zU=2021-04-04&zMG=undefined&zFTF=commit&zFGS=groupByRepos&zFR=false) if you hover the mouse over the commit title `README: add acknowledgements section (#978)`, you should see a tooltip saying `Click to hide file details`, there is no corresponding tip shown.
+
+**Your Task** 
+
+Make corresponding `zoom panel` so that in step 3, when hovering your mouse over the commit title, a tooltip saying `Click to view the detailed file changes` will show up on the commit title.
+
+<panel header="Hint 1">
+
+Try to locate where the commit title is in [`zoom.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/zoom.pug).
+</panel>
+
+<panel header="Hint 2">
+
+You can check how tooltip is added other icons in [`zoom.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/zoom.pug).
+</panel>
+
+<panel header="Hint 3">
+
+Check what `selectedCommits` does and how the link and commit title of each commit is retrieved.
+</panel>
+
+<panel header="Suggested solution">
+  There is more than 1 way to achieve this. One solution is shown as the following:
+  
+  In the [indivdual commit section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/frontend/src/tabs/zoom.pug#L88-L98) of `zoom.pug`, replace line 96 to 98 with the following content.
+  
+  ``` 
+  .tooltip
+    a.message-title(v-bind:href="getSliceLink(slice)", target="_blank")
+      .within-border {{ slice.messageTitle.substr(0, 50) }}
+      .not-within-border(v-if="slice.messageTitle.length > 50") {{ slice.messageTitle.substr(50) }}
+    span.tooltip-text Click to view the detailed file changes
   ```
 </panel>
 
