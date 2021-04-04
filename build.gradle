@@ -182,7 +182,7 @@ String getRepoSenseVersion() {
 
 // New Frontend Tasks
 task deleteNewReport (type: Delete) {
-    delete "new-reposense-report/css", "new-reposense-report/js", "new-reposense-report/index.html"
+    delete "new-reposense-report"
 }
 
 task buildNewFrontend() {
@@ -203,7 +203,6 @@ task buildNewFrontend() {
 task copyNewFrontend(type: Copy) {
     from 'new-frontend/build'
     into 'new-reposense-report'
-    includes = ['css', 'js', 'index.html', 'favicon.ico']
 }
 tasks.copyNewFrontend.dependsOn('buildNewFrontend');
 tasks.copyNewFrontend.dependsOn('deleteNewReport');
@@ -213,13 +212,13 @@ task copyGeneratedJson(type: Copy) {
     into 'new-reposense-report'
     include '**/*.json'
 }
+tasks.copyGeneratedJson.dependsOn('buildNewFrontend');
 
 task buildNewReport {
     doLast {
         println 'New report built at ./new-reposense-report.'
     }
 }
-tasks.buildNewReport.dependsOn('buildNewFrontend');
 tasks.buildNewReport.dependsOn('copyGeneratedJson');
 // End of New Frontend Tasks
 
