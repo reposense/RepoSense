@@ -63,7 +63,7 @@ Here are some small tasks for you to get started on RepoSense backend contributi
 
 <panel header="**Command Line Argument Parser**" type="primary">
 
-### Command Line Argument Parser
+**Command Line Argument Parser**
 
 1. [Generate a report locally](../ug/generatingReports.html#generating-reports-locally).
 2. Open a generated JSON file. For example, you can open `summary.json` of the generated report.
@@ -184,7 +184,7 @@ Now the parsing of argument and changing of printing mode should have been compl
 
 <panel header="**Cloning of repository**" type="primary">
 
-### Cloning of repository
+**Cloning of repository**
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. You should see that there is a red panel in the summary view containing the following message, indicating that there is an issue in the cloning process of the repository `reposense/testrepo-Empty`.
@@ -271,7 +271,7 @@ Here are some small tasks for you to get started on RepoSense frontend contribut
 
 <panel header="**Summary View**" type="primary">
 
-### Summary View
+**Summary View**
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
@@ -323,7 +323,7 @@ Some of the CSS styling for `summart_charts.pug` is in [`v_summary.scss`](https:
 
 <panel header="**Authorship Contribution Panel**" type="primary">
 
-### Authorship Contribution Panel
+**Authorship Contribution Panel**
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
@@ -358,7 +358,7 @@ You can check what `file.active` does and how it is used to switch between diffe
 
 <panel header="**Commits Panel**" type="primary">
 
-### Commits Panel
+**Commits Panel**
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. Randomly open the commits panel of an author.
