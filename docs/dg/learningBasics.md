@@ -59,7 +59,125 @@ When tracing through the program execution, you can cross reference the architec
 
 {{ step(3) }} Gain some hands-on experience
 
-Here is a small task for you to get started on RepoSense backend contribution.
+Here are some small tasks for you to get started on RepoSense backend contribution.
+
+**Command Line Argument Parser**
+
+1. [Generate a report locally](../ug/generatingReports.html#generating-reports-locally).
+2. Open a generated JSON file. For example, you can open `summary.json` of the generated report.
+3. You should see that the content in the JSON is compactly organized in 1 single line. This may affect readability for developer who wants to investigate the content in the JSON file.
+
+**Your Task**
+Add a new CLI argument `--use-json-pretty-printing`, such that when a user runs a command `java -jar RepoSense.jar --repos LIST_OF_REPO_URLS --view --use-json-pretty-printing`, the JSON file will be printed in a more readable way.
+
+<panel header="Hint 1">
+
+Try to understand the parsing process of the Command Line Arguments, which starts from `ArgsParser.parse(args)` in `RepoSense.java` and uses `ArgumentParser` to convert an argument string into a Java Object.
+
+Therefore, the first step you can take is to add the following to `ArgsParser`.
+
+```
+public static final String[] JSON_PRINT_MODE_FLAGS = new String[]{"--use-json-pretty-printing", "-j"};
+```
+
+In `getArgumentParser` method, add the following content.
+
+```
+parser.addArgument(JSON_PRINT_MODE_FLAGS)
+    .dest(JSON_PRINT_MODE_FLAGS[0])
+    .action(Arguments.storeTrue())
+    .help("A flag to use json pretty printing when generating the json files.");
+```
+</panel>
+
+<panel header="Hint 2">
+
+After the step in hint 1, the argument is captured by `ArgumentParser`. Now change the  `CliArguments`, `ConfigCliArguments`, `parse` method in `ArgsParser` to make the return result of `parse` include the new argument. 
+
+Add the following content to `CliArguments`.
+
+```
+protected boolean isPrettyPrintingUsed;
+
+public boolean isPrettyPrintingUsed() {
+        return isPrettyPrintingUsed;
+}
+```
+
+In the [constructor](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/src/main/java/reposense/model/ConfigCliArguments.java#L26-L52) of `ConfigCliArguments`, add `isPrettyPrintingUsed` as a new argument of the method, add the following content to the method body.
+
+```
+this.isPrettyPrintingUsed = isPrettyPrintingUsed;
+```
+
+In the `parse` method, replace the [section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/src/main/java/reposense/parser/ArgsParser.java#L303-L306) with the following content to get `isJsonPrettyPrintingUsed` from `ArgmentParser` and pass it to `ConfigCliArguments`.
+
+```
+boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
+
+return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
+        isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
+        shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
+        isStandaloneConfigIgnored, zoneId, isJsonPrettyPrintingUsed);
+``` 
+</panel>
+
+<panel header="Hint 3">
+
+After the steps in hint 1 and hint 2, the result returned from `ArgsParser.parse(args)` in `RepoSense.java` should already be able to capture the new argument when it is specified in the command. 
+
+The next step is to pass the argument to JSON file writer to notify it of the specified printing mode.
+
+Note that the creation and writing of JSON file is invoked in `ReportGenerator.generateReposReport`, which calls `FileUtil.writeJsonFile` directly to write the `summary.json` file or indirectly (Check `generateIndividualRepoReport` and `generateEmptyRepoReport`) to write the `commits.json` or `authorship.json` files of individual repositories.
+
+Therefore, the task now is to make `FileUtil.writeJsonFile` switch between different printing mode.
+ 
+You can find out what [`Gson.setPrettyPrinting`](https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/GsonBuilder.html#setPrettyPrinting--) does and how it is used in the `writeJsonFile` method of [`FileUtil.java`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/util/FileUtil.java).
+
+Add the following content to `FileUtil`.
+
+```
+private static boolean isPrettyPrintingUsed = false;
+```
+
+Replace the [section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/src/main/java/reposense/util/FileUtil.java#L97-L101) in the `writeJsonFile` method with the following content.
+
+```
+GsonBuilder gsonBuilder = new GsonBuilder()
+        .setDateFormat(GITHUB_API_DATE_FORMAT)
+        .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer());
+Gson gson;
+if (isPrettyPrintingUsed) {
+    gson = gsonBuilder.setPrettyPrinting().create();
+} else {
+    gson = gsonBuilder.create();
+}
+```
+
+To notify `FileUtil` of the switch between different printing mode, add the following content to `FileUtil`.
+
+```
+public static void setPrettyPrintingMode(boolean isPrettyPrintingAdopted) {
+    isPrettyPrintingUsed = isPrettyPrintingAdopted;
+}
+```
+
+It is now possible to notify `FileUtil` of the printing mode by adding the following content to the `main` method of `RepoSense.java`.
+
+```
+FileUtil.setPrettyPrintingMode(cliArguments.isPrettyPrintingUsed());
+```
+
+Now the parsing of argument and changing of printing mode should have been completed.
+</panel>
+
+<panel header="Suggested solution">
+  There is more than 1 way to achieve this. One solution is shown as the following:
+  
+  According to hint 1, hint 2, and hint 3, here are the complete [required changes](https://gist.github.com/HCY123902/e85ad0f7b258937945ce1aa97fe4af9e/revisions).
+</panel>
+ 
+**Cloning and analyzing of repository**
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. You should see that there is a red panel in the summary view containing the following message, indicating that there is an issue in the cloning process of the repository `reposense/testrepo-Empty`.
