@@ -138,7 +138,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Author author = new Author(FAKE_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         Map<FileType, ContributionPair> fileTypeAndContributionMap = new HashMap<>();
-        fileTypeAndContributionMap.put(FILETYPE_JSON, new ContributionPair(11, 0));
+        fileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(11, 0));
         expectedCommitResults.add(new CommitResult(author, LATEST_COMMIT_HASH,
                 parseGitStrictIsoDate("2021-04-05T12:27:03+08:00"),
                 "Add test lines for disowned code",
