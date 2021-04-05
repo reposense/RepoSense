@@ -47,7 +47,7 @@ The information below is for **Intellij**. If you are using a different IDE, you
 
 * Check the [debugging guide](https://www.jetbrains.com/help/idea/debugging-your-first-java-application.html) if you are not familiar with debugging in **Intelij**.
 * In `RepoSense.java`, the main class, set appropriate break points. Here are some relevant method calls in the `main` method at which you can set the breakpoints:
-  * `ArgsParser.parse(args)`: RepoSense parses the CLI arguments from the command.
+  * `ArgsParser.parse(args)`: RepoSense parses the CLI arguments from the command given by the user.
   * `getRepoConfigurations(cliArguments)`: RepoSense gets the configuration for each repository by parsing the CSV files.
   * `getReportConfigurations(cliArguments)`: RepoSense gets the report configuration (report title) by parsing the JSON files.
   * `ReportGenerator.generateReposReport(...)` This is where the bulk of the work is conducted, including cloning repositories, analyzing repositories, and generating the JSON files to be used by the report.
@@ -61,13 +61,16 @@ When tracing through the program execution, you can cross reference the architec
 
 Here are some small tasks for you to get started on RepoSense backend contribution.
 
-**Command Line Argument Parser**
+<panel header="**Command Line Argument Parser**" type="primary">
+
+### Command Line Argument Parser
 
 1. [Generate a report locally](../ug/generatingReports.html#generating-reports-locally).
 2. Open a generated JSON file. For example, you can open `summary.json` of the generated report.
 3. You should see that the content in the JSON is compactly organized in 1 single line. This may affect readability for developer who wants to investigate the content in the JSON file.
 
 **Your Task**
+
 Add a new CLI argument `--use-json-pretty-printing`, such that when a user runs a command `java -jar RepoSense.jar --repos LIST_OF_REPO_URLS --view --use-json-pretty-printing`, the JSON file will be printed in a more readable way.
 
 <panel header="Hint 1">
@@ -162,7 +165,7 @@ public static void setPrettyPrintingMode(boolean isPrettyPrintingAdopted) {
 }
 ```
 
-It is now possible to notify `FileUtil` of the printing mode by adding the following content to the `main` method of `RepoSense.java`.
+It is now possible to notify `FileUtil` of the printing mode switch by adding the following content to the `main` method of `RepoSense.java`.
 
 ```
 FileUtil.setPrettyPrintingMode(cliArguments.isPrettyPrintingUsed());
@@ -174,10 +177,14 @@ Now the parsing of argument and changing of printing mode should have been compl
 <panel header="Suggested solution">
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  According to hint 1, hint 2, and hint 3, here are the complete [required changes](https://gist.github.com/HCY123902/e85ad0f7b258937945ce1aa97fe4af9e/revisions).
+  According to hint 1, hint 2, and hint 3, here are the complete [required changes](https://gist.github.com/HCY123902/e85ad0f7b258937945ce1aa97fe4af9e/revisions) (See the latest revision).
 </panel>
- 
-**Cloning and analyzing of repository**
+
+</panel>
+
+<panel header="**Cloning of repository**" type="primary">
+
+### Cloning of repository
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. You should see that there is a red panel in the summary view containing the following message, indicating that there is an issue in the cloning process of the repository `reposense/testrepo-Empty`.
@@ -214,6 +221,8 @@ In `RepoCloner`, the potential exceptions in `spawnCloneProcess` and `waitForClo
   ``` 
   ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), e.getMessage());
   ```
+</panel>
+
 </panel>
 
 <box type="info" seamless>
@@ -260,7 +269,9 @@ It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before work
 
 Here are some small tasks for you to get started on RepoSense frontend contribution.
 
-**Summary View**
+<panel header="**Summary View**" type="primary">
+
+### Summary View
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
@@ -308,7 +319,11 @@ Some of the CSS styling for `summart_charts.pug` is in [`v_summary.scss`](https:
   ```
 </panel>
 
-**Authorship Contribution Panel**
+</panel>
+
+<panel header="**Authorship Contribution Panel**" type="primary">
+
+### Authorship Contribution Panel
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
@@ -336,18 +351,14 @@ You can check what `file.active` does and how it is used to switch between diffe
 <panel header="Suggested solution">
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  In the [individual file section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/frontend/src/tabs/authorship.pug#L89-L102) of `authorship.pug`, replace line 98 with the following content.
-  
-  ``` 
-  span {{ i + 1 }}. &nbsp;&nbsp;
-  .tooltip
-    span {{ file.path }} &nbsp;
-    span.tooltip-text(v-show="file.active") This is the file path. Click to hide file details
-    span.tooltip-text(v-show="!file.active") This is the file path. Click to show file details
-  ```
+  In the [individual file section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/frontend/src/tabs/authorship.pug#L89-L102) of `authorship.pug`, replace line 98 with the following [content](https://gist.github.com/HCY123902/1f98cbd2af45ded5e0b3430c7e682320/revisions) (See the latest revision).
 </panel>
 
-**Commits Panel**
+</panel>
+
+<panel header="**Commits Panel**" type="primary">
+
+### Commits Panel
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. Randomly open the commits panel of an author.
@@ -375,15 +386,9 @@ Check what `selectedCommits` does and how the link and commit title of each comm
 <panel header="Suggested solution">
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  In the [indivdual commit section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/frontend/src/tabs/zoom.pug#L88-L98) of `zoom.pug`, replace line 96 to 98 with the following content.
-  
-  ``` 
-  .tooltip
-    a.message-title(v-bind:href="getSliceLink(slice)", target="_blank")
-      .within-border {{ slice.messageTitle.substr(0, 50) }}
-      .not-within-border(v-if="slice.messageTitle.length > 50") {{ slice.messageTitle.substr(50) }}
-    span.tooltip-text Click to view the detailed file changes
-  ```
+  In the [indivdual commit section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/frontend/src/tabs/zoom.pug#L88-L98) of `zoom.pug`, replace line 96 to 98 with the following [content](https://gist.github.com/HCY123902/e505429c26330df3ee17b1cb69972302/revisions) (See the latest revision).
+</panel>
+
 </panel>
 
 <box type="info" seamless>
