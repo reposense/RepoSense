@@ -20,6 +20,8 @@ public abstract class CliArguments {
     protected boolean isShallowCloningPerformed;
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
+    protected int numCloningThreads;
+    protected int numAnalysisThreads;
     protected ZoneId zoneId;
 
     public ZoneId getZoneId() {
@@ -70,6 +72,14 @@ public abstract class CliArguments {
         return isStandaloneConfigIgnored;
     }
 
+    public int getNumCloningThreads() {
+        return numCloningThreads;
+    }
+
+    public int getNumAnalysisThreads() {
+        return numAnalysisThreads;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -94,6 +104,8 @@ public abstract class CliArguments {
                 && this.isShallowCloningPerformed == otherCliArguments.isShallowCloningPerformed
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
+                && this.numCloningThreads == otherCliArguments.numCloningThreads
+                && this.numAnalysisThreads == otherCliArguments.numAnalysisThreads
                 && this.zoneId.equals(otherCliArguments.zoneId);
     }
 }
