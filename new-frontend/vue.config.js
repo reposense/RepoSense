@@ -18,5 +18,9 @@ module.exports = {
         .use('pug-plain-loader')
         .loader('pug-plain-loader')
         .end();
+    config.plugin('copy').tap((options) => {
+      options[0][0].ignore.push('*.json');
+      return options;
+    });
   },
 };

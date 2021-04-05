@@ -1,5 +1,3 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-
 plugins {
     id 'application'
     id 'checkstyle'
@@ -185,19 +183,15 @@ task deleteNewReport (type: Delete) {
     delete "new-reposense-report"
 }
 
-task buildNewFrontend() {
-    String npm = 'npm';
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        npm = 'npm.cmd'
-    }
-    exec {
-        workingDir './new-frontend'
-        commandLine npm, 'install'
-    }
-    exec {
-        workingDir './new-frontend'
-        commandLine npm, 'run', 'devbuild'
-    }
+task installNewFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    workingDir './new-frontend'
+    args = ['install']
+}
+
+task buildNewFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    dependsOn(installNewFrontend)
+    workingDir './new-frontend'
+    args = ['run', 'devbuild']
 }
 
 task copyNewFrontend(type: Copy) {
@@ -212,14 +206,8 @@ task copyGeneratedJson(type: Copy) {
     includeEmptyDirs = false
 }
 
-task buildNewReport() {
-    dependsOn(deleteNewReport)
-    dependsOn(copyNewFrontend)
-    dependsOn(copyGeneratedJson)
-    dependsOn(buildNewFrontend)
-    copyNewFrontend.mustRunAfter(buildNewFrontend)
-    copyNewFrontend.mustRunAfter(deleteNewReport)
-    copyGeneratedJson.mustRunAfter(deleteNewReport)
+task buildNewReport(type: GradleBuild) {
+    tasks = ['deleteNewReport', 'buildNewFrontend', 'copyNewFrontend', 'copyGeneratedJson']
     doLast {
         println 'New report built at ./new-reposense-report.'
     }
