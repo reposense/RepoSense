@@ -71,7 +71,7 @@ Here are some small tasks for you to get started on RepoSense backend contributi
 
 **Your Task**
 
-Add a new CLI argument `--use-json-pretty-printing`, such that when a user runs a command `java -jar RepoSense.jar --repos LIST_OF_REPO_URLS --view --use-json-pretty-printing`, the JSON file will be printed in a more readable way.
+Add a new CLI argument `--use-json-pretty-printing`, such that when a user runs a command `java -jar RepoSense.jar --repos LIST_OF_REPO_URLS --view --use-json-pretty-printing`, the JSON file `summary.json`, `authorship.json`, and `commits.json` will be printed in a more readable way.
 
 <panel header="Hint 1">
 
@@ -279,7 +279,7 @@ Here are some small tasks for you to get started on RepoSense frontend contribut
 
 **Your Task** 
 
-Make corresponding changes to `summary charts` so that in step 3, after opening the panel, the font colour of the author title on the left panel also becomes green.
+Make corresponding changes to `summary charts` so that in step 3, after opening the panel, the font colour of the author title (in the form of `authorDisplayName(authorName)`) on the left panel also becomes green.
 
 <panel header="Hint 1">
 
@@ -327,11 +327,15 @@ Some of the CSS styling for `summart_charts.pug` is in [`v_summary.scss`](https:
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
-3. Select a random file in the authorship contribution panel, and hover your mouse on the icons on the of the file title, the corresponding tooltip will show up, but when you hover the mouse over the file path, there is no tip shown. For example, if you select an author in `reposense/RepoSense[master]` and hover the mouse over the triangular icon of the file with path `src/main/java/reposense/model/Author.java`, you should see a tooltip saying `Click to hide file details` showing up on the icon. However, when you hover the mouse over the file path `src/main/java/reposense/model/Author.java`, there is no corresponding tip shown.
+3. Select a random file in the authorship contribution panel, and hover your mouse on the icons on the of the file title, the corresponding tooltip will show up, but when you hover the mouse over the file path, there is no tool tip shown, even if clicking the path itself will also show or hide the file details.
+
+* For example, if you select an author in `reposense/RepoSense[master]` and hover the mouse over the triangular icon of the file with path `src/main/java/reposense/model/Author.java`, you should see a tooltip saying `Click to hide file details` showing up on the icon. However, when you hover the mouse over the file path `src/main/java/reposense/model/Author.java`, there is no corresponding tooltip shown.
 
 **Your Task** 
 
-Make corresponding `authorship contribution panel` so that in step 3, when hovering your mouse over the file path, a tip saying `This is the file path. Click to hide file details` will show up when the file details is shown, and `This is the file path. Click to show file details` will show up when the file details is not shown.
+Make corresponding `authorship contribution panel` so that in step 3, when hovering your mouse over the file path: 
+* A tip saying `This is the file path. Click to hide file details` will show up when the file details are shown
+* A tip saying `This is the file path. Click to show file details` will show up when the file details are not shown.
 
 <panel header="Hint 1">
 
@@ -362,7 +366,8 @@ You can check what `file.active` does and how it is used to switch between diffe
 
 1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
 2. Randomly open the commits panel of an author.
-3. Select a random commit in the commits panel, and hover your mouse on the icons on the commit title, there is no tooltip shown. For example, given the [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/?search=&sort=groupTitle&sortWithin=title&since=&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=eugenepeh&zR=reposense%2FRepoSense%5Bmaster%5D&zACS=99.28792569659443&zS=2017-10-09&zFS=&zU=2021-04-04&zMG=undefined&zFTF=commit&zFGS=groupByRepos&zFR=false) if you hover the mouse over the commit title `README: add acknowledgements section (#978)`, you should see a tooltip saying `Click to hide file details`, there is no corresponding tip shown.
+3. Select a random commit in the commits panel, and hover your mouse on the icons on the commit title, there is no tooltip shown saying that it will redirect you to a different site. 
+* For example, given the [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/?search=&sort=groupTitle&sortWithin=title&since=&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=eugenepeh&zR=reposense%2FRepoSense%5Bmaster%5D&zACS=99.28792569659443&zS=2017-10-09&zFS=&zU=2021-04-04&zMG=undefined&zFTF=commit&zFGS=groupByRepos&zFR=false) if you hover the mouse over the commit title `README: add acknowledgements section (#978)`, there is no corresponding tip shown, but when you click on the commit title, you will be redirected to a different site to see the commit details.
 
 **Your Task** 
 
