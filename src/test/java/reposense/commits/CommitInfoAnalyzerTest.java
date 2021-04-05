@@ -135,18 +135,18 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_duplicateAuthorsDuplicateCommits_success() throws Exception {
-        Author author = new Author(EUGENE_AUTHOR_NAME);
+        Author author = new Author(FAKE_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         Map<FileType, ContributionPair> fileTypeAndContributionMap = new HashMap<>();
-        fileTypeAndContributionMap.put(FILETYPE_JSON, new ContributionPair(17, 0));
+        fileTypeAndContributionMap.put(FILETYPE_JSON, new ContributionPair(11, 0));
         expectedCommitResults.add(new CommitResult(author, LATEST_COMMIT_HASH,
-                parseGitStrictIsoDate("2018-11-08T13:50:40+08:00"),
-                "Add config.json with invalid fields (#2)",
+                parseGitStrictIsoDate("2021-04-05T12:27:03+08:00"),
+                "Add test lines for disowned code",
                 "", null, fileTypeAndContributionMap));
 
         config.setAuthorList(Arrays.asList(author, author));
-        config.setSinceDate(new GregorianCalendar(2018, Calendar.NOVEMBER, 7).getTime());
-        config.setUntilDate(new GregorianCalendar(2018, Calendar.NOVEMBER, 9).getTime());
+        config.setSinceDate(new GregorianCalendar(2021, Calendar.APRIL, 5).getTime());
+        config.setUntilDate(new GregorianCalendar(2021, Calendar.APRIL, 6).getTime());
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
