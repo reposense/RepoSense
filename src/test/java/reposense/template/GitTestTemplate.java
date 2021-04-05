@@ -29,7 +29,7 @@ import reposense.util.FileUtil;
  * Contains templates for git testing.
  */
 public class GitTestTemplate {
-    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
+    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/dcshzj/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String ROOT_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
@@ -79,7 +79,7 @@ public class GitTestTemplate {
 
     @Before
     public void before() throws Exception {
-        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "patch-1");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         config.setIsLastModifiedDateIncluded(false);
@@ -88,7 +88,7 @@ public class GitTestTemplate {
     @BeforeClass
     public static void beforeClass() throws Exception {
         deleteRepos();
-        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "patch-1");
         config.setZoneId(TIME_ZONE_ID_STRING);
         GitClone.clone(config);
     }
@@ -100,7 +100,7 @@ public class GitTestTemplate {
 
     @After
     public void after() {
-        GitCheckout.checkout(config.getRepoRoot(), "master");
+        GitCheckout.checkout(config.getRepoRoot(), "patch-1");
     }
 
     private static void deleteRepos() throws IOException {
