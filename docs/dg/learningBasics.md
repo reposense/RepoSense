@@ -230,7 +230,7 @@ In `RepoCloner`, the potential exceptions in `spawnCloneProcess` and `waitForClo
 This is only for your practice. There is no need for you to commit this change and submit it in a pull request.
 </box>
 
-{{ step(4) }} Next Step
+{{ step(4) }} **Next Step**
 
 You can now proceed to learn the [contributing workflow](workflow.html).
 
@@ -402,7 +402,7 @@ Check what `selectedCommits` does and how the link and commit title of each comm
 This is only for your practice. There is no need for you to commit this change and submit it in a pull request.
 </box>
 
-{{ step(4) }} Next Step
+{{ step(4) }} **Next Step**
 
 You can now proceed to learn the [contributing workflow](workflow.html).
 
