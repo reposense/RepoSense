@@ -32,7 +32,7 @@ window.app = new window.Vue({
 
     tabType: 'empty',
     creationDate: '',
-
+    reportGenerationTime: '',
     errorMessages: {},
   },
   watch: {
@@ -76,10 +76,18 @@ window.app = new window.Vue({
       this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
       this.userUpdated = false;
       try {
-        const names = await window.api.loadSummary();
+        const {
+          creationDate,
+          reportGenerationTime,
+          errorMessages,
+          names,
+        } = await window.api.loadSummary();
         if (names === null) {
           return;
         }
+        this.creationDate = creationDate;
+        this.reportGenerationTime = reportGenerationTime;
+        this.errorMessages = errorMessages;
         this.repos = window.REPOS;
         await Promise.all(names.map((name) => (
           window.api.loadCommits(name)
@@ -139,7 +147,7 @@ window.app = new window.Vue({
       if (Object.keys(info).length === tabInfoLength) {
         this.$store.commit('updateTabAuthorshipInfo', info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
-        window.app.isTabActive = false;
+        this.isTabActive = false;
       }
     },
 
@@ -162,7 +170,7 @@ window.app = new window.Vue({
       if (Object.keys(zoomInfo).length === tabInfoLength) {
         this.$store.commit('updateTabZoomInfo', zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
-        window.app.isTabActive = false;
+        this.isTabActive = false;
       }
     },
 
@@ -177,9 +185,9 @@ window.app = new window.Vue({
         if (hash.tabType === 'authorship') {
           let { since, until } = hash;
 
-          // get since and until dates from window.app if not found in hash
-          since = since || window.app.sinceDate;
-          until = until || window.app.untilDate;
+          // get since and until dates from window if not found in hash
+          since = since || window.sinceDate;
+          until = until || window.untilDate;
           this.renderAuthorShipTabHash(since, until);
         } else {
           this.renderZoomTabHash();
@@ -188,7 +196,7 @@ window.app = new window.Vue({
     },
 
     getRepoSenseHomeLink() {
-      const version = window.app.repoSenseVersion;
+      const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/`;
       }
@@ -196,7 +204,7 @@ window.app = new window.Vue({
     },
 
     getSpecificCommitLink() {
-      const version = window.app.repoSenseVersion;
+      const version = window.repoSenseVersion;
       if (!version) {
         return `${window.BASE_URL}/reposense/RepoSense`;
       }
@@ -207,7 +215,7 @@ window.app = new window.Vue({
     },
 
     getUserGuideLink() {
-      const version = window.app.repoSenseVersion;
+      const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
       }
@@ -215,7 +223,7 @@ window.app = new window.Vue({
     },
 
     getUsingReportsUserGuideLink() {
-      const version = window.app.repoSenseVersion;
+      const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;
       }
