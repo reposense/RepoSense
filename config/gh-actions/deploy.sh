@@ -71,6 +71,7 @@ REPO_SLUG_ARRAY=(${GITHUB_REPOSITORY//\// })
 REPO_OWNER=${REPO_SLUG_ARRAY[0]}
 REPO_NAME=${REPO_SLUG_ARRAY[1]}
 DASHBOARD_DEPLOY_PATH=./reposense-report
+PROJECTIFY_DASHBOARD_DEPLOY_PATH=./new-reposense-report
 MARKBIND_DEPLOY_PATH=./docs/_site
 ACTIONS_DEPLOY="false"
 ACTIONS_WORKFLOW_RUN_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
@@ -131,6 +132,10 @@ do
     MARKBIND_DEPLOY_DOMAIN=https://docs-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
     echo "Deploy domain: ${MARKBIND_DEPLOY_DOMAIN}"
     surge --project ${MARKBIND_DEPLOY_PATH} --domain $MARKBIND_DEPLOY_DOMAIN;
+
+    PROJECTIFY_DASHBOARD_DEPLOY_DOMAIN=https://pdashboard-${DEPLOY_SUBDOMAIN}-${REPO_NAME}-${REPO_OWNER}.surge.sh
+    echo "Deploy domain: ${PROJECTIFY_DASHBOARD_DEPLOY_DOMAIN}"
+    surge --project ${PROJECTIFY_DASHBOARD_DEPLOY_PATH} --domain $PROJECTIFY_DASHBOARD_DEPLOY_DOMAIN;
 
     # Create github statuses that redirects users to the deployed dashboard and markbind docs
     update_deployment "${ACTIONS_DASHBOARD_ID}" "success" "Deploy domain: ${DASHBOARD_DEPLOY_DOMAIN}" "${ACTIONS_DASHBOARD_ENV}" "${DASHBOARD_DEPLOY_DOMAIN}"

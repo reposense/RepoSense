@@ -76,6 +76,7 @@ jobs:
       if: ${{ success() && github.event_name == 'pull_request' }}
       run: |
         git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+        ./gradlew run buildAtNewReposenseReport
         npm install -g markbind-cli
         (cd docs && markbind build)
 
@@ -93,6 +94,7 @@ jobs:
         name: reposense-deployment
         path: |
           ./reposense-report
+          ./new-reposense-report
           ./docs/_site
           ./pr
 
