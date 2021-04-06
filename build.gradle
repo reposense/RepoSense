@@ -194,24 +194,30 @@ task buildNewFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask
     args = ['run', 'devbuild']
 }
 
-task copyNewFrontend(type: Copy) {
+task syncNewFrontend(type: Sync) {
     from 'new-frontend/build'
     into 'new-reposense-report'
+    includeEmptyDirs = false
+    preserve {
+        '**/*.json'
+    }
 }
 
-task copyGeneratedJson(type: Copy) {
+task syncGeneratedJsonToNewFrontend(type: Sync) {
     from 'reposense-report'
     into 'new-reposense-report'
     include '**/*.json'
     includeEmptyDirs = false
+    preserve {
+        include 'index.html'
+        include 'favicon.ico'
+        include '**/*.js'
+    }
 }
 
-// task buildNewReport(type: GradleBuild) {
-//     tasks = ['deleteNewReport', 'buildNewFrontend', 'copyNewFrontend', 'copyGeneratedJson']
-//     doLast {
-//         println 'New report built at ./new-reposense-report.'
-//     }
-// }
+task buildAtNewReposenseReport(type: GradleBuild) {
+    tasks = ['buildNewFrontend', 'syncNewFrontend', 'syncGeneratedJsonToNewFrontend']
+}
 
 task zipNewReport(dependsOn: 'buildNewFrontend', type: Zip) {
     from 'new-frontend/build/'
