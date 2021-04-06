@@ -15,7 +15,7 @@ This is a learning guide for developers who are new to RepoSense.
 
 <box type="warning" seamless>
 
-Depending on what you have already known and what you would like to work on (backend or frontend), you may find certain sections irrelevant to you and you can skip them accordingly.
+Depending on what you know already and what you would like to work on (i.e., backend or frontend), you may find certain sections irrelevant to you and you can skip them accordingly.
 </box>
 
 ## Backend
@@ -27,14 +27,14 @@ This section is for developers who want to contribute to the backend of RepoSens
 
 The backend implementation of RepoSense is located in `src/main`.
 
-{{ step(1) }} Know Java
+{{ step(1) }} **Know Java**
 
 The RepoSense backend is mostly written in `Java 8`. 
 
 1. You need to have a basic knowledge of Java before getting started, including its syntax, [API](https://docs.oracle.com/javase/8/docs/api/), and certain frameworks such as [JUnit](https://se-education.org/learningresources/contents/java/JUnit.html).
 1. Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as [concurrency](https://se-education.org/learningresources/contents/java/JavaConcurrency.html), [synchronization](https://se-education.org/learningresources/contents/java/JavaSynchronization.html), and [streams](https://se-education.org/learningresources/contents/java/streams-an-introduction.html). These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc). They are optional but you may find them useful when working on certain issues.
 
-{{ step(2) }} Learn the RepoSense backend architecture
+{{ step(2) }} **Learn the RepoSense backend architecture**
 
 You may want to refer to the [backend architecture](architecture.html). This can greatly help you to understand the implementation logic.
 
@@ -57,11 +57,11 @@ The information below is for **Intellij**. If you are using a different IDE, you
 When tracing through the program execution, you can cross reference the architecture diagram and Javadoc of the class and method to check your understanding of the procedure.
 </box>
 
-{{ step(3) }} Gain some hands-on experience
+{{ step(3) }} **Gain some hands-on experience**
 
-Here are some small tasks for you to get started on RepoSense backend contribution.
+Here are some small tasks for you to gain some basic knowledge of the code related to the RepoSense backend. You can do each in a separate branch in your local copy of the code.
 
-<panel header="**Command Line Argument Parser**" type="primary">
+<panel header="**Task 1: Add a flag to pretty-print the JSON file**" type="primary">
 
 **Command Line Argument Parser**
 
@@ -71,7 +71,7 @@ Here are some small tasks for you to get started on RepoSense backend contributi
 
 **Your Task**
 
-Add a new CLI argument `--use-json-pretty-printing`, such that when a user runs a command `java -jar RepoSense.jar --repos LIST_OF_REPO_URLS --view --use-json-pretty-printing`, the JSON file `summary.json`, `authorship.json`, and `commits.json` will be printed in a more readable way.
+Add a new CLI argument `--use-json-pretty-printing`, such that when a user runs the command `java -jar RepoSense.jar --repos LIST_OF_REPO_URLS --view --use-json-pretty-printing`, the JSON file `summary.json`, `authorship.json`, and `commits.json` will be printed in a more readable way.
 
 <panel header="Hint 1">
 
@@ -83,7 +83,7 @@ Therefore, the first step you can take is to add the following to `ArgsParser`.
 public static final String[] JSON_PRINT_MODE_FLAGS = new String[]{"--use-json-pretty-printing", "-j"};
 ```
 
-In `getArgumentParser` method, add the following content.
+In `getArgumentParser` method, add the following content to make `ArgumentParser` capture the new argument.
 
 ```
 parser.addArgument(JSON_PRINT_MODE_FLAGS)
@@ -95,9 +95,9 @@ parser.addArgument(JSON_PRINT_MODE_FLAGS)
 
 <panel header="Hint 2">
 
-After the step in hint 1, the argument is captured by `ArgumentParser`. Now change the  `CliArguments`, `ConfigCliArguments`, `parse` method in `ArgsParser` to make the return result of `parse` include the new argument. 
+After the step in hint 1, the argument is captured by `ArgumentParser`. Now make corresponding changes to `CliArguments.java`, `ConfigCliArguments.java`, and the `parse` method in `ArgsParser.java` to make the return result of `parse` include the new argument. 
 
-Add the following content to `CliArguments`.
+1. Add the following content to `CliArguments` to add `isPrettyPrintingUsed` as a new attribute to the class.
 
 ```
 protected boolean isPrettyPrintingUsed;
@@ -107,22 +107,20 @@ public boolean isPrettyPrintingUsed() {
 }
 ```
 
-In the [constructor](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/src/main/java/reposense/model/ConfigCliArguments.java#L26-L52) of `ConfigCliArguments`, add `isPrettyPrintingUsed` as a new argument of the method, add the following content to the method body.
+2. In the constructor of `ConfigCliArguments`, add `isPrettyPrintingUsed` as a new argument of the method, and add the following content to the method body.
 
 ```
 this.isPrettyPrintingUsed = isPrettyPrintingUsed;
 ```
 
-In the `parse` method, replace the [section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/src/main/java/reposense/parser/ArgsParser.java#L303-L306) with the following content to get `isJsonPrettyPrintingUsed` from `ArgmentParser` and pass it to `ConfigCliArguments`.
+3. In the `parse` method, add the following content to get `isJsonPrettyPrintingUsed` from `ArgmentParser`.
 
 ```
 boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
-
-return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-        isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
-        shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-        isStandaloneConfigIgnored, zoneId, isJsonPrettyPrintingUsed);
 ``` 
+
+Additionally, change the return statement of `parse` so that the `ConfigCliArguments` object returned will now include `isJsonPrettyPrintingUsed`.
+
 </panel>
 
 <panel header="Hint 3">
@@ -143,7 +141,7 @@ Add the following content to `FileUtil`.
 private static boolean isPrettyPrintingUsed = false;
 ```
 
-Replace the [section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/src/main/java/reposense/util/FileUtil.java#L97-L101) in the `writeJsonFile` method with the following content.
+In the `writeJsonFile` method, Replace the creation of the `Gson` object with the following instructions.
 
 ```
 GsonBuilder gsonBuilder = new GsonBuilder()
@@ -157,7 +155,7 @@ if (isPrettyPrintingUsed) {
 }
 ```
 
-To notify `FileUtil` of the switch between different printing mode, add the following content to `FileUtil`.
+To notify `FileUtil` of the switch between different printing mode, add the following method to `FileUtil`.
 
 ```
 public static void setPrettyPrintingMode(boolean isPrettyPrintingAdopted) {
@@ -175,14 +173,12 @@ Now the parsing of argument and changing of printing mode should have been compl
 </panel>
 
 <panel header="Suggested solution">
-  There is more than 1 way to achieve this. One solution is shown as the following:
-  
-  According to hint 1, hint 2, and hint 3, here are the complete [required changes](https://gist.github.com/HCY123902/e85ad0f7b258937945ce1aa97fe4af9e/revisions) (See the latest revision).
+  There is more than 1 way to achieve this. By combining the changes in hint 1, hint 2, and hint 3, you should be able to get a possible solution.
 </panel>
 
 </panel>
 
-<panel header="**Cloning of repository**" type="primary">
+<panel header="**Task 2: Add exception message during repository cloning to the summary view**" type="primary">
 
 **Cloning of repository**
 
@@ -205,7 +201,11 @@ You can find out what [`ErrorSummary.java`](https://github.com/reposense/RepoSen
 
 <panel header="Hint 2">
 
-Try to understand the cloning process. The cloning process is invoked by [`RepoGenerator.java`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java) in the `cloneAndAnalyzeRepos` method, which subsequently calls `cloneBare` in `RepoCloner.java` to start the cloning. The `cloneAndAnalyzeRepos` method will then call `getRepoLocation`  in `RepoCloner.java` to try to get the repository location. Beneath the surface, `RepoCloner` will first execute `spawnCloneProcess` and then execute `waitForCloneProcess` when it is invoked by `RepoGenerator` for the first and second time respectively.
+Try to understand the cloning process. 
+
+* The cloning process is invoked by [`RepoGenerator.java`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java) in the `cloneAndAnalyzeRepos` method, which subsequently calls `cloneBare` in `RepoCloner.java` to start the cloning. 
+* The `cloneAndAnalyzeRepos` method will then call `getRepoLocation`  in `RepoCloner.java` to try to get the repository location. 
+* Beneath the surface, `RepoCloner` will first execute `spawnCloneProcess` and then execute `waitForCloneProcess` when it is invoked by `RepoGenerator` for the first and second time respectively.
 </panel>
 
 <panel header="Hint 3">
@@ -216,7 +216,7 @@ In `RepoCloner`, the potential exceptions in `spawnCloneProcess` and `waitForClo
 <panel header="Suggested solution">
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  Add this to the catch block of `spawnCloneProcess` and `waitForCloneProcess`.
+  Add this to the catch block of `spawnCloneProcess` and `waitForCloneProcess`, so that the message will be captured in `summary.json`.
   
   ``` 
   ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), e.getMessage());
@@ -230,18 +230,9 @@ In `RepoCloner`, the potential exceptions in `spawnCloneProcess` and `waitForClo
 This is only for your practice. There is no need for you to commit this change and submit it in a pull request.
 </box>
 
-{{ step(4) }} Get familiar with the workflow
+{{ step(4) }} Next Step
 
-The next step is to learn how to enhance the code quality according to the coding standard, write necessary tests and documentation, verify that the changes passes the test cases, and submit the pull request. You can refer to [the _Workflow_ page](workflow.html).
-
-{{ step(5) }} Get started with contributing
-
-RepoSense currently has a lot of open issues, and some may be challenging. Now that you are ready, you can check the [issues for first timers](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Aa-Backend+label%3Ad.FirstTimers) or issues in the [roadmap for contributors](https://github.com/reposense/RepoSense/projects/2#column-13522966) to work on actual pull requests.
-
-<box type="info" seamless>
-
-The issues for first timers usually have guidance provided in the comment or have linked pull requests from previous contributors. You can refer to them for implementation details.
-</box>
+You can now proceed to learn the [contributing workflow](workflow.html).
 
 <!-- ==================================================================================================== -->
 
@@ -254,22 +245,21 @@ This section is for developers who want to contribute to the frontend of RepoSen
 
 The frontend implementation of RepoSense is located in `frontend/src`.
 
-{{ step(1) }} Learn the necessary tools
+{{ step(1) }} **Learn the necessary tools**
 
 It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before working on the project. 
 
   {{ embed('Appendix: tools to learn for frontend development', 'tools.md', level=2) }}
 
-{{ step(2) }} Learn the RepoSense frontend architecture
+{{ step(2) }} **Learn the RepoSense frontend architecture**
 
 * You may want to refer to the [frontend architecture](report.html#report-architecture) to understand the implementation.
 * Another way for you to understand the frontend is to use **Vue.js devtools** to learn how the various Vue Components interact with each other. You can refer to the [frontend debugging guide](workflow.html#debugging-front-end) for more information.
 
-{{ step(3) }} Gain some hands-on experience
+{{ step(3) }} **Gain some hands-on experience**
+Here are some small tasks for you to gain some basic knowledge of the code related to the RepoSense frontend. You can do each in a separate branch in your local copy of the code.
 
-Here are some small tasks for you to get started on RepoSense frontend contribution.
-
-<panel header="**Summary View**" type="primary">
+<panel header="**Task 1: Highlight the selected author name in the summary view**" type="primary">
 
 **Summary View**
 
@@ -298,7 +288,7 @@ Refer to how changes are made to the title background and icon background in [`s
 
 <panel header="Hint 4">
 
-Some of the CSS styling for `summart_charts.pug` is in [`v_summary.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/static/css/v_summary.scss).
+Some of the CSS styling for `summart_charts.pug` is in [`v_summary.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/static/css/v_summary.scss), so that you can add corresponding class selector if necessary.
 </panel>
 
 <panel header="Suggested solution">
@@ -321,7 +311,7 @@ Some of the CSS styling for `summart_charts.pug` is in [`v_summary.scss`](https:
 
 </panel>
 
-<panel header="**Authorship Contribution Panel**" type="primary">
+<panel header="**Task 2: Add tooltip for file path in authorship panel**" type="primary">
 
 **Authorship Contribution Panel**
 
@@ -349,18 +339,22 @@ You can check how tooltip is added for the triangular icon in the file title in 
 
 <panel header="Hint 3">
 
-You can check what `file.active` does and how it is used to switch between different tooltip messages when hovering the mouse on the icon.. 
+You can check what `file.active` does and how it is used to switch between different tooltip messages when hovering the mouse on the icon.
 </panel>
 
 <panel header="Suggested solution">
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  In the [individual file section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/frontend/src/tabs/authorship.pug#L89-L102) of `authorship.pug`, replace line 98 with the following [content](https://gist.github.com/HCY123902/1f98cbd2af45ded5e0b3430c7e682320/revisions) (See the latest revision).
-</panel>
-
-</panel>
-
-<panel header="**Commits Panel**" type="primary">
+  1. In `authorship.pug`, locate the section that iterates through each file in `selectedFiles`. 
+  2. There is a specific portion of the section that renders the toggle icon, the file index, and the file path on the file title. 
+  3. Try to locate the component `span` that renders `file.path`, and wraps it inside a new `tooptip`.
+  4. In the `tooltip`, use the following instructions to handle the switch of tooltip message.
+  
+  ```
+  span.tooltip-text(v-show="file.active") This is the file path. Click to hide file details
+  span.tooltip-text(v-show="!file.active") This is the file path. Click to show file details
+  ```
+<panel header="**Task 3: Add tooltip for commit message title in zoom panel**" type="primary">
 
 **Commits Panel**
 
@@ -391,7 +385,14 @@ Check what `selectedCommits` does and how the link and commit title of each comm
 <panel header="Suggested solution">
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  In the [indivdual commit section](https://github.com/reposense/RepoSense/blob/9125d4b6bea1e5bb6329cb8f7c476ea18fed3cea/frontend/src/tabs/zoom.pug#L88-L98) of `zoom.pug`, replace line 96 to 98 with the following [content](https://gist.github.com/HCY123902/e505429c26330df3ee17b1cb69972302/revisions) (See the latest revision).
+  1. In `zoom.pug`, locate the section that iterates througth each `day` in `selectedCommits`. 
+  2. The component that helps render the commit message title should be an `a` tag which uses the `getSliceLink` method to set the commit detail link and uses `slice.messageTitle` to show the commit message title.
+  3. Wrap the `a` tag in a new `tooltip`.
+  4. In the `tooltip`, add the following content to show the tooltip message.
+  
+  ```
+  span.tooltip-text Click to view the detailed file changes
+  ```
 </panel>
 
 </panel>
@@ -401,18 +402,9 @@ Check what `selectedCommits` does and how the link and commit title of each comm
 This is only for your practice. There is no need for you to commit this change and submit it in a pull request.
 </box>
 
-{{ step(4) }} Get familiar with the workflow
+{{ step(4) }} Next Step
 
-The next step is to learn how to enhance the code quality according to the coding standard, write necessary tests and documentation, verify that the changes passes the test cases, and submit the pull request. You can refer to [the _Workflow_ page](workflow.html).
-
-{{ step(5) }} Get started with contributing
-
-RepoSense currently has a lot of open issues, and some may be challenging. Now that you are ready, you can check the [issues for first timers](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers+label%3Aa-FrontEnd) or issues in the [roadmap for contributors](https://github.com/reposense/RepoSense/projects/2#column-13522966) to work on actual pull requests.
-
-<box type="info" seamless>
-
-The issues for first timers usually have guidance provided in the comment or have linked pull requests from previous contributors. You can refer to them for implementation details.
-</box>
+You can now proceed to learn the [contributing workflow](workflow.html).
 
 <!-- ==================================================================================================== -->
 
