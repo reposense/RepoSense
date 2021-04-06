@@ -133,14 +133,16 @@ task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) 
     workingDir = file('frontend/cypress/')
 }
 
-task cypress(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task cypress(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    tasks.startServerInBackground.mustRunAfter('zipReport')
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
 }
 
-task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task frontendTest(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    tasks.startServerInBackground.mustRunAfter('zipReport')
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
@@ -228,6 +230,19 @@ task runNew(type: JavaExec) {
     systemProperty "version", getRepoSenseVersion()
     doLast {
         println 'New report built at ./reposense-report.'
+    }
+}
+
+task newFrontendTest(dependsOn: ['zipNewReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    tasks.startServerInBackground.mustRunAfter('zipNewReport')
+    tasks.startServerInBackground.mustRunAfter('installCypress')
+
+    workingDir = file('frontend/cypress/')
+    args = ["run-script", "tests"]
+
+    // Run tests in CI without slow motion
+    if (project.hasProperty('ci')) {
+        args = ["run-script", "ci"]
     }
 }
 
