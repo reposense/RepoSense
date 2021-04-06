@@ -31,7 +31,7 @@ const repoCache = [];
 
 window.vAuthorship = {
   emits: [
-      'deactivateTab',
+      'deactivate-tab',
   ],
   template: window.$('v_authorship').innerHTML,
   data() {
@@ -131,7 +131,7 @@ window.vAuthorship = {
 
       this.getRepoProps(repo);
       if (!repo || !this.info.author) {
-        this.$emit('deactivateTab');
+        this.$emit('deactivate-tab');
         return;
       }
       if (repoCache.length === 2) {
