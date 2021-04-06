@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
     id 'application'
     id 'checkstyle'
@@ -104,7 +106,8 @@ task zipReport(dependsOn: 'npmRunSpuild', type: Zip) {
 }
 
 tasks.shadowJar.dependsOn('zipReport');
-tasks.compileJava.dependsOn('zipReport');
+tasks.compileJava.mustRunAfter('zipReport');
+tasks.run.dependsOn('zipReport');
 tasks.run.dependsOn('compileJava');
 
 task systemtest(dependsOn: 'zipReport', type: Test) {
@@ -179,13 +182,8 @@ String getRepoSenseVersion() {
 }
 
 // New Frontend Tasks
-task deleteNewReport (type: Delete) {
-    delete "new-reposense-report"
-}
-
-task installNewFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task installNewFrontend(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
     workingDir './new-frontend'
-    args = ['install']
 }
 
 task buildNewFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
@@ -206,11 +204,62 @@ task copyGeneratedJson(type: Copy) {
     includeEmptyDirs = false
 }
 
-task buildNewReport(type: GradleBuild) {
-    tasks = ['deleteNewReport', 'buildNewFrontend', 'copyNewFrontend', 'copyGeneratedJson']
+// task buildNewReport(type: GradleBuild) {
+//     tasks = ['deleteNewReport', 'buildNewFrontend', 'copyNewFrontend', 'copyGeneratedJson']
+//     doLast {
+//         println 'New report built at ./new-reposense-report.'
+//     }
+// }
+
+task zipNewReport(dependsOn: 'buildNewFrontend', type: Zip) {
+    from 'new-frontend/build/'
+    baseName = 'templateZip'
+    destinationDir = file('src/main/resources')
+}
+
+tasks.compileJava.mustRunAfter('zipNewReport');
+
+task runNew(type: JavaExec) {
+    dependsOn(zipNewReport)
+    dependsOn(compileJava)
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    args System.getProperty('args', '').split()
+    systemProperty "version", getRepoSenseVersion()
     doLast {
-        println 'New report built at ./new-reposense-report.'
+        println 'New report built at ./reposense-report.'
     }
+}
+
+task syncFrontendPublic(type: Sync) {
+    from 'reposense-report'
+    into 'new-frontend/public/'
+    include '**/*.json'
+    includeEmptyDirs = false
+    preserve {
+        include 'index.html'
+        include 'favicon.ico'
+    }
+}
+
+task macHotReloadFrontend(type: Exec) {
+    dependsOn(installNewFrontend)
+    onlyIf {Os.isFamily(Os.FAMILY_MAC)}
+    workingDir './new-frontend'
+    commandLine 'osascript', '-e', '"tell application "Terminal" to do script "npm run serveOpen""'
+}
+
+task windowsHotReloadFrontend(type: Exec) {
+    dependsOn(installNewFrontend)
+    onlyIf {Os.isFamily(Os.FAMILY_WINDOWS)}
+    workingDir './new-frontend'
+    commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
+}
+
+task hotReloadFrontend() {
+    dependsOn syncFrontendPublic
+    finalizedBy windowsHotReloadFrontend
+    finalizedBy macHotReloadFrontend
 }
 // End of New Frontend Tasks
 
