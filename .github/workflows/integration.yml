@@ -216,3 +216,6 @@ jobs:
 
     - name: Run frontend tests
       run: ./gradlew frontendTest -Pci
+
+    - name: Run projectify frontend tests
+      run: ./gradlew newFrontendTest -Pci
