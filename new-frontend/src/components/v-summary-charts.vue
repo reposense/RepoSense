@@ -83,7 +83,7 @@
             icon="circle",
             v-bind:style="{ 'color': fileTypeColors[fileType] }"
           )
-          span &nbsp; {{ fileType }} &nbsp;
+          span(style="padding:0em 0.3em;") {{ fileType }}
     .summary-chart(v-for="(user, j) in repo")
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
