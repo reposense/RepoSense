@@ -378,8 +378,11 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
   2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
   3. Select a random file in the authorship contribution panel, and hover your mouse on an icon on the file title, a corresponding tooltip will show up, suggesting what the purpose of the icon is. However, when you hover the mouse over the file path on the file title, there is no tool tip shown, even if clicking the path itself will also trigger some event.
-
-  * For example, if you open the authorship contribution panel of an author in `reposense/RepoSense[master]` and hover the mouse over the triangular icon beside the file path `src/main/java/reposense/model/Author.java`, you should see a tooltip saying `Click to hide file details` above the icon. However, when you hover the mouse over the file path `src/main/java/reposense/model/Author.java`, there is no corresponding tooltip shown.
+  
+  <box type="info" seamless>
+  
+  For example, if you open the authorship contribution panel of an author in `reposense/RepoSense[master]` and hover the mouse over the triangular icon beside the file path `src/main/java/reposense/model/Author.java`, you should see a tooltip saying `Click to hide file details` above the icon. However, when you hover the mouse over the file path `src/main/java/reposense/model/Author.java`, there is no corresponding tooltip shown.
+  </box>
 
   **Your Task** 
 
@@ -425,8 +428,12 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
   2. Randomly open the commits panel of an author.
-  3. Select a random commit in the commits panel, and hover your mouse on the icons on the commit title, there is no tooltip shown saying that it will redirect you to a different site. 
-  * For example, given the [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/?search=&sort=groupTitle&sortWithin=title&since=&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=eugenepeh&zR=reposense%2FRepoSense%5Bmaster%5D&zACS=99.28792569659443&zS=2017-10-09&zFS=&zU=2021-04-04&zMG=undefined&zFTF=commit&zFGS=groupByRepos&zFR=false), if you hover the mouse over the commit title `README: add acknowledgements section (#978)`, there is no corresponding tooltip shown, but when you click on the commit title, you will be redirected to a different site to see the commit details.
+  3. Select a random commit in the commits panel, and hover your mouse on the icons on the commit title, there is no tooltip shown saying that it will redirect you to a different site.
+
+  <box type="info" seamless>
+    
+  For example, given the [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/?search=&sort=groupTitle&sortWithin=title&since=&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=eugenepeh&zR=reposense%2FRepoSense%5Bmaster%5D&zACS=99.28792569659443&zS=2017-10-09&zFS=&zU=2021-04-04&zMG=undefined&zFTF=commit&zFGS=groupByRepos&zFR=false), if you hover the mouse over the commit title `README: add acknowledgements section (#978)`, there is no corresponding tooltip shown, but when you click on the commit title, you will be redirected to a different site to see the commit details.
+  </box>
 
   **Your Task** 
 
