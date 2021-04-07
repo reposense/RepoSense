@@ -258,6 +258,7 @@ It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before work
 * Another way for you to understand the frontend is to use **Vue.js devtools** to learn how the various Vue Components interact with each other. You can refer to the [frontend debugging guide](workflow.html#debugging-front-end) for more information.
 
 {{ step(3) }} **Gain some hands-on experience**
+
 Here are some small tasks for you to gain some basic knowledge of the code related to the RepoSense frontend. You can do each in a separate branch in your local copy of the code.
 
 <panel header="**Task 1: Highlight the selected author name in the summary view**" type="primary">
