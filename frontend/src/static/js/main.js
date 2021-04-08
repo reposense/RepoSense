@@ -11,7 +11,7 @@ Vue.directive('hljs', {
     hljs.highlightBlock(element);
   },
 });
-// fake commit
+
 Vue.component('font-awesome-icon', window['vue-fontawesome'].FontAwesomeIcon);
 Vue.component('loading-overlay', window.VueLoading);
 
