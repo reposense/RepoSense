@@ -50,7 +50,7 @@ public class ArgsParserTest {
     private static final InputBuilder DEFAULT_INPUT_BUILDER = new InputBuilder();
 
     private static final String TEST_REPO_REPOSENSE = "https://github.com/reposense/RepoSense.git";
-    private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";;
+    private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
     private static final String DEFAULT_TIMEZONE = "Asia/Singapore";

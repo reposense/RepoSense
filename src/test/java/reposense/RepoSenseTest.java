@@ -1,8 +1,16 @@
 package reposense;
 
-import net.sourceforge.argparse4j.helper.HelpScreenException;
+import static org.apache.tools.ant.types.Commandline.translateCommandline;
+
+import static reposense.util.TestUtil.loadResource;
+
+import java.nio.file.Path;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
+
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.LocationsCliArguments;
@@ -11,12 +19,6 @@ import reposense.parser.ArgsParser;
 import reposense.parser.ArgsParserTest;
 import reposense.parser.ParseException;
 import reposense.util.InputBuilder;
-
-import java.nio.file.Path;
-import java.util.List;
-
-import static org.apache.tools.ant.types.Commandline.translateCommandline;
-import static reposense.util.TestUtil.loadResource;
 
 public class RepoSenseTest {
 
