@@ -5,6 +5,6 @@
     "debug": "cypress open"
   },
   "devDependencies": {
-    "cypress": "^3.4.1"
+    "cypress": "^7.0.0"
   }
 }
