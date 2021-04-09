@@ -75,6 +75,30 @@ jobs:
       if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
       run: bash <(curl -s https://codecov.io/bash)
 
+    - name: Build preview website (pull request)
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
+      run: |
+        git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+        npm install -g markbind-cli
+        (cd docs && markbind build)
+
+    - name: Save PR number and HEAD commit (pull request)
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
+      run: |
+        mkdir -p ./pr
+        echo ${{ github.event.number }} > ./pr/NUMBER
+        echo ${{ github.event.pull_request.head.sha }} > ./pr/SHA
+
+    - name: Upload artifacts (pull request)
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: reposense-deployment
+        path: |
+          ./reposense-report
+          ./docs/_site
+          ./pr
+
   macos:
     name: ${{ matrix.os }} JDK 8
     strategy:
@@ -196,52 +220,3 @@ jobs:
 
     - name: Run frontend tests
       run: ./gradlew frontendTest -Pci
-
-  preview:
-    name: Build preview website (pull requests)
-    needs: ubuntu
-    runs-on: ubuntu-20.04
-    if: ${{ github.event_name == 'pull_request' }}
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
-
-    - name: Verify Java version
-      run: echo -e "Actual JDK in use -- "; java -version
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: Build preview website
-      run: |
-        git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
-        npm install -g markbind-cli
-        (cd docs && markbind build)
-
-    - name: Save PR number and HEAD commit
-      run: |
-        mkdir -p ./pr
-        echo ${{ github.event.number }} > ./pr/NUMBER
-        echo ${{ github.event.pull_request.head.sha }} > ./pr/SHA
-
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: reposense-deployment
-        path: |
-          ./reposense-report
-          ./docs/_site
-          ./pr
