@@ -1,5 +1,6 @@
 package reposense.util;
 
+import static reposense.util.StringsUtil.decodeString;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Files;
@@ -17,22 +18,24 @@ import reposense.report.SummaryJson;
 
 public class FileUtilTest {
 
-    private static final Path FILE_UTIL_TEST_DIRECTORY = loadResource(FileUtilTest.class, "FileUtilTest");
-    private static final Path REPO_REPORT_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
+    private static final Path FILE_UTIL_TEST_DIRECTORY = loadResource(FileUtilTest.class,
+            "FileUtilTest");
+    private static final Path REPO_REPORT_DIRECTORY_PATH = Paths.get(decodeString(FILE_UTIL_TEST_DIRECTORY),
             "reposense-report-test");
-    private static final Path ARCHIVE_ZIP_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), FileUtil.ZIP_FILE);
-    private static final Path EXPECTED_UNZIPPED_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
+    private static final Path ARCHIVE_ZIP_PATH = Paths.get(decodeString(FILE_UTIL_TEST_DIRECTORY), FileUtil.ZIP_FILE);
+    private static final Path EXPECTED_UNZIPPED_DIRECTORY_PATH = Paths.get(decodeString(FILE_UTIL_TEST_DIRECTORY),
             "expectedUnzip");
-    private static final Path TEST_ZIP_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "testZip.zip");
-    private static final Path UNZIPPED_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
+    private static final Path TEST_ZIP_PATH = Paths.get(decodeString(FILE_UTIL_TEST_DIRECTORY),
+            "testZip.zip");
+    private static final Path UNZIPPED_DIRECTORY_PATH = Paths.get(decodeString(FILE_UTIL_TEST_DIRECTORY),
             "UnzippedFolder");
     private static final List<Path> REPORT_FOLDER_FILE_PATHS = Arrays.asList(
-            Paths.get(REPO_REPORT_DIRECTORY_PATH.toString(), "reposense_testrepo-Beta").toAbsolutePath(),
-            Paths.get(REPO_REPORT_DIRECTORY_PATH.toString(), "reposense_testrepo-Charlie").toAbsolutePath(),
-            Paths.get(REPO_REPORT_DIRECTORY_PATH.toString(),
+            Paths.get(decodeString(REPO_REPORT_DIRECTORY_PATH), "reposense_testrepo-Beta").toAbsolutePath(),
+            Paths.get(decodeString(REPO_REPORT_DIRECTORY_PATH), "reposense_testrepo-Charlie").toAbsolutePath(),
+            Paths.get(decodeString(REPO_REPORT_DIRECTORY_PATH),
             SummaryJson.SUMMARY_JSON_FILE_NAME).toAbsolutePath()
     );
-    private static final Path EXPECTED_RELEVANT_FOLDER_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
+    private static final Path EXPECTED_RELEVANT_FOLDER_PATH = Paths.get(decodeString(FILE_UTIL_TEST_DIRECTORY),
             "expectedRelevantUnzippedFiles");
 
     /**

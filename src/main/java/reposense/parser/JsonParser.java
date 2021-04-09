@@ -1,5 +1,7 @@
 package reposense.parser;
 
+import static reposense.util.StringsUtil.decodeString;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -29,7 +31,7 @@ public abstract class JsonParser<T> {
     }
 
     protected T fromJson(Gson gson, Path path, Type type) throws IOException {
-        try (JsonReader jsonReader = new JsonReader(new FileReader(path.toString()))) {
+        try (JsonReader jsonReader = new JsonReader(new FileReader(decodeString(path)))) {
             return gson.fromJson(jsonReader, type);
         }
     }

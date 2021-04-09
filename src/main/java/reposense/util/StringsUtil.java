@@ -1,6 +1,13 @@
 package reposense.util;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
+
+import reposense.system.LogsManager;
 
 /**
  * Contains strings related utilities.
@@ -8,6 +15,7 @@ import java.util.regex.Pattern;
 public class StringsUtil {
 
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
+    private static final Logger logger = LogsManager.getLogger(StringsUtil.class);
 
     /**
      * Filters the {@code text}, returning only the lines that matches the given {@code regex}.
@@ -44,5 +52,17 @@ public class StringsUtil {
         }
 
         return original;
+    }
+
+    /**
+     * Returns the decoded path string with %20 in original path string replaced by white space character
+     */
+    public static String decodeString(Path path) {
+        try {
+            return URLDecoder.decode(path.toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.log(Level.SEVERE, path + " contains invalid character.");
+            return "";
+        }
     }
 }

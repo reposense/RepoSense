@@ -2,6 +2,7 @@ package reposense.parser;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
+import static reposense.util.StringsUtil.decodeString;
 import static reposense.util.TestUtil.loadResource;
 
 import java.io.File;
@@ -67,7 +68,7 @@ public class ArgsParserTest {
     @After
     public void after() {
         try {
-            FileUtil.deleteDirectory(PROJECT_DIRECTORY.resolve(NONEXISTENT_DIRECTORY).toString());
+            FileUtil.deleteDirectory(decodeString(PROJECT_DIRECTORY.resolve(NONEXISTENT_DIRECTORY)));
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -116,7 +117,7 @@ public class ArgsParserTest {
     @Test
     public void parse_allCorrectInputsAlias_success() throws Exception {
         String input = String.format("-c %s -o %s -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -v -t %s",
-                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE, DEFAULT_TIMEZONE);
+                decodeString(CONFIG_FOLDER_ABSOLUTE), decodeString(OUTPUT_DIRECTORY_ABSOLUTE), DEFAULT_TIMEZONE);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(

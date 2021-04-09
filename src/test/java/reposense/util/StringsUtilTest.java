@@ -1,5 +1,6 @@
 package reposense.util;
 
+import static reposense.util.StringsUtil.decodeString;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Files;
@@ -17,7 +18,7 @@ public class StringsUtilTest {
     @Test
     public void filterText_standardInput_success() throws Exception {
         Path gitBlameStandardOutputFile =
-                Paths.get(STRINGS_UTIL_TEST_DIRECTORY.toString(), "standardBlameOutput.txt");
+                Paths.get(decodeString(STRINGS_UTIL_TEST_DIRECTORY), "standardBlameOutput.txt");
         List<String> lines = Files.readAllLines(gitBlameStandardOutputFile);
         String text = String.join("\n", lines);
 

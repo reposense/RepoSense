@@ -2,6 +2,8 @@ package reposense.util;
 
 import java.nio.file.Path;
 
+import static reposense.util.StringsUtil.decodeString;
+
 import reposense.parser.ArgsParser;
 
 /**
@@ -41,7 +43,7 @@ public class InputBuilder {
      * @param path The config folder path.
      */
     public InputBuilder addConfig(Path path) {
-        input.append(ArgsParser.CONFIG_FLAGS[0] + WHITESPACE + path + WHITESPACE);
+        input.append(ArgsParser.CONFIG_FLAGS[0] + WHITESPACE + decodeString(path) + WHITESPACE);
         return this;
     }
 
@@ -66,7 +68,7 @@ public class InputBuilder {
      * @param path The view folder path.
      */
     public InputBuilder addView(Path path) {
-        input.append(ArgsParser.VIEW_FLAGS[0] + WHITESPACE + path + WHITESPACE);
+        input.append(ArgsParser.VIEW_FLAGS[0] + WHITESPACE + decodeString(path) + WHITESPACE);
         return this;
     }
 
@@ -86,7 +88,7 @@ public class InputBuilder {
      * @param path The output folder path.
      */
     public InputBuilder addOutput(Path path) {
-        input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + path + WHITESPACE);
+        input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + decodeString(path) + WHITESPACE);
         return this;
     }
 
