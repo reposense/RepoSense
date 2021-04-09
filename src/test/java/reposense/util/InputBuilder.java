@@ -1,8 +1,8 @@
 package reposense.util;
 
-import java.nio.file.Path;
-
 import static reposense.util.StringsUtil.decodeString;
+
+import java.nio.file.Path;
 
 import reposense.parser.ArgsParser;
 
