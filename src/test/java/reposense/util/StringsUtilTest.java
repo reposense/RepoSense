@@ -49,7 +49,7 @@ public class StringsUtilTest {
 
     @Test
     public void decodeString_pathWithWhiteSpace_success() {
-        String pathString = "src/a b/c d/e";
+        String pathString = "src\\a b\\c d\\e";
         String convertedString = StringsUtil.decodeString(Paths.get(pathString));
 
         Assert.assertEquals(pathString, convertedString);
