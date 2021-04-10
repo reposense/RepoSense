@@ -14,7 +14,7 @@ import net.sourceforge.argparse4j.inf.ArgumentType;
 public class PeriodArgumentType implements ArgumentType<Optional<Integer>> {
     private static final String PARSE_EXCEPTION_MESSAGE_NOT_IN_NUMERIC =
             "Invalid format. Period must be in the format of nd (n days) or nw (n weeks), "
-            + "where n is a number greater than 0.";
+                    + "where n is a number greater than 0.";
     private static final String PARSE_EXCEPTION_MESSAGE_SMALLER_THAN_ZERO =
             "Invalid format. Period must be greater than 0.";
     private static final String PARSE_EXCEPTION_MESSAGE_NUMBER_TOO_LARGE =
@@ -23,23 +23,32 @@ public class PeriodArgumentType implements ArgumentType<Optional<Integer>> {
 
     @Override
     public Optional<Integer> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
-        if (!PERIOD_PATTERN.matcher(value).matches()) {
-            throw new ArgumentParserException(
-                    String.format(PARSE_EXCEPTION_MESSAGE_NOT_IN_NUMERIC, value), parser);
+        try {
+            return parse(value);
+        } catch (ParseException pe) {
+            throw new ArgumentParserException(pe.getMessage(), parser);
+        }
+    }
+
+    /**
+     * This function parses a {@code period} String and returns an Integer representing the number of days.
+     */
+    public static Optional<Integer> parse(String period) throws ParseException {
+        if (!PERIOD_PATTERN.matcher(period).matches()) {
+            throw new ParseException(String.format(PARSE_EXCEPTION_MESSAGE_NOT_IN_NUMERIC, period));
         }
 
-        int multiplier = value.substring(value.length() - 1).equals("d") ? 1 : 7;
+        int multiplier = period.substring(period.length() - 1).equals("d") ? 1 : 7;
+
         try {
-            int convertedValue = Integer.parseInt(value.substring(0, value.length() - 1)) * multiplier;
+            int convertedValue = Integer.parseInt(period.substring(0, period.length() - 1)) * multiplier;
             if (convertedValue <= 0) {
-                throw new ArgumentParserException(
-                        String.format(PARSE_EXCEPTION_MESSAGE_SMALLER_THAN_ZERO, value), parser);
+                throw new ParseException(String.format(PARSE_EXCEPTION_MESSAGE_SMALLER_THAN_ZERO, period));
             }
 
             return Optional.of(convertedValue);
         } catch (NumberFormatException e) {
-            throw new ArgumentParserException(
-                    String.format(PARSE_EXCEPTION_MESSAGE_NUMBER_TOO_LARGE, value), parser);
+            throw new ParseException(String.format(PARSE_EXCEPTION_MESSAGE_NUMBER_TOO_LARGE, period));
         }
     }
 }
