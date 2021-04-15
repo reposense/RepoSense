@@ -8,8 +8,6 @@ window.HASH_DELIMITER = '~';
 window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
-window.appErrorMessages = {};
-window.appReportGenerationTime = '';
 window.REPORT_ZIP = null;
 
 const HASH_ANCHOR = '?';
@@ -139,6 +137,12 @@ window.getGroupName = function getGroupName(group, filterGroupSelection) {
   }
 };
 
+window.getAuthorDisplayName = function getAuthorDisplayName(authorRepos) {
+  return authorRepos.reduce((displayName, user) => (
+    user.displayName > displayName ? user.displayName : displayName
+  ), authorRepos[0].displayName);
+};
+
 window.api = {
   async loadJSON(fname) {
     if (window.REPORT_ZIP) {
@@ -173,16 +177,16 @@ window.api = {
       }
       throw error;
     }
-    window.app.creationDate = data.reportGeneratedTime;
-    window.app.sinceDate = data.sinceDate;
-    window.app.untilDate = data.untilDate;
-    window.app.repoSenseVersion = data.repoSenseVersion;
-    window.app.reportGenerationTime = data.reportGenerationTime;
-    window.app.isSinceDateProvided = data.isSinceDateProvided;
-    window.app.isUntilDateProvided = data.isUntilDateProvided;
+    const { reportGeneratedTime, reportGenerationTime } = data;
+    window.sinceDate = data.sinceDate;
+    window.untilDate = data.untilDate;
+    window.repoSenseVersion = data.repoSenseVersion;
+    window.isSinceDateProvided = data.isSinceDateProvided;
+    window.isUntilDateProvided = data.isUntilDateProvided;
 
+    const errorMessages = {};
     Object.entries(data.errorList).forEach(([repoName, message]) => {
-      window.appErrorMessages[repoName] = message;
+      errorMessages[repoName] = message;
     });
 
     const names = [];
@@ -191,7 +195,12 @@ window.api = {
       window.REPOS[repoName] = repo;
       names.push(repoName);
     });
-    return names;
+    return {
+      creationDate: reportGeneratedTime,
+      reportGenerationTime,
+      errorMessages,
+      names,
+    };
   },
 
   async loadCommits(repoName) {
@@ -253,5 +262,6 @@ window.api = {
     });
   },
 };
+
 
 export default 'test';
