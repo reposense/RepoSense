@@ -101,7 +101,7 @@
         label(
           v-bind:key="fileType",
           v-bind:style="{ 'background-color': fileTypeColors[fileType], \
-            'color': this.getFontColor(fileTypeColors[fileType])}"
+            'color': getFontColor(fileTypeColors[fileType])}"
         )
           input.mui-checkbox--fileType(
             type="checkbox",

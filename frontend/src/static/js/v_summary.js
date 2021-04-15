@@ -21,8 +21,8 @@ window.vSummary = {
       filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
-      hasModifiedSinceDate: window.app.isSinceDateProvided,
-      hasModifiedUntilDate: window.app.isUntilDateProvided,
+      hasModifiedSinceDate: window.isSinceDateProvided,
+      hasModifiedUntilDate: window.isUntilDateProvided,
       filterHash: '',
       minDate: '',
       maxDate: '',
@@ -136,6 +136,10 @@ window.vSummary = {
       event.target.parentNode.style.display = 'none';
     },
 
+    getFontColor(color) {
+      return window.getFontColor(color);
+    },
+
     // view functions //
     getReportIssueGitHubLink(stackTrace) {
       return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
@@ -152,7 +156,7 @@ window.vSummary = {
     },
 
     getReportIssueTitle() {
-      return encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion;
+      return encodeURI('Unexpected error with RepoSense version ') + window.repoSenseVersion;
     },
 
     getReportIssueMessage(message) {
@@ -250,8 +254,8 @@ window.vSummary = {
         return;
       }
 
-      const minDate = window.app.sinceDate;
-      const maxDate = window.app.untilDate;
+      const minDate = window.sinceDate;
+      const maxDate = window.untilDate;
 
       if (!this.filterSinceDate) {
         this.minDate = minDate;
