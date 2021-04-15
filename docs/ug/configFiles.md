@@ -66,7 +66,7 @@ Author's GitHub ID {{ mandatory }}| GitHub username of the target author, e.g., 
 Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 Author's Display Name | The name to display for the author. Default: author's GitHub username.
 Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
-Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`.  
+Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`.
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
@@ -146,7 +146,7 @@ Note: `authors` field should contain _all_ authors that should be captured in th
 * `emails`: Associated GitHub emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
 * `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
-* `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author. The path glob syntax is specified by the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob). In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`
+* `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author. The path glob syntax is specified by the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob). In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`.
 
 To verify your standalone configuration is as intended, add the `_reposense/config.json` to your local copy of repo and run RepoSense against it as follows:<br>
 * Format: `java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION` <br>
