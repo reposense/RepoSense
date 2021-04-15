@@ -44,7 +44,10 @@
       #tabs-wrapper(ref="tabWrapper", slot="right")
         .tab-content.panel-padding
           .tab-pane
-            v-authorship#tab-authorship(v-if="tabType === 'authorship'")
+            v-authorship#tab-authorship(
+              v-if="tabType === 'authorship'",
+              v-on:deactivate-tab='deactivate-tab()'
+            )
             v-zoom#tab-zoom(v-else-if="tabType === 'zoom'")
             #tab-empty(v-else)
               .title
