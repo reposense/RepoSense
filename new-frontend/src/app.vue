@@ -106,9 +106,8 @@ const app = {
 
       tabType: 'empty',
       creationDate: '',
-
-      errorMessages: window.appErrorMessages,
-      reportGenerationTime: window.appReportGenerationTime,
+      reportGenerationTime: '',
+      errorMessages: {},
     };
   },
   watch: {

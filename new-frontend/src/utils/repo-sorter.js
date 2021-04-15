@@ -13,6 +13,9 @@ function sortingHelper(element, sortingOption) {
   if (sortingOption === 'variance') {
     return element.reduce(getGroupCommitsVariance, 0);
   }
+  if (sortingOption === 'displayName') {
+    return window.getAuthorDisplayName(element);
+  }
   return element[0][sortingOption];
 }
 

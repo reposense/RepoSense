@@ -159,10 +159,6 @@ export default {
   },
 
   computed: {
-    zoomOwnerWatchable() {
-      return `${this.info.zRepo}|${this.info.zAuthor}|${this.info.zFilterGroup}|${this.info.zTimeFrame}`;
-    },
-
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === 'time'
         ? (commit) => commit.date
@@ -234,7 +230,7 @@ export default {
   },
 
   watch: {
-    zoomOwnerWatchable() {
+    info() {
       const newData = {
         expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
         ...zoomInitialState(),

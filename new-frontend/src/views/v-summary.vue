@@ -285,7 +285,8 @@ export default {
     this.processFileTypes();
     this.getFiltered();
     if (this.$store.state.tabZoomInfo.isRefreshing) {
-      this.restoreZoomFiltered(this.$store.state.tabZoomInfo);
+      const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
+      this.restoreZoomFiltered(zoomInfo);
     }
   },
 

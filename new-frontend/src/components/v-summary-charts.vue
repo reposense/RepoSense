@@ -4,7 +4,7 @@
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone'",
       v-bind:class="{ 'active-background': \
-        isSelectedGroup(repo[0].name, repo[0].repoName, isGroupMerged(getGroupName(repo))) }"
+        isSelectedGroup(repo[0].name, repo[0].repoName) }"
     )
       .summary-charts__title--index {{ i+1 }}
       .summary-charts__title--groupname
@@ -12,7 +12,7 @@
         template(
           v-else-if="filterGroupSelection === 'groupByAuthors'",
           v-bind:class=" { warn: repo[0].name === '-' }"
-        ) {{ repo[0].displayName }} ({{ repo[0].name }})
+        ) {{ getAuthorDisplayName(repo) }} ({{ repo[0].name }})
       .summary-charts__title--contribution
         .tooltip
           | [{{ getGroupTotalContribution(repo) }} lines]
@@ -87,16 +87,11 @@
     .summary-chart(v-for="(user, j) in repo")
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
-        v-bind:class="{ 'active-background': user.name === activeUser\
-          && user.repoName === activeRepo }"
+        v-bind:class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo }"
       )
         .summary-chart__title--index {{ j+1 }}
-        .summary-chart__title--repo(
-          v-if="filterGroupSelection === 'groupByNone'"
-        ) {{ user.repoName }}
-        .summary-chart__title--author-repo(
-          v-if="filterGroupSelection === 'groupByAuthors'"
-        ) {{ user.repoName }}
+        .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
+        .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
           v-if="filterGroupSelection !== 'groupByAuthors'",
           v-bind:class="{ warn: user.name === '-' }"
@@ -123,20 +118,17 @@
           .tooltip
             font-awesome-icon.icon-button(
               icon="code",
-              v-bind:class="{ 'active-icon': isSelectedTab(user.name,\
-                user.repoName, 'authorship', false) }"
+              v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'authorship', false) }"
             )
             span.tooltip-text Click to view author's contribution.
         a(
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate,\
-            isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
             font-awesome-icon.icon-button(
               icon="list-ul",
-              v-bind:class="{ 'active-icon': isSelectedTab(user.name,\
-                user.repoName, 'zoom', false) }"
+              v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'zoom', false) }"
             )
             span.tooltip-text Click to view breakdown of commits
         .summary-chart__title--percentile(
@@ -167,8 +159,8 @@
               v-bind:style="{ width: width + '%',\
                 'background-color': fileTypeColors[fileType] }",
               v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
-                + 'total: ' + user.checkedFileTypeContribution + ' lines '\
-                + '(contribution from ' + minDate + ' to ' + maxDate + ')'"
+                + 'total: ' + user.checkedFileTypeContribution + ' lines ' + '(contribution from ' + minDate + ' to '\
+                + maxDate + ')'"
             )
         template(v-else)
           .summary-chart__contrib(
@@ -449,6 +441,10 @@ export default {
       this.$store.commit('updateMergedGroup', info);
     },
 
+    getAuthorDisplayName(repo) {
+      return window.getAuthorDisplayName(repo);
+    },
+
     retrieveSelectedTabHash() {
       const hash = window.hashParams;
 
@@ -519,14 +515,16 @@ export default {
       }
 
       if (this.filterGroupSelection === 'groupByAuthors') {
-        return this.activeUser === userName && this.activeTabType === tabType;
+        return this.isTabOnMergedGroup && this.activeUser === userName
+            && this.activeTabType === tabType;
       }
 
-      return this.activeRepo === repo && this.activeTabType === tabType;
+      return this.isTabOnMergedGroup && this.activeRepo === repo
+          && this.activeTabType === tabType;
     },
 
-    isSelectedGroup(userName, repo, isMerged) {
-      return (this.isTabOnMergedGroup || isMerged)
+    isSelectedGroup(userName, repo) {
+      return this.isTabOnMergedGroup
           && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
           || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
     },

@@ -198,7 +198,7 @@ export default {
       this.updateSelectedFiles();
     },
 
-    authorshipOwnerWatchable() {
+    info() {
       Object.assign(this.$data, authorshipInitialState());
       this.initiate();
     },
@@ -541,10 +541,6 @@ export default {
   },
 
   computed: {
-    authorshipOwnerWatchable() {
-      return `${this.info.author}|${this.info.repo}|${this.info.isMergeGroup}`;
-    },
-
     sortingFunction() {
       return (a, b) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
