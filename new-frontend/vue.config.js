@@ -22,5 +22,11 @@ module.exports = {
       options[0][0].ignore.push('*.json');
       return options;
     });
+    config.module
+        .rule('vue')
+        .use('vue-loader')
+        .tap((args) => {
+          args.compilerOptions.whitespace = 'preserve';
+        });
   },
 };
