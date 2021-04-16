@@ -2,6 +2,7 @@
 // eslint-disable-next-line import/extensions
 import store from './store.js';
 
+// update deploy
 /* global Vue hljs */
 Vue.directive('hljs', {
   inserted(ele, binding) {
