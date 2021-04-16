@@ -75,7 +75,7 @@ jobs:
     - name: Build preview website (pull request)
       if: ${{ success() && github.event_name == 'pull_request' }}
       run: |
-        git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1" && ./gradlew run buildAtNewReposenseReport
+        git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1" && ./gradlew buildAtNewReposenseReport
         npm install -g markbind-cli
         (cd docs && markbind build)
 
