@@ -34,7 +34,7 @@
     "jszip": "^3.5.0",
     "minimatch": "^3.0.4",
     "seedrandom": "^3.0.5",
-    "vue": "^2.6.12",
+    "vue": "^2.6.11",
     "vue-loading-overlay": "^3.4.2",
     "vue-template-compiler": "^2.6.12",
     "vuex": "^3.6.2"
