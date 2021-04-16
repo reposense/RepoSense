@@ -16,6 +16,7 @@ public class StringsUtil {
 
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
     private static final Logger logger = LogsManager.getLogger(StringsUtil.class);
+    public static String encoding = "UTF-8";
 
     /**
      * Filters the {@code text}, returning only the lines that matches the given {@code regex}.
@@ -59,9 +60,10 @@ public class StringsUtil {
      */
     public static String decodeString(Path path) {
         try {
-            return URLDecoder.decode(path.toString(), "UTF-8");
+            return URLDecoder.decode(path.toString(), encoding);
         } catch (UnsupportedEncodingException e) {
-            logger.log(Level.SEVERE, path + " contains invalid character.");
+            logger.log(Level.SEVERE, "The encoding " + encoding
+                    + " is incompatible with the path " + path + ".");
             return "";
         }
     }
