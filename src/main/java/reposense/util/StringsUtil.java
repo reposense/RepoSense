@@ -74,6 +74,5 @@ public class StringsUtil {
      */
     public static String decodeString(Path path) {
         return decodeString(path, ENCODING);
-        //return "";
     }
 }
