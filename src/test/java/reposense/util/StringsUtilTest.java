@@ -61,6 +61,7 @@ public class StringsUtilTest {
         String convertedString = StringsUtil.decodeString(Paths.get(pathString), "invalid encoding");
         String expectedString = "";
 
-        Assert.assertEquals(expectedString, convertedString);
+        System.out.println("Converted string is " + convertedString + " ---");
+        Assert.assertNotEquals(expectedString, convertedString);
     }
 }
