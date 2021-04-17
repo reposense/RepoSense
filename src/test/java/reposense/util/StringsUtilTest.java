@@ -58,10 +58,9 @@ public class StringsUtilTest {
     @Test
     public void decodeString_pathWithInvalidEncoding_success() {
         String pathString = "src\\a b\\c d\\e";
-        String convertedString = StringsUtil.decodeString(Paths.get(pathString), "invalid encoding");
+        String convertedString = StringsUtil.decodeString(Paths.get(pathString), "");
         String expectedString = "";
 
-        System.out.println("Converted string is " + convertedString + " ---");
-        Assert.assertNotEquals(expectedString, convertedString);
+        Assert.assertEquals(expectedString, convertedString);
     }
 }
