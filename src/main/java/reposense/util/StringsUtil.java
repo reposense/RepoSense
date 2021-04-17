@@ -58,11 +58,11 @@ public class StringsUtil {
     /**
      * Returns the decoded path string with the specified encoding.
      */
-    public static String decodeString(Path path, String encoding) {
+    public static String decodeString(Path path, String characterEncoding) {
         try {
-            return URLDecoder.decode(path.toString(), encoding);
+            return URLDecoder.decode(path.toString(), characterEncoding);
         } catch (UnsupportedEncodingException e) {
-            logger.log(Level.SEVERE, "The encoding " + encoding
+            logger.log(Level.SEVERE, "The encoding " + characterEncoding
                     + " is incompatible with the path " + path + ".");
             return "";
         }
