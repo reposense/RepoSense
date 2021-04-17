@@ -60,7 +60,6 @@ public class StringsUtilTest {
         StringsUtil.setEncoding("invalid encoding");
         String pathString = "src\\a b\\c d\\e";
         String convertedString = StringsUtil.decodeString(Paths.get(pathString));
-        //String expectedString = "";
 
         Assert.assertNotEquals(pathString, convertedString);
         StringsUtil.setEncoding("UTF-8");
