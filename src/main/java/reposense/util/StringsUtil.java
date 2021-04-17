@@ -16,7 +16,7 @@ public class StringsUtil {
 
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
     private static final Logger logger = LogsManager.getLogger(StringsUtil.class);
-    private static String encoding = "UTF-8";
+    private static final String ENCODING = "UTF-8";
 
     /**
      * Filters the {@code text}, returning only the lines that matches the given {@code regex}.
@@ -56,9 +56,9 @@ public class StringsUtil {
     }
 
     /**
-     * Returns the decoded path string with %20 in original path string replaced by white space character
+     * Returns the decoded path string with the specified encoding.
      */
-    public static String decodeString(Path path) {
+    public static String decodeString(Path path, String encoding) {
         try {
             return URLDecoder.decode(path.toString(), encoding);
         } catch (UnsupportedEncodingException e) {
@@ -68,7 +68,10 @@ public class StringsUtil {
         }
     }
 
-    public static void setEncoding(String encoding) {
-        StringsUtil.encoding = encoding;
+    /**
+     * Returns the decoded path string with %20 in original path string replaced by white space character.
+     */
+    public static String decodeString(Path path) {
+        return decodeString(path, ENCODING);
     }
 }
