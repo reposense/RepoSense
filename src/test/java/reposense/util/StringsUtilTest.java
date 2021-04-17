@@ -57,12 +57,12 @@ public class StringsUtilTest {
 
     @Test
     public void decodeString_pathWithInvalidEncoding_success() {
-        StringsUtil.encoding = "invalid encoding";
+        StringsUtil.setEncoding("invalid encoding");
         String pathString = "src\\a b\\c d\\e";
         String convertedString = StringsUtil.decodeString(Paths.get(pathString));
         String expectedString = "";
 
         Assert.assertEquals(expectedString, convertedString);
-        StringsUtil.encoding = "UTF-8";
+        StringsUtil.setEncoding("UTF-8");
     }
 }
