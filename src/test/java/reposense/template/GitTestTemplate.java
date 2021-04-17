@@ -1,11 +1,13 @@
 package reposense.template;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
@@ -71,6 +73,9 @@ public class GitTestTemplate {
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
     protected static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
+    protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
+    protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
+
 
     protected static RepoConfiguration config;
 
@@ -112,16 +117,18 @@ public class GitTestTemplate {
     }
 
     /**
-     * Asserts the correctness of file analysis with regards to the contribution
-     * made by author named in {@code FAKE_AUTHOR_NAME}.
+     * For each line in {@code FileResult}, assert that it is attributed to the expected author provided by
+     * {@code expectedLineAuthors}.
      */
-    public void assertFileAnalysisCorrectness(FileResult fileResult) {
-        for (LineInfo line : fileResult.getLines()) {
-            if (line.getContent().startsWith("fake")) {
-                Assert.assertEquals(line.getAuthor(), new Author(FAKE_AUTHOR_NAME));
-            } else {
-                Assert.assertNotEquals(line.getAuthor(), new Author(FAKE_AUTHOR_NAME));
-            }
+    public void assertFileAnalysisCorrectness(FileResult fileResult, List<Author> expectedLineAuthors) {
+        List<LineInfo> lines = fileResult.getLines();
+        assertEquals(expectedLineAuthors.size(), lines.size());
+
+        Iterator<Author> lineAuthorsItr = expectedLineAuthors.iterator();
+        Iterator<LineInfo> linesItr = lines.iterator();
+
+        while (linesItr.hasNext() && lineAuthorsItr.hasNext()) {
+            assertEquals(lineAuthorsItr.next(), linesItr.next().getAuthor());
         }
     }
 
