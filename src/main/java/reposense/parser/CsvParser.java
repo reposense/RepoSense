@@ -9,12 +9,15 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -28,6 +31,7 @@ public abstract class CsvParser<T> {
     protected static final String COLUMN_VALUES_SEPARATOR = ";";
     protected static final Logger logger = LogsManager.getLogger(CsvParser.class);
 
+    private static final String EMPTY_STRING = "";
     private static final String OVERRIDE_KEYWORD = "override:";
     private static final String MESSAGE_EMPTY_LINE = "[EMPTY LINE]";
     private static final String MESSAGE_UNABLE_TO_READ_CSV_FILE = "Unable to read the supplied CSV file.";
@@ -37,26 +41,27 @@ public abstract class CsvParser<T> {
             + "Content: %s\n"
             + "Error: %s";
     private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
-    private static final String MESSAGE_WRONG_HEADER_SIZE = "Wrong number of columns in header of CSV file, %s. \n"
-            + "Number of columns in header: %d\n"
-            + "Expected number of columns: %d";
+    private static final String MESSAGE_MANDATORY_HEADER_MISSING = "Required column header, %s, not found in "
+            + "CSV file, %s";
+    private static final String MESSAGE_DUPLICATE_COLUMN_HEADER = "Duplicate columns are present in CSV file, %s.";
+    private static final String MESSAGE_COLUMNS_RECOGNIZED = "Parsed header of CSV file, %s, and recognized columns: "
+            + "%s";
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
 
     private Path csvFilePath;
-    private int expectedHeaderSize;
+    private Map<String, Integer> headerMap = new HashMap();
     private int numOfLinesBeforeFirstRecord = 0;
 
     /**
      * @throws IOException if {@code csvFilePath} is an invalid path.
      */
-    public CsvParser(Path csvFilePath, int expectedHeaderSize) throws IOException {
+    public CsvParser(Path csvFilePath) throws IOException {
         if (csvFilePath == null || !Files.exists(csvFilePath)) {
             throw new FileNotFoundException("Csv file does not exist at the given path.\n"
                     + "Use '-help' to list all the available subcommands and some concept guides.");
         }
 
         this.csvFilePath = csvFilePath;
-        this.expectedHeaderSize = expectedHeaderSize;
     }
 
     /**
@@ -72,7 +77,13 @@ public abstract class CsvParser<T> {
 
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
             String[] header = getHeader(csvReader);
-            records = CSVFormat.DEFAULT.withIgnoreEmptyLines(false).withHeader(header).parse(csvReader);
+            try {
+                records = CSVFormat.DEFAULT.withIgnoreEmptyLines(false).withHeader(header).withTrim()
+                        .withIgnoreHeaderCase().parse(csvReader);
+            } catch (IllegalArgumentException iae) {
+                throw new InvalidCsvException(
+                        String.format(MESSAGE_DUPLICATE_COLUMN_HEADER, csvFilePath.getFileName()));
+            }
 
             for (CSVRecord record : records) {
                 if (isLineMalformed(record)) {
@@ -131,8 +142,8 @@ public abstract class CsvParser<T> {
                     csvFilePath.getFileName(), getRowContentAsRawString(record)));
             return true;
         }
-        for (int position : mandatoryPositions()) {
-            if (record.get(position).isEmpty()) {
+        for (String header : mandatoryHeaders()) {
+            if (get(record, header).isEmpty()) {
                 logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
                         csvFilePath.getFileName(), getRowContentAsRawString(record)));
                 return true;
@@ -142,41 +153,45 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns the value of {@code record} at {@code colNum}.
+     * Returns the value of {@code record} at the column with the header {@code header}.
      */
-    protected String get(final CSVRecord record, int colNum) {
-        return record.get(colNum).trim();
+    protected String get(final CSVRecord record, String header) {
+        if (headerMap.containsKey(header)) {
+            return record.get(headerMap.get(header)).trim();
+        } else {
+            return EMPTY_STRING;
+        }
     }
 
     /**
-     * Returns the value of {@code record} at {@code colNum} if present, or
+     * Returns the value of {@code record} at the column with the header {@code header} if present, or
      * returns {@code defaultValue} otherwise.
      */
-    protected String getOrDefault(final CSVRecord record, int colNum, String defaultValue) {
-        return get(record, colNum).isEmpty() ? defaultValue : get(record, colNum);
+    protected String getOrDefault(final CSVRecord record, String header, String defaultValue) {
+        return get(record, header).isEmpty() ? defaultValue : get(record, header);
     }
 
     /**
-     * Returns the value of {@code record} at {@code colNum} as a {@code List},
+     * Returns the value of {@code record} at the column with the header {@code header} as a {@code List},
      * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code record} and not empty, or
      * returns an empty {@code List} otherwise.
      */
-    protected List<String> getAsList(final CSVRecord record, int colNum) {
-        if (get(record, colNum).isEmpty()) {
+    protected List<String> getAsList(final CSVRecord record, String header) {
+        if (get(record, header).isEmpty()) {
             return Collections.emptyList();
         }
-        return Arrays.stream(get(record, colNum).split(COLUMN_VALUES_SEPARATOR))
+        return Arrays.stream(get(record, header).split(COLUMN_VALUES_SEPARATOR))
                 .map(String::trim)
                 .collect(Collectors.toList());
     }
 
     /**
      * Returns the values in {@code record} as a list with the {@link CsvParser#OVERRIDE_KEYWORD} prefix removed.
-     * Returns an empty list if {@code record} at {@code colNum} is empty.
+     * Returns an empty list if {@code record} at the column with the header {@code header} is empty.
      */
-    protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, int colNum) {
-        List<String> data = getAsList(record, colNum);
-        if (isElementOverridingStandaloneConfig(record, colNum)) {
+    protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, String header) {
+        List<String> data = getAsList(record, header);
+        if (isElementOverridingStandaloneConfig(record, header)) {
             data.set(0, data.get(0).replaceFirst(OVERRIDE_KEYWORD, ""));
             data.removeIf(String::isEmpty);
         }
@@ -189,10 +204,11 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns true if the {@code record} at {@code colNum} is prefixed with the override keyword.
+     * Returns true if the {@code record} at the column with the header {@code header} is prefixed with
+     * the override keyword.
      */
-    protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, int colNum) {
-        return get(record, colNum).startsWith(OVERRIDE_KEYWORD);
+    protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, String header) {
+        return get(record, header).startsWith(OVERRIDE_KEYWORD);
     }
 
     /**
@@ -211,22 +227,47 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Checks if {@code possibleHeader} contains the expected number of columns.
-     * @throws InvalidCsvException if {@code possibleHeader} does not have as many columns as expected.
+     * Generates map of column header to position number for input {@code possibleHeader}.
+     * @throws InvalidCsvException if {@code possibleHeader} does not contain all the mandatory headers.
      */
     private void validateHeader(String[] possibleHeader) throws InvalidCsvException {
-        int actualNumberOfColumns = possibleHeader.length;
-        if (actualNumberOfColumns != expectedHeaderSize) {
-            throw new InvalidCsvException(String.format(
-                    MESSAGE_WRONG_HEADER_SIZE, csvFilePath.getFileName(), actualNumberOfColumns,
-                    expectedHeaderSize));
+        int headerSize = possibleHeader.length;
+        for (int i = 0; i < headerSize; i++) {
+            String possible = possibleHeader[i].trim();
+            for (String parsedHeader : mandatoryAndOptionalHeaders()) {
+                if (possible.equalsIgnoreCase(parsedHeader)) {
+                    headerMap.put(parsedHeader, i);
+                    break;
+                }
+            }
         }
+        for (String mandatory : mandatoryHeaders()) {
+            if (!headerMap.containsKey(mandatory)) {
+                throw new InvalidCsvException(String.format(
+                        MESSAGE_MANDATORY_HEADER_MISSING, mandatory, csvFilePath.getFileName()));
+            }
+        }
+        logger.info(String.format(MESSAGE_COLUMNS_RECOGNIZED, csvFilePath.getFileName(),
+                String.join(",  ", headerMap.keySet())));
     }
 
     /**
-     * Gets the list of positions that are mandatory for verification.
+     * Gets the list of headers that are mandatory for verification.
      */
-    protected abstract int[] mandatoryPositions();
+    protected abstract String[] mandatoryHeaders();
+
+    /**
+     * Gets the list of optional headers that can be parsed.
+     */
+    protected abstract String[] optionalHeaders();
+
+    /**
+     * Gets the list of all mandatory and optional headers that can be parsed.
+     */
+    protected List<String> mandatoryAndOptionalHeaders() {
+        return Stream.concat(Arrays.stream(mandatoryHeaders()), Arrays.stream(optionalHeaders()))
+                .collect(Collectors.toList());
+    }
 
     /**
      * Processes the csv file line by line.
