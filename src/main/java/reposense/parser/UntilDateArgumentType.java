@@ -6,6 +6,7 @@ import java.util.Optional;
 import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import reposense.util.TimeUtil;
 
 /**
  * Verifies and parses a string-formatted until date to a {@code Date} object.
@@ -14,7 +15,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 public class UntilDateArgumentType extends DateArgumentType {
     @Override
     public Optional<Date> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
-        String untilDate = extractDate(value);
+        String untilDate = TimeUtil.extractDate(value);
         return super.convert(parser, arg, untilDate + " 23:59:59");
     }
 }
