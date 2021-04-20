@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
+import reposense.git.GitDiff;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -37,7 +38,7 @@ public class AuthorshipReporter {
         List<FileInfo> textFileInfos = FileInfoExtractor.extractTextFileInfos(config);
 
         int numFiles = textFileInfos.size();
-        int totalNumLines = textFileInfos.stream().mapToInt(fileInfo -> getNumLinesInFile(config, fileInfo)).sum();
+        int totalNumLines = textFileInfos.stream().mapToInt(fileInfo -> fileInfo.getNumOfLines()).sum();
 
         if (totalNumLines > HIGH_NUMBER_LINES_THRESHOLD) {
             logger.warning(String.format(HIGH_NUMBER_LINES_MESSAGE, numFiles, totalNumLines));
@@ -59,29 +60,5 @@ public class AuthorshipReporter {
 
         return FileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(),
                 config.getAllFileTypes());
-    }
-
-    /**
-     * Returns the number of lines in the file represented by {@code textFileInfo}.
-     */
-    private static int getNumLinesInFile(RepoConfiguration config, FileInfo textFileInfo) {
-        BufferedReader reader;
-        String path = Paths.get(FileUtil.getRepoParentFolder(config).toString(), config.getRepoName(),
-                textFileInfo.getPath().replace("/", "\\")).toString();
-        try {
-            reader = new BufferedReader(new FileReader(path));
-        } catch (FileNotFoundException fnfe) {
-            return 0;
-        }
-        int lines = 0;
-        try {
-            while (reader.readLine() != null) {
-                lines++;
-            }
-            reader.close();
-        } catch (IOException ioe) {
-            return lines;
-        }
-        return lines;
     }
 }
