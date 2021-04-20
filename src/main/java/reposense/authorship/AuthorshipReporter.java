@@ -32,7 +32,9 @@ public class AuthorshipReporter {
         List<FileInfo> textFileInfos = FileInfoExtractor.extractTextFileInfos(config);
 
         int numFiles = textFileInfos.size();
-        int totalNumLines = textFileInfos.stream().mapToInt(fileInfo -> fileInfo.getNumOfLines()).sum();
+        int totalNumLines = textFileInfos.stream()
+                .mapToInt(fileInfo -> fileInfo.getNumOfLines())
+                .sum();
 
         if (totalNumLines > HIGH_NUMBER_LINES_THRESHOLD) {
             logger.warning(String.format(HIGH_NUMBER_LINES_MESSAGE, numFiles, totalNumLines));
