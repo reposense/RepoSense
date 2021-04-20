@@ -3,7 +3,7 @@
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone'",
       v-bind:class="{ 'active-background': \
-        isSelectedGroup(repo[0].name, repo[0].repoName, isGroupMerged(getGroupName(repo))) }"
+        isSelectedGroup(repo[0].name, repo[0].repoName) }"
     )
       .summary-charts__title--index {{ i+1 }}
       .summary-charts__title--groupname
@@ -11,7 +11,7 @@
         template(
           v-else-if="filterGroupSelection === 'groupByAuthors'",
           v-bind:class=" { warn: repo[0].name === '-' }"
-        ) {{ repo[0].displayName }} ({{ repo[0].name }})
+        ) {{ getAuthorDisplayName(repo) }} ({{ repo[0].name }})
       .summary-charts__title--contribution
         .tooltip
           | [{{ getGroupTotalContribution(repo) }} lines]

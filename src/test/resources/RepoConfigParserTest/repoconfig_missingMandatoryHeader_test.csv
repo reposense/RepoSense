@@ -1,0 +1,2 @@
+Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commit List,Ignore Authors List
+master,java;adoc;md,docs**,yes,abcde12345;67890fdecba,zacharytang

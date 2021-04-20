@@ -153,6 +153,28 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the cloning threads flag with the {@code threads} as argument to the input.
+     * This method should only be called once in one build.
+     *
+     * @param threads The number of threads for cloning.
+     */
+    public InputBuilder addNumCloningThreads(int threads) {
+        input.append(ArgsParser.CLONING_THREADS_FLAG[0] + WHITESPACE + threads + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the analysis threads flag with the {@code threads} as argument to the input.
+     * This method should only be called once in one build.
+     *
+     * @param threads The number of threads for analysis.
+     */
+    public InputBuilder addNumAnalysisThreads(int threads) {
+        input.append(ArgsParser.ANALYSIS_THREADS_FLAG[0] + WHITESPACE + threads + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds the flag to enable shallow cloning.
      * This method should only be called once in one build.
      */

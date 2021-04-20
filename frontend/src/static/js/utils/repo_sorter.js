@@ -14,14 +14,14 @@ function getGroupCommitsVariance(total, group) {
 // }
 
 function sortingHelper(element, sortingOption) {
-  // return sortingOption === 'totalCommits' || sortingOption === 'variance'
-  //     ? element.reduce(getGroupCommitsVariance, 0)
-  //     : element[0][sortingOption];
   if (sortingOption === 'totalCommits') {
     return element.reduce(getTotalCommits, 0);
   }
   if (sortingOption === 'variance') {
     return element.reduce(getGroupCommitsVariance, 0);
+  }
+  if (sortingOption === 'displayName') {
+    return window.getAuthorDisplayName(element);
   }
   return element[0][sortingOption];
 }
