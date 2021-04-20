@@ -80,7 +80,7 @@
   }
 
   .summary-charts {
-    margin-bottom: 3rem;
+    margin-bottom: 1.4rem;
 
     &__title {
       align-items: center;
@@ -129,10 +129,11 @@
   }
 
   .summary-chart {
-    margin-bottom: 1.8rem;
-    overflow: visible;
+    display: inline-block;
+    margin-bottom: 1rem;
     position: relative;
     text-align: left;
+    width: 100%;
 
     &__title {
       align-items: center;
