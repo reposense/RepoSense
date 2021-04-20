@@ -1,10 +1,5 @@
 package reposense.authorship;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -13,10 +8,9 @@ import java.util.stream.Collectors;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
-import reposense.git.GitDiff;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
-import reposense.util.FileUtil;
+
 
 /**
  * Generates the authorship summary data for each repository.

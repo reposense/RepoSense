@@ -42,7 +42,9 @@ public class FileInfo {
         lines.add(line);
     }
 
-    public int getNumOfLines() { return lines.size(); }
+    public int getNumOfLines() {
+        return lines.size();
+    }
 
     public ArrayList<LineInfo> getLines() {
         return lines;
