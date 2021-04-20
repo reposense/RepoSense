@@ -14,7 +14,7 @@ import net.sourceforge.argparse4j.inf.ArgumentType;
 public class PeriodArgumentType implements ArgumentType<Optional<Integer>> {
     private static final String PARSE_EXCEPTION_MESSAGE_NOT_IN_NUMERIC =
             "Invalid format. Period must be in the format of nd (n days) or nw (n weeks), "
-                    + "where n is a number greater than 0.";
+            + "where n is a number greater than 0.";
     private static final String PARSE_EXCEPTION_MESSAGE_SMALLER_THAN_ZERO =
             "Invalid format. Period must be greater than 0.";
     private static final String PARSE_EXCEPTION_MESSAGE_NUMBER_TOO_LARGE =
