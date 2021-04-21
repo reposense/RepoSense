@@ -13,21 +13,6 @@ window.REPORT_ZIP = null;
 const HASH_ANCHOR = '?';
 const REPORT_DIR = '.';
 
-window.globalMixin = {
-  methods: {
-    getFontColor(color) {
-      const result = window.getHexToRGB(color);
-      const red = result[0];
-      const green = result[1];
-      const blue = result[2];
-
-      const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
-
-      return luminosity < 120 ? '#ffffff' : '#000000';
-    },
-  },
-};
-
 window.deactivateAllOverlays = function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
       .forEach((x) => {
@@ -43,6 +28,17 @@ window.getHexToRGB = function getHexToRGB(color) {
   // to convert color from hex code to rgb format
   const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
   return arr.slice(1).map((val) => parseInt(val, 16));
+};
+
+window.getFontColor = function getFontColor(color) {
+  const result = window.getHexToRGB(color);
+  const red = result[0];
+  const green = result[1];
+  const blue = result[2];
+
+  const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
+
+  return luminosity < 120 ? '#ffffff' : '#000000';
 };
 
 window.addHash = function addHash(newKey, newVal) {

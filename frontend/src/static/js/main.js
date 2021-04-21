@@ -20,7 +20,6 @@ const loadingResourcesMessage = 'Loading resources...';
 window.app = new window.Vue({
   el: '#app',
   store,
-  mixins: [window.globalMixin],
   data: {
     repos: {},
     users: [],

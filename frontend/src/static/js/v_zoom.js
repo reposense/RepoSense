@@ -130,6 +130,10 @@ window.vZoom = {
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
+    getFontColor(color) {
+      return window.getFontColor(color);
+    },
+
     openSummary() {
       const info = { since: this.info.zSince, until: this.info.zUntil };
       this.$store.commit('updateSummaryDates', info);
