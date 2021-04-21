@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/no-unresolved
 import minimatch from 'https://cdn.skypack.dev/minimatch@v3.0.4';
 
+const { getFontColor } = window;
+
 /* global Vuex */
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
@@ -155,10 +157,6 @@ window.vAuthorship = {
       }
 
       this.setInfoHash();
-    },
-
-    getFontColor(color) {
-      return window.getFontColor(color);
     },
 
     getRepoProps(repo) {
@@ -399,6 +397,7 @@ window.vAuthorship = {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
+    getFontColor,
   },
 
   computed: {
