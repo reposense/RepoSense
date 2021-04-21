@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 import minimatch from 'https://cdn.skypack.dev/minimatch@v3.0.4';
 
-const { getFontColor } = window;
+/* global getFontColor */
 
 /* global Vuex */
 const filesSortDict = {

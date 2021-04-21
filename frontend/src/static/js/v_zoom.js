@@ -1,5 +1,4 @@
-/* global Vuex */
-const { getFontColor } = window;
+/* global Vuex getFontColor */
 
 function zoomInitialState() {
   return {
