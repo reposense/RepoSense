@@ -136,10 +136,6 @@ window.vSummary = {
       event.target.parentNode.style.display = 'none';
     },
 
-    getFontColor(color) {
-      return window.getFontColor(color);
-    },
-
     // view functions //
     getReportIssueGitHubLink(stackTrace) {
       return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()

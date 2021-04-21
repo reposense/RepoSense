@@ -157,10 +157,6 @@ window.vAuthorship = {
       this.setInfoHash();
     },
 
-    getFontColor(color) {
-      return window.getFontColor(color);
-    },
-
     getRepoProps(repo) {
       if (repo) {
         if (this.info.isMergeGroup) {
