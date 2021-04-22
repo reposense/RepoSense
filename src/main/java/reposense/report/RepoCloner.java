@@ -131,6 +131,13 @@ public class RepoCloner {
     }
 
     /**
+     * Cleans up data associated with a particular repo.
+     */
+    public void cleanupRepo(RepoConfiguration config) {
+        deleteDirectory(FileUtil.getRepoParentFolder(config).toString());
+    }
+
+    /**
      * Cleans up after all repos have been cloned and analyzed.
      */
     public void cleanup() {

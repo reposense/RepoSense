@@ -652,7 +652,7 @@ window.vSummary = {
 
     restoreZoomFiltered(info) {
       const {
-        zSince, zUntil, zTimeFrame, zIsMerge, zFilterSearch,
+        zSince, zUntil, zTimeFrame, zIsMerged, zFilterSearch,
       } = info;
       const filtered = [];
 
@@ -677,7 +677,7 @@ window.vSummary = {
         filtered.push(res);
       }
 
-      if (zIsMerge) {
+      if (zIsMerged) {
         this.mergeGroupByIndex(filtered, 0);
       }
       [[info.zUser]] = filtered;
@@ -687,9 +687,9 @@ window.vSummary = {
     },
     matchZoomUser(info, user) {
       const {
-        zIsMerge, zFilterGroup, zRepo, zAuthor,
+        zIsMerged, zFilterGroup, zRepo, zAuthor,
       } = info;
-      if (zIsMerge) {
+      if (zIsMerged) {
         return zFilterGroup === 'groupByRepos'
           ? user.repoName === zRepo
           : user.name === zAuthor;

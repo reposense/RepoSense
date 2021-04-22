@@ -3,7 +3,7 @@
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone'",
       v-bind:class="{ 'active-background': \
-        isSelectedGroup(repo[0].name, repo[0].repoName, isGroupMerged(getGroupName(repo))) }"
+        isSelectedGroup(repo[0].name, repo[0].repoName) }"
     )
       .summary-charts__title--index {{ i+1 }}
       .summary-charts__title--groupname
