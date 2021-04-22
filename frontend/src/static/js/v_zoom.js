@@ -119,12 +119,7 @@ window.vZoom = {
 
   methods: {
     initiate() {
-      if (this.info.zUser) {
-        // This code should always run since zUser must be defined
-        this.updateFileTypes();
-        this.selectedFileTypes = this.fileTypes.slice();
-      }
-
+      // This code crashes if info.zUser is not defined
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
     },
