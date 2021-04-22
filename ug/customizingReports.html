@@ -478,7 +478,7 @@
                 <li><code class="hljs inline no-lang" v-pre>emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li>
                 <li><code class="hljs inline no-lang" v-pre>displayName</code>: Name to display on the report for this author.</li>
                 <li><code class="hljs inline no-lang" v-pre>authorNames</code>: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
-                <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code class="hljs inline no-lang" v-pre>ignoreGlobList</code>) folders/files to ignore for a specific author . In the example above, the actual <code class="hljs inline no-lang" v-pre>ignoreGlobList</code> for <code class="hljs inline no-lang" v-pre>alice</code> would be <code class="hljs inline no-lang" v-pre>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code></li>
+                <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code class="hljs inline no-lang" v-pre>ignoreGlobList</code>) folders/files to ignore for a specific author. The path glob syntax is specified by the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>. In the example above, the actual <code class="hljs inline no-lang" v-pre>ignoreGlobList</code> for <code class="hljs inline no-lang" v-pre>alice</code> would be <code class="hljs inline no-lang" v-pre>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code>.</li>
               </ul>
               <p>To verify your standalone configuration is as intended, add the <code class="hljs inline no-lang" v-pre>_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p>
               <ul>
@@ -572,7 +572,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Thu, Apr 22, 2021, 4:56:55 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Thu, Apr 22, 2021, 6:03:53 PM UTC]</small>
       </div>
     </footer>
   </div>
