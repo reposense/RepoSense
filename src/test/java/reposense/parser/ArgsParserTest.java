@@ -411,6 +411,47 @@ public class ArgsParserTest {
     }
 
     @Test
+    public void numCloningThreads_default_success() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER.build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        int expectedNumThreads = ArgsParser.DEFAULT_NUM_CLONING_THREADS;
+        Assert.assertEquals(expectedNumThreads, cliArguments.getNumCloningThreads());
+    }
+
+    @Test
+    public void numCloningThreads_isNumeric_success() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER
+                .addNumCloningThreads(2)
+                .build();
+        System.out.println(input);
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        int expectedNumThreads = 2;
+        Assert.assertEquals(expectedNumThreads, cliArguments.getNumCloningThreads());
+    }
+
+    @Test
+    public void numAnalysisThreads_default_success() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER.build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        int expectedNumThreads = ArgsParser.DEFAULT_NUM_ANALYSIS_THREADS;
+        Assert.assertEquals(expectedNumThreads, cliArguments.getNumAnalysisThreads());
+    }
+
+    @Test
+    public void numAnalysisThreads_isNumeric_success() throws Exception {
+        String input = DEFAULT_INPUT_BUILDER
+                .addNumAnalysisThreads(2)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        int expectedNumThreads = 2;
+        Assert.assertEquals(expectedNumThreads, cliArguments.getNumAnalysisThreads());
+    }
+
+    @Test
     public void parse_validGitRepoLocations_repoConfigurationListCorrectSize() throws Exception {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -696,6 +737,24 @@ public class ArgsParserTest {
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
+    }
+
+    @Test
+    public void parse_shallowCloning_success() throws Exception {
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(false, cliArguments.isShallowCloningPerformed());
+
+        String inputShallow = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
+                .addShallowCloning()
+                .build();
+        CliArguments cliArgumentsShallow = ArgsParser.parse(translateCommandline(inputShallow));
+        Assert.assertTrue(cliArgumentsShallow instanceof ConfigCliArguments);
+        Assert.assertEquals(true, cliArgumentsShallow.isShallowCloningPerformed());
     }
 
     /**

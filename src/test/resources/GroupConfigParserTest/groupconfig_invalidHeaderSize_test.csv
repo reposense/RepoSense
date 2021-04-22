@@ -1,3 +1,0 @@
-Repo location,Group label,Globs,Extra Column
-https://github.com/reposense/testrepo-Beta.git,Code,**/*.java;**/*.py,
-https://github.com/reposense/testrepo-Beta.git,Docs,docs/**,
