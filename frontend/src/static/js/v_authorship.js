@@ -1,4 +1,7 @@
-/* global Vuex minimatch */
+// eslint-disable-next-line import/no-unresolved
+import minimatch from 'https://cdn.skypack.dev/minimatch@v3.0.4';
+
+/* global Vuex */
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,

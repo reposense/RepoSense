@@ -152,7 +152,7 @@ window.app = new window.Vue({
         zFilterGroup: hash.zFGS,
         zFilterSearch: hash.zFS,
         zTimeFrame: hash.zFTF,
-        zIsMerge: hash.zMG === 'true',
+        zIsMerged: hash.zMG === 'true',
         zFromRamp: hash.zFR === 'true',
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
