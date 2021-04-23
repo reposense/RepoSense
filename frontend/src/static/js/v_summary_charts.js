@@ -37,6 +37,13 @@ window.vSummaryCharts = {
 
     ...Vuex.mapState(['mergedGroups', 'fileTypeColors']),
   },
+  watch: {
+    '$store.state.isTabActive': function () {
+      if (!this.$store.state.isTabActive) {
+        this.removeSelectedTab();
+      }
+    },
+  },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
       let currentBarWidth = 0;
