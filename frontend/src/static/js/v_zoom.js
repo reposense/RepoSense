@@ -102,7 +102,6 @@ window.vZoom = {
       this.initiate();
       this.setInfoHash();
     },
-
     selectedFileTypes() {
       this.$nextTick(() => {
         this.updateExpandedCommitMessagesCount();
@@ -120,12 +119,7 @@ window.vZoom = {
 
   methods: {
     initiate() {
-      if (this.info.zUser) {
-        // This code should always run since zUser must be defined
-        this.updateFileTypes();
-        this.selectedFileTypes = this.fileTypes.slice();
-      }
-
+      // This code crashes if info.zUser is not defined
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
     },
@@ -136,7 +130,7 @@ window.vZoom = {
     },
 
     getSliceLink(slice) {
-      if (this.info.zIsMerge) {
+      if (this.info.zIsMerged) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
       return `${window.getBaseLink(this.info.zUser.repoId)}/commit/${slice.hash}`;
@@ -201,7 +195,7 @@ window.vZoom = {
       const { addHash, encodeHash } = window;
       const {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
-        zTimeFrame, zIsMerge, zAuthor, zRepo, zFromRamp, zFilterSearch,
+        zTimeFrame, zIsMerged, zAuthor, zRepo, zFromRamp, zFilterSearch,
       } = this.info;
       addHash('zA', zAuthor);
       addHash('zR', zRepo);
@@ -209,7 +203,7 @@ window.vZoom = {
       addHash('zS', zSince);
       addHash('zFS', zFilterSearch);
       addHash('zU', zUntil);
-      addHash('zMG', zIsMerge);
+      addHash('zMG', zIsMerged);
       addHash('zFTF', zTimeFrame);
       addHash('zFGS', zFilterGroup);
       addHash('zFR', zFromRamp);
