@@ -8,9 +8,11 @@ describe('reload page', () => {
         .first()
         .click();
 
+    // change sort by
     cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
         .select('LoC');
 
+    // change sort order
     cy.get('#tab-zoom > .sorting > .sort-order > select:visible')
         .select('Ascending');
 
