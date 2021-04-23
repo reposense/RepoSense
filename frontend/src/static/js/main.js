@@ -28,8 +28,6 @@ window.app = new window.Vue({
     isLoadingOverlayEnabled: false,
     loadingOverlayOpacity: 1,
 
-    isTabActive: true, // to force tab wrapper to load
-
     tabType: 'empty',
     creationDate: '',
     reportGenerationTime: '',
@@ -118,16 +116,15 @@ window.app = new window.Vue({
         this.$refs.tabWrapper.scrollTop = 0;
       }
 
-      this.isTabActive = true;
       this.tabType = tabName;
-
+      this.$store.commit('updateTabState', true);
       window.addHash('tabOpen', this.isTabActive);
       window.addHash('tabType', this.tabType);
       window.encodeHash();
     },
 
     deactivateTab() {
-      this.isTabActive = false;
+      this.$store.commit('updateTabState', false);
       window.addHash('tabOpen', this.isTabActive);
       window.removeHash('tabType');
       window.encodeHash();
@@ -163,7 +160,7 @@ window.app = new window.Vue({
         zFilterGroup: hash.zFGS,
         zFilterSearch: hash.zFS,
         zTimeFrame: hash.zFTF,
-        zIsMerge: hash.zMG === 'true',
+        zIsMerged: hash.zMG === 'true',
         zFromRamp: hash.zFR === 'true',
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
@@ -179,7 +176,7 @@ window.app = new window.Vue({
       if (!hash.tabOpen) {
         return;
       }
-      this.isTabActive = hash.tabOpen === 'true';
+      this.$store.commit('updateTabState', hash.tabOpen === 'true');
 
       if (this.isTabActive) {
         if (hash.tabType === 'authorship') {
@@ -240,7 +237,7 @@ window.app = new window.Vue({
   },
 
   computed: {
-    ...Vuex.mapState(['loadingOverlayMessage']),
+    ...Vuex.mapState(['loadingOverlayMessage', 'isTabActive']),
   },
 
   components: {

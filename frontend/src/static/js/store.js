@@ -8,6 +8,7 @@ const store = new Vuex.Store({
     fileTypeColors: {},
     loadingOverlayCount: 0,
     loadingOverlayMessage: '',
+    isTabActive: true,
   },
   mutations: {
     updateTabZoomInfo(state, info) {
@@ -33,6 +34,9 @@ const store = new Vuex.Store({
     },
     updateLoadingOverlayMessage(state, message) {
       state.loadingOverlayMessage = message;
+    },
+    updateTabState(state, isTabOpen) {
+      state.isTabActive = isTabOpen;
     },
   },
 });
