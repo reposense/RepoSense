@@ -37,6 +37,13 @@ window.vSummaryCharts = {
 
     ...Vuex.mapState(['mergedGroups', 'fileTypeColors']),
   },
+  watch: {
+    '$store.state.isTabActive': function () {
+      if (!this.$store.state.isTabActive) {
+        this.removeSelectedTab();
+      }
+    },
+  },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
       let currentBarWidth = 0;
@@ -331,14 +338,16 @@ window.vSummaryCharts = {
       }
 
       if (this.filterGroupSelection === 'groupByAuthors') {
-        return this.activeUser === userName && this.activeTabType === tabType;
+        return this.isTabOnMergedGroup && this.activeUser === userName
+            && this.activeTabType === tabType;
       }
 
-      return this.activeRepo === repo && this.activeTabType === tabType;
+      return this.isTabOnMergedGroup && this.activeRepo === repo
+          && this.activeTabType === tabType;
     },
 
-    isSelectedGroup(userName, repo, isMerged) {
-      return (this.isTabOnMergedGroup || isMerged)
+    isSelectedGroup(userName, repo) {
+      return this.isTabOnMergedGroup
           && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
           || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
     },
