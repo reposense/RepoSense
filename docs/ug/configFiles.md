@@ -15,7 +15,7 @@ Given below are the details of the various config files used by RepoSense.
 
 <box type="info" seamless>
 
-**RepoSense ignores the first row (i.e., column headings) of CSV config files.** It is used simply to provide more information to human readers. This also means the ==columns in your config files should be in the exact order specified here==.
+**RepoSense ignores the order of column headers in the CSV config files. However, the spelling of the column headers must match the specified headers exactly, or the column would be ignored by RepoSense.**  
 </box>
 
 <box type="info" seamless>
