@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -38,8 +39,18 @@ public class FileAnalyzerTest extends GitTestTemplate {
             .getTime();
     private static final Date SHOULD_INCLUDE_LAST_MODIFIED_IN_LINES_UNTIL_DATE =
             TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 9);
+    private static final Date ANALYZE_BINARY_FILES_SINCE_DATE =
+            TestUtil.getSinceDate(2017, Calendar.JANUARY, 1);
+    private static final Date ANALYZE_BINARY_FILES_UNTIL_DATE =
+            TestUtil.getUntilDate(2020, Calendar.JANUARY, 1);
     private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
+    private static final Author[] EXPECTED_LINE_AUTHORS_BLAME_TEST = {
+            MAIN_AUTHOR, MAIN_AUTHOR, FAKE_AUTHOR, MAIN_AUTHOR
+    };
+    private static final Author[] EXPECTED_LINE_AUTHORS_MOVED_FILE = {
+            MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR
+    };
 
     @Before
     public void before() throws Exception {
@@ -52,7 +63,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
         FileResult fileResult = getFileResult("blameTest.java");
-        assertFileAnalysisCorrectness(fileResult);
+        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
     }
 
     @Test
@@ -60,7 +71,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
         FileResult fileResult = getFileResult("newPos/movedFile.java");
-        assertFileAnalysisCorrectness(fileResult);
+        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
 
     }
 
@@ -71,7 +82,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
 
         FileResult fileResult = getFileResult("blameTest.java");
-        assertFileAnalysisCorrectness(fileResult);
+        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
     }
 
     @Test
@@ -81,7 +92,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
 
         FileResult fileResult = getFileResult("newPos/movedFile.java");
-        assertFileAnalysisCorrectness(fileResult);
+        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
     }
 
     @Test
@@ -90,13 +101,13 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoFull);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
 
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(
                 Collections.singletonList(
                         new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoShort);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfoShort);
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);
 
@@ -115,13 +126,13 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018,
                 MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoFull);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
 
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(CommitHash.convertStringsToCommits(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
                         MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoShort);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfoShort);
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);
         fileInfoFull.getLines().forEach(lineInfo ->
@@ -134,14 +145,14 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(FAKE_AUTHOR_BLAME_RANGED_COMMIT_LIST_09022018);
-        FileInfoAnalyzer.analyzeFile(config, fileInfoFull);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
 
         FileInfo fileInfoRanged = generateTestFileInfo("blameTest.java");
         String rangedCommit = FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING + ".."
                 + FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING;
         config.setIgnoreCommitList(CommitHash.getHashes(config.getRepoRoot(), config.getBranch(),
                 new CommitHash(rangedCommit)).collect(Collectors.toList()));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoRanged);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfoRanged);
 
         Assert.assertEquals(fileInfoFull, fileInfoRanged);
         fileInfoFull.getLines().forEach(lineInfo ->
@@ -154,14 +165,14 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(FAKE_AUTHOR_BLAME_RANGED_COMMIT_LIST_09022018);
-        FileInfoAnalyzer.analyzeFile(config, fileInfoFull);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
 
         FileInfo fileInfoRangedShort = generateTestFileInfo("blameTest.java");
         String rangedCommitShort = FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING.substring(0, 8) + ".."
                 + FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING.substring(0, 8);
         config.setIgnoreCommitList(CommitHash.getHashes(config.getRepoRoot(), config.getBranch(),
                 new CommitHash(rangedCommitShort)).collect(Collectors.toList()));
-        FileInfoAnalyzer.analyzeFile(config, fileInfoRangedShort);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfoRangedShort);
 
         Assert.assertEquals(fileInfoFull, fileInfoRangedShort);
         fileInfoFull.getLines().forEach(lineInfo ->
@@ -178,7 +189,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setAuthorList(Collections.singletonList(author));
 
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), "pr_617.java");
-        FileInfoAnalyzer.analyzeFile(config, fileInfo);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
 
         Assert.assertEquals(1, fileInfo.getLines().size());
         fileInfo.getLines().forEach(lineInfo -> Assert.assertEquals(author, lineInfo.getAuthor()));
@@ -196,10 +207,39 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(),
                 "includeLastModifiedDateInLinesTest.java");
-        FileInfoAnalyzer.analyzeFile(config, fileInfo);
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
 
         Assert.assertEquals(4, fileInfo.getLines().size());
         fileInfo.getLines().forEach(lineInfo ->
                 Assert.assertEquals(LAST_MODIFIED_DATE, lineInfo.getLastModifiedDate()));
+    }
+
+    @Test
+    public void analyzeBinaryFile_shouldSetLinesToBeEmpty_success() {
+        config.setSinceDate(ANALYZE_BINARY_FILES_SINCE_DATE);
+        config.setUntilDate(ANALYZE_BINARY_FILES_UNTIL_DATE);
+        config.setBranch("728-FileInfoExtractorTest-getNonBinaryFilesList_directoryWithBinaryFiles_success");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+        List<FileInfo> binaryFileInfos = FileInfoExtractor.extractBinaryFileInfos(config);
+
+        for (FileInfo binaryFileInfo: binaryFileInfos) {
+            FileInfoAnalyzer.analyzeBinaryFile(config, binaryFileInfo);
+            Assert.assertEquals(0, binaryFileInfo.getLines().size());
+        }
+    }
+
+    @Test
+    public void analyzeBinaryFile_nonExistingFilePath_success() {
+        config.setSinceDate(ANALYZE_BINARY_FILES_SINCE_DATE);
+        config.setUntilDate(ANALYZE_BINARY_FILES_UNTIL_DATE);
+        config.setBranch("728-FileInfoExtractorTest-getNonBinaryFilesList_directoryWithBinaryFiles_success");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+
+        List<FileInfo> binaryFileInfos = Arrays.asList(new FileInfo("/nonExistingJpgPicture.jpg"),
+                new FileInfo("/nonExistingPngPicture.png"));
+
+        for (FileInfo binaryFileInfo: binaryFileInfos) {
+            Assert.assertNull(FileInfoAnalyzer.analyzeBinaryFile(config, binaryFileInfo));
+        }
     }
 }

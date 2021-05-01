@@ -9,6 +9,7 @@
   .icon-button {
     color: mui-color('grey');
     cursor: pointer;
+    padding: 0 1.2px 0 1.2px;
     text-decoration: none;
   }
 
@@ -79,7 +80,7 @@
   }
 
   .summary-charts {
-    margin-bottom: 3rem;
+    margin-bottom: 1.4rem;
 
     &__title {
       align-items: center;
@@ -128,10 +129,11 @@
   }
 
   .summary-chart {
-    margin-bottom: 1.8rem;
-    overflow: visible;
+    display: inline-block;
+    margin-bottom: 1rem;
     position: relative;
     text-align: left;
+    width: 100%;
 
     &__title {
       align-items: center;
@@ -142,7 +144,10 @@
         padding-right: .5rem;
       }
 
-      &--index,
+      &--index {
+        margin-left: 3px;
+      }
+
       &--repo {
         font-weight: bold;
       }
@@ -196,5 +201,15 @@
         margin-top: 2px;
       }
     }
+  }
+
+  .active-icon {
+    background-color: mui-color('green');
+    border-radius: 2px;
+    color: mui-color('white');
+  }
+
+  .active-background {
+    background-color: mui-color('yellow', '200');
   }
 }

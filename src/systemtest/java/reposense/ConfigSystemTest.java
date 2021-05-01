@@ -62,14 +62,14 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRange() throws Exception {
-        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"), false);
+        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"), false, false);
         Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false);
+        generateReport(getInputWithUntilDate("1/11/2017"), false, false);
         Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
@@ -80,8 +80,28 @@ public class ConfigSystemTest {
      */
     @Test
     public void testDateRangeWithModifiedDateTimeInLines() throws Exception {
-        generateReport(getInputWithDates("1/9/2017", "30/10/2017"), true);
+        generateReport(getInputWithDates("1/9/2017", "30/10/2017"),
+                true, false);
         Path actualFiles = loadResource(getClass(), "dateRangeWithModifiedDateTimeInLines/expected");
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
+    }
+
+    /**
+     * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
+     * since date to capture from the first commit, using shallow cloning.
+     */
+    @Test
+    public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
+        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
+                false, true);
+        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
+    }
+
+    @Test
+    public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
+        generateReport(getInputWithUntilDate("1/11/2017"), false, true);
+        Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -96,15 +116,20 @@ public class ConfigSystemTest {
     /**
      * Generates the testing report to be compared with expected report.
      */
-    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines) throws Exception {
+    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning)
+            throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
-        String input = new InputBuilder().addConfig(configFolder)
+
+        InputBuilder inputBuilder = new InputBuilder().addConfig(configFolder)
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
-                .add(inputDates)
-                .build();
+                .add(inputDates);
+        if (shallowCloning) {
+            inputBuilder = inputBuilder.addShallowCloning();
+        }
+        String input = inputBuilder.build();
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
@@ -128,7 +153,8 @@ public class ConfigSystemTest {
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(), () ->
+                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
+                cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
                 TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId());
     }
 

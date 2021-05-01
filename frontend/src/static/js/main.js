@@ -28,8 +28,6 @@ window.app = new window.Vue({
     isLoadingOverlayEnabled: false,
     loadingOverlayOpacity: 1,
 
-    isTabActive: true, // to force tab wrapper to load
-
     tabType: 'empty',
     creationDate: '',
 
@@ -37,6 +35,9 @@ window.app = new window.Vue({
   },
   watch: {
     '$store.state.tabZoomInfo': function () {
+      if (this.$store.state.tabZoomInfo.isRefreshing) {
+        return;
+      }
       this.activateTab('zoom');
     },
     '$store.state.tabAuthorshipInfo': function () {
@@ -81,10 +82,10 @@ window.app = new window.Vue({
         await Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
-        this.userUpdated = true;
         this.loadingOverlayOpacity = 0.5;
         this.getUsers();
         this.renderTabHash();
+        this.userUpdated = true;
       } catch (error) {
         window.alert(error);
       } finally {
@@ -107,16 +108,15 @@ window.app = new window.Vue({
         this.$refs.tabWrapper.scrollTop = 0;
       }
 
-      this.isTabActive = true;
       this.tabType = tabName;
-
+      this.$store.commit('updateTabState', true);
       window.addHash('tabOpen', this.isTabActive);
       window.addHash('tabType', this.tabType);
       window.encodeHash();
     },
 
     deactivateTab() {
-      this.isTabActive = false;
+      this.$store.commit('updateTabState', false);
       window.addHash('tabOpen', this.isTabActive);
       window.removeHash('tabType');
       window.encodeHash();
@@ -143,6 +143,7 @@ window.app = new window.Vue({
     renderZoomTabHash() {
       const hash = window.hashParams;
       const zoomInfo = {
+        isRefreshing: true,
         zAuthor: hash.zA,
         zRepo: hash.zR,
         zAvgCommitSize: hash.zACS,
@@ -151,7 +152,7 @@ window.app = new window.Vue({
         zFilterGroup: hash.zFGS,
         zFilterSearch: hash.zFS,
         zTimeFrame: hash.zFTF,
-        zIsMerge: hash.zMG === 'true',
+        zIsMerged: hash.zMG === 'true',
         zFromRamp: hash.zFR === 'true',
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
@@ -167,7 +168,7 @@ window.app = new window.Vue({
       if (!hash.tabOpen) {
         return;
       }
-      this.isTabActive = hash.tabOpen === 'true';
+      this.$store.commit('updateTabState', hash.tabOpen === 'true');
 
       if (this.isTabActive) {
         if (hash.tabType === 'authorship') {
@@ -228,7 +229,7 @@ window.app = new window.Vue({
   },
 
   computed: {
-    ...Vuex.mapState(['loadingOverlayMessage']),
+    ...Vuex.mapState(['loadingOverlayMessage', 'isTabActive']),
   },
 
   components: {
