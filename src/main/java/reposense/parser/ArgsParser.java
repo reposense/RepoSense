@@ -1,6 +1,7 @@
 package reposense.parser;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
@@ -9,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import com.google.gson.JsonSyntaxException;
 
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
@@ -25,6 +28,7 @@ import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.FileType;
 import reposense.model.LocationsCliArguments;
+import reposense.model.ReportConfiguration;
 import reposense.model.ViewCliArguments;
 import reposense.system.LogsManager;
 import reposense.util.TimeUtil;
@@ -70,6 +74,17 @@ public class ArgsParser {
             "\"Since Date\", \"Until Date\", and \"Period\" cannot be applied together.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
+    private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
+    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
+    private static final String MESSAGE_IGNORING_REPORT_CONFIG_SINCE_DATE =
+            "Ignoring \"Since Date\" in report config, it has already been provided as a command line argument.";
+    private static final String MESSAGE_IGNORING_REPORT_CONFIG_UNTIL_DATE =
+            "Ignoring \"Until Date\" in report config, it has already been provided as a command line argument.";
+    private static final String MESSAGE_IGNORING_REPORT_CONFIG_PERIOD =
+            "Ignoring \"Period\" in report config, it has already been provided as a command line argument.";
+    private static final String MESSAGE_IGNORING_REPORT_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
+            "Ignoring \"Since Date\", \"Until Date\" and/or \"Period\" in report config as they cannot be applied "
+                    + "together.";
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
@@ -223,6 +238,7 @@ public class ArgsParser {
      */
     public static CliArguments parse(String[] args) throws HelpScreenException, ParseException {
         try {
+            ReportConfiguration reportConfig = new ReportConfiguration();
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
             Date sinceDate;
@@ -235,9 +251,31 @@ public class ArgsParser {
             Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
             Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
             Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
+            Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
+            List<String> locations = results.get(REPO_FLAGS[0]);
+            List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
+            boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
+            boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
+            boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
+
+            // Report config is ignored if --repos is provided
+            if (locations == null) {
+                Path reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+
+                try {
+                    reportConfig = new ReportConfigJsonParser().parse(reportConfigFilePath);
+                } catch (JsonSyntaxException jse) {
+                    logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
+                } catch (IllegalArgumentException iae) {
+                    logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
+                } catch (IOException ioe) {
+                    // IOException thrown as report-config.json is not found.
+                    // Ignore exception as the file is optional.
+                }
+            }
+
             boolean isSinceDateProvided = cliSinceDate.isPresent();
             boolean isUntilDateProvided = cliUntilDate.isPresent();
-            Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
             boolean isPeriodProvided = cliPeriod.isPresent();
             if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
@@ -266,11 +304,6 @@ public class ArgsParser {
             untilDate = untilDate.compareTo(currentDate) < 0
                     ? untilDate
                     : currentDate;
-            List<String> locations = results.get(REPO_FLAGS[0]);
-            List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
-            boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
-            boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
-            boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
@@ -301,7 +334,7 @@ public class ArgsParser {
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
                     shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-                    isStandaloneConfigIgnored, zoneId);
+                    isStandaloneConfigIgnored, zoneId, reportConfig);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
