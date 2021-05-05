@@ -72,6 +72,7 @@ window.vSummary = {
         } else {
           this.checkedFileTypes = [];
         }
+        this.getFiltered();
       },
     },
 
