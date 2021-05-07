@@ -24,8 +24,8 @@ window.vSummary = {
       hasModifiedSinceDate: window.app.isSinceDateProvided,
       hasModifiedUntilDate: window.app.isUntilDateProvided,
       filterHash: '',
-      minDate: '',
-      maxDate: '',
+      minDate: window.app.sinceDate,
+      maxDate: window.app.untilDate,
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
@@ -246,30 +246,6 @@ window.vSummary = {
       }
     },
 
-    getDates() {
-      if (this.minDate && this.maxDate) {
-        return;
-      }
-
-      const minDate = window.app.sinceDate;
-      const maxDate = window.app.untilDate;
-
-      if (!this.filterSinceDate) {
-        this.minDate = minDate;
-        if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
-          this.tmpFilterSinceDate = minDate;
-        }
-      }
-
-      if (!this.filterUntilDate) {
-        this.maxDate = maxDate;
-        if (!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate) {
-          this.tmpFilterUntilDate = maxDate;
-        }
-      }
-      this.$emit('get-dates', [this.minDate, this.maxDate]);
-    },
-
     getGroupName(group) {
       return window.getGroupName(group, this.filterGroupSelection);
     },
@@ -283,7 +259,6 @@ window.vSummary = {
 
     getFiltered() {
       this.setSummaryHash();
-      this.getDates();
       window.deactivateAllOverlays();
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
