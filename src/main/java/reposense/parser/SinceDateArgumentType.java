@@ -6,6 +6,7 @@ import java.util.Optional;
 import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
+import reposense.util.TimeUtil;
 
 /**
  * Verifies and parses a string-formatted since date to a {@code Date} object.
@@ -28,7 +29,7 @@ public class SinceDateArgumentType extends DateArgumentType {
         if (FIRST_COMMIT_DATE_SHORTHAND.equals(value)) {
             return Optional.of(ARBITRARY_FIRST_COMMIT_DATE);
         }
-        String sinceDate = extractDate(value);
+        String sinceDate = TimeUtil.extractDate(value);
         return super.convert(parser, arg, sinceDate + " 00:00:00");
     }
 }
