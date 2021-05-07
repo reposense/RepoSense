@@ -218,14 +218,6 @@ window.app = new window.Vue({
       }
       return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
     },
-
-    receiveDates(dates) {
-      const [minDate, maxDate] = dates;
-
-      if (this.tabType === 'authorship') {
-        this.renderAuthorShipTabHash(minDate, maxDate);
-      }
-    },
   },
 
   computed: {
