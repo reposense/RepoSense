@@ -56,6 +56,9 @@
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/settingUp.html"><strong>Setting up</strong></a></div>
             </li>
             <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/learningBasics.html"><strong>Learning the basics</strong></a></div>
+            </li>
+            <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/workflow.html" class="current"><strong>Workflow</strong></a></div>
             </li>
             <li>
@@ -108,7 +111,20 @@
           <li>The section below has more information about the various stages of submitting a PR.</li>
         </ul>
 
-        <h2 id="following-the-code-style"><span id="following-the-code-style" class="anchor"></span>Following the code style<a class="fa fa-anchor" href="#following-the-code-style" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="find-the-suitable-pull-requests"><span id="find-the-suitable-pull-requests" class="anchor"></span>Find the suitable pull requests<a class="fa fa-anchor" href="#find-the-suitable-pull-requests" onclick="event.stopPropagation()"></a></h2>
+        <ul>
+          <li>If you are contributing to RepoSense for the first time, you can check the list of <a href="https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Aa-Backend+label%3Ad.FirstTimers">backend issues</a> or <a href="https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers+label%3Aa-FrontEnd">frontend issues</a> for first timers.</li>
+        </ul>
+        <box type="info" seamless>
+          <p>The issues for first timers usually have guidance provided in the comment or have linked pull requests from previous contributors. You can refer to them for implementation details.
+          </p>
+        </box>
+        <p></p>
+        <ul>
+          <li>If you are more experienced in contributing, aside from searching for issues in the issue tracker, you can find the list of issues organized in a more systematic way under the <a href="https://github.com/reposense/RepoSense/projects">Projects Tab</a> of the RepoSense repository. This can help you to find issues with suitable workload and direction.</li>
+        </ul>
+
+        <h2 id="following-the-coding-standards"><span id="following-the-coding-standards" class="anchor"></span>Following the coding standards<a class="fa fa-anchor" href="#following-the-coding-standards" onclick="event.stopPropagation()"></a></h2>
         <ul>
           <li>Make sure you know our coding standards.</li>
         </ul>
@@ -136,9 +152,9 @@
         </div>
         <p></p>
         <ul>
-          <li><strong>Follow <a href="https://se-education.org/guides/tutorials/intellijCodeStyle.html">this</a> to configure Intellij to follow our coding style</strong>.</li>
+          <li><strong>Follow <a href="https://se-education.org/guides/tutorials/intellijCodeStyle.html">the tutorial</a> to configure Intellij to follow our coding style</strong>.</li>
           <li><strong>This project uses Checkstyle</strong> to check the compliance of Java code. You can use <a href="https://se-education.org/guides/tutorials/checkstyle.html">this document</a> to find how to use it. In particular, run <code class="hljs inline no-lang" v-pre>gradlew checkstyleMain checkstyleTest checkstyleSystemtest</code> to check the style of all the relevant Java code.</li>
-          <li><strong>To check Pug files for style errors</strong>, run <code class="hljs inline no-lang" v-pre>npm run lint</code> from the project root directory. You can use the <code class="hljs inline no-lang" v-pre>npm run lintfix</code> to automatically fix some of the javascript and css lint errors.</li>
+          <li><strong>To check Pug files for style errors</strong>, run <code class="hljs inline no-lang" v-pre>npm run lint</code> from the project root directory. You can use the <code class="hljs inline no-lang" v-pre>npm run lintfix</code> to automatically fix some of the JavaScript and CSS lint errors.</li>
         </ul>
 
         <h2 id="running-the-app-from-code"><span id="running-the-app-from-code" class="anchor"></span>Running the app from code<a class="fa fa-anchor" href="#running-the-app-from-code" onclick="event.stopPropagation()"></a></h2>
@@ -384,7 +400,7 @@
         <p><strong>You can use Vue.js devtools for frontend debugging on Chrome.</strong> Here are the steps:</p>
         <ol>
           <li>On your Chrome, visit the website of <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">Vue.js devtools</a> and add the extension.</li>
-          <li>Go the detail page of this extension in Chrome's extension management panel and select <code class="hljs inline no-lang" v-pre>Allow access to file URLs</code>. If you are unable to locate it, copy the link: <code class="hljs inline no-lang" v-pre>chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd</code> and visit it on your Chrome.</li>
+          <li>Go to the detail page of this extension in Chrome's extension management panel and select <code class="hljs inline no-lang" v-pre>Allow access to file URLs</code>. If you are unable to locate it, copy the link: <code class="hljs inline no-lang" v-pre>chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd</code> and visit it on your Chrome.</li>
           <li>Open any report generated by RepoSense.</li>
           <li>Press <code class="hljs inline no-lang" v-pre>F12</code> or right click and choose <code class="hljs inline no-lang" v-pre>inspect</code> at the report page.</li>
           <li>Choose <code class="hljs inline no-lang" v-pre>Vue</code> at the navigation bar.<br>
@@ -451,7 +467,8 @@
           <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
             <a class="nav-link py-1" href="#workflow">Workflow&#x200E;</a>
             <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
-              <a class="nav-link py-1" href="#following-the-code-style">Following the code style&#x200E;</a>
+              <a class="nav-link py-1" href="#find-the-suitable-pull-requests">Find the suitable pull requests&#x200E;</a>
+              <a class="nav-link py-1" href="#following-the-coding-standards">Following the coding standards&#x200E;</a>
               <a class="nav-link py-1" href="#running-the-app-from-code">Running the app from code&#x200E;</a>
               <a class="nav-link py-1" href="#debugging-front-end">Debugging (front-end)&#x200E;</a>
               <a class="nav-link py-1" href="#testing-front-end">Testing (front-end)&#x200E;</a>
@@ -473,7 +490,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Fri, May 7, 2021, 12:37:20 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Fri, May 7, 2021, 5:33:37 PM UTC]</small>
       </div>
     </footer>
   </div>

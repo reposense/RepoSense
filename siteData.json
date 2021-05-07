@@ -70,6 +70,20 @@
       "headingKeywords": {}
     },
     {
+      "src": "dg/learningBasics.md",
+      "title": "Learning the Basics",
+      "headings": {
+        "learning-the-basics": "Learning the Basics",
+        "backend": "Backend",
+        "frontend": "Frontend",
+        "vue-js": "Vue.js",
+        "pug": "Pug",
+        "scss": "Scss",
+        "devops": "DevOps"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "dg/projectManagement.md",
       "title": "Project management",
       "headings": {
@@ -132,7 +146,8 @@
       "title": "Workflow",
       "headings": {
         "workflow": "Workflow",
-        "following-the-code-style": "Following the code style",
+        "find-the-suitable-pull-requests": "Find the suitable pull requests",
+        "following-the-coding-standards": "Following the coding standards",
         "running-the-app-from-code": "Running the app from code",
         "debugging-front-end": "Debugging (front-end)",
         "testing-front-end": "Testing (front-end)",
