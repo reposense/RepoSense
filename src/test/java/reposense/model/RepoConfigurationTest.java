@@ -54,6 +54,7 @@ public class RepoConfigurationTest {
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
             "https://github.com/reposense/testrepo-minimalstandaloneconfig.git";
+    private static final String TEST_REPO_INVALID_LOCATION = "ftp://github.com/reposense/testrepo-Delta.git";
 
     private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
@@ -559,5 +560,18 @@ public class RepoConfigurationTest {
         updateAuthorList.invoke(null, actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_withInvalidLocation_success() throws Exception {
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addRepos(TEST_REPO_BETA, TEST_REPO_DELTA, TEST_REPO_INVALID_LOCATION)
+                .addFormats(formats)
+                .addIgnoreStandaloneConfig()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+
+        Assert.assertEquals(2, actualConfigs.size());
     }
 }
