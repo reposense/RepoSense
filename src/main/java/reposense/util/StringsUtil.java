@@ -43,6 +43,6 @@ public class StringsUtil {
             return original.substring(1, original.length() - 1);
         }
 
-        return original; 
+        return original;
     }
 }
