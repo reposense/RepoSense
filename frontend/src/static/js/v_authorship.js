@@ -30,9 +30,6 @@ function authorshipInitialState() {
 const repoCache = [];
 
 window.vAuthorship = {
-  emits: [
-      'deactivate-tab',
-  ],
   template: window.$('v_authorship').innerHTML,
   data() {
     return authorshipInitialState();
@@ -131,7 +128,7 @@ window.vAuthorship = {
 
       this.getRepoProps(repo);
       if (!repo || !this.info.author) {
-        this.$emit('deactivate-tab');
+        this.$store.commit('updateTabState', false);
         return;
       }
       if (repoCache.length === 2) {
