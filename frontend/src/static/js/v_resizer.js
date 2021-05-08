@@ -1,3 +1,4 @@
+/* global Vuex */
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
@@ -14,9 +15,6 @@ const throttledEvent = (delay, handler) => {
 
 window.vResizer = {
   template: window.$('v_resizer').innerHTML,
-  props: {
-    isTabActive: true,
-  },
 
   data() {
     return {
@@ -76,5 +74,7 @@ window.vResizer = {
       }
       return () => {};
     },
+
+    ...Vuex.mapState(['isTabActive']),
   },
 };
