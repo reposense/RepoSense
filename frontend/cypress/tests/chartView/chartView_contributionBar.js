@@ -30,9 +30,7 @@ describe('contribution bar', () => {
     cy.get('#summary-wrapper label').contains('All').siblings().filter('input')
         .uncheck();
 
-    Cypress.wait();
-
-    cy.get('.summary-chart__contrib--bar').should('not.visible');
+    cy.get('.summary-chart__contrib--bar').should('not.exist');
   });
 
   it('display selected file types only', () => {
