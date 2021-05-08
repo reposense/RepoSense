@@ -1,4 +1,3 @@
-/* global Vuex */
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
