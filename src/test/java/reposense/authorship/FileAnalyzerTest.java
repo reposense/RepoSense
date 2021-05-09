@@ -45,6 +45,12 @@ public class FileAnalyzerTest extends GitTestTemplate {
             TestUtil.getUntilDate(2020, Calendar.JANUARY, 1);
     private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
+    private static final Author[] EXPECTED_LINE_AUTHORS_BLAME_TEST = {
+            MAIN_AUTHOR, MAIN_AUTHOR, FAKE_AUTHOR, MAIN_AUTHOR
+    };
+    private static final Author[] EXPECTED_LINE_AUTHORS_MOVED_FILE = {
+            MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR
+    };
 
     @Before
     public void before() throws Exception {
@@ -57,7 +63,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
         FileResult fileResult = getFileResult("blameTest.java");
-        assertFileAnalysisCorrectness(fileResult);
+        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
     }
 
     @Test
@@ -65,7 +71,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
         FileResult fileResult = getFileResult("newPos/movedFile.java");
-        assertFileAnalysisCorrectness(fileResult);
+        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
 
     }
 
@@ -76,7 +82,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
 
         FileResult fileResult = getFileResult("blameTest.java");
-        assertFileAnalysisCorrectness(fileResult);
+        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
     }
 
     @Test
@@ -86,7 +92,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
 
         FileResult fileResult = getFileResult("newPos/movedFile.java");
-        assertFileAnalysisCorrectness(fileResult);
+        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
     }
 
     @Test
