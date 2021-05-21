@@ -33,6 +33,8 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_overrideKeyword_test.csv");
     private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
+    private static final Path REPO_CONFIG_INVALID_LOCATION_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_invalidLocation_test.csv");
     private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE =
             loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_duplicateHeadersCaseSensitive_test.csv");
@@ -289,6 +291,14 @@ public class RepoConfigParserTest {
         Assert.assertFalse(config.isFormatsOverriding());
         Assert.assertFalse(config.isIgnoreGlobListOverriding());
         Assert.assertFalse(config.isIgnoreCommitListOverriding());
+    }
+
+    @Test
+    public void repoConfig_withInvalidLocation_success() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_LOCATION_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assert.assertEquals(2, configs.size());
     }
 
     @Test (expected = InvalidCsvException.class)
