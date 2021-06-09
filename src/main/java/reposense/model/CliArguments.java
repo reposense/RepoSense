@@ -20,6 +20,7 @@ public abstract class CliArguments {
     protected boolean isShallowCloningPerformed;
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
+    protected boolean isPrettifyJsonPerformed;
     protected int numCloningThreads;
     protected int numAnalysisThreads;
     protected ZoneId zoneId;
@@ -58,6 +59,10 @@ public abstract class CliArguments {
 
     public boolean isShallowCloningPerformed() {
         return isShallowCloningPerformed;
+    }
+
+    public boolean isPrettifyJsonPerformed() {
+        return isPrettifyJsonPerformed;
     }
 
     public List<FileType> getFormats() {
@@ -102,6 +107,7 @@ public abstract class CliArguments {
                 && this.formats.equals(otherCliArguments.formats)
                 && this.isLastModifiedDateIncluded == otherCliArguments.isLastModifiedDateIncluded
                 && this.isShallowCloningPerformed == otherCliArguments.isShallowCloningPerformed
+                && this.isPrettifyJsonPerformed == otherCliArguments.isPrettifyJsonPerformed
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
                 && this.numCloningThreads == otherCliArguments.numCloningThreads

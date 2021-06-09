@@ -38,6 +38,7 @@ public class RepoConfiguration {
     private transient List<CommitHash> ignoreCommitList;
     private transient boolean isLastModifiedDateIncluded;
     private transient boolean isShallowCloningPerformed;
+    private transient boolean isPrettifyJsonPerformed;
     private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
@@ -105,6 +106,13 @@ public class RepoConfiguration {
                                                                  boolean isShallowCloningPerformed) {
         if (isShallowCloningPerformed) {
             configs.stream().forEach(config -> config.setIsShallowCloningPerformed(true));
+        }
+    }
+
+    public static void setIsPrettifyJsonPerformedToRepoConfigs(List<RepoConfiguration> configs,
+                                                               boolean isPrettifyJsonPerformed) {
+        if (isPrettifyJsonPerformed) {
+            configs.stream().forEach(config -> config.setIsPrettifyJsonPerformed(true));
         }
     }
 
@@ -319,6 +327,7 @@ public class RepoConfiguration {
                 && isLastModifiedDateIncluded == otherRepoConfig.isLastModifiedDateIncluded
                 && isFormatsOverriding == otherRepoConfig.isFormatsOverriding
                 && isShallowCloningPerformed == otherRepoConfig.isShallowCloningPerformed
+                && isPrettifyJsonPerformed == otherRepoConfig.isPrettifyJsonPerformed
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding
                 && isIgnoredAuthorsListOverriding == otherRepoConfig.isIgnoredAuthorsListOverriding;
@@ -395,12 +404,20 @@ public class RepoConfiguration {
         this.isShallowCloningPerformed = isShallowCloningPerformed;
     }
 
+    public void setIsPrettifyJsonPerformed(boolean isPrettifyJsonPerformed) {
+        this.isPrettifyJsonPerformed = isPrettifyJsonPerformed;
+    }
+
     public boolean isLastModifiedDateIncluded() {
         return this.isLastModifiedDateIncluded;
     }
 
     public boolean isShallowCloningPerformed() {
         return this.isShallowCloningPerformed;
+    }
+
+    public boolean isPrettifyJsonPerformed() {
+        return this.isPrettifyJsonPerformed;
     }
 
     public void setIsIgnoredAuthorsListOverriding(boolean isIgnoredAuthorsListOverriding) {

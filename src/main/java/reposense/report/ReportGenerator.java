@@ -111,6 +111,10 @@ public class ReportGenerator {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
         }
 
+        if (configs != null && !configs.isEmpty()) {
+            FileUtil.setPrettifyPrintingMode(configs.get(0).isPrettifyJsonPerformed());
+        }
+
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
 
