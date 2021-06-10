@@ -184,6 +184,15 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the flag to enable JSON prettify mode
+     * This medthod should only be called once in one build.
+     */
+    public InputBuilder addPrettifyJson() {
+        input.append(ArgsParser.PRETTIFY_JSON_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {

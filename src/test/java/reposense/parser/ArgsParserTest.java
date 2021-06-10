@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import net.sourceforge.argparse4j.annotation.Arg;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
@@ -755,6 +756,24 @@ public class ArgsParserTest {
         CliArguments cliArgumentsShallow = ArgsParser.parse(translateCommandline(inputShallow));
         Assert.assertTrue(cliArgumentsShallow instanceof ConfigCliArguments);
         Assert.assertEquals(true, cliArgumentsShallow.isShallowCloningPerformed());
+    }
+
+    @Test
+    public void parse_prettifyJson_success() throws Exception {
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(false, cliArguments.isPrettifyJsonPerformed());
+
+        String inputPrettify = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
+                .addPrettifyJson()
+                .build();
+        CliArguments cliArgumentsPrettify = ArgsParser.parse(translateCommandline(inputPrettify));
+        Assert.assertTrue(cliArgumentsPrettify instanceof ConfigCliArguments);
+        Assert.assertEquals(true, cliArgumentsPrettify.isPrettifyJsonPerformed());
     }
 
     /**
