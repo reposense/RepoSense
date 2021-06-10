@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import net.sourceforge.argparse4j.annotation.Arg;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
