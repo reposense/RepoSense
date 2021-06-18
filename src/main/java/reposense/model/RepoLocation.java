@@ -17,7 +17,7 @@ public class RepoLocation {
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^https?:\\/\\/github.com\\/(?<org>.+?)\\/(?<repoName>.+?)\\.git$");
+            Pattern.compile("^https?://github.com/(?<org>.+?)/(?<repoName>.+?)\\.git$");
 
     private final String location;
     private final String repoName;
