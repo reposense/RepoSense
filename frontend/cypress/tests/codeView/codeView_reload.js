@@ -8,11 +8,11 @@ describe('reload page', () => {
         .first()
         .click();
 
-    // sort by
+    // change sort by
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select')
         .select('LoC');
 
-    // sort order
+    // change sort order
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')
         .select('Descending');
 
