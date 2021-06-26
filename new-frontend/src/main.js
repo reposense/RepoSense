@@ -8,6 +8,7 @@ import store from './store/store';
 import './utils/api';
 import './utils/safari_date';
 import './utils/load-font-awesome-icons';
+// HIII
 
 
 dom.watch();
