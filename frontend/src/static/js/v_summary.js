@@ -24,8 +24,8 @@ window.vSummary = {
       hasModifiedSinceDate: window.isSinceDateProvided,
       hasModifiedUntilDate: window.isUntilDateProvided,
       filterHash: '',
-      minDate: '',
-      maxDate: '',
+      minDate: window.app.sinceDate,
+      maxDate: window.app.untilDate,
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
@@ -72,6 +72,7 @@ window.vSummary = {
         } else {
           this.checkedFileTypes = [];
         }
+        this.getFiltered();
       },
     },
 
@@ -249,30 +250,6 @@ window.vSummary = {
       }
     },
 
-    getDates() {
-      if (this.minDate && this.maxDate) {
-        return;
-      }
-
-      const minDate = window.sinceDate;
-      const maxDate = window.untilDate;
-
-      if (!this.filterSinceDate) {
-        this.minDate = minDate;
-        if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
-          this.tmpFilterSinceDate = minDate;
-        }
-      }
-
-      if (!this.filterUntilDate) {
-        this.maxDate = maxDate;
-        if (!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate) {
-          this.tmpFilterUntilDate = maxDate;
-        }
-      }
-      this.$emit('get-dates', [this.minDate, this.maxDate]);
-    },
-
     getGroupName(group) {
       return window.getGroupName(group, this.filterGroupSelection);
     },
@@ -286,7 +263,6 @@ window.vSummary = {
 
     getFiltered() {
       this.setSummaryHash();
-      this.getDates();
       window.deactivateAllOverlays();
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
@@ -656,7 +632,7 @@ window.vSummary = {
 
     restoreZoomFiltered(info) {
       const {
-        zSince, zUntil, zTimeFrame, zIsMerge, zFilterSearch,
+        zSince, zUntil, zTimeFrame, zIsMerged, zFilterSearch,
       } = info;
       const filtered = [];
 
@@ -681,7 +657,7 @@ window.vSummary = {
         filtered.push(res);
       }
 
-      if (zIsMerge) {
+      if (zIsMerged) {
         this.mergeGroupByIndex(filtered, 0);
       }
       [[info.zUser]] = filtered;
@@ -691,9 +667,9 @@ window.vSummary = {
     },
     matchZoomUser(info, user) {
       const {
-        zIsMerge, zFilterGroup, zRepo, zAuthor,
+        zIsMerged, zFilterGroup, zRepo, zAuthor,
       } = info;
-      if (zIsMerge) {
+      if (zIsMerged) {
         return zFilterGroup === 'groupByRepos'
           ? user.repoName === zRepo
           : user.name === zAuthor;
