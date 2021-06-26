@@ -83,7 +83,7 @@
             icon="circle",
             v-bind:style="{ 'color': fileTypeColors[fileType] }"
           )
-          span(style="padding:0em 0.3em;") {{ fileType }}
+          span &nbsp; {{ fileType }} &nbsp;
     .summary-chart(v-for="(user, j) in repo")
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
@@ -195,6 +195,7 @@ export default {
       isTabOnMergedGroup: false,
     };
   },
+
   computed: {
     avgCommitSize() {
       let totalCommits = 0;
@@ -218,8 +219,12 @@ export default {
 
     ...mapState(['mergedGroups', 'fileTypeColors']),
   },
-  created() {
-    this.retrieveSelectedTabHash();
+  watch: {
+    '$store.state.isTabActive': function () {
+      if (!this.$store.state.isTabActive) {
+        this.removeSelectedTab();
+      }
+    },
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
@@ -528,6 +533,9 @@ export default {
           && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
           || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
     },
+  },
+  created() {
+    this.retrieveSelectedTabHash();
   },
 };
 </script>
