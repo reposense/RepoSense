@@ -91,7 +91,7 @@ export default {
         zLocation: window.getBaseLink(user.repoId),
         zSince: slice.date,
         zUntil: this.tframe === 'day' ? slice.date : slice.endDate,
-        zIsMerge: this.mergegroup,
+        zIsMerged: this.mergegroup,
         zFromRamp: true,
         zFilterSearch: this.filtersearch,
       };

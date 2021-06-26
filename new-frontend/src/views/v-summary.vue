@@ -43,19 +43,15 @@
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
-          onkeydown="formatInputDateOnKeyDown(event)",
-          oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="since", v-bind:value="filterSinceDate",
-          v-on:input="updateTmpFilterSinceDate",
+          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+        input(v-else, type="date", name="since", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
           v-bind:min="minDate", v-bind:max="filterUntilDate")
         label since
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
-          onkeydown="formatInputDateOnKeyDown(event)",
-          oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="until", v-bind:value="filterUntilDate",
-          v-on:input="updateTmpFilterUntilDate",
+          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+        input(v-else, type="date", name="until", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
           v-bind:min="filterSinceDate", v-bind:max="maxDate")
         label until
       .mui-textfield
@@ -79,18 +75,14 @@
           span merge all groups
   .error-message-box(v-if="Object.entries(errorMessages).length")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
-    .error-message-box__message
-      |The following issues occurred when analyzing the following repositories:
-    .error-message-box__failed-repo(v-for="errorBlock in errorMessages",
-      vbind:key="errorBlock.repoName"
-    )
-      i.fas.fa-exclamation
+    .error-message-box__message The following issues occurred when analyzing the following repositories:
+    .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+      font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
         v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
       )
-        span Oops, an unexpected error occurred.
-          |If this is due to a problem in RepoSense, please report in&nbsp;
+        span Oops, an unexpected error occurred. If this is due to a problem in RepoSense, please report in&nbsp;
         a(
           v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
         )
@@ -106,7 +98,7 @@
       label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
         span All:&nbsp;
-      template(v-for="fileType in Object.keys(fileTypeColors)")
+      template(v-for="fileType in Object.keys(fileTypeColors)" )
         label(
           v-bind:key="fileType",
           v-bind:style="{ 'background-color': fileTypeColors[fileType], \
@@ -171,14 +163,43 @@ export default {
       hasModifiedSinceDate: window.isSinceDateProvided,
       hasModifiedUntilDate: window.isUntilDateProvided,
       filterHash: '',
-      minDate: '',
-      maxDate: '',
+      minDate: window.sinceDate,
+      maxDate: window.untilDate,
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
     };
   },
+  watch: {
 
+    filterGroupSelection() {
+      // Deactivates watcher
+      if (!this.filterGroupSelectionWatcherFlag) {
+        return;
+      }
+      const { allGroupsMerged } = this;
+
+      this.$store.commit('incrementLoadingOverlayCount', 1);
+      setTimeout(() => {
+        this.getFilteredRepos();
+        this.updateMergedGroup(allGroupsMerged);
+        this.$store.commit('incrementLoadingOverlayCount', -1);
+      });
+    },
+
+    '$store.state.summaryDates': function () {
+      this.hasModifiedSinceDate = true;
+      this.hasModifiedUntilDate = true;
+      this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
+      this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
+      window.deactivateAllOverlays();
+      this.getFiltered();
+    },
+
+    mergedGroups() {
+      this.getFiltered();
+    },
+  },
   computed: {
     checkAllFileTypes: {
       get() {
@@ -190,6 +211,7 @@ export default {
         } else {
           this.checkedFileTypes = [];
         }
+        this.getFiltered();
       },
     },
 
@@ -248,54 +270,6 @@ export default {
     },
 
     ...mapState(['mergedGroups']),
-  },
-
-  watch: {
-    filterGroupSelection() {
-      // Deactivates watcher
-      if (!this.filterGroupSelectionWatcherFlag) {
-        return;
-      }
-      const { allGroupsMerged } = this;
-
-      this.$store.commit('incrementLoadingOverlayCount', 1);
-      setTimeout(() => {
-        this.getFilteredRepos();
-        this.updateMergedGroup(allGroupsMerged);
-        this.$store.commit('incrementLoadingOverlayCount', -1);
-      });
-    },
-
-    '$store.state.summaryDates': function () {
-      this.hasModifiedSinceDate = true;
-      this.hasModifiedUntilDate = true;
-      this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
-      this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
-      window.deactivateAllOverlays();
-      this.getFiltered();
-    },
-
-    mergedGroups() {
-      this.getFiltered();
-    },
-  },
-
-  created() {
-    this.renderFilterHash();
-    this.processFileTypes();
-    this.getFiltered();
-    if (this.$store.state.tabZoomInfo.isRefreshing) {
-      const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
-      this.restoreZoomFiltered(zoomInfo);
-    }
-  },
-
-  mounted() {
-    // Delay execution of filterGroupSelection watcher
-    // to prevent clearing of merged groups
-    setTimeout(() => {
-      this.filterGroupSelectionWatcherFlag = true;
-    }, 0);
   },
   methods: {
     dismissTab(event) {
@@ -415,30 +389,6 @@ export default {
       }
     },
 
-    getDates() {
-      if (this.minDate && this.maxDate) {
-        return;
-      }
-
-      const minDate = window.sinceDate;
-      const maxDate = window.untilDate;
-
-      if (!this.filterSinceDate) {
-        this.minDate = minDate;
-        if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
-          this.tmpFilterSinceDate = minDate;
-        }
-      }
-
-      if (!this.filterUntilDate) {
-        this.maxDate = maxDate;
-        if (!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate) {
-          this.tmpFilterUntilDate = maxDate;
-        }
-      }
-      this.$emit('get-dates', [this.minDate, this.maxDate]);
-    },
-
     getGroupName(group) {
       return window.getGroupName(group, this.filterGroupSelection);
     },
@@ -452,7 +402,6 @@ export default {
 
     getFiltered() {
       this.setSummaryHash();
-      this.getDates();
       window.deactivateAllOverlays();
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
@@ -821,7 +770,7 @@ export default {
 
     restoreZoomFiltered(info) {
       const {
-        zSince, zUntil, zTimeFrame, zIsMerge, zFilterSearch,
+        zSince, zUntil, zTimeFrame, zIsMerged, zFilterSearch,
       } = info;
       const filtered = [];
 
@@ -846,7 +795,7 @@ export default {
         filtered.push(res);
       }
 
-      if (zIsMerge) {
+      if (zIsMerged) {
         this.mergeGroupByIndex(filtered, 0);
       }
       [[info.zUser]] = filtered;
@@ -856,9 +805,9 @@ export default {
     },
     matchZoomUser(info, user) {
       const {
-        zIsMerge, zFilterGroup, zRepo, zAuthor,
+        zIsMerged, zFilterGroup, zRepo, zAuthor,
       } = info;
-      if (zIsMerge) {
+      if (zIsMerged) {
         return zFilterGroup === 'groupByRepos'
           ? user.repoName === zRepo
           : user.name === zAuthor;
@@ -879,6 +828,22 @@ export default {
 
       return window.getDateStr(datems);
     },
+  },
+  created() {
+    this.processFileTypes();
+    this.renderFilterHash();
+    this.getFiltered();
+    if (this.$store.state.tabZoomInfo.isRefreshing) {
+      const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
+      this.restoreZoomFiltered(zoomInfo);
+    }
+  },
+  mounted() {
+    // Delay execution of filterGroupSelection watcher
+    // to prevent clearing of merged groups
+    setTimeout(() => {
+      this.filterGroupSelectionWatcherFlag = true;
+    }, 0);
   },
 };
 </script>
@@ -967,7 +932,7 @@ export default {
   }
 
   .summary-charts {
-    margin-bottom: 3rem;
+    margin-bottom: 1.4rem;
 
     &__title {
       align-items: center;
@@ -1016,10 +981,11 @@ export default {
   }
 
   .summary-chart {
-    margin-bottom: 1.8rem;
-    overflow: visible;
+    display: inline-block;
+    margin-bottom: 1rem;
     position: relative;
     text-align: left;
+    width: 100%;
 
     &__title {
       align-items: center;
