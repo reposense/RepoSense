@@ -75,7 +75,7 @@
           v-bind:key="fileType",
           v-bind:style="{\
                   'background-color': fileTypeColors[fileType],\
-                  'color': this.getFontColor(fileTypeColors[fileType])\
+                  'color': getFontColor(fileTypeColors[fileType])\
                   }"
         )
           input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
@@ -102,7 +102,7 @@
             v-for="fileType in filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
             v-bind:style="{\
               'background-color': fileTypeColors[fileType],\
-              'color': this.getFontColor(fileTypeColors[fileType])\
+              'color': getFontColor(fileTypeColors[fileType])\
               }"
           ) {{ fileType }}
         template(v-if="slice.tags", v-for="tag in slice.tags")
