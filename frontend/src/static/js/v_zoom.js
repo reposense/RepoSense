@@ -1,4 +1,4 @@
-/* global Vuex */
+/* global Vuex getFontColor */
 
 function zoomInitialState() {
   return {
@@ -124,10 +124,6 @@ window.vZoom = {
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
-    getFontColor(color) {
-      return window.getFontColor(color);
-    },
-
     openSummary() {
       const info = { since: this.info.zSince, until: this.info.zUntil };
       this.$store.commit('updateSummaryDates', info);
@@ -251,6 +247,8 @@ window.vZoom = {
     filterSelectedFileTypes(fileTypes) {
       return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
     },
+
+    getFontColor,
   },
   created() {
     this.initiate();

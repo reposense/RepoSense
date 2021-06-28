@@ -134,6 +134,8 @@ import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import vRamp from '../components/v-ramp.vue';
 
+const getFontColor = window.getFontColor;
+
 function zoomInitialState() {
   return {
     showAllCommitMessageBody: true,
@@ -262,10 +264,6 @@ export default {
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
-    getFontColor(color) {
-      return window.getFontColor(color);
-    },
-
     openSummary() {
       const info = { since: this.info.zSince, until: this.info.zUntil };
       this.$store.commit('updateSummaryDates', info);
@@ -389,6 +387,8 @@ export default {
     filterSelectedFileTypes(fileTypes) {
       return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
     },
+
+    getFontColor,
   },
   created() {
     this.initiate();

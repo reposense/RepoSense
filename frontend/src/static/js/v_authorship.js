@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-unresolved
 import minimatch from 'https://cdn.skypack.dev/minimatch@v3.0.4';
 
-/* global Vuex */
+/* global Vuex getFontColor */
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
@@ -30,9 +30,6 @@ function authorshipInitialState() {
 const repoCache = [];
 
 window.vAuthorship = {
-  emits: [
-      'deactivate-tab',
-  ],
   template: window.$('v_authorship').innerHTML,
   data() {
     return authorshipInitialState();
@@ -131,7 +128,7 @@ window.vAuthorship = {
 
       this.getRepoProps(repo);
       if (!repo || !this.info.author) {
-        this.$emit('deactivate-tab');
+        this.$store.commit('updateTabState', false);
         return;
       }
       if (repoCache.length === 2) {
@@ -155,10 +152,6 @@ window.vAuthorship = {
       }
 
       this.setInfoHash();
-    },
-
-    getFontColor(color) {
-      return window.getFontColor(color);
     },
 
     getRepoProps(repo) {
@@ -399,6 +392,7 @@ window.vAuthorship = {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
+    getFontColor,
   },
 
   computed: {

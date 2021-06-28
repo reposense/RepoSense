@@ -12,7 +12,7 @@
     @mousedown.left="registerMouseMove",
     v-show="isTabActive"
   )
-    .tab-close(v-on:click="$emit('close-tab')")
+    .tab-close(v-on:click="closeTab")
       i.fas.fa-caret-right
   .right-resize-container(
     v-bind:style="rightContainerStyles",
@@ -23,6 +23,8 @@
 
 
 <script>
+import { mapState } from 'vuex';
+
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
@@ -52,6 +54,22 @@ export default {
       flexWidth: 0.5,
       isResizing: false,
     };
+  },
+
+  methods: {
+    registerMouseMove() {
+      this.isResizing = true;
+    },
+
+    deregisterMouseMove() {
+      this.isResizing = false;
+      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
+        / window.innerWidth;
+    },
+
+    closeTab() {
+      this.$store.commit('updateTabState', false);
+    },
   },
 
   computed: {
@@ -88,18 +106,8 @@ export default {
       }
       return () => {};
     },
-  },
 
-  methods: {
-    registerMouseMove() {
-      this.isResizing = true;
-    },
-
-    deregisterMouseMove() {
-      this.isResizing = false;
-      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
-        / window.innerWidth;
-    },
+    ...mapState(['isTabActive']),
   },
 };
 </script>

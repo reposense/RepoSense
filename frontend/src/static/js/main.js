@@ -118,15 +118,7 @@ window.app = new window.Vue({
 
       this.tabType = tabName;
       this.$store.commit('updateTabState', true);
-      window.addHash('tabOpen', this.isTabActive);
       window.addHash('tabType', this.tabType);
-      window.encodeHash();
-    },
-
-    deactivateTab() {
-      this.$store.commit('updateTabState', false);
-      window.addHash('tabOpen', this.isTabActive);
-      window.removeHash('tabType');
       window.encodeHash();
     },
 
@@ -144,7 +136,7 @@ window.app = new window.Vue({
       if (Object.keys(info).length === tabInfoLength) {
         this.$store.commit('updateTabAuthorshipInfo', info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
-        this.isTabActive = false;
+        this.$store.commit('updateTabState', false);
       }
     },
 
@@ -167,7 +159,7 @@ window.app = new window.Vue({
       if (Object.keys(zoomInfo).length === tabInfoLength) {
         this.$store.commit('updateTabZoomInfo', zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
-        this.isTabActive = false;
+        this.$store.commit('updateTabState', false);
       }
     },
 

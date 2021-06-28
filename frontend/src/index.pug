@@ -19,7 +19,6 @@ html
     script(src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.js")
     script(src="https://use.fontawesome.com/releases/v5.0.13/js/all.js", defer=True)
 
-    script(src="https://cdn.jsdelivr.net/npm/minimatch@1.0.0/minimatch.min.js")
     script(src="https://cdn.jsdelivr.net/npm/@fortawesome/vue-fontawesome@0.1.9/index.min.js")
     script(src="https://cdn.jsdelivr.net/npm/jszip@3.1/dist/jszip.min.js")
     script(src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js")
@@ -45,10 +44,7 @@ html
         h3(slot='after') {{ loadingOverlayMessage }}
 
       template(v-if="userUpdated")
-        v-resizer(
-          v-bind:is-tab-active="isTabActive",
-          v-on:close-tab="deactivateTab"
-        )
+        v-resizer
           #summary-wrapper(slot="left")
             v-summary.tab-padding(
               ref="summary",
@@ -78,10 +74,7 @@ html
           #tabs-wrapper(ref="tabWrapper", slot="right")
             .tab-content.panel-padding
               .tab-pane
-                v-authorship#tab-authorship(
-                  v-if="tabType === 'authorship'",
-                  v-on:deactivate-tab='deactivateTab()'
-                )
+                v-authorship#tab-authorship(v-if="tabType === 'authorship'")
                 v-zoom#tab-zoom(v-else-if="tabType === 'zoom'")
                 #tab-empty(v-else)
                   .title

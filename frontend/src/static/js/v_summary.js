@@ -1,4 +1,4 @@
-/* global Vuex */
+/* global Vuex getFontColor */
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 window.vSummary = {
@@ -24,8 +24,8 @@ window.vSummary = {
       hasModifiedSinceDate: window.isSinceDateProvided,
       hasModifiedUntilDate: window.isUntilDateProvided,
       filterHash: '',
-      minDate: window.app.sinceDate,
-      maxDate: window.app.untilDate,
+      minDate: window.sinceDate,
+      maxDate: window.untilDate,
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
@@ -135,10 +135,6 @@ window.vSummary = {
   methods: {
     dismissTab(event) {
       event.target.parentNode.style.display = 'none';
-    },
-
-    getFontColor(color) {
-      return window.getFontColor(color);
     },
 
     // view functions //
@@ -690,6 +686,8 @@ window.vSummary = {
 
       return window.getDateStr(datems);
     },
+
+    getFontColor,
   },
   created() {
     this.processFileTypes();
