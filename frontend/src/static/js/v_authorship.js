@@ -30,9 +30,6 @@ function authorshipInitialState() {
 const repoCache = [];
 
 window.vAuthorship = {
-  emits: [
-      'deactivate-tab',
-  ],
   template: window.$('v_authorship').innerHTML,
   data() {
     return authorshipInitialState();
@@ -155,10 +152,6 @@ window.vAuthorship = {
       }
 
       this.setInfoHash();
-    },
-
-    getFontColor(color) {
-      return window.getFontColor(color);
     },
 
     getRepoProps(repo) {
