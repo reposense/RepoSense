@@ -45,10 +45,7 @@ html
         h3(slot='after') {{ loadingOverlayMessage }}
 
       template(v-if="userUpdated")
-        v-resizer(
-          v-bind:is-tab-active="isTabActive",
-          v-on:close-tab="deactivateTab"
-        )
+        v-resizer
           #summary-wrapper(slot="left")
             v-summary.tab-padding(
               ref="summary",
