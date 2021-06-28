@@ -10,10 +10,7 @@
     h3(slot='after') {{ loadingOverlayMessage }}
 
   template(v-if="userUpdated")
-    v-resizer(
-      v-bind:is-tab-active="isTabActive",
-      v-on:close-tab="deactivateTab"
-    )
+    v-resizer
       #summary-wrapper(slot="left")
         v-summary.tab-padding(
           ref="summary",
@@ -43,10 +40,7 @@
       #tabs-wrapper(ref="tabWrapper", slot="right")
         .tab-content.panel-padding
           .tab-pane
-            v-authorship#tab-authorship(
-              v-if="tabType === 'authorship'",
-              v-on:deactivate-tab='deactivateTab()'
-            )
+            v-authorship#tab-authorship(v-if="tabType === 'authorship'")
             v-zoom#tab-zoom(v-else-if="tabType === 'zoom'")
             #tab-empty(v-else)
               .title
@@ -195,18 +189,9 @@ const app = {
         this.$refs.tabWrapper.scrollTop = 0;
       }
 
-      this.isTabActive = true;
       this.tabType = tabName;
-
-      window.addHash('tabOpen', this.isTabActive);
+      this.$store.commit('updateTabState', true);
       window.addHash('tabType', this.tabType);
-      window.encodeHash();
-    },
-
-    deactivateTab() {
-      this.isTabActive = false;
-      window.addHash('tabOpen', this.isTabActive);
-      window.removeHash('tabType');
       window.encodeHash();
     },
 
@@ -224,7 +209,7 @@ const app = {
       if (Object.keys(info).length === tabInfoLength) {
         this.$store.commit('updateTabAuthorshipInfo', info);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
-        this.isTabActive = false;
+        this.$store.commit('updateTabState', false);
       }
     },
 
@@ -240,14 +225,14 @@ const app = {
         zFilterGroup: hash.zFGS,
         zFilterSearch: hash.zFS,
         zTimeFrame: hash.zFTF,
-        zIsMerge: hash.zMG === 'true',
+        zIsMerged: hash.zMG === 'true',
         zFromRamp: hash.zFR === 'true',
       };
       const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
       if (Object.keys(zoomInfo).length === tabInfoLength) {
         this.$store.commit('updateTabZoomInfo', zoomInfo);
       } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
-        this.isTabActive = false;
+        this.$store.commit('updateTabState', false);
       }
     },
 
@@ -256,7 +241,7 @@ const app = {
       if (!hash.tabOpen) {
         return;
       }
-      this.isTabActive = hash.tabOpen === 'true';
+      this.$store.commit('updateTabState', hash.tabOpen === 'true');
 
       if (this.isTabActive) {
         if (hash.tabType === 'authorship') {
@@ -306,18 +291,10 @@ const app = {
       }
       return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
     },
-
-    receiveDates(dates) {
-      const [minDate, maxDate] = dates;
-
-      if (this.tabType === 'authorship') {
-        this.renderAuthorShipTabHash(minDate, maxDate);
-      }
-    },
   },
 
   computed: {
-    ...mapState(['loadingOverlayMessage']),
+    ...mapState(['loadingOverlayMessage', 'isTabActive']),
   },
 
   components: {

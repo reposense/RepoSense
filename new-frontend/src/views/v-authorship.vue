@@ -141,6 +141,8 @@ import { mapState } from 'vuex';
 import minimatch from 'minimatch';
 import vSegment from '../components/v-segment.vue';
 
+const getFontColor = window.getFontColor;
+
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
   path: (file) => file.path,
@@ -273,7 +275,7 @@ export default {
 
       this.getRepoProps(repo);
       if (!repo || !this.info.author) {
-        this.$emit('deactivate-tab');
+        this.$store.commit('updateTabState', false);
         return;
       }
       if (repoCache.length === 2) {
@@ -297,10 +299,6 @@ export default {
       }
 
       this.setInfoHash();
-    },
-
-    getFontColor(color) {
-      return window.getFontColor(color);
     },
 
     getRepoProps(repo) {
@@ -541,6 +539,7 @@ export default {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
+    getFontColor,
   },
 
   computed: {

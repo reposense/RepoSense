@@ -134,7 +134,7 @@ import vSummaryCharts from '../components/v-summary-charts.vue';
 import getNonRepeatingColor from '../utils/ramp-colour-generator';
 import sortFiltered from '../utils/repo-sorter';
 
-
+const getFontColor = window.getFontColor;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 export default {
@@ -274,10 +274,6 @@ export default {
   methods: {
     dismissTab(event) {
       event.target.parentNode.style.display = 'none';
-    },
-
-    getFontColor(color) {
-      return window.getFontColor(color);
     },
 
     // view functions //
@@ -828,6 +824,8 @@ export default {
 
       return window.getDateStr(datems);
     },
+
+    getFontColor,
   },
   created() {
     this.processFileTypes();
