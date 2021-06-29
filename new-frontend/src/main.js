@@ -2,13 +2,14 @@ import Vue from 'vue';
 import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import hljs from 'highlight.js';
-import App from './app.vue';
-import store from './store/store';
 
+// Need to import for side effects
 import './utils/api';
 import './utils/safari_date';
 import './utils/load-font-awesome-icons';
 
+import App from './app.vue';
+import store from './store/store';
 
 dom.watch();
 Vue.component('font-awesome-icon', FontAwesomeIcon);

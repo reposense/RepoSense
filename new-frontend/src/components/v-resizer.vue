@@ -41,12 +41,6 @@ const throttledEvent = (delay, handler) => {
 
 export default {
   name: 'v-resizer',
-  props: {
-    isTabActive: {
-      type: Boolean,
-      default: true,
-    },
-  },
 
   data() {
     return {
