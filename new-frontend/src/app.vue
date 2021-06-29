@@ -98,8 +98,6 @@ const app = {
       isLoadingOverlayEnabled: false,
       loadingOverlayOpacity: 1,
 
-      isTabActive: true, // to force tab wrapper to load
-
       tabType: 'empty',
       creationDate: '',
       reportGenerationTime: '',
