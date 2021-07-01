@@ -24,7 +24,7 @@ This page documents the various components that form part of the DevOps infrastr
 - System tests (in `src/systemtest/`)
 - Frontend tests (in `frontend/cypress/tests/`)
 
-### Continuous Integration
+### Continuous integration
 
 All three types of tests in the test suite are run in a single GitHub Actions workflow called "Continuous Integration". The steps are defined in [`integration.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/integration.yml) and are split into three types of jobs:
 
@@ -38,7 +38,7 @@ Some of the jobs execute some commands that are too complicated to be included i
 
 This workflow is run for both incoming pull requests to any branch as well as direct commits to any branch in the repository.
 
-### Report and Documentation previews
+### Report and documentation previews
 
 For each pull request to any branch in the repository, a RepoSense report and the MarkBind documentation website is generated based on the code submitted in the pull request. This is to facilitate pull request reviewers in being able to quickly preview how the RepoSense report and/or the documentation website will change after the pull request is merge.
 
@@ -57,7 +57,7 @@ This task is not performed on commits to the repository, as there is no need to 
 
 This task builds the MarkBind documentation website on every push to the `master` branch. The steps are defined in [`gh-pages.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/gh-pages.yml).
 
-### Stale Pull Requests
+### Stale pull requests
 
 This task automates the cleaning up of the pull requests by automatically marking inactive pull requests as stale and subsequently closing them. The steps and configurations are defined in [`stale.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/stale.yml) and the job is triggered automatically once per day.
 
