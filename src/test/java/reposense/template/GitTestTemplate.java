@@ -2,14 +2,12 @@ package reposense.template;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
@@ -25,7 +23,6 @@ import reposense.model.CommitHash;
 import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.util.FileUtil;
 
 /**
  * Contains templates for git testing.
@@ -92,24 +89,14 @@ public class GitTestTemplate {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setZoneId(TIME_ZONE_ID_STRING);
         GitClone.clone(config);
     }
 
-    @AfterClass
-    public static void afterClass() throws IOException {
-        deleteRepos();
-    }
-
     @After
     public void after() {
         GitCheckout.checkout(config.getRepoRoot(), "master");
-    }
-
-    private static void deleteRepos() throws IOException {
-        FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
     }
 
     /**

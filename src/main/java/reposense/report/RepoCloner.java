@@ -24,6 +24,7 @@ import reposense.system.CommandRunnerProcess;
 import reposense.system.CommandRunnerProcessException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
+import reposense.util.SystemUtil;
 
 /**
  * Handles asynchronous cloning of repos to allow multiple repos to be cloned and analyzed concurrently.
@@ -152,8 +153,18 @@ public class RepoCloner {
         assert(crp == null);
 
         try {
-            FileUtil.deleteDirectory(FileUtil.getBareRepoPath(config).toString());
+            if (!SystemUtil.isTestEnvironment()) {
+                FileUtil.deleteDirectory(FileUtil.getBareRepoPath(config).toString());
+            }
+
             Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
+            Path repoPath = Paths.get(rootPath.toString(), config.getRepoName());
+
+            if (SystemUtil.isTestEnvironment() && Files.exists(repoPath)) {
+                logger.info("Skipped cloning from " + config.getLocation() + " as it was cloned before.");
+                return true;
+            }
+
             Files.createDirectories(rootPath);
 
             logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
@@ -237,6 +248,12 @@ public class RepoCloner {
      */
     private boolean waitForCloneProcess(RepoConfiguration config) {
         try {
+            Path repoPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName(), config.getRepoName());
+
+            if (SystemUtil.isTestEnvironment() && Files.exists(repoPath)) {
+                return true;
+            }
+
             logger.info(String.format(MESSAGE_WAITING_FOR_CLONING, config.getLocation()));
             crp.waitForProcess();
             logger.info(String.format(MESSAGE_COMPLETE_CLONING, config.getLocation()));
@@ -259,9 +276,13 @@ public class RepoCloner {
     }
 
     /**
-     * Deletes the {@code root} directory.
+     * Deletes the {@code root} directory, unless RepoSense is currently being tested.
      */
     private void deleteDirectory(String root) {
+        if (SystemUtil.isTestEnvironment()) {
+            return;
+        }
+
         try {
             FileUtil.deleteDirectory(root);
         } catch (IOException ioe) {
