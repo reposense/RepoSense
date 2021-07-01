@@ -7,13 +7,13 @@ import reposense.parser.InvalidLocationException;
 import reposense.util.AssertUtil;
 
 public class RepoLocationTest {
-    private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
-    private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
-
     @Test
     public void repoLocation_validRepoUrl_success() throws Exception {
-        assertValidLocation(TEST_REPO_BETA, "testrepo-Beta", "reposense");
-        assertValidLocation(TEST_REPO_DELTA, "testrepo-Delta", "reposense");
+        // valid url without specifying branch
+        assertValidLocation("https://github.com/reposense/testrepo-Beta.git",
+                "testrepo-Beta", "reposense");
+        assertValidLocation("https://github.com/reposense/testrepo-Delta.git",
+                "testrepo-Delta", "reposense");
     }
 
     @Test
@@ -35,18 +35,10 @@ public class RepoLocationTest {
     }
 
     @Test
-    public void repoLocation_invalidBranchUrl_throwsInvalidLocationException() {
-        // ftp url should be rejected
-        assertInvalidLocation("ftp://github.com/reposense/RepoSense/tree/feature_branch_issue#1010");
-        // url without branch name should be rejected
-        assertInvalidLocation("https://github.com/reposense/RepoSense/tree/");
-        assertInvalidLocation("https://github.com/reposense/RepoSense/tree");
-        // url without the 'tree' keyword should be rejected
-        assertInvalidLocation("https://github.com/reposense/RepoSense/feature_branch_issue#1010");
-        assertInvalidLocation("https://github.com/reposense/RepoSense/TREE/feature_branch_issue#1010");
-        assertInvalidLocation("https://github.com/reposense/RepoSense/tre/feature_branch_issue#1010");
-        // non GitHub url should be rejected
-        assertInvalidLocation("https://gitlab.com/reposense/RepoSense/tree/feature_branch_issue#1010");
+    public void repoLocation_repoUrlWithASpecifiedBranch_throwsInvalidLocationException() {
+        // reject both repos with and without .git
+        assertInvalidLocation("https://github.com/reposense/testrepo-Beta/tree/add-config-json");
+        assertInvalidLocation("https://github.com/reposense/testrepo-Beta.git/tree/add-config-json");
     }
 
     @Test
