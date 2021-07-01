@@ -1,7 +1,7 @@
 <variable name="title">DevOps Guide</variable>
 <frontmatter>
-  title: "{{ title | safe }}"
-  pageNav: 3
+title: "{{ title | safe }}"
+pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed with context %}
@@ -11,10 +11,10 @@
 <div class="lead">
 
 This page documents the various components that form part of the DevOps infrastructure that RepoSense uses.
+
 </div>
 
 <!-- ==================================================================================================== -->
-
 
 ## GitHub Actions
 
@@ -40,7 +40,7 @@ This workflow is run for both incoming pull requests to any branch as well as di
 
 ### Report and documentation previews
 
-For each pull request to any branch in the repository, a RepoSense report and the MarkBind documentation website is generated based on the code submitted in the pull request. This is to facilitate pull request reviewers in being able to quickly preview how the RepoSense report and/or the documentation website will change after the pull request is merge.
+For each pull request to any branch in the repository, a RepoSense report and the MarkBind documentation website is generated based on the code submitted in the pull request. This is to facilitate pull request reviewers in being able to quickly preview how the RepoSense report and/or the documentation website will change after the pull request is merged.
 
 Due to [security considerations in preventing pwn requests](https://securitylab.github.com/research/github-actions-preventing-pwn-requests), the deployment of the report and documentation previews were split across two workflows in [pull request #1411](https://github.com/reposense/RepoSense/pull/1411):
 
@@ -49,7 +49,7 @@ Due to [security considerations in preventing pwn requests](https://securitylab.
 
 The previews are recognised as GitHub deployments and are named `dashboard-$PRNUMBER` and `docs-$PRNUMBER`, where `$PRNUMBER` is the pull request number. Once a preview is ready, the reviewer would be able to click on "View deployment" or "Show environments" in the pull request to open the preview websites.
 
-Both the "Surge.sh pending build" and "Continuous Integration" workflows produce an artifact respectively, which is then downloaded by the "Surge.sh build preview" workflow to be deployed to Surge.sh. Due to limitations in GitHub Actions in determining the workflow execution order, the "Surge.sh pending build" workflow is assumed to complete before the "Continuous Integration" workflow is completed.
+Both the "Surge.sh pending build" and "Continuous Integration" workflows produce an artifact respectively, which is then downloaded by the "Surge.sh build preview" workflow to be deployed to Surge.sh. Due to limitations in GitHub Actions in determining the workflow execution order, the "Surge.sh pending build" workflow is assumed to have been completed before the "Continuous Integration" workflow is completed.
 
 This task is not performed on commits to the repository, as there is no need to do so.
 
