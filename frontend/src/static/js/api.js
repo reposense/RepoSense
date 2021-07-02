@@ -177,16 +177,16 @@ window.api = {
       }
       throw error;
     }
-    window.app.creationDate = data.reportGeneratedTime;
-    window.app.sinceDate = data.sinceDate;
-    window.app.untilDate = data.untilDate;
-    window.app.repoSenseVersion = data.repoSenseVersion;
-    window.app.reportGenerationTime = data.reportGenerationTime;
-    window.app.isSinceDateProvided = data.isSinceDateProvided;
-    window.app.isUntilDateProvided = data.isUntilDateProvided;
+    const { reportGeneratedTime, reportGenerationTime } = data;
+    window.sinceDate = data.sinceDate;
+    window.untilDate = data.untilDate;
+    window.repoSenseVersion = data.repoSenseVersion;
+    window.isSinceDateProvided = data.isSinceDateProvided;
+    window.isUntilDateProvided = data.isUntilDateProvided;
 
+    const errorMessages = {};
     Object.entries(data.errorList).forEach(([repoName, message]) => {
-      window.app.errorMessages[repoName] = message;
+      errorMessages[repoName] = message;
     });
 
     const names = [];
@@ -195,7 +195,12 @@ window.api = {
       window.REPOS[repoName] = repo;
       names.push(repoName);
     });
-    return names;
+    return {
+      creationDate: reportGeneratedTime,
+      reportGenerationTime,
+      errorMessages,
+      names,
+    };
   },
 
   async loadCommits(repoName) {
