@@ -2,7 +2,7 @@
   .panel-title
     span Code Panel
   .toolbar--multiline
-    a(v-if="activeFilesCount < this.selectedFiles.length", v-on:click="expandAll()") show all file details
+    a(v-if="activeFilesCount < selectedFiles.length", v-on:click="expandAll()") show all file details
     a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
   .panel-heading
     a.group-name(
@@ -69,7 +69,7 @@
               v-bind:key="fileType",
               v-bind:style="{\
                 'background-color': fileTypeColors[fileType],\
-                'color': this.getFontColor(fileTypeColors[fileType])\
+                'color': getFontColor(fileTypeColors[fileType])\
                 }"
             )
               input.mui-checkbox--fileType(type="checkbox", v-bind:id="fileType", v-bind:value="fileType",
@@ -80,7 +80,7 @@
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
             span(
-              v-bind:title="this.binaryFilesCount + ' binary files (not included in total line count)'"
+              v-bind:title="binaryFilesCount + ' binary files (not included in total line count)'"
             )
               span {{ binaryFilesCount }} binary file(s)
 
@@ -115,7 +115,7 @@
             v-if='!file.isBinary',
             v-bind:style="{\
               'background-color': fileTypeColors[file.fileType],\
-              'color': this.getFontColor(fileTypeColors[file.fileType])\
+              'color': getFontColor(fileTypeColors[file.fileType])\
               }"
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}&nbsp;({{ file.lineCount - file.blankLineCount }})
           span.fileTypeLabel.binary(v-if='file.isBinary') binary&nbsp;
