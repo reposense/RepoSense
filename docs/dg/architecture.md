@@ -1,4 +1,4 @@
-<variable name="title">Architecture</variable>
+{% set title = "Architecture" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3

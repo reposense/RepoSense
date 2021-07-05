@@ -1,4 +1,4 @@
-<variable name="title">Workflow</variable>
+{% set title = "Workflow" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
