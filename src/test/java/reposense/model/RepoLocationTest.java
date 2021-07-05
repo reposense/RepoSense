@@ -42,7 +42,7 @@ public class RepoLocationTest {
     }
 
     @Test
-    public void repoLocationParser_parseEmptyString_noInvalidLocationException() throws Exception {
+    public void repoLocationParser_parseEmptyString_success() throws Exception {
         RepoLocation repoLocation = new RepoLocation("");
     }
 
