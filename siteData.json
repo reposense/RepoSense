@@ -61,6 +61,22 @@
       "headingKeywords": {}
     },
     {
+      "src": "dg/devOpsGuide.md",
+      "title": "DevOps Guide",
+      "headings": {
+        "devops-guide": "DevOps Guide",
+        "github-actions": "GitHub Actions",
+        "continuous-integration": "Continuous integration",
+        "report-and-documentation-previews": "Report and documentation previews",
+        "github-pages": "GitHub Pages",
+        "stale-pull-requests": "Stale pull requests",
+        "codecov": "Codecov",
+        "appveyor": "Appveyor",
+        "surge-sh": "Surge.sh"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "dg/index.md",
       "title": "Developer guide",
       "headings": {
