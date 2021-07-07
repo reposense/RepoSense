@@ -56,9 +56,6 @@
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/settingUp.html" class="current"><strong>Setting up</strong></a></div>
             </li>
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/learningBasics.html"><strong>Learning the basics</strong></a></div>
-            </li>
-            <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/workflow.html"><strong>Workflow</strong></a></div>
             </li>
             <li>
@@ -77,9 +74,6 @@
             </li>
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/projectManagement.html"><strong>Project management</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/devOpsGuide.html"><strong>DevOps guide</strong></a></div>
             </li>
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
@@ -222,11 +216,6 @@
                       <li>Alias: <code class="hljs inline no-lang" v-pre>-f</code></li>
                       <li>Example:<code class="hljs inline no-lang" v-pre>--formats css fxml gradle</code> or <code class="hljs inline no-lang" v-pre>-f css fxml gradle</code></li>
                     </ul>
-                    <box type="info" seamless>
-                      <p>Binary file formats, such as <code class="hljs inline no-lang" v-pre>jpg</code>, <code class="hljs inline no-lang" v-pre>png</code>,<code class="hljs inline no-lang" v-pre>exe</code>,<code class="hljs inline no-lang" v-pre>zip</code>, <code class="hljs inline no-lang" v-pre>rar</code>, <code class="hljs inline no-lang" v-pre>docx</code>, and <code class="hljs inline no-lang" v-pre>pptx</code>, all will be labelled as the file type <code class="hljs inline no-lang" v-pre>binary</code> in the generated report.
-                      </p>
-                    </box>
-                    <p></p>
 
                     <h3 id="help-h"><span id="help-h" class="anchor"></span><code class="hljs inline no-lang" v-pre>--help</code>, <code class="hljs inline no-lang" v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
                     <p><strong><code class="hljs inline no-lang" v-pre>--help</code></strong>: Shows the help message.</p>
@@ -259,14 +248,7 @@
                       <li>Alias: <code class="hljs inline no-lang" v-pre>-l</code> (lowercase L)</li>
                       <li>Example:<code class="hljs inline no-lang" v-pre>--last-modified-date</code> or <code class="hljs inline no-lang" v-pre>-l</code></li>
                     </ul>
-                    <box type="info" seamless>
-                      <ul>
-                        <li>Cannot be used with <code class="hljs inline no-lang" v-pre>--shallow-cloning</code>.</li>
-                        <li>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.
-                        </li>
-                      </ul>
-                    </box>
-
+                    <p>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.</p>
 
                     <h3 id="output-o"><span id="output-o" class="anchor"></span><code class="hljs inline no-lang" v-pre>--output</code>, <code class="hljs inline no-lang" v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
                     <p><strong><code class="hljs inline no-lang" v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
@@ -307,19 +289,6 @@
                     </ul>
                     <box type="info" seamless>
                       <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--config</code>.
-                      </p>
-                    </box>
-                    <p></p>
-
-                    <h3 id="shallow-cloning-s"><span id="shallow-cloning-s" class="anchor"></span><code class="hljs inline no-lang" v-pre>--shallow-cloning</code>, <code class="hljs inline no-lang" v-pre>-S</code><a class="fa fa-anchor" href="#shallow-cloning-s" onclick="event.stopPropagation()"></a></h3>
-                    <p><strong><code class="hljs inline no-lang" v-pre>--shallow-cloning</code></strong>: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories where the <code class="hljs inline no-lang" v-pre>.git</code> file is smaller than 500 MB, as it would create overhead.</p>
-                    <ul>
-                      <li>Default: RepoSense does not clone repositories using Git's shallow cloning functionality.</li>
-                      <li>Alias: <code class="hljs inline no-lang" v-pre>-S</code> (uppercase S)</li>
-                      <li>Example:<code class="hljs inline no-lang" v-pre>--shallow-cloning</code> or <code class="hljs inline no-lang" v-pre>-S</code></li>
-                    </ul>
-                    <box type="info" seamless>
-                      <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--last-modified-date</code>.
                       </p>
                     </box>
                     <p></p>
@@ -414,7 +383,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Jul 7, 2021, 7:47:27 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Jul 7, 2021, 7:50:48 PM UTC]</small>
       </div>
     </footer>
   </div>

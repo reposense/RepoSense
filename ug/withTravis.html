@@ -129,43 +129,43 @@
             </box>
             <p></p>
             <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Fork the <em>publish-RepoSense</em> repository</strong> using this <a href="https://github.com/RepoSense/publish-RepoSense/fork">link</a>. Optionally, you can rename the fork to match your RepoSense report e.g., <code class="hljs inline no-lang" v-pre>project-code-dashboard</code>.</p>
+            <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Generate a <em>personal access token</em> or <em>deploy key</em> on GitHub</strong> as explained in the panel below.</p>
+            <div class="indented-level0">
+              <panel minimized><template slot="header">
+                  <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Granting write access on GitHub</p>
+                </template>
+                <div>
+                  <h2 id="granting-write-access-to-a-repository"><span id="granting-write-access-to-a-repository" class="anchor"></span>Granting write-access to a repository<a class="fa fa-anchor" href="#granting-write-access-to-a-repository" onclick="event.stopPropagation()"></a></h2>
+                  <p>We recommend using a <a href="https://github.blog/2013-05-16-personal-api-tokens/">personal access token</a> if aiming for the ease of setup and <a href="https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys">deploy key</a> if aiming for enhanced security.</p>
+                  <h3 id="if-you-wish-to-use-personal-access-token"><span id="if-you-wish-to-use-personal-access-token" class="anchor"></span>If you wish to use <em>personal access token</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-personal-access-token" onclick="event.stopPropagation()"></a></h3>
+                  <ol>
+                    <li><strong>Create a <em>personal access token</em></strong> by following this <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">guide</a> and give only <code class="hljs inline no-lang" v-pre>public_repo</code> permission.</li>
+                    <li><strong>Copy the token</strong> for later use.</li>
+                  </ol>
+                  <h3 id="if-you-wish-to-use-deploy-key"><span id="if-you-wish-to-use-deploy-key" class="anchor"></span>If you wish to use <em>deploy key</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-deploy-key" onclick="event.stopPropagation()"></a></h3>
+                  <box type="info"><template slot="icon"><span aria-hidden="true" class="fab fa-windows"></span></template>
+                    <p>[Windows users] <code class="hljs inline no-lang" v-pre>ssh-keygen</code> and <code class="hljs inline no-lang" v-pre>base64</code> are accessible using <a href="https://gitforwindows.org/">Git Bash</a>.
+                    </p>
+                  </box>
+                  <p></p>
+                  <ol>
+                    <li><strong>Create a public-private key pair</strong> (without a passphrase) using the <code class="hljs inline no-lang" v-pre>ssh-keygen</code>. <br>
+                      i.e., <code class="hljs inline no-lang" v-pre>ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N &quot;&quot;</code></li>
+                    <li><strong>Create a deploy key</strong> as follows:
+                      <ol>
+                        <li>Go to the <code class="hljs inline no-lang" v-pre>settings</code> page of your publish-RepoSense fork</li>
+                        <li>Click on the <code class="hljs inline no-lang" v-pre>Deploy keys</code> item in the navigation menu in that page</li>
+                        <li>Click on the <code class="hljs inline no-lang" v-pre>Add deploy key</code> button and create a new deploy key with the contents of <code class="hljs inline no-lang" v-pre>id_reposense.pub</code>.</li>
+                      </ol>
+                    </li>
+                    <li><strong>Copy the private key</strong> in base64 encoded format for later use. <br>
+                      i.e., <code class="hljs inline no-lang" v-pre>cat id_reposense | base64 -w 0</code></li>
+                  </ol>
+                </div>
+              </panel>
+            </div>
+            <p></p>
           </div>
-          <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Generate a <em>personal access token</em> or <em>deploy key</em> on GitHub</strong> as explained in the panel below.</p>
-          <div class="indented-level0">
-            <panel minimized><template slot="header">
-                <p><span><span aria-hidden="true" class="glyphicon glyphicon-log-in"></span></span> Granting write access on GitHub</p>
-              </template>
-              <div>
-                <h2 id="granting-write-access-to-a-repository"><span id="granting-write-access-to-a-repository" class="anchor"></span>Granting write-access to a repository<a class="fa fa-anchor" href="#granting-write-access-to-a-repository" onclick="event.stopPropagation()"></a></h2>
-                <p>We recommend using a <a href="https://github.blog/2013-05-16-personal-api-tokens/">personal access token</a> if aiming for the ease of setup and <a href="https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys">deploy key</a> if aiming for enhanced security.</p>
-                <h3 id="if-you-wish-to-use-personal-access-token"><span id="if-you-wish-to-use-personal-access-token" class="anchor"></span>If you wish to use <em>personal access token</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-personal-access-token" onclick="event.stopPropagation()"></a></h3>
-                <ol>
-                  <li><strong>Create a <em>personal access token</em></strong> by following this <a href="https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/">guide</a> and give only <code class="hljs inline no-lang" v-pre>public_repo</code> permission.</li>
-                  <li><strong>Copy the token</strong> for later use.</li>
-                </ol>
-                <h3 id="if-you-wish-to-use-deploy-key"><span id="if-you-wish-to-use-deploy-key" class="anchor"></span>If you wish to use <em>deploy key</em>:<a class="fa fa-anchor" href="#if-you-wish-to-use-deploy-key" onclick="event.stopPropagation()"></a></h3>
-                <box type="info"><template slot="icon"><span aria-hidden="true" class="fab fa-windows"></span></template>
-                  <p>[Windows users] <code class="hljs inline no-lang" v-pre>ssh-keygen</code> and <code class="hljs inline no-lang" v-pre>base64</code> are accessible using <a href="https://gitforwindows.org/">Git Bash</a>.
-                  </p>
-                </box>
-                <p></p>
-                <ol>
-                  <li><strong>Create a public-private key pair</strong> (without a passphrase) using the <code class="hljs inline no-lang" v-pre>ssh-keygen</code>. <br>
-                    i.e., <code class="hljs inline no-lang" v-pre>ssh-keygen -t ecdsa -b 521 -f id_reposense -q -N &quot;&quot;</code></li>
-                  <li><strong>Create a deploy key</strong> as follows:
-                    <ol>
-                      <li>Go to the <code class="hljs inline no-lang" v-pre>settings</code> page of your publish-RepoSense fork</li>
-                      <li>Click on the <code class="hljs inline no-lang" v-pre>Deploy keys</code> item in the navigation menu in that page</li>
-                      <li>Click on the <code class="hljs inline no-lang" v-pre>Add deploy key</code> button and create a new deploy key with the contents of <code class="hljs inline no-lang" v-pre>id_reposense.pub</code>.</li>
-                    </ol>
-                  </li>
-                  <li><strong>Copy the private key</strong> in base64 encoded format for later use. <br>
-                    i.e., <code class="hljs inline no-lang" v-pre>cat id_reposense | base64 -w 0</code></li>
-                </ol>
-              </div>
-            </panel>
-          </div>
-          <p></p>
           <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Login to <a href="https://travis-ci.org/">Travis-CI</a>.</strong> You may have to sign up first.</p>
           <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>Syncy your Travis account with GitHub:</strong></p>
           <ol>
@@ -267,11 +267,6 @@
                           <li>Alias: <code class="hljs inline no-lang" v-pre>-f</code></li>
                           <li>Example:<code class="hljs inline no-lang" v-pre>--formats css fxml gradle</code> or <code class="hljs inline no-lang" v-pre>-f css fxml gradle</code></li>
                         </ul>
-                        <box type="info" seamless>
-                          <p>Binary file formats, such as <code class="hljs inline no-lang" v-pre>jpg</code>, <code class="hljs inline no-lang" v-pre>png</code>,<code class="hljs inline no-lang" v-pre>exe</code>,<code class="hljs inline no-lang" v-pre>zip</code>, <code class="hljs inline no-lang" v-pre>rar</code>, <code class="hljs inline no-lang" v-pre>docx</code>, and <code class="hljs inline no-lang" v-pre>pptx</code>, all will be labelled as the file type <code class="hljs inline no-lang" v-pre>binary</code> in the generated report.
-                          </p>
-                        </box>
-                        <p></p>
 
                         <h3 id="help-h"><span id="help-h" class="anchor"></span><code class="hljs inline no-lang" v-pre>--help</code>, <code class="hljs inline no-lang" v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
                         <p><strong><code class="hljs inline no-lang" v-pre>--help</code></strong>: Shows the help message.</p>
@@ -304,14 +299,7 @@
                           <li>Alias: <code class="hljs inline no-lang" v-pre>-l</code> (lowercase L)</li>
                           <li>Example:<code class="hljs inline no-lang" v-pre>--last-modified-date</code> or <code class="hljs inline no-lang" v-pre>-l</code></li>
                         </ul>
-                        <box type="info" seamless>
-                          <ul>
-                            <li>Cannot be used with <code class="hljs inline no-lang" v-pre>--shallow-cloning</code>.</li>
-                            <li>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.
-                            </li>
-                          </ul>
-                        </box>
-
+                        <p>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.</p>
 
                         <h3 id="output-o"><span id="output-o" class="anchor"></span><code class="hljs inline no-lang" v-pre>--output</code>, <code class="hljs inline no-lang" v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
                         <p><strong><code class="hljs inline no-lang" v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
@@ -352,19 +340,6 @@
                         </ul>
                         <box type="info" seamless>
                           <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--config</code>.
-                          </p>
-                        </box>
-                        <p></p>
-
-                        <h3 id="shallow-cloning-s"><span id="shallow-cloning-s" class="anchor"></span><code class="hljs inline no-lang" v-pre>--shallow-cloning</code>, <code class="hljs inline no-lang" v-pre>-S</code><a class="fa fa-anchor" href="#shallow-cloning-s" onclick="event.stopPropagation()"></a></h3>
-                        <p><strong><code class="hljs inline no-lang" v-pre>--shallow-cloning</code></strong>: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories where the <code class="hljs inline no-lang" v-pre>.git</code> file is smaller than 500 MB, as it would create overhead.</p>
-                        <ul>
-                          <li>Default: RepoSense does not clone repositories using Git's shallow cloning functionality.</li>
-                          <li>Alias: <code class="hljs inline no-lang" v-pre>-S</code> (uppercase S)</li>
-                          <li>Example:<code class="hljs inline no-lang" v-pre>--shallow-cloning</code> or <code class="hljs inline no-lang" v-pre>-S</code></li>
-                        </ul>
-                        <box type="info" seamless>
-                          <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--last-modified-date</code>.
                           </p>
                         </box>
                         <p></p>
@@ -438,8 +413,7 @@
                   <ul>
                     <li><code class="hljs inline no-lang" v-pre>--release</code>: Use the latest release (Stable)</li>
                     <li><code class="hljs inline no-lang" v-pre>--master</code>: Use the latest version of the master branch</li>
-                    <li><code class="hljs inline no-lang" v-pre>--tag TAG</code> (e.g. <code class="hljs inline no-lang" v-pre>--tag v1.6.1</code>): Use the version identified by the Git tag given</li>
-                    <li><code class="hljs inline no-lang" v-pre>--commit COMMIT</code> (e.g. <code class="hljs inline no-lang" v-pre>--commit abc123</code>): Use the version identified by the Git commit SHA given</li>
+                    <li><code class="hljs inline no-lang" v-pre>--tag TAG</code> e.g., <code class="hljs inline no-lang" v-pre>--tag v1.6.1</code>: use the version identified by the git tag given</li>
                   </ul>
                 </div>
               </panel>
@@ -457,7 +431,8 @@
                     <p>Given below are the details of the various config files used by RepoSense.</p>
                   </div>
                   <box type="info" seamless>
-                    <p><strong>RepoSense ignores the order of column headers in the CSV config files. However, the spelling of the column headers must match the specified headers exactly, or the column would be ignored by RepoSense.</strong><br></p>
+                    <p><strong>RepoSense ignores the first row (i.e., column headings) of CSV config files.</strong> It is used simply to provide more information to human readers. This also means the <mark>columns in your config files should be in the exact order specified here</mark>.
+                    </p>
                   </box>
                   <p></p>
                   <box type="info" seamless>
@@ -483,38 +458,31 @@
                         </tr>
                         <tr>
                           <td>Branch</td>
-                          <td>The branch to analyze in the target repository e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the default branch of the repo</td>
+                          <td>The branch to analyze in the target repository, e.g., <code class="hljs inline no-lang" v-pre>master</code>. Default: the default branch of the repo</td>
                         </tr>
                         <tr>
                           <td>File formats<sup>*+</sup></td>
-                          <td>The file extensions to analyze. Binary file formats, such as <code class="hljs inline no-lang" v-pre>png</code> and <code class="hljs inline no-lang" v-pre>jpg</code>, will be automatically labelled as the file type <code class="hljs inline no-lang" v-pre>binary</code> in the generated report. Default: all file formats</td>
+                          <td>The file extensions to analyze. Default: all file formats</td>
                         </tr>
                         <tr>
                           <td>Ignore Glob List<sup>*+</sup></td>
-                          <td>The list of file path globs to ignore during analysis for each author e.g., <code class="hljs inline no-lang" v-pre>test/**;temp/**</code>. Refer to the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a> for the path glob syntax.</td>
+                          <td>The list of file path globs to ignore during analysis for each author, e.g., <code class="hljs inline no-lang" v-pre>test/**;temp/**</code></td>
                         </tr>
                         <tr>
                           <td>Ignore standalone config</td>
-                          <td>To ignore the standalone config file (if any) in target repository, enter <strong><code class="hljs inline no-lang" v-pre>yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td>
+                          <td>To ignore the standalone config file (if any) in the target repository, enter <strong><code class="hljs inline no-lang" v-pre>yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td>
                         </tr>
                         <tr>
                           <td>Ignore Commit List<sup>*+</sup></td>
-                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation e.g. <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</td>
+                          <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation, e.g., <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</td>
                         </tr>
                         <tr>
                           <td>Ignore Authors List<sup>*+</sup></td>
                           <td>The list of authors to ignore during analysis. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</td>
                         </tr>
-                        <tr>
-                          <td>Shallow Cloning</td>
-                          <td>Enter <strong><code class="hljs inline no-lang" v-pre>yes</code></strong> to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the <code class="hljs inline no-lang" v-pre>.git</code> file is smaller than 500 MB, as it would create overhead.</td>
-                        </tr>
                       </tbody>
                     </table>
                   </div>
-                  <box type="info" seamless>
-                    The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
-                  </box>
                   <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code class="hljs inline no-lang" v-pre>;</code> as the separator.</sup>
                     <sup>+ <strong>Overrideable column</strong>: prepend with <code class="hljs inline no-lang" v-pre>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup>
                   </p>
@@ -561,7 +529,7 @@
                         </tr>
                         <tr>
                           <td>Ignore Glob List<sup>*</sup></td>
-                          <td>Files to ignore for this author, in addition to files ignored by the patterns specified in <code class="hljs inline no-lang" v-pre>repo-config.csv</code>. The path glob syntax is the same as that of Ignore Glob List in <code class="hljs inline no-lang" v-pre>repo-config.csv</code>.</td>
+                          <td>Files to ignore for this author, in addition to files ignored by the patterns specified in <code class="hljs inline no-lang" v-pre>repo-config.csv</code></td>
                         </tr>
                       </tbody>
                     </table>
@@ -639,7 +607,7 @@
                     <p><strong>Fields to provide <em>repository-level</em> info</strong>:</p>
                     <ul>
                       <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: Folders/files to ignore, specified using the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>.</li>
-                      <li><code class="hljs inline no-lang" v-pre>formats</code>: File formats to analyze. Binary file formats, such as <code class="hljs inline no-lang" v-pre>png</code> and <code class="hljs inline no-lang" v-pre>jpg</code>, will be automatically labelled as the file type <code class="hljs inline no-lang" v-pre>binary</code> in the generated report. Default: all file formats</li>
+                      <li><code class="hljs inline no-lang" v-pre>formats</code>: File formats to analyze. Default: all file formats</li>
                       <li><code class="hljs inline no-lang" v-pre>ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang" v-pre>..</code> notation e.g. <code class="hljs inline no-lang" v-pre>abc123..def456</code> (both inclusive).</li>
                       <li><code class="hljs inline no-lang" v-pre>ignoreAuthorList</code>: The list of authors to ignore during analysis. Authors specified in <code class="hljs inline no-lang" v-pre>authors</code> field or <code class="hljs inline no-lang" v-pre>author-config.csv</code> will be also be omitted if they are in this list. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</li>
                     </ul>
@@ -650,7 +618,7 @@
                       <li><code class="hljs inline no-lang" v-pre>emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li>
                       <li><code class="hljs inline no-lang" v-pre>displayName</code>: Name to display on the report for this author.</li>
                       <li><code class="hljs inline no-lang" v-pre>authorNames</code>: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
-                      <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code class="hljs inline no-lang" v-pre>ignoreGlobList</code>) folders/files to ignore for a specific author. The path glob syntax is specified by the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>. In the example above, the actual <code class="hljs inline no-lang" v-pre>ignoreGlobList</code> for <code class="hljs inline no-lang" v-pre>alice</code> would be <code class="hljs inline no-lang" v-pre>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code>.</li>
+                      <li><code class="hljs inline no-lang" v-pre>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code class="hljs inline no-lang" v-pre>ignoreGlobList</code>) folders/files to ignore for a specific author . In the example above, the actual <code class="hljs inline no-lang" v-pre>ignoreGlobList</code> for <code class="hljs inline no-lang" v-pre>alice</code> would be <code class="hljs inline no-lang" v-pre>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code></li>
                     </ul>
                     <p>To verify your standalone configuration is as intended, add the <code class="hljs inline no-lang" v-pre>_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p>
                     <ul>
@@ -743,7 +711,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Jul 7, 2021, 7:47:27 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Jul 7, 2021, 7:50:48 PM UTC]</small>
       </div>
     </footer>
   </div>

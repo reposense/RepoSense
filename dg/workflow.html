@@ -56,9 +56,6 @@
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/settingUp.html"><strong>Setting up</strong></a></div>
             </li>
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/learningBasics.html"><strong>Learning the basics</strong></a></div>
-            </li>
-            <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/workflow.html" class="current"><strong>Workflow</strong></a></div>
             </li>
             <li>
@@ -77,9 +74,6 @@
             </li>
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/projectManagement.html"><strong>Project management</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/devOpsGuide.html"><strong>DevOps guide</strong></a></div>
             </li>
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
@@ -114,20 +108,7 @@
           <li>The section below has more information about the various stages of submitting a PR.</li>
         </ul>
 
-        <h2 id="find-the-suitable-pull-requests"><span id="find-the-suitable-pull-requests" class="anchor"></span>Find the suitable pull requests<a class="fa fa-anchor" href="#find-the-suitable-pull-requests" onclick="event.stopPropagation()"></a></h2>
-        <ul>
-          <li>If you are contributing to RepoSense for the first time, you can check the list of <a href="https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Aa-Backend+label%3Ad.FirstTimers">backend issues</a> or <a href="https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers+label%3Aa-FrontEnd">frontend issues</a> for first timers.</li>
-        </ul>
-        <box type="info" seamless>
-          <p>The issues for first timers usually have guidance provided in the comment or have linked pull requests from previous contributors. You can refer to them for implementation details.
-          </p>
-        </box>
-        <p></p>
-        <ul>
-          <li>If you are more experienced in contributing, aside from searching for issues in the issue tracker, you can find the list of issues organized in a more systematic way under the <a href="https://github.com/reposense/RepoSense/projects">Projects Tab</a> of the RepoSense repository. This can help you to find issues with suitable workload and direction.</li>
-        </ul>
-
-        <h2 id="following-the-coding-standards"><span id="following-the-coding-standards" class="anchor"></span>Following the coding standards<a class="fa fa-anchor" href="#following-the-coding-standards" onclick="event.stopPropagation()"></a></h2>
+        <h2 id="following-the-code-style"><span id="following-the-code-style" class="anchor"></span>Following the code style<a class="fa fa-anchor" href="#following-the-code-style" onclick="event.stopPropagation()"></a></h2>
         <ul>
           <li>Make sure you know our coding standards.</li>
         </ul>
@@ -155,9 +136,9 @@
         </div>
         <p></p>
         <ul>
-          <li><strong>Follow <a href="https://se-education.org/guides/tutorials/intellijCodeStyle.html">the tutorial</a> to configure Intellij to follow our coding style</strong>.</li>
+          <li><strong>Follow <a href="https://se-education.org/guides/tutorials/intellijCodeStyle.html">this</a> to configure Intellij to follow our coding style</strong>.</li>
           <li><strong>This project uses Checkstyle</strong> to check the compliance of Java code. You can use <a href="https://se-education.org/guides/tutorials/checkstyle.html">this document</a> to find how to use it. In particular, run <code class="hljs inline no-lang" v-pre>gradlew checkstyleMain checkstyleTest checkstyleSystemtest</code> to check the style of all the relevant Java code.</li>
-          <li><strong>To check Pug files for style errors</strong>, run <code class="hljs inline no-lang" v-pre>npm run lint</code> from the project root directory. You can use the <code class="hljs inline no-lang" v-pre>npm run lintfix</code> to automatically fix some of the JavaScript and CSS lint errors.</li>
+          <li><strong>To check Pug files for style errors</strong>, run <code class="hljs inline no-lang" v-pre>npm run lint</code> from the project root directory. You can use the <code class="hljs inline no-lang" v-pre>npm run lintfix</code> to automatically fix some of the javascript and css lint errors.</li>
         </ul>
 
         <h2 id="running-the-app-from-code"><span id="running-the-app-from-code" class="anchor"></span>Running the app from code<a class="fa fa-anchor" href="#running-the-app-from-code" onclick="event.stopPropagation()"></a></h2>
@@ -232,11 +213,6 @@
                   <li>Alias: <code class="hljs inline no-lang" v-pre>-f</code></li>
                   <li>Example:<code class="hljs inline no-lang" v-pre>--formats css fxml gradle</code> or <code class="hljs inline no-lang" v-pre>-f css fxml gradle</code></li>
                 </ul>
-                <box type="info" seamless>
-                  <p>Binary file formats, such as <code class="hljs inline no-lang" v-pre>jpg</code>, <code class="hljs inline no-lang" v-pre>png</code>,<code class="hljs inline no-lang" v-pre>exe</code>,<code class="hljs inline no-lang" v-pre>zip</code>, <code class="hljs inline no-lang" v-pre>rar</code>, <code class="hljs inline no-lang" v-pre>docx</code>, and <code class="hljs inline no-lang" v-pre>pptx</code>, all will be labelled as the file type <code class="hljs inline no-lang" v-pre>binary</code> in the generated report.
-                  </p>
-                </box>
-                <p></p>
 
                 <h3 id="help-h"><span id="help-h" class="anchor"></span><code class="hljs inline no-lang" v-pre>--help</code>, <code class="hljs inline no-lang" v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
                 <p><strong><code class="hljs inline no-lang" v-pre>--help</code></strong>: Shows the help message.</p>
@@ -269,14 +245,7 @@
                   <li>Alias: <code class="hljs inline no-lang" v-pre>-l</code> (lowercase L)</li>
                   <li>Example:<code class="hljs inline no-lang" v-pre>--last-modified-date</code> or <code class="hljs inline no-lang" v-pre>-l</code></li>
                 </ul>
-                <box type="info" seamless>
-                  <ul>
-                    <li>Cannot be used with <code class="hljs inline no-lang" v-pre>--shallow-cloning</code>.</li>
-                    <li>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.
-                    </li>
-                  </ul>
-                </box>
-
+                <p>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.</p>
 
                 <h3 id="output-o"><span id="output-o" class="anchor"></span><code class="hljs inline no-lang" v-pre>--output</code>, <code class="hljs inline no-lang" v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
                 <p><strong><code class="hljs inline no-lang" v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
@@ -317,19 +286,6 @@
                 </ul>
                 <box type="info" seamless>
                   <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--config</code>.
-                  </p>
-                </box>
-                <p></p>
-
-                <h3 id="shallow-cloning-s"><span id="shallow-cloning-s" class="anchor"></span><code class="hljs inline no-lang" v-pre>--shallow-cloning</code>, <code class="hljs inline no-lang" v-pre>-S</code><a class="fa fa-anchor" href="#shallow-cloning-s" onclick="event.stopPropagation()"></a></h3>
-                <p><strong><code class="hljs inline no-lang" v-pre>--shallow-cloning</code></strong>: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories where the <code class="hljs inline no-lang" v-pre>.git</code> file is smaller than 500 MB, as it would create overhead.</p>
-                <ul>
-                  <li>Default: RepoSense does not clone repositories using Git's shallow cloning functionality.</li>
-                  <li>Alias: <code class="hljs inline no-lang" v-pre>-S</code> (uppercase S)</li>
-                  <li>Example:<code class="hljs inline no-lang" v-pre>--shallow-cloning</code> or <code class="hljs inline no-lang" v-pre>-S</code></li>
-                </ul>
-                <box type="info" seamless>
-                  <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--last-modified-date</code>.
                   </p>
                 </box>
                 <p></p>
@@ -403,7 +359,7 @@
         <p><strong>You can use Vue.js devtools for frontend debugging on Chrome.</strong> Here are the steps:</p>
         <ol>
           <li>On your Chrome, visit the website of <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">Vue.js devtools</a> and add the extension.</li>
-          <li>Go to the detail page of this extension in Chrome's extension management panel and select <code class="hljs inline no-lang" v-pre>Allow access to file URLs</code>. If you are unable to locate it, copy the link: <code class="hljs inline no-lang" v-pre>chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd</code> and visit it on your Chrome.</li>
+          <li>Go the detail page of this extension in Chrome's extension management panel and select <code class="hljs inline no-lang" v-pre>Allow access to file URLs</code>. If you are unable to locate it, copy the link: <code class="hljs inline no-lang" v-pre>chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd</code> and visit it on your Chrome.</li>
           <li>Open any report generated by RepoSense.</li>
           <li>Press <code class="hljs inline no-lang" v-pre>F12</code> or right click and choose <code class="hljs inline no-lang" v-pre>inspect</code> at the report page.</li>
           <li>Choose <code class="hljs inline no-lang" v-pre>Vue</code> at the navigation bar.<br>
@@ -470,8 +426,7 @@
           <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
             <a class="nav-link py-1" href="#workflow">Workflow&#x200E;</a>
             <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
-              <a class="nav-link py-1" href="#find-the-suitable-pull-requests">Find the suitable pull requests&#x200E;</a>
-              <a class="nav-link py-1" href="#following-the-coding-standards">Following the coding standards&#x200E;</a>
+              <a class="nav-link py-1" href="#following-the-code-style">Following the code style&#x200E;</a>
               <a class="nav-link py-1" href="#running-the-app-from-code">Running the app from code&#x200E;</a>
               <a class="nav-link py-1" href="#debugging-front-end">Debugging (front-end)&#x200E;</a>
               <a class="nav-link py-1" href="#testing-front-end">Testing (front-end)&#x200E;</a>
@@ -493,7 +448,7 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Jul 7, 2021, 7:47:27 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Jul 7, 2021, 7:50:48 PM UTC]</small>
       </div>
     </footer>
   </div>
