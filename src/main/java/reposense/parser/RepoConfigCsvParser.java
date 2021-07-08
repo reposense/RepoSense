@@ -31,7 +31,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String IGNORE_COMMIT_LIST_CONFIG_HEADER = "Ignore Commit List";
     private static final String IGNORE_AUTHOR_LIST_CONFIG_HEADER = "Ignore Authors List";
     private static final String SHALLOW_CLONING_CONFIG_HEADER = "Shallow Cloning";
-    private static final String FIND_PREVIOUS_AUTHORS_HEADER = "Find Previous Authors";
+    private static final String FIND_PREVIOUS_AUTHORS_CONFIG_HEADER = "Find Previous Authors";
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -55,7 +55,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         return new String[] {
                 BRANCH_HEADER, FILE_FORMATS_HEADER, IGNORE_GLOB_LIST_HEADER, IGNORE_STANDALONE_CONFIG_HEADER,
                 IGNORE_COMMIT_LIST_CONFIG_HEADER, IGNORE_AUTHOR_LIST_CONFIG_HEADER, SHALLOW_CLONING_CONFIG_HEADER,
-                FIND_PREVIOUS_AUTHORS_HEADER
+                FIND_PREVIOUS_AUTHORS_CONFIG_HEADER
         };
     }
 
@@ -101,7 +101,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                     "Ignoring unknown value " + shallowCloningConfig + " in shallow cloning column.");
         }
 
-        String findPreviousAuthorsConfig = get(record, FIND_PREVIOUS_AUTHORS_HEADER);
+        String findPreviousAuthorsConfig = get(record, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER);
         boolean isFindingPreviousAuthorsPerformed = findPreviousAuthorsConfig
                                                         .equalsIgnoreCase(FIND_PREVIOUS_AUTHORS_KEYWORD);
 

@@ -1,2 +1,2 @@
 Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List,Shallow Cloning,Find Previous Authors
-https://github.com/FH-30/Test-Repo.git,master,,,,,,,yes
+https://github.com/FH-30/Test-Repo.git,master,,,,ab16e85f7a2ce1a0b0f0ef364891f5473ed9423d,,,yes
