@@ -81,7 +81,7 @@ public abstract class CliArguments {
         return numAnalysisThreads;
     }
 
-    public boolean isisFindingPreviousAuthorsPerformed() { return isFindingPreviousAuthorsPerformed; }
+    public boolean isFindingPreviousAuthorsPerformed() { return isFindingPreviousAuthorsPerformed; }
 
     @Override
     public boolean equals(Object other) {
