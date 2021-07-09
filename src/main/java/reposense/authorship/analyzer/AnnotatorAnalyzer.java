@@ -66,7 +66,7 @@ public class AnnotatorAnalyzer {
                 }
                 return Optional.empty();
             }
-            if (!authorAliasMap.containsKey(name)) {
+            if (!authorAliasMap.containsKey(name) && !authorConfig.hasAuthorConfigFile()) {
                 authorConfig.addAuthor(new Author(name));
             }
             return Optional.of(authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR));

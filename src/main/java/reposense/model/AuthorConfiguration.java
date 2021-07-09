@@ -28,6 +28,8 @@ public class AuthorConfiguration {
     private transient Map<String, Author> authorDetailsToAuthorMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
+    private boolean hasAuthorConfigFile = false;
+
     public AuthorConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
     }
@@ -272,5 +274,13 @@ public class AuthorConfiguration {
 
     public boolean isDefaultBranch() {
         return this.branch.equals(DEFAULT_BRANCH);
+    }
+
+    public void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
+        this.hasAuthorConfigFile = hasAuthorConfigFile;
+    }
+
+    public boolean hasAuthorConfigFile() {
+        return this.hasAuthorConfigFile;
     }
 }

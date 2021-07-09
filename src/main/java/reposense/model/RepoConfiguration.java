@@ -117,6 +117,7 @@ public class RepoConfiguration {
             if (authorConfig.getLocation().isEmpty()) {
                 for (RepoConfiguration repoConfig : repoConfigs) {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
+                    repoConfig.setHasAuthorConfigFile(authorConfig.hasAuthorConfigFile());
                 }
                 continue;
             }
@@ -133,6 +134,7 @@ public class RepoConfiguration {
             if (authorConfig.isDefaultBranch()) {
                 locationMatchingRepoConfigs.forEach(matchingRepoConfig -> {
                     matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
+                    matchingRepoConfig.setHasAuthorConfigFile(authorConfig.hasAuthorConfigFile());
                 });
                 continue;
             }
@@ -149,6 +151,7 @@ public class RepoConfiguration {
             }
 
             branchMatchingRepoConfig.addAuthors(authorConfig.getAuthorList());
+            branchMatchingRepoConfig.setHasAuthorConfigFile(authorConfig.hasAuthorConfigFile());
         }
     }
 
@@ -553,5 +556,9 @@ public class RepoConfiguration {
 
     public AuthorConfiguration getAuthorConfig() {
         return authorConfig;
+    }
+
+    public void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
+        this.authorConfig.setHasAuthorConfigFile(hasAuthorConfigFile);
     }
 }
