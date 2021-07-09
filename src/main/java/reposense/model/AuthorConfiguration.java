@@ -21,14 +21,14 @@ public class AuthorConfiguration {
     private static final Pattern EMAIL_PLUS_OPERATOR_PATTERN =
             Pattern.compile("^(?<prefix>.+)\\+(?<suffix>.*)(?<domain>@.+)$");
 
+    private static boolean hasAuthorConfigFile = false;
+
     private RepoLocation location;
     private String branch;
 
     private transient List<Author> authorList = new ArrayList<>();
     private transient Map<String, Author> authorDetailsToAuthorMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
-
-    private boolean hasAuthorConfigFile = false;
 
     public AuthorConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
@@ -276,11 +276,11 @@ public class AuthorConfiguration {
         return this.branch.equals(DEFAULT_BRANCH);
     }
 
-    public void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
-        this.hasAuthorConfigFile = hasAuthorConfigFile;
+    public static void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
+        AuthorConfiguration.hasAuthorConfigFile = hasAuthorConfigFile;
     }
 
-    public boolean hasAuthorConfigFile() {
-        return this.hasAuthorConfigFile;
+    public static boolean hasAuthorConfigFile() {
+        return AuthorConfiguration.hasAuthorConfigFile;
     }
 }
