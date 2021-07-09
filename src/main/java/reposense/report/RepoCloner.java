@@ -168,7 +168,12 @@ public class RepoCloner {
             Files.createDirectories(rootPath);
 
             logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
-            crp = GitClone.cloneBareAsync(config, rootPath, FileUtil.getBareRepoFolderName(config));
+
+            Path outputFolder = Paths.get(FileUtil.REPOS_ADDRESS,
+                    config.getRepoFolderName(),
+                    FileUtil.getBareRepoFolderName(config));
+
+            crp = GitClone.cloneBareAsync(config, Paths.get("."), outputFolder.toString());
         } catch (GitCloneException | IOException e) {
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
             return false;
