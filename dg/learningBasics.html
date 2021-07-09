@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="MarkBind 2.18.1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepoSense - Learning the Basics</title>
+  <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
+  <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+  <link rel="stylesheet" href="../markbind/css/octicons.css">
+  <link rel="stylesheet" href="../markbind/css/codeblock-light.min.css">
+  <link rel="stylesheet" href="../markbind/css/markbind.min.css">
+  <script src="../markbind/js/polyfill.min.js"></script>
+  <script src="../markbind/js/vue.min.js"></script>
+  <script src="../markbind/js/markbind.min.js"></script>
+  <script src="../markbind/js/jquery.min.js"></script>
+  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+  <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
+  <link rel="icon" href="/RepoSense/favicon.ico">
+</head>
+
+<body data-spy="scroll" data-target="#page-nav" data-offset="100">
+  <div id="app">
+    <header>
+      <navbar type="dark" placement="top" class="temp-navbar">
+        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
+        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/RepoSense/showcase.html" class="nav-link">SHOWCASE</a></li>
+        <li><a href="/RepoSense/ug/index.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
+        <li tags="dev"><a href="https://reposense.org" class="nav-link" target="_blank"><span><span aria-hidden="true" class="fas fa-external-link-alt"></span> PRODUCTION SITE</span></a></li>
+        <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
+        <li slot="right">
+          <form class="navbar-form">
+            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
+          </form>
+        </li>
+      </navbar>
+    </header>
+    <div id="flex-body">
+      <nav id="site-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-right-grey nav-inner position-sticky slim-scroll">
+          <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
+          <ul class="site-nav-list site-nav-list-root">
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/index.html"><strong>Contributing</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/settingUp.html"><strong>Setting up</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/learningBasics.html" class="current"><strong>Learning the basics</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/workflow.html"><strong>Workflow</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Design and implementation</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i>
+              </div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/architecture.html">Architecture</a></div>
+                </li>
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/report.html">HTML report</a></div>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/projectManagement.html"><strong>Project management</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/devOpsGuide.html"><strong>DevOps guide</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
+                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i>
+              </div>
+              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
+                <li>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/styleGuides.html">Style guides</a></div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
+
+      <div id="content-wrapper">
+        <div></div>
+        <h1 class="display-4" id="learning-the-basics"><span id="learning-the-basics" class="anchor"></span><span>Learning the Basics</span><a class="fa fa-anchor" href="#learning-the-basics" onclick="event.stopPropagation()"></a></h1>
+        <div class="lead">
+          <p>This is a learning guide for developers who are new to RepoSense.</p>
+        </div>
+        <box type="warning" seamless>
+          <p>Depending on what you know already and what you would like to work on (i.e., backend or frontend), you may find certain sections irrelevant to you and you can skip them accordingly.
+          </p>
+        </box>
+        <p></p>
+
+        <h2 id="backend"><span id="backend" class="anchor"></span>Backend<a class="fa fa-anchor" href="#backend" onclick="event.stopPropagation()"></a></h2>
+        <box type="info" seamless>
+          <p>This section is for developers who want to contribute to the backend of RepoSense. You may skip this section if you want to contribute as a pure frontend developer. Before you get started, you should have set up the project on your computer according to <a href="/RepoSense/dg/settingUp.html">the <em>Setting up</em> page</a>.
+          </p>
+        </box>
+        <p></p>
+        <p>The backend implementation of RepoSense is located in <code class="hljs inline no-lang" v-pre>src/main</code>.</p>
+        <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Know Java</strong></p>
+        <p>The RepoSense backend is mostly written in <code class="hljs inline no-lang" v-pre>Java 8</code>.</p>
+        <ol>
+          <li>You need to have a basic knowledge of Java before getting started, including its syntax, <a href="https://docs.oracle.com/javase/8/docs/api/">API</a>, and certain frameworks such as <a href="https://se-education.org/learningresources/contents/java/JUnit.html">JUnit</a>.</li>
+          <li>Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as <a href="https://se-education.org/learningresources/contents/java/JavaConcurrency.html">concurrency</a>, <a href="https://se-education.org/learningresources/contents/java/JavaSynchronization.html">synchronization</a>, and <a href="https://se-education.org/learningresources/contents/java/streams-an-introduction.html">streams</a>. These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc). They are optional but you may find them useful when working on certain issues.</li>
+        </ol>
+        <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Learn the RepoSense backend architecture</strong></p>
+        <p>You may want to refer to the <a href="/RepoSense/dg/architecture.html">backend architecture</a> to understand the RepoSense backend implementation logic.</p>
+        <p>To gain a more concrete idea of how the backend works, you can use the IDE Debugger and run RepoSense under the debugging mode to trace through the steps of how arguments from command line and CSV files are parsed, how repositories are cloned and analyzed, and how the JSON files are generated.</p>
+        <box type="warning" seamless>
+          <p>The information below is for <strong>Intellij</strong>. If you are using a different IDE, you may need to check the documentation of how to use the debugger separately.
+          </p>
+        </box>
+        <p></p>
+        <ul>
+          <li>Check the <a href="https://www.jetbrains.com/help/idea/debugging-your-first-java-application.html">debugging guide</a> if you are not familiar with debugging in <strong>Intelij</strong>.</li>
+          <li>In <code class="hljs inline no-lang" v-pre>RepoSense.java</code>, the main class, set appropriate break points. Here are some relevant method calls in the <code class="hljs inline no-lang" v-pre>main</code> method at which you can set the breakpoints:
+            <ul>
+              <li><code class="hljs inline no-lang" v-pre>ArgsParser.parse(args)</code>: RepoSense parses the CLI arguments from the command given by the user.</li>
+              <li><code class="hljs inline no-lang" v-pre>getRepoConfigurations(cliArguments)</code>: RepoSense gets the configuration for each repository by parsing the CSV files.</li>
+              <li><code class="hljs inline no-lang" v-pre>getReportConfigurations(cliArguments)</code>: RepoSense gets the report configuration (report title) by parsing the JSON files.</li>
+              <li><code class="hljs inline no-lang" v-pre>ReportGenerator.generateReposReport(...)</code> This is where the bulk of the work is conducted, including cloning repositories, analyzing repositories, and generating the JSON files to be used by the report.</li>
+            </ul>
+          </li>
+        </ul>
+        <box type="info" seamless>
+          <p>When tracing through the program execution, you can cross reference the architecture diagram and Javadoc of the class and method to check your understanding of the procedure.
+          </p>
+        </box>
+        <p></p>
+        <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Gain some hands-on experience</strong></p>
+        <p>Here are some small tasks for you to gain some basic knowledge of the code related to the RepoSense backend. You can do each in a separate branch in your local copy of the code.</p>
+        <panel type="primary"><template slot="header">
+            <p><strong>Task 1: Add a flag to pretty-print the JSON file</strong></p>
+          </template>
+          <p><strong>Task 1: Add a flag to pretty-print the JSON file</strong></p>
+          <ol>
+            <li><a href="/RepoSense/ug/generatingReports.html#generating-reports-locally">Generate a report locally</a>.</li>
+            <li>Open a generated JSON file. For example, you can open <code class="hljs inline no-lang" v-pre>summary.json</code> of the generated report.</li>
+            <li>You should see that the content in the JSON is compactly organized in 1 single line. This may affect readability for developer who wants to investigate the content in the JSON file.</li>
+          </ol>
+          <p><strong>Your Task</strong></p>
+          <p>Add a new CLI argument <code class="hljs inline no-lang" v-pre>--use-json-pretty-printing</code>, such that when a user runs the command <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repos LIST_OF_REPO_URLS --view --use-json-pretty-printing</code>, the JSON files <code class="hljs inline no-lang" v-pre>summary.json</code>, <code class="hljs inline no-lang" v-pre>authorship.json</code>, and <code class="hljs inline no-lang" v-pre>commits.json</code> will be printed in a more readable way.</p>
+          <panel><template slot="header">
+              <p>Hint 1</p>
+            </template>
+            <p>Try to understand the parsing process of the Command Line Arguments, which starts from <code class="hljs inline no-lang" v-pre>ArgsParser.parse(args)</code> in <code class="hljs inline no-lang" v-pre>RepoSense.java</code> and uses <code class="hljs inline no-lang" v-pre>ArgumentParser</code> to capture the arguments in the command string.</p>
+            <p>Therefore, the first step you can take is to add the following to <code class="hljs inline no-lang" v-pre>ArgsParser</code>.</p>
+            <pre><code class="hljs" v-pre><span>public static final String[] JSON_PRINT_MODE_FLAGS = new String[]{&quot;--use-json-pretty-printing&quot;, &quot;-j&quot;};
+</span></code></pre>
+            <p>In <code class="hljs inline no-lang" v-pre>getArgumentParser</code> method, add the following content to make <code class="hljs inline no-lang" v-pre>ArgumentParser</code> capture the new argument.</p>
+            <pre><code class="hljs" v-pre><span>parser.addArgument(JSON_PRINT_MODE_FLAGS)
+</span><span>    .dest(JSON_PRINT_MODE_FLAGS[0])
+</span><span>    .action(Arguments.storeTrue())
+</span><span>    .help(&quot;A flag to use json pretty printing when generating the json files.&quot;);
+</span></code></pre>
+          </panel>
+          <panel><template slot="header">
+              <p>Hint 2</p>
+            </template>
+            <p>After the step in hint 1, the argument is captured by <code class="hljs inline no-lang" v-pre>ArgumentParser</code>. Now make corresponding changes to <code class="hljs inline no-lang" v-pre>CliArguments.java</code>, <code class="hljs inline no-lang" v-pre>ConfigCliArguments.java</code>, and the <code class="hljs inline no-lang" v-pre>parse</code> method in <code class="hljs inline no-lang" v-pre>ArgsParser.java</code> to make the return result of <code class="hljs inline no-lang" v-pre>parse</code> include the new argument.</p>
+            <ol>
+              <li>Add the following content to <code class="hljs inline no-lang" v-pre>CliArguments</code> to include <code class="hljs inline no-lang" v-pre>isPrettyPrintingUsed</code> as a new attribute to the class.</li>
+            </ol>
+            <pre><code class="hljs" v-pre><span>protected boolean isPrettyPrintingUsed;
+</span><span>
+</span><span>public boolean isPrettyPrintingUsed() {
+</span><span>        return isPrettyPrintingUsed;
+</span><span>}
+</span></code></pre>
+            <ol start="2">
+              <li>In the constructor of <code class="hljs inline no-lang" v-pre>ConfigCliArguments</code>, add <code class="hljs inline no-lang" v-pre>isPrettyPrintingUsed</code> as a new parameter of the method, and add the following instruction to the method body.</li>
+            </ol>
+            <pre><code class="hljs" v-pre><span>this.isPrettyPrintingUsed = isPrettyPrintingUsed;
+</span></code></pre>
+            <ol start="3">
+              <li>In the <code class="hljs inline no-lang" v-pre>parse</code> method of <code class="hljs inline no-lang" v-pre>ArgsParser</code>, add the following instruction to get <code class="hljs inline no-lang" v-pre>isJsonPrettyPrintingUsed</code> from <code class="hljs inline no-lang" v-pre>ArgmentParser</code>.</li>
+            </ol>
+            <pre><code class="hljs" v-pre><span>boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
+</span></code></pre>
+            <ol start="4">
+              <li>Additionally, change the return statement of the <code class="hljs inline no-lang" v-pre>parse</code> method so that the <code class="hljs inline no-lang" v-pre>ConfigCliArguments</code> object returned will now include <code class="hljs inline no-lang" v-pre>isJsonPrettyPrintingUsed</code>.
+              </li>
+            </ol>
+          </panel>
+
+          <panel><template slot="header">
+              <p>Hint 3</p>
+            </template>
+            <p>After the steps in hint 1 and hint 2, the result returned from <code class="hljs inline no-lang" v-pre>ArgsParser.parse(args)</code> in <code class="hljs inline no-lang" v-pre>RepoSense.java</code> should be able to capture the new argument when it is specified in the command.</p>
+            <p>The next step is to extract the argument from the <code class="hljs inline no-lang" v-pre>CliArguments</code> object, and pass it to JSON file writer to notify it of the specified printing mode.</p>
+            <p>Note that the creation and writing of JSON file is invoked in <code class="hljs inline no-lang" v-pre>ReportGenerator.generateReposReport</code>, which calls <code class="hljs inline no-lang" v-pre>FileUtil.writeJsonFile</code> directly to write the <code class="hljs inline no-lang" v-pre>summary.json</code> file or indirectly (Check <code class="hljs inline no-lang" v-pre>generateIndividualRepoReport</code> and <code class="hljs inline no-lang" v-pre>generateEmptyRepoReport</code>) to write the <code class="hljs inline no-lang" v-pre>commits.json</code> or <code class="hljs inline no-lang" v-pre>authorship.json</code> files of individual repositories.</p>
+            <p>Therefore, the task now is to make <code class="hljs inline no-lang" v-pre>FileUtil.writeJsonFile</code> switch between different printing mode.</p>
+            <ol>
+              <li>
+                <p>You can find out what <a href="https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/GsonBuilder.html#setPrettyPrinting--"><code class="hljs inline no-lang" v-pre>Gson.setPrettyPrinting</code></a> does and how it can be used in the <code class="hljs inline no-lang" v-pre>writeJsonFile</code> method of <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/util/FileUtil.java"><code class="hljs inline no-lang" v-pre>FileUtil.java</code></a>.</p>
+              </li>
+              <li>
+                <p>Add the following content to <code class="hljs inline no-lang" v-pre>FileUtil</code>.</p>
+              </li>
+            </ol>
+            <pre><code class="hljs" v-pre><span>private static boolean isPrettyPrintingUsed = false;
+</span></code></pre>
+            <ol start="3">
+              <li>In the <code class="hljs inline no-lang" v-pre>writeJsonFile</code> method, Replace the creation of the <code class="hljs inline no-lang" v-pre>Gson</code> object with the following instructions.</li>
+            </ol>
+            <pre><code class="hljs" v-pre><span>GsonBuilder gsonBuilder = new GsonBuilder()
+</span><span>        .setDateFormat(GITHUB_API_DATE_FORMAT)
+</span><span>        .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer());
+</span><span>Gson gson;
+</span><span>if (isPrettyPrintingUsed) {
+</span><span>    gson = gsonBuilder.setPrettyPrinting().create();
+</span><span>} else {
+</span><span>    gson = gsonBuilder.create();
+</span><span>}
+</span></code></pre>
+            <ol start="4">
+              <li>To notify <code class="hljs inline no-lang" v-pre>FileUtil</code> of the switch between different printing mode, add the following method to <code class="hljs inline no-lang" v-pre>FileUtil</code>.</li>
+            </ol>
+            <pre><code class="hljs" v-pre><span>public static void setPrettyPrintingMode(boolean isPrettyPrintingAdopted) {
+</span><span>    isPrettyPrintingUsed = isPrettyPrintingAdopted;
+</span><span>}
+</span></code></pre>
+            <ol start="5">
+              <li>It is now possible to notify <code class="hljs inline no-lang" v-pre>FileUtil</code> of the printing mode switch by extracting the argument from the <code class="hljs inline no-lang" v-pre>CliArguments</code> object in the <code class="hljs inline no-lang" v-pre>main</code> method of <code class="hljs inline no-lang" v-pre>RepoSense.java</code> and passing it to the corresponding method in <code class="hljs inline no-lang" v-pre>FileUtil</code>.</li>
+            </ol>
+            <pre><code class="hljs" v-pre><span>FileUtil.setPrettyPrintingMode(cliArguments.isPrettyPrintingUsed());
+</span></code></pre>
+            <p>Now the parsing of argument and changing of printing mode should have been completed.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Suggested solution</p>
+            </template>
+            <p>There is more than 1 way to achieve this. By combining the changes in hint 1, hint 2, and hint 3, you should be able to get a possible solution.</p>
+            <p>Try the command <code class="hljs inline no-lang" v-pre>java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --view --use-json-pretty-printing</code> and check the generated JSON files to see if it works.
+            </p>
+          </panel>
+          <p></p>
+        </panel>
+        <panel type="primary"><template slot="header">
+            <p><strong>Task 2: Add exception message during repository cloning to the summary view</strong></p>
+          </template>
+          <p><strong>Task 2: Add exception message during repository cloning to the summary view</strong></p>
+          <ol>
+            <li>Open a <a href="https://dashboard-1507-pr-reposense-reposense.surge.sh/">report</a>.</li>
+            <li>You should see that there is a red panel in the summary view containing the following message, indicating that there is an issue in the cloning process of the repository <code class="hljs inline no-lang" v-pre>reposense/testrepo-Empty</code>.</li>
+          </ol>
+          <pre><code class="hljs" v-pre><span>reposense/testrepo-Empty[master]
+</span><span>        Failed to clone from https://github.com/reposense/testrepo-Empty.git
+</span></code></pre>
+          <p><strong>Your task</strong></p>
+          <p>For the repository with the message <code class="hljs inline no-lang" v-pre>Failed to clone from ...</code>, find out what exception causes this cloning error, and add that exception message to the panel as well.</p>
+          <panel><template slot="header">
+              <p>Hint 1</p>
+            </template>
+            <p>You can find out what <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ErrorSummary.java"><code class="hljs inline no-lang" v-pre>ErrorSummary.java</code></a> and <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/RepoCloner.java"><code class="hljs inline no-lang" v-pre>RepoCloner.java</code></a> do, and where they are used.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Hint 2</p>
+            </template>
+            <p>Try to understand the cloning process.</p>
+            <ul>
+              <li>The cloning process is invoked by <a href="https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java"><code class="hljs inline no-lang" v-pre>RepoGenerator.java</code></a> in the <code class="hljs inline no-lang" v-pre>cloneAndAnalyzeRepos</code> method, which subsequently calls <code class="hljs inline no-lang" v-pre>cloneBare</code> in <code class="hljs inline no-lang" v-pre>RepoCloner.java</code> to start the cloning.</li>
+              <li>The <code class="hljs inline no-lang" v-pre>cloneAndAnalyzeRepos</code> method will then call <code class="hljs inline no-lang" v-pre>getRepoLocation</code> in <code class="hljs inline no-lang" v-pre>RepoCloner.java</code> to try to get the repository location.</li>
+              <li>Beneath the surface, <code class="hljs inline no-lang" v-pre>RepoCloner</code> will first execute <code class="hljs inline no-lang" v-pre>spawnCloneProcess</code> and then execute <code class="hljs inline no-lang" v-pre>waitForCloneProcess</code> when it is invoked by <code class="hljs inline no-lang" v-pre>RepoGenerator</code> for the first and second time respectively.
+              </li>
+            </ul>
+          </panel>
+
+          <panel><template slot="header">
+              <p>Hint 3</p>
+            </template>
+            <p>In <code class="hljs inline no-lang" v-pre>RepoCloner</code>, the potential exceptions in <code class="hljs inline no-lang" v-pre>spawnCloneProcess</code> and <code class="hljs inline no-lang" v-pre>waitForCloneProcess</code> are caught but not recorded by <code class="hljs inline no-lang" v-pre>ErrorSummary</code>.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Suggested solution</p>
+            </template>
+            <p>There is more than 1 way to achieve this. One solution is shown as the following:</p>
+            <p>Add this to the catch block of <code class="hljs inline no-lang" v-pre>spawnCloneProcess</code> and <code class="hljs inline no-lang" v-pre>waitForCloneProcess</code>, so that the message will be captured in <code class="hljs inline no-lang" v-pre>summary.json</code>.</p>
+            <pre><code class="hljs" v-pre><span>ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), e.getMessage());
+</span></code></pre>
+          </panel>
+        </panel>
+        <box type="info" seamless>
+          <p>This is only for your practice. There is no need for you to commit this change and submit it in a pull request.
+          </p>
+        </box>
+        <p></p>
+        <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>Next Step</strong></p>
+        <p>You can now proceed to learn the <a href="/RepoSense/dg/workflow.html">contributing workflow</a>.</p>
+
+        <h2 id="frontend"><span id="frontend" class="anchor"></span>Frontend<a class="fa fa-anchor" href="#frontend" onclick="event.stopPropagation()"></a></h2>
+        <box type="info" seamless>
+          <p>This section is for developers who want to contribute to the frontend of RepoSense. You may skip this section if you want to contribute as a pure backend developer.
+          </p>
+        </box>
+        <p></p>
+        <p>The frontend implementation of RepoSense is located in <code class="hljs inline no-lang" v-pre>frontend/src</code>.</p>
+        <p><span class="badge badge-dark bigger-level0">Step 1</span> <strong>Learn the necessary tools</strong></p>
+        <p>It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before working on the project.</p>
+
+        <h3 id="vue-js"><span id="vue-js" class="anchor"></span>Vue.js<a class="fa fa-anchor" href="#vue-js" onclick="event.stopPropagation()"></a></h3>
+        <box type="info" seamless>
+          <p>Vue.js uses JavaScript as its programming language. Before learning <strong>Vue.js</strong>, you may need to first get yourself familiar with JavaScript syntax first.
+            You can refer to the <a href="https://devdocs.io/javascript/">Javascript documentation</a> to learn the basic syntax. There are plenty of other resources available and please feel free to find the resource most suitable for you.
+          </p>
+        </box>
+        <p></p>
+        <p>RepoSense uses <strong>Vue.js</strong> (Vue2) in its front-end implementation. In particular, major user interface components, such as <a href="/RepoSense/dg/report.html#summary-view-v-summary-js">summary view</a>, <a href="/RepoSense/dg/report.html#authorship-view-v-authorship-js">authorship view</a>, and <a href="/RepoSense/dg/report.html#zoom-view-v-zoom-js">zoom view</a>, are implemented as Vue components. The corresponding source files are in <code class="hljs inline no-lang" v-pre>frontend/src/static/js</code>.</p>
+        <ul>
+          <li>If you are new to Vue.js, you may want to start learning by looking at the <a href="https://www.vuemastery.com/courses/intro-to-vue-js/">the beginner tutorial</a>.</li>
+          <li>You can dive deeper later by checking the <a href="https://vuejs.org/v2/guide/index.html">Vue.js documentation</a> to learn about essential concepts such as component life cycle hooks, and component properties.</li>
+          <li>It is recommended if you can work on some small projects first to gain more solid understanding of Vue.js.</li>
+        </ul>
+        <box type="warning" seamless>
+          <p>The guide above uses HTML as the component template, which is not the case with RepoSense. You may wish to learn more about <a href="#pug">Pug</a> and its connection with HTML.
+          </p>
+        </box>
+        <p></p>
+        <h4 id="vuex"><span id="vuex" class="anchor"></span>Vuex<a class="fa fa-anchor" href="#vuex" onclick="event.stopPropagation()"></a></h4>
+        <p>RepoSense uses <strong>Vuex</strong> for the state management of the Vue components.</p>
+        <ul>
+          <li>You can check the <a href="https://vuex.vuejs.org/guide/#the-simplest-store">Vuex guide</a> to find out how Vuex can be used in a Vue project.</li>
+          <li>There is also a <a href="https://vueschool.io/courses/vuex-for-everyone">course</a> available that will walk you through an example of creating Vue application with Vuex.</li>
+        </ul>
+
+        <h3 id="pug"><span id="pug" class="anchor"></span>Pug<a class="fa fa-anchor" href="#pug" onclick="event.stopPropagation()"></a></h3>
+        <p>RepoSense uses Pug files as the template of each Vue component. The corresponding HTML templates will later be generated from the Pug files by <a href="https://github.com/ongspxm/spuild2">spuild</a> when generating the report.</p>
+        <box type="info" seamless>
+          <p>Since Pug is used to generate the HTML template, it is recommended that you have a basic knowledge of HTML before starting to learn Pug. Once you understand how HTML works, you can proceed to focus on how Pug is translated into HTML.
+          </p>
+        </box>
+        <p></p>
+        <ul>
+          <li>You can refer to the <a href="https://pugjs.org/api/getting-started.html">official documentation</a> or <a href="https://www.youtube.com/watch?v=kt3cEjjkCZA">this tutorial</a> to learn about the syntax of pug and how it is translated into HTML.</li>
+          <li>To get a hands-on experience, here is a <a href="https://pughtml.com/">Pug to HTML converter</a>. Feel free to try out a couple of examples on your own.</li>
+        </ul>
+
+        <h3 id="scss"><span id="scss" class="anchor"></span>Scss<a class="fa fa-anchor" href="#scss" onclick="event.stopPropagation()"></a></h3>
+        <p>SCSS is used for styling the Pug template. The corresponding CSS will later be generated from the SCSS files by <a href="https://github.com/ongspxm/spuild2">spuild</a> when generating the report. The corresponding source files are in <code class="hljs inline no-lang" v-pre>frontend/src/static/css</code>.</p>
+        <box type="info" seamless>
+          <p>It is recommended that you have a basic knowledge of CSS before starting to learn SCSS. Once you understand how CSS works, you can proceed to focus on how SCSS is translated into CSS.
+          </p>
+        </box>
+        <p></p>
+        <ul>
+          <li>You can refer to the <a href="https://sass-lang.com/documentation/style-rules">style rules</a> to learn about the similarities and differences between SCSS and CSS.</li>
+        </ul>
+        <p><span class="badge badge-dark bigger-level0">Step 2</span> <strong>Learn the RepoSense frontend architecture</strong></p>
+        <ul>
+          <li>You may want to refer to the <a href="/RepoSense/dg/report.html#report-architecture">frontend architecture</a> to understand the implementation.</li>
+          <li>Another way for you to understand the frontend is to use <strong>Vue.js devtools</strong> to learn how the various Vue Components interact with each other. You can refer to the <a href="/RepoSense/dg/workflow.html#debugging-front-end">frontend debugging guide</a> for more information.</li>
+        </ul>
+        <p><span class="badge badge-dark bigger-level0">Step 3</span> <strong>Gain some hands-on experience</strong></p>
+        <p>Here are some small tasks for you to gain some basic knowledge of the code related to the RepoSense frontend. You can do each in a separate branch in your local copy of the code.</p>
+        <panel type="primary"><template slot="header">
+            <p><strong>Task 1: Highlight the selected author name in the summary view</strong></p>
+          </template>
+          <p><strong>Task 1: Highlight the selected author name in the summary view</strong></p>
+          <ol>
+            <li>Open a <a href="https://dashboard-1507-pr-reposense-reposense.surge.sh/">report</a>.</li>
+            <li>Randomly open the authorship contribution panel of an author (The icon is <code class="hljs inline no-lang" v-pre>&lt;/&gt;</code>).</li>
+            <li>You should see that, after you open the panel, the author title background on the chart panel becomes yellow, and the background of the <code class="hljs inline no-lang" v-pre>&lt;/&gt;</code> icon you clicked becomes green.</li>
+          </ol>
+          <p><strong>Your Task</strong></p>
+          <p>Make corresponding changes to <code class="hljs inline no-lang" v-pre>summary charts</code> so that in step 3, after opening the panel, the font colour of the author title (in the form of <code class="hljs inline no-lang" v-pre>authorDisplayName(authorName)</code>) on the chart panel also becomes green.</p>
+          <panel><template slot="header">
+              <p>Hint 1</p>
+            </template>
+            <p>Try to locate where the author title is in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/summary_charts.pug"><code class="hljs inline no-lang" v-pre>summary_charts.pug</code></a>.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Hint 2</p>
+            </template>
+            <p>You can check what <code class="hljs inline no-lang" v-pre>activeUser</code> and <code class="hljs inline no-lang" v-pre>activeRepo</code> do in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_summary_charts.js"><code class="hljs inline no-lang" v-pre>v_summary_charts.js</code></a>.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Hint 3</p>
+            </template>
+            <p>Refer to how changes are made to the title background and icon background in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/summary_charts.pug"><code class="hljs inline no-lang" v-pre>summary_charts.pug</code></a>.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Hint 4</p>
+            </template>
+            <p>Some of the CSS styling for <code class="hljs inline no-lang" v-pre>summart_charts.pug</code> is in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/css/v_summary.scss"><code class="hljs inline no-lang" v-pre>v_summary.scss</code></a>. You can add corresponding class selector if necessary.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Suggested solution</p>
+            </template>
+            <p>There is more than 1 way to achieve this. One solution is shown as the following:</p>
+            <p>Add this to <code class="hljs inline no-lang" v-pre>v_summary.scss</code>.</p>
+            <pre><code class="hljs" v-pre><span>.active-text {
+</span><span>  color: mui-color('green');
+</span><span>}
+</span></code></pre>
+            <p>In <code class="hljs inline no-lang" v-pre>summary_charts.pug</code>, locate <code class="hljs inline no-lang" v-pre>summary-chart__title--name</code>, and add the following to its <code class="hljs inline no-lang" v-pre>v-bind:class</code> attribute map.</p>
+            <pre><code class="hljs" v-pre><span>'active-text': user.name === activeUser &amp;&amp; user.repoName === activeRepo
+</span></code></pre>
+          </panel>
+        </panel>
+        <panel type="primary"><template slot="header">
+            <p><strong>Task 2: Add tooltip for file path in authorship panel</strong></p>
+          </template>
+          <p><strong>Task 2: Add tooltip for file path in authorship panel</strong></p>
+          <ol>
+            <li>Open a <a href="https://dashboard-1507-pr-reposense-reposense.surge.sh/">report</a>.</li>
+            <li>Randomly open the authorship contribution panel of an author (The icon is <code class="hljs inline no-lang" v-pre>&lt;/&gt;</code>).</li>
+            <li>Select a random file in the authorship contribution panel, and hover your mouse on an icon on the file title, a corresponding tooltip will show up, suggesting what the purpose of the icon is. However, when you hover the mouse over the file path on the file title, there is no tool tip shown, even if clicking the path itself will also trigger some event.</li>
+          </ol>
+          <box type="info" seamless>
+            <p>For example, if you open the authorship contribution panel of an author in <code class="hljs inline no-lang" v-pre>reposense/RepoSense[master]</code> and hover the mouse over the triangular icon beside the file path <code class="hljs inline no-lang" v-pre>src/main/java/reposense/model/Author.java</code>, you should see a tooltip saying <code class="hljs inline no-lang" v-pre>Click to hide file details</code> above the icon. However, when you hover the mouse over the file path <code class="hljs inline no-lang" v-pre>src/main/java/reposense/model/Author.java</code>, there is no corresponding tooltip shown.
+            </p>
+          </box>
+          <p></p>
+          <p><strong>Your Task</strong></p>
+          <p>Make corresponding <code class="hljs inline no-lang" v-pre>authorship contribution panel</code> so that in step 3, when hovering your mouse over the file path:</p>
+          <ul>
+            <li>A tip saying <code class="hljs inline no-lang" v-pre>This is the file path. Click to hide file details</code> will show up when the file details are shown</li>
+            <li>A tip saying <code class="hljs inline no-lang" v-pre>This is the file path. Click to show file details</code> will show up when the file details are not shown.</li>
+          </ul>
+          <panel><template slot="header">
+              <p>Hint 1</p>
+            </template>
+            <p>Try to locate where the file title and the file path are in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/authorship.pug"><code class="hljs inline no-lang" v-pre>authorship.pug</code></a>.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Hint 2</p>
+            </template>
+            <p>You can check how tooltip is added for the triangular icon in the file title in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/authorship.pug"><code class="hljs inline no-lang" v-pre>authorship.pug</code></a>.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Hint 3</p>
+            </template>
+            <p>You can check what <code class="hljs inline no-lang" v-pre>file.active</code> does and how it is used to switch between different tooltip messages when hovering the mouse on the corresponding icon.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Suggested solution</p>
+            </template>
+            <p>There is more than 1 way to achieve this. One solution is shown as the following:</p>
+            <ol>
+              <li>In <code class="hljs inline no-lang" v-pre>authorship.pug</code>, locate the section that iterates through each file in <code class="hljs inline no-lang" v-pre>selectedFiles</code>.</li>
+              <li>There is a specific portion of the section that renders the toggle icon, the file index, and the file path of the file title.</li>
+              <li>Try to locate the <code class="hljs inline no-lang" v-pre>span</code> tag that renders <code class="hljs inline no-lang" v-pre>file.path</code>, and wraps it inside a new <code class="hljs inline no-lang" v-pre>tooptip</code>.</li>
+              <li>In the <code class="hljs inline no-lang" v-pre>tooltip</code>, use the following instructions to handle the switch of tooltip message.</li>
+            </ol>
+            <pre><code class="hljs" v-pre><span>span.tooltip-text(v-show=&quot;file.active&quot;) This is the file path. Click to hide file details
+</span><span>span.tooltip-text(v-show=&quot;!file.active&quot;) This is the file path. Click to show file details
+</span></code></pre>
+          </panel>
+        </panel>
+        <panel type="primary"><template slot="header">
+            <p><strong>Task 3: Add tooltip for commit message title in zoom panel</strong></p>
+          </template>
+          <p><strong>Task 3: Add tooltip for commit message title in zoom panel</strong></p>
+          <ol>
+            <li>Open a <a href="https://dashboard-1507-pr-reposense-reposense.surge.sh/">report</a>.</li>
+            <li>Randomly open the commits panel of an author.</li>
+            <li>Select a random commit in the commits panel, and hover your mouse on the icons on the commit title, there is no tooltip shown saying that it will redirect you to a different site.</li>
+          </ol>
+          <box type="info" seamless>
+            <p>For example, given the <a href="https://dashboard-1507-pr-reposense-reposense.surge.sh/?search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=&amp;timeframe=commit&amp;mergegroup=&amp;groupSelect=groupByRepos&amp;breakdown=false&amp;tabOpen=true&amp;tabType=zoom&amp;zA=eugenepeh&amp;zR=reposense%2FRepoSense%5Bmaster%5D&amp;zACS=99.28792569659443&amp;zS=2017-10-09&amp;zFS=&amp;zU=2021-04-04&amp;zMG=undefined&amp;zFTF=commit&amp;zFGS=groupByRepos&amp;zFR=false">report</a>, if you hover the mouse over the commit title <code class="hljs inline no-lang" v-pre>README: add acknowledgements section (#978)</code>, there is no corresponding tooltip shown, but when you click on the commit title, you will be redirected to a different site to see the commit details.
+            </p>
+          </box>
+          <p></p>
+          <p><strong>Your Task</strong></p>
+          <p>Make corresponding changes to <code class="hljs inline no-lang" v-pre>zoom panel</code> so that in step 3, when hovering your mouse over the commit title, a tooltip saying <code class="hljs inline no-lang" v-pre>Click to view the detailed file changes in the commit</code> will show up on the commit title.</p>
+          <panel><template slot="header">
+              <p>Hint 1</p>
+            </template>
+            <p>Try to locate where the commit title is in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/zoom.pug"><code class="hljs inline no-lang" v-pre>zoom.pug</code></a>.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Hint 2</p>
+            </template>
+            <p>You can check how tooltip is added for other icons in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/zoom.pug"><code class="hljs inline no-lang" v-pre>zoom.pug</code></a>.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Hint 3</p>
+            </template>
+            <p>Check what <code class="hljs inline no-lang" v-pre>selectedCommits</code> does and how the link and commit title of each commit is retrieved.
+            </p>
+          </panel>
+          <p></p>
+          <panel><template slot="header">
+              <p>Suggested solution</p>
+            </template>
+            <p>There is more than 1 way to achieve this. One solution is shown as the following:</p>
+            <ol>
+              <li>In <code class="hljs inline no-lang" v-pre>zoom.pug</code>, locate the section that iterates througth each <code class="hljs inline no-lang" v-pre>day</code> in <code class="hljs inline no-lang" v-pre>selectedCommits</code>.</li>
+              <li>The component that helps render the commit message title should be an <code class="hljs inline no-lang" v-pre>a</code> tag which uses the <code class="hljs inline no-lang" v-pre>getSliceLink</code> method to set the link to the commit details and uses <code class="hljs inline no-lang" v-pre>slice.messageTitle</code> to show the commit message title.</li>
+              <li>Wrap the <code class="hljs inline no-lang" v-pre>a</code> tag in a new <code class="hljs inline no-lang" v-pre>tooltip</code>.</li>
+              <li>In the <code class="hljs inline no-lang" v-pre>tooltip</code>, add the following content to show the tooltip message.</li>
+            </ol>
+            <pre><code class="hljs" v-pre><span>span.tooltip-text Click to view the detailed file changes in the commit
+</span></code></pre>
+          </panel>
+        </panel>
+        <box type="info" seamless>
+          <p>This is only for your practice. There is no need for you to commit this change and submit it in a pull request.
+          </p>
+        </box>
+        <p></p>
+        <p><span class="badge badge-dark bigger-level0">Step 4</span> <strong>Next Step</strong></p>
+        <p>You can now proceed to learn the <a href="/RepoSense/dg/workflow.html">contributing workflow</a>.</p>
+
+        <h2 id="devops"><span id="devops" class="anchor"></span>DevOps<a class="fa fa-anchor" href="#devops" onclick="event.stopPropagation()"></a></h2>
+        <p>If you want to understand and contribute to the DevOps aspect of RepoSense, you can refer to the <a href="https://github.com/reposense/RepoSense/wiki/DevOps-guide">DevOps guide</a> for more information.</p>
+        <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
+      </div>
+      <nav id="page-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-left-grey nav-inner position-sticky slim-scroll">
+
+          <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
+            <a class="nav-link py-1" href="#learning-the-basics">Learning the Basics&#x200E;</a>
+            <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
+              <a class="nav-link py-1" href="#backend">Backend&#x200E;</a>
+              <a class="nav-link py-1" href="#frontend">Frontend&#x200E;</a>
+              <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
+                <a class="nav-link py-1" href="#vue-js">Vue.js&#x200E;</a>
+                <a class="nav-link py-1" href="#pug">Pug&#x200E;</a>
+                <a class="nav-link py-1" href="#scss">Scss&#x200E;</a>
+              </nav>
+              <a class="nav-link py-1" href="#devops">DevOps&#x200E;</a>
+            </nav>
+
+          </nav>
+        </div>
+      </nav>
+    </div>
+    <footer>
+
+      <div class="text-center">
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Fri, Jul 9, 2021, 3:22:27 PM UTC]</small>
+      </div>
+    </footer>
+  </div>
+</body>
+<script src="../markbind/js/bootstrap-utility.min.js"></script>
+<script>
+  const baseUrl = '/RepoSense'
+  MarkBind.setupWithSearch()
+</script>
+<script src="../markbind/layouts/default/scripts.js"></script>
+<script>
+  if (MarkBind.AfterSetup) MarkBind.AfterSetup()
+</script>
+
+</html>

@@ -19,22 +19,22 @@
   <script src="../markbind/js/vue.min.js"></script>
   <script src="../markbind/js/markbind.min.js"></script>
   <script src="../markbind/js/jquery.min.js"></script>
-  <link rel="stylesheet" href="/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
   <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
-  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" href="/RepoSense/favicon.ico">
 </head>
 
 <body data-spy="scroll" data-target="#page-nav" data-offset="100">
   <div id="app">
     <header>
       <navbar type="dark" placement="top" class="temp-navbar">
-        <a slot="brand" href="/index.html" title="Home" class="navbar-brand"><img width="30px" src="/favicon.ico"></a>
-        <li><a href="/index.html" class="nav-link">HOME</a></li>
-        <li><a href="/showcase.html" class="nav-link">SHOWCASE</a></li>
-        <li><a href="/ug/index.html" class="nav-link">USER GUIDE</a></li>
-        <li><a href="/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
-        <li><a href="/about.html" class="nav-link">ABOUT</a></li>
-        <li><a href="/contact.html" class="nav-link">CONTACT</a></li>
+        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
+        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/RepoSense/showcase.html" class="nav-link">SHOWCASE</a></li>
+        <li><a href="/RepoSense/ug/index.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
         <li tags="dev"><a href="https://reposense.org" class="nav-link" target="_blank"><span><span aria-hidden="true" class="fas fa-external-link-alt"></span> PRODUCTION SITE</span></a></li>
         <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
         <li slot="right">
@@ -50,13 +50,16 @@
           <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
           <ul class="site-nav-list site-nav-list-root">
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/index.html"><strong>Contributing</strong></a></div>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/index.html"><strong>Contributing</strong></a></div>
             </li>
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/settingUp.html" class="current"><strong>Setting up</strong></a></div>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/settingUp.html" class="current"><strong>Setting up</strong></a></div>
             </li>
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/workflow.html"><strong>Workflow</strong></a></div>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/learningBasics.html"><strong>Learning the basics</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/workflow.html"><strong>Workflow</strong></a></div>
             </li>
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Design and implementation</strong>
@@ -65,15 +68,18 @@
               </div>
               <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/dg/architecture.html">Architecture</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/architecture.html">Architecture</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/dg/report.html">HTML report</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/report.html">HTML report</a></div>
                 </li>
               </ul>
             </li>
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/projectManagement.html"><strong>Project management</strong></a></div>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/projectManagement.html"><strong>Project management</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/devOpsGuide.html"><strong>DevOps guide</strong></a></div>
             </li>
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
@@ -82,7 +88,7 @@
               </div>
               <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/dg/styleGuides.html">Style guides</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/styleGuides.html">Style guides</a></div>
                 </li>
               </ul>
             </li>
@@ -216,6 +222,11 @@
                       <li>Alias: <code class="hljs inline no-lang" v-pre>-f</code></li>
                       <li>Example:<code class="hljs inline no-lang" v-pre>--formats css fxml gradle</code> or <code class="hljs inline no-lang" v-pre>-f css fxml gradle</code></li>
                     </ul>
+                    <box type="info" seamless>
+                      <p>Binary file formats, such as <code class="hljs inline no-lang" v-pre>jpg</code>, <code class="hljs inline no-lang" v-pre>png</code>,<code class="hljs inline no-lang" v-pre>exe</code>,<code class="hljs inline no-lang" v-pre>zip</code>, <code class="hljs inline no-lang" v-pre>rar</code>, <code class="hljs inline no-lang" v-pre>docx</code>, and <code class="hljs inline no-lang" v-pre>pptx</code>, all will be labelled as the file type <code class="hljs inline no-lang" v-pre>binary</code> in the generated report.
+                      </p>
+                    </box>
+                    <p></p>
 
                     <h3 id="help-h"><span id="help-h" class="anchor"></span><code class="hljs inline no-lang" v-pre>--help</code>, <code class="hljs inline no-lang" v-pre>-h</code><a class="fa fa-anchor" href="#help-h" onclick="event.stopPropagation()"></a></h3>
                     <p><strong><code class="hljs inline no-lang" v-pre>--help</code></strong>: Shows the help message.</p>
@@ -248,7 +259,14 @@
                       <li>Alias: <code class="hljs inline no-lang" v-pre>-l</code> (lowercase L)</li>
                       <li>Example:<code class="hljs inline no-lang" v-pre>--last-modified-date</code> or <code class="hljs inline no-lang" v-pre>-l</code></li>
                     </ul>
-                    <p>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.</p>
+                    <box type="info" seamless>
+                      <ul>
+                        <li>Cannot be used with <code class="hljs inline no-lang" v-pre>--shallow-cloning</code>.</li>
+                        <li>The last modified dates will be in the same timezone specified with the <code class="hljs inline no-lang" v-pre>--timezone</code> flag.
+                        </li>
+                      </ul>
+                    </box>
+
 
                     <h3 id="output-o"><span id="output-o" class="anchor"></span><code class="hljs inline no-lang" v-pre>--output</code>, <code class="hljs inline no-lang" v-pre>-o</code><a class="fa fa-anchor" href="#output-o" onclick="event.stopPropagation()"></a></h3>
                     <p><strong><code class="hljs inline no-lang" v-pre>--output OUTPUT_DIRECTORY</code></strong>: Indicates where to save the report generated.</p>
@@ -289,6 +307,19 @@
                     </ul>
                     <box type="info" seamless>
                       <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--config</code>.
+                      </p>
+                    </box>
+                    <p></p>
+
+                    <h3 id="shallow-cloning-s"><span id="shallow-cloning-s" class="anchor"></span><code class="hljs inline no-lang" v-pre>--shallow-cloning</code>, <code class="hljs inline no-lang" v-pre>-S</code><a class="fa fa-anchor" href="#shallow-cloning-s" onclick="event.stopPropagation()"></a></h3>
+                    <p><strong><code class="hljs inline no-lang" v-pre>--shallow-cloning</code></strong>: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories where the <code class="hljs inline no-lang" v-pre>.git</code> file is smaller than 500 MB, as it would create overhead.</p>
+                    <ul>
+                      <li>Default: RepoSense does not clone repositories using Git's shallow cloning functionality.</li>
+                      <li>Alias: <code class="hljs inline no-lang" v-pre>-S</code> (uppercase S)</li>
+                      <li>Example:<code class="hljs inline no-lang" v-pre>--shallow-cloning</code> or <code class="hljs inline no-lang" v-pre>-S</code></li>
+                    </ul>
+                    <box type="info" seamless>
+                      <p>Cannot be used with <code class="hljs inline no-lang" v-pre>--last-modified-date</code>.
                       </p>
                     </box>
                     <p></p>
@@ -361,7 +392,7 @@
         </div>
         <p></p>
         <h2 id="before-you-start-coding"><span id="before-you-start-coding" class="anchor"></span>Before you start coding<a class="fa fa-anchor" href="#before-you-start-coding" onclick="event.stopPropagation()"></a></h2>
-        <p>... read the <a href="/dg/workflow.html">Workflow</a> section.</p>
+        <p>... read the <a href="/RepoSense/dg/workflow.html">Workflow</a> section.</p>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
       <nav id="page-nav" class="navbar navbar-light bg-transparent">
@@ -383,14 +414,14 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Jul 7, 2021, 8:02:37 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Fri, Jul 9, 2021, 3:22:27 PM UTC]</small>
       </div>
     </footer>
   </div>
 </body>
 <script src="../markbind/js/bootstrap-utility.min.js"></script>
 <script>
-  const baseUrl = ''
+  const baseUrl = '/RepoSense'
   MarkBind.setupWithSearch()
 </script>
 <script src="../markbind/layouts/default/scripts.js"></script>

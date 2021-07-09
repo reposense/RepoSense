@@ -61,6 +61,22 @@
       "headingKeywords": {}
     },
     {
+      "src": "dg/devOpsGuide.md",
+      "title": "DevOps Guide",
+      "headings": {
+        "devops-guide": "DevOps Guide",
+        "github-actions": "GitHub Actions",
+        "continuous-integration": "Continuous integration",
+        "report-and-documentation-previews": "Report and documentation previews",
+        "github-pages": "GitHub Pages",
+        "stale-pull-requests": "Stale pull requests",
+        "codecov": "Codecov",
+        "appveyor": "Appveyor",
+        "surge-sh": "Surge.sh"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "dg/index.md",
       "title": "Developer guide",
       "headings": {
@@ -70,11 +86,26 @@
       "headingKeywords": {}
     },
     {
+      "src": "dg/learningBasics.md",
+      "title": "Learning the Basics",
+      "headings": {
+        "learning-the-basics": "Learning the Basics",
+        "backend": "Backend",
+        "frontend": "Frontend",
+        "vue-js": "Vue.js",
+        "pug": "Pug",
+        "scss": "Scss",
+        "devops": "DevOps"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "dg/projectManagement.md",
       "title": "Project management",
       "headings": {
         "project-management": "Project management",
         "merging-prs": "Merging PRs",
+        "making-a-release-on-github": "Making a release on Github",
         "deploying-the-production-website": "Deploying the production website"
       },
       "headingKeywords": {}
@@ -131,7 +162,8 @@
       "title": "Workflow",
       "headings": {
         "workflow": "Workflow",
-        "following-the-code-style": "Following the code style",
+        "find-the-suitable-pull-requests": "Find the suitable pull requests",
+        "following-the-coding-standards": "Following the coding standards",
         "running-the-app-from-code": "Running the app from code",
         "debugging-front-end": "Debugging (front-end)",
         "testing-front-end": "Testing (front-end)",
@@ -174,6 +206,7 @@
         "output-o": "--output, -o",
         "period-p": "--period, -p",
         "repos-r": "--repos, -r",
+        "shallow-cloning-s": "--shallow-cloning, -S",
         "since-s": "--since, -s",
         "timezone-t": "--timezone, -t",
         "until-u": "--until, -u",
@@ -268,7 +301,7 @@
         "contribution-bar-and-code-panel-is-empty-despite-a-non-empty-ramp-chart": "Contribution bar and code panel is empty (despite a non-empty ramp chart)",
         "reposense-is-not-using-the-standalone-config-file-in-my-local-repository": "RepoSense is not using the standalone config file in my local repository",
         "reposense-fails-on-windows-but-works-on-linux-mac-os": "RepoSense fails on Windows (but works on Linux/Mac OS)",
-        "some-files-are-not-captured-by-reposense": "Some files are not captured by RepoSense"
+        "some-file-types-are-not-shown-in-the-file-type-filter-even-if-i-have-included-them-in-the-file-formats-when-generating-the-report": "Some file types are not shown in the file type filter even if I have included them in the file formats when generating the report"
       },
       "headingKeywords": {}
     },

@@ -19,22 +19,22 @@
   <script src="../markbind/js/vue.min.js"></script>
   <script src="../markbind/js/markbind.min.js"></script>
   <script src="../markbind/js/jquery.min.js"></script>
-  <link rel="stylesheet" href="/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
   <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
-  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" href="/RepoSense/favicon.ico">
 </head>
 
 <body data-spy="scroll" data-target="#page-nav" data-offset="100">
   <div id="app">
     <header>
       <navbar type="dark" placement="top" class="temp-navbar">
-        <a slot="brand" href="/index.html" title="Home" class="navbar-brand"><img width="30px" src="/favicon.ico"></a>
-        <li><a href="/index.html" class="nav-link">HOME</a></li>
-        <li><a href="/showcase.html" class="nav-link">SHOWCASE</a></li>
-        <li><a href="/ug/index.html" class="nav-link">USER GUIDE</a></li>
-        <li><a href="/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
-        <li><a href="/about.html" class="nav-link">ABOUT</a></li>
-        <li><a href="/contact.html" class="nav-link">CONTACT</a></li>
+        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
+        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/RepoSense/showcase.html" class="nav-link">SHOWCASE</a></li>
+        <li><a href="/RepoSense/ug/index.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
         <li tags="dev"><a href="https://reposense.org" class="nav-link" target="_blank"><span><span aria-hidden="true" class="fas fa-external-link-alt"></span> PRODUCTION SITE</span></a></li>
         <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
         <li slot="right">
@@ -50,13 +50,16 @@
           <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
           <ul class="site-nav-list site-nav-list-root">
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/index.html"><strong>Contributing</strong></a></div>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/index.html"><strong>Contributing</strong></a></div>
             </li>
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/settingUp.html"><strong>Setting up</strong></a></div>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/settingUp.html"><strong>Setting up</strong></a></div>
             </li>
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/workflow.html"><strong>Workflow</strong></a></div>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/learningBasics.html"><strong>Learning the basics</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/workflow.html"><strong>Workflow</strong></a></div>
             </li>
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Design and implementation</strong>
@@ -65,15 +68,18 @@
               </div>
               <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/dg/architecture.html">Architecture</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/architecture.html">Architecture</a></div>
                 </li>
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/dg/report.html">HTML report</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/report.html">HTML report</a></div>
                 </li>
               </ul>
             </li>
             <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/dg/projectManagement.html" class="current"><strong>Project management</strong></a></div>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/projectManagement.html" class="current"><strong>Project management</strong></a></div>
+            </li>
+            <li>
+              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/devOpsGuide.html"><strong>DevOps guide</strong></a></div>
             </li>
             <li>
               <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
@@ -82,7 +88,7 @@
               </div>
               <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
                 <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/dg/styleGuides.html">Style guides</a></div>
+                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/styleGuides.html">Style guides</a></div>
                 </li>
               </ul>
             </li>
@@ -104,6 +110,34 @@
           <li><strong>Use the 'squash and merge' option</strong> unless the situation warrants a different option.</li>
           <li><strong>For the merge commit</strong>, follow conventions at <a href="https://se-education.org/guides/conventions/github.html"><em>GitHub conventions</em> @SE-EDU</a>.</li>
         </ul>
+
+        <h2 id="making-a-release-on-github"><span id="making-a-release-on-github" class="anchor"></span>Making a release on Github<a class="fa fa-anchor" href="#making-a-release-on-github" onclick="event.stopPropagation()"></a></h2>
+        <p>Before making a release, please check the following prerequisites:</p>
+        <ul>
+          <li>Ensure that you have <strong>JDK <code class="hljs inline no-lang" v-pre>1.8.0</code></strong> installed (<mark>Not other major release versions such as <strong>JDK <code class="hljs inline no-lang" v-pre>9</code></strong> or <strong>JDK <code class="hljs inline no-lang" v-pre>11</code></strong></mark>).</li>
+          <li>Ensure that the <code class="hljs inline no-lang" v-pre>JAVA_HOME</code> environment variable is correctly set to your JDK installation directory. You can refer to the <a href="https://docs.oracle.com/cd/E19182-01/821-0917/inst_jdk_javahome_t/index.html">JDK Installation Guide</a>.</li>
+        </ul>
+        <p>To make a release for RepoSense on Github, please follow the <code class="hljs inline no-lang" v-pre>Creating a release</code> section in the <a href="https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository">Github Docs</a>.<br></p>
+        <p>Take note of the following when making the release according to the above guide:</p>
+        <ul>
+          <li>When entering a release version number, use semantic versioning with some small tweaks:
+            <ul>
+              <li>Use <code class="hljs inline no-lang" v-pre>MAJOR.MINOR</code> as the version number when the release includes new features and/or major changes.</li>
+              <li>Use <code class="hljs inline no-lang" v-pre>MAJOR.MINOR.PATCH</code> as the version number when the release only includes bug fixes and/or minor changes.</li>
+              <li>Append <code class="hljs inline no-lang" v-pre>rc</code> to the version number to indicate that the release is a pre-release that is not ready to be used in production.</li>
+            </ul>
+          </li>
+          <li>Enter the release title as <code class="hljs inline no-lang" v-pre>RepoSense vxxx</code> where <code class="hljs inline no-lang" v-pre>xxx</code> is the version number. Enter the release description by referring to the previous <a href="https://github.com/reposense/RepoSense/releases">RepoSense releases</a>.</li>
+          <li>Before launching the release, generate the <code class="hljs inline no-lang" v-pre>RepoSense.jar</code> file and attach it to the release.
+            <ul>
+              <li>Change the directory to the project root directory.</li>
+              <li>In the terminal, run <code class="hljs inline no-lang" v-pre>gradlew --version</code> to check that the JDK version is 1.8.0.</li>
+              <li>Run <code class="hljs inline no-lang" v-pre>gradlew shadowJar</code>, and the Jar file will be generated at <code class="hljs inline no-lang" v-pre>{buildDir}/jar/</code>.</li>
+              <li>Check that the Jar file is working. You may need to check that the report can be generated from the Jar file both locally and remotely by following the <a href="/RepoSense/ug/generatingReports.html">Generating Reports Guide</a>.</li>
+            </ul>
+          </li>
+        </ul>
+        <p>After making the release, please also remember to deploy the production website using the <a href="#deploying-the-production-website">deploy guide</a>.</p>
 
         <h2 id="deploying-the-production-website"><span id="deploying-the-production-website" class="anchor"></span>Deploying the production website<a class="fa fa-anchor" href="#deploying-the-production-website" onclick="event.stopPropagation()"></a></h2>
         <p>We have two versions of the website:</p>
@@ -133,7 +167,7 @@
           <li><code class="hljs inline no-lang" v-pre>cd docs</code></li>
           <li><code class="hljs inline no-lang" v-pre>markbind build</code></li>
           <li><code class="hljs inline no-lang" v-pre>markbind deploy</code></li>
-          <li>After a few minutes, check <a href="https://markbind.org">https://markbind.org</a> to ensure it has been updated as intended.</li>
+          <li>After a few minutes, check <a href="https://reposense.org">https://reposense.org</a> to ensure it has been updated as intended.</li>
         </ol>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
@@ -144,6 +178,7 @@
             <a class="nav-link py-1" href="#project-management">Project management&#x200E;</a>
             <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
               <a class="nav-link py-1" href="#merging-prs">Merging PRs&#x200E;</a>
+              <a class="nav-link py-1" href="#making-a-release-on-github">Making a release on Github&#x200E;</a>
               <a class="nav-link py-1" href="#deploying-the-production-website">Deploying the production website&#x200E;</a>
             </nav>
 
@@ -154,14 +189,14 @@
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Wed, Jul 7, 2021, 8:02:37 PM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Fri, Jul 9, 2021, 3:22:27 PM UTC]</small>
       </div>
     </footer>
   </div>
 </body>
 <script src="../markbind/js/bootstrap-utility.min.js"></script>
 <script>
-  const baseUrl = ''
+  const baseUrl = '/RepoSense'
   MarkBind.setupWithSearch()
 </script>
 <script src="../markbind/layouts/default/scripts.js"></script>
