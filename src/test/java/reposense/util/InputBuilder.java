@@ -41,7 +41,7 @@ public class InputBuilder {
      * @param path The config folder path.
      */
     public InputBuilder addConfig(Path path) {
-        input.append(ArgsParser.CONFIG_FLAGS[0] + WHITESPACE + path + WHITESPACE);
+        input.append(ArgsParser.CONFIG_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
     }
 
@@ -54,7 +54,7 @@ public class InputBuilder {
     public InputBuilder addRepos(String... paths) {
         input.append(ArgsParser.REPO_FLAGS[0] + WHITESPACE);
         for (String path : paths) {
-            input.append(path + WHITESPACE);
+            input.append(addQuotationMarksToPath(path) + WHITESPACE);
         }
         return this;
     }
@@ -66,7 +66,7 @@ public class InputBuilder {
      * @param path The view folder path.
      */
     public InputBuilder addView(Path path) {
-        input.append(ArgsParser.VIEW_FLAGS[0] + WHITESPACE + path + WHITESPACE);
+        input.append(ArgsParser.VIEW_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
     }
 
@@ -86,7 +86,7 @@ public class InputBuilder {
      * @param path The output folder path.
      */
     public InputBuilder addOutput(Path path) {
-        input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + path + WHITESPACE);
+        input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
     }
 
@@ -210,4 +210,13 @@ public class InputBuilder {
         input = new StringBuilder();
         return this;
     }
+
+    private static String addQuotationMarksToPath(String path) {
+        return '"' + path + '"';
+    }
+
+    private static String addQuotationMarksToPath(Path path) {
+        return addQuotationMarksToPath(path.toString());
+    }
+
 }
