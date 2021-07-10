@@ -20,8 +20,9 @@ public class AuthorConfiguration {
     private static final Logger logger = LogsManager.getLogger(AuthorConfiguration.class);
     private static final Pattern EMAIL_PLUS_OPERATOR_PATTERN =
             Pattern.compile("^(?<prefix>.+)\\+(?<suffix>.*)(?<domain>@.+)$");
+    private static final boolean DEFAULT_HAS_AUTHOR_CONFIG_FILE = false;
 
-    private static boolean hasAuthorConfigFile = false;
+    private static boolean hasAuthorConfigFile = DEFAULT_HAS_AUTHOR_CONFIG_FILE;
 
     private RepoLocation location;
     private String branch;
