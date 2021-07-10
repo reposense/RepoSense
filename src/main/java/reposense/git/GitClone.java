@@ -97,7 +97,7 @@ public class GitClone {
      */
     public static void clone(RepoConfiguration config) throws GitCloneException {
         try {
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
+            Path rootPath = FileUtil.getRepoParentFolder(config);
             Path repoPath = Paths.get(rootPath.toString(), config.getRepoName());
 
             if (!SystemUtil.isTestEnvironment()) {
@@ -107,8 +107,8 @@ public class GitClone {
             } else {
                 logger.info("Cloning from " + config.getLocation() + "...");
                 Files.createDirectories(rootPath);
-                String command = getCloneCommand(config, config.getRepoName());
-                runCommand(rootPath, command);
+                String command = getCloneCommand(config, repoPath.toString());
+                runCommand(Paths.get("."), command);
 
                 logger.info("Cloning completed!");
             }
@@ -138,18 +138,10 @@ public class GitClone {
      * Clones a bare repo specified in {@code config} into the folder {@code outputFolderName}.
      * @throws IOException if it fails to delete a directory.
      */
-    public static void cloneBare(RepoConfiguration config, String outputFolderName) throws IOException {
-        Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
-        Path outputFolderPath = Paths.get(rootPath.toString(), outputFolderName);
-
-        if (!SystemUtil.isTestEnvironment()) {
-            FileUtil.deleteDirectory(outputFolderPath.toString());
-            Files.createDirectories(rootPath);
-        } else if (SystemUtil.isTestEnvironment() && Files.exists(outputFolderPath)) {
-            return;
-        }
-
-        String command = getCloneBareCommand(config, outputFolderName);
+    public static void cloneBare(RepoConfiguration config, Path rootPath,
+            String outputFolderName) throws IOException {
+        Path outputFolderPath = Paths.get(outputFolderName);
+        String command = getCloneBareCommand(config, addQuote(outputFolderName));
         runCommand(rootPath, command);
     }
 
@@ -208,9 +200,10 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneBareCommand(RepoConfiguration config, String outputFolderName) {
-        return "git clone --bare "
+        String output = "git clone --bare "
                 + addQuote(config.getLocation().toString()) + " "
                 + outputFolderName;
+        return output;
     }
 
     /**
