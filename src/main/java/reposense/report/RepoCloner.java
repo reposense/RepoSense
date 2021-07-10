@@ -1,5 +1,7 @@
 package reposense.report;
 
+import static reposense.util.FileUtil.getRepoParentFolder;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,8 +27,6 @@ import reposense.system.CommandRunnerProcessException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 import reposense.util.SystemUtil;
-
-import static reposense.util.FileUtil.getRepoParentFolder;
 
 /**
  * Handles asynchronous cloning of repos to allow multiple repos to be cloned and analyzed concurrently.
