@@ -1,6 +1,6 @@
 {% set title = "Appendix: Using `@@author` tags" %}
 <frontmatter>
-  title "Appendix: Using `@@author` tags"
+  title: "{{ title | safe }}"
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
