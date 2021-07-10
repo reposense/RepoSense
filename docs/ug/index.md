@@ -5,7 +5,7 @@
 
 {% from 'scripts/macros.njk' import embed, step, thumbnail with context %}
 
-<h1 class="display-3"><md>{{ title | trim }}</md></h1>
+<h1 class="display-3"><md>{{ title }}</md></h1>
 
 <div class="lead">
 
