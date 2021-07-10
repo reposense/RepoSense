@@ -141,6 +141,12 @@ public class GitClone {
     public static void cloneBare(RepoConfiguration config, Path rootPath,
             String outputFolderName) throws IOException {
         Path outputFolderPath = Paths.get(outputFolderName);
+        if (!SystemUtil.isTestEnvironment()) {
+            FileUtil.deleteDirectory(outputFolderName);
+            FileUtil.createDirectory(outputFolderPath);
+        } else if (SystemUtil.isTestEnvironment() && Files.exists(outputFolderPath)) {
+            return;
+        }
         String command = getCloneBareCommand(config, addQuote(outputFolderName));
         runCommand(rootPath, command);
     }
