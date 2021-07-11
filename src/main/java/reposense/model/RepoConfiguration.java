@@ -68,7 +68,7 @@ public class RepoConfiguration {
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
         this.isShallowCloningPerformed = isShallowCloningPerformed;
-        this.isFindingPreviousAuthorsPerformed= isFindingPreviousAuthorsPerformed;
+        this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -564,5 +564,8 @@ public class RepoConfiguration {
         return isIgnoreCommitListOverriding;
     }
 
-    public boolean isFindingPreviousAuthorsPerformed() { return isFindingPreviousAuthorsPerformed; }
+    public boolean isFindingPreviousAuthorsPerformed() {
+        return isFindingPreviousAuthorsPerformed;
+    }
+
 }

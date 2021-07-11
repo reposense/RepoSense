@@ -3,7 +3,6 @@
 *.iml
 /target/
 .gradle/
-.git-blame-ignore-revs
 
 repos/
 logs/

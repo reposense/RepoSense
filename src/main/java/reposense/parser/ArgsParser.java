@@ -191,9 +191,9 @@ public class ArgsParser {
         parser.addArgument(FIND_PREVIOUS_AUTHORS_FLAGS)
                 .dest(FIND_PREVIOUS_AUTHORS_FLAGS[0])
                 .action(Arguments.storeTrue())
-                .help("A flag to make RepoSense employ git blame's ignore revisions functionality, it will ignore " +
-                        "the revisions caused by commits in the ignore commit list and find previous authors for the " +
-                        "revised areas of code from non-ignored commits (if available).");
+                .help("A flag to make RepoSense employ git blame's ignore revisions functionality, it will ignore "
+                        + "the revisions caused by commits in the ignore commit list and find previous authors for the "
+                        + "revised areas of code from non-ignored commits (if available).");
 
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)

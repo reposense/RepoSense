@@ -111,6 +111,11 @@ public class FileUtil {
         }
     }
 
+    /**
+     * Writes the ignore revs file containing the {@code ignoreCommitList} at the given {@code path}.
+     * @return An Optional containing the Path to the ignore revs file, or an empty Optional
+     *         if there was an error while writing the ignore revs file.
+     */
     public static Optional<Path> writeIgnoreRevsFile(String path, List<CommitHash> ignoreCommitList) {
         String contentOfIgnoreRevsFile = ignoreCommitList
                                             .stream()
