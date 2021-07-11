@@ -109,7 +109,17 @@ shadowJar {
     }
 }
 
-task zipReport(dependsOn: 'npmRunSpuild', type: Zip) {
+task installFrontend(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
+    workingDir './frontend'
+}
+
+task buildFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    dependsOn(installNewFrontend)
+    workingDir './frontend'
+    args = ['run', 'devbuild']
+}
+
+task zipReport(dependsOn: 'buildNewFrontend', type: Zip) {
     from 'frontend/build/'
     baseName = 'templateZip'
     destinationDir = file('src/main/resources')
@@ -203,24 +213,14 @@ String getRepoSenseVersion() {
 }
 
 // New Frontend Tasks
-task installNewFrontend(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
-    workingDir './new-frontend'
-}
-
-task buildNewFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    dependsOn(installNewFrontend)
-    workingDir './new-frontend'
-    args = ['run', 'devbuild']
-}
-
-task syncNewFrontend(type: Sync) {
-    from 'new-frontend/build'
-    into 'new-reposense-report'
-    includeEmptyDirs = false
-    preserve {
-        '**/*.json'
-    }
-}
+// task syncFrontend(type: Sync) {
+//     from 'frontend/build'
+//     into 'reposense-report'
+//     includeEmptyDirs = false
+//     preserve {
+//         '**/*.json'
+//     }
+// }
 
 task syncGeneratedJsonToNewFrontend(type: Sync) {
     from 'reposense-report'
