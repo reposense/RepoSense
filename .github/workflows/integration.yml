@@ -65,8 +65,8 @@ jobs:
 
     - name: Run linter
       run: |
-        npm install
-        npm run lint
+        npm install --prefix ./frontend
+        npm run --prefix ./frontend lint
 
     - name: Build with Gradle
       run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
@@ -153,8 +153,8 @@ jobs:
 
     - name: Run linter
       run: |
-        npm install
-        npm run lint
+        npm install --prefix ./frontend
+        npm run --prefix ./frontend lint
 
     - name: Build with Gradle
       run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
