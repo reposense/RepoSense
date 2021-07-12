@@ -1,0 +1,19 @@
+{
+  "name": "reposense",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://travis-ci.org/reposense/RepoSense.svg?branch=master)](https://travis-ci.org/reposense/RepoSense) [![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reposense/RepoSense.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reposense/RepoSense/issues"
+  },
+  "homepage": "https://github.com/reposense/RepoSense#readme",
+}
