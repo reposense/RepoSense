@@ -1,9 +1,11 @@
 package reposense.util;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
@@ -266,6 +268,14 @@ public class TestUtil {
      * Returns the path to a resource
      */
     public static Path loadResource(Class classForLoading, String pathToResource) {
-        return new File(classForLoading.getClassLoader().getResource(pathToResource).getFile()).toPath();
+        ClassLoader classLoader = classForLoading.getClassLoader();
+        URL url = classLoader.getResource(pathToResource);
+        Path path = null;
+        try {
+            path = Paths.get(url.toURI());
+        } catch (URISyntaxException e) {
+            System.out.println("URL format does not follow required standard");
+        }
+        return path;
     }
 }

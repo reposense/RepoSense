@@ -78,8 +78,8 @@ jobs:
     - name: Build preview website (pull request)
       if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
       run: |
-        git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1" && ./gradlew buildAtNewReposenseReport
-        npm install -g markbind-cli
+        git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+        npm install -g markbind-cli@2.18.1
         (cd docs && markbind build)
 
     - name: Save PR number and HEAD commit (pull request)
@@ -96,7 +96,6 @@ jobs:
         name: reposense-deployment
         path: |
           ./reposense-report
-          ./new-reposense-report
           ./docs/_site
           ./pr
 
@@ -221,6 +220,3 @@ jobs:
 
     - name: Run frontend tests
       run: ./gradlew frontendTest -Pci
-
-    - name: Run projectify frontend tests
-      run: ./gradlew newFrontendTest -Pci
