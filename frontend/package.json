@@ -9,8 +9,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "serveOpen": "vue-cli-service serve --open",
-    "lint": "eslint src/**/*.{js,vue} cypress/**.js && stylelint ./src/**/*.{vue,scss}",
-    "lintfix": "eslint --fix src/**/*.{js,vue} cypress/**.js && stylelint --fix ./src/**/*.{vue,scss}",
+    "lint": "eslint src/**/*.{js,vue} && stylelint ./src/**/*.{vue,scss} && npm run puglint",
+    "lintfix": "eslint --fix src/**/*.{js,vue} cypress/tests/**/*.js && stylelint --fix ./src/**/*.{vue,scss}",
     "puglint": "pug-lint-vue src",
     "build": "vue-cli-service build",
     "devbuild": "vue-cli-service build --mode development"
@@ -36,6 +36,7 @@
     "minimatch": "^3.0.4",
     "pug-lint-vue": "^0.4.0",
     "seedrandom": "^3.0.5",
+    "stylelint-config-standard": "^18.3.0",
     "vue": "^2.6.11",
     "vue-loading-overlay": "^3.4.2",
     "vue-template-compiler": "^2.6.12",
