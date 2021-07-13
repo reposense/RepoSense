@@ -490,7 +490,7 @@ public class ReportGenerator {
     }
 
     private static String getIgnoreRevsFilePath(String targetFileLocation) {
-        return targetFileLocation + "/" + GitBlame.IGNORE_COMMIT_LIST_FILE_NAME;
+        return targetFileLocation + GitBlame.IGNORE_COMMIT_LIST_FILE_NAME;
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {
