@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import reposense.parser.InvalidLocationException;
 import reposense.report.ErrorSummary;
 import reposense.util.StringsUtil;
+import reposense.util.SystemUtil;
 
 /**
  * Represents a repository location.
@@ -28,7 +29,9 @@ public class RepoLocation {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoLocation(String location) throws InvalidLocationException {
-        location = StringsUtil.removeTrailingBackslash(location);
+        if (SystemUtil.isWindows()) {
+            location = StringsUtil.removeTrailingBackslash(location);
+        }
         verifyLocation(location);
         this.location = location;
         Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
