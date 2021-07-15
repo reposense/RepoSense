@@ -45,4 +45,29 @@ public class StringsUtilTest {
 
         Assert.assertEquals(expectedConvertedString, convertedString);
     }
+
+    @Test
+    public void removeTrailingBackslash_stringWithMultipleTrailingBackslash_success() {
+        String multipleTrailingBackslashString = "abc\\cde\\\\\\";
+        String expectedString = "abc\\cde";
+        String actualString = StringsUtil.removeTrailingBackslash(multipleTrailingBackslashString);
+
+        Assert.assertEquals(expectedString, actualString);
+    }
+
+    @Test
+    public void removeTrailingBackslash_stringWithNoTrailingBackslash_noChange() {
+        String multipleTrailingBackslashString = "abc\\cde";
+        String actualString = StringsUtil.removeTrailingBackslash(multipleTrailingBackslashString);
+
+        Assert.assertEquals(multipleTrailingBackslashString, actualString);
+    }
+
+    @Test
+    public void removeTrailingBackslash_emptyString_noChange() {
+        String emptyString = "";
+        String actualString = StringsUtil.removeTrailingBackslash(emptyString);
+
+        Assert.assertEquals(emptyString, actualString);
+    }
 }
