@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class TimeUtilTest {
     @Test
-    public void extractDate_validDate_success() {
+    public void extractDate_validDate_success() throws Exception {
         String expectedDate = "20/05/2019";
         String actualDate = TimeUtil.extractDate(expectedDate);
         Assert.assertEquals(expectedDate, actualDate);
