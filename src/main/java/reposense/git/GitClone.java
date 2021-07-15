@@ -192,16 +192,6 @@ public class GitClone {
     }
 
     /**
-     * Constructs the command to clone a repo specified in the {@code config}
-     * into the folder {@code outputFolderName} and subsequently branches to {@code branch}.
-     */
-    private static String getCloneAndBranchCommand(RepoConfiguration config, String branch, String outputFolderName) {
-        return "git clone " + addQuote(config.getLocation().toString()) + " "
-                + "--branch " + branch + " "
-                + outputFolderName;
-    }
-
-    /**
      * Constructs the command to clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
      */
