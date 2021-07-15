@@ -44,7 +44,7 @@ public class TestUtil {
      * Also prints out error message if the lines count are different,
      * else prints out the first line of content difference (if any).
      */
-    public static boolean compareFileContents(Path expected, Path actual) throws IOException {
+    public static boolean compareFileContents(Path expected, Path actual) throws Exception {
         return compareFileContents(expected, actual, 1);
     }
 
@@ -53,7 +53,7 @@ public class TestUtil {
      * Also prints out error message if the lines count are different,
      * else prints out maximum {@code maxTraceCounts} lines of content difference (if any).
      */
-    public static boolean compareFileContents(Path expected, Path actual, int maxTraceCounts) throws IOException {
+    public static boolean compareFileContents(Path expected, Path actual, int maxTraceCounts) throws Exception {
         int traceCounts = 0;
 
         System.out.println(String.format(MESSAGE_COMPARING_FILES, expected, actual));
@@ -84,7 +84,7 @@ public class TestUtil {
     /**
      * Returns true if {@code expected} directory has all files with same content as {@code actual} directory.
      */
-    public static boolean compareDirectories(Path expected, Path actual) throws IOException {
+    public static boolean compareDirectories(Path expected, Path actual) throws Exception {
         List<Path> expectedPaths = Files.walk(expected)
                 .sorted()
                 .collect(Collectors.toList());
