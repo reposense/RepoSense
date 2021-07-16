@@ -1,7 +1,7 @@
 package reposense.util;
 
 /**
- * Contains sytem related functionalities.
+ * Contains system related functionalities.
  */
 public class SystemUtil {
 
@@ -10,5 +10,13 @@ public class SystemUtil {
      */
     public static boolean isWindows() {
         return (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0);
+    }
+
+    /**
+     * Returns true if the current environment is a test environment (defined by build.gradle)
+     */
+    public static boolean isTestEnvironment() {
+        String environment = System.getenv("REPOSENSE_ENVIRONMENT");
+        return ((environment != null) && (environment.equals("TEST")));
     }
 }

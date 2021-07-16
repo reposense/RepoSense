@@ -1,4 +1,4 @@
-/* global Vuex */
+/* global Vuex getFontColor */
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 window.vSummary = {
@@ -21,11 +21,11 @@ window.vSummary = {
       filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
-      hasModifiedSinceDate: window.app.isSinceDateProvided,
-      hasModifiedUntilDate: window.app.isUntilDateProvided,
+      hasModifiedSinceDate: window.isSinceDateProvided,
+      hasModifiedUntilDate: window.isUntilDateProvided,
       filterHash: '',
-      minDate: '',
-      maxDate: '',
+      minDate: window.sinceDate,
+      maxDate: window.untilDate,
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
@@ -153,7 +153,7 @@ window.vSummary = {
     },
 
     getReportIssueTitle() {
-      return encodeURI('Unexpected error with RepoSense version ') + window.app.repoSenseVersion;
+      return encodeURI('Unexpected error with RepoSense version ') + window.repoSenseVersion;
     },
 
     getReportIssueMessage(message) {
@@ -246,30 +246,6 @@ window.vSummary = {
       }
     },
 
-    getDates() {
-      if (this.minDate && this.maxDate) {
-        return;
-      }
-
-      const minDate = window.app.sinceDate;
-      const maxDate = window.app.untilDate;
-
-      if (!this.filterSinceDate) {
-        this.minDate = minDate;
-        if (!this.tmpFilterSinceDate || this.tmpFilterSinceDate < minDate) {
-          this.tmpFilterSinceDate = minDate;
-        }
-      }
-
-      if (!this.filterUntilDate) {
-        this.maxDate = maxDate;
-        if (!this.tmpFilterUntilDate || this.tmpFilterUntilDate > maxDate) {
-          this.tmpFilterUntilDate = maxDate;
-        }
-      }
-      this.$emit('get-dates', [this.minDate, this.maxDate]);
-    },
-
     getGroupName(group) {
       return window.getGroupName(group, this.filterGroupSelection);
     },
@@ -283,7 +259,6 @@ window.vSummary = {
 
     getFiltered() {
       this.setSummaryHash();
-      this.getDates();
       window.deactivateAllOverlays();
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
@@ -711,6 +686,8 @@ window.vSummary = {
 
       return window.getDateStr(datems);
     },
+
+    getFontColor,
   },
   created() {
     this.processFileTypes();

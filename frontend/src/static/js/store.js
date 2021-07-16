@@ -37,6 +37,11 @@ const store = new Vuex.Store({
     },
     updateTabState(state, isTabOpen) {
       state.isTabActive = isTabOpen;
+      window.addHash('tabOpen', isTabOpen);
+      if (!isTabOpen) {
+        window.removeHash('tabType');
+      }
+      window.encodeHash();
     },
   },
 });

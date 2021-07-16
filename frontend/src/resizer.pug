@@ -11,7 +11,7 @@
     @mousedown.left="registerMouseMove",
     v-show="isTabActive"
   )
-    .tab-close(v-on:click="$emit('close-tab')")
+    .tab-close(v-on:click="closeTab")
       i.fas.fa-caret-right
   .right-resize-container(
     v-bind:style="rightContainerStyles",

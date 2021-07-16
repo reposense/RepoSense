@@ -2,14 +2,12 @@ package reposense.template;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
@@ -25,7 +23,6 @@ import reposense.model.CommitHash;
 import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.util.FileUtil;
 
 /**
  * Contains templates for git testing.
@@ -45,8 +42,8 @@ public class GitTestTemplate {
     protected static final String JAMES_AUTHOR_NAME = "jamessspanggg";
     protected static final String JAMES_ALTERNATIVE_AUTHOR_NAME = "James Pang";
     protected static final String JINYAO_AUTHOR_NAME = "jylee-git";
-    protected static final String LATEST_COMMIT_HASH = "136c6713fc00cfe79a1598e8ce83c6ef3b878660";
-    protected static final String LATEST_COMMIT_HASH_PARENT = "b28dfac5bd449825c1a372e58485833b35fdbd50";
+    protected static final String LATEST_COMMIT_HASH = "c08107145269d5d5bb42ad78833774b7e5532977";
+    protected static final String LATEST_COMMIT_HASH_PARENT = "136c6713fc00cfe79a1598e8ce83c6ef3b878660";
     protected static final String EMPTY_TREE_HASH = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
     protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING =
             "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
@@ -92,24 +89,14 @@ public class GitTestTemplate {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        deleteRepos();
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setZoneId(TIME_ZONE_ID_STRING);
         GitClone.clone(config);
     }
 
-    @AfterClass
-    public static void afterClass() throws IOException {
-        deleteRepos();
-    }
-
     @After
     public void after() {
         GitCheckout.checkout(config.getRepoRoot(), "master");
-    }
-
-    private static void deleteRepos() throws IOException {
-        FileUtil.deleteDirectory(FileUtil.REPOS_ADDRESS);
     }
 
     /**
