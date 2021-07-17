@@ -254,7 +254,7 @@ task zipNewReport(dependsOn: 'buildNewFrontend', type: Zip) {
     destinationDir = file('src/main/resources')
 }
 
-tasks.compileJava.mustRunAfter('zipNewReport');
+tasks.compileJava.mustRunAfter('zipReport');
 
 task runNew(type: JavaExec) {
     dependsOn(zipNewReport)
