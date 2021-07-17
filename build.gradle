@@ -105,29 +105,29 @@ shadowJar {
     destinationDir = file("${buildDir}/jar/")
 
     manifest {
-    	attributes 'Implementation-Version': getRepoSenseVersion()
+        attributes 'Implementation-Version': getRepoSenseVersion()
     }
 }
 
-task installFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    workingDir = file("${project.projectDir}/frontend")
-    args = ['install']
+task installNewFrontend(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
+    workingDir './frontend'
 }
 
-task buildFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    dependsOn(installFrontend)
-    workingDir = file("${project.projectDir}/frontend")
+task buildNewFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    dependsOn(installNewFrontend)
+    workingDir './frontend'
     args = ['run', 'devbuild']
 }
 
-task zipReport(dependsOn: 'buildFrontend', type: Zip) {
+task zipReport(dependsOn: 'buildNewFrontend', type: Zip) {
     from 'frontend/build/'
     baseName = 'templateZip'
     destinationDir = file('src/main/resources')
 }
 
 tasks.shadowJar.dependsOn('zipReport');
-tasks.compileJava.dependsOn('zipReport');
+tasks.compileJava.mustRunAfter('zipReport');
+tasks.run.dependsOn('zipReport');
 tasks.run.dependsOn('compileJava');
 
 task systemtest(dependsOn: 'zipReport', type: Test) {
@@ -162,14 +162,16 @@ task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) 
     workingDir = file('frontend/cypress/')
 }
 
-task cypress(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task cypress(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    tasks.startServerInBackground.mustRunAfter('zipReport')
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
 }
 
-task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task frontendTest(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    tasks.startServerInBackground.mustRunAfter('zipReport')
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
@@ -210,9 +212,78 @@ String getRepoSenseVersion() {
     return repoSenseVersion
 }
 
+// New Frontend Tasks
+// task installNewFrontend(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
+//     workingDir './frontend'
+// }
+
+// task buildNewFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+//     dependsOn(installNewFrontend)
+//     workingDir './frontend'
+//     args = ['run', 'devbuild']
+// }
+
+task syncNewFrontend(type: Sync) {
+    from 'new-frontend/build'
+    into 'new-reposense-report'
+    includeEmptyDirs = false
+    preserve {
+        '**/*.json'
+    }
+}
+
+task syncGeneratedJsonToNewFrontend(type: Sync) {
+    from 'reposense-report'
+    into 'new-reposense-report'
+    include '**/*.json'
+    includeEmptyDirs = false
+    preserve {
+        include 'index.html'
+        include 'favicon.ico'
+        include '**/*.js'
+    }
+}
+
+task buildAtNewReposenseReport(type: GradleBuild) {
+    tasks = ['buildNewFrontend', 'syncNewFrontend', 'syncGeneratedJsonToNewFrontend']
+}
+
+task zipNewReport(dependsOn: 'buildNewFrontend', type: Zip) {
+    from 'new-frontend/build/'
+    baseName = 'templateZip'
+    destinationDir = file('src/main/resources')
+}
+
+tasks.compileJava.mustRunAfter('zipNewReport');
+
+task runNew(type: JavaExec) {
+    dependsOn(zipNewReport)
+    dependsOn(compileJava)
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    args System.getProperty('args', '').split()
+    systemProperty "version", getRepoSenseVersion()
+    doLast {
+        println 'New report built at ./reposense-report.'
+    }
+}
+
+task newFrontendTest(dependsOn: ['zipNewReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    tasks.startServerInBackground.mustRunAfter('zipNewReport')
+    tasks.startServerInBackground.mustRunAfter('installCypress')
+
+    workingDir = file('frontend/cypress/')
+    args = ["run-script", "tests"]
+
+    // Run tests in CI without slow motion
+    if (project.hasProperty('ci')) {
+        args = ["run-script", "ci"]
+    }
+}
+
 task syncFrontendPublic(type: Sync) {
     from 'reposense-report'
-    into 'frontend/public/'
+    into 'new-frontend/public/'
     include '**/*.json'
     includeEmptyDirs = false
     preserve {
@@ -222,14 +293,14 @@ task syncFrontendPublic(type: Sync) {
 }
 
 task macHotReloadFrontend(type: Exec) {
-    dependsOn(installFrontend)
+    dependsOn(installNewFrontend)
     onlyIf {Os.isFamily(Os.FAMILY_MAC)}
     workingDir './frontend'
     commandLine 'osascript', '-e', '"tell application "Terminal" to do script "npm run serveOpen""'
 }
 
 task windowsHotReloadFrontend(type: Exec) {
-    dependsOn(installFrontend)
+    dependsOn(installNewFrontend)
     onlyIf {Os.isFamily(Os.FAMILY_WINDOWS)}
     workingDir './frontend'
     commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
@@ -240,6 +311,7 @@ task hotReloadFrontend() {
     finalizedBy windowsHotReloadFrontend
     finalizedBy macHotReloadFrontend
 }
+// End of New Frontend Tasks
 
 void deleteReposAddressDirectory() {
     final String REPOS_ADDRESS = "repos"
