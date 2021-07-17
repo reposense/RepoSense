@@ -116,7 +116,7 @@ task installFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask)
 
 task buildFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     dependsOn(installFrontend)
-    workingDir './frontend'
+    workingDir = file("${project.projectDir}/frontend")
     args = ['run', 'devbuild']
 }
 
