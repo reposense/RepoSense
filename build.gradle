@@ -14,7 +14,7 @@ plugins {
 
 mainClassName = 'reposense.RepoSense'
 
-node.nodeVersion = '10.16.0'
+node.nodeVersion = '12.18.3'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -162,7 +162,7 @@ task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) 
     workingDir = file('frontend/cypress/')
 }
 
-task cypress(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task cypress(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
