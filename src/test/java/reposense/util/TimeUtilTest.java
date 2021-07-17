@@ -16,7 +16,7 @@ public class TimeUtilTest {
     }
 
     @Test
-    public void extractDate_validDateAndTime_success() throws Exception {
+    public void extractDate_validDateAndTime_success() {
         String originalDateAndTime = "20/05/2020 12:34:56";
         String expectedDate = "20/05/2020";
         String actualDate = TimeUtil.extractDate(originalDateAndTime);
