@@ -10,6 +10,7 @@
     "rules": {
         "vue/component-definition-name-casing": ["error", "kebab-case"],
         "vue/order-in-components": 0,  // Should remove eventually
+        "vue/require-prop-types": 0, // Should remove eventually
         "no-param-reassign": 0,
         "arrow-parens": ["error", "always"],
         "indent": ["error", 2, {
