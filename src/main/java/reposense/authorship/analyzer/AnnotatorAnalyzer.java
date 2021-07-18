@@ -19,6 +19,10 @@ public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
     private static final String REGEX_AUTHOR_NAME_FORMAT = "([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])";
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
+    private static final String REGEX_COMMENT_WITH_AUTHOR_TAG_FORMAT = "^[^\\w]*" + AUTHOR_TAG;
+    private static final Pattern PATTERN_COMMENT_WITH_AUTHOR_TAG_FORMAT =
+            Pattern.compile(REGEX_COMMENT_WITH_AUTHOR_TAG_FORMAT);
+
     private static final int MATCHER_GROUP_AUTHOR_NAME = 1;
 
     /**
@@ -28,7 +32,9 @@ public class AnnotatorAnalyzer {
         Optional<Author> currentAnnotatedAuthor = Optional.empty();
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
-            if (lineInfo.getContent().contains(AUTHOR_TAG)) {
+            String lineContent = lineInfo.getContent();
+            Matcher matcher = PATTERN_COMMENT_WITH_AUTHOR_TAG_FORMAT.matcher(lineContent);
+            if (matcher.find()) {
                 Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorConfig,
                         currentAnnotatedAuthor);
 
