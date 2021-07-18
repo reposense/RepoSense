@@ -17,13 +17,14 @@ import reposense.model.AuthorConfiguration;
  */
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
-    private static final String REGEX_AUTHOR_NAME_FORMAT = "([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])";
+    // reference: https://github.com/shinnn/github-username-regex
+    private static final String REGEX_AUTHOR_NAME_FORMAT = "[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}";
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
-    private static final String REGEX_COMMENT_WITH_AUTHOR_TAG_FORMAT = "^[^\\w]*" + AUTHOR_TAG;
+    private static final String REGEX_COMMENT_WITH_AUTHOR_TAG_FORMAT = "^[^\\w]*@@author(\\s[a-zA-Z0-9]+)?[\\s]*$";
     private static final Pattern PATTERN_COMMENT_WITH_AUTHOR_TAG_FORMAT =
             Pattern.compile(REGEX_COMMENT_WITH_AUTHOR_TAG_FORMAT);
 
-    private static final int MATCHER_GROUP_AUTHOR_NAME = 1;
+    private static final int MATCHER_GROUP_AUTHOR_NAME = 0;
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
