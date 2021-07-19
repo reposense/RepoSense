@@ -64,6 +64,7 @@ public class AuthorConfigParserTest {
     private static final List<String> SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS = Collections.emptyList();
     private static final List<String> THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS =
             Arrays.asList("Borex T\"ony Tong");
+    @SuppressWarnings("unchecked")
     private static final Map<Author, List<String>> AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP =
             Stream.of(new Object[][]{
                     {FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS},
