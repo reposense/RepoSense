@@ -230,7 +230,7 @@ public class RepoConfiguration {
     public static void setStandaloneConfigIgnoredToRepoConfigs(
             List<RepoConfiguration> configs, boolean ignoreAllStandaloneConfigs) {
         if (ignoreAllStandaloneConfigs) {
-            configs.stream().forEach(config -> config.setStandaloneConfigIgnored(true));
+            configs.forEach(config -> config.setStandaloneConfigIgnored(true));
         }
     }
 
