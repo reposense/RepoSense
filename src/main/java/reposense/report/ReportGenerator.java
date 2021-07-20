@@ -95,7 +95,7 @@ public class ReportGenerator {
     private static final List<String> assetsFilesWhiteList =
             Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
 
-    private static final boolean DEFAULT_IS_CLONING_FOR_TEST_FORCED = false;
+    private static final boolean DEFAULT_IS_FRESH_CLONE_FOR_TEST_REQUIRED =     false;
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -110,7 +110,7 @@ public class ReportGenerator {
             Supplier<String> reportGenerationTimeProvider, ZoneId zoneId) throws IOException {
         return generateReposReport(configs, outputPath, assetsPath, reportConfig, generationDate,
                 cliSinceDate, untilDate, isSinceDateProvided, isUntilDateProvided, numCloningThreads,
-                numAnalysisThreads, reportGenerationTimeProvider, zoneId, DEFAULT_IS_CLONING_FOR_TEST_FORCED);
+                numAnalysisThreads, reportGenerationTimeProvider, zoneId, DEFAULT_IS_FRESH_CLONE_FOR_TEST_REQUIRED);
     }
 
     /**
@@ -123,7 +123,8 @@ public class ReportGenerator {
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
             ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
             boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads, int numAnalysisThreads,
-            Supplier<String> reportGenerationTimeProvider, ZoneId zoneId, boolean isCloningForTestForced) throws IOException {
+            Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
+            boolean isFreshCloneForTestRequired) throws IOException {
         prepareTemplateFile(reportConfig, outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
@@ -133,7 +134,7 @@ public class ReportGenerator {
         progressTracker = new ProgressTracker(configs.size());
 
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath,
-                numCloningThreads, numAnalysisThreads, isCloningForTestForced);
+                numCloningThreads, numAnalysisThreads, isFreshCloneForTestRequired);
 
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
@@ -206,7 +207,7 @@ public class ReportGenerator {
      * @return A list of paths to the JSON report files generated for each repository.
      */
     private static List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath,
-            int numCloningThreads, int numAnalysisThreads, boolean isCloningForTestForced) {
+            int numCloningThreads, int numAnalysisThreads, boolean isFreshCloneForTestRequired) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
 
@@ -222,7 +223,7 @@ public class ReportGenerator {
             // Note that the `cloneExecutor` is passed as a parameter to ensure that the number of threads used
             // for cloning is no more than `numCloningThreads`.
             CompletableFuture<CloneJobOutput> cloneFuture = CompletableFuture.supplyAsync(() ->
-                    cloneRepo(configsToAnalyze.get(0), location, isCloningForTestForced), cloneExecutor);
+                    cloneRepo(configsToAnalyze.get(0), location, isFreshCloneForTestRequired), cloneExecutor);
 
             // The `thenApplyAsync` method is used to analyze the cloned repo in parallel.
             // This ensures that the analysis job for each repo will only be run after the repo has been cloned.
@@ -273,9 +274,9 @@ public class ReportGenerator {
      * successful, and the {@code defaultBranch} of the repo.
      */
     private static CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location,
-                                            boolean isCloningForTestForced) {
+                                            boolean isFreshCloneForTestRequired) {
         RepoCloner repoCloner = new RepoCloner();
-        repoCloner.cloneBare(config, isCloningForTestForced);
+        repoCloner.cloneBare(config, isFreshCloneForTestRequired);
         RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
         if (clonedRepoLocation != null) {
             String defaultBranch = repoCloner.getCurrentRepoDefaultBranch();
