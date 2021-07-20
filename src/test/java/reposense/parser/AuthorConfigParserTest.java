@@ -3,6 +3,7 @@ package reposense.parser;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -64,19 +65,18 @@ public class AuthorConfigParserTest {
     private static final List<String> SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS = Collections.emptyList();
     private static final List<String> THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS =
             Arrays.asList("Borex T\"ony Tong");
-    @SuppressWarnings("unchecked")
     private static final Map<Author, List<String>> AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP =
-            Stream.of(new Object[][]{
-                    {FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS},
-                    {SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS},
-                    {THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS}
-            }).collect(Collectors.toMap(data -> (Author) data[0], data -> (List<String>) data[1]));
+            Stream.of(new SimpleEntry<>(FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS),
+                    new SimpleEntry<>(SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS),
+                    new SimpleEntry<>(THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS))
+                    .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
     private static final Map<Author, String> AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP =
-            Stream.of(new Object[][]{
-                    {FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
-                    {SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
-                    {THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME}
-            }).collect(Collectors.toMap(data -> (Author) data[0], data -> (String) data[1]));
+            Stream.of(new SimpleEntry<>(FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR,
+                            FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME),
+                    new SimpleEntry<>(SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR,
+                            SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME),
+                    new SimpleEntry<>(THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME))
+                    .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
 
     private static final List<String> FIRST_AUTHOR_EMAIL_LIST =
             Arrays.asList("nbr@example.com", "nbriannl@test.net", "nbriannl@users.noreply.github.com");
