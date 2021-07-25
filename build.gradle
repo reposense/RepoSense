@@ -119,7 +119,7 @@ task buildFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plug
 }
 
 task lintFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    workingDir './frontend'
+    workingDir 'frontend/'
     args = ['run', 'lint']
 }
 
