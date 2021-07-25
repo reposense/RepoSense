@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/reposense/RepoSense/issues"
   },
-  "homepage": "https://github.com/reposense/RepoSense#readme"
+  "homepage": "https://github.com/reposense/RepoSense#readme",
+  "devDependencies": {
+    "markbind-cli": "2.18.1",
+  }
 }
