@@ -109,8 +109,9 @@ shadowJar {
     }
 }
 
-task installFrontend(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
+task installFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     workingDir 'frontend/'
+    args = ['install']
 }
 
 task buildFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
