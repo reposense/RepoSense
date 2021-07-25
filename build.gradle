@@ -131,7 +131,7 @@ task zipReport(dependsOn: 'buildFrontend', type: Zip) {
 
 tasks.shadowJar.dependsOn('zipReport');
 tasks.zipReport.dependsOn('compileJava');
-tasks.run.dependsOn('zipReport');
+tasks.run.dependsOn('compileJava');
 
 task systemtest(dependsOn: 'zipReport', type: Test) {
     testClassesDirs = sourceSets.systemtest.output.classesDirs
