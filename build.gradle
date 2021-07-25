@@ -130,8 +130,7 @@ task zipReport(dependsOn: 'buildFrontend', type: Zip) {
 }
 
 tasks.shadowJar.dependsOn('zipReport');
-tasks.compileJava.mustRunAfter('zipReport');
-tasks.run.dependsOn('zipReport');
+tasks.compileJava.dependsOn('zipReport');
 tasks.run.dependsOn('compileJava');
 
 task systemtest(dependsOn: 'zipReport', type: Test) {
