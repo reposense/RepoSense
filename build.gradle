@@ -119,6 +119,11 @@ task buildNewFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask
     args = ['run', 'devbuild']
 }
 
+task lintFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    workingDir './frontend'
+    args = ['run', 'lint']
+}
+
 task zipReport(dependsOn: 'buildNewFrontend', type: Zip) {
     from 'frontend/build/'
     baseName = 'templateZip'
