@@ -109,9 +109,8 @@ shadowJar {
     }
 }
 
-task installFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task installFrontend(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
     workingDir 'frontend/'
-    args = ['install']
 }
 
 task buildFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
@@ -217,18 +216,6 @@ String getRepoSenseVersion() {
     return repoSenseVersion
 }
 
-// task runNew(type: JavaExec) {
-//     dependsOn(zipNewReport)
-//     dependsOn(compileJava)
-//     main = mainClassName
-//     classpath = sourceSets.main.runtimeClasspath
-//     args System.getProperty('args', '').split()
-//     systemProperty "version", getRepoSenseVersion()
-//     doLast {
-//         println 'New report built at ./reposense-report.'
-//     }
-// }
-
 task syncFrontendPublic(type: Sync) {
     from 'reposense-report'
     into 'frontend/public/'
@@ -259,7 +246,7 @@ task hotReloadFrontend() {
     finalizedBy windowsHotReloadFrontend
     finalizedBy macHotReloadFrontend
 }
-// End of New Frontend Tasks
+// End of hot reload Tasks
 
 void deleteReposAddressDirectory() {
     final String REPOS_ADDRESS = "repos"
