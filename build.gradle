@@ -109,8 +109,9 @@ shadowJar {
     }
 }
 
-task installFrontend(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
+task installFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     workingDir 'frontend/'
+    args = ['install']
 }
 
 task buildFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
@@ -161,8 +162,9 @@ task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task
     waitForPort = 9000
 }
 
-task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
-    workingDir = file('frontend/cypress/')
+task installCypress(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    workingDir 'frontend/cypress/'
+    args = ['install']
 }
 
 task cypress(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
