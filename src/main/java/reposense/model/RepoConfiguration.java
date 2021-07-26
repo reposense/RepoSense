@@ -234,6 +234,10 @@ public class RepoConfiguration {
         }
     }
 
+    public static boolean isAnyRepoFindingPreviousAuthors(List<RepoConfiguration> configs) {
+        return configs.parallelStream().anyMatch(RepoConfiguration::isFindingPreviousAuthorsPerformed);
+    }
+
     /**
      * Clears existing information related to this repository and its authors, and replaces it with information from the
      * {@code standaloneConfig}.

@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
+import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -76,6 +77,12 @@ public class RepoSense {
                     cliArguments.isShallowCloningPerformed());
             RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
                     cliArguments.isFindingPreviousAuthorsPerformed());
+
+            if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs) &&
+                    !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
+                throw new IllegalArgumentException(GitVersion.FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_ERROR_MESSAGE);
+            }
+
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
