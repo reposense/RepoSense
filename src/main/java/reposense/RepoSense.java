@@ -78,8 +78,8 @@ public class RepoSense {
             RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
                     cliArguments.isFindingPreviousAuthorsPerformed());
 
-            if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs) &&
-                    !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
+            if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
+                    && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
                 throw new IllegalArgumentException(GitVersion.FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_ERROR_MESSAGE);
             }
 
