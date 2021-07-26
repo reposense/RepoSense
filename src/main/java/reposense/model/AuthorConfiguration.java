@@ -17,12 +17,12 @@ import reposense.system.LogsManager;
  */
 public class AuthorConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
+    public static final boolean DEFAULT_HAS_AUTHOR_CONFIG_FILE = false;
     private static final Logger logger = LogsManager.getLogger(AuthorConfiguration.class);
     private static final Pattern EMAIL_PLUS_OPERATOR_PATTERN =
             Pattern.compile("^(?<prefix>.+)\\+(?<suffix>.*)(?<domain>@.+)$");
-    private static final boolean DEFAULT_HAS_AUTHOR_CONFIG_FILE = false;
 
-    private static boolean hasAuthorConfigFile = DEFAULT_HAS_AUTHOR_CONFIG_FILE;
+    private boolean hasAuthorConfigFile = DEFAULT_HAS_AUTHOR_CONFIG_FILE;
 
     private RepoLocation location;
     private String branch;
@@ -277,11 +277,11 @@ public class AuthorConfiguration {
         return this.branch.equals(DEFAULT_BRANCH);
     }
 
-    public static void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
-        AuthorConfiguration.hasAuthorConfigFile = hasAuthorConfigFile;
+    public void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
+        this.hasAuthorConfigFile = hasAuthorConfigFile;
     }
 
-    public static boolean hasAuthorConfigFile() {
-        return AuthorConfiguration.hasAuthorConfigFile;
+    public boolean hasAuthorConfigFile() {
+        return this.hasAuthorConfigFile;
     }
 }

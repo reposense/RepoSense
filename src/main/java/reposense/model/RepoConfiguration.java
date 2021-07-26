@@ -150,6 +150,14 @@ public class RepoConfiguration {
 
             branchMatchingRepoConfig.addAuthors(authorConfig.getAuthorList());
         }
+
+        boolean hasAuthorConfigFile = AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE;
+        if (!authorConfigs.isEmpty()) {
+            hasAuthorConfigFile = authorConfigs.get(0).hasAuthorConfigFile();
+        }
+        for (RepoConfiguration repoConfig : repoConfigs) {
+            repoConfig.setHasAuthorConfigFile(hasAuthorConfigFile);
+        }
     }
 
     /**
@@ -553,5 +561,9 @@ public class RepoConfiguration {
 
     public AuthorConfiguration getAuthorConfig() {
         return authorConfig;
+    }
+
+    public void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
+        this.authorConfig.setHasAuthorConfigFile(hasAuthorConfigFile);
     }
 }

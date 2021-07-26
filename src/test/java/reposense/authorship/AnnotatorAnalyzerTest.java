@@ -14,7 +14,6 @@ import org.junit.Test;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.model.Author;
-import reposense.model.AuthorConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -46,13 +45,11 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(SINCE_DATE);
         config.setUntilDate(UNTIL_DATE);
         config.setZoneId(TIME_ZONE_ID_STRING);
-        AuthorConfiguration.setHasAuthorConfigFile(false);
     }
 
     @After
     public void after() {
         super.after();
-        AuthorConfiguration.setHasAuthorConfigFile(false);
     }
 
     @Test
@@ -72,7 +69,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeAnnotation_authorNameNotInConfigAndHaveAuthorConfigFile_disownCode() {
         config.setAuthorList(new ArrayList<>(Arrays.asList(FAKE_AUTHOR)));
-        AuthorConfiguration.setHasAuthorConfigFile(true);
+        config.setHasAuthorConfigFile(true);
         FileResult fileResult = getFileResult("annotationTest.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_DISOWN_CODE_TEST));
     }
