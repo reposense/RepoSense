@@ -206,7 +206,7 @@ jobs:
       uses: cypress-io/github-action@v2
       with:
         build: npm i -D cypress
-        project: ./frontend/cypress
+        working-directory: ./frontend/cypress
         browser: chrome
         headless: true
         runTests: false # Just perform installation
