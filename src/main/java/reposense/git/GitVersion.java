@@ -12,11 +12,12 @@ import reposense.util.StringsUtil;
  * Git version is responsible for finding out the version of git the user of RepoSense is running.
  */
 public class GitVersion {
-    /** Regex for matching Git version 2.23 and above */
-    public static final String VALID_GIT_VERSION_FINDING_PREVIOUS_AUTHORS =
-            "git version ((2\\d*\\.(2[3-9]\\d*|[3-9]\\d+|\\d{3,})|(([3-9]\\d*)|(1\\d+)\\.\\d+))\\.\\d*)";
     public static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_ERROR_MESSAGE =
             "RepoSense's Finding Previous Authors feature requires git version 2.23 and above";
+
+    /** Regex for matching Git version 2.23 and above */
+    private static final String VALID_GIT_VERSION_FINDING_PREVIOUS_AUTHORS =
+            "git version ((2\\d*\\.(2[3-9]\\d*|[3-9]\\d+|\\d{3,})|(([3-9]\\d*)|(1\\d+)\\.\\d+))\\.\\d*)";
 
     /**
      * Returns a boolean indicating whether the current user has a version valid for running
