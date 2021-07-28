@@ -4,8 +4,8 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import reposense.util.StringsUtil;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Contains git version related functionalities.
@@ -16,8 +16,8 @@ public class GitVersion {
             "RepoSense's Finding Previous Authors feature requires git version 2.23 and above";
 
     /** Regex for matching Git version 2.23 and above */
-    private static final String VALID_GIT_VERSION_FINDING_PREVIOUS_AUTHORS =
-            "git version (((2\\d*\\.(2[3-9]\\d*|[3-9]\\d+|\\d{3,}))|((([3-9]\\d*)|(1\\d+))\\.\\d+))\\.\\d*)";
+    private static final Pattern FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION_PATTERN =
+            Pattern.compile("(((2\\d*\\.(2[3-9]\\d*|[3-9]\\d+|\\d{3,}))|((([3-9]\\d*)|(1\\d+))\\.\\d+))\\.\\d*)");
 
     /**
      * Returns a boolean indicating whether the current user has a version valid for running
@@ -27,7 +27,9 @@ public class GitVersion {
         Path rootPath = Paths.get("/");
         String versionCommand = "git --version";
 
-        return !StringsUtil.filterText(runCommand(rootPath, versionCommand),
-                VALID_GIT_VERSION_FINDING_PREVIOUS_AUTHORS).isEmpty();
+        Matcher validGitVersionMatcher =  FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION_PATTERN
+                .matcher(runCommand(rootPath, versionCommand));
+
+        return validGitVersionMatcher.find();
     }
 }
