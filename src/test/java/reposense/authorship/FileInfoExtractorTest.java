@@ -34,7 +34,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final String BRANCH_WITH_RARE_FILE_FORMATS =
             "708-FileInfoExtractorTest-extractFileInfos_withoutSpecifiedFormats_success";
     private static final String BRANCH_WITH_FILENAMES_WITH_SPACES =
-            "1575-FileInfoExtractorTest-getEditedFileInfos_repoWithFilesWithSpaces_success";
+            "1576-FileInfoExtractorTest-getEditedFileInfos_repoWithFilesWithSpaces_success";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
 
     @Test
