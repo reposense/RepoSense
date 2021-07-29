@@ -33,6 +33,8 @@ public class FileInfoExtractorTest extends GitTestTemplate {
             "728-FileInfoExtractorTest-getNonBinaryFilesList_directoryWithBinaryFiles_success";
     private static final String BRANCH_WITH_RARE_FILE_FORMATS =
             "708-FileInfoExtractorTest-extractFileInfos_withoutSpecifiedFormats_success";
+    private static final String BRANCH_WITH_FILENAMES_WITH_SPACES =
+            "1575-FileInfoExtractorTest-getEditedFileInfos_repoWithFilesWithSpaces_success";
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
 
     @Test
@@ -198,6 +200,14 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         textFilesList.forEach(textFile -> Assert.assertTrue(isFileExistence(Paths.get(textFile), files)));
         // Binary files should be ignored
         binaryFilesList.forEach(binFile -> Assert.assertFalse(isFileExistence(Paths.get(binFile), files)));
+    }
+
+    @Test
+    public void getEditedFileInfos_repoWithFilesWithSpaces_success() {
+        GitCheckout.checkout(config.getRepoRoot(), BRANCH_WITH_FILENAMES_WITH_SPACES);
+        List<FileInfo> fileInfos = FileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
+
+        Assert.assertTrue(isFileExistence(Paths.get("space test.txt"), fileInfos));
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {
