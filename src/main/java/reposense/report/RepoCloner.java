@@ -68,7 +68,6 @@ public class RepoCloner {
         cloneBare(config, DEFAULT_IS_FRESH_CLONE_FOR_TEST_REQUIRED);
     }
 
-
     /**
      * Spawns a process to clone the bare repository specified by {@code config}.
      * Does not wait for process to finish executing.
