@@ -34,7 +34,7 @@ public class RepoClonerTest {
 
     @Test
     public void repoCloner_validRepoLocationWithRelativePathingAndSpaces_success() throws Exception {
-        //Clones a test repository into the test directory for testing of relative pathing
+        // Clones a test repository into the test directory for testing of relative pathing
         RepoConfiguration tempRemoteConfiguration = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION));
         GitClone.cloneBare(tempRemoteConfiguration, Paths.get("."), REPOCLONE_LOCAL_TEST_PATH.toString());
 
