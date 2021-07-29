@@ -28,7 +28,7 @@ import reposense.model.RepoLocation;
  * Contains templates for git testing.
  */
 public class GitTestTemplate {
-    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
+    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/aidoxe-123/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String ROOT_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
