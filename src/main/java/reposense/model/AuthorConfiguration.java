@@ -25,7 +25,7 @@ public class AuthorConfiguration {
     private String branch;
 
     private transient List<Author> authorList = new ArrayList<>();
-    private transient Map<String, Author> authorDetailsToAuthorMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private transient Map<String, Author> authorDetailsToAuthorMap = new HashMap<>();
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
     public AuthorConfiguration(RepoLocation location) {
