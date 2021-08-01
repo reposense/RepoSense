@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,7 +41,7 @@ public class AuthorConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
-        Map<String, Author> newAuthorDetailsToAuthorMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<String, Author> newAuthorDetailsToAuthorMap = new HashMap<>();
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
