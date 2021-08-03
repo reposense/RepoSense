@@ -16,7 +16,7 @@ public class GitVersion {
             "RepoSense's Finding Previous Authors feature requires git version 2.23 and above";
 
     /** Regex for matching Git version 2.23 and above */
-    private static final Pattern FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION_PATTERN =
+    public static final Pattern FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION_PATTERN =
             Pattern.compile("(((2\\d*\\.(2[3-9]\\d*|[3-9]\\d+|\\d{3,}))|((([3-9]\\d*)|(1\\d+))\\.\\d+))\\.\\d*)");
 
     /**
