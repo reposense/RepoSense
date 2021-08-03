@@ -80,7 +80,7 @@ public class RepoSense {
 
             if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
                     && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
-                throw new IllegalArgumentException(GitVersion.FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_ERROR_MESSAGE);
+                RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,

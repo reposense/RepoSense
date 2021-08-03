@@ -117,6 +117,10 @@ public class RepoConfiguration {
         }
     }
 
+    public static void setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(List<RepoConfiguration> configs) {
+        configs.stream().forEach(config -> config.setIsFindingPreviousAuthorsPerformed(false));
+    }
+
     /**
      * Merges a {@code RepoConfiguration} from {@code repoConfigs} with an {@code AuthorConfiguration} from
      * {@code authorConfigs} if their {@code RepoLocation} and branch matches
