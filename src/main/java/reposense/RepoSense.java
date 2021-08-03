@@ -80,6 +80,7 @@ public class RepoSense {
 
             if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
                     && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
+                logger.warning(GitVersion.FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 

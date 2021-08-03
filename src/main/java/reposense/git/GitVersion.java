@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  * Git version is responsible for finding out the version of git the user of RepoSense is running.
  */
 public class GitVersion {
-    public static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_ERROR_MESSAGE =
-            "RepoSense's Finding Previous Authors feature requires git version 2.23 and above";
+    public static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE =
+            "--find-previous-authors/-F requires git version 2.23 and above. Feature will be disabled for this run";
 
     /** Regex for matching Git version 2.23 and above */
     public static final Pattern FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION_PATTERN =
