@@ -17,7 +17,7 @@ import reposense.model.AuthorConfiguration;
  * Only the lines with the format (START OF LINE) COMMENT_SYMBOL @@author ONE_STRING_WITH_NO_SPACE (END OF LINE)
  * will be analyzed. Otherwise, the line will be ignored and treated as normal lines.
  * If the line is analyzed, and the string following the author tag is a valid git id, and there is no author config
- * files, then the code will be attributed to the author with that git id. Otherwise the code will be attributed to
+ * file, then the code will be attributed to the author with that git id. Otherwise, the code will be attributed to
  * unknown author
  */
 public class AnnotatorAnalyzer {
