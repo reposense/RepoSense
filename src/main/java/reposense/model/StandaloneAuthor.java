@@ -18,35 +18,19 @@ public class StandaloneAuthor {
     }
 
     public List<String> getEmails() {
-        if (emails == null) {
-            return Collections.emptyList();
-        }
-
-        return emails;
+        return emails == null ? Collections.emptyList() : emails;
     }
 
     public String getDisplayName() {
-        if (displayName == null) {
-            return "";
-        }
-
-        return displayName;
+        return displayName == null ? "" : displayName;
     }
 
     public List<String> getAuthorNames() {
-        if (authorNames == null) {
-            return Collections.emptyList();
-        }
-
-        return authorNames;
+        return authorNames == null ? Collections.emptyList() : authorNames;
     }
 
     public List<String> getIgnoreGlobList() {
-        if (ignoreGlobList == null) {
-            return Collections.emptyList();
-        }
-
-        return ignoreGlobList;
+        return ignoreGlobList == null ? Collections.emptyList() : ignoreGlobList;
     }
 
     @Override

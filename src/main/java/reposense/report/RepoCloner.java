@@ -93,11 +93,8 @@ public class RepoCloner {
             } catch (CommitNotFoundException e) {
                 sinceDate = null;
             }
-            if (sinceDate != null) {
-                isCurrentRepoCloned = spawnShallowCloneProcess(config, sinceDate);
-            } else {
-                isCurrentRepoCloned = spawnCloneProcess(config);
-            }
+            isCurrentRepoCloned = sinceDate != null ? spawnShallowCloneProcess(config, sinceDate)
+                    : spawnCloneProcess(config);
         }
     }
 
