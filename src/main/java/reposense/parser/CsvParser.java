@@ -49,7 +49,7 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
 
     private Path csvFilePath;
-    private Map<String, Integer> headerMap = new HashMap();
+    private Map<String, Integer> headerMap = new HashMap<>();
     private int numOfLinesBeforeFirstRecord = 0;
 
     /**
