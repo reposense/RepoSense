@@ -97,10 +97,8 @@ public class ConfigSystemTest {
 
     @Test
     public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false,
-                true, true);
-        Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        runTest(getInputWithUntilDate("1/11/2017"), false,
+                true, true, "30daysFromUntilDate/expected");
     }
 
     private String getInputWithUntilDate(String untilDate) {
