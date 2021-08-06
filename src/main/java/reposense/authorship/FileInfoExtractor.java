@@ -251,7 +251,7 @@ public class FileInfoExtractor {
             isValidFilePath = FileUtil.isValidPath(filePath);
         } catch (InvalidPathException ipe) {
             logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, filePath));
-            return false;
+            isValidFilePath = false;
         }
 
         return isValidFilePath && textFilesSet.contains(Paths.get(filePath));
