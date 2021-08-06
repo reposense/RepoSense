@@ -33,8 +33,8 @@ import reposense.util.FileUtil;
 public class FileInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(FileInfoExtractor.class);
     private static final String MESSAGE_START_EXTRACTING_FILE_INFO = "Extracting relevant file info from %s (%s)...";
-    private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path for current OS or " +
-            "indicates a possible regex match issue. Skipping this directory.";
+    private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path for current OS or "
+            + "indicates a possible regex match issue. Skipping this directory.";
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git \"?\'?a/.*\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
