@@ -43,6 +43,7 @@ public class GitTestTemplate {
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String ROOT_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
     protected static final String TEST_COMMIT_HASH = "2fb6b9b";
+    protected static final String TEST_COMMIT_HASH_LONG = "2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7";
     protected static final String TEST_COMMIT_HASH_PARENT = "c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151";
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
@@ -93,8 +94,6 @@ public class GitTestTemplate {
 
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
-    protected static final Author IGNORED_AUTHOR = new Author(IGNORED_AUTHOR_NAME);
-
 
     protected static RepoConfiguration config;
 
