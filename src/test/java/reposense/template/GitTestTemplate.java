@@ -31,10 +31,12 @@ import reposense.util.FileUtil;
  */
 
 public class GitTestTemplate {
-    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
+    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/FH-30/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     // repos/reposense_testrepo-Alpha/testrepo-Alpha/git-blame-ignore-revs
-    protected static final String IGNORE_REVS_FILE_LOCATION = "repos/FH-30_testrepo-Alpha/testrepo-Alpha/.git-blame-ignore-revs";
+    protected static final String IGNORE_REVS_FILE_LOCATION =
+            "repos/FH-30_testrepo-Alpha/testrepo-Alpha/.git-blame-ignore-revs";
+    protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-variousClasses-variousMethods";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String ROOT_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
     protected static final String TEST_COMMIT_HASH = "2fb6b9b";
@@ -62,6 +64,10 @@ public class GitTestTemplate {
             "8d0ac2ee20f04dce8df0591caed460bffacb65a4";
     protected static final CommitHash MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
             new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING);
+    protected static final String AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING =
+            "f56839b22752589435d1ebd4aa4512c94881bad9";
+    protected static final CommitHash AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021 =
+            new CommitHash(AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING);
     protected static final String FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING =
             "7d7584fc204922cc5ff3bd5ca073cad6bed2c46a";
     protected static final String FAKE_AUTHOR_BLAME_RANGED_COMMIT_TWO_06022018_STRING =
@@ -75,6 +81,9 @@ public class GitTestTemplate {
             new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_TWO_06022018_STRING),
             new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_THREE_07022018_STRING),
             new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING));
+    protected static final List<CommitHash> AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021 = Collections.singletonList(
+            new CommitHash(AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING)
+    );
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
     protected static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
@@ -125,6 +134,12 @@ public class GitTestTemplate {
     }
 
     public FileResult getFileResult(String relativePath) {
+        FileInfo fileinfo = generateTestFileInfo(relativePath);
+        return FileInfoAnalyzer.analyzeTextFile(config, fileinfo);
+    }
+
+    // can delete after merge test_repo-alpha PR
+    public FileResult getFileResult(RepoConfiguration config, String relativePath) {
         FileInfo fileinfo = generateTestFileInfo(relativePath);
         return FileInfoAnalyzer.analyzeTextFile(config, fileinfo);
     }

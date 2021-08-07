@@ -14,15 +14,25 @@ import org.junit.Test;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.git.GitCheckout;
+import reposense.git.GitClone;
 import reposense.model.Author;
 import reposense.model.CommitHash;
+import reposense.model.FileTypeTest;
+import reposense.model.RepoConfiguration;
+import reposense.model.RepoLocation;
+import reposense.parser.InvalidLocationException;
 import reposense.template.GitTestTemplate;
+import reposense.util.FileUtil;
 import reposense.util.TestUtil;
 
 
 public class FileAnalyzerTest extends GitTestTemplate {
     private static final Date BLAME_TEST_SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 6);
     private static final Date BLAME_TEST_UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 8);
+    private static final Date PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE =
+            TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 6);
+    private static final Date PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE =
+            TestUtil.getUntilDate(2021, Calendar.AUGUST, 3);
     private static final Date EMAIL_WITH_ADDITION_TEST_SINCE_DATE =
             TestUtil.getSinceDate(2019, Calendar.MARCH, 28);
     private static final Date EMAIL_WITH_ADDITION_TEST_UNTIL_DATE =
@@ -51,6 +61,9 @@ public class FileAnalyzerTest extends GitTestTemplate {
     private static final Author[] EXPECTED_LINE_AUTHORS_MOVED_FILE = {
             MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR
     };
+    private static final Author[] EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST = {
+            MAIN_AUTHOR, MAIN_AUTHOR, FAKE_AUTHOR, MAIN_AUTHOR
+    };
 
     @Before
     public void before() throws Exception {
@@ -72,7 +85,29 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
         FileResult fileResult = getFileResult("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
+    }
 
+    @Test
+    public void blameWithPreviousAuthorsTest() throws Exception {
+        /*
+         Once PR gets merged in at testrepo alpha, uncomment below
+
+         config.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
+         config.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
+         config.setIsFindingPreviousAuthorsPerformed(true);
+         config.setBranch(TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
+         GitCheckout.checkout(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
+        */
+
+//        blameWithPreviousAuthorsTestRepoConfig.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
+//        blameWithPreviousAuthorsTestRepoConfig.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
+//        blameWithPreviousAuthorsTestRepoConfig.setIsFindingPreviousAuthorsPerformed(true);
+//
+//        createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_03082021);
+//        FileResult fileResult = getFileResult(blameWithPreviousAuthorsTestRepoConfig, "blameTest.java");
+//        removeTestIgnoreRevsFile();
+//
+//        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
     }
 
     @Test
