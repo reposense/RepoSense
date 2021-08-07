@@ -62,7 +62,8 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRange() throws Exception {
-        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"), false, false, false);
+        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
+                false, false, false);
         Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
@@ -112,6 +113,10 @@ public class ConfigSystemTest {
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
+    /**
+     * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
+     * since date to capture from the first commit, using find previous authors.
+     */
     @Test
     public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
         generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
