@@ -194,7 +194,7 @@ public class ConfigSystemTest {
         Assert.assertTrue(Files.exists(actualJson));
         try {
             Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
-        } catch (IOException e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }

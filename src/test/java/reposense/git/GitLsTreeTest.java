@@ -85,7 +85,7 @@ public class GitLsTreeTest extends GitTestTemplate {
      * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
      * Windows.
      */
-    private void validateFilePaths(RepoConfiguration config) throws IOException, InvalidFilePathException {
+    private void validateFilePaths(RepoConfiguration config) throws Exception {
         GitClone.cloneBare(config, FileUtil.getBareRepoFolderName(config));
         GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
     }
