@@ -119,10 +119,6 @@ public class ConfigSystemTest {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning, isFreshCloneRequired);
         Path actualFiles = loadResource(getClass(), pathToResource);
         verifyAllJson(actualFiles, FT_TEMP_DIR);
-
-        if (shallowCloning) {
-            generateReport(inputDates, shouldIncludeModifiedDateInLines, false, true);
-        }
     }
 
     /**
