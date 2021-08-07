@@ -38,7 +38,7 @@ public class FileInfoExtractor {
     private static final String LINE_INSERTED_SYMBOL = "+";
     private static final String STARTING_LINE_NUMBER_GROUP_NAME = "startingLineNumber";
     private static final String FILE_CHANGED_GROUP_NAME = "filePath";
-    private static final String FILE_DELETED_SYMBOL = "/dev/null";
+    private static final String FILE_DELETED_SYMBOL = "dev/null";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
     private static final String BINARY_FILE_LINE_DIFF_RESULT = "-\t-\t";
 
