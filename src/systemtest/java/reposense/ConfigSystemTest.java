@@ -92,13 +92,13 @@ public class ConfigSystemTest {
     public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
         runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
                 false, true, true,
-                "sinceBeginningDateRange/expected");
+                "sinceBeginningDateRangeWithShallowCloning/expected");
     }
 
     @Test
     public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
         runTest(getInputWithUntilDate("1/11/2017"), false,
-                true, true, "30daysFromUntilDate/expected");
+                true, true, "30daysFromUntilDateWithShallowCloning/expected");
     }
 
     private String getInputWithUntilDate(String untilDate) {
@@ -138,15 +138,15 @@ public class ConfigSystemTest {
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
                 .add(inputDates);
-        if (shallowCloning) {
-            inputBuilder = inputBuilder.addShallowCloning();
-        }
         String input = inputBuilder.build();
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> repoConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+
+        repoConfigs.forEach(repoConfig -> repoConfig.setIsShallowCloningPerformed(shallowCloning));
+
         List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         List<GroupConfiguration> groupConfigs =
@@ -197,7 +197,7 @@ public class ConfigSystemTest {
         Assert.assertTrue(Files.exists(actualJson));
         try {
             Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
-        } catch (IOException e) {
+        } catch (Exception e) {
             Assert.fail(e.getMessage());
         }
     }

@@ -19,7 +19,7 @@ public class GitUtilTest extends GitTestTemplate {
         final String cmdFormat = " " + addQuote(":(exclude)%s");
         final String emptyResult = "";
 
-        String result = convertToGitExcludeGlobArgs(repoRoot, Collections.EMPTY_LIST);
+        String result = convertToGitExcludeGlobArgs(repoRoot, Collections.emptyList());
         Assert.assertEquals(emptyResult, result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("**.js"));
