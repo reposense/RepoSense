@@ -39,6 +39,8 @@ import reposense.git.GitClone;
 import reposense.git.GitLsTree;
 import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
+import reposense.git.GitShow;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
@@ -346,6 +348,19 @@ public class ReportGenerator {
         updateIgnoreCommitList(config);
 
         if (config.isFindingPreviousAuthorsPerformed()) {
+            List<CommitHash> expandedIgnoreCommitlist = config.getIgnoreCommitList().stream()
+                    .map(CommitHash::toString)
+                    .map(commitHash -> {
+                        try {
+                            return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
+                        } catch (CommitNotFoundException e) {
+                            logger.warning(String.format("Cannot expand %s, it shall remain unexpanded", commitHash));
+                            return new CommitHash(commitHash);
+                        }
+                    })
+                    .collect(Collectors.toList());
+
+            config.setIgnoreCommitList(expandedIgnoreCommitlist);
             FileUtil.writeIgnoreRevsFile(getIgnoreRevsFilePath(config.getRepoRoot()), config.getIgnoreCommitList());
         }
 
