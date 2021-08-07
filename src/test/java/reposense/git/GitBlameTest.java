@@ -26,7 +26,7 @@ public class GitBlameTest extends GitTestTemplate {
     @Test
     public void blameWithPreviousAuthorsRaw_validFile_success() {
         config.setBranch(TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
-        GitCheckout.checkout(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
+        GitCheckout.checkoutBranch(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);
         String content = GitBlame.blameWithPreviousAuthors(config.getRepoRoot(),
                 "blameTest.java");

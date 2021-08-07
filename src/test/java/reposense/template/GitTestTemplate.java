@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,6 +20,8 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
 import reposense.git.GitClone;
+import reposense.git.GitShow;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileTypeTest;
@@ -43,6 +46,7 @@ public class GitTestTemplate {
     protected static final String TEST_COMMIT_HASH_PARENT = "c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151";
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
+    protected static final String IGNORED_AUTHOR_NAME = "FH-30";
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
     protected static final String YONG_AUTHOR_NAME = "Yong Hao TENG";
     protected static final String MINGYI_AUTHOR_NAME = "myteo";
@@ -89,6 +93,7 @@ public class GitTestTemplate {
 
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
+    protected static final Author IGNORED_AUTHOR = new Author(IGNORED_AUTHOR_NAME);
 
 
     protected static RepoConfiguration config;
@@ -121,12 +126,25 @@ public class GitTestTemplate {
 
         config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.getAuthorDetailsToAuthorMap().put(IGNORED_AUTHOR_NAME, new Author(IGNORED_AUTHOR_NAME));
 
         return fileInfo;
     }
 
-    public void createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
-        FileUtil.writeIgnoreRevsFile(IGNORE_REVS_FILE_LOCATION, toIgnore);
+    public List<CommitHash> createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
+        List<CommitHash> expandedIgnoreCommitList = toIgnore.stream()
+                .map(CommitHash::toString)
+                .map(commitHash -> {
+                    try {
+                        return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
+                    } catch (CommitNotFoundException e) {
+                        return new CommitHash(commitHash);
+                    }
+                })
+                .collect(Collectors.toList());
+
+        FileUtil.writeIgnoreRevsFile(IGNORE_REVS_FILE_LOCATION, expandedIgnoreCommitList);
+        return expandedIgnoreCommitList;
     }
 
     public void removeTestIgnoreRevsFile() {
@@ -134,12 +152,6 @@ public class GitTestTemplate {
     }
 
     public FileResult getFileResult(String relativePath) {
-        FileInfo fileinfo = generateTestFileInfo(relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(config, fileinfo);
-    }
-
-    // can delete after merge test_repo-alpha PR
-    public FileResult getFileResult(RepoConfiguration config, String relativePath) {
         FileInfo fileinfo = generateTestFileInfo(relativePath);
         return FileInfoAnalyzer.analyzeTextFile(config, fileinfo);
     }
