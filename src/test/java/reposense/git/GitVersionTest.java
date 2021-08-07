@@ -33,7 +33,7 @@ public class GitVersionTest extends GitTestTemplate {
     }
 
     @Test
-    public void gitVersionValidForFindingPreviousAuthorsMethod_sameResultAsRegex_success(){
+    public void gitVersionValidForFindingPreviousAuthorsMethod_sameResultAsRegex_success() {
         boolean isAbleToRunFindingPreviousAuthors = GitVersion.FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION_PATTERN
                 .matcher(GitVersion.getGitVersion()).find();
         Assert.assertEquals(isAbleToRunFindingPreviousAuthors,

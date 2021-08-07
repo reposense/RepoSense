@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.git.exception.CommitNotFoundException;
-import reposense.model.CommitHash;
 import reposense.template.GitTestTemplate;
 
 public class GitShowTest extends GitTestTemplate {

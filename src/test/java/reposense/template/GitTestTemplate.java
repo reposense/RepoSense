@@ -130,6 +130,10 @@ public class GitTestTemplate {
         return fileInfo;
     }
 
+    /**
+     * Generates the .git-blame-ignore-revs file containing {@code CommitHash}
+     * from {@code toIgnore} for the test repo.
+     */
     public List<CommitHash> createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
         List<CommitHash> expandedIgnoreCommitList = toIgnore.stream()
                 .map(CommitHash::toString)
