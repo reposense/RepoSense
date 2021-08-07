@@ -348,20 +348,7 @@ public class ReportGenerator {
         updateIgnoreCommitList(config);
 
         if (config.isFindingPreviousAuthorsPerformed()) {
-            List<CommitHash> expandedIgnoreCommitlist = config.getIgnoreCommitList().stream()
-                    .map(CommitHash::toString)
-                    .map(commitHash -> {
-                        try {
-                            return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
-                        } catch (CommitNotFoundException e) {
-                            logger.warning(String.format("Cannot expand %s, it shall remain unexpanded", commitHash));
-                            return new CommitHash(commitHash);
-                        }
-                    })
-                    .collect(Collectors.toList());
-
-            config.setIgnoreCommitList(expandedIgnoreCommitlist);
-            FileUtil.writeIgnoreRevsFile(getIgnoreRevsFilePath(config.getRepoRoot()), config.getIgnoreCommitList());
+            generateIgnoreRevsFile(config);
         }
 
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
@@ -498,6 +485,23 @@ public class ReportGenerator {
         FileUtil.writeJsonFile(authorshipSummary.getFileResults(), getIndividualAuthorshipPath(repoReportDirectory))
                 .ifPresent(generatedFiles::add);
         return generatedFiles;
+    }
+
+    private static void generateIgnoreRevsFile(RepoConfiguration config) {
+        List<CommitHash> expandedIgnoreCommitList = config.getIgnoreCommitList().stream()
+                .map(CommitHash::toString)
+                .map(commitHash -> {
+                    try {
+                        return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
+                    } catch (CommitNotFoundException e) {
+                        logger.warning(String.format("Cannot expand %s, it shall remain unexpanded", commitHash));
+                        return new CommitHash(commitHash);
+                    }
+                })
+                .collect(Collectors.toList());
+
+        config.setIgnoreCommitList(expandedIgnoreCommitList);
+        FileUtil.writeIgnoreRevsFile(getIgnoreRevsFilePath(config.getRepoRoot()), config.getIgnoreCommitList());
     }
 
     private static String getSummaryResultPath(String targetFileLocation) {
