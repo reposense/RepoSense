@@ -94,14 +94,14 @@ public class ConfigSystemTest {
     public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
         generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
                 false, true);
-        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
+        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRangeWithShallowCloning/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
         generateReport(getInputWithUntilDate("1/11/2017"), false, true);
-        Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
+        Path actualFiles = loadResource(getClass(), "30daysFromUntilDateWithShallowCloning/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -126,15 +126,15 @@ public class ConfigSystemTest {
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
                 .add(inputDates);
-        if (shallowCloning) {
-            inputBuilder = inputBuilder.addShallowCloning();
-        }
         String input = inputBuilder.build();
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> repoConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+
+        repoConfigs.forEach(repoConfig -> repoConfig.setIsShallowCloningPerformed(shallowCloning));
+
         List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         List<GroupConfiguration> groupConfigs =
