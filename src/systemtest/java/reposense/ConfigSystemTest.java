@@ -62,21 +62,21 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRange() throws Exception {
-        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"), false, false);
+        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"), false, false, false);
         Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false, false);
+        generateReport(getInputWithUntilDate("1/11/2017"), false, false, false);
         Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDateAndFindPreviousAuthors() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false, false);
+        generateReport(getInputWithUntilDate("1/11/2017"), false, false, false);
         Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
@@ -88,7 +88,7 @@ public class ConfigSystemTest {
     @Test
     public void testDateRangeWithModifiedDateTimeInLines() throws Exception {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"),
-                true, false);
+                true, false, false);
         Path actualFiles = loadResource(getClass(), "dateRangeWithModifiedDateTimeInLines/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
@@ -100,15 +100,30 @@ public class ConfigSystemTest {
     @Test
     public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
         generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, true);
+                false, true, false);
         Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false, true);
+        generateReport(getInputWithUntilDate("1/11/2017"), false, true, false);
         Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
+    }
+
+    @Test
+    public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
+        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
+                false, false, true);
+        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRangeFindPreviousAuthors/expected");
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
+    }
+
+    @Test
+    public void test30DaysFromUntilDateWithFindPreviousAuthors() throws Exception {
+        generateReport(getInputWithUntilDate("1/11/2017"), false, false, true);
+        Path actualFiles = loadResource(getClass(), "30daysFromUntilDateFindPreviousAuthors/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -123,7 +138,8 @@ public class ConfigSystemTest {
     /**
      * Generates the testing report to be compared with expected report.
      */
-    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning)
+    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
+                                boolean findPreviousAuthors)
             throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
@@ -135,6 +151,9 @@ public class ConfigSystemTest {
                 .add(inputDates);
         if (shallowCloning) {
             inputBuilder = inputBuilder.addShallowCloning();
+        }
+        if (findPreviousAuthors) {
+            inputBuilder = inputBuilder.addFindPreviousAuthors();
         }
         String input = inputBuilder.build();
 

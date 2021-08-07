@@ -183,6 +183,11 @@ public class InputBuilder {
         return this;
     }
 
+    public InputBuilder addFindPreviousAuthors() {
+        input.append(ArgsParser.FIND_PREVIOUS_AUTHORS_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
     /**
      * Adds {@code content} to the input.
      */
