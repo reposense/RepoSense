@@ -24,6 +24,9 @@ public class GitShow {
 
     private static final Logger logger = LogsManager.getLogger(GitShow.class);
 
+    /**
+     * Returns expanded form of the commit hash associated with the {@code shortCommitHash}
+     */
     public static CommitHash getExpandedCommitHash(String root, String shortCommitHash) throws CommitNotFoundException {
         Path rootPath = Paths.get(root);
         String showCommand = "git show -s --format=%H " + shortCommitHash;
@@ -33,8 +36,8 @@ public class GitShow {
             List<CommitHash> commitHashes = Arrays.stream(output.split("\n"))
                     .map(CommitHash::new).collect(Collectors.toList());
             if (commitHashes.size() > 1) {
-                logger.warning(String.format("%s can be expanded to %d different commits, " +
-                                "assuming %s refers to commit hash %s",
+                logger.warning(String.format("%s can be expanded to %d different commits, "
+                                + "assuming %s refers to commit hash %s",
                         shortCommitHash, commitHashes.size(), shortCommitHash, commitHashes.get(0)));
             }
 

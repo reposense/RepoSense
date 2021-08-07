@@ -487,6 +487,10 @@ public class ReportGenerator {
         return generatedFiles;
     }
 
+    /**
+     * Creates the .git-blame-ignore-revs file containing the contents of {@code IgnoreCommitList}
+     * in the config's repo root directory.
+     */
     private static void generateIgnoreRevsFile(RepoConfiguration config) {
         List<CommitHash> expandedIgnoreCommitList = config.getIgnoreCommitList().stream()
                 .map(CommitHash::toString)
