@@ -1,6 +1,6 @@
 {
 	"ignoreGlobList": ["collated**"],
-	"ignoreCommitList": ["12345abc", "67890def"],
+	"ignoreCommitsList": ["12345abc", "67890def"],
 	"authors":
 	[
 		{
