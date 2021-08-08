@@ -45,6 +45,8 @@ public class ConfigSystemTest {
     private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
 
+    private static boolean haveNormallyClonedRepo = false;
+
     @Before
     public void setUp() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
@@ -116,9 +118,11 @@ public class ConfigSystemTest {
     private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines,
                         boolean shallowCloning, boolean isFreshCloneRequired,
                         String pathToResource) throws Exception {
-        generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning, isFreshCloneRequired);
+        generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
+                isFreshCloneRequired || !haveNormallyClonedRepo);
         Path actualFiles = loadResource(getClass(), pathToResource);
         verifyAllJson(actualFiles, FT_TEMP_DIR);
+        haveNormallyClonedRepo = !shallowCloning;
     }
 
     /**
