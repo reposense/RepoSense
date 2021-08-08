@@ -17,3 +17,21 @@ Our coding standards are mostly based on those at [se-education.org/guides](http
 * [**Java** coding standard](https://se-education.org/guides/conventions/java/index.html)
 * [**JavaScript** coding standard](https://se-education.org/guides/conventions/javascript.html)
 * **Documentation**: Follow the [**Google developer documentation style guide**](https://developers.google.com/style).
+
+##Note on Ternary Operators:
+Ternary operators can be used to shorten if-else blocks such as this:
+```
+Date min = new Date(Long.MIN_VALUE);
+if (!commitInfos.isEmpty()) {
+    min = commitInfos.get(0).getTime();
+}
+```
+
+The result would look something like this:
+```
+Date min = commitInfos.isEmpty() ? new Date(Long.MIN_VALUE) : commitInfos.get(0).getTime();
+```
+
+To preserve readability, it is recommended that if-else blocks should only be 
+converted to ternary operators if the resultant code can be kept one or two lines long
+(in accordance to the coding standard).
