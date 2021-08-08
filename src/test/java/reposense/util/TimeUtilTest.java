@@ -9,14 +9,14 @@ import org.junit.Test;
 
 public class TimeUtilTest {
     @Test
-    public void extractDate_validDate_success() throws Exception {
+    public void extractDate_validDate_success() {
         String expectedDate = "20/05/2019";
         String actualDate = TimeUtil.extractDate(expectedDate);
         Assert.assertEquals(expectedDate, actualDate);
     }
 
     @Test
-    public void extractDate_validDateAndTime_success() throws Exception {
+    public void extractDate_validDateAndTime_success() {
         String originalDateAndTime = "20/05/2020 12:34:56";
         String expectedDate = "20/05/2020";
         String actualDate = TimeUtil.extractDate(originalDateAndTime);
