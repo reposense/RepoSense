@@ -489,6 +489,38 @@ public class RepoConfigurationTest {
     }
 
     @Test
+    public void repoConfig_userEnvironmentCannotRunFindPreviousAuthors_setFindPreviousAuthorsToFalseInAllRepoConfigs()
+            throws Exception {
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_DELTA), "master");
+        repoDeltaExpectedConfig.setStandaloneConfigIgnored(true);
+
+        String input = new InputBuilder().addConfig(FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
+                cliArguments.isFindingPreviousAuthorsPerformed());
+
+        // Assume by default that the environment does not support Find Previous Authors feature
+        RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs);
+
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        GitClone.clone(repoBetaActualConfig);
+        GitClone.clone(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
+        TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
+    }
+
+    @Test
     public void repoConfig_withFormats_ignoreCliFormats() throws Exception {
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(FORMATS_TEST_CONFIG_FILES)
