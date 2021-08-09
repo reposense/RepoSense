@@ -38,6 +38,7 @@
  * [`GitRevParse`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitRevParse.java): Wrapper class for `git rev-parse` functionality. Ensures that the branch of the repo is to be analyzed exists.
  * [`GitShortlog`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitShortlog.java): Wrapper class for `git shortlog` functionality. Obtains the list of authors who have contributed to the target repo.
  * [`GitUtil`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitUtil.java): Contains helper functions used by the other Git classes above.
+ * [`GitVersion`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitVersion.java): Wrapper class for `git --version` functionality. Obtains the current git version of the environment that RepoSense is being run on.
 
 <!-- ==================================================================================================== -->
 
