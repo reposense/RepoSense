@@ -18,6 +18,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -70,13 +71,6 @@ public class ConfigSystemTest {
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false, false, false);
-        Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
-    }
-
-    @Test
-    public void test30DaysFromUntilDateAndFindPreviousAuthors() throws Exception {
         generateReport(getInputWithUntilDate("1/11/2017"), false, false, false);
         Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
@@ -183,6 +177,10 @@ public class ConfigSystemTest {
         RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(repoConfigs, shouldIncludeModifiedDateInLines);
         RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(repoConfigs,
                 cliArguments.isFindingPreviousAuthorsPerformed());
+
+        boolean isGitVersionInsufficient = RepoConfiguration.isAnyRepoFindingPreviousAuthors(repoConfigs)
+                && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors();
+        Assert.assertFalse("Git version 2.23.0 and above necessary to run test", isGitVersionInsufficient);
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
