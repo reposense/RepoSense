@@ -16,10 +16,10 @@ The command `java -jar RepoSense.jar` takes several flags.
 **Examples**:
 
 An example of a command using most parameters:<br>
-`java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08`
+`java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08 --find-previous-authors`
 
 Same command as above but using most parameters in alias format:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08 -F`
 </box>
 
 The section below provides explanations for each of the flags.
@@ -73,6 +73,16 @@ The section below provides explanations for each of the flags.
 
 Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`, all will be labelled as the file type `binary` in the generated report.
 </box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--find-previous-authors`, `-F`
+
+**`--find-previous-authors`**: Utilizes Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available).
+* Default: RepoSense will assume that no authors are responsible for the code changes in the lines altered by commits in the ignore commit list.
+* Alias: `-F` (uppercase F)
+* Example:`--find-previous-authors` or `-F`
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--help`, `-h`
