@@ -191,12 +191,8 @@ public class FileInfoExtractor {
             if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
                 continue;
             }
-            if (isBinaryFiles) {
-                // skip LineInfo analysis
-                fileInfos.add(new FileInfo(relativePath.toString()));
-            } else {
-                fileInfos.add(generateFileInfo(config.getRepoRoot(), relativePath.toString()));
-            }
+            fileInfos.add(isBinaryFiles ? new FileInfo(relativePath.toString())
+                    : generateFileInfo(config.getRepoRoot(), relativePath.toString()));
         }
         return fileInfos;
     }
