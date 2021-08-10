@@ -64,9 +64,7 @@ jobs:
       run: ./config/gh-actions/run-checks.sh
 
     - name: Run linter
-      run: |
-        npm install
-        npm run lint
+      run: ./gradlew lintFrontend
 
     - name: Build with Gradle
       run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
@@ -152,9 +150,7 @@ jobs:
       run: ./config/gh-actions/run-checks.sh
 
     - name: Run linter
-      run: |
-        npm install
-        npm run lint
+      run: ./gradlew lintFrontend
 
     - name: Build with Gradle
       run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
@@ -210,7 +206,7 @@ jobs:
       uses: cypress-io/github-action@v2
       with:
         build: npm i -D cypress
-        project: ./frontend/cypress
+        working-directory: ./frontend/cypress
         browser: chrome
         headless: true
         runTests: false # Just perform installation
