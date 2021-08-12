@@ -29,7 +29,7 @@ describe('reload page', () => {
         .uncheck()
         .should('not.be.checked');
 
-    cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="pug"]')
+    cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="java"]')
         .should('be.checked');
 
     cy.reload();
@@ -49,7 +49,7 @@ describe('reload page', () => {
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="gradle"]')
         .should('not.be.checked');
 
-    cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="pug"]')
+    cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="java"]')
         .should('be.checked');
   });
 });
