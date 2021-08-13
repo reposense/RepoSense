@@ -66,7 +66,8 @@ public class FileInfoExtractor {
         String lastCommitHash = GitRevList.getCommitHashBeforeDate(
                 config.getRepoRoot(), config.getBranch(), config.getSinceDate());
 
-        fileInfos = lastCommitHash.isEmpty() ? getAllFileInfo(config, false)
+        fileInfos = (lastCommitHash.isEmpty())
+                ? getAllFileInfo(config, false)
                 : getEditedFileInfos(config, lastCommitHash);
 
         fileInfos.sort(Comparator.comparing(FileInfo::getPath));
@@ -191,7 +192,8 @@ public class FileInfoExtractor {
             if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
                 continue;
             }
-            fileInfos.add(isBinaryFiles ? new FileInfo(relativePath.toString())
+            fileInfos.add((isBinaryFiles)
+                    ? new FileInfo(relativePath.toString())
                     : generateFileInfo(config.getRepoRoot(), relativePath.toString()));
         }
         return fileInfos;

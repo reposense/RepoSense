@@ -83,6 +83,6 @@ public class AnnotatorAnalyzer {
         Matcher matcher = PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters);
 
         boolean foundMatch = matcher.find();
-        return foundMatch ? matcher.group(MATCHER_GROUP_AUTHOR_NAME) : null;
+        return (foundMatch) ? matcher.group(MATCHER_GROUP_AUTHOR_NAME) : null;
     }
 }

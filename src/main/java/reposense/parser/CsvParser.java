@@ -216,7 +216,7 @@ public abstract class CsvParser<T> {
             inputRowString.add(value);
         }
         String contentAsString = inputRowString.toString();
-        return contentAsString.trim().isEmpty() ? MESSAGE_EMPTY_LINE : contentAsString;
+        return (contentAsString.trim().isEmpty()) ? MESSAGE_EMPTY_LINE : contentAsString;
     }
 
     /**

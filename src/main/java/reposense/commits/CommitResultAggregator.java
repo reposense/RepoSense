@@ -166,7 +166,7 @@ public class CommitResultAggregator {
     }
 
     private static Date getStartDate(List<CommitResult> commitInfos) {
-        Date min = commitInfos.isEmpty() ? new Date(Long.MIN_VALUE) : commitInfos.get(0).getTime();
+        Date min = (commitInfos.isEmpty()) ? new Date(Long.MIN_VALUE) : commitInfos.get(0).getTime();
         return min;
     }
 }

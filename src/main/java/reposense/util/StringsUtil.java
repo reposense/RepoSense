@@ -39,7 +39,8 @@ public class StringsUtil {
      * Removes quotes at the start and end of {@code original}, if exists.
      */
     public static String removeQuote(String original) {
-        return original.startsWith("\"") && original.endsWith("\"")
-                ? original.substring(1, original.length() - 1) : original;
+        return (original.startsWith("\"") && original.endsWith("\""))
+                ? original.substring(1, original.length() - 1)
+                : original;
     }
 }
