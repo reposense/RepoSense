@@ -22,7 +22,7 @@ public class AuthorConfiguration {
     private static final Pattern EMAIL_PLUS_OPERATOR_PATTERN =
             Pattern.compile("^(?<prefix>.+)\\+(?<suffix>.*)(?<domain>@.+)$");
 
-    private boolean hasAuthorConfigFile = DEFAULT_HAS_AUTHOR_CONFIG_FILE;
+    private static boolean hasAuthorConfigFile = DEFAULT_HAS_AUTHOR_CONFIG_FILE;
 
     private RepoLocation location;
     private String branch;
@@ -277,11 +277,11 @@ public class AuthorConfiguration {
         return this.branch.equals(DEFAULT_BRANCH);
     }
 
-    public void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
-        this.hasAuthorConfigFile = hasAuthorConfigFile;
+    public static void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
+        AuthorConfiguration.hasAuthorConfigFile = hasAuthorConfigFile;
     }
 
-    public boolean hasAuthorConfigFile() {
-        return this.hasAuthorConfigFile;
+    public static boolean hasAuthorConfigFile() {
+        return hasAuthorConfigFile;
     }
 }
