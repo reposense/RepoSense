@@ -16,6 +16,31 @@ describe('filter breakdown', () => {
         .should('be.visible');
   });
 
+  it('check, uncheck and recheck breakdown by file type should check all file types', () => {
+    Cypress.wait();
+
+    cy.get('#summary label.filter-breakdown input:visible')
+        .should('be.visible')
+        .check()
+        .should('be.checked');
+
+    // uncheck all file types
+    cy.get('#summary div.fileTypes input:visible[id="all"]')
+        .uncheck()
+        .should('not.be.checked');
+
+    // uncheck breakdown by file type
+    cy.get('#summary label.filter-breakdown input:visible')
+        .should('be.visible')
+        .uncheck()
+        .should('not.be.checked')
+        .check()
+        .should('be.checked');
+
+    cy.get('#summary div.fileTypes input:visible[id="all"]')
+        .should('be.checked');
+  })
+
   it('uncheck all file types should show no file types', () => {
     Cypress.wait();
 
