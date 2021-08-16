@@ -397,6 +397,10 @@ export default {
     },
 
     toggleBreakdown() {
+      // Reset the file type filter
+      if (this.checkedFileTypes.length !== this.fileTypes.length) {
+        this.checkedFileTypes = this.fileTypes.slice();
+      }
       this.getFiltered();
     },
 
