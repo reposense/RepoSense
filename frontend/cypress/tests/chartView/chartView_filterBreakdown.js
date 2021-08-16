@@ -39,7 +39,7 @@ describe('filter breakdown', () => {
 
     cy.get('#summary div.fileTypes input:visible[id="all"]')
         .should('be.checked');
-  })
+  });
 
   it('uncheck all file types should show no file types', () => {
     Cypress.wait();
