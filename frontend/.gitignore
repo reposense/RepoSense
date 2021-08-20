@@ -1,0 +1,10 @@
+.idea/
+.vs/
+
+node_modules/
+package-lock.json
+
+build/
+
+!*/public/favicon.ico
+!*/public/index.html

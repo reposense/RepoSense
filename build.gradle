@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
     id 'application'
     id 'checkstyle'
@@ -103,11 +105,26 @@ shadowJar {
     destinationDir = file("${buildDir}/jar/")
 
     manifest {
-    	attributes 'Implementation-Version': getRepoSenseVersion()
+        attributes 'Implementation-Version': getRepoSenseVersion()
     }
 }
 
-task zipReport(dependsOn: 'npmRunSpuild', type: Zip) {
+task installFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    workingDir 'frontend/'
+    args = ['install']
+}
+
+task buildFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    workingDir 'frontend/'
+    args = ['run', 'devbuild']
+}
+
+task lintFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    workingDir 'frontend/'
+    args = ['run', 'lint']
+}
+
+task zipReport(dependsOn: 'buildFrontend', type: Zip) {
     from 'frontend/build/'
     baseName = 'templateZip'
     destinationDir = file('src/main/resources')
@@ -145,18 +162,19 @@ task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task
     waitForPort = 9000
 }
 
-task installCypress(type: com.liferay.gradle.plugins.node.tasks.NpmInstallTask) {
-    workingDir = file('frontend/cypress/')
+task installCypress(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    workingDir 'frontend/cypress/'
+    args = ['install']
 }
 
-task cypress(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task cypress(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
 }
 
-task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task frontendTest(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
@@ -196,6 +214,38 @@ String getRepoSenseVersion() {
     }
     return repoSenseVersion
 }
+
+task syncFrontendPublic(type: Sync) {
+    from 'reposense-report'
+    into 'frontend/public/'
+    include '**/*.json'
+    includeEmptyDirs = false
+    preserve {
+        include 'index.html'
+        include 'favicon.ico'
+    }
+}
+
+task macHotReloadFrontend(type: Exec) {
+    dependsOn(installFrontend)
+    onlyIf {Os.isFamily(Os.FAMILY_MAC)}
+    workingDir 'frontend/'
+    commandLine 'osascript', '-e', '"tell application "Terminal" to do script "npm run serveOpen""'
+}
+
+task windowsHotReloadFrontend(type: Exec) {
+    dependsOn(installFrontend)
+    onlyIf {Os.isFamily(Os.FAMILY_WINDOWS)}
+    workingDir 'frontend/'
+    commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
+}
+
+task hotReloadFrontend() {
+    dependsOn syncFrontendPublic
+    finalizedBy windowsHotReloadFrontend
+    finalizedBy macHotReloadFrontend
+}
+// End of hot reload Tasks
 
 void deleteReposAddressDirectory() {
     final String REPOS_ADDRESS = "repos"
