@@ -33,7 +33,7 @@ The tabbed interface is responsible for loading various modules such as authorsh
 
 <!-- ==================================================================================================== -->
 
-## Javascript files
+## Javascript and Vue files
 
 - [**main.js**](#main-main-js) - main controller that pushes content into different modules
 - [**api.js**](#data-loader-api-js) - loading and parsing of the report content
@@ -87,7 +87,7 @@ For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` 
 
 <!-- ==================================================================================================== -->
 
-## Summary view ([v_summary.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v_summary.vue))
+## Summary view ([v-summary.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-summary.vue))
 
 The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
@@ -101,7 +101,7 @@ The commits information is retrieved from the corresponding project folders for 
 
 <!-- ==================================================================================================== -->
 
-## Authorship view ([v_authorship.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v_authorship.vue))
+## Authorship view ([v-authorship.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-authorship.vue))
 
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
 
@@ -112,13 +112,13 @@ The files will be filtered, picking only files the selected author has written i
 
 <!-- ==================================================================================================== -->
 
-## Zoom view ([v_zoom.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v_zoom.vue))
+## Zoom view ([v-zoom.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue))
 
 The `v_zoom` module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.
 
 <!-- ==================================================================================================== -->
 
-## Ramp view ([v_ramp.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v_ramp.vue))
+## Ramp view ([v-ramp.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-ramp.vue))
 
 The `v_ramp` module is responsible for receiving the relevant information from `v_summary` and generating ramp charts that contain ramp slices.
 
@@ -127,6 +127,6 @@ For ramps between the date ranges, the slices will be selected and it will be pr
 
 <!-- ==================================================================================================== -->
 
-## Segment view ([v_segment.vue](https://https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-segment.vue))
+## Segment view ([v-segment.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-segment.vue))
 
 The `v-segment` module is used as a component in `v_authorship`. It separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled.
