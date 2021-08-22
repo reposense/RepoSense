@@ -27,7 +27,7 @@ public class GitCatFile {
         String catFileCommand = "git cat-file -p " + commitHash;
         try {
             String output = runCommand(rootPath, catFileCommand);
-            List<String> parentCommits = new ArrayList();
+            List<String> parentCommits = new ArrayList<>();
             for (String line : output.split("\n")) {
                 if (line.startsWith("parent")) {
                     parentCommits.add(line.substring(7).trim());
@@ -44,7 +44,7 @@ public class GitCatFile {
      * commits of all the commits.
      */
     public static List<String> getParentsOfCommits(String root, List<String> commitHashes) {
-        List<String> parentCommits = new ArrayList();
+        List<String> parentCommits = new ArrayList<>();
         for (String commitHash : commitHashes) {
             try {
                 parentCommits.addAll(getParentCommits(root, commitHash));

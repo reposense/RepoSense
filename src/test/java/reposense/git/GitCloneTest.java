@@ -12,7 +12,7 @@ import reposense.template.GitTestTemplate;
 public class GitCloneTest extends GitTestTemplate {
 
     @Test
-    public void cloneTest_validRepo_success() throws Exception {
+    public void cloneTest_validRepo_success() {
         // As the clone has been performed in the {@code GitTestTemplate},
         // this checks whether the clone has been executed successfully by performing a file system check.
         Path dir = Paths.get(config.getRepoRoot());
