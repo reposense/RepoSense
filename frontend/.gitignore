@@ -6,5 +6,6 @@ package-lock.json
 
 build/
 
-!*/public/favicon.ico
-!*/public/index.html
+public/
+!public/favicon.ico
+!public/index.html

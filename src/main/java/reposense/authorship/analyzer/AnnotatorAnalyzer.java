@@ -10,25 +10,36 @@ import java.util.regex.Pattern;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.LineInfo;
 import reposense.model.Author;
+import reposense.model.AuthorConfiguration;
 
 /**
  * Analyzes the authorship of a {@code FileInfo} using the given annotations on the file.
+ * Only the lines with the format (START OF LINE) COMMENT_SYMBOL @@author ONE_STRING_WITH_NO_SPACE (END OF LINE)
+ * will be analyzed. Otherwise, the line will be ignored and treated as normal lines.
+ * If the line is analyzed, and the string following the author tag is a valid git id, and there is no author config
+ * file, then the code will be attributed to the author with that git id. Otherwise, the code will be attributed to
+ * unknown author
  */
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
-    private static final String REGEX_AUTHOR_NAME_FORMAT = "([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])";
+    // reference: https://github.com/shinnn/github-username-regex
+    private static final String REGEX_AUTHOR_NAME_FORMAT = "^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$";
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
-    private static final int MATCHER_GROUP_AUTHOR_NAME = 1;
+    private static final String REGEX_COMMENT_WITH_AUTHOR_TAG_FORMAT = "^[^\\w]*@@author(\\s[^\\s]+)?[\\s]*$";
+    private static final Pattern PATTERN_COMMENT_WITH_AUTHOR_TAG_FORMAT =
+            Pattern.compile(REGEX_COMMENT_WITH_AUTHOR_TAG_FORMAT);
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
      */
-    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, Map<String, Author> authorAliasMap) {
+    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
         Optional<Author> currentAnnotatedAuthor = Optional.empty();
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
-            if (lineInfo.getContent().contains(AUTHOR_TAG)) {
-                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorAliasMap,
+            String lineContent = lineInfo.getContent();
+            Matcher matcher = PATTERN_COMMENT_WITH_AUTHOR_TAG_FORMAT.matcher(lineContent);
+            if (matcher.find()) {
+                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorConfig,
                         currentAnnotatedAuthor);
 
                 if (!newAnnotatedAuthor.isPresent()) {
@@ -48,13 +59,15 @@ public class AnnotatorAnalyzer {
     /**
      * Extracts the author name from the given {@code line}, finds the corresponding {@code Author}
      * in {@code authorAliasMap}, and returns this {@code Author} stored in an {@code Optional}.
-     * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if no matching {@code Author} is found,
+     * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if there is an author config file and
+     *              no matching {@code Author} is found,
      *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
-     *         or if the extracted author name is too short.
+     *         {@code Optional.of(Author#tagged author)} otherwise.
      */
-    private static Optional<Author> findAuthorInLine(String line, Map<String, Author> authorAliasMap,
+    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
                                                      Optional<Author> currentAnnotatedAuthor) {
         try {
+            Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
             String[] split = line.split(AUTHOR_TAG);
             String name = extractAuthorName(split[1]);
             if (name == null) {
@@ -63,6 +76,9 @@ public class AnnotatorAnalyzer {
                     return Optional.of(Author.UNKNOWN_AUTHOR);
                 }
                 return Optional.empty();
+            }
+            if (!authorAliasMap.containsKey(name) && !AuthorConfiguration.hasAuthorConfigFile()) {
+                authorConfig.addAuthor(new Author(name));
             }
             return Optional.of(authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR));
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -87,6 +103,6 @@ public class AnnotatorAnalyzer {
             return null;
         }
 
-        return matcher.group(MATCHER_GROUP_AUTHOR_NAME);
+        return trimmedParameters;
     }
 }
