@@ -42,7 +42,7 @@ public class GitTestTemplate {
     protected static final String JAMES_AUTHOR_NAME = "jamessspanggg";
     protected static final String JAMES_ALTERNATIVE_AUTHOR_NAME = "James Pang";
     protected static final String JINYAO_AUTHOR_NAME = "jylee-git";
-    protected static final String LATEST_COMMIT_HASH = "955d4616b1e887a3050c0bec277c4025ca9284a0";
+    protected static final String LATEST_COMMIT_HASH = "f34c20ec2c3be63e0764d4079a575dd75269ffeb";
     protected static final String LATEST_COMMIT_HASH_PARENT = "3dd8abb745ba50c8c3b6b960b1d0cb0693b68c72";
     protected static final String EMPTY_TREE_HASH = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
     protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING =
