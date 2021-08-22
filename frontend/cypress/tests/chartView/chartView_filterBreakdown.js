@@ -25,6 +25,10 @@ describe('filter breakdown', () => {
         .should('be.checked');
 
     // uncheck all file types
+    cy.get('#summary div.fileTypes input:visible[id="all"]')
+        .uncheck()
+        .should('not.be.checked');
+
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
         .uncheck()
