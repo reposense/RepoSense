@@ -94,14 +94,14 @@
       v-bind:key="slice.hash",
       v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
     )
-      .tooltip
-        | Commit hash: {{ slice.hash.substr(0, 4) }} &nbsp;
-        span.tooltip-text First 4 digits of commit hash
       a.message-title(v-bind:href="getSliceLink(slice)", target="_blank")
         .within-border {{ slice.messageTitle.substr(0, 50) }}
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
       span &nbsp; ({{ slice.insertions }} lines) &nbsp;
+      .tooltip
+        |({{ slice.hash.substr(0, 7) }}) &nbsp;
+        span.tooltip-text First 7 digits of commit hash
       span.fileTypeLabel(
         v-for="fileType in\
           filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
