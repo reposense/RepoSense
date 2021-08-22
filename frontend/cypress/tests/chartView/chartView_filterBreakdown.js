@@ -19,20 +19,20 @@ describe('filter breakdown', () => {
   it('check, uncheck and recheck breakdown by file type should check all file types', () => {
     Cypress.wait();
 
-    cy.get('#summary label.filter-breakdown input:visible')
+    cy.get('#summary label.filter-breakdown > input:visible')
         .should('be.visible')
         .check()
         .should('be.checked');
 
     // uncheck all file types
-    cy.get('#summary div.fileTypes input:visible[id="all"]')
+    cy.get('#summary div.fileTypes > input:visible[id="all"]')
         .uncheck()
         .should('not.be.checked');
 
     Cypress.wait();
 
     // uncheck breakdown by file type
-    cy.get('#summary label.filter-breakdown input:visible')
+    cy.get('#summary label.filter-breakdown > input:visible')
         .should('be.visible')
         .uncheck()
         .should('not.be.checked');
