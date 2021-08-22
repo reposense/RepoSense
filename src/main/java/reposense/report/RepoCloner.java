@@ -1,5 +1,7 @@
 package reposense.report;
 
+import static reposense.util.FileUtil.getRepoParentFolder;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -146,7 +148,7 @@ public class RepoCloner {
      * Cleans up data associated with a particular repo.
      */
     public void cleanupRepo(RepoConfiguration config) {
-        deleteDirectory(FileUtil.getRepoParentFolder(config).toString());
+        deleteDirectory(getRepoParentFolder(config).toString());
     }
 
     /**
@@ -168,8 +170,8 @@ public class RepoCloner {
                 FileUtil.deleteDirectory(FileUtil.getBareRepoPath(config).toString());
             }
 
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
-            Path repoPath = Paths.get(rootPath.toString(), config.getRepoName());
+            Path repoDirectoryPath = getRepoParentFolder(config);
+            Path repoPath = Paths.get(repoDirectoryPath.toString(), config.getRepoName());
 
             if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !isFreshCloneForTestRequired) {
                 logger.info("Skipped cloning from " + config.getLocation()
@@ -177,10 +179,14 @@ public class RepoCloner {
                 return true;
             }
 
-            Files.createDirectories(rootPath);
+            Files.createDirectories(repoDirectoryPath);
 
             logger.info(String.format(MESSAGE_START_CLONING, config.getLocation()));
-            crp = GitClone.cloneBareAsync(config, rootPath, FileUtil.getBareRepoFolderName(config));
+
+            Path outputDirectory = Paths.get(repoDirectoryPath.toString(),
+                    FileUtil.getBareRepoFolderName(config));
+
+            crp = GitClone.cloneBareAsync(config, Paths.get("."), outputDirectory.toString());
         } catch (GitCloneException | IOException e) {
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING, config.getDisplayName()), e);
             return false;
@@ -202,8 +208,8 @@ public class RepoCloner {
                 FileUtil.deleteDirectory(FileUtil.getBareRepoPath(config).toString());
             }
 
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
-            Path repoPath = Paths.get(rootPath.toString(), config.getRepoName());
+            Path repoDirectoryPath = getRepoParentFolder(config);
+            Path repoPath = Paths.get(repoDirectoryPath.toString(), config.getRepoName());
 
             if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !isFreshCloneForTestRequired) {
                 logger.info("Skipped cloning from " + config.getLocation()
@@ -211,10 +217,13 @@ public class RepoCloner {
                 return true;
             }
 
-            Files.createDirectories(rootPath);
+            Files.createDirectories(repoDirectoryPath);
+
+            Path outputDirectory = Paths.get(repoDirectoryPath.toString(),
+                    FileUtil.getBareRepoFolderName(config));
 
             logger.info(String.format(MESSAGE_START_CLONING_SHALLOW, config.getLocation()));
-            crp = GitClone.cloneShallowBareAsync(config, rootPath, FileUtil.getBareRepoFolderName(config),
+            crp = GitClone.cloneShallowBareAsync(config, Paths.get("."), outputDirectory.toString(),
                     shallowSinceDate);
         } catch (GitCloneException | IOException e) {
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING_SHALLOW, config.getDisplayName()), e);
@@ -235,8 +244,8 @@ public class RepoCloner {
                 FileUtil.deleteDirectory(FileUtil.getPartialBareRepoPath(config).toString());
             }
 
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
-            Path repoPath = Paths.get(rootPath.toString(), config.getRepoName());
+            Path repoDirectoryPath = getRepoParentFolder(config);
+            Path repoPath = Paths.get(repoDirectoryPath.toString(), config.getRepoName());
 
             if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !isFreshCloneForTestRequired) {
                 logger.info("Skipped cloning from " + config.getLocation()
@@ -244,10 +253,13 @@ public class RepoCloner {
                 return true;
             }
 
-            Files.createDirectories(rootPath);
+            Files.createDirectories(repoDirectoryPath);
+
+            Path outputDirectory = Paths.get(repoDirectoryPath.toString(),
+                    FileUtil.getPartialBareRepoFolderName(config));
 
             logger.info(String.format(MESSAGE_START_CLONING_PARTIAL, config.getLocation()));
-            GitClone.clonePartialBare(config, rootPath, FileUtil.getPartialBareRepoFolderName(config));
+            GitClone.clonePartialBare(config, Paths.get("."), outputDirectory.toString());
         } catch (GitCloneException | IOException e) {
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING_PARTIAL, config.getDisplayName()), e);
             return false;
@@ -266,8 +278,8 @@ public class RepoCloner {
             if (!SystemUtil.isTestEnvironment()) {
                 FileUtil.deleteDirectory(FileUtil.getShallowPartialBareRepoPath(config).toString());
             }
-            Path rootPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
-            Path repoPath = Paths.get(rootPath.toString(), config.getRepoName());
+            Path repoDirectoryPath = getRepoParentFolder(config);
+            Path repoPath = Paths.get(repoDirectoryPath.toString(), config.getRepoName());
 
             if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !isFreshCloneForTestRequired) {
                 logger.info("Skipped cloning from " + config.getLocation()
@@ -275,10 +287,13 @@ public class RepoCloner {
                 return true;
             }
 
-            Files.createDirectories(rootPath);
+            Files.createDirectories(repoDirectoryPath);
+
+            Path outputDirectory = Paths.get(repoDirectoryPath.toString(),
+                    FileUtil.getShallowPartialBareRepoFolderName(config));
 
             logger.info(String.format(MESSAGE_START_CLONING_SHALLOW_PARTIAL, config.getLocation()));
-            GitClone.cloneShallowPartialBare(config, rootPath, FileUtil.getShallowPartialBareRepoFolderName(config),
+            GitClone.cloneShallowPartialBare(config, Paths.get("."), outputDirectory.toString(),
                     config.getSinceDate());
         } catch (GitCloneException | IOException e) {
             logger.log(Level.WARNING, String.format(MESSAGE_ERROR_CLONING_SHALLOW_PARTIAL, config.getDisplayName()), e);
