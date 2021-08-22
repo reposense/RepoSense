@@ -65,6 +65,12 @@ The issues for first timers usually have guidance provided in the comment or hav
 
 ## Debugging (front-end)
 
+**You can use the hot reloading feature to see how your code changes the functionality of the website in real time.**
+1. Navigate to the project root in your terminal.
+1. Generate the desired data for the report using `gradlew run` with the appropriate flags.
+1. Run `gradlew hotReloadFrontend`.
+1. The website will be automatically opened in your browser shortly.
+
 **You can use Vue.js devtools for frontend debugging on Chrome.** Here are the steps:
 1. On your Chrome, visit the website of [Vue.js devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) and add the extension.
 1. Go to the detail page of this extension in Chrome's extension management panel and select `Allow access to file URLs`. If you are unable to locate it, copy the link: `chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd` and visit it on your Chrome.
