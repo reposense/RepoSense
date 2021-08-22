@@ -138,15 +138,15 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Author author = new Author(FAKE_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         Map<FileType, ContributionPair> fileTypeAndContributionMap = new HashMap<>();
-        fileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(11, 0));
+        fileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(3, 3));
         expectedCommitResults.add(new CommitResult(author, LATEST_COMMIT_HASH,
-                parseGitStrictIsoDate("2021-04-05T12:27:03+08:00"),
-                "Add test lines for disowned code",
+                parseGitStrictIsoDate("2021-08-03T12:53:39+08:00"),
+                "Update annotationTest.java",
                 "", null, fileTypeAndContributionMap));
 
         config.setAuthorList(Arrays.asList(author, author));
-        config.setSinceDate(new GregorianCalendar(2021, Calendar.APRIL, 5).getTime());
-        config.setUntilDate(new GregorianCalendar(2021, Calendar.APRIL, 6).getTime());
+        config.setSinceDate(new GregorianCalendar(2021, Calendar.AUGUST, 3).getTime());
+        config.setUntilDate(new GregorianCalendar(2021, Calendar.AUGUST, 4).getTime());
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
