@@ -29,6 +29,8 @@ describe('filter breakdown', () => {
         .uncheck()
         .should('not.be.checked');
 
+    Cypress.wait();
+
     // uncheck breakdown by file type
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
