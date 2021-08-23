@@ -8,9 +8,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import reposense.authorship.analyzer.AnnotatorAnalyzer;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.model.Author;
@@ -81,4 +83,21 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
         return FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
     }
+
+    @Test
+    public void checkValidCommentLine() {
+        Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("// @@author fakeAuthor"));
+        Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("   // @@author fakeAuthor"));
+        Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("/* @@author fakeAuthor */  "));
+        Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("/* @@author fakeAuthor "));
+        Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("# @@author fakeAuthor"));
+        Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("<!-- @@author fakeAuthor-->"));
+        Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("% @@author fakeAuthor"));
+
+        Assert.assertFalse(AnnotatorAnalyzer.checkValidCommentLine("// @@author fakeAuthor //"));
+        Assert.assertFalse(AnnotatorAnalyzer.checkValidCommentLine("@@author fakeAuthor"));
+        Assert.assertFalse(AnnotatorAnalyzer.checkValidCommentLine("@@author fakeAuthor */"));
+    }
+
+
 }

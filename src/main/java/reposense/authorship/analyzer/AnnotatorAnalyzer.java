@@ -25,9 +25,15 @@ public class AnnotatorAnalyzer {
     // reference: https://github.com/shinnn/github-username-regex
     private static final String REGEX_AUTHOR_NAME_FORMAT = "^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$";
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
-    private static final String REGEX_COMMENT_WITH_AUTHOR_TAG_FORMAT = "^[^\\w]*@@author(\\s[^\\s]+)?[\\s]*$";
-    private static final Pattern PATTERN_COMMENT_WITH_AUTHOR_TAG_FORMAT =
-            Pattern.compile(REGEX_COMMENT_WITH_AUTHOR_TAG_FORMAT);
+    private static final String REGEX_AUTHOR_TAG_FORMAT = "@@author(\\s[^\\s]+)?";
+
+    private static final String[][] COMMENT_FORMATS = {
+            {"//", "\\s"},
+            {"/\\*", "\\*/"},
+            {"#", "\\s"},
+            {"<!--", "-->"},
+            {"%", "\\s"},
+    };
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
@@ -37,20 +43,21 @@ public class AnnotatorAnalyzer {
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             String lineContent = lineInfo.getContent();
-            Matcher matcher = PATTERN_COMMENT_WITH_AUTHOR_TAG_FORMAT.matcher(lineContent);
-            if (matcher.find()) {
-                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorConfig,
-                        currentAnnotatedAuthor);
+            if (lineContent.contains("@@author")) {
+                if (checkValidCommentLine(lineContent)) {
+                    Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorConfig,
+                            currentAnnotatedAuthor);
 
-                if (!newAnnotatedAuthor.isPresent()) {
-                    // end of an author tag should belong to the current author too.
-                    lineInfo.setAuthor(currentAnnotatedAuthor.get());
-                } else if (newAnnotatedAuthor.get().isIgnoringFile(filePath)) {
-                    newAnnotatedAuthor = Optional.empty();
+                    if (!newAnnotatedAuthor.isPresent()) {
+                        // end of an author tag should belong to the current author too.
+                        lineInfo.setAuthor(currentAnnotatedAuthor.get());
+                    } else if (newAnnotatedAuthor.get().isIgnoringFile(filePath)) {
+                        newAnnotatedAuthor = Optional.empty();
+                    }
+
+                    //set a new author
+                    currentAnnotatedAuthor = newAnnotatedAuthor;
                 }
-
-                //set a new author
-                currentAnnotatedAuthor = newAnnotatedAuthor;
             }
             currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
         }
@@ -104,5 +111,26 @@ public class AnnotatorAnalyzer {
         }
 
         return trimmedParameters;
+    }
+
+    public static String generateCommentRegex(String commentStart, String commentEnd) {
+        return "^[\\s]*" + commentStart + "[\\s]*" + REGEX_AUTHOR_TAG_FORMAT + "[\\s]*(" + commentEnd + ")?[\\s]*$";
+    }
+
+    /**
+     * Checks if the line is a valid @@author tag comment line
+     * @param line The line to be checked
+     * @return True if the line is valid, false otherwise
+     */
+    public static boolean checkValidCommentLine(String line) {
+        for (String[] commentFormat : COMMENT_FORMATS) {
+            String commentRegex = AnnotatorAnalyzer.generateCommentRegex(commentFormat[0], commentFormat[1]);
+            Pattern commentPattern = Pattern.compile(commentRegex);
+            Matcher matcher = commentPattern.matcher(line);
+            if (matcher.find()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
