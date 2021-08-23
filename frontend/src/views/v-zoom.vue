@@ -99,9 +99,8 @@
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
       span &nbsp; ({{ slice.insertions }} lines) &nbsp;
-      .tooltip
-        |({{ slice.hash.substr(0, 7) }}) &nbsp;
-        span.tooltip-text First 7 digits of commit hash
+      .hash
+        span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
         v-for="fileType in\
           filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
