@@ -93,6 +93,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("# @@author fakeAuthor"));
         Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("<!-- @@author fakeAuthor-->"));
         Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("% @@author fakeAuthor"));
+        Assert.assertTrue(AnnotatorAnalyzer.checkValidCommentLine("// @@author"));
 
         Assert.assertFalse(AnnotatorAnalyzer.checkValidCommentLine("// @@author fakeAuthor //"));
         Assert.assertFalse(AnnotatorAnalyzer.checkValidCommentLine("@@author fakeAuthor"));
