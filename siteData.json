@@ -153,7 +153,8 @@
       "src": "dg/styleGuides.md",
       "title": "Appendix: Style guides",
       "headings": {
-        "appendix-style-guides": "Appendix: Style guides"
+        "appendix-style-guides": "Appendix: Style guides",
+        "note-on-ternary-operators": "Note on Ternary Operators:"
       },
       "headingKeywords": {}
     },

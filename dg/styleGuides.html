@@ -113,13 +113,26 @@
           <li><a href="https://se-education.org/guides/conventions/javascript.html"><strong>JavaScript</strong> coding standard</a></li>
           <li><strong>Documentation</strong>: Follow the <a href="https://developers.google.com/style"><strong>Google developer documentation style guide</strong></a>.</li>
         </ul>
+        <h2 id="note-on-ternary-operators"><span id="note-on-ternary-operators" class="anchor"></span>Note on Ternary Operators:<a class="fa fa-anchor" href="#note-on-ternary-operators" onclick="event.stopPropagation()"></a></h2>
+        <p>Ternary operators can be used to shorten if-else blocks such as this:</p>
+        <pre><code class="hljs" v-pre><span>Date min = new Date(Long.MIN_VALUE);
+</span><span>if (!commitInfos.isEmpty()) {
+</span><span>    min = commitInfos.get(0).getTime();
+</span><span>}
+</span></code></pre>
+        <p>The result would look something like this:</p>
+        <pre><code class="hljs" v-pre><span>Date min = commitInfos.isEmpty() ? new Date(Long.MIN_VALUE) : commitInfos.get(0).getTime();
+</span></code></pre>
+        <p>To preserve readability, it is recommended that if-else blocks should only be
+          converted to ternary operators if the resultant code can be kept at most 3 lines long
+          (in accordance to the coding standard).</p>
         <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
       </div>
     </div>
     <footer>
 
       <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Sun, Aug 22, 2021, 10:02:04 AM UTC]</small>
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Mon, Aug 23, 2021, 1:53:50 PM UTC]</small>
       </div>
     </footer>
   </div>
