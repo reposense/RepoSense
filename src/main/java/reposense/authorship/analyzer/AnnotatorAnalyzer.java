@@ -106,11 +106,7 @@ public class AnnotatorAnalyzer {
         Matcher matcher = PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters);
 
         boolean foundMatch = matcher.find();
-        if (!foundMatch) {
-            return null;
-        }
-
-        return trimmedParameters;
+        return (foundMatch) ? trimmedParameters : null;
     }
 
     public static String generateCommentRegex(String commentStart, String commentEnd) {
