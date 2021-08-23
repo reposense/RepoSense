@@ -156,11 +156,7 @@ public abstract class CsvParser<T> {
      * Returns the value of {@code record} at the column with the header {@code header}.
      */
     protected String get(final CSVRecord record, String header) {
-        if (headerMap.containsKey(header)) {
-            return record.get(headerMap.get(header)).trim();
-        } else {
-            return EMPTY_STRING;
-        }
+        return headerMap.containsKey(header) ? record.get(headerMap.get(header)).trim() : EMPTY_STRING;
     }
 
     /**
@@ -220,10 +216,7 @@ public abstract class CsvParser<T> {
             inputRowString.add(value);
         }
         String contentAsString = inputRowString.toString();
-        if (contentAsString.trim().isEmpty()) {
-            contentAsString = MESSAGE_EMPTY_LINE;
-        }
-        return contentAsString;
+        return (contentAsString.trim().isEmpty()) ? MESSAGE_EMPTY_LINE : contentAsString;
     }
 
     /**
