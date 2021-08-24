@@ -8,10 +8,6 @@ public class ReportConfiguration {
     private String title;
 
     public String getTitle() {
-        if (title == null) {
-            return DEFAULT_TITLE;
-        }
-
-        return title;
+        return (title == null) ? DEFAULT_TITLE : title;
     }
 }
