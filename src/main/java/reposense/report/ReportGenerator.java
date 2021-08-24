@@ -350,7 +350,7 @@ public class ReportGenerator {
         if (config.isFindingPreviousAuthorsPerformed()) {
             generateIgnoreRevsFile(config);
         }
-        
+
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
         List<Path> generatedFiles = generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
