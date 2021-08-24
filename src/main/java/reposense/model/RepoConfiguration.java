@@ -571,7 +571,7 @@ public class RepoConfiguration {
     public boolean isIgnoreCommitListOverriding() {
         return isIgnoreCommitListOverriding;
     }
-  
+
     public boolean isFindingPreviousAuthorsPerformed() {
         return isFindingPreviousAuthorsPerformed;
     }
