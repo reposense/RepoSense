@@ -44,9 +44,10 @@ public class AnnotatorAnalyzer {
         for (LineInfo lineInfo : fileInfo.getLines()) {
             String lineContent = lineInfo.getContent();
             if (lineContent.contains("@@author")) {
-                if (checkValidCommentLine(lineContent)) {
-                    Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineInfo.getContent(), authorConfig,
-                            currentAnnotatedAuthor);
+                int formatIndex = checkValidCommentLine(lineContent);
+                if (formatIndex >= 0) {
+                    Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig,
+                            currentAnnotatedAuthor, formatIndex);
 
                     if (!newAnnotatedAuthor.isPresent()) {
                         // end of an author tag should belong to the current author too.
@@ -72,11 +73,10 @@ public class AnnotatorAnalyzer {
      *         {@code Optional.of(Author#tagged author)} otherwise.
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
-                                                     Optional<Author> currentAnnotatedAuthor) {
+                                                     Optional<Author> currentAnnotatedAuthor, int formatIndex) {
         try {
             Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
-            String[] split = line.split(AUTHOR_TAG);
-            String name = extractAuthorName(split[1]);
+            String name = extractAuthorName(line, formatIndex);
             if (name == null) {
                 if (!currentAnnotatedAuthor.isPresent()) {
                     // Attribute to unknown author if an empty author tag was provided, but not as an end author tag
@@ -101,7 +101,9 @@ public class AnnotatorAnalyzer {
      *
      * @return an empty string if no such author was found, the new author name otherwise
      */
-    private static String extractAuthorName(String authorTagParameters) {
+    public static String extractAuthorName(String line, int formatIndex) {
+        String[] split = line.split(AUTHOR_TAG);
+        String authorTagParameters = split[1].trim().split(COMMENT_FORMATS[formatIndex][1])[0];
         String trimmedParameters = authorTagParameters.trim();
         Matcher matcher = PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters);
 
@@ -116,17 +118,18 @@ public class AnnotatorAnalyzer {
     /**
      * Checks if the line is a valid @@author tag comment line
      * @param line The line to be checked
-     * @return True if the line is valid, false otherwise
+     * @return The index of the comment if the comment pattern matches, -1 if no match
      */
-    public static boolean checkValidCommentLine(String line) {
-        for (String[] commentFormat : COMMENT_FORMATS) {
+    public static int checkValidCommentLine(String line) {
+        for (int i = 0; i < COMMENT_FORMATS.length; i++) {
+            String[] commentFormat = COMMENT_FORMATS[i];
             String commentRegex = AnnotatorAnalyzer.generateCommentRegex(commentFormat[0], commentFormat[1]);
             Pattern commentPattern = Pattern.compile(commentRegex);
             Matcher matcher = commentPattern.matcher(line);
             if (matcher.find()) {
-                return true;
+                return i;
             }
         }
-        return false;
+        return -1;
     }
 }
