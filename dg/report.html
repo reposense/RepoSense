@@ -1,251 +1,34 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.18.1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RepoSense - HTML report</title>
-  <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
-  <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
-  <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/codeblock-light.min.css">
-  <link rel="stylesheet" href="../markbind/css/markbind.min.css">
-  <script src="../markbind/js/polyfill.min.js"></script>
-  <script src="../markbind/js/vue.min.js"></script>
-  <script src="../markbind/js/markbind.min.js"></script>
-  <script src="../markbind/js/jquery.min.js"></script>
-  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
-  <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
-  <link rel="icon" href="/RepoSense/favicon.ico">
-</head>
-
-<body data-spy="scroll" data-target="#page-nav" data-offset="100">
-  <div id="app">
-    <header>
-      <navbar type="dark" placement="top" class="temp-navbar">
-        <a slot="brand" href="/RepoSense/index.html" title="Home" class="navbar-brand"><img width="30px" src="/RepoSense/favicon.ico"></a>
-        <li><a href="/RepoSense/index.html" class="nav-link">HOME</a></li>
-        <li><a href="/RepoSense/showcase.html" class="nav-link">SHOWCASE</a></li>
-        <li><a href="/RepoSense/ug/index.html" class="nav-link">USER GUIDE</a></li>
-        <li><a href="/RepoSense/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
-        <li><a href="/RepoSense/about.html" class="nav-link">ABOUT</a></li>
-        <li><a href="/RepoSense/contact.html" class="nav-link">CONTACT</a></li>
-        <li tags="dev"><a href="https://reposense.org" class="nav-link" target="_blank"><span><span aria-hidden="true" class="fas fa-external-link-alt"></span> PRODUCTION SITE</span></a></li>
-        <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
-        <li slot="right">
-          <form class="navbar-form">
-            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
-          </form>
-        </li>
-      </navbar>
-    </header>
-    <div id="flex-body">
-      <nav id="site-nav" class="navbar navbar-light bg-transparent">
-        <div class="border-right-grey nav-inner position-sticky slim-scroll">
-          <p><span class="lead"><strong><strong>DEVELOPER GUIDE</strong></strong></span></p>
-          <ul class="site-nav-list site-nav-list-root">
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/index.html"><strong>Contributing</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/settingUp.html"><strong>Setting up</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/learningBasics.html"><strong>Learning the basics</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/workflow.html"><strong>Workflow</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Design and implementation</strong>
-                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i>
-              </div>
-              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/architecture.html">Architecture</a></div>
-                </li>
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/report.html" class="current">HTML report</a></div>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/projectManagement.html"><strong>Project management</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/devOpsGuide.html"><strong>DevOps guide</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
-                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i>
-              </div>
-              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/dg/styleGuides.html">Style guides</a></div>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-
-
-      <div id="content-wrapper">
-        <div></div>
-        <h1 class="display-4" id="html-report"><span id="html-report" class="anchor"></span><span>HTML report</span><a class="fa fa-anchor" href="#html-report" onclick="event.stopPropagation()"></a></h1>
-        <p>The report's source files are located in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src"><code class="hljs inline no-lang" v-pre>frontend/src</code></a> and are built by <a href="https://github.com/ongspxm/spuild2">spuild</a> before being packaged into the JAR file to be extracted as part of the report.</p>
-        <p>The main HTML file is generated from <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/index.pug"><code class="hljs inline no-lang" v-pre>frontend/src/index.pug</code></a>.</p>
-        <p><a href="https://vuejs.org/v2/api/">Vue</a> (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to update the information in the various views dynamically. (Style guide available <a href="https://vuejs.org/v2/style-guide/">here</a>, Developer tool available <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">here</a>). Vue lifecycle hooks are the defined methods that get executed in a particular stage of the Vue object lifespan. The following is the Vue lifecycle diagram taken from <a href="https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram">here</a> indicating the hook sequence:
-          <a href="/RepoSense/images/vue-lifecycle-diagram.png" target="_self"><img src="/RepoSense/images/vue-lifecycle-diagram.png" alt class="img-fluid"></a>
-        </p>
-        <p>The following is a snapshot of the report:
-          <a href="/RepoSense/images/report-summary.png" target="_self"><img src="/RepoSense/images/report-summary.png" alt class="img-fluid"></a>
-        </p>
-
-        <h2 id="report-architecture"><span id="report-architecture" class="anchor"></span>Report architecture<a class="fa fa-anchor" href="#report-architecture" onclick="event.stopPropagation()"></a></h2>
-        <p><a href="/RepoSense/images/report-architecture.png" target="_self"><img src="/RepoSense/images/report-architecture.png" alt class="img-fluid"></a></p>
-        <p>The main Vue object (<code class="hljs inline no-lang" v-pre>window.app</code>) is responsible for loading the report (through <code class="hljs inline no-lang" v-pre>summary.json</code>). Its <code class="hljs inline no-lang" v-pre>repos</code> attribute is tied to the global <code class="hljs inline no-lang" v-pre>window.REPOS</code>, and is passed into the various other modules when the information is needed.</p>
-        <p><code class="hljs inline no-lang" v-pre>window.app</code> is broken down into two main parts</p>
-        <ul>
-          <li>the summary view</li>
-          <li>and the tabbed interface</li>
-        </ul>
-        <p>The summary view acts as the main report, which shows the various calculations. <br>
-          The tabbed interface is responsible for loading various modules such as authorship and zoom to display additional information.</p>
-
-        <h2 id="javascript-files"><span id="javascript-files" class="anchor"></span>Javascript files<a class="fa fa-anchor" href="#javascript-files" onclick="event.stopPropagation()"></a></h2>
-        <ul>
-          <li><a href="#main-main-js"><strong>main.js</strong></a> - main controller that pushes content into different modules</li>
-          <li><a href="#data-loader-api-js"><strong>api.js</strong></a> - loading and parsing of the report content</li>
-          <li><a href="#summary-view-v-summary-js"><strong>v_summary.js</strong></a> - module that supports the summary view</li>
-          <li><a href="#authorship-view-v-authorship-js"><strong>v_authorship.js</strong></a> - module that supports the authorship tab view</li>
-          <li><a href="#zoom-view-v-zoom-js"><strong>v_zoom.js</strong></a> - module that supports the zoom tab view</li>
-          <li><a href="#ramp-view-v-ramp-js"><strong>v_ramp.js</strong></a> - module that supports the ramp chart view</li>
-          <li><a href="#segment-view-v-segment-js"><strong>v_segment.js</strong></a> - module that supports the code segment view</li>
-        </ul>
-
-        <h2 id="json-report-files"><span id="json-report-files" class="anchor"></span>JSON report files<a class="fa fa-anchor" href="#json-report-files" onclick="event.stopPropagation()"></a></h2>
-        <ul>
-          <li><strong>summary.json</strong> - a list of all the repositories and their respective details</li>
-          <li><strong>projName/commits.json</strong> - contains information of the users' commits information (e.g., line deletion, insertion, etc.), grouped by date</li>
-          <li><strong>projName/authorship.json</strong> - contains information from git blame, detailing the author of each line for all the processed files</li>
-        </ul>
-
-        <h2 id="main-main-js"><span id="main-main-js" class="anchor"></span>Main (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/main.js">main.js</a>)<a class="fa fa-anchor" href="#main-main-js" onclick="event.stopPropagation()"></a></h2>
-        <p>This contains the logic for the main VueJS object, <code class="hljs inline no-lang" v-pre>window.app</code>, which is responsible for passing the necessary data into the relevant modules to be loaded.</p>
-        <p><code class="hljs inline no-lang" v-pre>v_summary</code>, <code class="hljs inline no-lang" v-pre>v_authorship</code>, <code class="hljs inline no-lang" v-pre>v_zoom</code>, <code class="hljs inline no-lang" v-pre>v_segment</code>, and <code class="hljs inline no-lang" v-pre>v_ramp</code> are components embedded into the report and will render the corresponding content based on the data passed into it from the main <code class="hljs inline no-lang" v-pre>window.app</code>.</p>
-        <h3 id="loading-of-report-information"><span id="loading-of-report-information" class="anchor"></span>Loading of report information<a class="fa fa-anchor" href="#loading-of-report-information" onclick="event.stopPropagation()"></a></h3>
-        <p>The main Vue object depends on the <code class="hljs inline no-lang" v-pre>summary.json</code> data to determine the right <code class="hljs inline no-lang" v-pre>commits.json</code> files to load into memory. This is handled by <code class="hljs inline no-lang" v-pre>api.js</code>, which loads the relevant file information from the network files if available; otherwise, a report archive, <code class="hljs inline no-lang" v-pre>archive.zip</code>, has to be used.</p>
-        <p>Once the relevant <code class="hljs inline no-lang" v-pre>commit.json</code> files are loaded, all the repo information will be passed into <code class="hljs inline no-lang" v-pre>v_summary</code> to be loaded in the summary view as the relevant ramp charts.</p>
-        <h3 id="activating-additional-view-modules"><span id="activating-additional-view-modules" class="anchor"></span>Activating additional view modules<a class="fa fa-anchor" href="#activating-additional-view-modules" onclick="event.stopPropagation()"></a></h3>
-        <p>Most activity or actions should happen within the module itself, but in the case where there is a need to spawn or alter the view of another module, an event is emitted from the first module to the main Vue object (<code class="hljs inline no-lang" v-pre>window.app</code>), which then handles the data received and passes it along to the relevant modules.</p>
-        <h3 id="hash-link"><span id="hash-link" class="anchor"></span>Hash link<a class="fa fa-anchor" href="#hash-link" onclick="event.stopPropagation()"></a></h3>
-        <p>Other than the global main Vue object, another global variable we have is the <code class="hljs inline no-lang" v-pre>window.hashParams</code>. This object is responsible for generating the relevant permalink for a specific view of the report's summary module.</p>
-        <h2 id="data-loader-api-js"><span id="data-loader-api-js" class="anchor"></span>Data loader (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/api.js">api.js</a>)<a class="fa fa-anchor" href="#data-loader-api-js" onclick="event.stopPropagation()"></a></h2>
-        <p>This is the module that is in charge of loading and parsing the data files generated as part of the report.</p>
-        <h3 id="loading-from-zip-file"><span id="loading-from-zip-file" class="anchor"></span>Loading from ZIP file<a class="fa fa-anchor" href="#loading-from-zip-file" onclick="event.stopPropagation()"></a></h3>
-        <p>Due to security design, most modern browsers (e.g., Chrome) do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.</p>
-        <p>This archive will be used in place of the network files to load information into the report when the network files are unavailable.</p>
-        <p>The API module will be handling all requests for all the JSON data files. If the network file is not available, the files will be obtained from the zip archive provided.</p>
-        <h3 id="retrieving-and-parsing-information"><span id="retrieving-and-parsing-information" class="anchor"></span>Retrieving and parsing information<a class="fa fa-anchor" href="#retrieving-and-parsing-information" onclick="event.stopPropagation()"></a></h3>
-        <p>After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, <code class="hljs inline no-lang" v-pre>window.REPOS</code>, in the right format.</p>
-        <p>For the basic skeleton of <code class="hljs inline no-lang" v-pre>window.REPOS</code>, refer to the generated <code class="hljs inline no-lang" v-pre>summary.json</code> file in the report for more details.</p>
-
-        <h2 id="summary-view-v-summary-js"><span id="summary-view-v-summary-js" class="anchor"></span>Summary view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_summary.js">v_summary.js</a>)<a class="fa fa-anchor" href="#summary-view-v-summary-js" onclick="event.stopPropagation()"></a></h2>
-        <p>The <code class="hljs inline no-lang" v-pre>v_summary</code> module is in charge of loading the ramp charts from the corresponding <code class="hljs inline no-lang" v-pre>commits.json</code>.</p>
-        <p>
-          <pic src="/RepoSense/diagrams/ReportArchitectureSummary.png"></pic>
-        </p>
-        <h3 id="initializing-the-data-for-the-ramp-charts"><span id="initializing-the-data-for-the-ramp-charts" class="anchor"></span>Initializing the data for the ramp charts<a class="fa fa-anchor" href="#initializing-the-data-for-the-ramp-charts" onclick="event.stopPropagation()"></a></h3>
-        <p>The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the <code class="hljs inline no-lang" v-pre>repo</code> attribute is populated with the <code class="hljs inline no-lang" v-pre>window.REPOS</code> object, which contains information loaded from <code class="hljs inline no-lang" v-pre>summary.json</code>.</p>
-        <h3 id="filtering-users-and-repositories"><span id="filtering-users-and-repositories" class="anchor"></span>Filtering users and repositories<a class="fa fa-anchor" href="#filtering-users-and-repositories" onclick="event.stopPropagation()"></a></h3>
-        <p>The commits information is retrieved from the corresponding project folders for each repository. This information will be filtered and sorted before being passed into the template to be displayed as ramp charts.</p>
-
-        <h2 id="authorship-view-v-authorship-js"><span id="authorship-view-v-authorship-js" class="anchor"></span>Authorship view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_authorship.js">v_authorship.js</a>)<a class="fa fa-anchor" href="#authorship-view-v-authorship-js" onclick="event.stopPropagation()"></a></h2>
-        <p>The authorship module retrieves the relevant information from the corresponding <code class="hljs inline no-lang" v-pre>authorship.json</code> file if it is not yet loaded. If it has been loaded, the data will be written into <code class="hljs inline no-lang" v-pre>window.REPOS</code> and be read from there instead.</p>
-        <p>
-          <pic src="/RepoSense/diagrams/ReportArchitectureAuthorship.png"></pic>
-        </p>
-        <h3 id="showing-relevant-information-by-authors"><span id="showing-relevant-information-by-authors" class="anchor"></span>Showing relevant information by authors<a class="fa fa-anchor" href="#showing-relevant-information-by-authors" onclick="event.stopPropagation()"></a></h3>
-        <p>The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of &quot;touched&quot; and &quot;untouched&quot; code segments displayed in the tab view which will be popped up on the right side of the screen.</p>
-
-        <h2 id="zoom-view-v-zoom-js"><span id="zoom-view-v-zoom-js" class="anchor"></span>Zoom view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_zoom.js">v_zoom.js</a>)<a class="fa fa-anchor" href="#zoom-view-v-zoom-js" onclick="event.stopPropagation()"></a></h2>
-        <p>The <code class="hljs inline no-lang" v-pre>v_zoom</code> module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.</p>
-
-        <h2 id="ramp-view-v-ramp-js"><span id="ramp-view-v-ramp-js" class="anchor"></span>Ramp view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_ramp.js">v_ramp.js</a>)<a class="fa fa-anchor" href="#ramp-view-v-ramp-js" onclick="event.stopPropagation()"></a></h2>
-        <p>The <code class="hljs inline no-lang" v-pre>v_ramp</code> module is responsible for receiving the relevant information from <code class="hljs inline no-lang" v-pre>v_summary</code> and generating ramp charts that contain ramp slices.</p>
-        <h3 id="padding-for-dates"><span id="padding-for-dates" class="anchor"></span>Padding for dates<a class="fa fa-anchor" href="#padding-for-dates" onclick="event.stopPropagation()"></a></h3>
-        <p>For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the <code class="hljs inline no-lang" v-pre>sinceDate</code> and <code class="hljs inline no-lang" v-pre>untilDate</code>. The ramps will then be rendered with the slices in the right position.</p>
-
-        <h2 id="segment-view-v-segment-js"><span id="segment-view-v-segment-js" class="anchor"></span>Segment view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_segment.js">v_segment.js</a>)<a class="fa fa-anchor" href="#segment-view-v-segment-js" onclick="event.stopPropagation()"></a></h2>
-        <p>The <code class="hljs inline no-lang" v-pre>v-segment</code> module is used as a component in <code class="hljs inline no-lang" v-pre>v_authorship</code>. It separates the code in terms of &quot;touched&quot; and &quot;untouched&quot; segments and only loads each &quot;untouched&quot; segment when it is toggled.</p>
-        <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
-      </div>
-      <nav id="page-nav" class="navbar navbar-light bg-transparent">
-        <div class="border-left-grey nav-inner position-sticky slim-scroll">
-
-          <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
-            <a class="nav-link py-1" href="#html-report">HTML report&#x200E;</a>
-            <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
-              <a class="nav-link py-1" href="#report-architecture">Report architecture&#x200E;</a>
-              <a class="nav-link py-1" href="#javascript-files">Javascript files&#x200E;</a>
-              <a class="nav-link py-1" href="#json-report-files">JSON report files&#x200E;</a>
-              <a class="nav-link py-1" href="#main-main-js">Main (main.js)&#x200E;</a>
-              <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
-                <a class="nav-link py-1" href="#loading-of-report-information">Loading of report information&#x200E;</a>
-                <a class="nav-link py-1" href="#activating-additional-view-modules">Activating additional view modules&#x200E;</a>
-                <a class="nav-link py-1" href="#hash-link">Hash link&#x200E;</a>
-              </nav>
-              <a class="nav-link py-1" href="#data-loader-api-js">Data loader (api.js)&#x200E;</a>
-              <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
-                <a class="nav-link py-1" href="#loading-from-zip-file">Loading from ZIP file&#x200E;</a>
-                <a class="nav-link py-1" href="#retrieving-and-parsing-information">Retrieving and parsing information&#x200E;</a>
-              </nav>
-              <a class="nav-link py-1" href="#summary-view-v-summary-js">Summary view (v_summary.js)&#x200E;</a>
-              <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
-                <a class="nav-link py-1" href="#initializing-the-data-for-the-ramp-charts">Initializing the data for the ramp charts&#x200E;</a>
-                <a class="nav-link py-1" href="#filtering-users-and-repositories">Filtering users and repositories&#x200E;</a>
-              </nav>
-              <a class="nav-link py-1" href="#authorship-view-v-authorship-js">Authorship view (v_authorship.js)&#x200E;</a>
-              <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
-                <a class="nav-link py-1" href="#showing-relevant-information-by-authors">Showing relevant information by authors&#x200E;</a>
-              </nav>
-              <a class="nav-link py-1" href="#zoom-view-v-zoom-js">Zoom view (v_zoom.js)&#x200E;</a>
-              <a class="nav-link py-1" href="#ramp-view-v-ramp-js">Ramp view (v_ramp.js)&#x200E;</a>
-              <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
-                <a class="nav-link py-1" href="#padding-for-dates">Padding for dates&#x200E;</a>
-              </nav>
-              <a class="nav-link py-1" href="#segment-view-v-segment-js">Segment view (v_segment.js)&#x200E;</a>
-            </nav>
-
-          </nav>
-        </div>
-      </nav>
-    </div>
-    <footer>
-
-      <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Tue, Aug 24, 2021, 2:43:20 PM UTC]</small>
-      </div>
-    </footer>
-  </div>
-</body>
-<script src="../markbind/js/bootstrap-utility.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="MarkBind 3.0.6">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RepoSense - HTML report</title>
+    <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
+    <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+    <link rel="stylesheet" href="../markbind/css/octicons.css">
+    <link rel="stylesheet" href="../markbind/css/codeblock-light.min.css"><link rel="stylesheet" href="../markbind/css/markbind.min.css"><script src="../markbind/js/polyfill.min.js"></script>
+    <script src="../markbind/js/vue.min.js"></script>
+    <script src="../markbind/js/markbind.min.js"></script>
+    <script src="report.page-vue-render.js"></script>
+    <script src="../markbind/js/jquery.min.js"></script><link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+    
+  <link rel="stylesheet" href="/RepoSense/css/main.css">
+<link rel="icon" href="/RepoSense/favicon.ico"></head>
 <script>
   const baseUrl = '/RepoSense'
+</script>
+<body >
+<div id="app" data-server-rendered="true"><header fixed=""><div data-v-15113a2f><nav class="navbar navbar-expand-md navbar-dark bg-dark" data-v-15113a2f><div class="container-fluid" data-v-15113a2f><div class="navbar-brand" data-v-15113a2f><a href="/index.html" title="Home" class="navbar-brand" data-v-15113a2f><img width="30px" src="/favicon.ico" data-v-15113a2f></a></div> <button type="button" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-v-15113a2f><span class="navbar-toggler-icon" data-v-15113a2f></span> </button> <div class="navbar-collapse collapse" data-v-15113a2f><ul class="navbar-nav mr-auto mt-2 mt-lg-0" data-v-15113a2f> <li data-v-15113a2f><a href="/index.html" class="nav-link" data-v-15113a2f>HOME</a></li> <li data-v-15113a2f><a href="/showcase.html" class="nav-link" data-v-15113a2f>SHOWCASE</a></li> <li data-v-15113a2f><a href="/ug/index.html" class="nav-link" data-v-15113a2f>USER GUIDE</a></li> <li data-v-15113a2f><a href="/dg/index.html" class="nav-link" data-v-15113a2f>DEVELOPER GUIDE</a></li> <li data-v-15113a2f><a href="/about.html" class="nav-link" data-v-15113a2f>ABOUT</a></li> <li data-v-15113a2f><a href="/contact.html" class="nav-link" data-v-15113a2f>CONTACT</a></li> <li tags="dev" data-v-15113a2f><a href="https://reposense.org" target="_blank" class="nav-link" data-v-15113a2f><span data-v-15113a2f><span aria-hidden="true" class="fas fa-external-link-alt" data-v-15113a2f></span> PRODUCTION SITE</span></a></li> <li data-v-15113a2f><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link" data-v-15113a2f><span data-v-15113a2f><span aria-hidden="true" class="fab fa-github" data-v-15113a2f></span></span></a></li></ul> <ul class="navbar-nav navbar-right" data-v-15113a2f><li data-v-15113a2f><form class="navbar-form" data-v-15113a2f><div style="position:relative;"><input type="text" placeholder="Search" autocomplete="off" value="" class="form-control"> <ul class="dropdown-menu search-dropdown-menu dropdown-menu-right"></ul></div></form></li></ul></div></div></nav> <div class="lower-navbar-container" style="display:none;" data-v-15113a2f><!----> <!----></div></div></header> <div id="flex-body"><nav id="site-nav" class="fixed-header-padding" data-v-e8c82f88><div class="site-nav-top" data-v-e8c82f88><div class="font-weight-bold mb-2" style="font-size:1.25rem;" data-v-e8c82f88><span data-v-e8c82f88><strong data-v-e8c82f88><strong data-v-e8c82f88>DEVELOPER GUIDE</strong></strong></span></div></div> <div class="nav-component slim-scroll" data-v-e8c82f88><div data-v-e8c82f88><div class="site-nav-root"><ul class="site-nav-list site-nav-list-root" data-v-e8c82f88><li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/dg/index.html" data-v-e8c82f88><strong data-v-e8c82f88>Contributing</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/dg/settingUp.html" data-v-e8c82f88><strong data-v-e8c82f88>Setting up</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/dg/learningBasics.html" data-v-e8c82f88><strong data-v-e8c82f88>Learning the basics</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/dg/workflow.html" data-v-e8c82f88><strong data-v-e8c82f88>Workflow</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><strong data-v-e8c82f88>Design and implementation</strong> <i onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e8c82f88><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e8c82f88></span></i></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e8c82f88><li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/dg/architecture.html" data-v-e8c82f88>Architecture</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/dg/report.html" data-v-e8c82f88>HTML report</a></div></li></ul></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/dg/projectManagement.html" data-v-e8c82f88><strong data-v-e8c82f88>Project management</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/dg/devOpsGuide.html" data-v-e8c82f88><strong data-v-e8c82f88>DevOps guide</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><strong data-v-e8c82f88>Appendices</strong> <i onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e8c82f88><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e8c82f88></span></i></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e8c82f88><li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/dg/styleGuides.html" data-v-e8c82f88>Style guides</a></div></li></ul></li> <!----></ul></div></div></div> <!----></nav> <div id="content-wrapper" class="fixed-header-padding"><h1 id="html-report" class="display-4"><span id="html-report" class="anchor"></span><span>HTML report</span><a href="#html-report" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h1> <p>The report's source files are located in <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src"><code class="hljs inline no-lang">frontend/src</code></a> and are built by <a href="https://github.com/ongspxm/spuild2">spuild</a> before being packaged into the JAR file to be extracted as part of the report.</p> <p>The main HTML file is generated from <a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/index.pug"><code class="hljs inline no-lang">frontend/src/index.pug</code></a>.</p> <p><a href="https://vuejs.org/v2/api/">Vue</a> (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to update the information in the various views dynamically. (Style guide available <a href="https://vuejs.org/v2/style-guide/">here</a>, Developer tool available <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">here</a>). Vue lifecycle hooks are the defined methods that get executed in a particular stage of the Vue object lifespan. The following is the Vue lifecycle diagram taken from <a href="https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram">here</a> indicating the hook sequence:
+<a href="/RepoSense/images/vue-lifecycle-diagram.png" target="_self"><img src="/RepoSense/images/vue-lifecycle-diagram.png" alt="" class="img-fluid"></a></p> <p>The following is a snapshot of the report:
+<a href="/RepoSense/images/report-summary.png" target="_self"><img src="/RepoSense/images/report-summary.png" alt="" class="img-fluid"></a></p> <h2 id="report-architecture"><span id="report-architecture" class="anchor"></span>Report architecture<a href="#report-architecture" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p><a href="/RepoSense/images/report-architecture.png" target="_self"><img src="/RepoSense/images/report-architecture.png" alt="" class="img-fluid"></a></p> <p>The main Vue object (<code class="hljs inline no-lang">window.app</code>) is responsible for loading the report (through <code class="hljs inline no-lang">summary.json</code>). Its <code class="hljs inline no-lang">repos</code> attribute is tied to the global <code class="hljs inline no-lang">window.REPOS</code>, and is passed into the various other modules when the information is needed.</p> <p><code class="hljs inline no-lang">window.app</code> is broken down into two main parts</p> <ul><li>the summary view</li> <li>and the tabbed interface</li></ul> <p>The summary view acts as the main report, which shows the various calculations. <br>
+The tabbed interface is responsible for loading various modules such as authorship and zoom to display additional information.</p> <h2 id="javascript-files"><span id="javascript-files" class="anchor"></span>Javascript files<a href="#javascript-files" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <ul><li><a href="#main-main-js"><strong>main.js</strong></a> - main controller that pushes content into different modules</li> <li><a href="#data-loader-api-js"><strong>api.js</strong></a> - loading and parsing of the report content</li> <li><a href="#summary-view-v-summary-js"><strong>v_summary.js</strong></a> - module that supports the summary view</li> <li><a href="#authorship-view-v-authorship-js"><strong>v_authorship.js</strong></a> - module that supports the authorship tab view</li> <li><a href="#zoom-view-v-zoom-js"><strong>v_zoom.js</strong></a> - module that supports the zoom tab view</li> <li><a href="#ramp-view-v-ramp-js"><strong>v_ramp.js</strong></a> - module that supports the ramp chart view</li> <li><a href="#segment-view-v-segment-js"><strong>v_segment.js</strong></a> - module that supports the code segment view</li></ul> <h2 id="json-report-files"><span id="json-report-files" class="anchor"></span>JSON report files<a href="#json-report-files" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <ul><li><strong>summary.json</strong> - a list of all the repositories and their respective details</li> <li><strong>projName/commits.json</strong> - contains information of the users' commits information (e.g., line deletion, insertion, etc.), grouped by date</li> <li><strong>projName/authorship.json</strong> - contains information from git blame, detailing the author of each line for all the processed files</li></ul> <h2 id="main-main-js"><span id="main-main-js" class="anchor"></span>Main (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/main.js">main.js</a>)<a href="#main-main-js" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>This contains the logic for the main VueJS object, <code class="hljs inline no-lang">window.app</code>, which is responsible for passing the necessary data into the relevant modules to be loaded.</p> <p><code class="hljs inline no-lang">v_summary</code>, <code class="hljs inline no-lang">v_authorship</code>, <code class="hljs inline no-lang">v_zoom</code>, <code class="hljs inline no-lang">v_segment</code>, and <code class="hljs inline no-lang">v_ramp</code> are components embedded into the report and will render the corresponding content based on the data passed into it from the main <code class="hljs inline no-lang">window.app</code>.</p> <h3 id="loading-of-report-information"><span id="loading-of-report-information" class="anchor"></span>Loading of report information<a href="#loading-of-report-information" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>The main Vue object depends on the <code class="hljs inline no-lang">summary.json</code> data to determine the right <code class="hljs inline no-lang">commits.json</code> files to load into memory. This is handled by <code class="hljs inline no-lang">api.js</code>, which loads the relevant file information from the network files if available; otherwise, a report archive, <code class="hljs inline no-lang">archive.zip</code>, has to be used.</p> <p>Once the relevant <code class="hljs inline no-lang">commit.json</code> files are loaded, all the repo information will be passed into <code class="hljs inline no-lang">v_summary</code> to be loaded in the summary view as the relevant ramp charts.</p> <h3 id="activating-additional-view-modules"><span id="activating-additional-view-modules" class="anchor"></span>Activating additional view modules<a href="#activating-additional-view-modules" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>Most activity or actions should happen within the module itself, but in the case where there is a need to spawn or alter the view of another module, an event is emitted from the first module to the main Vue object (<code class="hljs inline no-lang">window.app</code>), which then handles the data received and passes it along to the relevant modules.</p> <h3 id="hash-link"><span id="hash-link" class="anchor"></span>Hash link<a href="#hash-link" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>Other than the global main Vue object, another global variable we have is the <code class="hljs inline no-lang">window.hashParams</code>. This object is responsible for generating the relevant permalink for a specific view of the report's summary module.</p> <h2 id="data-loader-api-js"><span id="data-loader-api-js" class="anchor"></span>Data loader (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/api.js">api.js</a>)<a href="#data-loader-api-js" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>This is the module that is in charge of loading and parsing the data files generated as part of the report.</p> <h3 id="loading-from-zip-file"><span id="loading-from-zip-file" class="anchor"></span>Loading from ZIP file<a href="#loading-from-zip-file" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>Due to security design, most modern browsers (e.g., Chrome) do not allow web pages to obtain local files using the directory alone. As such, a ZIP archive of the report information will be produced alongside the report generation.</p> <p>This archive will be used in place of the network files to load information into the report when the network files are unavailable.</p> <p>The API module will be handling all requests for all the JSON data files. If the network file is not available, the files will be obtained from the zip archive provided.</p> <h3 id="retrieving-and-parsing-information"><span id="retrieving-and-parsing-information" class="anchor"></span>Retrieving and parsing information<a href="#retrieving-and-parsing-information" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, <code class="hljs inline no-lang">window.REPOS</code>,  in the right format.</p> <p>For the basic skeleton of <code class="hljs inline no-lang">window.REPOS</code>, refer to the generated <code class="hljs inline no-lang">summary.json</code> file in the report for more details.</p> <h2 id="summary-view-v-summary-js"><span id="summary-view-v-summary-js" class="anchor"></span>Summary view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_summary.js">v_summary.js</a>)<a href="#summary-view-v-summary-js" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>The <code class="hljs inline no-lang">v_summary</code> module is in charge of loading the ramp charts from the corresponding <code class="hljs inline no-lang">commits.json</code>.</p> <span class="image-wrapper"><img src="/RepoSense/diagrams/ReportArchitectureSummary.png" width="" loading="lazy" class="img-fluid rounded"> <span class="image-caption"></span></span> <h3 id="initializing-the-data-for-the-ramp-charts"><span id="initializing-the-data-for-the-ramp-charts" class="anchor"></span>Initializing the data for the ramp charts<a href="#initializing-the-data-for-the-ramp-charts" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>The summary module is activated after the information is loaded from the main Vue.JS object. At creation, the <code class="hljs inline no-lang">repo</code> attribute is populated with the <code class="hljs inline no-lang">window.REPOS</code> object, which contains information loaded from <code class="hljs inline no-lang">summary.json</code>.</p> <h3 id="filtering-users-and-repositories"><span id="filtering-users-and-repositories" class="anchor"></span>Filtering users and repositories<a href="#filtering-users-and-repositories" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>The commits information is retrieved from the corresponding project folders for each repository. This information will be filtered and sorted before being passed into the template to be displayed as ramp charts.</p> <h2 id="authorship-view-v-authorship-js"><span id="authorship-view-v-authorship-js" class="anchor"></span>Authorship view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_authorship.js">v_authorship.js</a>)<a href="#authorship-view-v-authorship-js" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>The authorship module retrieves the relevant information from the corresponding <code class="hljs inline no-lang">authorship.json</code> file if it is not yet loaded. If it has been loaded, the data will be written into <code class="hljs inline no-lang">window.REPOS</code> and be read from there instead.</p> <span class="image-wrapper"><img src="/RepoSense/diagrams/ReportArchitectureAuthorship.png" width="" loading="lazy" class="img-fluid rounded"> <span class="image-caption"></span></span> <h3 id="showing-relevant-information-by-authors"><span id="showing-relevant-information-by-authors" class="anchor"></span>Showing relevant information by authors<a href="#showing-relevant-information-by-authors" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of &quot;touched&quot; and &quot;untouched&quot; code segments displayed in the tab view which will be popped up on the right side of the screen.</p> <h2 id="zoom-view-v-zoom-js"><span id="zoom-view-v-zoom-js" class="anchor"></span>Zoom view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_zoom.js">v_zoom.js</a>)<a href="#zoom-view-v-zoom-js" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>The <code class="hljs inline no-lang">v_zoom</code> module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.</p> <h2 id="ramp-view-v-ramp-js"><span id="ramp-view-v-ramp-js" class="anchor"></span>Ramp view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_ramp.js">v_ramp.js</a>)<a href="#ramp-view-v-ramp-js" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>The <code class="hljs inline no-lang">v_ramp</code> module is responsible for receiving the relevant information from <code class="hljs inline no-lang">v_summary</code> and generating ramp charts that contain ramp slices.</p> <h3 id="padding-for-dates"><span id="padding-for-dates" class="anchor"></span>Padding for dates<a href="#padding-for-dates" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h3> <p>For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the <code class="hljs inline no-lang">sinceDate</code> and <code class="hljs inline no-lang">untilDate</code>. The ramps will then be rendered with the slices in the right position.</p> <h2 id="segment-view-v-segment-js"><span id="segment-view-v-segment-js" class="anchor"></span>Segment view (<a href="https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_segment.js">v_segment.js</a>)<a href="#segment-view-v-segment-js" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>The <code class="hljs inline no-lang">v-segment</code> module is used as a component in <code class="hljs inline no-lang">v_authorship</code>. It separates the code in terms of &quot;touched&quot; and &quot;untouched&quot; segments and only loads each &quot;untouched&quot; segment when it is toggled.</p> <i id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true" class="fa fa-arrow-circle-up fa-lg d-print-none"></i></div></div> <footer><div class="text-center"><small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 3.0.6</a>, generated on Tue, Aug 24, 2021, 2:57:01 PM UTC]</small></div></footer></div>
+</body><script src="../markbind/js/bootstrap-utility.min.js"></script>
+<script>
   MarkBind.setupWithSearch()
 </script>
-<script src="../markbind/layouts/default/scripts.js"></script>
-<script>
-  if (MarkBind.AfterSetup) MarkBind.AfterSetup()
-</script>
-
 </html>

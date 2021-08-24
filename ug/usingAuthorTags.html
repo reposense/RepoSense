@@ -1,163 +1,31 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.18.1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RepoSense - Appendix: Using `@@author` tags</title>
-  <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
-  <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
-  <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/codeblock-light.min.css">
-  <link rel="stylesheet" href="../markbind/css/markbind.min.css">
-  <script src="../markbind/js/polyfill.min.js"></script>
-  <script src="../markbind/js/vue.min.js"></script>
-  <script src="../markbind/js/markbind.min.js"></script>
-  <script src="../markbind/js/jquery.min.js"></script>
-  <link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
-  <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
-  <link rel="icon" href="/RepoSense/favicon.ico">
-</head>
-
-<body>
-  <div id="app">
-    <header>
-      <navbar type="dark" placement="top" class="temp-navbar">
-        <a slot="brand" href="/index.html" title="Home" class="navbar-brand"><img width="30px" src="/favicon.ico"></a>
-        <li><a href="/index.html" class="nav-link">HOME</a></li>
-        <li><a href="/showcase.html" class="nav-link">SHOWCASE</a></li>
-        <li><a href="/ug/index.html" class="nav-link">USER GUIDE</a></li>
-        <li><a href="/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
-        <li><a href="/about.html" class="nav-link">ABOUT</a></li>
-        <li><a href="/contact.html" class="nav-link">CONTACT</a></li>
-        <li tags="dev"><a href="https://reposense.org" class="nav-link" target="_blank"><span><span aria-hidden="true" class="fas fa-external-link-alt"></span> PRODUCTION SITE</span></a></li>
-        <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
-        <li slot="right">
-          <form class="navbar-form">
-            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
-          </form>
-        </li>
-      </navbar>
-    </header>
-    <header>
-      <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang" v-pre>master</code> branch of RepoSense (not released to the public yet).
-          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
-        </p>
-      </div>
-    </header>
-    <div id="flex-body">
-      <nav id="site-nav" class="navbar navbar-light bg-transparent">
-        <div class="border-right-grey nav-inner position-sticky slim-scroll">
-          <p><span class="lead"><strong><strong>USER GUIDE</strong></strong></span></p>
-          <ul class="site-nav-list site-nav-list-root">
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/index.html"><strong>Overview</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/generatingReports.html"><strong>Generating reports</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingReports.html"><strong>Using reports</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/customizingReports.html"><strong>Customizing reports</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/sharingReports.html"><strong>Sharing reports</strong></a></div>
-            </li>
-            <li>
-              <div class="site-nav-default-list-item site-nav-list-item-0" onclick="handleSiteNavClick(this)"><strong>Appendices</strong>
-                <i class="site-nav-dropdown-btn-icon site-nav-rotate-icon" onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i>
-              </div>
-              <ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list">
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/cli.html">CLI syntax reference</a></div>
-                </li>
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/configFiles.html">Config files format</a></div>
-                </li>
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/usingAuthorTags.html" class="current">Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</a></div>
-                </li>
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withNetlify.html">RepoSense with Netlify</a></div>
-                </li>
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withGithubActions.html">RepoSense with GitHub Actions</a></div>
-                </li>
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/withTravis.html">RepoSense with Travis</a></div>
-                </li>
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/runSh.html"><code class="hljs inline no-lang" v-pre>run.sh</code> format</a></div>
-                </li>
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/faq.html">FAQ</a></div>
-                </li>
-                <li>
-                  <div class="site-nav-default-list-item site-nav-list-item-1" onclick="handleSiteNavClick(this)"><a href="/RepoSense/ug/troubleshooting.html">Troubleshooting</a></div>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-
-
-
-      <div id="content-wrapper">
-        <div></div>
-        <h1 class="display-4" id="appendix-using-author-tags"><span id="appendix-using-author-tags" class="anchor"></span><span>Appendix: Using <code class="hljs inline no-lang" v-pre>@@author</code> tags</span><a class="fa fa-anchor" href="#appendix-using-author-tags" onclick="event.stopPropagation()"></a></h1>
-        <div class="lead">
-          <p><code class="hljs inline no-lang" v-pre>@@author</code> tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.</p>
-        </div>
-        <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code class="hljs inline no-lang" v-pre>@@author</code> tags to specify certain code segments that should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case, RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p>
-        <p>There are 2 types of <code class="hljs inline no-lang" v-pre>@@author</code> tags:</p>
-        <ul>
-          <li>Start Tags (format: <code class="hljs inline no-lang" v-pre>@@author AUTHOR_GITHUB_ID</code>): A start tag indicates the start of a code segment written by the author identified by the <code class="hljs inline no-lang" v-pre>AUTHOR_GITHUB_ID</code>.</li>
-          <li>End Tags (format: <code class="hljs inline no-lang" v-pre>@@author</code>): Optional. An end tag indicates the end of a code segment written by the author identified by the <code class="hljs inline no-lang" v-pre>AUTHOR_GITHUB_ID</code> of the start tag.</li>
-        </ul>
-        <box type="info" seamless>
-          <p>If an end tag is not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.
-          </p>
-        </box>
-        <p></p>
-        <box type="warning" seamless>
-          <p>If an end tag is provided without a corresponding start tag, the code until the next start tag, the next end tag, or the end of the file, will not be attributed to any author. This should only be used if the code should not be attributed to any author.
-          </p>
-        </box>
-        <p></p>
-        <p>The <code class="hljs inline no-lang" v-pre>@@author</code> tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:</p>
-        <p><a href="/RepoSense/images/add-author-tags.png" target="_self"><img src="/RepoSense/images/add-author-tags.png" alt class="img-fluid"></a></p>
-        <p>Note: Remember to <strong>commit</strong> the files after the changes. (reason: RepoSense can see committed code only)</p>
-        <p>Special thanks to <a href="https://github.com/se-edu/collate">Collate project</a> for providing the inspiration for this functionality.</p>
-        <p><i class="fa fa-arrow-circle-up fa-lg" id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true"></i></p>
-      </div>
-    </div>
-    <footer>
-
-      <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.18.1</a>, generated on Tue, Aug 24, 2021, 2:43:20 PM UTC]</small>
-      </div>
-    </footer>
-  </div>
-</body>
-<script src="../markbind/js/bootstrap-utility.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="MarkBind 3.0.6">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RepoSense - Appendix: Using `@@author` tags</title>
+    <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
+    <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+    <link rel="stylesheet" href="../markbind/css/octicons.css">
+    <link rel="stylesheet" href="../markbind/css/codeblock-light.min.css"><link rel="stylesheet" href="../markbind/css/markbind.min.css"><script src="../markbind/js/polyfill.min.js"></script>
+    <script src="../markbind/js/vue.min.js"></script>
+    <script src="../markbind/js/markbind.min.js"></script>
+    <script src="usingAuthorTags.page-vue-render.js"></script>
+    <script src="../markbind/js/jquery.min.js"></script><link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+    
+  <link rel="stylesheet" href="/RepoSense/css/main.css">
+<link rel="icon" href="/RepoSense/favicon.ico"></head>
 <script>
   const baseUrl = '/RepoSense'
+</script>
+<body >
+<div id="app" data-server-rendered="true"><header fixed=""><div data-v-15113a2f><nav class="navbar navbar-expand-md navbar-dark bg-dark" data-v-15113a2f><div class="container-fluid" data-v-15113a2f><div class="navbar-brand" data-v-15113a2f><a href="/index.html" title="Home" class="navbar-brand" data-v-15113a2f><img width="30px" src="/favicon.ico" data-v-15113a2f></a></div> <button type="button" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-v-15113a2f><span class="navbar-toggler-icon" data-v-15113a2f></span> </button> <div class="navbar-collapse collapse" data-v-15113a2f><ul class="navbar-nav mr-auto mt-2 mt-lg-0" data-v-15113a2f> <li data-v-15113a2f><a href="/index.html" class="nav-link" data-v-15113a2f>HOME</a></li> <li data-v-15113a2f><a href="/showcase.html" class="nav-link" data-v-15113a2f>SHOWCASE</a></li> <li data-v-15113a2f><a href="/ug/index.html" class="nav-link" data-v-15113a2f>USER GUIDE</a></li> <li data-v-15113a2f><a href="/dg/index.html" class="nav-link" data-v-15113a2f>DEVELOPER GUIDE</a></li> <li data-v-15113a2f><a href="/about.html" class="nav-link" data-v-15113a2f>ABOUT</a></li> <li data-v-15113a2f><a href="/contact.html" class="nav-link" data-v-15113a2f>CONTACT</a></li> <li tags="dev" data-v-15113a2f><a href="https://reposense.org" target="_blank" class="nav-link" data-v-15113a2f><span data-v-15113a2f><span aria-hidden="true" class="fas fa-external-link-alt" data-v-15113a2f></span> PRODUCTION SITE</span></a></li> <li data-v-15113a2f><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link" data-v-15113a2f><span data-v-15113a2f><span aria-hidden="true" class="fab fa-github" data-v-15113a2f></span></span></a></li></ul> <ul class="navbar-nav navbar-right" data-v-15113a2f><li data-v-15113a2f><form class="navbar-form" data-v-15113a2f><div style="position:relative;"><input type="text" placeholder="Search" autocomplete="off" value="" class="form-control"> <ul class="dropdown-menu search-dropdown-menu dropdown-menu-right"></ul></div></form></li></ul></div></div></nav> <div class="lower-navbar-container" style="display:none;" data-v-15113a2f><!----> <!----></div></div> <div tags="dev" class="text-center bg-warning p-2"><p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang">master</code> branch of RepoSense (not released to the public yet). <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p></div></header> <div id="flex-body"><nav id="site-nav" class="fixed-header-padding" data-v-e8c82f88><div class="site-nav-top" data-v-e8c82f88><div class="font-weight-bold mb-2" style="font-size:1.25rem;" data-v-e8c82f88><span data-v-e8c82f88><strong data-v-e8c82f88><strong data-v-e8c82f88>USER GUIDE</strong></strong></span></div></div> <div class="nav-component slim-scroll" data-v-e8c82f88><div data-v-e8c82f88><div class="site-nav-root"><ul class="site-nav-list site-nav-list-root" data-v-e8c82f88><li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/index.html" data-v-e8c82f88><strong data-v-e8c82f88>Overview</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/generatingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Generating reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/usingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Using reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/customizingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Customizing reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/sharingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Sharing reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><strong data-v-e8c82f88>Appendices</strong> <i onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e8c82f88><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e8c82f88></span></i></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e8c82f88><li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/cli.html" data-v-e8c82f88>CLI syntax reference</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/configFiles.html" data-v-e8c82f88>Config files format</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/usingAuthorTags.html" data-v-e8c82f88>Using <code class="hljs inline no-lang" data-v-e8c82f88>@@author</code> tags</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/withNetlify.html" data-v-e8c82f88>RepoSense with Netlify</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/withGithubActions.html" data-v-e8c82f88>RepoSense with GitHub Actions</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/withTravis.html" data-v-e8c82f88>RepoSense with Travis</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/runSh.html" data-v-e8c82f88><code class="hljs inline no-lang" data-v-e8c82f88>run.sh</code> format</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/faq.html" data-v-e8c82f88>FAQ</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/troubleshooting.html" data-v-e8c82f88>Troubleshooting</a></div></li></ul></li> <!----></ul></div></div></div> <!----></nav> <div id="content-wrapper" class="fixed-header-padding"><h1 id="appendix-using-author-tags" class="display-4"><span id="appendix-using-author-tags" class="anchor"></span><span>Appendix: Using <code class="hljs inline no-lang">@@author</code> tags</span><a href="#appendix-using-author-tags" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h1> <div class="lead"><p><code class="hljs inline no-lang">@@author</code> tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.</p></div> <p>If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use <code class="hljs inline no-lang">@@author</code> tags to specify certain code segments that should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case, RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.</p> <p>There are 2 types of <code class="hljs inline no-lang">@@author</code> tags:</p> <ul><li>Start Tags (format: <code class="hljs inline no-lang">@@author AUTHOR_GITHUB_ID</code>): A start tag indicates the start of a code segment written by the author identified by the <code class="hljs inline no-lang">AUTHOR_GITHUB_ID</code>.</li> <li>End Tags (format: <code class="hljs inline no-lang">@@author</code>): Optional. An end tag indicates the end of a code segment written by the author identified by the <code class="hljs inline no-lang">AUTHOR_GITHUB_ID</code> of the start tag.</li></ul> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-info" data-v-7d17494f><i class="fas fa-info" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-info" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f>If an end tag is not provided, the code till the next start tag (or the end of the file) will be attributed to the author specified in the start tag above. Use only when necessary to minimize polluting your code with these extra tags.</p></div> <!----></div></div></div> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-warning" data-v-7d17494f><i class="fas fa-exclamation" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-warning" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f>If an end tag is provided without a corresponding start tag, the code until the next start tag, the next end tag, or the end of the file, will not be attributed to any author. This should only be used if the code should not be attributed to any author.</p></div> <!----></div></div></div> <p>The <code class="hljs inline no-lang">@@author</code> tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:</p> <p><a href="/RepoSense/images/add-author-tags.png" target="_self"><img src="/RepoSense/images/add-author-tags.png" alt="" class="img-fluid"></a></p> <p>Note: Remember to <strong>commit</strong> the files after the changes. (reason: RepoSense can see committed code only)</p> <p>Special thanks to <a href="https://github.com/se-edu/collate">Collate project</a> for providing the inspiration for this functionality.</p> <i id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true" class="fa fa-arrow-circle-up fa-lg d-print-none"></i></div></div> <footer><div class="text-center"><small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 3.0.6</a>, generated on Tue, Aug 24, 2021, 2:57:01 PM UTC]</small></div></footer></div>
+</body><script src="../markbind/js/bootstrap-utility.min.js"></script>
+<script>
   MarkBind.setupWithSearch()
 </script>
-<script src="../markbind/layouts/default/scripts.js"></script>
-<script>
-  if (MarkBind.AfterSetup) MarkBind.AfterSetup()
-</script>
-
 </html>

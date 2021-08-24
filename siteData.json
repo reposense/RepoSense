@@ -179,7 +179,9 @@
     {
       "src": "index.md",
       "title": "Home",
-      "headings": {},
+      "headings": {
+        "reposense": "RepoSense"
+      },
       "headingKeywords": {}
     },
     {
@@ -267,15 +269,15 @@
       "title": "User guide",
       "headings": {
         "user-guide": "User guide",
-        "explore-real-life-examples": "\r\n          1 Explore real-life examples\r\n        ",
-        "generate-your-own-reports": "\r\n          2 Generate your own reports\r\n        ",
-        "share-your-reports": "\r\n          3 Share your reports\r\n        "
+        "1-explore-real-life-examples": "1 Explore real-life examples",
+        "2-generate-your-own-reports": "2 Generate your own reports",
+        "3-share-your-reports": "3 Share your reports"
       },
       "headingKeywords": {}
     },
     {
       "src": "ug/runSh.md",
-      "title": "Appendix: `run.sh` format",
+      "title": "",
       "headings": {
         "appendix-run-sh-format": "Appendix: run.sh format",
         "customizing-the-reposense-command": "Customizing the RepoSense command",
