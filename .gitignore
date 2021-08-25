@@ -19,3 +19,5 @@ package-lock.json
 reposense-report/
 
 docs/_site/
+
+**/.DS_Store
