@@ -32,6 +32,27 @@ The `@@author` tags should be enclosed within a comment, using the comment synta
 
 ![author tags](../images/add-author-tags.png)
 
+Currently, the following comment formats are supported:
+<ul>
+    <li>// @@author authorName</li>
+    <li>/* @@author authorName */</li>
+    <li>/* @@author authorName</li>
+    <li># @@author authorName</li>
+    <li>&lt!-- @@author authorName --&gt</li>
+    <li>% @@author authorName</li>  
+</ul>
+
+
+<box type="info" seamless>
+
+First, RepoSense checks whether the line matches the supported comment formats. If the line does not match the formats,
+RepoSense treats it as a normal line. Else, it continues to check whether the GitHub username is in valid format.
+
+If the username is valid, the code till the next start tag, the end tag, or the end of file will be attributed to that author.
+Otherwise the code will not be attributed to any author.
+</box>
+
+
 Note: Remember to **commit** the files after the changes. (reason: RepoSense can see committed code only)
 
 Special thanks to [Collate project](https://github.com/se-edu/collate) for providing the inspiration for this functionality.
