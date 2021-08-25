@@ -576,4 +576,7 @@ public class RepoConfiguration {
         return isFindingPreviousAuthorsPerformed;
     }
 
+    public AuthorConfiguration getAuthorConfig() {
+        return authorConfig;
+    }
 }
