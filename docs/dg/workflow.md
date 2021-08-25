@@ -1,4 +1,4 @@
-<variable name="title">Workflow</variable>
+{% set title = "Workflow" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
@@ -19,7 +19,7 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
   However, when pushing new commits to your PR branch, do clean up _new_ commits (i.e., commits not yet pushed) e.g., delete temporary print statements added for debugging purposes.
 * In the PR description, please propose a commit message to be used when the PR is merged eventually. The commit message should follow the guidelines given [here](https://se-education.org/guides/guidelines/PRs.html). You may refer to [this PR](https://github.com/reposense/RepoSense/pull/1057) for an example.
 * For simple documentation fixes or tasks with clear instructions, it is unnecessary to create an issue before creating a PR.
-* You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) sections to learn about the design and implementation of RepoSense. 
+* You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) sections to learn about the design and implementation of RepoSense.
 * The section below has more information about the various stages of submitting a PR.
 
 <!-- ==================================================================================================== -->
@@ -64,6 +64,12 @@ The issues for first timers usually have guidance provided in the comment or hav
 <!-- ==================================================================================================== -->
 
 ## Debugging (front-end)
+
+**You can use the hot reloading feature to see how your code changes the functionality of the website in real time.**
+1. Navigate to the project root in your terminal.
+1. Generate the desired data for the report using `gradlew run` with the appropriate flags.
+1. Run `gradlew hotReloadFrontend`.
+1. The website will be automatically opened in your browser shortly.
 
 **You can use Vue.js devtools for frontend debugging on Chrome.** Here are the steps:
 1. On your Chrome, visit the website of [Vue.js devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) and add the extension.
@@ -118,7 +124,7 @@ If you encountered an invalid browser error, ensure that you have `Chrome` insta
 
 ## Testing (back-end)
 
-The back-end tests can be found at `[project root]/systemtest` and `[project root]/test`. 
+The back-end tests can be found at `[project root]/systemtest` and `[project root]/test`.
 
 ### Running tests
 
