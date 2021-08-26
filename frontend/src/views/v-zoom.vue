@@ -99,6 +99,8 @@
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
       span &nbsp; ({{ slice.insertions }} lines) &nbsp;
+      .hash
+        span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
         v-for="fileType in\
           filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
