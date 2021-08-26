@@ -42,7 +42,6 @@ Currently, the following comment formats are supported:
     <li>% @@author authorName</li>  
 </ul>
 
-
 <box type="info" seamless>
 
 First, RepoSense checks whether the line matches the supported comment formats. If the line does not match the formats,
@@ -51,7 +50,6 @@ RepoSense treats it as a normal line. Else, it continues to check whether the Gi
 If the username is valid, the code till the next start tag, the end tag, or the end of file will be attributed to that author.
 Otherwise the code will not be attributed to any author.
 </box>
-
 
 Note: Remember to **commit** the files after the changes. (reason: RepoSense can see committed code only)
 
