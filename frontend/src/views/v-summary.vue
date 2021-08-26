@@ -61,7 +61,7 @@
           input.mui-checkbox(
             type="checkbox",
             v-model="filterBreakdown",
-            v-on:change="getFiltered"
+            v-on:change="toggleBreakdown"
           )
           span breakdown by file type
         label.merge-group(
@@ -394,6 +394,14 @@ export default {
           .split(' ')
           .filter(Boolean)
           .some((param) => user.searchPath.includes(param));
+    },
+
+    toggleBreakdown() {
+      // Reset the file type filter
+      if (this.checkedFileTypes.length !== this.fileTypes.length) {
+        this.checkedFileTypes = this.fileTypes.slice();
+      }
+      this.getFiltered();
     },
 
     getFiltered() {
