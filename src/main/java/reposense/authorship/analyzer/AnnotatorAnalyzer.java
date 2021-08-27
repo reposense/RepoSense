@@ -22,7 +22,7 @@ import reposense.model.AuthorConfiguration;
  */
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
-    // reference: https://github.com/shinnn/github-username-regex
+    // GitHub username format
     private static final String REGEX_AUTHOR_NAME_FORMAT = "^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$";
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
     private static final String REGEX_AUTHOR_TAG_FORMAT = "@@author(\\s[^\\s]+)?";
