@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ import reposense.util.FileUtil;
 public class FileInfoExtractor {
     private static final Logger logger = LogsManager.getLogger(FileInfoExtractor.class);
     private static final String MESSAGE_START_EXTRACTING_FILE_INFO = "Extracting relevant file info from %s (%s)...";
+    private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path for current OS or "
+            + "indicates a possible regex match issue. Skipping this directory.";
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git \"?\'?a/.*\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
@@ -46,7 +49,7 @@ public class FileInfoExtractor {
 
     private static final Pattern STARTING_LINE_NUMBER_PATTERN = Pattern.compile(
             "-(\\d)+(,)?(\\d)* \\+(?<startingLineNumber>\\d+)(,)?(\\d)* @@");
-    private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b?/(?<filePath>.*)\n");
+    private static final Pattern FILE_CHANGED_PATTERN = Pattern.compile("\n(\\+){3} b?/(?<filePath>.*?)\t?\n");
 
     /**
      * Extracts a list of relevant non-binary files given in {@code config}.
@@ -238,6 +241,14 @@ public class FileInfoExtractor {
      * Returns true if {@code filePath} is valid and the file is not in binary.
      */
     private static boolean isValidTextFile(String filePath, Set<Path> textFilesSet) {
-        return FileUtil.isValidPath(filePath) && textFilesSet.contains(Paths.get(filePath));
+        boolean isValidFilePath;
+        try {
+            isValidFilePath = FileUtil.isValidPath(filePath);
+        } catch (InvalidPathException ipe) {
+            logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, filePath));
+            isValidFilePath = false;
+        }
+
+        return isValidFilePath && textFilesSet.contains(Paths.get(filePath));
     }
 }
