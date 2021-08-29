@@ -29,7 +29,7 @@ describe('filter breakdown', () => {
         .uncheck()
         .should('not.be.checked');
 
-    Cypress.wait();
+    cy.contains('breakdown by file type').scrollIntoView();
 
     // uncheck and recheck breakdown by file type
     cy.get('#summary label.filter-breakdown input:visible')
