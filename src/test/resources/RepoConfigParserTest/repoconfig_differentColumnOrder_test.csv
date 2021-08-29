@@ -1,2 +1,2 @@
-Shallow Cloning,Ignore Glob List,Repository's Location,Ignore Commit List,Ignore standalone config,File formats,Ignore Authors List,Branch,Find Previous Authors
+Shallow Cloning,Ignore Glob List,Repository's Location,Ignore Commits List,Ignore standalone config,File formats,Ignore Authors List,Branch,Find Previous Authors
 ,docs**,https://github.com/reposense/testrepo-Beta.git,abcde12345;67890fdecba,yes,java;adoc;md,zacharytang,master,
