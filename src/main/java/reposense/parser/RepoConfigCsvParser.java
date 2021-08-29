@@ -27,7 +27,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String FILE_FORMATS_HEADER = "File formats";
     private static final String IGNORE_GLOB_LIST_HEADER = "Ignore Glob List";
     private static final String IGNORE_STANDALONE_CONFIG_HEADER = "Ignore standalone config";
-    private static final String IGNORE_COMMIT_LIST_CONFIG_HEADER = "Ignore Commit List";
+    private static final String IGNORE_COMMIT_LIST_CONFIG_HEADER = "Ignore Commits List";
     private static final String IGNORE_AUTHOR_LIST_CONFIG_HEADER = "Ignore Authors List";
     private static final String SHALLOW_CLONING_CONFIG_HEADER = "Shallow Cloning";
 
