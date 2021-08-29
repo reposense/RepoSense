@@ -2,6 +2,7 @@ package reposense.authorship.analyzer;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -34,6 +35,8 @@ public class AnnotatorAnalyzer {
             {"<!--", "-->"},
             {"%", "\\s"},
     };
+    private static ArrayList<Pattern> commentPatterns = new ArrayList<>();
+    private static boolean patternsGenerated = false;
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
@@ -111,8 +114,25 @@ public class AnnotatorAnalyzer {
         return (foundMatch) ? trimmedParameters : null;
     }
 
-    public static String generateCommentRegex(String commentStart, String commentEnd) {
+    private static String generateCommentRegex(String commentStart, String commentEnd) {
         return "^[\\s]*" + commentStart + "[\\s]*" + REGEX_AUTHOR_TAG_FORMAT + "[\\s]*(" + commentEnd + ")?[\\s]*$";
+    }
+
+    /**
+     * Generate {@code commentPatterns} if it has not been generated yet
+     */
+    private static void generatePatterns() {
+        if (patternsGenerated) {
+            return;
+        }
+
+        for (String[] commentFormat : COMMENT_FORMATS) {
+            String commentRegex = generateCommentRegex(commentFormat[0], commentFormat[1]);
+            Pattern  commentPattern = Pattern.compile(commentRegex);
+            commentPatterns.add(commentPattern);
+        }
+
+        patternsGenerated = true;
     }
 
     /**
@@ -121,10 +141,10 @@ public class AnnotatorAnalyzer {
      * @return The index of the comment if the comment pattern matches, -1 if no match
      */
     public static int checkValidCommentLine(String line) {
-        for (int i = 0; i < COMMENT_FORMATS.length; i++) {
-            String[] commentFormat = COMMENT_FORMATS[i];
-            String commentRegex = AnnotatorAnalyzer.generateCommentRegex(commentFormat[0], commentFormat[1]);
-            Pattern commentPattern = Pattern.compile(commentRegex);
+        generatePatterns();
+
+        for (int i = 0; i < commentPatterns.size(); i++) {
+            Pattern commentPattern = commentPatterns.get(i);
             Matcher matcher = commentPattern.matcher(line);
             if (matcher.find()) {
                 return i;
