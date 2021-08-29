@@ -29,10 +29,18 @@ describe('filter breakdown', () => {
         .uncheck()
         .should('not.be.checked');
 
+    Cypress.wait();
+
+    // uncheck and recheck breakdown by file type
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
         .uncheck()
-        .should('not.be.checked');
+        .should('not.be.checked')
+        .check()
+        .should('be.checked');
+
+    cy.get('#summary div.fileTypes input:visible[id="all"]')
+        .should('be.checked');
   });
 
   it('uncheck all file types should show no file types', () => {
