@@ -56,7 +56,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
-        Assert.assertEquals(4, files.size());
+        Assert.assertEquals(5, files.size());
 
         // files edited within commit range
         Assert.assertTrue(isFileExistence(Paths.get("README.md"), files));
@@ -198,6 +198,13 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         textFilesList.forEach(textFile -> Assert.assertTrue(isFileExistence(Paths.get(textFile), files)));
         // Binary files should be ignored
         binaryFilesList.forEach(binFile -> Assert.assertFalse(isFileExistence(Paths.get(binFile), files)));
+    }
+
+    @Test
+    public void getEditedFileInfos_repoWithFilesWithSpaces_success() {
+        List<FileInfo> fileInfos = FileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
+
+        Assert.assertTrue(isFileExistence(Paths.get("space test.txt"), fileInfos));
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {
