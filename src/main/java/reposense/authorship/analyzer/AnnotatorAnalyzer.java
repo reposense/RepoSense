@@ -2,7 +2,6 @@ package reposense.authorship.analyzer;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -35,8 +34,14 @@ public class AnnotatorAnalyzer {
             {"<!--", "-->"},
             {"%", "\\s"},
     };
-    private static ArrayList<Pattern> commentPatterns = new ArrayList<>();
-    private static boolean patternsGenerated = false;
+
+    private static final Pattern[] COMMENT_PATTERNS = {
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[0][0], COMMENT_FORMATS[0][1])),
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[1][0], COMMENT_FORMATS[1][1])),
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[2][0], COMMENT_FORMATS[2][1])),
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[3][0], COMMENT_FORMATS[3][1])),
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[4][0], COMMENT_FORMATS[4][1]))
+    };
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
@@ -119,32 +124,13 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Generate {@code commentPatterns} if it has not been generated yet
-     */
-    private static void generatePatterns() {
-        if (patternsGenerated) {
-            return;
-        }
-
-        for (String[] commentFormat : COMMENT_FORMATS) {
-            String commentRegex = generateCommentRegex(commentFormat[0], commentFormat[1]);
-            Pattern  commentPattern = Pattern.compile(commentRegex);
-            commentPatterns.add(commentPattern);
-        }
-
-        patternsGenerated = true;
-    }
-
-    /**
      * Checks if the line is a valid @@author tag comment line
      * @param line The line to be checked
-     * @return The index of the comment if the comment pattern matches, -1 if no match
+     * @return The index of the comment if the comment pattern matches, -1 if no match could be found
      */
     public static int checkValidCommentLine(String line) {
-        generatePatterns();
-
-        for (int i = 0; i < commentPatterns.size(); i++) {
-            Pattern commentPattern = commentPatterns.get(i);
+        for (int i = 0; i < COMMENT_PATTERNS.length; i++) {
+            Pattern commentPattern = COMMENT_PATTERNS[i];
             Matcher matcher = commentPattern.matcher(line);
             if (matcher.find()) {
                 return i;
