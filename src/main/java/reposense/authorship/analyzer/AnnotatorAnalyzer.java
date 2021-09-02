@@ -110,8 +110,16 @@ public class AnnotatorAnalyzer {
      * @return an empty string if no such author was found, the new author name otherwise
      */
     public static String extractAuthorName(String line, int formatIndex) {
-        String[] split = line.split(AUTHOR_TAG);
-        String authorTagParameters = split[1].trim().split(COMMENT_FORMATS[formatIndex][1])[0];
+        String[] splitByAuthorTag = line.split(AUTHOR_TAG);
+        if (splitByAuthorTag.length < 2) {
+            return null;
+        }
+
+        String[] splitByCommentFormat = splitByAuthorTag[1].trim().split(COMMENT_FORMATS[formatIndex][1]);
+        if (splitByCommentFormat.length == 0) {
+            return null;
+        }
+        String authorTagParameters = splitByCommentFormat[0];
         String trimmedParameters = authorTagParameters.trim();
         Matcher matcher = PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters);
 
