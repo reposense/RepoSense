@@ -237,7 +237,6 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         line = "/*@@author fakeAuthor-->";
         Assert.assertEquals(1, AnnotatorAnalyzer.checkValidCommentLine(line));
         Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 1));
-
     }
 
     @Test
@@ -291,6 +290,4 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         Assert.assertEquals(-1, AnnotatorAnalyzer.checkValidCommentLine("# @@author fakeAuthor something"));
         Assert.assertEquals(-1, AnnotatorAnalyzer.checkValidCommentLine("<!--@@authorfakeAuthor-->"));
     }
-
-
 }
