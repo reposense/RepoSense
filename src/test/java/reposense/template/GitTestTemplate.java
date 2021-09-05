@@ -36,10 +36,9 @@ import reposense.util.FileUtil;
 public class GitTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/FH-30/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
-    // repos/reposense_testrepo-Alpha/testrepo-Alpha/git-blame-ignore-revs
     protected static final String IGNORE_REVS_FILE_LOCATION =
-            "repos/FH-30_testrepo-Alpha/testrepo-Alpha/.git-blame-ignore-revs";
-    protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-variousClasses-variousMethods";
+            "repos/reposense_testrepo-Alpha/testrepo-Alpha/git-blame-ignore-revs";
+    protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-find-previous-authors";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String ROOT_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
     protected static final String TEST_COMMIT_HASH = "2fb6b9b";
