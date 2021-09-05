@@ -37,7 +37,7 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_invalidLocation_test.csv");
     private static final Path REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE =
             loadResource(RepoConfigParserTest.class,
-                    "RepoConfigParserTest/repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv");
+            "RepoConfigParserTest/repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv");
     private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE =
             loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_duplicateHeadersCaseSensitive_test.csv");

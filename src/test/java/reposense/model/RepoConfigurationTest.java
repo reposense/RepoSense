@@ -46,13 +46,13 @@ public class RepoConfigurationTest {
             loadResource(RepoConfigurationTest.class, "RepoConfigurationTest/repoconfig_shallowCloning_test");
     private static final Path SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
-                    "RepoConfigurationTest/repoconfig_shallowCloningOverrideCsv_test");
+            "RepoConfigurationTest/repoconfig_shallowCloningOverrideCsv_test");
     private static final Path FIND_PREVIOUS_AUTHORS_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
-                    "RepoConfigurationTest/repoconfig_findPreviousAuthors_test");
+            "RepoConfigurationTest/repoconfig_findPreviousAuthors_test");
     private static final Path FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
-                    "RepoConfigurationTest/repoconfig_findPreviousAuthorsOverrideCsv_test");
+            "RepoConfigurationTest/repoconfig_findPreviousAuthorsOverrideCsv_test");
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
