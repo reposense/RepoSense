@@ -46,7 +46,7 @@ public class RepoConfigurationTest {
             loadResource(RepoConfigurationTest.class, "RepoConfigurationTest/repoconfig_shallowCloning_test");
     private static final Path SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
-            "RepoConfigurationTest/repoconfig_shallowCloningOverrideCsv_test");
+                    "RepoConfigurationTest/repoconfig_shallowCloningOverrideCsv_test");
     private static final Path FIND_PREVIOUS_AUTHORS_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
                     "RepoConfigurationTest/repoconfig_findPreviousAuthors_test");

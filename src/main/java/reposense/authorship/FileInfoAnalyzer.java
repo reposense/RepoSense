@@ -139,6 +139,7 @@ public class FileInfoAnalyzer {
      */
     private static void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo) {
         String blameResults;
+
         if (!config.isFindingPreviousAuthorsPerformed()) {
             blameResults = getGitBlameResult(config, fileInfo.getPath());
         } else {

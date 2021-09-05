@@ -117,10 +117,9 @@ public class FileUtil {
      *         if there was an error while writing the ignore revs file.
      */
     public static Optional<Path> writeIgnoreRevsFile(String path, List<CommitHash> ignoreCommitList) {
-        String contentOfIgnoreRevsFile = ignoreCommitList
-                                            .stream()
-                                            .map(CommitHash::toString)
-                                            .reduce("", (hashes, newHash) -> hashes + newHash + "\n");
+        String contentOfIgnoreRevsFile = ignoreCommitList.stream()
+                .map(CommitHash::toString)
+                .reduce("", (hashes, newHash) -> hashes + newHash + "\n");
 
         try (PrintWriter out = new PrintWriter(path)) {
             out.print(contentOfIgnoreRevsFile);
@@ -320,5 +319,4 @@ public class FileUtil {
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
     }
-
 }

@@ -87,7 +87,7 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
-    private static final String LOG_ERROR_FILE_DELETION = "Failed to delete file at %s";
+    private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
     private static final String LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH =
             "Branch contains file paths with illegal characters and not analyzable.";
@@ -497,7 +497,7 @@ public class ReportGenerator {
                     try {
                         return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
                     } catch (CommitNotFoundException e) {
-                        logger.warning(String.format("Cannot expand %s, it shall remain unexpanded", commitHash));
+                        logger.warning(String.format(LOG_ERROR_EXPANDING_COMMIT, commitHash));
                         return new CommitHash(commitHash);
                     }
                 })

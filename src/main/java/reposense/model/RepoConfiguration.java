@@ -239,7 +239,7 @@ public class RepoConfiguration {
     }
 
     public static boolean isAnyRepoFindingPreviousAuthors(List<RepoConfiguration> configs) {
-        return configs.parallelStream().anyMatch(RepoConfiguration::isFindingPreviousAuthorsPerformed);
+        return configs.stream().anyMatch(RepoConfiguration::isFindingPreviousAuthorsPerformed);
     }
 
     /**

@@ -138,8 +138,7 @@ public class ConfigSystemTest {
      * Generates the testing report to be compared with expected report.
      */
     private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
-                                boolean findPreviousAuthors)
-            throws Exception {
+                                boolean findPreviousAuthors) throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);

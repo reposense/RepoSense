@@ -173,8 +173,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         removeTestIgnoreRevsFile();
 
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
-        config.setIgnoreCommitList(
-                Collections.singletonList(
+        config.setIgnoreCommitList(Collections.singletonList(
                         new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
         config.setIgnoreCommitList(createTestIgnoreRevsFile(config.getIgnoreCommitList()));
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoShort);
