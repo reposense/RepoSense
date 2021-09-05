@@ -38,10 +38,10 @@ with(this){return _c('ul',[_c('li',[_v("the summary view")]),_v(" "),_c('li',[_v
 with(this){return _c('p',[_v("The summary view acts as the main report, which shows the various calculations. "),_c('br'),_v("\nThe tabbed interface is responsible for loading various modules such as authorship and zoom to display additional information.")])}
 },function anonymous(
 ) {
-with(this){return _c('h2',{attrs:{"id":"javascript-files"}},[_c('span',{staticClass:"anchor",attrs:{"id":"javascript-files"}}),_v("Javascript files"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#javascript-files","onclick":"event.stopPropagation()"}})])}
+with(this){return _c('h2',{attrs:{"id":"javascript-and-vue-files"}},[_c('span',{staticClass:"anchor",attrs:{"id":"javascript-and-vue-files"}}),_v("Javascript and Vue files"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#javascript-and-vue-files","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
-with(this){return _c('ul',[_c('li',[_c('a',{attrs:{"href":"#main-main-js"}},[_c('strong',[_v("main.js")])]),_v(" - main controller that pushes content into different modules")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#data-loader-api-js"}},[_c('strong',[_v("api.js")])]),_v(" - loading and parsing of the report content")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#summary-view-v-summary-js"}},[_c('strong',[_v("v_summary.js")])]),_v(" - module that supports the summary view")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#authorship-view-v-authorship-js"}},[_c('strong',[_v("v_authorship.js")])]),_v(" - module that supports the authorship tab view")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#zoom-view-v-zoom-js"}},[_c('strong',[_v("v_zoom.js")])]),_v(" - module that supports the zoom tab view")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#ramp-view-v-ramp-js"}},[_c('strong',[_v("v_ramp.js")])]),_v(" - module that supports the ramp chart view")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#segment-view-v-segment-js"}},[_c('strong',[_v("v_segment.js")])]),_v(" - module that supports the code segment view")])])}
+with(this){return _c('ul',[_c('li',[_c('a',{attrs:{"href":"#main-main-js"}},[_c('strong',[_v("main.js")])]),_v(" - main controller that pushes content into different modules")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#data-loader-api-js"}},[_c('strong',[_v("api.js")])]),_v(" - loading and parsing of the report content")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#summary-view-v-summary-vue"}},[_c('strong',[_v("v_summary.vue")])]),_v(" - module that supports the summary view")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#authorship-view-v-authorship-vue"}},[_c('strong',[_v("v_authorship.vue")])]),_v(" - module that supports the authorship tab view")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#zoom-view-v-zoom-vue"}},[_c('strong',[_v("v_zoom.vue")])]),_v(" - module that supports the zoom tab view")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#ramp-view-v-ramp-vue"}},[_c('strong',[_v("v_ramp.vue")])]),_v(" - module that supports the ramp chart view")]),_v(" "),_c('li',[_c('a',{attrs:{"href":"#segment-view-v-segment-vue"}},[_c('strong',[_v("v_segment.vue")])]),_v(" - module that supports the code segment view")])])}
 },function anonymous(
 ) {
 with(this){return _c('h2',{attrs:{"id":"json-report-files"}},[_c('span',{staticClass:"anchor",attrs:{"id":"json-report-files"}}),_v("JSON report files"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#json-report-files","onclick":"event.stopPropagation()"}})])}
@@ -50,7 +50,7 @@ with(this){return _c('h2',{attrs:{"id":"json-report-files"}},[_c('span',{staticC
 with(this){return _c('ul',[_c('li',[_c('strong',[_v("summary.json")]),_v(" - a list of all the repositories and their respective details")]),_v(" "),_c('li',[_c('strong',[_v("projName/commits.json")]),_v(" - contains information of the users' commits information (e.g., line deletion, insertion, etc.), grouped by date")]),_v(" "),_c('li',[_c('strong',[_v("projName/authorship.json")]),_v(" - contains information from git blame, detailing the author of each line for all the processed files")])])}
 },function anonymous(
 ) {
-with(this){return _c('h2',{attrs:{"id":"main-main-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"main-main-js"}}),_v("Main ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/main.js"}},[_v("main.js")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#main-main-js","onclick":"event.stopPropagation()"}})])}
+with(this){return _c('h2',{attrs:{"id":"main-main-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"main-main-js"}}),_v("Main ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/main.js"}},[_v("main.js")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#main-main-js","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("This contains the logic for the main VueJS object, "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("window.app")]),_v(", which is responsible for passing the necessary data into the relevant modules to be loaded.")])}
@@ -80,7 +80,7 @@ with(this){return _c('h3',{attrs:{"id":"hash-link"}},[_c('span',{staticClass:"an
 with(this){return _c('p',[_v("Other than the global main Vue object, another global variable we have is the "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("window.hashParams")]),_v(". This object is responsible for generating the relevant permalink for a specific view of the report's summary module.")])}
 },function anonymous(
 ) {
-with(this){return _c('h2',{attrs:{"id":"data-loader-api-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"data-loader-api-js"}}),_v("Data loader ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/api.js"}},[_v("api.js")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#data-loader-api-js","onclick":"event.stopPropagation()"}})])}
+with(this){return _c('h2',{attrs:{"id":"data-loader-api-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"data-loader-api-js"}}),_v("Data loader ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/utils/api.js"}},[_v("api.js")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#data-loader-api-js","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
 with(this){return _c('h3',{attrs:{"id":"loading-from-zip-file"}},[_c('span',{staticClass:"anchor",attrs:{"id":"loading-from-zip-file"}}),_v("Loading from ZIP file"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#loading-from-zip-file","onclick":"event.stopPropagation()"}})])}
@@ -95,7 +95,7 @@ with(this){return _c('p',[_v("After the JSON files are loaded from their respect
 with(this){return _c('p',[_v("For the basic skeleton of "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("window.REPOS")]),_v(", refer to the generated "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("summary.json")]),_v(" file in the report for more details.")])}
 },function anonymous(
 ) {
-with(this){return _c('h2',{attrs:{"id":"summary-view-v-summary-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"summary-view-v-summary-js"}}),_v("Summary view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_summary.js"}},[_v("v_summary.js")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#summary-view-v-summary-js","onclick":"event.stopPropagation()"}})])}
+with(this){return _c('h2',{attrs:{"id":"summary-view-v-summary-vue"}},[_c('span',{staticClass:"anchor",attrs:{"id":"summary-view-v-summary-vue"}}),_v("Summary view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-summary.vue"}},[_v("v-summary.vue")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#summary-view-v-summary-vue","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("The "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("v_summary")]),_v(" module is in charge of loading the ramp charts from the corresponding "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("commits.json")]),_v(".")])}
@@ -110,7 +110,7 @@ with(this){return _c('p',[_v("The summary module is activated after the informat
 with(this){return _c('h3',{attrs:{"id":"filtering-users-and-repositories"}},[_c('span',{staticClass:"anchor",attrs:{"id":"filtering-users-and-repositories"}}),_v("Filtering users and repositories"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#filtering-users-and-repositories","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
-with(this){return _c('h2',{attrs:{"id":"authorship-view-v-authorship-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"authorship-view-v-authorship-js"}}),_v("Authorship view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_authorship.js"}},[_v("v_authorship.js")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#authorship-view-v-authorship-js","onclick":"event.stopPropagation()"}})])}
+with(this){return _c('h2',{attrs:{"id":"authorship-view-v-authorship-vue"}},[_c('span',{staticClass:"anchor",attrs:{"id":"authorship-view-v-authorship-vue"}}),_v("Authorship view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-authorship.vue"}},[_v("v-authorship.vue")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#authorship-view-v-authorship-vue","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("The authorship module retrieves the relevant information from the corresponding "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("authorship.json")]),_v(" file if it is not yet loaded. If it has been loaded, the data will be written into "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("window.REPOS")]),_v(" and be read from there instead.")])}
@@ -119,13 +119,13 @@ with(this){return _c('p',[_v("The authorship module retrieves the relevant infor
 with(this){return _c('h3',{attrs:{"id":"showing-relevant-information-by-authors"}},[_c('span',{staticClass:"anchor",attrs:{"id":"showing-relevant-information-by-authors"}}),_v("Showing relevant information by authors"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#showing-relevant-information-by-authors","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
-with(this){return _c('h2',{attrs:{"id":"zoom-view-v-zoom-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"zoom-view-v-zoom-js"}}),_v("Zoom view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_zoom.js"}},[_v("v_zoom.js")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#zoom-view-v-zoom-js","onclick":"event.stopPropagation()"}})])}
+with(this){return _c('h2',{attrs:{"id":"zoom-view-v-zoom-vue"}},[_c('span',{staticClass:"anchor",attrs:{"id":"zoom-view-v-zoom-vue"}}),_v("Zoom view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue"}},[_v("v-zoom.vue")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#zoom-view-v-zoom-vue","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("The "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("v_zoom")]),_v(" module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.")])}
 },function anonymous(
 ) {
-with(this){return _c('h2',{attrs:{"id":"ramp-view-v-ramp-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"ramp-view-v-ramp-js"}}),_v("Ramp view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_ramp.js"}},[_v("v_ramp.js")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#ramp-view-v-ramp-js","onclick":"event.stopPropagation()"}})])}
+with(this){return _c('h2',{attrs:{"id":"ramp-view-v-ramp-vue"}},[_c('span',{staticClass:"anchor",attrs:{"id":"ramp-view-v-ramp-vue"}}),_v("Ramp view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-ramp.vue"}},[_v("v-ramp.vue")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#ramp-view-v-ramp-vue","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("The "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("v_ramp")]),_v(" module is responsible for receiving the relevant information from "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("v_summary")]),_v(" and generating ramp charts that contain ramp slices.")])}
@@ -137,12 +137,12 @@ with(this){return _c('h3',{attrs:{"id":"padding-for-dates"}},[_c('span',{staticC
 with(this){return _c('p',[_v("For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("sinceDate")]),_v(" and "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("untilDate")]),_v(". The ramps will then be rendered with the slices in the right position.")])}
 },function anonymous(
 ) {
-with(this){return _c('h2',{attrs:{"id":"segment-view-v-segment-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"segment-view-v-segment-js"}}),_v("Segment view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_segment.js"}},[_v("v_segment.js")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#segment-view-v-segment-js","onclick":"event.stopPropagation()"}})])}
+with(this){return _c('h2',{attrs:{"id":"segment-view-v-segment-vue"}},[_c('span',{staticClass:"anchor",attrs:{"id":"segment-view-v-segment-vue"}}),_v("Segment view ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-segment.vue"}},[_v("v-segment.vue")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#segment-view-v-segment-vue","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("The "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("v-segment")]),_v(" module is used as a component in "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("v_authorship")]),_v(". It separates the code in terms of \"touched\" and \"untouched\" segments and only loads each \"untouched\" segment when it is toggled.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.0.6")]),_v(", generated on Sun, Aug 29, 2021, 2:39:15 PM UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.0.6")]),_v(", generated on Sun, Sep 5, 2021, 9:32:20 AM UTC]")])])])}
 }];
   

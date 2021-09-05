@@ -116,7 +116,7 @@
       "headings": {
         "html-report": "HTML report",
         "report-architecture": "Report architecture",
-        "javascript-files": "Javascript files",
+        "javascript-and-vue-files": "Javascript and Vue files",
         "json-report-files": "JSON report files",
         "main-main-js": "Main (main.js)",
         "loading-of-report-information": "Loading of report information",
@@ -125,15 +125,15 @@
         "data-loader-api-js": "Data loader (api.js)",
         "loading-from-zip-file": "Loading from ZIP file",
         "retrieving-and-parsing-information": "Retrieving and parsing information",
-        "summary-view-v-summary-js": "Summary view (v_summary.js)",
+        "summary-view-v-summary-vue": "Summary view (v-summary.vue)",
         "initializing-the-data-for-the-ramp-charts": "Initializing the data for the ramp charts",
         "filtering-users-and-repositories": "Filtering users and repositories",
-        "authorship-view-v-authorship-js": "Authorship view (v_authorship.js)",
+        "authorship-view-v-authorship-vue": "Authorship view (v-authorship.vue)",
         "showing-relevant-information-by-authors": "Showing relevant information by authors",
-        "zoom-view-v-zoom-js": "Zoom view (v_zoom.js)",
-        "ramp-view-v-ramp-js": "Ramp view (v_ramp.js)",
+        "zoom-view-v-zoom-vue": "Zoom view (v-zoom.vue)",
+        "ramp-view-v-ramp-vue": "Ramp view (v-ramp.vue)",
         "padding-for-dates": "Padding for dates",
-        "segment-view-v-segment-js": "Segment view (v_segment.js)"
+        "segment-view-v-segment-vue": "Segment view (v-segment.vue)"
       },
       "headingKeywords": {}
     },
