@@ -34,10 +34,10 @@ import reposense.util.FileUtil;
  */
 
 public class GitTestTemplate {
-    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/FH-30/testrepo-Alpha.git";
+    protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     protected static final String IGNORE_REVS_FILE_LOCATION =
-            "repos/reposense_testrepo-Alpha/testrepo-Alpha/git-blame-ignore-revs";
+            "repos/reposense_testrepo-Alpha/testrepo-Alpha/.git-blame-ignore-revs";
     protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-find-previous-authors";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String ROOT_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
@@ -69,7 +69,7 @@ public class GitTestTemplate {
     protected static final CommitHash MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
             new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING);
     protected static final String AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING =
-            "f56839b22752589435d1ebd4aa4512c94881bad9";
+            "1d29339e7d16eb5b2bc8fb542e08acedd3d4b0eb";
     protected static final CommitHash AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021 =
             new CommitHash(AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING);
     protected static final String FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING =
