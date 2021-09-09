@@ -33,6 +33,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final FileType FILETYPE_MD = new FileType("md", Collections.singletonList("**md"));
     private static final FileType FILETYPE_JSON = new FileType("json", Collections.singletonList("**json"));
     private static final FileType FILETYPE_TXT = new FileType("txt", Collections.singletonList("**txt"));
+    private static final String DUPLICATE_AUTHORS_DUPLICATE_COMMITS_HASH = "f34c20ec2c3be63e0764d4079a575dd75269ffeb";
 
     @Before
     public void before() throws Exception {
@@ -139,7 +140,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         Map<FileType, ContributionPair> fileTypeAndContributionMap = new HashMap<>();
         fileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(3, 3));
-        expectedCommitResults.add(new CommitResult(author, LATEST_COMMIT_HASH,
+        expectedCommitResults.add(new CommitResult(author, DUPLICATE_AUTHORS_DUPLICATE_COMMITS_HASH,
                 parseGitStrictIsoDate("2021-08-03T12:53:39+08:00"),
                 "Update annotationTest.java",
                 "", null, fileTypeAndContributionMap));

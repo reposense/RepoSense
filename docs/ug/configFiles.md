@@ -1,10 +1,10 @@
-<variable name="title">Appendix: Config files format</variable>
+{% set title = "Appendix: Config files format" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
 </frontmatter>
 
-<variable name="mandatory"><span class="badge badge-danger">mandatory</span></variable>
+{% set mandatory %}<span class="badge badge-danger">mandatory</span>{% endset %}
 
 <h1 class="display-4"><md>{{ title }}</md></h1>
 
@@ -15,7 +15,7 @@ Given below are the details of the various config files used by RepoSense.
 
 <box type="info" seamless>
 
-**RepoSense ignores the order of column headers in the CSV config files. However, the spelling of the column headers must match the specified headers exactly, or the column would be ignored by RepoSense.**  
+**RepoSense ignores the order of column headers in the CSV config files. However, the spelling of the column headers must match the specified headers exactly, or the column would be ignored by RepoSense.**
 </box>
 
 <box type="info" seamless>
@@ -36,7 +36,7 @@ Branch | The branch to analyze in the target repository e.g., `master`. Default:
 File formats<sup>*+</sup> | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats
 Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author e.g., `test/**;temp/**`. Refer to the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) for the path glob syntax.
 Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
-Ignore Commit List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
+Ignore Commits List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
 Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
 Shallow Cloning | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead.
 
@@ -93,7 +93,7 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 
 ## `report-config.json`
 
-You can optionally use `report-config.json` to customize report generation by providing the following information. ([example](report-config.csv))
+You can optionally use `report-config.json` to customize report generation by providing the following information. ([example](report-config.json))
 
 **Fields to provide**:
 * `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report"

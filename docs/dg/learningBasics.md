@@ -1,4 +1,4 @@
-<variable name="title">Learning the Basics</variable>
+{% set title = "Learning the Basics" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
@@ -264,9 +264,9 @@ Vue.js uses JavaScript as its programming language. Before learning **Vue.js**, 
 You can refer to the [Javascript documentation](https://devdocs.io/javascript/) to learn the basic syntax. There are plenty of other resources available and please feel free to find the resource most suitable for you.
 </box>
 
-RepoSense uses **Vue.js** (Vue2) in its front-end implementation. In particular, major user interface components, such as [summary view](report.html#summary-view-v-summary-js), [authorship view](report.html#authorship-view-v-authorship-js), and [zoom view](report.html#zoom-view-v-zoom-js), are implemented as Vue components. The corresponding source files are in `frontend/src/static/js`.
+RepoSense uses **Vue.js** (Vue2) in its front-end implementation. In particular, major user interface components, such as [summary view](report.html#summary-view-v-summary-js), [authorship view](report.html#authorship-view-v-authorship-js), and [zoom view](report.html#zoom-view-v-zoom-js), are implemented as Vue components. The corresponding source files are in `frontend/src`.
 
-* If you are new to Vue.js, you may want to start learning by looking at the [the beginner tutorial](https://www.vuemastery.com/courses/intro-to-vue-js/). 
+* If you are new to Vue.js, you may want to start learning by looking at the [the beginner tutorial](https://www.vuemastery.com/courses/intro-to-vue-js/).
 * You can dive deeper later by checking the [Vue.js documentation](https://vuejs.org/v2/guide/index.html) to learn about essential concepts such as component life cycle hooks, and component properties.
 * It is recommended if you can work on some small projects first to gain more solid understanding of Vue.js.
 
@@ -279,7 +279,7 @@ The guide above uses HTML as the component template, which is not the case with 
 
 RepoSense uses **Vuex** for the state management of the Vue components.
 
-* You can check the [Vuex guide](https://vuex.vuejs.org/guide/#the-simplest-store) to find out how Vuex can be used in a Vue project. 
+* You can check the [Vuex guide](https://vuex.vuejs.org/guide/#the-simplest-store) to find out how Vuex can be used in a Vue project.
 * There is also a [course](https://vueschool.io/courses/vuex-for-everyone) available that will walk you through an example of creating Vue application with Vuex.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -300,7 +300,7 @@ Since Pug is used to generate the HTML template, it is recommended that you have
 
 ### Scss
 
-SCSS is used for styling the Pug template. The corresponding CSS will later be generated from the SCSS files by [spuild](https://github.com/ongspxm/spuild2) when generating the report. The corresponding source files are in `frontend/src/static/css`. 
+SCSS is used for styling the Pug template. The corresponding CSS will later be generated from the SCSS files by [spuild](https://github.com/ongspxm/spuild2) when generating the report. The corresponding source files are in `frontend/src/styles`.
 
 <box type="info" seamless>
 
@@ -326,44 +326,44 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
   3. You should see that, after you open the panel, the author title background on the chart panel becomes yellow, and the background of the `</>` icon you clicked becomes green.
 
-  **Your Task** 
+  **Your Task**
 
   Make corresponding changes to `summary charts` so that in step 3, after opening the panel, the font colour of the author title (in the form of `authorDisplayName(authorName)`) on the chart panel also becomes green.
 
   <panel header="Hint 1">
 
-  Try to locate where the author title is in [`summary_charts.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/summary_charts.pug).
+  Try to locate where the author title is in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check what `activeUser` and `activeRepo` do in [`v_summary_charts.js`](https://github.com/reposense/RepoSense/blob/master/frontend/src/static/js/v_summary_charts.js).
+  You can check what `activeUser` and `activeRepo` do in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
   </panel>
 
   <panel header="Hint 3">
 
-  Refer to how changes are made to the title background and icon background in [`summary_charts.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/summary_charts.pug).
+  Refer to how changes are made to the title background and icon background in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
   </panel>
 
   <panel header="Hint 4">
 
-  Some of the CSS styling for `summart_charts.pug` is in [`v_summary.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/static/css/v_summary.scss). You can add corresponding class selector if necessary.
+  Some of the CSS styling for `v-summary-charts.vue` is in [`style.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/styles/style.scss). You can add corresponding class selector if necessary.
   </panel>
 
   <panel header="Suggested solution">
 
   There is more than 1 way to achieve this. One solution is shown as the following:
-  
+
   Add this to `v_summary.scss`.
-  
-  ``` 
+
+  ```
   .active-text {
     color: mui-color('green');
   }
   ```
 
-  In `summary_charts.pug`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
-  
+  In `v-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
+
   ```
   'active-text': user.name === activeUser && user.repoName === activeRepo
   ```
@@ -378,26 +378,26 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
   2. Randomly open the authorship contribution panel of an author (The icon is `</>`).
   3. Select a random file in the authorship contribution panel, and hover your mouse on an icon on the file title, a corresponding tooltip will show up, suggesting what the purpose of the icon is. However, when you hover the mouse over the file path on the file title, there is no tool tip shown, even if clicking the path itself will also trigger some event.
-  
+
   <box type="info" seamless>
-  
+
   For example, if you open the authorship contribution panel of an author in `reposense/RepoSense[master]` and hover the mouse over the triangular icon beside the file path `src/main/java/reposense/model/Author.java`, you should see a tooltip saying `Click to hide file details` above the icon. However, when you hover the mouse over the file path `src/main/java/reposense/model/Author.java`, there is no corresponding tooltip shown.
   </box>
 
-  **Your Task** 
+  **Your Task**
 
-  Make corresponding `authorship contribution panel` so that in step 3, when hovering your mouse over the file path: 
+  Make corresponding `authorship contribution panel` so that in step 3, when hovering your mouse over the file path:
   * A tip saying `This is the file path. Click to hide file details` will show up when the file details are shown
   * A tip saying `This is the file path. Click to show file details` will show up when the file details are not shown.
 
   <panel header="Hint 1">
 
-  Try to locate where the file title and the file path are in [`authorship.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/authorship.pug).
+  Try to locate where the file title and the file path are in [`v-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-authorship.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check how tooltip is added for the triangular icon in the file title in [`authorship.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/authorship.pug).
+  You can check how tooltip is added for the triangular icon in the file title in [`v-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-authorship.vue).
   </panel>
 
   <panel header="Hint 3">
@@ -409,11 +409,11 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  1. In `authorship.pug`, locate the section that iterates through each file in `selectedFiles`. 
-  2. There is a specific portion of the section that renders the toggle icon, the file index, and the file path of the file title. 
+  1. In `v-authorship.vue`, locate the section that iterates through each file in `selectedFiles`. 
+  2. There is a specific portion of the section that renders the toggle icon, the file index, and the file path of the file title.
   3. Try to locate the `span` tag that renders `file.path`, and wraps it inside a new `tooptip`.
   4. In the `tooltip`, use the following instructions to handle the switch of tooltip message.
-  
+
   ```
   span.tooltip-text(v-show="file.active") This is the file path. Click to hide file details
   span.tooltip-text(v-show="!file.active") This is the file path. Click to show file details
@@ -431,22 +431,22 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   3. Select a random commit in the commits panel, and hover your mouse on the icons on the commit title, there is no tooltip shown saying that it will redirect you to a different site.
 
   <box type="info" seamless>
-    
+
   For example, given the [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/?search=&sort=groupTitle&sortWithin=title&since=&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=eugenepeh&zR=reposense%2FRepoSense%5Bmaster%5D&zACS=99.28792569659443&zS=2017-10-09&zFS=&zU=2021-04-04&zMG=undefined&zFTF=commit&zFGS=groupByRepos&zFR=false), if you hover the mouse over the commit title `README: add acknowledgements section (#978)`, there is no corresponding tooltip shown, but when you click on the commit title, you will be redirected to a different site to see the commit details.
   </box>
 
-  **Your Task** 
+  **Your Task**
 
   Make corresponding changes to `zoom panel` so that in step 3, when hovering your mouse over the commit title, a tooltip saying `Click to view the detailed file changes in the commit` will show up on the commit title.
 
   <panel header="Hint 1">
 
-  Try to locate where the commit title is in [`zoom.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/zoom.pug).
+  Try to locate where the commit title is in [`v-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check how tooltip is added for other icons in [`zoom.pug`](https://github.com/reposense/RepoSense/blob/master/frontend/src/tabs/zoom.pug).
+  You can check how tooltip is added for other icons in [`v-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue).
   </panel>
 
   <panel header="Hint 3">
@@ -458,11 +458,11 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  1. In `zoom.pug`, locate the section that iterates througth each `day` in `selectedCommits`. 
+  1. In `v-zoom.vue`, locate the section that iterates througth each `day` in `selectedCommits`.
   2. The component that helps render the commit message title should be an `a` tag which uses the `getSliceLink` method to set the link to the commit details and uses `slice.messageTitle` to show the commit message title.
   3. Wrap the `a` tag in a new `tooltip`.
   4. In the `tooltip`, add the following content to show the tooltip message.
-  
+
   ```
   span.tooltip-text Click to view the detailed file changes in the commit
   ```
