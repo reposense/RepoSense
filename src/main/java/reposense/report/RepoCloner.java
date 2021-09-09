@@ -162,7 +162,7 @@ public class RepoCloner {
      * Spawns a process to clone repo specified in {@code config}. Does not wait for process to finish executing.
      * Should only handle a maximum of one spawned process at any time.
      */
-    private boolean spawnCloneProcess(RepoConfiguration config, boolean isFreshCloneForTestRequired) {
+    private boolean spawnCloneProcess(RepoConfiguration config, boolean shouldFreshClone) {
         assert(crp == null);
 
         try {
@@ -173,7 +173,7 @@ public class RepoCloner {
             Path repoDirectoryPath = getRepoParentFolder(config);
             Path repoPath = Paths.get(repoDirectoryPath.toString(), config.getRepoName());
 
-            if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !isFreshCloneForTestRequired) {
+            if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !shouldFreshClone) {
                 logger.info("Skipped cloning from " + config.getLocation()
                         + " as it was cloned before and cloning is not forced.");
                 return true;

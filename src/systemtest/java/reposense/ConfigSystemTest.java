@@ -117,10 +117,10 @@ public class ConfigSystemTest {
      * Re-generates a normal report after the testing finished if the first report is shallow-cloned
      */
     private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines,
-                        boolean shallowCloning, boolean isFreshCloneRequired,
+                        boolean shallowCloning, boolean shouldFreshClone,
                         String pathToResource) throws Exception {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
-                isFreshCloneRequired || !haveNormallyClonedRepo);
+                shouldFreshClone || !haveNormallyClonedRepo);
         Path actualFiles = loadResource(getClass(), pathToResource);
         verifyAllJson(actualFiles, FT_TEMP_DIR);
         haveNormallyClonedRepo = !shallowCloning;
@@ -130,7 +130,7 @@ public class ConfigSystemTest {
      * Generates the testing report to be compared with expected report.
      */
     private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines,
-                                boolean shallowCloning, boolean isFreshCloneRequired) throws Exception {
+                                boolean shallowCloning, boolean shouldFreshClone) throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
@@ -168,7 +168,7 @@ public class ConfigSystemTest {
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                 cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                 cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
-                TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), isFreshCloneRequired);
+                TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
     }
 
     /**
