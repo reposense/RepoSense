@@ -203,6 +203,7 @@
         "assets-a": "--assets, -a",
         "config-c": "--config, -c",
         "formats-f": "--formats, -f",
+        "find-previous-authors-f": "--find-previous-authors, -F",
         "help-h": "--help, -h",
         "ignore-standalone-config-i": "--ignore-standalone-config, -i",
         "last-modified-date-l": "--last-modified-date, -l",
