@@ -18,6 +18,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -62,14 +63,15 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRange() throws Exception {
-        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"), false, false);
+        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
+                false, false, false);
         Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false, false);
+        generateReport(getInputWithUntilDate("1/11/2017"), false, false, false);
         Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
@@ -81,7 +83,7 @@ public class ConfigSystemTest {
     @Test
     public void testDateRangeWithModifiedDateTimeInLines() throws Exception {
         generateReport(getInputWithDates("1/9/2017", "30/10/2017"),
-                true, false);
+                true, false, false);
         Path actualFiles = loadResource(getClass(), "dateRangeWithModifiedDateTimeInLines/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
@@ -93,15 +95,34 @@ public class ConfigSystemTest {
     @Test
     public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
         generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, true);
+                false, true, false);
         Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
     @Test
     public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false, true);
+        generateReport(getInputWithUntilDate("1/11/2017"), false, true, false);
         Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
+    }
+
+    /**
+     * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
+     * since date to capture from the first commit, using find previous authors.
+     */
+    @Test
+    public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
+        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
+                false, false, true);
+        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRangeFindPreviousAuthors/expected");
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
+    }
+
+    @Test
+    public void test30DaysFromUntilDateWithFindPreviousAuthors() throws Exception {
+        generateReport(getInputWithUntilDate("1/11/2017"), false, false, true);
+        Path actualFiles = loadResource(getClass(), "30daysFromUntilDateFindPreviousAuthors/expected");
         verifyAllJson(actualFiles, FT_TEMP_DIR);
     }
 
@@ -116,8 +137,8 @@ public class ConfigSystemTest {
     /**
      * Generates the testing report to be compared with expected report.
      */
-    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning)
-            throws Exception {
+    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
+                                boolean findPreviousAuthors) throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
@@ -128,6 +149,9 @@ public class ConfigSystemTest {
                 .add(inputDates);
         if (shallowCloning) {
             inputBuilder = inputBuilder.addShallowCloning();
+        }
+        if (findPreviousAuthors) {
+            inputBuilder = inputBuilder.addFindPreviousAuthors();
         }
         String input = inputBuilder.build();
 
@@ -150,6 +174,12 @@ public class ConfigSystemTest {
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
         RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId().toString());
         RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(repoConfigs, shouldIncludeModifiedDateInLines);
+        RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(repoConfigs,
+                cliArguments.isFindingPreviousAuthorsPerformed());
+
+        boolean isGitVersionInsufficient = RepoConfiguration.isAnyRepoFindingPreviousAuthors(repoConfigs)
+                && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors();
+        Assert.assertFalse("Git version 2.23.0 and above necessary to run test", isGitVersionInsufficient);
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),

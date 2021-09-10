@@ -34,6 +34,7 @@ Column Name | Explanation
 Repository's Location {{ mandatory }}| The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
 Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
 File formats<sup>*+</sup> | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats
+Find Previous Authors| Enter **`yes`** to utilize Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available).
 Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author e.g., `test/**;temp/**`. Refer to the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) for the path glob syntax.
 Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
 Ignore Commits List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).

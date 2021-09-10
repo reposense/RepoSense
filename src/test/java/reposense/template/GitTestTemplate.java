@@ -2,10 +2,12 @@ package reposense.template;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,24 +20,33 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
 import reposense.git.GitClone;
+import reposense.git.GitShow;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.util.FileUtil;
 
 /**
  * Contains templates for git testing.
  */
+
 public class GitTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
     protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
+    protected static final String IGNORE_REVS_FILE_LOCATION =
+            "repos/reposense_testrepo-Alpha/testrepo-Alpha/.git-blame-ignore-revs";
+    protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-find-previous-authors";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String ROOT_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
     protected static final String TEST_COMMIT_HASH = "2fb6b9b";
+    protected static final String TEST_COMMIT_HASH_LONG = "2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7";
     protected static final String TEST_COMMIT_HASH_PARENT = "c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151";
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
+    protected static final String IGNORED_AUTHOR_NAME = "FH-30";
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
     protected static final String YONG_AUTHOR_NAME = "Yong Hao TENG";
     protected static final String MINGYI_AUTHOR_NAME = "myteo";
@@ -57,6 +68,10 @@ public class GitTestTemplate {
             "8d0ac2ee20f04dce8df0591caed460bffacb65a4";
     protected static final CommitHash MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018 =
             new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING);
+    protected static final String AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING =
+            "1d29339e7d16eb5b2bc8fb542e08acedd3d4b0eb";
+    protected static final CommitHash AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021 =
+            new CommitHash(AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING);
     protected static final String FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING =
             "7d7584fc204922cc5ff3bd5ca073cad6bed2c46a";
     protected static final String FAKE_AUTHOR_BLAME_RANGED_COMMIT_TWO_06022018_STRING =
@@ -70,12 +85,14 @@ public class GitTestTemplate {
             new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_TWO_06022018_STRING),
             new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_THREE_07022018_STRING),
             new CommitHash(FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING));
+    protected static final List<CommitHash> AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021 = Collections.singletonList(
+            new CommitHash(AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING)
+    );
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
     protected static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
-
 
     protected static RepoConfiguration config;
 
@@ -107,8 +124,33 @@ public class GitTestTemplate {
 
         config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.getAuthorDetailsToAuthorMap().put(IGNORED_AUTHOR_NAME, new Author(IGNORED_AUTHOR_NAME));
 
         return fileInfo;
+    }
+
+    /**
+     * Generates the .git-blame-ignore-revs file containing {@code CommitHash}
+     * from {@code toIgnore} for the test repo.
+     */
+    public List<CommitHash> createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
+        List<CommitHash> expandedIgnoreCommitList = toIgnore.stream()
+                .map(CommitHash::toString)
+                .map(commitHash -> {
+                    try {
+                        return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
+                    } catch (CommitNotFoundException e) {
+                        return new CommitHash(commitHash);
+                    }
+                })
+                .collect(Collectors.toList());
+
+        FileUtil.writeIgnoreRevsFile(IGNORE_REVS_FILE_LOCATION, expandedIgnoreCommitList);
+        return expandedIgnoreCommitList;
+    }
+
+    public void removeTestIgnoreRevsFile() {
+        new File(IGNORE_REVS_FILE_LOCATION).delete();
     }
 
     public FileResult getFileResult(String relativePath) {
