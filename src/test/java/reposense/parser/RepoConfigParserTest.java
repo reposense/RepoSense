@@ -35,6 +35,9 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
     private static final Path REPO_CONFIG_INVALID_LOCATION_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_invalidLocation_test.csv");
+    private static final Path REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE =
+            loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv");
     private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE =
             loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_duplicateHeadersCaseSensitive_test.csv");
@@ -299,6 +302,17 @@ public class RepoConfigParserTest {
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assert.assertEquals(2, configs.size());
+    }
+
+    @Test
+    public void repoConfig_withUnrecognizedValuesForYesKeywordHeaders_valuesIgnored() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assert.assertFalse(configs.get(0).isStandaloneConfigIgnored());
+        Assert.assertFalse(configs.get(0).isShallowCloningPerformed());
+        Assert.assertFalse(configs.get(0).isFindingPreviousAuthorsPerformed());
     }
 
     @Test (expected = InvalidCsvException.class)

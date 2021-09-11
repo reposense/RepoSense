@@ -34,10 +34,13 @@ import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
+import reposense.git.GitBlame;
 import reposense.git.GitClone;
 import reposense.git.GitLsTree;
 import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
+import reposense.git.GitShow;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
@@ -84,6 +87,7 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
+    private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
     private static final String LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH =
             "Branch contains file paths with illegal characters and not analyzable.";
@@ -363,6 +367,10 @@ public class ReportGenerator {
         updateAuthorList(config);
         updateIgnoreCommitList(config);
 
+        if (config.isFindingPreviousAuthorsPerformed()) {
+            generateIgnoreRevsFile(config);
+        }
+
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
         CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         List<Path> generatedFiles = generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
@@ -498,8 +506,33 @@ public class ReportGenerator {
         return generatedFiles;
     }
 
+    /**
+     * Creates the .git-blame-ignore-revs file containing the contents of {@code IgnoreCommitList}
+     * in the config's repo root directory.
+     */
+    private static void generateIgnoreRevsFile(RepoConfiguration config) {
+        List<CommitHash> expandedIgnoreCommitList = config.getIgnoreCommitList().stream()
+                .map(CommitHash::toString)
+                .map(commitHash -> {
+                    try {
+                        return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
+                    } catch (CommitNotFoundException e) {
+                        logger.warning(String.format(LOG_ERROR_EXPANDING_COMMIT, commitHash));
+                        return new CommitHash(commitHash);
+                    }
+                })
+                .collect(Collectors.toList());
+
+        config.setIgnoreCommitList(expandedIgnoreCommitList);
+        FileUtil.writeIgnoreRevsFile(getIgnoreRevsFilePath(config.getRepoRoot()), config.getIgnoreCommitList());
+    }
+
     private static String getSummaryResultPath(String targetFileLocation) {
         return targetFileLocation + "/" + SummaryJson.SUMMARY_JSON_FILE_NAME;
+    }
+
+    private static String getIgnoreRevsFilePath(String targetFileLocation) {
+        return targetFileLocation + GitBlame.IGNORE_COMMIT_LIST_FILE_NAME;
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {
