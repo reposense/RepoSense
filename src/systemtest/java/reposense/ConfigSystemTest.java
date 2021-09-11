@@ -164,6 +164,7 @@ public class ConfigSystemTest {
         if (shallowCloning) {
             inputBuilder = inputBuilder.addShallowCloning();
         }
+
         if (findPreviousAuthors) {
             inputBuilder = inputBuilder.addFindPreviousAuthors();
         }
