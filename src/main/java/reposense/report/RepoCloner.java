@@ -53,6 +53,8 @@ public class RepoCloner {
     private static final int MAX_NO_OF_REPOS = 2;
     private static final Logger logger = LogsManager.getLogger(RepoCloner.class);
 
+    private static final boolean DEFAULT_IS_FRESH_CLONE_FOR_TEST_REQUIRED = false;
+
     private RepoConfiguration[] configs = new RepoConfiguration[MAX_NO_OF_REPOS];
     private int currentIndex = 0;
     private int previousIndex = 0;
@@ -65,25 +67,34 @@ public class RepoCloner {
      * Does not wait for process to finish executing.
      */
     public void cloneBare(RepoConfiguration config) {
+        cloneBare(config, DEFAULT_IS_FRESH_CLONE_FOR_TEST_REQUIRED);
+    }
+
+    /**
+     * Spawns a process to clone the bare repository specified by {@code config}.
+     * Does not wait for process to finish executing.
+     */
+    public void cloneBare(RepoConfiguration config, boolean shouldFreshClone) {
         configs[currentIndex] = config;
 
         if (!config.isShallowCloningPerformed()) {
-            isCurrentRepoCloned = spawnCloneProcess(config);
+            isCurrentRepoCloned = spawnCloneProcess(config, shouldFreshClone);
         } else {
-            boolean didShallowPartialCloneSucceed = spawnShallowPartialCloneProcess(config);
+            boolean didShallowPartialCloneSucceed =
+                    spawnShallowPartialCloneProcess(config, shouldFreshClone);
             String shallowPartialBareRoot = FileUtil.getShallowPartialBareRepoPath(config).toString();
 
             if (!didShallowPartialCloneSucceed || GitRevList.checkIsEmptyRepo(shallowPartialBareRoot)) {
-                isCurrentRepoCloned = spawnCloneProcess(config);
+                isCurrentRepoCloned = spawnCloneProcess(config, shouldFreshClone);
                 return;
             }
 
             List<String> graftedCommits = GitRevList.getRootCommits(shallowPartialBareRoot);
             List<String> graftedCommitParents = GitCatFile.getParentsOfCommits(shallowPartialBareRoot, graftedCommits);
 
-            boolean didPartialCloneSucceed = spawnPartialCloneProcess(config);
+            boolean didPartialCloneSucceed = spawnPartialCloneProcess(config, shouldFreshClone);
             if (!didPartialCloneSucceed) {
-                isCurrentRepoCloned = spawnCloneProcess(config);
+                isCurrentRepoCloned = spawnCloneProcess(config, shouldFreshClone);
                 return;
             }
 
@@ -95,9 +106,10 @@ public class RepoCloner {
             } catch (CommitNotFoundException e) {
                 sinceDate = null;
             }
+
             isCurrentRepoCloned = (sinceDate != null)
-                    ? spawnShallowCloneProcess(config, sinceDate)
-                    : spawnCloneProcess(config);
+                    ? spawnShallowCloneProcess(config, sinceDate, shouldFreshClone)
+                    : spawnCloneProcess(config, shouldFreshClone);
         }
     }
 
@@ -149,7 +161,7 @@ public class RepoCloner {
      * Spawns a process to clone repo specified in {@code config}. Does not wait for process to finish executing.
      * Should only handle a maximum of one spawned process at any time.
      */
-    private boolean spawnCloneProcess(RepoConfiguration config) {
+    private boolean spawnCloneProcess(RepoConfiguration config, boolean shouldFreshClone) {
         assert(crp == null);
 
         try {
@@ -160,8 +172,9 @@ public class RepoCloner {
             Path repoDirectoryPath = getRepoParentFolder(config);
             Path repoPath = Paths.get(repoDirectoryPath.toString(), config.getRepoName());
 
-            if (SystemUtil.isTestEnvironment() && Files.exists(repoPath)) {
-                logger.info("Skipped cloning from " + config.getLocation() + " as it was cloned before.");
+            if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !shouldFreshClone) {
+                logger.info("Skipped cloning from " + config.getLocation()
+                        + " as it was cloned before and cloning is not forced.");
                 return true;
             }
 
@@ -185,12 +198,24 @@ public class RepoCloner {
      * Does not wait for process to finish executing.
      * Should only handle a maximum of one spawned process at any time.
      */
-    private boolean spawnShallowCloneProcess(RepoConfiguration config, Date shallowSinceDate) {
+    private boolean spawnShallowCloneProcess(RepoConfiguration config, Date shallowSinceDate,
+                                             boolean shouldFreshClone) {
         assert(crp == null);
 
         try {
-            FileUtil.deleteDirectory(FileUtil.getBareRepoPath(config).toString());
+            if (!SystemUtil.isTestEnvironment()) {
+                FileUtil.deleteDirectory(FileUtil.getBareRepoPath(config).toString());
+            }
+
             Path repoDirectoryPath = getRepoParentFolder(config);
+            Path repoPath = Paths.get(repoDirectoryPath.toString(), config.getRepoName());
+
+            if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !shouldFreshClone) {
+                logger.info("Skipped cloning from " + config.getLocation()
+                        + " as it was cloned before and cloning is not forced.");
+                return true;
+            }
+
             Files.createDirectories(repoDirectoryPath);
 
             Path outputDirectory = Paths.get(repoDirectoryPath.toString(),
@@ -210,12 +235,23 @@ public class RepoCloner {
      * Spawns a process to create partial clone of repo specified in {@code config}.
      * Waits for process to finish executing.
      */
-    private boolean spawnPartialCloneProcess(RepoConfiguration config) {
+    private boolean spawnPartialCloneProcess(RepoConfiguration config, boolean shouldFreshClone) {
         assert(crp == null);
 
         try {
-            FileUtil.deleteDirectory(FileUtil.getPartialBareRepoPath(config).toString());
+            if (!SystemUtil.isTestEnvironment()) {
+                FileUtil.deleteDirectory(FileUtil.getPartialBareRepoPath(config).toString());
+            }
+
             Path repoDirectoryPath = getRepoParentFolder(config);
+            Path repoPath = Paths.get(repoDirectoryPath.toString(), config.getRepoName());
+
+            if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !shouldFreshClone) {
+                logger.info("Skipped cloning from " + config.getLocation()
+                        + " as it was cloned before and cloning is not forced.");
+                return true;
+            }
+
             Files.createDirectories(repoDirectoryPath);
 
             Path outputDirectory = Paths.get(repoDirectoryPath.toString(),
@@ -234,12 +270,22 @@ public class RepoCloner {
      * Spawns a process to create shallow partial clone of repo specified in {@code config}.
      * Waits for process to finish executing.
      */
-    private boolean spawnShallowPartialCloneProcess(RepoConfiguration config) {
+    private boolean spawnShallowPartialCloneProcess(RepoConfiguration config, boolean shouldFreshClone) {
         assert(crp == null);
 
         try {
-            FileUtil.deleteDirectory(FileUtil.getShallowPartialBareRepoPath(config).toString());
+            if (!SystemUtil.isTestEnvironment()) {
+                FileUtil.deleteDirectory(FileUtil.getShallowPartialBareRepoPath(config).toString());
+            }
             Path repoDirectoryPath = getRepoParentFolder(config);
+            Path repoPath = Paths.get(repoDirectoryPath.toString(), config.getRepoName());
+
+            if (SystemUtil.isTestEnvironment() && Files.exists(repoPath) && !shouldFreshClone) {
+                logger.info("Skipped cloning from " + config.getLocation()
+                        + " as it was cloned before and cloning is not forced.");
+                return true;
+            }
+
             Files.createDirectories(repoDirectoryPath);
 
             Path outputDirectory = Paths.get(repoDirectoryPath.toString(),

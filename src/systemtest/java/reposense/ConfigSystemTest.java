@@ -46,10 +46,13 @@ public class ConfigSystemTest {
     private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
 
+    private static boolean haveNormallyClonedRepo = false;
+
     @Before
     public void setUp() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
         ErrorSummary.getInstance().clearErrorList();
+        AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
     @After
@@ -63,17 +66,16 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRange() throws Exception {
-        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, false, false);
-        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
+                false, false, false, false,
+                "sinceBeginningDateRange/expected");
     }
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false, false, false);
-        Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        runTest(getInputWithUntilDate("1/11/2017"), false,
+                false, false, false,
+                "30daysFromUntilDate/expected");
     }
 
     /**
@@ -82,10 +84,9 @@ public class ConfigSystemTest {
      */
     @Test
     public void testDateRangeWithModifiedDateTimeInLines() throws Exception {
-        generateReport(getInputWithDates("1/9/2017", "30/10/2017"),
-                true, false, false);
-        Path actualFiles = loadResource(getClass(), "dateRangeWithModifiedDateTimeInLines/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        runTest(getInputWithDates("1/9/2017", "30/10/2017"),
+                true, false, false, false,
+                "dateRangeWithModifiedDateTimeInLines/expected");
     }
 
     /**
@@ -94,17 +95,16 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
-        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, true, false);
-        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRange/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
+                false, true, true, false,
+                "sinceBeginningDateRangeWithShallowCloning/expected");
     }
 
     @Test
     public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false, true, false);
-        Path actualFiles = loadResource(getClass(), "30daysFromUntilDate/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        runTest(getInputWithUntilDate("1/11/2017"), false,
+                true, true, false,
+                "30daysFromUntilDateWithShallowCloning/expected");
     }
 
     /**
@@ -113,17 +113,15 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
-        generateReport(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, false, true);
-        Path actualFiles = loadResource(getClass(), "sinceBeginningDateRangeFindPreviousAuthors/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
+                false, false, true, true,
+                "sinceBeginningDateRangeFindPreviousAuthors/expected");
     }
 
     @Test
     public void test30DaysFromUntilDateWithFindPreviousAuthors() throws Exception {
-        generateReport(getInputWithUntilDate("1/11/2017"), false, false, true);
-        Path actualFiles = loadResource(getClass(), "30daysFromUntilDateFindPreviousAuthors/expected");
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        runTest(getInputWithUntilDate("1/11/2017"), false, false, true,
+                true, "30daysFromUntilDateFindPreviousAuthors/expected");
     }
 
     private String getInputWithUntilDate(String untilDate) {
@@ -135,9 +133,24 @@ public class ConfigSystemTest {
     }
 
     /**
+     * Generates the testing report and then compared it with the expected report
+     * Re-generates a normal report after the testing finished if the first report is shallow-cloned
+     */
+    private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines,
+                        boolean shallowCloning, boolean shouldFreshClone, boolean findPreviousAuthors,
+                        String pathToResource) throws Exception {
+        generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
+                shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
+        Path actualFiles = loadResource(getClass(), pathToResource);
+        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        haveNormallyClonedRepo = !shallowCloning;
+    }
+
+    /**
      * Generates the testing report to be compared with expected report.
      */
-    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
+    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines,
+                                boolean shallowCloning, boolean shouldFreshClone,
                                 boolean findPreviousAuthors) throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
@@ -147,18 +160,23 @@ public class ConfigSystemTest {
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
                 .add(inputDates);
+
         if (shallowCloning) {
             inputBuilder = inputBuilder.addShallowCloning();
         }
         if (findPreviousAuthors) {
             inputBuilder = inputBuilder.addFindPreviousAuthors();
         }
+
         String input = inputBuilder.build();
 
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> repoConfigs =
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+
+        repoConfigs.forEach(repoConfig -> repoConfig.setIsShallowCloningPerformed(shallowCloning));
+
         List<AuthorConfiguration> authorConfigs =
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         List<GroupConfiguration> groupConfigs =
@@ -185,7 +203,7 @@ public class ConfigSystemTest {
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                 cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                 cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
-                TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId());
+                TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
     }
 
     /**
