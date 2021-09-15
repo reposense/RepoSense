@@ -38,6 +38,6 @@ with(this){return _c('p',[_c('strong',[_v("The easiest option is to use Netlify.
 with(this){return _c('p',[_c('strong',[_v("You can also use the following options.")]),_v(" While they are more work to set up, they are more suitable as a permanent solution due to their generous free tier.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.0.6")]),_v(", generated on Wed, Sep 15, 2021, 9:42:11 AM UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.0.6")]),_v(", generated on Wed, Sep 15, 2021, 10:19:50 AM UTC]")])])])}
 }];
   
