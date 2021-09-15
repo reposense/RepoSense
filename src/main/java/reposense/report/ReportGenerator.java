@@ -19,6 +19,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,10 +34,13 @@ import reposense.authorship.AuthorshipReporter;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
+import reposense.git.GitBlame;
 import reposense.git.GitClone;
 import reposense.git.GitLsTree;
 import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
+import reposense.git.GitShow;
+import reposense.git.exception.CommitNotFoundException;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.git.exception.InvalidFilePathException;
@@ -81,6 +87,7 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
+    private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
     private static final String LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH =
             "Branch contains file paths with illegal characters and not analyzable.";
@@ -92,6 +99,8 @@ public class ReportGenerator {
     private static final List<String> assetsFilesWhiteList =
             Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
 
+    private static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
+
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
@@ -101,8 +110,25 @@ public class ReportGenerator {
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
             ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided,
+            boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads, int numAnalysisThreads,
             Supplier<String> reportGenerationTimeProvider, ZoneId zoneId) throws IOException {
+        return generateReposReport(configs, outputPath, assetsPath, reportConfig, generationDate,
+                cliSinceDate, untilDate, isSinceDateProvided, isUntilDateProvided, numCloningThreads,
+                numAnalysisThreads, reportGenerationTimeProvider, zoneId, DEFAULT_SHOULD_FRESH_CLONE);
+    }
+
+    /**
+     * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
+     * well as the summary JSON file of all the repos.
+     *
+     * @return the list of file paths that were generated.
+     * @throws IOException if templateZip.zip does not exists in jar file.
+     */
+    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
+            ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
+            boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads, int numAnalysisThreads,
+            Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
+            boolean shouldFreshClone) throws IOException {
         prepareTemplateFile(reportConfig, outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
@@ -111,7 +137,8 @@ public class ReportGenerator {
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
 
-        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath);
+        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath,
+                numCloningThreads, numAnalysisThreads, shouldFreshClone);
 
         Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
@@ -173,56 +200,119 @@ public class ReportGenerator {
 
     /**
      * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
-     * Performs analysis and report generation of each repository in parallel with the cloning of the next repository.
+     * Performs cloning and analysis of each repository in parallel, and generates the report.
+     * Also removes any configs that failed to clone or analyze from {@code configs}.
+     *
+     * By default, runs in multi-threaded mode with {@code numCloningThreads} threads for cloning
+     * and {@code numAnalysisThreads} threads for analysis.
+     * To turn off multi-threading, run the program with the flags
+     * {@code --cloning-threads 1 --analysis-threads 1}.
      *
      * @return A list of paths to the JSON report files generated for each repository.
      */
-    private static List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath) {
+    private static List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath,
+            int numCloningThreads, int numAnalysisThreads, boolean shouldFreshClone) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
-        RepoCloner repoCloner = new RepoCloner();
-        RepoLocation clonedRepoLocation = null;
-
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
 
-        RepoLocation currRepoLocation = repoLocationList.get(0);
-        repoCloner.cloneBare(repoLocationMap.get(currRepoLocation).get(0));
+        // Fixed thread pools are used to limit the number of threads used by cloning and analysis jobs at any one time
+        ExecutorService cloneExecutor = Executors.newFixedThreadPool(numCloningThreads);
+        ExecutorService analyzeExecutor = Executors.newFixedThreadPool(numAnalysisThreads);
 
-        List<Path> generatedFiles = new ArrayList<>();
-        for (int index = 1; index <= repoLocationList.size(); index++) {
-            RepoLocation nextRepoLocation = (index < repoLocationList.size()) ? repoLocationList.get(index) : null;
-            clonedRepoLocation = repoCloner.getClonedRepoLocation();
+        List<CompletableFuture<AnalyzeJobOutput>> analyzeJobFutures = new ArrayList<>();
+        for (RepoLocation location : repoLocationList) {
+            List<RepoConfiguration> configsToAnalyze = repoLocationMap.get(location);
 
-            // Clones the next location while analyzing the previously cloned repos in parallel.
-            if (nextRepoLocation != null) {
-                repoCloner.cloneBare(repoLocationMap.get(nextRepoLocation).get(0));
-            }
+            // The `CompletableFuture.supplyAsync` method is used to clone the repo in parallel.
+            // Note that the `cloneExecutor` is passed as a parameter to ensure that the number of threads used
+            // for cloning is no more than `numCloningThreads`.
+            CompletableFuture<CloneJobOutput> cloneFuture = CompletableFuture.supplyAsync(() ->
+                    cloneRepo(configsToAnalyze.get(0), location, shouldFreshClone), cloneExecutor);
 
-            if (clonedRepoLocation == null) {
-                handleCloningFailed(configs, currRepoLocation);
-            } else {
-                generatedFiles.addAll(analyzeRepos(outputPath, configs, repoLocationMap.get(clonedRepoLocation),
-                        repoCloner.getCurrentRepoDefaultBranch()));
-            }
-            currRepoLocation = nextRepoLocation;
+            // The `thenApplyAsync` method is used to analyze the cloned repo in parallel.
+            // This ensures that the analysis job for each repo will only be run after the repo has been cloned.
+            // Note that the `analyzeExecutor` is passed as a parameter to ensure that the number of threads used
+            // for analysis is no more than `numAnalysisThreads`.
+            CompletableFuture<AnalyzeJobOutput> analyzeFuture = cloneFuture.thenApplyAsync(
+                    cloneJobOutput -> analyzeRepos(outputPath, configsToAnalyze, cloneJobOutput), analyzeExecutor);
+
+            analyzeJobFutures.add(analyzeFuture);
         }
+
+        // Next, we collect the list of outputs from all the analyze jobs
+        List<AnalyzeJobOutput> jobOutputs = analyzeJobFutures.stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
+
+        // Finally, the ExecutorService objects are shut down to prevent memory leaks
+        cloneExecutor.shutdown();
+        analyzeExecutor.shutdown();
+
+        List<Path> generatedFiles = jobOutputs.stream()
+                .flatMap(jobOutput -> jobOutput.getFiles().stream())
+                .collect(Collectors.toList());
+
+        List<RepoLocation> cloneFailLocations = jobOutputs
+                .stream()
+                .filter(jobOutput -> !jobOutput.isCloneSuccessful())
+                .map(jobOutput -> jobOutput.getLocation())
+                .collect(Collectors.toList());
+        cloneFailLocations.forEach(location -> handleCloningFailed(configs, location));
+
+        List<AnalysisErrorInfo> analysisErrors = jobOutputs
+                .stream()
+                .flatMap(jobOutput -> jobOutput.getAnalyseErrors().stream())
+                .collect(Collectors.toList());
+        analysisErrors.forEach(errorInfo ->
+                handleAnalysisFailed(configs, errorInfo.getFailedConfig(), errorInfo.getErrorMessage()));
+
+        RepoCloner repoCloner = new RepoCloner();
         repoCloner.cleanup();
         return generatedFiles;
     }
 
     /**
-     * Analyzes all repos in {@code configsToAnalyze} and generates their report.
-     * Also removes {@code configsToAnalyze} that failed to analyze from {@code configs}.
+     * Clones repo at {@code location}.
      *
-     * @return A list of paths to the JSON report files generated for the repositories in {@code configsToAnalyze}.
+     * @return A {@code CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was
+     * successful, and the {@code defaultBranch} of the repo.
      */
-    private static List<Path> analyzeRepos(String outputPath, List<RepoConfiguration> configs,
-            List<RepoConfiguration> configsToAnalyze, String defaultBranch) {
-        Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
+    private static CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location,
+                                            boolean shouldFreshClone) {
+        RepoCloner repoCloner = new RepoCloner();
+        repoCloner.cloneBare(config, shouldFreshClone);
+        RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
+        if (clonedRepoLocation != null) {
+            String defaultBranch = repoCloner.getCurrentRepoDefaultBranch();
+            return new CloneJobOutput(location, defaultBranch);
+        } else {
+            return new CloneJobOutput(location);
+        }
+    }
+
+    /**
+     * Analyzes all repos in {@code configsToAnalyze} and generates their report.
+     *
+     * @return An {@code AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was
+     * successful, the list of {@code filesGenerated} by the analysis and a list of {@code analysisErrors} encountered.
+     */
+    private static AnalyzeJobOutput analyzeRepos(String outputPath, List<RepoConfiguration> configsToAnalyze,
+            CloneJobOutput cloneJobOutput) {
+        RepoLocation location = cloneJobOutput.getLocation();
+        boolean cloneSuccessful = cloneJobOutput.isCloneSuccessful();
+
         List<Path> generatedFiles = new ArrayList<>();
+        List<AnalysisErrorInfo> analysisErrors = new ArrayList<>();
+        RepoCloner repoCloner = new RepoCloner();
+        if (!cloneSuccessful) {
+            repoCloner.cleanupRepo(configsToAnalyze.get(0));
+            return new AnalyzeJobOutput(location, cloneSuccessful, generatedFiles, analysisErrors);
+        }
+        Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
         while (itr.hasNext()) {
             progressTracker.incrementProgress();
             RepoConfiguration configToAnalyze = itr.next();
-            configToAnalyze.updateBranch(defaultBranch);
+            configToAnalyze.updateBranch(cloneJobOutput.getDefaultBranch());
 
             Path repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
             logger.info(
@@ -242,12 +332,12 @@ public class ReportGenerator {
             } catch (GitBranchException gbe) {
                 logger.log(Level.SEVERE, String.format(MESSAGE_BRANCH_DOES_NOT_EXIST,
                         configToAnalyze.getBranch(), configToAnalyze.getLocation()), gbe);
-                handleAnalysisFailed(configs, configToAnalyze,
-                        String.format(LOG_BRANCH_DOES_NOT_EXIST, configToAnalyze.getBranch()));
+                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze,
+                        String.format(LOG_BRANCH_DOES_NOT_EXIST, configToAnalyze.getBranch())));
             } catch (InvalidFilePathException ipe) {
-                handleAnalysisFailed(configs, configToAnalyze, LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH);
+                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH));
             } catch (GitCloneException gce) {
-                handleAnalysisFailed(configs, configToAnalyze, LOG_ERROR_CLONING_OR_BRANCHING);
+                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_ERROR_CLONING_OR_BRANCHING));
             } catch (NoAuthorsWithCommitsFoundException nafe) {
                 logger.log(Level.WARNING, String.format(MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch()));
@@ -258,11 +348,12 @@ public class ReportGenerator {
                 StringWriter sw = new StringWriter();
                 e.printStackTrace(new PrintWriter(sw));
                 logger.log(Level.SEVERE, sw.toString());
-                handleAnalysisFailed(configs, configToAnalyze,
-                        String.format(LOG_UNEXPECTED_ERROR, configToAnalyze.getLocation(), sw.toString()));
+                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze,
+                        String.format(LOG_UNEXPECTED_ERROR, configToAnalyze.getLocation(), sw.toString())));
             }
         }
-        return generatedFiles;
+        repoCloner.cleanupRepo(configsToAnalyze.get(0));
+        return new AnalyzeJobOutput(location, cloneSuccessful, generatedFiles, analysisErrors);
     }
 
     /**
@@ -276,8 +367,12 @@ public class ReportGenerator {
         updateAuthorList(config);
         updateIgnoreCommitList(config);
 
-        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
+        if (config.isFindingPreviousAuthorsPerformed()) {
+            generateIgnoreRevsFile(config);
+        }
+
         AuthorshipSummary authorshipSummary = AuthorshipReporter.generateAuthorshipSummary(config);
+        CommitContributionSummary commitSummary = CommitsReporter.generateCommitSummary(config);
         List<Path> generatedFiles = generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
         return generatedFiles;
@@ -411,8 +506,33 @@ public class ReportGenerator {
         return generatedFiles;
     }
 
+    /**
+     * Creates the .git-blame-ignore-revs file containing the contents of {@code IgnoreCommitList}
+     * in the config's repo root directory.
+     */
+    private static void generateIgnoreRevsFile(RepoConfiguration config) {
+        List<CommitHash> expandedIgnoreCommitList = config.getIgnoreCommitList().stream()
+                .map(CommitHash::toString)
+                .map(commitHash -> {
+                    try {
+                        return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
+                    } catch (CommitNotFoundException e) {
+                        logger.warning(String.format(LOG_ERROR_EXPANDING_COMMIT, commitHash));
+                        return new CommitHash(commitHash);
+                    }
+                })
+                .collect(Collectors.toList());
+
+        config.setIgnoreCommitList(expandedIgnoreCommitList);
+        FileUtil.writeIgnoreRevsFile(getIgnoreRevsFilePath(config.getRepoRoot()), config.getIgnoreCommitList());
+    }
+
     private static String getSummaryResultPath(String targetFileLocation) {
         return targetFileLocation + "/" + SummaryJson.SUMMARY_JSON_FILE_NAME;
+    }
+
+    private static String getIgnoreRevsFilePath(String targetFileLocation) {
+        return targetFileLocation + GitBlame.IGNORE_COMMIT_LIST_FILE_NAME;
     }
 
     private static String getIndividualAuthorshipPath(String repoReportDirectory) {

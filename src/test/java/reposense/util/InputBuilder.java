@@ -41,7 +41,7 @@ public class InputBuilder {
      * @param path The config folder path.
      */
     public InputBuilder addConfig(Path path) {
-        input.append(ArgsParser.CONFIG_FLAGS[0] + WHITESPACE + path + WHITESPACE);
+        input.append(ArgsParser.CONFIG_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
     }
 
@@ -54,7 +54,7 @@ public class InputBuilder {
     public InputBuilder addRepos(String... paths) {
         input.append(ArgsParser.REPO_FLAGS[0] + WHITESPACE);
         for (String path : paths) {
-            input.append(path + WHITESPACE);
+            input.append(addQuotationMarksToPath(path) + WHITESPACE);
         }
         return this;
     }
@@ -66,7 +66,7 @@ public class InputBuilder {
      * @param path The view folder path.
      */
     public InputBuilder addView(Path path) {
-        input.append(ArgsParser.VIEW_FLAGS[0] + WHITESPACE + path + WHITESPACE);
+        input.append(ArgsParser.VIEW_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
     }
 
@@ -86,7 +86,7 @@ public class InputBuilder {
      * @param path The output folder path.
      */
     public InputBuilder addOutput(Path path) {
-        input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + path + WHITESPACE);
+        input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
     }
 
@@ -153,6 +153,46 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the cloning threads flag with the {@code threads} as argument to the input.
+     * This method should only be called once in one build.
+     *
+     * @param threads The number of threads for cloning.
+     */
+    public InputBuilder addNumCloningThreads(int threads) {
+        input.append(ArgsParser.CLONING_THREADS_FLAG[0] + WHITESPACE + threads + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the analysis threads flag with the {@code threads} as argument to the input.
+     * This method should only be called once in one build.
+     *
+     * @param threads The number of threads for analysis.
+     */
+    public InputBuilder addNumAnalysisThreads(int threads) {
+        input.append(ArgsParser.ANALYSIS_THREADS_FLAG[0] + WHITESPACE + threads + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to enable shallow cloning.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addShallowCloning() {
+        input.append(ArgsParser.SHALLOW_CLONING_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to enable find previous authors.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addFindPreviousAuthors() {
+        input.append(ArgsParser.FIND_PREVIOUS_AUTHORS_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {
@@ -179,4 +219,13 @@ public class InputBuilder {
         input = new StringBuilder();
         return this;
     }
+
+    private static String addQuotationMarksToPath(String path) {
+        return '"' + path + '"';
+    }
+
+    private static String addQuotationMarksToPath(Path path) {
+        return addQuotationMarksToPath(path.toString());
+    }
+
 }

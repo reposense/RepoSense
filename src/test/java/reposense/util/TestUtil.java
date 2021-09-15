@@ -1,9 +1,10 @@
 package reposense.util;
 
-import java.io.File;
-import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,7 +43,7 @@ public class TestUtil {
      * Also prints out error message if the lines count are different,
      * else prints out the first line of content difference (if any).
      */
-    public static boolean compareFileContents(Path expected, Path actual) throws IOException {
+    public static boolean compareFileContents(Path expected, Path actual) throws Exception {
         return compareFileContents(expected, actual, 1);
     }
 
@@ -51,7 +52,7 @@ public class TestUtil {
      * Also prints out error message if the lines count are different,
      * else prints out maximum {@code maxTraceCounts} lines of content difference (if any).
      */
-    public static boolean compareFileContents(Path expected, Path actual, int maxTraceCounts) throws IOException {
+    public static boolean compareFileContents(Path expected, Path actual, int maxTraceCounts) throws Exception {
         int traceCounts = 0;
 
         System.out.println(String.format(MESSAGE_COMPARING_FILES, expected, actual));
@@ -82,7 +83,7 @@ public class TestUtil {
     /**
      * Returns true if {@code expected} directory has all files with same content as {@code actual} directory.
      */
-    public static boolean compareDirectories(Path expected, Path actual) throws IOException {
+    public static boolean compareDirectories(Path expected, Path actual) throws Exception {
         List<Path> expectedPaths = Files.walk(expected)
                 .sorted()
                 .collect(Collectors.toList());
@@ -131,6 +132,36 @@ public class TestUtil {
      */
     public static Date getUntilDate(int year, int month, int date) {
         return getDate(year, month, date, END_OF_DAY_TIME);
+    }
+
+    /**
+     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day} that is not
+     * dependent on the time zone of the current system, in cases where adjusting for the time zone is not necessary.
+     */
+    public static Date getLocalDate(int year, int month, int date, int[] time) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, date);
+        cal.set(Calendar.HOUR_OF_DAY, time[0]);
+        cal.set(Calendar.MINUTE, time[1]);
+        cal.set(Calendar.SECOND, time[2]);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
+    }
+
+    /**
+     * Wrapper for {@code getLocalDate} method to get since date with time 00:00:00
+     */
+    public static Date getLocalSinceDate(int year, int month, int date) {
+        return getLocalDate(year, month, date, START_OF_DAY_TIME);
+    }
+
+    /**
+     * Wrapper for {@code getLocalDate} method to get until date with time 23:59:59
+     */
+    public static Date getLocalUntilDate(int year, int month, int date) {
+        return getLocalDate(year, month, date, END_OF_DAY_TIME);
     }
 
     /**
@@ -236,6 +267,14 @@ public class TestUtil {
      * Returns the path to a resource
      */
     public static Path loadResource(Class classForLoading, String pathToResource) {
-        return new File(classForLoading.getClassLoader().getResource(pathToResource).getFile()).toPath();
+        ClassLoader classLoader = classForLoading.getClassLoader();
+        URL url = classLoader.getResource(pathToResource);
+        Path path = null;
+        try {
+            path = Paths.get(url.toURI());
+        } catch (URISyntaxException e) {
+            System.out.println("URL format does not follow required standard");
+        }
+        return path;
     }
 }

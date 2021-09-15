@@ -33,8 +33,23 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_overrideKeyword_test.csv");
     private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
-    private static final Path REPO_CONFIG_INVALID_HEADER_SIZE_FILE = loadResource(RepoConfigParserTest.class,
-            "RepoConfigParserTest/repoconfig_invalidHeaderSize_test.csv");
+    private static final Path REPO_CONFIG_INVALID_LOCATION_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_invalidLocation_test.csv");
+    private static final Path REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE =
+            loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv");
+    private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE =
+            loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_duplicateHeadersCaseSensitive_test.csv");
+    private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE =
+            loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_duplicateHeadersCaseInsensitive_test.csv");
+    private static final Path REPO_CONFIG_DIFFERENT_COLUMN_ORDER_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_differentColumnOrder_test.csv");
+    private static final Path REPO_CONFIG_OPTIONAL_HEADER_MISSING_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_missingOptionalHeader_test.csv");
+    private static final Path REPO_CONFIG_MANDATORY_HEADER_MISSING_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_missingMandatoryHeader_test.csv");
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_merge_empty_location_test");
     private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
@@ -84,6 +99,8 @@ public class RepoConfigParserTest {
         Assert.assertEquals(config.getIgnoreCommitList(),
                 CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
 
+        Assert.assertTrue(config.isShallowCloningPerformed());
+
         Assert.assertFalse(config.isFormatsOverriding());
         Assert.assertFalse(config.isIgnoreGlobListOverriding());
         Assert.assertFalse(config.isIgnoreCommitListOverriding());
@@ -104,14 +121,14 @@ public class RepoConfigParserTest {
         firstRepo.setAuthorList(expectedAuthors);
         firstRepo.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         firstRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        firstRepo.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        firstRepo.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         firstRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         RepoConfiguration secondRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
                 TEST_REPO_BETA_ADD_CONFIG_JSON_BRANCH);
         secondRepo.setAuthorList(Arrays.asList(SECOND_AUTHOR));
         secondRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        secondRepo.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        secondRepo.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         secondRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         String input = new InputBuilder().addConfig(TEST_CONFIG_FOLDER).build();
@@ -146,8 +163,9 @@ public class RepoConfigParserTest {
         expectedBetaConfig.setAuthorList(expectedBetaAuthors);
         expectedBetaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedBetaConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        expectedBetaConfig.addAuthorEmailsAndAliasesMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        expectedBetaConfig.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
         expectedBetaConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedBetaConfig.setIsShallowCloningPerformed(true);
 
         RepoConfiguration expectedDeltaConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA_LOCATION), TEST_REPO_DELTA_BRANCH);
@@ -233,15 +251,93 @@ public class RepoConfigParserTest {
         Assert.assertTrue(deltaConfig.isStandaloneConfigIgnored());
     }
 
+    @Test
+    public void repoConfig_differentColumnOrder_success() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_DIFFERENT_COLUMN_ORDER_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        RepoConfiguration config = configs.get(0);
+
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
+
+        Assert.assertTrue(config.isStandaloneConfigIgnored());
+
+        Assert.assertEquals(config.getIgnoreCommitList(),
+                CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+
+        Assert.assertFalse(config.isFormatsOverriding());
+        Assert.assertFalse(config.isIgnoreGlobListOverriding());
+        Assert.assertFalse(config.isIgnoreCommitListOverriding());
+    }
+
+    @Test
+    public void repoConfig_missingOptionalHeader_success() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OPTIONAL_HEADER_MISSING_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        RepoConfiguration config = configs.get(0);
+
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
+
+        Assert.assertTrue(config.isStandaloneConfigIgnored());
+
+        Assert.assertFalse(config.isFormatsOverriding());
+        Assert.assertFalse(config.isIgnoreGlobListOverriding());
+        Assert.assertFalse(config.isIgnoreCommitListOverriding());
+    }
+
+    @Test
+    public void repoConfig_withInvalidLocation_success() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_LOCATION_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assert.assertEquals(2, configs.size());
+    }
+
+    @Test
+    public void repoConfig_withUnrecognizedValuesForYesKeywordHeaders_valuesIgnored() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assert.assertFalse(configs.get(0).isStandaloneConfigIgnored());
+        Assert.assertFalse(configs.get(0).isShallowCloningPerformed());
+        Assert.assertFalse(configs.get(0).isFindingPreviousAuthorsPerformed());
+    }
+
     @Test (expected = InvalidCsvException.class)
-    public void repoConfig_invalidHeaderSize_throwsInvalidCsvException() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_HEADER_SIZE_FILE);
+    public void repoConfig_mandatoryHeaderMissing_throwsInvalidCsvException() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_MANDATORY_HEADER_MISSING_FILE);
         repoConfigCsvParser.parse();
     }
 
     @Test (expected = InvalidCsvException.class)
     public void repoConfig_zeroValidRecords_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_ZERO_VALID_RECORDS);
+        repoConfigCsvParser.parse();
+    }
+
+    @Test (expected = InvalidCsvException.class)
+    public void repoConfig_duplicateHeadersCaseSensitive_throwsInvalidCsvException() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE);
+        repoConfigCsvParser.parse();
+    }
+
+    @Test (expected = InvalidCsvException.class)
+    public void repoConfig_duplicateHeadersCaseInsensitive_throwsInvalidCsvException() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE);
         repoConfigCsvParser.parse();
     }
 }

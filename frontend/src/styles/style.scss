@@ -1,0 +1,182 @@
+@import 'colors';
+@import 'z-indices';
+
+/** global **/
+body {
+  font-family: 'Titillium Web', sans-serif;
+}
+
+vuetemplate {
+  display: none;
+}
+
+a {
+  cursor: pointer;
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.wrapper {
+  text-align: center;
+}
+
+.content {
+  max-width: 40rem;
+  text-align: left;
+}
+
+.empty {
+  margin: 3rem 5rem;
+  text-align: center;
+}
+
+.overlay-loader {
+  text-align: center;
+}
+
+.overlay-loading-icon {
+  font-size: 3em;
+}
+
+.tab-padding {
+  padding: 2rem 1.5rem;
+}
+
+.warn {
+  color: mui-color('red');
+
+  .summary-charts__title--contribution {
+    color: mui-color('black');
+  }
+}
+
+.tooltip {
+  display: inline-block;
+  position: relative;
+
+  .tooltip-text {
+    @include medium-font;
+    background-color: mui-color('black');
+    border-radius: .25rem;
+    bottom: 125%;
+    color: mui-color('white');
+    left: 50%;
+    margin-left: -3.5rem;
+    opacity: 0;
+    padding: .25rem .5rem;
+    position: absolute;
+    text-align: center;
+    transition: opacity .3s;
+    visibility: hidden;
+    width: 6rem;
+    z-index: z-index('tooltip');
+
+    &::after {
+      border-color: mui-color('black') transparent transparent transparent;
+      border-style: solid;
+      border-width: .4rem;
+      content: '';
+      left: 50%;
+      margin-left: -.4rem;
+      position: absolute;
+      top: 100%;
+    }
+  }
+
+  &:hover {
+    .tooltip-text {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+/** navigation bar **/
+header {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: z-index('header');
+
+  .content {
+    align-items: center;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+  }
+
+  .repo,
+  .logo {
+    margin: 0;
+  }
+}
+
+#file-upload {
+  text-align: center;
+}
+
+#app-wrapper {
+  #summary-wrapper {
+    height: 100%;
+    overflow-y: scroll;
+    text-align: center;
+
+    .timestamp-footer {
+      color: mui-color('grey', '700');
+      margin-bottom: 1em;
+      margin-left: 1em;
+    }
+
+    .error-message-box {
+      background-color: mui-color('red', '100');
+      border: .1rem solid mui-color('red', '900');
+      border-radius: .25rem;
+      color: mui-color('red', '900');
+      font-size: .75rem;
+      margin-bottom: .9rem;
+      padding: .9rem;
+      text-align: left;
+
+      &__close-button {
+        cursor: pointer;
+        float: right;
+        font-size: 1.4rem;
+        font-weight: bold;
+        line-height: .625rem;
+
+        &:hover {
+          color: mui-color('white');
+        }
+      }
+
+      &__message {
+        border-bottom: .1rem solid;
+        font-weight: bolder;
+        padding-bottom: .5rem;
+      }
+
+      .icon {
+        padding-right: .4rem;
+        padding-top: .2rem;
+        width: 1rem;
+      }
+
+      &__failed-repo {
+        .fa-exclamation {
+          @include mini-font;
+        }
+
+        &--name {
+          font-weight: bolder;
+          padding-left: .2rem;
+        }
+
+        &--reason {
+          padding-left: 3rem;
+        }
+      }
+    }
+  }
+}

@@ -20,8 +20,12 @@ public class GroupConfigParserTest {
             "GroupConfigParserTest/groupconfig_emptyLocation_test.csv");
     private static final Path GROUP_CONFIG_INVALID_LOCATION_FILE = loadResource(GroupConfigParserTest.class,
             "GroupConfigParserTest/groupconfig_invalidLocation_test.csv");
-    private static final Path GROUP_CONFIG_INVALID_HEADER_SIZE_FILE = loadResource(GroupConfigParserTest.class,
-            "GroupConfigParserTest/groupconfig_invalidHeaderSize_test.csv");
+    private static final Path GROUP_CONFIG_DIFFERENT_COLUMN_ORDER_FILE = loadResource(GroupConfigParserTest.class,
+            "GroupConfigParserTest/groupconfig_differentColumnOrder_test.csv");
+    private static final Path GROUP_CONFIG_MISSING_OPTIONAL_HEADER_FILE = loadResource(GroupConfigParserTest.class,
+            "GroupConfigParserTest/groupconfig_missingOptionalHeader_test.csv");
+    private static final Path GROUP_CONFIG_MISSING_MANDATORY_HEADER_FILE = loadResource(GroupConfigParserTest.class,
+            "GroupConfigParserTest/groupconfig_missingMandatoryHeader_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final List<FileType> TEST_REPO_BETA_GROUPS = Arrays.asList(
@@ -74,9 +78,36 @@ public class GroupConfigParserTest {
         Assert.assertEquals(TEST_REPO_DELTA_GROUPS, actualDeltaConfig.getGroupsList());
     }
 
+    @Test
+    public void groupConfig_differentColumnOrder_success() throws Exception {
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_DIFFERENT_COLUMN_ORDER_FILE);
+        List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
+
+        Assert.assertEquals(2, groupConfigs.size());
+
+        GroupConfiguration actualBetaConfig = groupConfigs.get(0);
+        Assert.assertEquals(TEST_REPO_BETA_LOCATION, actualBetaConfig.getLocation().toString());
+        Assert.assertEquals(TEST_REPO_BETA_GROUPS, actualBetaConfig.getGroupsList());
+
+        GroupConfiguration actualDeltaConfig = groupConfigs.get(1);
+        Assert.assertEquals(TEST_REPO_DELTA_LOCATION, actualDeltaConfig.getLocation().toString());
+        Assert.assertEquals(TEST_REPO_DELTA_GROUPS, actualDeltaConfig.getGroupsList());
+    }
+
+    @Test
+    public void groupConfig_missingOptionalHeader_success() throws Exception {
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_MISSING_OPTIONAL_HEADER_FILE);
+        List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
+
+        Assert.assertEquals(1, groupConfigs.size());
+
+        Assert.assertEquals(3, groupConfigs.get(0).getGroupsList().size());
+    }
+
     @Test (expected = InvalidCsvException.class)
-    public void groupConfig_invalidHeaderSize_throwsInvalidCsvException() throws Exception {
-        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_HEADER_SIZE_FILE);
+    public void groupConfig_missingMandatoryHeader_throwsInvalidCsvException() throws Exception {
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(
+                GROUP_CONFIG_MISSING_MANDATORY_HEADER_FILE);
         groupConfigCsvParser.parse();
     }
 }

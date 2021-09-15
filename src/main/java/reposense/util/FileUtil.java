@@ -26,6 +26,7 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
@@ -44,6 +45,8 @@ public class FileUtil {
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     private static final String BARE_REPO_SUFFIX = "_bare";
+    private static final String PARTIAL_REPO_SUFFIX = "_partial";
+    private static final String SHALLOW_PARTIAL_REPO_SUFFIX = "_shallow_partial";
 
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
     private static final String MESSAGE_FAIL_TO_ZIP_FILES =
@@ -95,13 +98,31 @@ public class FileUtil {
         Gson gson = new GsonBuilder()
                 .setDateFormat(GITHUB_API_DATE_FORMAT)
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
-                .setPrettyPrinting()
                 .create();
         String result = gson.toJson(object);
 
         try (PrintWriter out = new PrintWriter(path)) {
             out.print(result);
             out.print("\n");
+            return Optional.of(path).map(Paths::get);
+        } catch (FileNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Writes the ignore revs file containing the {@code ignoreCommitList} at the given {@code path}.
+     * @return An Optional containing the Path to the ignore revs file, or an empty Optional
+     *         if there was an error while writing the ignore revs file.
+     */
+    public static Optional<Path> writeIgnoreRevsFile(String path, List<CommitHash> ignoreCommitList) {
+        String contentOfIgnoreRevsFile = ignoreCommitList.stream()
+                .map(CommitHash::toString)
+                .reduce("", (hashes, newHash) -> hashes + newHash + "\n");
+
+        try (PrintWriter out = new PrintWriter(path)) {
+            out.print(contentOfIgnoreRevsFile);
             return Optional.of(path).map(Paths::get);
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
@@ -216,9 +237,32 @@ public class FileUtil {
     /**
      * Returns the relative path to the bare repo version of {@code config}.
      */
+    public static Path getRepoParentFolder(RepoConfiguration config) {
+        return Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
+    }
+
+    /**
+     * Returns the relative path to the bare repo version of {@code config}.
+     */
     public static Path getBareRepoPath(RepoConfiguration config) {
         return Paths.get(FileUtil.REPOS_ADDRESS,
                 config.getRepoFolderName(), config.getRepoName() + BARE_REPO_SUFFIX);
+    }
+
+    /**
+     * Returns the relative path to the partial bare repo version of {@code config}.
+     */
+    public static Path getPartialBareRepoPath(RepoConfiguration config) {
+        return Paths.get(FileUtil.REPOS_ADDRESS,
+                config.getRepoFolderName(), config.getRepoName() + PARTIAL_REPO_SUFFIX);
+    }
+
+    /**
+     * Returns the relative path to the shallow partial bare repo version of {@code config}.
+     */
+    public static Path getShallowPartialBareRepoPath(RepoConfiguration config) {
+        return Paths.get(FileUtil.REPOS_ADDRESS,
+                config.getRepoFolderName(), config.getRepoName() + SHALLOW_PARTIAL_REPO_SUFFIX);
     }
 
     /**
@@ -226,6 +270,20 @@ public class FileUtil {
      */
     public static String getBareRepoFolderName(RepoConfiguration config) {
         return config.getRepoName() + BARE_REPO_SUFFIX;
+    }
+
+    /**
+     * Returns the folder name of the partial bare repo version of {@code config}.
+     */
+    public static String getPartialBareRepoFolderName(RepoConfiguration config) {
+        return config.getRepoName() + PARTIAL_REPO_SUFFIX;
+    }
+
+    /**
+     * Returns the folder name of the shallow partial bare repo version of {@code config}.
+     */
+    public static String getShallowPartialBareRepoFolderName(RepoConfiguration config) {
+        return config.getRepoName() + SHALLOW_PARTIAL_REPO_SUFFIX;
     }
 
     /**

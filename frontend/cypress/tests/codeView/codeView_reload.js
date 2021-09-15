@@ -8,11 +8,11 @@ describe('reload page', () => {
         .first()
         .click();
 
-    // sort by
+    // change sort by
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select')
         .select('LoC');
 
-    // sort order
+    // change sort order
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')
         .select('Descending');
 
@@ -29,7 +29,7 @@ describe('reload page', () => {
         .uncheck()
         .should('not.be.checked');
 
-    cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="pug"]')
+    cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="java"]')
         .should('be.checked');
 
     cy.reload();
@@ -49,7 +49,7 @@ describe('reload page', () => {
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="gradle"]')
         .should('not.be.checked');
 
-    cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="pug"]')
+    cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="java"]')
         .should('be.checked');
   });
 });

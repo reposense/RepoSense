@@ -58,7 +58,7 @@ public class StandaloneConfigJsonParserTest {
         expectedGithubIdOnlyRepoconfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         expectedGithubIdOnlyRepoconfig.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         expectedGithubIdOnlyRepoconfig.setAuthorList(Arrays.asList(new Author("yong24s")));
-        expectedGithubIdOnlyRepoconfig.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
+        expectedGithubIdOnlyRepoconfig.addAuthorDetailsToAuthorMapEntry(author, author.getEmails());
 
         expectedFullRepoConfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         expectedFullRepoConfig.setFormats(FileType.convertFormatStringsToFileTypes(
@@ -69,9 +69,9 @@ public class StandaloneConfigJsonParserTest {
         expectedFullRepoConfig.setIgnoredAuthorsList(Arrays.asList("yong24s"));
         expectedFullRepoConfig.setAuthorList(Arrays.asList(author));
         expectedFullRepoConfig.setAuthorDisplayName(author, "Yong Hao");
-        expectedFullRepoConfig.addAuthorEmailsAndAliasesMapEntry(author, Arrays.asList(author.getGitId()));
-        expectedFullRepoConfig.addAuthorEmailsAndAliasesMapEntry(author, author.getAuthorAliases());
-        expectedFullRepoConfig.addAuthorEmailsAndAliasesMapEntry(author, author.getEmails());
+        expectedFullRepoConfig.addAuthorDetailsToAuthorMapEntry(author, Arrays.asList(author.getGitId()));
+        expectedFullRepoConfig.addAuthorDetailsToAuthorMapEntry(author, author.getAuthorAliases());
+        expectedFullRepoConfig.addAuthorDetailsToAuthorMapEntry(author, author.getEmails());
     }
 
     @Test

@@ -2,6 +2,7 @@ package reposense.git;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -85,8 +86,8 @@ public class GitLsTreeTest extends GitTestTemplate {
      * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
      * Windows.
      */
-    private void validateFilePaths(RepoConfiguration config) throws IOException, InvalidFilePathException {
-        GitClone.cloneBare(config, FileUtil.getBareRepoFolderName(config));
+    private void validateFilePaths(RepoConfiguration config) throws Exception {
+        GitClone.cloneBare(config, Paths.get("."), FileUtil.getBareRepoPath(config).toString());
         GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
     }
 }

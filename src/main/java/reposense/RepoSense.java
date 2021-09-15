@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gson.JsonSyntaxException;
-
 import net.sourceforge.argparse4j.helper.HelpScreenException;
+import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -29,7 +28,6 @@ import reposense.parser.InvalidCsvException;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
-import reposense.parser.ReportConfigJsonParser;
 import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
@@ -44,7 +42,6 @@ public class RepoSense {
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
     private static final String VERSION_UNSPECIFIED = "unspecified";
-    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
 
     /**
      * The entry point of the program.
@@ -62,7 +59,7 @@ public class RepoSense {
                 return;
             } else if (cliArguments instanceof ConfigCliArguments) {
                 configs = getRepoConfigurations((ConfigCliArguments) cliArguments);
-                reportConfig = getReportConfigurations((ConfigCliArguments) cliArguments);
+                reportConfig = ((ConfigCliArguments) cliArguments).getReportConfiguration();
             } else if (cliArguments instanceof LocationsCliArguments) {
                 configs = getRepoConfigurations((LocationsCliArguments) cliArguments);
             } else {
@@ -76,12 +73,24 @@ public class RepoSense {
                     cliArguments.isStandaloneConfigIgnored());
             RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(configs,
                     cliArguments.isLastModifiedDateIncluded());
+            RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(configs,
+                    cliArguments.isShallowCloningPerformed());
+            RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
+                    cliArguments.isFindingPreviousAuthorsPerformed());
+
+            if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
+                    && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
+                logger.warning(GitVersion.FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
+                RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
+            }
+
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
+                    cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
                     TimeUtil::getElapsedTime, cliArguments.getZoneId());
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
@@ -113,6 +122,7 @@ public class RepoSense {
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
+            AuthorConfiguration.setHasAuthorConfigFile(true);
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as author-config.csv is not found.
             // Ignore exception as the file is optional.
@@ -156,24 +166,6 @@ public class RepoSense {
         }
 
         return configs;
-    }
-
-    /**
-     * Constructs {@code ReportConfiguration} if {@code cliArguments} is a {@code ConfigCliArguments}.
-     */
-    public static ReportConfiguration getReportConfigurations(ConfigCliArguments cliArguments) {
-        ReportConfiguration reportConfig = new ReportConfiguration();
-        try {
-            reportConfig = new ReportConfigJsonParser().parse(cliArguments.getReportConfigFilePath());
-        } catch (JsonSyntaxException jse) {
-            logger.warning(String.format("%s is malformed.", cliArguments.getReportConfigFilePath()));
-        } catch (IllegalArgumentException iae) {
-            logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
-        } catch (IOException ioe) {
-            // IOException thrown as report-config.json is not found.
-            // Ignore exception as the file is optional.
-        }
-        return reportConfig;
     }
 
     public static String getVersion() {
