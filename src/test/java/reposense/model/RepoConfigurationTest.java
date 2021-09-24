@@ -47,6 +47,12 @@ public class RepoConfigurationTest {
     private static final Path SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
             "RepoConfigurationTest/repoconfig_shallowCloningOverrideCsv_test");
+    private static final Path FIND_PREVIOUS_AUTHORS_TEST_CONFIG_FILES =
+            loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_findPreviousAuthors_test");
+    private static final Path FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES =
+            loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_findPreviousAuthorsOverrideCsv_test");
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
@@ -371,6 +377,150 @@ public class RepoConfigurationTest {
     }
 
     @Test
+    public void repoConfig_findPreviousAuthors_success() throws Exception {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedConfig.setFormats(CONFIG_FORMATS);
+        expectedConfig.setStandaloneConfigIgnored(true);
+        expectedConfig.setIsFindingPreviousAuthorsPerformed(true);
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addConfig(FIND_PREVIOUS_AUTHORS_TEST_CONFIG_FILES)
+                .addFormats(formats)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_findPreviousAuthorsInCli_success() throws Exception {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        expectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        expectedConfig.setStandaloneConfigIgnored(true);
+        expectedConfig.setIsFindingPreviousAuthorsPerformed(true);
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addRepos(TEST_REPO_DELTA)
+                .addFormats(formats)
+                .addFindPreviousAuthors()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
+                cliArguments.isFindingPreviousAuthorsPerformed());
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_findPreviousAuthorsInCli_overrideCsv() throws Exception {
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoBetaExpectedConfig.setIsFindingPreviousAuthorsPerformed(true);
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_DELTA), "master");
+        repoDeltaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoDeltaExpectedConfig.setIsFindingPreviousAuthorsPerformed(true);
+
+        String input = new InputBuilder().addConfig(FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES)
+                .addShallowCloning()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
+                cliArguments.isFindingPreviousAuthorsPerformed());
+
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        GitClone.clone(repoBetaActualConfig);
+        GitClone.clone(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
+        TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
+    }
+
+    @Test
+    public void repoConfig_withoutFindPreviousAuthorsInCli_useCsv() throws Exception {
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoBetaExpectedConfig.setIsFindingPreviousAuthorsPerformed(true);
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_DELTA), "master");
+        repoDeltaExpectedConfig.setStandaloneConfigIgnored(true);
+
+        String input = new InputBuilder().addConfig(FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
+                cliArguments.isFindingPreviousAuthorsPerformed());
+
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        GitClone.clone(repoBetaActualConfig);
+        GitClone.clone(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
+        TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
+    }
+
+    @Test
+    public void repoConfig_userEnvironmentCannotRunFindPreviousAuthors_setFindPreviousAuthorsToFalseInAllRepoConfigs()
+            throws Exception {
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_DELTA), "master");
+        repoDeltaExpectedConfig.setStandaloneConfigIgnored(true);
+
+        String input = new InputBuilder().addConfig(FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
+                cliArguments.isFindingPreviousAuthorsPerformed());
+
+        // Assume by default that the environment does not support Find Previous Authors feature
+        RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs);
+
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        GitClone.clone(repoBetaActualConfig);
+        GitClone.clone(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
+        TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
+    }
+
+    @Test
     public void repoConfig_withFormats_ignoreCliFormats() throws Exception {
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(FORMATS_TEST_CONFIG_FILES)
@@ -458,7 +608,7 @@ public class RepoConfigurationTest {
     public void repoConfig_overrideStandaloneConfig_success() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master",
                 Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
-                true, true, true, false);
+                true, true, true, false, false);
         expectedConfig.setIsIgnoredAuthorsListOverriding(true);
         expectedConfig.setIgnoredAuthorsList(Arrays.asList("lithiumlkid"));
 

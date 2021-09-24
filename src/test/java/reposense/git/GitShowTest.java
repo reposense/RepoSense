@@ -13,6 +13,17 @@ import reposense.template.GitTestTemplate;
 public class GitShowTest extends GitTestTemplate {
 
     @Test
+    public void getExpandedCommitHash_shortCommitHash_success() throws Exception {
+        String expandedCommitHash = GitShow.getExpandedCommitHash(config.getRepoRoot(), TEST_COMMIT_HASH).toString();
+        Assert.assertEquals(expandedCommitHash, TEST_COMMIT_HASH_LONG);
+    }
+
+    @Test(expected = CommitNotFoundException.class)
+    public void getExpandedCommitHash_nonExistentCommit_throwsEmptyCommitException() throws Exception {
+        GitShow.getExpandedCommitHash(config.getRepoRoot(), NONEXISTENT_COMMIT_HASH);
+    }
+
+    @Test
     public void getCommitDate_normalCommit_success() throws Exception {
         Date commitDate = GitShow.getCommitDate(config.getRepoRoot(), TEST_COMMIT_HASH);
         Date expectedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse("2018-02-09 22:17:39 +0800");
