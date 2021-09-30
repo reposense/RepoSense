@@ -1,322 +1,72 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="generator" content="MarkBind 2.14.1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RepoSense - Appendix: Config files format</title>
-  <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
-  <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
-  <link rel="stylesheet" href="../markbind/css/octicons.css">
-  <link rel="stylesheet" href="../markbind/css/github.min.css">
-  <link rel="stylesheet" href="../markbind/css/markbind.css">
-  <link rel="stylesheet" href="/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
-  <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
-  <link rel="stylesheet" href="../markbind/css/site-nav.css">
-  <link rel="stylesheet" href="../markbind/css/page-nav.css">
-  <link rel="icon" href="/favicon.ico">
-</head>
-
-<body data-spy="scroll" data-target="#page-nav" data-offset="100">
-  <div id="app">
-    <header>
-      <navbar type="dark" placement="top" class="temp-navbar">
-        <a slot="brand" href="/index.html" title="Home" class="navbar-brand"><img width="30px" src="/favicon.ico"></a>
-        <li><a href="/index.html" class="nav-link">HOME</a></li>
-        <li><a href="/showcase.html" class="nav-link">SHOWCASE</a></li>
-        <li><a href="/ug/index.html" class="nav-link">USER GUIDE</a></li>
-        <li><a href="/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
-        <li><a href="/about.html" class="nav-link">ABOUT</a></li>
-        <li><a href="/contact.html" class="nav-link">CONTACT</a></li>
-
-        <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
-        <li slot="right">
-          <form class="navbar-form">
-            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
-          </form>
-        </li>
-      </navbar>
-    </header>
-    <header>
-      <div class="text-center bg-warning p-2">
-        <p>You are looking at the user documentation for the most recent <code>master</code> branch of RepoSense (not released to the public yet).
-          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
-        </p>
-      </div>
-    </header>
-    <div id="flex-body">
-      <nav id="site-nav" class="navbar navbar-light bg-transparent">
-        <div class="border-right-grey nav-inner position-sticky slim-scroll">
-          <p><span class="lead"><strong><strong>USER GUIDE</strong></strong></span></p>
-          <ul class="px-0 site-nav-list">
-            <li class="mt-2"><a href="/ug/index.html" class="site-nav__a"><strong>Overview</strong></a></li>
-            <li class="mt-2"><a href="/ug/generatingReports.html" class="site-nav__a"><strong>Generating reports</strong></a></li>
-            <li class="mt-2"><a href="/ug/usingReports.html" class="site-nav__a"><strong>Using reports</strong></a></li>
-            <li class="mt-2"><a href="/ug/customizingReports.html" class="site-nav__a"><strong>Customizing reports</strong></a></li>
-            <li class="mt-2"><a href="/ug/sharingReports.html" class="site-nav__a"><strong>Sharing reports</strong></a></li>
-            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Appendices</strong>
-                <i class="dropdown-btn-icon rotate-icon">
-                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
-              <div class="dropdown-container dropdown-container-open">
-                <ul class="pl-3 site-nav-list">
-                  <li class="mt-2"><a href="/ug/cli.html" class="site-nav__a">CLI syntax reference</a></li>
-                  <li class="mt-2"><a href="/ug/configFiles.html" class="site-nav__a current">Config files format</a></li>
-                  <li class="mt-2"><a href="/ug/usingAuthorTags.html" class="site-nav__a">Using <code>@@author</code> tags</a></li>
-                  <li class="mt-2"><a href="/ug/withNetlify.html" class="site-nav__a">RepoSense with Netlify</a></li>
-                  <li class="mt-2"><a href="/ug/withGithubActions.html" class="site-nav__a">RepoSense with GitHub Actions</a></li>
-                  <li class="mt-2"><a href="/ug/withTravis.html" class="site-nav__a">RepoSense with Travis</a></li>
-                  <li class="mt-2"><a href="/ug/runSh.html" class="site-nav__a"><code>run.sh</code> format</a></li>
-                  <li class="mt-2"><a href="/ug/faq.html" class="site-nav__a">FAQ</a></li>
-                  <li class="mt-2"><a href="/ug/troubleshooting.html" class="site-nav__a">Troubleshooting</a></li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-
-      <div id="content-wrapper">
-        <div></div>
-        <div></div>
-        <h1 class="display-4" id="appendix-config-files-format"><span>Appendix: Config files format</span><a class="fa fa-anchor" href="#appendix-config-files-format" onclick="event.stopPropagation()"></a></h1>
-        <div class="lead">
-          <p>Given below are the details of the various config files used by RepoSense.</p>
-        </div>
-        <box type="info" seamless>
-          <p><strong>RepoSense ignores the first row (i.e., column headings) of CSV config files.</strong> It is used simply to provide more information to human readers. This also means the <mark>columns in your config files should be in the exact order specified here</mark>.
-          </p>
-        </box>
-        <box type="info" seamless>
-          <p><strong>A value in a config file is optional to provide unless it specified as <span class="badge badge-danger">mandatory</span></strong>.
-          </p>
-        </box>
-
-        <h2 id="repo-config-csv"><code>repo-config.csv</code><a class="fa fa-anchor" href="#repo-config-csv" onclick="event.stopPropagation()"></a></h2>
-        <p><strong><code>repo-config.csv</code> file contains repo-level config data.</strong> Each row represents a repository's configuration (<a href="/ug/repo-config.csv">example</a>).</p>
-        <div class="table-responsive">
-          <table class="markbind-table table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th>Column Name</th>
-                <th>Explanation</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Repository's Location <span class="badge badge-danger">mandatory</span></td>
-                <td>The <code>GitHub URL</code> or <code>Disk Path</code> to the git repository e.g., <code>https://github.com/foo/bar.git</code> or <code>C:\Users\user\Desktop\GitHub\foo\bar</code></td>
-              </tr>
-              <tr>
-                <td>Branch</td>
-                <td>The branch to analyze in the target repository e.g., <code>master</code>. Default: the default branch of the repo</td>
-              </tr>
-              <tr>
-                <td>File formats<sup>*+</sup></td>
-                <td>The file extensions to analyze. Default: all file formats</td>
-              </tr>
-              <tr>
-                <td>Ignore Glob List<sup>*+</sup></td>
-                <td>The list of file path globs to ignore during analysis for each author. e.g., <code>test/**;temp/**</code></td>
-              </tr>
-              <tr>
-                <td>Ignore standalone config</td>
-                <td>To ignore the standalone config file (if any) in target repository, enter <strong><code>yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td>
-              </tr>
-              <tr>
-                <td>Ignore Commit List<sup>*+</sup></td>
-                <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code>..</code> notation e.g. <code>abc123..def456</code> (both inclusive).</td>
-              </tr>
-              <tr>
-                <td>Ignore Authors List<sup>*+</sup></td>
-                <td>The list of authors to ignore during analysis. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code>;</code> as the separator.</sup>
-          <sup>+ <strong>Overrideable column</strong>: prepend with <code>override:</code> to use entered value(s) instead of value(s) from standalone config.</sup>
-        </p>
-        <box type="info" seamless>
-          <p>When using <a href="#config-json-standalone-config-file">standalone config</a> (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code>override:</code>.
-          </p>
-        </box>
-
-        <h2 id="author-config-csv"><code>author-config.csv</code><a class="fa fa-anchor" href="#author-config-csv" onclick="event.stopPropagation()"></a></h2>
-        <p>Optionally, you can use a <code>author-config.csv</code> (which should be in the same directory as <code>repo-config.csv</code> file) to provide more details about the authors to analyze (<a href="/ug/author-config.csv">example</a>). It should contain the following columns:</p>
-        <div class="table-responsive">
-          <table class="markbind-table table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th>Column Name</th>
-                <th>Explanation</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Repository's Location</td>
-                <td>Same as <code>repo-config.csv</code>. Default: all the repos in <code>repo-config.csv</code></td>
-              </tr>
-              <tr>
-                <td>Branch</td>
-                <td>The branch to analyze for this author e.g., <code>master</code>. Default: the author will be bound to all the repos in <code>repo-config.csv</code> that has the same repo's location, irregardless of branch</td>
-              </tr>
-              <tr>
-                <td>Author's GitHub ID <span class="badge badge-danger">mandatory</span></td>
-                <td>GitHub username of the target author e.g., <code>JohnDoe</code></td>
-              </tr>
-              <tr>
-                <td>Author's Emails<sup>*</sup></td>
-                <td>Associated Github emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</td>
-              </tr>
-              <tr>
-                <td>Author's Display Name</td>
-                <td>The name to display for the author. Default: author's GitHub username.</td>
-              </tr>
-              <tr>
-                <td>Author's Git Author Name<sup>*</sup></td>
-                <td>The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</td>
-              </tr>
-              <tr>
-                <td>Ignore Glob List<sup>*</sup></td>
-                <td>Files to ignore for this author, in addition to files ignored by the patterns specified in <code>repo-config.csv</code></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code>;</code> as the separator.</sup></p>
-        <p>If <code>author-config.csv</code> is not given and the repo has not provide author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.</p>
-
-        <h2 id="group-config-csv"><code>group-config.csv</code><a class="fa fa-anchor" href="#group-config-csv" onclick="event.stopPropagation()"></a></h2>
-        <p>Optionally, you can provide a <code>group-config.csv</code>(which should be in the same directory as <code>repo-config.csv</code> file) to provide details on any custom groupings for files in specified repositories (<a href="/ug/group-config.csv">example</a>). It should contain the following columns:</p>
-        <div class="table-responsive">
-          <table class="markbind-table table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th>Column Name</th>
-                <th>Explanation</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Repository's Location</td>
-                <td>Same as <code>repo-config.csv</code>. Default: all the repos in <code>repo-config.csv</code></td>
-              </tr>
-              <tr>
-                <td>Group Name <span class="badge badge-danger">mandatory</span></td>
-                <td>Name of the group e.g.,<code>test</code>.</td>
-              </tr>
-              <tr>
-                <td>Globs * <span class="badge badge-danger">mandatory</span></td>
-                <td>The list of file path globs to include for specified group. e.g.,<code>**/test/*;**.java</code>.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code>;</code> as the separator.</sup></p>
-        <p>Note that a file in a given repository should only be tagged to one group. <br>
-          e.g.: <code>example.java</code> in <code>example-repo</code> can either be in <code>test</code> group or in <code>code</code> group, but not in both <code>test</code> and <code>code</code> group. If multiple groups are specified for a given file, the latter group (i.e.: <code>code</code> group) is set for the file.</p>
-
-        <h2 id="report-config-json"><code>report-config.json</code><a class="fa fa-anchor" href="#report-config-json" onclick="event.stopPropagation()"></a></h2>
-        <p>You can optionally use <code>report-config.json</code> to customize report generation by providing the following information . (<a href="/ug/report-config.csv">example</a>)</p>
-        <p><strong>Fields to provide</strong>:</p>
-        <ul>
-          <li><code>title</code>: Title of the generated report, which is also the title of the deployed dashboard. Default: &quot;RepoSense Report&quot;</li>
-        </ul>
-
-        <div id="section-standalone">
-          <h2 id="config-json-standalone-config-file"><code>config.json</code> (standalone config file)<a class="fa fa-anchor" href="#config-json-standalone-config-file" onclick="event.stopPropagation()"></a></h2>
-          <p>Repo owners can provide the following additional information to RepoSense using a config file that we call the <strong><em>standalone config file</em></strong>:</p>
-          <ul>
-            <li>which files/authors/commits to analyze/omit</li>
-            <li>which git and GitHub usernames belong to which authors</li>
-            <li>the display of an author</li>
-          </ul>
-          <p>To use this feature, add a <code>_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p>
-          <pre><code class="no-line-numbers hljs json"><span>{<br></span><span>  <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"about-us/**"</span>, <span class="hljs-string">"**index.html"</span>],<br></span><span>  <span class="hljs-attr">"formats"</span>: [<span class="hljs-string">"html"</span>, <span class="hljs-string">"css"</span>],<br></span><span>  <span class="hljs-attr">"ignoreCommitList"</span>: [<span class="hljs-string">"90018e49f129ce7e0abdc8b18e91c9813588c601"</span>, <span class="hljs-string">"67890def"</span>, <span class="hljs-string">"abc123..def456"</span>],<br></span><span>  <span class="hljs-attr">"ignoreAuthorList"</span>: [<span class="hljs-string">"charlie"</span>],<br></span><span>  <span class="hljs-attr">"authors"</span>:<br></span><span>  [<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"alice"</span>,<br></span><span>      <span class="hljs-attr">"emails"</span>: [<span class="hljs-string">"alice@example.com"</span>, <span class="hljs-string">"alicet@example.com"</span>],<br></span><span>      <span class="hljs-attr">"displayName"</span>: <span class="hljs-string">"Alice T."</span>,<br></span><span>      <span class="hljs-attr">"authorNames"</span>: [<span class="hljs-string">"AT"</span>, <span class="hljs-string">"A"</span>],<br></span><span>      <span class="hljs-attr">"ignoreGlobList"</span>: [<span class="hljs-string">"**.css"</span>]<br></span><span>    },<br></span><span>    {<br></span><span>      <span class="hljs-attr">"githubId"</span>: <span class="hljs-string">"bob"</span><br></span><span>    }<br></span><span>  ]<br></span><span>}<br></span></code></pre>
-          <p>Note: all fields are optional unless specified otherwise.</p>
-          <p><strong>Fields to provide <em>repository-level</em> info</strong>:</p>
-          <ul>
-            <li><code>ignoreGlobList</code>: Folders/files to ignore, specified using the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>.</li>
-            <li><code>formats</code>: File formats to analyze. Default: all file formats</li>
-            <li><code>ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code>..</code> notation e.g. <code>abc123..def456</code> (both inclusive).</li>
-            <li><code>ignoreAuthorList</code>: The list of authors to ignore during analysis. Authors specified in <code>authors</code> field or <code>author-config.csv</code> will be also be omitted if they are in this list. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</li>
-          </ul>
-          <p><strong>Fields to provide <em>author-level</em> info</strong>:<br>
-            Note: <code>authors</code> field should contain <em>all</em> authors that should be captured in the analysis.</p>
-          <ul>
-            <li><code>githubId</code>: GitHub username of the author. <span class="badge badge-danger">mandatory</span> field.</li>
-            <li><code>emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li>
-            <li><code>displayName</code>: Name to display on the report for this author.</li>
-            <li><code>authorNames</code>: Git Author Name(s) used in the author's commits. By default RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li>
-            <li><code>ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code>ignoreGlobList</code>) folders/files to ignore for a specific author . In the example above, the actual <code>ignoreGlobList</code> for <code>alice</code> would be <code>[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code></li>
-          </ul>
-          <p>To verify your standalone configuration is as intended, add the <code>_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p>
-          <ul>
-            <li>Format : <code>java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li>
-            <li>Example: <code>java -jar RepoSense.jar --repo c:/myRepose/foo/bar</code><br>
-              After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.</li>
-          </ul>
-          <h2 id="a-note-about-git-author-name">A note about git author name<a class="fa fa-anchor" href="#a-note-about-git-author-name" onclick="event.stopPropagation()"></a></h2>
-          <p><code>Git Author Name</code> refers to the customizable author's display name set in the local <code>.gitconfig</code> file. For example, in the Git Log's display:</p>
-          <pre><code class="no-line-numbers hljs"><span>...<br></span><span>commit cd7f610e0becbdf331d5231887d8010a689f87c7<br></span><span>Author: ConfiguredAuthorName &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:14:41 2018 +0800<br></span><span><br></span><span>    Make some changes to show my new author's name<br></span><span><br></span><span>commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49<br></span><span>Author: ActualGitHubId &lt;author@example.com&gt;<br></span><span>Date:   Fri Feb 9 19:13:13 2018 +0800<br></span><span><br></span><span>    Initial commit<br></span><span> ...<br></span></code></pre>
-          <p><code>ActualGitHubId</code> and <code>ConfiguredAuthorName</code> are both <code>Git Author Name</code> of the same author.<br>
-            To find the author name that you are currently using for your current git repository, run the following command within your git repository:</p>
-          <pre><code class="no-line-numbers hljs"><span>git config user.name<br></span></code></pre>
-          <p>To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command (<a href="https://www.git-tower.com/learn/git/faq/change-author-name-email">more info</a>):</p>
-          <pre><code class="no-line-numbers hljs"><span>git config user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
-          <p>To set the author name to use a default value you want for future git repositories, you can use the following command:</p>
-          <pre><code class="no-line-numbers hljs"><span>git config --global user.name &quot;YOUR_AUTHOR_NAME”<br></span></code></pre>
-          <p>RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's <code>Git Author Name</code> is different from her <code>GitHub ID</code>, the <code>Git Author Name</code> needs to be specified in the standalone config file. If the author has more than one <code>Git Author Name</code>, multiple values can be entered too.</p>
-          <box type="warning" seamless>
-            <p>Note: Symbols such as <code>&quot;</code>, <code>!</code>, <code>/</code> etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.
-            </p>
-          </box>
-        </div>
-      </div>
-
-
-      <nav id="page-nav" class="navbar navbar-light bg-transparent">
-        <div class="border-left-grey nav-inner position-sticky slim-scroll">
-
-          <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
-            <a class="nav-link py-1" href="#appendix-config-files-format">Appendix: Config files format&#x200E;</a>
-            <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
-              <a class="nav-link py-1" href="#repo-config-csv">repo-config.csv&#x200E;</a>
-              <a class="nav-link py-1" href="#author-config-csv">author-config.csv&#x200E;</a>
-              <a class="nav-link py-1" href="#group-config-csv">group-config.csv&#x200E;</a>
-              <a class="nav-link py-1" href="#report-config-json">report-config.json&#x200E;</a>
-              <a class="nav-link py-1" href="#config-json-standalone-config-file">config.json (standalone config file)&#x200E;</a>
-              <a class="nav-link py-1" href="#a-note-about-git-author-name">A note about git author name&#x200E;</a>
-            </nav>
-
-          </nav>
-        </div>
-      </nav>
-    </div>
-    <footer>
-
-      <div class="text-center">
-        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Sep 30, 2021, 7:18:28 AM UTC]</small>
-      </div>
-    </footer>
-  </div>
-</body>
-<script src="../markbind/js/vue.min.js"></script>
-<script src="../markbind/js/vue-strap.min.js"></script>
-<script src="../markbind/js/bootstrap-utility.min.js"></script>
-<script src="../markbind/js/polyfill.min.js"></script>
-<script src="../markbind/js/bootstrap-vue.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="MarkBind 3.0.6">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RepoSense - Appendix: Config files format</title>
+    <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
+    <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+    <link rel="stylesheet" href="../markbind/css/octicons.css">
+    <link rel="stylesheet" href="../markbind/css/codeblock-light.min.css"><link rel="stylesheet" href="../markbind/css/markbind.min.css"><script src="../markbind/js/polyfill.min.js"></script>
+    <script src="../markbind/js/vue.min.js"></script>
+    <script src="../markbind/js/markbind.min.js"></script>
+    <script src="configFiles.page-vue-render.js"></script>
+    <script src="../markbind/js/jquery.min.js"></script><link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+    
+  <link rel="stylesheet" href="/RepoSense/css/main.css">
+<link rel="icon" href="/RepoSense/favicon.ico"></head>
 <script>
-  const baseUrl = ''
-  const enableSearch = true
+  const baseUrl = '/RepoSense'
 </script>
-<script src="../markbind/js/setup.js"></script>
-<script src="../markbind/layouts/default/scripts.js"></script>
-
+<body >
+<div id="app" data-server-rendered="true"><header fixed=""><div data-v-15113a2f><nav class="navbar navbar-expand-md navbar-dark bg-dark" data-v-15113a2f><div class="container-fluid" data-v-15113a2f><div class="navbar-brand" data-v-15113a2f><a href="/index.html" title="Home" class="navbar-brand" data-v-15113a2f><img width="30px" src="/favicon.ico" data-v-15113a2f></a></div> <button type="button" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-v-15113a2f><span class="navbar-toggler-icon" data-v-15113a2f></span> </button> <div class="navbar-collapse collapse" data-v-15113a2f><ul class="navbar-nav mr-auto mt-2 mt-lg-0" data-v-15113a2f> <li data-v-15113a2f><a href="/index.html" class="nav-link" data-v-15113a2f>HOME</a></li> <li data-v-15113a2f><a href="/showcase.html" class="nav-link" data-v-15113a2f>SHOWCASE</a></li> <li data-v-15113a2f><a href="/ug/index.html" class="nav-link" data-v-15113a2f>USER GUIDE</a></li> <li data-v-15113a2f><a href="/dg/index.html" class="nav-link" data-v-15113a2f>DEVELOPER GUIDE</a></li> <li data-v-15113a2f><a href="/about.html" class="nav-link" data-v-15113a2f>ABOUT</a></li> <li data-v-15113a2f><a href="/contact.html" class="nav-link" data-v-15113a2f>CONTACT</a></li> <li tags="dev" data-v-15113a2f><a href="https://reposense.org" target="_blank" class="nav-link" data-v-15113a2f><span data-v-15113a2f><span aria-hidden="true" class="fas fa-external-link-alt" data-v-15113a2f></span> PRODUCTION SITE</span></a></li> <li data-v-15113a2f><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link" data-v-15113a2f><span data-v-15113a2f><span aria-hidden="true" class="fab fa-github" data-v-15113a2f></span></span></a></li></ul> <ul class="navbar-nav navbar-right" data-v-15113a2f><li data-v-15113a2f><form class="navbar-form" data-v-15113a2f><div style="position:relative;"><input type="text" placeholder="Search" autocomplete="off" value="" class="form-control"> <ul class="dropdown-menu search-dropdown-menu dropdown-menu-right"></ul></div></form></li></ul></div></div></nav> <div class="lower-navbar-container" style="display:none;" data-v-15113a2f><!----> <!----></div></div> <div tags="dev" class="text-center bg-warning p-2"><p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang">master</code> branch of RepoSense (not released to the public yet). <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p></div></header> <div id="flex-body"><nav id="site-nav" class="fixed-header-padding" data-v-e8c82f88><div class="site-nav-top" data-v-e8c82f88><div class="font-weight-bold mb-2" style="font-size:1.25rem;" data-v-e8c82f88><span data-v-e8c82f88><strong data-v-e8c82f88><strong data-v-e8c82f88>USER GUIDE</strong></strong></span></div></div> <div class="nav-component slim-scroll" data-v-e8c82f88><div data-v-e8c82f88><div class="site-nav-root"><ul class="site-nav-list site-nav-list-root" data-v-e8c82f88><li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/index.html" data-v-e8c82f88><strong data-v-e8c82f88>Overview</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/generatingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Generating reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/usingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Using reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/customizingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Customizing reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/sharingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Sharing reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><strong data-v-e8c82f88>Appendices</strong> <i onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e8c82f88><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e8c82f88></span></i></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e8c82f88><li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/cli.html" data-v-e8c82f88>CLI syntax reference</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/configFiles.html" data-v-e8c82f88>Config files format</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/usingAuthorTags.html" data-v-e8c82f88>Using <code class="hljs inline no-lang" data-v-e8c82f88>@@author</code> tags</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/withNetlify.html" data-v-e8c82f88>RepoSense with Netlify</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/withGithubActions.html" data-v-e8c82f88>RepoSense with GitHub Actions</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/withTravis.html" data-v-e8c82f88>RepoSense with Travis</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/runSh.html" data-v-e8c82f88><code class="hljs inline no-lang" data-v-e8c82f88>run.sh</code> format</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/faq.html" data-v-e8c82f88>FAQ</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/troubleshooting.html" data-v-e8c82f88>Troubleshooting</a></div></li></ul></li> <!----></ul></div></div></div> <!----></nav> <div id="content-wrapper" class="fixed-header-padding"><h1 id="appendix-config-files-format" class="display-4"><span id="appendix-config-files-format" class="anchor"></span><span>Appendix: Config files format</span><a href="#appendix-config-files-format" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h1> <div class="lead"><p>Given below are the details of the various config files used by RepoSense.</p></div> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-info" data-v-7d17494f><i class="fas fa-info" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-info" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f><strong data-v-7d17494f>RepoSense ignores the order of column headers in the CSV config files. However, the spelling of the column headers must match the specified headers exactly, or the column would be ignored by RepoSense.</strong></p></div> <!----></div></div></div> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-info" data-v-7d17494f><i class="fas fa-info" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-info" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f><strong data-v-7d17494f>A value in a config file is optional to provide unless it is specified as <span class="badge badge-danger" data-v-7d17494f>mandatory</span></strong>.</p></div> <!----></div></div></div> <h2 id="repo-config-csv"><span id="repo-config-csv" class="anchor"></span><code class="hljs inline no-lang">repo-config.csv</code><a href="#repo-config-csv" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p><strong><code class="hljs inline no-lang">repo-config.csv</code> file contains repo-level config data.</strong> Each row represents a repository's configuration (<a href="/RepoSense/ug/repo-config.csv">example</a>).</p> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Column Name</th> <th>Explanation</th></tr></thead> <tbody><tr><td>Repository's Location <span class="badge badge-danger">mandatory</span></td> <td>The <code class="hljs inline no-lang">GitHub URL</code> or <code class="hljs inline no-lang">Disk Path</code> to the git repository e.g., <code class="hljs inline no-lang">https://github.com/foo/bar.git</code> or <code class="hljs inline no-lang">C:\Users\user\Desktop\GitHub\foo\bar</code></td></tr> <tr><td>Branch</td> <td>The branch to analyze in the target repository e.g., <code class="hljs inline no-lang">master</code>. Default: the default branch of the repo</td></tr> <tr><td>File formats<sup>*+</sup></td> <td>The file extensions to analyze. Binary file formats, such as <code class="hljs inline no-lang">png</code> and <code class="hljs inline no-lang">jpg</code>, will be automatically labelled as the file type <code class="hljs inline no-lang">binary</code> in the generated report. Default: all file formats</td></tr> <tr><td>Find Previous Authors</td> <td>Enter <strong><code class="hljs inline no-lang">yes</code></strong> to utilize Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available).</td></tr> <tr><td>Ignore Glob List<sup>*+</sup></td> <td>The list of file path globs to ignore during analysis for each author e.g., <code class="hljs inline no-lang">test/**;temp/**</code>. Refer to the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a> for the path glob syntax.</td></tr> <tr><td>Ignore standalone config</td> <td>To ignore the standalone config file (if any) in target repository, enter <strong><code class="hljs inline no-lang">yes</code></strong>. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.</td></tr> <tr><td>Ignore Commits List<sup>*+</sup></td> <td>The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang">..</code> notation e.g. <code class="hljs inline no-lang">abc123..def456</code> (both inclusive).</td></tr> <tr><td>Ignore Authors List<sup>*+</sup></td> <td>The list of authors to ignore during analysis. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</td></tr> <tr><td>Shallow Cloning</td> <td>Enter <strong><code class="hljs inline no-lang">yes</code></strong> to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the <code class="hljs inline no-lang">.git</code> file is smaller than 500 MB, as it would create overhead.</td></tr></tbody></table></div><div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-info" data-v-7d17494f><i class="fas fa-info" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-info" data-v-7d17494f></div> <div class="contents" data-v-7d17494f>
+The Shallow Cloning option is incompatible with the &quot;--last-modified-date&quot; CLI flag.
+</div> <!----></div></div></div> <p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code class="hljs inline no-lang">;</code> as the separator.</sup> <sup>+ <strong>Overrideable column</strong>: prepend with <code class="hljs inline no-lang">override:</code> to use entered value(s) instead of value(s) from standalone config.</sup></p> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-info" data-v-7d17494f><i class="fas fa-info" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-info" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f>When using <a href="#config-json-standalone-config-file" data-v-7d17494f>standalone config</a> (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with <code class="hljs inline no-lang" data-v-7d17494f>override:</code>.</p></div> <!----></div></div></div> <h2 id="author-config-csv"><span id="author-config-csv" class="anchor"></span><code class="hljs inline no-lang">author-config.csv</code><a href="#author-config-csv" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>Optionally, you can use an <code class="hljs inline no-lang">author-config.csv</code> (which should be in the same directory as the <code class="hljs inline no-lang">repo-config.csv</code> file) to provide more details about the authors to analyze (<a href="/RepoSense/ug/author-config.csv">example</a>). It should contain the following columns:</p> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Column Name</th> <th>Explanation</th></tr></thead> <tbody><tr><td>Repository's Location</td> <td>Same as <code class="hljs inline no-lang">repo-config.csv</code>. Default: all the repos in <code class="hljs inline no-lang">repo-config.csv</code></td></tr> <tr><td>Branch</td> <td>The branch to analyze for this author, e.g., <code class="hljs inline no-lang">master</code>. Default: the author will be bound to all the repos in <code class="hljs inline no-lang">repo-config.csv</code> that has the same repo's location, regardless of branch.</td></tr> <tr><td>Author's GitHub ID <span class="badge badge-danger">mandatory</span></td> <td>GitHub username of the target author, e.g., <code class="hljs inline no-lang">JohnDoe</code></td></tr> <tr><td>Author's Emails<sup>*</sup></td> <td>Associated Github emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</td></tr> <tr><td>Author's Display Name</td> <td>The name to display for the author. Default: author's GitHub username.</td></tr> <tr><td>Author's Git Author Name<sup>*</sup></td> <td>The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</td></tr> <tr><td>Ignore Glob List<sup>*</sup></td> <td>Files to ignore for this author, in addition to files ignored by the patterns specified in <code class="hljs inline no-lang">repo-config.csv</code>. The path glob syntax is the same as that of Ignore Glob List in <code class="hljs inline no-lang">repo-config.csv</code>.</td></tr></tbody></table></div><p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code class="hljs inline no-lang">;</code> as the separator.</sup></p> <p>If <code class="hljs inline no-lang">author-config.csv</code> is not given and the repo has not provided author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.</p> <h2 id="group-config-csv"><span id="group-config-csv" class="anchor"></span><code class="hljs inline no-lang">group-config.csv</code><a href="#group-config-csv" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>Optionally, you can provide a <code class="hljs inline no-lang">group-config.csv</code>(which should be in the same directory as <code class="hljs inline no-lang">repo-config.csv</code> file) to provide details on any custom groupings for files in specified repositories (<a href="/RepoSense/ug/group-config.csv">example</a>). It should contain the following columns:</p> <div class="table-responsive"><table class="markbind-table table table-bordered table-striped"><thead><tr><th>Column Name</th> <th>Explanation</th></tr></thead> <tbody><tr><td>Repository's Location</td> <td>Same as <code class="hljs inline no-lang">repo-config.csv</code>. Default: all the repos in <code class="hljs inline no-lang">repo-config.csv</code></td></tr> <tr><td>Group Name <span class="badge badge-danger">mandatory</span></td> <td>Name of the group, e.g.,<code class="hljs inline no-lang">test</code>.</td></tr> <tr><td>Globs * <span class="badge badge-danger">mandatory</span></td> <td>The list of file path globs to include for specified group, e.g.,<code class="hljs inline no-lang">**/test/*;**.java</code>.</td></tr></tbody></table></div><p><sup>* <strong>Multi-value column</strong>: multiple values can be entered in this column using a semicolon <code class="hljs inline no-lang">;</code> as the separator.</sup></p> <p>Note that a file in a given repository should only be tagged to one group. <br>
+e.g.: <code class="hljs inline no-lang">example.java</code> in <code class="hljs inline no-lang">example-repo</code> can either be in the <code class="hljs inline no-lang">test</code> group or the <code class="hljs inline no-lang">code</code> group, but not in both <code class="hljs inline no-lang">test</code> and <code class="hljs inline no-lang">code</code> group. If multiple groups are specified for a given file, the latter group (i.e., <code class="hljs inline no-lang">code</code> group) is set for the file.</p> <h2 id="report-config-json"><span id="report-config-json" class="anchor"></span><code class="hljs inline no-lang">report-config.json</code><a href="#report-config-json" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>You can optionally use <code class="hljs inline no-lang">report-config.json</code> to customize report generation by providing the following information. (<a href="/RepoSense/ug/report-config.json">example</a>)</p> <p><strong>Fields to provide</strong>:</p> <ul><li><code class="hljs inline no-lang">title</code>: Title of the generated report, which is also the title of the deployed dashboard. Default: &quot;RepoSense Report&quot;</li></ul> <div id="section-standalone"><h2 id="config-json-standalone-config-file"><span id="config-json-standalone-config-file" class="anchor"></span><code class="hljs inline no-lang">config.json</code> (standalone config file)<a href="#config-json-standalone-config-file" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>Repo owners can provide the following additional information to RepoSense using a config file that we call the <strong><em>standalone config file</em></strong>:</p> <ul><li>which files/authors/commits to analyze/omit</li> <li>which git and GitHub usernames belong to which authors</li> <li>the display of an author</li></ul> <p>To use this feature, add a <code class="hljs inline no-lang">_reposense/config.json</code> to the root of your repo using the format in the example below (<a href="https://github.com/reposense/RepoSense/blob/master/_reposense/config.json">another example</a>) and <strong>commit it</strong> (reason: RepoSense can see committed code only):</p> <pre><code class="no-line-numbers hljs json"><span>{
+</span><span>  <span class="hljs-attr">&quot;ignoreGlobList&quot;</span>: [<span class="hljs-string">&quot;about-us/**&quot;</span>, <span class="hljs-string">&quot;**index.html&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;formats&quot;</span>: [<span class="hljs-string">&quot;html&quot;</span>, <span class="hljs-string">&quot;css&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;ignoreCommitList&quot;</span>: [<span class="hljs-string">&quot;90018e49f129ce7e0abdc8b18e91c9813588c601&quot;</span>, <span class="hljs-string">&quot;67890def&quot;</span>, <span class="hljs-string">&quot;abc123..def456&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;ignoreAuthorList&quot;</span>: [<span class="hljs-string">&quot;charlie&quot;</span>],
+</span><span>  <span class="hljs-attr">&quot;authors&quot;</span>:
+</span><span>  [
+</span><span>    {
+</span><span>      <span class="hljs-attr">&quot;githubId&quot;</span>: <span class="hljs-string">&quot;alice&quot;</span>,
+</span><span>      <span class="hljs-attr">&quot;emails&quot;</span>: [<span class="hljs-string">&quot;alice@example.com&quot;</span>, <span class="hljs-string">&quot;alicet@example.com&quot;</span>],
+</span><span>      <span class="hljs-attr">&quot;displayName&quot;</span>: <span class="hljs-string">&quot;Alice T.&quot;</span>,
+</span><span>      <span class="hljs-attr">&quot;authorNames&quot;</span>: [<span class="hljs-string">&quot;AT&quot;</span>, <span class="hljs-string">&quot;A&quot;</span>],
+</span><span>      <span class="hljs-attr">&quot;ignoreGlobList&quot;</span>: [<span class="hljs-string">&quot;**.css&quot;</span>]
+</span><span>    },
+</span><span>    {
+</span><span>      <span class="hljs-attr">&quot;githubId&quot;</span>: <span class="hljs-string">&quot;bob&quot;</span>
+</span><span>    }
+</span><span>  ]
+</span><span>}
+</span></code></pre><p>Note: all fields are optional unless specified otherwise.</p> <p><strong>Fields to provide <em>repository-level</em> info</strong>:</p> <ul><li><code class="hljs inline no-lang">ignoreGlobList</code>: Folders/files to ignore, specified using the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>.</li> <li><code class="hljs inline no-lang">formats</code>: File formats to analyze. Binary file formats, such as <code class="hljs inline no-lang">png</code> and <code class="hljs inline no-lang">jpg</code>, will be automatically labelled as the file type <code class="hljs inline no-lang">binary</code> in the generated report. Default: all file formats</li> <li><code class="hljs inline no-lang">ignoreCommitList</code>: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the <code class="hljs inline no-lang">..</code> notation e.g. <code class="hljs inline no-lang">abc123..def456</code> (both inclusive).</li> <li><code class="hljs inline no-lang">ignoreAuthorList</code>: The list of authors to ignore during analysis. Authors specified in <code class="hljs inline no-lang">authors</code> field or <code class="hljs inline no-lang">author-config.csv</code> will be also be omitted if they are in this list. Authors should be specified by their <a href="#a-note-about-git-author-name">Git Author Name</a>.</li></ul> <p><strong>Fields to provide <em>author-level</em> info</strong>:<br>
+Note: <code class="hljs inline no-lang">authors</code> field should contain <em>all</em> authors that should be captured in the analysis.</p> <ul><li><code class="hljs inline no-lang">githubId</code>: GitHub username of the author. <span class="badge badge-danger">mandatory</span> field.</li> <li><code class="hljs inline no-lang">emails</code>: Associated GitHub emails of the author. This can be found in your <a href="https://github.com/settings/emails">GitHub settings</a>.</li> <li><code class="hljs inline no-lang">displayName</code>: Name to display on the report for this author.</li> <li><code class="hljs inline no-lang">authorNames</code>: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of <em>Git Author Name</em> is explained in <a href="#a-note-about-git-author-name"><em>A note about git author name</em></a>.</li> <li><code class="hljs inline no-lang">ignoreGlobList</code>: <em>Additional</em> (i.e. on top of the repo-level <code class="hljs inline no-lang">ignoreGlobList</code>) folders/files to ignore for a specific author. The path glob syntax is specified by the <a href="https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob"><em>glob format</em></a>. In the example above, the actual <code class="hljs inline no-lang">ignoreGlobList</code> for <code class="hljs inline no-lang">alice</code> would be <code class="hljs inline no-lang">[&quot;about-us/**&quot;, &quot;**index.html&quot;, &quot;**.css&quot;]</code>.</li></ul> <p>To verify your standalone configuration is as intended, add the <code class="hljs inline no-lang">_reposense/config.json</code> to your local copy of repo and run RepoSense against it as follows:<br></p> <ul><li>Format: <code class="hljs inline no-lang">java -jar RepoSense.jar --repo LOCAL_REPO_LOCATION</code> <br></li> <li>Example: <code class="hljs inline no-lang">java -jar RepoSense.jar --repo c:/myRepose/foo/bar</code><br>
+After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.</li></ul> <h2 id="a-note-about-git-author-name"><span id="a-note-about-git-author-name" class="anchor"></span>A note about git author name<a href="#a-note-about-git-author-name" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p><code class="hljs inline no-lang">Git Author Name</code> refers to the customizable author's display name set in the local <code class="hljs inline no-lang">.gitconfig</code> file. For example, in the Git Log's display:</p> <pre><code class="no-line-numbers hljs"><span>...
+</span><span>commit cd7f610e0becbdf331d5231887d8010a689f87c7
+</span><span>Author: ConfiguredAuthorName &lt;author@example.com&gt;
+</span><span>Date:   Fri Feb 9 19:14:41 2018 +0800
+</span><span>
+</span><span>    Make some changes to show my new author's name
+</span><span>
+</span><span>commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49
+</span><span>Author: ActualGitHubId &lt;author@example.com&gt;
+</span><span>Date:   Fri Feb 9 19:13:13 2018 +0800
+</span><span>
+</span><span>    Initial commit
+</span><span> ...
+</span></code></pre><p><code class="hljs inline no-lang">ActualGitHubId</code> and <code class="hljs inline no-lang">ConfiguredAuthorName</code> are both <code class="hljs inline no-lang">Git Author Name</code> of the same author.<br>
+To find the author name that you are currently using for your current git repository, run the following command within your git repository:</p> <pre><code class="no-line-numbers hljs"><span>git config user.name
+</span></code></pre><p>To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command (<a href="https://www.git-tower.com/learn/git/faq/change-author-name-email">more info</a>):</p> <pre><code class="no-line-numbers hljs"><span>git config user.name &quot;YOUR_AUTHOR_NAME”
+</span></code></pre><p>To set the author name to use a default value you want for future git repositories, you can use the following command:</p> <pre><code class="no-line-numbers hljs"><span>git config --global user.name &quot;YOUR_AUTHOR_NAME”
+</span></code></pre><p>RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's <code class="hljs inline no-lang">Git Author Name</code> is different from her <code class="hljs inline no-lang">GitHub ID</code>, the <code class="hljs inline no-lang">Git Author Name</code> needs to be specified in the standalone config file. If the author has more than one <code class="hljs inline no-lang">Git Author Name</code>, multiple values can be entered too.</p> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-warning" data-v-7d17494f><i class="fas fa-exclamation" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-warning" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f>Note: Symbols such as <code class="hljs inline no-lang" data-v-7d17494f>&quot;</code>, <code class="hljs inline no-lang" data-v-7d17494f>!</code>, <code class="hljs inline no-lang" data-v-7d17494f>/</code> etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.</p></div> <!----></div></div></div></div> <i id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true" class="fa fa-arrow-circle-up fa-lg d-print-none"></i></div></div> <footer><div class="text-center"><small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 3.0.6</a>, generated on Thu, Sep 30, 2021, 7:30:37 AM UTC]</small></div></footer></div>
+</body><script src="../markbind/js/bootstrap-utility.min.js"></script>
+<script>
+  MarkBind.setupWithSearch()
+</script>
 </html>
