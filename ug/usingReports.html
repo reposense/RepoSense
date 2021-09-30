@@ -1,47 +1,295 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="generator" content="MarkBind 3.0.6">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RepoSense - Using reports</title>
-    <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
-    <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
-    <link rel="stylesheet" href="../markbind/css/octicons.css">
-    <link rel="stylesheet" href="../markbind/css/codeblock-light.min.css"><link rel="stylesheet" href="../markbind/css/markbind.min.css"><script src="../markbind/js/polyfill.min.js"></script>
-    <script src="../markbind/js/vue.min.js"></script>
-    <script src="../markbind/js/markbind.min.js"></script>
-    <script src="usingReports.page-vue-render.js"></script>
-    <script src="../markbind/js/jquery.min.js"></script><link rel="stylesheet" href="/RepoSense/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
-    
-  <link rel="stylesheet" href="/RepoSense/css/main.css">
-<link rel="icon" href="/RepoSense/favicon.ico"></head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="MarkBind 2.14.1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RepoSense - Using reports</title>
+  <link rel="stylesheet" href="../markbind/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../markbind/css/bootstrap-vue.min.css">
+  <link rel="stylesheet" href="../markbind/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="../markbind/glyphicons/css/bootstrap-glyphicons.min.css">
+  <link rel="stylesheet" href="../markbind/css/octicons.css">
+  <link rel="stylesheet" href="../markbind/css/github.min.css">
+  <link rel="stylesheet" href="../markbind/css/markbind.css">
+  <link rel="stylesheet" href="/plugins/markbind-plugin-anchors/markbind-plugin-anchors.css">
+  <link rel="stylesheet" href="../markbind/layouts/default/styles.css">
+  <link rel="stylesheet" href="../markbind/css/site-nav.css">
+  <link rel="stylesheet" href="../markbind/css/page-nav.css">
+  <link rel="icon" href="/favicon.ico">
+</head>
+
+<body data-spy="scroll" data-target="#page-nav" data-offset="100">
+  <div id="app">
+    <header>
+      <navbar type="dark" placement="top" class="temp-navbar">
+        <a slot="brand" href="/index.html" title="Home" class="navbar-brand"><img width="30px" src="/favicon.ico"></a>
+        <li><a href="/index.html" class="nav-link">HOME</a></li>
+        <li><a href="/showcase.html" class="nav-link">SHOWCASE</a></li>
+        <li><a href="/ug/index.html" class="nav-link">USER GUIDE</a></li>
+        <li><a href="/dg/index.html" class="nav-link">DEVELOPER GUIDE</a></li>
+        <li><a href="/about.html" class="nav-link">ABOUT</a></li>
+        <li><a href="/contact.html" class="nav-link">CONTACT</a></li>
+
+        <li><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link"><span><span aria-hidden="true" class="fab fa-github"></span></span></a></li>
+        <li slot="right">
+          <form class="navbar-form">
+            <searchbar :data="searchData" placeholder="Search" :on-hit="searchCallback" menu-align-right></searchbar>
+          </form>
+        </li>
+      </navbar>
+    </header>
+    <header>
+      <div class="text-center bg-warning p-2">
+        <p>You are looking at the user documentation for the most recent <code>master</code> branch of RepoSense (not released to the public yet).
+          <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong>
+        </p>
+      </div>
+    </header>
+    <div id="flex-body">
+      <nav id="site-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-right-grey nav-inner position-sticky slim-scroll">
+          <p><span class="lead"><strong><strong>USER GUIDE</strong></strong></span></p>
+          <ul class="px-0 site-nav-list">
+            <li class="mt-2"><a href="/ug/index.html" class="site-nav__a"><strong>Overview</strong></a></li>
+            <li class="mt-2"><a href="/ug/generatingReports.html" class="site-nav__a"><strong>Generating reports</strong></a></li>
+            <li class="mt-2"><a href="/ug/usingReports.html" class="site-nav__a current"><strong>Using reports</strong></a></li>
+            <li class="mt-2"><a href="/ug/customizingReports.html" class="site-nav__a"><strong>Customizing reports</strong></a></li>
+            <li class="mt-2"><a href="/ug/sharingReports.html" class="site-nav__a"><strong>Sharing reports</strong></a></li>
+            <li class="mt-2"><button class="dropdown-btn dropdown-btn-open"><strong>Appendices</strong>
+                <i class="dropdown-btn-icon rotate-icon">
+                  <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></i></button>
+              <div class="dropdown-container dropdown-container-open">
+                <ul class="pl-3 site-nav-list">
+                  <li class="mt-2"><a href="/ug/cli.html" class="site-nav__a">CLI syntax reference</a></li>
+                  <li class="mt-2"><a href="/ug/configFiles.html" class="site-nav__a">Config files format</a></li>
+                  <li class="mt-2"><a href="/ug/usingAuthorTags.html" class="site-nav__a">Using <code>@@author</code> tags</a></li>
+                  <li class="mt-2"><a href="/ug/withNetlify.html" class="site-nav__a">RepoSense with Netlify</a></li>
+                  <li class="mt-2"><a href="/ug/withGithubActions.html" class="site-nav__a">RepoSense with GitHub Actions</a></li>
+                  <li class="mt-2"><a href="/ug/withTravis.html" class="site-nav__a">RepoSense with Travis</a></li>
+                  <li class="mt-2"><a href="/ug/runSh.html" class="site-nav__a"><code>run.sh</code> format</a></li>
+                  <li class="mt-2"><a href="/ug/faq.html" class="site-nav__a">FAQ</a></li>
+                  <li class="mt-2"><a href="/ug/troubleshooting.html" class="site-nav__a">Troubleshooting</a></li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+
+      <div id="content-wrapper">
+        <div></div>
+        <h1 class="display-4" id="using-reports"><span>Using reports</span><a class="fa fa-anchor" href="#using-reports" onclick="event.stopPropagation()"></a></h1>
+        <div class="lead">
+          <p>Let's look at how to view, interpret, and interact with a RepoSense report.</p>
+        </div>
+
+        <h2 id="viewing-the-report">Viewing the report<a class="fa fa-anchor" href="#viewing-the-report" onclick="event.stopPropagation()"></a></h2>
+        <p>As the report consist of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.</p>
+        <ul>
+          <li><strong>Situation 1: The report has been hosted on a website</strong>
+            <ul>
+              <li>Simply go to the URL of the report (<a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard">example</a>) in your browser .</li>
+            </ul>
+          </li>
+          <li><strong>Situation 2: You generated the report in your computer earlier</strong>
+            <ul>
+              <li>Run RepoSense with the <code>--view</code> option:<br>
+                Format: <code>java -jar RepoSense.jar --view REPORT_FOLDER</code><br>
+                e.g., <code>java -jar RepoSense.jar --view ./myReport/reposense-report</code></li>
+            </ul>
+          </li>
+          <li><strong>Situation 3: The report was given to you as a zip file or as a folder</strong>
+            <ol>
+              <li>If it is a zip file, unzip it.</li>
+              <li>Open the <code>index.html</code> (in the unzipped report directory) using a browser.</li>
+              <li>If the report was not loaded automatically, click on the <code>choose file</code> button in the shown web page, and select the <code>archive.zip</code> (in the same directory) manually.<br>
+                If even the <code>choose file</code> button is not showing up, try a different browser.</li>
+            </ol>
+          </li>
+        </ul>
+
+        <h2 id="report-structure">Report structure<a class="fa fa-anchor" href="#report-structure" onclick="event.stopPropagation()"></a></h2>
+        <p>Here is an example of how a typical report looks like:</p>
+        <p><a href="/images/report-features.png" target="_self"><img src="/images/report-features.png" alt class="img-fluid"></a></p>
+        <p>The report is divided into two sections: <a href="#chart-panel"><em><strong>Chart panel</strong></em></a> and the <a href="#code-panel"><em><strong>Code panel</strong></em></a>. In some situations, the <a href="#commits-panel"><em><strong>Commits panel</strong></em></a> will appear in place of the <em>code panel</em>. All three are explained in the sections below.</p>
+
+        <h2 id="chart-panel">Chart panel<a class="fa fa-anchor" href="#chart-panel" onclick="event.stopPropagation()"></a></h2>
+        <p><a href="/images/rampchart.png" target="_self"><img src="/images/rampchart.png" alt class="img-fluid"></a><br></p>
+        <p>The <code>Chart panel</code> (an example is shown above) contains a series of <em>ramp chart</em> + <em>contribution bar</em> pairs, possibly organized into sub-groups, with a <em>tool bar</em> at the top.</p>
+        <h4 id="ramp-charts">Ramp charts<a class="fa fa-anchor" href="#ramp-charts" onclick="event.stopPropagation()"></a></h4>
+        <box type="definition" seamless>
+          <p><strong>Ramp chart</strong>: This is a visualization of frequency and quantity of contributions of an author for a specific repository. Each ramp chart (i.e., light blue rectangle) represents the <em>contribution timeline</em> of an author for a specific repository. Contributions appear as ramps in the timeline.
+          </p>
+        </box>
+        <box type="definition" seamless>
+          <p><strong>Ramp</strong>: The name we use to refer to the triangular saw-tooth-like shape that represents a code contribution. A ramp can represent a single commit, a sum of the commits done in a certain period, depending on the granularity used.
+          </p>
+        </box>
+        <ul>
+          <li>The area of the ramp is proportional to the amount of contribution the author did at that time period.</li>
+          <li>The position of the right edge of the ramp (perpendicular to the blue bar) represents the period (the day or the week) in which the contribution was made.</li>
+          <li>Hover the pointer over a ramp to see the total number of lines represented by that ramp.</li>
+          <li>Click on the ramp to see on GitHub the list of commits represented by that ramp.</li>
+          <li>To make comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.</li>
+          <li>Ramps representing big contributions can overlap with earlier time periods. This represents the possibility that if the work committed during a specific period is big, it could have started in an earlier time period.</li>
+        </ul>
+        <h4 id="contribution-bars">Contribution bars<a class="fa fa-anchor" href="#contribution-bars" onclick="event.stopPropagation()"></a></h4>
+        <box type="definition" seamless>
+          <p><strong>Contribution bar</strong>: It's the bar that appears below each ramp chart. Its length represents the total amount of code contributed by an author during the <em>total analysis period</em>.
+          </p>
+        </box>
+        <ul>
+          <li>Hover over a contribution bar to see the exact amount of the contribution.</li>
+          <li>If an author contributed significantly higher than other authors, the contribution bar can <em>overflow</em> into multiple lines.</li>
+        </ul>
+        <box type="info" seamless>
+          <p>We allow contribution bars to overflow into multiple lines (rather than adjust the scale to fit the maximum bar length) to prevent a minority of <span data-mb-component-type="tooltip" v-b-tooltip.hover.top.html="tooltipInnerContentGetter" class="trigger"><span data-mb-html-for="_content">i.e., those contributing an unusually high amount of code</span>outliers</span> affecting the scale of the majority.
+          </p>
+        </box>
+        <h4 id="tool-bar">Tool bar<a class="fa fa-anchor" href="#tool-bar" onclick="event.stopPropagation()"></a></h4>
+        <p>The <code>Tool Bar</code> at the top of the Chart panel provides a set of configuration options that control the Chart panel.</p>
+        <ul>
+          <li><code>Search</code> : filters the author and repository by keywords.
+            <ul>
+              <li>Multiple keywords/terms can be used, separated by spaces.</li>
+              <li>Entries that contain <em>any</em> (not necessarily <em>all</em>) of the search terms will be displayed.</li>
+              <li>The keywords used to filter author and repository are case-insensitive.</li>
+            </ul>
+          </li>
+          <li><code>Group by</code> : grouping criteria for the rows of results
+            <ul>
+              <li><code>None</code> : results will not be grouped in any particular way.</li>
+              <li><code>Repo/Branch</code> : results will be grouped by repositories and its' associating branches.</li>
+              <li><code>Author</code> : results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.</li>
+            </ul>
+          </li>
+          <li><code>Sort groups by</code>: sorting criteria for the main group. See note [1] below.
+            <ul>
+              <li><code>Group title</code> : groups will be sorted by the title of the group (in bold text) in alphabetical order.</li>
+              <li><code>Contribution</code> : groups will be sorted by the combined contributions within a group, in the order of number of lines added</li>
+              <li><code>Variance</code> : groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. Detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li>
+            </ul>
+          </li>
+          <li><code>Sort within groups by</code>: sorting criteria within each group
+            <ul>
+              <li><code>Title</code> : each group will be internally sorted by it's title in alphabetical order.</li>
+              <li><code>Contribution</code> : each group will be internally sorted by individual contributions in the order of number of lines added</li>
+              <li><code>Variance</code> : each group will be internally sorted by how far the daily contributions are spread out from their average value by each author into a particular repo. Detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li>
+            </ul>
+          </li>
+          <li><code>Granularity</code> : the period of time for which commits are aggregated in the Ramp Chart.
+            <ul>
+              <li><code>Commit</code>: each commit made is shown as one ramp</li>
+              <li><code>Day</code>: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp</li>
+              <li><code>Week</code>: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp</li>
+            </ul>
+          </li>
+          <li><code>Since</code>, <code>Until</code> : the date range for the Ramp Chart (not applied to the Contribution Bars).</li>
+          <li><code>Reset date range</code> : resets the date range of the Ramp Chart to the default date range.</li>
+          <li><code>Breakdown by file type</code> : toggles the contribution bar to either display the bar by :
+            <ul>
+              <li>the total lines of codes added (if checkbox is left unchecked), or</li>
+              <li>a breakdown of the number of lines of codes added to each file type (if checkbox is checked). More info on note [3] below.</li>
+            </ul>
+          </li>
+          <li><code>Merge group</code> : merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
+            <ul>
+              <li>viewing of authored code of the group as a whole is available when <code>group by repos</code>.</li>
+            </ul>
+          </li>
+        </ul>
+        <p>Notes:<br>
+          [1] <strong><code>Sort groups by</code></strong>: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>
+          [2] <strong><code>Repo/Branch</code></strong>: the repo/branch name is constructed as <code>ORGANIZATION/REPOSITORY[BRANCH]</code> (e.g., <code>resposense/reposense[master]</code>)<br>
+          [3] The total contribution of each group will get updated based on the checked file types and will be taken into account when sorting criteria is contribution.</p>
+        <box type="tip" seamless>
+          <p><strong>RepoSense support <em>intelligent</em> bookmarks</strong>: Note how the browser URL changes as you modify settings in the report. If you send that URL to someone else, that person will be able to use that URL to view the report in the same <em>view configuration</em> you had at the time you copied the URL. For example, <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/">this URL</a> and <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=day&amp;mergegroup=true&amp;groupSelect=groupByRepos&amp;breakdown=true">this URL</a> give two different views of the same report.
+          </p>
+        </box>
+
+        <h2 id="code-panel">Code panel<a class="fa fa-anchor" href="#code-panel" onclick="event.stopPropagation()"></a></h2>
+        <img src="/images/code-panel.png" alt="code panel" width="468">
+        <p>The <code>Code panel</code> allows users to see the code attributed to a specific author. Click on the <code>&lt;/&gt;</code> icon beside the name of the author in the <code>Chart panel</code> to display the <code>Code panel</code> on the right.</p>
+        <ul>
+          <li>The Code panel shows the files that contain author's contributions, sorted by the number of lines written.</li>
+          <li>Select the radio button to enable one of the following 2 filters. Note that only 1 of the 2 filters is active at any time.
+            <ul>
+              <li>Type file path glob in glob filter to include files matching the glob expression.</li>
+              <li>Select the checkboxes to include files of preferred file extensions.
+                The number right beside the file extension shows the total number of lines written by the author in such file extension files. In contrast, the number inside the parenthesis indicates the number of non-blank lines written by the author.</li>
+            </ul>
+          </li>
+          <li>Clicking the file title toggles the file content.</li>
+          <li>Clicking the first icon beside the file title opens the history view of the file on github.</li>
+          <li>Clicking the second icon beside the file title opens the blame view of the file on github.</li>
+          <li>Code attributed to the author is highlighted in green.</li>
+          <li>Non-trivial code segments that are not written by the selected author are hidden by default, but you can toggle them by clicking on the <span class="dimmed"><span aria-hidden="true" class="fas fa-plus-circle"></span></span> icon.</li>
+        </ul>
+
+        <h2 id="commits-panel">Commits panel<a class="fa fa-anchor" href="#commits-panel" onclick="event.stopPropagation()"></a></h2>
+        <img src="/images/commits-panel.png" alt="commits panel" width="468">
+        <p>The <code>Commits panel</code> allows users to see the commits attributed to a specific author.</p>
+        <ul>
+          <li>To view all commits attributed to an author, locate the author's ramp chart in the chart panel, and click on the <span class="dimmed"><span aria-hidden="true" class="fas fa-list-ul"></span></span> icon above the ramp chart.</li>
+          <li>To view commits of a specific period, locate the author's ramp chart in the chart panel, hold down the <kbd>Ctrl</kbd> key (<kbd>⌘</kbd> in MacOS), and click on the start and end positions of the period (on the ramp chart) you want to view. <br></li>
+        </ul>
+        <p><a href="/images/opening-commits-panel.gif" target="_self"><img src="/images/opening-commits-panel.gif" alt class="img-fluid"></a></p>
+        <ul>
+          <li>The commits can be sorted by the date it was committed or by LoC.</li>
+          <li>The tags of the commits will also be displayed on top, if any. Clicking on a tag will direct you to the commit having that particular tag.</li>
+          <li>The date range for the <code>Chart panel</code> can be updated by clicking on the &quot;Show ramp chart for this period&quot; below the name of the author.</li>
+          <li>The ramp chart at the top of the <code>Commits panel</code> represents individual commits (not weekly or daily contributions).</li>
+          <li>The commit messages body can be expanded or collapsed by clicking on the <span class="dimmed"><span aria-hidden="true" class="fas fa-ellipsis-h"></span></span> icon beside each commit message title.</li>
+          <li>To promote and encourage the 50/72 rule for commit messages, a dotted vertical line will be shown for:
+            <ul>
+              <li>Commit message subject that exceeds 50 characters.</li>
+              <li>Commit message body after the 72nd character mark.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+
+      <nav id="page-nav" class="navbar navbar-light bg-transparent">
+        <div class="border-left-grey nav-inner position-sticky slim-scroll">
+
+          <nav class="nav nav-pills flex-column my-0 small no-flex-wrap">
+            <a class="nav-link py-1" href="#using-reports">Using reports&#x200E;</a>
+            <nav class="nav nav-pills flex-column my-0 nested no-flex-wrap">
+              <a class="nav-link py-1" href="#viewing-the-report">Viewing the report&#x200E;</a>
+              <a class="nav-link py-1" href="#report-structure">Report structure&#x200E;</a>
+              <a class="nav-link py-1" href="#chart-panel">Chart panel&#x200E;</a>
+              <a class="nav-link py-1" href="#code-panel">Code panel&#x200E;</a>
+              <a class="nav-link py-1" href="#commits-panel">Commits panel&#x200E;</a>
+            </nav>
+
+          </nav>
+        </div>
+      </nav>
+    </div>
+    <footer>
+
+      <div class="text-center">
+        <small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 2.14.1</a>, generated on Thu, Sep 30, 2021, 7:18:28 AM UTC]</small>
+      </div>
+    </footer>
+  </div>
+</body>
+<script src="../markbind/js/vue.min.js"></script>
+<script src="../markbind/js/vue-strap.min.js"></script>
+<script src="../markbind/js/bootstrap-utility.min.js"></script>
+<script src="../markbind/js/polyfill.min.js"></script>
+<script src="../markbind/js/bootstrap-vue.min.js"></script>
 <script>
-  const baseUrl = '/RepoSense'
+  const baseUrl = ''
+  const enableSearch = true
 </script>
-<body >
-<div id="app" data-server-rendered="true"><header fixed=""><div data-v-15113a2f><nav class="navbar navbar-expand-md navbar-dark bg-dark" data-v-15113a2f><div class="container-fluid" data-v-15113a2f><div class="navbar-brand" data-v-15113a2f><a href="/index.html" title="Home" class="navbar-brand" data-v-15113a2f><img width="30px" src="/favicon.ico" data-v-15113a2f></a></div> <button type="button" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-v-15113a2f><span class="navbar-toggler-icon" data-v-15113a2f></span> </button> <div class="navbar-collapse collapse" data-v-15113a2f><ul class="navbar-nav mr-auto mt-2 mt-lg-0" data-v-15113a2f> <li data-v-15113a2f><a href="/index.html" class="nav-link" data-v-15113a2f>HOME</a></li> <li data-v-15113a2f><a href="/showcase.html" class="nav-link" data-v-15113a2f>SHOWCASE</a></li> <li data-v-15113a2f><a href="/ug/index.html" class="nav-link" data-v-15113a2f>USER GUIDE</a></li> <li data-v-15113a2f><a href="/dg/index.html" class="nav-link" data-v-15113a2f>DEVELOPER GUIDE</a></li> <li data-v-15113a2f><a href="/about.html" class="nav-link" data-v-15113a2f>ABOUT</a></li> <li data-v-15113a2f><a href="/contact.html" class="nav-link" data-v-15113a2f>CONTACT</a></li> <li tags="dev" data-v-15113a2f><a href="https://reposense.org" target="_blank" class="nav-link" data-v-15113a2f><span data-v-15113a2f><span aria-hidden="true" class="fas fa-external-link-alt" data-v-15113a2f></span> PRODUCTION SITE</span></a></li> <li data-v-15113a2f><a href="https://github.com/RepoSense/reposense" target="_blank" class="nav-link" data-v-15113a2f><span data-v-15113a2f><span aria-hidden="true" class="fab fa-github" data-v-15113a2f></span></span></a></li></ul> <ul class="navbar-nav navbar-right" data-v-15113a2f><li data-v-15113a2f><form class="navbar-form" data-v-15113a2f><div style="position:relative;"><input type="text" placeholder="Search" autocomplete="off" value="" class="form-control"> <ul class="dropdown-menu search-dropdown-menu dropdown-menu-right"></ul></div></form></li></ul></div></div></nav> <div class="lower-navbar-container" style="display:none;" data-v-15113a2f><!----> <!----></div></div> <div tags="dev" class="text-center bg-warning p-2"><p>You are looking at the user documentation for the most recent <code class="hljs inline no-lang">master</code> branch of RepoSense (not released to the public yet). <strong>The documentation for the latest public release is <a href="https://reposense.org/ug">here</a>.</strong></p></div></header> <div id="flex-body"><nav id="site-nav" class="fixed-header-padding" data-v-e8c82f88><div class="site-nav-top" data-v-e8c82f88><div class="font-weight-bold mb-2" style="font-size:1.25rem;" data-v-e8c82f88><span data-v-e8c82f88><strong data-v-e8c82f88><strong data-v-e8c82f88>USER GUIDE</strong></strong></span></div></div> <div class="nav-component slim-scroll" data-v-e8c82f88><div data-v-e8c82f88><div class="site-nav-root"><ul class="site-nav-list site-nav-list-root" data-v-e8c82f88><li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/index.html" data-v-e8c82f88><strong data-v-e8c82f88>Overview</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/generatingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Generating reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/usingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Using reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/customizingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Customizing reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><a href="/RepoSense/ug/sharingReports.html" data-v-e8c82f88><strong data-v-e8c82f88>Sharing reports</strong></a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-0" data-v-e8c82f88><strong data-v-e8c82f88>Appendices</strong> <i onclick="handleSiteNavClick(this.parentNode, false); event.stopPropagation();" class="site-nav-dropdown-btn-icon site-nav-rotate-icon" data-v-e8c82f88><span aria-hidden="true" class="glyphicon glyphicon-menu-down" data-v-e8c82f88></span></i></div><ul class="site-nav-dropdown-container site-nav-dropdown-container-open site-nav-list" data-v-e8c82f88><li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/cli.html" data-v-e8c82f88>CLI syntax reference</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/configFiles.html" data-v-e8c82f88>Config files format</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/usingAuthorTags.html" data-v-e8c82f88>Using <code class="hljs inline no-lang" data-v-e8c82f88>@@author</code> tags</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/withNetlify.html" data-v-e8c82f88>RepoSense with Netlify</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/withGithubActions.html" data-v-e8c82f88>RepoSense with GitHub Actions</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/withTravis.html" data-v-e8c82f88>RepoSense with Travis</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/runSh.html" data-v-e8c82f88><code class="hljs inline no-lang" data-v-e8c82f88>run.sh</code> format</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/faq.html" data-v-e8c82f88>FAQ</a></div></li> <li data-v-e8c82f88><div onclick="handleSiteNavClick(this)" class="site-nav-default-list-item site-nav-list-item-1" data-v-e8c82f88><a href="/RepoSense/ug/troubleshooting.html" data-v-e8c82f88>Troubleshooting</a></div></li></ul></li> <!----></ul></div></div></div> <!----></nav> <div id="content-wrapper" class="fixed-header-padding"><h1 id="using-reports" class="display-4"><span id="using-reports" class="anchor"></span><span>Using reports</span><a href="#using-reports" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h1> <div class="lead"><p>Let's look at how to view, interpret, and interact with a RepoSense report.</p></div> <h2 id="viewing-the-report"><span id="viewing-the-report" class="anchor"></span>Viewing the report<a href="#viewing-the-report" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>As a report consists of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.</p> <ul><li><strong>Situation 1: The report has been hosted on a website</strong> <ul><li>Simply go to the URL of the report (<a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard">example</a>) in your browser.</li></ul></li> <li><strong>Situation 2: You generated the report in your computer earlier</strong> <ul><li>Run RepoSense with the <code class="hljs inline no-lang">--view</code> option:<br>
-Format: <code class="hljs inline no-lang">java -jar RepoSense.jar --view REPORT_FOLDER</code><br>
-e.g., <code class="hljs inline no-lang">java -jar RepoSense.jar --view ./myReport/reposense-report</code></li></ul></li> <li><strong>Situation 3: The report was given to you as a zip file or as a folder</strong> <ol><li>If it is a zip file, unzip it.</li> <li>Open the <code class="hljs inline no-lang">index.html</code> (in the unzipped report directory) using a browser.</li> <li>If the report was not loaded automatically, click on the <code class="hljs inline no-lang">choose file</code> button in the shown web page, and select the <code class="hljs inline no-lang">archive.zip</code> (in the same directory) manually.<br>
-If even the <code class="hljs inline no-lang">choose file</code> button is not showing up, try a different browser.</li></ol></li></ul> <h2 id="report-structure"><span id="report-structure" class="anchor"></span>Report structure<a href="#report-structure" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>Here is an example of how a typical report looks like:</p> <p><a href="/RepoSense/images/report-features.png" target="_self"><img src="/RepoSense/images/report-features.png" alt="" class="img-fluid"></a></p> <p>The report is divided into two sections: <a href="#chart-panel"><em><strong>Chart panel</strong></em></a> and the <a href="#code-panel"><em><strong>Code panel</strong></em></a>. In some situations, the <a href="#commits-panel"><em><strong>Commits panel</strong></em></a> will appear in place of the <em>code panel</em>. All three are explained in the sections below.</p> <h2 id="chart-panel"><span id="chart-panel" class="anchor"></span>Chart panel<a href="#chart-panel" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p><a href="/RepoSense/images/rampchart.png" target="_self"><img src="/RepoSense/images/rampchart.png" alt="" class="img-fluid"></a><br></p> <p>The <code class="hljs inline no-lang">Chart panel</code> (an example is shown above) contains a series of <em>ramp chart</em> + <em>contribution bar</em> pairs, possibly organized into sub-groups, with a <em>tool bar</em> at the top.</p> <h4 id="ramp-charts"><span id="ramp-charts" class="anchor"></span>Ramp charts<a href="#ramp-charts" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-primary" data-v-7d17494f><i class="fas fa-atlas" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-primary" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f><strong data-v-7d17494f>Ramp chart</strong>: This is a visualization of the frequency and quantity of contributions of an author for a specific repository. Each ramp chart (i.e., light blue rectangle) represents an author's contribution timeline for a particular repository. Contributions appear as ramps in the timeline.</p></div> <!----></div></div></div> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-primary" data-v-7d17494f><i class="fas fa-atlas" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-primary" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f><strong data-v-7d17494f>Ramp</strong>: The name we use to refer to the triangular saw-tooth-like shape that represents a code contribution. A ramp can represent a single commit, a sum of the commits done in a certain period, depending on the granularity used.</p></div> <!----></div></div></div> <ul><li>The ramp's area is proportional to the amount of contribution the author made at that time period.</li> <li>The position of the right edge of the ramp (perpendicular to the blue bar) represents the period (the day or the week) in which the contribution was made.</li> <li>Hover the pointer over a ramp to see the total number of lines represented by that ramp.</li> <li>Click on the ramp to see on GitHub the list of commits represented by that ramp.</li> <li>To make the comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.</li> <li>Ramps representing big contributions can overlap with earlier time periods. This represents the possibility that if the work committed during a specific period is big, it could have started at an earlier time period.</li></ul> <h4 id="contribution-bars"><span id="contribution-bars" class="anchor"></span>Contribution bars<a href="#contribution-bars" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-primary" data-v-7d17494f><i class="fas fa-atlas" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-primary" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f><strong data-v-7d17494f>Contribution bar</strong>: It's the bar that appears below each ramp chart. Its length represents the total amount of code contributed by an author during the <em data-v-7d17494f>total analysis period</em>.</p></div> <!----></div></div></div> <ul><li>Hover over a contribution bar to see the exact amount of the contribution.</li> <li>If an author contributed significantly higher than other authors, the contribution bar could <em>overflow</em> into multiple lines.</li></ul> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-info" data-v-7d17494f><i class="fas fa-info" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-info" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f>We allow contribution bars to overflow into multiple lines (rather than adjust the scale to fit the maximum bar length) to prevent a minority of <span data-mb-component-type="tooltip" class="trigger" data-v-7d17494f><span data-mb-slot-name="_content" data-v-7d17494f>i.e., those contributing an unusually high amount of code</span>outliers</span> from affecting the scale of the majority.</p></div> <!----></div></div></div> <h4 id="tool-bar"><span id="tool-bar" class="anchor"></span>Tool bar<a href="#tool-bar" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h4> <p>The <code class="hljs inline no-lang">Tool Bar</code> at the top of the Chart panel provides a set of configuration options that control the Chart panel.</p> <ul><li><code class="hljs inline no-lang">Search</code>: filters the author and repository by keywords.
-<ul><li>Multiple keywords/terms can be used, separated by spaces.</li> <li>Entries that contain <em>any</em> (not necessarily <em>all</em>) of the search terms will be displayed.</li> <li>The keywords used to filter the author and repository are case-insensitive.</li></ul></li> <li><code class="hljs inline no-lang">Group by</code>: grouping criteria for the rows of results.
-<ul><li><code class="hljs inline no-lang">None</code>: results will not be grouped in any particular way.</li> <li><code class="hljs inline no-lang">Repo/Branch</code>: results will be grouped by repositories and its' associating branches.</li> <li><code class="hljs inline no-lang">Author</code>: results will be grouped by the name of the author. Contributions made to multiple repositories by a particular author will be grouped under the author.</li></ul></li> <li><code class="hljs inline no-lang">Sort groups by</code>: sorting criteria for the main group. See note [1] below.
-<ul><li><code class="hljs inline no-lang">Group title</code>: groups will be sorted by the title of the group (in bold text) in alphabetical order.</li> <li><code class="hljs inline no-lang">Contribution</code>: groups will be sorted by the combined contributions within a group, in the order of number of lines added.</li> <li><code class="hljs inline no-lang">Variance</code>: groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. A detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li></ul></li> <li><code class="hljs inline no-lang">Sort within groups by</code>: sorting criteria within each group.
-<ul><li><code class="hljs inline no-lang">Title</code>: each group will be internally sorted by it's title in alphabetical order.</li> <li><code class="hljs inline no-lang">Contribution</code>: each group will be internally sorted by individual contributions in the order of number of lines added.</li> <li><code class="hljs inline no-lang">Variance</code>: each group will be internally sorted by how far the daily contributions are spread out from their average value by each author into a particular repo. A detailed definition of variance is located <a href="https://en.wikipedia.org/wiki/Variance">here</a>.</li></ul></li> <li><code class="hljs inline no-lang">Granularity</code>: the period of time for which commits are aggregated in the Ramp Chart.
-<ul><li><code class="hljs inline no-lang">Commit</code>: each commit made is shown as one ramp.</li> <li><code class="hljs inline no-lang">Day</code>: commits within a day (commits made within 00:00 to 23:59) are shown as one ramp.</li> <li><code class="hljs inline no-lang">Week</code>: commits within a week (from Monday 00:00 to Sunday 23:59) are shown as one ramp.</li></ul></li> <li><code class="hljs inline no-lang">Since</code>, <code class="hljs inline no-lang">Until</code>: the date range for the Ramp Chart (not applied to the Contribution Bars).</li> <li><code class="hljs inline no-lang">Reset date range</code>: resets the date range of the Ramp Chart to the default date range.</li> <li><code class="hljs inline no-lang">Breakdown by file type</code>: toggles the contribution bar to either display the bar by :
-<ul><li>the total lines of codes added (if the checkbox is left unchecked), or</li> <li>a breakdown of the number of lines of codes added to each file type (if the checkbox is checked). More info on note [3] below.</li></ul></li> <li><code class="hljs inline no-lang">Merge group</code>: merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
-<ul><li>viewing of authored code of the group as a whole is available when <code class="hljs inline no-lang">group by repos</code>.</li></ul></li></ul> <p>Notes:<br>
-[1] <strong><code class="hljs inline no-lang">Sort groups by</code></strong>: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>.
-[2] <strong><code class="hljs inline no-lang">Repo/Branch</code></strong>: the repo/branch name is constructed as <code class="hljs inline no-lang">ORGANIZATION/REPOSITORY[BRANCH]</code> (e.g., <code class="hljs inline no-lang">reposense/reposense[master]</code>)<br>
-[3] The total contribution of each group will get updated based on the checked file types and will be taken into account when the sorting criteria is contribution.</p> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-success" data-v-7d17494f><i class="fas fa-lightbulb" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-success" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f><strong data-v-7d17494f>RepoSense support <em data-v-7d17494f>intelligent</em> bookmarks</strong>: Note how the browser URL changes as you modify settings in the report. If you send that URL to someone else, that person will be able to use that URL to view the report in the same <em data-v-7d17494f>view configuration</em> you had when you copied the URL. For example, <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/" data-v-7d17494f>this URL</a> and <a href="https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&amp;sort=groupTitle&amp;sortWithin=title&amp;since=2020-03-01&amp;timeframe=day&amp;mergegroup=true&amp;groupSelect=groupByRepos&amp;breakdown=true" data-v-7d17494f>this URL</a> give two different views of the same report.</p></div> <!----></div></div></div> <h2 id="code-panel"><span id="code-panel" class="anchor"></span>Code panel<a href="#code-panel" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <img src="/RepoSense/images/code-panel.png" alt="code panel" width="468"> <p>The <code class="hljs inline no-lang">Code panel</code> allows users to see the code attributed to a specific author. Click on the <code class="hljs inline no-lang">&lt;/&gt;</code> icon beside the author's name in the <code class="hljs inline no-lang">Chart panel</code> to display the <code class="hljs inline no-lang">Code panel</code> on the right.</p> <ul><li>The Code panel shows the files that contain the author's contributions, sorted by the number of lines written.</li> <li>Select the radio button to enable one of the following 2 filters. Note that only 1 of the 2 filters is active at any time.
-<ul><li>Type file path glob in glob filter to include files matching the glob expression.</li> <li>Select the checkboxes to include files of preferred file extensions.
-The number right beside the file extension shows the total number of lines written by the author in such file extension files. In contrast, the number inside the parenthesis indicates the number of non-blank lines written by the author.</li></ul></li> <li>Clicking the file title toggles the file content.</li> <li>Clicking the first icon beside the file title opens the history view of the file on GitHub.</li> <li>Clicking the second icon beside the file title opens the blame view of the file on GitHub.</li> <li>Code attributed to the author is highlighted in green.</li> <li>Non-trivial code segments that the selected author does not write are hidden by default, but you can toggle them by clicking on the <span class="dimmed"><span aria-hidden="true" class="fas fa-plus-circle"></span></span> icon.</li></ul> <div class="alert box-container seamless" data-v-7d17494f><!----> <div class="header-and-body" data-v-7d17494f><!----> <div class="box-body-wrapper" data-v-7d17494f><div class="icon-wrapper  text-info" data-v-7d17494f><i class="fas fa-info" data-v-7d17494f></i></div> <div aria-hidden="true" class="vertical-divider alert-info" data-v-7d17494f></div> <div class="contents" data-v-7d17494f><p data-v-7d17494f>Changing binary files, such as images (<code class="hljs inline no-lang" data-v-7d17494f>.jpg</code>, <code class="hljs inline no-lang" data-v-7d17494f>.png</code>), applications (<code class="hljs inline no-lang" data-v-7d17494f>.exe</code>), zip files (<code class="hljs inline no-lang" data-v-7d17494f>.zip</code>, <code class="hljs inline no-lang" data-v-7d17494f>.rar</code>) and certain document types (<code class="hljs inline no-lang" data-v-7d17494f>.docx</code>, <code class="hljs inline no-lang" data-v-7d17494f>.pptx</code>), is not counted towards the total number of lines of code contributed by an author.</p></div> <!----></div></div></div> <h2 id="commits-panel"><span id="commits-panel" class="anchor"></span>Commits panel<a href="#commits-panel" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <img src="/RepoSense/images/commits-panel.png" alt="commits panel" width="468"> <p>The <code class="hljs inline no-lang">Commits panel</code> allows users to see the commits attributed to a specific author.</p> <ul><li>To view all commits attributed to an author, locate the author's ramp chart in the chart panel, and click on the <span class="dimmed"><span aria-hidden="true" class="fas fa-list-ul"></span></span> icon above the ramp chart.</li> <li>To view commits of a specific period, locate the author's ramp chart in the chart panel, hold down the <kbd>Ctrl</kbd> key (<kbd>⌘</kbd> in MacOS), and click on the start and end positions of the period (on the ramp chart) you want to view. <br></li></ul> <p><a href="/RepoSense/images/opening-commits-panel.gif" target="_self"><img src="/RepoSense/images/opening-commits-panel.gif" alt="" class="img-fluid"></a></p> <ul><li>The commits can be sorted by the date it was committed or by LoC.</li> <li>The tags of the commits will also be displayed on top if any. Clicking on a tag will direct you to the commit having that particular tag.</li> <li>The date range for the <code class="hljs inline no-lang">Chart panel</code> can be updated by clicking on the &quot;Show ramp chart for this period&quot; below the name of the author.</li> <li>The ramp chart at the top of the <code class="hljs inline no-lang">Commits panel</code> represents individual commits (not weekly or daily contributions).</li> <li>The commit messages body can be expanded or collapsed by clicking on the <span class="dimmed"><span aria-hidden="true" class="fas fa-ellipsis-h"></span></span> icon beside each commit message title.</li> <li>To promote and encourage the 50/72 rule for commit messages, a dotted vertical line will be shown for:
-<ul><li>Commit message subject that exceeds 50 characters.</li> <li>Commit message body after the 72nd character mark.</li></ul></li></ul> <i id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true" class="fa fa-arrow-circle-up fa-lg d-print-none"></i></div></div> <footer><div class="text-center"><small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 3.0.6</a>, generated on Wed, Sep 29, 2021, 11:27:34 AM UTC]</small></div></footer></div>
-</body><script src="../markbind/js/bootstrap-utility.min.js"></script>
-<script>
-  MarkBind.setupWithSearch()
-</script>
+<script src="../markbind/js/setup.js"></script>
+<script src="../markbind/layouts/default/scripts.js"></script>
+
 </html>

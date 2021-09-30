@@ -2,52 +2,53 @@
   "enableSearch": true,
   "pages": [
     {
-      "src": "about.md",
       "title": "About us",
+      "src": "about.md",
+      "layout": "default",
       "headings": {
         "about-us": "About us",
         "current-team": "Current team",
         "damith-c-rajapakse": "Damith C. Rajapakse",
-        "wang-chao": "Wang Chao",
         "peh-xian-bin-eugene": "Peh Xian Bin, Eugene",
+        "teng-yong-hao": "Teng Yong Hao",
+        "wang-chao": "Wang Chao",
         "james-pang-mun-wai": "James Pang Mun Wai",
+        "lee-jin-yao": "Lee Jin Yao",
         "liu-yiwen": "Liu Yiwen",
         "tejas-bhuwania": "Tejas Bhuwania",
         "anubhav": "Anubhav",
         "ang-ze-yu": "Ang Ze Yu",
-        "chan-ger-hean": "Chan Ger Hean",
-        "hsu-zhong-jun": "Hsu Zhong Jun",
-        "huang-chengyu": "Huang Chengyu",
-        "roland-yu-wenyang": "Roland Yu Wenyang",
+        "chong-chee-yuan": "Chong Chee Yuan",
+        "ni-tianzhen": "Ni Tianzhen",
+        "yash-chowdhary": "Yash Chowdhary",
         "past-members": "Past Members",
         "ma-tanghao": "Ma Tanghao",
         "ong-shu-peng": "Ong Shu Peng",
         "tan-jun-an": "Tan Jun An",
-        "teng-yong-hao": "Teng Yong Hao",
         "aditya-agarwal": "Aditya Agarwal",
         "apoorva-ullas": "Apoorva Ullas",
         "chelsey-ong-hee": "Chelsey Ong Hee",
         "gilbert-emerson": "Gilbert Emerson",
         "teo-ming-yi": "Teo Ming Yi",
-        "jin-minjia": "Jin Minjia",
-        "lee-jin-yao": "Lee Jin Yao",
-        "chong-chee-yuan": "Chong Chee Yuan",
-        "ni-tianzhen": "Ni Tianzhen",
-        "yash-chowdhary": "Yash Chowdhary"
+        "jin-minjia": "Jin Minjia"
       },
       "headingKeywords": {}
     },
     {
-      "src": "contact.md",
       "title": "Contact us",
+      "src": "contact.md",
+      "layout": "default",
       "headings": {
         "contact-us": "Contact us"
       },
       "headingKeywords": {}
     },
     {
-      "src": "dg/architecture.md",
       "title": "Architecture",
+      "pageNav": 3,
+      "src": "dg/architecture.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
       "headings": {
         "architecture": "Architecture",
         "parser-configparser": "Parser(ConfigParser)",
@@ -61,24 +62,10 @@
       "headingKeywords": {}
     },
     {
-      "src": "dg/devOpsGuide.md",
-      "title": "DevOps Guide",
-      "headings": {
-        "devops-guide": "DevOps Guide",
-        "github-actions": "GitHub Actions",
-        "continuous-integration": "Continuous integration",
-        "report-and-documentation-previews": "Report and documentation previews",
-        "github-pages": "GitHub Pages",
-        "stale-pull-requests": "Stale pull requests",
-        "codecov": "Codecov",
-        "appveyor": "Appveyor",
-        "surge-sh": "Surge.sh"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "dg/index.md",
       "title": "Developer guide",
+      "src": "dg/index.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
       "headings": {
         "developer-guide": "Developer guide",
         "contributing": "Contributing"
@@ -86,37 +73,28 @@
       "headingKeywords": {}
     },
     {
-      "src": "dg/learningBasics.md",
-      "title": "Learning the Basics",
-      "headings": {
-        "learning-the-basics": "Learning the Basics",
-        "backend": "Backend",
-        "frontend": "Frontend",
-        "vue-js": "Vue.js",
-        "pug": "Pug",
-        "scss": "Scss",
-        "devops": "DevOps"
-      },
-      "headingKeywords": {}
-    },
-    {
-      "src": "dg/projectManagement.md",
       "title": "Project management",
+      "pageNav": 3,
+      "src": "dg/projectManagement.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
       "headings": {
         "project-management": "Project management",
         "merging-prs": "Merging PRs",
-        "making-a-release-on-github": "Making a release on Github",
         "deploying-the-production-website": "Deploying the production website"
       },
       "headingKeywords": {}
     },
     {
-      "src": "dg/report.md",
       "title": "HTML report",
+      "pageNav": 3,
+      "src": "dg/report.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
       "headings": {
         "html-report": "HTML report",
         "report-architecture": "Report architecture",
-        "javascript-and-vue-files": "Javascript and Vue files",
+        "javascript-files": "Javascript files",
         "json-report-files": "JSON report files",
         "main-main-js": "Main (main.js)",
         "loading-of-report-information": "Loading of report information",
@@ -125,21 +103,24 @@
         "data-loader-api-js": "Data loader (api.js)",
         "loading-from-zip-file": "Loading from ZIP file",
         "retrieving-and-parsing-information": "Retrieving and parsing information",
-        "summary-view-v-summary-vue": "Summary view (v-summary.vue)",
+        "summary-view-v-summary-js": "Summary view (v_summary.js)",
         "initializing-the-data-for-the-ramp-charts": "Initializing the data for the ramp charts",
         "filtering-users-and-repositories": "Filtering users and repositories",
-        "authorship-view-v-authorship-vue": "Authorship view (v-authorship.vue)",
+        "authorship-view-v-authorship-js": "Authorship view (v_authorship.js)",
         "showing-relevant-information-by-authors": "Showing relevant information by authors",
-        "zoom-view-v-zoom-vue": "Zoom view (v-zoom.vue)",
-        "ramp-view-v-ramp-vue": "Ramp view (v-ramp.vue)",
+        "zoom-view-v-zoom-js": "Zoom view (v_zoom.js)",
+        "ramp-view-v-ramp-js": "Ramp view (v_ramp.js)",
         "padding-for-dates": "Padding for dates",
-        "segment-view-v-segment-vue": "Segment view (v-segment.vue)"
+        "segment-view-v-segment-js": "Segment view (v_segment.js)"
       },
       "headingKeywords": {}
     },
     {
-      "src": "dg/settingUp.md",
       "title": "Setting up",
+      "pageNav": 3,
+      "src": "dg/settingUp.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
       "headings": {
         "setting-up": "Setting up",
         "getting-the-code": "Getting the code",
@@ -150,43 +131,44 @@
       "headingKeywords": {}
     },
     {
-      "src": "dg/styleGuides.md",
       "title": "Appendix: Style guides",
+      "src": "dg/styleGuides.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
       "headings": {
-        "appendix-style-guides": "Appendix: Style guides",
-        "note-on-ternary-operators": "Note on Ternary Operators:"
+        "appendix-style-guides": "Appendix: Style guides"
       },
       "headingKeywords": {}
     },
     {
-      "src": "dg/workflow.md",
       "title": "Workflow",
+      "pageNav": 3,
+      "src": "dg/workflow.md",
+      "layout": "default",
+      "siteNav": "dgSiteNav.md",
       "headings": {
         "workflow": "Workflow",
-        "find-the-suitable-pull-requests": "Find the suitable pull requests",
-        "following-the-coding-standards": "Following the coding standards",
+        "following-the-code-style": "Following the code style",
         "running-the-app-from-code": "Running the app from code",
         "debugging-front-end": "Debugging (front-end)",
         "testing-front-end": "Testing (front-end)",
         "writing-tests": "Writing tests",
         "running-tests": "Running tests",
-        "testing-back-end": "Testing (back-end)",
-        "running-tests-2": "Running tests",
         "writing-documentation": "Writing documentation"
       },
       "headingKeywords": {}
     },
     {
-      "src": "index.md",
       "title": "Home",
-      "headings": {
-        "reposense": "RepoSense"
-      },
+      "src": "index.md",
+      "layout": "default",
+      "headings": {},
       "headingKeywords": {}
     },
     {
-      "src": "showcase.md",
       "title": "Showcase",
+      "src": "showcase.md",
+      "layout": "default",
       "headings": {
         "showcase": "Showcase",
         "case-1-monitoring-student-programmers-individual-projects": "Case 1: Monitoring student programmers (individual projects)",
@@ -196,21 +178,23 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/cli.md",
       "title": "Appendix: CLI syntax reference",
+      "pageNav": 3,
+      "src": "ug/cli.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-cli-syntax-reference": "Appendix: CLI syntax reference",
         "assets-a": "--assets, -a",
         "config-c": "--config, -c",
         "formats-f": "--formats, -f",
-        "find-previous-authors-f": "--find-previous-authors, -F",
         "help-h": "--help, -h",
         "ignore-standalone-config-i": "--ignore-standalone-config, -i",
         "last-modified-date-l": "--last-modified-date, -l",
         "output-o": "--output, -o",
         "period-p": "--period, -p",
         "repos-r": "--repos, -r",
-        "shallow-cloning-s": "--shallow-cloning, -S",
         "since-s": "--since, -s",
         "timezone-t": "--timezone, -t",
         "until-u": "--until, -u",
@@ -220,8 +204,12 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/configFiles.md",
       "title": "Appendix: Config files format",
+      "pageNav": 3,
+      "src": "ug/configFiles.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-config-files-format": "Appendix: Config files format",
         "repo-config-csv": "repo-config.csv",
@@ -234,8 +222,12 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/customizingReports.md",
       "title": "Customizing reports",
+      "pageNav": 3,
+      "src": "ug/customizingReports.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "customizing-reports": "Customizing reports",
         "customize-using-cli-flags": "Customize using CLI flags",
@@ -245,19 +237,27 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/faq.md",
       "title": "Appendix: FAQ",
+      "pageNav": 3,
+      "src": "ug/faq.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-faq": "Appendix: FAQ",
         "q-does-reposense-work-on-private-repositories": "Q: Does RepoSense work on private repositories?",
-        "q-how-do-formats-work": "Q: How do formats work?",
+        "q-how-does-formats-work": "Q: How does formats work?",
         "q-how-does-ignore-glob-list-work": "Q: How does ignore glob list work?"
       },
       "headingKeywords": {}
     },
     {
-      "src": "ug/generatingReports.md",
       "title": "Generating a report",
+      "pageNav": 3,
+      "src": "ug/generatingReports.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "generating-a-report": "Generating a report",
         "generating-reports-locally": "Generating reports locally",
@@ -266,19 +266,25 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/index.md",
       "title": "User guide",
+      "src": "ug/index.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "user-guide": "User guide",
-        "1-explore-real-life-examples": "1 Explore real-life examples",
-        "2-generate-your-own-reports": "2 Generate your own reports",
-        "3-share-your-reports": "3 Share your reports"
+        "explore-real-life-examples": "\n          1 Explore real-life examples\n        ",
+        "generate-your-own-reports": "\n          2 Generate your own reports\n        ",
+        "share-your-reports": "\n          3 Share your reports\n        "
       },
       "headingKeywords": {}
     },
     {
+      "title": "Appendix: `run.sh` format",
       "src": "ug/runSh.md",
-      "title": "",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-run-sh-format": "Appendix: run.sh format",
         "customizing-the-reposense-command": "Customizing the RepoSense command",
@@ -287,8 +293,12 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/sharingReports.md",
       "title": "Sharing reports",
+      "pageNav": 3,
+      "src": "ug/sharingReports.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "sharing-reports": "Sharing reports",
         "share-privately": "Share privately",
@@ -297,29 +307,40 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/troubleshooting.md",
       "title": "Appendix: Troubleshooting",
+      "pageNav": 3,
+      "src": "ug/troubleshooting.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-troubleshooting": "Appendix: Troubleshooting",
         "contributions-missing-in-the-ramp-chart-but-appear-in-the-contribution-bar-and-code-panel": "Contributions missing in the ramp chart (but appear in the contribution bar and code panel)",
         "contribution-bar-and-code-panel-is-empty-despite-a-non-empty-ramp-chart": "Contribution bar and code panel is empty (despite a non-empty ramp chart)",
         "reposense-is-not-using-the-standalone-config-file-in-my-local-repository": "RepoSense is not using the standalone config file in my local repository",
         "reposense-fails-on-windows-but-works-on-linux-mac-os": "RepoSense fails on Windows (but works on Linux/Mac OS)",
-        "some-file-types-are-not-shown-in-the-file-type-filter-even-if-i-have-included-them-in-the-file-formats-when-generating-the-report": "Some file types are not shown in the file type filter even if I have included them in the file formats when generating the report"
+        "some-files-are-not-captured-by-reposense": "Some files are not captured by RepoSense"
       },
       "headingKeywords": {}
     },
     {
-      "src": "ug/usingAuthorTags.md",
       "title": "Appendix: Using `@@author` tags",
+      "src": "ug/usingAuthorTags.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-using-author-tags": "Appendix: Using @@author tags"
       },
       "headingKeywords": {}
     },
     {
-      "src": "ug/usingReports.md",
       "title": "Using reports",
+      "pageNav": 3,
+      "src": "ug/usingReports.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "using-reports": "Using reports",
         "viewing-the-report": "Viewing the report",
@@ -331,8 +352,12 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/withGithubActions.md",
       "title": "Appendix: RepoSense with GitHub Actions",
+      "pageNav": 3,
+      "src": "ug/withGithubActions.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-reposense-with-github-actions": "Appendix: RepoSense with GitHub Actions",
         "setting-up": "Setting up",
@@ -341,8 +366,12 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/withNetlify.md",
       "title": "Appendix: RepoSense with Netlify",
+      "pageNav": 3,
+      "src": "ug/withNetlify.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-reposense-with-netlify": "Appendix: RepoSense with Netlify",
         "setting-up": "Setting up",
@@ -352,8 +381,12 @@
       "headingKeywords": {}
     },
     {
-      "src": "ug/withTravis.md",
       "title": "Appendix: RepoSense with Travis",
+      "pageNav": 3,
+      "src": "ug/withTravis.md",
+      "layout": "default",
+      "header": "devSiteHeader.md",
+      "siteNav": "ugSiteNav.md",
       "headings": {
         "appendix-reposense-with-travis": "Appendix: RepoSense with Travis",
         "setting-up": "Setting up",
