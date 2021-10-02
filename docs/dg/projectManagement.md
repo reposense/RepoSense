@@ -27,7 +27,11 @@ Before making a release, please check the following prerequisites:
 
 * Ensure that you have **JDK `1.8.0`** installed (==Not other major release versions such as **JDK `9`** or **JDK `11`**==).
 * Ensure that the `JAVA_HOME` environment variable is correctly set to your JDK installation directory. You can refer to the [JDK Installation Guide](https://docs.oracle.com/cd/E19182-01/821-0917/inst_jdk_javahome_t/index.html).
-
+* Ensure that you have merged the `master` branch to the `release` branch in the [upstream repository](https://github.com/RepoSense/reposense) according to the following stpes:
+    1. In your local repository, reset your master branch to be exactly the same as the upstream master branch.
+    1. Check out to the local release branch, and merge the master branch into it with `git merge master --no-ff` (no fast forward to keep the commit history for releases)
+    1. Push the local release branch directly to the [upstream release branch](https://github.com/reposense/RepoSense/tree/release) (make sure you have the push access).
+    
 To make a release for RepoSense on Github, please follow the `Creating a release` section in the [Github Docs](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository).<br>
 
 Take note of the following when making the release according to the above guide:
@@ -37,10 +41,11 @@ Take note of the following when making the release according to the above guide:
   * Append `rc` to the version number to indicate that the release is a pre-release that is not ready to be used in production.
 * Enter the release title as `RepoSense vxxx` where `xxx` is the version number. Enter the release description by referring to the previous [RepoSense releases](https://github.com/reposense/RepoSense/releases).
 * Before launching the release, generate the `RepoSense.jar` file and attach it to the release.
-  * Change the directory to the project root directory.
-  * In the terminal, run `gradlew --version` to check that the JDK version is 1.8.0.
-  * Run `gradlew shadowJar`, and the Jar file will be generated at `{buildDir}/jar/`.
-  * Check that the Jar file is working. You may need to check that the report can be generated from the Jar file both locally and remotely by following the [Generating Reports Guide](../ug/generatingReports.html).
+  1. In your local reposio
+  1. Change the directory to the project root directory.
+  1. In the terminal, run `gradlew --version` to check that the JDK version is 1.8.0.
+  1. Run `gradlew shadowJar`, and the Jar file will be generated at `{buildDir}/jar/`.
+  1. Check that the Jar file is working. You may need to check that the report can be generated from the Jar file both locally and remotely by following the [Generating Reports Guide](../ug/generatingReports.html).
 
 After making the release, please also remember to deploy the production website using the [deploy guide](#deploying-the-production-website).
 
