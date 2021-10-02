@@ -14,8 +14,7 @@
     "*.mbdf",
     "*.njk",
     ".git/*",
-    "diagrams/*",
-    "CNAME"
+    "diagrams/*"
   ],
   "pages": [
     {
@@ -35,12 +34,14 @@
     }
   ],
   "deploy": {
-    "message": "Site Update."
+    "message": "Site Update.",
+    "repo": "https://github.com/reposense/reposense.github.io.git",
+    "branch": "master"
   },
   "plugins": ["filterTags"],
   "pluginsContext": {
     "filterTags" : {
-      "tags": ["-production", "dev"]
+      "tags": ["production", "-dev"]
     }
   }
 }
