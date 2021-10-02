@@ -29,7 +29,7 @@ Before making a release, please check the following prerequisites:
 * Ensure that the `JAVA_HOME` environment variable is correctly set to your JDK installation directory. You can refer to the [JDK Installation Guide](https://docs.oracle.com/cd/E19182-01/821-0917/inst_jdk_javahome_t/index.html).
 * Ensure that you have merged the [upstream](https://github.com/RepoSense/reposense) `master` branch into both the local and upstream `release` branch according to the following steps:
     1. In your local repository, reset your `master` branch to be exactly the same as the upstream `master` branch.
-    1. Switch to the local `release` branch, and merge the `master` branch into it with `git merge master --no-ff` (no fast forward to keep the commit history for releases)
+    1. Switch to the local `release` branch, and merge the `master` branch into it with `git merge master --no-ff` (no fast forward to keep the commit history for releases).
     1. Push the local `release` branch directly to the [upstream `release` branch](https://github.com/reposense/RepoSense/tree/release) (make sure you have the push access).
     
 To make a release for RepoSense on Github, please follow the `Creating a release` section in the [Github Docs](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository).<br>
@@ -80,7 +80,7 @@ After each release, do the following steps to deploy the production website:
 
 ## Hot patching after the release
 
-If critical bugs are found in the release, take the following takes to hot patch it:
+If critical bugs are found in the release, take the following steps to hot patch it:
 1. Switch to the `release` branch.
 1. Implement the fixes, commit them, and create a pull request from your forked `release` branch to the upstream `release` branch.
 1. After merging, release a new version of RepoSense with the `release` branch according to the above guide.
