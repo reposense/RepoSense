@@ -50,9 +50,10 @@ describe('load code view benchmark', () => {
   };
 
   for (let i = 0; i < NUM_TRIALS; i += 1) {
-    const shouldSkipCurrentTrial = isATrialWithinMaxTime;
+    // Disabling lint rule here because global variable reference to `isATrialWithinMaxTime` is needed
+    // eslint-disable-next-line no-loop-func
     it(`time taken to load code view (trial ${i + 1})`, () => {
-      if (shouldSkipCurrentTrial) {
+      if (isATrialWithinMaxTime) {
         this.skip();
       }
       timeTrial(i);
