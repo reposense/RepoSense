@@ -49,19 +49,25 @@ describe('load code view benchmark', () => {
         });
   };
 
-  for (let i = 0; i < NUM_TRIALS; i += 1) {
+  const runTimeTrialIfNeeded = function (i) {
     /**
-     * Disabling `no-loop func` lint rule here because global variable reference to `isATrialWithinMaxTime` is needed.
-     * Disabling `func-names` lint rule here because we need the Mocha context to call `this.skip()`.
+     * Arrow functions not used here as we need the Mocha context to call `this.skip()`.
      * See https://mochajs.org/#arrow-functions.
      */
-    // eslint-disable-next-line no-loop-func, func-names
-    it(`time taken to load code view (trial ${i + 1})`, function () {
+    // eslint-disable-next-line func-names
+    return function () {
       if (isATrialWithinMaxTime) {
         this.skip();
       }
       timeTrial(i);
-    });
+    };
+  };
+
+  for (let i = 0; i < NUM_TRIALS; i += 1) {
+    it(
+        `time taken to load code view (trial ${i + 1})`,
+        runTimeTrialIfNeeded(i + 1),
+    );
   }
 
   it(`at least one trial is within ${THRESHOLD_LOADING_TIME_SECONDS}(+${ALLOWED_BUFFER_TIME_SECONDS})s`, () => {
