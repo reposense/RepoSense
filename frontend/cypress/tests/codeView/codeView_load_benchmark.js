@@ -39,9 +39,7 @@ describe('load code view benchmark', () => {
           const loadingTime = endTime - startTime;
           const loadingTimeSeconds = loadingTime / 1000;
 
-          cy.log(
-              `trial ${i + 1} loading time: ${loadingTimeSeconds.toFixed(3)}s`,
-          );
+          cy.log(`trial ${i} loading time: ${loadingTimeSeconds.toFixed(3)}s`);
 
           if (loadingTime <= MAXIMUM_LOADING_TIME) {
             isATrialWithinMaxTime = true;
@@ -63,11 +61,8 @@ describe('load code view benchmark', () => {
     };
   };
 
-  for (let i = 0; i < NUM_TRIALS; i += 1) {
-    it(
-        `time taken to load code view (trial ${i + 1})`,
-        runTimeTrialIfNeeded(i + 1),
-    );
+  for (let i = 1; i <= NUM_TRIALS; i += 1) {
+    it(`time taken to load code view (trial ${i})`, runTimeTrialIfNeeded(i));
   }
 
   it(`at least one trial is within ${THRESHOLD_LOADING_TIME_SECONDS}(+${ALLOWED_BUFFER_TIME_SECONDS})s`, () => {
