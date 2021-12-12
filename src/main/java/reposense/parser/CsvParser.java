@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,6 +49,7 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_COLUMNS_RECOGNIZED = "Parsed header of CSV file, %s, and recognized columns: "
             + "%s";
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
+    private static final String MESSAGE_UNKNOWN_COLUMN = "Unknown column(s) found: %s (%s)";
 
     private Path csvFilePath;
     private Map<String, Integer> headerMap = new HashMap<>();
@@ -71,7 +74,7 @@ public abstract class CsvParser<T> {
      * @throws IOException if there are errors accessing the given csv file.
      * @throws InvalidCsvException if the csv is malformed.
      */
-    public List<T> parse() throws IOException, InvalidCsvException {
+    public List<T> parse() throws IOException, InvalidCsvException, InvalidHeaderException {
         List<T> results = new ArrayList<>();
         Iterable<CSVRecord> records;
 
@@ -115,7 +118,7 @@ public abstract class CsvParser<T> {
      * @throws IOException if there is an error accessing the file.
      * @throws InvalidCsvException if the file has only empty or blank lines.
      */
-    private String[] getHeader(BufferedReader reader) throws IOException, InvalidCsvException {
+    private String[] getHeader(BufferedReader reader) throws IOException, InvalidCsvException, InvalidHeaderException {
         String currentLine = "";
 
         // read from file until we encounter a line that is neither blank nor empty
@@ -223,17 +226,34 @@ public abstract class CsvParser<T> {
      * Generates map of column header to position number for input {@code possibleHeader}.
      * @throws InvalidCsvException if {@code possibleHeader} does not contain all the mandatory headers.
      */
-    private void validateHeader(String[] possibleHeader) throws InvalidCsvException {
+    private void validateHeader(String[] possibleHeader) throws InvalidCsvException, InvalidHeaderException {
         int headerSize = possibleHeader.length;
+        Set<String> knownColumns = new HashSet<>();
+        StringBuilder unknownColumns = new StringBuilder();
         for (int i = 0; i < headerSize; i++) {
             String possible = possibleHeader[i].trim();
             for (String parsedHeader : mandatoryAndOptionalHeaders()) {
                 if (possible.equalsIgnoreCase(parsedHeader)) {
                     headerMap.put(parsedHeader, i);
+                    knownColumns.add(possible);
                     break;
                 }
             }
+            if (!knownColumns.contains(possible)) {
+                if (unknownColumns.toString().equals("")) {
+                    unknownColumns.append(possible);
+                } else {
+                    unknownColumns.append(", ");
+                    unknownColumns.append(possible);
+                }
+            }
         }
+
+        if (!unknownColumns.toString().equals("")) {
+            throw new InvalidHeaderException(
+                    String.format(MESSAGE_UNKNOWN_COLUMN, unknownColumns.toString(), csvFilePath.toString()));
+        }
+
         for (String mandatory : mandatoryHeaders()) {
             if (!headerMap.containsKey(mandatory)) {
                 throw new InvalidCsvException(String.format(
