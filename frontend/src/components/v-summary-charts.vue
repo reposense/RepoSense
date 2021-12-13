@@ -73,7 +73,7 @@
             )
             span.tooltip-text Click to view breakdown of commits
       .summary-chart__title--percentile(
-          v-if="sortGroupSelection === 'totalCommits' || sortGroupSelection === 'totalCommits dsc'"
+          v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
@@ -134,7 +134,7 @@
             )
             span.tooltip-text Click to view breakdown of commits
         .summary-chart__title--percentile(
-          v-if="sortGroupSelection === 'totalCommits' || sortGroupSelection === 'totalCommits dsc'"
+          v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %
 
       .summary-chart__ramp(
