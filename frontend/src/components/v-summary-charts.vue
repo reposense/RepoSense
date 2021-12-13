@@ -185,7 +185,7 @@ export default {
   },
   props: ['checkedFileTypes', 'filtered', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
-      'minDate', 'maxDate', 'filterSearch'],
+      'minDate', 'maxDate', 'filterSearch', 'sortGroupSelection'],
   data() {
     return {
       drags: [],
@@ -421,6 +421,9 @@ export default {
     },
 
     getPercentile(index) {
+      if (this.sortGroupSelection !== 'totalCommits') {
+        return null;
+      }
       if (this.filterGroupSelection === 'groupByNone') {
         return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
       }
