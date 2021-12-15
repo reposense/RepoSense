@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.parser.InvalidLocationException;
+import reposense.report.ErrorSummary;
 import reposense.util.AssertUtil;
 
 public class RepoLocationTest {
@@ -46,6 +47,46 @@ public class RepoLocationTest {
         RepoLocation repoLocation = new RepoLocation("");
     }
 
+    @Test
+    public void duplicate_error_removed() {
+        ErrorSummary.getInstance().clearErrorSet();
+        String invalidLocation1 = "ftp://github.com/reposense/RepoSense.git";
+        String invalidLocation2 = "tp://github.com/reposense/RepoSense.git";
+        try {
+            RepoLocation repoLocation1 = new RepoLocation(invalidLocation1);
+        } catch (InvalidLocationException e) {
+            // Ignore as it is not the purpose of this test
+        }
+        Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 1);
+
+        try {
+            RepoLocation repoLocation2 = new RepoLocation(invalidLocation1);
+        } catch (InvalidLocationException e) {
+            // Ignore as it is not the purpose of this test
+        }
+        Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 1);
+
+        try {
+            RepoLocation repoLocation3 = new RepoLocation(invalidLocation2);
+        } catch (InvalidLocationException e) {
+            // Ignore as it is not the purpose of this test
+        }
+        Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 2);
+
+        try {
+            RepoLocation repoLocation4 = new RepoLocation(invalidLocation2);
+        } catch (InvalidLocationException e) {
+            // Ignore as it is not the purpose of this test
+        }
+        Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 2);
+
+        try {
+            RepoLocation repoLocation5 = new RepoLocation(invalidLocation1);
+        } catch (InvalidLocationException e) {
+            // Ignore as it is not the purpose of this test
+        }
+        Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 2);
+    }
 
     /**
      * Compares the information parsed by the RepoLocation model with the expected information
