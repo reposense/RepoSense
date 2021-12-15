@@ -50,8 +50,10 @@ public class RepoLocationTest {
     @Test
     public void duplicate_error_removed() {
         ErrorSummary.getInstance().clearErrorSet();
-        String invalidLocation1 = "ftp://github.com/reposense/RepoSense.git";
-        String invalidLocation2 = "tp://github.com/reposense/RepoSense.git";
+        String invalidLocation1 = "ftp://github.com/reposense/testrepo-Beta.git";
+        String invalidLocation2 = "tp://github.com/reposense/testrepo-Beta.git";
+        String validLocation = "https://github.com/reposense/testrepo-Beta.git";
+
         try {
             RepoLocation repoLocation1 = new RepoLocation(invalidLocation1);
         } catch (InvalidLocationException e) {
@@ -60,18 +62,18 @@ public class RepoLocationTest {
         Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 1);
 
         try {
-            RepoLocation repoLocation2 = new RepoLocation(invalidLocation1);
+            RepoLocation repoLocation2 = new RepoLocation(validLocation);
         } catch (InvalidLocationException e) {
             // Ignore as it is not the purpose of this test
         }
         Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 1);
 
         try {
-            RepoLocation repoLocation3 = new RepoLocation(invalidLocation2);
+            RepoLocation repoLocation3 = new RepoLocation(invalidLocation1);
         } catch (InvalidLocationException e) {
             // Ignore as it is not the purpose of this test
         }
-        Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 2);
+        Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 1);
 
         try {
             RepoLocation repoLocation4 = new RepoLocation(invalidLocation2);
@@ -81,7 +83,14 @@ public class RepoLocationTest {
         Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 2);
 
         try {
-            RepoLocation repoLocation5 = new RepoLocation(invalidLocation1);
+            RepoLocation repoLocation5 = new RepoLocation(invalidLocation2);
+        } catch (InvalidLocationException e) {
+            // Ignore as it is not the purpose of this test
+        }
+        Assert.assertEquals(ErrorSummary.getInstance().getErrorSet().size(), 2);
+
+        try {
+            RepoLocation repoLocation6 = new RepoLocation(invalidLocation1);
         } catch (InvalidLocationException e) {
             // Ignore as it is not the purpose of this test
         }
