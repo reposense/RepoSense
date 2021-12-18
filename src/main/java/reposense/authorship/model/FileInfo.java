@@ -14,6 +14,7 @@ import reposense.util.SystemUtil;
 public class FileInfo {
     private final String path;
     private final ArrayList<LineInfo> lines;
+    private final ArrayList<TextBlockInfo> blocks = new ArrayList<>();
 
     private FileType fileType;
 
@@ -42,12 +43,28 @@ public class FileInfo {
         lines.add(line);
     }
 
+    public void removeLine(LineInfo line) {
+        lines.remove(line);
+    }
+
+    public void addTextBlock(TextBlockInfo block) {
+        blocks.add(block);
+    }
+
+    public void removeTextBlock(TextBlockInfo block) {
+        blocks.remove(block);
+    }
+
     public int getNumOfLines() {
         return lines.size();
     }
 
     public ArrayList<LineInfo> getLines() {
         return lines;
+    }
+
+    public ArrayList<TextBlockInfo> getTextBlocks() {
+        return blocks;
     }
 
     public String getPath() {

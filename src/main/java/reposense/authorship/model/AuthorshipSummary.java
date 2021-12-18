@@ -35,6 +35,16 @@ public class AuthorshipSummary {
         fileTypeContributionMap.put(fileType, fileTypeContributionMap.getOrDefault(fileType, 0) + 1);
     }
 
+    /**
+     * Increments the corresponding {@code fileType} contribution count of {@code author} by one.
+     */
+    public void addAuthorContributionCount(HashMap<Author, Integer> authorContributionMap, FileType fileType) {
+        authorContributionMap.forEach((author, integer) -> {
+            Map<FileType, Integer> fileTypeContributionMap = authorFileTypeContributionMap.get(author);
+            fileTypeContributionMap.put(fileType, fileTypeContributionMap.getOrDefault(fileType, 0) + integer);
+        });
+    }
+
     public Map<Author, LinkedHashMap<FileType, Integer>> getAuthorFileTypeContributionMap() {
         return authorFileTypeContributionMap;
     }

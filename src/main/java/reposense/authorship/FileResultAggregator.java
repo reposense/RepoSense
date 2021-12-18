@@ -5,6 +5,7 @@ import java.util.List;
 import reposense.authorship.model.AuthorshipSummary;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
+import reposense.authorship.model.TextBlockInfo;
 import reposense.model.Author;
 import reposense.model.FileType;
 
@@ -20,16 +21,8 @@ public class FileResultAggregator {
             List<FileType> fileTypes) {
         AuthorshipSummary authorContributionSummary = new AuthorshipSummary(fileResults, authors, fileTypes);
         for (FileResult fileResult : fileResults) {
-            if (fileResult.isBinary()) {
-                continue;
-            }
-            for (LineInfo lineInfo : fileResult.getLines()) {
-                Author author = lineInfo.getAuthor();
-                if (!authors.contains(author)) {
-                    continue;
-                }
-                authorContributionSummary.addAuthorContributionCount(author, fileResult.getFileType());
-            }
+                authorContributionSummary
+                    .addAuthorContributionCount(fileResult.getAuthorContributionMap(), fileResult.getFileType());
         }
         return authorContributionSummary;
     }

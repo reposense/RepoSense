@@ -15,6 +15,7 @@ import reposense.authorship.analyzer.AnnotatorAnalyzer;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
+import reposense.authorship.model.TextBlockInfo;
 import reposense.git.GitBlame;
 import reposense.git.GitLog;
 import reposense.model.Author;
@@ -100,8 +101,14 @@ public class FileInfoAnalyzer {
             Author author = line.getAuthor();
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
+
+        for (TextBlockInfo block : fileInfo.getTextBlocks()) {
+            block.getAbsoluteContributionMap().forEach((author, integer)
+                    -> authorContributionMap
+                        .put(author, authorContributionMap.getOrDefault(author, 0) + integer));
+        }
         return FileResult.createTextFileResult(
-            fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
+            fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), fileInfo.getTextBlocks(), authorContributionMap);
     }
 
     /**
