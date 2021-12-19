@@ -4,7 +4,12 @@ describe('code view', () => {
         .should('be.visible');
 
     cy.get('#tab-empty > .title').then(($ele) => {
-      const expected = 'Welcome to this RepoSense report!The charts on the left show the contribution activities, grouped by repository and author.To view the code attributed to a specific author, click the    icon next to that author\'s name.To view the breakdown of commits made by a specific author, click the    icon next to that author\'s name.To hide the code view and show only the activity charts, click the    icon on the centre divider.See the  User Guide  to get a better understanding of how to interpret the report.';
+      const expected = 'Welcome to this RepoSense report!'
+        + 'The charts on the left show the contribution activities, grouped by repository and author.'
+        + "To view the code attributed to a specific author, click the    icon next to that author's name."
+        + "To view the breakdown of commits made by a specific author, click the    icon next to that author's name."
+        + 'To hide the code view and show only the activity charts, click the    icon on the centre divider.'
+        + 'See the  User Guide  to get a better understanding of how to interpret the report.';
       const message = $ele.text();
 
       expect(expected).to.equal(message);
