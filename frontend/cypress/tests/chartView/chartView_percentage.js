@@ -9,7 +9,7 @@ describe('sort by contribution', () => {
         .select('↑ contribution');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should("exist");
+        .should('exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
         .select('↓ group title');
@@ -21,7 +21,7 @@ describe('sort by contribution', () => {
         .select('↓ contribution');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should("exist");
+        .should('exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
         .select('↑ variance');
