@@ -221,6 +221,7 @@ window.api = {
         };
 
         this.setContributionOfCommitResults(obj.dailyCommits);
+        this.insertRepoIdIntoCommits(obj.dailyCommits, obj.repoId);
 
         const searchParams = [
             repo.displayName,
@@ -248,6 +249,15 @@ window.api = {
           window.REPOS[repoName].files = files;
           return files;
         });
+  },
+
+  // insert the repoId into the commit.
+  insertRepoIdIntoCommits(dailyCommits, repoId) {
+    dailyCommits.forEach((commit) => {
+      commit.commitResults.forEach((result) => {
+        result.repoId = repoId;
+      });
+    });
   },
 
   // calculate and set the contribution of each commitResult, since not provided in json file

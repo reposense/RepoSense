@@ -47,7 +47,7 @@ export default {
   methods: {
     getLink(user, slice) {
       if (this.mergegroup) {
-        return `${window.getBaseLink(user.repoId)}/commit/${slice.hash}`;
+        return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
       }
 
       return `${window.getBaseLink(user.repoId)}/commit/${slice.hash}`;
