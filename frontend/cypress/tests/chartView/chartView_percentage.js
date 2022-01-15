@@ -34,5 +34,5 @@ describe('sort by contribution', () => {
 
     cy.get('#summary .summary-chart__title--percentile')
         .should('not.exist');
-    });
+  });
 });
