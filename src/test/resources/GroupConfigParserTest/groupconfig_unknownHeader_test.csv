@@ -1,4 +1,4 @@
-Group,Glob,Repository Location
+Group Name,Globs,NO SUCH HEADER
 Code,**/*.java;**/*.py,https://github.com/reposense/testrepo-Beta.git
 Main,src/main/**,https://github.com/reposense/testrepo-Delta.git
 Docs,docs/**,https://github.com/reposense/testrepo-Beta.git

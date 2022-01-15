@@ -229,7 +229,7 @@ public abstract class CsvParser<T> {
     private void validateHeader(String[] possibleHeader) throws InvalidCsvException, InvalidHeaderException {
         int headerSize = possibleHeader.length;
         Set<String> knownColumns = new HashSet<>();
-        StringBuilder unknownColumns = new StringBuilder();
+        ArrayList<String> unknownColumns = new ArrayList<>();
         for (int i = 0; i < headerSize; i++) {
             String possible = possibleHeader[i].trim();
             for (String parsedHeader : mandatoryAndOptionalHeaders()) {
@@ -240,18 +240,14 @@ public abstract class CsvParser<T> {
                 }
             }
             if (!knownColumns.contains(possible)) {
-                if (unknownColumns.toString().equals("")) {
-                    unknownColumns.append(possible);
-                } else {
-                    unknownColumns.append(", ");
-                    unknownColumns.append(possible);
-                }
+                unknownColumns.add(possible);
             }
         }
 
-        if (!unknownColumns.toString().equals("")) {
+        if (unknownColumns.size() > 0) {
+            String errorMessage = String.join(", ", unknownColumns);
             throw new InvalidHeaderException(
-                    String.format(MESSAGE_UNKNOWN_COLUMN, unknownColumns.toString(), csvFilePath.toString()));
+                    String.format(MESSAGE_UNKNOWN_COLUMN, errorMessage, csvFilePath.toString()));
         }
 
         for (String mandatory : mandatoryHeaders()) {
