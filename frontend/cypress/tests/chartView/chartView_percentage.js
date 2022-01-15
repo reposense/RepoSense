@@ -3,36 +3,36 @@ describe('sort by contribution', () => {
     Cypress.wait();
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist')
+        .should('not.exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
         .select('↑ contribution');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should("exist")
+        .should("exist");
 
     cy.get('div.mui-select.sort-group > select:visible')
         .select('↓ group title');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist')
+        .should('not.exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
         .select('↓ contribution');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should("exist")
+        .should("exist");
 
     cy.get('div.mui-select.sort-group > select:visible')
         .select('↑ variance');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist')
+        .should('not.exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
         .select('↓ variance');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist')
+        .should('not.exist');
     });
 });
