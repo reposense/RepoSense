@@ -449,6 +449,7 @@ export default {
 
   /* Commit Message Body in Zoom Tab */
   .commit-message {
+    border: 1px solid transparent;
     padding: 5px;
 
     &:focus,
