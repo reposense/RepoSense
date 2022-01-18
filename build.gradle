@@ -232,7 +232,7 @@ task macHotReloadFrontend(type: Exec) {
     dependsOn(installFrontend)
     onlyIf {os.isMacOsX()}
     workingDir 'frontend/'
-    commandLine 'osascript', '-e', '"tell application "Terminal" to do script "npm run serveOpen""'
+    commandLine 'npm', 'run', 'serveOpen'
 }
 
 task windowsHotReloadFrontend(type: Exec) {
