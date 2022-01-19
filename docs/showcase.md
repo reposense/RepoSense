@@ -39,6 +39,6 @@
 * **Links:** [report](https://nus-cs3281.github.io/2020-dashboard/#search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=false&groupSelect=groupByAuthors&breakdown=false&since=2019-12-01) | [settings](https://github.com/nus-cs3281/2020-dashboard)
 
 * **Example usages:**
-  * [This view](https://nus-cs3281.github.io/2020-dashboard/#search=&sort=groupTitle&sortWithin=title&since=2019-12-01&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=anubh-v&zR=CATcher-org%2FCATcher%5Bmaster%5D&zACS=118.09969788519638&zS=2019-12-01&zFS=&zU=2020-06-05&zMG=false&zFTF=commit&zFGS=groupByRepos) shows the commit messages written by a specific student.
+  * [This view](https://nus-cs3281.github.io/2020-dashboard/?search=&sort=groupTitle&sortWithin=title&since=2019-12-01&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=anubh-v&zR=CATcher-org%2FCATcher%5Bmaster%5D&zACS=153.40466101694915&zS=2019-12-01&zFS=&zU=2021-06-15&zMG=false&zFTF=commit&zFGS=groupByRepos&zFR=false) shows the commit messages written by a specific student.
   * Note how we can use the `group by` drop-down to organize activities around projects or individual authors.
   * Similarly, we can use the `merge all groups` check-box to see the sum of activities in a specific project or by a specific student.
