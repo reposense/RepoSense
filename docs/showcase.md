@@ -36,7 +36,7 @@
 
 * **Scenario:** Similar to cases 1 and 2 above, but this time, each student works on multiple projects. Furthermore, most projects are external OSS projects, not within the control of the teacher.
 
-* **Links:** [report](https://nus-cs3281.github.io/2020-dashboard/#search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=false&groupSelect=groupByAuthors&breakdown=false&since=2019-12-01) | [settings](https://github.com/nus-cs2113-AY1920S2/tp-dashboard)
+* **Links:** [report](https://nus-cs3281.github.io/2020-dashboard/#search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=false&groupSelect=groupByAuthors&breakdown=false&since=2019-12-01) | [settings](https://github.com/nus-cs3281/2020-dashboard)
 
 * **Example usages:**
   * [This view](https://nus-cs3281.github.io/2020-dashboard/#search=&sort=groupTitle&sortWithin=title&since=2019-12-01&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=anubh-v&zR=CATcher-org%2FCATcher%5Bmaster%5D&zACS=118.09969788519638&zS=2019-12-01&zFS=&zU=2020-06-05&zMG=false&zFTF=commit&zFGS=groupByRepos) shows the commit messages written by a specific student.
