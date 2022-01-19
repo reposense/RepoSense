@@ -36,7 +36,7 @@ describe('sort by contribution', () => {
         .should('not.exist');
   });
 
-  it('percentage should be shown by changing other fields', () => {
+  it('percentage is NOT shown even after changing other fields', () => {
     Cypress.wait();
 
     cy.get('div.mui-select.grouping > select:visible')
@@ -64,7 +64,7 @@ describe('sort by contribution', () => {
         .should('not.exist');
   });
 
-  it('percentage should be hidden by changing other fields', () => {
+  it('percentage is NOT hidden even after changing other fields', () => {
     Cypress.wait();
 
     cy.get('div.mui-select.sort-group > select:visible')
