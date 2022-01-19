@@ -10,7 +10,7 @@
 
 * **Scenario:** RepoSense is used to monitor a Software Engineering course in which students build a project over 8 weeks.
 
-* **Links:** [report](https://nus-cs2103-ay2021s1.github.io/ip-dashboard/#sort=groupTitle&groupSelect=groupByAuthors&search=&sortWithin=title&since=2020-08-14&until=2020-09-27&timeframe=commit&mergegroup=&breakdown=false) | [repo containing the settings](https://github.com/nus-cs2103-AY2021S1/ip-dashboard)
+* **Links:** [report](https://nus-cs2103-ay2021s1.github.io/ip-dashboard/?search=&sort=groupTitle&sortWithin=title&since=2020-08-14&until=2020-09-27&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false) | [repo containing the settings](https://github.com/nus-cs2103-AY2021S1/ip-dashboard)
 
 * **Example usages:**
   * To compare students based on the amount of code written, we can sort by contribution, as done in [this view](https://nus-cs2103-ay2021s1.github.io/ip-dashboard/?search=&sort=totalCommits%20dsc&sortWithin=title&since=2020-08-14&until=2020-09-27&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false).
@@ -36,7 +36,7 @@
 
 * **Scenario:** Similar to cases 1 and 2 above, but this time, each student works on multiple projects. Furthermore, most projects are external OSS projects, not within the control of the teacher.
 
-* **Links:** [report](https://nus-cs3281.github.io/2020-dashboard/#search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=false&groupSelect=groupByAuthors&breakdown=false&since=2019-12-01) | [settings](https://github.com/nus-cs3281/2020-dashboard)
+* **Links:** [report](https://nus-cs3281.github.io/2020-dashboard/?search=&sort=groupTitle&sortWithin=title&since=2019-12-01&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false) | [settings](https://github.com/nus-cs3281/2020-dashboard)
 
 * **Example usages:**
   * [This view](https://nus-cs3281.github.io/2020-dashboard/?search=&sort=groupTitle&sortWithin=title&since=2019-12-01&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false&tabOpen=true&tabType=zoom&zA=anubh-v&zR=CATcher-org%2FCATcher%5Bmaster%5D&zACS=153.40466101694915&zS=2019-12-01&zFS=&zU=2021-06-15&zMG=false&zFTF=commit&zFGS=groupByRepos&zFR=false) shows the commit messages written by a specific student.
