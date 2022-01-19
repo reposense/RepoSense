@@ -7,7 +7,7 @@
         v-on:click="rampClick",
         v-for="(commit, k) in slice.commitResults",
         v-if="commit.insertions>0",
-        v-bind:href="getLink(user, commit)", target="_blank",
+        v-bind:href="getLink(commit)", target="_blank",
         v-bind:title="getContributionMessage(slice, commit)",
         v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
         v-bind:style="{\
@@ -45,12 +45,8 @@ export default {
   },
 
   methods: {
-    getLink(user, slice) {
-      if (this.mergegroup) {
-        return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
-      }
-
-      return `${window.getBaseLink(user.repoId)}/commit/${slice.hash}`;
+    getLink(slice) {
+      return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
     },
     getWidth(slice) {
       if (slice.insertions === 0) {
