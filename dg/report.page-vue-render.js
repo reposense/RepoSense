@@ -143,6 +143,6 @@ with(this){return _c('h2',{attrs:{"id":"segment-view-v-segment-vue"}},[_c('span'
 with(this){return _c('p',[_v("The "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("v-segment")]),_v(" module is used as a component in "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("v_authorship")]),_v(". It separates the code in terms of \"touched\" and \"untouched\" segments and only loads each \"untouched\" segment when it is toggled.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.1.0")]),_v(", generated on Fri, Jan 21, 2022, 2:59:04 PM UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.1.0")]),_v(", generated on Fri, Jan 21, 2022, 3:33:11 PM UTC]")])])])}
 }];
   
