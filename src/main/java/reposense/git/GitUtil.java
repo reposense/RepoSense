@@ -8,8 +8,9 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,8 +25,8 @@ import reposense.util.StringsUtil;
  * Contains Git related utilities.
  */
 class GitUtil {
-    static final DateFormat GIT_LOG_SINCE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
-    static final DateFormat GIT_LOG_UNTIL_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz");
+    static final DateTimeFormatter GIT_LOG_SINCE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
+    static final DateTimeFormatter GIT_LOG_UNTIL_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
     private static final Logger logger = LogsManager.getLogger(GitUtil.class);
 
     // ignore check against email
@@ -41,12 +42,18 @@ class GitUtil {
      */
     static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate) {
         String gitDateRangeArgs = "";
+        ZoneId sinceZoneId = GIT_LOG_SINCE_DATE_FORMAT.getZone();
+        ZoneId untilZoneId = GIT_LOG_UNTIL_DATE_FORMAT.getZone();
 
         if (sinceDate != null) {
-            gitDateRangeArgs += " --since=" + addQuote(GIT_LOG_SINCE_DATE_FORMAT.format(sinceDate));
+            gitDateRangeArgs += " --since="
+                    + addQuote(ZonedDateTime.ofInstant(sinceDate.toInstant(), sinceZoneId)
+                            .format(GIT_LOG_SINCE_DATE_FORMAT));
         }
         if (untilDate != null) {
-            gitDateRangeArgs += " --until=" + addQuote(GIT_LOG_UNTIL_DATE_FORMAT.format(untilDate));
+            gitDateRangeArgs += " --until="
+                    + addQuote(ZonedDateTime.ofInstant(untilDate.toInstant(), untilZoneId)
+                            .format(GIT_LOG_UNTIL_DATE_FORMAT));
         }
 
         return gitDateRangeArgs;

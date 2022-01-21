@@ -2,8 +2,9 @@ package reposense.system;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,7 @@ import org.fusesource.jansi.AnsiConsole;
  */
 public class CustomLogFormatter extends SimpleFormatter {
 
-    private static final DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
     private static final String ERROR_HIGHLIGHT = ansi().bg(Ansi.Color.RED).fg(Ansi.Color.WHITE).a("[ERROR]")
             .reset().toString();
     private static final String WARNING_HIGHLIGHT = ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.BLACK).a("[WARNING]")
@@ -39,7 +40,9 @@ public class CustomLogFormatter extends SimpleFormatter {
     @Override
     public synchronized String format(LogRecord record) {
         StringBuilder builder = new StringBuilder();
-        builder.append(dateFormat.format(new Date(record.getMillis()))).append(" - ");
+        ZoneId zoneId = dateFormat.getZone();
+        builder.append(ZonedDateTime.ofInstant(new Date(record.getMillis()).toInstant(), zoneId)
+                .format(dateFormat)).append(" - ");
 
         if (formatMap.containsKey(record.getLevel())) {
             builder.append(formatMap.get(record.getLevel())).append(" ");

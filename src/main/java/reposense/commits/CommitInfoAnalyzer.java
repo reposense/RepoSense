@@ -2,9 +2,9 @@ package reposense.commits;
 
 import static reposense.util.StringsUtil.removeQuote;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
@@ -30,7 +30,8 @@ import reposense.system.LogsManager;
  * Analyzes commit information found in the git log.
  */
 public class CommitInfoAnalyzer {
-    public static final DateFormat GIT_STRICT_ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    public static final DateTimeFormatter GIT_STRICT_ISO_DATE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     private static final String TAB_SPLITTER = "\t";
     private static final String MOVED_FILE_INDICATION = "=> ";
@@ -89,8 +90,9 @@ public class CommitInfoAnalyzer {
 
         Date date = null;
         try {
-            date = GIT_STRICT_ISO_DATE_FORMAT.parse(elements[DATE_INDEX]);
-        } catch (ParseException pe) {
+            date = Date.from(ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT)
+                    .toInstant());
+        } catch (DateTimeParseException pe) {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
 

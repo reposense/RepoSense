@@ -5,7 +5,8 @@ import static reposense.system.CommandRunner.runCommand;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -55,8 +56,8 @@ public class GitShow {
         String showCommand = "git show -s --format=%ci " + commitHash;
         try {
             String output = runCommand(rootPath, showCommand);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-            return format.parse(output);
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
+            return Date.from(ZonedDateTime.parse(output, format).toInstant());
         } catch (RuntimeException re) {
             throw new CommitNotFoundException("Commit not found: " + commitHash);
         }
