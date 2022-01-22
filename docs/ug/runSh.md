@@ -1,6 +1,6 @@
-<variable name="title">Appendix: `run.sh` format</variable>
+{% set title %}Appendix: run.sh format{% endset %}
 <frontmatter>
-  title: "Appendix: `run.sh` format"
+  title "{{ title | safe }}"
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
@@ -27,4 +27,5 @@ You can update the RepoSense command (i.e., the last line) in the `run.sh` to ma
 Depending on which version you wish to use for report generation, add one of the following flags to the line `./get-reposense.py` in `run.sh` (e.g., `./get-reposense.py --release`):
 * `--release`: Use the latest release (Stable)
 * `--master`: Use the latest version of the master branch
-* `--tag TAG` e.g., `--tag v1.6.1`: use the version identified by the git tag given
+* `--tag TAG` (e.g. `--tag v1.6.1`): Use the version identified by the Git tag given
+* `--commit COMMIT` (e.g. `--commit abc123`): Use the version identified by the Git commit SHA given

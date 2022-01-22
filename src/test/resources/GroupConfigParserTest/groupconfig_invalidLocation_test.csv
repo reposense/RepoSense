@@ -1,4 +1,5 @@
-Repo location,Group label,Globs
+Repository's Location,Group Name,Globs
 https://github.com/reposense/testrepo-Beta.git,Code,**/*.java;**/*.py
 https://github.com/someCoy/invalidlocation,Main,**/*.py
 https://github.com/reposense/testrepo-Beta.git,Docs,docs/**
+ftp://github.com/reposense/testrepo-Beta.git,Code,**/*.java;**/*.py

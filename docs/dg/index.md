@@ -1,4 +1,4 @@
-<variable name="title">Developer guide</variable>
+{% set title = "Developer guide" %}
 <frontmatter>
   title: "{{ title | safe }}"
 </frontmatter>
@@ -15,7 +15,13 @@
 Here is a quick overview of how to get started.
 
 1. **Set up the project** on your computer (see [the _Setting up_ page](settingUp.html))
+1. **Learn the basics** of the required background knowledge (see [the _Learning Basics_ page](learningBasics.html))
 1. **Learn our workflow** (see [the _Workflow_ page](workflow.html))
 1. **Submit PRs** as per the workflow. If you encounter any problems, post in [our issue tracker](https://github.com/reposense/RepoSense/issues).
+
+<box type="info" seamless>
+
+To gain a more solid understanding of the project implementation and workflow, you may want to start by working on [issues that are suitable for first timers](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers). 
+</box>
 
 We look forward to your PR. Happy coding!

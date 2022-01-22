@@ -1,11 +1,13 @@
 {
     "extends": [
-        "../../.eslintrc.json"
+        "../.eslintrc.json"
     ],
     "globals": {
+        "assert": true,
         "Cypress": true,
         "cy": true,
         "describe": true,
+        "expect": true,
         "it": true,
         "beforeEach": true
     },

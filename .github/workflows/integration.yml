@@ -11,9 +11,12 @@ on:
       - gh-pages
 
 jobs:
-  ubuntu-1604:
-    name: Ubuntu 16.04 JDK 8
-    runs-on: ubuntu-16.04
+  ubuntu:
+    name: ${{ matrix.os }} JDK 8
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+    runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: "lts/*"
 
@@ -42,17 +45,17 @@ jobs:
         path: |
           ~/.gradle/caches
           ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        key: ${{ matrix.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
         restore-keys: |
-          ${{ runner.os }}-gradle-
+          ${{ matrix.os }}-gradle-
 
     - name: Set up Node caching
       uses: actions/cache@v2
       with:
         path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-
+          ${{ matrix.os }}-node-
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -61,33 +64,31 @@ jobs:
       run: ./config/gh-actions/run-checks.sh
 
     - name: Run linter
-      run: |
-        npm install
-        npm run lint
+      run: ./gradlew lintFrontend
 
     - name: Build with Gradle
       run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
 
     - name: Run code coverage
-      if: ${{ success() }}
+      if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
       run: bash <(curl -s https://codecov.io/bash)
 
     - name: Build preview website (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' }}
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
       run: |
         git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
         npm install -g markbind-cli
         (cd docs && markbind build)
 
     - name: Save PR number and HEAD commit (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' }}
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
       run: |
         mkdir -p ./pr
         echo ${{ github.event.number }} > ./pr/NUMBER
         echo ${{ github.event.pull_request.head.sha }} > ./pr/SHA
 
     - name: Upload artifacts (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' }}
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
       uses: actions/upload-artifact@v2
       with:
         name: reposense-deployment
@@ -96,9 +97,12 @@ jobs:
           ./docs/_site
           ./pr
 
-  macos-1015:
-    name: macOS 10.15 JDK 8
-    runs-on: macos-10.15
+  macos:
+    name: ${{ matrix.os }} JDK 8
+    strategy:
+      matrix:
+        os: [macos-10.15, macos-11]
+    runs-on: ${{ matrix.os }}
     env:
       HOMEBREW_NO_AUTO_UPDATE: 1 # Prevent time-consuming brew update
 
@@ -127,17 +131,17 @@ jobs:
         path: |
           ~/.gradle/caches
           ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        key: ${{ matrix.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
         restore-keys: |
-          ${{ runner.os }}-gradle-
+          ${{ matrix.os }}-gradle-
 
     - name: Set up Node caching
       uses: actions/cache@v2
       with:
         path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-
+          ${{ matrix.os }}-node-
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -146,9 +150,7 @@ jobs:
       run: ./config/gh-actions/run-checks.sh
 
     - name: Run linter
-      run: |
-        npm install
-        npm run lint
+      run: ./gradlew lintFrontend
 
     - name: Build with Gradle
       run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
@@ -204,7 +206,7 @@ jobs:
       uses: cypress-io/github-action@v2
       with:
         build: npm i -D cypress
-        project: ./frontend/cypress
+        working-directory: ./frontend/cypress
         browser: chrome
         headless: true
         runTests: false # Just perform installation

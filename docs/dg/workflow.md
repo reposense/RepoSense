@@ -1,4 +1,4 @@
-<variable name="title">Workflow</variable>
+{% set title = "Workflow" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
@@ -19,18 +19,32 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
   However, when pushing new commits to your PR branch, do clean up _new_ commits (i.e., commits not yet pushed) e.g., delete temporary print statements added for debugging purposes.
 * In the PR description, please propose a commit message to be used when the PR is merged eventually. The commit message should follow the guidelines given [here](https://se-education.org/guides/guidelines/PRs.html). You may refer to [this PR](https://github.com/reposense/RepoSense/pull/1057) for an example.
 * For simple documentation fixes or tasks with clear instructions, it is unnecessary to create an issue before creating a PR.
-* You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) sections to learn about the design and implementation of RepoSense. 
+* You can refer to the [Architecture](architecture.html) and the [HTML Report](report.html) sections to learn about the design and implementation of RepoSense.
 * The section below has more information about the various stages of submitting a PR.
 
 <!-- ==================================================================================================== -->
 
-## Following the code style
+## Find the suitable pull requests
+
+* If you are contributing to RepoSense for the first time, you can check the list of [backend issues](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Aa-Backend+label%3Ad.FirstTimers) or [frontend issues](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers+label%3Aa-FrontEnd) for first timers.
+
+<box type="info" seamless>
+
+The issues for first timers usually have guidance provided in the comment or have linked pull requests from previous contributors. You can refer to them for implementation details.
+</box>
+
+* If you are more experienced in contributing, aside from searching for issues in the issue tracker, you can find the list of issues organized in a more systematic way under the [Projects Tab](https://github.com/reposense/RepoSense/projects) of the RepoSense repository. This can help you to find issues with suitable workload and direction.
+
+
+<!-- ==================================================================================================== -->
+
+## Following the coding standards
 
 * Make sure you know our coding standards.
   {{ embed('Appendix: Coding Standards', 'styleGuides.md', level=2) }}
-* **Follow [this](https://se-education.org/guides/tutorials/intellijCodeStyle.html) to configure Intellij to follow our coding style**.
+* **Follow [the tutorial](https://se-education.org/guides/tutorials/intellijCodeStyle.html) to configure Intellij to follow our coding style**.
 * **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it. In particular, run `gradlew checkstyleMain checkstyleTest checkstyleSystemtest` to check the style of all the relevant Java code.
-* **To check Pug files for style errors**, run `npm run lint` from the project root directory. You can use the `npm run lintfix` to automatically fix some of the javascript and css lint errors.
+* **To check Pug files for style errors**, run `npm run lint` from the project root directory. You can use the `npm run lintfix` to automatically fix some of the JavaScript and CSS lint errors.
 
 <!-- ==================================================================================================== -->
 
@@ -51,9 +65,15 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 
 ## Debugging (front-end)
 
+**You can use the hot reloading feature to see how your code changes the functionality of the website in real time.**
+1. Navigate to the project root in your terminal.
+1. Generate the desired data for the report using `gradlew run` with the appropriate flags.
+1. Run `gradlew hotReloadFrontend`.
+1. The website will be automatically opened in your browser shortly.
+
 **You can use Vue.js devtools for frontend debugging on Chrome.** Here are the steps:
 1. On your Chrome, visit the website of [Vue.js devtools](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd) and add the extension.
-1. Go the detail page of this extension in Chrome's extension management panel and select `Allow access to file URLs`. If you are unable to locate it, copy the link: `chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd` and visit it on your Chrome.
+1. Go to the detail page of this extension in Chrome's extension management panel and select `Allow access to file URLs`. If you are unable to locate it, copy the link: `chrome://extensions/?id=nhdogjmejiglipccpnnnanhbledajbpd` and visit it on your Chrome.
 1. Open any report generated by RepoSense.
 1. Press `F12` or right click and choose `inspect` at the report page.
 1. Choose `Vue` at the navigation bar.<br>
@@ -104,7 +124,7 @@ If you encountered an invalid browser error, ensure that you have `Chrome` insta
 
 ## Testing (back-end)
 
-The back-end tests can be found at `[project root]/systemtest` and `[project root]/test`. 
+The back-end tests can be found at `[project root]/systemtest` and `[project root]/test`.
 
 ### Running tests
 

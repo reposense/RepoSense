@@ -3,6 +3,7 @@ package reposense.parser;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,8 +33,12 @@ public class AuthorConfigParserTest {
             "AuthorConfigParserTest/authorconfig_multipleEmails_test.csv");
     private static final Path AUTHOR_CONFIG_INVALID_LOCATION = loadResource(AuthorConfigParserTest.class,
             "AuthorConfigParserTest/authorconfig_invalidLocation_test.csv");
-    private static final Path AUTHOR_CONFIG_INVALID_HEADER_SIZE = loadResource(AuthorConfigParserTest.class,
-            "AuthorConfigParserTest/authorconfig_invalidHeaderSize_test.csv");
+    private static final Path AUTHOR_CONFIG_DIFFERENT_COLUMN_ORDER = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_differentColumnOrder_test.csv");
+    private static final Path AUTHOR_CONFIG_MISSING_OPTIONAL_HEADER = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_missingOptionalHeader_test.csv");
+    private static final Path AUTHOR_CONFIG_MISSING_MANDATORY_HEADER = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_missingMandatoryHeader_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
@@ -61,17 +66,17 @@ public class AuthorConfigParserTest {
     private static final List<String> THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS =
             Arrays.asList("Borex T\"ony Tong");
     private static final Map<Author, List<String>> AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP =
-            Stream.of(new Object[][]{
-                    {FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS},
-                    {SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS},
-                    {THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS}
-            }).collect(Collectors.toMap(data -> (Author) data[0], data -> (List<String>) data[1]));
+            Stream.of(new SimpleEntry<>(FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS),
+                    new SimpleEntry<>(SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS),
+                    new SimpleEntry<>(THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS))
+                    .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
     private static final Map<Author, String> AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP =
-            Stream.of(new Object[][]{
-                    {FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
-                    {SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME},
-                    {THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME}
-            }).collect(Collectors.toMap(data -> (Author) data[0], data -> (String) data[1]));
+            Stream.of(new SimpleEntry<>(FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR,
+                            FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME),
+                    new SimpleEntry<>(SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR,
+                            SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME),
+                    new SimpleEntry<>(THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME))
+                    .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
 
     private static final List<String> FIRST_AUTHOR_EMAIL_LIST =
             Arrays.asList("nbr@example.com", "nbriannl@test.net", "nbriannl@users.noreply.github.com");
@@ -153,9 +158,37 @@ public class AuthorConfigParserTest {
         Assert.assertEquals(3, config.getAuthorList().size());
     }
 
+    @Test
+    public void authorConfig_differentColumnOrder_success() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser =
+                new AuthorConfigCsvParser(AUTHOR_CONFIG_DIFFERENT_COLUMN_ORDER);
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        AuthorConfiguration config = configs.get(0);
+
+        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+
+        Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
+    }
+
+    @Test
+    public void authorConfig_missingOptionalHeader_success() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MISSING_OPTIONAL_HEADER);
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assert.assertEquals(1, configs.size());
+
+        AuthorConfiguration config = configs.get(0);
+
+        Assert.assertEquals(4, config.getAuthorList().size());
+    }
+
     @Test (expected = InvalidCsvException.class)
-    public void authorConfig_invalidHeaderSize_throwsInvalidCsvException() throws Exception {
-        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_HEADER_SIZE);
+    public void authorConfig_missingMandatoryHeader_throwsInvalidCsvException() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MISSING_MANDATORY_HEADER);
         authorConfigCsvParser.parse();
     }
 

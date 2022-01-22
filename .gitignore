@@ -1,4 +1,6 @@
 .idea/
+.vs/
+
 *.class
 *.iml
 /target/
@@ -17,3 +19,4 @@ package-lock.json
 reposense-report/
 
 docs/_site/
+**/.DS_Store

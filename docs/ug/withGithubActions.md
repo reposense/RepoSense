@@ -1,4 +1,4 @@
-<variable name="title">Appendix: RepoSense with GitHub Actions</variable>
+{% set title = "Appendix: RepoSense with GitHub Actions" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
@@ -21,19 +21,16 @@ You can use [_GitHub Actions_](https://github.com/features/actions) (together wi
 
 <include src="withTravis.md#section-fork-token" />
 
-{{ step(3)}} **Add the token/key as a secret:**
+{{ step(2)}} **Activate GitHub Actions on the forked repository:**
 
-1. Go to the `Settings` page of your fork of the [publish-RepoSense](https://github.com/reposense/publish-RepoSense) repo.
-1. Click on the `Secrets` menu item on the left of that page.
-1. Click on `Add secret`.
-1. Add a new secret with the name `ACCESS_TOKEN` or `DEPLOY_KEY` (depending on your earlier choice) and the value of the token/key you copied earlier.<br>
-![GitHub Actions Secrets](../images/publishingguide-secrets.png "GitHub Actions Secrets")
+1. Go to the `Actions` page of your fork of the [publish-RepoSense](https://github.com/reposense/publish-RepoSense) repo.
+1. Click on the green button that says `I understand my workflows, go ahead and enable them` to enable GitHub Actions on your new repository.
 
-{{ step(4)}} **Update report configuration:**
+{{ step(3)}} **Update report configuration:**
 
 <include src="withTravis.md#section-edit-configs" />
 
-{{ step(5)}} **View the generated report:**
+{{ step(4)}} **View the generated report:**
 
 To access your regenerated RepoSense report, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]`. It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`.
 ![GitHub Setting](../images/publishingguide-githubsetting.jpg "GitHub Setting")

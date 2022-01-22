@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,15 +16,18 @@ import reposense.system.LogsManager;
  */
 public class AuthorConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
+    public static final boolean DEFAULT_HAS_AUTHOR_CONFIG_FILE = false;
     private static final Logger logger = LogsManager.getLogger(AuthorConfiguration.class);
     private static final Pattern EMAIL_PLUS_OPERATOR_PATTERN =
             Pattern.compile("^(?<prefix>.+)\\+(?<suffix>.*)(?<domain>@.+)$");
+
+    private static boolean hasAuthorConfigFile = DEFAULT_HAS_AUTHOR_CONFIG_FILE;
 
     private RepoLocation location;
     private String branch;
 
     private transient List<Author> authorList = new ArrayList<>();
-    private transient Map<String, Author> authorDetailsToAuthorMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private transient Map<String, Author> authorDetailsToAuthorMap = new HashMap<>();
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
     public AuthorConfiguration(RepoLocation location) {
@@ -42,7 +44,7 @@ public class AuthorConfiguration {
      */
     public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
-        Map<String, Author> newAuthorDetailsToAuthorMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        Map<String, Author> newAuthorDetailsToAuthorMap = new HashMap<>();
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
@@ -272,5 +274,13 @@ public class AuthorConfiguration {
 
     public boolean isDefaultBranch() {
         return this.branch.equals(DEFAULT_BRANCH);
+    }
+
+    public static void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
+        AuthorConfiguration.hasAuthorConfigFile = hasAuthorConfigFile;
+    }
+
+    public static boolean hasAuthorConfigFile() {
+        return hasAuthorConfigFile;
     }
 }

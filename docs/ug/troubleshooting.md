@@ -1,4 +1,4 @@
-<variable name="title">Appendix: Troubleshooting</variable>
+{% set title = "Appendix: Troubleshooting" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
@@ -37,6 +37,6 @@ Possibly, you may have some file names with [special characters](https://docs.mi
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### Some files are not captured by RepoSense
+### Some file types are not shown in the file type filter even if I have included them in the file formats when generating the report
 
-The files may be [binary files](https://en.wikipedia.org/wiki/Binary_file). *RepoSense* does not analyze binary files. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
+The files of these types may be [binary files](https://en.wikipedia.org/wiki/Binary_file). *RepoSense* will group binary files under one single file type `binary`. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).

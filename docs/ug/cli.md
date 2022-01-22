@@ -1,4 +1,4 @@
-<variable name="title">Appendix: CLI syntax reference</variable>
+{% set title = "Appendix: CLI syntax reference" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
@@ -16,10 +16,10 @@ The command `java -jar RepoSense.jar` takes several flags.
 **Examples**:
 
 An example of a command using most parameters:<br>
-`java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08`
+`java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08 --find-previous-authors`
 
 Same command as above but using most parameters in alias format:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08 -F`
 </box>
 
 The section below provides explanations for each of the flags.
@@ -69,6 +69,20 @@ The section below provides explanations for each of the flags.
 * Alias: `-f`
 * Example:`--formats css fxml gradle` or `-f css fxml gradle`
 
+<box type="info" seamless>
+
+Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`, all will be labelled as the file type `binary` in the generated report.
+</box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--find-previous-authors`, `-F`
+
+**`--find-previous-authors`**: Utilizes Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available).
+* Default: RepoSense will assume that no authors are responsible for the code changes in the lines altered by commits in the ignore commit list.
+* Alias: `-F` (uppercase F)
+* Example:`--find-previous-authors` or `-F`
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--help`, `-h`
@@ -103,7 +117,11 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 * Alias: `-l` (lowercase L)
 * Example:`--last-modified-date` or `-l`
 
-The last modified dates will be in the same timezone specified with the `--timezone` flag.
+<box type="info" seamless>
+
+* Cannot be used with `--shallow-cloning`.
+* The last modified dates will be in the same timezone specified with the `--timezone` flag.
+</box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -144,6 +162,20 @@ The last modified dates will be in the same timezone specified with the `--timez
 
 Cannot be used with `--config`.
 </box>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--shallow-cloning`, `-S`
+
+**`--shallow-cloning`**: Clones repositories using Git's shallow cloning functionality, which can significantly reduce the time taken to clone large repositories. However, the flag should not be used for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead.
+* Default: RepoSense does not clone repositories using Git's shallow cloning functionality.
+* Alias: `-S` (uppercase S)
+* Example:`--shallow-cloning` or `-S`
+
+<box type="info" seamless>
+
+Cannot be used with `--last-modified-date`.
+</box>
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--since`, `-s`
