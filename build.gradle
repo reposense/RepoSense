@@ -1,4 +1,4 @@
-import org.apache.tools.ant.taskdefs.condition.Os
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
     id 'application'
@@ -11,6 +11,8 @@ plugins {
     id 'com.github.psxpaul.execfork' version '0.1.8'
     id 'com.palantir.git-version' version '0.12.3'
 }
+
+OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
 
 mainClassName = 'reposense.RepoSense'
 
@@ -228,22 +230,30 @@ task syncFrontendPublic(type: Sync) {
 
 task macHotReloadFrontend(type: Exec) {
     dependsOn(installFrontend)
-    onlyIf {Os.isFamily(Os.FAMILY_MAC)}
+    onlyIf {os.isMacOsX()}
     workingDir 'frontend/'
-    commandLine 'osascript', '-e', '"tell application "Terminal" to do script "npm run serveOpen""'
+    commandLine 'npm', 'run', 'serveOpen'
 }
 
 task windowsHotReloadFrontend(type: Exec) {
     dependsOn(installFrontend)
-    onlyIf {Os.isFamily(Os.FAMILY_WINDOWS)}
+    onlyIf {os.isWindows()}
     workingDir 'frontend/'
     commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
+}
+
+task linuxHotReloadFrontend(type: Exec) {
+    dependsOn(installFrontend)
+    onlyIf {os.isLinux()}
+    workingDir 'frontend/'
+    commandLine 'npm', 'run', 'serveOpen'
 }
 
 task hotReloadFrontend() {
     dependsOn syncFrontendPublic
     finalizedBy windowsHotReloadFrontend
     finalizedBy macHotReloadFrontend
+    finalizedBy linuxHotReloadFrontend
 }
 // End of hot reload Tasks
 

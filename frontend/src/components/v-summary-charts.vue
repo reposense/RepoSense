@@ -72,7 +72,9 @@
               v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
             )
             span.tooltip-text Click to view breakdown of commits
-      .summary-charts__title--percentile {{ getPercentile(i) }} %
+      .summary-chart__title--percentile(
+          v-if="sortGroupSelection.includes('totalCommits')"
+        ) {{ getPercentile(i) }} %
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -132,7 +134,7 @@
             )
             span.tooltip-text Click to view breakdown of commits
         .summary-chart__title--percentile(
-          v-if="filterGroupSelection === 'groupByNone'"
+          v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %
 
       .summary-chart__ramp(
@@ -185,7 +187,7 @@ export default {
   },
   props: ['checkedFileTypes', 'filtered', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
-      'minDate', 'maxDate', 'filterSearch'],
+      'minDate', 'maxDate', 'filterSearch', 'sortGroupSelection'],
   data() {
     return {
       drags: [],
