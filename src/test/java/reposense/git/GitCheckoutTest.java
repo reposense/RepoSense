@@ -3,6 +3,7 @@ package reposense.git;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -47,13 +48,13 @@ public class GitCheckoutTest extends GitTestTemplate {
         Assert.assertTrue(Files.exists(newFile));
 
         Date untilDate = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 6);
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate, ZoneId.of(config.getZoneId()));
         Assert.assertFalse(Files.exists(newFile));
     }
 
     @Test(expected = CommitNotFoundException.class)
     public void checkoutToDate_invalidDate_throwsEmptyCommitException() throws Exception {
         Date untilDate = TestUtil.getUntilDate(2015, Calendar.FEBRUARY, 6);
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate, ZoneId.of(config.getZoneId()));
     }
 }

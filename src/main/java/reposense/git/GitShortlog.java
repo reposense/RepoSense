@@ -25,7 +25,7 @@ public class GitShortlog {
      */
     public static List<Author> getAuthors(RepoConfiguration config) {
         String summary = getShortlogSummary(
-                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), ZoneId.systemDefault());
+                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), ZoneId.of(config.getZoneId()));
 
         if (summary.isEmpty()) {
             return Collections.emptyList();

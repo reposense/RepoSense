@@ -88,7 +88,7 @@ public class CommitInfoAnalyzer {
         String[] elements = infoLine.split(LOG_SPLITTER, 7);
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
-        ZoneId zoneId = ZoneId.systemDefault();
+        ZoneId zoneId = ZoneId.of(config.getZoneId());
 
         Date date = null;
         try {

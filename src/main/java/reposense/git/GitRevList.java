@@ -23,14 +23,13 @@ public class GitRevList {
      * Returns the latest commit hash before {@code date}.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
-    public static String getCommitHashBeforeDate(String root, String branchName, Date date) {
+    public static String getCommitHashBeforeDate(String root, String branchName, Date date, ZoneId zoneId) {
         if (date == null) {
             return "";
         }
 
         DateTimeFormatter gitLogSinceDateFormatWithZone =
-                GitUtil.GIT_LOG_SINCE_DATE_FORMAT.withZone(ZoneId.systemDefault());
-        ZoneId zoneId = gitLogSinceDateFormatWithZone.getZone();
+                GitUtil.GIT_LOG_SINCE_DATE_FORMAT.withZone(zoneId);
 
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list -1 --before="
@@ -43,14 +42,13 @@ public class GitRevList {
      * Returns the latest commit hash inclusive and until the end of the day of {@code date}.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
-    public static String getCommitHashUntilDate(String root, String branchName, Date date) {
+    public static String getCommitHashUntilDate(String root, String branchName, Date date, ZoneId zoneId) {
         if (date == null) {
             return "";
         }
 
         DateTimeFormatter gitLogUntilDateFormatWithZone =
-                GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.withZone(ZoneId.systemDefault());
-        ZoneId zoneId = gitLogUntilDateFormatWithZone.getZone();
+                GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.withZone(zoneId);
 
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list -1 --before="
