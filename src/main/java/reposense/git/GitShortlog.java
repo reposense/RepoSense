@@ -4,6 +4,7 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -24,7 +25,7 @@ public class GitShortlog {
      */
     public static List<Author> getAuthors(RepoConfiguration config) {
         String summary = getShortlogSummary(
-                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate());
+                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), ZoneId.systemDefault());
 
         if (summary.isEmpty()) {
             return Collections.emptyList();
@@ -36,10 +37,10 @@ public class GitShortlog {
                 .collect(Collectors.toList());
     }
 
-    private static String getShortlogSummary(String root, Date sinceDate, Date untilDate) {
+    private static String getShortlogSummary(String root, Date sinceDate, Date untilDate, ZoneId zoneId) {
         Path rootPath = Paths.get(root);
         String command = "git log --pretty=short";
-        command += GitUtil.convertToGitDateRangeArgs(sinceDate, untilDate);
+        command += GitUtil.convertToGitDateRangeArgs(sinceDate, untilDate, zoneId);
         command += " | git shortlog --summary";
 
         return runCommand(rootPath, command);

@@ -5,6 +5,7 @@ import static reposense.util.StringsUtil.addQuote;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -26,7 +27,8 @@ public class GitLog {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges -i ";
-        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(),
+                config.getUntilDate(), ZoneId.systemDefault());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
@@ -43,7 +45,8 @@ public class GitLog {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges -i ";
-        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(),
+                config.getUntilDate(), ZoneId.systemDefault());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --numstat --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
@@ -60,7 +63,8 @@ public class GitLog {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --pretty=format:\"%an\t%ae\" ";
-        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(),
+                config.getUntilDate(), ZoneId.systemDefault());
         command += " " + addQuote(filePath);
 
         return runCommand(rootPath, command);

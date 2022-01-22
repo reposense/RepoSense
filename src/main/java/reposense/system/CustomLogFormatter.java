@@ -20,7 +20,8 @@ import org.fusesource.jansi.AnsiConsole;
  */
 public class CustomLogFormatter extends SimpleFormatter {
 
-    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("hh:mm:ss");
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("hh:mm:ss")
+            .withZone(ZoneId.systemDefault());
     private static final String ERROR_HIGHLIGHT = ansi().bg(Ansi.Color.RED).fg(Ansi.Color.WHITE).a("[ERROR]")
             .reset().toString();
     private static final String WARNING_HIGHLIGHT = ansi().bg(Ansi.Color.YELLOW).fg(Ansi.Color.BLACK).a("[WARNING]")

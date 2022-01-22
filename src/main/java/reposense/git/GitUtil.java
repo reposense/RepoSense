@@ -25,8 +25,8 @@ import reposense.util.StringsUtil;
  * Contains Git related utilities.
  */
 class GitUtil {
-    static final DateTimeFormatter GIT_LOG_SINCE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
-    static final DateTimeFormatter GIT_LOG_UNTIL_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
+    static final DateTimeFormatter GIT_LOG_SINCE_DATE_FORMAT = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssz");
+    static final DateTimeFormatter GIT_LOG_UNTIL_DATE_FORMAT = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssz");
     private static final Logger logger = LogsManager.getLogger(GitUtil.class);
 
     // ignore check against email
@@ -40,19 +40,17 @@ class GitUtil {
     /**
      * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands.
      */
-    static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate) {
+    static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate, ZoneId zoneId) {
         String gitDateRangeArgs = "";
-        ZoneId sinceZoneId = GIT_LOG_SINCE_DATE_FORMAT.getZone();
-        ZoneId untilZoneId = GIT_LOG_UNTIL_DATE_FORMAT.getZone();
 
         if (sinceDate != null) {
             gitDateRangeArgs += " --since="
-                    + addQuote(ZonedDateTime.ofInstant(sinceDate.toInstant(), sinceZoneId)
+                    + addQuote(ZonedDateTime.ofInstant(sinceDate.toInstant(), zoneId)
                             .format(GIT_LOG_SINCE_DATE_FORMAT));
         }
         if (untilDate != null) {
             gitDateRangeArgs += " --until="
-                    + addQuote(ZonedDateTime.ofInstant(untilDate.toInstant(), untilZoneId)
+                    + addQuote(ZonedDateTime.ofInstant(untilDate.toInstant(), zoneId)
                             .format(GIT_LOG_UNTIL_DATE_FORMAT));
         }
 

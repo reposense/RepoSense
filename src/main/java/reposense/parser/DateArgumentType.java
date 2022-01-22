@@ -19,7 +19,7 @@ public class DateArgumentType implements ArgumentType<Optional<Date>> {
     public Optional<Date> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
         try {
             return Optional.of(TimeUtil.parseDate(value));
-        } catch (java.text.ParseException pe) {
+        } catch (ParseException pe) {
             throw new ArgumentParserException(
                     String.format(PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT, value), parser);
         }

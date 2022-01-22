@@ -40,7 +40,7 @@ import reposense.util.TimeUtil;
 public class RepoSense {
     private static final Logger logger = LogsManager.getLogger(RepoSense.class);
     private static final int SERVER_PORT_NUMBER = 9000;
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss uuuu z");
     private static final String VERSION_UNSPECIFIED = "unspecified";
 
     /**

@@ -1,11 +1,12 @@
 package reposense.util;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import reposense.parser.ParseException;
 
 public class TimeUtilTest {
     @Test

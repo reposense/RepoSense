@@ -2,6 +2,7 @@ package reposense.commits;
 
 import static reposense.util.StringsUtil.removeQuote;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -31,7 +32,7 @@ import reposense.system.LogsManager;
  */
 public class CommitInfoAnalyzer {
     public static final DateTimeFormatter GIT_STRICT_ISO_DATE_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssz");
 
     private static final String TAB_SPLITTER = "\t";
     private static final String MOVED_FILE_INDICATION = "=> ";
@@ -87,10 +88,11 @@ public class CommitInfoAnalyzer {
         String[] elements = infoLine.split(LOG_SPLITTER, 7);
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
+        ZoneId zoneId = ZoneId.systemDefault();
 
         Date date = null;
         try {
-            date = Date.from(ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT)
+            date = Date.from(ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT.withZone(zoneId))
                     .toInstant());
         } catch (DateTimeParseException pe) {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);

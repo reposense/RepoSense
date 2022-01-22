@@ -5,6 +5,8 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
@@ -21,7 +23,7 @@ public class TimeUtil {
     private static Long startTime;
     private static final String DATE_FORMAT_REGEX =
             "^((0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
-    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/uuuu HH:mm:ss");
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\".";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
@@ -208,8 +210,27 @@ public class TimeUtil {
 
     /**
      * Parses the given String as a Date based on the {@code CLI_ARGS_DATE_FORMAT}.
+     * Uses {@code ResolverStyle.STRICT} to avoid unexpected dates like 31/02/2020.
      */
-    public static Date parseDate(String date) throws java.text.ParseException {
-        return Date.from(ZonedDateTime.parse(date, CLI_ARGS_DATE_FORMAT).toInstant());
+    public static Date parseDate(String date) throws ParseException {
+        try {
+            String[] processDate = date.split("/");
+            if (processDate[0].length() == 1) {
+                // Need to add 0 for single-digit day, like 2/02/2022
+                processDate[0] = '0' + processDate[0];
+            }
+            if (processDate[1].length() == 1) {
+                // Likewise for month
+                processDate[1] = '0' + processDate[1];
+            }
+            date = processDate[0] + "/" + processDate[1] + "/" + processDate[2];
+            return Date.from(ZonedDateTime.parse(date,
+                    CLI_ARGS_DATE_FORMAT.withResolverStyle(ResolverStyle.STRICT)
+                            .withZone(ZoneId.systemDefault())).toInstant());
+        } catch (ArrayIndexOutOfBoundsException ae) {
+            throw new ParseException("Incorrect date formatting!\n");
+        } catch (DateTimeParseException pe) {
+            throw new ParseException("DateTimeParseException detected!\n");
+        }
     }
 }
