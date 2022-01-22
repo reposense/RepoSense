@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -26,6 +28,8 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import reposense.git.GitLsTree;
+import reposense.git.exception.InvalidFilePathException;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
@@ -53,6 +57,17 @@ public class FileUtil {
             "Exception occurred while attempting to zip the report files.";
     private static final String MESSAGE_FAIL_TO_COPY_ASSETS =
             "Exception occurred while attempting to copy custom assets.";
+    private static final String MESSAGE_INVALID_WINDOWS_PATH = "Invalid filepath: '%s' contains '%s'";
+
+    // Although forward-slash (/) is an invalid character in Windows file path, it is not included in the regex as
+    // for the output of git-ls-tree, files in directories are separated by forward-slash (e.g.: folder/name/file.txt).
+    // Also, it is not possible to create and commit files with forward-slash characters in UNIX OSes.
+    private static final Pattern ILLEGAL_WINDOWS_FILE_PATTERN = Pattern.compile(
+            "((?<=^|/)(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?=\\..*|/|$))" // contains reserved values (e.g.: com1)
+                    + "|[<>:|?*\\x00-\\x1F\"\\\\]"      // contains any reserved characters in directory name
+                    + "|(^\\s)|((?<=/)\\s+)"            // file or folder names with leading whitespaces
+                    + "|([\\s.]$)|([\\s.]+(?=/))",      // folder or file names ending with period or whitespaces
+            Pattern.CASE_INSENSITIVE);
 
     /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
@@ -318,5 +333,45 @@ public class FileUtil {
      */
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
+    }
+
+    /**
+     * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
+     * Skips check if the operating system is not Windows.
+     * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
+     * Windows.
+     */
+    public static void validateFilePaths(RepoConfiguration config, Path clonedBareRepoDirectory)
+            throws InvalidFilePathException {
+        if (!SystemUtil.isWindows()) {
+            return;
+        }
+
+        boolean hasError = false;
+        String[] paths = GitLsTree.getFilePaths(clonedBareRepoDirectory, config);
+
+        for (String path : paths) {
+            path = StringsUtil.removeQuote(path);
+
+            if (!isValidWindowsFilename(path)) {
+                hasError = true;
+            }
+        }
+
+        if (hasError) {
+            throw new InvalidFilePathException("Invalid file paths found in " + config.getLocation());
+        }
+    }
+
+    /**
+     * Returns true if {@code pathToTest} is a valid file name in Windows OS.
+     */
+    public static boolean isValidWindowsFilename(String pathToTest) {
+        Matcher matcher = ILLEGAL_WINDOWS_FILE_PATTERN.matcher(pathToTest);
+        if (matcher.find()) {
+            logger.log(Level.SEVERE, String.format(MESSAGE_INVALID_WINDOWS_PATH, pathToTest, matcher.group()));
+            return false;
+        }
+        return true;
     }
 }

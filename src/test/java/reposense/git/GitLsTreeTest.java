@@ -88,6 +88,6 @@ public class GitLsTreeTest extends GitTestTemplate {
      */
     private void validateFilePaths(RepoConfiguration config) throws Exception {
         GitClone.cloneBare(config, Paths.get("."), FileUtil.getBareRepoPath(config).toString());
-        GitLsTree.validateFilePaths(config, FileUtil.getBareRepoPath(config));
+        FileUtil.validateFilePaths(config, FileUtil.getBareRepoPath(config));
     }
 }
