@@ -29,7 +29,6 @@
     .period
       span &#8627; &nbsp;
       span {{ info.zSince }} to {{ info.zUntil }} &nbsp;
-      a(v-on:click="openSummary") [Show ramp chart for this period]
   .zoom__title
     .zoom__title--granularity granularity: one ramp per {{ info.zTimeFrame }}
     .zoom__title--tags
@@ -266,11 +265,6 @@ export default {
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
-    openSummary() {
-      const info = { since: this.info.zSince, until: this.info.zUntil };
-      this.$store.commit('updateSummaryDates', info);
-    },
-
     getSliceLink(slice) {
       if (this.info.zIsMerged) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
@@ -449,6 +443,7 @@ export default {
 
   /* Commit Message Body in Zoom Tab */
   .commit-message {
+    border: 1px solid transparent;
     padding: 5px;
 
     &:focus,
