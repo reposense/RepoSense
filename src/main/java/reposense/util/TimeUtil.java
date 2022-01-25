@@ -217,10 +217,8 @@ public class TimeUtil {
             return Date.from(ZonedDateTime.parse(date,
                     CLI_ARGS_DATE_FORMAT.withResolverStyle(ResolverStyle.STRICT)
                             .withZone(ZoneId.systemDefault())).toInstant());
-        } catch (ArrayIndexOutOfBoundsException ae) {
-            throw new ParseException("Incorrect date formatting!\n");
         } catch (DateTimeParseException pe) {
-            throw new ParseException("DateTimeParseException detected!\n");
+            throw new ParseException(String.format("DateTimeParseException detected! Message: %s\n", pe));
         }
     }
 }
