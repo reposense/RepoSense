@@ -57,7 +57,7 @@ public class GitShow {
         try {
             String output = runCommand(rootPath, showCommand);
             String outputNoNewLine = output.substring(0, output.length() - 1);
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss Z");
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
             return Date.from(ZonedDateTime.parse(outputNoNewLine, format).toInstant());
         } catch (RuntimeException re) {
             throw new CommitNotFoundException("Commit not found: " + commitHash);

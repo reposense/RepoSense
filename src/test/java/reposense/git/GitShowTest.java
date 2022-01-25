@@ -28,7 +28,7 @@ public class GitShowTest extends GitTestTemplate {
     public void getCommitDate_normalCommit_success() throws Exception {
         Date commitDate = GitShow.getCommitDate(config.getRepoRoot(), TEST_COMMIT_HASH);
         Date expectedDate = Date.from(ZonedDateTime.parse("2018-02-09 22:17:39 +0800",
-                DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss Z")).toInstant());
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")).toInstant());
         Assert.assertEquals(expectedDate, commitDate);
     }
 
@@ -42,7 +42,7 @@ public class GitShowTest extends GitTestTemplate {
         Date earliestDate = GitShow.getEarliestCommitDate(
                 config.getRepoRoot(), Arrays.asList(TEST_COMMIT_HASH));
         Date expectedDate = Date.from(ZonedDateTime.parse("2018-02-09 22:17:39 +0800",
-                DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss Z")).toInstant());
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")).toInstant());
         Assert.assertEquals(expectedDate, earliestDate);
     }
 
@@ -51,7 +51,7 @@ public class GitShowTest extends GitTestTemplate {
         Date earliestDate = GitShow.getEarliestCommitDate(
                 config.getRepoRoot(), Arrays.asList(TEST_COMMIT_HASH, ROOT_COMMIT_HASH, LATEST_COMMIT_HASH));
         Date expectedDate = Date.from(ZonedDateTime.parse("2018-02-05 16:00:39 +0800",
-                DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss Z")).toInstant());
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")).toInstant());
         Assert.assertEquals(expectedDate, earliestDate);
     }
 

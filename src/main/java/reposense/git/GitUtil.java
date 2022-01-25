@@ -25,8 +25,8 @@ import reposense.util.StringsUtil;
  * Contains Git related utilities.
  */
 class GitUtil {
-    static final DateTimeFormatter GIT_LOG_SINCE_DATE_FORMAT = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssz");
-    static final DateTimeFormatter GIT_LOG_UNTIL_DATE_FORMAT = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssz");
+    static final DateTimeFormatter GIT_LOG_SINCE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
+    static final DateTimeFormatter GIT_LOG_UNTIL_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
     private static final Logger logger = LogsManager.getLogger(GitUtil.class);
 
     // ignore check against email
