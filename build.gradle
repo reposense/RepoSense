@@ -154,7 +154,7 @@ task systemtest(dependsOn: 'compileJava', type: Test) {
     }
 }
 
-task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task.JavaExecFork) {
+task startServerInBackground(dependsOn: ['zipReport', 'classes'], type: com.github.psxpaul.task.JavaExecFork) {
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
     args = ['--repo', 'https://github.com/reposense/RepoSense.git', 'https://github.com/reposense/testrepo-Empty.git', '--since', 'd1', '--view']
