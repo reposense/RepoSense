@@ -13,14 +13,17 @@ import reposense.util.SystemUtil;
  */
 public class RepoLocation {
     private static final String GIT_LINK_SUFFIX = ".git";
+    private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^(ssh|git|https?)://.*?/(?<path>.+)/(?<repoName>.+?)(\\.git)?$");
+            Pattern.compile("^(ssh|git|https?)://[^/]*?/(?<path>.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
     private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*?:(?<path>.+)/(?<repoName>.+?)(\\.git)?$");
+            Pattern.compile("^.*?:(?<path>.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
+    private static final Pattern LOCAL_REPOSITORY_LOCATION_PATTERN =
+            Pattern.compile("^(file://)?/?(?<path>.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
 
     private final String location;
     private final String repoName;
-    private String path;
+    private final String path;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -29,16 +32,29 @@ public class RepoLocation {
         if (SystemUtil.isWindows()) {
             location = StringsUtil.removeTrailingBackslash(location);
         }
-        this.location = location;
-        Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
 
+        this.location = location;
         if (isLocalRepo(location)) {
-            repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
-        } else if (matcher.matches()) {
-            path = matcher.group("path");
-            repoName = matcher.group("repoName");
+            Matcher localRepoMatcher = LOCAL_REPOSITORY_LOCATION_PATTERN.matcher(location);
+
+            if (!localRepoMatcher.matches()) {
+                throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
+            }
+
+            repoName = localRepoMatcher.group("repoName");
+            path = localRepoMatcher.group("path").replaceAll("/", "-");
         } else {
-            repoName = "UNABLE_TO_DETERMINE";
+            Matcher remoteRepoMatcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
+            Matcher sshRepoMatcher = SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN.matcher(location);
+
+            boolean isValidRemoteRepoUrl = remoteRepoMatcher.matches() || sshRepoMatcher.matches();
+            if (!isValidRemoteRepoUrl) {
+                throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
+            }
+
+            Matcher actualMatcher = remoteRepoMatcher.matches() ? remoteRepoMatcher : sshRepoMatcher;
+            repoName = actualMatcher.group("repoName");
+            path = actualMatcher.group("path").replaceAll("/", "-");
         }
     }
 
@@ -58,8 +74,6 @@ public class RepoLocation {
      * Returns true if {@code repoArgument} is a valid local repository argument.
      * This implementation follows directly from the {@code git clone}
      * <a href="https://git-scm.com/docs/git-clone#_git_urls">specification</a>.
-     *
-     * Throws an in
      */
     private boolean isLocalRepo(String repoArgument) {
         boolean containsColon = repoArgument.contains(":");
