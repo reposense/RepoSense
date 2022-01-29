@@ -147,18 +147,6 @@ public class AuthorConfigParserTest {
     }
 
     @Test
-    public void authorConfig_invalidLocation_success() throws Exception {
-        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_LOCATION);
-        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
-
-        Assert.assertEquals(1, configs.size());
-
-        AuthorConfiguration config = configs.get(0);
-
-        Assert.assertEquals(3, config.getAuthorList().size());
-    }
-
-    @Test
     public void authorConfig_differentColumnOrder_success() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser =
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_DIFFERENT_COLUMN_ORDER);

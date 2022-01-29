@@ -542,14 +542,6 @@ public class ArgsParserTest {
         Assert.assertEquals(repoAliasCliArguments, reposAliasCliArguments);
     }
 
-    @Test (expected = ParseException.class)
-    public void parse_noValidRepoLocation_throwsParseException() throws Exception {
-        String input = new InputBuilder().addRepos("https://githubaaaa.com/asdasdasdasd/RepoSense").build();
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assert.assertTrue(cliArguments instanceof LocationsCliArguments);
-        RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
-    }
-
     @Test(expected = ParseException.class)
     public void absoluteConfigFolder_withoutRequiredConfigFiles_throwsParseException() throws Exception {
         Path absDirectory = PROJECT_DIRECTORY.getParent().toAbsolutePath();

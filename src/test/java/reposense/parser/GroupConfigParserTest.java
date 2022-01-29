@@ -38,17 +38,6 @@ public class GroupConfigParserTest {
             new FileType("Test", Arrays.asList("src/test/**", "src/systest/**")));
 
     @Test
-    public void groupConfig_invalidLocation_success() throws Exception {
-        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_LOCATION_FILE);
-        List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
-
-        Assert.assertEquals(1, groupConfigs.size());
-
-        GroupConfiguration actualConfig = groupConfigs.get(0);
-        Assert.assertEquals(2, actualConfig.getGroupsList().size());
-    }
-
-    @Test
     public void groupConfig_emptyLocation_success() throws Exception {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_EMPTY_LOCATION_FILE);
         List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
