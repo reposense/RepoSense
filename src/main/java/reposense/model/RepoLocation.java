@@ -14,11 +14,13 @@ import reposense.util.SystemUtil;
 public class RepoLocation {
     private static final String GIT_LINK_SUFFIX = ".git";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*/(?<org>.+?)/(?<repoName>.+?)\\.git$");
+            Pattern.compile("^(ssh|git|https?)://.*?/(?<path>.+)/(?<repoName>.+?)(\\.git)?$");
+    private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
+            Pattern.compile("^.*?:(?<path>.+)/(?<repoName>.+?)(\\.git)?$");
 
     private final String location;
     private final String repoName;
-    private String organization;
+    private String path;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -33,7 +35,7 @@ public class RepoLocation {
         if (isLocalRepo(location)) {
             repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
         } else if (matcher.matches()) {
-            organization = matcher.group("org");
+            path = matcher.group("path");
             repoName = matcher.group("repoName");
         } else {
             repoName = "UNABLE_TO_DETERMINE";
@@ -49,11 +51,15 @@ public class RepoLocation {
     }
 
     public String getOrganization() {
-        return organization;
+        return path;
     }
 
     /**
      * Returns true if {@code repoArgument} is a valid local repository argument.
+     * This implementation follows directly from the {@code git clone}
+     * <a href="https://git-scm.com/docs/git-clone#_git_urls">specification</a>.
+     *
+     * Throws an in
      */
     private boolean isLocalRepo(String repoArgument) {
         boolean containsColon = repoArgument.contains(":");
