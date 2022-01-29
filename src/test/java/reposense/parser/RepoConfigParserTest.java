@@ -297,14 +297,6 @@ public class RepoConfigParserTest {
     }
 
     @Test
-    public void repoConfig_withInvalidLocation_success() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_LOCATION_FILE);
-        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
-
-        Assert.assertEquals(2, configs.size());
-    }
-
-    @Test
     public void repoConfig_withUnrecognizedValuesForYesKeywordHeaders_valuesIgnored() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
                 new RepoConfigCsvParser(REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE);
