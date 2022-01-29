@@ -1,14 +1,10 @@
 package reposense.model;
 
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import reposense.parser.InvalidLocationException;
-import reposense.report.ErrorSummary;
 import reposense.util.StringsUtil;
 import reposense.util.SystemUtil;
 
@@ -17,7 +13,6 @@ import reposense.util.SystemUtil;
  */
 public class RepoLocation {
     private static final String GIT_LINK_SUFFIX = ".git";
-    private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*/(?<org>.+?)/(?<repoName>.+?)\\.git$");
 
@@ -57,6 +52,9 @@ public class RepoLocation {
         return organization;
     }
 
+    /**
+     * Returns true if {@code repoArgument} is a valid local repository argument.
+     */
     private boolean isLocalRepo(String repoArgument) {
         boolean containsColon = repoArgument.contains(":");
         if (!containsColon) {
@@ -68,8 +66,8 @@ public class RepoLocation {
             return true;
         }
 
-        boolean isURLFileType = repoArgument.split(":", 2)[0].equals("file");
-        if (isURLFileType) {
+        boolean isUrlFileType = repoArgument.split(":", 2)[0].equals("file");
+        if (isUrlFileType) {
             return true;
         }
 
