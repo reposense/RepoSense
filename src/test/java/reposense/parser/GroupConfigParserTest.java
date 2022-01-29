@@ -18,8 +18,6 @@ public class GroupConfigParserTest {
             "GroupConfigParserTest/groupconfig_multipleLocation_test.csv");
     private static final Path GROUP_CONFIG_EMPTY_LOCATION_FILE = loadResource(GroupConfigParserTest.class,
             "GroupConfigParserTest/groupconfig_emptyLocation_test.csv");
-    private static final Path GROUP_CONFIG_INVALID_LOCATION_FILE = loadResource(GroupConfigParserTest.class,
-            "GroupConfigParserTest/groupconfig_invalidLocation_test.csv");
     private static final Path GROUP_CONFIG_DIFFERENT_COLUMN_ORDER_FILE = loadResource(GroupConfigParserTest.class,
             "GroupConfigParserTest/groupconfig_differentColumnOrder_test.csv");
     private static final Path GROUP_CONFIG_MISSING_OPTIONAL_HEADER_FILE = loadResource(GroupConfigParserTest.class,

@@ -31,8 +31,6 @@ public class AuthorConfigParserTest {
             "AuthorConfigParserTest/authorconfig_commasAndDoubleQuotes_test.csv");
     private static final Path AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE = loadResource(AuthorConfigParserTest.class,
             "AuthorConfigParserTest/authorconfig_multipleEmails_test.csv");
-    private static final Path AUTHOR_CONFIG_INVALID_LOCATION = loadResource(AuthorConfigParserTest.class,
-            "AuthorConfigParserTest/authorconfig_invalidLocation_test.csv");
     private static final Path AUTHOR_CONFIG_DIFFERENT_COLUMN_ORDER = loadResource(AuthorConfigParserTest.class,
             "AuthorConfigParserTest/authorconfig_differentColumnOrder_test.csv");
     private static final Path AUTHOR_CONFIG_MISSING_OPTIONAL_HEADER = loadResource(AuthorConfigParserTest.class,

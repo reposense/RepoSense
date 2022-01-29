@@ -58,7 +58,6 @@ public class RepoConfigurationTest {
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
             "https://github.com/reposense/testrepo-minimalstandaloneconfig.git";
-    private static final String TEST_REPO_INVALID_LOCATION = "ftp://github.com/reposense/testrepo-Delta.git";
 
     private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
