@@ -33,7 +33,10 @@ public class RepoLocation {
         }
 
         this.location = location;
-        if (isLocalRepo(location)) {
+        if (location.isEmpty()) {
+            repoName = "";
+            path = new String[0];
+        } else if (isLocalRepo(location)) {
             Matcher localRepoMatcher = LOCAL_REPOSITORY_LOCATION_PATTERN.matcher(location);
 
             if (!localRepoMatcher.matches()) {
