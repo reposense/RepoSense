@@ -76,10 +76,10 @@ public class RepoConfiguration {
         outputFolderName = repoName + "_" + branch;
         repoFolderName = repoName;
 
-        if (organization != null) {
-            repoFolderName = String.join("_", organization) + "_" + repoFolderName;
-            displayName = String.join("/", organization) + "/" + displayName;
-            outputFolderName = String.join("_", organization) + "_" + outputFolderName;
+        if (!organization.isEmpty()) {
+            repoFolderName = organization + "_" + repoFolderName;
+            displayName = organization + "/" + displayName;
+            outputFolderName = organization + "_" + outputFolderName;
         }
     }
 
