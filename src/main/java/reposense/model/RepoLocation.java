@@ -14,11 +14,11 @@ public class RepoLocation {
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
 
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^(ssh|git|https?)://[^/]*?/(?<path>.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
+            Pattern.compile("^(ssh|git|https?|ftps?)://[^/]*?/(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
     private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*?:(?<path>.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
+            Pattern.compile("^.*?:(?<path>[^/]??.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^(file://)?/?(?<path>.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
+            Pattern.compile("^(file://)?(?<path>.*?)[/\\\\]?(?<repoName>[^/\\\\]+?)([/\\\\]?\\.git)?[/\\\\]?$");
 
     private final String location;
     private final String repoName;
@@ -44,7 +44,8 @@ public class RepoLocation {
             }
 
             repoName = localRepoMatcher.group("repoName");
-            organization = localRepoMatcher.group("path").replaceAll("/", "-");
+            String fileSeparator = SystemUtil.isWindows() ? "[/\\\\]" : "/";
+            organization = localRepoMatcher.group("path").replaceAll(fileSeparator, "-");
         } else {
             Matcher remoteRepoMatcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
             Matcher sshRepoMatcher = SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -68,7 +69,7 @@ public class RepoLocation {
         return repoName;
     }
 
-    public String getPath() {
+    public String getOrganization() {
         return organization;
     }
 
