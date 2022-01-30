@@ -70,7 +70,7 @@ public class RepoConfiguration {
         this.isShallowCloningPerformed = isShallowCloningPerformed;
         this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
 
-        String[] organization = location.getPath();
+        String organization = location.getPath();
         String repoName = location.getRepoName();
         displayName = repoName + "[" + branch + "]";
         outputFolderName = repoName + "_" + branch;
@@ -552,7 +552,7 @@ public class RepoConfiguration {
         return location;
     }
 
-    public String[] getPath() {
+    public String getPath() {
         return location.getPath();
     }
 

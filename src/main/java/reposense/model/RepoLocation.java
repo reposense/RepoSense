@@ -22,7 +22,7 @@ public class RepoLocation {
 
     private final String location;
     private final String repoName;
-    private final String[] path;
+    private final String organization;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -35,7 +35,7 @@ public class RepoLocation {
         this.location = location;
         if (location.isEmpty()) {
             repoName = "";
-            path = new String[0];
+            organization = "";
         } else if (isLocalRepo(location)) {
             Matcher localRepoMatcher = LOCAL_REPOSITORY_LOCATION_PATTERN.matcher(location);
 
@@ -44,7 +44,7 @@ public class RepoLocation {
             }
 
             repoName = localRepoMatcher.group("repoName");
-            path = localRepoMatcher.group("path").split("/");
+            organization = localRepoMatcher.group("path").replaceAll("/", "-");
         } else {
             Matcher remoteRepoMatcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
             Matcher sshRepoMatcher = SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -56,7 +56,7 @@ public class RepoLocation {
 
             Matcher actualMatcher = remoteRepoMatcher.matches() ? remoteRepoMatcher : sshRepoMatcher;
             repoName = actualMatcher.group("repoName");
-            path = actualMatcher.group("path").split("/");
+            organization = actualMatcher.group("path").replaceAll("/", "-");
         }
     }
 
@@ -68,8 +68,8 @@ public class RepoLocation {
         return repoName;
     }
 
-    public String[] getPath() {
-        return path;
+    public String getPath() {
+        return organization;
     }
 
     /**
