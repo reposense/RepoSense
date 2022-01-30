@@ -2,6 +2,7 @@ package reposense.model;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import reposense.parser.InvalidLocationException;
 import reposense.util.AssertUtil;
 

@@ -78,7 +78,7 @@ public class RepoConfiguration {
 
         if (organization != null) {
             repoFolderName = String.join("_", organization) + "_" + repoFolderName;
-            displayName = String.join("/", organization)+ "/" + displayName;
+            displayName = String.join("/", organization) + "/" + displayName;
             outputFolderName = String.join("_", organization) + "_" + outputFolderName;
         }
     }
