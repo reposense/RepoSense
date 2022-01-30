@@ -1,6 +1,5 @@
 package reposense.model;
 
-import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,8 +11,8 @@ import reposense.util.SystemUtil;
  * Represents a repository location.
  */
 public class RepoLocation {
-    private static final String GIT_LINK_SUFFIX = ".git";
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
+
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^(ssh|git|https?)://[^/]*?/(?<path>.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
     private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
@@ -23,7 +22,7 @@ public class RepoLocation {
 
     private final String location;
     private final String repoName;
-    private final String path;
+    private final String[] path;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -42,7 +41,7 @@ public class RepoLocation {
             }
 
             repoName = localRepoMatcher.group("repoName");
-            path = localRepoMatcher.group("path").replaceAll("/", "-");
+            path = localRepoMatcher.group("path").split("/");
         } else {
             Matcher remoteRepoMatcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
             Matcher sshRepoMatcher = SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -54,7 +53,7 @@ public class RepoLocation {
 
             Matcher actualMatcher = remoteRepoMatcher.matches() ? remoteRepoMatcher : sshRepoMatcher;
             repoName = actualMatcher.group("repoName");
-            path = actualMatcher.group("path").replaceAll("/", "-");
+            path = actualMatcher.group("path").split("/");
         }
     }
 
@@ -66,7 +65,7 @@ public class RepoLocation {
         return repoName;
     }
 
-    public String getOrganization() {
+    public String[] getPath() {
         return path;
     }
 

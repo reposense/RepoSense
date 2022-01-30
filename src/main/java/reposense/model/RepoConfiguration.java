@@ -70,16 +70,16 @@ public class RepoConfiguration {
         this.isShallowCloningPerformed = isShallowCloningPerformed;
         this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
 
-        String organization = location.getOrganization();
+        String[] organization = location.getPath();
         String repoName = location.getRepoName();
         displayName = repoName + "[" + branch + "]";
         outputFolderName = repoName + "_" + branch;
         repoFolderName = repoName;
 
         if (organization != null) {
-            repoFolderName = organization + "_" + repoFolderName;
-            displayName = organization + "/" + displayName;
-            outputFolderName = organization + "_" + outputFolderName;
+            repoFolderName = String.join("_", organization) + "_" + repoFolderName;
+            displayName = String.join("/", organization)+ "/" + displayName;
+            outputFolderName = String.join("_", organization) + "_" + outputFolderName;
         }
     }
 
@@ -552,8 +552,8 @@ public class RepoConfiguration {
         return location;
     }
 
-    public String getOrganization() {
-        return location.getOrganization();
+    public String[] getPath() {
+        return location.getPath();
     }
 
     public boolean isStandaloneConfigIgnored() {
