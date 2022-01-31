@@ -3,9 +3,7 @@ package reposense.git;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 
-import jdk.vm.ci.meta.Local;
 import org.junit.Assert;
 import org.junit.Test;
 
