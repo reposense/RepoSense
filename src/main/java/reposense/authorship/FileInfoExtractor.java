@@ -70,7 +70,7 @@ public class FileInfoExtractor {
             return fileInfos;
         }
         String lastCommitHash = GitRevList.getCommitHashBeforeDate(
-                config.getRepoRoot(), config.getBranch(), config.getUntilDate(), ZoneId.of(config.getZoneId()));
+                config.getRepoRoot(), config.getBranch(), config.getSinceDate(), ZoneId.of(config.getZoneId()));
 
         fileInfos = (lastCommitHash.isEmpty())
                 ? getAllFileInfo(config, false)
