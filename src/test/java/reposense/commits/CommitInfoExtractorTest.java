@@ -1,8 +1,7 @@
 package reposense.commits;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.Month;
 import java.util.List;
 
 import org.junit.Assert;
@@ -22,7 +21,7 @@ public class CommitInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void withoutContentTest() {
-        LocalDateTime sinceDate = TestUtil.getSinceDate(2050, Calendar.JANUARY, 1);
+        LocalDateTime sinceDate = TestUtil.getSinceDate(2050, Month.JANUARY.getValue(), 1);
         config.setSinceDate(sinceDate);
 
         List<CommitInfo> commits = CommitInfoExtractor.extractCommitInfos(config);

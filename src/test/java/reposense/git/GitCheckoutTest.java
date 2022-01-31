@@ -4,10 +4,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -49,16 +48,14 @@ public class GitCheckoutTest extends GitTestTemplate {
         Path newFile = Paths.get(config.getRepoRoot(), "newFile.java");
         Assert.assertTrue(Files.exists(newFile));
 
-        LocalDateTime untilDate = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 6);
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(),
-                ZonedDateTime.of(untilDate, ZoneId.of(config.getZoneId())));
+        LocalDateTime untilDate = TestUtil.getUntilDate(2018, Month.FEBRUARY.getValue(), 6);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate, ZoneId.of(config.getZoneId()));
         Assert.assertFalse(Files.exists(newFile));
     }
 
     @Test(expected = CommitNotFoundException.class)
     public void checkoutToDate_invalidDate_throwsEmptyCommitException() throws Exception {
-        LocalDateTime untilDate = TestUtil.getUntilDate(2015, Calendar.FEBRUARY, 6);
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(),
-                ZonedDateTime.of(untilDate, ZoneId.of(config.getZoneId())));
+        LocalDateTime untilDate = TestUtil.getUntilDate(2015, Month.FEBRUARY.getValue(), 6);
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), untilDate, ZoneId.of(config.getZoneId()));
     }
 }

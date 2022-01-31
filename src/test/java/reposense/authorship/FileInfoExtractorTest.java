@@ -3,9 +3,8 @@ package reposense.authorship;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -53,7 +52,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_sinceDateFebrauaryNineToLatestCommit_success() {
-        LocalDateTime date = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 9);
+        LocalDateTime date = TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 9);
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);

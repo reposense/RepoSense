@@ -164,11 +164,10 @@ public class TimeUtil {
 
     /**
      * Parses the given String as a Date based on the {@code CLI_ARGS_DATE_FORMAT}.
-     * Uses ResolverStyle.STRICT to prevent parsing of unexpected dates like 31/02/2020.
      */
     public static LocalDateTime parseDate(String date) throws java.text.ParseException {
         try {
-            return LocalDateTime.parse(date, CLI_ARGS_DATE_FORMAT.withResolverStyle(ResolverStyle.STRICT));
+            return LocalDateTime.parse(date, CLI_ARGS_DATE_FORMAT);
         } catch (DateTimeParseException e) {
             throw new java.text.ParseException(String.format(
                     "Exception message: %s\n", e.getMessage()), e.getErrorIndex());

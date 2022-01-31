@@ -4,6 +4,8 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -21,14 +23,15 @@ public class GitRevList {
      * Returns the latest commit hash before {@code date}.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
-    public static String getCommitHashBeforeDate(String root, String branchName, ZonedDateTime date) {
+    public static String getCommitHashBeforeDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
         if (date == null) {
             return "";
         }
 
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list -1 --before="
-                + GitUtil.GIT_LOG_SINCE_DATE_FORMAT.format(date) + " " + branchName + REVISION_PATH_SEPARATOR;
+                + GitUtil.GIT_LOG_SINCE_DATE_FORMAT.format(ZonedDateTime.of(date, zoneId))
+                + " " + branchName + REVISION_PATH_SEPARATOR;
         return runCommand(rootPath, revListCommand);
     }
 
@@ -36,14 +39,15 @@ public class GitRevList {
      * Returns the latest commit hash inclusive and until the end of the day of {@code date}.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
-    public static String getCommitHashUntilDate(String root, String branchName, ZonedDateTime date) {
+    public static String getCommitHashUntilDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
         if (date == null) {
             return "";
         }
 
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list -1 --before="
-                + GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.format(date) + " " + branchName + REVISION_PATH_SEPARATOR;
+                + GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.format(ZonedDateTime.of(date, zoneId))
+                + " " + branchName + REVISION_PATH_SEPARATOR;
         return runCommand(rootPath, revListCommand);
     }
 

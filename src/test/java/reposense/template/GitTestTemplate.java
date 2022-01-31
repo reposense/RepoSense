@@ -102,6 +102,7 @@ public class GitTestTemplate {
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         config.setIsLastModifiedDateIncluded(false);
+        config.setZoneId(TIME_ZONE_ID_STRING);
     }
 
     @BeforeClass

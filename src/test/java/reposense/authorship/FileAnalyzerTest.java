@@ -1,14 +1,12 @@
 package reposense.authorship;
 
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.function.LongConsumer;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -25,32 +23,33 @@ import reposense.util.TestUtil;
 
 
 public class FileAnalyzerTest extends GitTestTemplate {
-    private static final LocalDateTime BLAME_TEST_SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 6);
-    private static final LocalDateTime BLAME_TEST_UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 8);
+    private static final LocalDateTime BLAME_TEST_SINCE_DATE =
+            TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 6);
+    private static final LocalDateTime BLAME_TEST_UNTIL_DATE =
+            TestUtil.getUntilDate(2018, Month.FEBRUARY.getValue(), 8);
     private static final LocalDateTime PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE =
-            TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 6);
+            TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 6);
     private static final LocalDateTime PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE =
-            TestUtil.getUntilDate(2021, Calendar.AUGUST, 7);
+            TestUtil.getUntilDate(2021, Month.AUGUST.getValue(), 7);
     private static final LocalDateTime EMAIL_WITH_ADDITION_TEST_SINCE_DATE =
-            TestUtil.getSinceDate(2019, Calendar.MARCH, 28);
+            TestUtil.getSinceDate(2019, Month.MARCH.getValue(), 28);
     private static final LocalDateTime EMAIL_WITH_ADDITION_TEST_UNTIL_DATE =
-            TestUtil.getUntilDate(2019, Calendar.MARCH, 28);
-    private static final LocalDateTime MOVED_FILE_SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 7);
-    private static final LocalDateTime MOVED_FILE_UNTIL_DATE = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 9);
+            TestUtil.getUntilDate(2019, Month.MARCH.getValue(), 28);
+    private static final LocalDateTime MOVED_FILE_SINCE_DATE =
+            TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 7);
+    private static final LocalDateTime MOVED_FILE_UNTIL_DATE =
+            TestUtil.getUntilDate(2018, Month.FEBRUARY.getValue(), 9);
     private static final LocalDateTime SHOULD_INCLUDE_LAST_MODIFIED_IN_LINES_SINCE_DATE =
-            TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 7);
-    private static final Date LAST_MODIFIED_DATE = new Calendar
-            .Builder()
-            .setDate(2020, 9, 27)
-            .setTimeOfDay(18, 0, 7)
-            .build()
-            .getTime();
+            TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 7);
+    private static final LocalDateTime LAST_MODIFIED_DATE =
+            LocalDateTime.of(2020, Month.OCTOBER.getValue(), 27, 18, 0, 7);
+
     private static final LocalDateTime SHOULD_INCLUDE_LAST_MODIFIED_IN_LINES_UNTIL_DATE =
-            TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 9);
+            TestUtil.getUntilDate(2018, Month.FEBRUARY.getValue(), 9);
     private static final LocalDateTime ANALYZE_BINARY_FILES_SINCE_DATE =
-            TestUtil.getSinceDate(2017, Calendar.JANUARY, 1);
+            TestUtil.getSinceDate(2017, Month.JANUARY.getValue(), 1);
     private static final LocalDateTime ANALYZE_BINARY_FILES_UNTIL_DATE =
-            TestUtil.getUntilDate(2020, Calendar.JANUARY, 1);
+            TestUtil.getUntilDate(2020, Month.JANUARY.getValue(), 1);
     private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
     private static final Author[] EXPECTED_LINE_AUTHORS_BLAME_TEST = {
@@ -103,8 +102,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameTestDateRange() throws Exception {
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(),
-                ZonedDateTime.of(BLAME_TEST_UNTIL_DATE, ZoneId.of(config.getZoneId())));
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), BLAME_TEST_UNTIL_DATE,
+                ZoneId.of(config.getZoneId()));
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
 
@@ -120,8 +119,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setBranch(TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
 
         GitCheckout.checkout(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(),
-                ZonedDateTime.of(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE, ZoneId.of(config.getZoneId())));
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE,
+                ZoneId.of(config.getZoneId()));
 
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);
         FileResult fileResult = getFileResult("blameTest.java");
@@ -132,8 +131,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void movedFileBlameTestDateRange() throws Exception {
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(),
-                ZonedDateTime.of(MOVED_FILE_UNTIL_DATE, ZoneId.of(config.getZoneId())));
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), MOVED_FILE_UNTIL_DATE,
+                ZoneId.of(config.getZoneId()));
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
 

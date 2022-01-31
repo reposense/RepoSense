@@ -27,9 +27,7 @@ public class GitShortlog {
      */
     public static List<Author> getAuthors(RepoConfiguration config) {
         String summary = getShortlogSummary(
-                config.getRepoRoot(),
-                ZonedDateTime.of(config.getSinceDate(), ZoneId.of(config.getZoneId())),
-                ZonedDateTime.of(config.getUntilDate(), ZoneId.of(config.getZoneId())));
+                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), ZoneId.of(config.getZoneId()));
 
         if (summary.isEmpty()) {
             return Collections.emptyList();
@@ -41,10 +39,11 @@ public class GitShortlog {
                 .collect(Collectors.toList());
     }
 
-    private static String getShortlogSummary(String root, ZonedDateTime sinceDate, ZonedDateTime untilDate) {
+    private static String getShortlogSummary(String root, LocalDateTime sinceDate,
+                                             LocalDateTime untilDate, ZoneId zoneId) {
         Path rootPath = Paths.get(root);
         String command = "git log --pretty=short";
-        command += GitUtil.convertToGitDateRangeArgs(sinceDate, untilDate);
+        command += GitUtil.convertToGitDateRangeArgs(sinceDate, untilDate, zoneId);
         command += " | git shortlog --summary";
 
         return runCommand(rootPath, command);

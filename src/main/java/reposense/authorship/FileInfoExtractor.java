@@ -64,14 +64,13 @@ public class FileInfoExtractor {
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
         try {
-            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(),
-                    ZonedDateTime.of(config.getUntilDate(), ZoneId.of(config.getZoneId())));
+            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate(),
+                    ZoneId.of(config.getZoneId()));
         } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }
         String lastCommitHash = GitRevList.getCommitHashBeforeDate(
-                config.getRepoRoot(), config.getBranch(),
-                ZonedDateTime.of(config.getUntilDate(), ZoneId.of(config.getZoneId())));
+                config.getRepoRoot(), config.getBranch(), config.getUntilDate(), ZoneId.of(config.getZoneId()));
 
         fileInfos = (lastCommitHash.isEmpty())
                 ? getAllFileInfo(config, false)

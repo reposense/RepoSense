@@ -32,7 +32,7 @@ import reposense.system.LogsManager;
  */
 public class CommitInfoAnalyzer {
     public static final DateTimeFormatter GIT_STRICT_ISO_DATE_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
 
     private static final String TAB_SPLITTER = "\t";
     private static final String MOVED_FILE_INDICATION = "=> ";
