@@ -258,8 +258,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setBranch("1019-CommitInfoAnalyzerTest-emptyCommits");
         config.setAuthorList(Collections.singletonList(author));
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
-        config.setSinceDate(LocalDateTime.of(2020, Month.JUNE, 27, 0, 0));
-        config.setUntilDate(LocalDateTime.of(2020, Month.JUNE, 28, 0, 0));
+        config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
