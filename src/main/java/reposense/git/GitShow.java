@@ -6,6 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
@@ -51,13 +53,14 @@ public class GitShow {
     /**
      * Returns date of commit associated with commit hash.
      */
-    public static Date getCommitDate(String root, String commitHash) throws CommitNotFoundException, ParseException {
+    public static LocalDateTime getCommitDate(String root, String commitHash)
+            throws CommitNotFoundException, ParseException {
         Path rootPath = Paths.get(root);
         String showCommand = "git show -s --format=%ci " + commitHash;
         try {
             String output = runCommand(rootPath, showCommand);
             DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z");
-            return format.parse(output);
+            return LocalDateTime.parse(output, format);
         } catch (RuntimeException re) {
             throw new CommitNotFoundException("Commit not found: " + commitHash);
         }
@@ -66,12 +69,13 @@ public class GitShow {
     /**
      * Returns date of earliest commit out of the input list of commits.
      */
-    public static Date getEarliestCommitDate(String root, List<String> commitHashes) throws CommitNotFoundException {
-        Date earliest = null;
+    public static LocalDateTime getEarliestCommitDate(String root, List<String> commitHashes)
+            throws CommitNotFoundException {
+        LocalDateTime earliest = null;
         for (String hash : commitHashes) {
             try {
-                Date date = getCommitDate(root, hash);
-                if (earliest == null || date.before(earliest)) {
+                LocalDateTime date = getCommitDate(root, hash);
+                if (earliest == null || date.compareTo(earliest) < 0) {
                     earliest = date;
                 }
             } catch (CommitNotFoundException e) {

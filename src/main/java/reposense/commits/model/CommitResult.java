@@ -1,5 +1,6 @@
 package reposense.commits.model;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -19,10 +20,10 @@ public class CommitResult {
     private final Map<FileType, ContributionPair> fileTypesAndContributionMap;
 
     private final transient Author author;
-    private final transient Date time;
+    private final transient LocalDateTime time;
 
-    public CommitResult(Author author, String hash, Date time, String messageTitle, String messageBody, String[] tags,
-            Map<FileType, ContributionPair> fileTypesAndContributionMap) {
+    public CommitResult(Author author, String hash, LocalDateTime time, String messageTitle,
+            String messageBody, String[] tags, Map<FileType, ContributionPair> fileTypesAndContributionMap) {
         this.author = author;
         this.hash = hash;
         this.time = time;
@@ -32,7 +33,8 @@ public class CommitResult {
         this.fileTypesAndContributionMap = fileTypesAndContributionMap;
     }
 
-    public CommitResult(Author author, String hash, Date time, String messageTitle, String messageBody, String[] tags) {
+    public CommitResult(Author author, String hash, LocalDateTime time, String messageTitle, String messageBody,
+            String[] tags) {
         this.author = author;
         this.hash = hash;
         this.time = time;
@@ -62,7 +64,7 @@ public class CommitResult {
         return hash;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 

@@ -4,6 +4,7 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.logging.Logger;
 
@@ -48,7 +49,8 @@ public class GitCheckout {
      * if {@code untilDate} is not null.
      * @throws CommitNotFoundException if commits before {@code untilDate} cannot be found.
      */
-    public static void checkoutDate(String root, String branchName, Date untilDate) throws CommitNotFoundException {
+    public static void checkoutDate(String root, String branchName, ZonedDateTime untilDate)
+            throws CommitNotFoundException {
         if (untilDate == null) {
             return;
         }

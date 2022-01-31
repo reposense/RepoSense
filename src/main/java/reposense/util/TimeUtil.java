@@ -1,15 +1,16 @@
 package reposense.util;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jdk.vm.ci.meta.Local;
 import reposense.parser.ParseException;
 import reposense.parser.SinceDateArgumentType;
 
@@ -20,7 +21,7 @@ public class TimeUtil {
     private static Long startTime;
     private static final String DATE_FORMAT_REGEX =
             "^((0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
-    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HH:mm:ss");
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\".";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
@@ -76,97 +77,57 @@ public class TimeUtil {
     /**
      * Get the {@code current} date that is in the system's timezone into the {@code zoneId} timezone.
      */
-    public static Date getZonedDateFromSystemDate(Date current, ZoneId zoneId) {
-        int zoneRawOffset = getZoneRawOffset(zoneId);
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
-        return new Date(current.getTime() + zoneRawOffset - systemRawOffset);
+    public static ZonedDateTime getZonedDateFromSystemDate(LocalDateTime current, ZoneId zoneId) {
+        return ZonedDateTime.of(current, zoneId);
     }
 
     /**
-     * Returns a {@code Date} that is set to midnight for the given {@code zoneId}.
+     * Returns a {@code LocalDateTime} that is set to midnight for the given {@code zoneId}.
      */
-    public static Date getZonedSinceDate(Date sinceDate, ZoneId zoneId) {
+    public static LocalDateTime getZonedSinceDate(LocalDateTime sinceDate) {
         if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {
             return sinceDate;
         }
 
-        int zoneRawOffset = getZoneRawOffset(zoneId);
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
-
-        Calendar cal = new Calendar
-                .Builder()
-                .setInstant(sinceDate.getTime())
-                .build();
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
-        return cal.getTime();
+        return sinceDate.withHour(0).withMinute(0).withSecond(0);
     }
 
     /**
      * Returns a {@code Date} that is set to 23:59:59 for the given {@code zoneId}.
      */
-    public static Date getZonedUntilDate(Date untilDate, ZoneId zoneId) {
-        int zoneRawOffset = getZoneRawOffset(zoneId);
-        int systemRawOffset = getZoneRawOffset(ZoneId.systemDefault());
-
-        Calendar cal = new Calendar
-                .Builder()
-                .setInstant(untilDate.getTime())
-                .build();
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
-        return cal.getTime();
+    public static LocalDateTime getZonedUntilDate(LocalDateTime untilDate) {
+        return untilDate.withHour(23).withMinute(59).withSecond(59);
     }
 
     /**
      * Returns a {@code Date} that is one month before {@code cliUntilDate} (if present) or one month before report
      * generation date otherwise. The time zone is adjusted to the given {@code zoneId}.
      */
-    public static Date getDateMinusAMonth(Optional<Date> cliUntilDate, ZoneId zoneId) {
-        Calendar cal = Calendar.getInstance();
-        cliUntilDate.ifPresent(cal::setTime);
-        cal.setTime(getZonedSinceDate(cal.getTime(), zoneId));
-        cal.add(Calendar.MONTH, -1);
-        return cal.getTime();
+    public static LocalDateTime getDateMinusAMonth(LocalDateTime cliUntilDate) {
+        return getZonedSinceDate(cliUntilDate.minusMonths(1));
     }
 
     /**
      * Returns a {@code Date} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month before
      * report generation date otherwise. The time zone is adjusted to the given {@code zoneId}.
      */
-    public static Date getDateMinusNDays(Optional<Date> cliUntilDate, ZoneId zoneId, int numOfDays) {
-        Calendar cal = Calendar.getInstance();
-        cliUntilDate.ifPresent(cal::setTime);
-        cal.setTime(getZonedSinceDate(cal.getTime(), zoneId));
-        cal.add(Calendar.DATE, -numOfDays + 1);
-        return cal.getTime();
+    public static LocalDateTime getDateMinusNDays(LocalDateTime cliUntilDate, int numOfDays) {
+        return getZonedSinceDate(cliUntilDate.minusDays(numOfDays));
     }
 
     /**
      * Returns a {@code Date} that is {@code numOfDays} after {@code cliSinceDate} (if present). The time zone is
      * adjusted to the given {@code zoneId}.
      */
-    public static Date getDatePlusNDays(Optional<Date> cliSinceDate, ZoneId zoneId, int numOfDays) {
-        Calendar cal = Calendar.getInstance();
-        cliSinceDate.ifPresent(cal::setTime);
-        cal.setTime(getZonedUntilDate(cal.getTime(), zoneId));
-        cal.add(Calendar.DATE, numOfDays - 1);
-        return cal.getTime();
+    public static LocalDateTime getDatePlusNDays(LocalDateTime cliSinceDate, int numOfDays) {
+        return getZonedUntilDate(cliSinceDate.plusDays(numOfDays));
     }
 
     /**
      * Returns current date with time set to 23:59:59. The time zone is adjusted to the given {@code zoneId}.
      */
-    public static Date getCurrentDate(ZoneId zoneId) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(getZonedUntilDate(cal.getTime(), zoneId));
-        return cal.getTime();
+    public static LocalDateTime getCurrentDate(ZoneId zoneId) {
+        return LocalDateTime.now(zoneId).withHour(23).withMinute(59).withSecond(59);
     }
 
     /**
@@ -174,9 +135,9 @@ public class TimeUtil {
      *
      * @throws ParseException if {@code sinceDate} supplied is later than {@code untilDate}.
      */
-    public static void verifyDatesRangeIsCorrect(Date sinceDate, Date untilDate)
+    public static void verifyDatesRangeIsCorrect(LocalDateTime sinceDate, LocalDateTime untilDate)
             throws ParseException {
-        if (sinceDate.getTime() > untilDate.getTime()) {
+        if (sinceDate.compareTo(untilDate) > 0) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
         }
     }
@@ -186,9 +147,9 @@ public class TimeUtil {
      *
      * @throws ParseException if {@code sinceDate} supplied is later than date of report generation.
      */
-    public static void verifySinceDateIsValid(Date sinceDate) throws ParseException {
-        Date dateToday = new Date();
-        if (sinceDate.getTime() > dateToday.getTime()) {
+    public static void verifySinceDateIsValid(LocalDateTime sinceDate, LocalDateTime currentDate)
+            throws ParseException {
+        if (sinceDate.compareTo(currentDate) > 0) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
     }
@@ -207,11 +168,14 @@ public class TimeUtil {
 
     /**
      * Parses the given String as a Date based on the {@code CLI_ARGS_DATE_FORMAT}.
-     * Setting setLenient to false prevents unexpected results.
-     * Without it, even with "dd/MM/yyyy HH:mm:ss" format, 11/31/2017 00:00:00 will be parsed to 11/7/2019 00:00:00.
+     * Uses ResolverStyle.STRICT to prevent parsing of unexpected dates like 31/02/2020.
      */
-    public static Date parseDate(String date) throws java.text.ParseException {
-        CLI_ARGS_DATE_FORMAT.setLenient(false);
-        return CLI_ARGS_DATE_FORMAT.parse(date);
+    public static LocalDateTime parseDate(String date) throws java.text.ParseException {
+        try {
+            return LocalDateTime.parse(date, CLI_ARGS_DATE_FORMAT.withResolverStyle(ResolverStyle.STRICT));
+        } catch (DateTimeParseException e) {
+            throw new java.text.ParseException(String.format(
+                    "Exception message: %s\n", e.getMessage()), e.getErrorIndex());
+        }
     }
 }

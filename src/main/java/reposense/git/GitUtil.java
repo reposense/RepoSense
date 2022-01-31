@@ -8,8 +8,10 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +40,7 @@ class GitUtil {
     /**
      * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands.
      */
-    static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate) {
+    static String convertToGitDateRangeArgs(ZonedDateTime sinceDate, ZonedDateTime untilDate) {
         String gitDateRangeArgs = "";
 
         if (sinceDate != null) {

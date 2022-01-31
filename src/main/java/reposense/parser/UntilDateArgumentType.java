@@ -1,5 +1,6 @@
 package reposense.parser;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -14,7 +15,8 @@ import reposense.util.TimeUtil;
 
 public class UntilDateArgumentType extends DateArgumentType {
     @Override
-    public Optional<Date> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
+    public Optional<LocalDateTime> convert(ArgumentParser parser, Argument arg, String value)
+            throws ArgumentParserException {
         String untilDate = TimeUtil.extractDate(value);
         return super.convert(parser, arg, untilDate + " 23:59:59");
     }

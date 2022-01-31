@@ -3,7 +3,9 @@ package reposense.commits;
 import static reposense.util.StringsUtil.removeQuote;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
@@ -87,10 +89,10 @@ public class CommitInfoAnalyzer {
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
-        Date date = null;
+        LocalDateTime date = null;
         try {
-            date = GIT_STRICT_ISO_DATE_FORMAT.parse(elements[DATE_INDEX]);
-        } catch (ParseException pe) {
+            date = LocalDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT);
+        } catch (DateTimeParseException pe) {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
 

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.Date;
@@ -249,16 +250,16 @@ public class ArgsParser {
             ReportConfiguration reportConfig = new ReportConfiguration();
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
-            Date sinceDate;
-            Date untilDate;
+            LocalDateTime sinceDate;
+            LocalDateTime untilDate;
 
             Path configFolderPath = results.get(CONFIG_FLAGS[0]);
             Path reportFolderPath = results.get(VIEW_FLAGS[0]);
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
             ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
             Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
-            Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
-            Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
+            Optional<LocalDateTime> cliSinceDate = results.get(SINCE_FLAGS[0]);
+            Optional<LocalDateTime> cliUntilDate = results.get(UNTIL_FLAGS[0]);
             Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
@@ -292,21 +293,28 @@ public class ArgsParser {
             int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
             int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
 
-            Date currentDate = TimeUtil.getCurrentDate(zoneId);
+            LocalDateTime currentDate = TimeUtil.getCurrentDate(zoneId);
 
             if (isSinceDateProvided) {
-                sinceDate = TimeUtil.getZonedSinceDate(cliSinceDate.get(), zoneId);
+                sinceDate = TimeUtil.getZonedSinceDate(cliSinceDate.get());
             } else {
-                sinceDate = isPeriodProvided
-                        ? TimeUtil.getDateMinusNDays(cliUntilDate, zoneId, cliPeriod.get())
-                        : TimeUtil.getDateMinusAMonth(cliUntilDate, zoneId);
+                if (isUntilDateProvided) {
+                    sinceDate = isPeriodProvided
+                            ? TimeUtil.getDateMinusNDays(cliUntilDate.get(), cliPeriod.get())
+                            : TimeUtil.getDateMinusAMonth(cliUntilDate.get());
+                } else {
+                    sinceDate = isPeriodProvided
+                            ? TimeUtil.getDateMinusNDays(currentDate, cliPeriod.get())
+                            : TimeUtil.getDateMinusAMonth(currentDate);
+                }
+
             }
 
             if (isUntilDateProvided) {
-                untilDate = TimeUtil.getZonedUntilDate(cliUntilDate.get(), zoneId);
+                untilDate = TimeUtil.getZonedUntilDate(cliUntilDate.get());
             } else {
                 untilDate = (isSinceDateProvided && isPeriodProvided)
-                        ? TimeUtil.getDatePlusNDays(cliSinceDate, zoneId, cliPeriod.get())
+                        ? TimeUtil.getDatePlusNDays(cliSinceDate.get(), cliPeriod.get())
                         : currentDate;
             }
 
@@ -316,7 +324,7 @@ public class ArgsParser {
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
-            TimeUtil.verifySinceDateIsValid(sinceDate);
+            TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
             TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)

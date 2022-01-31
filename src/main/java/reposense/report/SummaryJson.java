@@ -1,5 +1,6 @@
 package reposense.report;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,13 +22,13 @@ public class SummaryJson {
     private final String reportTitle;
     private final List<RepoConfiguration> repos;
     private final Set<Map<String, String>> errorSet;
-    private final Date sinceDate;
-    private final Date untilDate;
+    private final LocalDateTime sinceDate;
+    private final LocalDateTime untilDate;
     private final boolean isSinceDateProvided;
     private final boolean isUntilDateProvided;
 
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
-            Date sinceDate, Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
+            LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
             String repoSenseVersion, Set<Map<String, String>> errorSet, String reportGenerationTime, String zoneId) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;

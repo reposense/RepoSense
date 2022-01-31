@@ -1,6 +1,7 @@
 package reposense.model;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import jdk.vm.ci.meta.Local;
 import reposense.git.GitBranch;
 import reposense.git.exception.GitBranchException;
 import reposense.system.LogsManager;
@@ -26,8 +28,8 @@ public class RepoConfiguration {
     private String displayName;
     private String outputFolderName;
     private transient String zoneId;
-    private transient Date sinceDate;
-    private transient Date untilDate;
+    private transient LocalDateTime sinceDate;
+    private transient LocalDateTime untilDate;
     private transient String repoFolderName;
 
     private transient FileTypeManager fileTypeManager;
@@ -83,7 +85,8 @@ public class RepoConfiguration {
         }
     }
 
-    public static void setDatesToRepoConfigs(List<RepoConfiguration> configs, Date sinceDate, Date untilDate) {
+    public static void setDatesToRepoConfigs(List<RepoConfiguration> configs,
+            LocalDateTime sinceDate, LocalDateTime untilDate) {
         for (RepoConfiguration config : configs) {
             config.setSinceDate(sinceDate);
             config.setUntilDate(untilDate);
@@ -500,19 +503,19 @@ public class RepoConfiguration {
         return fileTypeManager;
     }
 
-    public Date getSinceDate() {
+    public LocalDateTime getSinceDate() {
         return sinceDate;
     }
 
-    public void setSinceDate(Date sinceDate) {
+    public void setSinceDate(LocalDateTime sinceDate) {
         this.sinceDate = sinceDate;
     }
 
-    public Date getUntilDate() {
+    public LocalDateTime getUntilDate() {
         return untilDate;
     }
 
-    public void setUntilDate(Date untilDate) {
+    public void setUntilDate(LocalDateTime untilDate) {
         this.untilDate = untilDate;
     }
 
