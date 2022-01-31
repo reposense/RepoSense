@@ -2,9 +2,8 @@ package reposense.commits;
 
 import static reposense.util.StringsUtil.removeQuote;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
@@ -30,7 +29,8 @@ import reposense.system.LogsManager;
  * Analyzes commit information found in the git log.
  */
 public class CommitInfoAnalyzer {
-    public static final DateFormat GIT_STRICT_ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    public static final DateTimeFormatter GIT_STRICT_ISO_DATE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     private static final String TAB_SPLITTER = "\t";
     private static final String MOVED_FILE_INDICATION = "=> ";

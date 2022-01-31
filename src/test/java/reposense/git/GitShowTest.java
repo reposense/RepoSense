@@ -1,6 +1,6 @@
 package reposense.git;
 
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -26,7 +26,7 @@ public class GitShowTest extends GitTestTemplate {
     @Test
     public void getCommitDate_normalCommit_success() throws Exception {
         Date commitDate = GitShow.getCommitDate(config.getRepoRoot(), TEST_COMMIT_HASH);
-        Date expectedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse("2018-02-09 22:17:39 +0800");
+        Date expectedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z").parse("2018-02-09 22:17:39 +0800");
         Assert.assertEquals(expectedDate, commitDate);
     }
 
@@ -39,7 +39,7 @@ public class GitShowTest extends GitTestTemplate {
     public void getEarliestCommitDate_singleCommit_success() throws Exception {
         Date earliestDate = GitShow.getEarliestCommitDate(
                 config.getRepoRoot(), Arrays.asList(TEST_COMMIT_HASH));
-        Date expectedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse("2018-02-09 22:17:39 +0800");
+        Date expectedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z").parse("2018-02-09 22:17:39 +0800");
         Assert.assertEquals(expectedDate, earliestDate);
     }
 
@@ -47,7 +47,7 @@ public class GitShowTest extends GitTestTemplate {
     public void getEarliestCommitDate_multipleCommits_success() throws Exception {
         Date earliestDate = GitShow.getEarliestCommitDate(
                 config.getRepoRoot(), Arrays.asList(TEST_COMMIT_HASH, ROOT_COMMIT_HASH, LATEST_COMMIT_HASH));
-        Date expectedDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z").parse("2018-02-05 16:00:39 +0800");
+        Date expectedDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z").parse("2018-02-05 16:00:39 +0800");
         Assert.assertEquals(expectedDate, earliestDate);
     }
 
