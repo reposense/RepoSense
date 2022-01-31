@@ -123,7 +123,7 @@ public class TimeUtil {
      * Returns current date with time set to 23:59:59. The time zone is adjusted to the given {@code zoneId}.
      */
     public static LocalDateTime getCurrentDate(ZoneId zoneId) {
-        return LocalDateTime.now(zoneId).withHour(23).withMinute(59).withSecond(59);
+        return LocalDateTime.now(zoneId).withHour(23).withMinute(59).withSecond(59).withNano(0);
     }
 
     /**

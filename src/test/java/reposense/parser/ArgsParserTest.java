@@ -384,7 +384,7 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.JULY.getValue(), 2);
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.JULY.getValue(), 3);
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 
@@ -397,7 +397,7 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Month.JULY.getValue(), 1);
+        LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Month.JUNE.getValue(), 30);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
 
@@ -699,10 +699,10 @@ public class ArgsParserTest {
                 .addUntilDate("30/11/2017")
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        int[] expectedSinceTime = {21, 0, 0};
+        int[] expectedSinceTime = {0, 0, 0};
         LocalDateTime expectedSinceDate = TestUtil.getDate(2017,
-                Month.JUNE.getValue(), 30, expectedSinceTime);
-        int[] expectedUntilTime = {20, 59, 59};
+                Month.JULY.getValue(), 01, expectedSinceTime);
+        int[] expectedUntilTime = {23, 59, 59};
         LocalDateTime expectedUntilDate = TestUtil.getDate(2017,
                 Month.NOVEMBER.getValue(), 30, expectedUntilTime);
 
@@ -716,10 +716,10 @@ public class ArgsParserTest {
                 .addUntilDate("30/11/2017")
                 .build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
-        expectedSinceTime = new int[]{17, 30, 0};
+        expectedSinceTime = new int[]{0, 0, 0};
         expectedSinceDate = TestUtil.getDate(2017, Month.JULY.getValue(), 1, expectedSinceTime);
-        expectedUntilTime = new int[]{17, 29, 59};
-        expectedUntilDate = TestUtil.getDate(2017, Month.DECEMBER.getValue(), 1, expectedUntilTime);
+        expectedUntilTime = new int[]{23, 59, 59};
+        expectedUntilDate = TestUtil.getDate(2017, Month.NOVEMBER.getValue(), 30, expectedUntilTime);
 
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
@@ -731,10 +731,10 @@ public class ArgsParserTest {
                 .addUntilDate("30/11/2017")
                 .build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
-        expectedSinceTime = new int[]{8, 0, 0};
+        expectedSinceTime = new int[]{0, 0, 0};
         expectedSinceDate = TestUtil.getDate(2017, Month.JULY.getValue(), 1, expectedSinceTime);
-        expectedUntilTime = new int[]{7, 59, 59};
-        expectedUntilDate = TestUtil.getDate(2017, Month.DECEMBER.getValue(), 1, expectedUntilTime);
+        expectedUntilTime = new int[]{23, 59, 59};
+        expectedUntilDate = TestUtil.getDate(2017, Month.NOVEMBER.getValue(), 30, expectedUntilTime);
 
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
@@ -776,7 +776,7 @@ public class ArgsParserTest {
      */
     private void assertDateDiffEndOfDay(LocalDateTime actualUntilDate) {
 
-        LocalDateTime currentDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+        LocalDateTime currentDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(0);
         Assert.assertTrue(actualUntilDate.equals(currentDate));
     }
 }
