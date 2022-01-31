@@ -17,7 +17,7 @@ public class TimeUtil {
     private static Long startTime;
     private static final String DATE_FORMAT_REGEX =
             "^((0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
-    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy HH:mm:ss");
+    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss");
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\".";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
@@ -167,7 +167,7 @@ public class TimeUtil {
      */
     public static LocalDateTime parseDate(String date) throws java.text.ParseException {
         try {
-            return LocalDateTime.parse(date, CLI_ARGS_DATE_FORMAT);
+            return LocalDateTime.parse(date, CLI_ARGS_DATE_FORMAT.withResolverStyle(ResolverStyle.STRICT));
         } catch (DateTimeParseException e) {
             throw new java.text.ParseException(String.format(
                     "Exception message: %s\n", e.getMessage()), e.getErrorIndex());
