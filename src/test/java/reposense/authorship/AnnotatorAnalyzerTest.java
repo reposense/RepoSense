@@ -2,6 +2,7 @@ package reposense.authorship;
 
 import static reposense.model.Author.UNKNOWN_AUTHOR;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -21,8 +22,8 @@ import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 public class AnnotatorAnalyzerTest extends GitTestTemplate {
-    private static final Date SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 8);
-    private static final Date UNTIL_DATE = TestUtil.getUntilDate(2021, Calendar.AUGUST, 3);
+    private static final LocalDateTime SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 8);
+    private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2021, Calendar.AUGUST, 3);
     private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
     private static final Author[] EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST = {
             FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR,

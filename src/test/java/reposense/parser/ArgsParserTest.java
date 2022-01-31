@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -93,8 +94,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
-        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
-        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
+        LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
@@ -127,8 +128,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
-        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
-        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
+        LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
@@ -161,8 +162,8 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
-        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
-        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
+        LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
@@ -186,7 +187,7 @@ public class ArgsParserTest {
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         // Optional arguments have default values
         assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.getZoneId());
-        assertDateDiffEndOfDay(cliArguments.getUntilDate(), cliArguments.getZoneId());
+        assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
@@ -200,7 +201,7 @@ public class ArgsParserTest {
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         // Optional arguments have default values
         assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.getZoneId());
-        assertDateDiffEndOfDay(cliArguments.getUntilDate(), cliArguments.getZoneId());
+        assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
         Assert.assertFalse(cliArguments.isAutomaticallyLaunching());
@@ -335,7 +336,7 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
 
@@ -347,7 +348,7 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 
@@ -359,7 +360,7 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
 
@@ -371,7 +372,7 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.NOVEMBER, 30);
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 
@@ -384,7 +385,7 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Date expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.JULY, 2);
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Calendar.JULY, 2);
         Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 
@@ -397,7 +398,7 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Date expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
+        LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Calendar.JULY, 1);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
 
@@ -700,9 +701,9 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         int[] expectedSinceTime = {21, 0, 0};
-        Date expectedSinceDate = TestUtil.getDate(2017, Calendar.JUNE, 30, expectedSinceTime);
+        LocalDateTime expectedSinceDate = TestUtil.getDate(2017, Calendar.JUNE, 30, expectedSinceTime);
         int[] expectedUntilTime = {20, 59, 59};
-        Date expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30, expectedUntilTime);
+        LocalDateTime expectedUntilDate = TestUtil.getDate(2017, Calendar.NOVEMBER, 30, expectedUntilTime);
 
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
@@ -761,21 +762,9 @@ public class ArgsParserTest {
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
      * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.
      */
-    private void assertDateDiffOneMonth(Date actualSinceDate, Date untilDate, ZoneId zoneId) {
-        int zoneRawOffset = TimeUtil.getZoneRawOffset(zoneId);
-        int systemRawOffset = TimeUtil.getZoneRawOffset(ZoneId.systemDefault());
-
-        Calendar cal = new Calendar
-                .Builder()
-                .setInstant(untilDate.getTime())
-                .build();
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
-        cal.add(Calendar.MONTH, -1);
-        Assert.assertTrue(actualSinceDate.equals(cal.getTime()));
+    private void assertDateDiffOneMonth(LocalDateTime actualSinceDate, LocalDateTime untilDate, ZoneId zoneId) {
+        LocalDateTime oneMonthBeforeUntilDate = untilDate.withHour(0).withMinute(0).withSecond(0).minusMonths(1);
+        Assert.assertTrue(actualSinceDate.equals(oneMonthBeforeUntilDate));
     }
 
     /**
@@ -784,16 +773,9 @@ public class ArgsParserTest {
      * @throws AssertionError if {@code actualUntilDate} does not fall on the date of report generation
      * with time at 23:59:59.
      */
-    private void assertDateDiffEndOfDay(Date actualUntilDate, ZoneId zoneId) {
-        int zoneRawOffset = TimeUtil.getZoneRawOffset(zoneId);
-        int systemRawOffset = TimeUtil.getZoneRawOffset(ZoneId.systemDefault());
+    private void assertDateDiffEndOfDay(LocalDateTime actualUntilDate) {
 
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.MILLISECOND, systemRawOffset - zoneRawOffset);
-        Assert.assertTrue(actualUntilDate.equals(cal.getTime()));
+        LocalDateTime currentDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59);
+        Assert.assertTrue(actualUntilDate.equals(currentDate));
     }
 }
