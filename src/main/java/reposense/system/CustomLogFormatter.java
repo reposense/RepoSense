@@ -2,8 +2,8 @@ package reposense.system;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
@@ -40,9 +40,8 @@ public class CustomLogFormatter extends SimpleFormatter {
     @Override
     public synchronized String format(LogRecord record) {
         StringBuilder builder = new StringBuilder();
-        ZoneId zoneId = dateFormat.getZone();
-        builder.append(ZonedDateTime.ofInstant(new Date(record.getMillis()).toInstant(), zoneId)
-                .format(dateFormat)).append(" - ");
+        builder.append(dateFormat.format(LocalDateTime.ofInstant(new Date(record.getMillis()).toInstant(),
+                ZoneId.systemDefault()))).append(" - ");
 
         if (formatMap.containsKey(record.getLevel())) {
             builder.append(formatMap.get(record.getLevel())).append(" ");

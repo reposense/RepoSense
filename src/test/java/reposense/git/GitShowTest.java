@@ -1,9 +1,8 @@
 package reposense.git;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,9 +25,9 @@ public class GitShowTest extends GitTestTemplate {
 
     @Test
     public void getCommitDate_normalCommit_success() throws Exception {
-        Date commitDate = GitShow.getCommitDate(config.getRepoRoot(), TEST_COMMIT_HASH);
-        Date expectedDate = Date.from(ZonedDateTime.parse("2018-02-09 22:17:39 +0800",
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")).toInstant());
+        LocalDateTime commitDate = GitShow.getCommitDate(config.getRepoRoot(), TEST_COMMIT_HASH);
+        LocalDateTime expectedDate = LocalDateTime.parse("2018-02-09 22:17:39 +0800",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z"));
         Assert.assertEquals(expectedDate, commitDate);
     }
 
@@ -39,19 +38,19 @@ public class GitShowTest extends GitTestTemplate {
 
     @Test
     public void getEarliestCommitDate_singleCommit_success() throws Exception {
-        Date earliestDate = GitShow.getEarliestCommitDate(
+        LocalDateTime earliestDate = GitShow.getEarliestCommitDate(
                 config.getRepoRoot(), Arrays.asList(TEST_COMMIT_HASH));
-        Date expectedDate = Date.from(ZonedDateTime.parse("2018-02-09 22:17:39 +0800",
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")).toInstant());
+        LocalDateTime expectedDate = LocalDateTime.parse("2018-02-09 22:17:39 +0800",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z"));
         Assert.assertEquals(expectedDate, earliestDate);
     }
 
     @Test
     public void getEarliestCommitDate_multipleCommits_success() throws Exception {
-        Date earliestDate = GitShow.getEarliestCommitDate(
+        LocalDateTime earliestDate = GitShow.getEarliestCommitDate(
                 config.getRepoRoot(), Arrays.asList(TEST_COMMIT_HASH, ROOT_COMMIT_HASH, LATEST_COMMIT_HASH));
-        Date expectedDate = Date.from(ZonedDateTime.parse("2018-02-05 16:00:39 +0800",
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z")).toInstant());
+        LocalDateTime expectedDate = LocalDateTime.parse("2018-02-05 16:00:39 +0800",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z"));
         Assert.assertEquals(expectedDate, earliestDate);
     }
 

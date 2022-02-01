@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,7 +23,6 @@ import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
-import reposense.util.TimeUtil;
 
 /**
  * Analyzes the target and information given in the {@code FileInfo}.
@@ -148,8 +148,8 @@ public class FileInfoAnalyzer {
 
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
-        Long sinceDateInMs = config.getSinceDate().getTime();
-        Long untilDateInMs = config.getUntilDate().getTime();
+        LocalDateTime sinceDate = config.getSinceDate();
+        LocalDateTime untilDate = config.getUntilDate();
 
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
@@ -157,12 +157,14 @@ public class FileInfoAnalyzer {
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
             Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
+            LocalDateTime commitDate = LocalDateTime.ofInstant(new Date(commitDateInMs).toInstant(),
+                    ZoneId.of(config.getZoneId()));
             String authorTimeZone = blameResultLines[lineCount + 4].substring(AUTHOR_TIMEZONE_OFFSET);
             Author author = config.getAuthor(authorName, authorEmail);
 
             if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
-                    || commitDateInMs < sinceDateInMs || commitDateInMs > untilDateInMs) {
+                    || commitDate.compareTo(sinceDate) < 0 || commitDate.compareTo(untilDate) > 0) {
                 author = Author.UNKNOWN_AUTHOR;
             }
 
@@ -171,11 +173,8 @@ public class FileInfoAnalyzer {
                     logger.warning(String.format(
                             MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT, config.getRepoName()));
                 }
-                // convert the commit date from the system default time zone to cli-specified timezone
-                Date convertedCommitDate = TimeUtil.getZonedDateFromSystemDate(new Date(commitDateInMs),
-                        ZoneId.of(config.getZoneId()));
 
-                fileInfo.setLineLastModifiedDate(lineCount / 5, convertedCommitDate);
+                fileInfo.setLineLastModifiedDate(lineCount / 5, commitDate);
             }
             fileInfo.setLineAuthor(lineCount / 5, author);
         }

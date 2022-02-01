@@ -1,12 +1,12 @@
 package reposense.util;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.Month;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import reposense.parser.ParseException;
 
 public class TimeUtilTest {
     @Test
@@ -27,8 +27,8 @@ public class TimeUtilTest {
     @Test
     public void parseDate_validDateAndTime_success() throws Exception {
         String originalDateAndTime = "20/05/2020 00:00:00";
-        Date expectedDate = TestUtil.getLocalSinceDate(2020, Calendar.MAY, 20);
-        Date actualDate = TimeUtil.parseDate(originalDateAndTime);
+        LocalDateTime expectedDate = TestUtil.getLocalSinceDate(2020, Month.MAY.getValue(), 20);
+        LocalDateTime actualDate = TimeUtil.parseDate(originalDateAndTime);
         Assert.assertEquals(expectedDate, actualDate);
     }
 

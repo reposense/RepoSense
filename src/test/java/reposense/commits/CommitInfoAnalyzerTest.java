@@ -1,12 +1,10 @@
 package reposense.commits;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,8 +145,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
                 "", null, fileTypeAndContributionMap));
 
         config.setAuthorList(Arrays.asList(author, author));
-        config.setSinceDate(new GregorianCalendar(2021, Calendar.AUGUST, 3).getTime());
-        config.setUntilDate(new GregorianCalendar(2021, Calendar.AUGUST, 4).getTime());
+        config.setSinceDate(LocalDateTime.of(2021, Month.AUGUST, 3, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2021, Month.AUGUST, 4, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
@@ -180,8 +178,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success");
         config.setAuthorList(Collections.singletonList(author));
-        config.setSinceDate(new GregorianCalendar(2019, Calendar.JUNE, 19).getTime());
-        config.setUntilDate(new GregorianCalendar(2019, Calendar.JUNE, 20).getTime());
+        config.setSinceDate(LocalDateTime.of(2019, Month.JUNE, 19, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2019, Month.JUNE, 20, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
@@ -211,8 +209,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success");
         config.setAuthorList(Collections.singletonList(author));
-        config.setSinceDate(new GregorianCalendar(2019, Calendar.JULY, 2).getTime());
-        config.setUntilDate(new GregorianCalendar(2019, Calendar.JULY, 3).getTime());
+        config.setSinceDate(LocalDateTime.of(2019, Month.JULY, 2, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2019, Month.JULY, 3, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
@@ -240,8 +238,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         config.setBranch("879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success");
         config.setAuthorList(Collections.singletonList(author));
-        config.setSinceDate(new GregorianCalendar(2019, Calendar.DECEMBER, 20).getTime());
-        config.setUntilDate(new GregorianCalendar(2019, Calendar.DECEMBER, 21).getTime());
+        config.setSinceDate(LocalDateTime.of(2019, Month.DECEMBER, 20, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2019, Month.DECEMBER, 21, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
@@ -260,8 +258,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setBranch("1019-CommitInfoAnalyzerTest-emptyCommits");
         config.setAuthorList(Collections.singletonList(author));
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
-        config.setSinceDate(new GregorianCalendar(2020, Calendar.JANUARY, 27).getTime());
-        config.setUntilDate(new GregorianCalendar(2020, Calendar.JANUARY, 28).getTime());
+        config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
@@ -281,8 +279,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setBranch("1192-CommitInfoAnalyzerTest-analyzeCommits_commitsWithBinaryContribution_success");
         config.setAuthorList(Collections.singletonList(author));
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
-        config.setSinceDate(new GregorianCalendar(2020, Calendar.APRIL, 6).getTime());
-        config.setUntilDate(new GregorianCalendar(2020, Calendar.APRIL, 7).getTime());
+        config.setSinceDate(LocalDateTime.of(2020, Month.APRIL, 6, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2020, Month.APRIL, 7, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
@@ -312,8 +310,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         config.setBranch("1244-CommitInfoAnalyzerTest-analyzeCommits_fileNameWithSpecialChars_success");
         config.setAuthorList(Collections.singletonList(author));
-        config.setSinceDate(new GregorianCalendar(2020, Calendar.APRIL, 20).getTime());
-        config.setUntilDate(new GregorianCalendar(2020, Calendar.APRIL, 21).getTime());
+        config.setSinceDate(LocalDateTime.of(2020, Month.APRIL, 20, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2020, Month.APRIL, 21, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
@@ -323,10 +321,9 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     /**
-     * Returns a {@code Date} from a string {@code gitStrictIsoDate}.
+     * Returns a {@code LocalDateTime} from a string {@code gitStrictIsoDate}.
      */
-    private Date parseGitStrictIsoDate(String gitStrictIsoDate) throws Exception {
-        return Date.from(ZonedDateTime.parse(gitStrictIsoDate,
-                CommitInfoAnalyzer.GIT_STRICT_ISO_DATE_FORMAT).toInstant());
+    private LocalDateTime parseGitStrictIsoDate(String gitStrictIsoDate) throws Exception {
+        return LocalDateTime.parse(gitStrictIsoDate, CommitInfoAnalyzer.GIT_STRICT_ISO_DATE_FORMAT);
     }
 }

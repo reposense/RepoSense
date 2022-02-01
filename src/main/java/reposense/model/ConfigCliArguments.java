@@ -2,8 +2,8 @@ package reposense.model;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 import reposense.parser.AuthorConfigCsvParser;
@@ -24,8 +24,8 @@ public class ConfigCliArguments extends CliArguments {
     private Path reportConfigFilePath;
     private ReportConfiguration reportConfiguration;
 
-    public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Path assetsFilePath, Date sinceDate,
-            Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
+    public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Path assetsFilePath, LocalDateTime sinceDate,
+            LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, List<FileType> formats, boolean isLastModifiedDateIncluded,
             boolean isShallowCloningPerformed, boolean isAutomaticallyLaunching,
             boolean isStandaloneConfigIgnored, ZoneId zoneId, ReportConfiguration reportConfiguration,

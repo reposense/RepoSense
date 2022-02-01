@@ -2,13 +2,11 @@ package reposense.commits;
 
 import static reposense.util.StringsUtil.removeQuote;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,10 +87,9 @@ public class CommitInfoAnalyzer {
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
-        Date date = null;
+        LocalDateTime date = null;
         try {
-            date = Date.from(ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT)
-                    .toInstant());
+            date = LocalDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT);
         } catch (DateTimeParseException pe) {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }

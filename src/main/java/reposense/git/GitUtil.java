@@ -8,10 +8,10 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,8 +25,8 @@ import reposense.util.StringsUtil;
  * Contains Git related utilities.
  */
 class GitUtil {
-    static final DateTimeFormatter GIT_LOG_SINCE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssX");
-    static final DateTimeFormatter GIT_LOG_UNTIL_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssX");
+    static final DateTimeFormatter GIT_LOG_SINCE_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
+    static final DateTimeFormatter GIT_LOG_UNTIL_DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ");
     private static final Logger logger = LogsManager.getLogger(GitUtil.class);
 
     // ignore check against email
@@ -38,20 +38,19 @@ class GitUtil {
     private static final String OR_OPERATOR_PATTERN = "\\|";
 
     /**
-     * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands.
+     * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands,
+     * with {@code zoneId} taken into account.
      */
-    static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate, ZoneId zoneId) {
+    static String convertToGitDateRangeArgs(LocalDateTime sinceDate, LocalDateTime untilDate, ZoneId zoneId) {
         String gitDateRangeArgs = "";
 
         if (sinceDate != null) {
-            gitDateRangeArgs += " --since="
-                    + addQuote(ZonedDateTime.ofInstant(sinceDate.toInstant(), zoneId)
-                            .format(GIT_LOG_SINCE_DATE_FORMAT));
+            gitDateRangeArgs += " --since=" + addQuote(GIT_LOG_SINCE_DATE_FORMAT.format(
+                    ZonedDateTime.of(sinceDate, zoneId)));
         }
         if (untilDate != null) {
-            gitDateRangeArgs += " --until="
-                    + addQuote(ZonedDateTime.ofInstant(untilDate.toInstant(), zoneId)
-                            .format(GIT_LOG_UNTIL_DATE_FORMAT));
+            gitDateRangeArgs += " --until=" + addQuote(GIT_LOG_UNTIL_DATE_FORMAT.format(
+                    ZonedDateTime.of(untilDate, zoneId)));
         }
 
         return gitDateRangeArgs;

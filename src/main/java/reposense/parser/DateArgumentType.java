@@ -1,6 +1,6 @@
 package reposense.parser;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import net.sourceforge.argparse4j.inf.Argument;
@@ -12,14 +12,15 @@ import reposense.util.TimeUtil;
 /**
  * Verifies and parses a string-formatted date to a {@code Date} object.
  */
-public class DateArgumentType implements ArgumentType<Optional<Date>> {
+public class DateArgumentType implements ArgumentType<Optional<LocalDateTime>> {
     private static final String PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT = "Invalid Date: %s";
 
     @Override
-    public Optional<Date> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
+    public Optional<LocalDateTime> convert(ArgumentParser parser, Argument arg, String value)
+            throws ArgumentParserException {
         try {
             return Optional.of(TimeUtil.parseDate(value));
-        } catch (ParseException pe) {
+        } catch (java.text.ParseException pe) {
             throw new ArgumentParserException(
                     String.format(PARSE_EXCEPTION_MESSAGE_INVALID_DATE_STRING_FORMAT, value), parser);
         }
