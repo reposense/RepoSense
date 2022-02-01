@@ -17,8 +17,10 @@ public class RepoLocation {
             Pattern.compile("^(ssh|git|https?|ftps?)://[^/]*?/(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
     private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*?:(?<path>.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
-    private static final Pattern LOCAL_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^(file://)?(?<path>.*?)[/\\\\]?(?<repoName>[^/\\\\]+?)([/\\\\]?\\.git)?[/\\\\]?$");
+    private static final Pattern LOCAL_REPOSITORY_NON_WINDOWS_LOCATION_PATTERN =
+            Pattern.compile("^(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
+    private static final Pattern LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN =
+            Pattern.compile("^(?<path>.*?)\\\\?(?<repoName>[^\\\\]+?)(\\\\?\\.git)?\\\\?$");
 
     private final String location;
     private final String repoName;
@@ -28,37 +30,23 @@ public class RepoLocation {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoLocation(String location) throws InvalidLocationException {
-        if (SystemUtil.isWindows()) {
+        boolean isWindows = SystemUtil.isWindows();
+        if (isWindows) {
             location = StringsUtil.removeTrailingBackslash(location);
         }
 
         this.location = location;
+
+        String[] repoNameAndOrg;
         if (location.isEmpty()) {
-            repoName = "";
-            organization = "";
+            repoNameAndOrg = new String[] {"", ""};
         } else if (isLocalRepo(location)) {
-            Matcher localRepoMatcher = LOCAL_REPOSITORY_LOCATION_PATTERN.matcher(location);
-
-            if (!localRepoMatcher.matches()) {
-                throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
-            }
-
-            repoName = localRepoMatcher.group("repoName");
-            String fileSeparator = SystemUtil.isWindows() ? "[/\\\\]" : "/";
-            organization = localRepoMatcher.group("path").replaceAll(fileSeparator, "-");
+            repoNameAndOrg = getLocalRepoNameAndOrg(location);
         } else {
-            Matcher remoteRepoMatcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
-            Matcher sshRepoMatcher = SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN.matcher(location);
-
-            boolean isValidRemoteRepoUrl = remoteRepoMatcher.matches() || sshRepoMatcher.matches();
-            if (!isValidRemoteRepoUrl) {
-                throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
-            }
-
-            Matcher actualMatcher = remoteRepoMatcher.matches() ? remoteRepoMatcher : sshRepoMatcher;
-            repoName = actualMatcher.group("repoName");
-            organization = actualMatcher.group("path").replaceAll("/", "-");
+            repoNameAndOrg = getRemoteRepoNameAndOrg(location);
         }
+        repoName = repoNameAndOrg[0];
+        organization = repoNameAndOrg[1];
     }
 
     public boolean isEmpty() {
@@ -97,6 +85,43 @@ public class RepoLocation {
         return false;
     }
 
+    private String[] getLocalRepoNameAndOrg(String location) throws InvalidLocationException {
+        location = location.replaceAll("/", "\\\\");
+        boolean isWindows = SystemUtil.isWindows();
+        if (isWindows) {
+            location = location.replaceAll("/", "\\\\");
+        }
+        Pattern localRepoPattern = isWindows
+                ? LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN
+                : LOCAL_REPOSITORY_NON_WINDOWS_LOCATION_PATTERN;
+        Matcher localRepoMatcher = localRepoPattern.matcher(location);
+
+        if (!localRepoMatcher.matches()) {
+            throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
+        }
+
+        String tempRepoName = localRepoMatcher.group("repoName");
+        String fileSeparator = isWindows ? "\\\\" : "/";
+        String tempOrganization = localRepoMatcher.group("path").replaceAll(fileSeparator, "-");
+
+        return new String[] {tempRepoName, tempOrganization};
+    }
+
+    private String[] getRemoteRepoNameAndOrg(String location) throws InvalidLocationException {
+        Matcher remoteRepoMatcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
+        Matcher sshRepoMatcher = SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN.matcher(location);
+
+        boolean isValidRemoteRepoUrl = remoteRepoMatcher.matches() || sshRepoMatcher.matches();
+        if (!isValidRemoteRepoUrl) {
+            throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
+        }
+
+        Matcher actualMatcher = remoteRepoMatcher.matches() ? remoteRepoMatcher : sshRepoMatcher;
+        String tempRepoName = actualMatcher.group("repoName");
+        String tempOrganization = actualMatcher.group("path").replaceAll("/", "-");
+
+        return new String[] {tempRepoName, tempOrganization};
+    }
 
     @Override
     public String toString() {
