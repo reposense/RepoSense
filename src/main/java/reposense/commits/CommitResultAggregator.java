@@ -1,10 +1,10 @@
 package reposense.commits;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,14 +18,11 @@ import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ReportGenerator;
-import reposense.util.TimeUtil;
 
 /**
  * Uses the commit analysis results to generate the summary information of a repository.
  */
 public class CommitResultAggregator {
-
-    private static final int DAYS_IN_MS = 24 * 60 * 60 * 1000;
 
     /**
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
@@ -39,8 +36,7 @@ public class CommitResultAggregator {
         ReportGenerator.setEarliestSinceDate(startDate);
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
-                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults,
-                        config.getZoneId());
+                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults);
 
         LocalDateTime lastDate = commitResults.size() == 0
                 ? null
@@ -76,7 +72,7 @@ public class CommitResultAggregator {
         }
         //get mean
         float total = 0;
-        long totalDays = startDate.until(lastDate, ChronoUnit.DAYS);
+        long totalDays = startDate.until(lastDate, ChronoUnit.DAYS) + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
@@ -84,11 +80,11 @@ public class CommitResultAggregator {
         float mean = total / totalDays;
 
         float variance = 0;
-        LocalDateTime currentDate = startDate;
+        LocalDate currentDate = startDate.toLocalDate();
+
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
-            if (contributionIndex < contributions.size()
-                    && currentDate == contributions.get(contributionIndex).getDate()) {
+            if (contributionIndex < contributions.size() && currentDate == contributions.get(contributionIndex).getDate()) {
                 variance += Math.pow((mean - contributions.get(contributionIndex).getTotalContribution()), 2);
                 contributionIndex += 1;
             } else {
@@ -100,13 +96,13 @@ public class CommitResultAggregator {
     }
 
     private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
-            Set<Author> authorSet, List<CommitResult> commitResults, String zoneId) {
+            Set<Author> authorSet, List<CommitResult> commitResults) {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
         authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
 
-        LocalDateTime commitStartDate = null;
+        LocalDate commitStartDate;
         for (CommitResult commitResult : commitResults) {
-            commitStartDate = commitResult.getTime();
+            commitStartDate = commitResult.getTime().toLocalDate();
             Author commitAuthor = commitResult.getAuthor();
 
             List<AuthorDailyContribution> authorDailyContributions = authorDailyContributionsMap.get(commitAuthor);
@@ -124,7 +120,7 @@ public class CommitResultAggregator {
     }
 
     private static void addDailyContributionForNewDate(
-            List<AuthorDailyContribution> authorDailyContributions, LocalDateTime date) {
+            List<AuthorDailyContribution> authorDailyContributions, LocalDate date) {
         authorDailyContributions.add(new AuthorDailyContribution(date));
     }
 
@@ -136,13 +132,12 @@ public class CommitResultAggregator {
             return current;
         }
 
-        return current.withHour(0).withMinute(0).withSecond(0);
+        return current.withHour(0).withMinute(0).withSecond(0).withNano(0);
     }
 
     private static LocalDateTime getStartDate(List<CommitResult> commitInfos) {
-        LocalDateTime min = (commitInfos.isEmpty())
+        return (commitInfos.isEmpty())
                 ? LocalDateTime.ofInstant(new Date(Long.MIN_VALUE).toInstant(), ZoneId.of("Z"))
                 : commitInfos.get(0).getTime();
-        return min;
     }
 }

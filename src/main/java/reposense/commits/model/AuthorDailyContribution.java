@@ -1,5 +1,6 @@
 package reposense.commits.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,19 +10,19 @@ import java.util.List;
  * Holds the commits made by an {@code Author} for a single day.
  */
 public class AuthorDailyContribution {
-    private LocalDateTime date;
+    private LocalDate date;
     private List<CommitResult> commitResults;
 
-    public AuthorDailyContribution(LocalDateTime date) {
+    public AuthorDailyContribution(LocalDate date) {
         this.date = date;
         commitResults = new ArrayList<>();
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
