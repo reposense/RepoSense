@@ -1,8 +1,8 @@
 package reposense.parser;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.Optional;
 
 import net.sourceforge.argparse4j.inf.Argument;
@@ -19,7 +19,7 @@ public class SinceDateArgumentType extends DateArgumentType {
      * Then, ReportGenerator will replace the arbitrary since date with the earliest commit date.
      */
     public static final LocalDateTime ARBITRARY_FIRST_COMMIT_DATE = LocalDateTime.ofInstant(
-            new Date(Long.MIN_VALUE).toInstant(), ZoneId.of("Z"));
+            Instant.ofEpochMilli(Long.MIN_VALUE), ZoneId.of("Z"));
     public static final String FIRST_COMMIT_DATE_SHORTHAND = "d1";
 
     /**

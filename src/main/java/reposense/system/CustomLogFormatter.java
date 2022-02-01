@@ -2,10 +2,10 @@ package reposense.system;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -40,7 +40,7 @@ public class CustomLogFormatter extends SimpleFormatter {
     @Override
     public synchronized String format(LogRecord record) {
         StringBuilder builder = new StringBuilder();
-        builder.append(dateFormat.format(LocalDateTime.ofInstant(new Date(record.getMillis()).toInstant(),
+        builder.append(dateFormat.format(LocalDateTime.ofInstant(Instant.ofEpochMilli(record.getMillis()),
                 ZoneId.systemDefault()))).append(" - ");
 
         if (formatMap.containsKey(record.getLevel())) {

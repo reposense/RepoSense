@@ -1,10 +1,10 @@
 package reposense.commits;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +140,7 @@ public class CommitResultAggregator {
 
     private static LocalDateTime getStartDate(List<CommitResult> commitInfos) {
         return (commitInfos.isEmpty())
-                ? LocalDateTime.ofInstant(new Date(Long.MIN_VALUE).toInstant(), ZoneId.of("Z"))
+                ? LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.MIN_VALUE), ZoneId.of("Z"))
                 : commitInfos.get(0).getTime();
     }
 }

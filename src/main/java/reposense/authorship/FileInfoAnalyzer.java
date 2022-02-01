@@ -3,9 +3,9 @@ package reposense.authorship;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.HashMap;
 
 import java.util.HashSet;
@@ -157,7 +157,7 @@ public class FileInfoAnalyzer {
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
             Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
-            LocalDateTime commitDate = LocalDateTime.ofInstant(new Date(commitDateInMs).toInstant(),
+            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(commitDateInMs),
                     ZoneId.of(config.getZoneId()));
             String authorTimeZone = blameResultLines[lineCount + 4].substring(AUTHOR_TIMEZONE_OFFSET);
             Author author = config.getAuthor(authorName, authorEmail);
