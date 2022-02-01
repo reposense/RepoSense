@@ -84,7 +84,8 @@ public class CommitResultAggregator {
 
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
-            if (contributionIndex < contributions.size() && currentDate == contributions.get(contributionIndex).getDate()) {
+            if (contributionIndex < contributions.size() && currentDate
+                    == contributions.get(contributionIndex).getDate()) {
                 variance += Math.pow((mean - contributions.get(contributionIndex).getTotalContribution()), 2);
                 contributionIndex += 1;
             } else {

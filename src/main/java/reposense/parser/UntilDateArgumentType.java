@@ -1,7 +1,6 @@
 package reposense.parser;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 
 import net.sourceforge.argparse4j.inf.Argument;

@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 import org.junit.Assert;
 import org.junit.Test;

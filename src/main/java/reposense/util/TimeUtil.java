@@ -1,6 +1,7 @@
 package reposense.util;
 
-import java.time.*;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
@@ -59,22 +60,6 @@ public class TimeUtil {
      */
     public static String getElapsedTimeMessage() {
         return "Elapsed processing time:" + getElapsedTime();
-    }
-
-    /**
-     * Get the raw offset in milliseconds for the {@code zoneId} timezone compared to UTC.
-     */
-    public static int getZoneRawOffset(ZoneId zoneId) {
-        Instant now = Instant.now();
-        ZoneOffset zoneOffset = zoneId.getRules().getOffset(now);
-        return zoneOffset.getTotalSeconds() * 1000;
-    }
-
-    /**
-     * Get the {@code current} date that is in the system's timezone into the {@code zoneId} timezone.
-     */
-    public static ZonedDateTime getZonedDateFromSystemDate(LocalDateTime current, ZoneId zoneId) {
-        return ZonedDateTime.of(current, zoneId);
     }
 
     /**

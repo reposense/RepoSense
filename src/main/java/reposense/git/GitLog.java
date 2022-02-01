@@ -6,7 +6,6 @@ import static reposense.util.StringsUtil.addQuote;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;

@@ -32,7 +32,6 @@ import reposense.model.ViewCliArguments;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
-import reposense.util.TimeUtil;
 
 public class ArgsParserTest {
 
@@ -185,7 +184,7 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         // Optional arguments have default values
-        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.getZoneId());
+        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
         assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
@@ -199,7 +198,7 @@ public class ArgsParserTest {
         Assert.assertTrue(Files.isSameFile(
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
         // Optional arguments have default values
-        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate(), cliArguments.getZoneId());
+        assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
         assertDateDiffEndOfDay(cliArguments.getUntilDate());
         Assert.assertEquals(ArgsParser.DEFAULT_REPORT_NAME, cliArguments.getOutputFilePath().getFileName().toString());
         Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, cliArguments.getFormats());
@@ -701,7 +700,7 @@ public class ArgsParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         int[] expectedSinceTime = {0, 0, 0};
         LocalDateTime expectedSinceDate = TestUtil.getDate(2017,
-                Month.JULY.getValue(), 01, expectedSinceTime);
+                Month.JULY.getValue(), 1, expectedSinceTime);
         int[] expectedUntilTime = {23, 59, 59};
         LocalDateTime expectedUntilDate = TestUtil.getDate(2017,
                 Month.NOVEMBER.getValue(), 30, expectedUntilTime);
@@ -763,7 +762,7 @@ public class ArgsParserTest {
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
      * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.
      */
-    private void assertDateDiffOneMonth(LocalDateTime actualSinceDate, LocalDateTime untilDate, ZoneId zoneId) {
+    private void assertDateDiffOneMonth(LocalDateTime actualSinceDate, LocalDateTime untilDate) {
         LocalDateTime oneMonthBeforeUntilDate = untilDate.withHour(0).withMinute(0).withSecond(0).minusMonths(1);
         Assert.assertTrue(actualSinceDate.equals(oneMonthBeforeUntilDate));
     }

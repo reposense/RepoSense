@@ -1,6 +1,5 @@
 package reposense.parser;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -29,7 +28,8 @@ public class SinceDateArgumentType extends DateArgumentType {
      * desired date otherwise.
      */
     @Override
-    public Optional<LocalDateTime> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
+    public Optional<LocalDateTime> convert(ArgumentParser parser, Argument arg, String value)
+            throws ArgumentParserException {
         if (FIRST_COMMIT_DATE_SHORTHAND.equals(value)) {
             return Optional.of(ARBITRARY_FIRST_COMMIT_DATE);
         }

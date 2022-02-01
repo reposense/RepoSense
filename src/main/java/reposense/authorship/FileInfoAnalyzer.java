@@ -23,7 +23,6 @@ import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
-import reposense.util.TimeUtil;
 
 /**
  * Analyzes the target and information given in the {@code FileInfo}.
