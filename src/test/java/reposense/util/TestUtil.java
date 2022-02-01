@@ -103,7 +103,7 @@ public class TestUtil {
     }
 
     /**
-     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}.
+     * Creates and returns a {@code LocalDateTime} object with the specified {@code year}, {@code month}, {@code day}.
      */
     public static LocalDateTime getDate(int year, int month, int date, int[] time) {
         return LocalDateTime.of(year, month, date, time[0], time[1], time[2], 0);
@@ -124,8 +124,9 @@ public class TestUtil {
     }
 
     /**
-     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day} that is not
-     * dependent on the time zone of the current system, in cases where adjusting for the time zone is not necessary.
+     * Creates and returns a {@code LocalDateTime} object with the specified {@code year}, {@code month}, {@code day}
+     * that is not dependent on the time zone of the current system,
+     * in cases where adjusting for the time zone is not necessary.
      */
     public static LocalDateTime getLocalDate(int year, int month, int date, int[] time) {
         return LocalDateTime.of(year, month, date, time[0], time[1], time[2], 0);

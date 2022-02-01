@@ -19,7 +19,7 @@ public class GitRevList {
     private static final String REVISION_PATH_SEPARATOR = " -- ";
 
     /**
-     * Returns the latest commit hash before {@code date}.
+     * Returns the latest commit hash before {@code date}, with {@code ZoneId} taken into account.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
     public static String getCommitHashBeforeDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
@@ -35,7 +35,8 @@ public class GitRevList {
     }
 
     /**
-     * Returns the latest commit hash inclusive and until the end of the day of {@code date}.
+     * Returns the latest commit hash inclusive and until the end of the day of {@code date},
+     * with {@code ZoneId} taken into account.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
     public static String getCommitHashUntilDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {

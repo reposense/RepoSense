@@ -63,7 +63,7 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is set to midnight for the given {@code zoneId}.
+     * Returns a {@code LocalDateTime} that is set to midnight.
      */
     public static LocalDateTime getZonedSinceDate(LocalDateTime sinceDate) {
         if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {
@@ -74,31 +74,30 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code Date} that is set to 23:59:59 for the given {@code zoneId}.
+     * Returns a {@code LocalDateTime} that is set to 23:59:59.
      */
     public static LocalDateTime getZonedUntilDate(LocalDateTime untilDate) {
         return untilDate.withHour(23).withMinute(59).withSecond(59);
     }
 
     /**
-     * Returns a {@code Date} that is one month before {@code cliUntilDate} (if present) or one month before report
-     * generation date otherwise. The time zone is adjusted to the given {@code zoneId}.
+     * Returns a {@code LocalDateTime} that is one month before {@code cliUntilDate} (if present) or one month
+     * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusAMonth(LocalDateTime cliUntilDate) {
         return getZonedSinceDate(cliUntilDate.minusMonths(1));
     }
 
     /**
-     * Returns a {@code Date} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month before
-     * report generation date otherwise. The time zone is adjusted to the given {@code zoneId}.
+     * Returns a {@code LocalDateTime} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month
+     * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusNDays(LocalDateTime cliUntilDate, int numOfDays) {
         return getZonedSinceDate(cliUntilDate.minusDays(numOfDays));
     }
 
     /**
-     * Returns a {@code Date} that is {@code numOfDays} after {@code cliSinceDate} (if present). The time zone is
-     * adjusted to the given {@code zoneId}.
+     * Returns a {@code LocalDateTime} that is {@code numOfDays} after {@code cliSinceDate} (if present).
      */
     public static LocalDateTime getDatePlusNDays(LocalDateTime cliSinceDate, int numOfDays) {
         return getZonedUntilDate(cliSinceDate.plusDays(numOfDays));
@@ -148,7 +147,7 @@ public class TimeUtil {
     }
 
     /**
-     * Parses the given String as a Date based on the {@code CLI_ARGS_DATE_FORMAT}.
+     * Parses the given String as a {@code LocalDateTime} based on the {@code CLI_ARGS_DATE_FORMAT}.
      */
     public static LocalDateTime parseDate(String date) throws java.text.ParseException {
         try {

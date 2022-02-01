@@ -126,7 +126,7 @@ public class CommitResultAggregator {
     }
 
     /**
-     * Get the starting point of the {@code current} date with respect to the {@code zoneId} timezone.
+     * Get the starting point of the {@code current} date.
      */
     private static LocalDateTime getStartOfDate(LocalDateTime current) {
         if (current.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {

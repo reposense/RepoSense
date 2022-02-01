@@ -21,7 +21,8 @@ import reposense.model.RepoConfiguration;
 public class GitShortlog {
 
     /**
-     * Extracts all the author identities from the repository and date range given in {@code config}.
+     * Extracts all the author identities from the repository and date range given in {@code config},
+     * with the timezone taken into account.
      */
     public static List<Author> getAuthors(RepoConfiguration config) {
         String summary = getShortlogSummary(

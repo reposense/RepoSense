@@ -768,8 +768,7 @@ public class ArgsParserTest {
     }
 
     /**
-     * Ensures that {@code actualUntilDate} falls on the date of report generation with time at 23:59:59 for the given
-     * {@code zoneId} time zone.
+     * Ensures that {@code actualUntilDate} falls on the date of report generation with time at 23:59:59.
      * @throws AssertionError if {@code actualUntilDate} does not fall on the date of report generation
      * with time at 23:59:59.
      */
