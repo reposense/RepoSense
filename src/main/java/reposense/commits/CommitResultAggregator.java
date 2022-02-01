@@ -1,9 +1,8 @@
 package reposense.commits;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +22,7 @@ import reposense.report.ReportGenerator;
  * Uses the commit analysis results to generate the summary information of a repository.
  */
 public class CommitResultAggregator {
+    private static final int DAYS_IN_MS = 24 * 60 * 60 * 1000;
 
     /**
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
@@ -43,7 +43,7 @@ public class CommitResultAggregator {
                 : getStartOfDate(commitResults.get(commitResults.size() - 1).getTime());
 
         Map<Author, Float> authorContributionVariance =
-                calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate);
+                calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate, config.getZoneId());
 
         return new CommitContributionSummary(
                 config.getAuthorDisplayNameMap(),
@@ -56,23 +56,25 @@ public class CommitResultAggregator {
      */
     private static Map<Author, Float> calcAuthorContributionVariance(
             Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, LocalDateTime startDate,
-            LocalDateTime lastDate) {
+            LocalDateTime lastDate, String zoneId) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()) {
             List<AuthorDailyContribution> contributions = intervalContributionMaps.get(author);
-            result.put(author, getContributionVariance(contributions, startDate, lastDate));
+            result.put(author, getContributionVariance(contributions, startDate, lastDate, zoneId));
         }
         return result;
     }
 
     private static float getContributionVariance(List<AuthorDailyContribution> contributions,
-            LocalDateTime startDate, LocalDateTime lastDate) {
+            LocalDateTime startDate, LocalDateTime lastDate, String zoneId) {
         if (contributions.size() == 0) {
             return 0;
         }
         //get mean
         float total = 0;
-        long totalDays = startDate.until(lastDate, ChronoUnit.DAYS) + 1;
+        long totalDays = (ZonedDateTime.of(lastDate, ZoneId.of(zoneId)).toInstant().toEpochMilli()
+                - ZonedDateTime.of(startDate, ZoneId.of(zoneId)).toInstant().toEpochMilli()) / DAYS_IN_MS + 1;
+        // long totalDays = startDate.until(lastDate, ChronoUnit.DAYS) + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
@@ -80,18 +82,20 @@ public class CommitResultAggregator {
         float mean = total / totalDays;
 
         float variance = 0;
-        LocalDate currentDate = startDate.toLocalDate();
+        long currentDate = ZonedDateTime.of(startDate, ZoneId.of(zoneId)).toInstant().toEpochMilli();
+        // LocalDate currentDate = startDate.toLocalDate();
 
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
             if (contributionIndex < contributions.size() && currentDate
-                    == contributions.get(contributionIndex).getDate()) {
+                    == ZonedDateTime.of(contributions.get(contributionIndex).getDate(), ZoneId.of(zoneId))
+                    .toInstant().toEpochMilli()) {
                 variance += Math.pow((mean - contributions.get(contributionIndex).getTotalContribution()), 2);
                 contributionIndex += 1;
             } else {
                 variance += Math.pow(mean, 2);
             }
-            currentDate = currentDate.plusDays(1);
+            currentDate += DAYS_IN_MS;
         }
         return variance / totalDays;
     }
@@ -101,15 +105,15 @@ public class CommitResultAggregator {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
         authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
 
-        LocalDate commitStartDate;
+        LocalDateTime commitStartDate;
         for (CommitResult commitResult : commitResults) {
-            commitStartDate = commitResult.getTime().toLocalDate();
+            commitStartDate = getStartOfDate(commitResult.getTime());
             Author commitAuthor = commitResult.getAuthor();
 
             List<AuthorDailyContribution> authorDailyContributions = authorDailyContributionsMap.get(commitAuthor);
 
             if (authorDailyContributions.isEmpty()
-                    || !authorDailyContributions.get(authorDailyContributions.size() - 1).getDate()
+                    || !getStartOfDate(authorDailyContributions.get(authorDailyContributions.size() - 1).getDate())
                             .equals(commitStartDate)) {
                 addDailyContributionForNewDate(authorDailyContributions, commitStartDate);
             }
@@ -121,7 +125,7 @@ public class CommitResultAggregator {
     }
 
     private static void addDailyContributionForNewDate(
-            List<AuthorDailyContribution> authorDailyContributions, LocalDate date) {
+            List<AuthorDailyContribution> authorDailyContributions, LocalDateTime date) {
         authorDailyContributions.add(new AuthorDailyContribution(date));
     }
 
