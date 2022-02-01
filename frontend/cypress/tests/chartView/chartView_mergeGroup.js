@@ -1,6 +1,5 @@
 describe('merge group', () => {
   it('check and uncheck merge group when group by repos', () => {
-
     cy.get('div.mui-select.grouping > select:visible')
         .select('groupByRepos');
 
@@ -24,7 +23,6 @@ describe('merge group', () => {
   });
 
   it('check and uncheck merge group when group by authors', () => {
-
     cy.get('div.mui-select.grouping > select:visible')
         .select('groupByAuthors');
 
@@ -49,7 +47,6 @@ describe('merge group', () => {
   });
 
   it('merge group option should be disabled when group by none', () => {
-
     cy.get('div.mui-select.grouping > select:visible')
         .select('groupByNone');
 

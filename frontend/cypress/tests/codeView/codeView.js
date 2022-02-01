@@ -28,7 +28,6 @@ describe('code view', () => {
   });
 
   it('merge group and view code for entire repository', () => {
-
     cy.get('#summary label.merge-group > input')
         .should('be.visible')
         .check({ force: true })

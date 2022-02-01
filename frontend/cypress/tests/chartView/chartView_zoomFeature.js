@@ -1,7 +1,6 @@
 describe('zoom features in code view', () => {
   const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
   it('click on view commits button', () => {
-
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
         .first()
@@ -12,7 +11,6 @@ describe('zoom features in code view', () => {
   });
 
   it('zoom into ramp', () => {
-
     // clicking from the 10th px to the 50th px in the ramp
     cy.get('body').type(zoomKey, { release: false })
         .get('#summary-charts .summary-chart__ramp .ramp')
@@ -25,7 +23,6 @@ describe('zoom features in code view', () => {
   });
 
   it('zoom into ramp when merge group', () => {
-
     cy.get('#summary label.merge-group > input:visible')
         .should('be.visible')
         .check()

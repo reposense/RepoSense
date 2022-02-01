@@ -1,6 +1,5 @@
 describe('reload page', () => {
   it('reload page should restore all controls', () => {
-
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')

@@ -1,6 +1,5 @@
 describe('hide all file details', () => {
   it('check hide all file details hides the content of all the files', () => {
-
     // open the code panel
     cy.get('.icon-button.fa-code')
         .should('be.visible')
@@ -28,7 +27,6 @@ describe('hide all file details', () => {
   });
 
   it('check details of one file are shown, rest are hidden', () => {
-
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()
@@ -69,7 +67,6 @@ describe('hide all file details', () => {
   });
 
   it('check show all file details shows the content of all the files', () => {
-
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()

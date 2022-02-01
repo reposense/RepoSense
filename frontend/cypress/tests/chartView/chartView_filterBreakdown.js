@@ -1,6 +1,5 @@
 describe('filter breakdown', () => {
   it('check breakdown by file type should show file types', () => {
-
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
         .check()
@@ -16,7 +15,6 @@ describe('filter breakdown', () => {
   });
 
   it('check, uncheck and recheck breakdown by file type should check all file types', () => {
-
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
         .check()
@@ -42,7 +40,6 @@ describe('filter breakdown', () => {
   });
 
   it('uncheck all file types should show no file types', () => {
-
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
         .check()
@@ -59,7 +56,6 @@ describe('filter breakdown', () => {
   });
 
   it('uncheck file type should uncheck all option and not show legend', () => {
-
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
         .check()

@@ -1,6 +1,5 @@
 describe('sort by contribution', () => {
   it('percentage should only be displayed when sort by contribution', () => {
-
     cy.get('#summary .summary-chart__title--percentile')
         .should('not.exist');
 
@@ -36,7 +35,6 @@ describe('sort by contribution', () => {
   });
 
   it('percentage is NOT shown even after changing other fields', () => {
-
     cy.get('div.mui-select.grouping > select:visible')
         .select('None');
 
@@ -63,7 +61,6 @@ describe('sort by contribution', () => {
   });
 
   it('percentage is NOT hidden even after changing other fields', () => {
-
     cy.get('div.mui-select.sort-group > select:visible')
         .select('↓ contribution');
 
