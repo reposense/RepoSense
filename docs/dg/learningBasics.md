@@ -146,7 +146,8 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   ```
   GsonBuilder gsonBuilder = new GsonBuilder()
-          .setDateFormat(GITHUB_API_DATE_FORMAT)
+          .registerTypeAdapter(LocalDate.class, (JsonSerializer<LocalDate>) (date, typeOfSrc, context)
+                        -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
           .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer());
   Gson gson;
   if (isPrettyPrintingUsed) {
