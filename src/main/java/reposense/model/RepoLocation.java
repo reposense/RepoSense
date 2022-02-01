@@ -86,7 +86,6 @@ public class RepoLocation {
     }
 
     private String[] getLocalRepoNameAndOrg(String location) throws InvalidLocationException {
-        location = location.replaceAll("/", "\\\\");
         boolean isWindows = SystemUtil.isWindows();
         if (isWindows) {
             location = location.replaceAll("/", "\\\\");
