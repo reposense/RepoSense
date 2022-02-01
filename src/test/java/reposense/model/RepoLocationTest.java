@@ -1,10 +1,10 @@
 package reposense.model;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
-import reposense.parser.InvalidLocationException;
-import reposense.util.AssertUtil;
+import reposense.util.SystemUtil;
 
 public class RepoLocationTest {
 
@@ -21,12 +21,12 @@ public class RepoLocationTest {
     private static final String EXPECTED_ORGANIZATION = "path-to";
 
     @Test
-    public void repoLocationParser_parseEmptyString_success() throws Exception {
+    public void repoLocation_parseEmptyString_success() throws Exception {
         RepoLocation repoLocation = new RepoLocation("");
     }
 
     @Test
-    public void repoLocationParser_parseLocalRepoLocation_success() throws Exception {
+    public void repoLocation_parseLocalRepoLocation_success() throws Exception {
         // local paths not containing ".git" should be valid
         assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
@@ -37,7 +37,11 @@ public class RepoLocationTest {
         // local paths containing ".git" should also be valid
         assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
+    }
 
+    @Test
+    public void repoLocation_parseWindowsLocalRepoLocation_success() throws Exception {
+        Assume.assumeTrue(SystemUtil.isWindows());
         // repeated tests but with windows file separators
         assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
@@ -51,7 +55,7 @@ public class RepoLocationTest {
     }
 
     @Test
-    public void repoLocation_validRemoteRepoUrl_success() throws Exception {
+    public void repoLocation_parseValidRemoteRepoUrl_success() throws Exception {
         // valid url without specifying branch
         assertValidLocation("https://github.com/reposense/testrepo-Beta.git",
                 "testrepo-Beta", "reposense");
@@ -102,9 +106,5 @@ public class RepoLocationTest {
         RepoLocation repoLocation = new RepoLocation(rawLocation);
         Assert.assertEquals(expectedRepoName, repoLocation.getRepoName());
         Assert.assertEquals(expectedOrganization, repoLocation.getOrganization());
-    }
-
-    private void assertInvalidLocation(String rawLocation) {
-        AssertUtil.assertThrows(InvalidLocationException.class, () -> new RepoLocation(rawLocation));
     }
 }
