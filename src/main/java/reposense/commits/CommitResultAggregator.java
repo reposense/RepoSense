@@ -74,7 +74,6 @@ public class CommitResultAggregator {
         float total = 0;
         long totalDays = (ZonedDateTime.of(lastDate, ZoneId.of(zoneId)).toInstant().toEpochMilli()
                 - ZonedDateTime.of(startDate, ZoneId.of(zoneId)).toInstant().toEpochMilli()) / DAYS_IN_MS + 1;
-        // long totalDays = startDate.until(lastDate, ChronoUnit.DAYS) + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();
@@ -83,7 +82,6 @@ public class CommitResultAggregator {
 
         float variance = 0;
         long currentDate = ZonedDateTime.of(startDate, ZoneId.of(zoneId)).toInstant().toEpochMilli();
-        // LocalDate currentDate = startDate.toLocalDate();
 
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
