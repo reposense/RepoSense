@@ -1,6 +1,5 @@
 describe('switch authorship', () => {
   it('switch authorship view should restore all default controls', () => {
-    Cypress.wait();
 
     // open the code panel
     cy.get('.icon-button.fa-code')
@@ -54,7 +53,6 @@ describe('switch authorship', () => {
   });
 
   it('switch authorship view should not retain information from previous visited tabs', () => {
-    Cypress.wait();
 
     // Assumptions:
     // The first repository has more than one person listed.

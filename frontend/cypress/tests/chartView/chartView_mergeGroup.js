@@ -1,6 +1,5 @@
 describe('merge group', () => {
   it('check and uncheck merge group when group by repos', () => {
-    Cypress.wait();
 
     cy.get('div.mui-select.grouping > select:visible')
         .select('groupByRepos');
@@ -14,8 +13,6 @@ describe('merge group', () => {
     cy.get('#summary-charts').find('.summary-chart')
         .should('have.length', 1);
 
-    Cypress.wait();
-
     cy.get('#summary label.merge-group > input:visible')
         .should('be.visible')
         .uncheck()
@@ -27,7 +24,6 @@ describe('merge group', () => {
   });
 
   it('check and uncheck merge group when group by authors', () => {
-    Cypress.wait();
 
     cy.get('div.mui-select.grouping > select:visible')
         .select('groupByAuthors');
@@ -41,8 +37,6 @@ describe('merge group', () => {
     cy.get('#summary-charts').find('.summary-chart')
         .should('have.length', 5);
 
-    Cypress.wait();
-
     cy.get('#summary label.merge-group > input:visible')
         .first()
         .should('be.visible')
@@ -55,7 +49,6 @@ describe('merge group', () => {
   });
 
   it('merge group option should be disabled when group by none', () => {
-    Cypress.wait();
 
     cy.get('div.mui-select.grouping > select:visible')
         .select('groupByNone');

@@ -1,6 +1,5 @@
 describe('reload page', () => {
   it('reload page should restore all controls', () => {
-    Cypress.wait();
 
     // search
     cy.get('div.mui-textfield.search_box > input:visible')

@@ -1,6 +1,5 @@
 describe('reload page', () => {
   it('reload page should restore all controls', () => {
-    Cypress.wait();
 
     // open the code panel
     cy.get('.icon-button.fa-code')

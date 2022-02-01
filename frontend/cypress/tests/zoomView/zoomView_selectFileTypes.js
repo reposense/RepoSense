@@ -1,6 +1,5 @@
 describe('check file types ', () => {
   it('check if all file types are visible by default', () => {
-    Cypress.wait();
 
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
@@ -15,7 +14,6 @@ describe('check file types ', () => {
   });
 
   it('uncheck all file types should show no files', () => {
-    Cypress.wait();
 
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
@@ -35,7 +33,6 @@ describe('check file types ', () => {
   it('uncheck file type should uncheck all option and not show legend', () => {
     // Assumptions: the first author of the first repo
     // committed .java, .js and .gradle files.
-    Cypress.wait();
 
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
