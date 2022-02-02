@@ -45,6 +45,7 @@ public class RepoLocation {
         } else {
             repoNameAndOrg = getRemoteRepoNameAndOrg(location);
         }
+
         repoName = repoNameAndOrg[0];
         organization = repoNameAndOrg[1];
     }
