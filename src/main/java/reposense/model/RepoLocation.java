@@ -78,11 +78,6 @@ public class RepoLocation {
             return true;
         }
 
-        boolean isUrlFileType = repoArgument.split(":", 2)[0].equals("file");
-        if (isUrlFileType) {
-            return true;
-        }
-
         return false;
     }
 
