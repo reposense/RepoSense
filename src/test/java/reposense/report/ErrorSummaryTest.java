@@ -1,10 +1,7 @@
 package reposense.report;
 
-        import org.junit.Assert;
-        import org.junit.Test;
-
-        import reposense.model.RepoLocation;
-        import reposense.parser.InvalidLocationException;
+import org.junit.Assert;
+import org.junit.Test;
 
 public class ErrorSummaryTest {
     @Test
