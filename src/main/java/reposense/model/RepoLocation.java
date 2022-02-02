@@ -67,7 +67,7 @@ public class RepoLocation {
      * This implementation follows directly from the {@code git clone}
      * <a href="https://git-scm.com/docs/git-clone#_git_urls">specification</a>.
      */
-    private boolean isLocalRepo(String repoArgument) {
+    public static boolean isLocalRepo(String repoArgument) {
         boolean containsColon = repoArgument.contains(":");
         if (!containsColon) {
             return true;

@@ -6,6 +6,8 @@ import org.junit.Test;
 
 import reposense.util.SystemUtil;
 
+import static reposense.model.RepoLocation.isLocalRepo;
+
 public class RepoLocationTest {
 
     private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_ONE = "path/to/repo/";
@@ -23,6 +25,19 @@ public class RepoLocationTest {
     @Test
     public void repoLocation_parseEmptyString_success() throws Exception {
         RepoLocation repoLocation = new RepoLocation("");
+    }
+
+    @Test
+    public void isLocalRepo_validLocalRepos_success() throws Exception {
+        Assert.assertTrue(isLocalRepo(LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_ONE));
+        Assert.assertTrue(isLocalRepo(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED));
+        Assert.assertTrue(isLocalRepo("./abc:def"));
+    }
+
+    @Test
+    public void isLocalRepo_remoteRepos_returnsFalse() throws Exception {
+        Assert.assertFalse(isLocalRepo("https://github.com/reposense/RepoSense.git/"));
+        Assert.assertFalse(isLocalRepo("git@github.com:reposense/RepoSense.git/"));
     }
 
     @Test
