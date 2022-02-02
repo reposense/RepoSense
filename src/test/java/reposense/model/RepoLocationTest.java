@@ -1,12 +1,12 @@
 package reposense.model;
 
+import static reposense.model.RepoLocation.isLocalRepo;
+
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Test;
 
 import reposense.util.SystemUtil;
-
-import static reposense.model.RepoLocation.isLocalRepo;
 
 public class RepoLocationTest {
 
