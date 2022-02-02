@@ -552,7 +552,7 @@ public class RepoConfiguration {
         return location;
     }
 
-    public String getPath() {
+    public String getOrganization() {
         return location.getOrganization();
     }
 
