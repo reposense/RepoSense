@@ -295,7 +295,7 @@ public class ArgsParser {
             LocalDateTime currentDate = TimeUtil.getCurrentDate(zoneId);
 
             if (isSinceDateProvided) {
-                sinceDate = TimeUtil.getZonedSinceDate(cliSinceDate.get());
+                sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
             } else {
                 if (isUntilDateProvided) {
                     sinceDate = isPeriodProvided
@@ -310,7 +310,7 @@ public class ArgsParser {
             }
 
             if (isUntilDateProvided) {
-                untilDate = TimeUtil.getZonedUntilDate(cliUntilDate.get());
+                untilDate = TimeUtil.getUntilDate(cliUntilDate.get());
             } else {
                 untilDate = (isSinceDateProvided && isPeriodProvided)
                         ? TimeUtil.getDatePlusNDays(cliSinceDate.get(), cliPeriod.get())

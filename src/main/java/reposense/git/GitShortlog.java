@@ -40,7 +40,7 @@ public class GitShortlog {
     }
 
     private static String getShortlogSummary(String root, LocalDateTime sinceDate,
-                                             LocalDateTime untilDate, ZoneId zoneId) {
+            LocalDateTime untilDate, ZoneId zoneId) {
         Path rootPath = Paths.get(root);
         String command = "git log --pretty=short";
         command += GitUtil.convertToGitDateRangeArgs(sinceDate, untilDate, zoneId);

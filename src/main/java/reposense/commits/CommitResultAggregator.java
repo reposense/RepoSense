@@ -72,8 +72,9 @@ public class CommitResultAggregator {
         }
         //get mean
         float total = 0;
-        long totalDays = (ZonedDateTime.of(lastDate, ZoneId.of(zoneId)).toInstant().toEpochMilli()
-                - ZonedDateTime.of(startDate, ZoneId.of(zoneId)).toInstant().toEpochMilli()) / DAYS_IN_MS + 1;
+        long startDateInMs = ZonedDateTime.of(startDate, ZoneId.of(zoneId)).toInstant().toEpochMilli();
+        long lastDateInMs = ZonedDateTime.of(lastDate, ZoneId.of(zoneId)).toInstant().toEpochMilli();
+        long totalDays = (lastDateInMs - startDateInMs) / DAYS_IN_MS + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
             total += contribution.getTotalContribution();

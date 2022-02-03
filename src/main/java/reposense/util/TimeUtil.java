@@ -65,7 +65,7 @@ public class TimeUtil {
     /**
      * Returns a {@code LocalDateTime} that is set to midnight.
      */
-    public static LocalDateTime getZonedSinceDate(LocalDateTime sinceDate) {
+    public static LocalDateTime getSinceDate(LocalDateTime sinceDate) {
         if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {
             return sinceDate;
         }
@@ -76,7 +76,7 @@ public class TimeUtil {
     /**
      * Returns a {@code LocalDateTime} that is set to 23:59:59.
      */
-    public static LocalDateTime getZonedUntilDate(LocalDateTime untilDate) {
+    public static LocalDateTime getUntilDate(LocalDateTime untilDate) {
         return untilDate.withHour(23).withMinute(59).withSecond(59);
     }
 
@@ -85,7 +85,7 @@ public class TimeUtil {
      * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusAMonth(LocalDateTime cliUntilDate) {
-        return getZonedSinceDate(cliUntilDate.minusMonths(1));
+        return getSinceDate(cliUntilDate.minusMonths(1));
     }
 
     /**
@@ -93,14 +93,14 @@ public class TimeUtil {
      * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusNDays(LocalDateTime cliUntilDate, int numOfDays) {
-        return getZonedSinceDate(cliUntilDate.minusDays(numOfDays));
+        return getSinceDate(cliUntilDate.minusDays(numOfDays));
     }
 
     /**
      * Returns a {@code LocalDateTime} that is {@code numOfDays} after {@code cliSinceDate} (if present).
      */
     public static LocalDateTime getDatePlusNDays(LocalDateTime cliSinceDate, int numOfDays) {
-        return getZonedUntilDate(cliSinceDate.plusDays(numOfDays));
+        return getUntilDate(cliSinceDate.plusDays(numOfDays));
     }
 
     /**
