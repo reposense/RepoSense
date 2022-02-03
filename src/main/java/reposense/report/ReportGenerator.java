@@ -147,7 +147,7 @@ public class ReportGenerator {
                 new SummaryJson(configs, reportConfig, generationDate,
                         TimeUtil.getZonedDateFromSystemDate(reportSinceDate, zoneId),
                         TimeUtil.getZonedDateFromSystemDate(untilDate, zoneId), isSinceDateProvided,
-                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
+                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId.toString()),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);

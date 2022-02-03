@@ -185,7 +185,7 @@ window.api = {
     window.isUntilDateProvided = data.isUntilDateProvided;
 
     const errorMessages = {};
-    Object.entries(data.errorList).forEach(([repoName, message]) => {
+    Object.entries(data.errorSet).forEach(([repoName, message]) => {
       errorMessages[repoName] = message;
     });
 

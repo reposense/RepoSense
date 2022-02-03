@@ -46,7 +46,6 @@ public class RepoLocationTest {
         RepoLocation repoLocation = new RepoLocation("");
     }
 
-
     /**
      * Compares the information parsed by the RepoLocation model with the expected information
      */

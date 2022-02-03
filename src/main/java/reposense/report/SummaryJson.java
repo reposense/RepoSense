@@ -3,6 +3,7 @@ package reposense.report;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.ReportConfiguration;
@@ -19,7 +20,7 @@ public class SummaryJson {
     private final String zoneId;
     private final String reportTitle;
     private final List<RepoConfiguration> repos;
-    private final List<Map<String, String>> errorList;
+    private final Set<Map<String, String>> errorSet;
     private final Date sinceDate;
     private final Date untilDate;
     private final boolean isSinceDateProvided;
@@ -27,7 +28,7 @@ public class SummaryJson {
 
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
             Date sinceDate, Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
-            String repoSenseVersion, List<Map<String, String>> errorList, String reportGenerationTime, String zoneId) {
+            String repoSenseVersion, Set<Map<String, String>> errorSet, String reportGenerationTime, String zoneId) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;
@@ -37,7 +38,7 @@ public class SummaryJson {
         this.isSinceDateProvided = isSinceDateProvided;
         this.isUntilDateProvided = isUntilDateProvided;
         this.repoSenseVersion = repoSenseVersion;
-        this.errorList = errorList;
+        this.errorSet = errorSet;
         this.zoneId = zoneId;
     }
 }
