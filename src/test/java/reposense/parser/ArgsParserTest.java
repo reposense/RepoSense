@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class ArgsParserTest {
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
     private static final String DEFAULT_TIMEZONE = "Asia/Singapore";
+    private static final String UTC_TIMEZONE = "UTC";
     private static final ZoneId TIME_ZONE_ID = TestUtil.getZoneId(DEFAULT_TIMEZONE);
 
     @Before
@@ -692,40 +694,57 @@ public class ArgsParserTest {
 
     @Test
     public void parse_withDatesAndTimezone_success() throws Exception {
+        String timeZone = "UTC+11";
         String input = DEFAULT_INPUT_BUILDER
-                .addTimezone("UTC+11")
+                .addTimezone(timeZone)
                 .addSinceDate("01/07/2017")
                 .addUntilDate("30/11/2017")
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        int[] expectedSinceTime = {0, 0, 0};
+        int[] expectedSinceTime = {21, 0, 0};
         LocalDateTime expectedSinceDate = TestUtil.getDate(2017,
-                Month.JULY.getValue(), 1, expectedSinceTime);
-        int[] expectedUntilTime = {23, 59, 59};
+                Month.JUNE.getValue(), 30, expectedSinceTime);
+        int[] expectedUntilTime = {20, 59, 59};
         LocalDateTime expectedUntilDate = TestUtil.getDate(2017,
                 Month.NOVEMBER.getValue(), 30, expectedUntilTime);
 
-        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
-        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
+        ZonedDateTime actualSinceDate = ZonedDateTime.of(cliArguments.getSinceDate(), ZoneId.of(timeZone));
+        LocalDateTime actualSinceDateInUtc = actualSinceDate.withZoneSameInstant(ZoneId.of(UTC_TIMEZONE))
+                .toLocalDateTime();
+        ZonedDateTime actualUntilDate = ZonedDateTime.of(cliArguments.getUntilDate(), ZoneId.of(timeZone));
+        LocalDateTime actualUntilDateInUtc = actualUntilDate.withZoneSameInstant(ZoneId.of(UTC_TIMEZONE))
+                .toLocalDateTime();
 
+        Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assert.assertEquals(expectedSinceDate, actualSinceDateInUtc);
+        Assert.assertEquals(expectedUntilDate, actualUntilDateInUtc);
+
+
+        timeZone = "UTC-0930";
         input = DEFAULT_INPUT_BUILDER
-                .addTimezone("UTC-0930")
+                .addTimezone(timeZone)
                 .addSinceDate("01/07/2017")
                 .addUntilDate("30/11/2017")
                 .build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
-        expectedSinceTime = new int[]{0, 0, 0};
+        expectedSinceTime = new int[]{17, 30, 0};
         expectedSinceDate = TestUtil.getDate(2017, Month.JULY.getValue(), 1, expectedSinceTime);
-        expectedUntilTime = new int[]{23, 59, 59};
-        expectedUntilDate = TestUtil.getDate(2017, Month.NOVEMBER.getValue(), 30, expectedUntilTime);
+        expectedUntilTime = new int[]{17, 29, 59};
+        expectedUntilDate = TestUtil.getDate(2017, Month.DECEMBER.getValue(), 1, expectedUntilTime);
+
+        actualSinceDate = ZonedDateTime.of(cliArguments.getSinceDate(), ZoneId.of(timeZone));
+        actualSinceDateInUtc = actualSinceDate.withZoneSameInstant(ZoneId.of(UTC_TIMEZONE))
+                .toLocalDateTime();
+        actualUntilDate = ZonedDateTime.of(cliArguments.getUntilDate(), ZoneId.of(timeZone));
+        actualUntilDateInUtc = actualUntilDate.withZoneSameInstant(ZoneId.of(UTC_TIMEZONE))
+                .toLocalDateTime();
 
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assert.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
-        Assert.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
+        Assert.assertEquals(expectedSinceDate, actualSinceDateInUtc);
+        Assert.assertEquals(expectedUntilDate, actualUntilDateInUtc);
 
         input = DEFAULT_INPUT_BUILDER
-                .addTimezone("UTC")
+                .addTimezone(UTC_TIMEZONE)
                 .addSinceDate("01/07/2017")
                 .addUntilDate("30/11/2017")
                 .build();

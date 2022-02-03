@@ -103,7 +103,6 @@ public class GitTestTemplate {
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         config.setZoneId(TIME_ZONE_ID_STRING);
         config.setIsLastModifiedDateIncluded(false);
-        config.setZoneId(TIME_ZONE_ID_STRING);
     }
 
     @BeforeClass
