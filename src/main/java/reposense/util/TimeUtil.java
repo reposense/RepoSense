@@ -18,6 +18,8 @@ public class TimeUtil {
     private static Long startTime;
     private static final String DATE_FORMAT_REGEX =
             "^((0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
+
+    // "uuuu" is used for year since "yyyy" does not work with ResolverStyle.STRICT
     private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss");
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\".";
