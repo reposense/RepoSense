@@ -3,6 +3,8 @@ package reposense.commits;
 import static reposense.util.StringsUtil.removeQuote;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -87,12 +89,15 @@ public class CommitInfoAnalyzer {
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
-        LocalDateTime date = null;
+        ZonedDateTime date = null;
         try {
-            date = LocalDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT);
+            date = ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT);
         } catch (DateTimeParseException pe) {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
+
+        // Commit date may be in a timezone different from the one given in the config.
+        LocalDateTime adjustedDate = date.withZoneSameInstant(ZoneId.of(config.getZoneId())).toLocalDateTime();
 
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
         String messageBody = (elements.length > MESSAGE_BODY_INDEX)
@@ -109,7 +114,7 @@ public class CommitInfoAnalyzer {
         }
 
         if (statLine.isEmpty()) { // empty commit, no files changed
-            return new CommitResult(author, hash, date, messageTitle, messageBody, tags);
+            return new CommitResult(author, hash, adjustedDate, messageTitle, messageBody, tags);
         }
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
@@ -117,7 +122,8 @@ public class CommitInfoAnalyzer {
         Map<FileType, ContributionPair> fileTypeAndContributionMap =
                 getFileTypesAndContribution(fileTypeContributions, config);
 
-        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, fileTypeAndContributionMap);
+        return new CommitResult(author, hash, adjustedDate, messageTitle, messageBody, tags,
+                fileTypeAndContributionMap);
     }
 
     /**

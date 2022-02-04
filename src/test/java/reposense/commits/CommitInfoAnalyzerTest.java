@@ -2,6 +2,8 @@ package reposense.commits;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -324,6 +326,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
      * Returns a {@code LocalDateTime} from a string {@code gitStrictIsoDate}.
      */
     private LocalDateTime parseGitStrictIsoDate(String gitStrictIsoDate) throws Exception {
-        return LocalDateTime.parse(gitStrictIsoDate, CommitInfoAnalyzer.GIT_STRICT_ISO_DATE_FORMAT);
+        return ZonedDateTime.parse(gitStrictIsoDate, CommitInfoAnalyzer.GIT_STRICT_ISO_DATE_FORMAT)
+                .withZoneSameInstant(ZoneId.of(config.getZoneId())).toLocalDateTime();
     }
 }
