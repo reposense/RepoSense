@@ -1,5 +1,7 @@
 package reposense.model;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,11 +14,12 @@ import reposense.util.SystemUtil;
  */
 public class RepoLocation {
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
+    private static final String MESSAGE_INVALID_REMOTE_URL = "%s is an invalid remote URL.";
 
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^(ssh|git|https?|ftps?)://[^/]*?/(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
     private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*?:(?<path>.*?)/?(?<repoName>[^/]+?)(\\.git)?/?$");
+            Pattern.compile("^.*?:(?<path>[^/].*?)??/??(?<repoName>[^/]+?)(\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_NON_WINDOWS_LOCATION_PATTERN =
             Pattern.compile("^(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN =
@@ -104,6 +107,14 @@ public class RepoLocation {
         Matcher remoteRepoMatcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
         Matcher sshRepoMatcher = SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN.matcher(location);
 
+        boolean isNormalUrl = remoteRepoMatcher.matches();
+        if (isNormalUrl) {
+            try {
+                new URI(location);
+            } catch (URISyntaxException e) {
+                throw new InvalidLocationException(String.format(MESSAGE_INVALID_REMOTE_URL, location));
+            }
+        }
         boolean isValidRemoteRepoUrl = remoteRepoMatcher.matches() || sshRepoMatcher.matches();
         if (!isValidRemoteRepoUrl) {
             throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));

@@ -6,7 +6,11 @@ import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Test;
 
+import reposense.parser.InvalidLocationException;
+import reposense.util.AssertUtil;
 import reposense.util.SystemUtil;
+
+import java.rmi.server.ExportException;
 
 public class RepoLocationTest {
 
@@ -117,6 +121,14 @@ public class RepoLocationTest {
                 "RepoSense", "reposense");
     }
 
+    @Test
+    public void repoLocation_parseInvalidRemoteRepo_throwsInvalidLocationException() throws Exception {
+        // Invalid URL protocol
+        assertInvalidLocation("ttp://github.com/reposense.RepoSense.git");
+        // URL contains illegal characters
+        assertInvalidLocation("https://github.com/contains-illegal-chars/^\\/");
+    }
+
     /**
      * Compares the information parsed by the RepoLocation model with the expected information
      */
@@ -125,5 +137,9 @@ public class RepoLocationTest {
         RepoLocation repoLocation = new RepoLocation(rawLocation);
         Assert.assertEquals(expectedRepoName, repoLocation.getRepoName());
         Assert.assertEquals(expectedOrganization, repoLocation.getOrganization());
+    }
+
+    private void assertInvalidLocation(String rawLocation) {
+        AssertUtil.assertThrows(InvalidLocationException.class, () -> new RepoLocation(rawLocation));
     }
 }
