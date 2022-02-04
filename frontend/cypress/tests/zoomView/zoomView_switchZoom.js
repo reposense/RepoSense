@@ -1,7 +1,5 @@
 describe('switch zoom', () => {
   it('switch zoom view should restore all default controls', () => {
-    Cypress.wait();
-
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
@@ -54,8 +52,6 @@ describe('switch zoom', () => {
   });
 
   it('switch zoom view should not retain information from previous visited tabs', () => {
-    Cypress.wait();
-
     // Assumptions:
     // The first repository has more than one person listed.
     // The first day in which the first and last person contributed is different.
