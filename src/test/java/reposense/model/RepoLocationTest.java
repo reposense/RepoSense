@@ -10,8 +10,6 @@ import reposense.parser.InvalidLocationException;
 import reposense.util.AssertUtil;
 import reposense.util.SystemUtil;
 
-import java.rmi.server.ExportException;
-
 public class RepoLocationTest {
 
     private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_ONE = "path/to/repo/";
