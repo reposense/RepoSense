@@ -30,8 +30,7 @@ public class RepoLocation {
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoLocation(String location) throws InvalidLocationException {
-        boolean isWindows = SystemUtil.isWindows();
-        if (isWindows) {
+        if (SystemUtil.isWindows()) {
             location = StringsUtil.removeTrailingBackslash(location);
         }
 
@@ -46,8 +45,8 @@ public class RepoLocation {
             repoNameAndOrg = getRemoteRepoNameAndOrg(location);
         }
 
-        repoName = repoNameAndOrg[0];
-        organization = repoNameAndOrg[1];
+        this.repoName = repoNameAndOrg[0];
+        this.organization = repoNameAndOrg[1];
     }
 
     public boolean isEmpty() {
@@ -68,8 +67,7 @@ public class RepoLocation {
      * <a href="https://git-scm.com/docs/git-clone#_git_urls">specification</a>.
      */
     public static boolean isLocalRepo(String repoArgument) {
-        boolean containsColon = repoArgument.contains(":");
-        if (!containsColon) {
+        if (!repoArgument.contains(":")) {
             return true;
         }
 

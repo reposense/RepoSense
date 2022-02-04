@@ -84,6 +84,12 @@ public class RepoLocationTest {
         assertValidLocation("https://github.com/reposense/.git",
                 "reposense", "");
 
+        // valid url from other domains
+        assertValidLocation("https://bitbucket.org/reposense/RepoSense.git",
+                "RepoSense", "reposense");
+        assertValidLocation("https://opensource.ncsa.illinois.edu/bitbucket/scm/u3d/3dutilities.git",
+                "3dutilities", "bitbucket-scm-u3d");
+
         // treated as valid but will be caught when git clone fails
         assertValidLocation("https://github.com/reposense/testrepo-Beta/tree/add-config-json",
                 "add-config-json", "reposense-testrepo-Beta-tree");
@@ -97,20 +103,18 @@ public class RepoLocationTest {
                 "RepoSense", "reposense");
 
         // Test against other types of URL protocols that are valid for git clone
-        assertValidLocation("ssh://[user@]host.xz[:port]/path/to/repo.git/",
+        assertValidLocation("ssh://git@github.com/path/to/repo.git/",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
-        assertValidLocation("git://host.xz[:port]/path/to/repo.git",
+        assertValidLocation("git://github.com/path/to/repo.git",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
-        assertValidLocation("https://host.xz[:port]/path/to/repo.git",
+        assertValidLocation("https://localhost:9000/path/to/repo.git",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
 
         // Test against the conventional ssh protocol used for GitHub, e.g. git@github.com:reposense/RepoSense.git
-        assertValidLocation("[user@]host.xz:path/to/repo.git/",
+        assertValidLocation("repo@organization.com:path/to/repo.git/",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
         assertValidLocation("git@github.com:reposense/RepoSense.git",
                 "RepoSense", "reposense");
-        assertValidLocation("user@host.xz:RepoSense.git",
-                "RepoSense", "");
     }
 
     /**
