@@ -125,6 +125,7 @@ public class RepoLocationTest {
     public void repoLocation_parseInvalidRemoteRepo_throwsInvalidLocationException() throws Exception {
         // Invalid URL protocol
         assertInvalidLocation("ttp://github.com/reposense.RepoSense.git");
+        assertInvalidLocation("not-valid-protocol://abc.com/reposense/RepoSense.git");
         // URL contains illegal characters
         assertInvalidLocation("https://github.com/contains-illegal-chars/^\\/");
     }
