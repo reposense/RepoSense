@@ -270,6 +270,32 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
+    public void analyzeCommits_emptyCommitsWithDifferentTimeZone_success() throws Exception {
+        // Re-uses analyzeCommits_emptyCommits_success() test.
+        // But for this test only, changes config timezone to be different from what would be given in CommitInfo.
+        Author author = new Author(JAMES_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        String originalZoneId = config.getZoneId();
+        config.setZoneId("UTC+9");
+
+        expectedCommitResults.add(new CommitResult(author, "016ab87c4afe89a98225b96c98ff28dd4774410f",
+                parseGitStrictIsoDate("2020-01-27T23:20:51+09:00"), "empty commit", "", null));
+
+        config.setBranch("1019-CommitInfoAnalyzerTest-emptyCommits");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
+        config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        config.setZoneId(originalZoneId);
+    }
+
+    @Test
     public void analyzeCommits_commitsWithBinaryFileContribution_success() throws Exception {
         Author author = new Author(JAMES_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
