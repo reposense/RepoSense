@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import { createApp, configureCompat } from 'vue';
 import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import hljs from 'highlight.js';
@@ -11,19 +11,25 @@ import './utils/load-font-awesome-icons';
 import App from './app.vue';
 import store from './store/store';
 
+configureCompat({
+  RENDER_FUNCTION: false,
+});
+
 dom.watch();
-Vue.component('font-awesome-icon', FontAwesomeIcon);
-// app.use(hljs.vuePlugin);
-Vue.directive('hljs', {
-  mounted(ele, binding) {
+
+const app = createApp(App);
+
+app.component('font-awesome-icon', FontAwesomeIcon)
+    .use(hljs.vuePlugin).use(store);
+/*
+app.directive('hljs', {
+  mounted: (ele, binding) => {
     const element = ele;
     element.className = binding.value.split('.').pop();
 
     hljs.highlightBlock(element);
   },
 });
+*/
 
-new Vue({
-  render: (h) => h(App),
-  store,
-}).$mount('#app');
+app.mount('#app');
