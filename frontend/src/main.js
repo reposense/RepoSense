@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, configureCompat } from 'vue';
 import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import hljs from 'highlight.js';
@@ -12,7 +12,7 @@ import App from './app.vue';
 import store from './store/store';
 
 dom.watch();
-
+configureCompat({ WATCH_ARRAY: false });
 const app = createApp(App);
 
 app.directive('hljs', {
