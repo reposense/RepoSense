@@ -15,8 +15,6 @@ dom.watch();
 
 const app = createApp(App);
 
-app.component('font-awesome-icon', FontAwesomeIcon).use(store);
-
 app.directive('hljs', {
   mounted: (ele, binding) => {
     const element = ele;
@@ -25,5 +23,8 @@ app.directive('hljs', {
     hljs.highlightBlock(element);
   },
 });
+
+app.component('font-awesome-icon', FontAwesomeIcon);
+app.use(store);
 
 app.mount('#app');
