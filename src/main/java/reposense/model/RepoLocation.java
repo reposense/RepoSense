@@ -4,9 +4,11 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import reposense.git.GitRemote;
 import reposense.parser.InvalidLocationException;
 import reposense.report.ErrorSummary;
 import reposense.util.StringsUtil;
@@ -25,6 +27,20 @@ public class RepoLocation {
     private final String repoName;
     private String organization;
 
+    public static boolean isLocalRepo(String repoArgument) {
+        if (!repoArgument.contains(":")) {
+            return true;
+        }
+
+        boolean hasSlashBeforeFirstColon = repoArgument.split(":", 2)[0].contains("/");
+        if (hasSlashBeforeFirstColon) {
+            return true;
+        }
+
+        return false;
+    }
+
+
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
@@ -34,7 +50,19 @@ public class RepoLocation {
         }
         verifyLocation(location);
         this.location = location;
-        Matcher matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
+        Matcher matcher;
+        if (isLocalRepo(location)) {
+            // Error check pending
+            Map<String, String> remotes = GitRemote.getRemotes(location);
+            String newLocation = remotes.size() == 0
+                    ? location
+                    : remotes.containsKey("origin")
+                    ? remotes.get("origin")
+                    : remotes.values().iterator().next();
+            matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(newLocation);
+        } else {
+            matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
+        }
 
         if (matcher.matches()) {
             organization = matcher.group("org");
