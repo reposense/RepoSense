@@ -38,6 +38,6 @@ with(this){return _c('p',[_v("1. Add a "),_c('em',[_v("stand-alone config file")
 with(this){return _c('p',[_v("2. To have more precise control over which code segment is attributed to which author, authors can annotate their code using "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("@@author")]),_v(" tags, as explained below.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.1.1")]),_v(", generated on Fri, Feb 4, 2022, 7:23:21 AM UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.1.1")]),_v(", generated on Mon, Feb 7, 2022, 1:49:13 AM UTC]")])])])}
 }];
   
