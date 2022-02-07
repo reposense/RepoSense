@@ -31,7 +31,7 @@ public class CommitResultAggregator {
             RepoConfiguration config, List<CommitResult> commitResults) {
         LocalDateTime startDate;
         startDate = (config.getSinceDate().equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
-                ? getStartOfDate(getStartDate(commitResults))
+                ? getStartOfDate(getStartDate(commitResults, ZoneId.of(config.getZoneId())))
                 : config.getSinceDate();
         ReportGenerator.setEarliestSinceDate(startDate);
 
@@ -139,9 +139,9 @@ public class CommitResultAggregator {
         return current.withHour(0).withMinute(0).withSecond(0).withNano(0);
     }
 
-    private static LocalDateTime getStartDate(List<CommitResult> commitInfos) {
+    private static LocalDateTime getStartDate(List<CommitResult> commitInfos, ZoneId zoneId) {
         return (commitInfos.isEmpty())
-                ? LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.MIN_VALUE), ZoneId.of("Z"))
+                ? LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.MIN_VALUE), zoneId)
                 : commitInfos.get(0).getTime();
     }
 }
