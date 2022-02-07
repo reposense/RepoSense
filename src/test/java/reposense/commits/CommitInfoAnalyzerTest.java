@@ -158,38 +158,6 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeCommits_multipleCommitsWithCommitMessageBody_success() throws Exception {
-        Author author = new Author(JINYAO_AUTHOR_NAME);
-        List<CommitResult> expectedCommitResults = new ArrayList<>();
-
-        Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
-        firstFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(1, 0));
-
-        Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
-        secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
-
-        expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe",
-                parseGitStrictIsoDate("2019-06-19T13:02:01+08:00"), ">>>COMMIT INFO<<<",
-                "Hi there!\n\n>>>COMMIT INFO<<<\n", null,
-                firstFileTypeAndContributionMap));
-        expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7",
-                parseGitStrictIsoDate("2019-06-19T13:03:39+08:00"), "[#123] Reverted 1st commit",
-                "This is a test to see if the commit message body works. "
-                + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null,
-                secondFileTypeAndContributionMap));
-
-        config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success");
-        config.setAuthorList(Collections.singletonList(author));
-        config.setSinceDate(LocalDateTime.of(2019, Month.JUNE, 19, 0, 0));
-        config.setUntilDate(LocalDateTime.of(2019, Month.JUNE, 20, 0, 0));
-
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
-
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
-    }
-
-    @Test
     public void analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success() throws Exception {
         Author author = new Author(JINYAO_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
@@ -218,6 +186,81 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assert.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
+    @Test
+    public void analyzeCommits_multipleCommitsWithCommitMessageBody_success() throws Exception {
+        Author author = new Author(JINYAO_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
+        firstFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(1, 0));
+
+        Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
+        secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
+
+        expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe",
+                parseGitStrictIsoDate("2019-06-19T13:02:01+08:00"), ">>>COMMIT INFO<<<",
+                "Hi there!\n\n>>>COMMIT INFO<<<\n", null,
+                firstFileTypeAndContributionMap));
+        expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7",
+                parseGitStrictIsoDate("2019-06-19T13:03:39+08:00"), "[#123] Reverted 1st commit",
+                "This is a test to see if the commit message body works. "
+                        + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null,
+                secondFileTypeAndContributionMap));
+
+        config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setSinceDate(LocalDateTime.of(2019, Month.JUNE, 19, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2019, Month.JUNE, 20, 0, 0));
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
+    @Test
+    public void analyzeCommits_multipleCommitsWithCommitMessageBodyAndDifferentTimeZone_success() throws Exception {
+        // Re-uses analyzeCommits_multipleCommitsWithCommitMessageBody_success() test.
+        // But for this test, changes config timezone such that the commit date is one day behind
+        // in the config timezone compared to commit timezone.
+        Author author = new Author(JINYAO_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
+        firstFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(1, 0));
+
+        Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
+        secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
+
+        String originalZoneId = config.getZoneId();
+        config.setZoneId("UTC-0530");
+        config.setSinceDate(LocalDateTime.of(2019, Month.JUNE, 18, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2019, Month.JUNE, 19, 0, 0));
+
+        // Equivalent to 2019-06-18 23:32:01 in UTC-0530 time.
+        expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe",
+                parseGitStrictIsoDate("2019-06-19T13:02:01+08:00"), ">>>COMMIT INFO<<<",
+                "Hi there!\n\n>>>COMMIT INFO<<<\n", null,
+                firstFileTypeAndContributionMap));
+
+        // Equivalent to 2019-06-18 23:33:39 in UTC-0530 time.
+        expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7",
+                parseGitStrictIsoDate("2019-06-19T13:03:39+08:00"), "[#123] Reverted 1st commit",
+                "This is a test to see if the commit message body works. "
+                        + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null,
+                secondFileTypeAndContributionMap));
+
+        config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success");
+        config.setAuthorList(Collections.singletonList(author));
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+
+        config.setZoneId(originalZoneId);
     }
 
     @Test
@@ -250,6 +293,47 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
+    public void analyzeCommits_commitsWithMultipleTagsAndDifferentTimeZone_success() throws Exception {
+        // Re-uses analyzeCommits_commitsWithMultipleTags_success() test.
+        // But for this test, changes config timezone such that the commit date is one day ahead
+        // in the config timezone compared to the commit timezone.
+        Author author = new Author(JAMES_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
+        firstFileTypeAndContributionMap.put(FILETYPE_MD, new ContributionPair(2, 1));
+
+        Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
+        secondFileTypeAndContributionMap.put(FILETYPE_MD, new ContributionPair(1, 0));
+
+        String originalZoneId = config.getZoneId();
+
+        config.setBranch("879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success");
+        config.setAuthorList(Collections.singletonList(author));
+
+        config.setZoneId("UTC+10");
+        config.setSinceDate(LocalDateTime.of(2019, Month.DECEMBER, 21, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2019, Month.DECEMBER, 22, 0, 0));
+
+        // Date-time equivalent to 2019-12-21 00:45:18 in UTC+10 time
+        expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04",
+                parseGitStrictIsoDate("2019-12-20T22:45:18+08:00"), "Single Tag Commit",
+                "", new String[] {"1st"}, firstFileTypeAndContributionMap));
+
+        // Date-time equivalent to 2019-12-21 00:47:21 in UTC+10 time
+        expectedCommitResults.add(new CommitResult(author, "c5e36ec059390233ac036db61a84fa6b55952506",
+                parseGitStrictIsoDate("2019-12-20T22:47:21+08:00"), "Double Tag Commit",
+                "", new String[] {"2nd-tag", "1st-tag"}, secondFileTypeAndContributionMap));
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+
+        config.setZoneId(originalZoneId);
+    }
+
+    @Test
     public void analyzeCommits_emptyCommits_success() throws Exception {
         Author author = new Author(JAMES_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
@@ -272,21 +356,23 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeCommits_emptyCommitsWithDifferentTimeZone_success() throws Exception {
         // Re-uses analyzeCommits_emptyCommits_success() test.
-        // But for this test only, changes config timezone to be different from what would be given in CommitInfo.
+        // But for this test, changes config timezone to be different from what would be given in CommitInfo.
+        // However, the date should still be the same.
         Author author = new Author(JAMES_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
+        // Equivalent to 2020-01-27 23:20:51 in UTC+9 time.
         String originalZoneId = config.getZoneId();
         config.setZoneId("UTC+9");
+        config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
 
         expectedCommitResults.add(new CommitResult(author, "016ab87c4afe89a98225b96c98ff28dd4774410f",
-                parseGitStrictIsoDate("2020-01-27T23:20:51+09:00"), "empty commit", "", null));
+                parseGitStrictIsoDate("2020-01-27T22:20:51+08:00"), "empty commit", "", null));
 
         config.setBranch("1019-CommitInfoAnalyzerTest-emptyCommits");
         config.setAuthorList(Collections.singletonList(author));
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
-        config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
-        config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
