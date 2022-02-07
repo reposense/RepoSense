@@ -51,7 +51,7 @@ public class ConfigSystemTest {
     @Before
     public void setUp() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
-        ErrorSummary.getInstance().clearErrorList();
+        ErrorSummary.getInstance().clearErrorSet();
         AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
