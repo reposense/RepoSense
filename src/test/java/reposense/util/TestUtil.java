@@ -225,7 +225,7 @@ public class TestUtil {
     /**
      * Returns the path to a resource
      */
-    public static Path loadResource(Class classForLoading, String pathToResource) {
+    public static Path loadResource(Class<?> classForLoading, String pathToResource) {
         ClassLoader classLoader = classForLoading.getClassLoader();
         URL url = classLoader.getResource(pathToResource);
         Path path = null;
