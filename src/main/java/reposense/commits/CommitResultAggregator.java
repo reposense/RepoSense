@@ -89,6 +89,8 @@ public class CommitResultAggregator {
 
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
+
+            // Check whether the contributionIndex is valid and the date being looked at has any contributions.
             if (contributionIndex < contributions.size() && currentDate
                     == ZonedDateTime.of(contributions.get(contributionIndex).getDate(), ZoneId.of(zoneId))
                     .toInstant().toEpochMilli()) {
@@ -114,6 +116,8 @@ public class CommitResultAggregator {
 
             List<AuthorDailyContribution> authorDailyContributions = authorDailyContributionsMap.get(commitAuthor);
 
+            // Check whether there are no contribution dates present or if the current commit date is not yet in
+            // the authorDailyContributions list.
             if (authorDailyContributions.isEmpty() || !getStartOfDate(authorDailyContributions
                     .get(authorDailyContributions.size() - 1).getDate(), zoneId)
                             .equals(commitStartDate)) {
