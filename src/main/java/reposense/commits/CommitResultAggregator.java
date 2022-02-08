@@ -54,7 +54,8 @@ public class CommitResultAggregator {
     }
 
     /**
-     * Calculates the contribution variance of all authors.
+     * Calculates the contribution variance of all authors across contributions made between {@code startDate}
+     * and {@code lastDate}, which are determined based on {@code zoneId}.
      */
     private static Map<Author, Float> calcAuthorContributionVariance(
             Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, Date startDate, Date lastDate,
@@ -67,6 +68,11 @@ public class CommitResultAggregator {
         return result;
     }
 
+    /**
+     * Calculates the contribution variance for each author across the author's contributions made between
+     * {@code startDate} and {@code lastDate}.
+     * {@code startDate} and {@code lastDate} are determined based on {@code zoneId}.
+     */
     private static float getContributionVariance(List<AuthorDailyContribution> contributions,
             Date startDate, Date lastDate, String zoneId) {
         if (contributions.size() == 0) {
@@ -97,6 +103,14 @@ public class CommitResultAggregator {
         return variance / totalDays;
     }
 
+    /**
+     * Creates a {@code Map} of each author in {@code authorSet} to their respective {@code commitResults}
+     * consolidated into {@code AuthorDailyContribution} based on date of each {@code commitResult}.
+     * Uses {@code zoneId} for the date's timezone.
+     *
+     * @return a {@code Map} of each author to a list of {@code AuthorDailyContribution} across all dates in which
+     * the author made commits.
+     */
     private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
             Set<Author> authorSet, List<CommitResult> commitResults, String zoneId) {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
