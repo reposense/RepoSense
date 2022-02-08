@@ -14,12 +14,15 @@ public class RepoLocationTest {
 
     private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_ONE = "path/to/repo/";
     private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_TWO = "../path/to/repo";
+    private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_THREE = "file://path/to/repo";
     private static final String LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_ONE = "path/to/repo/.git";
+    private static final String LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_TWO = "file://path/to/repo.git";
 
     private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE = "path\\to\\repo\\";
     private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_WITHOUT_DOT_GIT_TWO = "..\\path\\to\\repo";
     private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_WITH_DOT_GIT_ONE = "path\\to\\repo\\.git";
-    private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED = "..\\path/to\\repo";
+    private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_ONE = "..\\path/to\\repo";
+    private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_TWO = "file://path\\to\\repo.git";
 
     private static final String EXPECTED_REPO_NAME = "repo";
     private static final String EXPECTED_ORGANIZATION = "path-to";
@@ -32,7 +35,7 @@ public class RepoLocationTest {
     @Test
     public void isLocalRepo_validLocalRepos_success() throws Exception {
         Assert.assertTrue(isLocalRepo(LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_ONE));
-        Assert.assertTrue(isLocalRepo(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED));
+        Assert.assertTrue(isLocalRepo(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_ONE));
         Assert.assertTrue(isLocalRepo("./abc:def"));
     }
 
@@ -50,9 +53,14 @@ public class RepoLocationTest {
         // relative pathing should be considered part of the 'organization' for differentiation
         assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_TWO,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION);
+        // file-type url protocol (file://) is accepted by git clone
+        assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_THREE,
+                EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
 
         // local paths containing ".git" should also be valid
         assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_ONE,
+                EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
+        assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_TWO,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
     }
 
@@ -67,8 +75,10 @@ public class RepoLocationTest {
         assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_WITH_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
 
-        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED,
+        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_ONE,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION);
+        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_TWO,
+                EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
     }
 
     @Test

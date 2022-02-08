@@ -24,7 +24,7 @@ public class RepoLocation {
     private static final Pattern LOCAL_REPOSITORY_NON_WINDOWS_LOCATION_PATTERN =
             Pattern.compile("^(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN =
-            Pattern.compile("^(?<path>.*?)\\\\?(?<repoName>[^\\\\]+?)(\\\\?\\.git)?\\\\?$");
+            Pattern.compile("^(file://)?(?<path>.*?)\\\\?(?<repoName>[^\\\\]+?)(\\\\?\\.git)?\\\\?$");
 
     private final String location;
     private final String repoName;
@@ -80,12 +80,18 @@ public class RepoLocation {
             return true;
         }
 
+        String[] urlProtocolDetails = repoArgument.split("://", 2);
+        if (urlProtocolDetails[0].equals("file")) {
+            return true;
+        }
+
         return false;
     }
 
     private String[] getLocalRepoNameAndOrg(String location) throws InvalidLocationException {
         boolean isWindows = SystemUtil.isWindows();
         if (isWindows) {
+            location = location.replace("file://", "");
             location = location.replaceAll("/", "\\\\");
         }
         Pattern localRepoPattern = isWindows
