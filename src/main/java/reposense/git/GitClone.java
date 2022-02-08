@@ -44,8 +44,9 @@ public class GitClone {
     }
 
     /**
-     * Runs "git clone --bare" command asynchronously to clone a bare repo specified in the {@code config}
-     * into the folder {@code outputFolderName}.
+     * Runs "git clone --bare --shallow-since=" command asynchronously to clone a bare repo specified in the
+     * {@code config} into the folder {@code outputFolderName}.
+     * Uses {@code sinceDate} for the "--shallow-since=" flag.
      *
      * @return an instance of {@code CommandRunnerProcess} to allow tracking the status of the cloning process.
      * @throws GitCloneException when an error occurs during command execution.
@@ -94,6 +95,8 @@ public class GitClone {
 
     /**
      * Clones repo specified in the {@code config} and updates it with the branch info.
+     *
+     * @throws GitCloneException when an error occurs during command execution.
      */
     public static void clone(RepoConfiguration config) throws GitCloneException {
         try {
@@ -204,7 +207,7 @@ public class GitClone {
 
     /**
      * Constructs the command to shallow clone a bare repo specified in the {@code config}
-     * into the folder {@code outputFolderName}.
+     * with {@code shallowSinceDate} into the folder {@code outputFolderName}.
      */
     private static String getCloneShallowBareCommand(RepoConfiguration config,
                                                     String outputFolderName, Date shallowSinceDate) {
@@ -226,7 +229,7 @@ public class GitClone {
 
     /**
      * Constructs the command to shallow partial clone a bare repo specified in the {@code config}
-     * into the folder {@code outputFolderName}.
+     * with {@code shallowSinceDate} into the folder {@code outputFolderName}.
      */
     private static String getCloneShallowPartialBareCommand(RepoConfiguration config,
                                                             String outputFolderName, Date shallowSinceDate) {

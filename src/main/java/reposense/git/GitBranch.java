@@ -16,6 +16,8 @@ public class GitBranch {
 
     /**
      * Returns the current working branch of the repository at {@code root}.
+     *
+     * @throws GitBranchException if command execution is unsuccessful.
      */
     public static String getCurrentBranch(String root) throws GitBranchException {
         Path rootPath = Paths.get(root);

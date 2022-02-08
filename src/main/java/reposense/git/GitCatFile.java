@@ -20,7 +20,9 @@ public class GitCatFile {
     private static final Logger logger = LogsManager.getLogger(GitCatFile.class);
 
     /**
-     * Returns parent commits for the commit associated with the input commit hash.
+     * Returns parent commits for the commit associated with the input {@code commitHash}.
+     *
+     * @throws CommitNotFoundException if there is no commit associated with {@code commitHash}.
      */
     public static List<String> getParentCommits(String root, String commitHash) throws CommitNotFoundException {
         Path rootPath = Paths.get(root);
@@ -40,7 +42,7 @@ public class GitCatFile {
     }
 
     /**
-     * Given the input list of commit hashes, return a list of commit hashes for the parent
+     * Given the input list of {@code commitHashes}, return a list of commit hashes for the parent
      * commits of all the commits.
      */
     public static List<String> getParentsOfCommits(String root, List<String> commitHashes) {

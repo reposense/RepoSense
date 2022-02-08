@@ -25,7 +25,9 @@ public class GitShow {
     private static final Logger logger = LogsManager.getLogger(GitShow.class);
 
     /**
-     * Returns expanded form of the commit hash associated with the {@code shortCommitHash}
+     * Returns expanded form of the {@code CommitHash} associated with the {@code shortCommitHash}.
+     *
+     * @throws CommitNotFoundException if there is no commit associated with {@code shortCommitHash}.
      */
     public static CommitHash getExpandedCommitHash(String root, String shortCommitHash) throws CommitNotFoundException {
         Path rootPath = Paths.get(root);
@@ -48,7 +50,11 @@ public class GitShow {
     }
 
     /**
-     * Returns date of commit associated with commit hash.
+     * Returns {@code Date} of commit associated with commit hash.
+     *
+     * @throws CommitNotFoundException if no commit exists for the given {@code commitHash}.
+     * @throws ParseException if the date string for the given {@code commitHash} could not be parsed into
+     * a {@code Date}.
      */
     public static Date getCommitDate(String root, String commitHash) throws CommitNotFoundException, ParseException {
         Path rootPath = Paths.get(root);
@@ -63,7 +69,10 @@ public class GitShow {
     }
 
     /**
-     * Returns date of earliest commit out of the input list of commits.
+     * Returns {@code Date} of earliest commit out of the input list of commits in {@code commitHashes}.
+     *
+     * @throws CommitNotFoundException if no commit exists for a given hash in {@code commitHashes}
+     * or if no date string was successfully parsed to a {@code Date} for earliest date.
      */
     public static Date getEarliestCommitDate(String root, List<String> commitHashes) throws CommitNotFoundException {
         Date earliest = null;

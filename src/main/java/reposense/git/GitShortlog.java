@@ -36,6 +36,10 @@ public class GitShortlog {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Obtains summarised version of git log command for the date range given by {@code sinceDate}
+     * and {@code untiLDate}.
+     */
     private static String getShortlogSummary(String root, Date sinceDate, Date untilDate) {
         Path rootPath = Paths.get(root);
         String command = "git log --pretty=short";

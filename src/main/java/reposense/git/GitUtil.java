@@ -38,6 +38,7 @@ class GitUtil {
 
     /**
      * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands.
+     * Date range is given by {@code sinceDate} and {@code untilDate}.
      */
     static String convertToGitDateRangeArgs(Date sinceDate, Date untilDate) {
         String gitDateRangeArgs = "";
@@ -53,7 +54,7 @@ class GitUtil {
     }
 
     /**
-     * Returns the {@code String} command to specify the authors to analyze for `git log` command.
+     * Returns the {@code String} command to specify the {@code author} to analyze for `git log` command.
      */
     static String convertToFilterAuthorArgs(Author author) {
         StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
@@ -75,7 +76,7 @@ class GitUtil {
     }
 
     /**
-     * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
+     * Returns the {@code String} command to specify the file {@code formats} to analyze for `git` commands.
      */
     public static String convertToGitFormatsArgs(List<FileType> formats) {
         StringBuilder gitFormatsArgsBuilder = new StringBuilder();
