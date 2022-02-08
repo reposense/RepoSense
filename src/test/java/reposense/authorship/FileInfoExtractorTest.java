@@ -88,7 +88,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_sinceDateAfterLatestCommit_emptyResult() {
-        LocalDateTime date = TestUtil.getSinceDate(2050, 12, 31);
+        LocalDateTime date = TestUtil.getSinceDate(2050, Month.DECEMBER.getValue(), 31);
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
@@ -97,7 +97,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_untilDateBeforeFirstCommit_emptyResult() {
-        LocalDateTime date = TestUtil.getUntilDate(2015, 12, 31);
+        LocalDateTime date = TestUtil.getUntilDate(2015, Month.DECEMBER.getValue(), 31);
         config.setUntilDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
