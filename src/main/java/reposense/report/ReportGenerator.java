@@ -144,8 +144,7 @@ public class ReportGenerator {
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
-                        reportSinceDate,
-                        untilDate, isSinceDateProvided,
+                        reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId.toString()),
                 getSummaryResultPath(outputPath));
