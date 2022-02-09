@@ -18,8 +18,8 @@
       ) {{ filteredUser.displayName }} ({{ filteredUser.name }})
       a(
         v-else,
-        v-bind:href="info.zLocation", target="_blank",
-        v-bind:title="'Click to open the repo'"
+        :href="info.zLocation", target="_blank",
+        :title="'Click to open the repo'"
       )
         span {{ filteredUser.repoName }}
     .author(v-if="!info.zIsMerge")
@@ -37,7 +37,7 @@
           template(v-if="commitResult.tags")
             .tag(
               v-for="tag in commitResult.tags",
-              vbind:key="tag",
+              :key="tag",
               v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
             )
               font-awesome-icon(icon="tags")
@@ -62,8 +62,8 @@
       label sort by
     .mui-select.sort-order
       select(v-model="toReverseSortedCommits")
-        option(v-bind:value='true') Descending
-        option(v-bind:value='false') Ascending
+        option(:value='true') Descending
+        option(:value='false') Ascending
       label order
 
   .fileTypes
@@ -79,7 +79,7 @@
                 'color': getFontColor(fileTypeColors[fileType])\
                 }"
       )
-        input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
+        input.mui-checkbox--fileType(type="checkbox", :value="fileType",
           v-on:change="updateSelectedFileTypesHash", v-model="selectedFileTypes")
         span {{ fileType }} &nbsp;
 
@@ -93,7 +93,7 @@
       v-bind:key="slice.hash",
       v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
     )
-      a.message-title(v-bind:href="getSliceLink(slice)", target="_blank")
+      a.message-title(:href="getSliceLink(slice)", target="_blank")
         .within-border {{ slice.messageTitle.substr(0, 50) }}
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
@@ -103,8 +103,8 @@
       span.fileTypeLabel(
         v-for="fileType in\
           filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
-        vbind:key="fileType",
-        v-bind:style="{\
+        :key="fileType",
+        :style="{\
           'background-color': fileTypeColors[fileType],\
           'color': getFontColor(fileTypeColors[fileType])\
           }"
@@ -112,8 +112,8 @@
       template(v-if="slice.tags")
         .tag(
           v-for="tag in slice.tags",
-          vbind:key="tag",
-          tabindex="-1", v-bind:class="[`${slice.hash}`, tag]"
+          :key="tag",
+          tabindex="-1", :class="[`${slice.hash}`, tag]"
         )
           font-awesome-icon(icon="tags")
           span &nbsp;{{ tag }}

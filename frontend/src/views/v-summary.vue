@@ -42,17 +42,17 @@
         label granularity
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
-          v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
+          :value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="since", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
-          v-bind:min="minDate", v-bind:max="filterUntilDate")
+        input(v-else, type="date", name="since", :value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
+          :min="minDate", :max="filterUntilDate")
         label since
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
-          v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
+          :value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="until", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
-          v-bind:min="filterSinceDate", v-bind:max="maxDate")
+        input(v-else, type="date", name="until", :value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
+          :min="filterSinceDate", :max="maxDate")
         label until
       .mui-textfield
         a(v-on:click="resetDateRange") Reset date range
@@ -65,12 +65,12 @@
           )
           span breakdown by file type
         label.merge-group(
-          v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
+          :style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
         )
           input.mui-checkbox(
             type="checkbox",
             v-model="allGroupsMerged",
-            v-bind:disabled="filterGroupSelection === 'groupByNone'"
+            :disabled="filterGroupSelection === 'groupByNone'"
           )
           span merge all groups
   .error-message-box(v-if="Object.entries(errorMessages).length")
@@ -84,12 +84,12 @@
       )
         span Oops, an unexpected error occurred. If this is due to a problem in RepoSense, please report in&nbsp;
         a(
-          v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
+          :href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
         )
           strong our issue tracker&nbsp;
         span or email us at&nbsp;
         a(
-          v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
+          :href="getReportIssueEmailLink(errorBlock.errorMessage)"
         )
           span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
@@ -106,8 +106,8 @@
         )
           input.mui-checkbox--fileType(
             type="checkbox",
-            v-bind:id="fileType",
-            v-bind:value="fileType",
+            :id="fileType",
+            :value="fileType",
             v-model="checkedFileTypes",
             v-on:change="getFiltered"
           )

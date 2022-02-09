@@ -2,34 +2,34 @@
 .ramp
   template(v-if="tframe === 'commit'")
     template(v-for="(slice, j) in user.commits")
-      a.ramp__slice(
-        v-bind:draggable="false",
-        v-on:click="rampClick",
-        v-for="(commit, k) in slice.commitResults.filter(commit => commit.insertions>0)",
-        v-bind:href="getLink(user, commit)", target="_blank",
-        v-bind:title="getContributionMessage(slice, commit)",
-        v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
-        v-bind:style="{\
+  template(v-else)
+    a.ramp__slice(
+      :draggable="false",
+      v-on:click="rampClick",
+      v-for="(commit, k) in slice.commitResults.filter(commit => commit.insertions>0)",
+      :href="getLink(user, commit)", target="_blank",
+      :title="getContributionMessage(slice, commit)",
+      :class="'ramp__slice--color' + getSliceColor(slice.date)",
+      :style="{\
           zIndex: user.commits.length - j,\
           borderLeftWidth: getWidth(commit) + 'em',\
           right: ((getSlicePos(slice.date)\
             + (getCommitPos(k, slice.commitResults.length))) * 100) + '%'\
           }"
-      )
-
-  template(v-else)
-    a.ramp__slice(
-      v-bind:draggable="false",
+    )
+  a.ramp__slice(
+      :draggable="false",
       v-for="(slice, j) in user.commits.filter(commit => commit.insertions>0)",
-      v-bind:title="getContributionMessage(slice)",
+      :title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
-      v-bind:style="{\
+      :class="'ramp__slice--color' + getSliceColor(slice.date)",
+      :style="{\
         zIndex: user.commits.length - j,\
         borderLeftWidth: getWidth(slice) + 'em',\
         right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%' \
         }"
     )
+
 </template>
 
 <script>

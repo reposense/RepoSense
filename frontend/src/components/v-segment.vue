@@ -1,5 +1,5 @@
 <template lang="pug">
-.segment(v-bind:class="{ untouched: !segment.authored, active: isOpen }")
+.segment(:class="{ untouched: !segment.authored, active: isOpen }")
   .closer(v-if="canOpen",
     v-on:click="toggleCode", ref="topButton")
     font-awesome-icon.icon(
