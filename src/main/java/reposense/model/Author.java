@@ -67,6 +67,7 @@ public class Author {
 
     /**
      * Checks that all the strings in the {@code emails} only contains commonly used email patterns.
+     *
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
     private static void validateEmails(List<String> emails) throws IllegalArgumentException {
@@ -79,6 +80,7 @@ public class Author {
 
     /**
      * Checks that all the strings in the {@code ignoreGlobList} only contains commonly used glob patterns.
+     *
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
     private static void validateIgnoreGlobs(List<String> ignoreGlobList) throws IllegalArgumentException {

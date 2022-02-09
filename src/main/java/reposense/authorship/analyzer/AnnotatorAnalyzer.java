@@ -75,6 +75,7 @@ public class AnnotatorAnalyzer {
     /**
      * Extracts the author name from the given {@code line}, finds the corresponding {@code Author}
      * in {@code authorAliasMap}, and returns this {@code Author} stored in an {@code Optional}.
+     *
      * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if there is an author config file and
      *              no matching {@code Author} is found,
      *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
@@ -133,6 +134,7 @@ public class AnnotatorAnalyzer {
 
     /**
      * Checks if the line is a valid @@author tag comment line
+     *
      * @param line The line to be checked
      * @return The index of the comment if the comment pattern matches, -1 if no match could be found
      */

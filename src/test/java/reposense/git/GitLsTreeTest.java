@@ -82,6 +82,7 @@ public class GitLsTreeTest extends GitTestTemplate {
     /**
      * Clones a bare repo in {@code config} and verifies that the repo contains only file paths that are
      * compatible in Windows.
+     *
      * @throws IOException if it fails to create/delete the folders.
      * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
      * Windows.

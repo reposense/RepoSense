@@ -70,6 +70,7 @@ public class AuthorConfiguration {
 
     /**
      * Checks for duplicate aliases in {@code authorDetailsToAuthorMap} and generates warnings
+     *
      * @param authorDetailsToAuthorMap
      * @param alias
      */
@@ -170,6 +171,7 @@ public class AuthorConfiguration {
     /**
      * Removes all information of the {@code author} from the configs
      * Precondition: {@code author} must be present in {@code authorDetailsToAuthorMap}
+     *
      * @param author Can be an author's git ID, email, or alias
      */
     public void removeAuthorInformation(String author) {
@@ -238,6 +240,7 @@ public class AuthorConfiguration {
 
     /**
      * Adds {@code aliases} of {@code author} into the map
+     *
      * @param author
      * @param values
      */

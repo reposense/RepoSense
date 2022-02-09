@@ -1,7 +1,6 @@
 package reposense.parser;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
-
 import static reposense.util.TestUtil.loadResource;
 
 import java.io.File;
@@ -759,6 +758,7 @@ public class ArgsParserTest {
 
     /**
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
+     *
      * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.
      */
     private void assertDateDiffOneMonth(Date actualSinceDate, Date untilDate, ZoneId zoneId) {
@@ -781,6 +781,7 @@ public class ArgsParserTest {
     /**
      * Ensures that {@code actualUntilDate} falls on the date of report generation with time at 23:59:59 for the given
      * {@code zoneId} time zone.
+     *
      * @throws AssertionError if {@code actualUntilDate} does not fall on the date of report generation
      * with time at 23:59:59.
      */
