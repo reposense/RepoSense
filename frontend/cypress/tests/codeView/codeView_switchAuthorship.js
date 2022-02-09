@@ -77,11 +77,14 @@ describe('switch authorship', () => {
               .should('include', firstAuthor);
         });
 
-    cy.get('#tab-authorship > .files > .file > .title > .path')
-        .children('span')
-        .first()
-        .then(($span) => {
-          firstFilename = $span.text();
+    cy.get('#tab-authorship > .files')
+        .within(() => {
+            cy.get('.file > .title > .path')
+                .children('span')
+                .first()
+                .then(($span) => {
+                    firstFilename = $span.text();
+            })
         });
 
     // switch authorship view
@@ -105,13 +108,16 @@ describe('switch authorship', () => {
               .should('include', lastAuthor);
         });
 
-    cy.get('#tab-authorship > .files > .file > .title > .path')
-        .children('span')
-        .first()
-        .should(($span) => {
-          const lastFilename = $span.text();
-          expect(firstFilename, 'First displayed filenames should be different for different authors')
-              .to.not.equal(lastFilename);
-        });
+    cy.get('#tab-authorship > .files')
+        .within(() => {
+            cy.get('.file > .title > .path')
+                .children('span')
+                .first()
+                .should(($span) => {
+                    const lastFilename = $span.text();
+                    expect(firstFilename, 'First displayed filenames should be different for different authors')
+                        .to.not.equal(lastFilename);
+                });
+        })
   });
 });
