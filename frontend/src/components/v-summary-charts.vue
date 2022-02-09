@@ -3,7 +3,7 @@
   .summary-charts(v-for="(repo, i) in filteredRepos")
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone'",
-      :class="{ 'active-background': \
+      v-bind:class="{ 'active-background': \
         isSelectedGroup(repo[0].name, repo[0].repoName) }"
     )
       .summary-charts__title--index {{ i+1 }}
@@ -38,14 +38,14 @@
           span.tooltip-text Click to expand group
       a(
         v-if="filterGroupSelection === 'groupByRepos'",
-        :href="getRepoLink(repo[0])", target="_blank"
+        v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(:icon="['fab', 'github']")
           span.tooltip-text Click to view group's repo
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
-        :href="getAuthorProfileLink(repo[0].name)", target="_blank"
+        v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(icon="user")
@@ -89,26 +89,26 @@
     .summary-chart(v-for="(user, j) in repo")
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
-        :class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo }"
+        v-bind:class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo }"
       )
         .summary-chart__title--index {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
           v-if="filterGroupSelection !== 'groupByAuthors'",
-          :class="{ warn: user.name === '-' }"
+          v-bind:class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
-          :href="getRepoLink(repo[j])", target="_blank"
+          v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(:icon="['fab', 'github']")
             span.tooltip-text Click to view repo
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
-          :href="getAuthorProfileLink(repo[j].name)", target="_blank"
+          v-bind:href="getAuthorProfileLink(repo[j].name)", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="user")
@@ -158,20 +158,20 @@
           )
             .summary-chart__contrib--bar(
               v-for="width in widths",
-              :style="{ width: width + '%',\
+              v-bind:style="{ width: width + '%',\
                 'background-color': fileTypeColors[fileType] }",
-              :title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
+              v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
                 + 'total: ' + user.checkedFileTypeContribution + ' lines ' + '(contribution from ' + minDate + ' to '\
                 + maxDate + ')'"
             )
         template(v-else)
           .summary-chart__contrib(
-            :title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
+            v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
               + user.checkedFileTypeContribution + ' lines'"
           )
             .summary-chart__contrib--bar(
               v-for="width in getContributionBars(user.checkedFileTypeContribution)",
-              :style="{ width: width+'%' }"
+              v-bind:style="{ width: width+'%' }"
             )
 </template>
 

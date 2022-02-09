@@ -10,8 +10,8 @@
     a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
   .panel-heading
     a.group-name(
-      :href="info.location", target="_blank",
-      :title="'Click to open the repo'"
+      v-bind:href="info.location", target="_blank",
+      v-bind:title="'Click to open the repo'"
     ) {{ info.repo }}
     .author(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
@@ -32,8 +32,8 @@
           label sort by
         .mui-select.sort-order
           select(v-model="toReverseSortFiles")
-            option(:value='true') Descending
-            option(:value='false') Ascending
+            option(v-bind:value='true') Descending
+            option(v-bind:value='false') Ascending
           label order
       .searchbox
         input.radio-button--search(
@@ -47,7 +47,7 @@
             type="search",
             placeholder="Filter by glob",
             ref="searchBar",
-            :value="searchBarValue",
+            v-bind:value="searchBarValue",
             v-on:focus="indicateSearchBar",
             v-on:keyup.enter="updateSearchBarValue"
           )
@@ -65,7 +65,7 @@
         .checkboxes.mui-form--inline(v-if="files.length > 0")
           label(style='background-color: #000000; color: #ffffff')
             input.mui-checkbox--fileType#all(type="checkbox", v-model="isSelectAllChecked")
-            span(:title="getTotalFileBlankLineInfo()")
+            span(v-bind:title="getTotalFileBlankLineInfo()")
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
               span ({{ totalLineCount - totalBlankLineCount }})&nbsp;
@@ -78,15 +78,15 @@
                 }"
             )
               input.mui-checkbox--fileType(type="checkbox",
-                :id="fileType", :value="fileType",
+                v-bind:id="fileType", v-bind:value="fileType",
                 v-on:change="indicateCheckBoxes", v-model="selectedFileTypes")
-              span(:title="getFileTypeBlankLineInfo(fileType)")
+              span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
                 span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
             span(
-              :title="binaryFilesCount + \
+              v-bind:title="binaryFilesCount + \
               ' binary files (not included in total line count)'"
             )
               span {{ binaryFilesCount }} binary file(s)
@@ -105,14 +105,14 @@
             span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
           span.icons
             a(
-              :href="getFileLink(file, 'commits')", target="_blank"
+              v-bind:href="getFileLink(file, 'commits')", target="_blank"
             )
               .tooltip
                 font-awesome-icon.button(icon="history")
                 span.tooltip-text Click to view the history view of file
             a(
               v-if='!file.isBinary',
-              :href="getFileLink(file, 'blame')", target="_blank",
+              v-bind:href="getFileLink(file, 'blame')", target="_blank",
               title="click to view the blame view of file"
             )
               .tooltip
@@ -120,7 +120,7 @@
                 span.tooltip-text Click to view the blame view of file
           span.fileTypeLabel(
             v-if='!file.isBinary',
-            :style="{\
+            v-bind:style="{\
               'background-color': fileTypeColors[file.fileType],\
               'color': getFontColor(fileTypeColors[file.fileType])\
               }"
