@@ -1,6 +1,7 @@
 package reposense.parser;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
+
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
