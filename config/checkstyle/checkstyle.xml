@@ -374,7 +374,6 @@
 
     <!-- Checks the format's Javadoc for every method (excluding getters, setters and constructors). -->
     <module name="JavadocMethod">
-      <property name="validateThrows" value="true"/>
       <property name="allowMissingParamTags" value="true"/>
       <property name="allowMissingReturnTag" value="true"/>
     </module>
