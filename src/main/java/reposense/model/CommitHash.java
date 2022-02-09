@@ -52,6 +52,7 @@ public class CommitHash {
     /**
      * Converts all the strings in {@code commits} into {@code CommitHash} objects.
      * Returns null if {@code commits} is null.
+     *
      * @throws IllegalArgumentException if any of the strings are in invalid formats.
      */
     public static List<CommitHash> convertStringsToCommits(List<String> commits) throws IllegalArgumentException {
@@ -79,7 +80,7 @@ public class CommitHash {
     }
 
     /**
-     * Checks if {@code commitList} contains {@code commitHash}
+     * Checks if {@code commitList} contains {@code commitHash}.
      */
     public static boolean isInsideCommitList(String commitHash, List<CommitHash> commitList) {
         return commitList.stream().map(CommitHash::toString).anyMatch(commitHash::startsWith);
@@ -87,6 +88,7 @@ public class CommitHash {
 
     /**
      * Checks that all the strings in the {@code ignoreCommitList} are in valid formats.
+     *
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
     public static void validateCommits(List<String> commits) throws IllegalArgumentException {
@@ -97,6 +99,7 @@ public class CommitHash {
 
     /**
      * Checks that {@code commitHash} is in a valid format.
+     *
      * @throws IllegalArgumentException if {@code commitHash} does not meet the criteria.
      */
     private static void validateCommit(String commitHash) throws IllegalArgumentException {

@@ -28,14 +28,14 @@ public class TimeUtil {
             "\"Since Date\" must not be later than today's date.";
 
     /**
-     * Sets the {@code startTime} to be the current time
+     * Sets the {@code startTime} to be the current time.
      */
     public static void startTimer() {
         startTime = System.nanoTime();
     }
 
     /**
-     * Returns the formatted elapsed time from {@code startTime} until current time
+     * Returns the formatted elapsed time from {@code startTime} until current time.
      */
     public static String getElapsedTime() {
         long endTime = System.nanoTime();

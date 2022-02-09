@@ -20,6 +20,7 @@ public abstract class JsonParser<T> {
 
     /**
      * Converts json file from the given {@code path} into an object and returns it.
+     *
      * @throws IOException if {@code path} is invalid.
      */
     public abstract T parse(Path path) throws IOException;

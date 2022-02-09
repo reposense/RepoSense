@@ -71,7 +71,7 @@ public class CommitResultAggregator {
     /**
      * Calculates the contribution variance for each author across the author's contributions made between
      * {@code startDate} and {@code lastDate}.
-     * {@code startDate} and {@code lastDate} are determined based on {@code zoneId}.
+     * The {@code startDate} and {@code lastDate} are determined based on {@code zoneId}.
      */
     private static float getContributionVariance(List<AuthorDailyContribution> contributions,
             Date startDate, Date lastDate, String zoneId) {

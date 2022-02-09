@@ -123,7 +123,7 @@ public class RepoConfiguration {
 
     /**
      * Merges a {@code RepoConfiguration} from {@code repoConfigs} with an {@code AuthorConfiguration} from
-     * {@code authorConfigs} if their {@code RepoLocation} and branch matches
+     * {@code authorConfigs} if their {@code RepoLocation} and branch matches.
      */
     public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
         for (AuthorConfiguration authorConfig : authorConfigs) {

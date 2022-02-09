@@ -15,7 +15,7 @@ import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
 /**
- * Custom log formatter for different handlers to display only relevant information
+ * Custom log formatter for different handlers to display only relevant information.
  */
 public class CustomLogFormatter extends SimpleFormatter {
 

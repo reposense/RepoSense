@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- * Configures and manages the loggers and handlers, including their levels
+ * Configures and manages the loggers and handlers, including their levels.
  */
 public class LogsManager {
 

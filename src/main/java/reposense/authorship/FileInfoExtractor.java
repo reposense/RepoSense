@@ -134,7 +134,7 @@ public class FileInfoExtractor {
     /**
      * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}
      * if {@code isBinaryFiles} is set to `false`.
-     * Otherwise, returns a {@code Set} of binary files for the repo {@code repoConfig}
+     * Otherwise, returns a {@code Set} of binary files for the repo {@code repoConfig}.
      */
     public static Set<Path> getFiles(RepoConfiguration repoConfig, boolean isBinaryFile) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));

@@ -150,7 +150,7 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Extracts the correct file path from the unprocessed git log {@code filePath}
+     * Extracts the correct file path from the unprocessed git log {@code filePath}.
      */
     private static String extractFilePath(String filePath) {
         String filteredFilePath = filePath;

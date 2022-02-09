@@ -159,6 +159,7 @@ public class ReportGenerator {
 
     /**
      * Copies the template file to the specified {@code outputPath} for the repo report to be generated.
+     *
      * @throws IOException if template resource is not found.
      */
     private static void prepareTemplateFile(ReportConfiguration config, String outputPath) throws IOException {
@@ -172,7 +173,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Set title of template file located at {@code filePath} to {@code pageTitle}
+     * Set title of template file located at {@code filePath} to {@code pageTitle}.
      */
     private static void setLandingPageTitle(String filePath, String pageTitle) throws IOException {
         Path indexPagePath = Paths.get(filePath, INDEX_PAGE_TEMPLATE);
@@ -358,6 +359,7 @@ public class ReportGenerator {
 
     /**
      * Analyzes repo specified by {@code config} and generates the report.
+     *
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      */
     private static List<Path> analyzeRepo(
@@ -476,6 +478,7 @@ public class ReportGenerator {
 
     /**
      * Generates a report at the {@code repoReportDirectory}.
+     *
      * @return A list of paths to the JSON report files generated for this empty report.
      */
     private static List<Path> generateEmptyRepoReport(String repoReportDirectory, String displayName) {
@@ -492,6 +495,7 @@ public class ReportGenerator {
 
     /**
      * Generates a report for a single repository at {@code repoReportDirectory}.
+     *
      * @return A list of paths to the JSON report files generated for this report.
      */
     private static List<Path> generateIndividualRepoReport(

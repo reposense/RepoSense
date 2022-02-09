@@ -19,7 +19,7 @@ public class GitVersion {
             Pattern.compile("(((2\\d*\\.(2[3-9]\\d*|[3-9]\\d+|\\d{3,}))|((([3-9]\\d*)|(1\\d+))\\.\\d+))\\.\\d*)");
 
     /**
-     * Get current git version of RepoSense user
+     * Get current git version of RepoSense user.
      */
     public static String getGitVersion() {
         Path rootPath = Paths.get("/");
@@ -29,7 +29,7 @@ public class GitVersion {
     }
 
     /**
-     * Returns a boolean indicating whether the current user has a version valid for running
+     * Returns a boolean indicating whether the current user has a version valid for running.
      * Find Previous Authors functionality in RepoSense.
      */
     public static boolean isGitVersionSufficientForFindingPreviousAuthors() {

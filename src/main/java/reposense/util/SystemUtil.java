@@ -13,7 +13,7 @@ public class SystemUtil {
     }
 
     /**
-     * Returns true if the current environment is a test environment (defined by build.gradle)
+     * Returns true if the current environment is a test environment (defined by build.gradle).
      */
     public static boolean isTestEnvironment() {
         String environment = System.getenv("REPOSENSE_ENVIRONMENT");
