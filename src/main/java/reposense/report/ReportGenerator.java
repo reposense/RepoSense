@@ -174,6 +174,8 @@ public class ReportGenerator {
 
     /**
      * Set title of template file located at {@code filePath} to {@code pageTitle}.
+     *
+     * @throws IOException if file writing fails.
      */
     private static void setLandingPageTitle(String filePath, String pageTitle) throws IOException {
         Path indexPagePath = Paths.get(filePath, INDEX_PAGE_TEMPLATE);
@@ -361,6 +363,7 @@ public class ReportGenerator {
      * Analyzes repo specified by {@code config} and generates the report.
      *
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
+     * @throws NoAuthorsWithCommitsFoundException if there are no authors with commits found for the repo.
      */
     private static List<Path> analyzeRepo(
             RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
@@ -415,6 +418,8 @@ public class ReportGenerator {
     /**
      * Find and update {@code config} with all the author identities if author list is empty.
      * Also removes ignored authors from author list.
+     *
+     * @throws NoAuthorsWithCommitsFoundException if there are no authors with commits found for the repo.
      */
     private static void updateAuthorList(RepoConfiguration config) throws NoAuthorsWithCommitsFoundException {
         if (config.getAuthorList().isEmpty()) {

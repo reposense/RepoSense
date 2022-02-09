@@ -113,6 +113,7 @@ public class RepoSense {
      *
      * @throws IOException if user-supplied csv file does not exists or is not readable.
      * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
+     * @throws InvalidHeaderException if user-supplied csv file has header that cannot be parsed.
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments)
             throws IOException, InvalidCsvException, InvalidHeaderException {

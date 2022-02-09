@@ -285,6 +285,8 @@ public class RepoConfiguration {
 
     /**
      * Gets the current branch and updates branch with current branch if default branch is specified.
+     *
+     * @throws GitBranchException if current branch cannot be retrieved.
      */
     public void updateBranch() throws GitBranchException {
         if (branch.equals(DEFAULT_BRANCH)) {

@@ -32,6 +32,8 @@ public class PeriodArgumentType implements ArgumentType<Optional<Integer>> {
 
     /**
      * This function parses a {@code period} String and returns an Integer representing the number of days.
+     *
+     * @throws ParseException if period format or number is invalid.
      */
     public static Optional<Integer> parse(String period) throws ParseException {
         if (!PERIOD_PATTERN.matcher(period).matches()) {

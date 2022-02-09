@@ -59,6 +59,7 @@ public abstract class CsvParser<T> {
      * Creates {@code CsvParser} with given {@code csvFilepath}.
      *
      * @throws IOException if {@code csvFilePath} is an invalid path.
+     * @throws FileNotFoundException if the csv file cannot be found in the provided {@code csvFilePath}.
      */
     public CsvParser(Path csvFilePath) throws IOException {
         if (csvFilePath == null || !Files.exists(csvFilePath)) {
@@ -75,6 +76,7 @@ public abstract class CsvParser<T> {
      *
      * @throws IOException if there are errors accessing the given csv file.
      * @throws InvalidCsvException if the csv is malformed.
+     * @throws InvalidHeaderException if header of csv file cannot be read.
      */
     public List<T> parse() throws IOException, InvalidCsvException, InvalidHeaderException {
         List<T> results = new ArrayList<>();
@@ -119,6 +121,7 @@ public abstract class CsvParser<T> {
      *
      * @throws IOException if there is an error accessing the file.
      * @throws InvalidCsvException if the file has only empty or blank lines.
+     * @throws InvalidHeaderException if header of csv file cannot be read.
      */
     private String[] getHeader(BufferedReader reader) throws IOException, InvalidCsvException, InvalidHeaderException {
         String currentLine = "";
@@ -228,6 +231,7 @@ public abstract class CsvParser<T> {
      * Generates map of column header to position number for input {@code possibleHeader}.
      *
      * @throws InvalidCsvException if {@code possibleHeader} does not contain all the mandatory headers.
+     * @throws InvalidHeaderException if a column in {@code possibleHeader} cannot be parsed.
      */
     private void validateHeader(String[] possibleHeader) throws InvalidCsvException, InvalidHeaderException {
         int headerSize = possibleHeader.length;
@@ -286,6 +290,8 @@ public abstract class CsvParser<T> {
      * All CsvParsers must use {@link CsvParser#get}, {@link CsvParser#getOrDefault},
      * {@link CsvParser#getAsList} or {@link CsvParser#getAsListWithoutOverridePrefix} to read contents in
      * {@code record} and add created objects into {@code results}.
+     *
+     * @throws ParseException if any line does not get read successfully.
      */
     protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
 }

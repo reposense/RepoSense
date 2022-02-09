@@ -210,6 +210,8 @@ public class TimeUtil {
      * Parses the given String as a Date based on the {@code CLI_ARGS_DATE_FORMAT}.
      * Setting setLenient to false prevents unexpected results.
      * Without it, even with "dd/MM/yyyy HH:mm:ss" format, 11/31/2017 00:00:00 will be parsed to 11/7/2019 00:00:00.
+     *
+     * @throws java.text.ParseException if date cannot be parsed for the given format.
      */
     public static Date parseDate(String date) throws java.text.ParseException {
         CLI_ARGS_DATE_FORMAT.setLenient(false);
