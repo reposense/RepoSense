@@ -62,7 +62,7 @@ run {
 }
 
 checkstyle {
-    toolVersion = '8.1'
+    toolVersion = '8.38'
     configDir = file("$rootProject.projectDir/config/checkstyle")
 }
 
