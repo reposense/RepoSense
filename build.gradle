@@ -136,6 +136,11 @@ tasks.shadowJar.dependsOn('zipReport');
 tasks.compileJava.dependsOn('zipReport');
 tasks.run.dependsOn('compileJava');
 
+task checkstyleAll(dependsOn: ['checkstyleMain', 'checkstyleTest', 'checkstyleSystemtest'], type: Checkstyle) {
+    tasks.checkstyleTest.mustRunAfter('checkstyleMain')
+    tasks.checkstyleSystemtest.mustRunAfter('checkstyleTest')
+}
+
 task systemtest(dependsOn: 'zipReport', type: Test) {
     testClassesDirs = sourceSets.systemtest.output.classesDirs
     classpath = sourceSets.systemtest.runtimeClasspath
