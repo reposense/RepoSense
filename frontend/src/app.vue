@@ -97,7 +97,7 @@ const app = {
       users: [],
       userUpdated: false,
 
-      isLoadingOverlayEnabled: false,
+      isLoadingOverlayEnabled: null,
       loadingOverlayOpacity: 1,
 
       tabType: 'empty',
@@ -117,7 +117,7 @@ const app = {
       this.activateTab('authorship');
     },
     '$store.state.loadingOverlayCount': function () {
-      this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
+      this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0 ? true : null;
     },
   },
   methods: {
