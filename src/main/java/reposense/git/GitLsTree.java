@@ -35,7 +35,7 @@ public class GitLsTree {
     /**
      * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
      * Skips check if the operating system is not Windows.
-     *
+     * This line is meant to make the GitHub Actions fail.
      * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
      * Windows.
      */
