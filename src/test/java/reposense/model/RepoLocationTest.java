@@ -47,7 +47,7 @@ public class RepoLocationTest {
     }
 
     /**
-     * Compares the information parsed by the RepoLocation model with the expected information
+     * Compares the information parsed by the RepoLocation model with the expected information.
      */
     public void assertValidLocation(String rawLocation, String expectedRepoName,
             String expectedOrganization) throws Exception {

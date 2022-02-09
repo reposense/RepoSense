@@ -121,14 +121,14 @@ public class TestUtil {
     }
 
     /**
-     * Wrapper for {@code getDate} method to get since date with time 00:00:00
+     * Wrapper for {@code getDate} method to get since date with time 00:00:00.
      */
     public static Date getSinceDate(int year, int month, int date) {
         return getDate(year, month, date, START_OF_DAY_TIME);
     }
 
     /**
-     * Wrapper for {@code getDate} method to get until date with time 23:59:59
+     * Wrapper for {@code getDate} method to get until date with time 23:59:59.
      */
     public static Date getUntilDate(int year, int month, int date) {
         return getDate(year, month, date, END_OF_DAY_TIME);
@@ -151,14 +151,14 @@ public class TestUtil {
     }
 
     /**
-     * Wrapper for {@code getLocalDate} method to get since date with time 00:00:00
+     * Wrapper for {@code getLocalDate} method to get since date with time 00:00:00.
      */
     public static Date getLocalSinceDate(int year, int month, int date) {
         return getLocalDate(year, month, date, START_OF_DAY_TIME);
     }
 
     /**
-     * Wrapper for {@code getLocalDate} method to get until date with time 23:59:59
+     * Wrapper for {@code getLocalDate} method to get until date with time 23:59:59.
      */
     public static Date getLocalUntilDate(int year, int month, int date) {
         return getLocalDate(year, month, date, END_OF_DAY_TIME);
@@ -264,7 +264,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns the path to a resource
+     * Returns the path to a resource.
      */
     public static Path loadResource(Class<?> classForLoading, String pathToResource) {
         ClassLoader classLoader = classForLoading.getClassLoader();

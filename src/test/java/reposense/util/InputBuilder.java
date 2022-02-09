@@ -19,7 +19,7 @@ public class InputBuilder {
     }
 
     /**
-     * Returns the {@code input} generated from this {@code InputBuilder}
+     * Returns the {@code input} generated from this {@code InputBuilder}.
      */
     public String build() {
         return input.toString();
