@@ -42,7 +42,6 @@ public class RepoLocation {
         }
 
         this.location = location;
-
         String[] repoNameAndOrg;
         if (location.isEmpty()) {
             repoNameAndOrg = new String[] {"", ""};
