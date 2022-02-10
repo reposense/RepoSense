@@ -57,7 +57,7 @@ public class FileUtil {
             "Exception occurred while attempting to zip the report files.";
     private static final String MESSAGE_FAIL_TO_COPY_ASSETS =
             "Exception occurred while attempting to copy custom assets.";
-    private static final String MESSAGE_INVALID_WINDOWS_PATH = "Invalid filepath: '%s' contains '%s'";
+    private static final String MESSAGE_INVALID_WINDOWS_PATH = "Invalid Windows filepath: '%s'";
 
     // Although forward-slash (/) is an invalid character in Windows file path, it is not included in the regex as
     // for the output of git-ls-tree, files in directories are separated by forward-slash (e.g.: folder/name/file.txt).
@@ -353,25 +353,14 @@ public class FileUtil {
         for (String path : paths) {
             path = StringsUtil.removeQuote(path);
 
-            if (!isValidWindowsFilename(path)) {
+            if (!isValidPath(path)) {
                 hasError = true;
+                break;
             }
         }
 
         if (hasError) {
             throw new InvalidFilePathException("Invalid file paths found in " + config.getLocation());
         }
-    }
-
-    /**
-     * Returns true if {@code pathToTest} is a valid file name in Windows OS.
-     */
-    public static boolean isValidWindowsFilename(String pathToTest) {
-        Matcher matcher = ILLEGAL_WINDOWS_FILE_PATTERN.matcher(pathToTest);
-        if (matcher.find()) {
-            logger.log(Level.SEVERE, String.format(MESSAGE_INVALID_WINDOWS_PATH, pathToTest, matcher.group()));
-            return false;
-        }
-        return true;
     }
 }
