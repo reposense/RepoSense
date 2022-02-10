@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -28,8 +27,6 @@ import java.util.zip.ZipOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import reposense.git.GitLsTree;
-import reposense.git.exception.InvalidFilePathException;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
@@ -333,34 +330,5 @@ public class FileUtil {
      */
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
-    }
-
-    /**
-     * Verifies that the repository in {@code config} contains only file paths that are compatible with Windows.
-     * Skips check if the operating system is not Windows.
-     * @throws InvalidFilePathException if the repository contains invalid file paths that are not compatible with
-     * Windows.
-     */
-    public static void validateFilePaths(RepoConfiguration config, Path clonedBareRepoDirectory)
-            throws InvalidFilePathException {
-        if (!SystemUtil.isWindows()) {
-            return;
-        }
-
-        boolean hasError = false;
-        String[] paths = GitLsTree.getFilePaths(clonedBareRepoDirectory, config);
-
-        for (String path : paths) {
-            path = StringsUtil.removeQuote(path);
-
-            if (!isValidPath(path)) {
-                hasError = true;
-                break;
-            }
-        }
-
-        if (hasError) {
-            throw new InvalidFilePathException("Invalid file paths found in " + config.getLocation());
-        }
     }
 }
