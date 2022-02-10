@@ -54,17 +54,6 @@ public class FileUtil {
             "Exception occurred while attempting to zip the report files.";
     private static final String MESSAGE_FAIL_TO_COPY_ASSETS =
             "Exception occurred while attempting to copy custom assets.";
-    private static final String MESSAGE_INVALID_WINDOWS_PATH = "Invalid Windows filepath: '%s'";
-
-    // Although forward-slash (/) is an invalid character in Windows file path, it is not included in the regex as
-    // for the output of git-ls-tree, files in directories are separated by forward-slash (e.g.: folder/name/file.txt).
-    // Also, it is not possible to create and commit files with forward-slash characters in UNIX OSes.
-    private static final Pattern ILLEGAL_WINDOWS_FILE_PATTERN = Pattern.compile(
-            "((?<=^|/)(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?=\\..*|/|$))" // contains reserved values (e.g.: com1)
-                    + "|[<>:|?*\\x00-\\x1F\"\\\\]"      // contains any reserved characters in directory name
-                    + "|(^\\s)|((?<=/)\\s+)"            // file or folder names with leading whitespaces
-                    + "|([\\s.]$)|([\\s.]+(?=/))",      // folder or file names ending with period or whitespaces
-            Pattern.CASE_INSENSITIVE);
 
     /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
