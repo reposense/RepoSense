@@ -1,7 +1,10 @@
 package reposense.model;
 
+import static reposense.util.FileUtil.isValidPath;
+
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,7 +74,7 @@ public class RepoLocation {
      * <a href="https://git-scm.com/docs/git-clone#_git_urls">specification</a>.
      */
     public static boolean isLocalRepo(String repoArgument) {
-        if (!repoArgument.contains(":")) {
+        if (!repoArgument.contains(":") || isValidPath(repoArgument)) {
             return true;
         }
 
@@ -80,8 +83,8 @@ public class RepoLocation {
             return true;
         }
 
-        String[] urlProtocolDetails = repoArgument.split("://", 2);
-        if (urlProtocolDetails[0].equals("file")) {
+        String urlProtocol = repoArgument.split("://", 2)[0];
+        if (urlProtocol.equals("file")) {
             return true;
         }
 
@@ -107,7 +110,9 @@ public class RepoLocation {
 
         String tempRepoName = localRepoMatcher.group("repoName");
         String fileSeparator = isWindows ? "\\\\" : "/";
-        String tempOrganization = localRepoMatcher.group("path").replaceAll(fileSeparator, "-");
+        String tempOrganization = Optional.ofNullable(localRepoMatcher.group("path"))
+                .map(s -> s.replaceAll(fileSeparator, "-"))
+                .orElse("");
 
         return new String[] {tempRepoName, tempOrganization};
     }
@@ -135,7 +140,9 @@ public class RepoLocation {
 
         Matcher actualMatcher = remoteRepoMatcher.matches() ? remoteRepoMatcher : sshRepoMatcher;
         String tempRepoName = actualMatcher.group("repoName");
-        String tempOrganization = actualMatcher.group("path").replaceAll("/", "-");
+        String tempOrganization = Optional.ofNullable(actualMatcher.group("path"))
+                .map(s -> s.replaceAll("/", "-"))
+                .orElse("");
 
         return new String[] {tempRepoName, tempOrganization};
     }

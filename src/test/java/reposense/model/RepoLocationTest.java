@@ -12,7 +12,7 @@ import reposense.util.SystemUtil;
 
 public class RepoLocationTest {
 
-    private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_ONE = "path/to/repo/";
+    private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_ONE = "repo";
     private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_TWO = "../path/to/repo";
     private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_THREE = "file://path/to/repo";
     private static final String LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_ONE = "path/to/repo/.git";
@@ -21,8 +21,11 @@ public class RepoLocationTest {
     private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE = "path\\to\\repo\\";
     private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_WITHOUT_DOT_GIT_TWO = "..\\path\\to\\repo";
     private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_WITH_DOT_GIT_ONE = "path\\to\\repo\\.git";
+    private static final String LOCAL_REPO_LOCATION_WINDOWS_DISK_DRIVE = "C:\\path\\to\\repo.git";
+
     private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_ONE = "..\\path/to\\repo";
     private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_TWO = "file://path\\to\\repo.git";
+    private static final String LOCAL_REPO_LOCATION_WINDOWS_DISK_DRIVE_MIXED = "C:\\path/to/repo.git";
 
     private static final String EXPECTED_REPO_NAME = "repo";
     private static final String EXPECTED_ORGANIZATION = "path-to";
@@ -49,7 +52,7 @@ public class RepoLocationTest {
     public void repoLocation_parseLocalRepoLocation_success() throws Exception {
         // local paths not containing ".git" should be valid
         assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_ONE,
-                EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
+                EXPECTED_REPO_NAME, "");
         // relative pathing should be considered part of the 'organization' for differentiation
         assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_TWO,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION);
@@ -74,11 +77,16 @@ public class RepoLocationTest {
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION);
         assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_WITH_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
+        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_DISK_DRIVE,
+                EXPECTED_REPO_NAME, "C:-" + EXPECTED_ORGANIZATION);
 
         assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_ONE,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION);
         assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_TWO,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
+        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_DISK_DRIVE_MIXED,
+                EXPECTED_REPO_NAME, "C:-" + EXPECTED_ORGANIZATION);
+
     }
 
     @Test
