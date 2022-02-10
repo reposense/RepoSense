@@ -42,7 +42,6 @@ import reposense.git.GitShow;
 import reposense.git.exception.CommitNotFoundException;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
-import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
