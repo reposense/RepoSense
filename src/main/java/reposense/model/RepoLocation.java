@@ -74,7 +74,7 @@ public class RepoLocation {
      * <a href="https://git-scm.com/docs/git-clone#_git_urls">specification</a>.
      */
     public static boolean isLocalRepo(String repoArgument) {
-        if (!repoArgument.contains(":") || isValidPath(repoArgument)) {
+        if (!repoArgument.contains(":")) {
             return true;
         }
 
@@ -88,7 +88,7 @@ public class RepoLocation {
             return true;
         }
 
-        return false;
+        return isValidPath(repoArgument);
     }
 
     private String[] getLocalRepoNameAndOrg(String location) throws InvalidLocationException {
