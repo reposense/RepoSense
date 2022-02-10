@@ -25,6 +25,7 @@ import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.InvalidCsvException;
+import reposense.parser.InvalidHeaderException;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
@@ -100,7 +101,7 @@ public class RepoSense {
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
-        } catch (IOException | ParseException | InvalidCsvException e) {
+        } catch (IOException | ParseException | InvalidCsvException | InvalidHeaderException e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
@@ -114,7 +115,7 @@ public class RepoSense {
      * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments)
-            throws IOException, InvalidCsvException {
+            throws IOException, InvalidCsvException, InvalidHeaderException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs;
         List<GroupConfiguration> groupConfigs;
