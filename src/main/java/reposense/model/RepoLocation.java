@@ -83,12 +83,18 @@ public class RepoLocation {
             return true;
         }
 
+        // checks if it is a URL file protocol
         String urlProtocol = repoArgument.split("://", 2)[0];
         if (urlProtocol.equals("file")) {
             return true;
         }
 
-        return isValidPath(repoArgument);
+        // catch disk drive arguments such as C:\
+        if (SystemUtil.isWindows() && isValidPath(repoArgument)) {
+            return true;
+        }
+
+        return false;
     }
 
     private String[] getLocalRepoNameAndOrg(String location) throws InvalidLocationException {
