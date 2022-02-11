@@ -2,6 +2,12 @@
 
 CI=${CI:-false}
 
+REPO_SLUG_ARRAY=(${GITHUB_REPOSITORY//\// })
+REPO_OWNER=${REPO_SLUG_ARRAY[0]}
+REPO_NAME=${REPO_SLUG_ARRAY[1]}
+ACTIONS_DASHBOARD_ENV="dashboard-${ACTIONS_PULL_REQUEST_NUMBER}"
+ACTIONS_DOCS_ENV="docs-${ACTIONS_PULL_REQUEST_NUMBER}"
+
 # Function to get deployment ID from Github response
 # $1: Response from Github
 # $2: Deployment environment name
@@ -18,11 +24,12 @@ delete_deployment() {
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
-REPO_SLUG_ARRAY=(${GITHUB_REPOSITORY//\// })
-REPO_OWNER=${REPO_SLUG_ARRAY[0]}
-REPO_NAME=${REPO_SLUG_ARRAY[1]}
-ACTIONS_DASHBOARD_ENV="dashboard-${ACTIONS_PULL_REQUEST_NUMBER}"
-ACTIONS_DOCS_ENV="docs-${ACTIONS_PULL_REQUEST_NUMBER}"
+get_deployment_data() {
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments" \
+  -X GET \
+  -H "Authorization: token ${GITHUB_TOKEN}" \
+  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json,application/vnd.github.v3+json"
+}
 
 echo $REPO_OWNER
 echo $REPO_NAME
@@ -32,7 +39,7 @@ echo $ACTIONS_DOCS_ENV
 echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments"
 
 # Get deployment data from Github
-RES=$(curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments -X GET")
+# RES=$(curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments -X GET")
 
 echo $RES
 
