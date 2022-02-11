@@ -39,7 +39,7 @@ echo $ACTIONS_DOCS_ENV
 echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments"
 
 # Get deployment data from Github
-# RES=$(curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments -X GET")
+RES=get_deployment_data
 
 echo $RES
 
