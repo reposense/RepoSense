@@ -1,0 +1,20 @@
+name: Clear deployments on closed Pull Requests
+
+on:
+  pull_request:
+    branches:
+      - master
+    types: [closed]
+
+jobs:
+  clear:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+      ACTIONS_PULL_REQUEST_NUMBER: ${{ github.event.number }}
+      GITHUB_TOKEN: ${{ github.token }}
+
+    steps:
+    - name: Clear deployments
+      run: ./config/gh-actions/delete.sh
