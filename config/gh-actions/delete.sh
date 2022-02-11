@@ -40,6 +40,7 @@ get_ids_from_response() {
 # NOTE: deployment must be set inactive before it can be deleted
 # $1: The deployment ID
 delete_deployment() {
+  echo "Deleting Deployment: ${1}"
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1" \
   -X DELETE \
   -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
@@ -49,6 +50,7 @@ delete_deployment() {
 # Function to update GitHub deployment status via a cURL command
 # $1: The deployment ID to update the status for
 mark_deployment_inactive() {
+  echo "Marking Deployment Inactive: ${1}"
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1/statuses" \
   -X POST \
   -H "Content-Type: application/json" \
