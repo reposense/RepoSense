@@ -54,7 +54,7 @@ public class GitShow {
      *
      * @throws CommitNotFoundException if no commit exists for the given {@code commitHash}.
      * @throws ParseException if the date string for the given {@code commitHash} could not be parsed into
-     * a {@code Date}.
+     * a {@code Date} object.
      */
     public static Date getCommitDate(String root, String commitHash) throws CommitNotFoundException, ParseException {
         Path rootPath = Paths.get(root);

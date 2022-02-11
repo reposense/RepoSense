@@ -238,7 +238,7 @@ public class FileUtil {
     /**
      * Creates the {@code dest} directory if it does not exist.
      *
-     * @throws IOException for any I/O errors in the underlying function.
+     * @throws IOException if the directory could not be created.
      */
     public static void createDirectory(Path dest) throws IOException {
         Files.createDirectories(dest);
@@ -317,7 +317,7 @@ public class FileUtil {
     /**
      * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
      *
-     * @throws IOException if an I/O error occurs while accessing {@code directoryPath}.
+     * @throws IOException if an error occurs while trying to access {@code directoryPath}.
      */
     private static List<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
         return Files.walk(directoryPath)

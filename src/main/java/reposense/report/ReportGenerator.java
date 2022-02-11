@@ -175,7 +175,7 @@ public class ReportGenerator {
     /**
      * Set title of template file located at {@code filePath} to {@code pageTitle}.
      *
-     * @throws IOException if file writing fails.
+     * @throws IOException if writing to the file fails.
      */
     private static void setLandingPageTitle(String filePath, String pageTitle) throws IOException {
         Path indexPagePath = Paths.get(filePath, INDEX_PAGE_TEMPLATE);

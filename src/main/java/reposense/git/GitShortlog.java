@@ -37,8 +37,8 @@ public class GitShortlog {
     }
 
     /**
-     * Obtains summarised version of git log command for the date range given by {@code sinceDate}
-     * and {@code untiLDate}.
+     * Obtains summarised version of git log from the repository at {@code root} for the date range
+     * given by {@code sinceDate} and {@code untilDate}.
      */
     private static String getShortlogSummary(String root, Date sinceDate, Date untilDate) {
         Path rootPath = Paths.get(root);

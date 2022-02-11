@@ -32,7 +32,7 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      *
      * @return an instance of {@code CommandRunnerProcess} to allow tracking the status of the cloning process.
-     * @throws GitCloneException when an error occurs during command execution.
+     * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
     public static CommandRunnerProcess cloneBareAsync(RepoConfiguration config, Path rootPath,
             String outputFolderName) throws GitCloneException {
@@ -49,7 +49,7 @@ public class GitClone {
      * Uses {@code sinceDate} for the "--shallow-since=" flag.
      *
      * @return an instance of {@code CommandRunnerProcess} to allow tracking the status of the cloning process.
-     * @throws GitCloneException when an error occurs during command execution.
+     * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
     public static CommandRunnerProcess cloneShallowBareAsync(RepoConfiguration config, Path rootPath,
                                                   String outputFolderName, Date sinceDate) throws GitCloneException {
@@ -65,7 +65,7 @@ public class GitClone {
      * Runs "git clone --bare" command asynchronously to clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
      *
-     * @throws GitCloneException when an error occurs during command execution.
+     * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
     public static void clonePartialBare(RepoConfiguration config, Path rootPath,
                                                       String outputFolderName) throws GitCloneException {
@@ -81,7 +81,7 @@ public class GitClone {
      * Runs "git clone --bare" command asynchronously to clone a bare repo specified in the {@code config}
      * into the folder {@code outputFolderName}.
      *
-     * @throws GitCloneException when an error occurs during command execution.
+     * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
     public static void cloneShallowPartialBare(RepoConfiguration config, Path rootPath,
                                                   String outputFolderName, Date sinceDate) throws GitCloneException {
@@ -96,7 +96,7 @@ public class GitClone {
     /**
      * Clones repo specified in the {@code config} and updates it with the branch info.
      *
-     * @throws GitCloneException when an error occurs during command execution.
+     * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
     public static void clone(RepoConfiguration config) throws GitCloneException {
         try {
@@ -160,7 +160,7 @@ public class GitClone {
      * directly branches out to {@code targetBranch}.
      *
      * @throws IOException if it fails to delete a directory.
-     * @throws GitCloneException when an error occurs during command execution.
+     * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
     public static void cloneFromBareAndUpdateBranch(Path rootPath, RepoConfiguration config)
             throws GitCloneException, IOException {

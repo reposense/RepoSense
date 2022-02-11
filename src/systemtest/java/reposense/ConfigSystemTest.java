@@ -133,7 +133,7 @@ public class ConfigSystemTest {
     }
 
     /**
-     * Generates the testing report and then compares it with the expected report.
+     * Generates the testing report and compares it with the expected report.
      * Re-generates a normal report after the testing finished if the first report is shallow-cloned.
      */
     private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines,

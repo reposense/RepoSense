@@ -69,9 +69,10 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Checks for duplicate aliases in {@code authorDetailsToAuthorMap} and generates warnings.
+     * Checks if {@code alias} is already being used by another author in {@code authorDetailsToAuthorMap}
+     * and generates warnings.
      *
-     * @param authorDetailsToAuthorMap
+     * @param authorDetailsToAuthorMap Map to be checked for duplicate aliases.
      * @param alias Alias for duplicate-checking.
      * @param gitId GitId of author which {@code alias} is mapped to.
      */
@@ -240,10 +241,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds {@code aliases} of {@code author} into the map.
-     *
-     * @param author
-     * @param values
+     * Adds {@code values} as aliases of {@code author} into the map.
      */
     public void addAuthorDetailsToAuthorMapEntry(Author author, List<String> values) {
         values.forEach(value -> {
@@ -257,7 +255,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Attempts to find matching {@code Author} given a name and an email.
+     * Attempts to find matching {@code Author} given a {@code name} and an {@code email}.
      * If no matching {@code Author} is found, {@code Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
