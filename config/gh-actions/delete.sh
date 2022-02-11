@@ -54,12 +54,10 @@ get_deployment_data() {
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
-echo $REPO_OWNER
-echo $REPO_NAME
-echo $ACTIONS_DASHBOARD_ENV
-echo $ACTIONS_DOCS_ENV
-
-# echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments"
+echo "$REPO_OWNER"
+echo "$REPO_NAME"
+echo "$ACTIONS_DASHBOARD_ENV"
+echo "$ACTIONS_DOCS_ENV"
 
 # Get deployment data from Github
 RES=$(get_deployment_data)
