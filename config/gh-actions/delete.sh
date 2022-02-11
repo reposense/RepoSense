@@ -43,7 +43,7 @@ delete_deployment() {
   echo "Deleting Deployment: ${1}"
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1" \
   -X DELETE \
-  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
+  -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
@@ -54,7 +54,7 @@ mark_deployment_inactive() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1/statuses" \
   -X POST \
   -H "Content-Type: application/json" \
-  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
+  -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}" \
   -d "{\"state\": \"inactive\"}"
 }
@@ -86,8 +86,8 @@ delete_all_deployments() {
 RES=$(get_deployment_data)
 
 # Extract deployment IDs
-DASHBOARD_IDS=("$(get_ids_from_response "$RES" "$ACTIONS_DASHBOARD_ENV")")
-DOCS_IDS=("$(get_ids_from_response "$RES" "$ACTIONS_DOCS_ENV")")
+DASHBOARD_IDS=($(get_ids_from_response "$RES" "$ACTIONS_DASHBOARD_ENV"))
+DOCS_IDS=($(get_ids_from_response "$RES" "$ACTIONS_DOCS_ENV"))
 
 delete_all_deployments "${DASHBOARD_IDS[@]}"
 delete_all_deployments "${DOCS_IDS[@]}"
