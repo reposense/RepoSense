@@ -47,7 +47,7 @@ delete_deployment() {
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
-# Function to update GitHub deployment status via a cURL command
+# Function to update GitHub deployment status to inactive via a cURL command
 # $1: The deployment ID to update the status for
 mark_deployment_inactive() {
   echo "Marking Deployment Inactive: ${1}"
@@ -67,13 +67,13 @@ get_deployment_data() {
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
-# Function to mark inactive and delete deployments for given list
+# Function to mark inactive and delete deployments for given array
 # of deployment IDs
-# $1 List of deployment IDs
+# $1 Array of deployment IDs
 delete_all_deployments() {
   for ID in "$@"
   do
-    if [ -z "${ID}" ] # empty deploy subdomains, skip deployment
+    if [ -z "${ID}" ] # empty IDs, skip deployment
     then
       continue
     fi
