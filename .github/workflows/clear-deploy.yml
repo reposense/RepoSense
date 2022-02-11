@@ -21,4 +21,4 @@ jobs:
         fetch-depth: 0
 
     - name: Clear deployments
-      run: ./config/gh-actions/delete.sh
+      run: ./config/gh-actions/delete-deployments.sh
