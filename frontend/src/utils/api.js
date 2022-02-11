@@ -177,7 +177,7 @@ window.api = {
       }
       throw error;
     }
-    const { reportGeneratedTime, reportGenerationTime } = data;
+    const { reportTitle, reportGeneratedTime, reportGenerationTime } = data;
     window.sinceDate = data.sinceDate;
     window.untilDate = data.untilDate;
     window.repoSenseVersion = data.repoSenseVersion;
@@ -196,6 +196,7 @@ window.api = {
       names.push(repoName);
     });
     return {
+      reportTitle,
       creationDate: reportGeneratedTime,
       reportGenerationTime,
       errorMessages,

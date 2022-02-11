@@ -99,6 +99,7 @@ const app = {
       loadingOverlayOpacity: 1,
 
       tabType: 'empty',
+      reportTitle: 'RepoSense Report',
       creationDate: '',
       reportGenerationTime: '',
       errorMessages: {},
@@ -146,6 +147,7 @@ const app = {
       this.userUpdated = false;
       try {
         const {
+          reportTitle,
           creationDate,
           reportGenerationTime,
           errorMessages,
@@ -158,6 +160,8 @@ const app = {
         this.reportGenerationTime = reportGenerationTime;
         this.errorMessages = errorMessages;
         this.repos = window.REPOS;
+        this.reportTitle = reportTitle;
+        document.title = reportTitle;
         await Promise.all(names.map((name) => (
           window.api.loadCommits(name)
         )));
