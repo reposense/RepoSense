@@ -2,18 +2,6 @@
 
 CI=${CI:-false}
 
-if [ "$CI" == "false" ]
-then
-  echo "ERROR: This script is intended to be run on GitHub Actions only!"
-  exit 1
-fi
-
-if [ "$GITHUB_EVENT_NAME" != "pull_request" ]
-then
-  echo "ERROR: This script is intended to be run for pull_request workflows only!"
-  exit 1
-fi
-
 # Function to get deployment ID from Github response
 # $1: Response from Github
 # $2: Deployment environment name
@@ -35,6 +23,11 @@ REPO_OWNER=${REPO_SLUG_ARRAY[0]}
 REPO_NAME=${REPO_SLUG_ARRAY[1]}
 ACTIONS_DASHBOARD_ENV="dashboard-${ACTIONS_PULL_REQUEST_NUMBER}"
 ACTIONS_DOCS_ENV="docs-${ACTIONS_PULL_REQUEST_NUMBER}"
+
+echo $REPO_OWNER
+echo $REPO_NAME
+echo $ACTIONS_DASHBOARD_ENV
+echo $ACTIONS_DOCS_ENV
 
 # Get deployment data from Github
 RES=$(curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments -X GET")
