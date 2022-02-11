@@ -2,6 +2,18 @@
 
 CI=${CI:-false}
 
+if [ "$CI" == "false" ]
+then
+  echo "ERROR: This script is intended to be run on GitHub Actions only!"
+  exit 1
+fi
+
+if [ "$GITHUB_EVENT_NAME" != "pull_request" ]
+then
+  echo "ERROR: This script is intended to be run for pull_request workflows only!"
+  exit 1
+fi
+
 REPO_SLUG_ARRAY=(${GITHUB_REPOSITORY//\// })
 REPO_OWNER=${REPO_SLUG_ARRAY[0]}
 REPO_NAME=${REPO_SLUG_ARRAY[1]}
@@ -24,11 +36,22 @@ delete_deployment() {
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
+# Function to update GitHub deployment status via a cURL command
+# $1: The deployment ID to update the status for
+mark_deployment_inactive() {
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1/statuses" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: token ${GITHUB_TOKEN}" \
+  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
+  -X POST \
+  -d "{\"state\": \"inactive\"}"
+}
+
 get_deployment_data() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments" \
   -X GET \
-  -H "Authorization: token ${GITHUB_TOKEN}" \
-  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json,application/vnd.github.v3+json"
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
 echo $REPO_OWNER
@@ -36,16 +59,17 @@ echo $REPO_NAME
 echo $ACTIONS_DASHBOARD_ENV
 echo $ACTIONS_DOCS_ENV
 
-echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments"
+# echo "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments"
 
 # Get deployment data from Github
-RES=get_deployment_data
-
-echo $RES
+RES=$(get_deployment_data)
 
 # Extract deployment IDs
 DASHBOARD_ID=$(get_id_from_response "$RES" "$ACTIONS_DASHBOARD_ENV")
 DOCS_ID=$(get_id_from_response "$RES" "$ACTIONS_DOCS_ENV")
 
-delete_deployment "$DASHBOARD_ID"
+mark_deployment_inactive "$DOCS_ID"
 delete_deployment "$DOCS_ID"
+
+mark_deployment_inactive "$DASHBOARD_ID"
+delete_deployment "$DASHBOARD_ID"
