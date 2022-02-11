@@ -42,7 +42,7 @@ get_ids_from_response() {
 delete_deployment() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1" \
   -X DELETE \
-  -H "Accept: application/vnd.github.v3+json" \
+  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
@@ -52,7 +52,7 @@ mark_deployment_inactive() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1/statuses" \
   -X POST \
   -H "Content-Type: application/json" \
-  -H "Accept: application/vnd.github.v3+json" \
+  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
   -H "Authorization: token ${GITHUB_TOKEN}" \
   -d "{\"state\": \"inactive\"}"
 }
