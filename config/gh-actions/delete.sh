@@ -1,5 +1,8 @@
 #!/bin/bash
+# This script automatically deletes RepoSense and documentation deployments on closed PRs
+# This is intended to be run for the pull_request workflow
 
+# Set to false if unset, ref: http://stackoverflow.com/a/39296583/1320290
 CI=${CI:-false}
 
 if [ "$CI" == "false" ]
@@ -20,14 +23,21 @@ REPO_NAME=${REPO_SLUG_ARRAY[1]}
 ACTIONS_DASHBOARD_ENV="dashboard-${ACTIONS_PULL_REQUEST_NUMBER}"
 ACTIONS_DOCS_ENV="docs-${ACTIONS_PULL_REQUEST_NUMBER}"
 
-# Function to get deployment ID from Github response
+# Function to get deployment ID for environment name from Github response
 # $1: Response from Github
 # $2: Deployment environment name
-get_id_from_response() {
-  echo "$1" | python3 -c "import sys, json; print(next(filter(lambda j: j['environment']=='${2}', json.load(sys.stdin)))['id'])"
+get_ids_from_response() {
+  echo "$1" | python3 -c "import sys, json; \
+    print(' '.join( \
+      map(lambda j: str(j['id']), \
+          filter(lambda j: j['environment']=='${2}', \
+                 json.load(sys.stdin) \
+                 ) \
+          )))"
 }
 
-# Function to delete GitHub deployment via a cURL command (deployment must be set inactive before it can be deleted)
+# Function to delete GitHub deployment via a cURL command
+# NOTE: deployment must be set inactive before it can be deleted
 # $1: The deployment ID
 delete_deployment() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1" \
@@ -40,13 +50,14 @@ delete_deployment() {
 # $1: The deployment ID to update the status for
 mark_deployment_inactive() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1/statuses" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: token ${GITHUB_TOKEN}" \
-  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
   -X POST \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Authorization: token ${GITHUB_TOKEN}" \
   -d "{\"state\": \"inactive\"}"
 }
 
+# Function to get deployment data about repo via a cURL command
 get_deployment_data() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments" \
   -X GET \
@@ -54,20 +65,27 @@ get_deployment_data() {
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
-echo "$REPO_OWNER"
-echo "$REPO_NAME"
-echo "$ACTIONS_DASHBOARD_ENV"
-echo "$ACTIONS_DOCS_ENV"
+# Function to mark inactive and delete deployments for given list
+# of deployment IDs
+# $1 List of deployment IDs
+delete_all_deployments() {
+  for ID in "$@"
+  do
+    if [ -z "${ID}" ] # empty deploy subdomains, skip deployment
+    then
+      continue
+    fi
+    mark_deployment_inactive "$ID"
+    delete_deployment "$ID"
+  done
+}
 
 # Get deployment data from Github
 RES=$(get_deployment_data)
 
 # Extract deployment IDs
-DASHBOARD_ID=$(get_id_from_response "$RES" "$ACTIONS_DASHBOARD_ENV")
-DOCS_ID=$(get_id_from_response "$RES" "$ACTIONS_DOCS_ENV")
+DASHBOARD_IDS=("$(get_ids_from_response "$RES" "$ACTIONS_DASHBOARD_ENV")")
+DOCS_IDS=("$(get_ids_from_response "$RES" "$ACTIONS_DOCS_ENV")")
 
-mark_deployment_inactive "$DOCS_ID"
-delete_deployment "$DOCS_ID"
-
-mark_deployment_inactive "$DASHBOARD_ID"
-delete_deployment "$DASHBOARD_ID"
+delete_all_deployments "${DASHBOARD_IDS[@]}"
+delete_all_deployments "${DOCS_IDS[@]}"

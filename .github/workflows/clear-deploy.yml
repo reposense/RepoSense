@@ -1,9 +1,9 @@
-name: Clear deployments on closed Pull Requests
+name: Clear deployments for closed pull requests
 
 on:
   pull_request:
-    branches:
-      - master
+    branches-ignore:
+      - gh-pages
     types: [closed]
 
 jobs:
