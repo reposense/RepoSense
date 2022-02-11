@@ -22,6 +22,8 @@ REPO_OWNER=${REPO_SLUG_ARRAY[0]}
 REPO_NAME=${REPO_SLUG_ARRAY[1]}
 ACTIONS_DASHBOARD_ENV="dashboard-${ACTIONS_PULL_REQUEST_NUMBER}"
 ACTIONS_DOCS_ENV="docs-${ACTIONS_PULL_REQUEST_NUMBER}"
+DASHBOARD_DEPLOY_DOMAIN=https://${ACTIONS_DASHBOARD_ENV}-${REPO_NAME}-${REPO_OWNER}.surge.sh
+DOCS_DEPLOY_DOMAIN=https://${ACTIONS_DOCS_ENV}-${REPO_NAME}-${REPO_OWNER}.surge.sh
 
 # Function to get deployment ID for environment name from Github response
 # $1: Response from Github
@@ -67,6 +69,15 @@ get_deployment_data() {
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
+# Function to post surge deployment links as a comment on PR via a cURL command
+post_preview_links_comment() {
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${ACTIONS_PULL_REQUEST_NUMBER}/comments" \
+  -X POST \
+  -H "Accept: application/vnd.github.v3+json" \
+  -H "Authorization: token ${GITHUB_TOKEN}" \
+  -d "{\"body\": \"Dashboard Preview: ${DASHBOARD_DEPLOY_DOMAIN}\nDocs Preview: ${DOCS_DEPLOY_DOMAIN}\"}"
+}
+
 # Function to mark inactive and delete deployments for given array
 # of deployment IDs
 # $1 Array of deployment IDs
@@ -89,5 +100,6 @@ RES=$(get_deployment_data)
 DASHBOARD_IDS=($(get_ids_from_response "$RES" "$ACTIONS_DASHBOARD_ENV"))
 DOCS_IDS=($(get_ids_from_response "$RES" "$ACTIONS_DOCS_ENV"))
 
+post_preview_links_comment
 delete_all_deployments "${DASHBOARD_IDS[@]}"
 delete_all_deployments "${DOCS_IDS[@]}"
