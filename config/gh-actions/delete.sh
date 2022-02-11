@@ -32,6 +32,8 @@ echo $ACTIONS_DOCS_ENV
 # Get deployment data from Github
 RES=$(curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments -X GET")
 
+echo $RES
+
 # Extract deployment IDs
 DASHBOARD_ID=$(get_id_from_response "$RES" "$ACTIONS_DASHBOARD_ENV")
 DOCS_ID=$(get_id_from_response "$RES" "$ACTIONS_DOCS_ENV")
