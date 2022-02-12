@@ -9,6 +9,7 @@ public class StringsUtil {
 
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
     private static final String SPECIAL_BASH_SYMBOLS = "!\"#$&'()*,;<=>?\\[\\]\\\\^`{|} \t";
+
     /**
      * Filters the {@code text}, returning only the lines that matches the given {@code regex}.
      */
@@ -41,12 +42,13 @@ public class StringsUtil {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < original.length(); i++) {
                 char c = original.charAt(i);
-                if (SPECIAL_BASH_SYMBOLS.contains(c + "")) {
-                    sb.append("\\");
+                if (c == '\'') {
+                    sb.append("\"'\"");
+                } else {
+                    sb.append(c);
                 }
-                sb.append(c);
             }
-            return sb.toString();
+            return '\'' + sb.toString() + '\'';
         }
     }
 
