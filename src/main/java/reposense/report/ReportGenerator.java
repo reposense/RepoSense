@@ -69,7 +69,7 @@ public class ReportGenerator {
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
     private static final String INDEX_PAGE_TEMPLATE = "index.html";
-    private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>RepoSense Report</title>";
+    private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>reposense</title>";
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
