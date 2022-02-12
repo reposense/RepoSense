@@ -1,7 +1,6 @@
 package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
-import static reposense.util.StringsUtil.addQuotes;
 import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.nio.file.Path;
