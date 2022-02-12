@@ -221,7 +221,7 @@ public class GitClone {
      */
     private static String getClonePartialBareCommand(RepoConfiguration config, String outputFolderName) {
         return "git clone --bare --filter=blob:none "
-                + addQuotes(config.getLocation().toString()) + " "
+                + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
     }
 
