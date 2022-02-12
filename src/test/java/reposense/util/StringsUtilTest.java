@@ -76,7 +76,7 @@ public class StringsUtilTest {
     @Test
     public void addQuotationMarksForPath_specialBashCharacters_success() {
         Assume.assumeTrue(!SystemUtil.isWindows());
-        String specialBashSymbols = "!\"#$&'()*,;<=>?\\[\\]\\\\^`{|} \t";
+        String specialBashSymbols = "!\"#$&'()*,;<=>?\\[]^`{| \t}";
         String result = CommandRunner.runCommand(Paths.get("./"),
                 "echo " + StringsUtil.addQuotesForFilePath(specialBashSymbols));
         Assert.assertEquals(specialBashSymbols, result);
