@@ -80,7 +80,7 @@ post_preview_links_comment() {
 
 # Function to mark inactive and delete deployments for given array
 # of deployment IDs
-# $1 Array of deployment IDs
+# $@: Array of deployment IDs
 delete_all_deployments() {
   for ID in "$@"
   do
