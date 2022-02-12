@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 public class StringsUtil {
 
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
-    private static final String SPECIAL_BASH_SYMBOLS = "!\"#$&'()*,;<=>?\\[\\]\\\\^`{|} \t";
 
     /**
      * Filters the {@code text}, returning only the lines that matches the given {@code regex}.

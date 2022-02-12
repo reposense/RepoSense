@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
+import reposense.system.CommandRunner;
 
 public class StringsUtilTest {
 
@@ -69,5 +71,14 @@ public class StringsUtilTest {
         String actualString = StringsUtil.removeTrailingBackslash(emptyString);
 
         Assert.assertEquals(emptyString, actualString);
+    }
+
+    @Test
+    public void addQuotationMarksForPath_specialBashCharacters_success() {
+        Assume.assumeTrue(!SystemUtil.isWindows());
+        String specialBashSymbols = "!\"#$&'()*,;<=>?\\[\\]\\\\^`{|} \t";
+        String result = CommandRunner.runCommand(Paths.get("./"),
+                "echo " + StringsUtil.addQuotesForFilePath(specialBashSymbols));
+        Assert.assertEquals(specialBashSymbols, result);
     }
 }
