@@ -1,7 +1,8 @@
 package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
-import static reposense.util.StringsUtil.addQuote;
+import static reposense.util.StringsUtil.addQuotes;
+import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -61,7 +62,7 @@ public class GitLog {
 
         String command = "git log --pretty=format:\"%an\t%ae\" ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
-        command += " " + addQuote(filePath);
+        command += " " + addQuotesForFilePath(filePath);
 
         return runCommand(rootPath, command);
     }

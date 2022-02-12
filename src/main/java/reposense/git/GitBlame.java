@@ -1,7 +1,8 @@
 package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
-import static reposense.util.StringsUtil.addQuote;
+import static reposense.util.StringsUtil.addQuotes;
+import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,7 +31,7 @@ public class GitBlame {
         Path rootPath = Paths.get(root);
 
         String blameCommand = "git blame -w --line-porcelain";
-        blameCommand += " " + addQuote(fileDirectory);
+        blameCommand += " " + addQuotesForFilePath(fileDirectory);
 
         return StringsUtil.filterText(runCommand(rootPath, blameCommand), COMBINATION_REGEX);
     }
@@ -43,8 +44,8 @@ public class GitBlame {
         Path rootPath = Paths.get(root);
 
         String blameCommandWithFindingPreviousAuthors = "git blame -w --line-porcelain --ignore-revs-file";
-        blameCommandWithFindingPreviousAuthors += " " + addQuote(IGNORE_COMMIT_LIST_FILE_NAME);
-        blameCommandWithFindingPreviousAuthors += " " + addQuote(fileDirectory);
+        blameCommandWithFindingPreviousAuthors += " " + addQuotesForFilePath(IGNORE_COMMIT_LIST_FILE_NAME);
+        blameCommandWithFindingPreviousAuthors += " " + addQuotesForFilePath(fileDirectory);
 
         return StringsUtil.filterText(runCommand(rootPath, blameCommandWithFindingPreviousAuthors), COMBINATION_REGEX);
     }

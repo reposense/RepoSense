@@ -35,13 +35,20 @@ public class StringsUtil {
     /**
      * Adds quotes to the string.
      */
-    public static String addQuote(String original) {
+    public static String addQuotes(String original) {
+        return "\"" + original + "\"";
+    }
+
+    /**
+     * Adds the appropriate quotation marks for a file path depending on the OS.
+     */
+    public static String addQuotesForFilePath(String filePath) {
         if (SystemUtil.isWindows()) {
-            return "\"" + original + "\"";
+            return "\"" + filePath + "\"";
         } else {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < original.length(); i++) {
-                char c = original.charAt(i);
+            for (int i = 0; i < filePath.length(); i++) {
+                char c = filePath.charAt(i);
                 if (c == '\'') {
                     sb.append("\"'\"");
                 } else {

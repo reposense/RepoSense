@@ -1,7 +1,7 @@
 package reposense.git;
 
 import static reposense.git.GitUtil.convertToGitExcludeGlobArgs;
-import static reposense.util.StringsUtil.addQuote;
+import static reposense.util.StringsUtil.addQuotes;
 
 import java.io.File;
 import java.util.Collections;
@@ -16,7 +16,7 @@ public class GitUtilTest extends GitTestTemplate {
     @Test
     public void gitUtil_convertToGitExcludeGlobArgs_success() {
         File repoRoot = new File(config.getRepoRoot());
-        final String cmdFormat = " " + addQuote(":(exclude)%s");
+        final String cmdFormat = " " + addQuotes(":(exclude)%s");
         final String emptyResult = "";
 
         String result = convertToGitExcludeGlobArgs(repoRoot, Collections.emptyList());
