@@ -49,7 +49,7 @@ public class StringsUtil {
             for (int i = 0; i < filePath.length(); i++) {
                 char c = filePath.charAt(i);
                 if (c == '\'') {
-                    sb.append("\"'\"");
+                    sb.append("'\"'\"'");
                 } else {
                     sb.append(c);
                 }
