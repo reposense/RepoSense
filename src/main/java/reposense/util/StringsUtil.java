@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class StringsUtil {
 
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
-
+    private static final String SPECIAL_BASH_SYMBOLS = "!\"#$&'()*,;<=>?\\[\\]\\\\^`{|} \t";
     /**
      * Filters the {@code text}, returning only the lines that matches the given {@code regex}.
      */
@@ -31,8 +31,23 @@ public class StringsUtil {
         return SPECIAL_SYMBOLS.matcher(regexString).replaceAll(replacementCharacter);
     }
 
+    /**
+     * Adds quotes to the string.
+     */
     public static String addQuote(String original) {
-        return "\"" + original + "\"";
+        if (SystemUtil.isWindows()) {
+            return "\"" + original + "\"";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < original.length(); i++) {
+                char c = original.charAt(i);
+                if (SPECIAL_BASH_SYMBOLS.contains(c + "")) {
+                    sb.append("\\");
+                }
+                sb.append(c);
+            }
+            return sb.toString();
+        }
     }
 
     /**
