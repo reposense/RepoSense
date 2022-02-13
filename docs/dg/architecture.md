@@ -27,6 +27,7 @@
 ## Git
 
 [`Git`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git) package contains the wrapper classes for respective *git* commands.
+Note that when constructing new commands containing path arguments, use `StringsUtil::addQuotesForFilePath` method to safely convert a Java string into an equivalent Bash/CMD argument.
  * [`GitBlame`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitBlame.java): Wrapper class for `git blame` functionality. Traces the revision and author last modified each line of a file.
  * [`GitBranch`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitBranch.java): Wrapper class for `git branch` functionality. Gets the name of the working branch of the target repo.
  * [`GitCatFile`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitCatFile.java): Wrapper class for `git cat-file` functionality. Obtains the parent commit hash with the given commit indicated by the commit hash.
