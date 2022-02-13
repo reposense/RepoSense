@@ -79,8 +79,6 @@ public class StringsUtilTest {
         String specialBashSymbols = "!\"#$&'()*,;<=>?\\[]^`{| }";
         String result = CommandRunner.runCommand(Paths.get("./"),
                 "echo " + StringsUtil.addQuotesForFilePath(specialBashSymbols));
-        System.out.println("Expected: " + specialBashSymbols);
-        System.out.println("Actual: " + result);
         Assert.assertEquals(specialBashSymbols, result);
     }
 }
