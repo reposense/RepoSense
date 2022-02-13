@@ -183,6 +183,7 @@ window.api = {
     window.repoSenseVersion = data.repoSenseVersion;
     window.isSinceDateProvided = data.isSinceDateProvided;
     window.isUntilDateProvided = data.isUntilDateProvided;
+    document.title = data.reportTitle || 'RepoSense Report';
 
     const errorMessages = {};
     Object.entries(data.errorSet).forEach(([repoName, message]) => {
