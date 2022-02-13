@@ -1,17 +1,23 @@
 <!--
-    If this pull request addresses an issue, link to it:
-    "Fixes #xxxx" or "Resolves #xxxx".
-    Also include the issue number in the title "[#xxxx] Title"
+    If this pull request fully addresses an issue, use:
+    Fixes #xxxx
 
-    If this pull request is part of an issue, but does not fully fix
-    it, use: "Part of #xxxx".
+    If this pull request partially addresses an issue, use:
+    Part of #xxxx
+
+    If this pull request addresses multiple issues, put them in multiple lines:
+    Fixes #xxxx
+    Fixes #yyyy
+
+    Format the title of the pull request with most relevant issue number as follows:
+    [#xxxx] Title
 -->
 Fixes #xxxx
 
 ## Proposed commit message
 <!--
-    Propose a detailed commit message for this pull request using the
-    following format. Wrap lines at 72 characters.
+    Propose a detailed commit message for this pull request within the triple backticks below.
+    Wrap lines at 72 characters.
 
     Guide on how to write a good commit message:
     https://oss-generic.github.io/process/docs/FormatsAndConventions.html#commit-message
@@ -24,7 +30,8 @@ Call-to-action statement describing what you are doing in this PR.
 
 ## Other information
 <!--
-    Include any other relevant information, such as special testing
-    instructions, additional information to help the reviewer better
-    understand the code, etc. Otherwise, remove this section.
+    Are there other relevant information, such as special testing instructions, 
+    which will help the reviewer better understand the code?
+
+    You may also include a brief description of why the problem occurred.
 -->
