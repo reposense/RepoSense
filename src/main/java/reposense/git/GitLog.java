@@ -5,6 +5,9 @@ import static reposense.util.StringsUtil.addQuote;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
@@ -18,6 +21,8 @@ public class GitLog {
 
     private static final String PRETTY_FORMAT_STRING =
             "\">>>COMMIT INFO<<<%n%H|%n|%aN|%n|%aE|%n|%cI|%n|%s|%n|%w(0,4,4)%b%w(0,0,0)|%n|%D|\"";
+
+    private static final String DEFAULT_EMAIL_IF_MISSING = "";
 
     /**
      * Returns the git commit log info of {@code Author}, in the repository specified in {@code config}.
@@ -53,16 +58,22 @@ public class GitLog {
     }
 
     /**
-     * Returns the authors who modified the binary file at {@code filePath}, in the repository specified in
-     * {@code config}.
+     * Returns the authors who modified the file at {@code filePath}, in the repository specified in {@code config}.
+     * The output is a list of length-2 arrays containing the author's name and email.
      */
-    public static String getBinaryFileAuthors(RepoConfiguration config, String filePath) {
+    public static List<String[]> getFileAuthors(RepoConfiguration config, String filePath) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --pretty=format:\"%an\t%ae\" ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate());
         command += " " + addQuote(filePath);
 
-        return runCommand(rootPath, command);
+        String result = runCommand(rootPath, command);
+        return Arrays.stream(result.split("\n"))
+                .map(authorAndEmailLine -> authorAndEmailLine.split("\t"))
+                .map(authorAndEmailArray -> authorAndEmailArray.length == 1
+                        ? new String[] {authorAndEmailArray[0], DEFAULT_EMAIL_IF_MISSING}
+                        : authorAndEmailArray)
+                .collect(Collectors.toList());
     }
 }
