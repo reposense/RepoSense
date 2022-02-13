@@ -1,6 +1,5 @@
 package reposense.authorship;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -20,9 +19,6 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
-
-import static reposense.authorship.FileInfoExtractor.extractTextFileInfos;
-
 
 public class FileAnalyzerTest extends GitTestTemplate {
     private static final Date BLAME_TEST_SINCE_DATE = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 6);
@@ -360,7 +356,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setFormats(FileType.convertFormatStringsToFileTypes(relevantFileFormats));
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
 
-        List<FileInfo> fileInfos = extractTextFileInfos(config);
+        List<FileInfo> fileInfos = FileInfoExtractor.extractTextFileInfos(config);
         FileInfo textFileInfo = fileInfos.get(0);
         FileInfo binaryFileInfo = new FileInfo("empty-email-commit-binary-file.png");
 
