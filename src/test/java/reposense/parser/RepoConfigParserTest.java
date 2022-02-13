@@ -52,6 +52,8 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_missingMandatoryHeader_test.csv");
     private static final Path MERGE_EMPTY_LOCATION_FOLDER = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_merge_empty_location_test");
+    private static final Path REPO_CONFIG_UNKNOWN_HEADER_FILE = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_unknownHeaders_test.csv");
     private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repoconfig_zeroValidRecords_test.csv");
 
@@ -338,6 +340,13 @@ public class RepoConfigParserTest {
     public void repoConfig_duplicateHeadersCaseInsensitive_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
                 new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE);
+        repoConfigCsvParser.parse();
+    }
+
+    @Test (expected = InvalidHeaderException.class)
+    public void repoConfig_unknownHeaders_throwsInvalidHeaderException() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_UNKNOWN_HEADER_FILE);
         repoConfigCsvParser.parse();
     }
 }
