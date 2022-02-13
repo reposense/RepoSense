@@ -78,8 +78,7 @@ public class StringsUtilTest {
     public void addQuotationMarksForPath_specialBashCharacters_success() {
         Assume.assumeTrue(!SystemUtil.isWindows());
 
-        // The characters being tested against are taken from this post:
-        // https://unix.stackexchange.com/questions/347332/what-characters-need-to-be-escaped-in-files-without-quotes
+        // The characters being tested against are taken from this post: https://unix.stackexchange.com/a/357932
         String specialBashSymbols = "!\"#$&'()*,;<=>?\\[]^`{| }";
         String result = CommandRunner.runCommand(Paths.get("./"),
                 "echo " + StringsUtil.addQuotesForFilePath(specialBashSymbols));
