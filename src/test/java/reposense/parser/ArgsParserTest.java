@@ -57,7 +57,6 @@ public class ArgsParserTest {
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
     private static final String DEFAULT_TIMEZONE = "Asia/Singapore";
-    private static final ZoneId TIME_ZONE_ID = TestUtil.getZoneId(DEFAULT_TIMEZONE);
 
     @Before
     public void before() {

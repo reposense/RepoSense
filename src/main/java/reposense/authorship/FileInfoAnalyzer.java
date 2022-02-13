@@ -157,7 +157,6 @@ public class FileInfoAnalyzer {
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
             Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
-            String authorTimeZone = blameResultLines[lineCount + 4].substring(AUTHOR_TIMEZONE_OFFSET);
             Author author = config.getAuthor(authorName, authorEmail);
 
             if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)

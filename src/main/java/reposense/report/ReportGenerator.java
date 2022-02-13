@@ -87,8 +87,6 @@ public class ReportGenerator {
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
-    private static final String LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH =
-            "Branch contains file paths with illegal characters and not analyzable.";
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
     private static final String LOG_UNEXPECTED_ERROR = "Unexpected error stack trace for %s:\n>%s";
 

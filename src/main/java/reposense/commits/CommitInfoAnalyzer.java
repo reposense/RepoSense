@@ -55,9 +55,6 @@ public class CommitInfoAnalyzer {
     private static final int MESSAGE_BODY_INDEX = 5;
     private static final int REF_NAME_INDEX = 6;
 
-    private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
-    private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
-
     private static final Pattern MESSAGEBODY_LEADING_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
 
     /**
