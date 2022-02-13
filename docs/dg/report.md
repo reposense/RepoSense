@@ -8,8 +8,6 @@
 
 The report's source files are located in [`frontend/src`](https://github.com/reposense/RepoSense/blob/master/frontend/src) and are built by [vue-cli](https://github.com/vuejs/vue-cli) before being packaged into the JAR file to be extracted as part of the report.
 
-Please note that there are plans to migrate the frontend to use Vue 3 and TypeScript, and better integration with Vuex is being considered. Hence, the information here may not be up to date. 
-
 [Vue](https://vuejs.org/v2/api/) (pronounced /vjuː/, like view) is a progressive framework for building user interfaces. It is heavily utilized in the report to update the information in the various views dynamically. (Style guide available [here](https://vuejs.org/v2/style-guide/), Developer tool available [here](https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)). Vue lifecycle hooks are the defined methods that get executed in a particular stage of the Vue object lifespan. The following is the Vue lifecycle diagram taken from [here](https://vuejs.org/v2/guide/instance.html#Lifecycle-Diagram) indicating the hook sequence:
 ![vue lifecycle diagram](../images/vue-lifecycle-diagram.png)
 
