@@ -77,11 +77,14 @@ public class StringsUtilTest {
     @Test
     public void addQuotationMarksForPath_specialBashCharacters_success() {
         Assume.assumeTrue(!SystemUtil.isWindows());
+
+        // The characters being tested against are taken from this post:
+        // https://unix.stackexchange.com/questions/347332/what-characters-need-to-be-escaped-in-files-without-quotes
         String specialBashSymbols = "!\"#$&'()*,;<=>?\\[]^`{| }";
         String result = CommandRunner.runCommand(Paths.get("./"),
                 "echo " + StringsUtil.addQuotesForFilePath(specialBashSymbols));
 
-        // CommandRunner's output ends with a LF character which should be removed.
+        // CommandRunner's output ends with an LF character which should be removed.
         result = result.substring(0, result.length() - 1);
 
         Assert.assertEquals(specialBashSymbols, result);
