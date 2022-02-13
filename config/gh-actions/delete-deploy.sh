@@ -75,7 +75,7 @@ post_preview_links_comment() {
   -X POST \
   -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}" \
-  -d "{\"body\": \"Dashboard Preview: ${DASHBOARD_DEPLOY_DOMAIN}\nDocs Preview: ${DOCS_DEPLOY_DOMAIN}\"}"
+  -d "{\"body\": \"The following links are for previewing this pull request:\n- **Dashboard Preview**: ${DASHBOARD_DEPLOY_DOMAIN}\n- **Docs Preview**: ${DOCS_DEPLOY_DOMAIN}\"}"
 }
 
 # Function to mark inactive and delete deployments for given array
