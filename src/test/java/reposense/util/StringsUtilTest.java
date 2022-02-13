@@ -5,6 +5,7 @@ import static reposense.util.TestUtil.loadResource;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
@@ -79,6 +80,8 @@ public class StringsUtilTest {
         String specialBashSymbols = "!\"#$&'()*,;<=>?\\[]^`{| }";
         String result = CommandRunner.runCommand(Paths.get("./"),
                 "echo " + StringsUtil.addQuotesForFilePath(specialBashSymbols));
+        System.out.println(Arrays.toString(specialBashSymbols.getBytes()));
+        System.out.println(Arrays.toString(result.getBytes()));
         Assert.assertEquals(specialBashSymbols, result);
     }
 }
