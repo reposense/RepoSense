@@ -5,12 +5,12 @@ import static reposense.util.TestUtil.loadResource;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Test;
+
 import reposense.system.CommandRunner;
 
 public class StringsUtilTest {
