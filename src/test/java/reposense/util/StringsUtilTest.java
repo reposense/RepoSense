@@ -80,8 +80,10 @@ public class StringsUtilTest {
         String specialBashSymbols = "!\"#$&'()*,;<=>?\\[]^`{| }";
         String result = CommandRunner.runCommand(Paths.get("./"),
                 "echo " + StringsUtil.addQuotesForFilePath(specialBashSymbols));
-        System.out.println(Arrays.toString(specialBashSymbols.getBytes()));
-        System.out.println(Arrays.toString(result.getBytes()));
+
+        // CommandRunner's output ends with a LF character which should be removed.
+        result = result.substring(0, result.length() - 1);
+
         Assert.assertEquals(specialBashSymbols, result);
     }
 }
