@@ -1,4 +1,4 @@
-name: Clear deployments for closed pull requests
+name: Delete deployments for closed pull requests
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
     types: [closed]
 
 jobs:
-  clear:
+  delete:
     runs-on: ubuntu-latest
     env:
       ACTIONS_PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
@@ -20,5 +20,5 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Clear deployments
-      run: ./config/gh-actions/delete-deployments.sh
+    - name: Delete deployments
+      run: ./config/gh-actions/delete-deploy.sh
