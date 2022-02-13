@@ -33,7 +33,8 @@ The tabbed interface is responsible for loading various modules such as authorsh
 
 ## Javascript and Vue files
 
-- [**main.js**](#main-main-js) - sets up plugins and 3rd party components used in the report
+- **main.js** - sets up plugins and 3rd party components used in the report
+- [**app.vue**](#app-app-vue) - module that supports the GUI
 - [**api.js**](#data-loader-api-js) - loading and parsing of the report content
 - [**v_summary.vue**](#summary-view-v-summary-vue) - module that supports the summary view
 - [**v_authorship.vue**](#authorship-view-v-authorship-vue) - module that supports the authorship tab view
@@ -53,7 +54,7 @@ The tabbed interface is responsible for loading various modules such as authorsh
 
 ## App ([app.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/app.vue))
 
-This contains the logic for the main VueJS object, `app.vue`, which is responsible for loading the relevant modules.
+This contains the logic for the main VueJS object, `app.vue`, which is the entrypoint for the web application.
 
 Vuex in `store.js` is used to pass the necessary data into the relevant modules.
 
