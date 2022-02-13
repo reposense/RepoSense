@@ -123,6 +123,7 @@ public class FileInfoAnalyzer {
             String[] arr = authorString.split("\t");
             String authorName = arr[0];
             String authorEmail = arr.length == 1 ? "" : arr[1];
+
             authors.add(config.getAuthor(authorName, authorEmail));
         }
 
