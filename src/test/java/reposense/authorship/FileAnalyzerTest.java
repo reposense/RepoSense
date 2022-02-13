@@ -1,5 +1,6 @@
 package reposense.authorship;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
@@ -16,8 +17,11 @@ import reposense.authorship.model.FileResult;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
 import reposense.model.CommitHash;
+import reposense.model.FileType;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
+
+import static reposense.authorship.FileInfoExtractor.extractTextFileInfos;
 
 
 public class FileAnalyzerTest extends GitTestTemplate {
@@ -47,6 +51,10 @@ public class FileAnalyzerTest extends GitTestTemplate {
             TestUtil.getSinceDate(2017, Calendar.JANUARY, 1);
     private static final Date ANALYZE_BINARY_FILES_UNTIL_DATE =
             TestUtil.getUntilDate(2020, Calendar.JANUARY, 1);
+    private static final Date ANALYZE_FILES_EMPTY_EMAIL_COMMIT_SINCE_DATE =
+            TestUtil.getSinceDate(2022, Calendar.FEBRUARY, 10);
+    private static final Date ANALYZE_FILES_EMPTY_EMAIL_COMMIT_UNTIL_DATE =
+            TestUtil.getUntilDate(2022, Calendar.FEBRUARY, 14);
     private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
     private static final Author[] EXPECTED_LINE_AUTHORS_BLAME_TEST = {
@@ -340,5 +348,23 @@ public class FileAnalyzerTest extends GitTestTemplate {
         for (FileInfo binaryFileInfo: binaryFileInfos) {
             Assert.assertNull(FileInfoAnalyzer.analyzeBinaryFile(config, binaryFileInfo));
         }
+    }
+
+    @Test
+    public void analyzeFile_filesWithEmptyEmailCommit_success() {
+        config.setSinceDate(ANALYZE_FILES_EMPTY_EMAIL_COMMIT_SINCE_DATE);
+        config.setUntilDate(ANALYZE_FILES_EMPTY_EMAIL_COMMIT_UNTIL_DATE);
+        config.setBranch("1636-FileAnalyzerTest-analyzeFile_filesWithEmptyEmailCommit_success");
+        config.setAuthorList(Arrays.asList(new Author("chan-j-d")));
+        List<String> relevantFileFormats = Arrays.asList("txt", "png");
+        config.setFormats(FileType.convertFormatStringsToFileTypes(relevantFileFormats));
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+
+        List<FileInfo> fileInfos = extractTextFileInfos(config);
+        FileInfo textFileInfo = fileInfos.get(0);
+        FileInfo binaryFileInfo = new FileInfo("empty-email-commit-binary-file.png");
+
+        Assert.assertNotNull(FileInfoAnalyzer.analyzeTextFile(config, textFileInfo));
+        Assert.assertNotNull(FileInfoAnalyzer.analyzeBinaryFile(config, binaryFileInfo));
     }
 }
