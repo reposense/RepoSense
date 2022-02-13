@@ -6,10 +6,10 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
-    id 'com.liferay.node' version '4.4.0'
-    id 'com.github.psxpaul.execfork' version '0.1.8'
-    id 'com.palantir.git-version' version '0.12.3'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'com.liferay.node' version '7.2.15'
+    id 'com.github.psxpaul.execfork' version '0.1.13'
+    id 'com.palantir.git-version' version '0.13.0'
 }
 
 OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
@@ -111,17 +111,17 @@ shadowJar {
     }
 }
 
-task installFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task installFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/'
     args = ['install']
 }
 
-task buildFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task buildFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/'
     args = ['run', 'devbuild']
 }
 
-task lintFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task lintFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/'
     args = ['run', 'lint']
 }
@@ -164,19 +164,19 @@ task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task
     waitForPort = 9000
 }
 
-task installCypress(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task installCypress(type: com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/cypress/'
     args = ['install']
 }
 
-task cypress(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task cypress(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
 }
 
-task frontendTest(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+task frontendTest(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
