@@ -77,7 +77,8 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Extracts the relevant data from {@code commitInfo} into a {@code CommitResult}.
+     * Extracts the relevant data from {@code commitInfo} into a {@code CommitResult}. Retrieves the author of the
+     * commit from {@code config}.
      */
     public static CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {
         String infoLine = commitInfo.getInfoLine();

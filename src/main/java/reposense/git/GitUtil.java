@@ -90,8 +90,8 @@ class GitUtil {
 
     /**
      * Returns the {@code String} command to specify the globs to exclude for `git log` command.
-     * Also checks that every glob in {@code ignoreGlobList} only targets files within the given repository
-     * {@code root}.
+     * Also checks that every glob in {@code ignoreGlobList} only targets files within the given
+     * repository's {@code root} directory.
      */
     public static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
@@ -105,7 +105,8 @@ class GitUtil {
     }
 
     /**
-     * Returns true if the {@code ignoreGlob} is inside the current repository.
+     * Returns true if the {@code ignoreGlob} is inside the current repository with reference to the {@code repoRoot}
+     * directory.
      * Produces log messages when the invalid {@code ignoreGlob} is skipped.
      */
     private static boolean isValidIgnoreGlob(File repoRoot, String ignoreGlob) {

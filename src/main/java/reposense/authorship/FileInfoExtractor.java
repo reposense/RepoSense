@@ -149,7 +149,7 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Analyzes the {@code fileDiffResult} and marks each {@code LineInfo} in {@code FileInfo} on whether they were
+     * Analyzes the {@code fileDiffResult} and marks each {@code LineInfo} in {@code fileInfo} on whether they were
      * inserted in between the commit range.
      */
     private static void setLinesToTrack(FileInfo fileInfo, String fileDiffResult) {
@@ -187,6 +187,8 @@ public class FileInfoExtractor {
     /**
      * Traverses each file from the repo root directory, generates the {@code FileInfo} for each relevant file found
      * based on {@code config} and inserts it into {@code fileInfos}.
+     * Adds binary files to {@code List<FileInfo>} if {@code isBinaryFiles} is true. Else, adds non-binary files
+     * to {@code List<FileInfo>}.
      */
     private static List<FileInfo> getAllFileInfo(RepoConfiguration config, boolean isBinaryFiles) {
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -238,7 +240,7 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code filePath} is valid and the file is not in binary.
+     * Returns true if {@code filePath} is valid and the file is not in binary (I.e. part of {@code textFilesSet}).
      */
     private static boolean isValidTextFile(String filePath, Set<Path> textFilesSet) {
         boolean isValidFilePath;

@@ -27,6 +27,7 @@ public class CommitResultAggregator {
 
     /**
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
+     * Uses {@code config} to obtain details like author name, {@code sinceDate} and timezone.
      */
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
@@ -56,6 +57,7 @@ public class CommitResultAggregator {
     /**
      * Calculates the contribution variance of all authors across contributions made between {@code startDate}
      * and {@code lastDate}, which are determined based on {@code zoneId}.
+     * The authors and their respective contributions are stored in {@code intervalContributionMaps}.
      */
     private static Map<Author, Float> calcAuthorContributionVariance(
             Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, Date startDate, Date lastDate,
@@ -69,7 +71,7 @@ public class CommitResultAggregator {
     }
 
     /**
-     * Calculates the contribution variance for each author across the author's contributions made between
+     * Calculates the contribution variance for each author across the author's {@code contributions} made between
      * {@code startDate} and {@code lastDate}.
      * The {@code startDate} and {@code lastDate} are determined based on {@code zoneId}.
      */

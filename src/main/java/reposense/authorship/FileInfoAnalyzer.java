@@ -134,7 +134,7 @@ public class FileInfoAnalyzer {
 
     /**
      * Sets the {@code Author} and {@code Date} for each line in {@code fileInfo} based on the git blame analysis
-     * on the file.
+     * on the file and {@code config}.
      */
     private static void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo) {
         String blameResults;
@@ -181,14 +181,16 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Returns the analysis result from running git blame on {@code filePath}.
+     * Returns the analysis result from running git blame on {@code filePath} with reference to the root directory
+     * given in {@code config}.
      */
     private static String getGitBlameResult(RepoConfiguration config, String filePath) {
         return GitBlame.blame(config.getRepoRoot(), filePath);
     }
 
     /**
-     * Returns the analysis result from running git blame with finding previous authors enabled on {@code filePath}.
+     * Returns the analysis result from running git blame with finding previous authors enabled on {@code filePath}
+     * with reference to the root directory given in {@code config}.
      */
     private static String getGitBlameWithPreviousAuthorsResult(RepoConfiguration config, String filePath) {
         return GitBlame.blameWithPreviousAuthors(config.getRepoRoot(), filePath);
