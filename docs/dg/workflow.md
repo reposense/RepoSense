@@ -43,7 +43,10 @@ The issues for first timers usually have guidance provided in the comment or hav
 * Make sure you know our coding standards.
   {{ embed('Appendix: Coding Standards', 'styleGuides.md', level=2) }}
 * **Follow [the tutorial](https://se-education.org/guides/tutorials/intellijCodeStyle.html) to configure Intellij to follow our coding style**.
-* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it. In particular, run `gradlew checkstyleMain checkstyleTest checkstyleSystemtest` to check the style of all the relevant Java code.
+* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it. 
+  * In particular, run `gradlew checkstyleAll` to check the style of all the relevant Java code. This will check the Java code in the following order: main code -> test code -> systemtest code.
+  * If you only want to check the main code, run `gradlew checkstyleMain`. Likewise, for test code, run `gradlew checkstyleTest` and for systemtest code, run `gradlew checkstyleSystemtest`.
+  * You can also run any of the combination of the above, such as `gradlew checkstyleMain checkstyleTest` or `gradlew checkstyleTest checkstyleSystemtest`.
 * **To check Pug files for style errors**, run `npm run lint` from the project root directory. You can use the `npm run lintfix` to automatically fix some of the JavaScript and CSS lint errors.
 
 <!-- ==================================================================================================== -->
