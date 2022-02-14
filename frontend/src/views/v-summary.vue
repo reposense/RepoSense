@@ -98,9 +98,8 @@
       label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
         span All:&nbsp;
-      span(v-for="fileType in Object.keys(fileTypeColors)" )
+      template(v-for="fileType in Object.keys(fileTypeColors)", v-bind:key="fileType")
         label(
-          v-bind:key="fileType",
           v-bind:style="{ 'background-color': fileTypeColors[fileType], \
             'color': getFontColor(fileTypeColors[fileType])}"
         )
