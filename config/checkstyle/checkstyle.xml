@@ -340,6 +340,37 @@
     <!--
     JAVADOC CHECKS
     -->
+    <!-- Checks that all block-tags are ordered correctly. -->
+    <module name="AtclauseOrder"/>
+
+    <!-- Checks that Javadoc block tags appear only at the beginning of the line. -->
+    <module name="JavadocBlockTagLocation"/>
+
+    <!-- Checks that all Javadoc comments start from the second line. -->
+    <module name="JavadocContentLocationCheck">
+      <property name="location" value="second_line"/>
+    </module>
+
+    <!-- Checks the format's Javadoc for every method (excluding getters, setters and constructors). -->
+    <module name="JavadocMethod">
+      <property name="validateThrows" value="true"/>
+      <property name="allowMissingParamTags" value="true"/>
+      <property name="allowMissingReturnTag" value="true"/>
+    </module>
+
+    <!-- Checks that each line in Javadoc has leading asterisks. -->
+    <module name="JavadocMissingLeadingAsterisk"/>
+
+    <!-- Checks that each line in Javadoc has whitespace after leading asterisk. -->
+    <module name="JavadocMissingWhitespaceAfterAsterisk"/>
+
+    <!-- Checks that all Javadoc comments have a description. -->
+    <!-- Javadoc with only block tags will fail this check. -->
+    <module name="JavadocStyle">
+      <!-- The checkFirstSentence property can also be used to check punctuation. -->
+      <!-- However, it duplicates the fullstop check in SummaryJavadocCheck. -->
+      <property name="checkEmptyJavadoc" value="true"/>
+    </module>
 
     <!-- Checks that every class, enumeration and interface have a header comment. -->
     <module name="JavadocType">
@@ -372,40 +403,8 @@
       <property name="tokens" value="METHOD_DEF, ANNOTATION_FIELD_DEF"/>
     </module>
 
-    <!-- Checks the format's Javadoc for every method (excluding getters, setters and constructors). -->
-    <module name="JavadocMethod">
-      <property name="validateThrows" value="true"/>
-      <property name="allowMissingParamTags" value="true"/>
-      <property name="allowMissingReturnTag" value="true"/>
-    </module>
-
     <!-- Checks that there is a line between description and block tag in Javadoc. -->
     <module name="RequireEmptyLineBeforeBlockTagGroup"/>
-
-    <!-- Checks that all block-tags are ordered correctly. -->
-    <module name="AtclauseOrder"/>
-
-    <!-- Checks that all Javadoc comments start from the second line. -->
-    <module name="JavadocContentLocationCheck">
-      <property name="location" value="second_line"/>
-    </module>
-
-    <!-- Checks that Javadoc block tags appear only at the beginning of the line. -->
-    <module name="JavadocBlockTagLocation"/>
-
-    <!-- Checks that all Javadoc comments have a description. -->
-    <!-- Javadoc with only block tags will fail this check. -->
-    <module name="JavadocStyle">
-      <!-- The checkFirstSentence property can also be used to check punctuation. -->
-      <!-- However, it duplicates the fullstop check in SummaryJavadocCheck. -->
-      <property name="checkEmptyJavadoc" value="true"/>
-    </module>
-
-    <!-- Checks that each line in Javadoc has leading asterisks. -->
-    <module name="JavadocMissingLeadingAsterisk"/>
-
-    <!-- Checks that each line in Javadoc has whitespace after leading asterisk. -->
-    <module name="JavadocMissingWhitespaceAfterAsterisk"/>
 
     <!-- Checks that all summary Javadoc starts with capital letters and ends with fullstop. -->
     <module name="SummaryJavadocCheck">
