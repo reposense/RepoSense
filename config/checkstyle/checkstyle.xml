@@ -404,6 +404,9 @@
       <property name="tokens" value="METHOD_DEF, ANNOTATION_FIELD_DEF"/>
     </module>
 
+    <!-- Checks that all block tags are accompanied by descriptions. -->
+    <module name="NonEmptyAtclauseDescription"/>
+
     <!-- Checks that there is a line between description and block tag in Javadoc. -->
     <module name="RequireEmptyLineBeforeBlockTagGroup"/>
 
