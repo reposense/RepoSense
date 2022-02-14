@@ -8,7 +8,7 @@ plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '6.1.0'
     id 'com.liferay.node' version '7.2.15'
-    id 'com.github.psxpaul.execfork' version '0.1.13'
+    id 'com.github.psxpaul.execfork' version '0.1.12'
     id 'com.palantir.git-version' version '0.13.0'
 }
 
