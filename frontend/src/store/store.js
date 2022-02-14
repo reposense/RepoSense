@@ -45,8 +45,4 @@ export default createStore({
       window.encodeHash();
     },
   },
-  actions: {
-  },
-  modules: {
-  },
 });
