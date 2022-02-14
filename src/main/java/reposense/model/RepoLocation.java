@@ -28,7 +28,7 @@ public class RepoLocation {
     private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*?:(?<path>[^/].*?)??/??(?<repoName>[^/]+?)(\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_NON_WINDOWS_LOCATION_PATTERN =
-            Pattern.compile("^(file:///?)?(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
+            Pattern.compile("^(file:/*+)?(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN =
             Pattern.compile("^(?<path>.*?)\\\\?(?<repoName>[^\\\\]+?)(\\\\?\\.git)?\\\\?$");
     private static final String GROUP_REPO_NAME = "repoName";
@@ -109,7 +109,7 @@ public class RepoLocation {
     private String[] getLocalRepoNameAndOrg(String location) throws InvalidLocationException {
         boolean isWindows = SystemUtil.isWindows();
         if (isWindows) {
-            location = location.replace("file://", "");
+            location = location.replaceAll("file:/*", "");
             location = location.replaceAll("/", "\\\\");
         }
         Pattern localRepoPattern = isWindows
@@ -153,6 +153,7 @@ public class RepoLocation {
             throw new InvalidLocationException(String.format(MESSAGE_INVALID_REMOTE_URL, location));
         }
 
+        // priority for standard URL matches over SSH as SSH matcher will normally also match standard URL
         Matcher actualMatcher = remoteRepoMatcher.matches() ? remoteRepoMatcher : sshRepoMatcher;
         String tempRepoName = actualMatcher.group(GROUP_REPO_NAME);
         String tempOrganization = getOrganizationFromMatcher(actualMatcher);
@@ -166,8 +167,11 @@ public class RepoLocation {
      */
     private static String getOrganizationFromMatcher(Matcher matcher) {
         return Optional.ofNullable(matcher.group(GROUP_PATH))
+                .map(s -> {System.out.println("before normalize: " + s); return s;})
                 .map(s -> Paths.get(s).normalize().toString())
-                .map(s -> s.replaceAll(FileSystems.getDefault().getSeparator(), PATH_SEPARATOR_REPLACEMENT))
+                .map(s -> {System.out.println("after normalize: " + s); return s;})
+                .map(s -> s.replaceAll(Pattern.quote(FileSystems.getDefault().getSeparator()),
+                        PATH_SEPARATOR_REPLACEMENT))
                 .orElse("");
     }
 

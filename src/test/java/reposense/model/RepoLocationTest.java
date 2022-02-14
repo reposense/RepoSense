@@ -12,20 +12,23 @@ import reposense.util.SystemUtil;
 
 public class RepoLocationTest {
 
-    private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_ONE = "repo";
-    private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_TWO = "../path/to/repo";
-    private static final String LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_THREE = "file://path/to/repo";
-    private static final String LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_ONE = "path/to/repo/.git";
-    private static final String LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_TWO = "file://path/to/repo.git";
+    private static final String LOCAL_REPO_VALID_WITHOUT_DOT_GIT_ONE = "repo";
+    private static final String LOCAL_REPO_VALID_WITHOUT_DOT_GIT_TWO = "../path/to/repo";
+    private static final String LOCAL_REPO_VALID_WITHOUT_DOT_GIT_THREE = "/path/to/repo";
+    private static final String LOCAL_REPO_VALID_WITH_DOT_GIT_ONE = "path/to/repo/.git";
+    private static final String LOCAL_REPO_VALID_WITH_DOT_GIT_TWO = "file://path/to/repo.git";
+    private static final String LOCAL_REPO_FILE_URL_ONE = "file://path/to/repo";
+    private static final String LOCAL_REPO_FILE_URL_TWO = "file:///path/to/repo";
+    private static final String LOCAL_REPO_FILE_URL_THREE = "file:///path/to/repo";
 
-    private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE = "path\\to\\repo\\";
-    private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_WITHOUT_DOT_GIT_TWO = "..\\path\\to\\repo";
-    private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_WITH_DOT_GIT_ONE = "path\\to\\repo\\.git";
-    private static final String LOCAL_REPO_LOCATION_WINDOWS_DISK_DRIVE = "C:\\path\\to\\repo.git";
+    private static final String LOCAL_REPO_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE = "path\\to\\repo\\";
+    private static final String LOCAL_REPO_WINDOWS_VALID_WITHOUT_DOT_GIT_TWO = "..\\path\\to\\repo";
+    private static final String LOCAL_REPO_WINDOWS_VALID_WITH_DOT_GIT_ONE = "path\\to\\repo\\.git";
+    private static final String LOCAL_REPO_WINDOWS_DISK_DRIVE = "C:\\path\\to\\repo.git";
 
-    private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_ONE = "..\\path/to\\repo";
-    private static final String LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_TWO = "file://path\\to\\repo.git";
-    private static final String LOCAL_REPO_LOCATION_WINDOWS_DISK_DRIVE_MIXED = "C:\\path/to/repo.git";
+    private static final String LOCAL_REPO_WINDOWS_VALID_MIXED_ONE = "..\\path/to\\repo";
+    private static final String LOCAL_REPO_WINDOWS_VALID_MIXED_TWO = "file://path\\to\\repo.git";
+    private static final String LOCAL_REPO_WINDOWS_DISK_DRIVE_MIXED = "C:\\path/to/repo.git";
 
     private static final String EXPECTED_REPO_NAME = "repo";
     private static final String EXPECTED_ORGANIZATION = "path-to";
@@ -37,8 +40,8 @@ public class RepoLocationTest {
 
     @Test
     public void isLocalRepo_validLocalRepos_success() throws Exception {
-        Assert.assertTrue(isLocalRepo(LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_ONE));
-        Assert.assertTrue(isLocalRepo(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_ONE));
+        Assert.assertTrue(isLocalRepo(LOCAL_REPO_VALID_WITH_DOT_GIT_ONE));
+        Assert.assertTrue(isLocalRepo(LOCAL_REPO_WINDOWS_VALID_MIXED_ONE));
         Assert.assertTrue(isLocalRepo("./abc:def"));
     }
 
@@ -51,19 +54,26 @@ public class RepoLocationTest {
     @Test
     public void repoLocation_parseLocalRepoLocation_success() throws Exception {
         // local paths not containing ".git" should be valid
-        assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_ONE,
+        assertValidLocation(LOCAL_REPO_VALID_WITHOUT_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, "");
         // relative pathing should be considered part of the 'organization' for differentiation
-        assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_TWO,
+        assertValidLocation(LOCAL_REPO_VALID_WITHOUT_DOT_GIT_TWO,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION);
-        // file-type url protocol (file://) is accepted by git clone
-        assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITHOUT_DOT_GIT_THREE,
-                EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
+        assertValidLocation(LOCAL_REPO_VALID_WITHOUT_DOT_GIT_THREE,
+                EXPECTED_REPO_NAME, "-" + EXPECTED_ORGANIZATION);
 
         // local paths containing ".git" should also be valid
-        assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_ONE,
+        assertValidLocation(LOCAL_REPO_VALID_WITH_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
-        assertValidLocation(LOCAL_REPO_LOCATION_VALID_WITH_DOT_GIT_TWO,
+        assertValidLocation(LOCAL_REPO_VALID_WITH_DOT_GIT_TWO,
+                EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
+
+        // file-type url protocol (file://) is accepted by git clone
+        assertValidLocation(LOCAL_REPO_FILE_URL_ONE,
+                EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
+        assertValidLocation(LOCAL_REPO_FILE_URL_TWO,
+                EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
+        assertValidLocation(LOCAL_REPO_FILE_URL_THREE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
     }
 
@@ -71,20 +81,20 @@ public class RepoLocationTest {
     public void repoLocation_parseWindowsLocalRepoLocation_success() throws Exception {
         Assume.assumeTrue(SystemUtil.isWindows());
         // repeated tests but with windows file separators
-        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE,
+        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
-        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_WITHOUT_DOT_GIT_TWO,
+        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_WITHOUT_DOT_GIT_TWO,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION);
-        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_WITH_DOT_GIT_ONE,
+        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_WITH_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
-        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_DISK_DRIVE,
+        assertValidLocation(LOCAL_REPO_WINDOWS_DISK_DRIVE,
                 EXPECTED_REPO_NAME, "C:-" + EXPECTED_ORGANIZATION);
 
-        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_ONE,
+        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_MIXED_ONE,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION);
-        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_VALID_MIXED_TWO,
+        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_MIXED_TWO,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
-        assertValidLocation(LOCAL_REPO_LOCATION_WINDOWS_DISK_DRIVE_MIXED,
+        assertValidLocation(LOCAL_REPO_WINDOWS_DISK_DRIVE_MIXED,
                 EXPECTED_REPO_NAME, "C:-" + EXPECTED_ORGANIZATION);
 
     }
@@ -135,6 +145,18 @@ public class RepoLocationTest {
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION);
         assertValidLocation("git@github.com:reposense/RepoSense.git",
                 "RepoSense", "reposense");
+    }
+
+    @Test
+    public void repoLocation_parseNormalizableRepoLocations_success() throws Exception {
+        assertValidLocation("https://github.com/reposense/redundant/directories/../../RepoSense.git",
+                "RepoSense", "reposense");
+        assertValidLocation("/path/with/redundant/directories/../.././../to/repo",
+                EXPECTED_REPO_NAME, "-" + EXPECTED_ORGANIZATION);
+
+        // Tests if there is an additional '../' it is not consumed by accident
+        assertValidLocation("path/with/redundant/directories/../../../../../to/repo",
+                EXPECTED_REPO_NAME, "..-to" );
     }
 
     @Test
