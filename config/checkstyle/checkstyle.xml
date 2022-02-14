@@ -382,6 +382,24 @@
     <!-- Checks that there is a line between description and block tag in Javadoc. -->
     <module name="RequireEmptyLineBeforeBlockTagGroup"/>
 
+    <!-- Checks that all block-tags are ordered correctly. -->
+    <module name="AtclauseOrder"/>
+
+    <!-- Checks that all Javadoc comments start from the second line. -->
+    <module name="JavadocContentLocationCheck">
+      <property name="location" value="second_line"/>
+    </module>
+
+    <!-- Checks that Javadoc block tags appear only at the beginning of the line. -->
+    <module name="JavadocBlockTagLocation"/>
+
+    <!-- Checks that all Javadoc comments have a description and proper punctuation. -->
+    <!-- Javadoc with only block tags will fail this check. -->
+    <module name="JavadocStyle">
+      <property name="checkFirstSentence" value="true"/>
+      <property name="checkEmptyJavadoc" value="true"/>
+    </module>
+
     <!-- Checks that each line in Javadoc has leading asterisks. -->
     <module name="JavadocMissingLeadingAsterisk"/>
 
