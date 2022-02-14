@@ -81,7 +81,6 @@ Should be:
   * If @param tags are used, they must be used for all parameters.
   * This is not necessary (although still recommended) for methods with `@Override` annotations if Javadoc is used. However, if the method that is being overriden is part of your code and has Javadoc, all parameters must be described.
 
-Test 
 Examples:
 ```
 Not okay (Only mentions zoneId parameter):
