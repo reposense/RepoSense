@@ -144,7 +144,7 @@ public class RepoCloner {
     }
 
     /**
-     * Cleans up data associated with a particular repo.
+     * Cleans up data associated with a particular repo given by {@code config}.
      */
     public void cleanupRepo(RepoConfiguration config) {
         deleteDirectory(getRepoParentFolder(config).toString());

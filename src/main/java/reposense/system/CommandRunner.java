@@ -11,7 +11,7 @@ import reposense.util.SystemUtil;
 public class CommandRunner {
 
     /**
-     * Spawns a backend terminal process, with working directory at {@code path}, to executes the {@code command}.
+     * Spawns a backend terminal process, with working directory at {@code path}, to execute the {@code command}.
      */
     public static String runCommand(Path path, String command) {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);
@@ -27,7 +27,8 @@ public class CommandRunner {
     }
 
     /**
-     * Spawns a {@code CommandRunnerProcess} to execute {@code command}. Does not wait for process to finish executing.
+     * Spawns a {@code CommandRunnerProcess} to execute {@code command}, with working directory at {@code path}.
+     * Does not wait for process to finish executing.
      */
     private static CommandRunnerProcess spawnCommandProcess(Path path, String command) {
         ProcessBuilder pb = null;

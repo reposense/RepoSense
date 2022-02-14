@@ -46,6 +46,7 @@ public class RepoSense {
 
     /**
      * The entry point of the program.
+     * Additional flags are provided by the user in {@code args}.
      */
     public static void main(String[] args) {
         try {

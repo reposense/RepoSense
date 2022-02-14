@@ -50,7 +50,7 @@ public class LogsManager {
     }
 
     /**
-     * Creates a {@code Logger} for the given class name.
+     * Creates a {@code Logger} for the given {@code clazz} name.
      */
     public static <T> Logger getLogger(Class<T> clazz) {
         if (clazz == null) {
