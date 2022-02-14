@@ -51,7 +51,7 @@ Should be:
  * Returns a {@code Date} object for {@code sinceDate}.
  */
 ```
-  * Related to the above, each line should not start with punctuation/special characters (except for the leading asterisk and whitespace). Examples:
+* Related to the above, each line (except for block tags) should not start with punctuation/special characters (except for the leading asterisk and whitespace). Examples:
 ```
 Not okay (Second line, excluding the opening '/**', starts with a special character):
 /**
