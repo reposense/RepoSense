@@ -29,17 +29,17 @@ Given below are the details of the various config files used by RepoSense.
 **`repo-config.csv` file contains repo-level config data.** Each row represents a repository's configuration ([example](repo-config.csv)).
 
 
-Column Name | Explanation
------------ | -----------
-Repository's Location {{ mandatory }}| The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`
-Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo
-File formats<sup>*+</sup> | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats
-Find Previous Authors| Enter **`yes`** to utilize Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available).
-Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author e.g., `test/**;temp/**`. Refer to the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) for the path glob syntax.
-Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.
-Ignore Commits List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
-Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
-Shallow Cloning | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead.
+| Column Name                           | Explanation                                                                                                                                                                                                                                                                                                            |
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Repository's Location {{ mandatory }} | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`                                                                                                                                                                                 |
+| Branch                                | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo                                                                                                                                                                                                                 |
+| File formats<sup>*+</sup>             | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats                                                                                                                              |
+| Find Previous Authors                 | Enter **`yes`** to utilize Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available).                                                                                    |
+| Ignore Glob List<sup>*+</sup>         | The list of file path globs to ignore during analysis for each author e.g., `test/**;temp/**`. Refer to the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) for the path glob syntax.                                                                                          |
+| Ignore standalone config              | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.                                                                                         |
+| Ignore Commits List<sup>*+</sup>      | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).                                                                            |
+| Ignore Authors List<sup>*+</sup>      | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).                                                                                                                                                                                  |
+| Shallow Cloning                       | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead. |
 
 <box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
@@ -59,15 +59,15 @@ When using [standalone config](#config-json-standalone-config-file) (if it is no
 
 Optionally, you can use an `author-config.csv` (which should be in the same directory as the `repo-config.csv` file) to provide more details about the authors to analyze ([example](author-config.csv)). It should contain the following columns:
 
-Column Name | Explanation
------------ | -----------
-Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
-Branch | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch.
-Author's GitHub ID {{ mandatory }}| GitHub username of the target author, e.g., `JohnDoe`
-Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
-Author's Display Name | The name to display for the author. Default: author's GitHub username.
-Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
-Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`.
+| Column Name                          | Explanation                                                                                                                                                                                      |
+|--------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Repository's Location                | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`                                                                                                                           |
+| Branch                               | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch.          |
+| Author's GitHub ID {{ mandatory }}   | GitHub username of the target author, e.g., `JohnDoe`                                                                                                                                            |
+| Author's Emails<sup>*</sup>          | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).                                                                         |
+| Author's Display Name                | The name to display for the author. Default: author's GitHub username.                                                                                                                           |
+| Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).                                                                                |
+| Ignore Glob List<sup>*</sup>         | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
@@ -79,11 +79,11 @@ If `author-config.csv` is not given and the repo has not provided author details
 
 Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
 
-Column Name | Explanation
------------ | -----------
-Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
-Group Name {{ mandatory }}| Name of the group, e.g.,`test`.
-Globs * {{ mandatory }}| The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`.
+| Column Name                | Explanation                                                                           |
+|----------------------------|---------------------------------------------------------------------------------------|
+| Repository's Location      | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`                |
+| Group Name {{ mandatory }} | Name of the group, e.g.,`test`.                                                       |
+| Globs * {{ mandatory }}    | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
