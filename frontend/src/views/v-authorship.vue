@@ -69,9 +69,8 @@
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
               span ({{ totalLineCount - totalBlankLineCount }})&nbsp;
-          span(v-for="fileType in Object.keys(fileTypeLinesObj)")
+          template(v-for="fileType in Object.keys(fileTypeLinesObj)", v-bind:key="fileType")
             label(
-              v-bind:key="fileType",
               v-bind:style="{\
                 'background-color': fileTypeColors[fileType],\
                 'color': getFontColor(fileTypeColors[fileType])\
@@ -93,8 +92,8 @@
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
-    span(v-for="(file, i) in selectedFiles")
-      .file(v-bind:key="file.path")
+    template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
+      .file
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)")
             .tooltip
@@ -128,7 +127,7 @@
             |&nbsp;({{ file.lineCount - file.blankLineCount }})
           span.fileTypeLabel.binary(v-if='file.isBinary') binary&nbsp;
         pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary", v-show="file.active")
-          span(v-for="segment in file.segments")
+          template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
