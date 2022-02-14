@@ -63,7 +63,7 @@ run {
 
 checkstyle {
     toolVersion = '8.1'
-    configDir = file("$rootProject.projectDir/config/checkstyle")
+    getConfigDirectory().set(file("$rootProject.projectDir/config/checkstyle"))
 }
 
 idea {
@@ -103,8 +103,8 @@ test {
 }
 
 shadowJar {
-    archiveName = 'RepoSense.jar'
-    destinationDir = file("${buildDir}/jar/")
+    archiveFileName = 'RepoSense.jar'
+    destinationDirectory = file("${buildDir}/jar/")
 
     manifest {
         attributes 'Implementation-Version': getRepoSenseVersion()
@@ -128,8 +128,8 @@ task lintFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugi
 
 task zipReport(dependsOn: 'buildFrontend', type: Zip) {
     from 'frontend/build/'
-    baseName = 'templateZip'
-    destinationDir = file('src/main/resources')
+    archiveBaseName = 'templateZip'
+    destinationDirectory = file('src/main/resources')
 }
 
 tasks.shadowJar.dependsOn('zipReport');
