@@ -369,6 +369,7 @@
     <module name="JavadocStyle">
       <!-- The checkFirstSentence property can also be used to check punctuation. -->
       <!-- However, it duplicates the fullstop check in SummaryJavadocCheck. -->
+      <property name="checkFirstSentence" value="false"/>
       <property name="checkEmptyJavadoc" value="true"/>
     </module>
 
