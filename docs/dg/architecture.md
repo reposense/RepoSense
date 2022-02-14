@@ -42,7 +42,9 @@
  * [`GitUtil`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitUtil.java): Contains helper functions used by the other Git classes above.
  * [`GitVersion`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitVersion.java): Wrapper class for `git --version` functionality. Obtains the current git version of the environment that RepoSense is being run on.
 
-<box type="info" seamless>Note that when constructing new commands containing path arguments, use `StringsUtil\:\:addQuotesForFilePath` method to safely convert a Java string into an equivalent Bash/CMD argument.</box>
+<box type="info" seamless>
+    Note that when constructing new commands containing path arguments, use `StringsUtil::addQuotesForFilePath` method to safely convert a Java string into an equivalent Bash/CMD argument.
+</box>
 <!-- ==================================================================================================== -->
 
 ## CommitsReporter
