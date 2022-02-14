@@ -156,7 +156,7 @@ public class RepoLocationTest {
 
         // Tests if there is an additional '../' it is not consumed by accident
         assertValidLocation("path/with/redundant/directories/../../../../../to/repo",
-                EXPECTED_REPO_NAME, "..-to" );
+                EXPECTED_REPO_NAME, "..-to");
     }
 
     @Test

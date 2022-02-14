@@ -5,7 +5,6 @@ import static reposense.util.FileUtil.isValidPath;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -167,9 +166,7 @@ public class RepoLocation {
      */
     private static String getOrganizationFromMatcher(Matcher matcher) {
         return Optional.ofNullable(matcher.group(GROUP_PATH))
-                .map(s -> {System.out.println("before normalize: " + s); return s;})
                 .map(s -> Paths.get(s).normalize().toString())
-                .map(s -> {System.out.println("after normalize: " + s); return s;})
                 .map(s -> s.replaceAll(Pattern.quote(FileSystems.getDefault().getSeparator()),
                         PATH_SEPARATOR_REPLACEMENT))
                 .orElse("");
