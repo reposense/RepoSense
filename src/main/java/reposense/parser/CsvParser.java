@@ -58,10 +58,9 @@ public abstract class CsvParser<T> {
     /**
      * Creates {@code CsvParser} with given {@code csvFilepath}.
      *
-     * @throws IOException if {@code csvFilePath} is an invalid path.
      * @throws FileNotFoundException if the csv file cannot be found in the provided {@code csvFilePath}.
      */
-    public CsvParser(Path csvFilePath) throws IOException {
+    public CsvParser(Path csvFilePath) throws FileNotFoundException {
         if (csvFilePath == null || !Files.exists(csvFilePath)) {
             throw new FileNotFoundException("Csv file does not exist at the given path.\n"
                     + "Use '-help' to list all the available subcommands and some concept guides.");

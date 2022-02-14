@@ -1,6 +1,6 @@
 package reposense.parser;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     private static final String ALIAS_HEADER = "Author's Git Author Name";
     private static final String IGNORE_GLOB_LIST_HEADER = "Ignore Glob List";
 
-    public AuthorConfigCsvParser(Path csvFilePath) throws IOException {
+    public AuthorConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
     }
 

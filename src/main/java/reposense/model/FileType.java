@@ -54,7 +54,7 @@ public class FileType {
      *
      * @throws IllegalArgumentException if {@code label} is an empty string.
      */
-    public static void validateFileTypeLabel(String label) {
+    public static void validateFileTypeLabel(String label) throws IllegalArgumentException {
         if (label.isEmpty()) {
             throw new IllegalArgumentException();
         }

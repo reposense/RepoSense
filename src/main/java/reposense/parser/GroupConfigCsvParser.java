@@ -1,6 +1,6 @@
 package reposense.parser;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     private static final String GROUP_NAME_HEADER = "Group Name";
     private static final String FILES_GLOB_HEADER = "Globs";
 
-    public GroupConfigCsvParser(Path csvFilePath) throws IOException {
+    public GroupConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
     }
 
