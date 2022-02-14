@@ -84,7 +84,7 @@ public class AnnotatorAnalyzer {
      *         {@code Optional.of(Author#tagged author)} otherwise.
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
-                                                     Optional<Author> currentAnnotatedAuthor, int formatIndex) {
+            Optional<Author> currentAnnotatedAuthor, int formatIndex) {
         try {
             Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
             String name = extractAuthorName(line, formatIndex);
