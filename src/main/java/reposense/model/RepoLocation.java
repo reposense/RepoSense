@@ -4,6 +4,9 @@ import static reposense.util.FileUtil.isValidPath;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,9 +28,12 @@ public class RepoLocation {
     private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*?:(?<path>[^/].*?)??/??(?<repoName>[^/]+?)(\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_NON_WINDOWS_LOCATION_PATTERN =
-            Pattern.compile("^(file://)?(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
+            Pattern.compile("^(file:///?)?(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN =
             Pattern.compile("^(?<path>.*?)\\\\?(?<repoName>[^\\\\]+?)(\\\\?\\.git)?\\\\?$");
+    private static final String GROUP_REPO_NAME = "repoName";
+    private static final String GROUP_PATH = "path";
+    private static final String PATH_SEPARATOR_REPLACEMENT = "-";
 
     private final String location;
     private final String repoName;
@@ -96,6 +102,10 @@ public class RepoLocation {
         return false;
     }
 
+    /**
+     * Returns a best-guess repo name and organization from the given local repo {@code location}.
+     * The return is a length-2 string array with the repo name at index 0 and organization at index 1.
+     */
     private String[] getLocalRepoNameAndOrg(String location) throws InvalidLocationException {
         boolean isWindows = SystemUtil.isWindows();
         if (isWindows) {
@@ -113,15 +123,15 @@ public class RepoLocation {
             throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
         }
 
-        String tempRepoName = localRepoMatcher.group("repoName");
-        String fileSeparator = isWindows ? "\\\\" : "/";
-        String tempOrganization = Optional.ofNullable(localRepoMatcher.group("path"))
-                .map(s -> s.replaceAll(fileSeparator, "-"))
-                .orElse("");
-
+        String tempRepoName = localRepoMatcher.group(GROUP_REPO_NAME);
+        String tempOrganization = getOrganizationFromMatcher(localRepoMatcher);
         return new String[] {tempRepoName, tempOrganization};
     }
 
+    /**
+     * Returns a best-guess repo name and organization from the given remote repo {@code location}.
+     * The return is a length-2 string array with the repo name at index 0 and organization at index 1.
+     */
     private String[] getRemoteRepoNameAndOrg(String location) throws InvalidLocationException {
         Matcher remoteRepoMatcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
         Matcher sshRepoMatcher = SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -144,12 +154,21 @@ public class RepoLocation {
         }
 
         Matcher actualMatcher = remoteRepoMatcher.matches() ? remoteRepoMatcher : sshRepoMatcher;
-        String tempRepoName = actualMatcher.group("repoName");
-        String tempOrganization = Optional.ofNullable(actualMatcher.group("path"))
-                .map(s -> s.replaceAll("/", "-"))
-                .orElse("");
+        String tempRepoName = actualMatcher.group(GROUP_REPO_NAME);
+        String tempOrganization = getOrganizationFromMatcher(actualMatcher);
 
         return new String[] {tempRepoName, tempOrganization};
+    }
+
+    /**
+     * Returns the organization string from the matcher if one exists.
+     * If no match was found for it, returns an empty string instead.
+     */
+    private static String getOrganizationFromMatcher(Matcher matcher) {
+        return Optional.ofNullable(matcher.group(GROUP_PATH))
+                .map(s -> Paths.get(s).normalize().toString())
+                .map(s -> s.replaceAll(FileSystems.getDefault().getSeparator(), PATH_SEPARATOR_REPLACEMENT))
+                .orElse("");
     }
 
     @Override
