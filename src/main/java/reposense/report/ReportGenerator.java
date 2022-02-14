@@ -203,7 +203,7 @@ public class ReportGenerator {
      * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
      * Performs cloning and analysis of each repository in parallel, and generates the report.
      * Also removes any configs that failed to clone or analyze from {@code configs}.
-     *
+     * <p>
      * By default, runs in multi-threaded mode with {@code numCloningThreads} threads for cloning
      * and {@code numAnalysisThreads} threads for analysis.
      * To turn off multi-threading, run the program with the flags

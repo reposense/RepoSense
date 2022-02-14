@@ -14,8 +14,10 @@ import reposense.model.AuthorConfiguration;
 
 /**
  * Analyzes the authorship of a {@code FileInfo} using the given annotations on the file.
+ * <p>
  * Only the lines with the format (START OF LINE) COMMENT_SYMBOL @@author ONE_STRING_WITH_NO_SPACE (END OF LINE)
  * will be analyzed. Otherwise, the line will be ignored and treated as normal lines.
+ * <p>
  * If the line is analyzed, and the string following the author tag is a valid git id, and there is no author config
  * file, then the code will be attributed to the author with that git id. Otherwise, the code will be attributed to
  * unknown author.

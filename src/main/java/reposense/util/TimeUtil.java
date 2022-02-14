@@ -208,6 +208,7 @@ public class TimeUtil {
 
     /**
      * Parses the given String as a Date based on the {@code CLI_ARGS_DATE_FORMAT}.
+     * <p>
      * Setting setLenient to false prevents unexpected results.
      * Without it, even with "dd/MM/yyyy HH:mm:ss" format, 11/31/2017 00:00:00 will be parsed to 11/7/2019 00:00:00.
      *

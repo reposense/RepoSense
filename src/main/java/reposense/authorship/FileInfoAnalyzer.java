@@ -44,6 +44,7 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
+     * <p>
      * Returns null if the file is missing from the local system, or none of the
      * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */

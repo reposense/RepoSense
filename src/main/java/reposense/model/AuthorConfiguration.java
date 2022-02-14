@@ -172,6 +172,7 @@ public class AuthorConfiguration {
 
     /**
      * Removes all information of the {@code author} from the configs.
+     * <p>
      * Precondition: {@code author} must be present in {@code authorDetailsToAuthorMap}.
      *
      * @param author Can be an author's git ID, email, or alias.

@@ -187,6 +187,7 @@ public class FileInfoExtractor {
     /**
      * Traverses each file from the repo root directory, generates the {@code FileInfo} for each relevant file found
      * based on {@code config} and inserts it into {@code fileInfos}.
+     * <p>
      * Adds binary files to {@code List<FileInfo>} if {@code isBinaryFiles} is true. Else, adds non-binary files
      * to {@code List<FileInfo>}.
      */
