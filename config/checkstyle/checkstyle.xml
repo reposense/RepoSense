@@ -393,10 +393,11 @@
     <!-- Checks that Javadoc block tags appear only at the beginning of the line. -->
     <module name="JavadocBlockTagLocation"/>
 
-    <!-- Checks that all Javadoc comments have a description and proper punctuation. -->
+    <!-- Checks that all Javadoc comments have a description. -->
     <!-- Javadoc with only block tags will fail this check. -->
     <module name="JavadocStyle">
-      <property name="checkFirstSentence" value="true"/>
+      <!-- The checkFirstSentence property can also be used to check punctuation. -->
+      <!-- However, it duplicates the fullstop check in SummaryJavadocCheck. -->
       <property name="checkEmptyJavadoc" value="true"/>
     </module>
 
@@ -405,6 +406,12 @@
 
     <!-- Checks that each line in Javadoc has whitespace after leading asterisk. -->
     <module name="JavadocMissingWhitespaceAfterAsterisk"/>
+
+    <!-- Checks that all summary Javadoc starts with capital letters and ends with fullstop. -->
+    <module name="SummaryJavadocCheck">
+      <property name="forbiddenSummaryFragments" value="^[^A-Z].*$"/>
+      <property name="period" value="."/>
+    </module>
 
   </module>
 </module>
