@@ -47,6 +47,8 @@ public class AnnotatorAnalyzer {
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
+     * <p>
+     * Updates {@code authorConfig} if a new {@code Author} is found.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
         Optional<Author> currentAnnotatedAuthor = Optional.empty();
@@ -77,6 +79,8 @@ public class AnnotatorAnalyzer {
     /**
      * Extracts the author name from the given {@code line}, finds out if {@code Author} is already present
      * in {@code authorConfig}, and returns this {@code Author} stored in an {@code Optional}.
+     * <p>
+     * Uses {@code currentAnnotatedAuthor} to keep track of which {@code Author} to attribute a line to.
      *
      * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if there is an author config file and
      *              no matching {@code Author} is found,
@@ -130,6 +134,10 @@ public class AnnotatorAnalyzer {
         return (foundMatch) ? trimmedParameters : null;
     }
 
+    /**
+     * Generates regex for valid comment formats in which author tag is found, with {@code REGEX_AUTHOR_TAG_FORMAT}
+     * flanked by {@code commentStart} and {@code commentEnd}.
+     */
     private static String generateCommentRegex(String commentStart, String commentEnd) {
         return "^[\\s]*" + commentStart + "[\\s]*" + REGEX_AUTHOR_TAG_FORMAT + "[\\s]*(" + commentEnd + ")?[\\s]*$";
     }
