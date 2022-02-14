@@ -84,7 +84,8 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code Date} that is set to midnight for the given {@code zoneId}.
+     * Returns a {@code Date} that is set to midnight for the given {@code sinceDate}, adjusted to
+     * the timezone given by {@code zoneId}.
      */
     public static Date getZonedSinceDate(Date sinceDate, ZoneId zoneId) {
         if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {
@@ -107,7 +108,8 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code Date} that is set to 23:59:59 for the given {@code zoneId}.
+     * Returns a {@code Date} that is set to 23:59:59 for the given {@code untilDate}, adjusted to
+     * the timezone given by {@code zoneId}.
      */
     public static Date getZonedUntilDate(Date untilDate, ZoneId zoneId) {
         int zoneRawOffset = getZoneRawOffset(zoneId);
@@ -195,7 +197,7 @@ public class TimeUtil {
     }
 
     /**
-     * Extracts the first substring that matches the {@code DATE_FORMAT_REGEX}.
+     * Extracts the first substring of {@code date} string that matches the {@code DATE_FORMAT_REGEX}.
      */
     public static String extractDate(String date) {
         Matcher matcher = Pattern.compile(DATE_FORMAT_REGEX).matcher(date);
@@ -207,7 +209,7 @@ public class TimeUtil {
     }
 
     /**
-     * Parses the given String as a Date based on the {@code CLI_ARGS_DATE_FORMAT}.
+     * Parses the given {@code date} string as a Date based on the {@code CLI_ARGS_DATE_FORMAT}.
      * <p>
      * Setting setLenient to false prevents unexpected results.
      * Without it, even with "dd/MM/yyyy HH:mm:ss" format, 11/31/2017 00:00:00 will be parsed to 11/7/2019 00:00:00.

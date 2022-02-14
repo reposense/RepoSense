@@ -48,7 +48,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     }
 
     /**
-     * Processes the csv file line by line and adds created {@code Group} into {@code results}.
+     * Processes the csv {@code record} line by line and adds created {@code Group} into {@code results}.
      */
     @Override
     protected void processLine(List<GroupConfiguration> results, CSVRecord record) throws InvalidLocationException {

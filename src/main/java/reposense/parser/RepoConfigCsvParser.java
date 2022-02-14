@@ -60,7 +60,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     }
 
     /**
-     * Processes the csv file line by line and add created {@code RepoConfiguration} into {@code results} but
+     * Processes the csv {@code record} line by line and add created {@code RepoConfiguration} into {@code results} but
      * ignores duplicated {@code RepoConfiguration} if there exists one that has same {@code location} and
      * {@code branch}.
      */

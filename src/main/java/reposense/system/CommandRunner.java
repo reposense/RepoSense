@@ -22,6 +22,10 @@ public class CommandRunner {
         }
     }
 
+    /**
+     * Spawns a backend terminal process, with working directory at {@code path}, to execute the {@code command}.
+     * Does not wait for process to finish executing.
+     */
     public static CommandRunnerProcess runCommandAsync(Path path, String command) {
         return spawnCommandProcess(path, command);
     }

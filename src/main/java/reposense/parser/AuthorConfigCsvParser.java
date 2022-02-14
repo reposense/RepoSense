@@ -54,9 +54,9 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     }
 
     /**
-     * Processes the csv file line by line and add created {@code AuthorConfiguration} into {@code results} but
-     * skips {@code author} already exists in a {@code AuthorConfiguration} that has same {@code location} and
-     * {@code branch}.
+     * Processes the csv {@code record} line by line and add created {@code AuthorConfiguration} into {@code results}
+     * but skips {@code author} already exists in a {@code AuthorConfiguration} that has same {@code location}
+     * and {@code branch}.
      */
     @Override
     protected void processLine(List<AuthorConfiguration> results, CSVRecord record)

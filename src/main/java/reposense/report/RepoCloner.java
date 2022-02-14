@@ -73,6 +73,8 @@ public class RepoCloner {
     /**
      * Spawns a process to clone the bare repository specified by {@code config}.
      * Does not wait for process to finish executing.
+     * <p>
+     * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      */
     public void cloneBare(RepoConfiguration config, boolean shouldFreshClone) {
         configs[currentIndex] = config;
@@ -160,6 +162,8 @@ public class RepoCloner {
     /**
      * Spawns a process to clone repo specified in {@code config}. Does not wait for process to finish executing.
      * Should only handle a maximum of one spawned process at any time.
+     * <p>
+     * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      */
     private boolean spawnCloneProcess(RepoConfiguration config, boolean shouldFreshClone) {
         assert(crp == null);
@@ -194,12 +198,14 @@ public class RepoCloner {
     }
 
     /**
-     * Spawns a process to shallow clone repo specified in {@code config}.
+     * Spawns a process to shallow clone repo specified in {@code config} based on {@code shallowSinceDate}.
      * Does not wait for process to finish executing.
      * Should only handle a maximum of one spawned process at any time.
+     * <p>
+     * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      */
     private boolean spawnShallowCloneProcess(RepoConfiguration config, Date shallowSinceDate,
-                                             boolean shouldFreshClone) {
+            boolean shouldFreshClone) {
         assert(crp == null);
 
         try {
@@ -234,6 +240,8 @@ public class RepoCloner {
     /**
      * Spawns a process to create partial clone of repo specified in {@code config}.
      * Waits for process to finish executing.
+     * <p>
+     * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      */
     private boolean spawnPartialCloneProcess(RepoConfiguration config, boolean shouldFreshClone) {
         assert(crp == null);
@@ -269,6 +277,8 @@ public class RepoCloner {
     /**
      * Spawns a process to create shallow partial clone of repo specified in {@code config}.
      * Waits for process to finish executing.
+     * <p>
+     * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      */
     private boolean spawnShallowPartialCloneProcess(RepoConfiguration config, boolean shouldFreshClone) {
         assert(crp == null);

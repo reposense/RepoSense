@@ -87,9 +87,9 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Generates a list of relevant {@code FileInfo} for all files that were edited in between the current
-     * commit and the {@code lastCommitHash} commit, marks each {@code LineInfo} for each {@code FileInfo} on
-     * whether they have been inserted within the commit range or not, and returns it.
+     * Generates a list of relevant {@code FileInfo} for all files in the repo given by {@code config} that were edited
+     * in between the current commit and the {@code lastCommitHash} commit, marks each {@code LineInfo} for
+     * each {@code FileInfo} on whether they have been inserted within the commit range or not, and returns it.
      */
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -207,7 +207,7 @@ public class FileInfoExtractor {
 
     /**
      * Generates and returns a {@code FileInfo} with a list of {@code LineInfo} for each line content in the
-     * {@code relativePath} file.
+     * {@code relativePath} file, with the {@code repoRoot} prepended to {@code relativePath}.
      */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
         FileInfo fileInfo = new FileInfo(relativePath);

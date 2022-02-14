@@ -238,7 +238,7 @@ public class ArgsParser {
     }
 
     /**
-     * Parses the given string arguments to a {@code CliArguments} object.
+     * Parses the given string {@code args} to a {@code CliArguments} object.
      *
      * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
      * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.

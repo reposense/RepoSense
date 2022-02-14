@@ -17,6 +17,7 @@ public class GitDiff {
 
     /**
      * Returns the git diff result of the current commit compared to {@code lastCommitHash}, without any context.
+     * The {@code Path} given by {@code root} is the working directory.
      */
     public static String diffCommit(String root, String lastCommitHash) {
         Path rootPath = Paths.get(root);

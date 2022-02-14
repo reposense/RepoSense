@@ -63,7 +63,7 @@ public class FileInfo {
     }
 
     /**
-     * Sets the {@code Author} of the {@code LineInfo} in {@code lineNumber} for this {@code FileInfo}.
+     * Sets the {@code author} of the {@code LineInfo} in {@code lineNumber} for this {@code FileInfo}.
      */
     public void setLineAuthor(int lineNumber, Author author) {
         lines.get(lineNumber).setAuthor(author);

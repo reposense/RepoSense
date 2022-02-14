@@ -21,6 +21,7 @@ public class GitCatFile {
 
     /**
      * Returns parent commits for the commit associated with the input {@code commitHash}.
+     * The {@code Path} given by {@code root} is the working directory.
      *
      * @throws CommitNotFoundException if there is no commit associated with {@code commitHash}.
      */
@@ -44,6 +45,7 @@ public class GitCatFile {
     /**
      * Given the input list of {@code commitHashes}, return a list of commit hashes for the parent
      * commits of all the commits.
+     * The {@code Path} given by {@code root} is the working directory.
      */
     public static List<String> getParentsOfCommits(String root, List<String> commitHashes) {
         List<String> parentCommits = new ArrayList<>();

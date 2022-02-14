@@ -103,7 +103,20 @@ public class ReportGenerator {
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
      *
-     * @return the list of file paths that were generated.
+     * @param configs The list of repos to analyze.
+     * @param outputPath The location at which to save the report.
+     * @param assetsPath The location at which assets for generating the report are stored.
+     * @param reportConfig The config for the output report.
+     * @param generationDate The time at which the report was generated.
+     * @param cliSinceDate The date-time from which to start analyzing commits.
+     * @param untilDate The cut-off date-time for analyzing commits.
+     * @param isSinceDateProvided The boolean variable for whether client provided a sinceDate.
+     * @param isUntilDateProvided The boolean variable for whether client provided an untilDate.
+     * @param numCloningThreads The number of threads to use to clone the repos.
+     * @param numAnalysisThreads The number of threads to use to analyse the repos.
+     * @param reportGenerationTimeProvider Supplier for time taken to generate the report.
+     * @param zoneId The timezone to adjust all date-times to.
+     * @return The list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
@@ -119,6 +132,20 @@ public class ReportGenerator {
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
      *
+     * @param configs The list of repos to analyze.
+     * @param outputPath The location at which to save the report.
+     * @param assetsPath The location at which assets for generating the report are stored.
+     * @param reportConfig The config for the output report.
+     * @param generationDate The time at which the report was generated.
+     * @param cliSinceDate The date-time from which to start analyzing commits.
+     * @param untilDate The cut-off date-time for analyzing commits.
+     * @param isSinceDateProvided The boolean variable for whether client provided a sinceDate.
+     * @param isUntilDateProvided The boolean variable for whether client provided an untilDate.
+     * @param numCloningThreads The number of threads to use to clone the repos.
+     * @param numAnalysisThreads The number of threads to use to analyse the repos.
+     * @param reportGenerationTimeProvider Supplier for time taken to generate the report.
+     * @param zoneId The timezone to adjust all date-times to.
+     * @param shouldFreshClone The boolean variable for whether to clone a repo again during tests.
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
@@ -156,7 +183,8 @@ public class ReportGenerator {
     }
 
     /**
-     * Copies the template file to the specified {@code outputPath} for the repo report to be generated.
+     * Copies the template file to the specified {@code outputPath} for the repo report specified by {@code config}
+     * to be generated.
      *
      * @throws IOException if template resource is not found.
      */
@@ -208,6 +236,8 @@ public class ReportGenerator {
      * and {@code numAnalysisThreads} threads for analysis.
      * To turn off multi-threading, run the program with the flags
      * {@code --cloning-threads 1 --analysis-threads 1}.
+     * <p>
+     * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      *
      * @return A list of paths to the JSON report files generated for each repository.
      */
@@ -273,7 +303,9 @@ public class ReportGenerator {
     }
 
     /**
-     * Clones repo at {@code location}.
+     * Clones repo specified by {@code config} at {@code location}.
+     * <p>
+     * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      *
      * @return A {@code CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, and the {@code defaultBranch} of the repo.
@@ -292,7 +324,8 @@ public class ReportGenerator {
     }
 
     /**
-     * Analyzes all repos in {@code configsToAnalyze} and generates their report.
+     * Analyzes all repos in {@code configsToAnalyze} and generates their report at {@code outputPath}.
+     * Uses {@code cloneJobOutput} to find repo location, default branch and whether cloning was successful.
      *
      * @return An {@code AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, the list of {@code filesGenerated} by the analysis and a list of {@code analysisErrors} encountered.
@@ -355,7 +388,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Analyzes repo specified by {@code config} and generates the report.
+     * Analyzes repo specified by {@code config} and generates the report at {@code repoReportDirectory}.
      *
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      * @throws NoAuthorsWithCommitsFoundException if there are no authors with commits found for the repo.
@@ -452,8 +485,8 @@ public class ReportGenerator {
     }
 
     /**
-     * Adds {@code failedConfig} that failed analysis into the list of errors in the summary report and
-     * removes {@code failedConfig} from the list of {@code configs}.
+     * Adds {@code failedConfig} that failed analysis into the list of errors in the summary report along with
+     * an {@code errorMessage} and removes {@code failedConfig} from the list of {@code configs}.
      */
     private static void handleAnalysisFailed(List<RepoConfiguration> configs, RepoConfiguration failedConfig,
             String errorMessage) {
@@ -461,8 +494,8 @@ public class ReportGenerator {
     }
 
     /**
-     * Adds {@code failedConfigs} that failed cloning/analysis into the list of errors in the summary report and
-     * removes {@code failedConfigs} from the list of {@code configs}.
+     * Adds {@code failedConfigs} that failed cloning/analysis into the list of errors in the summary report along
+     * with an {@code errorMessage} and removes {@code failedConfigs} from the list of {@code configs}.
      */
     private static void handleFailedConfigs(
             List<RepoConfiguration> configs, List<RepoConfiguration> failedConfigs, String errorMessage) {
@@ -477,7 +510,8 @@ public class ReportGenerator {
     }
 
     /**
-     * Generates a report at the {@code repoReportDirectory}.
+     * Generates an empty report at the {@code repoReportDirectory}, with the author display name
+     * as {@code displayName}.
      *
      * @return A list of paths to the JSON report files generated for this empty report.
      */
@@ -494,7 +528,8 @@ public class ReportGenerator {
     }
 
     /**
-     * Generates a report for a single repository at {@code repoReportDirectory}.
+     * Generates a report for a single repository at {@code repoReportDirectory} based on {@code commitSummary}
+     * and {@code authorshipSummary}.
      *
      * @return A list of paths to the JSON report files generated for this report.
      */
@@ -512,7 +547,7 @@ public class ReportGenerator {
 
     /**
      * Creates the .git-blame-ignore-revs file containing the contents of {@code IgnoreCommitList}
-     * in the config's repo root directory.
+     * in the repo root directory of {@code config}.
      */
     private static void generateIgnoreRevsFile(RepoConfiguration config) {
         List<CommitHash> expandedIgnoreCommitList = config.getIgnoreCommitList().stream()

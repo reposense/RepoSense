@@ -25,7 +25,8 @@ public class GitShow {
     private static final Logger logger = LogsManager.getLogger(GitShow.class);
 
     /**
-     * Returns expanded form of the {@code CommitHash} associated with the {@code shortCommitHash}.
+     * Returns expanded form of the {@code CommitHash} associated with the {@code shortCommitHash}, with
+     * the {@code Path} given by {@code root} as the working directory.
      *
      * @throws CommitNotFoundException if there is no commit associated with {@code shortCommitHash}.
      */
@@ -50,7 +51,8 @@ public class GitShow {
     }
 
     /**
-     * Returns {@code Date} of commit associated with commit hash.
+     * Returns {@code Date} of commit associated with commit hash, with {@code Path} given by {@code root} as
+     * the working directory.
      *
      * @throws CommitNotFoundException if no commit exists for the given {@code commitHash}.
      * @throws ParseException if the date string for the given {@code commitHash} could not be parsed into
@@ -69,7 +71,8 @@ public class GitShow {
     }
 
     /**
-     * Returns {@code Date} of earliest commit out of the input list of commits in {@code commitHashes}.
+     * Returns {@code Date} of earliest commit out of the input list of commits in {@code commitHashes}, with
+     * the {@code root} string denoting the working directory.
      *
      * @throws CommitNotFoundException if no commit exists for a given hash in {@code commitHashes}
      * or if no date string was successfully parsed to a {@code Date} for earliest date.

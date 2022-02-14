@@ -122,7 +122,8 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Returns the number of lines added and deleted for the specified file types in {@code config}.
+     * Returns the number of lines added and deleted in {@code filePathContributions} for the specified file types
+     * in {@code config}.
      */
     private static Map<FileType, ContributionPair> getFileTypesAndContribution(String[] filePathContributions,
             RepoConfiguration config) {

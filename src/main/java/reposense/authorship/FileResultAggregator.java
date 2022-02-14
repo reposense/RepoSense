@@ -14,7 +14,8 @@ import reposense.model.FileType;
 public class FileResultAggregator {
 
     /**
-     * Returns the {@code AuthorshipSummary} generated from aggregating the {@code fileResults} and {@code fileTypes}.
+     * Returns the {@code AuthorshipSummary} generated from aggregating the {@code fileResults} and {@code fileTypes}
+     * for each {@code Author} in the list of {@code authors}.
      */
     public static AuthorshipSummary aggregateFileResult(List<FileResult> fileResults, List<Author> authors,
             List<FileType> fileTypes) {

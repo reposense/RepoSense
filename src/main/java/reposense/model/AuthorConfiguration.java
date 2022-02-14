@@ -40,7 +40,8 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Clears authors information and use the information provided from {@code standaloneConfig}.
+     * Clears authors information and use the information provided from {@code standaloneConfig}. Also updates each
+     * author's {@code ignoreGlobList}.
      */
     public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
@@ -191,8 +192,8 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds new authors from {@code authorList} and sets the default alias, aliases, emails and display name
-     * of the new authors. Skips authors that have already been added previously.
+     * Adds new authors from {@code authorList} and sets the default alias, aliases, emails and display name as well
+     * as {@code ignoreGlobList} of the new authors. Skips authors that have already been added previously.
      */
     public void addAuthors(List<Author> authorList, List<String> ignoreGlobList) {
         for (Author author : authorList) {

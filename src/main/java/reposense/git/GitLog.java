@@ -20,7 +20,7 @@ public class GitLog {
             "\">>>COMMIT INFO<<<%n%H|%n|%aN|%n|%aE|%n|%cI|%n|%s|%n|%w(0,4,4)%b%w(0,0,0)|%n|%D|\"";
 
     /**
-     * Returns the git commit log info of {@code Author}, in the repository specified in {@code config}.
+     * Returns the git commit log info of {@code author}, in the repository specified in {@code config}.
      */
     public static String get(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
@@ -36,7 +36,7 @@ public class GitLog {
     }
 
     /**
-     * Returns the git commit log info of {@code Author}, with the files changed, in the repository specified in
+     * Returns the git commit log info of {@code author}, with the files changed, in the repository specified in
      * {@code config}.
      */
     public static String getWithFiles(RepoConfiguration config, Author author) {

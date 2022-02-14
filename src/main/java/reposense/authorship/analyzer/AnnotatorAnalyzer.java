@@ -75,8 +75,8 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Extracts the author name from the given {@code line}, finds the corresponding {@code Author}
-     * in {@code authorAliasMap}, and returns this {@code Author} stored in an {@code Optional}.
+     * Extracts the author name from the given {@code line}, finds out if {@code Author} is already present
+     * in {@code authorConfig}, and returns this {@code Author} stored in an {@code Optional}.
      *
      * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if there is an author config file and
      *              no matching {@code Author} is found,
@@ -108,7 +108,7 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Extracts the name that follows the specific format.
+     * Extracts the {@code Author} name that follows the specific format from {@code line} at {@code formatIndex}.
      *
      * @return an empty string if no such author was found, the new author name otherwise.
      */
@@ -135,7 +135,7 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Checks if the line is a valid @@author tag comment line.
+     * Checks if the {@code line} is a valid @@author tag comment line.
      *
      * @param line The line to be checked.
      * @return The index of the comment if the comment pattern matches, -1 if no match could be found.

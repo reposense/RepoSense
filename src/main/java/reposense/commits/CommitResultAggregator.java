@@ -107,7 +107,7 @@ public class CommitResultAggregator {
 
     /**
      * Creates a {@code Map} of each author in {@code authorSet} to their respective {@code commitResults}
-     * consolidated into {@code AuthorDailyContribution} based on date of each {@code commitResult}.
+     * consolidated into {@code AuthorDailyContribution} based on date of each {@code CommitResult}.
      * Uses {@code zoneId} for the date's timezone.
      *
      * @return a {@code Map} of each author to a list of {@code AuthorDailyContribution} across all dates in which
@@ -166,8 +166,8 @@ public class CommitResultAggregator {
     }
 
     /**
-     * Get the starting point of the {@code current} date that was given in {@code zoneId} timezone and convert into the
-     * system's timezone.
+     * Get the starting point of the {@code current} date that was given in {@code zoneId} timezone and convert into
+     * the system's timezone.
      */
     private static Date getSystemStartOfDate(Date current, String zoneId) {
         int zoneRawOffset = TimeUtil.getZoneRawOffset(ZoneId.of(zoneId));
@@ -181,6 +181,10 @@ public class CommitResultAggregator {
         return cal.getTime();
     }
 
+    /**
+     * Returns an arbitrary date if no commits are available. Otherwise, returns the first available commit date
+     * from {@code commitInfos}.
+     */
     private static Date getStartDate(List<CommitResult> commitInfos) {
         Date min = (commitInfos.isEmpty()) ? new Date(Long.MIN_VALUE) : commitInfos.get(0).getTime();
         return min;

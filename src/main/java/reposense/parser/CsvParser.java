@@ -116,7 +116,8 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns the header of a CSV file, which is assumed to be the first non-empty / non-whitespace line in the file.
+     * Returns the header of a CSV file, which is assumed to be the first non-empty / non-whitespace line in the file
+     * read by {@code reader}.
      * The line is split into an array of Strings, using the comma symbol as delimiter.
      *
      * @throws IOException if there is an error accessing the file.

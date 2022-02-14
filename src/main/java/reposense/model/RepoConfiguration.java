@@ -208,7 +208,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} matches {@code targetRepoLocation}.
+     * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} of a {@link RepoConfiguration}
+     * in the list of {@code configs} matches {@code targetRepoLocation}.
      */
     private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(
             List<RepoConfiguration> configs, RepoLocation targetRepoLocation) {
@@ -229,7 +230,7 @@ public class RepoConfiguration {
 
     /**
      * Sets each {@code RepoConfiguration} in {@code configs} to ignore its standalone config, if
-     * {@code ignoreAllStandaloneConfigs} is true.
+     * the boolean {@code ignoreAllStandaloneConfigs} is true.
      */
     public static void setStandaloneConfigIgnoredToRepoConfigs(
             List<RepoConfiguration> configs, boolean ignoreAllStandaloneConfigs) {
@@ -238,13 +239,17 @@ public class RepoConfiguration {
         }
     }
 
+    /**
+     * Checks if there are any repos in {@code configs} for which RepoSense is trying to blame line changes
+     * caused by commits in the ignore commit list to any available previous authors who changed those lines.
+     */
     public static boolean isAnyRepoFindingPreviousAuthors(List<RepoConfiguration> configs) {
         return configs.stream().anyMatch(RepoConfiguration::isFindingPreviousAuthorsPerformed);
     }
 
     /**
-     * Clears existing information related to this repository and its authors, and replaces it with information from the
-     * {@code standaloneConfig}.
+     * Clears existing information related to this repository and its authors, and replaces it with information from
+     * the {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
@@ -267,7 +272,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Attempts to find matching {@code Author} given a name and an email.
+     * Attempts to find matching {@code Author} given a {@code name} and an {@code email}.
      * If no matching {@code Author} is found, {@code Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
@@ -363,16 +368,14 @@ public class RepoConfiguration {
     }
 
     /**
-     * Updates the branch in the {@code displayName} to the
-     * current {@code branch}.
+     * Updates the branch in the {@code displayName} to the current {@code branch}.
      */
     public void updateDisplayName(String branch) {
         this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
     }
 
     /**
-     * Updates the branch in the {@code outputFolderName} to the
-     * current {@code branch}.
+     * Updates the branch in the {@code outputFolderName} to the current {@code branch}.
      */
     public void updateOutputFolderName(String branch) {
         this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch;
