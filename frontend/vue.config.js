@@ -11,7 +11,6 @@ module.exports = {
     ],
   },
   chainWebpack: (config) => {
-    config.resolve.alias.set('vue', '@vue/compat')
     // Pug Loader
     config.module
         .rule('pug')
@@ -30,9 +29,6 @@ module.exports = {
           return {
             ...options,
             compilerOptions: {
-              compatConfig: {
-                MODE: 3
-              },
               whitespace: 'preserve',
             }
           }
