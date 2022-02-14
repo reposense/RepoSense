@@ -41,8 +41,8 @@ public class FileType {
     }
 
     /**
-     * Returns a {@code FileType} with label named {@code format} and globs that include all files that end with
-     * {@code format}.
+     * Returns a {@code FileType} with label named {@code format} and globs that include all files that end
+     * with {@code format}.
      */
     public static FileType convertStringFormatToFileType(String format) {
         validateFileFormat(format);

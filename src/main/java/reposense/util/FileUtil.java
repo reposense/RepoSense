@@ -92,8 +92,8 @@ public class FileUtil {
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
      *
-     * @return An Optional containing the Path to the JSON file, or an empty Optional
-     *         if there was an error while writing the JSON file.
+     * @return An Optional containing the Path to the JSON file, or an empty Optional if there was an error
+     * while writing the JSON file.
      */
     public static Optional<Path> writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
@@ -115,8 +115,8 @@ public class FileUtil {
     /**
      * Writes the ignore revs file containing the {@code ignoreCommitList} at the given {@code path}.
      *
-     * @return An Optional containing the Path to the ignore revs file, or an empty Optional
-     *         if there was an error while writing the ignore revs file.
+     * @return An Optional containing the Path to the ignore revs file, or an empty Optional if there was an error
+     * while writing the ignore revs file.
      */
     public static Optional<Path> writeIgnoreRevsFile(String path, List<CommitHash> ignoreCommitList) {
         String contentOfIgnoreRevsFile = ignoreCommitList.stream()
