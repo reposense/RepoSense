@@ -64,7 +64,9 @@ Should be:
  * Returns a {@code Date} object for {@code sinceDate}.
  * The {@code sinceDate} is obtained from the user CLI.
  */
- 
+```
+* This applies also for lines which continue from the previous line:
+```
 Also not okay (Second line, which is a continuation from the first line, starts with a special character):
 /**
  * Returns a {@code Date} object by adjusting {@code sinceDate} to the timezone given by 
@@ -81,7 +83,7 @@ Should be:
   * If @param tags are used, they must be used for all parameters.
   * This is not necessary (although still recommended) for methods with `@Override` annotations if Javadoc is used. However, if the method that is being overriden is part of your code and has Javadoc, all parameters must be described.
 
-Examples:
+Negative Examples:
 ```
 Not okay (Only mentions zoneId parameter):
 /**
@@ -101,7 +103,9 @@ Not okay (@param tag used only for zoneId)
 public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
   //Code here
 }
-
+```
+Positive Example #1:
+```
 Okay (No @param tags):
 /**
  * Returns a {@code Date} object by adjusting {@code sinceDate}
@@ -110,7 +114,9 @@ Okay (No @param tags):
 public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
   //Code here
 }
-
+```
+Positive Example #2:
+```
 Okay (@param tags used for all inputs):
 /**
  * Returns a {@code Date} object by adjusting {@code sinceDate}
