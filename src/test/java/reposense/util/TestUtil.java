@@ -39,7 +39,7 @@ public class TestUtil {
     private static final int STAT_FILE_PATH_INDEX = 2;
 
     /**
-     * Returns true if the files' contents are the same.
+     * Returns true if the contents of the files at {@code expected} and {@code actual} are the same.
      * Also prints out error message if the lines count are different,
      * else prints out the first line of content difference (if any).
      */
@@ -48,7 +48,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns true if the files' contents are the same.
+     * Returns true if the contents of the files at {@code expected} and {@code actual} are the same.
      * Also prints out error message if the lines count are different,
      * else prints out maximum {@code maxTraceCounts} lines of content difference (if any).
      */
@@ -105,7 +105,8 @@ public class TestUtil {
     }
 
     /**
-     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}.
+     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}
+     * and {@code time}.
      */
     public static Date getDate(int year, int month, int date, int[] time) {
         Calendar cal = Calendar.getInstance();
@@ -121,22 +122,25 @@ public class TestUtil {
     }
 
     /**
-     * Wrapper for {@code getDate} method to get since date with time 00:00:00.
+     * Wrapper for {@code getDate} method to get since date with time 00:00:00
+     * from the parameters {@code year}, {@code month}, {@code date}.
      */
     public static Date getSinceDate(int year, int month, int date) {
         return getDate(year, month, date, START_OF_DAY_TIME);
     }
 
     /**
-     * Wrapper for {@code getDate} method to get until date with time 23:59:59.
+     * Wrapper for {@code getDate} method to get until date with time 23:59:59
+     * from the parameters {@code year}, {@code month}, {@code date}.
      */
     public static Date getUntilDate(int year, int month, int date) {
         return getDate(year, month, date, END_OF_DAY_TIME);
     }
 
     /**
-     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day} that is not
-     * dependent on the time zone of the current system, in cases where adjusting for the time zone is not necessary.
+     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}
+     * and {@code time} that is not dependent on the time zone of the current system, in cases where adjusting
+     * for the time zone is not necessary.
      */
     public static Date getLocalDate(int year, int month, int date, int[] time) {
         Calendar cal = Calendar.getInstance();
@@ -151,14 +155,16 @@ public class TestUtil {
     }
 
     /**
-     * Wrapper for {@code getLocalDate} method to get since date with time 00:00:00.
+     * Wrapper for {@code getLocalDate} method to get since date with time 00:00:00
+     * from the parameters {@code year}, {@code month}, {@code date}.
      */
     public static Date getLocalSinceDate(int year, int month, int date) {
         return getLocalDate(year, month, date, START_OF_DAY_TIME);
     }
 
     /**
-     * Wrapper for {@code getLocalDate} method to get until date with time 23:59:59.
+     * Wrapper for {@code getLocalDate} method to get until date with time 23:59:59
+     * from the parameters {@code year}, {@code month}, {@code date}.
      */
     public static Date getLocalUntilDate(int year, int month, int date) {
         return getLocalDate(year, month, date, END_OF_DAY_TIME);
@@ -264,7 +270,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns the path to a resource.
+     * Returns the {@code Path} to a resource given by {@code pathToResource} string, using {@code classForLoading}.
      */
     public static Path loadResource(Class<?> classForLoading, String pathToResource) {
         ClassLoader classLoader = classForLoading.getClassLoader();

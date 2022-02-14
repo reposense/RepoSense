@@ -117,7 +117,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * Generates the information for test file.
+     * Generates the information for test file at {@code relativePath}.
      */
     public FileInfo generateTestFileInfo(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
