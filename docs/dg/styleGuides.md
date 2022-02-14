@@ -140,5 +140,7 @@ Okay:
  * @throws ParseException if {@code sinceDate} string cannot be parsed.
  */
 ```
+* Paragraph tags `<p>` should be used to split long Javadoc descriptions.
+  * As a general rule of thumb, if the Javadoc description is more than 3 lines long, you should consider splitting it.
 
 
