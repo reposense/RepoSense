@@ -243,10 +243,13 @@ export default {
       this.initiate();
       this.setInfoHash();
     },
-    selectedFileTypes() {
-      this.$nextTick(() => {
-        this.updateExpandedCommitMessagesCount();
-      });
+    selectedFileTypes: {
+      deep: true,
+      handler() {
+        this.$nextTick(() => {
+          this.updateExpandedCommitMessagesCount();
+        });
+      },
     },
     commitsSortType() {
       window.addHash('zCST', this.commitsSortType);

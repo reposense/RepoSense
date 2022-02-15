@@ -197,8 +197,11 @@ export default {
       this.getFiltered();
     },
 
-    mergedGroups() {
-      this.getFiltered();
+    mergedGroups: {
+      deep: true,
+      handler() {
+        this.getFiltered();
+      },
     },
   },
   computed: {
