@@ -20,6 +20,10 @@ public class AuthorDailyContribution {
         return date;
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     /**
      * Adds the {@code commitResult} into the {@code Author}'s daily contribution.
      */
