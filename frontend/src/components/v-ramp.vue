@@ -5,7 +5,7 @@
       a.ramp__slice(
         draggable="false",
         v-on:click="rampClick",
-        v-for="(commit, k) in slice.commitResults.filter(commitResult => commitResult.insertions>0)",
+        v-for="(commit, k) in slice.commitResults.filter(commitResult => commitResult.insertions > 0)",
         v-bind:href="getLink(commit)", target="_blank",
         v-bind:title="getContributionMessage(slice, commit)",
         v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
@@ -20,7 +20,7 @@
   template(v-else)
     a.ramp__slice(
       draggable="false",
-      v-for="(slice, j) in user.commits.filter(commit => commit.insertions>0)",
+      v-for="(slice, j) in user.commits.filter(commit => commit.insertions > 0)",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
       v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
