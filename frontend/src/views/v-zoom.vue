@@ -391,7 +391,7 @@ export default {
     this.retrieveHashes();
     this.setInfoHash();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.removeZoomHashes();
   },
 };
