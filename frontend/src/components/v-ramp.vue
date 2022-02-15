@@ -3,7 +3,7 @@
   template(v-if="tframe === 'commit'")
     template(v-for="(slice, j) in user.commits")
       a.ramp__slice(
-        v-bind:draggable="false",
+        draggable="false",
         v-on:click="rampClick",
         v-for="(commit, k) in slice.commitResults.filter(commit => commit.insertions>0)",
         v-bind:href="getLink(user, commit)", target="_blank",
@@ -19,7 +19,7 @@
 
   template(v-else)
     a.ramp__slice(
-      v-bind:draggable="false",
+      draggable="false",
       v-for="(slice, j) in user.commits.filter(commit => commit.insertions>0)",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
