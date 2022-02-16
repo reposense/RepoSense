@@ -1,0 +1,24 @@
+name: Delete deployments for closed pull requests
+
+on:
+  pull_request:
+    branches-ignore:
+      - gh-pages
+    types: [closed]
+
+jobs:
+  delete:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
+      ACTIONS_PULL_REQUEST_NUMBER: ${{ github.event.number }}
+      GITHUB_TOKEN: ${{ github.token }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Delete deployments
+      run: ./config/gh-actions/delete-deploy.sh
