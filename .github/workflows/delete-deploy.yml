@@ -1,12 +1,10 @@
 name: Delete deployments for closed pull requests
 
 on:
-  pull_request:
+  pull_request_target:
     branches-ignore:
       - gh-pages
     types: [closed]
-
-permissions: write-all
 
 jobs:
   delete:
