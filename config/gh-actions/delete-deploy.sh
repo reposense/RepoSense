@@ -27,14 +27,11 @@ DOCS_DEPLOY_DOMAIN=https://${ACTIONS_DOCS_ENV}-pr-${REPO_NAME,,}-${REPO_OWNER,,}
 
 # Function to get deployment ID for environment name from Github response
 # $1: Response from Github
-# $2: Deployment environment name
 get_ids_from_response() {
   echo "$1" | python3 -c "import sys, json; \
     print(' '.join( \
       map(lambda j: str(j['id']), \
-          filter(lambda j: j['environment']=='${2}', \
-                 json.load(sys.stdin) \
-                 ) \
+          json.load(sys.stdin) \
           )))"
 }
 
@@ -62,8 +59,9 @@ mark_deployment_inactive() {
 }
 
 # Function to get deployment data about repo via a cURL command
+# $1: Deployment environment name
 get_deployment_data() {
-  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments" \
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments?environment=${1}" \
   -X GET \
   -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}"
@@ -94,11 +92,12 @@ delete_all_deployments() {
 }
 
 # Get deployment data from Github
-RES=$(get_deployment_data)
+DASHBOARD_RES=$(get_deployment_data "$ACTIONS_DASHBOARD_ENV")
+DOCS_RES=$(get_deployment_data "$ACTIONS_DOCS_ENV")
 
 # Extract deployment IDs
-DASHBOARD_IDS=($(get_ids_from_response "$RES" "$ACTIONS_DASHBOARD_ENV"))
-DOCS_IDS=($(get_ids_from_response "$RES" "$ACTIONS_DOCS_ENV"))
+DASHBOARD_IDS=($(get_ids_from_response "$DASHBOARD_RES"))
+DOCS_IDS=($(get_ids_from_response "$DOCS_RES"))
 
 post_preview_links_comment
 delete_all_deployments "${DASHBOARD_IDS[@]}"
