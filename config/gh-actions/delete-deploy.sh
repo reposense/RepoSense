@@ -45,7 +45,7 @@ delete_deployment() {
   echo "Deleting Deployment: ${1}"
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1" \
   -X DELETE \
-  -H "Accept: application/vnd.github.v3+json" \
+  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
@@ -56,7 +56,7 @@ mark_deployment_inactive() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1/statuses" \
   -X POST \
   -H "Content-Type: application/json" \
-  -H "Accept: application/vnd.github.v3+json" \
+  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
   -H "Authorization: token ${GITHUB_TOKEN}" \
   -d "{\"state\": \"inactive\"}"
 }
@@ -65,7 +65,7 @@ mark_deployment_inactive() {
 get_deployment_data() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments" \
   -X GET \
-  -H "Accept: application/vnd.github.v3+json" \
+  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
@@ -73,7 +73,7 @@ get_deployment_data() {
 post_preview_links_comment() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${ACTIONS_PULL_REQUEST_NUMBER}/comments" \
   -X POST \
-  -H "Accept: application/vnd.github.v3+json" \
+  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
   -H "Authorization: token ${GITHUB_TOKEN}" \
   -d "{\"body\": \"The following links are for previewing this pull request:\n- **Dashboard Preview**: ${DASHBOARD_DEPLOY_DOMAIN}\n- **Docs Preview**: ${DOCS_DEPLOY_DOMAIN}\"}"
 }
