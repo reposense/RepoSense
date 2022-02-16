@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script automatically deletes RepoSense and documentation deployments on closed PRs
-# This is intended to be run for the pull_request workflow
+# This is intended to be run for the pull_request_target workflow
 
 # Set to false if unset, ref: http://stackoverflow.com/a/39296583/1320290
 CI=${CI:-false}
@@ -11,7 +11,7 @@ then
   exit 1
 fi
 
-if [ "$GITHUB_EVENT_NAME" != "pull_request" ]
+if [ "$GITHUB_EVENT_NAME" != "pull_request_target" ]
 then
   echo "ERROR: This script is intended to be run for pull_request workflows only!"
   exit 1
@@ -45,7 +45,7 @@ delete_deployment() {
   echo "Deleting Deployment: ${1}"
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1" \
   -X DELETE \
-  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
+  -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
@@ -56,7 +56,7 @@ mark_deployment_inactive() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments/$1/statuses" \
   -X POST \
   -H "Content-Type: application/json" \
-  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
+  -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}" \
   -d "{\"state\": \"inactive\"}"
 }
@@ -65,7 +65,7 @@ mark_deployment_inactive() {
 get_deployment_data() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments" \
   -X GET \
-  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
+  -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}"
 }
 
@@ -73,7 +73,7 @@ get_deployment_data() {
 post_preview_links_comment() {
   curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/issues/${ACTIONS_PULL_REQUEST_NUMBER}/comments" \
   -X POST \
-  -H "Accept: application/vnd.github.flash-preview+json,application/vnd.github.ant-man-preview+json" \
+  -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}" \
   -d "{\"body\": \"The following links are for previewing this pull request:\n- **Dashboard Preview**: ${DASHBOARD_DEPLOY_DOMAIN}\n- **Docs Preview**: ${DOCS_DEPLOY_DOMAIN}\"}"
 }
