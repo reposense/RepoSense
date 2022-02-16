@@ -8,6 +8,7 @@ on:
 
 jobs:
   delete:
+    name: Delete pull request deployments
     runs-on: ubuntu-latest
     env:
       ACTIONS_PULL_REQUEST_HEAD: ${{ github.event.pull_request.head.sha }}
