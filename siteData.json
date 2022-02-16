@@ -119,7 +119,7 @@
         "report-architecture": "Report architecture",
         "javascript-and-vue-files": "Javascript and Vue files",
         "json-report-files": "JSON report files",
-        "main-main-js": "Main (main.js)",
+        "app-app-vue": "App (app.vue)",
         "loading-of-report-information": "Loading of report information",
         "activating-additional-view-modules": "Activating additional view modules",
         "hash-link": "Hash link",

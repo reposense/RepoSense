@@ -29,6 +29,6 @@ with(this){return _c('h3',{attrs:{"id":"publish-on-the-web"}},[_c('span',{static
 with(this){return _c('p',[_v("As RepoSense reports are in a web page format, you can publish a report by simply uploading it onto any web hosting service. Given below are several options that not only allow to publish reports, but "),_c('strong',[_v("also enable various levels of automating")]),_v(" the entire process (e.g., automatically update the report daily).")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.1.1")]),_v(", generated on Wed, Feb 16, 2022, 6:40:25 AM UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.1.1")]),_v(", generated on Wed, Feb 16, 2022, 6:56:57 AM UTC]")])])])}
 }];
   
