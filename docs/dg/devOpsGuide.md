@@ -53,7 +53,7 @@ Both the "Surge.sh pending build" and "Continuous Integration" workflows produce
 
 This task is not performed on commits to the repository, as there is no need to do so.
 
-After the pull request is closed or merged, the Surge.sh deployments are retained, while the GitHub environments for them are cleared by another workflow "Clear deployments for closed pull requests" (defined in [`clear-deploy.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/clear-deploy.yml)). The workflow uses [`delete-deployments.sh`](https://github.com/reposense/RepoSense/blob/master/config/gh-actions/delete-deployments.sh) (found in the `config/gh-actions/` folder) to remove the environments on GitHub, and to leave a comment on the pull request with links to the Surge.sh previews for later reference.
+After the pull request is closed or merged, the Surge.sh deployments are retained, while the GitHub environments for them are cleared by another workflow "Clear deployments for closed pull requests" (defined in [`delete-deploy.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/delete-deploy.yml)). The workflow uses [`delete-deploy.sh`](https://github.com/reposense/RepoSense/blob/master/config/gh-actions/delete-deploy.sh) (found in the `config/gh-actions/` folder) to remove the environments on GitHub, and to leave a comment on the pull request with links to the Surge.sh previews for later reference.
 
 ### GitHub Pages
 
