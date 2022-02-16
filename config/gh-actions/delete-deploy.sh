@@ -61,7 +61,7 @@ mark_deployment_inactive() {
 # Function to get deployment data about repo via a cURL command
 # $1: Deployment environment name
 get_deployment_data() {
-  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments?environment=${1}" \
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments?per_page=100&environment=${1}" \
   -X GET \
   -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}"
