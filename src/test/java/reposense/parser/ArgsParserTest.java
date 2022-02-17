@@ -56,8 +56,8 @@ public class ArgsParserTest {
     private static final String TEST_REPO_CHARLIE = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
-    private static final String DEFAULT_TIMEZONE = "Asia/Singapore";
-    private static final ZoneId DEFAULT_TIME_ZONE_ID = TestUtil.getZoneId(DEFAULT_TIMEZONE);
+    private static final String DEFAULT_TIME_ZONE_STRING = "Asia/Singapore";
+    private static final ZoneId DEFAULT_TIME_ZONE_ID = TestUtil.getZoneId(DEFAULT_TIME_ZONE_STRING);
 
     @Before
     public void before() {
@@ -82,7 +82,7 @@ public class ArgsParserTest {
                 .addFormats("java adoc html css js")
                 .addIgnoreStandaloneConfig()
                 .addView()
-                .addTimezone(DEFAULT_TIMEZONE)
+                .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -117,7 +117,7 @@ public class ArgsParserTest {
     public void parse_allCorrectInputsAlias_success() throws Exception {
         String input = String.format(
                 "-c \"%s\" -o \"%s\" -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -v -t %s",
-                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE, DEFAULT_TIMEZONE);
+                CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE, DEFAULT_TIME_ZONE_STRING);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assert.assertTrue(Files.isSameFile(
@@ -150,7 +150,7 @@ public class ArgsParserTest {
                 .addFormats("java   adoc  html      css js   ")
                 .addIgnoreStandaloneConfig().addWhiteSpace(1)
                 .addView().addWhiteSpace(4)
-                .addTimezone(DEFAULT_TIMEZONE).addWhiteSpace(5)
+                .addTimezone(DEFAULT_TIME_ZONE_STRING).addWhiteSpace(5)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -331,7 +331,7 @@ public class ArgsParserTest {
     public void sinceDate_correctFormat_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER
                 .addSinceDate("01/07/2017")
-                .addTimezone(DEFAULT_TIMEZONE)
+                .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -343,7 +343,7 @@ public class ArgsParserTest {
     public void untilDate_correctFormat_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER
                 .addUntilDate("30/11/2017")
-                .addTimezone(DEFAULT_TIMEZONE)
+                .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -355,7 +355,7 @@ public class ArgsParserTest {
     public void sinceDate_withExtraDate_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER
                 .addSinceDate("\"01/07/2017 01/07/2018\"")
-                .addTimezone(DEFAULT_TIMEZONE)
+                .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -367,7 +367,7 @@ public class ArgsParserTest {
     public void untilDate_withExtraTime_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER
                 .addUntilDate("\"30/11/2017 10:10:10\"")
-                .addTimezone(DEFAULT_TIMEZONE)
+                .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -380,7 +380,7 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER
                 .addSinceDate("01/07/2017")
                 .addPeriod("2d")
-                .addTimezone(DEFAULT_TIMEZONE)
+                .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assert.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -392,7 +392,7 @@ public class ArgsParserTest {
     public void period_inWeeksWithUntilDate_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER
                 .addUntilDate("14/07/2017")
-                .addTimezone(DEFAULT_TIMEZONE)
+                .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .addPeriod("2w")
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
