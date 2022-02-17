@@ -57,6 +57,7 @@ public class ArgsParserTest {
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
 
     private static final String DEFAULT_TIMEZONE = "Asia/Singapore";
+    private static final ZoneId DEFAULT_TIME_ZONE_ID = TestUtil.getZoneId(DEFAULT_TIMEZONE);
 
     @Before
     public void before() {
@@ -103,7 +104,7 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
 
-        Assert.assertEquals(ZoneId.of(DEFAULT_TIMEZONE), cliArguments.getZoneId());
+        Assert.assertEquals(DEFAULT_TIME_ZONE_ID, cliArguments.getZoneId());
     }
 
     @Test(expected = HelpScreenException.class)
@@ -137,7 +138,7 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
 
-        Assert.assertEquals(ZoneId.of(DEFAULT_TIMEZONE), cliArguments.getZoneId());
+        Assert.assertEquals(DEFAULT_TIME_ZONE_ID, cliArguments.getZoneId());
     }
 
     @Test
@@ -171,7 +172,7 @@ public class ArgsParserTest {
 
         Assert.assertTrue(cliArguments.isAutomaticallyLaunching());
 
-        Assert.assertEquals(ZoneId.of(DEFAULT_TIMEZONE), cliArguments.getZoneId());
+        Assert.assertEquals(DEFAULT_TIME_ZONE_ID, cliArguments.getZoneId());
     }
 
     @Test
