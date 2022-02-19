@@ -53,7 +53,7 @@ Should be:
 ```
 
 * If Javadoc is written for a method, all input parameters should be described in the Javadoc, either in the description or through `@param` tags.
-  * If @param tags are used, they must be used for all parameters.
+  * If `@param` tags are used, they must be used for all parameters.
   * This is not necessary (although still recommended) for methods with `@Override` annotations if Javadoc is used. However, if the method that is being overriden is part of your code and has Javadoc, all parameters must be described.
 
 Negative Examples:
@@ -63,7 +63,7 @@ Not okay (Only mentions zoneId parameter):
  * Returns a {@code Date} object adjusted for timezone given by {@code zoneId}.
  */
 public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
-  //Code here
+    //Code here
 }
 
 Not okay (@param tag used only for zoneId)
@@ -74,7 +74,7 @@ Not okay (@param tag used only for zoneId)
  * @param zoneId The timezone ID to adjust the sinceDate to.
  */
 public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
-  //Code here
+    //Code here
 }
 ```
 Positive Example #1:
@@ -85,7 +85,7 @@ Okay (No @param tags):
  * to the timezone given by {@code zoneId}.
  */
 public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
-  //Code here
+    //Code here
 }
 ```
 Positive Example #2:
@@ -99,7 +99,7 @@ Okay (@param tags used for all inputs):
  * @param zoneId The timezone ID to adjust the sinceDate to.
  */
 public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
-  //Code here
+    //Code here
 }
 ```
 
