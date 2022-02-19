@@ -187,7 +187,7 @@ public class FileInfoExtractor {
     /**
      * Traverses each file from the repo root directory, generates the {@code FileInfo} for each relevant file found
      * based on {@code config} and inserts it into {@code fileInfos}.
-     * Adds binary files to {@code List<FileInfo>} if {@code isBinaryFiles} is true. Else, adds non-binary files
+     * Adds binary files to {@code List<FileInfo>} if {@code isBinaryFiles} is true. Otherwise, adds non-binary files
      * to {@code List<FileInfo>}.
      */
     private static List<FileInfo> getAllFileInfo(RepoConfiguration config, boolean isBinaryFiles) {
@@ -240,7 +240,7 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code filePath} is valid and the file is not in binary (I.e. part of {@code textFilesSet}).
+     * Returns true if {@code filePath} is valid and the file is not in binary (i.e. part of {@code textFilesSet}).
      */
     private static boolean isValidTextFile(String filePath, Set<Path> textFilesSet) {
         boolean isValidFilePath;
