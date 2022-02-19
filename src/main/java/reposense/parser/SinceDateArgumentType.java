@@ -23,6 +23,8 @@ public class SinceDateArgumentType extends DateArgumentType {
      * Returns an arbitrary year {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE} if user specifies
      * {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND} in {@code value}, or attempts to return the
      * desired date otherwise.
+     *
+     * @throws ArgumentParserException if the given date cannot be parsed.
      */
     @Override
     public Optional<Date> convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
