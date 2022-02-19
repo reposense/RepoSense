@@ -277,7 +277,8 @@ public class ReportGenerator {
         cloneExecutor.shutdown();
         analyzeExecutor.shutdown();
 
-        List<Path> generatedFiles = jobOutputs.stream()
+        List<Path> generatedFiles = jobOutputs
+                .stream()
                 .flatMap(jobOutput -> jobOutput.getFiles().stream())
                 .collect(Collectors.toList());
 
