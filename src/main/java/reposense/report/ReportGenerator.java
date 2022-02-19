@@ -231,12 +231,10 @@ public class ReportGenerator {
      * Clone, analyze and generate the report for repositories in {@code repoLocationMap}.
      * Performs cloning and analysis of each repository in parallel, and generates the report.
      * Also removes any configs that failed to clone or analyze from {@code configs}.
-     * <p>
      * By default, runs in multi-threaded mode with {@code numCloningThreads} threads for cloning
      * and {@code numAnalysisThreads} threads for analysis.
      * To turn off multi-threading, run the program with the flags
      * {@code --cloning-threads 1 --analysis-threads 1}.
-     * <p>
      * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      *
      * @return A list of paths to the JSON report files generated for each repository.
@@ -304,7 +302,6 @@ public class ReportGenerator {
 
     /**
      * Clones repo specified by {@code config} at {@code location}.
-     * <p>
      * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      *
      * @return A {@code CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was

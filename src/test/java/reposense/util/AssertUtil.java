@@ -16,7 +16,6 @@ public class AssertUtil {
 
     /**
      * Asserts that the {@code callable} throws the {@code expectedException} and the {@code expectedMessage}.
-     * <p>
      * If there's no need for the verification of the exception's error message, call
      * {@code assertThrows(Class<? extends Throwable>, VoidCallable)} instead.
      * {@see assertThrows(Class<? extends Throwable>, VoidCallable)}

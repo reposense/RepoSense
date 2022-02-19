@@ -19,7 +19,6 @@ public class GitRevList {
     /**
      * Returns the latest commit hash at the branch given by {@code branchName} before {@code date}, with {@code Path}
      * given by {@code root} as working directory.
-     * <p>
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
     public static String getCommitHashBeforeDate(String root, String branchName, Date date) {
@@ -36,7 +35,6 @@ public class GitRevList {
     /**
      * Returns the latest commit hash at the branch given by {@code branchName}, inclusive and until the end of
      * the day of {@code date}, with {@code Path} given by {@code root} as working directory.
-     * <p>
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
     public static String getCommitHashUntilDate(String root, String branchName, Date date) {
@@ -54,7 +52,6 @@ public class GitRevList {
      * Returns a list of commit hashes at the branch given by {@code branchName}, separated by newlines,
      * that are within the range of {@code startHash} and {@code endHash}, with the {@code Path} given by {@code root}
      * as working directory.
-     * <p>
      * Both the {@code startHash} and {@code endHash} are guaranteed to be in the list.
      */
     public static String getCommitHashInRange(String root, String branchName, String startHash, String endHash) {

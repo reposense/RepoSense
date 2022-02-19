@@ -14,10 +14,8 @@ import reposense.model.AuthorConfiguration;
 
 /**
  * Analyzes the authorship of a {@code FileInfo} using the given annotations on the file.
- * <p>
  * Only the lines with the format (START OF LINE) COMMENT_SYMBOL @@author ONE_STRING_WITH_NO_SPACE (END OF LINE)
  * will be analyzed. Otherwise, the line will be ignored and treated as normal lines.
- * <p>
  * If the line is analyzed, and the string following the author tag is a valid git id, and there is no author config
  * file, then the code will be attributed to the author with that git id. Otherwise, the code will be attributed to
  * unknown author.
@@ -47,7 +45,6 @@ public class AnnotatorAnalyzer {
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
-     * <p>
      * Updates {@code authorConfig} if a new {@code Author} is found.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
@@ -79,7 +76,6 @@ public class AnnotatorAnalyzer {
     /**
      * Extracts the author name from the given {@code line}, finds out if {@code Author} is already present
      * in {@code authorConfig}, and returns this {@code Author} stored in an {@code Optional}.
-     * <p>
      * Uses {@code currentAnnotatedAuthor} to keep track of which {@code Author} to attribute a line to.
      *
      * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if there is an author config file and
