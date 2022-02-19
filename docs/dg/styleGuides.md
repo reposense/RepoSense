@@ -51,34 +51,7 @@ Should be:
  * Returns a {@code Date} object for {@code sinceDate}.
  */
 ```
-* Related to the above, each line (except for block tags) should not start with punctuation/special characters (except for the leading asterisk and whitespace). Examples:
-```
-Not okay (Second line, excluding the opening '/**', starts with a special character):
-/**
- * Returns a {@code Date} object for {@code sinceDate}.
- * {@code sinceDate} is obtained from the user CLI.
- */
- 
-Should be:
-/**
- * Returns a {@code Date} object for {@code sinceDate}.
- * The {@code sinceDate} is obtained from the user CLI.
- */
-```
-* This applies also for lines which continue from the previous line:
-```
-Also not okay (Second line, which is a continuation from the first line, starts with a special character):
-/**
- * Returns a {@code Date} object by adjusting {@code sinceDate} to the timezone given by 
- * {@code zoneId}.
- */
 
-Should be:
-/**
- * Returns a {@code Date} object by adjusting {@code sinceDate} to the timezone 
- * given by {@code zoneId}.
- */
-```
 * If Javadoc is written for a method, all input parameters should be described in the Javadoc, either in the description or through `@param` tags.
   * If @param tags are used, they must be used for all parameters.
   * This is not necessary (although still recommended) for methods with `@Override` annotations if Javadoc is used. However, if the method that is being overriden is part of your code and has Javadoc, all parameters must be described.
