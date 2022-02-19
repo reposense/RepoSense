@@ -36,14 +36,12 @@ import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitBlame;
 import reposense.git.GitClone;
-import reposense.git.GitLsTree;
 import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
 import reposense.git.GitShow;
 import reposense.git.exception.CommitNotFoundException;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
-import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
@@ -69,7 +67,7 @@ public class ReportGenerator {
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
     private static final String INDEX_PAGE_TEMPLATE = "index.html";
-    private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>RepoSense Report</title>";
+    private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>reposense</title>";
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
@@ -147,7 +145,7 @@ public class ReportGenerator {
                 new SummaryJson(configs, reportConfig, generationDate,
                         TimeUtil.getZonedDateFromSystemDate(reportSinceDate, zoneId),
                         TimeUtil.getZonedDateFromSystemDate(untilDate, zoneId), isSinceDateProvided,
-                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
+                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId.toString()),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
@@ -320,7 +318,6 @@ public class ReportGenerator {
                             + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
-                GitLsTree.validateFilePaths(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
@@ -334,8 +331,6 @@ public class ReportGenerator {
                         configToAnalyze.getBranch(), configToAnalyze.getLocation()), gbe);
                 analysisErrors.add(new AnalysisErrorInfo(configToAnalyze,
                         String.format(LOG_BRANCH_DOES_NOT_EXIST, configToAnalyze.getBranch())));
-            } catch (InvalidFilePathException ipe) {
-                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH));
             } catch (GitCloneException gce) {
                 analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_ERROR_CLONING_OR_BRANCHING));
             } catch (NoAuthorsWithCommitsFoundException nafe) {

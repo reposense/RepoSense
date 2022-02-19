@@ -185,7 +185,7 @@ window.api = {
     window.isUntilDateProvided = data.isUntilDateProvided;
 
     const errorMessages = {};
-    Object.entries(data.errorList).forEach(([repoName, message]) => {
+    Object.entries(data.errorSet).forEach(([repoName, message]) => {
       errorMessages[repoName] = message;
     });
 
@@ -220,7 +220,7 @@ window.api = {
           fileTypeContribution: commits.authorFileTypeContributionMap[author],
         };
 
-        this.setContributionOfCommitResults(obj.dailyCommits);
+        this.setContributionOfCommitResultsAndInsertRepoId(obj.dailyCommits, obj.repoId);
 
         const searchParams = [
             repo.displayName,
@@ -250,10 +250,11 @@ window.api = {
         });
   },
 
-  // calculate and set the contribution of each commitResult, since not provided in json file
-  setContributionOfCommitResults(dailyCommits) {
+  // calculate and set the contribution of each commitResult and insert repoId into commitResult, since not provided in json file
+  setContributionOfCommitResultsAndInsertRepoId(dailyCommits, repoId) {
     dailyCommits.forEach((commit) => {
       commit.commitResults.forEach((result) => {
+        result.repoId = repoId;
         result.insertions = Object.values(result.fileTypesAndContributionMap)
             .reduce((acc, fileType) => acc + fileType.insertions, 0);
         result.deletions = Object.values(result.fileTypesAndContributionMap)
