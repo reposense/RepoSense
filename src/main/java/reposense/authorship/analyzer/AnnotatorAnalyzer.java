@@ -57,7 +57,8 @@ public class AnnotatorAnalyzer {
             currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
 
             if (lineContent.contains(AUTHOR_TAG)) {
-                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig);
+                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig,
+                        currentAnnotatedAuthor);
 
                 boolean endOfAnnotatedSegment =
                         currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
@@ -69,7 +70,7 @@ public class AnnotatorAnalyzer {
                 } else if (isUnknownAuthor) {
                     currentAnnotatedAuthor = Optional.of(Author.UNKNOWN_AUTHOR);
                 } else {
-                    currentAnnotatedAuthor = newAnnotatedAuthor.filter(author -> author.isIgnoringFile(filePath));
+                    currentAnnotatedAuthor = newAnnotatedAuthor.filter(author -> !author.isIgnoringFile(filePath));
                 }
 
                 // Overrides the current line author if it has changed
@@ -86,12 +87,14 @@ public class AnnotatorAnalyzer {
      *
      * @param line Line to be analyzed.
      * @param authorConfig AuthorConfiguration for the analysis of this repo.
+     * @param currentAnnotatedAuthor Current annotated author.
      * @return Optional {@code Author} found in the line.
      */
-    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig) {
+    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
+            Optional<Author> currentAnnotatedAuthor) {
         int formatIndex = checkValidCommentLine(line);
         if (formatIndex < 0) {
-            return Optional.empty();
+            return currentAnnotatedAuthor;
         }
 
         Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
