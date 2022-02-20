@@ -45,6 +45,9 @@ public class AnnotatorAnalyzer {
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
+     *
+     * @param fileInfo FileInfo to be further analyzed with author annotations.
+     * @param authorConfig AuthorConfiguration for current analysis.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
         Optional<Author> currentAnnotatedAuthor = Optional.empty();
@@ -76,12 +79,14 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Extracts the author name from the given {@code line}, finds the corresponding {@code Author}
-     * in {@code authorAliasMap}, and returns this {@code Author} stored in an {@code Optional}.
-     * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if there is an author config file and
-     *              no matching {@code Author} is found,
-     *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
-     *         {@code Optional.of(Author#tagged author)} otherwise.
+     * Returns an optional {@code Author} corresponding to the @@author tag in {@code line}.
+     * It looks for the corresponding {@code Author} object in the {@code authorAliasMap} inside
+     * {@code authorConfig} and returns it. If an author config file is specified and the
+     * author name found is not in it, then it returns {@code Author#UNKNOWN_AUTHOR} instead.
+     *
+     * @param line Line to be analyzed.
+     * @param authorConfig AuthorConfiguration for the analysis of this repo.
+     * @return Optional {@code Author} found in the line.
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig) {
         int formatIndex = checkValidCommentLine(line);
@@ -100,7 +105,7 @@ public class AnnotatorAnalyzer {
     /**
      * Extracts the name that follows the specific format.
      *
-     * @return an empty string if no such author was found, the new author name otherwise
+     * @return An optional string containing the author's name.
      */
     public static Optional<String> extractAuthorName(String line, int formatIndex) {
         return Optional.of(line)
