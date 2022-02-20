@@ -51,24 +51,30 @@ public class AnnotatorAnalyzer {
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             String lineContent = lineInfo.getContent();
+            currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
+
             if (lineContent.contains(AUTHOR_TAG)) {
                 int formatIndex = checkValidCommentLine(lineContent);
                 if (formatIndex >= 0) {
-                    Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig,
-                            currentAnnotatedAuthor, formatIndex);
+                    Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig, formatIndex);
 
-                    if (!newAnnotatedAuthor.isPresent()) {
-                        // end of an author tag should belong to the current author too.
-                        lineInfo.setAuthor(currentAnnotatedAuthor.get());
-                    } else if (newAnnotatedAuthor.get().isIgnoringFile(filePath)) {
-                        newAnnotatedAuthor = Optional.empty();
+                    boolean endOfAnnotatedSegment =
+                            currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
+                    boolean isUnknownAuthor =
+                            !newAnnotatedAuthor.isPresent() && !currentAnnotatedAuthor.isPresent();
+
+                    if (endOfAnnotatedSegment) {
+                        currentAnnotatedAuthor = Optional.empty();
+                    } else if (isUnknownAuthor) {
+                        currentAnnotatedAuthor = Optional.of(Author.UNKNOWN_AUTHOR);
+                    } else {
+                        currentAnnotatedAuthor = newAnnotatedAuthor.filter(author -> author.isIgnoringFile(filePath));
                     }
-
-                    //set a new author
-                    currentAnnotatedAuthor = newAnnotatedAuthor;
                 }
+
+                // Overrides the current line author if it has changed
+                currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
             }
-            currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
         }
     }
 
@@ -80,14 +86,9 @@ public class AnnotatorAnalyzer {
      *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
      *         {@code Optional.of(Author#tagged author)} otherwise.
      */
-    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
-            Optional<Author> currentAnnotatedAuthor, int formatIndex) {
+    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig, int formatIndex) {
         Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
         Optional<String> optionalName = extractAuthorName(line, formatIndex);
-
-        if (!optionalName.isPresent()) {
-            return !currentAnnotatedAuthor.isPresent() ? Optional.of(Author.UNKNOWN_AUTHOR) : Optional.empty();
-        }
 
         optionalName.filter(name -> !authorAliasMap.containsKey(name) && !AuthorConfiguration.hasAuthorConfigFile())
                 .ifPresent(name -> authorConfig.addAuthor(new Author(name)));
