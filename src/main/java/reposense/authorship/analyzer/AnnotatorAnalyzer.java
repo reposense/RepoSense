@@ -51,7 +51,7 @@ public class AnnotatorAnalyzer {
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             String lineContent = lineInfo.getContent();
-            if (lineContent.contains("@@author")) {
+            if (lineContent.contains(AUTHOR_TAG)) {
                 int formatIndex = checkValidCommentLine(lineContent);
                 if (formatIndex >= 0) {
                     Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig,
@@ -81,27 +81,17 @@ public class AnnotatorAnalyzer {
      *         {@code Optional.of(Author#tagged author)} otherwise.
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
-                                                     Optional<Author> currentAnnotatedAuthor, int formatIndex) {
-        try {
-            Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
-            String name = extractAuthorName(line, formatIndex);
-            if (name == null) {
-                if (!currentAnnotatedAuthor.isPresent()) {
-                    // Attribute to unknown author if an empty author tag was provided, but not as an end author tag
-                    return Optional.of(Author.UNKNOWN_AUTHOR);
-                }
-                return Optional.empty();
-            }
-            if (!authorAliasMap.containsKey(name) && !AuthorConfiguration.hasAuthorConfigFile()) {
-                authorConfig.addAuthor(new Author(name));
-            }
-            return Optional.of(authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR));
-        } catch (ArrayIndexOutOfBoundsException e) {
-            if (!currentAnnotatedAuthor.isPresent()) {
-                return Optional.of(Author.UNKNOWN_AUTHOR);
-            }
-            return Optional.empty();
+            Optional<Author> currentAnnotatedAuthor, int formatIndex) {
+        Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
+        Optional<String> optionalName = extractAuthorName(line, formatIndex);
+
+        if (!optionalName.isPresent()) {
+            return !currentAnnotatedAuthor.isPresent() ? Optional.of(Author.UNKNOWN_AUTHOR) : Optional.empty();
         }
+
+        optionalName.filter(name -> !authorAliasMap.containsKey(name) && !AuthorConfiguration.hasAuthorConfigFile())
+                .ifPresent(name -> authorConfig.addAuthor(new Author(name)));
+        return optionalName.map(name -> authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR));
     }
 
     /**
@@ -109,22 +99,17 @@ public class AnnotatorAnalyzer {
      *
      * @return an empty string if no such author was found, the new author name otherwise
      */
-    public static String extractAuthorName(String line, int formatIndex) {
-        String[] splitByAuthorTag = line.split(AUTHOR_TAG);
-        if (splitByAuthorTag.length < 2) {
-            return null;
-        }
-
-        String[] splitByCommentFormat = splitByAuthorTag[1].trim().split(COMMENT_FORMATS[formatIndex][1]);
-        if (splitByCommentFormat.length == 0) {
-            return null;
-        }
-        String authorTagParameters = splitByCommentFormat[0];
-        String trimmedParameters = authorTagParameters.trim();
-        Matcher matcher = PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters);
-
-        boolean foundMatch = matcher.find();
-        return (foundMatch) ? trimmedParameters : null;
+    public static Optional<String> extractAuthorName(String line, int formatIndex) {
+        return Optional.of(line)
+                // gets component after AUTHOR_TAG
+                .map(l -> l.split(AUTHOR_TAG))
+                .filter(array -> array.length >= 2)
+                // separates by end-comment format to obtain the author's name at the zeroth index
+                .map(array -> array[1].trim().split(COMMENT_FORMATS[formatIndex][1]))
+                .filter(array -> array.length > 0)
+                .map(array -> array[0].trim())
+                // checks if the author name is valid
+                .filter(trimmedParameters -> PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters).find());
     }
 
     private static String generateCommentRegex(String commentStart, String commentEnd) {
