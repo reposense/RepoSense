@@ -37,7 +37,7 @@
           font-awesome-icon.icon-button(:icon="['fas', 'chevron-down']")
           span.tooltip-text Click to expand group
       a(
-        v-if="filterGroupSelection === 'groupByRepos'",
+        v-if="filterGroupSelection === 'groupByRepos' && hasValidRemote(repo[0])",
         v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
@@ -100,7 +100,7 @@
         ) {{ user.displayName }} ({{ user.name }})
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
         a(
-          v-if="filterGroupSelection !== 'groupByRepos'",
+          v-if="filterGroupSelection !== 'groupByRepos' && hasValidRemote(repo[j])",
           v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
@@ -303,6 +303,10 @@ export default {
 
     getAuthorProfileLink(userName) {
       return `https://github.com/${userName}`;
+    },
+
+    hasValidRemote(repo) {
+      return window.hasValidRemote(repo.repoId);
     },
 
     getRepoLink(repo) {
