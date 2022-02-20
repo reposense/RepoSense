@@ -26,6 +26,8 @@ public class GroupConfigParserTest {
             "GroupConfigParserTest/groupconfig_missingOptionalHeader_test.csv");
     private static final Path GROUP_CONFIG_MISSING_MANDATORY_HEADER_FILE = loadResource(GroupConfigParserTest.class,
             "GroupConfigParserTest/groupconfig_missingMandatoryHeader_test.csv");
+    private static final Path GROUP_CONFIG_UNKNOWN_HEADER_FILE = loadResource(GroupConfigParserTest.class,
+            "GroupConfigParserTest/groupconfig_unknownHeader_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final List<FileType> TEST_REPO_BETA_GROUPS = Arrays.asList(
@@ -108,6 +110,13 @@ public class GroupConfigParserTest {
     public void groupConfig_missingMandatoryHeader_throwsInvalidCsvException() throws Exception {
         GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(
                 GROUP_CONFIG_MISSING_MANDATORY_HEADER_FILE);
+        groupConfigCsvParser.parse();
+    }
+
+    @Test (expected = InvalidHeaderException.class)
+    public void groupConfig_unknownHeader_throwsInvalidHeaderException() throws Exception {
+        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(
+                GROUP_CONFIG_UNKNOWN_HEADER_FILE);
         groupConfigCsvParser.parse();
     }
 }
