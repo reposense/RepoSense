@@ -54,22 +54,19 @@ public class AnnotatorAnalyzer {
             currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
 
             if (lineContent.contains(AUTHOR_TAG)) {
-                int formatIndex = checkValidCommentLine(lineContent);
-                if (formatIndex >= 0) {
-                    Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig, formatIndex);
+                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig);
 
-                    boolean endOfAnnotatedSegment =
-                            currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
-                    boolean isUnknownAuthor =
-                            !newAnnotatedAuthor.isPresent() && !currentAnnotatedAuthor.isPresent();
+                boolean endOfAnnotatedSegment =
+                        currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
+                boolean isUnknownAuthor =
+                        !newAnnotatedAuthor.isPresent() && !currentAnnotatedAuthor.isPresent();
 
-                    if (endOfAnnotatedSegment) {
-                        currentAnnotatedAuthor = Optional.empty();
-                    } else if (isUnknownAuthor) {
-                        currentAnnotatedAuthor = Optional.of(Author.UNKNOWN_AUTHOR);
-                    } else {
-                        currentAnnotatedAuthor = newAnnotatedAuthor.filter(author -> author.isIgnoringFile(filePath));
-                    }
+                if (endOfAnnotatedSegment) {
+                    currentAnnotatedAuthor = Optional.empty();
+                } else if (isUnknownAuthor) {
+                    currentAnnotatedAuthor = Optional.of(Author.UNKNOWN_AUTHOR);
+                } else {
+                    currentAnnotatedAuthor = newAnnotatedAuthor.filter(author -> author.isIgnoringFile(filePath));
                 }
 
                 // Overrides the current line author if it has changed
@@ -86,7 +83,12 @@ public class AnnotatorAnalyzer {
      *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
      *         {@code Optional.of(Author#tagged author)} otherwise.
      */
-    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig, int formatIndex) {
+    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig) {
+        int formatIndex = checkValidCommentLine(line);
+        if (formatIndex < 0) {
+            return Optional.empty();
+        }
+
         Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
         Optional<String> optionalName = extractAuthorName(line, formatIndex);
 
