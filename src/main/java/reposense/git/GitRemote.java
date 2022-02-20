@@ -1,11 +1,11 @@
 package reposense.git;
 
-import reposense.system.CommandRunner;
-
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import reposense.system.CommandRunner;
 
 /***
  * Contains git remote related functionality.

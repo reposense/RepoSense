@@ -27,15 +27,6 @@ public class RepoLocation {
     private final String repoName;
     private String organization;
 
-    public static boolean isLocalRepo(String repoArgument) {
-        if (!repoArgument.contains(":")) {
-            return true;
-        }
-
-        return repoArgument.split(":", 2)[0].contains("/");
-    }
-
-
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
@@ -66,6 +57,17 @@ public class RepoLocation {
         } else {
             repoName = Paths.get(location).getFileName().toString().replace(GIT_LINK_SUFFIX, "");
         }
+    }
+
+    /**
+     * Returns of repo is local
+     */
+    public static boolean isLocalRepo(String repoArgument) {
+        if (!repoArgument.contains(":")) {
+            return true;
+        }
+
+        return repoArgument.split(":", 2)[0].contains("/");
     }
 
     public boolean isEmpty() {
