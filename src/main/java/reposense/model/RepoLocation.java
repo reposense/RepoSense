@@ -32,12 +32,7 @@ public class RepoLocation {
             return true;
         }
 
-        boolean hasSlashBeforeFirstColon = repoArgument.split(":", 2)[0].contains("/");
-        if (hasSlashBeforeFirstColon) {
-            return true;
-        }
-
-        return false;
+        return repoArgument.split(":", 2)[0].contains("/");
     }
 
 
@@ -52,12 +47,13 @@ public class RepoLocation {
         this.location = location;
         Matcher matcher;
         if (isLocalRepo(location)) {
-            // Error check pending
             Map<String, String> remotes = GitRemote.getRemotes(location);
             String newLocation = remotes.size() == 0
                     ? location
-                    : remotes.containsKey("origin")
-                    ? remotes.get("origin")
+                    : remotes.containsKey("origin(fetch)")
+                    // Get fetch remote named 'origin' if possible
+                    ? remotes.get("origin(fetch)")
+                    // Get any remote otherwise
                     : remotes.values().iterator().next();
             matcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(newLocation);
         } else {

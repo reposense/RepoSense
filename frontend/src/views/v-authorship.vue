@@ -111,7 +111,7 @@
                 font-awesome-icon.button(icon="history")
                 span.tooltip-text Click to view the history view of file
             a(
-              v-if='!file.isBinary',
+              v-if='!file.isBinary && hasValidRemote(info)',
               v-bind:href="getFileLink(file, 'blame')", target="_blank",
               title="click to view the blame view of file"
             )
@@ -361,6 +361,10 @@ export default {
             : repo.commits.authorFinalContributionMap[author] > 0;
       }
       return false;
+    },
+
+    hasValidRemote(info) {
+      return window.hasValidRemote(info.repo);
     },
 
     splitSegments(lines) {

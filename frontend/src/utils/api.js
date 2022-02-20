@@ -120,6 +120,11 @@ window.toggleNext = function toggleNext(ele) {
   parent.className = classes.join(' ');
 };
 
+window.hasValidRemote = function hasValidRemote(repoId) {
+  return !!(window.REPOS[repoId].location.organization)
+      && !!(window.REPOS[repoId].location.repoName);
+};
+
 window.getBaseLink = function getBaseLink(repoId) {
   return `${window.BASE_URL}/${
     window.REPOS[repoId].location.organization}/${
