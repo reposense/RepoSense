@@ -46,7 +46,7 @@ public class RepoLocation {
         verifyLocation(location);
         this.location = location;
         Matcher matcher;
-        if (isLocalRepo(location)) {
+        if (isLocalRepo(location) && !location.equals("")) {
             Map<String, String> remotes = GitRemote.getRemotes(location);
             String newLocation = remotes.size() == 0
                     ? location
