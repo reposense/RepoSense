@@ -5,13 +5,11 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
@@ -26,7 +24,6 @@ import reposense.model.RepoConfiguration;
 public class TestUtil {
     private static final int[] END_OF_DAY_TIME = {23, 59, 59};
     private static final int[] START_OF_DAY_TIME = {0, 0, 0};
-    private static final ZoneId TIME_ZONE_ID = getZoneId("Asia/Singapore");
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
     private static final String MESSAGE_LINE_CONTENT_DIFFERENT = "Content different at line number %d:\n"
@@ -105,27 +102,18 @@ public class TestUtil {
     }
 
     /**
-     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}
+     * Creates and returns a {@code LocalDateTime} object with the specified {@code year}, {@code month}, {@code day}
      * and {@code time}.
      */
-    public static Date getDate(int year, int month, int date, int[] time) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeZone(TimeZone.getTimeZone(TIME_ZONE_ID));
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
-        cal.set(Calendar.DAY_OF_MONTH, date);
-        cal.set(Calendar.HOUR_OF_DAY, time[0]);
-        cal.set(Calendar.MINUTE, time[1]);
-        cal.set(Calendar.SECOND, time[2]);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTime();
+    public static LocalDateTime getDate(int year, int month, int date, int[] time) {
+        return LocalDateTime.of(year, month, date, time[0], time[1], time[2], 0);
     }
 
     /**
      * Wrapper for {@code getDate} method to get since date with time 00:00:00
      * from the parameters {@code year}, {@code month}, {@code date}.
      */
-    public static Date getSinceDate(int year, int month, int date) {
+    public static LocalDateTime getSinceDate(int year, int month, int date) {
         return getDate(year, month, date, START_OF_DAY_TIME);
     }
 
@@ -133,41 +121,8 @@ public class TestUtil {
      * Wrapper for {@code getDate} method to get until date with time 23:59:59
      * from the parameters {@code year}, {@code month}, {@code date}.
      */
-    public static Date getUntilDate(int year, int month, int date) {
+    public static LocalDateTime getUntilDate(int year, int month, int date) {
         return getDate(year, month, date, END_OF_DAY_TIME);
-    }
-
-    /**
-     * Creates and returns a {@code Date} object with the specified {@code year}, {@code month}, {@code day}
-     * and {@code time} that is not dependent on the time zone of the current system, in cases where adjusting
-     * for the time zone is not necessary.
-     */
-    public static Date getLocalDate(int year, int month, int date, int[] time) {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.YEAR, year);
-        cal.set(Calendar.MONTH, month);
-        cal.set(Calendar.DAY_OF_MONTH, date);
-        cal.set(Calendar.HOUR_OF_DAY, time[0]);
-        cal.set(Calendar.MINUTE, time[1]);
-        cal.set(Calendar.SECOND, time[2]);
-        cal.set(Calendar.MILLISECOND, 0);
-        return cal.getTime();
-    }
-
-    /**
-     * Wrapper for {@code getLocalDate} method to get since date with time 00:00:00
-     * from the parameters {@code year}, {@code month}, {@code date}.
-     */
-    public static Date getLocalSinceDate(int year, int month, int date) {
-        return getLocalDate(year, month, date, START_OF_DAY_TIME);
-    }
-
-    /**
-     * Wrapper for {@code getLocalDate} method to get until date with time 23:59:59
-     * from the parameters {@code year}, {@code month}, {@code date}.
-     */
-    public static Date getLocalUntilDate(int year, int month, int date) {
-        return getLocalDate(year, month, date, END_OF_DAY_TIME);
     }
 
     /**

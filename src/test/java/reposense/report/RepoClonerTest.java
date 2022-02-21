@@ -16,7 +16,6 @@ public class RepoClonerTest {
 
     private static final String TEST_REPO_EMPTY_GIT_LOCATION = "https://github.com/reposense/testrepo-Empty.git";
     private static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
-    private static final String OUTPUT_PATH = "repocloner_test";
     private static final Path REPOCLONE_LOCAL_TEST_PATH =
             Paths.get(FileUtil.REPOS_ADDRESS, "repoclone test/dummy-repo");
 

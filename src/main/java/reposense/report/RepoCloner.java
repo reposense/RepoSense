@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,7 +100,7 @@ public class RepoCloner {
             }
 
             String partialBareRoot = FileUtil.getPartialBareRepoPath(config).toString();
-            Date sinceDate;
+            LocalDateTime sinceDate;
             try {
                 List<String> distinctParents = graftedCommitParents.stream().distinct().collect(Collectors.toList());
                 sinceDate = GitShow.getEarliestCommitDate(partialBareRoot, distinctParents);
@@ -201,7 +201,7 @@ public class RepoCloner {
      * Should only handle a maximum of one spawned process at any time.
      * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      */
-    private boolean spawnShallowCloneProcess(RepoConfiguration config, Date shallowSinceDate,
+    private boolean spawnShallowCloneProcess(RepoConfiguration config, LocalDateTime shallowSinceDate,
             boolean shouldFreshClone) {
         assert(crp == null);
 
