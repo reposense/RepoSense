@@ -147,7 +147,7 @@ public class GitClone {
         } else if (SystemUtil.isTestEnvironment() && Files.exists(outputFolderPath)) {
             return;
         }
-        String command = getCloneBareCommand(config, addQuote(outputFolderName));
+        String command = getCloneBareCommand(config, outputFolderName);
         runCommand(rootPath, command);
     }
 

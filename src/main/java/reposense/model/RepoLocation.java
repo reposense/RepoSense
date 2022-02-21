@@ -27,7 +27,7 @@ public class RepoLocation {
     private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
             Pattern.compile("^.*?:(?<path>[^/].*?)??/??(?<repoName>[^/]+?)(\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_NON_WINDOWS_LOCATION_PATTERN =
-            Pattern.compile("^(file:/*+)?(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
+            Pattern.compile("^(file://)?(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN =
             Pattern.compile("^(?<path>.*?)\\\\?(?<repoName>[^\\\\]+?)(\\\\?\\.git)?\\\\?$");
     private static final String GROUP_REPO_NAME = "repoName";
