@@ -305,7 +305,7 @@ public class ReportGenerator {
      * successful, and the {@code defaultBranch} of the repo.
      */
     private static CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location,
-                                            boolean shouldFreshClone) {
+            boolean shouldFreshClone) {
         RepoCloner repoCloner = new RepoCloner();
         repoCloner.cloneBare(config, shouldFreshClone);
         RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
