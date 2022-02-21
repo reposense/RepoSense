@@ -288,7 +288,7 @@ export default {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
 
-      const cnt = parseInt(totalContribution / contributionLimit, 10);
+      const cnt = Math.floor(totalContribution / contributionLimit);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
         res.push(100);
       }

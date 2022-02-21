@@ -1,7 +1,5 @@
 describe('hide all commit messages ', () => {
   it('check hide all commit messages hides the commit messages', () => {
-    Cypress.wait();
-
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
@@ -29,8 +27,6 @@ describe('hide all commit messages ', () => {
   });
 
   it('check show all commit messages show the commit messages', () => {
-    Cypress.wait();
-
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')

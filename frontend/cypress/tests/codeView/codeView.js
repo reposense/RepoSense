@@ -20,26 +20,18 @@ describe('code view', () => {
     cy.get('#tabs-wrapper')
         .should('be.visible');
 
-    Cypress.wait();
-
     cy.get('#app #tab-resize .tab-close')
         .click();
-
-    Cypress.wait();
 
     cy.get('#tabs-wrapper')
         .should('not.exist');
   });
 
   it('merge group and view code for entire repository', () => {
-    Cypress.wait(); // ensure everything is loaded
-
     cy.get('#summary label.merge-group > input')
         .should('be.visible')
         .check({ force: true })
         .should('be.checked');
-
-    Cypress.wait();
 
     cy.get('.icon-button.fa-code')
         .should('be.visible')

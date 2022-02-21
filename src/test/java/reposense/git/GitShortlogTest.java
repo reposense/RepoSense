@@ -1,7 +1,7 @@
 package reposense.git;
 
+import java.time.Month;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Assert;
@@ -35,8 +35,8 @@ public class GitShortlogTest extends GitTestTemplate {
         List<Author> expectedAuthorList = new ArrayList<>();
 
         expectedAuthorList.add(new Author("eugenepeh"));
-        config.setSinceDate(TestUtil.getSinceDate(2018, Calendar.MAY, 5));
-        config.setUntilDate(TestUtil.getUntilDate(2018, Calendar.MAY, 10));
+        config.setSinceDate(TestUtil.getSinceDate(2018, Month.MAY.getValue(), 5));
+        config.setUntilDate(TestUtil.getUntilDate(2018, Month.MAY.getValue(), 10));
 
         List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 
@@ -46,8 +46,8 @@ public class GitShortlogTest extends GitTestTemplate {
 
     @Test
     public void getAuthors_validRepoDateOutOfRange_success() {
-        config.setSinceDate(TestUtil.getSinceDate(2018, Calendar.JUNE, 1));
-        config.setUntilDate(TestUtil.getUntilDate(2018, Calendar.JUNE, 20));
+        config.setSinceDate(TestUtil.getSinceDate(2018, Month.JUNE.getValue(), 1));
+        config.setUntilDate(TestUtil.getUntilDate(2018, Month.JUNE.getValue(), 20));
 
         List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 

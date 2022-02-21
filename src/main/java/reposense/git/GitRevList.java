@@ -4,8 +4,10 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,32 +19,35 @@ public class GitRevList {
     private static final String REVISION_PATH_SEPARATOR = " -- ";
 
     /**
-     * Returns the latest commit hash before {@code date}.
+     * Returns the latest commit hash before {@code date}, with {@code ZoneId} taken into account.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
-    public static String getCommitHashBeforeDate(String root, String branchName, Date date) {
+    public static String getCommitHashBeforeDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
         if (date == null) {
             return "";
         }
 
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list -1 --before="
-                + GitUtil.GIT_LOG_SINCE_DATE_FORMAT.format(date) + " " + branchName + REVISION_PATH_SEPARATOR;
+                + GitUtil.GIT_LOG_SINCE_DATE_FORMAT.format(ZonedDateTime.of(date, zoneId))
+                + " " + branchName + REVISION_PATH_SEPARATOR;
         return runCommand(rootPath, revListCommand);
     }
 
     /**
-     * Returns the latest commit hash inclusive and until the end of the day of {@code date}.
+     * Returns the latest commit hash inclusive and until the end of the day of {@code date},
+     * with {@code ZoneId} taken into account.
      * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      */
-    public static String getCommitHashUntilDate(String root, String branchName, Date date) {
+    public static String getCommitHashUntilDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
         if (date == null) {
             return "";
         }
 
         Path rootPath = Paths.get(root);
         String revListCommand = "git rev-list -1 --before="
-                + GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.format(date) + " " + branchName + REVISION_PATH_SEPARATOR;
+                + GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.format(ZonedDateTime.of(date, zoneId))
+                + " " + branchName + REVISION_PATH_SEPARATOR;
         return runCommand(rootPath, revListCommand);
     }
 

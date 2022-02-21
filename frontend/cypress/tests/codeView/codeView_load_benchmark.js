@@ -17,9 +17,6 @@ describe('load code view benchmark', () => {
   const timeTrial = function (i) {
     let startTime;
 
-    // ensure that icons are loaded
-    Cypress.wait();
-
     cy.get('#summary-wrapper .sort-within-group select').select(
         'totalCommits dsc',
     );

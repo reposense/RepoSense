@@ -5,9 +5,8 @@
       a.ramp__slice(
         draggable="false",
         v-on:click="rampClick",
-        v-for="(commit, k) in slice.commitResults",
-        v-if="commit.insertions>0",
-        v-bind:href="getLink(user, commit)", target="_blank",
+        v-for="(commit, k) in slice.commitResults.filter(commitResult => commitResult.insertions > 0)",
+        v-bind:href="getLink(commit)", target="_blank",
         v-bind:title="getContributionMessage(slice, commit)",
         v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
         v-bind:style="{\
@@ -21,8 +20,7 @@
   template(v-else)
     a.ramp__slice(
       draggable="false",
-      v-for="(slice, j) in user.commits",
-      v-if="slice.insertions > 0",
+      v-for="(slice, j) in user.commits.filter(commit => commit.insertions > 0)",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
       v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
@@ -45,12 +43,8 @@ export default {
   },
 
   methods: {
-    getLink(user, slice) {
-      if (this.mergegroup) {
-        return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
-      }
-
-      return `${window.getBaseLink(user.repoId)}/commit/${slice.hash}`;
+    getLink(commit) {
+      return `${window.getBaseLink(commit.repoId)}/commit/${commit.hash}`;
     },
     getWidth(slice) {
       if (slice.insertions === 0) {

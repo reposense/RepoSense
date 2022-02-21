@@ -4,9 +4,11 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +22,12 @@ import reposense.model.RepoConfiguration;
 public class GitShortlog {
 
     /**
-     * Extracts all the author identities from the repository and date range given in {@code config}.
+     * Extracts all the author identities from the repository and date range given in {@code config},
+     * with the timezone taken into account.
      */
     public static List<Author> getAuthors(RepoConfiguration config) {
         String summary = getShortlogSummary(
-                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate());
+                config.getRepoRoot(), config.getSinceDate(), config.getUntilDate(), ZoneId.of(config.getZoneId()));
 
         if (summary.isEmpty()) {
             return Collections.emptyList();
@@ -36,10 +39,11 @@ public class GitShortlog {
                 .collect(Collectors.toList());
     }
 
-    private static String getShortlogSummary(String root, Date sinceDate, Date untilDate) {
+    private static String getShortlogSummary(String root, LocalDateTime sinceDate,
+            LocalDateTime untilDate, ZoneId zoneId) {
         Path rootPath = Paths.get(root);
         String command = "git log --pretty=short";
-        command += GitUtil.convertToGitDateRangeArgs(sinceDate, untilDate);
+        command += GitUtil.convertToGitDateRangeArgs(sinceDate, untilDate, zoneId);
         command += " | git shortlog --summary";
 
         return runCommand(rootPath, command);
