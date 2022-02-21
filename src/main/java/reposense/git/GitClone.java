@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,7 +51,7 @@ public class GitClone {
      * @throws GitCloneException when an error occurs during command execution.
      */
     public static CommandRunnerProcess cloneShallowBareAsync(RepoConfiguration config, Path rootPath,
-                                                  String outputFolderName, Date sinceDate) throws GitCloneException {
+            String outputFolderName, LocalDateTime sinceDate) throws GitCloneException {
         try {
             return CommandRunner.runCommandAsync(rootPath,
                                                     getCloneShallowBareCommand(config, outputFolderName, sinceDate));
@@ -67,7 +67,7 @@ public class GitClone {
      * @throws GitCloneException when an error occurs during command execution.
      */
     public static void clonePartialBare(RepoConfiguration config, Path rootPath,
-                                                      String outputFolderName) throws GitCloneException {
+            String outputFolderName) throws GitCloneException {
         try {
             CommandRunner.runCommand(rootPath, getClonePartialBareCommand(config, outputFolderName));
             return;
@@ -83,7 +83,7 @@ public class GitClone {
      * @throws GitCloneException when an error occurs during command execution.
      */
     public static void cloneShallowPartialBare(RepoConfiguration config, Path rootPath,
-                                                  String outputFolderName, Date sinceDate) throws GitCloneException {
+            String outputFolderName, LocalDateTime sinceDate) throws GitCloneException {
         try {
             CommandRunner.runCommand(rootPath, getCloneShallowPartialBareCommand(config, outputFolderName, sinceDate));
             return;
@@ -209,7 +209,7 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneShallowBareCommand(RepoConfiguration config,
-                                                    String outputFolderName, Date shallowSinceDate) {
+            String outputFolderName, LocalDateTime shallowSinceDate) {
         return "git clone --bare --shallow-since="
                 + addQuote(shallowSinceDate.toString()) + " "
                 + addQuote(config.getLocation().toString()) + " "
@@ -231,7 +231,7 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneShallowPartialBareCommand(RepoConfiguration config,
-                                                            String outputFolderName, Date shallowSinceDate) {
+            String outputFolderName, LocalDateTime shallowSinceDate) {
         return "git clone --bare --filter=blob:none --shallow-since="
                 + addQuote(shallowSinceDate.toString()) + " "
                 + addQuote(config.getLocation().toString()) + " "
