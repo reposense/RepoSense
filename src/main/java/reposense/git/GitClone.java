@@ -170,8 +170,8 @@ public class GitClone {
             return;
         }
 
-        String command = String.format(
-                "git clone %s --branch %s %s", relativePath, config.getBranch(), outputFolderName);
+        String command = String.format("git clone %s --branch %s %s", addQuote(relativePath.toString()),
+                config.getBranch(), addQuote(outputFolderName));
 
         try {
             runCommand(rootPath, command);
@@ -188,7 +188,7 @@ public class GitClone {
      */
     private static String getCloneCommand(RepoConfiguration config, String outputFolderName) {
         return "git clone " + addQuote(config.getLocation().toString()) + " "
-                + outputFolderName;
+                + addQuote(outputFolderName);
     }
 
     /**
@@ -198,7 +198,7 @@ public class GitClone {
     private static String getCloneBareCommand(RepoConfiguration config, String outputFolderName) {
         String output = "git clone --bare "
                 + addQuote(config.getLocation().toString()) + " "
-                + outputFolderName;
+                + addQuote(outputFolderName);
         return output;
     }
 
@@ -211,7 +211,7 @@ public class GitClone {
         return "git clone --bare --shallow-since="
                 + addQuote(shallowSinceDate.toString()) + " "
                 + addQuote(config.getLocation().toString()) + " "
-                + outputFolderName;
+                + addQuote(outputFolderName);
     }
 
     /**
@@ -221,7 +221,7 @@ public class GitClone {
     private static String getClonePartialBareCommand(RepoConfiguration config, String outputFolderName) {
         return "git clone --bare --filter=blob:none "
                 + addQuote(config.getLocation().toString()) + " "
-                + outputFolderName;
+                + addQuote(outputFolderName);
     }
 
     /**
@@ -233,6 +233,6 @@ public class GitClone {
         return "git clone --bare --filter=blob:none --shallow-since="
                 + addQuote(shallowSinceDate.toString()) + " "
                 + addQuote(config.getLocation().toString()) + " "
-                + outputFolderName;
+                + addQuote(outputFolderName);
     }
 }

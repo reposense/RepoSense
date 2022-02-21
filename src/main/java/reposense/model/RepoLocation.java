@@ -110,6 +110,7 @@ public class RepoLocation {
         if (isWindows) {
             location = location.replaceAll("file:/*", "");
             location = location.replaceAll("/", "\\\\");
+            location = location.replaceAll("[|:]", "-");
         }
         Pattern localRepoPattern = isWindows
                 ? LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN
