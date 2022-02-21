@@ -31,7 +31,6 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final int NUMBER_EMPTY_MESSAGE_COMMIT = 1;
     private static final FileType FILETYPE_JAVA = new FileType("java", Collections.singletonList("**java"));
     private static final FileType FILETYPE_MD = new FileType("md", Collections.singletonList("**md"));
-    private static final FileType FILETYPE_JSON = new FileType("json", Collections.singletonList("**json"));
     private static final FileType FILETYPE_TXT = new FileType("txt", Collections.singletonList("**txt"));
     private static final String DUPLICATE_AUTHORS_DUPLICATE_COMMITS_HASH = "f34c20ec2c3be63e0764d4079a575dd75269ffeb";
 
