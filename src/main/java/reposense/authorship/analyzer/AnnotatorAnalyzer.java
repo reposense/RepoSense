@@ -54,28 +54,21 @@ public class AnnotatorAnalyzer {
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             String lineContent = lineInfo.getContent();
-            currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
-
-            if (lineContent.contains(AUTHOR_TAG)) {
-                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig,
-                        currentAnnotatedAuthor);
-
-                boolean endOfAnnotatedSegment =
-                        currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
-                boolean isUnknownAuthor =
-                        !newAnnotatedAuthor.isPresent() && !currentAnnotatedAuthor.isPresent();
+            if (lineContent.contains(AUTHOR_TAG) && isValidCommentLine(lineContent)) {
+                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig);
+                boolean endOfAnnotatedSegment = currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
+                boolean isUnknownAuthor = !newAnnotatedAuthor.isPresent() && !currentAnnotatedAuthor.isPresent();
 
                 if (endOfAnnotatedSegment) {
+                    lineInfo.setAuthor(currentAnnotatedAuthor.get());
                     currentAnnotatedAuthor = Optional.empty();
                 } else if (isUnknownAuthor) {
                     currentAnnotatedAuthor = Optional.of(Author.UNKNOWN_AUTHOR);
                 } else {
                     currentAnnotatedAuthor = newAnnotatedAuthor.filter(author -> !author.isIgnoringFile(filePath));
                 }
-
-                // Overrides the current line author if it has changed
-                currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
             }
+            currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
         }
     }
 
@@ -87,18 +80,11 @@ public class AnnotatorAnalyzer {
      *
      * @param line Line to be analyzed.
      * @param authorConfig AuthorConfiguration for the analysis of this repo.
-     * @param currentAnnotatedAuthor Current annotated author.
      * @return Optional {@code Author} found in the line.
      */
-    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
-            Optional<Author> currentAnnotatedAuthor) {
-        int formatIndex = checkValidCommentLine(line);
-        if (formatIndex < 0) {
-            return currentAnnotatedAuthor;
-        }
-
+    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig) {
         Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
-        Optional<String> optionalName = extractAuthorName(line, formatIndex);
+        Optional<String> optionalName = extractAuthorName(line, getCommentType(line));
 
         optionalName.filter(name -> !authorAliasMap.containsKey(name) && !AuthorConfiguration.hasAuthorConfigFile())
                 .ifPresent(name -> authorConfig.addAuthor(new Author(name)));
@@ -128,11 +114,12 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Checks if the line is a valid @@author tag comment line
+     * Returns the index representing the type of comment the @@author tag line is.
+     *
      * @param line The line to be checked
      * @return The index of the comment if the comment pattern matches, -1 if no match could be found
      */
-    public static int checkValidCommentLine(String line) {
+    public static int getCommentType(String line) {
         for (int i = 0; i < COMMENT_PATTERNS.length; i++) {
             Pattern commentPattern = COMMENT_PATTERNS[i];
             Matcher matcher = commentPattern.matcher(line);
@@ -141,5 +128,15 @@ public class AnnotatorAnalyzer {
             }
         }
         return -1;
+    }
+
+    /**
+     * Returns true if line is one of the supported comment types.
+     *
+     * @param line Line to be checked.
+     * @return True if line is a valid comment line.
+     */
+    private static boolean isValidCommentLine(String line) {
+        return getCommentType(line) >= 0;
     }
 }
