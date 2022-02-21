@@ -133,8 +133,8 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Sets the {@code Author} and {@code Date} for each line in {@code fileInfo} based on the git blame analysis
-     * on the file.
+     * Sets the {@code Author} and {@code LocalDateTime} for each line in {@code fileInfo} based on the git blame
+     * analysis on the file.
      * The {@code config} is used to obtain the root directory for running git blame as well as other parameters used
      * in determining which author to assign to each line and whether to set the last modified date for a
      * {@code lineInfo}.
