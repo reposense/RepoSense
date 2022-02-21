@@ -108,7 +108,7 @@ public class RepoLocation {
     private String[] getLocalRepoNameAndOrg(String location) throws InvalidLocationException {
         boolean isWindows = SystemUtil.isWindows();
         if (isWindows) {
-            location = location.replaceAll("file:/*", "");
+            location = location.replaceAll("file://", "");
             location = location.replaceAll("/", "\\\\");
             location = location.replaceAll("[|:]", "-");
         }
