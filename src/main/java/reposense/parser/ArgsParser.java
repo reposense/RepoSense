@@ -67,25 +67,12 @@ public class ArgsParser {
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
-    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
-            "\"Since Date\" cannot be later than \"Until Date\".";
-    private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
-            "\"Since Date\" must not be later than today's date.";
     private static final String MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
             "\"Since Date\", \"Until Date\", and \"Period\" cannot be applied together.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
     private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
-    private static final String MESSAGE_IGNORING_REPORT_CONFIG_SINCE_DATE =
-            "Ignoring \"Since Date\" in report config, it has already been provided as a command line argument.";
-    private static final String MESSAGE_IGNORING_REPORT_CONFIG_UNTIL_DATE =
-            "Ignoring \"Until Date\" in report config, it has already been provided as a command line argument.";
-    private static final String MESSAGE_IGNORING_REPORT_CONFIG_PERIOD =
-            "Ignoring \"Period\" in report config, it has already been provided as a command line argument.";
-    private static final String MESSAGE_IGNORING_REPORT_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
-            "Ignoring \"Since Date\", \"Until Date\" and/or \"Period\" in report config as they cannot be applied "
-                    + "together.";
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);

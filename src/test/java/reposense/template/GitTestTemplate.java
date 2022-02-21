@@ -35,7 +35,6 @@ import reposense.util.FileUtil;
 
 public class GitTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
-    protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     protected static final String IGNORE_REVS_FILE_LOCATION =
             "repos/reposense_testrepo-Alpha/testrepo-Alpha/.git-blame-ignore-revs";
     protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-find-previous-authors";
