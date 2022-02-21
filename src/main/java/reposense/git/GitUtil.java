@@ -45,11 +45,11 @@ class GitUtil {
         String gitDateRangeArgs = "";
 
         if (sinceDate != null) {
-            gitDateRangeArgs += " --since=" + addQuote(GIT_LOG_SINCE_DATE_FORMAT.format(
+            gitDateRangeArgs += " --since=" + addQuotes(GIT_LOG_SINCE_DATE_FORMAT.format(
                     ZonedDateTime.of(sinceDate, zoneId)));
         }
         if (untilDate != null) {
-            gitDateRangeArgs += " --until=" + addQuote(GIT_LOG_UNTIL_DATE_FORMAT.format(
+            gitDateRangeArgs += " --until=" + addQuotes(GIT_LOG_UNTIL_DATE_FORMAT.format(
                     ZonedDateTime.of(untilDate, zoneId)));
         }
 
