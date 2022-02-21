@@ -199,27 +199,27 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
         line = "//@@author";
         Assert.assertEquals(0, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 0).get());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 0).isPresent());
 
         line = "/*@@author ";
         Assert.assertEquals(1, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 1).get());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 1).isPresent());
 
         line = "/* @@author*/ ";
         Assert.assertEquals(1, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 1).get());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 1).isPresent());
 
         line = "#@@author ";
         Assert.assertEquals(2, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 2).get());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 2).isPresent());
 
         line = "  <!--@@author --> ";
         Assert.assertEquals(3, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 3).get());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 3).isPresent());
 
         line = "% @@author ";
         Assert.assertEquals(4, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 4).get());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 4).isPresent());
     }
 
     @Test
@@ -228,15 +228,15 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
         line = "% @@author thisAuthorNameHasMoreThanThirtyNineLetters";
         Assert.assertEquals(4, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 4).get());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 4).isPresent());
 
         line = "# @@author -invalidUsernameFormat";
         Assert.assertEquals(2, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 2).get());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 2).isPresent());
 
         line = "/*@@author fakeAuthor-->";
         Assert.assertEquals(1, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertNull(AnnotatorAnalyzer.extractAuthorName(line, 1).get());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 1).isPresent());
     }
 
     @Test
