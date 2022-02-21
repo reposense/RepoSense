@@ -57,12 +57,12 @@ public class AnnotatorAnalyzer {
             if (lineContent.contains(AUTHOR_TAG) && isValidCommentLine(lineContent)) {
                 Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig);
                 boolean endOfAnnotatedSegment = currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
-                boolean isUnknownAuthor = !newAnnotatedAuthor.isPresent() && !currentAnnotatedAuthor.isPresent();
+                boolean isUnknownAuthorSegment = !newAnnotatedAuthor.isPresent() && !currentAnnotatedAuthor.isPresent();
 
                 if (endOfAnnotatedSegment) {
                     lineInfo.setAuthor(currentAnnotatedAuthor.get());
                     currentAnnotatedAuthor = Optional.empty();
-                } else if (isUnknownAuthor) {
+                } else if (isUnknownAuthorSegment) {
                     currentAnnotatedAuthor = Optional.of(Author.UNKNOWN_AUTHOR);
                 } else {
                     currentAnnotatedAuthor = newAnnotatedAuthor.filter(author -> !author.isIgnoringFile(filePath));
@@ -94,6 +94,8 @@ public class AnnotatorAnalyzer {
     /**
      * Extracts the name that follows the specific format.
      *
+     * @param line Line to extract the author's name from.
+     * @param formatIndex Index representing the type of comment format used in the line.
      * @return An optional string containing the author's name.
      */
     public static Optional<String> extractAuthorName(String line, int formatIndex) {
