@@ -1,8 +1,8 @@
 package reposense.git;
 
-import java.util.Calendar;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Collections;
-import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -135,7 +135,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_sinceDateInFuture_noContent() {
-        Date date = TestUtil.getSinceDate(2050, Calendar.JANUARY, 1);
+        LocalDateTime date = TestUtil.getSinceDate(2050, Month.JANUARY.getValue(), 1);
         config.setSinceDate(date);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assert.assertTrue(content.isEmpty());
@@ -143,7 +143,7 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_untilDateBeforeAnyCommit_noContent() {
-        Date date = TestUtil.getUntilDate(2010, Calendar.JANUARY, 1);
+        LocalDateTime date = TestUtil.getUntilDate(2010, Month.JANUARY.getValue(), 1);
         config.setUntilDate(date);
         config.setSinceDate(null);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());

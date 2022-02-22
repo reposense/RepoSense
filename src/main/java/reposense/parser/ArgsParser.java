@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -67,25 +67,12 @@ public class ArgsParser {
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
-    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
-            "\"Since Date\" cannot be later than \"Until Date\".";
-    private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
-            "\"Since Date\" must not be later than today's date.";
     private static final String MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
             "\"Since Date\", \"Until Date\", and \"Period\" cannot be applied together.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
     private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
-    private static final String MESSAGE_IGNORING_REPORT_CONFIG_SINCE_DATE =
-            "Ignoring \"Since Date\" in report config, it has already been provided as a command line argument.";
-    private static final String MESSAGE_IGNORING_REPORT_CONFIG_UNTIL_DATE =
-            "Ignoring \"Until Date\" in report config, it has already been provided as a command line argument.";
-    private static final String MESSAGE_IGNORING_REPORT_CONFIG_PERIOD =
-            "Ignoring \"Period\" in report config, it has already been provided as a command line argument.";
-    private static final String MESSAGE_IGNORING_REPORT_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
-            "Ignoring \"Since Date\", \"Until Date\" and/or \"Period\" in report config as they cannot be applied "
-                    + "together.";
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
@@ -249,16 +236,16 @@ public class ArgsParser {
             ReportConfiguration reportConfig = new ReportConfiguration();
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
-            Date sinceDate;
-            Date untilDate;
+            LocalDateTime sinceDate;
+            LocalDateTime untilDate;
 
             Path configFolderPath = results.get(CONFIG_FLAGS[0]);
             Path reportFolderPath = results.get(VIEW_FLAGS[0]);
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
             ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
             Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
-            Optional<Date> cliSinceDate = results.get(SINCE_FLAGS[0]);
-            Optional<Date> cliUntilDate = results.get(UNTIL_FLAGS[0]);
+            Optional<LocalDateTime> cliSinceDate = results.get(SINCE_FLAGS[0]);
+            Optional<LocalDateTime> cliUntilDate = results.get(UNTIL_FLAGS[0]);
             Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
@@ -292,21 +279,28 @@ public class ArgsParser {
             int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
             int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
 
-            Date currentDate = TimeUtil.getCurrentDate(zoneId);
+            LocalDateTime currentDate = TimeUtil.getCurrentDate(zoneId);
 
             if (isSinceDateProvided) {
-                sinceDate = TimeUtil.getZonedSinceDate(cliSinceDate.get(), zoneId);
+                sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
             } else {
-                sinceDate = isPeriodProvided
-                        ? TimeUtil.getDateMinusNDays(cliUntilDate, zoneId, cliPeriod.get())
-                        : TimeUtil.getDateMinusAMonth(cliUntilDate, zoneId);
+                if (isUntilDateProvided) {
+                    sinceDate = isPeriodProvided
+                            ? TimeUtil.getDateMinusNDays(cliUntilDate.get(), cliPeriod.get())
+                            : TimeUtil.getDateMinusAMonth(cliUntilDate.get());
+                } else {
+                    sinceDate = isPeriodProvided
+                            ? TimeUtil.getDateMinusNDays(currentDate, cliPeriod.get())
+                            : TimeUtil.getDateMinusAMonth(currentDate);
+                }
+
             }
 
             if (isUntilDateProvided) {
-                untilDate = TimeUtil.getZonedUntilDate(cliUntilDate.get(), zoneId);
+                untilDate = TimeUtil.getUntilDate(cliUntilDate.get());
             } else {
                 untilDate = (isSinceDateProvided && isPeriodProvided)
-                        ? TimeUtil.getDatePlusNDays(cliSinceDate, zoneId, cliPeriod.get())
+                        ? TimeUtil.getDatePlusNDays(cliSinceDate.get(), cliPeriod.get())
                         : currentDate;
             }
 
@@ -316,7 +310,7 @@ public class ArgsParser {
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
-            TimeUtil.verifySinceDateIsValid(sinceDate);
+            TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
             TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)
