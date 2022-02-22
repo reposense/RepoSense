@@ -90,15 +90,15 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         String line;
         line = "//@@author fakeAuthor";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "// @@author fakeauthor  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  //  @@author   fake-4u-th0r  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
@@ -107,27 +107,27 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         String line;
         line = "/*@@author fakeAuthor";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "/* @@author fakeauthor  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  /*  @@author   fake-4u-th0r  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "/*@@author fakeAuthor*/";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "/* @@author fakeauthor */";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  /*  @@author   fake-4u-th0r  */  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
@@ -136,15 +136,15 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         String line;
         line = "#@@author fakeAuthor";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "# @@author fakeauthor  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  #  @@author   fake-4u-th0r  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
@@ -153,27 +153,27 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         String line;
         line = "<!--@@author fakeAuthor";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "<!-- @@author fakeauthor  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  <!--  @@author   fake-4u-th0r  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "<!--@@author fakeAuthor-->";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "<!-- @@author fakeauthor -->";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  <!--  @@author   fake-4u-th0r  -->  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
@@ -182,15 +182,15 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         String line;
         line = "%@@author fakeAuthor";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "% @@author fakeauthor  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  %  @@author   fake-4u-th0r  ";
         Assert.assertEquals(index, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, index).get());
+        Assert.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
@@ -199,27 +199,27 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
         line = "//@@author";
         Assert.assertEquals(0, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 0).isPresent());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "/*@@author ";
         Assert.assertEquals(1, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 1).isPresent());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "/* @@author*/ ";
         Assert.assertEquals(1, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 1).isPresent());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "#@@author ";
         Assert.assertEquals(2, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 2).isPresent());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "  <!--@@author --> ";
         Assert.assertEquals(3, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 3).isPresent());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "% @@author ";
         Assert.assertEquals(4, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 4).isPresent());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
     }
 
     @Test
@@ -228,15 +228,15 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
         line = "% @@author thisAuthorNameHasMoreThanThirtyNineLetters";
         Assert.assertEquals(4, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 4).isPresent());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "# @@author -invalidUsernameFormat";
         Assert.assertEquals(2, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 2).isPresent());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "/*@@author fakeAuthor-->";
         Assert.assertEquals(1, AnnotatorAnalyzer.getCommentType(line));
-        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, 1).isPresent());
+        Assert.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
     }
 
     @Test

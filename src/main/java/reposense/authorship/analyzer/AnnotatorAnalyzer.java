@@ -84,7 +84,7 @@ public class AnnotatorAnalyzer {
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig) {
         Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
-        Optional<String> optionalName = extractAuthorName(line, getCommentType(line));
+        Optional<String> optionalName = extractAuthorName(line);
 
         optionalName.filter(name -> !authorAliasMap.containsKey(name) && !AuthorConfiguration.hasAuthorConfigFile())
                 .ifPresent(name -> authorConfig.addAuthor(new Author(name)));
@@ -95,16 +95,15 @@ public class AnnotatorAnalyzer {
      * Extracts the name that follows the specific format.
      *
      * @param line Line to extract the author's name from.
-     * @param formatIndex Index representing the type of comment format used in the line.
      * @return An optional string containing the author's name.
      */
-    public static Optional<String> extractAuthorName(String line, int formatIndex) {
+    public static Optional<String> extractAuthorName(String line) {
         return Optional.of(line)
                 // gets component after AUTHOR_TAG
                 .map(l -> l.split(AUTHOR_TAG))
                 .filter(array -> array.length >= 2)
                 // separates by end-comment format to obtain the author's name at the zeroth index
-                .map(array -> array[1].trim().split(COMMENT_FORMATS[formatIndex][1]))
+                .map(array -> array[1].trim().split(COMMENT_FORMATS[getCommentType(line)][1]))
                 .filter(array -> array.length > 0)
                 .map(array -> array[0].trim())
                 // checks if the author name is valid
