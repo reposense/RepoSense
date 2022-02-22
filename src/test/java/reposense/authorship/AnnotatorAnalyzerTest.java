@@ -280,7 +280,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void checkValidCommentLine_invalidCommentPattern_returnMinus1() {
+    public void getCommentType_invalidCommentPattern_returnMinus1() {
         Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("// @@author fakeAuthor //"));
         Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("@@author fakeAuthor"));
         Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("/@@author fakeAuthor"));
