@@ -30,7 +30,7 @@ Given below are the details of the various config files used by RepoSense.
 
 
 | Column Name | Explanation |
-|---------------------------------------|---------------------------------------------------------------|
+|-------------|-------------|
 | Repository's Location {{ mandatory }} | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar` |
 | Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo |
 | File formats<sup>*+</sup> | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats |
@@ -60,7 +60,7 @@ When using [standalone config](#config-json-standalone-config-file) (if it is no
 Optionally, you can use an `author-config.csv` (which should be in the same directory as the `repo-config.csv` file) to provide more details about the authors to analyze ([example](author-config.csv)). It should contain the following columns:
 
 | Column Name | Explanation |
-|--------------------------------------|-----------------------------------------------|
+|-------------|-------------|
 | Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
 | Branch | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch. |
 | Author's GitHub ID {{ mandatory }} | GitHub username of the target author, e.g., `JohnDoe` |
@@ -80,7 +80,7 @@ If `author-config.csv` is not given and the repo has not provided author details
 Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
 
 | Column Name | Explanation |
-|----------------------------|-----------------------------------------------------|
+|-------------|-------------|
 | Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
 | Group Name {{ mandatory }} | Name of the group, e.g.,`test`. |
 | Globs * {{ mandatory }} | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
