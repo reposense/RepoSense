@@ -137,7 +137,7 @@ public class AnnotatorAnalyzer {
      * @param line Line to be checked.
      * @return True if line is a valid comment line.
      */
-    public static boolean isValidCommentLine(String line) {
+    private static boolean isValidCommentLine(String line) {
         return getCommentType(line) >= 0;
     }
 }

@@ -281,13 +281,13 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void checkValidCommentLine_invalidCommentPattern_returnMinus1() {
-        Assert.assertFalse(AnnotatorAnalyzer.isValidCommentLine("// @@author fakeAuthor //"));
-        Assert.assertFalse(AnnotatorAnalyzer.isValidCommentLine("@@author fakeAuthor"));
-        Assert.assertFalse(AnnotatorAnalyzer.isValidCommentLine("/@@author fakeAuthor"));
-        Assert.assertFalse(AnnotatorAnalyzer.isValidCommentLine("@@author fakeAuthor */"));
-        Assert.assertFalse(AnnotatorAnalyzer.isValidCommentLine("# something @@author fakeAuthor"));
-        Assert.assertFalse(AnnotatorAnalyzer.isValidCommentLine("something % @@author fakeAuthor"));
-        Assert.assertFalse(AnnotatorAnalyzer.isValidCommentLine("# @@author fakeAuthor something"));
-        Assert.assertFalse(AnnotatorAnalyzer.isValidCommentLine("<!--@@authorfakeAuthor-->"));
+        Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("// @@author fakeAuthor //"));
+        Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("@@author fakeAuthor"));
+        Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("/@@author fakeAuthor"));
+        Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("@@author fakeAuthor */"));
+        Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("# something @@author fakeAuthor"));
+        Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("something % @@author fakeAuthor"));
+        Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("# @@author fakeAuthor something"));
+        Assert.assertEquals(-1, AnnotatorAnalyzer.getCommentType("<!--@@authorfakeAuthor-->"));
     }
 }
