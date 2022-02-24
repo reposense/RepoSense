@@ -177,8 +177,8 @@ public class GitClone {
         try {
             runCommand(rootPath, command);
         } catch (RuntimeException rte) {
-            logger.severe("Exception met while cloning or checking out " + config.getDisplayName() + "."
-                    + "Analysis terminated.");
+            logger.log(Level.SEVERE, "Exception met while cloning or checking out " + config.getDisplayName() + "."
+                    + "Analysis terminated.", rte);
             throw new GitCloneException(rte);
         }
     }
