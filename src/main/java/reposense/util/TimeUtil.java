@@ -66,7 +66,7 @@ public class TimeUtil {
 
     /**
      * Returns a {@code LocalDateTime} that is set to midnight for the given {@code sinceDate}.
-     * If {@code sinceDate} is {@code SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE}, it is simply returned
+     * If {@code sinceDate} is {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE}, it is simply returned
      * as such.
      */
     public static LocalDateTime getSinceDate(LocalDateTime sinceDate) {
@@ -127,7 +127,7 @@ public class TimeUtil {
     }
 
     /**
-     * Verifies that {@code sinceDate} is no later than the date of report generation.
+     * Verifies that {@code sinceDate} is no later than the date of report generation, given by {@code currentDate}.
      *
      * @throws ParseException if {@code sinceDate} supplied is later than date of report generation.
      */
@@ -152,7 +152,7 @@ public class TimeUtil {
 
     /**
      * Parses the given {@code date} string as a {@code LocalDateTime} based on the {@code CLI_ARGS_DATE_FORMAT}.
-     * Uses {@code ResolverStyle.STRICT} to avoid unexpected dates like 31/02/2020.
+     * Uses {@link ResolverStyle#STRICT} to avoid unexpected dates like 31/02/2020.
      *
      * @throws java.text.ParseException if date cannot be parsed by the required format.
      */

@@ -193,7 +193,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns the {@code set} of files changed in the commit {@code rawCommitInfo}.
+     * Returns the {@code Set} of files changed in the commit {@code rawCommitInfo}.
      */
     private static Set<String> getFilesChangedInCommit(String rawCommitInfo) {
         Set<String> filesChanged = new HashSet<>();

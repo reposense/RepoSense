@@ -307,7 +307,8 @@ public class RepoCloner {
     }
 
     /**
-     * Waits for previously spawned clone process to finish executing.
+     * Waits for previously spawned clone process to finish executing. Uses {@code config} to find the locations of
+     * both the original and cloned repo as well as repo name.
      * Should only be called after {@code spawnCloneProcess} has been called.
      */
     private boolean waitForCloneProcess(RepoConfiguration config) {

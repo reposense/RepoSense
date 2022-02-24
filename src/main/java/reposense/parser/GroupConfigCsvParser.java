@@ -48,7 +48,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     }
 
     /**
-     * Processes the csv {@code record} line by line and adds created {@code Group} into {@code results}.
+     * Processes the csv {@code record} line by line and adds created {@code GroupConfiguration} into {@code results}.
      */
     @Override
     protected void processLine(List<GroupConfiguration> results, CSVRecord record) throws InvalidLocationException {
@@ -76,8 +76,8 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
-    private static GroupConfiguration findMatchingGroupConfiguration(
-            List<GroupConfiguration> results, String location) throws InvalidLocationException {
+    private static GroupConfiguration findMatchingGroupConfiguration(List<GroupConfiguration> results,
+            String location) throws InvalidLocationException {
         GroupConfiguration config = new GroupConfiguration(new RepoLocation(location));
 
         for (GroupConfiguration groupConfig : results) {

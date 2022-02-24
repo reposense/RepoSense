@@ -60,8 +60,8 @@ public class LogsManager {
     }
 
     /**
-     * Adds the Console Handler to the {@code logger}.
-     * Creates the Console Handler if it is null.
+     * Adds the {@link ConsoleHandler} to the {@code logger}.
+     * Creates the {@link ConsoleHandler} if it is null.
      */
     private static void addConsoleHandler(Logger logger) {
         if (consoleHandler == null) {
@@ -81,8 +81,8 @@ public class LogsManager {
     }
 
     /**
-     * Adds the File Handler to the {@code logger}.
-     * Creates File Handler if it is null.
+     * Adds the {@link FileHandler} to the {@code logger}.
+     * Creates {@link FileHandler} if it is null.
      */
     private static void addFileHandler(Logger logger) {
         Path path = logFolderLocation.resolve(LOG_FOLDER_NAME);

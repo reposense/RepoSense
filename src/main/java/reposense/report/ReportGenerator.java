@@ -304,8 +304,7 @@ public class ReportGenerator {
      * @return A {@code CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, and the {@code defaultBranch} of the repo.
      */
-    private static CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location,
-            boolean shouldFreshClone) {
+    private static CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location, boolean shouldFreshClone) {
         RepoCloner repoCloner = new RepoCloner();
         repoCloner.cloneBare(config, shouldFreshClone);
         RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
@@ -387,8 +386,8 @@ public class ReportGenerator {
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      * @throws NoAuthorsWithCommitsFoundException if there are no authors with commits found for the repo.
      */
-    private static List<Path> analyzeRepo(
-            RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
+    private static List<Path> analyzeRepo(RepoConfiguration config, String repoReportDirectory)
+            throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
@@ -491,8 +490,8 @@ public class ReportGenerator {
      * Adds {@code failedConfigs} that failed cloning/analysis into the list of errors in the summary report along
      * with an {@code errorMessage} and removes {@code failedConfigs} from the list of {@code configs}.
      */
-    private static void handleFailedConfigs(
-            List<RepoConfiguration> configs, List<RepoConfiguration> failedConfigs, String errorMessage) {
+    private static void handleFailedConfigs(List<RepoConfiguration> configs, List<RepoConfiguration> failedConfigs,
+            String errorMessage) {
         Iterator<RepoConfiguration> itr = configs.iterator();
         while (itr.hasNext()) {
             RepoConfiguration config = itr.next();
@@ -527,8 +526,8 @@ public class ReportGenerator {
      *
      * @return A list of paths to the JSON report files generated for this report.
      */
-    private static List<Path> generateIndividualRepoReport(
-            String repoReportDirectory, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
+    private static List<Path> generateIndividualRepoReport(String repoReportDirectory,
+            CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
 
         List<Path> generatedFiles = new ArrayList<>();

@@ -27,7 +27,7 @@ public class CommitResultAggregator {
 
     /**
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
-     * Uses {@code config} to obtain details like author name, {@code sinceDate} and timezone.
+     * Uses {@code config} to obtain details like author name, since date and timezone.
      */
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
@@ -153,6 +153,9 @@ public class CommitResultAggregator {
 
     /**
      * Get the starting point of the {@code current} date.
+     *
+     * @return the {@code current} date if it is equal to the {@code ARBITRARY_FIRST_COMMIT_DATE} adjusted to the
+     * timezone given by {@code zoneId}. Otherwise, return a {@code LocalDateTime} adjusted to have a time of 00:00:00.
      */
     private static LocalDateTime getStartOfDate(LocalDateTime current, ZoneId zoneId) {
         if (current.equals(ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime())) {

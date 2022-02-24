@@ -194,8 +194,8 @@ public class RepoConfiguration {
      * Iterates through {@code repoConfigs} to find a {@code RepoConfiguration} with {@code RepoLocation} and branch
      * that matches {@code authorConfig}. Returns {@code null} if no match is found.
      */
-    private static RepoConfiguration getMatchingRepoConfig(
-            List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
+    private static RepoConfiguration getMatchingRepoConfig(List<RepoConfiguration> repoConfigs,
+            AuthorConfiguration authorConfig) {
         if (authorConfig.isDefaultBranch()) {
             return null;
         }
@@ -212,8 +212,8 @@ public class RepoConfiguration {
      * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} of a {@link RepoConfiguration}
      * in the list of {@code configs} matches {@code targetRepoLocation}.
      */
-    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(
-            List<RepoConfiguration> configs, RepoLocation targetRepoLocation) {
+    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(List<RepoConfiguration> configs,
+            RepoLocation targetRepoLocation) {
         return configs.stream().filter(config -> config.getLocation().equals(targetRepoLocation))
                 .collect(Collectors.toList());
     }
@@ -231,10 +231,10 @@ public class RepoConfiguration {
 
     /**
      * Sets each {@code RepoConfiguration} in {@code configs} to ignore its standalone config, if
-     * the boolean {@code ignoreAllStandaloneConfigs} is true.
+     * {@code ignoreAllStandaloneConfigs} is true.
      */
-    public static void setStandaloneConfigIgnoredToRepoConfigs(
-            List<RepoConfiguration> configs, boolean ignoreAllStandaloneConfigs) {
+    public static void setStandaloneConfigIgnoredToRepoConfigs(List<RepoConfiguration> configs,
+            boolean ignoreAllStandaloneConfigs) {
         if (ignoreAllStandaloneConfigs) {
             configs.forEach(config -> config.setStandaloneConfigIgnored(true));
         }
@@ -250,7 +250,7 @@ public class RepoConfiguration {
 
     /**
      * Clears existing information related to this repository and its authors, and replaces it with information from
-     * the {@code standaloneConfig}.
+     * {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
         // only assign the new values when all the fields in {@code standaloneConfig} pass the validations.
@@ -274,7 +274,7 @@ public class RepoConfiguration {
 
     /**
      * Attempts to find matching {@code Author} given a {@code name} and an {@code email}.
-     * If no matching {@code Author} is found, {@code Author#UNKNOWN_AUTHOR} is returned.
+     * If no matching {@code Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
         return authorConfig.getAuthor(name, email);

@@ -59,8 +59,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      * and {@code branch}.
      */
     @Override
-    protected void processLine(List<AuthorConfiguration> results, CSVRecord record)
-            throws ParseException {
+    protected void processLine(List<AuthorConfiguration> results, CSVRecord record) throws ParseException {
         String location = get(record, LOCATION_HEADER);
         String branch = getOrDefault(record, BRANCH_HEADER, AuthorConfiguration.DEFAULT_BRANCH);
         String gitHubId = get(record, GITHUB_ID_HEADER);
@@ -99,8 +98,8 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
-    private static AuthorConfiguration findMatchingAuthorConfiguration(
-            List<AuthorConfiguration> results, String location, String branch) throws InvalidLocationException {
+    private static AuthorConfiguration findMatchingAuthorConfiguration(List<AuthorConfiguration> results,
+            String location, String branch) throws InvalidLocationException {
         AuthorConfiguration config = new AuthorConfiguration(new RepoLocation(location), branch);
 
         for (AuthorConfiguration authorConfig : results) {

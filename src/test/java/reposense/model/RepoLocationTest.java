@@ -50,8 +50,8 @@ public class RepoLocationTest {
      * Compares the information of {@code rawLocation} parsed by the RepoLocation model with {@code expectedRepoName}
      * and {@code expectedOrganization}.
      */
-    public void assertValidLocation(String rawLocation, String expectedRepoName,
-            String expectedOrganization) throws Exception {
+    public void assertValidLocation(String rawLocation, String expectedRepoName, String expectedOrganization)
+            throws Exception {
         RepoLocation repoLocation = new RepoLocation(rawLocation);
         Assert.assertEquals(repoLocation.getRepoName(), expectedRepoName);
         Assert.assertEquals(repoLocation.getOrganization(), expectedOrganization);

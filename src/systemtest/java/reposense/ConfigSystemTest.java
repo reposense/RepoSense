@@ -144,9 +144,8 @@ public class ConfigSystemTest {
      * @param pathToResource The location at which files generated during the test are stored.
      * @throws Exception if any occur during testing.
      */
-    private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines,
-            boolean shallowCloning, boolean shouldFreshClone, boolean findPreviousAuthors,
-            String pathToResource) throws Exception {
+    private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
+            boolean shouldFreshClone, boolean findPreviousAuthors, String pathToResource) throws Exception {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
                 shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
         Path actualFiles = loadResource(getClass(), pathToResource);
@@ -164,9 +163,8 @@ public class ConfigSystemTest {
      * @param findPreviousAuthors Boolean for whether to find and blame previous authors for ignored commits.
      * @throws Exception if any errors occur during testing.
      */
-    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines,
-            boolean shallowCloning, boolean shouldFreshClone,
-            boolean findPreviousAuthors) throws Exception {
+    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
+            boolean shouldFreshClone, boolean findPreviousAuthors) throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
