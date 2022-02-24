@@ -5,10 +5,10 @@ import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.time.ZoneId;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
