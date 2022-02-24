@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * {@code FileTypeManager} is responsible for holding a list of whitelisted formats and user-specified custom
+ * Holds a list of whitelisted formats and user-specified custom
  * groupings.
  */
 public class FileTypeManager {
