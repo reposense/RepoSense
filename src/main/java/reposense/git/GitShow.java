@@ -51,7 +51,7 @@ public class GitShow {
     }
 
     /**
-     * Returns {@code Date} of the commit associated with commit hash, with {@code Path} given by {@code root} as
+     * Returns {@code LocalDateTime} of the commit associated with commit hash, with {@code Path} given by {@code root} as
      * the working directory.
      *
      * @throws CommitNotFoundException if no commit exists for the given {@code commitHash}.
@@ -72,7 +72,7 @@ public class GitShow {
     }
 
     /**
-     * Returns {@code Date} of the earliest commit out of the input list of commits in {@code commitHashes}, with
+     * Returns {@code LocalDateTime} of the earliest commit out of the input list of commits in {@code commitHashes}, with
      * the {@code root} string denoting the working directory.
      *
      * @throws CommitNotFoundException if no commit exists for a given hash in {@code commitHashes}
