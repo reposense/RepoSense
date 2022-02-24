@@ -43,12 +43,12 @@ In addition to what has been mentioned in the [**Java** coding standard](https:/
 ```
 Not okay (No fullstop):
 /**
- * Returns a {@code Date} object for {@code sinceDate}
+ * Returns a {@link LocalDateTime} object for {@code sinceDate}
  */
  
 Should be:
 /**
- * Returns a {@code Date} object for {@code sinceDate}.
+ * Returns a {@link LocalDateTime} object for {@code sinceDate}.
  */
 ```
 
@@ -62,20 +62,20 @@ Negative Examples:
 ```
 Not okay (Only mentions zoneId parameter):
 /**
- * Returns a {@code Date} object adjusted for timezone given by {@code zoneId}.
+ * Returns a {@link LocalDateTime} object adjusted for timezone given by {@code zoneId}.
  */
-public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
+public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
     //Code here
 }
 
 Not okay (@param tag used only for zoneId)
 /**
- * Returns a {@code Date} object by adjusting {@code sinceDate}
+ * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
  * to the timezone given by {@code zoneId}.
  *
  * @param zoneId The timezone ID to adjust the sinceDate to.
  */
-public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
+public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
     //Code here
 }
 ```
@@ -83,10 +83,10 @@ Positive Example #1:
 ```
 Okay (No @param tags):
 /**
- * Returns a {@code Date} object by adjusting {@code sinceDate}
+ * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
  * to the timezone given by {@code zoneId}.
  */
-public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
+public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
     //Code here
 }
 ```
@@ -94,20 +94,46 @@ Positive Example #2:
 ```
 Okay (@param tags used for all inputs):
 /**
- * Returns a {@code Date} object by adjusting {@code sinceDate}
+ * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
  * to the timezone given by {@code zoneId}.
  * 
  * @param sinceDate The date prior to the timezone conversion.
  * @param zoneId The timezone ID to adjust the sinceDate to.
  */
-public Date adjustTimeZone(Date sinceDate, ZoneId zoneId) {
+public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
     //Code here
 }
 ```
 
 * Within the main code, if an exception is thrown in a method (both header and body) for which Javadoc is written, a `@throws` tag must be used to describe how the exception is likely to arise.
-  * One `@throws` tag per unique exception.
   * This requirement does not apply to test code.
+  * One `@throws` tag per unique exception.
+  * The order of exceptions in the `@throws` tag block should match that of the method's `throws` statement.
+```
+Not okay (order of exceptions in tag block and method signature do not match):
+/**
+ * Returns a {@link LocalDateTime} object from {@code dateString}.
+ * 
+ * @throws ParseException if {@code dateString} cannot be parsed.
+ * @throws NullPointerException if {@code dateString} is null.
+ */
+public LocalDateTime parseDate(String dateString) throws NullPointerException, ParseException {
+    String trimmedString = dateString.toUpperCase(); // NullPointerException may happen here.
+    // Code here
+}
+
+Should be:
+/**
+ * Returns a {@link LocalDateTime} object from {@code dateString}.
+ * 
+ * @throws NullPointerException if {@code dateString} is null.
+ * @throws ParseException if {@code dateString} cannot be parsed.
+ */
+public LocalDateTime parseDate(String dateString) throws NullPointerException, ParseException {
+    String trimmedString = dateString.toUpperCase(); // NullPointerException may happen here.
+    // Code here
+}
+```
 * Javadoc should have a description and not just block tags.
 ```
 Not okay (No description):
