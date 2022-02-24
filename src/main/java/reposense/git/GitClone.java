@@ -158,8 +158,9 @@ public class GitClone {
     }
 
     /**
-     * Performs a full clone with {@code rootPath} as working directory from {@code clonedBareRepoLocation} into the
-     * folder {@code outputFolderName} and directly branches out to {@code targetBranch}.
+     * Performs a full clone with {@code rootPath} as working directory relative to the location of the bare repo
+     * version of {@code config} into the folder {@code outputFolderName} and checks out the branch specified in
+     * {@code config}.
      *
      * @throws IOException if it fails to delete a directory.
      * @throws GitCloneException when an error occurs while attempting to clone the repo.
