@@ -162,7 +162,7 @@ public class ConfigSystemTest {
      * @param shallowCloning Boolean for whether to perform shallow cloning.
      * @param shouldFreshClone Boolean for whether to clone repo again if it has been cloned before.
      * @param findPreviousAuthors Boolean for whether to find and blame previous authors for ignored commits.
-     * @throws Exception if any occur during testing.
+     * @throws Exception if any errors occur during testing.
      */
     private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines,
             boolean shallowCloning, boolean shouldFreshClone,

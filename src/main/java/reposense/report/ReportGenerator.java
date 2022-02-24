@@ -322,7 +322,7 @@ public class ReportGenerator {
      * Uses {@code cloneJobOutput} to find repo location, default branch and whether cloning was successful.
      *
      * @return An {@code AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was
-     * successful, the list of {@code filesGenerated} by the analysis and a list of {@code analysisErrors} encountered.
+     * successful, the list of {@code generatedFiles} by the analysis and a list of {@code analysisErrors} encountered.
      */
     private static AnalyzeJobOutput analyzeRepos(String outputPath, List<RepoConfiguration> configsToAnalyze,
             CloneJobOutput cloneJobOutput) {

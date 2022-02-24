@@ -192,7 +192,7 @@ public class AuthorConfiguration {
 
     /**
      * Adds new authors from {@code authorList} and sets the default alias, aliases, emails and display name as well
-     * as {@code ignoreGlobList} of the new authors. Skips authors that have already been added previously.
+     * as {@code ignoreGlobList} of the new authors. Skips the authors that have already been added previously.
      */
     public void addAuthors(List<Author> authorList, List<String> ignoreGlobList) {
         for (Author author : authorList) {

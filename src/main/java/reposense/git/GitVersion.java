@@ -29,7 +29,7 @@ public class GitVersion {
     }
 
     /**
-     * Returns a boolean indicating whether the current user has a version valid for running.
+     * Returns a boolean indicating whether the current user has a version valid for running
      * Find Previous Authors functionality in RepoSense.
      */
     public static boolean isGitVersionSufficientForFindingPreviousAuthors() {

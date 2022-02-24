@@ -204,7 +204,7 @@ public class FileUtil {
     }
 
     /**
-     * Copies the template files from {@code is} to the {@code outputPath}.
+     * Copies the template files from the {@code is} to the {@code outputPath}.
      *
      * @throws IOException if {@code is} refers to an invalid path.
      */

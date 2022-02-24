@@ -72,7 +72,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
 
     /**
      * Gets an existing {@code GroupConfiguration} from {@code results} if {@code location} matches.
-     * Otherwise adds a newly created {@code GroupConfiguration} into {@code results} and returns it.
+     * Otherwise, adds a newly created {@code GroupConfiguration} into {@code results} and returns it.
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
