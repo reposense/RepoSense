@@ -56,7 +56,7 @@ public class GitShow {
      *
      * @throws CommitNotFoundException if no commit exists for the given {@code commitHash}.
      * @throws ParseException if the date string for the given {@code commitHash} could not be parsed into
-     * a {@code Date} object.
+     * a {@code LocalDateTime} object.
      */
     public static LocalDateTime getCommitDate(String root, String commitHash)
             throws CommitNotFoundException, ParseException {
@@ -76,7 +76,7 @@ public class GitShow {
      * the {@code root} string denoting the working directory.
      *
      * @throws CommitNotFoundException if no commit exists for a given hash in {@code commitHashes}
-     * or if no date string was successfully parsed to a {@code Date} for earliest date.
+     * or if no date string was successfully parsed to a {@code LocalDateTime} for earliest date.
      */
     public static LocalDateTime getEarliestCommitDate(String root, List<String> commitHashes)
             throws CommitNotFoundException {

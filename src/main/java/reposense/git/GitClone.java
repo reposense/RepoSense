@@ -143,7 +143,7 @@ public class GitClone {
      * Clones a bare repo, with {@code rootPath} as working directory, specified in {@code config}
      * into the folder {@code outputFolderName}.
      *
-     * @throws IOException if it fails to delete a directory.
+     * @throws IOException if it fails to delete or create a directory.
      */
     public static void cloneBare(RepoConfiguration config, Path rootPath, String outputFolderName) throws IOException {
         Path outputFolderPath = Paths.get(outputFolderName);
@@ -162,8 +162,8 @@ public class GitClone {
      * version of {@code config} into the folder {@code outputFolderName} and checks out the branch specified in
      * {@code config}.
      *
-     * @throws IOException if it fails to delete a directory.
      * @throws GitCloneException when an error occurs while attempting to clone the repo.
+     * @throws IOException if it fails to delete a directory.
      */
     public static void cloneFromBareAndUpdateBranch(Path rootPath, RepoConfiguration config)
             throws GitCloneException, IOException {
