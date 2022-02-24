@@ -56,7 +56,7 @@ public abstract class CsvParser<T> {
     private int numOfLinesBeforeFirstRecord = 0;
 
     /**
-     * Creates {@code CsvParser} with given {@code csvFilepath}.
+     * Creates {@link CsvParser} with given {@code csvFilepath}.
      *
      * @throws FileNotFoundException if the csv file cannot be found in the provided {@code csvFilePath}.
      */
@@ -70,7 +70,7 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Parses the csv file associated with this instance of the {@code CsvParser} and returns a {@code List}
+     * Parses the csv file associated with this instance of the {@link CsvParser} and returns a {@link List}
      * containing the records in this file.
      *
      * @throws IOException if there are errors accessing the given csv file.
@@ -117,7 +117,7 @@ public abstract class CsvParser<T> {
     /**
      * Returns the header of a CSV file, which is assumed to be the first non-empty / non-whitespace line in the file
      * read by {@code reader}.
-     * The line is split into an array of Strings, using the comma symbol as delimiter.
+     * The line is split into an array of {@link String}s, using the comma symbol as delimiter.
      *
      * @throws IOException if there is an error accessing the file.
      * @throws InvalidCsvException if the file has only empty or blank lines.
@@ -176,9 +176,9 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns the value of {@code record} at the column with the header {@code header} as a {@code List},
+     * Returns the value of {@code record} at the column with the header {@code header} as a {@link List},
      * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code record} and not empty, or
-     * returns an empty {@code List} otherwise.
+     * returns an empty {@link List} otherwise.
      */
     protected List<String> getAsList(final CSVRecord record, String header) {
         if (get(record, header).isEmpty()) {
@@ -286,7 +286,7 @@ public abstract class CsvParser<T> {
 
     /**
      * Processes the csv file line by line.
-     * All CsvParsers must use {@link CsvParser#get}, {@link CsvParser#getOrDefault},
+     * All {@link CsvParser}s must use {@link CsvParser#get}, {@link CsvParser#getOrDefault},
      * {@link CsvParser#getAsList} or {@link CsvParser#getAsListWithoutOverridePrefix} to read contents in
      * {@code record} and add created objects into {@code results}.
      *

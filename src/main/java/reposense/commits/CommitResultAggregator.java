@@ -26,7 +26,7 @@ public class CommitResultAggregator {
             ZonedDateTime.of(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE, ZoneId.of("Z"));
 
     /**
-     * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
+     * Returns the {@link CommitContributionSummary} generated from aggregating the {@code commitResults}.
      * Uses {@code config} to obtain details like author name, since date and timezone.
      */
     public static CommitContributionSummary aggregateCommitResults(
@@ -113,11 +113,11 @@ public class CommitResultAggregator {
     }
 
     /**
-     * Creates a {@code Map} of each author in {@code authorSet} to their respective {@code commitResults}
-     * consolidated into {@code AuthorDailyContribution} based on date of each {@code CommitResult}.
+     * Creates a {@link Map} of each author in {@code authorSet} to their respective {@code commitResults}
+     * consolidated into {@link AuthorDailyContribution} based on date of each {@link CommitResult}.
      * Uses {@code zoneId} for the date's timezone.
      *
-     * @return a {@code Map} of each author to a list of {@code AuthorDailyContribution} across all dates in which
+     * @return a {@link Map} of each author to a list of {@link AuthorDailyContribution} across all dates in which
      * the author made commits.
      */
     private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
@@ -154,8 +154,8 @@ public class CommitResultAggregator {
     /**
      * Get the starting point of the {@code current} date.
      *
-     * @return the {@code current} date if it is equal to the {@code ARBITRARY_FIRST_COMMIT_DATE} adjusted to the
-     * timezone given by {@code zoneId}. Otherwise, return a {@code LocalDateTime} adjusted to have a time of 00:00:00.
+     * @return the {@code current} date if it is equal to the {@code ARBITRARY_FIRST_COMMIT_DATE_UTC} adjusted to the
+     * timezone given by {@code zoneId}. Otherwise, return a {@link LocalDateTime} adjusted to have a time of 00:00:00.
      */
     private static LocalDateTime getStartOfDate(LocalDateTime current, ZoneId zoneId) {
         if (current.equals(ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime())) {
@@ -168,8 +168,8 @@ public class CommitResultAggregator {
     /**
      * Get the earliest commit date from {@code commitInfos}.
      *
-     * @return First commit date if there is at least one {@code CommitResult}. Otherwise, return
-     * the {@code ARBITRARY_FIRST_COMMIT_DATE} converted to the timezone given by {@code zoneId}.
+     * @return First commit date if there is at least one {@link CommitResult}. Otherwise, return
+     * the {@code ARBITRARY_FIRST_COMMIT_DATE_UTC} converted to the timezone given by {@code zoneId}.
      */
     private static LocalDateTime getStartDate(List<CommitResult> commitInfos, ZoneId zoneId) {
         return (commitInfos.isEmpty())

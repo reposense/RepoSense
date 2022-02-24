@@ -11,7 +11,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import reposense.util.TimeUtil;
 
 /**
- * Verifies and parses a string-formatted since date to a {@code LocalDateTime} object.
+ * Verifies and parses a string-formatted since date to a {@link LocalDateTime} object.
  */
 public class SinceDateArgumentType extends DateArgumentType {
     /*

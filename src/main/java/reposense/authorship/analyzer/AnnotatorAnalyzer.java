@@ -45,7 +45,7 @@ public class AnnotatorAnalyzer {
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
-     * Updates {@code authorConfig} if a new {@code Author} is found.
+     * Updates {@code authorConfig} if a new {@link Author} is found.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
         Optional<Author> currentAnnotatedAuthor = Optional.empty();
@@ -74,14 +74,14 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Extracts the author name from the given {@code line}, finds out if {@code Author} is already present
-     * in {@code authorConfig}, and returns this {@code Author} stored in an {@code Optional}.
-     * Uses {@code currentAnnotatedAuthor} to keep track of which {@code Author} to attribute a line to.
+     * Extracts the author name from the given {@code line}, finds out if {@link Author} is already present
+     * in {@code authorConfig}, and returns this {@link Author} stored in an {@link Optional}.
+     * Uses {@code currentAnnotatedAuthor} to keep track of which {@link Author} to attribute a line to.
      *
-     * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if there is an author config file and
-     *              no matching {@code Author} is found,
-     *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
-     *         {@code Optional.of(Author#tagged author)} otherwise.
+     * @return {@link Optional} of {@link Author#UNKNOWN_AUTHOR} if there is an author config file and
+     *              no matching {@link Author} is found,
+     *         an empty {@link Optional} if an end author tag is used (i.e. "@@author"),
+     *         {@link Optional} of the tagged author otherwise.
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
             Optional<Author> currentAnnotatedAuthor, int formatIndex) {
@@ -108,7 +108,7 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Extracts the {@code Author} name that follows the specific format from {@code line} at {@code formatIndex}.
+     * Extracts the {@link Author} name that follows the specific format from {@code line} at {@code formatIndex}.
      *
      * @return an empty string if no such author was found, the new author name otherwise.
      */

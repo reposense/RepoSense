@@ -3,7 +3,7 @@ package reposense.system;
 import java.nio.file.Path;
 
 /**
- * Represents a process created by {@code CommandRunner}.
+ * Represents a process created by {@link CommandRunner}.
  */
 public class CommandRunnerProcess {
 

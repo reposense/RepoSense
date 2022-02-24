@@ -123,8 +123,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Merges a {@code RepoConfiguration} from {@code repoConfigs} with an {@code AuthorConfiguration} from
-     * {@code authorConfigs} if their {@code RepoLocation} and branch matches.
+     * Merges a {@link RepoConfiguration} from {@code repoConfigs} with an {@link AuthorConfiguration} from
+     * {@code authorConfigs} if their {@link RepoLocation} and branch matches.
      */
     public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
         for (AuthorConfiguration authorConfig : authorConfigs) {
@@ -191,7 +191,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Iterates through {@code repoConfigs} to find a {@code RepoConfiguration} with {@code RepoLocation} and branch
+     * Iterates through {@code repoConfigs} to find a {@link RepoConfiguration} with {@link RepoLocation} and branch
      * that matches {@code authorConfig}. Returns {@code null} if no match is found.
      */
     private static RepoConfiguration getMatchingRepoConfig(List<RepoConfiguration> repoConfigs,
@@ -219,7 +219,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
+     * Sets {@code formats} to {@link RepoConfiguration} in {@code configs} if its format list is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<FileType> formats) {
         for (RepoConfiguration config : configs) {
@@ -230,7 +230,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets each {@code RepoConfiguration} in {@code configs} to ignore its standalone config, if
+     * Sets each {@link RepoConfiguration} in {@code configs} to ignore its standalone config, if
      * {@code ignoreAllStandaloneConfigs} is true.
      */
     public static void setStandaloneConfigIgnoredToRepoConfigs(List<RepoConfiguration> configs,
@@ -273,8 +273,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Attempts to find matching {@code Author} given a {@code name} and an {@code email}.
-     * If no matching {@code Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
+     * Attempts to find matching {@link Author} given a {@code name} and an {@code email}.
+     * If no matching {@link Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
         return authorConfig.getAuthor(name, email);
@@ -462,7 +462,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Clears authors information and sets the {@code authorList} to {@code RepoConfiguration}.
+     * Clears authors information and sets the {@code authorList} to {@link RepoConfiguration}.
      */
     public void setAuthorList(List<Author> authorList) {
         authorConfig.clear();

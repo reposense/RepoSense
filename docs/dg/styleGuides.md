@@ -52,6 +52,8 @@ Should be:
  */
 ```
 
+* All imported classes that are mentioned in Javadoc should have `@link` tags. E.g. `{@link Author}`.
+  * For classes that are mentioned but not imported into the code, `@code` tags can be used.
 * If Javadoc is written for a method, all input parameters should be described in the Javadoc, either in the description or through `@param` tags.
   * If `@param` tags are used, they must be used for all parameters.
   * This is not necessary (although still recommended) for methods with `@Override` annotations if Javadoc is used. However, if the method that is being overriden is part of your code and has Javadoc, all parameters must be described.

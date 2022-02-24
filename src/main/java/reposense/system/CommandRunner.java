@@ -31,7 +31,7 @@ public class CommandRunner {
     }
 
     /**
-     * Spawns a {@code CommandRunnerProcess} to execute {@code command}, with working directory at {@code path}.
+     * Spawns a {@link CommandRunnerProcess} to execute {@code command}, with working directory at {@code path}.
      * Does not wait for process to finish executing.
      */
     private static CommandRunnerProcess spawnCommandProcess(Path path, String command) {

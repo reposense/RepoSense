@@ -32,7 +32,7 @@ public class GitClone {
      * Runs "git clone --bare" command asynchronously with {@code rootPath} as working directory to clone a bare repo
      * specified in the {@code config} into the folder {@code outputFolderName}.
      *
-     * @return an instance of {@code CommandRunnerProcess} to allow tracking the status of the cloning process.
+     * @return an instance of {@link CommandRunnerProcess} to allow tracking the status of the cloning process.
      * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
     public static CommandRunnerProcess cloneBareAsync(RepoConfiguration config, Path rootPath, String outputFolderName)
@@ -49,7 +49,7 @@ public class GitClone {
      * to clone a bare repo specified in the {@code config} into the folder {@code outputFolderName}.
      * Uses {@code sinceDate} for the "--shallow-since=" flag.
      *
-     * @return an instance of {@code CommandRunnerProcess} to allow tracking the status of the cloning process.
+     * @return an instance of {@link CommandRunnerProcess} to allow tracking the status of the cloning process.
      * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
     public static CommandRunnerProcess cloneShallowBareAsync(RepoConfiguration config, Path rootPath,

@@ -30,7 +30,7 @@ public class GitCheckout {
 
     /**
      * Checkouts to the hash revision given in the {@code commit}.
-     * The {@code Path} given by {@code root} is the working directory.
+     * The {@link Path} given by {@code root} is the working directory.
      */
     public static void checkoutCommit(String root, CommitResult commit) {
         logger.info("Checking out " + commit.getHash() + "time:" + commit.getTime());
@@ -39,7 +39,7 @@ public class GitCheckout {
 
     /**
      * Checkouts to the given {@code hash} revision.
-     * The {@code Path} given by {@code root} is the working directory.
+     * The {@link Path} given by {@code root} is the working directory.
      */
     public static void checkout(String root, String hash) {
         Path rootPath = Paths.get(root);
@@ -49,7 +49,7 @@ public class GitCheckout {
     /**
      * Checks out to the latest commit before {@code untilDate}, associated with timezone given by {@code zoneId} in
      * {@code branchName} branch if {@code untilDate} is not null.
-     * The {@code Path} given by {@code root} is the working directory.
+     * The {@link Path} given by {@code root} is the working directory.
      *
      * @throws CommitNotFoundException if commits before {@code untilDate} cannot be found.
      */

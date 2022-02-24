@@ -124,7 +124,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Sets the details of {@code author} to {@code AuthorConfiguration} including the default alias, aliases
+     * Sets the details of {@code author} to {@link AuthorConfiguration} including the default alias, aliases
      * and display name.
      */
     private void setAuthorDetails(Author author) {
@@ -145,7 +145,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds author to the {@code AuthorList}.
+     * Adds author to the {@code authorList}.
      */
     public void addAuthor(Author author) {
         authorList.add(author);
@@ -153,7 +153,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds {@code author} to the {@code AuthorList}, and propagates {@code ignoreGlobList} to the {@code author}.
+     * Adds {@code author} to the {@code authorList}, and propagates {@code ignoreGlobList} to the {@code author}.
      */
     public void addAuthor(Author author, List<String> ignoreGlobList) {
         addAuthor(author);
@@ -256,8 +256,8 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Attempts to find matching {@code Author} given a {@code name} and an {@code email}.
-     * If no matching {@code Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
+     * Attempts to find matching {@link Author} given a {@code name} and an {@code email}.
+     * If no matching {@link Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
         if (authorDetailsToAuthorMap.containsKey(name)) {

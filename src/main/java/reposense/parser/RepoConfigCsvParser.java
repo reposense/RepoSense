@@ -60,8 +60,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     }
 
     /**
-     * Processes the csv {@code record} line by line and add created {@code RepoConfiguration} into {@code results} but
-     * ignores duplicated {@code RepoConfiguration} if there exists one that has same {@code location} and
+     * Processes the csv {@code record} line by line and add created {@link RepoConfiguration} into {@code results} but
+     * ignores duplicated {@link RepoConfiguration} if there exists one that has same {@code location} and
      * {@code branch}.
      *
      * @throws InvalidLocationException if the location represented in {@code record} is invalid.

@@ -24,7 +24,7 @@ import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
 /**
- * Analyzes the target and information given in the {@code FileInfo}.
+ * Analyzes the target and information given in the {@link FileInfo}.
  */
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
@@ -45,7 +45,7 @@ public class FileInfoAnalyzer {
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
      * Returns null if the file is missing from the local system, or none of the
-     * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
@@ -75,7 +75,7 @@ public class FileInfoAnalyzer {
      * Analyzes the binary file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
      * Returns null if the file is missing from the local system, or none of the
-     * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
@@ -91,7 +91,7 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Generates and returns a {@code FileResult} with the authorship results from {@code fileInfo} consolidated.
+     * Generates and returns a {@link FileResult} with the authorship results from {@code fileInfo} consolidated.
      */
     private static FileResult generateTextFileResult(FileInfo fileInfo) {
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
@@ -104,9 +104,9 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
+     * Generates and returns a {@link FileResult} with the authorship results from binary {@code fileInfo} consolidated.
      * Authorship results are indicated in the {@code authorContributionMap} as contributions with zero line counts.
-     * Returns {@code null} if none of the {@code Author} specified in {@code config} contributed to the file in
+     * Returns {@code null} if none of the {@link Author} specified in {@code config} contributed to the file in
      * {@code fileInfo}.
      */
     private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
@@ -133,7 +133,7 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Sets the {@code Author} and {@code LocalDateTime} for each line in {@code fileInfo} based on the git blame
+     * Sets the {@link Author} and {@link LocalDateTime} for each line in {@code fileInfo} based on the git blame
      * analysis on the file.
      * The {@code config} is used to obtain the root directory for running git blame as well as other parameters used
      * in determining which author to assign to each line and whether to set the last modified date for a

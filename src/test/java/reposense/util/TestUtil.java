@@ -102,7 +102,7 @@ public class TestUtil {
     }
 
     /**
-     * Creates and returns a {@code LocalDateTime} object with the specified {@code year}, {@code month}, {@code day}
+     * Creates and returns a {@link LocalDateTime} object with the specified {@code year}, {@code month}, {@code day}
      * and {@code time}.
      */
     public static LocalDateTime getDate(int year, int month, int date, int[] time) {
@@ -126,7 +126,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns a {@code ZoneId} object for the specified {@code timezone}.
+     * Returns a {@link ZoneId} object for the specified {@code timezone}.
      */
     public static ZoneId getZoneId(String timezone) {
         return ZoneId.of(timezone);
@@ -193,7 +193,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns the {@code Set} of files changed in the commit {@code rawCommitInfo}.
+     * Returns the {@link Set} of files changed in the commit {@code rawCommitInfo}.
      */
     private static Set<String> getFilesChangedInCommit(String rawCommitInfo) {
         Set<String> filesChanged = new HashSet<>();
@@ -225,7 +225,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns the {@code Path} to a resource given by {@code pathToResource} string, using {@code classForLoading}.
+     * Returns the {@link Path} to a resource given by {@code pathToResource} string, using {@code classForLoading}.
      */
     public static Path loadResource(Class<?> classForLoading, String pathToResource) {
         ClassLoader classLoader = classForLoading.getClassLoader();

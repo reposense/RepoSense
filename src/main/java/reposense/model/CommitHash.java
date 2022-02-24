@@ -50,7 +50,7 @@ public class CommitHash {
     }
 
     /**
-     * Converts all the strings in {@code commits} into {@code CommitHash} objects.
+     * Converts all the strings in {@code commits} into {@link CommitHash} objects.
      * Returns null if {@code commits} is null.
      *
      * @throws IllegalArgumentException if any of the strings are in invalid formats.
@@ -66,7 +66,8 @@ public class CommitHash {
     }
 
     /**
-     * Converts a commit {@code entry} into either itself, or a stream of CommitHashes if a range was provided.
+     * Converts a commit {@code entry} into either itself, or a stream of {@link CommitHash} objects if a range was
+     * provided.
      */
     public static Stream<CommitHash> getHashes(String root, String branchName, CommitHash entry) {
         if (entry.toString().matches(COMMIT_HASH_REGEX)) {

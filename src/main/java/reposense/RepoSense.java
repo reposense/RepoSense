@@ -110,7 +110,7 @@ public class RepoSense {
     }
 
     /**
-     * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code ConfigCliArguments}.
+     * Constructs a list of {@link RepoConfiguration} if {@code cliArguments} is a {@link ConfigCliArguments}.
      *
      * @throws IOException if user-supplied csv file does not exist or is not readable.
      * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
@@ -149,7 +149,7 @@ public class RepoSense {
     }
 
     /**
-     * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code LocationsCliArguments}.
+     * Constructs a list of {@link RepoConfiguration} if {@code cliArguments} is a {@link LocationsCliArguments}.
      *
      * @throws ParseException if all repo locations are invalid.
      */

@@ -207,7 +207,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Groups {@code RepoConfiguration} with the same {@code RepoLocation} together so that they are only cloned once.
+     * Groups {@link RepoConfiguration} with the same {@link RepoLocation} together so that they are only cloned once.
      */
     private static Map<RepoLocation, List<RepoConfiguration>> groupConfigsByRepoLocation(
             List<RepoConfiguration> configs) {
@@ -301,7 +301,7 @@ public class ReportGenerator {
      * Clones repo specified by {@code config} at {@code location}.
      * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      *
-     * @return A {@code CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was
+     * @return A {@link CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, and the {@code defaultBranch} of the repo.
      */
     private static CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location, boolean shouldFreshClone) {
@@ -320,7 +320,7 @@ public class ReportGenerator {
      * Analyzes all repos in {@code configsToAnalyze} and generates their report at {@code outputPath}.
      * Uses {@code cloneJobOutput} to find repo location, default branch and whether cloning was successful.
      *
-     * @return An {@code AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was
+     * @return An {@link AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, the list of {@code generatedFiles} by the analysis and a list of {@code analysisErrors} encountered.
      */
     private static AnalyzeJobOutput analyzeRepos(String outputPath, List<RepoConfiguration> configsToAnalyze,
@@ -539,7 +539,7 @@ public class ReportGenerator {
     }
 
     /**
-     * Creates the .git-blame-ignore-revs file containing the contents of {@code IgnoreCommitList}
+     * Creates the .git-blame-ignore-revs file containing the contents of {@code ignoreCommitList}
      * in the repo root directory of {@code config}.
      */
     private static void generateIgnoreRevsFile(RepoConfiguration config) {

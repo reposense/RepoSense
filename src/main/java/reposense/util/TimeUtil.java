@@ -65,7 +65,7 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is set to midnight for the given {@code sinceDate}.
+     * Returns a {@link LocalDateTime} that is set to midnight for the given {@code sinceDate}.
      * If {@code sinceDate} is {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE}, it is simply returned
      * as such.
      */
@@ -78,14 +78,14 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is set to 23:59:59 for the given {@code untilDate}.
+     * Returns a {@link LocalDateTime} that is set to 23:59:59 for the given {@code untilDate}.
      */
     public static LocalDateTime getUntilDate(LocalDateTime untilDate) {
         return untilDate.withHour(23).withMinute(59).withSecond(59);
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is one month before {@code cliUntilDate} (if present) or one month
+     * Returns a {@link LocalDateTime} that is one month before {@code cliUntilDate} (if present) or one month
      * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusAMonth(LocalDateTime cliUntilDate) {
@@ -93,7 +93,7 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month
+     * Returns a {@link LocalDateTime} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month
      * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusNDays(LocalDateTime cliUntilDate, int numOfDays) {
@@ -101,7 +101,7 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is {@code numOfDays} after {@code cliSinceDate} (if present).
+     * Returns a {@link LocalDateTime} that is {@code numOfDays} after {@code cliSinceDate} (if present).
      */
     public static LocalDateTime getDatePlusNDays(LocalDateTime cliSinceDate, int numOfDays) {
         return getUntilDate(cliSinceDate.plusDays(numOfDays));
@@ -151,7 +151,7 @@ public class TimeUtil {
     }
 
     /**
-     * Parses the given {@code date} string as a {@code LocalDateTime} based on the {@code CLI_ARGS_DATE_FORMAT}.
+     * Parses the given {@code date} string as a {@link LocalDateTime} based on the {@code CLI_ARGS_DATE_FORMAT}.
      * Uses {@link ResolverStyle#STRICT} to avoid unexpected dates like 31/02/2020.
      *
      * @throws java.text.ParseException if date cannot be parsed by the required format.

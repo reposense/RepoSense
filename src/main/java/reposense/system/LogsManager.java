@@ -50,7 +50,7 @@ public class LogsManager {
     }
 
     /**
-     * Creates a {@code Logger} for the given {@code clazz} name.
+     * Creates a {@link Logger} for the given {@code clazz} name.
      */
     public static <T> Logger getLogger(Class<T> clazz) {
         if (clazz == null) {
@@ -103,7 +103,7 @@ public class LogsManager {
     }
 
     /**
-     * Creates a {@code FileHandler} for the log file.
+     * Creates a {@link FileHandler} for the log file.
      *
      * @throws IOException if there are problems opening the file.
      */
@@ -116,7 +116,7 @@ public class LogsManager {
     }
 
     /**
-     * Creates a {@code ConsoleHandler} to output the log to console.
+     * Creates a {@link ConsoleHandler} to output the log to console.
      */
     private static ConsoleHandler createConsoleHandler() {
         ConsoleHandler consoleHandler = new ConsoleHandler();

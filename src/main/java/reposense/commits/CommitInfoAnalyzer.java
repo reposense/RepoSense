@@ -60,7 +60,7 @@ public class CommitInfoAnalyzer {
     private static final Pattern MESSAGEBODY_LEADING_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
 
     /**
-     * Analyzes each {@code CommitInfo} in {@code commitInfos} and returns a list of {@code CommitResult} that is not
+     * Analyzes each {@link CommitInfo} in {@code commitInfos} and returns a list of {@link CommitResult} that is not
      * specified to be ignored or the author is inside {@code config}.
      */
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
@@ -76,7 +76,7 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Extracts the relevant data from {@code commitInfo} into a {@code CommitResult}. Retrieves the author of the
+     * Extracts the relevant data from {@code commitInfo} into a {@link CommitResult}. Retrieves the author of the
      * commit from {@code config}.
      */
     public static CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {

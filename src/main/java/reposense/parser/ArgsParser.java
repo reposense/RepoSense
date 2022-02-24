@@ -34,7 +34,7 @@ import reposense.system.LogsManager;
 import reposense.util.TimeUtil;
 
 /**
- * Verifies and parses a string-formatted date to a {@code CliArguments} object.
+ * Verifies and parses a string-formatted date to a {@link CliArguments} object.
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
@@ -225,11 +225,11 @@ public class ArgsParser {
     }
 
     /**
-     * Parses the given string {@code args} to a {@code CliArguments} object.
+     * Parses the given string {@code args} to a {@link CliArguments} object.
      *
      * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
-     * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
-     * @throws ParseException if the given string arguments fails to parse to a {@code CliArguments} object.
+     * by the {@link ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
+     * @throws ParseException if the given string arguments fails to parse to a {@link CliArguments} object.
      */
     public static CliArguments parse(String[] args) throws HelpScreenException, ParseException {
         try {

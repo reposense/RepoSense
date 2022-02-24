@@ -132,7 +132,7 @@ public class Author {
     }
 
     /**
-     * Validates and adds {@code ignoreGlobList} into the {@code Author} class instance variable without duplicates
+     * Validates and adds {@code ignoreGlobList} into the {@link Author} class instance variable without duplicates
      * and updates the ignore glob matcher.
      */
     public void importIgnoreGlobList(List<String> ignoreGlobList) {
@@ -179,7 +179,7 @@ public class Author {
     }
 
     /**
-     * Updates the {@code PathMatcher} to the new ignore glob list set.
+     * Updates the {@link PathMatcher} to the new ignore glob list set.
      * Called after a new ignore glob list is set.
      */
     private void updateIgnoreGlobMatcher() {

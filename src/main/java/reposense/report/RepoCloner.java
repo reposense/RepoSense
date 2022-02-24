@@ -115,8 +115,8 @@ public class RepoCloner {
     }
 
     /**
-     * Waits for current clone process to finish executing and returns the {@code RepoLocation} of the corresponding
-     * {@code RepoConfiguration}.
+     * Waits for current clone process to finish executing and returns the {@link RepoLocation} of the corresponding
+     * {@link RepoConfiguration}.
      */
     public RepoLocation getClonedRepoLocation() {
         if (isCurrentRepoCloned) {

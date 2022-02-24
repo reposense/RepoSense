@@ -54,8 +54,8 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     }
 
     /**
-     * Processes the csv {@code record} line by line and add created {@code AuthorConfiguration} into {@code results}
-     * but skips {@code author} already exists in a {@code AuthorConfiguration} that has same {@code location}
+     * Processes the csv {@code record} line by line and add created {@link AuthorConfiguration} into {@code results}
+     * but skips {@code author} already exists in a {@link AuthorConfiguration} that has same {@code location}
      * and {@code branch}.
      */
     @Override
@@ -93,8 +93,8 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
 
     /**
-     * Gets an existing {@code AuthorConfiguration} from {@code results} if {@code location} and {@code branch} matches.
-     * Otherwise, adds a newly created {@code AuthorConfiguration} into {@code results} and returns it.
+     * Gets an existing {@link AuthorConfiguration} from {@code results} if {@code location} and {@code branch} matches.
+     * Otherwise, adds a newly created {@link AuthorConfiguration} into {@code results} and returns it.
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */

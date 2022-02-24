@@ -20,8 +20,8 @@ public class GitRevList {
 
     /**
      * Returns the latest commit hash at the branch given by {@code branchName} before {@code date}, with
-     * {@code zoneId} taken into account for {@code date} and {@code Path} given by {@code root} as working directory.
-     * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
+     * {@code zoneId} taken into account for {@code date} and {@link Path} given by {@code root} as working directory.
+     * Returns an empty {@link String} if {@code date} is null, or there is no such commit.
      */
     public static String getCommitHashBeforeDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
         if (date == null) {
@@ -37,9 +37,9 @@ public class GitRevList {
 
     /**
      * Returns the latest commit hash at the branch given by {@code branchName}, inclusive and until the end of
-     * the day of {@code date}, with {@code zoneId} taken into account for {@code date} and {@code Path} given
+     * the day of {@code date}, with {@code zoneId} taken into account for {@code date} and {@link Path} given
      * by {@code root} as working directory.
-     * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
+     * Returns an empty {@link String} if {@code date} is null, or there is no such commit.
      */
     public static String getCommitHashUntilDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
         if (date == null) {
@@ -55,7 +55,7 @@ public class GitRevList {
 
     /**
      * Returns a list of commit hashes at the branch given by {@code branchName}, separated by newlines,
-     * that are within the range of {@code startHash} and {@code endHash}, with the {@code Path} given by {@code root}
+     * that are within the range of {@code startHash} and {@code endHash}, with the {@link Path} given by {@code root}
      * as working directory.
      * Both the {@code startHash} and {@code endHash} are guaranteed to be in the list.
      */
@@ -97,7 +97,7 @@ public class GitRevList {
 
     /**
      * Returns a list of commit hashes at the branch given by {@code branchName} separated by newlines that exist
-     * since {@code hash} until HEAD, with the {@code Path} given by {@code root} as working directory.
+     * since {@code hash} until HEAD, with the {@link Path} given by {@code root} as working directory.
      */
     private static String getAllCommitHashSince(String root, String branchName, String hash) {
         Path rootPath = Paths.get(root);
@@ -112,7 +112,7 @@ public class GitRevList {
     }
 
     /**
-     * Returns a list of commit hashes for the root commits in the tree, with the {@code Path} given by {@code root}
+     * Returns a list of commit hashes for the root commits in the tree, with the {@link Path} given by {@code root}
      * as working directory.
      */
     public static List<String> getRootCommits(String root) {
@@ -123,7 +123,7 @@ public class GitRevList {
     }
 
     /**
-     * Returns true if the repository is empty, with the {@code Path} given by {@code root} as working directory.
+     * Returns true if the repository is empty, with the {@link Path} given by {@code root} as working directory.
      */
     public static boolean checkIsEmptyRepo(String root) {
         String revListCommand = "git rev-list -n 1 --all";

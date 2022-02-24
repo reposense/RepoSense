@@ -322,7 +322,7 @@ public class FileUtil {
     }
 
     /**
-     * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
+     * Returns a list of {@link Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
      *
      * @throws IOException if an error occurs while trying to access {@code directoryPath}.
      */
