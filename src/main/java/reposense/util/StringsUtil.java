@@ -31,8 +31,31 @@ public class StringsUtil {
         return SPECIAL_SYMBOLS.matcher(regexString).replaceAll(replacementCharacter);
     }
 
-    public static String addQuote(String original) {
+    /**
+     * Adds quotes to the string.
+     */
+    public static String addQuotes(String original) {
         return "\"" + original + "\"";
+    }
+
+    /**
+     * Adds the appropriate quotation marks for a file path depending on the OS.
+     */
+    public static String addQuotesForFilePath(String filePath) {
+        if (SystemUtil.isWindows()) {
+            return "\"" + filePath + "\"";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < filePath.length(); i++) {
+                char c = filePath.charAt(i);
+                if (c == '\'') {
+                    sb.append("'\"'\"'");
+                } else {
+                    sb.append(c);
+                }
+            }
+            return '\'' + sb.toString() + '\'';
+        }
     }
 
     /**

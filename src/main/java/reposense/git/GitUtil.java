@@ -1,6 +1,6 @@
 package reposense.git;
 
-import static reposense.util.StringsUtil.addQuote;
+import static reposense.util.StringsUtil.addQuotes;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,11 +45,11 @@ class GitUtil {
         String gitDateRangeArgs = "";
 
         if (sinceDate != null) {
-            gitDateRangeArgs += " --since=" + addQuote(GIT_LOG_SINCE_DATE_FORMAT.format(
+            gitDateRangeArgs += " --since=" + addQuotes(GIT_LOG_SINCE_DATE_FORMAT.format(
                     ZonedDateTime.of(sinceDate, zoneId)));
         }
         if (untilDate != null) {
-            gitDateRangeArgs += " --until=" + addQuote(GIT_LOG_UNTIL_DATE_FORMAT.format(
+            gitDateRangeArgs += " --until=" + addQuotes(GIT_LOG_UNTIL_DATE_FORMAT.format(
                     ZonedDateTime.of(untilDate, zoneId)));
         }
 
@@ -83,7 +83,7 @@ class GitUtil {
      */
     public static String convertToGitFormatsArgs(List<FileType> formats) {
         StringBuilder gitFormatsArgsBuilder = new StringBuilder();
-        final String cmdFormat = " -- " + addQuote("*.%s");
+        final String cmdFormat = " -- " + addQuotes("*.%s");
         formats.stream()
                 .map(format -> String.format(cmdFormat, format.toString()))
                 .forEach(gitFormatsArgsBuilder::append);
@@ -98,7 +98,7 @@ class GitUtil {
      */
     public static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
-        final String cmdFormat = " " + addQuote(":(exclude)%s");
+        final String cmdFormat = " " + addQuotes(":(exclude)%s");
         ignoreGlobList.stream()
                 .filter(item -> isValidIgnoreGlob(root, item))
                 .map(ignoreGlob -> String.format(cmdFormat, ignoreGlob))
