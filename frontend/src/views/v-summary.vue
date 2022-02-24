@@ -61,7 +61,7 @@
           input.mui-checkbox(
             type="checkbox",
             v-model="filterBreakdown",
-            v-on:change="getFiltered"
+            v-on:change="toggleBreakdown"
           )
           span breakdown by file type
         label.merge-group(
@@ -123,7 +123,8 @@
     v-bind:filter-until-date="filterUntilDate",
     v-bind:filter-search="filterSearch",
     v-bind:min-date="minDate",
-    v-bind:max-date="maxDate"
+    v-bind:max-date="maxDate",
+    v-bind:sort-group-selection="sortGroupSelection"
   )
 </template>
 
@@ -394,6 +395,14 @@ export default {
           .split(' ')
           .filter(Boolean)
           .some((param) => user.searchPath.includes(param));
+    },
+
+    toggleBreakdown() {
+      // Reset the file type filter
+      if (this.checkedFileTypes.length !== this.fileTypes.length) {
+        this.checkedFileTypes = this.fileTypes.slice();
+      }
+      this.getFiltered();
     },
 
     getFiltered() {

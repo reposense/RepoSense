@@ -2,9 +2,9 @@ package reposense.authorship;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -52,11 +52,11 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_sinceDateFebrauaryNineToLatestCommit_success() {
-        Date date = TestUtil.getSinceDate(2018, Calendar.FEBRUARY, 9);
+        LocalDateTime date = TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 9);
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
-        Assert.assertEquals(4, files.size());
+        Assert.assertEquals(5, files.size());
 
         // files edited within commit range
         Assert.assertTrue(isFileExistence(Paths.get("README.md"), files));
@@ -88,7 +88,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_sinceDateAfterLatestCommit_emptyResult() {
-        Date date = TestUtil.getSinceDate(2050, 12, 31);
+        LocalDateTime date = TestUtil.getSinceDate(2050, Month.DECEMBER.getValue(), 31);
         config.setSinceDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
@@ -97,7 +97,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfos_untilDateBeforeFirstCommit_emptyResult() {
-        Date date = TestUtil.getUntilDate(2015, 12, 31);
+        LocalDateTime date = TestUtil.getUntilDate(2015, Month.DECEMBER.getValue(), 31);
         config.setUntilDate(date);
 
         List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
@@ -198,6 +198,13 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         textFilesList.forEach(textFile -> Assert.assertTrue(isFileExistence(Paths.get(textFile), files)));
         // Binary files should be ignored
         binaryFilesList.forEach(binFile -> Assert.assertFalse(isFileExistence(Paths.get(binFile), files)));
+    }
+
+    @Test
+    public void getEditedFileInfos_repoWithFilesWithSpaces_success() {
+        List<FileInfo> fileInfos = FileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
+
+        Assert.assertTrue(isFileExistence(Paths.get("space test.txt"), fileInfos));
     }
 
     private boolean isFileExistence(Path filePath, List<FileInfo> files) {

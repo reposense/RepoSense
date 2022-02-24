@@ -1,4 +1,4 @@
-<variable name="title">Architecture</variable>
+{% set title = "Architecture" %}
 <frontmatter>
   title: "{{ title | safe }}"
   pageNav: 3
@@ -29,16 +29,22 @@
 [`Git`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git) package contains the wrapper classes for respective *git* commands.
  * [`GitBlame`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitBlame.java): Wrapper class for `git blame` functionality. Traces the revision and author last modified each line of a file.
  * [`GitBranch`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitBranch.java): Wrapper class for `git branch` functionality. Gets the name of the working branch of the target repo.
+ * [`GitCatFile`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitCatFile.java): Wrapper class for `git cat-file` functionality. Obtains the parent commit hash with the given commit indicated by the commit hash.
  * [`GitCheckout`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitCheckout.java): Wrapper class for `git checkout` functionality. Checks out the repository by branch name or commit hash.
  * [`GitClone`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitClone.java): Wrapper class for `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
  * [`GitDiff`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitDiff.java): Wrapper class for `git diff` functionality. Obtains the changes between commits.
  * [`GitLog`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitLog.java): Wrapper class for `git log` functionality. Obtains the commit logs and the authors' info.
- * [`GitLsTree`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitLsTree.java): Wrapper class for `git ls-tree` functionality. Ensures that the tracked files do not contain any paths with illegal characters for Windows users.
  * [`GitRevList`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitRevList.java): Wrapper class for `git rev-list` functionality. Retrieves the commit objects in reverse chronological order.
  * [`GitRevParse`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitRevParse.java): Wrapper class for `git rev-parse` functionality. Ensures that the branch of the repo is to be analyzed exists.
  * [`GitShortlog`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitShortlog.java): Wrapper class for `git shortlog` functionality. Obtains the list of authors who have contributed to the target repo.
+ * [`GitShow`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitShow.java): Wrapper class for `git show` functionality. Gets the date of the commit with the commit hash.
  * [`GitUtil`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitUtil.java): Contains helper functions used by the other Git classes above.
+ * [`GitVersion`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitVersion.java): Wrapper class for `git --version` functionality. Obtains the current git version of the environment that RepoSense is being run on.
 
+<box type="info" seamless>
+  
+Note that when constructing new commands containing path arguments, use the `StringsUtil::addQuotesForFilePath` method to safely convert a Java string into an equivalent Bash/CMD argument.
+</box>
 <!-- ==================================================================================================== -->
 
 ## CommitsReporter
@@ -68,9 +74,9 @@
  1. clones repositories using the `GitClone` API in a multi-threaded fashion.
     * By default, 4 threads are used for cloning; the number of threads can be specified using the CLI argument `--cloning-threads <threads>`.
  1. analyzes the repositories using the `CommitReporter` and `AuthorshipReporter` in a multi-threaded fashion.
-    * First, copies the template files into the designated output directory. 
+    * First, copies the template files into the designated output directory.
     * Then, uses `CommitReporter` and `AuthorshipReporter` to produce the commit and authorship summary, respectively.
-    * By default, the number of threads used for analysis is equal to the number of CPU cores available; the number of threads can be specified using the CLI argument `--analysis-threads <threads>`. 
+    * By default, the number of threads used for analysis is equal to the number of CPU cores available; the number of threads can be specified using the CLI argument `--analysis-threads <threads>`.
  1. generates the `JSON` files needed to generate the `HTML` report.
 
 <!-- ==================================================================================================== -->

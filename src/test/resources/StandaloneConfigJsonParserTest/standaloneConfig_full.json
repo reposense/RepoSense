@@ -1,8 +1,8 @@
 {
 	"ignoreGlobList": ["**.adoc", "collate**"],
 	"formats": ["gradle", "jade", "java", "js", "md", "scss", "yml"],
-	"ignoreCommitList": ["7b96c563eb2d3612aa5275364333664a18f01491"],
-	"ignoreAuthorList": ["yong24s"],
+	"ignoreCommitsList": ["7b96c563eb2d3612aa5275364333664a18f01491"],
+	"ignoreAuthorsList": ["yong24s"],
 	"authors":
 	[
 		{

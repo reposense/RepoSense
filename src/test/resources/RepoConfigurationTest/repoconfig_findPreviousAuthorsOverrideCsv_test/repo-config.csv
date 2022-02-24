@@ -1,0 +1,3 @@
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List,Shallow Cloning,Find Previous Authors
+https://github.com/reposense/testrepo-Beta.git,master,css;html,,yes,,,,yes
+https://github.com/reposense/testrepo-Delta.git,master,,,,,,,

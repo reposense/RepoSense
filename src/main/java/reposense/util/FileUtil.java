@@ -13,6 +13,8 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +27,10 @@ import java.util.zip.ZipOutputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 
+import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
@@ -95,14 +100,36 @@ public class FileUtil {
      */
     public static Optional<Path> writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
-                .setDateFormat(GITHUB_API_DATE_FORMAT)
+                .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
+                        -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
                 .create();
+        // Gson serializer from:
+        // https://stackoverflow.com/questions/39192945/serialize-java-8-localdate-as-yyyy-mm-dd-with-gson
         String result = gson.toJson(object);
 
         try (PrintWriter out = new PrintWriter(path)) {
             out.print(result);
             out.print("\n");
+            return Optional.of(path).map(Paths::get);
+        } catch (FileNotFoundException e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Writes the ignore revs file containing the {@code ignoreCommitList} at the given {@code path}.
+     * @return An Optional containing the Path to the ignore revs file, or an empty Optional
+     *         if there was an error while writing the ignore revs file.
+     */
+    public static Optional<Path> writeIgnoreRevsFile(String path, List<CommitHash> ignoreCommitList) {
+        String contentOfIgnoreRevsFile = ignoreCommitList.stream()
+                .map(CommitHash::toString)
+                .reduce("", (hashes, newHash) -> hashes + newHash + "\n");
+
+        try (PrintWriter out = new PrintWriter(path)) {
+            out.print(contentOfIgnoreRevsFile);
             return Optional.of(path).map(Paths::get);
         } catch (FileNotFoundException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);

@@ -9,8 +9,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "serveOpen": "vue-cli-service serve --open",
-    "lint": "eslint src/**/*.{js,vue} && stylelint ./src/**/*.{vue,scss} && npm run puglint",
-    "lintfix": "eslint --fix src/**/*.{js,vue} cypress/tests/**/*.js && stylelint --fix ./src/**/*.{vue,scss}",
+    "lint": "eslint src/**/*.{js,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss} && npm run puglint",
+    "lintfix": "eslint --fix src/**/*.{js,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss}",
     "puglint": "pug-lint-vue src",
     "build": "vue-cli-service build",
     "devbuild": "vue-cli-service build --mode development"

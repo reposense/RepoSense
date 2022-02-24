@@ -1,7 +1,5 @@
 describe('filter breakdown', () => {
   it('check breakdown by file type should show file types', () => {
-    Cypress.wait();
-
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
         .check()
@@ -16,9 +14,32 @@ describe('filter breakdown', () => {
         .should('be.visible');
   });
 
-  it('uncheck all file types should show no file types', () => {
-    Cypress.wait();
+  it('check, uncheck and recheck breakdown by file type should check all file types', () => {
+    cy.get('#summary label.filter-breakdown input:visible')
+        .should('be.visible')
+        .check()
+        .should('be.checked');
 
+    // uncheck all file types
+    cy.get('#summary div.fileTypes input:visible[id="all"]')
+        .uncheck()
+        .should('not.be.checked');
+
+    cy.contains('breakdown by file type').scrollIntoView();
+
+    // uncheck and recheck breakdown by file type
+    cy.get('#summary label.filter-breakdown input:visible')
+        .should('be.visible')
+        .uncheck()
+        .should('not.be.checked')
+        .check()
+        .should('be.checked');
+
+    cy.get('#summary div.fileTypes input:visible[id="all"]')
+        .should('be.checked');
+  });
+
+  it('uncheck all file types should show no file types', () => {
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
         .check()
@@ -35,8 +56,6 @@ describe('filter breakdown', () => {
   });
 
   it('uncheck file type should uncheck all option and not show legend', () => {
-    Cypress.wait();
-
     cy.get('#summary label.filter-breakdown input:visible')
         .should('be.visible')
         .check()

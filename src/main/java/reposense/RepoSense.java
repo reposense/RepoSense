@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
+import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
@@ -24,6 +25,7 @@ import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.InvalidCsvException;
+import reposense.parser.InvalidHeaderException;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
@@ -74,6 +76,15 @@ public class RepoSense {
                     cliArguments.isLastModifiedDateIncluded());
             RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(configs,
                     cliArguments.isShallowCloningPerformed());
+            RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
+                    cliArguments.isFindingPreviousAuthorsPerformed());
+
+            if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
+                    && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
+                logger.warning(GitVersion.FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
+                RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
+            }
+
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
@@ -90,7 +101,7 @@ public class RepoSense {
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
-        } catch (IOException | ParseException | InvalidCsvException e) {
+        } catch (IOException | ParseException | InvalidCsvException | InvalidHeaderException e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
@@ -104,7 +115,7 @@ public class RepoSense {
      * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments)
-            throws IOException, InvalidCsvException {
+            throws IOException, InvalidCsvException, InvalidHeaderException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
         List<AuthorConfiguration> authorConfigs;
         List<GroupConfiguration> groupConfigs;

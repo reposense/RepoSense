@@ -1,8 +1,8 @@
 package reposense.model;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,8 +11,8 @@ import java.util.List;
 public abstract class CliArguments {
     protected Path outputFilePath;
     protected Path assetsFilePath;
-    protected Date sinceDate;
-    protected Date untilDate;
+    protected LocalDateTime sinceDate;
+    protected LocalDateTime untilDate;
     protected boolean isSinceDateProvided;
     protected boolean isUntilDateProvided;
     protected List<FileType> formats;
@@ -23,6 +23,7 @@ public abstract class CliArguments {
     protected int numCloningThreads;
     protected int numAnalysisThreads;
     protected ZoneId zoneId;
+    protected boolean isFindingPreviousAuthorsPerformed;
 
     public ZoneId getZoneId() {
         return zoneId;
@@ -36,11 +37,11 @@ public abstract class CliArguments {
         return assetsFilePath;
     }
 
-    public Date getSinceDate() {
+    public LocalDateTime getSinceDate() {
         return sinceDate;
     }
 
-    public Date getUntilDate() {
+    public LocalDateTime getUntilDate() {
         return untilDate;
     }
 
@@ -80,6 +81,10 @@ public abstract class CliArguments {
         return numAnalysisThreads;
     }
 
+    public boolean isFindingPreviousAuthorsPerformed() {
+        return isFindingPreviousAuthorsPerformed;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -106,6 +111,7 @@ public abstract class CliArguments {
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
                 && this.numCloningThreads == otherCliArguments.numCloningThreads
                 && this.numAnalysisThreads == otherCliArguments.numAnalysisThreads
-                && this.zoneId.equals(otherCliArguments.zoneId);
+                && this.zoneId.equals(otherCliArguments.zoneId)
+                && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed;
     }
 }

@@ -76,6 +76,18 @@
   }
 }
 
+.hash {
+  background-color: mui-color('grey', '200');
+  border-radius: 5px;
+  display: inline-block;
+  margin: 0 5px 5px 0;
+  padding: 0 5px;
+
+  span {
+    text-align: center;
+  }
+}
+
 .fileTypes {
   align-items: center;
   display: flex;

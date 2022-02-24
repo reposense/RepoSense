@@ -11,8 +11,6 @@ describe('contribution bar', () => {
     cy.get('#summary-wrapper label').contains('breakdown by file type').siblings().filter('input')
         .check();
 
-    Cypress.wait();
-
     let actualWidthSum = 0;
     cy.get('.summary-chart__contrib--bar').then((ele) => {
       let i;
@@ -46,8 +44,6 @@ describe('contribution bar', () => {
 
     cy.get('#summary-wrapper label').contains('gradle').siblings().filter('input')
         .check();
-
-    Cypress.wait();
 
     let actualWidthSum = 0;
     cy.get('.summary-chart__contrib--bar').then((ele) => {

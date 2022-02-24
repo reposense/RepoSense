@@ -184,6 +184,15 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the flag to enable find previous authors.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addFindPreviousAuthors() {
+        input.append(ArgsParser.FIND_PREVIOUS_AUTHORS_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {

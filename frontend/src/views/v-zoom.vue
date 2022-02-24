@@ -29,7 +29,6 @@
     .period
       span &#8627; &nbsp;
       span {{ info.zSince }} to {{ info.zUntil }} &nbsp;
-      a(v-on:click="openSummary") [Show ramp chart for this period]
   .zoom__title
     .zoom__title--granularity granularity: one ramp per {{ info.zTimeFrame }}
     .zoom__title--tags
@@ -99,6 +98,8 @@
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
       span &nbsp; ({{ slice.insertions }} lines) &nbsp;
+      .hash
+        span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
         v-for="fileType in\
           filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
@@ -264,11 +265,6 @@ export default {
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
-    openSummary() {
-      const info = { since: this.info.zSince, until: this.info.zUntil };
-      this.$store.commit('updateSummaryDates', info);
-    },
-
     getSliceLink(slice) {
       if (this.info.zIsMerged) {
         return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
@@ -395,7 +391,7 @@ export default {
     this.retrieveHashes();
     this.setInfoHash();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.removeZoomHashes();
   },
 };
@@ -447,6 +443,7 @@ export default {
 
   /* Commit Message Body in Zoom Tab */
   .commit-message {
+    border: 1px solid transparent;
     padding: 5px;
 
     &:focus,

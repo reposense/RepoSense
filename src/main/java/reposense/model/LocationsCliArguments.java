@@ -1,8 +1,8 @@
 package reposense.model;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,11 +11,12 @@ import java.util.List;
 public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
 
-    public LocationsCliArguments(List<String> locations, Path outputFilePath, Path assetsFilePath, Date sinceDate,
-            Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
+    public LocationsCliArguments(List<String> locations, Path outputFilePath, Path assetsFilePath,
+            LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided,
+            boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, List<FileType> formats, boolean isLastModifiedDateIncluded,
             boolean isShallowCloningPerformed, boolean isAutomaticallyLaunching,
-            boolean isStandaloneConfigIgnored, ZoneId zoneId) {
+            boolean isStandaloneConfigIgnored, ZoneId zoneId, boolean isFindingPreviousAuthorsPerformed) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;
         this.assetsFilePath = assetsFilePath;
@@ -31,6 +32,7 @@ public class LocationsCliArguments extends CliArguments {
         this.numCloningThreads = numCloningThreads;
         this.numAnalysisThreads = numAnalysisThreads;
         this.zoneId = zoneId;
+        this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
     }
 
     public List<String> getLocations() {
