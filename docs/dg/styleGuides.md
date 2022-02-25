@@ -37,21 +37,7 @@ converted to ternary operators if the resultant code can be kept at most 3 lines
 (in accordance to the coding standard).
 
 ## Additional Javadoc requirements:
-In addition to what has been mentioned in the [**Java** coding standard](https://se-education.org/guides/conventions/java/index.html), we also stipulate the following standards for Javadoc:
-* Complete sentences should start with a capital letter and end with a full-stop.
-  * This applies even for one-line Javadoc. Example:
-```
-Not okay (No fullstop):
-/**
- * Returns a {@link LocalDateTime} object for {@code sinceDate}
- */
- 
-Should be:
-/**
- * Returns a {@link LocalDateTime} object for {@code sinceDate}.
- */
-```
-
+In addition to what has been mentioned in the [**Java** coding standard (SE-EDU)](https://se-education.org/guides/conventions/java/index.html) and [**Google Java Style Guide**](https://google.github.io/styleguide/javaguide.html), we also stipulate the following standards for Javadoc:
 * All imported classes that are mentioned in Javadoc should have `@link` tags. E.g. `{@link Author}`.
   * For classes that are mentioned but not imported into the code, `@code` tags can be used.
 * If Javadoc is written for a method, all input parameters should be described in the Javadoc, either in the description or through `@param` tags.
@@ -133,20 +119,6 @@ public LocalDateTime parseDate(String dateString) throws NullPointerException, P
     String trimmedString = dateString.toUpperCase(); // NullPointerException may happen here.
     // Code here
 }
-```
-* Javadoc should have a description and not just block tags.
-```
-Not okay (No description):
-/**
- * @throws ParseException if {@code sinceDate} string cannot be parsed.
- */
-
-Okay:
-/**
- * Converts {@code sinceDate} string into a {@code Date} object.
- * 
- * @throws ParseException if {@code sinceDate} string cannot be parsed.
- */
 ```
 
 
