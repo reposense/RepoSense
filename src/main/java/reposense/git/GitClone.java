@@ -136,7 +136,7 @@ public class GitClone {
     }
 
     /**
-     * Clones a bare repo specified in {@code config} into the folder {@code outputFolderName}
+     * Clones a bare repo specified in {@code config} into the folder {@code outputFolderName}.
      *
      * @throws IOException if it fails to delete a directory.
      */

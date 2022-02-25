@@ -19,7 +19,7 @@ public abstract class JsonParser<T> {
     public abstract Type getType();
 
     /**
-     * Converts json file from the given {@code path}
+     * Converts json file from the given {@code path} into an object and returns it.
      *
      * @throws IOException if {@code path} is invalid.
      */

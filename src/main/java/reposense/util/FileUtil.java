@@ -173,7 +173,7 @@ public class FileUtil {
     }
 
     /**
-     * Unzips the contents of the {@code is} into {@code outputPath}
+     * Unzips the contents of the {@code is} into {@code outputPath}.
      *
      * @throws IOException if {@code is} refers to an invalid path.
      */
