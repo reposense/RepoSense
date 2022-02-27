@@ -56,8 +56,8 @@ public class CommitResultAggregator {
     }
 
     /**
-     * Calculates the contribution variance of all authors across contributions made between {@code startDate}
-     * and {@code lastDate}, which are determined based on {@code zoneId}.
+     * Calculates the contribution variance of all authors across contributions made within a date range.
+     * This date range is between {@code startDate and {@code lastDate}, which are determined based on {@code zoneId}.
      * The authors and their respective contributions are stored in {@code intervalContributionMaps}.
      */
     private static Map<Author, Float> calcAuthorContributionVariance(
@@ -113,10 +113,13 @@ public class CommitResultAggregator {
     }
 
     /**
-     * Creates a {@link Map} of each author in {@code authorSet} to their respective {@code commitResults}
-     * consolidated into {@link AuthorDailyContribution} based on date of each {@link CommitResult}.
-     * Uses {@code zoneId} for the date's timezone.
+     * Returns a mapping of each {@link Author} to their respective commit contributions.
+     * For each author, commit contributions are consolidated into {@link AuthorDailyContribution}s based on the date
+     * of each {@link CommitResult}.
      *
+     * @param authorSet The set of authors.
+     * @param commitResults The consolidated list of {@link CommitResult}s.
+     * @param zoneId The timezone for all {@link CommitResult}s' dates.
      * @return a {@link Map} of each author to a list of {@link AuthorDailyContribution} across all dates in which
      * the author made commits.
      */
@@ -152,7 +155,7 @@ public class CommitResultAggregator {
     }
 
     /**
-     * Get the starting point of the {@code current} date.
+     * Gets the starting point of the {@code current} date.
      *
      * @return the {@code current} date if it is equal to the {@code ARBITRARY_FIRST_COMMIT_DATE_UTC} adjusted to the
      * timezone given by {@code zoneId}. Otherwise, return a {@link LocalDateTime} adjusted to have a time of 00:00:00.
@@ -166,7 +169,7 @@ public class CommitResultAggregator {
     }
 
     /**
-     * Get the earliest commit date from {@code commitInfos}.
+     * Gets the earliest commit date from {@code commitInfos}.
      *
      * @return First commit date if there is at least one {@link CommitResult}. Otherwise, return
      * the {@code ARBITRARY_FIRST_COMMIT_DATE_UTC} converted to the timezone given by {@code zoneId}.

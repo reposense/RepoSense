@@ -19,9 +19,13 @@ public class GitRevList {
     private static final String REVISION_PATH_SEPARATOR = " -- ";
 
     /**
-     * Returns the latest commit hash at the branch given by {@code branchName} before {@code date}, with
-     * {@code zoneId} taken into account for {@code date} and {@link Path} given by {@code root} as working directory.
+     * Returns the latest commit hash at {@code branchName} before {@code date}.
      * Returns an empty {@link String} if {@code date} is null, or there is no such commit.
+     *
+     * @param root The name of the working directory.
+     * @param branchName The name of the branch to find the commit hash in.
+     * @param date The date before which the commit hash must be found.
+     * @param zoneId The timezone of the date.
      */
     public static String getCommitHashBeforeDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
         if (date == null) {
@@ -36,10 +40,13 @@ public class GitRevList {
     }
 
     /**
-     * Returns the latest commit hash at the branch given by {@code branchName}, inclusive and until the end of
-     * the day of {@code date}, with {@code zoneId} taken into account for {@code date} and {@link Path} given
-     * by {@code root} as working directory.
+     * Returns the latest commit hash at {@code branchName} before {@code date}.
      * Returns an empty {@link String} if {@code date} is null, or there is no such commit.
+     *
+     * @param root The name of the working directory.
+     * @param branchName The name of the branch to find the commit hash in.
+     * @param date The cut-off date before which the commit hash must be found.
+     * @param zoneId The timezone of the date.
      */
     public static String getCommitHashUntilDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
         if (date == null) {
@@ -55,8 +62,8 @@ public class GitRevList {
 
     /**
      * Returns a list of commit hashes at the branch given by {@code branchName}, separated by newlines,
-     * that are within the range of {@code startHash} and {@code endHash}, with the {@link Path} given by {@code root}
-     * as working directory.
+     * that are within the range of {@code startHash} and {@code endHash}.
+     * The {@code root} is the name of the working directory.
      * Both the {@code startHash} and {@code endHash} are guaranteed to be in the list.
      */
     public static String getCommitHashInRange(String root, String branchName, String startHash, String endHash) {
@@ -97,7 +104,8 @@ public class GitRevList {
 
     /**
      * Returns a list of commit hashes at the branch given by {@code branchName} separated by newlines that exist
-     * since {@code hash} until HEAD, with the {@link Path} given by {@code root} as working directory.
+     * since {@code hash} until HEAD.
+     * The {@code root} is the name of the working directory.
      */
     private static String getAllCommitHashSince(String root, String branchName, String hash) {
         Path rootPath = Paths.get(root);
