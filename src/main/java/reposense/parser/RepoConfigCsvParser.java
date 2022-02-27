@@ -10,6 +10,7 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.util.StringsUtil;
 
 /**
  * Container for the values parsed from {@code repo-config.csv} file.
@@ -32,6 +33,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String IGNORE_AUTHOR_LIST_CONFIG_HEADER = "Ignore Authors List";
     private static final String SHALLOW_CLONING_CONFIG_HEADER = "Shallow Cloning";
     private static final String FIND_PREVIOUS_AUTHORS_CONFIG_HEADER = "Find Previous Authors";
+    private static final String FILE_SIZE_LIMIT_HEADER = "File Size Limit";
 
     public RepoConfigCsvParser(Path csvFilePath) throws IOException {
         super(csvFilePath);
@@ -55,7 +57,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         return new String[] {
                 BRANCH_HEADER, FILE_FORMATS_HEADER, IGNORE_GLOB_LIST_HEADER, IGNORE_STANDALONE_CONFIG_HEADER,
                 IGNORE_COMMIT_LIST_CONFIG_HEADER, IGNORE_AUTHOR_LIST_CONFIG_HEADER, SHALLOW_CLONING_CONFIG_HEADER,
-                FIND_PREVIOUS_AUTHORS_CONFIG_HEADER
+                FIND_PREVIOUS_AUTHORS_CONFIG_HEADER, FILE_SIZE_LIMIT_HEADER
         };
     }
 
@@ -85,6 +87,24 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isElementOverridingStandaloneConfig(record, IGNORE_AUTHOR_LIST_CONFIG_HEADER);
         List<String> ignoredAuthorsList = getAsListWithoutOverridePrefix(record, IGNORE_AUTHOR_LIST_CONFIG_HEADER);
 
+        boolean isFileSizeLimitOverriding = isElementOverridingStandaloneConfig(record, FILE_SIZE_LIMIT_HEADER);
+        List<String> fileSizeLimitStringList = getAsListWithoutOverridePrefix(record, FILE_SIZE_LIMIT_HEADER);
+        long fileSizeLimit = RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
+
+        // If file diff limit is specified
+        if (fileSizeLimitStringList.size() > 0) {
+            String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
+            int parseValue;
+            if (!StringsUtil.isNumeric(fileSizeLimitString)
+                    || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
+                logger.warning(String.format("Values in \"%s\" column should be positive integers.",
+                        FILE_SIZE_LIMIT_HEADER));
+                isFileSizeLimitOverriding = false;
+            } else {
+                fileSizeLimit = parseValue;
+            }
+        }
+
         String ignoreStandaloneConfig = get(record, IGNORE_STANDALONE_CONFIG_HEADER);
         boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
 
@@ -111,9 +131,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         }
 
         RepoConfiguration config = new RepoConfiguration(
-                location, branch, formats, ignoreGlobList, isStandaloneConfigIgnored, ignoreCommitList,
+                location, branch, formats, ignoreGlobList, fileSizeLimit, isStandaloneConfigIgnored, ignoreCommitList,
                 isFormatsOverriding, isIgnoreGlobListOverriding, isIgnoreCommitListOverriding,
-                isShallowCloningPerformed, isFindingPreviousAuthorsPerformed);
+                isFileSizeLimitOverriding, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed);
         config.setIgnoredAuthorsList(ignoredAuthorsList);
         config.setIsIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding);
 

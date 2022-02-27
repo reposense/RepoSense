@@ -100,8 +100,10 @@ public class FileInfoAnalyzer {
             Author author = line.getAuthor();
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
+        // ArrayList<LineInfo> lines = !fileInfo.exceedsFileLimit() ? fileInfo.getLines() : new ArrayList<>();
         return FileResult.createTextFileResult(
-            fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap);
+            fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap,
+            fileInfo.exceedsFileLimit());
     }
 
     /**

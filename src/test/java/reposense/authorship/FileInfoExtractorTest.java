@@ -1,5 +1,7 @@
 package reposense.authorship;
 
+import static reposense.model.RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -131,13 +133,15 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void generateFileInfo_fileWithSpecialCharacters_correctFileInfoGenerated() {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITH_SPECIAL_CHARACTER.toString());
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITH_SPECIAL_CHARACTER.toString(),
+                DEFAULT_FILE_SIZE_LIMIT);
         Assert.assertEquals(5, fileInfo.getLines().size());
     }
 
     @Test
     public void generateFileInfo_fileWithoutSpecialCharacters_correctFileInfoGenerated() {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITHOUT_SPECIAL_CHARACTER.toString());
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITHOUT_SPECIAL_CHARACTER.toString(),
+                DEFAULT_FILE_SIZE_LIMIT);
         Assert.assertEquals(5, fileInfo.getLines().size());
     }
 

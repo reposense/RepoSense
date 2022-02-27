@@ -209,6 +209,8 @@ window.api = {
     const res = [];
     const repo = window.REPOS[repoName];
 
+    console.log(commits.authorFileTypeContributionMap['Gokul Rajiv']);
+
     Object.keys(commits.authorDisplayNameMap).forEach((author) => {
       if (author) {
         const obj = {

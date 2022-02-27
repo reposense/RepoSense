@@ -30,6 +30,9 @@ public class FileResultAggregator {
                 }
                 authorContributionSummary.addAuthorContributionCount(author, fileResult.getFileType());
             }
+            if (fileResult.isIgnored()) {
+                fileResult.clearLines();
+            }
         }
         return authorContributionSummary;
     }

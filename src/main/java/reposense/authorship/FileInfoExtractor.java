@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,6 +37,8 @@ public class FileInfoExtractor {
     private static final String MESSAGE_START_EXTRACTING_FILE_INFO = "Extracting relevant file info from %s (%s)...";
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path for current OS or "
             + "indicates a possible regex match issue. Skipping this directory.";
+    private static final String MESSAGE_FILE_SIZE_LIMIT_EXCEEDED = "File \"%s\" has %dB size. The file size "
+            + "limit is set at %dB. Skipping this file...";
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git \"?\'?a/.*\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
@@ -124,7 +127,7 @@ public class FileInfoExtractor {
             }
 
             if (config.getFileTypeManager().isInsideWhitelistedFormats(filePath)) {
-                FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
+                FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath, config.getFileSizeLimit());
                 setLinesToTrack(currentFileInfo, fileDiffResult);
                 fileInfos.add(currentFileInfo);
             }
@@ -199,7 +202,7 @@ public class FileInfoExtractor {
             }
             fileInfos.add((isBinaryFiles)
                     ? new FileInfo(relativePath.toString())
-                    : generateFileInfo(config.getRepoRoot(), relativePath.toString()));
+                    : generateFileInfo(config.getRepoRoot(), relativePath.toString(), config.getFileSizeLimit()));
         }
         return fileInfos;
     }
@@ -208,11 +211,19 @@ public class FileInfoExtractor {
      * Generates and returns a {@code FileInfo} with a list of {@code LineInfo} for each line content in the
      * {@code relativePath} file.
      */
-    public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
+    public static FileInfo generateFileInfo(String repoRoot, String relativePath, long fileSizeLimit) {
+        // write test for exceeded file size
         FileInfo fileInfo = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, fileInfo.getPath());
 
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
+            long fileSize = Files.size(path);
+            fileInfo.setFileSize(fileSize);
+            if (fileSize > fileSizeLimit) {
+                logger.log(Level.WARNING, String.format(MESSAGE_FILE_SIZE_LIMIT_EXCEEDED,
+                        fileInfo.getPath(), fileSize, fileSizeLimit));
+                fileInfo.setExceedsSizeLimit(true);
+            }
             String line;
             int lineNum = 1;
             while ((line = br.readLine()) != null) {

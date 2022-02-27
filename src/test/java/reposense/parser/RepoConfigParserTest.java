@@ -70,6 +70,7 @@ public class RepoConfigParserTest {
             FileType.convertFormatStringsToFileTypes(Arrays.asList("java", "adoc", "md"));
     private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
             Arrays.asList("abcde12345", "67890fdecba");
+    private static final int TEST_REPO_BETA_CONFIG_FILE_DIFF_LIMIT = 1000000;
 
     private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
@@ -100,12 +101,14 @@ public class RepoConfigParserTest {
 
         Assert.assertEquals(config.getIgnoreCommitList(),
                 CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+        Assert.assertEquals(config.getFileSizeLimit(), TEST_REPO_BETA_CONFIG_FILE_DIFF_LIMIT);
 
         Assert.assertTrue(config.isShallowCloningPerformed());
 
         Assert.assertFalse(config.isFormatsOverriding());
         Assert.assertFalse(config.isIgnoreGlobListOverriding());
         Assert.assertFalse(config.isIgnoreCommitListOverriding());
+        Assert.assertFalse(config.isFileSizeLimitOverriding());
     }
 
     @Test
@@ -228,10 +231,12 @@ public class RepoConfigParserTest {
         Assert.assertFalse(config.isStandaloneConfigIgnored());
         Assert.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
                 config.getIgnoreCommitList());
+        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FILE_DIFF_LIMIT, config.getFileSizeLimit());
 
         Assert.assertTrue(config.isFormatsOverriding());
         Assert.assertTrue(config.isIgnoreGlobListOverriding());
         Assert.assertTrue(config.isIgnoreCommitListOverriding());
+        Assert.assertTrue(config.isFileSizeLimitOverriding());
     }
 
     @Test
@@ -290,12 +295,14 @@ public class RepoConfigParserTest {
         Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
         Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
+        Assert.assertEquals(RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT, config.getFileSizeLimit());
 
         Assert.assertTrue(config.isStandaloneConfigIgnored());
 
         Assert.assertFalse(config.isFormatsOverriding());
         Assert.assertFalse(config.isIgnoreGlobListOverriding());
         Assert.assertFalse(config.isIgnoreCommitListOverriding());
+        Assert.assertFalse(config.isFileSizeLimitOverriding());
     }
 
     @Test

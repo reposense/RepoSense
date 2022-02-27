@@ -84,4 +84,11 @@ public class StringsUtil {
         }
         return editedString;
     }
+
+    /**
+     * Returns true iff {@code string} is purely numeric
+     */
+    public static boolean isNumeric(String string) {
+        return Pattern.compile("^\\d+$").matcher(string).matches();
+    }
 }

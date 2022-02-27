@@ -1,5 +1,7 @@
 package reposense.authorship;
 
+import static reposense.model.RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
+
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
@@ -292,7 +294,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Author author = new Author(MINGYI_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));
 
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), "pr_617.java");
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), "pr_617.java",
+                DEFAULT_FILE_SIZE_LIMIT);
         FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
 
         Assert.assertEquals(1, fileInfo.getLines().size());
@@ -310,7 +313,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setAuthorList(Collections.singletonList(author));
 
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(),
-                "includeLastModifiedDateInLinesTest.java");
+                "includeLastModifiedDateInLinesTest.java", DEFAULT_FILE_SIZE_LIMIT);
         FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
 
         Assert.assertEquals(4, fileInfo.getLines().size());

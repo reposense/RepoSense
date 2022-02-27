@@ -19,6 +19,7 @@ import reposense.util.FileUtil;
  */
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
+    public static final long DEFAULT_FILE_SIZE_LIMIT = 1000000;
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
 
     private RepoLocation location;
@@ -43,30 +44,36 @@ public class RepoConfiguration {
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
     private transient boolean isIgnoredAuthorsListOverriding = false;
+    private transient long fileSizeLimit;
+    private transient boolean isFileSizeLimitOverriding;
 
     public RepoConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
     }
 
     public RepoConfiguration(RepoLocation location, String branch) {
-        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
-                false, false, false, false, false);
+        this(location, branch, Collections.emptyList(), Collections.emptyList(),
+                RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT, false, Collections.emptyList(), false, false, false, false,
+                false, false);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
-            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding,
-            boolean isShallowCloningPerformed, boolean isFindingPreviousAuthorsPerformed) {
+            long fileSizeLimit, boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList,
+            boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding,
+            boolean isFileDiffLimitOverriding, boolean isShallowCloningPerformed,
+            boolean isFindingPreviousAuthorsPerformed) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
+        this.fileSizeLimit = fileSizeLimit;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
         this.fileTypeManager = new FileTypeManager(formats);
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
+        this.isFileSizeLimitOverriding = isFileDiffLimitOverriding;
         this.isShallowCloningPerformed = isShallowCloningPerformed;
         this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
 
@@ -264,6 +271,9 @@ public class RepoConfiguration {
         if (!isIgnoredAuthorsListOverriding) {
             ignoredAuthorsList = standaloneConfig.getIgnoreAuthorList();
         }
+        if (!isFileSizeLimitOverriding) {
+            fileSizeLimit = standaloneConfig.getFileSizeLimit();
+        }
         authorConfig.update(standaloneConfig, ignoreGlobList);
     }
 
@@ -332,6 +342,7 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && ignoredAuthorsList.equals(otherRepoConfig.ignoredAuthorsList)
+                && fileSizeLimit == otherRepoConfig.fileSizeLimit
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
                 && fileTypeManager.equals(otherRepoConfig.fileTypeManager)
                 && isLastModifiedDateIncluded == otherRepoConfig.isLastModifiedDateIncluded
@@ -339,7 +350,8 @@ public class RepoConfiguration {
                 && isShallowCloningPerformed == otherRepoConfig.isShallowCloningPerformed
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding
-                && isIgnoredAuthorsListOverriding == otherRepoConfig.isIgnoredAuthorsListOverriding;
+                && isIgnoredAuthorsListOverriding == otherRepoConfig.isIgnoredAuthorsListOverriding
+                && isFileSizeLimitOverriding == otherRepoConfig.isFileSizeLimitOverriding;
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -387,6 +399,10 @@ public class RepoConfiguration {
 
     public List<CommitHash> getIgnoreCommitList() {
         return ignoreCommitList;
+    }
+
+    public long getFileSizeLimit() {
+        return fileSizeLimit;
     }
 
     public void setIgnoreCommitList(List<CommitHash> ignoreCommitList) {
@@ -571,6 +587,10 @@ public class RepoConfiguration {
 
     public boolean isIgnoreCommitListOverriding() {
         return isIgnoreCommitListOverriding;
+    }
+
+    public boolean isFileSizeLimitOverriding() {
+        return isFileSizeLimitOverriding;
     }
 
     public boolean isFindingPreviousAuthorsPerformed() {

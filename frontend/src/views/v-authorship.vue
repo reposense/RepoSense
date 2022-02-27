@@ -83,6 +83,7 @@
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
                 span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
+          br
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
             span(
@@ -90,6 +91,13 @@
               ' binary files (not included in total line count)'"
             )
               span {{ binaryFilesCount }} binary file(s)
+          label.ignored-fileType(v-if="ignoredFilesCount > 0")
+            input.mui-checkbox--fileType(type="checkbox", v-model="isIgnoredChecked")
+            span(
+              v-bind:title="ignoredFilesCount + \
+              ' ignored files (included in total line count)'"
+            )
+              span {{ ignoredFilesCount }} ignored file(s)
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
@@ -119,7 +127,7 @@
                 font-awesome-icon.button(icon="user-edit")
                 span.tooltip-text Click to view the blame view of file
           span.fileTypeLabel(
-            v-if='!file.isBinary',
+            v-if='!file.isBinary && !file.isIgnored',
             v-bind:style="{\
               'background-color': fileTypeColors[file.fileType],\
               'color': getFontColor(fileTypeColors[file.fileType])\
@@ -127,13 +135,23 @@
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}
             |&nbsp;({{ file.lineCount - file.blankLineCount }})
           span.fileTypeLabel.binary(v-if='file.isBinary') binary&nbsp;
-        pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary", v-show="file.active")
+          span.fileTypeLabel(
+            v-if='file.isIgnored',
+            v-bind:style="{\
+              'background-color': '#000000',\
+              'color': '#ffffff'\
+              }"
+          ) ignored ({{ file.lineCount }})&nbsp;
+        pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary && !file.isIgnored", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
             .bin-text Binary file not shown.
+        pre.file-content(v-if="file.isIgnored", v-show="file.active")
+          .ignored-segment
+            .ignore-text File is ignored.
 </template>
 
 <script>
@@ -163,6 +181,7 @@ function authorshipInitialState() {
     filesSortType: 'lineOfCode',
     toReverseSortFiles: true,
     isBinaryFilesChecked: false,
+    isIgnoredFilesChecked: false,
     searchBarValue: '',
     authorDisplayName: '',
   };
@@ -237,6 +256,10 @@ export default {
         this.isBinaryFilesChecked = hash.authorshipIsBinaryFileTypeChecked === 'true';
       }
 
+      if (hash.authorshipIsIgnoredFilesChecked) {
+        this.isIgnoredFilesChecked = hash.authorshipIsIgnoredFilesChecked === 'true';
+      }
+
       if ('authorshipFilesGlob' in hash) {
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob;
@@ -261,6 +284,7 @@ export default {
     removeAuthorshipHashes() {
       window.removeHash('authorshipFileTypes');
       window.removeHash('authorshipIsBinaryFileTypeChecked');
+      window.removeHash('authorshipIsIgnoredFilesChecked');
       window.removeHash('authorshipFilesGlob');
       window.removeHash('authorshipSortBy');
       window.removeHash('reverseAuthorshipOrder');
@@ -422,6 +446,12 @@ export default {
         out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
         out.fileType = file.fileType;
 
+        if (file.isIgnored) {
+          out.isIgnored = true;
+        } else {
+          out.isIgnored = false;
+        }
+
         if (file.isBinary) {
           out.isBinary = true;
         } else {
@@ -480,6 +510,7 @@ export default {
       window.addHash('authorshipFilesGlob', this.searchBarValue);
       window.removeHash('authorshipFileTypes');
       window.removeHash('authorshipIsBinaryFileTypeChecked');
+      window.removeHash('authorshipIsIgnoredFilesChecked');
       window.encodeHash();
     },
 
@@ -490,6 +521,7 @@ export default {
 
       window.addHash('authorshipFileTypes', fileTypeHash);
       window.addHash('authorshipIsBinaryFileTypeChecked', this.isBinaryFilesChecked);
+      window.addHash('authorshipIsIgnoredFilesChecked', this.isIgnoredFilesChecked);
       window.removeHash('authorshipFilesGlob');
       window.encodeHash();
     },
@@ -498,8 +530,8 @@ export default {
       this.$store.commit('incrementLoadingOverlayCount', 1);
       setTimeout(() => {
         this.selectedFiles = this.files.filter(
-            (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary)
-            || (file.isBinary && this.isBinaryFilesChecked))
+            (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
+            || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))
             && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
         )
             .sort(this.sortingFunction);
@@ -579,6 +611,22 @@ export default {
       },
     },
 
+    isIgnoredChecked: {
+      get() {
+        return this.isIgnoredFilesChecked;
+      },
+      set(value) {
+        if (value) {
+          this.isIgnoredFilesChecked = true;
+        } else {
+          this.isIgnoredFilesChecked = false;
+        }
+
+        this.updateSelectedFiles();
+        this.indicateCheckBoxes();
+      },
+    },
+
     activeFilesCount() {
       return this.selectedFiles.filter((file) => file.active).length;
     },
@@ -603,6 +651,10 @@ export default {
 
     binaryFilesCount() {
       return this.files.filter((file) => file.isBinary).length;
+    },
+
+    ignoredFilesCount() {
+      return this.files.filter((file) => file.isIgnored).length;
     },
 
     ...mapState({
@@ -681,7 +733,11 @@ export default {
       .binary-fileType {
         background-color: mui-color('white');
         color: mui-color('grey', '800');
-        float: right;
+      }
+
+      .ignored-fileType {
+        background-color: mui-color('white');
+        color: mui-color('grey', '800');
       }
     }
   }
@@ -746,6 +802,15 @@ export default {
       }
 
       .bin-text {
+        color: mui-color('grey', '800');
+        padding-left: 4rem;
+      }
+    }
+
+    .ignored-segment {
+      background-color: mui-color('white');
+
+      .ignore-text {
         color: mui-color('grey', '800');
         padding-left: 4rem;
       }

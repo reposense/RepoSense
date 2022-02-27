@@ -1,6 +1,7 @@
 package reposense.authorship;
 
 import static reposense.model.Author.UNKNOWN_AUTHOR;
+import static reposense.model.RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -80,7 +81,8 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     public FileResult getFileResult(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath,
+                DEFAULT_FILE_SIZE_LIMIT);
         return FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
     }
 
