@@ -158,7 +158,7 @@ public class ReportGenerator {
         if (is != null) {
             FileUtil.copyTemplate(is, outputPath);
         } else {
-            logger.info(MESSAGE_MISSING_TEMPLATE);
+            logger.warning(MESSAGE_MISSING_TEMPLATE);
         }
     }
 
