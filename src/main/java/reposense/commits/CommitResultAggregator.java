@@ -57,7 +57,7 @@ public class CommitResultAggregator {
 
     /**
      * Calculates the contribution variance of all authors across contributions made within a date range.
-     * This date range is between {@code startDate and {@code lastDate}, which are determined based on {@code zoneId}.
+     * This date range is between {@code startDate} and {@code lastDate}, which are determined based on {@code zoneId}.
      * The authors and their respective contributions are stored in {@code intervalContributionMaps}.
      */
     private static Map<Author, Float> calcAuthorContributionVariance(
