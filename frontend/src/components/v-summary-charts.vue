@@ -281,7 +281,6 @@ export default {
     },
 
     getGroupTotalContribution(group) {
-      console.log(group);
       return group.reduce((acc, ele) => acc + ele.checkedFileTypeContribution, 0);
     },
 
