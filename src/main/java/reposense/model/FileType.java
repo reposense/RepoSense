@@ -33,7 +33,7 @@ public class FileType {
     }
 
     /**
-     * Returns a list of {@code FileType} from {@code formats}, with each {@code FileType}
+     * Returns a list of {@link FileType} from {@code formats}, with each {@link FileType}
      * containing the format name and associated files ending with the format.
      */
     public static List<FileType> convertFormatStringsToFileTypes(List<String> formats) {
@@ -41,7 +41,7 @@ public class FileType {
     }
 
     /**
-     * Returns a {@code FileType} with label named {@code format} and globs that include all files that end with
+     * Returns a {@link FileType} with label named {@code format} and globs that include all files that end with
      * {@code format}.
      */
     public static FileType convertStringFormatToFileType(String format) {
@@ -51,9 +51,10 @@ public class FileType {
 
     /**
      * Ensures that the string {@code label} is a valid file type.
+     *
      * @throws IllegalArgumentException if {@code label} is an empty string.
      */
-    public static void validateFileTypeLabel(String label) {
+    public static void validateFileTypeLabel(String label) throws IllegalArgumentException {
         if (label.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -61,6 +62,7 @@ public class FileType {
 
     /**
      * Ensures that {@code format} is a valid file format.
+     *
      * @throws IllegalArgumentException if {@code format} is not alphanumeric.
      */
     public static void validateFileFormat(String format) throws IllegalArgumentException {

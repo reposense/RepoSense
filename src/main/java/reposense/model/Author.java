@@ -67,6 +67,7 @@ public class Author {
 
     /**
      * Checks that all the strings in the {@code emails} only contains commonly used email patterns.
+     *
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
     private static void validateEmails(List<String> emails) throws IllegalArgumentException {
@@ -79,6 +80,7 @@ public class Author {
 
     /**
      * Checks that all the strings in the {@code ignoreGlobList} only contains commonly used glob patterns.
+     *
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
     private static void validateIgnoreGlobs(List<String> ignoreGlobList) throws IllegalArgumentException {
@@ -130,7 +132,7 @@ public class Author {
     }
 
     /**
-     * Validates and adds a list of ignore glob into the {@code Author} class instance variable without duplicates
+     * Validates and adds {@code ignoreGlobList} into the {@link Author} class instance variable without duplicates
      * and updates the ignore glob matcher.
      */
     public void importIgnoreGlobList(List<String> ignoreGlobList) {
@@ -177,7 +179,7 @@ public class Author {
     }
 
     /**
-     * Updates the {@code PathMatcher} to the new ignore glob list set.
+     * Updates the {@link PathMatcher} to the new ignore glob list set.
      * Called after a new ignore glob list is set.
      */
     private void updateIgnoreGlobMatcher() {
@@ -186,7 +188,7 @@ public class Author {
     }
 
     /**
-     * Adds the standard github email to {@code emails} if doesn't exist.
+     * Adds the standard github email to {@code emails} if it doesn't exist.
      */
     private void addStandardGitHubEmail(List<String> emails) {
         String standardGitHubEmail = getGitId() + STANDARD_GITHUB_EMAIL_DOMAIN;

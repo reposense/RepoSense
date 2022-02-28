@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * {@code FileTypeManager} is responsible for holding a list of whitelisted formats and user-specified custom
- * groupings.
+ * Holds a list of whitelisted formats and user-specified custom groupings.
  */
 public class FileTypeManager {
     private static final String DEFAULT_GROUP = "other";
@@ -40,8 +39,10 @@ public class FileTypeManager {
     /**
      * Returns the file format of the given {@code fileName}.
      * Returns the file type "other" if the format of the file is not of the standard type.
+     *
+     * @throws AssertionError if whitelisted formats check somehow fails, which may be due to bugs.
      */
-    private FileType getFileFormat(String fileName) {
+    private FileType getFileFormat(String fileName) throws AssertionError {
         if (hasSpecifiedFormats()) {
             for (FileType format : formats) {
                 if (format.isFileGlobMatching(fileName)) {

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents the structure of a config.json in _reposense folder.
+ * Represents the structure of a config.json in the _reposense folder.
  */
 public class StandaloneConfig {
     private List<StandaloneAuthor> authors;
