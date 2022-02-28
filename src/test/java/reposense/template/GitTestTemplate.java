@@ -117,7 +117,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * Generates the information for test file.
+     * Generates the information for test file at {@code relativePath}.
      */
     public FileInfo generateTestFileInfo(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
@@ -130,7 +130,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * Generates the .git-blame-ignore-revs file containing {@code CommitHash}
+     * Generates the .git-blame-ignore-revs file containing {@link CommitHash}es
      * from {@code toIgnore} for the test repo.
      */
     public List<CommitHash> createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
@@ -159,7 +159,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * For each line in {@code FileResult}, assert that it is attributed to the expected author provided by
+     * For each line in {@link FileResult}, assert that it is attributed to the expected author provided by
      * {@code expectedLineAuthors}.
      */
     public void assertFileAnalysisCorrectness(FileResult fileResult, List<Author> expectedLineAuthors) {
@@ -175,7 +175,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * Returns a {@code Author} that has git id and aliases of all authors in testrepo-Alpha, so that no commits
+     * Returns a {@link Author} that has git id and aliases of all authors in testrepo-Alpha, so that no commits
      * will be filtered out in the `git log` command.
      */
     protected Author getAlphaAllAliasAuthor() {

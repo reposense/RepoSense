@@ -710,6 +710,7 @@ public class ArgsParserTest {
 
     /**
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
+     *
      * @throws AssertionError if {@code actualSinceDate} is not one month before {@code untilDate}.
      */
     private void assertDateDiffOneMonth(LocalDateTime actualSinceDate, LocalDateTime untilDate) {
@@ -719,6 +720,7 @@ public class ArgsParserTest {
 
     /**
      * Ensures that {@code actualUntilDate} falls on the date of report generation with time at 23:59:59.
+     *
      * @throws AssertionError if {@code actualUntilDate} does not fall on the date of report generation
      * with time at 23:59:59.
      */
