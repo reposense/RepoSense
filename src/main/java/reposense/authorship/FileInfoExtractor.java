@@ -89,9 +89,9 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Generates a list of relevant {@code FileInfo} for all files that were edited in between the current
-     * commit and the {@code lastCommitHash} commit, marks each {@code LineInfo} for each {@code FileInfo} on
-     * whether they have been inserted within the commit range or not, and returns it.
+     * Returns a list of {@link FileInfo}s for all files in the repo with lines marked indicating if they were edited
+     * in between the current commit and the commit given by {@code lastCommitHash}.
+     * The repo is given by {@code config}.
      */
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -134,9 +134,9 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}
+     * Returns a {@link Set} of non-binary files for the repo {@code repoConfig}
      * if {@code isBinaryFiles} is set to `false`.
-     * Otherwise, returns a {@code Set} of binary files for the repo {@code repoConfig}
+     * Otherwise, returns a {@link Set} of binary files for the repo {@code repoConfig}.
      */
     public static Set<Path> getFiles(RepoConfiguration repoConfig, boolean isBinaryFile) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));
@@ -187,8 +187,10 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Traverses each file from the repo root directory, generates the {@code FileInfo} for each relevant file found
+     * Traverses each file from the repo root directory, generates the {@link FileInfo} for each relevant file found
      * based on {@code config} and inserts it into {@code fileInfos}.
+     * Adds binary files to {@link List} if {@code isBinaryFiles} is true. Otherwise, adds non-binary files
+     * to {@link List}.
      */
     private static List<FileInfo> getAllFileInfo(RepoConfiguration config, boolean isBinaryFiles) {
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -205,8 +207,8 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Generates and returns a {@code FileInfo} with a list of {@code LineInfo} for each line content in the
-     * {@code relativePath} file.
+     * Returns a {@link FileInfo} with a list of {@link LineInfo} for each line content in the
+     * file located at the {@link Path} given by {@code repoRoot}/{@code relativePath}.
      */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
         FileInfo fileInfo = new FileInfo(relativePath);
@@ -240,7 +242,7 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code filePath} is valid and the file is not in binary.
+     * Returns true if {@code filePath} is valid and the file is not in binary (i.e. part of {@code textFilesSet}).
      */
     private static boolean isValidTextFile(String filePath, Set<Path> textFilesSet) {
         boolean isValidFilePath;

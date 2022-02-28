@@ -18,7 +18,7 @@ import reposense.model.AuthorConfiguration;
  * will be analyzed. Otherwise, the line will be ignored and treated as normal lines.
  * If the line is analyzed, and the string following the author tag is a valid git id, and there is no author config
  * file, then the code will be attributed to the author with that git id. Otherwise, the code will be attributed to
- * unknown author
+ * unknown author.
  */
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
@@ -45,6 +45,7 @@ public class AnnotatorAnalyzer {
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
+     * Updates {@code authorConfig} if a new {@link Author} is found.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
         Optional<Author> currentAnnotatedAuthor = Optional.empty();
@@ -73,12 +74,14 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Extracts the author name from the given {@code line}, finds the corresponding {@code Author}
-     * in {@code authorAliasMap}, and returns this {@code Author} stored in an {@code Optional}.
-     * @return {@code Optional.of(Author#UNKNOWN_AUTHOR)} if there is an author config file and
-     *              no matching {@code Author} is found,
-     *         {@code Optional.empty()} if an end author tag is used (i.e. "@@author"),
-     *         {@code Optional.of(Author#tagged author)} otherwise.
+     * Extracts the author name from the given {@code line}, finds out if {@link Author} is already present
+     * in {@code authorConfig}, and returns this {@link Author} stored in an {@link Optional}.
+     * Uses {@code currentAnnotatedAuthor} to keep track of which {@link Author} to attribute a line to.
+     *
+     * @return {@link Optional} of {@link Author#UNKNOWN_AUTHOR} if there is an author config file and
+     *              no matching {@link Author} is found,
+     *         an empty {@link Optional} if an end author tag is used (i.e. "@@author"),
+     *         {@link Optional} of the tagged author otherwise.
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
                                                      Optional<Author> currentAnnotatedAuthor, int formatIndex) {
@@ -105,9 +108,9 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Extracts the name that follows the specific format.
+     * Extracts the {@link Author} name that follows the specific format from {@code line} at {@code formatIndex}.
      *
-     * @return an empty string if no such author was found, the new author name otherwise
+     * @return an empty string if no such author was found, the new author name otherwise.
      */
     public static String extractAuthorName(String line, int formatIndex) {
         String[] splitByAuthorTag = line.split(AUTHOR_TAG);
@@ -127,14 +130,19 @@ public class AnnotatorAnalyzer {
         return (foundMatch) ? trimmedParameters : null;
     }
 
+    /**
+     * Generates regex for valid comment formats in which author tag is found, with {@code REGEX_AUTHOR_TAG_FORMAT}
+     * flanked by {@code commentStart} and {@code commentEnd}.
+     */
     private static String generateCommentRegex(String commentStart, String commentEnd) {
         return "^[\\s]*" + commentStart + "[\\s]*" + REGEX_AUTHOR_TAG_FORMAT + "[\\s]*(" + commentEnd + ")?[\\s]*$";
     }
 
     /**
-     * Checks if the line is a valid @@author tag comment line
-     * @param line The line to be checked
-     * @return The index of the comment if the comment pattern matches, -1 if no match could be found
+     * Checks if the {@code line} is a valid @@author tag comment line.
+     *
+     * @param line The line to be checked.
+     * @return The index of the comment if the comment pattern matches, -1 if no match could be found.
      */
     public static int checkValidCommentLine(String line) {
         for (int i = 0; i < COMMENT_PATTERNS.length; i++) {
