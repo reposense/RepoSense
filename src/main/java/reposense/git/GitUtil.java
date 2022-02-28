@@ -38,8 +38,8 @@ class GitUtil {
     private static final String OR_OPERATOR_PATTERN = "\\|";
 
     /**
-     * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands,
-     * with {@code zoneId} taken into account.
+     * Returns the command to specify the date range of commits to analyze for `git` commands.
+     * Date range is given by {@code sinceDate} and {@code untilDate}, with {@code zoneId} taken into account.
      */
     static String convertToGitDateRangeArgs(LocalDateTime sinceDate, LocalDateTime untilDate, ZoneId zoneId) {
         String gitDateRangeArgs = "";
@@ -57,7 +57,7 @@ class GitUtil {
     }
 
     /**
-     * Returns the {@code String} command to specify the authors to analyze for `git log` command.
+     * Returns the command to specify the {@code author} to analyze for `git log` command.
      */
     static String convertToFilterAuthorArgs(Author author) {
         StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
@@ -79,7 +79,7 @@ class GitUtil {
     }
 
     /**
-     * Returns the {@code String} command to specify the file formats to analyze for `git` commands.
+     * Returns the command to specify the file {@code formats} to analyze for `git` commands.
      */
     public static String convertToGitFormatsArgs(List<FileType> formats) {
         StringBuilder gitFormatsArgsBuilder = new StringBuilder();
@@ -92,9 +92,9 @@ class GitUtil {
     }
 
     /**
-     * Returns the {@code String} command to specify the globs to exclude for `git log` command.
-     * Also checks that every glob in {@code ignoreGlobList} only targets files within the given repository
-     * {@code root}.
+     * Returns the command to specify the globs to exclude for `git log` command.
+     * Also checks that every glob in {@code ignoreGlobList} only targets files within the given
+     * repository's {@code root} directory.
      */
     public static String convertToGitExcludeGlobArgs(File root, List<String> ignoreGlobList) {
         StringBuilder gitExcludeGlobArgsBuilder = new StringBuilder();
@@ -108,7 +108,8 @@ class GitUtil {
     }
 
     /**
-     * Returns true if the {@code ignoreGlob} is inside the current repository.
+     * Returns true if the {@code ignoreGlob} is inside the current repository with reference to the {@code repoRoot}
+     * directory.
      * Produces log messages when the invalid {@code ignoreGlob} is skipped.
      */
     private static boolean isValidIgnoreGlob(File repoRoot, String ignoreGlob) {
