@@ -95,8 +95,9 @@ public class FileUtil {
 
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
-     * @return An Optional containing the Path to the JSON file, or an empty Optional
-     *         if there was an error while writing the JSON file.
+     *
+     * @return An {@link Optional} containing the {@link Path} to the JSON file, or an empty {@link Optional} if there
+     * was an error while writing the JSON file.
      */
     public static Optional<Path> writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
@@ -120,8 +121,9 @@ public class FileUtil {
 
     /**
      * Writes the ignore revs file containing the {@code ignoreCommitList} at the given {@code path}.
-     * @return An Optional containing the Path to the ignore revs file, or an empty Optional
-     *         if there was an error while writing the ignore revs file.
+     *
+     * @return An {@link Optional} containing the {@link Path} to the ignore revs file, or an empty {@link Optional}
+     * if there was an error while writing the ignore revs file.
      */
     public static Optional<Path> writeIgnoreRevsFile(String path, List<CommitHash> ignoreCommitList) {
         String contentOfIgnoreRevsFile = ignoreCommitList.stream()
@@ -139,6 +141,7 @@ public class FileUtil {
 
     /**
      * Deletes the {@code root} directory.
+     *
      * @throws IOException if the root path does not exist.
      */
     public static void deleteDirectory(String root) throws IOException {
@@ -160,6 +163,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code zipSourcePath} into {@code outputPath}.
+     *
      * @throws IOException if {@code zipSourcePath} is an invalid path.
      */
     public static void unzip(Path zipSourcePath, Path outputPath) throws IOException {
@@ -170,6 +174,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code is} into {@code outputPath}.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void unzip(InputStream is, Path outputPath) throws IOException {
@@ -199,7 +204,8 @@ public class FileUtil {
     }
 
     /**
-     * Copies the template files from {@code sourcePath} to the {@code outputPath}.
+     * Copies the template files from the {@code is} to the {@code outputPath}.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyTemplate(InputStream is, String outputPath) throws IOException {
@@ -208,6 +214,7 @@ public class FileUtil {
 
     /**
      * Copies files from {@code sourcePath} to the {@code outputPath}.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyDirectoryContents(String sourcePath, String outputPath) throws IOException {
@@ -217,6 +224,7 @@ public class FileUtil {
     /**
      * Copies files from {@code sourcePath} to the {@code outputPath}.
      * If {@code whiteList} is provided, only filenames specified by the whitelist will be copied.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyDirectoryContents(String sourcePath, String outputPath, List<String> whiteList)
@@ -236,6 +244,8 @@ public class FileUtil {
     }
     /**
      * Creates the {@code dest} directory if it does not exist.
+     *
+     * @throws IOException if the directory could not be created.
      */
     public static void createDirectory(Path dest) throws IOException {
         Files.createDirectories(dest);
@@ -312,7 +322,9 @@ public class FileUtil {
     }
 
     /**
-     * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
+     * Returns a list of {@link Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
+     *
+     * @throws IOException if an error occurs while trying to access {@code directoryPath}.
      */
     private static List<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
         return Files.walk(directoryPath)
