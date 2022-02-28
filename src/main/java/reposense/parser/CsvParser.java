@@ -199,7 +199,7 @@ public abstract class CsvParser<T> {
 
 
     private long getLineNumber(final CSVRecord record) {
-        return  record.getRecordNumber() + numOfLinesBeforeFirstRecord;
+        return record.getRecordNumber() + numOfLinesBeforeFirstRecord;
     }
 
     /**
