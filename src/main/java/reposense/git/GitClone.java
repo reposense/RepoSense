@@ -1,13 +1,14 @@
 package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
-import static reposense.util.StringsUtil.addQuote;
+import static reposense.util.StringsUtil.addQuotes;
+import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,7 +52,7 @@ public class GitClone {
      * @throws GitCloneException when an error occurs during command execution.
      */
     public static CommandRunnerProcess cloneShallowBareAsync(RepoConfiguration config, Path rootPath,
-                                                  String outputFolderName, Date sinceDate) throws GitCloneException {
+            String outputFolderName, LocalDateTime sinceDate) throws GitCloneException {
         try {
             return CommandRunner.runCommandAsync(rootPath,
                                                     getCloneShallowBareCommand(config, outputFolderName, sinceDate));
@@ -67,7 +68,7 @@ public class GitClone {
      * @throws GitCloneException when an error occurs during command execution.
      */
     public static void clonePartialBare(RepoConfiguration config, Path rootPath,
-                                                      String outputFolderName) throws GitCloneException {
+            String outputFolderName) throws GitCloneException {
         try {
             CommandRunner.runCommand(rootPath, getClonePartialBareCommand(config, outputFolderName));
             return;
@@ -83,7 +84,7 @@ public class GitClone {
      * @throws GitCloneException when an error occurs during command execution.
      */
     public static void cloneShallowPartialBare(RepoConfiguration config, Path rootPath,
-                                                  String outputFolderName, Date sinceDate) throws GitCloneException {
+            String outputFolderName, LocalDateTime sinceDate) throws GitCloneException {
         try {
             CommandRunner.runCommand(rootPath, getCloneShallowPartialBareCommand(config, outputFolderName, sinceDate));
             return;
@@ -147,7 +148,7 @@ public class GitClone {
         } else if (SystemUtil.isTestEnvironment() && Files.exists(outputFolderPath)) {
             return;
         }
-        String command = getCloneBareCommand(config, addQuote(outputFolderName));
+        String command = getCloneBareCommand(config, addQuotesForFilePath(outputFolderName));
         runCommand(rootPath, command);
     }
 
@@ -176,8 +177,8 @@ public class GitClone {
         try {
             runCommand(rootPath, command);
         } catch (RuntimeException rte) {
-            logger.severe("Exception met while cloning or checking out " + config.getDisplayName() + "."
-                    + "Analysis terminated.");
+            logger.log(Level.SEVERE, "Exception met while cloning or checking out " + config.getDisplayName() + "."
+                    + "Analysis terminated.", rte);
             throw new GitCloneException(rte);
         }
     }
@@ -187,7 +188,7 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneCommand(RepoConfiguration config, String outputFolderName) {
-        return "git clone " + addQuote(config.getLocation().toString()) + " "
+        return "git clone " + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
     }
 
@@ -197,7 +198,7 @@ public class GitClone {
      */
     private static String getCloneBareCommand(RepoConfiguration config, String outputFolderName) {
         String output = "git clone --bare "
-                + addQuote(config.getLocation().toString()) + " "
+                + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
         return output;
     }
@@ -207,10 +208,10 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneShallowBareCommand(RepoConfiguration config,
-                                                    String outputFolderName, Date shallowSinceDate) {
+            String outputFolderName, LocalDateTime shallowSinceDate) {
         return "git clone --bare --shallow-since="
-                + addQuote(shallowSinceDate.toString()) + " "
-                + addQuote(config.getLocation().toString()) + " "
+                + addQuotes(shallowSinceDate.toString()) + " "
+                + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
     }
 
@@ -220,7 +221,7 @@ public class GitClone {
      */
     private static String getClonePartialBareCommand(RepoConfiguration config, String outputFolderName) {
         return "git clone --bare --filter=blob:none "
-                + addQuote(config.getLocation().toString()) + " "
+                + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
     }
 
@@ -229,10 +230,10 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneShallowPartialBareCommand(RepoConfiguration config,
-                                                            String outputFolderName, Date shallowSinceDate) {
+            String outputFolderName, LocalDateTime shallowSinceDate) {
         return "git clone --bare --filter=blob:none --shallow-since="
-                + addQuote(shallowSinceDate.toString()) + " "
-                + addQuote(config.getLocation().toString()) + " "
+                + addQuotes(shallowSinceDate.toString()) + " "
+                + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
     }
 }
