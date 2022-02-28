@@ -272,6 +272,10 @@
       <property name="allowEmptyLambdas" value="true" />
     </module>
 
+    <!-- Checks that non-whitespace characters are separated by only one white space. -->
+    <!-- Indents and comment whitespaces are okay. -->
+    <module name="SingleSpaceSeparator" />
+
     <module name="WhitespaceAfter">
       <!-- Checks that commas, semicolons and typecasts are followed by whitespace. -->
       <property name="tokens" value="COMMA, SEMI, TYPECAST"/>
