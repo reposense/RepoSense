@@ -76,8 +76,8 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
-    private static GroupConfiguration findMatchingGroupConfiguration(
-            List<GroupConfiguration> results, String location) throws InvalidLocationException {
+    private static GroupConfiguration findMatchingGroupConfiguration(List<GroupConfiguration> results, String location)
+            throws InvalidLocationException {
         GroupConfiguration config = new GroupConfiguration(new RepoLocation(location));
 
         for (GroupConfiguration groupConfig : results) {

@@ -28,8 +28,8 @@ public class CommitResultAggregator {
     /**
      * Returns the {@code CommitContributionSummary} generated from aggregating the {@code commitResults}.
      */
-    public static CommitContributionSummary aggregateCommitResults(
-            RepoConfiguration config, List<CommitResult> commitResults) {
+    public static CommitContributionSummary aggregateCommitResults(RepoConfiguration config,
+            List<CommitResult> commitResults) {
         LocalDateTime startDate;
         ZoneId zoneId = ZoneId.of(config.getZoneId());
         startDate = (config.getSinceDate().equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
@@ -68,8 +68,8 @@ public class CommitResultAggregator {
         return result;
     }
 
-    private static float getContributionVariance(List<AuthorDailyContribution> contributions,
-            LocalDateTime startDate, LocalDateTime lastDate, String zoneId) {
+    private static float getContributionVariance(List<AuthorDailyContribution> contributions, LocalDateTime startDate,
+            LocalDateTime lastDate, String zoneId) {
         if (contributions.size() == 0) {
             return 0;
         }
@@ -104,8 +104,8 @@ public class CommitResultAggregator {
         return variance / totalDays;
     }
 
-    private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
-            Set<Author> authorSet, List<CommitResult> commitResults, ZoneId zoneId) {
+    private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(Set<Author> authorSet,
+            List<CommitResult> commitResults, ZoneId zoneId) {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
         authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
 

@@ -50,8 +50,8 @@ public class GitShow {
     /**
      * Returns date of commit associated with commit hash.
      */
-    public static LocalDateTime getCommitDate(String root, String commitHash)
-            throws CommitNotFoundException, ParseException {
+    public static LocalDateTime getCommitDate(String root, String commitHash) throws CommitNotFoundException,
+            ParseException {
         Path rootPath = Paths.get(root);
         String showCommand = "git show -s --format=%ci " + commitHash;
         try {

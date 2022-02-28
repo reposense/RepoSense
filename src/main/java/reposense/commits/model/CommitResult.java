@@ -21,8 +21,8 @@ public class CommitResult {
     private final transient Author author;
     private final transient LocalDateTime time;
 
-    public CommitResult(Author author, String hash, LocalDateTime time, String messageTitle,
-            String messageBody, String[] tags, Map<FileType, ContributionPair> fileTypesAndContributionMap) {
+    public CommitResult(Author author, String hash, LocalDateTime time, String messageTitle, String messageBody,
+            String[] tags, Map<FileType, ContributionPair> fileTypesAndContributionMap) {
         this.author = author;
         this.hash = hash;
         this.time = time;

@@ -70,8 +70,8 @@ public class FileUtil {
      * Zips all files listed in {@code pathsToZip} of type {@code fileTypes} located in the directory
      * {@code sourcePath} into {@code outputPath}.
      */
-    public static void zipFoldersAndFiles(List<Path> pathsToZip,
-            Path sourcePath, Path outputPath, String... fileTypes) {
+    public static void zipFoldersAndFiles(List<Path> pathsToZip, Path sourcePath, Path outputPath,
+            String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)

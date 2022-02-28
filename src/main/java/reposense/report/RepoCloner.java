@@ -199,7 +199,7 @@ public class RepoCloner {
      * Should only handle a maximum of one spawned process at any time.
      */
     private boolean spawnShallowCloneProcess(RepoConfiguration config, LocalDateTime shallowSinceDate,
-                                             boolean shouldFreshClone) {
+            boolean shouldFreshClone) {
         assert(crp == null);
 
         try {

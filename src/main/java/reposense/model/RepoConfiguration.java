@@ -55,8 +55,8 @@ public class RepoConfiguration {
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
             boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
-            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding,
-            boolean isShallowCloningPerformed, boolean isFindingPreviousAuthorsPerformed) {
+            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding, boolean isShallowCloningPerformed,
+            boolean isFindingPreviousAuthorsPerformed) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
@@ -98,21 +98,21 @@ public class RepoConfiguration {
     }
 
     public static void setIsLastModifiedDateIncludedToRepoConfigs(List<RepoConfiguration> configs,
-                                                                  boolean isLastModifiedDateIncluded) {
+            boolean isLastModifiedDateIncluded) {
         for (RepoConfiguration config : configs) {
             config.setIsLastModifiedDateIncluded(isLastModifiedDateIncluded);
         }
     }
 
     public static void setIsShallowCloningPerformedToRepoConfigs(List<RepoConfiguration> configs,
-                                                                 boolean isShallowCloningPerformed) {
+            boolean isShallowCloningPerformed) {
         if (isShallowCloningPerformed) {
             configs.stream().forEach(config -> config.setIsShallowCloningPerformed(true));
         }
     }
 
     public static void setIsFindingPreviousAuthorsPerformedToRepoConfigs(List<RepoConfiguration> configs,
-                                                                         boolean isFindingPreviousAuthorsPerformed) {
+            boolean isFindingPreviousAuthorsPerformed) {
         if (isFindingPreviousAuthorsPerformed) {
             configs.stream().forEach(config -> config.setIsFindingPreviousAuthorsPerformed(true));
         }
@@ -194,8 +194,8 @@ public class RepoConfiguration {
      * Iterates through {@code repoConfigs} to find a {@code RepoConfiguration} with {@code RepoLocation} and branch
      * that matches {@code authorConfig}. Returns {@code null} if no match is found.
      */
-    private static RepoConfiguration getMatchingRepoConfig(
-            List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
+    private static RepoConfiguration getMatchingRepoConfig(List<RepoConfiguration> repoConfigs,
+            AuthorConfiguration authorConfig) {
         if (authorConfig.isDefaultBranch()) {
             return null;
         }
@@ -211,8 +211,8 @@ public class RepoConfiguration {
     /**
      * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} matches {@code targetRepoLocation}.
      */
-    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(
-            List<RepoConfiguration> configs, RepoLocation targetRepoLocation) {
+    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(List<RepoConfiguration> configs,
+            RepoLocation targetRepoLocation) {
         return configs.stream().filter(config -> config.getLocation().equals(targetRepoLocation))
                 .collect(Collectors.toList());
     }
@@ -232,8 +232,8 @@ public class RepoConfiguration {
      * Sets each {@code RepoConfiguration} in {@code configs} to ignore its standalone config, if
      * {@code ignoreAllStandaloneConfigs} is true.
      */
-    public static void setStandaloneConfigIgnoredToRepoConfigs(
-            List<RepoConfiguration> configs, boolean ignoreAllStandaloneConfigs) {
+    public static void setStandaloneConfigIgnoredToRepoConfigs(List<RepoConfiguration> configs,
+            boolean ignoreAllStandaloneConfigs) {
         if (ignoreAllStandaloneConfigs) {
             configs.forEach(config -> config.setStandaloneConfigIgnored(true));
         }

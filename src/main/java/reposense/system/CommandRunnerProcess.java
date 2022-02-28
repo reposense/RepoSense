@@ -13,8 +13,8 @@ public class CommandRunnerProcess {
     private StreamGobbler outputGobbler;
     private StreamGobbler errorGobbler;
 
-    public CommandRunnerProcess(
-            Path path, String command, Process process, StreamGobbler outputGobbler, StreamGobbler errorGobbler) {
+    public CommandRunnerProcess(Path path, String command, Process process, StreamGobbler outputGobbler,
+            StreamGobbler errorGobbler) {
         this.path = path;
         this.command = command;
         this.process = process;

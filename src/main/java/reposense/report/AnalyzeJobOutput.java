@@ -14,8 +14,8 @@ public class AnalyzeJobOutput {
     private List<Path> files;
     private List<AnalysisErrorInfo> analysisErrors;
 
-    public AnalyzeJobOutput(RepoLocation location, boolean cloneSuccessful,
-            List<Path> files, List<AnalysisErrorInfo> analysisErrors) {
+    public AnalyzeJobOutput(RepoLocation location, boolean cloneSuccessful, List<Path> files,
+            List<AnalysisErrorInfo> analysisErrors) {
         this.location = location;
         this.cloneSuccessful = cloneSuccessful;
         this.files = files;

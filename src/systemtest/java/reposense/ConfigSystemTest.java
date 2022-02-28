@@ -136,9 +136,8 @@ public class ConfigSystemTest {
      * Generates the testing report and then compared it with the expected report
      * Re-generates a normal report after the testing finished if the first report is shallow-cloned
      */
-    private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines,
-                        boolean shallowCloning, boolean shouldFreshClone, boolean findPreviousAuthors,
-                        String pathToResource) throws Exception {
+    private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
+            boolean shouldFreshClone, boolean findPreviousAuthors, String pathToResource) throws Exception {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
                 shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
         Path actualFiles = loadResource(getClass(), pathToResource);
@@ -149,9 +148,8 @@ public class ConfigSystemTest {
     /**
      * Generates the testing report to be compared with expected report.
      */
-    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines,
-                                boolean shallowCloning, boolean shouldFreshClone,
-                                boolean findPreviousAuthors) throws Exception {
+    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
+            boolean shouldFreshClone, boolean findPreviousAuthors) throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);

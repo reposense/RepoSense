@@ -13,8 +13,7 @@ public class CommitContributionSummary {
     private final Map<Author, Float> authorContributionVariance;
     private final Map<Author, String> authorDisplayNameMap;
 
-    public CommitContributionSummary(
-            Map<Author, String> authorDisplayNameMap,
+    public CommitContributionSummary(Map<Author, String> authorDisplayNameMap,
             Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap,
             Map<Author, Float> authorContributionVariance) {
         this.authorDisplayNameMap = authorDisplayNameMap;

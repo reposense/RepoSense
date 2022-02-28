@@ -12,11 +12,10 @@ public class LocationsCliArguments extends CliArguments {
     private List<String> locations;
 
     public LocationsCliArguments(List<String> locations, Path outputFilePath, Path assetsFilePath,
-            LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided,
-            boolean isUntilDateProvided, int numCloningThreads,
-            int numAnalysisThreads, List<FileType> formats, boolean isLastModifiedDateIncluded,
-            boolean isShallowCloningPerformed, boolean isAutomaticallyLaunching,
-            boolean isStandaloneConfigIgnored, ZoneId zoneId, boolean isFindingPreviousAuthorsPerformed) {
+            LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
+            int numCloningThreads, int numAnalysisThreads, List<FileType> formats, boolean isLastModifiedDateIncluded,
+            boolean isShallowCloningPerformed, boolean isAutomaticallyLaunching, boolean isStandaloneConfigIgnored,
+            ZoneId zoneId, boolean isFindingPreviousAuthorsPerformed) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;
         this.assetsFilePath = assetsFilePath;

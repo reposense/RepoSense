@@ -723,7 +723,6 @@ public class ArgsParserTest {
      * with time at 23:59:59.
      */
     private void assertDateDiffEndOfDay(LocalDateTime actualUntilDate) {
-
         LocalDateTime currentDate = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).withNano(0);
         Assert.assertTrue(actualUntilDate.equals(currentDate));
     }

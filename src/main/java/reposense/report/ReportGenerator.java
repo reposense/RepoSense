@@ -271,8 +271,7 @@ public class ReportGenerator {
      * @return A {@code CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, and the {@code defaultBranch} of the repo.
      */
-    private static CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location,
-                                            boolean shouldFreshClone) {
+    private static CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location, boolean shouldFreshClone) {
         RepoCloner repoCloner = new RepoCloner();
         repoCloner.cloneBare(config, shouldFreshClone);
         RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
@@ -351,8 +350,8 @@ public class ReportGenerator {
      * Analyzes repo specified by {@code config} and generates the report.
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      */
-    private static List<Path> analyzeRepo(
-            RepoConfiguration config, String repoReportDirectory) throws NoAuthorsWithCommitsFoundException {
+    private static List<Path> analyzeRepo(RepoConfiguration config, String repoReportDirectory)
+            throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
@@ -485,8 +484,8 @@ public class ReportGenerator {
      * Generates a report for a single repository at {@code repoReportDirectory}.
      * @return A list of paths to the JSON report files generated for this report.
      */
-    private static List<Path> generateIndividualRepoReport(
-            String repoReportDirectory, CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
+    private static List<Path> generateIndividualRepoReport(String repoReportDirectory,
+            CommitContributionSummary commitSummary, AuthorshipSummary authorshipSummary) {
         CommitReportJson commitReportJson = new CommitReportJson(commitSummary, authorshipSummary);
 
         List<Path> generatedFiles = new ArrayList<>();
