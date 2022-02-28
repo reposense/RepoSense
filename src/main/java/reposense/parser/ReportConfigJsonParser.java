@@ -9,13 +9,13 @@ import com.google.gson.reflect.TypeToken;
 import reposense.model.ReportConfiguration;
 
 /**
- * Parses json file from {@code Path} and creates a new {@code ReportConfiguration} object.
+ * Parses json file from {@link Path} and creates a new {@link ReportConfiguration} object.
  */
 public class ReportConfigJsonParser extends JsonParser<ReportConfiguration> {
     public static final String REPORT_CONFIG_FILENAME = "report-config.json";
 
     /**
-     * Gets the type of {@code ReportConfiguration} for json conversion.
+     * Gets the type of {@link ReportConfiguration} for json conversion.
      */
     @Override
     public Type getType() {
@@ -24,6 +24,7 @@ public class ReportConfigJsonParser extends JsonParser<ReportConfiguration> {
 
     /**
      * Converts json file from the given {@code path} and returns a {@code ReportConfiguration} object.
+     *
      * @throws IOException if {@code path} is invalid.
      */
     @Override

@@ -1,6 +1,6 @@
 package reposense.parser;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     private static final String GROUP_NAME_HEADER = "Group Name";
     private static final String FILES_GLOB_HEADER = "Globs";
 
-    public GroupConfigCsvParser(Path csvFilePath) throws IOException {
+    public GroupConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
     }
 
@@ -48,7 +48,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     }
 
     /**
-     * Processes the csv file line by line and adds created {@code Group} into {@code results}.
+     * Processes the csv {@code record} line by line and adds created {@link GroupConfiguration} into {@code results}.
      */
     @Override
     protected void processLine(List<GroupConfiguration> results, CSVRecord record) throws InvalidLocationException {
@@ -71,8 +71,8 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     }
 
     /**
-     * Gets an existing {@code GroupConfiguration} from {@code results} if {@code location} matches.
-     * Otherwise adds a newly created {@code GroupConfiguration} into {@code results} and returns it.
+     * Gets an existing {@link GroupConfiguration} from {@code results} if {@code location} matches.
+     * Otherwise, adds a newly created {@link GroupConfiguration} into {@code results} and returns it.
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
