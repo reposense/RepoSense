@@ -34,7 +34,6 @@
  * [`GitClone`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitClone.java): Wrapper class for `git clone` functionality. Clones the repository from *GitHub* into a temporary folder in order to run the analysis.
  * [`GitDiff`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitDiff.java): Wrapper class for `git diff` functionality. Obtains the changes between commits.
  * [`GitLog`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitLog.java): Wrapper class for `git log` functionality. Obtains the commit logs and the authors' info.
- * [`GitLsTree`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitLsTree.java): Wrapper class for `git ls-tree` functionality. Ensures that the tracked files do not contain any paths with illegal characters for Windows users.
  * [`GitRevList`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitRevList.java): Wrapper class for `git rev-list` functionality. Retrieves the commit objects in reverse chronological order.
  * [`GitRevParse`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitRevParse.java): Wrapper class for `git rev-parse` functionality. Ensures that the branch of the repo is to be analyzed exists.
  * [`GitShortlog`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitShortlog.java): Wrapper class for `git shortlog` functionality. Obtains the list of authors who have contributed to the target repo.
@@ -42,6 +41,10 @@
  * [`GitUtil`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitUtil.java): Contains helper functions used by the other Git classes above.
  * [`GitVersion`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/git/GitVersion.java): Wrapper class for `git --version` functionality. Obtains the current git version of the environment that RepoSense is being run on.
 
+<box type="info" seamless>
+  
+Note that when constructing new commands containing path arguments, use the `StringsUtil::addQuotesForFilePath` method to safely convert a Java string into an equivalent Bash/CMD argument.
+</box>
 <!-- ==================================================================================================== -->
 
 ## CommitsReporter
