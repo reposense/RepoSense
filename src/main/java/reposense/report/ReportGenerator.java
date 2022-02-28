@@ -234,7 +234,8 @@ public class ReportGenerator {
         }
 
         // Next, we collect the list of outputs from all the analyze jobs
-        List<AnalyzeJobOutput> jobOutputs = analyzeJobFutures.stream()
+        List<AnalyzeJobOutput> jobOutputs = analyzeJobFutures
+                .stream()
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
 
@@ -242,7 +243,8 @@ public class ReportGenerator {
         cloneExecutor.shutdown();
         analyzeExecutor.shutdown();
 
-        List<Path> generatedFiles = jobOutputs.stream()
+        List<Path> generatedFiles = jobOutputs
+                .stream()
                 .flatMap(jobOutput -> jobOutput.getFiles().stream())
                 .collect(Collectors.toList());
 
