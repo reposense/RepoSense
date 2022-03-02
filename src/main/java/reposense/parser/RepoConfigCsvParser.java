@@ -103,7 +103,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
         String findPreviousAuthorsConfig = get(record, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER);
         boolean isFindingPreviousAuthorsPerformed = findPreviousAuthorsConfig
-                                                        .equalsIgnoreCase(FIND_PREVIOUS_AUTHORS_KEYWORD);
+                .equalsIgnoreCase(FIND_PREVIOUS_AUTHORS_KEYWORD);
 
         if (!isFindingPreviousAuthorsPerformed && !findPreviousAuthorsConfig.isEmpty()) {
             logger.warning(
