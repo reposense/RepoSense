@@ -6,8 +6,10 @@
     v-bind:opacity='loadingOverlayOpacity',
     v-bind:is-full-page="true"
   )
-    i.overlay-loading-icon.fa.fa-spinner.fa-spin(slot='default')
-    h3(slot='after') {{ loadingOverlayMessage }}
+    template(v-slot:default)
+      i.overlay-loading-icon.fa.fa-spinner.fa-spin()
+    template(v-slot:after)
+      h3 {{ loadingOverlayMessage }}
 
   template(v-if="userUpdated")
     v-resizer
