@@ -107,7 +107,7 @@ describe('switch authorship', () => {
 
     cy.get('#tab-authorship > .files > .file > .title > .path')
         .children('span')
-        .first()
+        .last()
         .should(($span) => {
           const lastFilename = $span.text();
           expect(firstFilename, 'First displayed filenames should be different for different authors')
