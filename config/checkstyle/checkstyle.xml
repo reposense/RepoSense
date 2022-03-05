@@ -347,9 +347,7 @@
     <module name="JavadocBlockTagLocation"/>
 
     <!-- Checks that all Javadoc comments start from the second line. -->
-    <module name="JavadocContentLocationCheck">
-      <property name="location" value="second_line"/>
-    </module>
+    <module name="JavadocContentLocationCheck" />
 
     <!-- Checks the format's Javadoc for every method (excluding getters, setters and constructors). -->
     <module name="JavadocMethod">
