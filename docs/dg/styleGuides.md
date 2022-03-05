@@ -31,8 +31,8 @@ return min;
 The result would look something like this:
 ```
 return (commitInfos.isEmpty())
-       ? ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime()
-       : commitInfos.get(0).getTime();
+        ? ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime()
+        : commitInfos.get(0).getTime();
 ```
 
 To preserve readability, it is recommended that if-else blocks should only be 
