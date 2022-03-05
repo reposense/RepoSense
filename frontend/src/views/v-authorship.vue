@@ -96,11 +96,14 @@
       .file
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)")
-            .tooltip
-              font-awesome-icon(icon="caret-down", fixed-width, v-if="file.active")
-              span.tooltip-text(v-show="file.active") Click to hide file details
-              font-awesome-icon(icon="caret-right", fixed-width, v-if="!file.active")
-              span.tooltip-text(v-show="!file.active") Click to show file details
+            span(v-show="file.active")
+              .tooltip
+                font-awesome-icon(icon="caret-down", fixed-width)
+                span.tooltip-text Click to hide file details
+            span(v-show="!file.active")
+              .tooltip
+                font-awesome-icon(icon="caret-right", fixed-width)
+                span.tooltip-text Click to show file details
             span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
           span.icons
             a(
