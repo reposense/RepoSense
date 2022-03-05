@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
@@ -35,7 +35,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final FileType FILETYPE_TXT = new FileType("txt", Collections.singletonList("**txt"));
     private static final String DUPLICATE_AUTHORS_DUPLICATE_COMMITS_HASH = "f34c20ec2c3be63e0764d4079a575dd75269ffeb";
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         super.before();
         config.getAuthorDetailsToAuthorMap().clear();
@@ -50,7 +50,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
-        Assert.assertEquals(commitInfos.size(), commitResults.size());
+        Assertions.assertEquals(commitInfos.size(), commitResults.size());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
-        Assert.assertEquals(commitInfos.size() - NUMBER_EUGENE_COMMIT, commitResults.size());
+        Assertions.assertEquals(commitInfos.size() - NUMBER_EUGENE_COMMIT, commitResults.size());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
-        Assert.assertEquals(NUMBER_EUGENE_COMMIT, commitResults.size());
+        Assertions.assertEquals(NUMBER_EUGENE_COMMIT, commitResults.size());
     }
 
     @Test
@@ -87,8 +87,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
                         new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
-        Assert.assertEquals(commitResultsShort, commitResultsFull);
-        Assert.assertEquals(commitInfos.size() - 1, commitResultsFull.size());
+        Assertions.assertEquals(commitResultsShort, commitResultsFull);
+        Assertions.assertEquals(commitInfos.size() - 1, commitResultsFull.size());
     }
 
     @Test
@@ -105,8 +105,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
                 EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING.substring(0, 8))));
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
-        Assert.assertEquals(commitResultsShort, commitResultsFull);
-        Assert.assertEquals(commitInfos.size() - 2, commitResultsFull.size());
+        Assertions.assertEquals(commitResultsShort, commitResultsFull);
+        Assertions.assertEquals(commitInfos.size() - 2, commitResultsFull.size());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
         commitResults.removeIf(s -> !s.getMessageTitle().isEmpty());
 
-        Assert.assertEquals(NUMBER_EMPTY_MESSAGE_COMMIT, commitResults.size());
+        Assertions.assertEquals(NUMBER_EMPTY_MESSAGE_COMMIT, commitResults.size());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
-        Assert.assertEquals(NUMBER_MINGYI_COMMIT, commitResults.size());
+        Assertions.assertEquals(NUMBER_MINGYI_COMMIT, commitResults.size());
     }
 
     @Test
@@ -152,8 +152,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(actualCommitInfos.size(), 2);
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(actualCommitInfos.size(), 2);
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
     @Test
@@ -184,7 +184,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
     @Test
@@ -216,7 +216,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
     @Test
@@ -257,7 +257,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
 
         config.setZoneId(originalZoneId);
     }
@@ -288,7 +288,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
     @Test
@@ -327,7 +327,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
 
         config.setZoneId(originalZoneId);
     }
@@ -349,7 +349,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
     @Test
@@ -376,7 +376,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
         config.setZoneId(originalZoneId);
     }
 
@@ -398,13 +398,13 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
     @Test
     public void analyzeCommits_fileNameWithSpecialChars_success() throws Exception {
         // Runs test only on non Windows (Unix) operating systems as the file names are invalid in windows
-        Assume.assumeTrue(!SystemUtil.isWindows());
+        Assumptions.assumeTrue(!SystemUtil.isWindows());
 
         Author author = new Author(JAMES_ALTERNATIVE_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
@@ -429,8 +429,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
-        Assert.assertEquals(2, actualCommitInfos.size());
-        Assert.assertEquals(expectedCommitResults, actualCommitResults);
+        Assertions.assertEquals(2, actualCommitInfos.size());
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
     /**

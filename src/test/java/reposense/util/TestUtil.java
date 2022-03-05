@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import reposense.git.GitLog;
 import reposense.model.Author;
@@ -136,7 +136,7 @@ public class TestUtil {
      * @throws AssertionError if any attributes fail equality check.
      */
     public static void compareRepoConfig(RepoConfiguration expectedRepoConfig, RepoConfiguration actualRepoConfig) {
-        Assert.assertEquals(expectedRepoConfig, actualRepoConfig);
+        Assertions.assertEquals(expectedRepoConfig, actualRepoConfig);
 
         for (int i = 0; i < expectedRepoConfig.getAuthorList().size(); i++) {
             compareAuthor(expectedRepoConfig.getAuthorList().get(i), actualRepoConfig.getAuthorList().get(i));
@@ -152,9 +152,9 @@ public class TestUtil {
      * @throws AssertionError if any attributes fail equality check.
      */
     public static void compareAuthor(Author expectedAuthor, Author actualAuthor) {
-        Assert.assertEquals(expectedAuthor.getGitId(), actualAuthor.getGitId());
-        Assert.assertEquals(expectedAuthor.getIgnoreGlobList(), actualAuthor.getIgnoreGlobList());
-        Assert.assertEquals(expectedAuthor.getAuthorAliases(), actualAuthor.getAuthorAliases());
+        Assertions.assertEquals(expectedAuthor.getGitId(), actualAuthor.getGitId());
+        Assertions.assertEquals(expectedAuthor.getIgnoreGlobList(), actualAuthor.getIgnoreGlobList());
+        Assertions.assertEquals(expectedAuthor.getAuthorAliases(), actualAuthor.getAuthorAliases());
     }
 
     /**

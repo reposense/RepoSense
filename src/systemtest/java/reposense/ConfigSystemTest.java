@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
@@ -48,14 +48,14 @@ public class ConfigSystemTest {
 
     private static boolean haveNormallyClonedRepo = false;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
         ErrorSummary.getInstance().clearErrorSet();
         AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
@@ -197,7 +197,7 @@ public class ConfigSystemTest {
 
         boolean isGitVersionInsufficient = RepoConfiguration.isAnyRepoFindingPreviousAuthors(repoConfigs)
                 && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors();
-        Assert.assertFalse("Git version 2.23.0 and above necessary to run test", isGitVersionInsufficient);
+        Assertions.assertFalse(isGitVersionInsufficient, "Git version 2.23.0 and above necessary to run test");
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
@@ -230,11 +230,11 @@ public class ConfigSystemTest {
      */
     private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
         Path actualJson = Paths.get(actualRelative, expectedPosition);
-        Assert.assertTrue(Files.exists(actualJson));
+        Assertions.assertTrue(Files.exists(actualJson));
         try {
-            Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
+            Assertions.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
         } catch (Exception e) {
-            Assert.fail(e.getMessage());
+            Assertions.fail(e.getMessage());
         }
     }
 }

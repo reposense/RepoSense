@@ -1,6 +1,6 @@
 package reposense.template;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.Arrays;
@@ -9,9 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import reposense.authorship.FileInfoAnalyzer;
 import reposense.authorship.FileInfoExtractor;
@@ -95,7 +95,7 @@ public class GitTestTemplate {
 
     protected static RepoConfiguration config;
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
@@ -104,14 +104,14 @@ public class GitTestTemplate {
         config.setIsLastModifiedDateIncluded(false);
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setZoneId(TIME_ZONE_ID_STRING);
         GitClone.clone(config);
     }
 
-    @After
+    @AfterEach
     public void after() {
         GitCheckout.checkout(config.getRepoRoot(), "master");
     }

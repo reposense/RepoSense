@@ -1,7 +1,7 @@
 package reposense.model;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.parser.InvalidLocationException;
 import reposense.util.AssertUtil;
@@ -52,8 +52,8 @@ public class RepoLocationTest {
     public void assertValidLocation(String rawLocation, String expectedRepoName,
             String expectedOrganization) throws Exception {
         RepoLocation repoLocation = new RepoLocation(rawLocation);
-        Assert.assertEquals(repoLocation.getRepoName(), expectedRepoName);
-        Assert.assertEquals(repoLocation.getOrganization(), expectedOrganization);
+        Assertions.assertEquals(repoLocation.getRepoName(), expectedRepoName);
+        Assertions.assertEquals(repoLocation.getOrganization(), expectedOrganization);
     }
 
     private void assertInvalidLocation(String rawLocation) {
