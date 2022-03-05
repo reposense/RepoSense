@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -27,7 +28,9 @@ import java.util.zip.ZipOutputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import reposense.model.CommitHash;
@@ -100,8 +103,7 @@ public class FileUtil {
      */
     public static Optional<Path> writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
-                        -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
                 .create();
         // Gson serializer from:
@@ -325,5 +327,16 @@ public class FileUtil {
      */
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
+    }
+
+    /**
+     * Overrides the Gson serializer to serialize only the {@code localDateTime} parsed by
+     * {@link FileUtil#GITHUB_API_DATE_FORMAT} instead on the entire object.
+     */
+    public static class LocalDateTimeSerializer implements JsonSerializer<LocalDateTime> {
+        @Override
+        public JsonElement serialize(LocalDateTime localDateTime, Type typeOfSource, JsonSerializationContext context) {
+            return new JsonPrimitive(localDateTime.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT)));
+        }
     }
 }
