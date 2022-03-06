@@ -24,9 +24,10 @@ public class FileResult {
         this.fileType = fileType;
         this.lines = lines;
         this.authorContributionMap = authorContributionMap;
+        // isBinary and isIgnored are mutually exclusive
         if (isBinary) {
             this.isBinary = true;
-        } else if (isIgnored) { // isBinary and isIgnored are mutually exclusive
+        } else if (isIgnored) {
             this.isIgnored = true;
         }
     }

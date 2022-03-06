@@ -212,7 +212,6 @@ public class FileInfoExtractor {
      * {@code relativePath} file.
      */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath, long fileSizeLimit) {
-        // write test for exceeded file size
         FileInfo fileInfo = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, fileInfo.getPath());
 

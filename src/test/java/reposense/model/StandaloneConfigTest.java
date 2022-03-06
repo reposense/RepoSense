@@ -31,12 +31,15 @@ public class StandaloneConfigTest extends GitTestTemplate {
             "StandaloneConfigTest/authors_trailingCommas_config.json");
     private static final Path LITHIUMLKID_TRAILING_COMMAS_CONFIG = loadResource(StandaloneConfigTest.class,
             "StandaloneConfigTest/lithiumlkid_trailingCommas_config.json");
+    private static final Path FILE_SIZE_LIMIT_CONFIG = loadResource(StandaloneConfigTest.class,
+            "StandaloneConfigTest/fileSizeLimit_config.json");
 
     private static final Author FIRST_SPECIAL_CHARACTER_AUTHOR = new Author("‘Processed�‘Cooked�");
     private static final Author SECOND_SPECIAL_CHARACTER_AUTHOR = new Author("(codeeong)");
     private static final Author THIRD_SPECIAL_CHARACTER_AUTHOR = new Author("^:jordancjq;$");
     private static final List<Author> AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS = Arrays.asList(
             FIRST_SPECIAL_CHARACTER_AUTHOR, SECOND_SPECIAL_CHARACTER_AUTHOR, THIRD_SPECIAL_CHARACTER_AUTHOR);
+    private static final long FILE_SIZE_LIMIT = 100000;
 
     private static StandaloneConfig validStandaloneConfig;
 
@@ -65,6 +68,14 @@ public class StandaloneConfigTest extends GitTestTemplate {
         config.update(standaloneConfig);
 
         Assert.assertEquals(validStandaloneConfig, standaloneConfig);
+    }
+
+    @Test
+    public void standaloneConfig_fileSizeLimit_success() throws Exception {
+        StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(FILE_SIZE_LIMIT_CONFIG);
+        config.update(standaloneConfig);
+
+        Assert.assertEquals(FILE_SIZE_LIMIT, config.getFileSizeLimit());
     }
 
     @Test(expected = JsonSyntaxException.class)
