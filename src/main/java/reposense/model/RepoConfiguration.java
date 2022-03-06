@@ -241,8 +241,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Checks if there are any repos in {@code configs} for which RepoSense is trying to blame line changes
-     * caused by commits in the ignore commit list to any available previous authors who changed those lines.
+     * Checks if any of the {@code configs} is finding previous authors for commit analysis.
      */
     public static boolean isAnyRepoFindingPreviousAuthors(List<RepoConfiguration> configs) {
         return configs.stream().anyMatch(RepoConfiguration::isFindingPreviousAuthorsPerformed);
@@ -273,7 +272,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Attempts to find matching {@link Author} given a {@code name} and an {@code email}.
+     * Returns the matching {@link Author} given a {@code name} and an {@code email}.
      * If no matching {@link Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {

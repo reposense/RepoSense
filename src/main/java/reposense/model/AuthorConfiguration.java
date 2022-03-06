@@ -70,12 +70,8 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Checks if {@code alias} is already being used by another author in {@code authorDetailsToAuthorMap}
-     * and generates warnings.
-     *
-     * @param authorDetailsToAuthorMap Map to be checked for duplicate aliases.
-     * @param alias Alias for duplicate-checking.
-     * @param gitId GitId of author which {@code alias} is mapped to.
+     * Checks if {@code alias} of author with {@code gitId} is already being used by another author in
+     * {@code authorDetailsToAuthorMap} and generates warnings.
      */
     public void checkDuplicateAliases(Map<String, Author> authorDetailsToAuthorMap, String alias, String gitId) {
         if (authorDetailsToAuthorMap.containsKey(alias)) {
@@ -191,8 +187,9 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds new authors from {@code authorList} and sets the default alias, aliases, emails and display name as well
-     * as {@code ignoreGlobList} of the new authors. Skips the authors that have already been added previously.
+     * Adds new authors from {@code authorList}.
+     * Also sets the default alias, aliases, emails and display name as well as {@code ignoreGlobList} of the new
+     * authors. Skips the authors that have already been added previously.
      */
     public void addAuthors(List<Author> authorList, List<String> ignoreGlobList) {
         for (Author author : authorList) {

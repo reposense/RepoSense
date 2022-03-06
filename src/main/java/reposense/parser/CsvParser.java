@@ -176,9 +176,10 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns the value of {@code record} at the column with the header {@code header} as a {@link List},
-     * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code record} and not empty, or
-     * returns an empty {@link List} otherwise.
+     * Returns the value of {@code record} at the column with the header {@code header} as a {@link List}
+     * if it is in {@code record} and not empty.
+     * The column is delimited by {@code COLUMN_VALUES_SEPARATOR}.
+     * Returns an empty {@link List} otherwise.
      */
     protected List<String> getAsList(final CSVRecord record, String header) {
         if (get(record, header).isEmpty()) {
