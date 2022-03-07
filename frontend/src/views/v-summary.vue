@@ -197,8 +197,11 @@ export default {
       this.getFiltered();
     },
 
-    mergedGroups() {
-      this.getFiltered();
+    mergedGroups: {
+      deep: true,
+      handler() {
+        this.getFiltered();
+      },
     },
   },
   computed: {
@@ -350,7 +353,7 @@ export default {
 
     renderFilterHash() {
       const convertBool = (txt) => (txt === 'true');
-      const hash = window.hashParams;
+      const hash = Object.assign({}, window.hashParams);
 
       if (hash.search) { this.filterSearch = hash.search; }
       if (hash.sort) {
