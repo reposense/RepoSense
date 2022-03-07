@@ -194,8 +194,11 @@ export default {
       this.updateSelectedFiles();
     },
 
-    selectedFileTypes() {
-      this.updateSelectedFiles();
+    selectedFileTypes: {
+      deep: true,
+      handler() {
+        this.updateSelectedFiles();
+      },
     },
 
     toReverseSortFiles() {
