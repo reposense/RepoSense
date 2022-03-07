@@ -320,7 +320,6 @@ export default app;
 
 <style lang="scss">
 @import 'https://fonts.googleapis.com/css?family=Titillium+Web';
-@import 'https://cdn.jsdelivr.net/npm/normalize.css@8.0/normalize.min.css';
 @import 'https://cdn.jsdelivr.net/npm/muicss@0.9/dist/css/mui.min.css';
 @import 'https://cdn.jsdelivr.net/npm/highlight.js@9.14/styles/color-brewer.min.css';
 @import 'https://cdn.jsdelivr.net/npm/vue-loading-overlay@3/dist/vue-loading.css';

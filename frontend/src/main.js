@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import hljs from 'highlight.js';
+import 'normalize.css/normalize.css';
 
 // Need to import for side effects
 import './utils/api';
