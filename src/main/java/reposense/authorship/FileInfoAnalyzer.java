@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -110,18 +111,17 @@ public class FileInfoAnalyzer {
      * {@code fileInfo}.
      */
     private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
-        String authorsString = GitLog.getBinaryFileAuthors(config, fileInfo.getPath());
-        if (authorsString.isEmpty()) { // Empty string, means no author at all
+        List<String[]> authorsString = GitLog.getFileAuthors(config, fileInfo.getPath());
+        if (authorsString.size() == 0) {
             return null;
         }
 
         Set<Author> authors = new HashSet<>();
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
 
-        for (String authorString : authorsString.split("\n")) {
-            String[] arr = authorString.split("\t");
-            String authorName = arr[0];
-            String authorEmail = arr[1];
+        for (String[] lineDetails : authorsString) {
+            String authorName = lineDetails[0];
+            String authorEmail = lineDetails[1];
             authors.add(config.getAuthor(authorName, authorEmail));
         }
 

@@ -24,27 +24,6 @@ public class GitRevList {
      *
      * @param root The name of the working directory.
      * @param branchName The name of the branch to find the commit hash in.
-     * @param date The date before which the commit hash must be found.
-     * @param zoneId The timezone of the date.
-     */
-    public static String getCommitHashBeforeDate(String root, String branchName, LocalDateTime date, ZoneId zoneId) {
-        if (date == null) {
-            return "";
-        }
-
-        Path rootPath = Paths.get(root);
-        String revListCommand = "git rev-list -1 --before="
-                + GitUtil.GIT_LOG_SINCE_DATE_FORMAT.format(ZonedDateTime.of(date, zoneId))
-                + " " + branchName + REVISION_PATH_SEPARATOR;
-        return runCommand(rootPath, revListCommand);
-    }
-
-    /**
-     * Returns the latest commit hash at {@code branchName} before {@code date}.
-     * Returns an empty {@link String} if {@code date} is null, or there is no such commit.
-     *
-     * @param root The name of the working directory.
-     * @param branchName The name of the branch to find the commit hash in.
      * @param date The cut-off date before which the commit hash must be found.
      * @param zoneId The timezone of the date.
      */
@@ -54,7 +33,7 @@ public class GitRevList {
         }
 
         Path rootPath = Paths.get(root);
-        String revListCommand = "git rev-list -1 --before="
+        String revListCommand = "git rev-list -1 --until="
                 + GitUtil.GIT_LOG_UNTIL_DATE_FORMAT.format(ZonedDateTime.of(date, zoneId))
                 + " " + branchName + REVISION_PATH_SEPARATOR;
         return runCommand(rootPath, revListCommand);
