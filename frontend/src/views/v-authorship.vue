@@ -97,11 +97,12 @@
       .file(v-bind:key="file.path")
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)")
-            .tooltip
-              font-awesome-icon(icon="caret-down", fixed-width, v-show="file.active")
-              span.tooltip-text(v-show="file.active") Click to hide file details
-              font-awesome-icon(icon="caret-right", fixed-width, v-show="!file.active")
-              span.tooltip-text(v-show="!file.active") Click to show file details
+            .tooltip(v-show="file.active")
+              font-awesome-icon(icon="caret-down", fixed-width)
+              span.tooltip-text Click to hide file details
+            .tooltip(v-show="!file.active")
+              font-awesome-icon(icon="caret-right", fixed-width)
+              span.tooltip-text Click to show file details
             span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
           span.icons
             a(
@@ -193,8 +194,11 @@ export default {
       this.updateSelectedFiles();
     },
 
-    selectedFileTypes() {
-      this.updateSelectedFiles();
+    selectedFileTypes: {
+      deep: true,
+      handler() {
+        this.updateSelectedFiles();
+      },
     },
 
     toReverseSortFiles() {
