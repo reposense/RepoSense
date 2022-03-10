@@ -135,9 +135,9 @@
           ) {{ file.fileType }}&nbsp;{{ file.lineCount }}
             |&nbsp;({{ file.lineCount - file.blankLineCount }})
           span.fileTypeLabel.binary(v-if='file.isBinary') binary&nbsp;
-          span.fileTypeLabel(
+          span.ignored-tag.fileTypeLabel(
             v-if='file.isIgnored'
-          ).ignored-tag ignored ({{ file.lineCount }})&nbsp;
+          ) ignored ({{ file.lineCount }})&nbsp;
         pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary && !file.isIgnored", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
