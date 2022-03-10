@@ -319,7 +319,6 @@ export default app;
 
 
 <style lang="scss">
-@import 'https://cdn.jsdelivr.net/npm/highlight.js@9.14/styles/color-brewer.min.css';
 
 @import './styles/font.css';
 @import './styles/style.scss';

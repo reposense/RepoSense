@@ -5,6 +5,7 @@ import hljs from 'highlight.js';
 import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import 'highlight.js/styles/color-brewer.css';
 
 // Need to import for side effects
 import './utils/api';
