@@ -69,9 +69,8 @@
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
               span ({{ totalLineCount - totalBlankLineCount }})&nbsp;
-          template(v-for="fileType in Object.keys(fileTypeLinesObj)")
+          template(v-for="fileType in Object.keys(fileTypeLinesObj)", v-bind:key="fileType")
             label(
-              v-bind:key="fileType",
               v-bind:style="{\
                 'background-color': fileTypeColors[fileType],\
                 'color': getFontColor(fileTypeColors[fileType])\
@@ -93,8 +92,8 @@
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
-    template(v-for="(file, i) in selectedFiles")
-      .file(v-bind:key="file.path")
+    template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
+      .file
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(v-show="file.active")
