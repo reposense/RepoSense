@@ -209,7 +209,6 @@ window.api = {
     const res = [];
     const repo = window.REPOS[repoName];
 
-
     Object.keys(commits.authorDisplayNameMap).forEach((author) => {
       if (author) {
         const obj = {

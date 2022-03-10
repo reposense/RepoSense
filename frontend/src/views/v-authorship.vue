@@ -136,20 +136,16 @@
             |&nbsp;({{ file.lineCount - file.blankLineCount }})
           span.fileTypeLabel.binary(v-if='file.isBinary') binary&nbsp;
           span.fileTypeLabel(
-            v-if='file.isIgnored',
-            v-bind:style="{\
-              'background-color': '#000000',\
-              'color': '#ffffff'\
-              }"
-          ) ignored ({{ file.lineCount }})&nbsp;
+            v-if='file.isIgnored'
+          ).ignored-tag ignored ({{ file.lineCount }})&nbsp;
         pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary && !file.isIgnored", v-show="file.active")
           template(v-for="segment in file.segments")
             v-segment(v-bind:segment="segment", v-bind:path="file.path")
-        pre.file-content(v-if="file.isBinary", v-show="file.active")
+        pre.file-content(v-else-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
             .bin-text Binary file not shown.
-        pre.file-content(v-if="file.isIgnored", v-show="file.active")
+        pre.file-content(v-else="file.isIgnored", v-show="file.active")
           .ignored-segment
             .ignore-text File is ignored.
 </template>
@@ -445,18 +441,8 @@ export default {
         out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD && !file.isBinary;
         out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
         out.fileType = file.fileType;
-
-        if (file.isIgnored) {
-          out.isIgnored = true;
-        } else {
-          out.isIgnored = false;
-        }
-
-        if (file.isBinary) {
-          out.isBinary = true;
-        } else {
-          out.isBinary = false;
-        }
+        out.isIgnored = !!file.isIgnored;
+        out.isBinary = !!file.isBinary;
 
         if (!file.isBinary) {
           const segmentInfo = this.splitSegments(file.lines);
@@ -760,6 +746,11 @@ export default {
           white-space: pre-wrap;
         }
       }
+    }
+
+    .ignored-tag {
+      background-color: mui-color('black');
+      color: mui-color('white');
     }
 
     .title {
