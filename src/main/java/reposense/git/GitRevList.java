@@ -20,7 +20,7 @@ public class GitRevList {
 
     /**
      * Returns the latest commit hash at {@code branchName} before {@code date}.
-     * Returns an empty {@link String} if {@code date} is null, or there is no such commit.
+     * Returns an empty {@code String} if {@code date} is null, or there is no such commit.
      *
      * @param root The name of the working directory.
      * @param branchName The name of the branch to find the commit hash in.
