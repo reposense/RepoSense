@@ -16,7 +16,7 @@ OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
 
 mainClassName = 'reposense.RepoSense'
 
-node.nodeVersion = '16.14.0'
+node.nodeVersion = '14.19.0'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
