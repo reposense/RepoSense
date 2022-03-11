@@ -20,3 +20,4 @@ reposense-report/
 
 docs/_site/
 **/.DS_Store
+frontend/cypress/package-lock.json
