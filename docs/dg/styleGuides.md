@@ -38,10 +38,8 @@ converted to ternary operators if the resultant code can be kept at most 3 lines
 
 ## Additional Javadoc requirements:
 In addition to what has been mentioned in the [**Java** coding standard (SE-EDU)](https://se-education.org/guides/conventions/java/index.html) and [**Google Java Style Guide**](https://google.github.io/styleguide/javaguide.html), we also stipulate the following standards for Javadoc:
-* All imported classes that are mentioned in Javadoc should have `@link` tags. E.g. `{@link Author}`.
-  * For classes that are mentioned but not imported into the code, `@code` tags can be used.
-* If Javadoc is written for a method, all input parameters should be described in the Javadoc, either in the description or through `@param` tags.
-  * If `@param` tags are used, they must be used for all parameters.
+* If Javadoc is written for a method, all input parameters should be described in the Javadoc, either in the description with `@code tags` or through `@param` block tags.
+  * If `@param` block tags are used, they must be used for all parameters.
   * This is not necessary (although still recommended) for methods with `@Override` annotations if Javadoc is used. However, if the method that is being overriden is part of your code and has Javadoc, all parameters must be described.
 
 Negative Examples:
