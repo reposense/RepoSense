@@ -10,44 +10,55 @@ public class SupportedDomainUrlMap {
 
     private static final String BASE_URL_KEY = "BASE_URL";
     private static final String REPO_URL_KEY = "REPO_URL";
-    private static final String BRANCH_PATH_KEY = "BRANCH_PATH";
+    private static final String BRANCH_KEY = "BRANCH";
     private static final String COMMIT_PATH_KEY = "COMMIT_PATH";
     private static final String BLAME_PATH_KEY = "BLAME_PATH";
+    private static final String HISTORY_PATH_KEY = "HISTORY_PATH";
+
+    private static final String ORGANIZATION_PLACEHOLDER = "ORGANIZATION";
+    private static final String REPO_NAME_PLACEHOLDER = "REPO_NAME";
+    private static final String BRANCH_PLACEHOLDER = "BRANCH";
+    private static final String COMMIT_HASH_PLACEHOLDER = "COMMIT_HASH";
+    private static final String FILE_PATH_PLACEHOLDER = "FILE_PATH";
 
     private static final Map<String, String> GITHUB_MAP = new HashMap<String, String>() {
         {
             put(BASE_URL_KEY, "https://github.com/");
-            put(REPO_URL_KEY, "https://github.com/ORGANIZATION/REPO_NAME/");
-            put(BRANCH_PATH_KEY, "tree/BRANCH_PATH");
-            put(COMMIT_PATH_KEY, "commit/COMMIT_HASH/");
-            put(BLAME_PATH_KEY, "blame/BRANCH/FILE_PATH/");
+            put(REPO_URL_KEY, "https://github.com/" + ORGANIZATION_PLACEHOLDER + "/" + REPO_NAME_PLACEHOLDER + "/");
+            put(BRANCH_KEY, "tree/" + BRANCH_PLACEHOLDER);
+            put(COMMIT_PATH_KEY, "commit/" + COMMIT_HASH_PLACEHOLDER);
+            put(BLAME_PATH_KEY, "blame/" + BRANCH_PLACEHOLDER + "/" + FILE_PATH_PLACEHOLDER);
+            put(HISTORY_PATH_KEY, "commits/" + BRANCH_KEY + "/" + FILE_PATH_PLACEHOLDER);
         }
     };
     private static final Map<String, String> GITLAB_MAP = new HashMap<String, String>() {
         {
             put(BASE_URL_KEY, "https://gitlab.com/");
-            put(REPO_URL_KEY, "https://gitlab.com/ORGANIZATION/REPO_NAME/");
-            put(BRANCH_PATH_KEY, "-/tree/BRANCH_PATH");
-            put(COMMIT_PATH_KEY, "-/commit/COMMIT_HASH/");
-            put(BLAME_PATH_KEY, "-/blame/BRANCH/FILE_PATH/");
+            put(REPO_URL_KEY, "https://gitlab.com/" + ORGANIZATION_PLACEHOLDER + "/" + REPO_NAME_PLACEHOLDER + "/");
+            put(BRANCH_KEY, "-/tree/" + BRANCH_PLACEHOLDER);
+            put(COMMIT_PATH_KEY, "-/commit/" + COMMIT_HASH_PLACEHOLDER);
+            put(BLAME_PATH_KEY, "-/blame/" + BRANCH_PLACEHOLDER + "/" + FILE_PATH_PLACEHOLDER);
+            put(HISTORY_PATH_KEY, "-/commits/" + BRANCH_PLACEHOLDER + "/" + FILE_PATH_PLACEHOLDER);
         }
     };
     private static final Map<String, String> BITBUCKET_MAP = new HashMap<String, String>() {
         {
             put(BASE_URL_KEY, "https://bitbucket.org/");
-            put(REPO_URL_KEY, "https://bitbucket.org/ORGANIZATION/REPO_NAME/");
-            put(BRANCH_PATH_KEY, "src/BRANCH_PATH");
-            put(COMMIT_PATH_KEY, "commits/COMMIT_HASH/");
-            put(BLAME_PATH_KEY, "annotate/BRANCH/FILE_PATH/");
+            put(REPO_URL_KEY, "https://bitbucket.org/" + ORGANIZATION_PLACEHOLDER + "/" + REPO_NAME_PLACEHOLDER + "/");
+            put(BRANCH_KEY, "src/" + BRANCH_PLACEHOLDER);
+            put(COMMIT_PATH_KEY, "commits/" + COMMIT_HASH_PLACEHOLDER);
+            put(BLAME_PATH_KEY, "annotate/" + BRANCH_PLACEHOLDER + "/" + FILE_PATH_PLACEHOLDER);
+            put(HISTORY_PATH_KEY, "history-node/HEAD/" + FILE_PATH_PLACEHOLDER + "?at=" + BRANCH_PLACEHOLDER);
         }
     };
     private static final Map<String, String> NOT_SUPPORTED_MAP = new HashMap<String, String>() {
         {
             put(BASE_URL_KEY, "UNSUPPORTED");
             put(REPO_URL_KEY, "UNSUPPORTED");
-            put(BRANCH_PATH_KEY, "");
+            put(BRANCH_KEY, "");
             put(COMMIT_PATH_KEY, "");
             put(BLAME_PATH_KEY, "");
+            put(HISTORY_PATH_KEY, "");
         }
     };
 
