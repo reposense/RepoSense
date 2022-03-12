@@ -120,22 +120,33 @@ window.toggleNext = function toggleNext(ele) {
   parent.className = classes.join(' ');
 };
 
-window.getBaseLink = function getBaseLink(repoId) {
+window.getAuthorLink = function getAuthorLink(repoId, author) {
+  const domainName = window.REPOS[repoId].location.domainName;
+  return window.DOMAIN_URL_MAP[domainName].BASE_URL + author;
+};
+
+window.getRepoLink = function getRepoLink(repoId) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.DOMAIN_URL_MAP[domainName].REPO_URL
       .replace('ORGANIZATION', window.REPOS[repoId].location.organization)
       .replace('REPO_NAME', window.REPOS[repoId].location.repoName);
 };
 
+window.getBranchLink = function getBranchLink(repoId, branch) {
+  const domainName = window.REPOS[repoId].location.domainName;
+  return window.getRepoLink(repoId) + window.DOMAIN_URL_MAP[domainName].BRANCH_URL
+      .replace('BRANCH_PATH', branch)
+};
+
 window.getCommitLink = function getCommitLink(repoId, commitHash) {
   const domainName = window.REPOS[repoId].location.domainName;
-  return window.getBaseLink(repoId) + window.DOMAIN_URL_MAP[domainName].COMMIT_PATH
+  return window.getRepoLink(repoId) + window.DOMAIN_URL_MAP[domainName].COMMIT_PATH
       .replace('COMMIT_HASH', commitHash);
 };
 
 window.getBlameLink = function getBlameLink(repoId, branch, filepath) {
   const domainName = window.REPOS[repoId].location.domainName;
-  return window.getBaseLink(repoId) + window.DOMAIN_URL_MAP[domainName].BLAME_PATH
+  return window.getRepoLink(repoId) + window.DOMAIN_URL_MAP[domainName].BLAME_PATH
       .replace('BRANCH', branch)
       .replace('FILE_PATH', filepath);
 };

@@ -45,7 +45,7 @@
           span.tooltip-text Click to view group's repo
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
-        v-bind:href="getAuthorProfileLink(repo[0].name)", target="_blank"
+        v-bind:href="getAuthorProfileLink(repo[0], repo[0].name)", target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(icon="user")
@@ -108,7 +108,7 @@
             span.tooltip-text Click to view repo
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
-          v-bind:href="getAuthorProfileLink(repo[j].name)", target="_blank"
+          v-bind:href="getAuthorProfileLink(repo[j], repo[j].name)", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="user")
@@ -301,8 +301,8 @@ export default {
       return res;
     },
 
-    getAuthorProfileLink(userName) {
-      return `https://github.com/${userName}`;
+    getAuthorProfileLink(repo, userName) {
+      return window.getAuthorLink(repo.repoId, userName);
     },
 
     getRepoLink(repo) {
@@ -310,7 +310,7 @@ export default {
       const { location, branch } = REPOS[repo.repoId];
 
       if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
-        return `${window.BASE_URL}/${location.organization}/${location.repoName}/tree/${branch}`;
+        return window.getBranchLink(repo.repoId, branch);
       }
       this.removeSelectedTab();
       return repo.location;
