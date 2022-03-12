@@ -6,6 +6,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +20,9 @@ import reposense.util.SystemUtil;
  * Represents a repository location.
  */
 public class RepoLocation {
+
+    private static final String[] RECOGNISED_REMOTE_REPO_DOMAINS = {"github", "bitbucket", "gitlab"};
+
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final String MESSAGE_INVALID_REMOTE_URL = "%s is an invalid remote URL.";
 
@@ -32,19 +36,20 @@ public class RepoLocation {
             Pattern.compile("^(file://)?" + PATH_TO_REPO_REGEX + "$");
     private static final Pattern LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN =
             Pattern.compile("^" + PATH_TO_REPO_REGEX.replaceAll("/", "\\\\\\\\") + "$");
+    private static final Pattern DOMAIN_NAME_PATTERN = Pattern.compile("^(ww.\\.)?(.*@)?(?<domainName>[^.]*).*$");
 
-    private static final Pattern DOMAIN_NAME_PATTERN = Pattern.compile("^(ww.)?(?<domainName>[^.]*).*$");
     private static final String GROUP_REPO_NAME = "repoName";
     private static final String GROUP_PATH = "path";
     private static final String GROUP_DOMAIN_NAME = "domainName";
     private static final String GROUP_DOMAIN = "domain";
 
-    private static final String NON_RECOGNISED_DOMAIN_NAME = "NOT_RECOGNISED";
+    protected static final String UNRECOGNISED_DOMAIN_NAME = "NOT_RECOGNISED";
     private static final String PATH_SEPARATOR_REPLACEMENT = "-";
 
     private final String location;
     private final String repoName;
     private final String organization;
+    private final String domainName;
 
     /**
      * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
@@ -57,7 +62,7 @@ public class RepoLocation {
         this.location = location;
         String[] repoNameAndOrg;
         if (location.isEmpty()) {
-            repoNameAndOrg = new String[] {"", ""};
+            repoNameAndOrg = new String[] {"", "", UNRECOGNISED_DOMAIN_NAME};
         } else if (isLocalRepo(location)) {
             repoNameAndOrg = getLocalRepoNameAndOrg(location);
         } else {
@@ -66,6 +71,7 @@ public class RepoLocation {
 
         this.repoName = repoNameAndOrg[0];
         this.organization = repoNameAndOrg[1];
+        this.domainName = repoNameAndOrg[2];
     }
 
     public boolean isEmpty() {
@@ -78,6 +84,10 @@ public class RepoLocation {
 
     public String getOrganization() {
         return organization;
+    }
+
+    public String getDomainName() {
+        return domainName;
     }
 
     /**
@@ -133,7 +143,7 @@ public class RepoLocation {
 
         String tempRepoName = localRepoMatcher.group(GROUP_REPO_NAME);
         String tempOrganization = getOrganizationFromMatcher(localRepoMatcher);
-        return new String[] {tempRepoName, tempOrganization};
+        return new String[] {tempRepoName, tempOrganization, UNRECOGNISED_DOMAIN_NAME};
     }
 
     /**
@@ -166,11 +176,11 @@ public class RepoLocation {
         String tempRepoName = actualMatcher.group(GROUP_REPO_NAME);
         String tempOrganization = getOrganizationFromMatcher(actualMatcher);
 
-        return new String[] {tempRepoName, tempOrganization};
+        return new String[] {tempRepoName, tempOrganization, getDomainNameFromMatcher(actualMatcher)};
     }
 
     /**
-     * Returns the organization string from the matcher if one exists.
+     * Returns the organization string from the {@code matcher} if one exists.
      * If no match was found for it, returns an empty string instead.
      */
     private static String getOrganizationFromMatcher(Matcher matcher) {
@@ -179,6 +189,22 @@ public class RepoLocation {
                 .map(s -> s.replaceAll(Pattern.quote(FileSystems.getDefault().getSeparator()),
                         PATH_SEPARATOR_REPLACEMENT))
                 .orElse("");
+    }
+
+    /**
+     * Returns the domain name of the URL from the {@code matcher} if it is one of the recognised ones.
+     * Returns {@code UNRECOGNISED_DOMAIN_NAME} if it is a local repo or not recognised.
+     */
+    private static String getDomainNameFromMatcher(Matcher matcher) throws InvalidLocationException {
+        String domain = matcher.group(GROUP_DOMAIN);
+        Matcher domainNameMatcher = DOMAIN_NAME_PATTERN.matcher(domain);
+        if (!domainNameMatcher.matches()) {
+            throw new InvalidLocationException(MESSAGE_INVALID_REMOTE_URL);
+        }
+        String domainName = domainNameMatcher.group(GROUP_DOMAIN_NAME);
+        return Arrays.asList(RECOGNISED_REMOTE_REPO_DOMAINS).contains(domainName)
+                ? domainName
+                : UNRECOGNISED_DOMAIN_NAME;
     }
 
     @Override
