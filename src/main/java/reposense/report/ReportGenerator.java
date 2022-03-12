@@ -48,6 +48,7 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.ReportConfiguration;
 import reposense.model.StandaloneConfig;
+import reposense.model.SupportedDomainUrlMap;
 import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
@@ -67,6 +68,9 @@ public class ReportGenerator {
     private static final String TEMPLATE_FILE = "/templateZip.zip";
     private static final String INDEX_PAGE_TEMPLATE = "index.html";
     private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>reposense</title>";
+
+    // json file containing supported domain url mappings
+    private static final String DOMAIN_URL_MAP_FILE = "/supportedDomainUrlMap.json";
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
@@ -125,6 +129,7 @@ public class ReportGenerator {
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone) throws IOException {
         prepareTemplateFile(reportConfig, outputPath);
+        prepareSupportedDomainUrlMap(DOMAIN_URL_MAP_FILE);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
         }
@@ -159,6 +164,10 @@ public class ReportGenerator {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
         FileUtil.copyTemplate(is, outputPath);
         setReportConfiguration(config, outputPath);
+    }
+
+    private static void prepareSupportedDomainUrlMap(String pathToJsonFile) throws IOException {
+        SupportedDomainUrlMap.setupDefaultDomainUrlMap(pathToJsonFile);
     }
 
     private static void setReportConfiguration(ReportConfiguration config, String outputPath) throws IOException {

@@ -21,8 +21,6 @@ import reposense.util.SystemUtil;
  */
 public class RepoLocation {
 
-    private static final String[] RECOGNISED_REMOTE_REPO_DOMAINS = {"github", "bitbucket", "gitlab"};
-
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final String MESSAGE_INVALID_REMOTE_URL = "%s is an invalid remote URL.";
 
@@ -202,9 +200,13 @@ public class RepoLocation {
             throw new InvalidLocationException(MESSAGE_INVALID_REMOTE_URL);
         }
         String domainName = domainNameMatcher.group(GROUP_DOMAIN_NAME);
-        return Arrays.asList(RECOGNISED_REMOTE_REPO_DOMAINS).contains(domainName)
+        return isSupportedDomainName(domainName)
                 ? domainName
                 : UNRECOGNISED_DOMAIN_NAME;
+    }
+
+    private static boolean isSupportedDomainName(String domainName) {
+        return SupportedDomainUrlMap.DEFAULT_DOMAIN_URL_MAP.isSupportedDomainName(domainName);
     }
 
     @Override
