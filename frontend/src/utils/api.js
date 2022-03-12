@@ -127,6 +127,19 @@ window.getBaseLink = function getBaseLink(repoId) {
       .replace('REPO_NAME', window.REPOS[repoId].location.repoName);
 };
 
+window.getCommitLink = function getCommitLink(repoId, commitHash) {
+  const domainName = window.REPOS[repoId].location.domainName;
+  return window.getBaseLink(repoId) + window.DOMAIN_URL_MAP[domainName].COMMIT_PATH
+      .replace('COMMIT_HASH', commitHash);
+};
+
+window.getBlameLink = function getBlameLink(repoId, branch, filepath) {
+  const domainName = window.REPOS[repoId].location.domainName;
+  return window.getBaseLink(repoId) + window.DOMAIN_URL_MAP[domainName].BLAME_PATH
+      .replace('BRANCH', branch)
+      .replace('FILE_PATH', filepath);
+};
+
 window.getGroupName = function getGroupName(group, filterGroupSelection) {
   switch (filterGroupSelection) {
   case 'groupByRepos':

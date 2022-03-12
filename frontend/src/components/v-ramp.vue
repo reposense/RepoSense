@@ -44,7 +44,7 @@ export default {
 
   methods: {
     getLink(commit) {
-      return `${window.getBaseLink(commit.repoId)}/commit/${commit.hash}`;
+      return window.getCommitLink(commit.repoId, commit.hash);
     },
     getWidth(slice) {
       if (slice.insertions === 0) {
