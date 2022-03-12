@@ -6,7 +6,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +19,8 @@ import reposense.util.SystemUtil;
  * Represents a repository location.
  */
 public class RepoLocation {
+
+    protected static final String UNRECOGNISED_DOMAIN_NAME = "NOT_RECOGNISED";
 
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final String MESSAGE_INVALID_REMOTE_URL = "%s is an invalid remote URL.";
@@ -41,7 +42,6 @@ public class RepoLocation {
     private static final String GROUP_DOMAIN_NAME = "domainName";
     private static final String GROUP_DOMAIN = "domain";
 
-    protected static final String UNRECOGNISED_DOMAIN_NAME = "NOT_RECOGNISED";
     private static final String PATH_SEPARATOR_REPLACEMENT = "-";
 
     private final String location;
@@ -206,7 +206,7 @@ public class RepoLocation {
     }
 
     private static boolean isSupportedDomainName(String domainName) {
-        return SupportedDomainUrlMap.DEFAULT_DOMAIN_URL_MAP.isSupportedDomainName(domainName);
+        return SupportedDomainUrlMap.isSupportedDomainName(domainName);
     }
 
     @Override

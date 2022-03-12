@@ -1,28 +1,53 @@
 package reposense.model;
 
-import reposense.parser.SupportedDomainUrlMapJsonParser;
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ */
 public class SupportedDomainUrlMap {
 
-    public static SupportedDomainUrlMap DEFAULT_DOMAIN_URL_MAP;
+    private static final String REPO_URL_KEY = "REPO_URL";
+    private static final String COMMIT_PATH_KEY = "COMMIT_PATH";
+    private static final String BLAME_PATH_KEY = "BLAME_PATH";
 
-    private Map<String, Map<String, String>> domainUrlMap;
+    private static final Map<String, String> GITHUB_MAP = new HashMap<String, String>() {{
+        put(REPO_URL_KEY, "https://github.com/ORGANIZATION/REPO_NAME/");
+        put(COMMIT_PATH_KEY, "commit/COMMIT_HASH/");
+        put(BLAME_PATH_KEY, "blame/BRANCH/FILE_PATH/");
+    }};
+    private static final Map<String, String> GITLAB_MAP = new HashMap<String, String>() {{
+        put(REPO_URL_KEY, "https://gitlab.com/ORGANIZATION/REPO_NAME/");
+        put(COMMIT_PATH_KEY, "-/commit/COMMIT_HASH/");
+        put(BLAME_PATH_KEY, "-/blame/BRANCH/FILE_PATH/");
+    }};
+    private static final Map<String, String> BITBUCKET_MAP = new HashMap<String, String>() {{
+        put(REPO_URL_KEY, "https://bitbucket.org/ORGANIZATION/REPO_NAME/");
+        put(COMMIT_PATH_KEY, "commits/COMMIT_HASH/");
+        put(BLAME_PATH_KEY, "annotate/BRANCH/FILE_PATH/");
+    }};
+
+    private static final SupportedDomainUrlMap DEFAULT_DOMAIN_URL_MAP = new SupportedDomainUrlMap();
+
+    private final Map<String, Map<String, String>> domainUrlMap;
+
+    private SupportedDomainUrlMap() {
+        domainUrlMap = new HashMap<>();
+        domainUrlMap.put("github", GITHUB_MAP);
+        domainUrlMap.put("gitlab", GITLAB_MAP);
+        domainUrlMap.put("bitbucket", BITBUCKET_MAP);
+    }
 
     public Map<String, Map<String, String>> getDomainUrlMap() {
         return domainUrlMap;
     }
 
-    public boolean isSupportedDomainName(String domainName) {
+    public boolean isSupportedDomain(String domainName) {
         return domainUrlMap.containsKey(domainName);
     }
 
-    public static void setupDefaultDomainUrlMap(String pathToJson) throws IOException {
-        Path path = Paths.get(pathToJson);
-        DEFAULT_DOMAIN_URL_MAP = new SupportedDomainUrlMapJsonParser().parse(path);
+    public static boolean isSupportedDomainName(String domainName) {
+        return DEFAULT_DOMAIN_URL_MAP.isSupportedDomain(domainName);
     }
 }
