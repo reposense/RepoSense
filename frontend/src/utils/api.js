@@ -134,8 +134,8 @@ window.getRepoLink = function getRepoLink(repoId) {
 
 window.getBranchLink = function getBranchLink(repoId, branch) {
   const domainName = window.REPOS[repoId].location.domainName;
-  return window.getRepoLink(repoId) + window.DOMAIN_URL_MAP[domainName].BRANCH_URL
-      .replace('BRANCH_PATH', branch)
+  return window.getRepoLink(repoId) + window.DOMAIN_URL_MAP[domainName].BRANCH
+      .replace('BRANCH', branch);
 };
 
 window.getCommitLink = function getCommitLink(repoId, commitHash) {
@@ -147,6 +147,13 @@ window.getCommitLink = function getCommitLink(repoId, commitHash) {
 window.getBlameLink = function getBlameLink(repoId, branch, filepath) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.getRepoLink(repoId) + window.DOMAIN_URL_MAP[domainName].BLAME_PATH
+      .replace('BRANCH', branch)
+      .replace('FILE_PATH', filepath);
+};
+
+window.getHistoryLink = function getHistoryLink(repoId, branch, filepath) {
+  const domainName = window.REPOS[repoId].location.domainName;
+  return window.getRepoLink(repoId) + window.DOMAIN_URL_MAP[domainName].HISTORY_PATH
       .replace('BRANCH', branch)
       .replace('FILE_PATH', filepath);
 };
