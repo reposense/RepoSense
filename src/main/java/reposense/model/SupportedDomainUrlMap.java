@@ -62,4 +62,11 @@ public class SupportedDomainUrlMap {
     public static boolean isSupportedDomainName(String domainName) {
         return DEFAULT_DOMAIN_URL_MAP.isSupportedDomain(domainName);
     }
+
+    /**
+     * Returns the singleton copy of the supported domain url map.
+     */
+    public static SupportedDomainUrlMap getSupportedDomainUrlMap() {
+        return DEFAULT_DOMAIN_URL_MAP;
+    }
 }
