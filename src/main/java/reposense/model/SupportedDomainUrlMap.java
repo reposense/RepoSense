@@ -37,6 +37,14 @@ public class SupportedDomainUrlMap {
             put(BLAME_PATH_KEY, "annotate/BRANCH/FILE_PATH/");
         }
     };
+    private static final Map<String, String> NOT_SUPPORTED_MAP = new HashMap<String, String>() {
+        {
+            put(BASE_URL_KEY, "UNSUPPORTED");
+            put(REPO_URL_KEY, "UNSUPPORTED");
+            put(COMMIT_PATH_KEY, "");
+            put(BLAME_PATH_KEY, "");
+        }
+    };
 
     private static final SupportedDomainUrlMap DEFAULT_DOMAIN_URL_MAP = new SupportedDomainUrlMap();
 
@@ -47,6 +55,7 @@ public class SupportedDomainUrlMap {
         domainUrlMap.put("github", GITHUB_MAP);
         domainUrlMap.put("gitlab", GITLAB_MAP);
         domainUrlMap.put("bitbucket", BITBUCKET_MAP);
+        domainUrlMap.put(RepoLocation.UNSUPPORTED_DOMAIN_NAME, NOT_SUPPORTED_MAP);
     }
 
     public Map<String, Map<String, String>> getDomainUrlMap() {
