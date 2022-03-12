@@ -121,9 +121,10 @@ window.toggleNext = function toggleNext(ele) {
 };
 
 window.getBaseLink = function getBaseLink(repoId) {
-  return `${window.BASE_URL}/${
-    window.REPOS[repoId].location.organization}/${
-    window.REPOS[repoId].location.repoName}`;
+  const domainName = window.REPOS[repoId].location.domainName;
+  return window.DOMAIN_URL_MAP[domainName].REPO_URL
+      .replace('ORGANIZATION', window.REPOS[repoId].location.organization)
+      .replace('REPO_NAME', window.REPOS[repoId].location.repoName);
 };
 
 window.getGroupName = function getGroupName(group, filterGroupSelection) {
@@ -168,6 +169,7 @@ window.api = {
   },
   async loadSummary() {
     window.REPOS = {};
+    window.DOMAIN_URL_MAP = {};
     let data = {};
     try {
       data = await this.loadJSON('summary.json');
@@ -187,6 +189,14 @@ window.api = {
     const errorMessages = {};
     Object.entries(data.errorSet).forEach(([repoName, message]) => {
       errorMessages[repoName] = message;
+    });
+
+    Object.entries(data.supportedDomainUrlMap).forEach(([domainName, mapEntries]) => {
+      const map = {};
+      Object.entries(mapEntries).forEach(([header, url]) => {
+        map[header] = url;
+      });
+      window.DOMAIN_URL_MAP[domainName] = map;
     });
 
     const names = [];

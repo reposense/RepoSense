@@ -26,7 +26,7 @@ public class SummaryJson {
     private final LocalDateTime untilDate;
     private final boolean isSinceDateProvided;
     private final boolean isUntilDateProvided;
-    private final SupportedDomainUrlMap supportedDomainUrlMap;
+    private final Map<String, Map<String, String>> supportedDomainUrlMap;
 
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
             LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
@@ -42,6 +42,6 @@ public class SummaryJson {
         this.repoSenseVersion = repoSenseVersion;
         this.errorSet = errorSet;
         this.zoneId = zoneId;
-        this.supportedDomainUrlMap = SupportedDomainUrlMap.getSupportedDomainUrlMap();
+        this.supportedDomainUrlMap = SupportedDomainUrlMap.getDefaultDomainUrlMap();
     }
 }
