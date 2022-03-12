@@ -22,16 +22,22 @@ public class RepoLocation {
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final String MESSAGE_INVALID_REMOTE_URL = "%s is an invalid remote URL.";
 
+    private static final String PATH_TO_REPO_REGEX = "(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?";
     private static final Pattern GIT_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^(ssh|git|https?|ftps?)://[^/]*?/(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
+            Pattern.compile("^(ssh|git|https?|ftps?)://(?<domain>[^/]*?)/" + PATH_TO_REPO_REGEX + "$");
     private static final Pattern SCP_LIKE_SSH_REPOSITORY_LOCATION_PATTERN =
-            Pattern.compile("^.*?:(?<path>[^/].*?)??/??(?<repoName>[^/]+?)(\\.git)?/?$");
+            Pattern.compile("^(.*@)?(?<domain>.*?):(?<path>[^/].*?)??/??(?<repoName>[^/]+?)(\\.git)?/?$");
     private static final Pattern LOCAL_REPOSITORY_NON_WINDOWS_LOCATION_PATTERN =
-            Pattern.compile("^(file://)?(?<path>.*?)/?(?<repoName>[^/]+?)(/?\\.git)?/?$");
+            Pattern.compile("^(file://)?" + PATH_TO_REPO_REGEX + "$");
     private static final Pattern LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN =
-            Pattern.compile("^(?<path>.*?)\\\\?(?<repoName>[^\\\\]+?)(\\\\?\\.git)?\\\\?$");
+            Pattern.compile("^" + PATH_TO_REPO_REGEX.replaceAll("/", "\\\\\\\\") + "$");
+    private static final Pattern DOMAIN_NAME_PATTERN = Pattern.compile("^(ww.)?(?<domainName>[^.]*).*$");
     private static final String GROUP_REPO_NAME = "repoName";
     private static final String GROUP_PATH = "path";
+    private static final String GROUP_DOMAIN_NAME = "domainName";
+    private static final String GROUP_DOMAIN = "domain";
+
+    private static final String NON_RECOGNISED_DOMAIN_NAME = "NOT_RECOGNISED";
     private static final String PATH_SEPARATOR_REPLACEMENT = "-";
 
     private final String location;
