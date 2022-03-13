@@ -533,6 +533,7 @@ export default {
     indicateSearchBar() {
       this.selectedFileTypes = this.fileTypes.slice();
       this.isBinaryFilesChecked = true;
+      this.isIgnoredFilesChecked = true;
       this.filterType = 'search';
     },
 
@@ -630,7 +631,6 @@ export default {
     fileTypeLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
-          // .map((f) => { console.log(f); return f; })
           .filter(([, value]) => value > 0)
           .forEach(([langType, value]) => {
             numLinesModified[langType] = value;
