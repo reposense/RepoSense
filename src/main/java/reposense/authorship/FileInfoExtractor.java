@@ -71,7 +71,7 @@ public class FileInfoExtractor {
         } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }
-        String lastCommitHash = GitRevList.getCommitHashBeforeDate(
+        String lastCommitHash = GitRevList.getCommitHashUntilDate(
                 config.getRepoRoot(), config.getBranch(), config.getSinceDate(), ZoneId.of(config.getZoneId()));
 
         fileInfos = (lastCommitHash.isEmpty())

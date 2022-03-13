@@ -1,6 +1,12 @@
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 module.exports = {
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      title: 'RepoSense Report',
+    },
+  },
   publicPath: './',
   outputDir: 'build/',
   configureWebpack: {
@@ -25,8 +31,13 @@ module.exports = {
     config.module
         .rule('vue')
         .use('vue-loader')
-        .tap((args) => {
-          args.compilerOptions.whitespace = 'preserve';
-        });
+        .tap(options => {
+          return {
+            ...options,
+            compilerOptions: {
+              whitespace: 'preserve',
+            }
+          }
+        })
   },
 };
