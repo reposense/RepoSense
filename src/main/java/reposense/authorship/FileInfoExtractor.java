@@ -145,7 +145,7 @@ public class FileInfoExtractor {
         return modifiedFileList.stream()
                 .filter(file -> isBinaryFile == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
                 .map(file -> file.split("\t")[2])
-                .filter(FileUtil::isValidPath)
+                .filter(FileUtil::isValidPathWithLogging)
                 .map(filteredFile -> Paths.get(filteredFile))
                 .collect(Collectors.toCollection(HashSet::new));
     }
@@ -245,7 +245,7 @@ public class FileInfoExtractor {
     private static boolean isValidTextFile(String filePath, Set<Path> textFilesSet) {
         boolean isValidFilePath;
         try {
-            isValidFilePath = FileUtil.isValidPath(filePath);
+            isValidFilePath = FileUtil.isValidPathWithLogging(filePath);
         } catch (InvalidPathException ipe) {
             logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, filePath));
             isValidFilePath = false;

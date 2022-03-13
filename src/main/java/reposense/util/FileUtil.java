@@ -297,11 +297,23 @@ public class FileUtil {
      * Returns true if {@code path} is a valid path.
      * Produces log messages when the invalid file path is skipped.
      */
-    public static boolean isValidPath(String path) {
+    public static boolean isValidPathWithLogging(String path) {
         try {
             Paths.get(path);
         } catch (InvalidPathException ipe) {
             logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, path));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if {@code path} is a valid path.
+     */
+    public static boolean isValidPath(String path) {
+        try {
+            Paths.get(path);
+        } catch (InvalidPathException ipe) {
             return false;
         }
         return true;
