@@ -1,0 +1,51 @@
+package reposense.authorship;
+
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import reposense.authorship.model.FileInfo;
+import reposense.authorship.model.FileResult;
+import reposense.git.GitCheckout;
+import reposense.template.GitTestTemplate;
+import reposense.util.TestUtil;
+
+public class FileResultAggregatorTest extends GitTestTemplate {
+
+    private static final LocalDateTime CLEAR_FILE_LINES_SINCE_DATE =
+            TestUtil.getSinceDate(2017, Month.JANUARY.getValue(), 1);
+    private static final LocalDateTime CLEAR_FILE_LINES_UNTIL_DATE =
+            TestUtil.getUntilDate(2022, Month.MARCH.getValue(), 8);
+
+    @Test
+    public void aggregateFileResult_clearFileLines_success() {
+        config.setSinceDate(CLEAR_FILE_LINES_SINCE_DATE);
+        config.setUntilDate(CLEAR_FILE_LINES_UNTIL_DATE);
+        config.setBranch("1647-FileAnalyzerTest-analyzeTextFile_fileExceedingFileSizeLimit_success");
+        config.setAuthorList(new ArrayList<>());
+        GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+
+        // Logic identical to AuthorshipReporter.java
+        List<FileInfo> textFileInfos = FileInfoExtractor.extractTextFileInfos(config);
+
+        List<FileResult> fileResults = textFileInfos.stream()
+                .filter(f -> !f.getPath().equals("annotationTest.java"))
+                .map(fileInfo -> FileInfoAnalyzer.analyzeTextFile(config, fileInfo))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        //
+
+        FileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(), config.getAllFileTypes());
+        Assert.assertEquals(fileResults.stream()
+                .filter(f -> f.getPath().contains("largeFile.json"))
+                .findFirst()
+                .map(f -> f.getLines().size()), Optional.of(0));
+    }
+}
