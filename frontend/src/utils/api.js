@@ -200,7 +200,6 @@ window.api = {
   },
   async loadSummary() {
     window.REPOS = {};
-    window.DOMAIN_URL_MAP = {};
     let data = {};
     try {
       data = await this.loadJSON('summary.json');
