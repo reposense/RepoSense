@@ -57,6 +57,7 @@ wrapper {
 
 run {
     //the second arguments indicates the default value associated with the property.
+    tasks.compileJava.mustRunAfter('zipReport')
     args System.getProperty('args', '').split()
     systemProperty "version", getRepoSenseVersion()
 }
@@ -102,7 +103,11 @@ test {
     }
 }
 
+tasks.shadowJar.dependsOn('zipReport');
+tasks.run.dependsOn('zipReport');
+
 shadowJar {
+    tasks.compileJava.mustRunAfter('zipReport')
     archiveName = 'RepoSense.jar'
     destinationDir = file("${buildDir}/jar/")
 
@@ -126,20 +131,13 @@ task lintFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugi
     args = ['run', 'lint']
 }
 
-task compileJavaWithZip(dependsOn: ['zipReport', 'compileJava']) {
-    tasks.compileJava.mustRunAfter('zipReport')
-}
-
 task zipReport(dependsOn: 'buildFrontend', type: Zip) {
     from 'frontend/build/'
     baseName = 'templateZip'
     destinationDir = file('src/main/resources')
 }
 
-tasks.shadowJar.dependsOn('zipReport');
-tasks.run.dependsOn('compileJavaWithZip');
-
-task systemtest(dependsOn: 'zipReport', type: Test) {
+task systemtest(type: Test) {
     testClassesDirs = sourceSets.systemtest.output.classesDirs
     classpath = sourceSets.systemtest.runtimeClasspath
     environment("REPOSENSE_ENVIRONMENT", "TEST")
@@ -158,7 +156,8 @@ task systemtest(dependsOn: 'zipReport', type: Test) {
     }
 }
 
-task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task.JavaExecFork) {
+task startServerInBackground(dependsOn: ['zipReport', 'compileJava', 'classes'], type: com.github.psxpaul.task.JavaExecFork) {
+    tasks.compileJava.mustRunAfter('zipReport')
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
     args = ['--config', './frontend/cypress/config', '--since', 'd1', '--view']
@@ -172,16 +171,14 @@ task installCypress(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) 
     args = ['install']
 }
 
-task cypress(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    tasks.startServerInBackground.mustRunAfter('zipReport')
+task cypress(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
 }
 
-task frontendTest(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    tasks.startServerInBackground.mustRunAfter('zipReport')
+task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     tasks.startServerInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
