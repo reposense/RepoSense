@@ -31,8 +31,13 @@ module.exports = {
     config.module
         .rule('vue')
         .use('vue-loader')
-        .tap((args) => {
-          args.compilerOptions.whitespace = 'preserve';
-        });
+        .tap(options => {
+          return {
+            ...options,
+            compilerOptions: {
+              whitespace: 'preserve',
+            }
+          }
+        })
   },
 };
