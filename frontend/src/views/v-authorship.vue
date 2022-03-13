@@ -296,7 +296,6 @@ export default {
     async initiate() {
       const repo = window.REPOS[this.info.repo];
 
-      this.getRepoProps(repo);
       if (!repo || !this.info.author) {
         this.$store.commit('updateTabState', false);
         return;
@@ -313,6 +312,7 @@ export default {
       if (!files) {
         files = await window.api.loadAuthorship(this.info.repo);
       }
+      this.getRepoProps(repo);
       this.processFiles(files);
 
       if (this.info.isRefresh) {
@@ -326,27 +326,26 @@ export default {
 
     getRepoProps(repo) {
       if (repo) {
+        let files = [];
         if (this.info.isMergeGroup) {
-          // sum of all users' file type contribution
-          repo.users.forEach((author) => {
-            this.updateTotalFileTypeContribution(author.fileTypeContribution);
-          });
+          files = repo.files;
         } else {
           const author = repo.users.find((user) => user.name === this.info.author);
-          if (author) {
-            this.authorDisplayName = author.displayName;
-            this.filesLinesObj = author.fileTypeContribution;
-          }
+          this.authorDisplayName = author.displayName;
+          files = repo.files.filter((f) => !!f.authorContributionMap[author.name]);
         }
+        this.updateTotalFileTypeContribution(files);
       }
     },
 
-    updateTotalFileTypeContribution(fileTypeContribution) {
-      Object.entries(fileTypeContribution).forEach(([type, cnt]) => {
+    updateTotalFileTypeContribution(files) {
+      files.filter((f) => !f.isIgnored).forEach((f) => {
+        const lines = f.lines ? f.lines.length : 0;
+        const type = f.fileType;
         if (this.filesLinesObj[type]) {
-          this.filesLinesObj[type] += cnt;
+          this.filesLinesObj[type] += lines;
         } else {
-          this.filesLinesObj[type] = cnt;
+          this.filesLinesObj[type] = lines;
         }
       });
     },
@@ -631,6 +630,7 @@ export default {
     fileTypeLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
+          // .map((f) => { console.log(f); return f; })
           .filter(([, value]) => value > 0)
           .forEach(([langType, value]) => {
             numLinesModified[langType] = value;
