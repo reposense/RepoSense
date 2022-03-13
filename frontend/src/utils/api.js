@@ -222,13 +222,7 @@ window.api = {
       errorMessages[repoName] = message;
     });
 
-    Object.entries(data.supportedDomainUrlMap).forEach(([domainName, mapEntries]) => {
-      const map = {};
-      Object.entries(mapEntries).forEach(([header, url]) => {
-        map[header] = url;
-      });
-      window.DOMAIN_URL_MAP[domainName] = map;
-    });
+    window.DOMAIN_URL_MAP = data.supportedDomainUrlMap;
 
     const names = [];
     data.repos.forEach((repo) => {
