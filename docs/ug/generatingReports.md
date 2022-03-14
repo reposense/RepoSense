@@ -18,6 +18,12 @@ Let's look at different ways to generate RepoSense reports.
 
 * **If you don't have Java on your computer or do not wish to run the executable on your computer**, some alternatives are provided in the [_Generating reports remotely_](#generating-reports-remotely) section below.
 
+<box type="info" seamless>
+
+RepoSense is built to analyze any type of git repo, remote or local. It works best when analyzing remote repositories hosted on GitHub, GitLab or BitBucket.
+For other types of repositories, features such as external links might not work properly.
+</box>
+
 <!-- ==================================================================================================== -->
 
 ## Generating reports locally
