@@ -84,7 +84,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
         config.setIgnoreCommitList(
                 Collections.singletonList(
-                        new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
+                new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assert.assertEquals(commitResultsShort, commitResultsFull);
@@ -205,7 +205,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7",
                 parseGitStrictIsoDate("2019-06-19T13:03:39+08:00"), "[#123] Reverted 1st commit",
                 "This is a test to see if the commit message body works. "
-                        + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null,
+                + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null,
                 secondFileTypeAndContributionMap));
 
         config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success");
@@ -248,7 +248,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7",
                 parseGitStrictIsoDate("2019-06-19T13:03:39+08:00"), "[#123] Reverted 1st commit",
                 "This is a test to see if the commit message body works. "
-                        + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null,
+                + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null,
                 secondFileTypeAndContributionMap));
 
         config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success");

@@ -116,8 +116,8 @@ public class ArgsParser {
                 .type(new ReportFolderArgumentType())
                 .setConst(EMPTY_PATH)
                 .help("Starts a server to display the report in the provided directory. "
-                        + "If used as a flag (with no argument), "
-                        + "generates a report and automatically displays the report.");
+                + "If used as a flag (with no argument), "
+                + "generates a report and automatically displays the report.");
 
         parser.addArgument(OUTPUT_FLAGS)
                 .dest(OUTPUT_FLAGS[0])
@@ -125,7 +125,7 @@ public class ArgsParser {
                 .type(new OutputFolderArgumentType())
                 .setDefault(Paths.get(ArgsParser.DEFAULT_REPORT_NAME))
                 .help("The directory to output the report folder, reposense-report. "
-                        + "If not provided, the report folder will be created in the current working directory.");
+                + "If not provided, the report folder will be created in the current working directory.");
 
         parser.addArgument(ASSETS_FLAGS)
                 .dest(ASSETS_FLAGS[0])
@@ -133,7 +133,7 @@ public class ArgsParser {
                 .type(new AssetsFolderArgumentType())
                 .setDefault(DEFAULT_ASSETS_PATH)
                 .help("The directory to place assets files to customize report generation. "
-                        + "If not provided, the assets folder in the current working directory will be used.");
+                + "If not provided, the assets folder in the current working directory will be used.");
 
         parser.addArgument(SINCE_FLAGS)
                 .dest(SINCE_FLAGS[0])
@@ -163,8 +163,8 @@ public class ArgsParser {
                 .type(new AlphanumericArgumentType())
                 .setDefault(Collections.emptyList())
                 .help("The alphanumeric file formats to process.\n"
-                        + "If not provided, default file formats will be used.\n"
-                        + "Please refer to userguide for more information.");
+                + "If not provided, default file formats will be used.\n"
+                + "Please refer to userguide for more information.");
 
         parser.addArgument(TIMEZONE_FLAGS)
                 .dest(TIMEZONE_FLAGS[0])
@@ -172,15 +172,15 @@ public class ArgsParser {
                 .type(new ZoneIdArgumentType())
                 .setDefault(ZoneId.systemDefault())
                 .help("The timezone to use for the generated report. "
-                        + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
-                        + "If not provided, system default timezone will be used.");
+                + "One kind of valid timezones is relative to UTC. E.g. UTC, UTC+08, UTC-1030. \n"
+                + "If not provided, system default timezone will be used.");
 
         parser.addArgument(FIND_PREVIOUS_AUTHORS_FLAGS)
                 .dest(FIND_PREVIOUS_AUTHORS_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to make RepoSense utilize Git blame's ignore revisions functionality, RepoSense "
-                        + "will attempt to blame the line changes caused by commits in the ignore commit list to the "
-                        + "previous authors who altered those lines (if available)");
+                + "will attempt to blame the line changes caused by commits in the ignore commit list to the "
+                + "previous authors who altered those lines (if available)");
 
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)
@@ -189,7 +189,7 @@ public class ArgsParser {
                 .metavar("PATH")
                 .setDefault(DEFAULT_CONFIG_PATH)
                 .help("The directory containing the config files."
-                        + "If not provided, the config files will be obtained from the config folder.");
+                + "If not provided, the config files will be obtained from the config folder.");
 
         mutexParser.addArgument(REPO_FLAGS)
                 .nargs("+")
@@ -206,8 +206,8 @@ public class ArgsParser {
                 .dest(SHALLOW_CLONING_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to make RepoSense employ Git's shallow cloning functionality, which can significantly "
-                        + "reduce the time taken to clone large repositories. This flag should not be used for "
-                        + "smaller repositories, where the .git file is smaller than 500 MB.");
+                + "reduce the time taken to clone large repositories. This flag should not be used for "
+                + "smaller repositories, where the .git file is smaller than 500 MB.");
 
         parser.addArgument(CLONING_THREADS_FLAG)
                 .dest(CLONING_THREADS_FLAG[0])

@@ -150,7 +150,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(
                 Collections.singletonList(
-                        new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
+                new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoShort);
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);
@@ -179,7 +179,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(Collections.singletonList(
-                        new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
+                new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
         config.setIgnoreCommitList(createTestIgnoreRevsFile(config.getIgnoreCommitList()));
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoShort);
         removeTestIgnoreRevsFile();
@@ -206,7 +206,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(CommitHash.convertStringsToCommits(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
-                        MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
+                MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoShort);
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);
@@ -232,8 +232,8 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(CommitHash.convertStringsToCommits(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
-                        MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8),
-                        AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING.substring(0, 8))));
+                MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8),
+                AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING.substring(0, 8))));
         createTestIgnoreRevsFile(config.getIgnoreCommitList());
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoShort);
         removeTestIgnoreRevsFile();

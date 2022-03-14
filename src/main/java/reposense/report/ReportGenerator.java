@@ -139,10 +139,9 @@ public class ReportGenerator {
                 ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
-                new SummaryJson(configs, reportConfig, generationDate,
-                        reportSinceDate, untilDate, isSinceDateProvided,
-                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
-                        reportGenerationTimeProvider.get(), zoneId.toString()),
+                new SummaryJson(configs, reportConfig, generationDate, reportSinceDate, untilDate, isSinceDateProvided,
+                isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
+                reportGenerationTimeProvider.get(), zoneId.toString()),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 
@@ -311,8 +310,8 @@ public class ReportGenerator {
 
             Path repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
             logger.info(
-                    String.format(progressTracker.getProgress() + " "
-                            + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
+                    String.format(progressTracker.getProgress() + " " + MESSAGE_START_ANALYSIS,
+                    configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);

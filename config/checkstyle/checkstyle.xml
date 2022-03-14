@@ -330,7 +330,9 @@
 
     <module name="Indentation">
       <property name="caseIndent" value="0" />
+      <property name="throwsIndent" value="8" />
       <property name="lineWrappingIndentation" value="8" />
+      <property name="forceStrictCondition" value="true" />
     </module>
 
     <module name="NoWhitespaceBefore">

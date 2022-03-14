@@ -37,7 +37,7 @@ public class GitShow {
                     .map(CommitHash::new).collect(Collectors.toList());
             if (commitHashes.size() > 1) {
                 logger.warning(String.format("%s can be expanded to %d different commits, "
-                                + "assuming %s refers to commit hash %s",
+                        + "assuming %s refers to commit hash %s",
                         shortCommitHash, commitHashes.size(), shortCommitHash, commitHashes.get(0)));
             }
 

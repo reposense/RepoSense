@@ -38,8 +38,8 @@ public class CommitResultAggregator {
         ReportGenerator.setEarliestSinceDate(startDate);
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
-                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(),
-                        commitResults, ZoneId.of(config.getZoneId()));
+                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults,
+                ZoneId.of(config.getZoneId()));
 
         LocalDateTime lastDate = commitResults.size() == 0
                 ? null
@@ -120,7 +120,7 @@ public class CommitResultAggregator {
             // the authorDailyContributions list.
             if (authorDailyContributions.isEmpty() || !getStartOfDate(authorDailyContributions
                     .get(authorDailyContributions.size() - 1).getDate(), zoneId)
-                            .equals(commitStartDate)) {
+                    .equals(commitStartDate)) {
                 addDailyContributionForNewDate(authorDailyContributions, commitStartDate);
             }
 
