@@ -111,36 +111,38 @@ shadowJar {
     }
 }
 
-tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/'
     args = ['install']
 }
 
-tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    dependsOn 'installFrontend'
+def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    dependsOn installFrontend
     workingDir 'frontend/'
     args = ['run', 'devbuild']
 }
 
 tasks.register('lintFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    dependsOn 'installFrontend'
+    dependsOn installFrontend
     workingDir 'frontend/'
     args = ['run', 'lint']
 }
 
-tasks.register('zipReport', Zip) {
-    dependsOn 'buildFrontend'
+def zipReport = tasks.register('zipReport', Zip) {
+    dependsOn buildFrontend
     from 'frontend/build/'
     archiveBaseName = 'templateZip'
     destinationDirectory = file('src/main/resources')
 }
 
-tasks.shadowJar.dependsOn('zipReport');
-tasks.compileJava.dependsOn('zipReport');
-tasks.run.dependsOn('compileJava');
+def compileJava = tasks.compileJava
+
+tasks.shadowJar.dependsOn(zipReport);
+tasks.compileJava.dependsOn(zipReport);
+tasks.run.dependsOn(compileJava);
 
 tasks.register('systemtest', Test) {
-    dependsOn 'zipReport'
+    dependsOn zipReport
     testClassesDirs = sourceSets.systemtest.output.classesDirs
     classpath = sourceSets.systemtest.runtimeClasspath
     environment("REPOSENSE_ENVIRONMENT", "TEST")
@@ -159,8 +161,10 @@ tasks.register('systemtest', Test) {
     }
 }
 
-tasks.register('startServerInBackground', com.github.psxpaul.task.JavaExecFork) {
-    dependsOn 'classes'
+def classes = tasks.classes
+
+def startServerInBackground = tasks.register('startServerInBackground', com.github.psxpaul.task.JavaExecFork) {
+    dependsOn classes
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
     args = ['--repo', 'https://github.com/reposense/RepoSense.git', 'https://github.com/reposense/testrepo-Empty.git', '--since', 'd1', '--view']
@@ -169,22 +173,22 @@ tasks.register('startServerInBackground', com.github.psxpaul.task.JavaExecFork) 
     waitForPort = 9000
 }
 
-tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/cypress/'
     args = ['install']
 }
 
 tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    dependsOn 'zipReport', 'installCypress', 'startServerInBackground'
-    tasks.startServerInBackground.mustRunAfter('installCypress')
+    dependsOn zipReport, installCypress, startServerInBackground
+    tasks.startServerInBackground.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
 }
 
 tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    dependsOn 'zipReport', 'installCypress', 'startServerInBackground'
-    tasks.startServerInBackground.mustRunAfter('installCypress')
+    dependsOn zipReport, installCypress, startServerInBackground
+    tasks.startServerInBackground.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "tests"]
@@ -226,7 +230,7 @@ String getRepoSenseVersion() {
     return repoSenseVersion
 }
 
-tasks.register('syncFrontendPublic', Sync) {
+def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
     from 'reposense-report'
     into 'frontend/public/'
     include '**/*.json'
@@ -237,29 +241,29 @@ tasks.register('syncFrontendPublic', Sync) {
     }
 }
 
-tasks.register('macHotReloadFrontend', Exec) {
-    dependsOn 'installFrontend'
+def macHotReloadFrontend = tasks.register('macHotReloadFrontend', Exec) {
+    dependsOn installFrontend
     onlyIf {os.isMacOsX()}
     workingDir 'frontend/'
     commandLine 'npm', 'run', 'serveOpen'
 }
 
-tasks.register('windowsHotReloadFrontend', Exec) {
-    dependsOn 'installFrontend'
+def windowsHotReloadFrontend = tasks.register('windowsHotReloadFrontend', Exec) {
+    dependsOn installFrontend
     onlyIf {os.isWindows()}
     workingDir 'frontend/'
     commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
 }
 
-tasks.register('linuxHotReloadFrontend', Exec) {
-    dependsOn 'installFrontend'
+def linuxHotReloadFrontend = tasks.register('linuxHotReloadFrontend', Exec) {
+    dependsOn installFrontend
     onlyIf {os.isLinux()}
     workingDir 'frontend/'
     commandLine 'npm', 'run', 'serveOpen'
 }
 
 tasks.register('hotReloadFrontend') {
-    dependsOn 'syncFrontendPublic'
+    dependsOn syncFrontendPublic
     finalizedBy windowsHotReloadFrontend
     finalizedBy macHotReloadFrontend
     finalizedBy linuxHotReloadFrontend
