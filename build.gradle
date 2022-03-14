@@ -156,7 +156,7 @@ task systemtest(type: Test) {
     }
 }
 
-task startServerInBackground(dependsOn: ['zipReport', 'compileJava', 'classes'], type: com.github.psxpaul.task.JavaExecFork) {
+task serveTestReportInBackground(dependsOn: ['zipReport', 'compileJava', 'classes'], type: com.github.psxpaul.task.JavaExecFork) {
     tasks.compileJava.mustRunAfter('zipReport')
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
@@ -171,15 +171,15 @@ task installCypress(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) 
     args = ['install']
 }
 
-task cypress(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    tasks.startServerInBackground.mustRunAfter('installCypress')
+task cypress(dependsOn: ['installCypress', 'serveTestReportInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    tasks.serveTestReportInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
 }
 
-task frontendTest(dependsOn: ['installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    tasks.startServerInBackground.mustRunAfter('installCypress')
+task frontendTest(dependsOn: ['installCypress', 'serveTestReportInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+    tasks.serveTestReportInBackground.mustRunAfter('installCypress')
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "tests"]
