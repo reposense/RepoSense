@@ -28,7 +28,6 @@ As a report consists of web pages, it can be viewed using a Web Browser. Here ar
   1. Open the `index.html` (in the unzipped report directory) using a browser.
   1. If the report was not loaded automatically, click on the `choose file` button in the shown web page, and select the `archive.zip` (in the same directory) manually.<br>
      If even the `choose file` button is not showing up, try a different browser.
-
 <!-- ==================================================================================================== -->
 
 ## Report structure
@@ -38,6 +37,11 @@ Here is an example of how a typical report looks like:
 ![report](../images/report-features.png)
 
 The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits panel**_](#commits-panel) will appear in place of the _code panel_. All three are explained in the sections below.
+
+<box type="info" seamless>
+
+The links to external webpages is only properly supported when RepoSense analyzes a remote repository belonging to GitHub, GitLab or BitBucket.
+</box>
 
 <!-- ==================================================================================================== -->
 
@@ -62,7 +66,9 @@ The `Chart panel` (an example is shown above) contains a series of _ramp chart_ 
 * The ramp's area is proportional to the amount of contribution the author made at that time period.
 * The position of the right edge of the ramp (perpendicular to the blue bar) represents the period (the day or the week) in which the contribution was made.
 * Hover the pointer over a ramp to see the total number of lines represented by that ramp.
-* Click on the ramp to see on GitHub the list of commits represented by that ramp.
+* Click on the ramp to view details about the list of commits represented in the ramp.
+  * At the commit-level of granularity, it links to the commit in the remote repository.
+  * At higher levels of granularity, it displays the list of commits in the Code Panel.
 * To make the comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.
 * Ramps representing big contributions can overlap with earlier time periods. This represents the possibility that if the work committed during a specific period is big, it could have started at an earlier time period.
 
@@ -135,8 +141,8 @@ The `Code panel` allows users to see the code attributed to a specific author. C
     * Select the checkboxes to include files of preferred file extensions.
     The number right beside the file extension shows the total number of lines written by the author in such file extension files. In contrast, the number inside the parenthesis indicates the number of non-blank lines written by the author.
 * Clicking the file title toggles the file content.
-* Clicking the first icon beside the file title opens the history view of the file on GitHub.
-* Clicking the second icon beside the file title opens the blame view of the file on GitHub.
+* Clicking the first icon beside the file title opens the history view of the file on the remote repository.
+* Clicking the second icon beside the file title opens the blame view of the file on the remote repository.
 * Code attributed to the author is highlighted in green.
 * Non-trivial code segments that the selected author does not write are hidden by default, but you can toggle them by clicking on the %%:fas-plus-circle:%% icon.
 
