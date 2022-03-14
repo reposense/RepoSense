@@ -56,24 +56,24 @@ public class RepoLocationTest {
     @Test
     public void repoLocation_parseLocalRepoLocation_success() throws Exception {
         // local paths not containing ".git" should be valid
-        assertValidLocation(LOCAL_REPO_VALID_WITHOUT_DOT_GIT_ONE,
+        assertParsableLocation(LOCAL_REPO_VALID_WITHOUT_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, "", EXPECTED_UNRECOGNISED_DOMAIN_NAME);
         // relative pathing should be considered part of the 'organization' for differentiation
-        assertValidLocation(LOCAL_REPO_VALID_WITHOUT_DOT_GIT_TWO,
+        assertParsableLocation(LOCAL_REPO_VALID_WITHOUT_DOT_GIT_TWO,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
-        assertValidLocation(LOCAL_REPO_VALID_WITHOUT_DOT_GIT_THREE,
+        assertParsableLocation(LOCAL_REPO_VALID_WITHOUT_DOT_GIT_THREE,
                 EXPECTED_REPO_NAME, "-" + EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
 
         // local paths containing ".git" should also be valid
-        assertValidLocation(LOCAL_REPO_VALID_WITH_DOT_GIT_ONE,
+        assertParsableLocation(LOCAL_REPO_VALID_WITH_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
-        assertValidLocation(LOCAL_REPO_VALID_WITH_DOT_GIT_TWO,
+        assertParsableLocation(LOCAL_REPO_VALID_WITH_DOT_GIT_TWO,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
 
         // file-type url protocol (file://) is accepted by git clone
-        assertValidLocation(LOCAL_REPO_FILE_URL_ONE,
+        assertParsableLocation(LOCAL_REPO_FILE_URL_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
-        assertValidLocation(LOCAL_REPO_FILE_URL_TWO,
+        assertParsableLocation(LOCAL_REPO_FILE_URL_TWO,
                 EXPECTED_REPO_NAME, "-" + EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
     }
 
@@ -81,20 +81,20 @@ public class RepoLocationTest {
     public void repoLocation_parseWindowsLocalRepoLocation_success() throws Exception {
         Assume.assumeTrue(SystemUtil.isWindows());
         // repeated tests but with windows file separators
-        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE,
+        assertParsableLocation(LOCAL_REPO_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
-        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_WITHOUT_DOT_GIT_TWO,
+        assertParsableLocation(LOCAL_REPO_WINDOWS_VALID_WITHOUT_DOT_GIT_TWO,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
-        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_WITH_DOT_GIT_ONE,
+        assertParsableLocation(LOCAL_REPO_WINDOWS_VALID_WITH_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
-        assertValidLocation(LOCAL_REPO_WINDOWS_DISK_DRIVE,
+        assertParsableLocation(LOCAL_REPO_WINDOWS_DISK_DRIVE,
                 EXPECTED_REPO_NAME, "C--" + EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
 
-        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_MIXED_ONE,
+        assertParsableLocation(LOCAL_REPO_WINDOWS_VALID_MIXED_ONE,
                 EXPECTED_REPO_NAME, "..-" + EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
-        assertValidLocation(LOCAL_REPO_WINDOWS_VALID_MIXED_TWO,
+        assertParsableLocation(LOCAL_REPO_WINDOWS_VALID_MIXED_TWO,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
-        assertValidLocation(LOCAL_REPO_WINDOWS_DISK_DRIVE_MIXED,
+        assertParsableLocation(LOCAL_REPO_WINDOWS_DISK_DRIVE_MIXED,
                 EXPECTED_REPO_NAME, "C--" + EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
 
     }
@@ -102,76 +102,77 @@ public class RepoLocationTest {
     @Test
     public void repoLocation_parseValidRemoteRepoUrl_success() throws Exception {
         // valid url without specifying branch
-        assertValidLocation("https://github.com/reposense/testrepo-Beta.git",
+        assertParsableLocation("https://github.com/reposense/testrepo-Beta.git",
                 "testrepo-Beta", "reposense", EXPECTED_DOMAIN_NAME);
-        assertValidLocation("https://github.com/reposense/testrepo-Delta.git",
+        assertParsableLocation("https://github.com/reposense/testrepo-Delta.git",
                 "testrepo-Delta", "reposense", EXPECTED_DOMAIN_NAME);
-        assertValidLocation("https://gitlab.com/reposense/RepoSense.git",
+        assertParsableLocation("https://gitlab.com/reposense/RepoSense.git",
                 "RepoSense", "reposense", "gitlab");
-        assertValidLocation("https://github.com/reposense.git",
+        assertParsableLocation("https://github.com/reposense.git",
                 "reposense", "", EXPECTED_DOMAIN_NAME);
         // valid url to parse for obtaining repo and organization, just not a valid git clone target
-        assertValidLocation("https://github.com/reposense/.git",
+        assertParsableLocation("https://github.com/reposense/.git",
                 "reposense", "", EXPECTED_DOMAIN_NAME);
 
         // valid url from other domains
-        assertValidLocation("https://bitbucket.org/reposense/RepoSense.git",
+        assertParsableLocation("https://bitbucket.org/reposense/RepoSense.git",
                 "RepoSense", "reposense", "bitbucket");
-        assertValidLocation("https://opensource.ncsa.illinois.edu/bitbucket/scm/u3d/3dutilities.git",
+        // valid url from unsupported domain with longer path to git directory than the standard organization/reponame
+        assertParsableLocation("https://opensource.ncsa.illinois.edu/bitbucket/scm/u3d/3dutilities.git",
                 "3dutilities", "bitbucket-scm-u3d", EXPECTED_UNRECOGNISED_DOMAIN_NAME);
 
         // treated as valid but will be caught when git clone fails
-        assertValidLocation("https://github.com/reposense/testrepo-Beta/tree/add-config-json",
+        assertParsableLocation("https://github.com/reposense/testrepo-Beta/tree/add-config-json",
                 "add-config-json", "reposense-testrepo-Beta-tree", EXPECTED_DOMAIN_NAME);
-        assertValidLocation("https://github.com/reposense/testrepo-Beta.git/tree/add-config-json",
+        assertParsableLocation("https://github.com/reposense/testrepo-Beta.git/tree/add-config-json",
                 "add-config-json", "reposense-testrepo-Beta.git-tree", EXPECTED_DOMAIN_NAME);
 
         // URLs without ".git" should be accepted as git clone works even without it
-        assertValidLocation("https://github.com/reposense",
+        assertParsableLocation("https://github.com/reposense",
                 "reposense", "", EXPECTED_DOMAIN_NAME);
-        assertValidLocation("https://github.com/reposense/RepoSense",
+        assertParsableLocation("https://github.com/reposense/RepoSense",
                 "RepoSense", "reposense", EXPECTED_DOMAIN_NAME);
 
         // Test against other types of URL protocols that are valid for git clone
-        assertValidLocation("ssh://git@github.com/path/to/repo.git/",
+        assertParsableLocation("ssh://git@github.com/path/to/repo.git/",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_DOMAIN_NAME);
-        assertValidLocation("git://github.com/path/to/repo.git",
+        assertParsableLocation("git://github.com/path/to/repo.git",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_DOMAIN_NAME);
-        assertValidLocation("https://localhost:9000/path/to/repo.git",
+        assertParsableLocation("https://localhost:9000/path/to/repo.git",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
 
         // Test against the conventional ssh protocol used for GitHub, e.g. git@github.com:reposense/RepoSense.git
-        assertValidLocation("repo@organization.com:path/to/repo.git/",
+        assertParsableLocation("repo@organization.com:path/to/repo.git/",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
-        assertValidLocation("git@github.com:reposense/RepoSense.git",
+        assertParsableLocation("git@github.com:reposense/RepoSense.git",
                 "RepoSense", "reposense", EXPECTED_DOMAIN_NAME);
     }
 
     @Test
     public void repoLocation_parseNormalizableRepoLocations_success() throws Exception {
-        assertValidLocation("https://github.com/reposense/redundant/directories/../../RepoSense.git",
+        assertParsableLocation("https://github.com/reposense/redundant/directories/../../RepoSense.git",
                 "RepoSense", "reposense", EXPECTED_DOMAIN_NAME);
-        assertValidLocation("/path/with/redundant/directories/../.././../to/repo",
+        assertParsableLocation("/path/with/redundant/directories/../.././../to/repo",
                 EXPECTED_REPO_NAME, "-" + EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
 
         // Tests if there is an additional '../' it is not consumed by accident
-        assertValidLocation("path/with/redundant/directories/../../../../../to/repo",
+        assertParsableLocation("path/with/redundant/directories/../../../../../to/repo",
                 EXPECTED_REPO_NAME, "..-to", EXPECTED_UNRECOGNISED_DOMAIN_NAME);
     }
 
     @Test
     public void repoLocation_parseInvalidRemoteRepo_throwsInvalidLocationException() throws Exception {
         // Invalid URL protocol
-        assertInvalidLocation("ttp://github.com/reposense.RepoSense.git");
-        assertInvalidLocation("not-valid-protocol://abc.com/reposense/RepoSense.git");
+        assertUnparsableLocation("ttp://github.com/reposense.RepoSense.git");
+        assertUnparsableLocation("not-valid-protocol://abc.com/reposense/RepoSense.git");
         // URL contains illegal characters
-        assertInvalidLocation("https://github.com/contains-illegal-chars/^\\/");
+        assertUnparsableLocation("https://github.com/contains-illegal-chars/^\\/");
     }
 
     /**
      * Compares the information parsed by the RepoLocation model with the expected information
      */
-    public void assertValidLocation(String rawLocation, String expectedRepoName,
+    public void assertParsableLocation(String rawLocation, String expectedRepoName,
             String expectedOrganization, String expectedDomainName) throws Exception {
         RepoLocation repoLocation = new RepoLocation(rawLocation);
         Assert.assertEquals(expectedRepoName, repoLocation.getRepoName());
@@ -179,7 +180,7 @@ public class RepoLocationTest {
         Assert.assertEquals(expectedDomainName, repoLocation.getDomainName());
     }
 
-    private void assertInvalidLocation(String rawLocation) {
+    private void assertUnparsableLocation(String rawLocation) {
         AssertUtil.assertThrows(InvalidLocationException.class, () -> new RepoLocation(rawLocation));
     }
 }
