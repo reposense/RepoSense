@@ -319,8 +319,6 @@ export default app;
 
 
 <style lang="scss">
-
-@import './styles/font.css';
 @import './styles/style.scss';
 @import './styles/panels.scss';
 </style>
