@@ -116,7 +116,10 @@ Note that it is **compulsory** to add tests for the new front-end changes that y
 
 ### Running tests
 
-To run all tests locally, run `gradlew frontendTest`.
+To run all tests locally, run `gradlew frontendTest`. 
+* Using the above command, tests are run on the CLI without the report being displayed. 
+* To show the report, run `gradlew cypress` then select `Run 18 integration specs` in the Cypress GUI as shown below:
+![Cypress Test Run All](../images/cypress-test-run-all.jpg)
 
 <box type="info" seamless>
 

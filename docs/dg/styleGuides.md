@@ -21,15 +21,18 @@ Our coding standards are mostly based on those at [se-education.org/guides](http
 ## Note on Ternary Operators:
 Ternary operators can be used to shorten if-else blocks such as this:
 ```
-Date min = new Date(Long.MIN_VALUE);
+LocalDateTime min = ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime();
 if (!commitInfos.isEmpty()) {
     min = commitInfos.get(0).getTime();
 }
+return min;
 ```
 
 The result would look something like this:
 ```
-Date min = commitInfos.isEmpty() ? new Date(Long.MIN_VALUE) : commitInfos.get(0).getTime();
+return (commitInfos.isEmpty())
+        ? ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime()
+        : commitInfos.get(0).getTime();
 ```
 
 To preserve readability, it is recommended that if-else blocks should only be 
