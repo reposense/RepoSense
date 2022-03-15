@@ -59,27 +59,15 @@ When using [standalone config](#config-json-standalone-config-file) (if it is no
 
 Optionally, you can use an `author-config.csv` (which should be in the same directory as the `repo-config.csv` file) to provide more details about the authors to analyze ([example](author-config.csv)). It should contain the following columns:
 
-<<<<<<< HEAD
-Column Name | Explanation
------------ | -----------
-Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`
-Branch | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch.
-Author's Git Host ID {{ mandatory }}| Username of the target author's profile on GitHub, GitLab or Bitbucket, e.g.`JohnDoe`.  
-Author's Emails<sup>*</sup> | Associated emails of the author. For GitHub users, this can be found in your [GitHub settings](https://github.com/settings/emails).
-Author's Display Name | The name to display for the author. Default: author's username.
-Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
-Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`.
-=======
 | Column Name | Explanation |
 |-------------|-------------|
 | Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
 | Branch | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch. |
-| Author's GitHub ID {{ mandatory }} | GitHub username of the target author, e.g., `JohnDoe` |
-| Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails). |
-| Author's Display Name | The name to display for the author. Default: author's GitHub username. |
+| Author's Git Host ID {{ mandatory }} | Username of the target author's profile on GitHub, GitLab or Bitbucket, e.g.`JohnDoe`. |  
+| Author's Emails<sup>*</sup> | Associated emails of the author. For GitHub users, this can be found in your [GitHub settings](https://github.com/settings/emails). |
+| Author's Display Name | The name to display for the author. Default: author's username. |
 | Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name). |
 | Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`. |
->>>>>>> master
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
