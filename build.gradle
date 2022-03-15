@@ -228,29 +228,27 @@ task syncFrontendPublic(type: Sync) {
     }
 }
 
-task macHotReloadFrontend(type: Exec) {
-    dependsOn(installFrontend)
+task macHotReloadFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     onlyIf {os.isMacOsX()}
     workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
+    args = ['run', 'serveOpen']
 }
 
 task windowsHotReloadFrontend(type: Exec) {
-    dependsOn(installFrontend)
     onlyIf {os.isWindows()}
     workingDir 'frontend/'
-    commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
+    commandLine 'cmd','/c', 'start', '"RepoSense-HotReload"', "${buildDir}/node/npm", 'run', 'serveOpen', '--scripts-prepend-node-path=true'
 }
 
-task linuxHotReloadFrontend(type: Exec) {
-    dependsOn(installFrontend)
+task linuxHotReloadFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
     onlyIf {os.isLinux()}
     workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
+    args = ['run', 'serveOpen']
 }
 
 task hotReloadFrontend() {
     dependsOn syncFrontendPublic
+    dependsOn installFrontend
     finalizedBy windowsHotReloadFrontend
     finalizedBy macHotReloadFrontend
     finalizedBy linuxHotReloadFrontend
