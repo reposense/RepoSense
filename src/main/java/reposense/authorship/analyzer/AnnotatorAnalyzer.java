@@ -103,7 +103,7 @@ public class AnnotatorAnalyzer {
                 .map(l -> l.split(AUTHOR_TAG))
                 .filter(array -> array.length >= 2)
                 // separates by end-comment format to obtain the author's name at the zeroth index
-                .map(array -> array[1].trim().split(COMMENT_FORMATS[getCommentType(line)][1]))
+                .map(array -> array[1].trim().split(COMMENT_FORMATS[getCommentTypeIndex(line)][1]))
                 .filter(array -> array.length > 0)
                 .map(array -> array[0].trim())
                 // checks if the author name is valid
@@ -115,12 +115,12 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Returns the index representing the type of comment the @@author tag line is.
+     * Returns the index in {@code COMMENT_FORMATS} representing the type of comment the @@author tag line is.
      *
      * @param line The line to be checked
-     * @return The index of the comment if the comment pattern matches, -1 if no match could be found
+     * @return The index of the comment syntax type if the comment pattern matches, -1 if no match could be found
      */
-    public static int getCommentType(String line) {
+    public static int getCommentTypeIndex(String line) {
         for (int i = 0; i < COMMENT_PATTERNS.length; i++) {
             Pattern commentPattern = COMMENT_PATTERNS[i];
             Matcher matcher = commentPattern.matcher(line);
@@ -138,6 +138,6 @@ public class AnnotatorAnalyzer {
      * @return True if line is a valid comment line.
      */
     private static boolean isValidCommentLine(String line) {
-        return getCommentType(line) >= 0;
+        return getCommentTypeIndex(line) >= 0;
     }
 }
