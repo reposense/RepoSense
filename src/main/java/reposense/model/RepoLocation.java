@@ -35,7 +35,7 @@ public class RepoLocation {
             Pattern.compile("^(file://)?" + PATH_TO_REPO_REGEX + "$");
     private static final Pattern LOCAL_REPOSITORY_WINDOWS_LOCATION_PATTERN =
             Pattern.compile("^" + PATH_TO_REPO_REGEX.replaceAll("/", "\\\\\\\\") + "$");
-    private static final Pattern DOMAIN_NAME_PATTERN = Pattern.compile("^(ww.\\.)?(.*@)?(?<domainName>[^.]*).*$");
+    private static final Pattern DOMAIN_NAME_PATTERN = Pattern.compile("^(ww.\\.)?+(.*@)?(?<domainName>[^.]+)\\..+$");
 
     private static final String GROUP_REPO_NAME = "repoName";
     private static final String GROUP_PATH = "path";
@@ -174,7 +174,8 @@ public class RepoLocation {
         String tempRepoName = actualMatcher.group(GROUP_REPO_NAME);
         String tempOrganization = getOrganizationFromMatcher(actualMatcher);
 
-        return new String[] {tempRepoName, tempOrganization, getDomainNameFromMatcher(actualMatcher)};
+        return new String[] {tempRepoName, tempOrganization,
+                getDomainNameFromDomain(actualMatcher.group(GROUP_DOMAIN))};
     }
 
     /**
@@ -193,8 +194,7 @@ public class RepoLocation {
      * Returns the domain name of the URL from the {@code matcher} if it is one of the recognised ones.
      * Returns {@code UNRECOGNISED_DOMAIN_NAME} if it is a local repo or not recognised.
      */
-    private static String getDomainNameFromMatcher(Matcher matcher) throws InvalidLocationException {
-        String domain = matcher.group(GROUP_DOMAIN);
+    public static String getDomainNameFromDomain(String domain) throws InvalidLocationException {
         Matcher domainNameMatcher = DOMAIN_NAME_PATTERN.matcher(domain);
         if (!domainNameMatcher.matches()) {
             throw new InvalidLocationException(MESSAGE_INVALID_REMOTE_URL);
@@ -227,7 +227,10 @@ public class RepoLocation {
         }
 
         RepoLocation otherLocation = (RepoLocation) other;
-        return this.location.equals(otherLocation.location);
+        return this.location.equals(otherLocation.location)
+                && this.repoName.equals(otherLocation.repoName)
+                && this.organization.equals(otherLocation.organization)
+                && this.domainName.equals(otherLocation.domainName);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package reposense.model;
 
 import static reposense.model.RepoLocation.UNSUPPORTED_DOMAIN_NAME;
+import static reposense.model.RepoLocation.getDomainNameFromDomain;
 import static reposense.model.RepoLocation.isLocalRepo;
 
 import org.junit.Assert;
@@ -138,7 +139,7 @@ public class RepoLocationTest {
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_DOMAIN_NAME);
         assertParsableLocation("git://github.com/path/to/repo.git",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_DOMAIN_NAME);
-        assertParsableLocation("https://localhost:9000/path/to/repo.git",
+        assertParsableLocation("https://host.xz:9000/path/to/repo.git",
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
 
         // Test against the conventional ssh protocol used for GitHub, e.g. git@github.com:reposense/RepoSense.git
@@ -167,6 +168,26 @@ public class RepoLocationTest {
         assertUnparsableLocation("not-valid-protocol://abc.com/reposense/RepoSense.git");
         // URL contains illegal characters
         assertUnparsableLocation("https://github.com/contains-illegal-chars/^\\/");
+    }
+
+    @Test
+    public void getDomainNameFromMatcher_parseValidDomain_success() throws Exception {
+        Assert.assertEquals("github", getDomainNameFromDomain("www.github.com"));
+        Assert.assertEquals("github", getDomainNameFromDomain("github.com"));
+        Assert.assertEquals("gitlab", getDomainNameFromDomain("www.gitlab.org"));
+        Assert.assertEquals("bitbucket", getDomainNameFromDomain("ww2.bitbucket.com"));
+
+        // valid but unsupported
+        Assert.assertEquals(UNSUPPORTED_DOMAIN_NAME, getDomainNameFromDomain("opensource.ncsa.illinois.edu"));
+    }
+
+    @Test
+    public void getDomainNameFromMatcher_parseInvalidDomain_throwsInvalidLocationException() throws Exception {
+        // no top level domain specified
+        AssertUtil.assertThrows(InvalidLocationException.class, () -> getDomainNameFromDomain("www.github"));
+        AssertUtil.assertThrows(InvalidLocationException.class, () -> getDomainNameFromDomain("github"));
+        // has a dot but still no top level domain specified
+        AssertUtil.assertThrows(InvalidLocationException.class, () -> getDomainNameFromDomain("github."));
     }
 
     /**
