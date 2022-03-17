@@ -1,6 +1,10 @@
+// @ts-ignore
 import { createApp } from 'vue';
+// @ts-ignore
 import { dom } from '@fortawesome/fontawesome-svg-core';
+// @ts-ignore
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+// @ts-ignore
 import hljs from 'highlight.js';
 import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
@@ -21,6 +25,7 @@ dom.watch();
 const app = createApp(App);
 
 app.directive('hljs', {
+  // @ts-ignore
   mounted: (ele, binding) => {
     const element = ele;
     element.className = binding.value.split('.').pop();
