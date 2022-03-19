@@ -426,7 +426,8 @@ export default {
     },
 
     processFiles(files) {
-      const COLLAPSED_VIEW_LINE_COUNT_THRESHOLD = 2000;
+      const SINGLE_FILE_LINE_COUNT_THRESHOLD = 2000;
+      const TOTAL_FILE_SIZE_THRESHOLD = 100000;
       const res = [];
       const fileTypeBlanksInfoObj = {};
 
@@ -440,9 +441,10 @@ export default {
         const out = {};
         out.path = file.path;
         out.lineCount = lineCnt;
-        out.active = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD && !file.isBinary;
-        out.wasCodeLoaded = lineCnt <= COLLAPSED_VIEW_LINE_COUNT_THRESHOLD;
+        out.active = lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD && !file.isBinary;
+        out.wasCodeLoaded = lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD;
         out.fileType = file.fileType;
+        out.fileSize = file.fileSize;
         out.isIgnored = !!file.isIgnored;
         out.isBinary = !!file.isBinary;
 
@@ -458,7 +460,15 @@ export default {
         res.push(out);
       });
 
-      res.sort((a, b) => b.lineCount - a.lineCount);
+      let remainingThreshold = TOTAL_FILE_SIZE_THRESHOLD;
+      res.sort((a, b) => b.lineCount - a.lineCount).forEach((file) => {
+        // hide files over total file size limit
+        if (!file.isIgnored && !file.isBinary && file.active) {
+          remainingThreshold -= file.fileSize;
+          file.active = remainingThreshold >= 0;
+          file.wasCodeLoaded = file.active;
+        }
+      });
 
       Object.keys(this.filesLinesObj).forEach((file) => {
         if (this.filesLinesObj[file] !== 0) {
