@@ -12,17 +12,15 @@ import reposense.model.FileType;
  */
 public class FileResult {
     private final String path;
-    private final Long fileSize;
     private FileType fileType;
     private Boolean isBinary = null; // Should only be true or null to prevent it from being serialized
     private Boolean isIgnored = null;
     private final ArrayList<LineInfo> lines;
     private final HashMap<Author, Integer> authorContributionMap;
 
-    public FileResult(String path, Long fileSize, FileType fileType, ArrayList<LineInfo> lines,
+    public FileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
             HashMap<Author, Integer> authorContributionMap, boolean isBinary, boolean isIgnored) {
         this.path = path;
-        this.fileSize = fileSize;
         this.fileType = fileType;
         this.lines = lines;
         this.authorContributionMap = authorContributionMap;
@@ -34,14 +32,14 @@ public class FileResult {
         }
     }
 
-    public static FileResult createTextFileResult(String path, Long fileSize, FileType fileType,
-            ArrayList<LineInfo> lines, HashMap<Author, Integer> authorContributionMap, boolean isIgnored) {
-        return new FileResult(path, fileSize, fileType, lines, authorContributionMap, false, isIgnored);
+    public static FileResult createTextFileResult(String path, FileType fileType, ArrayList<LineInfo> lines,
+            HashMap<Author, Integer> authorContributionMap, boolean isIgnored) {
+        return new FileResult(path, fileType, lines, authorContributionMap, false, isIgnored);
     }
 
-    public static FileResult createBinaryFileResult(String path, Long fileSize, FileType fileType, HashMap<Author,
+    public static FileResult createBinaryFileResult(String path, FileType fileType, HashMap<Author,
             Integer> authorContributionMap) {
-        return new FileResult(path, fileSize, fileType, new ArrayList<>(), authorContributionMap, true, false);
+        return new FileResult(path, fileType, new ArrayList<>(), authorContributionMap, true, false);
     }
 
     public boolean isBinary() {

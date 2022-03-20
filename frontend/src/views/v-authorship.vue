@@ -427,7 +427,7 @@ export default {
 
     processFiles(files) {
       const SINGLE_FILE_LINE_COUNT_THRESHOLD = 2000;
-      const TOTAL_FILE_SIZE_THRESHOLD = 100000;
+      const TOTAL_CHAR_COUNT_THRESHOLD = 100000;
       const res = [];
       const fileTypeBlanksInfoObj = {};
 
@@ -448,6 +448,13 @@ export default {
         out.isIgnored = !!file.isIgnored;
         out.isBinary = !!file.isBinary;
 
+        if (!out.isBinary && !out.isIgnored) {
+          out.charCount = file.lines.reduce(
+              (count, line) => count + (line ? line.content.length : 0),
+              0,
+          );
+        }
+
         if (!file.isBinary) {
           const segmentInfo = this.splitSegments(file.lines);
           out.segments = segmentInfo.segments;
@@ -460,11 +467,13 @@ export default {
         res.push(out);
       });
 
-      let remainingThreshold = TOTAL_FILE_SIZE_THRESHOLD;
+      let remainingThreshold = TOTAL_CHAR_COUNT_THRESHOLD;
       res.sort((a, b) => b.lineCount - a.lineCount).forEach((file) => {
-        // hide files over total file size limit
+        // hide files over total char count limit
         if (!file.isIgnored && !file.isBinary && file.active) {
-          remainingThreshold -= file.fileSize;
+          if (remainingThreshold >= 0) {
+            remainingThreshold -= file.charCount;
+          }
           file.active = remainingThreshold >= 0;
           file.wasCodeLoaded = file.active;
         }

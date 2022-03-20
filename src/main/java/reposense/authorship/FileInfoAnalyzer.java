@@ -103,8 +103,8 @@ public class FileInfoAnalyzer {
         }
 
         return FileResult.createTextFileResult(
-            fileInfo.getPath(), fileInfo.getFileSize(), fileInfo.getFileType(), fileInfo.getLines(),
-            authorContributionMap, fileInfo.exceedsFileLimit());
+            fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap,
+            fileInfo.exceedsFileLimit());
     }
 
     /**
@@ -132,8 +132,7 @@ public class FileInfoAnalyzer {
             authorContributionMap.put(author, 0);
         }
 
-        return FileResult.createBinaryFileResult(fileInfo.getPath(), fileInfo.getFileSize(), fileInfo.getFileType(),
-            authorContributionMap);
+        return FileResult.createBinaryFileResult(fileInfo.getPath(), fileInfo.getFileType(), authorContributionMap);
     }
 
     /**
