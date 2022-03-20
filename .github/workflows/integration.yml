@@ -181,7 +181,7 @@ jobs:
       run: ./gradlew lintFrontend
 
     - name: Build with Gradle
-      run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
+      run: ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
 
 
   cypress:
