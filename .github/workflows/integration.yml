@@ -177,6 +177,19 @@ jobs:
       with:
         node-version: '12.x'
 
+    - name: Determine npm cache directory
+      id: npm-cache
+      run: |
+        echo "::set-output name=dir::$(npm config get cache)"
+
+    - name: Set up Node caching
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.npm-cache.outputs.dir }}
+        key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ matrix.os }}-node-
+
     - name: Run linter
       run: ./gradlew lintFrontend
 
