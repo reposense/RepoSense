@@ -149,14 +149,14 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### `--repos`, `-r`
+### `--repo`, `--repos`, `-r`
 
-**`--repos REPO_LOCATION`**: Specifies which repositories to analyze.
+**`--repo REPO_LOCATION`**: Specifies which repositories to analyze.
 * Parameter: `REPO_LOCATION` A list of URLs or the disk location of the git repositories to analyze, separated by spaces.
 * Alias: `-r`
 * Examples:
   * `--repos https://github.com/reposense/RepoSense.git`
-  * `--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar`: analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
+  * `--repo https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar`: analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
 
 <box type="info" seamless>
 
