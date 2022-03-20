@@ -177,6 +177,16 @@ jobs:
       with:
         node-version: '12.x'
 
+    - name: Set up Gradle caching
+      uses: actions/cache@v2
+      with:
+        path: |
+          $HOME/.gradle/caches
+          $HOME/.gradle/wrapper
+        key: ${{ matrix.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ matrix.os }}-gradle-
+
     - name: Determine npm cache directory
       id: npm-cache
       run: |
