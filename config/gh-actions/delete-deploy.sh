@@ -60,11 +60,31 @@ mark_deployment_inactive() {
 
 # Function to get deployment data about repo via a cURL command
 # $1: Deployment environment name
+# $2: Page number
 get_deployment_data() {
-  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments?per_page=100&environment=${1}" \
+  curl "https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/deployments?per_page=100&page=${2}&environment=${1}" \
   -X GET \
   -H "Accept: application/vnd.github.v3+json" \
   -H "Authorization: token ${GITHUB_TOKEN}"
+}
+
+# Function to get deployment ids iterating through deployment pages
+# $1: Deployment environment name
+get_all_deployment_ids() {
+  curr_page=1
+  deploy_ids=()
+  res_ids=("TEMP")
+  while [ ${#res_ids[@]} -ne 0 ]
+  do
+    # Get deployment data for curr_page
+    res=$(get_deployment_data "${1}" ${curr_page})
+    # Get deployment ids from res
+    res_ids=($(get_ids_from_response "$res"))
+    # Append ids to deploy_ids
+    deploy_ids=("${deploy_ids[@]}" "${res_ids[@]}")
+    curr_page=$((curr_page+1))
+  done
+  echo "${deploy_ids[*]}"
 }
 
 # Function to post surge deployment links as a comment on PR via a cURL command
@@ -91,13 +111,8 @@ delete_all_deployments() {
   done
 }
 
-# Get deployment data from Github
-DASHBOARD_RES=$(get_deployment_data "$ACTIONS_DASHBOARD_ENV")
-DOCS_RES=$(get_deployment_data "$ACTIONS_DOCS_ENV")
-
-# Extract deployment IDs
-DASHBOARD_IDS=($(get_ids_from_response "$DASHBOARD_RES"))
-DOCS_IDS=($(get_ids_from_response "$DOCS_RES"))
+DASHBOARD_IDS=($(get_all_deployment_ids "$ACTIONS_DASHBOARD_ENV"))
+DOCS_IDS=($(get_all_deployment_ids "$ACTIONS_DOCS_ENV"))
 
 post_preview_links_comment
 delete_all_deployments "${DASHBOARD_IDS[@]}"
