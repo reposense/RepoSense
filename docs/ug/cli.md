@@ -189,7 +189,7 @@ Cannot be used with `--last-modified-date`.
 <box type="info" seamless>
 
 * If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.
-* If `d1` is specified as the start date (`--since d1` or `-s d1`), then the earliest commit date of all repositories will be taken as the since date.
+* If `d1` is specified as the start date (`--since d1` or `-s d1`), then the earliest commit date of all repositories will be taken as the start date.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
