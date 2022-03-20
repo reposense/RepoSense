@@ -265,10 +265,10 @@ Vue.js uses JavaScript as its programming language. Before learning **Vue.js**, 
 You can refer to the [Javascript documentation](https://devdocs.io/javascript/) to learn the basic syntax. There are plenty of other resources available and please feel free to find the resource most suitable for you.
 </box>
 
-RepoSense uses **Vue.js** (Vue2) in its front-end implementation. In particular, major user interface components, such as [summary view](report.html#summary-view-v-summary-js), [authorship view](report.html#authorship-view-v-authorship-js), and [zoom view](report.html#zoom-view-v-zoom-js), are implemented as Vue components. The corresponding source files are in `frontend/src`.
+RepoSense uses **Vue.js** (Vue3) in its front-end implementation. In particular, major user interface components, such as [summary view](report.html#summary-view-v-summary-js), [authorship view](report.html#authorship-view-v-authorship-js), and [zoom view](report.html#zoom-view-v-zoom-js), are implemented as Vue components. The corresponding source files are in `frontend/src`.
 
 * If you are new to Vue.js, you may want to start learning by looking at [the beginner tutorial](https://www.vuemastery.com/courses/intro-to-vue-js/).
-* You can dive deeper later by checking the [Vue.js documentation](https://vuejs.org/v2/guide/index.html) to learn about essential concepts such as component life cycle hooks, and component properties.
+* You can dive deeper later by checking the [Vue.js documentation](https://vuejs.org/guide/introduction.html) to learn about essential concepts such as component life cycle hooks, and component properties.
 * It is recommended if you can work on some small projects first to gain more solid understanding of Vue.js.
 
 <box type="warning" seamless>
