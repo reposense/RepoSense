@@ -159,7 +159,7 @@ jobs:
     name: ${{ matrix.os }} JDK 8
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-2022, windows-2019]
     runs-on: ${{ matrix.os }}
     steps:
     - name: Checkout repository
