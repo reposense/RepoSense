@@ -34,7 +34,7 @@ The backend implementation of RepoSense is located in `src/main`.
 The RepoSense backend is mostly written in `Java 8`. 
 
 1. You need to have a basic knowledge of Java before getting started, including its syntax, [API](https://docs.oracle.com/javase/8/docs/api/), and certain frameworks such as [JUnit](https://se-education.org/learningresources/contents/java/JUnit.html).
-1. Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as [concurrency](https://se-education.org/learningresources/contents/java/JavaConcurrency.html), [synchronization](https://se-education.org/learningresources/contents/java/JavaSynchronization.html), and [streams](https://se-education.org/learningresources/contents/java/streams-an-introduction.html). These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc). They are optional but you may find them useful when working on certain issues.
+1. Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as [concurrency](https://se-education.org/learningresources/contents/java/JavaConcurrency.html), [synchronization](https://se-education.org/learningresources/contents/java/JavaSynchronization.html), and [streams](https://se-education.org/learningresources/contents/java/streams-an-introduction.html). These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc.). They are optional but you may find them useful when working on certain issues.
 
 {{ step(2) }} **Learn the RepoSense backend architecture**
 
@@ -267,7 +267,7 @@ You can refer to the [Javascript documentation](https://devdocs.io/javascript/) 
 
 RepoSense uses **Vue.js** (Vue2) in its front-end implementation. In particular, major user interface components, such as [summary view](report.html#summary-view-v-summary-js), [authorship view](report.html#authorship-view-v-authorship-js), and [zoom view](report.html#zoom-view-v-zoom-js), are implemented as Vue components. The corresponding source files are in `frontend/src`.
 
-* If you are new to Vue.js, you may want to start learning by looking at the [the beginner tutorial](https://www.vuemastery.com/courses/intro-to-vue-js/).
+* If you are new to Vue.js, you may want to start learning by looking at [the beginner tutorial](https://www.vuemastery.com/courses/intro-to-vue-js/).
 * You can dive deeper later by checking the [Vue.js documentation](https://vuejs.org/v2/guide/index.html) to learn about essential concepts such as component life cycle hooks, and component properties.
 * It is recommended if you can work on some small projects first to gain more solid understanding of Vue.js.
 
@@ -459,7 +459,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  1. In `v-zoom.vue`, locate the section that iterates througth each `day` in `selectedCommits`.
+  1. In `v-zoom.vue`, locate the section that iterates through each `day` in `selectedCommits`.
   2. The component that helps render the commit message title should be an `a` tag which uses the `getSliceLink` method to set the link to the commit details and uses `slice.messageTitle` to show the commit message title.
   3. Wrap the `a` tag in a new `tooltip`.
   4. In the `tooltip`, add the following content to show the tooltip message.

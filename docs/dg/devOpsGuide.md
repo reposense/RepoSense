@@ -18,7 +18,7 @@ This page documents the various components that form part of the DevOps infrastr
 
 ## GitHub Actions
 
-[GitHub Actions](https://docs.github.com/en/actions) is a platform that is used by RepoSense for running the test suite and is primarily used for continuous integration and testing. The test suite is is stored in `.github/workflows/` and comprises of:
+[GitHub Actions](https://docs.github.com/en/actions) is a platform that is used by RepoSense for running the test suite and is primarily used for continuous integration and testing. The test suite is stored in `.github/workflows/` and comprises of:
 
 - Unit tests (in `src/tests/`)
 - System tests (in `src/systemtest/`)
