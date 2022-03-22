@@ -3,7 +3,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 module.exports = {
   pages: {
     index: {
-      entry: 'src/main.ts',
+      entry: 'src/main.js',
       title: 'RepoSense Report',
     },
   },
