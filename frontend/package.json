@@ -2,29 +2,17 @@
   "name": "reposense",
   "version": "1.0.0",
   "description": "[![Build Status](https://travis-ci.org/reposense/RepoSense.svg?branch=master)](https://travis-ci.org/reposense/RepoSense) [![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "author": "",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "serveOpen": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
     "lint": "eslint src/**/*.{js,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss} && npm run puglint",
+    "devbuild": "vue-cli-service build --mode development",
     "lintfix": "eslint --fix src/**/*.{js,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss}",
     "puglint": "pug-lint-vue src",
-    "build": "vue-cli-service build",
-    "devbuild": "vue-cli-service build --mode development"
+    "serveOpen": "vue-cli-service serve --open"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/reposense/RepoSense.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/reposense/RepoSense/issues"
-  },
-  "homepage": "https://github.com/reposense/RepoSense#readme",
+  "main": "index.js",
   "dependencies": {
     "@fontsource/titillium-web": "^4.5.3",
     "@fortawesome/fontawesome-svg-core": "^1.3.0",
@@ -44,10 +32,14 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-service": "~4.5.15",
     "@vue/compiler-sfc": "^3.2.30",
+    "@vue/eslint-config-typescript": "^7.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^13.0.0",
@@ -62,6 +54,20 @@
     "stylelint-config-recommended-scss": "^4.2.0",
     "stylelint-order": "^3.0.1",
     "stylelint-scss": "^3.18.0",
-    "stylelint-webpack-plugin": "^2.1.1"
+    "stylelint-webpack-plugin": "^2.1.1",
+    "typescript": "~4.5.5",
+    "ts-loader": "8.2.0"
+  },
+  "bugs": {
+    "url": "https://github.com/reposense/RepoSense/issues"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "homepage": "https://github.com/reposense/RepoSense#readme",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reposense/RepoSense.git"
   }
 }
