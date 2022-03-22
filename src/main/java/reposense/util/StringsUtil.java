@@ -1,5 +1,6 @@
 package reposense.util;
 
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -45,6 +46,18 @@ public class StringsUtil {
         if (SystemUtil.isWindows()) {
             return "\"" + filePath + "\"";
         } else {
+            // Adds support for tilde expansion by not quoting a filepath starting with a '~' symbol
+            // https://www.gnu.org/software/bash/manual/html_node/Tilde-Expansion.html#Tilde-Expansion
+            String filePathStart = "";
+            if (filePath.charAt(0) == '~') {
+                String[] filePathDetails = filePath.split("/", 2);
+                filePathStart = filePathDetails[0] + '/';
+                filePath = Optional.of(filePathDetails)
+                        .filter(x -> x.length == 2)
+                        .map(x -> x[1])
+                        .orElse("");
+            }
+
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < filePath.length(); i++) {
                 char c = filePath.charAt(i);
@@ -54,7 +67,7 @@ public class StringsUtil {
                     sb.append(c);
                 }
             }
-            return '\'' + sb.toString() + '\'';
+            return filePathStart + '\'' + sb.toString() + '\'';
         }
     }
 
