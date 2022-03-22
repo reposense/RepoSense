@@ -9,9 +9,9 @@ import 'highlight.js/styles/color-brewer.css';
 import '@fontsource/titillium-web';
 
 // Need to import for side effects
-import './utils/api.ts';
-import './utils/safari_date.ts';
-import './utils/load-font-awesome-icons.ts';
+import './utils/api';
+import './utils/safari_date';
+import './utils/load-font-awesome-icons';
 
 import App from './app.vue';
 import store from './store/store';

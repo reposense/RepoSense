@@ -3,7 +3,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 module.exports = {
   pages: {
     index: {
-      entry: 'src/main.ts',
+      entry: 'src/main.js',
       title: 'RepoSense Report',
     },
   },
@@ -31,11 +31,13 @@ module.exports = {
     config.module
         .rule('vue')
         .use('vue-loader')
-        .tap((options) => ({
-          ...options,
-          compilerOptions: {
-            whitespace: 'preserve',
-          },
-        }));
+        .tap(options => {
+          return {
+            ...options,
+            compilerOptions: {
+              whitespace: 'preserve',
+            }
+          }
+        })
   },
 };
