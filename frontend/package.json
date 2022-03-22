@@ -36,7 +36,7 @@
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-typescript": "~5.0.0",
+    "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-service": "~4.5.15",
     "@vue/compiler-sfc": "^3.2.30",
     "@vue/eslint-config-typescript": "^7.0.0",
@@ -55,8 +55,7 @@
     "stylelint-order": "^3.0.1",
     "stylelint-scss": "^3.18.0",
     "stylelint-webpack-plugin": "^2.1.1",
-    "typescript": "~4.5.5",
-    "ts-loader": "8.2.0"
+    "typescript": "~4.5.5"
   },
   "bugs": {
     "url": "https://github.com/reposense/RepoSense/issues"
