@@ -1,14 +1,14 @@
 package reposense.git;
 
+import static reposense.git.GitVersion.getVersionNumberAndReleaseNumberFromString;
+import static reposense.git.GitVersion.isGitVersionOutputAtLeastVersion;
+
 import java.util.regex.Pattern;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import reposense.template.GitTestTemplate;
-
-import static reposense.git.GitVersion.getVersionNumberAndReleaseNumberFromString;
-import static reposense.git.GitVersion.isGitVersionOutputAtLeastVersion;
 
 public class GitVersionTest extends GitTestTemplate {
     protected static final Pattern VALID_GIT_VERSION_PATTERN = Pattern.compile("git.* (\\d+.\\d+.\\d+).*");

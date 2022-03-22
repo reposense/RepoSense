@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -197,7 +198,7 @@ public class ConfigSystemTest {
 
         boolean isGitVersionInsufficient = RepoConfiguration.isAnyRepoFindingPreviousAuthors(repoConfigs)
                 && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors();
-        Assert.assertFalse("Git version 2.23.0 and above necessary to run test", isGitVersionInsufficient);
+        Assume.assumeFalse("Git version 2.23.0 and above necessary to run test", isGitVersionInsufficient);
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
