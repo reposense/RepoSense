@@ -7,10 +7,10 @@ import org.junit.Test;
 
 import reposense.template.GitTestTemplate;
 
+import static reposense.git.GitVersion.isGitVersionOutputAtLeastVersion;
+
 public class GitVersionTest extends GitTestTemplate {
     protected static final Pattern VALID_GIT_VERSION_PATTERN = Pattern.compile("git.* (\\d+.\\d+.\\d+).*");
-    protected static final String FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION = "2.23.0";
-    protected static final String FINDING_PREVIOUS_AUTHORS_INVALID_GIT_VERSION = "2.22.0";
 
     @Test
     public void gitVersionRaw_validGitVersion_success() {
@@ -19,24 +19,18 @@ public class GitVersionTest extends GitTestTemplate {
     }
 
     @Test
-    public void findingPreviousAuthorsValidGitVersionRegex_validGitVersion_success() {
-        boolean isAbleToRunFindingPreviousAuthors = GitVersion.FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION_PATTERN
-                .matcher(FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION).find();
-        Assert.assertTrue(isAbleToRunFindingPreviousAuthors);
+    public void isGitVersionOutputAtLeastVersion_smallerThanVersions_returnsFalse() {
+        Assert.assertFalse(isGitVersionOutputAtLeastVersion("git version 1.0.0", "2.23.0"));
+        Assert.assertFalse(isGitVersionOutputAtLeastVersion("git version 2.22.5", "2.23"));
+        Assert.assertFalse(isGitVersionOutputAtLeastVersion("git version 2.22.5.windows.1", "2.23.5"));
+        Assert.assertFalse(isGitVersionOutputAtLeastVersion("git version 1.7.1", "2.0"));
     }
 
     @Test
-    public void findingPreviousAuthorsValidGitVersionRegex_invalidGitVersion_failure() {
-        boolean isAbleToRunFindingPreviousAuthors = GitVersion.FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION_PATTERN
-                .matcher(FINDING_PREVIOUS_AUTHORS_INVALID_GIT_VERSION).find();
-        Assert.assertFalse(isAbleToRunFindingPreviousAuthors);
-    }
-
-    @Test
-    public void gitVersionValidForFindingPreviousAuthorsMethod_sameResultAsRegex_success() {
-        boolean isAbleToRunFindingPreviousAuthors = GitVersion.FINDING_PREVIOUS_AUTHORS_VALID_GIT_VERSION_PATTERN
-                .matcher(GitVersion.getGitVersion()).find();
-        Assert.assertEquals(isAbleToRunFindingPreviousAuthors,
-                GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
+    public void isGitVersionOutputAtLeastVersion_greaterThanVersions_returnsTrue() {
+        Assert.assertFalse(isGitVersionOutputAtLeastVersion("git version 3.0.0", "2.23.0"));
+        Assert.assertFalse(isGitVersionOutputAtLeastVersion("git version 2.35", "2.23"));
+        Assert.assertFalse(isGitVersionOutputAtLeastVersion("git version 2.35.1.windows.2", "2.23.5"));
+        Assert.assertFalse(isGitVersionOutputAtLeastVersion("git version 2.23.1", "2.23.1"));
     }
 }

@@ -59,4 +59,11 @@ public class GitVersion {
     public static boolean isGitVersionAtLeast(String versionString) {
         return isGitVersionOutputAtLeastVersion(getGitVersion(), versionString);
     }
+
+    /**
+     * Returns true if the machine's Git version is sufficient for finding previous authors.
+     */
+    public static boolean isGitVersionSufficientForFindingPreviousAuthors() {
+        return isGitVersionAtLeast("2.23");
+    }
 }

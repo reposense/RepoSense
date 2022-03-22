@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
 
 import reposense.template.GitTestTemplate;
@@ -25,6 +26,7 @@ public class GitBlameTest extends GitTestTemplate {
 
     @Test
     public void blameWithPreviousAuthorsRaw_validFile_success() {
+        Assume.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setBranch(TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         GitCheckout.checkoutBranch(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);

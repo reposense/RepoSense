@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Test;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.git.GitCheckout;
+import reposense.git.GitVersion;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
@@ -83,6 +85,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameWithPreviousAuthorsTest() {
+        Assume.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
         config.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
         config.setIsFindingPreviousAuthorsPerformed(true);
@@ -118,6 +121,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameWithPreviousAuthorsTestDateRange() throws Exception {
+        Assume.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
         config.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
         config.setIsFindingPreviousAuthorsPerformed(true);
@@ -171,6 +175,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeFile_blameWithPreviousAuthorsIgnoreFirstCommitThatChangedLine_assignLineToUnknownAuthor() {
+        Assume.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
         config.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
         config.setIsFindingPreviousAuthorsPerformed(true);
@@ -222,6 +227,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeFile_blameWithPreviousAuthorTestFileIgnoreAllCommit_success() {
+        Assume.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
         config.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
         config.setIsFindingPreviousAuthorsPerformed(true);
