@@ -131,8 +131,8 @@
 import { mapState } from 'vuex';
 
 import vSummaryCharts from '../components/v-summary-charts.vue';
-import getNonRepeatingColor from '../utils/ramp-colour-generator';
-import sortFiltered from '../utils/repo-sorter';
+import getNonRepeatingColor from '../utils/ramp-colour-generator.ts';
+import sortFiltered from '../utils/repo-sorter.ts';
 
 const getFontColor = window.getFontColor;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
