@@ -93,15 +93,14 @@ public class StringsUtilTest {
     public void addQuotesForFilePath_tildeBashExpansion_success() {
         Assume.assumeTrue(!SystemUtil.isWindows());
 
-        String standardTildeFilePath1 = "~/path/to/repo/";
-        String expectedQuotedTildeFilePath1 = "~/path/to/repo/";
-        String standardTildeFilePath2 = "~/'path with spaces/repo/'";
+        String standardTildeFilePath = "~/'path with spaces/repo/'";
+        String expectedStandardTildeFilePath = "~/'path with spaces/repo/'";
+
 
         String tildeFilePathWithLoginName = "~cs3281/'path with spaces/repo'/";
         String expectedTildeFilePathWithLoginName = "~cs3281/'path with spaces/repo'/";
 
-        Assert.assertEquals(expectedQuotedTildeFilePath1, StringsUtil.addQuotesForFilePath(standardTildeFilePath1));
-        Assert.assertEquals(expectedQuotedTildeFilePath2, StringsUtil.addQuotesForFilePath(standardTildeFilePath2));
+        Assert.assertEquals(standardTildeFilePath, StringsUtil.addQuotesForFilePath(expectedStandardTildeFilePath));
         Assert.assertEquals(tildeFilePathWithLoginName,
                 StringsUtil.addQuotesForFilePath(expectedTildeFilePathWithLoginName));
     }
