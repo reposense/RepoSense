@@ -43,6 +43,9 @@ public class RepoSense {
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
     private static final String VERSION_UNSPECIFIED = "unspecified";
+    private static final String CURRENT_REQUIRED_VERSION = "2.23";
+    private static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE =
+            "--find-previous-authors/-F requires git version 2.23 and above. Feature will be disabled for this run";
 
     /**
      * The entry point of the program.
@@ -80,8 +83,8 @@ public class RepoSense {
                     cliArguments.isFindingPreviousAuthorsPerformed());
 
             if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
-                    && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
-                logger.warning(GitVersion.FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
+                    && !GitVersion.isGitVersionAtLeast(CURRENT_REQUIRED_VERSION)) {
+                logger.warning(FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 
