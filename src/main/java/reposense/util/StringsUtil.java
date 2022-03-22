@@ -48,14 +48,9 @@ public class StringsUtil {
         } else {
             // Adds support for tilde expansion by not quoting a filepath starting with a '~' symbol
             // https://www.gnu.org/software/bash/manual/html_node/Tilde-Expansion.html#Tilde-Expansion
-            String filePathStart = "";
             if (filePath.charAt(0) == '~') {
-                String[] filePathDetails = filePath.split("/", 2);
-                filePathStart = filePathDetails[0] + '/';
-                filePath = Optional.of(filePathDetails)
-                        .filter(x -> x.length == 2)
-                        .map(x -> x[1])
-                        .orElse("");
+                // if the user used tilde expansion correctly, the filepath itself can be directly reused
+                return filePath;
             }
 
             StringBuilder sb = new StringBuilder();
@@ -67,7 +62,7 @@ public class StringsUtil {
                     sb.append(c);
                 }
             }
-            return filePathStart + '\'' + sb.toString() + '\'';
+            return '\'' + sb.toString() + '\'';
         }
     }
 
