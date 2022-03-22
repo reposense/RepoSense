@@ -15,7 +15,7 @@ public class GitVersion {
 
     /** Regex for finding Git Version */
     private static final Pattern GIT_VERSION_PATTERN =
-            Pattern.compile("git version (?<versionNumber>\\p{Digit})\\.(?<releaseNumber>\\p{Digit}+).*");
+            Pattern.compile("^git version (?<versionNumber>\\d+)\\.(?<releaseNumber>\\d+).*?\n?$");
     private static final String VERSION_NUMBER_GROUP = "versionNumber";
     private static final String RELEASE_NUMBER_GROUP = "releaseNumber";
 
@@ -33,7 +33,7 @@ public class GitVersion {
      * Returns the version number and release number from a git version {@code commandOutput}.
      * Return type is a length 2 string array with the version number at index 0, release number at index 1.
      */
-    private static String[] getVersionNumberAndReleaseNumberFromString(String commandOutput) {
+    protected static String[] getVersionNumberAndReleaseNumberFromString(String commandOutput) {
         Matcher matcher = GIT_VERSION_PATTERN.matcher(commandOutput);
         matcher.matches();
         return new String[] {matcher.group(VERSION_NUMBER_GROUP), matcher.group(RELEASE_NUMBER_GROUP)};
