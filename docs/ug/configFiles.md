@@ -63,7 +63,7 @@ Optionally, you can use an `author-config.csv` (which should be in the same dire
 |-------------|-------------|
 | Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
 | Branch | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch. |
-| Author's GitHub ID {{ mandatory }} | Username of the target author's profile on GitHubHub, GitHubLab or Bitbucket, e.g.`JohnDoe`. |  
+| Author's GitHub ID {{ mandatory }} | Username of the target author's profile on GitHub, GitLab or Bitbucket, e.g.`JohnDoe`. |  
 | Author's Emails<sup>*</sup> | Associated emails of the author. For GitHub users, this can be found in your [GitHub settings](https://github.com/settings/emails). |
 | Author's Display Name | The name to display for the author. Default: author's username. |
 | Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name). |
