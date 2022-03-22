@@ -83,6 +83,12 @@ Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`
 * Alias: `-F` (uppercase F)
 * Example:`--find-previous-authors` or `-F`
 
+<box type="info" seamless>
+
+* This flag only works on **git `2.23`** or later.
+* If an earlier version of **git** is used, RepoSense can still run but this flag will be ignored.
+</box>
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--help`, `-h`
