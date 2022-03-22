@@ -1,6 +1,5 @@
 package reposense.util;
 
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
