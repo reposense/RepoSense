@@ -81,8 +81,8 @@ public abstract class CsvParser<T> {
         try (BufferedReader csvReader = new BufferedReader(new FileReader(csvFilePath.toFile()))) {
             String[] header = getHeader(csvReader);
             try {
-                records = CSVFormat.DEFAULT.withIgnoreEmptyLines(false).withHeader(header).withTrim()
-                        .withIgnoreHeaderCase().parse(csvReader);
+                records = CSVFormat.Builder.create(CSVFormat.DEFAULT).setIgnoreEmptyLines(false).setHeader(header)
+                        .setTrim(true).setIgnoreHeaderCase(true).build().parse(csvReader);
             } catch (IllegalArgumentException iae) {
                 throw new InvalidCsvException(
                         String.format(MESSAGE_DUPLICATE_COLUMN_HEADER, csvFilePath.getFileName()));
