@@ -1,7 +1,8 @@
 package reposense.git;
 
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.List;
 
 import org.junit.Assert;
@@ -13,40 +14,44 @@ import reposense.util.TestUtil;
 public class GitRevListTest extends GitTestTemplate {
 
     @Test
-    public void getCommitHashBeforeDate_beforeInitialCommitDate_emptyResult() {
-        Date date = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 4);
-        String commitHash = GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
+    public void getCommitHashUntilDate_beforeInitialCommitDate_emptyResult() {
+        LocalDateTime date = TestUtil.getUntilDate(2018, Month.FEBRUARY.getValue(), 4);
+        String commitHash = GitRevList.getCommitHashUntilDate(config.getRepoRoot(), config.getBranch(), date,
+                ZoneId.of(config.getZoneId()));
         Assert.assertTrue(commitHash.isEmpty());
     }
 
     @Test
-    public void getCommitHashBeforeDate_afterLatestCommitDate_success() {
-        Date date = TestUtil.getUntilDate(2018, Calendar.MAY, 10);
-        String commitHash = GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
+    public void getCommitHashUntilDate_afterLatestCommitDate_success() {
+        LocalDateTime date = TestUtil.getUntilDate(2018, Month.MAY.getValue(), 10);
+        String commitHash = GitRevList.getCommitHashUntilDate(config.getRepoRoot(), config.getBranch(), date,
+                ZoneId.of(config.getZoneId()));
 
         // result from git has a newline at the end
         Assert.assertEquals(EUGENE_AUTHOR_README_FILE_COMMIT_07052018 + "\n", commitHash);
     }
 
     @Test
-    public void getCommitHashBeforeDate_februaryNineDate_success() {
-        Date date = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 8);
-        String commitHash = GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), date);
+    public void getCommitHashUntilDate_februaryNineDate_success() {
+        LocalDateTime date = TestUtil.getUntilDate(2018, Month.FEBRUARY.getValue(), 8);
+        String commitHash = GitRevList.getCommitHashUntilDate(config.getRepoRoot(), config.getBranch(), date,
+                ZoneId.of(config.getZoneId()));
 
         // result from git has a newline at the end
         Assert.assertEquals(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018 + "\n", commitHash);
     }
 
     @Test
-    public void getCommitHashBeforeDate_nullDate_emptyResult() {
-        String commitHash = GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), config.getBranch(), null);
+    public void getCommitHashUntilDate_nullDate_emptyResult() {
+        String commitHash = GitRevList.getCommitHashUntilDate(config.getRepoRoot(), config.getBranch(), null, null);
         Assert.assertTrue(commitHash.isEmpty());
     }
 
     @Test(expected = RuntimeException.class)
-    public void getCommitHashBeforeDate_invalidBranch_throwsRunTimeException() {
-        Date date = TestUtil.getUntilDate(2018, Calendar.FEBRUARY, 9);
-        GitRevList.getCommitHashBeforeDate(config.getRepoRoot(), "invalidBranch", date);
+    public void getCommitHashUntilDate_invalidBranch_throwsRunTimeException() {
+        LocalDateTime date = TestUtil.getUntilDate(2018, Month.FEBRUARY.getValue(), 9);
+        GitRevList.getCommitHashUntilDate(config.getRepoRoot(), "invalidBranch", date,
+                ZoneId.of(config.getZoneId()));
     }
 
     @Test

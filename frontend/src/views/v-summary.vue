@@ -98,9 +98,8 @@
       label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
         span All:&nbsp;
-      template(v-for="fileType in Object.keys(fileTypeColors)" )
+      template(v-for="fileType in Object.keys(fileTypeColors)", v-bind:key="fileType")
         label(
-          v-bind:key="fileType",
           v-bind:style="{ 'background-color': fileTypeColors[fileType], \
             'color': getFontColor(fileTypeColors[fileType])}"
         )
@@ -123,7 +122,8 @@
     v-bind:filter-until-date="filterUntilDate",
     v-bind:filter-search="filterSearch",
     v-bind:min-date="minDate",
-    v-bind:max-date="maxDate"
+    v-bind:max-date="maxDate",
+    v-bind:sort-group-selection="sortGroupSelection"
   )
 </template>
 
@@ -196,8 +196,11 @@ export default {
       this.getFiltered();
     },
 
-    mergedGroups() {
-      this.getFiltered();
+    mergedGroups: {
+      deep: true,
+      handler() {
+        this.getFiltered();
+      },
     },
   },
   computed: {
@@ -349,7 +352,7 @@ export default {
 
     renderFilterHash() {
       const convertBool = (txt) => (txt === 'true');
-      const hash = window.hashParams;
+      const hash = Object.assign({}, window.hashParams);
 
       if (hash.search) { this.filterSearch = hash.search; }
       if (hash.sort) {

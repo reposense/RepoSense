@@ -1,7 +1,5 @@
 package reposense.report;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -9,11 +7,11 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,14 +34,12 @@ import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitBlame;
 import reposense.git.GitClone;
-import reposense.git.GitLsTree;
 import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
 import reposense.git.GitShow;
 import reposense.git.exception.CommitNotFoundException;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
-import reposense.git.exception.InvalidFilePathException;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
@@ -56,7 +52,6 @@ import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 import reposense.util.ProgressTracker;
-import reposense.util.TimeUtil;
 
 /**
  * Contains report generation related functionalities.
@@ -68,8 +63,6 @@ public class ReportGenerator {
 
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
-    private static final String INDEX_PAGE_TEMPLATE = "index.html";
-    private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>RepoSense Report</title>";
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
@@ -85,16 +78,16 @@ public class ReportGenerator {
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
+    private static final String MESSAGE_MISSING_TEMPLATE =
+            "Unable to find template file. Proceeding to generate report...";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
-    private static final String LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH =
-            "Branch contains file paths with illegal characters and not analyzable.";
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
     private static final String LOG_UNEXPECTED_ERROR = "Unexpected error stack trace for %s:\n>%s";
 
-    private static Date earliestSinceDate = null;
+    private static LocalDateTime earliestSinceDate = null;
     private static ProgressTracker progressTracker = null;
     private static final List<String> assetsFilesWhiteList =
             Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
@@ -109,9 +102,9 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
-            ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads, int numAnalysisThreads,
-            Supplier<String> reportGenerationTimeProvider, ZoneId zoneId) throws IOException {
+            ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
+            LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
+            int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId) throws IOException {
         return generateReposReport(configs, outputPath, assetsPath, reportConfig, generationDate,
                 cliSinceDate, untilDate, isSinceDateProvided, isUntilDateProvided, numCloningThreads,
                 numAnalysisThreads, reportGenerationTimeProvider, zoneId, DEFAULT_SHOULD_FRESH_CLONE);
@@ -125,11 +118,11 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
-            ReportConfiguration reportConfig, String generationDate, Date cliSinceDate, Date untilDate,
-            boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads, int numAnalysisThreads,
-            Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
+            ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
+            LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
+            int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone) throws IOException {
-        prepareTemplateFile(reportConfig, outputPath);
+        prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
         }
@@ -140,14 +133,13 @@ public class ReportGenerator {
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath,
                 numCloningThreads, numAnalysisThreads, shouldFreshClone);
 
-        Date reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
+        LocalDateTime reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
                 ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
-                        TimeUtil.getZonedDateFromSystemDate(reportSinceDate, zoneId),
-                        TimeUtil.getZonedDateFromSystemDate(untilDate, zoneId), isSinceDateProvided,
-                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorList(),
+                        reportSinceDate, untilDate, isSinceDateProvided,
+                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId.toString()),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
@@ -159,26 +151,15 @@ public class ReportGenerator {
 
     /**
      * Copies the template file to the specified {@code outputPath} for the repo report to be generated.
-     * @throws IOException if template resource is not found.
+     * @throws IOException if I/O error encountered while copying template file.
      */
-    private static void prepareTemplateFile(ReportConfiguration config, String outputPath) throws IOException {
+    private static void prepareTemplateFile(String outputPath) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
-        FileUtil.copyTemplate(is, outputPath);
-        setReportConfiguration(config, outputPath);
-    }
-
-    private static void setReportConfiguration(ReportConfiguration config, String outputPath) throws IOException {
-        setLandingPageTitle(outputPath, config.getTitle());
-    }
-
-    /**
-     * Set title of template file located at {@code filePath} to {@code pageTitle}
-     */
-    private static void setLandingPageTitle(String filePath, String pageTitle) throws IOException {
-        Path indexPagePath = Paths.get(filePath, INDEX_PAGE_TEMPLATE);
-        String line = new String(Files.readAllBytes(indexPagePath));
-        String newLine = line.replaceAll(INDEX_PAGE_DEFAULT_TITLE, "<title>" + escapeHtml4(pageTitle) + "</title>");
-        Files.write(indexPagePath, newLine.getBytes());
+        if (is != null) {
+            FileUtil.copyTemplate(is, outputPath);
+        } else {
+            logger.warning(MESSAGE_MISSING_TEMPLATE);
+        }
     }
 
     /**
@@ -320,7 +301,6 @@ public class ReportGenerator {
                             + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
-                GitLsTree.validateFilePaths(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
@@ -334,8 +314,6 @@ public class ReportGenerator {
                         configToAnalyze.getBranch(), configToAnalyze.getLocation()), gbe);
                 analysisErrors.add(new AnalysisErrorInfo(configToAnalyze,
                         String.format(LOG_BRANCH_DOES_NOT_EXIST, configToAnalyze.getBranch())));
-            } catch (InvalidFilePathException ipe) {
-                analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_BRANCH_CONTAINS_ILLEGAL_FILE_PATH));
             } catch (GitCloneException gce) {
                 analysisErrors.add(new AnalysisErrorInfo(configToAnalyze, LOG_ERROR_CLONING_OR_BRANCHING));
             } catch (NoAuthorsWithCommitsFoundException nafe) {
@@ -543,8 +521,8 @@ public class ReportGenerator {
         return repoReportDirectory + "/commits.json";
     }
 
-    public static void setEarliestSinceDate(Date newEarliestSinceDate) {
-        if (earliestSinceDate == null || newEarliestSinceDate.before(earliestSinceDate)) {
+    public static void setEarliestSinceDate(LocalDateTime newEarliestSinceDate) {
+        if (earliestSinceDate == null || newEarliestSinceDate.compareTo(earliestSinceDate) < 0) {
             earliestSinceDate = newEarliestSinceDate;
         }
     }

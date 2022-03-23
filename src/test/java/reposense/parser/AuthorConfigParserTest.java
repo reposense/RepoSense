@@ -39,6 +39,8 @@ public class AuthorConfigParserTest {
             "AuthorConfigParserTest/authorconfig_missingOptionalHeader_test.csv");
     private static final Path AUTHOR_CONFIG_MISSING_MANDATORY_HEADER = loadResource(AuthorConfigParserTest.class,
             "AuthorConfigParserTest/authorconfig_missingMandatoryHeader_test.csv");
+    private static final Path AUTHOR_CONFIG_UNKNOWN_HEADER = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_unknownHeaders_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
@@ -189,6 +191,12 @@ public class AuthorConfigParserTest {
     @Test (expected = InvalidCsvException.class)
     public void authorConfig_missingMandatoryHeader_throwsInvalidCsvException() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MISSING_MANDATORY_HEADER);
+        authorConfigCsvParser.parse();
+    }
+
+    @Test (expected = InvalidHeaderException.class)
+    public void authorConfig_unknownHeaders_throwsInvalidHeaderException() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_UNKNOWN_HEADER);
         authorConfigCsvParser.parse();
     }
 
