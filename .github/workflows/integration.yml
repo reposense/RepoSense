@@ -187,15 +187,10 @@ jobs:
         restore-keys: |
           ${{ matrix.os }}-gradle-
 
-    - name: Determine npm cache directory
-      id: npm-cache
-      run: |
-        echo "::set-output name=dir::$(npm config get cache)"
-
     - name: Set up Node caching
       uses: actions/cache@v2
       with:
-        path: ${{ steps.npm-cache.outputs.dir }}
+        path: $HOME/.npm
         key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ matrix.os }}-node-
