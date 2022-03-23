@@ -41,7 +41,7 @@
         v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
-          font-awesome-icon.icon-button(:icon="['fab', 'github']")
+          font-awesome-icon.icon-button(:icon="['fab', 'git-alt']")
           span.tooltip-text Click to view group's repo
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
