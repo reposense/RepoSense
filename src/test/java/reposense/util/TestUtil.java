@@ -62,14 +62,6 @@ public class TestUtil {
 
         for (int i = 0; i < Math.min(expectedContent.length, actualContent.length); i++) {
             if (!expectedContent[i].equals(actualContent[i])) {
-                for (int j = 0; j < expectedContent[i].length(); j++) {
-                    if (expectedContent[i].charAt(j) != actualContent[i].charAt(j)) {
-                        System.out.println("char difference at place: " + j + " which is chars");
-                        System.out.println("expected: " + expectedContent[i].substring(j));
-                        System.out.println("actual: " + actualContent[i].substring(j));
-                        break;
-                    }
-                }
                 System.out.println(
                         String.format(MESSAGE_LINE_CONTENT_DIFFERENT, i + 1, expectedContent[i], actualContent[i]));
                 if (++traceCounts >= maxTraceCounts) {
