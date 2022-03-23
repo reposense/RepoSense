@@ -24,7 +24,7 @@ public class SupportedDomainUrlMap {
     private static final String COMMIT_HASH_PLACEHOLDER = "$COMMIT_HASH";
     private static final String FILE_PATH_PLACEHOLDER = "$FILE_PATH";
 
-    private static final Map<String, String> GITHUB_MAP = new HashMap<String, String>() {
+    protected static final Map<String, String> GITHUB_MAP = new HashMap<String, String>() {
         {
             put(BASE_URL_KEY, "https://github.com/");
             put(REPO_URL_KEY, "https://github.com/" + ORGANIZATION_PLACEHOLDER + "/" + REPO_NAME_PLACEHOLDER + "/");
@@ -34,7 +34,7 @@ public class SupportedDomainUrlMap {
             put(HISTORY_PATH_KEY, "commits/" + BRANCH_KEY + "/" + FILE_PATH_PLACEHOLDER);
         }
     };
-    private static final Map<String, String> GITLAB_MAP = new HashMap<String, String>() {
+    protected static final Map<String, String> GITLAB_MAP = new HashMap<String, String>() {
         {
             put(BASE_URL_KEY, "https://gitlab.com/");
             put(REPO_URL_KEY, "https://gitlab.com/" + ORGANIZATION_PLACEHOLDER + "/" + REPO_NAME_PLACEHOLDER + "/");
@@ -44,7 +44,7 @@ public class SupportedDomainUrlMap {
             put(HISTORY_PATH_KEY, "-/commits/" + BRANCH_PLACEHOLDER + "/" + FILE_PATH_PLACEHOLDER);
         }
     };
-    private static final Map<String, String> BITBUCKET_MAP = new HashMap<String, String>() {
+    protected static final Map<String, String> BITBUCKET_MAP = new HashMap<String, String>() {
         {
             put(BASE_URL_KEY, "https://bitbucket.org/");
             put(REPO_URL_KEY, "https://bitbucket.org/" + ORGANIZATION_PLACEHOLDER + "/" + REPO_NAME_PLACEHOLDER + "/");
@@ -54,7 +54,7 @@ public class SupportedDomainUrlMap {
             put(HISTORY_PATH_KEY, "history-node/HEAD/" + FILE_PATH_PLACEHOLDER + "?at=" + BRANCH_PLACEHOLDER);
         }
     };
-    private static final Map<String, String> NOT_SUPPORTED_MAP = new HashMap<String, String>() {
+    protected static final Map<String, String> NOT_SUPPORTED_MAP = new HashMap<String, String>() {
         {
             put(BASE_URL_KEY, "UNSUPPORTED");
             put(REPO_URL_KEY, "UNSUPPORTED");
@@ -70,7 +70,12 @@ public class SupportedDomainUrlMap {
     private final Map<String, Map<String, String>> domainUrlMap;
     private final Set<String> domainAccessedSet;
 
-    private SupportedDomainUrlMap() {
+    /**
+     * Creates an instance of {@code SupportedDomainUrlMap} and pre-fills the {@code domainUrlMap} with entries.
+     * By default, {@code domainAccessedSet} always includes the {@code RepoLocation#UNSUPPORTED_DOMAIN_NAME}
+     * for local repository support.
+     */
+    protected SupportedDomainUrlMap() {
         domainUrlMap = new HashMap<>();
         domainAccessedSet = new TreeSet<>();
         domainAccessedSet.add(RepoLocation.UNSUPPORTED_DOMAIN_NAME);
@@ -80,8 +85,12 @@ public class SupportedDomainUrlMap {
         domainUrlMap.put(RepoLocation.UNSUPPORTED_DOMAIN_NAME, NOT_SUPPORTED_MAP);
     }
 
-    public Map<String, Map<String, String>> getDomainUrlMap() {
-        return domainUrlMap;
+    public Map<String, Map<String, String>> getRequiredDomainUrlMap() {
+        Map<String, Map<String, String>> necessaryDomainUrlMap = new TreeMap<>();
+        for (String domain : getDomainsAccessed()) {
+            necessaryDomainUrlMap.put(domain, domainUrlMap.get(domain));
+        }
+        return necessaryDomainUrlMap;
     }
 
     /**
@@ -107,14 +116,9 @@ public class SupportedDomainUrlMap {
     }
 
     /**
-     * Returns the singleton copy of the supported domain url map.
+     * Returns the URL mappings for required domains.
      */
     public static Map<String, Map<String, String>> getDefaultDomainUrlMap() {
-        Map<String, Map<String, String>> domainUrlMap = DEFAULT_DOMAIN_URL_MAP.getDomainUrlMap();
-        Map<String, Map<String, String>> necessaryDomainUrlMap = new TreeMap<>();
-        for (String domain : DEFAULT_DOMAIN_URL_MAP.getDomainsAccessed()) {
-            necessaryDomainUrlMap.put(domain, domainUrlMap.get(domain));
-        }
-        return necessaryDomainUrlMap;
+        return DEFAULT_DOMAIN_URL_MAP.getRequiredDomainUrlMap();
     }
 }
