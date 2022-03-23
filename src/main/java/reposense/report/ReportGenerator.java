@@ -108,7 +108,7 @@ public class ReportGenerator {
      * @param isSinceDateProvided The boolean variable for whether client provided a sinceDate.
      * @param isUntilDateProvided The boolean variable for whether client provided an untilDate.
      * @param numCloningThreads The number of threads to use to clone the repos.
-     * @param numAnalysisThreads The number of threads to use to analyse the repos.
+     * @param numAnalysisThreads The number of threads to use to analyze the repos.
      * @param reportGenerationTimeProvider Supplier for time taken to generate the report.
      * @param zoneId The timezone to adjust all date-times to.
      * @return The list of file paths that were generated.
@@ -137,7 +137,7 @@ public class ReportGenerator {
      * @param isSinceDateProvided The boolean variable for whether client provided a sinceDate.
      * @param isUntilDateProvided The boolean variable for whether client provided an untilDate.
      * @param numCloningThreads The number of threads to use to clone the repos.
-     * @param numAnalysisThreads The number of threads to use to analyse the repos.
+     * @param numAnalysisThreads The number of threads to use to analyze the repos.
      * @param reportGenerationTimeProvider Supplier for time taken to generate the report.
      * @param zoneId The timezone to adjust all date-times to.
      * @param shouldFreshClone The boolean variable for whether to clone a repo again during tests.
