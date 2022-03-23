@@ -185,7 +185,7 @@ To set the author name to use a default value you want for future git repositori
 ``` {.no-line-numbers}
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
-RepoSense expects the Git Author Name to be the same as author's Git Host (GitHub, GitLab, BitBucket) username. If an author's `Git Author Name` is different from her `GitHost ID`, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
+RepoSense expects the Git Author Name to be the same as author's username on the Git hosting platform (GitHub, GitLab, BitBucket). If an author's `Git Author Name` is different from their username on the Git hosting platform, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
 
 <box type="warning" seamless>
 
