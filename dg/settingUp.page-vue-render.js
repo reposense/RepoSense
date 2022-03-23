@@ -11,7 +11,7 @@ with(this){return _c('h1',{staticClass:"display-4",attrs:{"id":"setting-up"}},[_
 with(this){return _c('p',[_c('strong',[_v("Prerequisites:")])])}
 },function anonymous(
 ) {
-with(this){return _c('li',[_c('p',[_c('strong',[_v("JDK "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("1.8.0_60")])]),_v(" or later ("),_c('a',{attrs:{"href":"https://www.oracle.com/technetwork/java/javase/downloads/index.html"}},[_v("download "),_c('span',{staticClass:"fas fa-download",attrs:{"aria-hidden":"true"}})]),_v(").")])])}
+with(this){return _c('li',[_c('p',[_c('strong',[_v("JDK "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("1.8.0_60")])]),_v(" or "),_c('strong',[_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("11")])]),_v(" ("),_c('a',{attrs:{"href":"https://www.oracle.com/technetwork/java/javase/downloads/index.html"}},[_v("download "),_c('span',{staticClass:"fas fa-download",attrs:{"aria-hidden":"true"}})]),_v(").")])])}
 },function anonymous(
 ) {
 with(this){return _c('li',[_c('p',[_c('strong',[_v("npm")]),_v(" "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("6.0")]),_v(" or later ("),_c('a',{attrs:{"href":"https://www.npmjs.com/get-npm"}},[_v("download "),_c('span',{staticClass:"fas fa-download",attrs:{"aria-hidden":"true"}})]),_v(").")])])}
@@ -44,6 +44,6 @@ with(this){return _c('h2',{attrs:{"id":"before-you-start-coding"}},[_c('span',{s
 with(this){return _c('p',[_v("... read the "),_c('a',{attrs:{"href":"/RepoSense/dg/workflow.html"}},[_v("Workflow")]),_v(" section.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.1.1")]),_v(", generated on Thu, Mar 17, 2022, 6:04:07 AM UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 3.1.1")]),_v(", generated on Wed, Mar 23, 2022, 5:08:16 AM UTC]")])])])}
 }];
   
