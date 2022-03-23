@@ -63,7 +63,7 @@ Optionally, you can use an `author-config.csv` (which should be in the same dire
 |-------------|-------------|
 | Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
 | Branch | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch. |
-| Author's GitHub ID {{ mandatory }} | Username of the target author's profile on GitHubHub, GitHubLab or Bitbucket, e.g.`JohnDoe`. |  
+| Author's GitHub ID {{ mandatory }} | Username of the target author's profile on GitHub, GitLab or Bitbucket, e.g.`JohnDoe`. |  
 | Author's Emails<sup>*</sup> | Associated emails of the author. For GitHub users, this can be found in your [GitHub settings](https://github.com/settings/emails). |
 | Author's Display Name | The name to display for the author. Default: author's username. |
 | Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name). |
@@ -185,7 +185,7 @@ To set the author name to use a default value you want for future git repositori
 ``` {.no-line-numbers}
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
-RepoSense expects the Git Author Name to be the same as author's Git Host (GitHub, GitLab, BitBucket) username. If an author's `Git Author Name` is different from her `GitHost ID`, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
+RepoSense expects the Git Author Name to be the same as author's username on the Git hosting platform (GitHub, GitLab, BitBucket). If an author's `Git Author Name` is different from their username on the Git hosting platform, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
 
 <box type="warning" seamless>
 
