@@ -40,7 +40,7 @@ The report is divided into two sections: [_**Chart panel**_](#chart-panel) and t
 
 <box type="info" seamless>
 
-The links to external webpages is only properly supported when RepoSense analyzes a remote repository belonging to GitHub, GitLab or BitBucket.
+Links to external webpages (repository link, author's profile, blame view, etc.) is only properly supported when RepoSense analyzes a remote repository belonging to GitHub, GitLab or BitBucket.
 </box>
 
 <!-- ==================================================================================================== -->

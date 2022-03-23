@@ -21,7 +21,7 @@ Let's look at different ways to generate RepoSense reports.
 <box type="info" seamless>
 
 RepoSense is built to analyze any type of git repo, remote or local. It works best when analyzing remote repositories hosted on GitHub, GitLab or BitBucket.
-For other types of repositories, features such as external links might not work properly.
+For other types of repositories, external links are disabled.
 </box>
 
 <!-- ==================================================================================================== -->
