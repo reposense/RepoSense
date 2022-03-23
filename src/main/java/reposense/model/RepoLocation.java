@@ -20,7 +20,7 @@ import reposense.util.SystemUtil;
  */
 public class RepoLocation {
 
-    protected static final String UNSUPPORTED_DOMAIN_NAME = "NOT_RECOGNISED";
+    protected static final String UNSUPPORTED_DOMAIN_NAME = "NOT_RECOGNIZED";
 
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final String MESSAGE_INVALID_REMOTE_URL = "%s is an invalid remote URL.";
