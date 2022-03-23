@@ -1,7 +1,9 @@
 package reposense.model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Represents the map of supported remote repo domain names.
@@ -15,11 +17,11 @@ public class SupportedDomainUrlMap {
     private static final String BLAME_PATH_KEY = "BLAME_PATH";
     private static final String HISTORY_PATH_KEY = "HISTORY_PATH";
 
-    private static final String ORGANIZATION_PLACEHOLDER = "ORGANIZATION";
-    private static final String REPO_NAME_PLACEHOLDER = "REPO_NAME";
-    private static final String BRANCH_PLACEHOLDER = "BRANCH";
-    private static final String COMMIT_HASH_PLACEHOLDER = "COMMIT_HASH";
-    private static final String FILE_PATH_PLACEHOLDER = "FILE_PATH";
+    private static final String ORGANIZATION_PLACEHOLDER = "$ORGANIZATION";
+    private static final String REPO_NAME_PLACEHOLDER = "$REPO_NAME";
+    private static final String BRANCH_PLACEHOLDER = "$BRANCH";
+    private static final String COMMIT_HASH_PLACEHOLDER = "$COMMIT_HASH";
+    private static final String FILE_PATH_PLACEHOLDER = "$FILE_PATH";
 
     private static final Map<String, String> GITHUB_MAP = new HashMap<String, String>() {
         {
@@ -65,9 +67,11 @@ public class SupportedDomainUrlMap {
     private static final SupportedDomainUrlMap DEFAULT_DOMAIN_URL_MAP = new SupportedDomainUrlMap();
 
     private final Map<String, Map<String, String>> domainUrlMap;
+    private final Set<String> domainAccessedSet;
 
     private SupportedDomainUrlMap() {
         domainUrlMap = new HashMap<>();
+        domainAccessedSet = new HashSet<>();
         domainUrlMap.put("github", GITHUB_MAP);
         domainUrlMap.put("gitlab", GITLAB_MAP);
         domainUrlMap.put("bitbucket", BITBUCKET_MAP);
@@ -82,7 +86,13 @@ public class SupportedDomainUrlMap {
      * Returns true if {@code domainName} is currently supported.
      */
     public boolean isSupportedDomain(String domainName) {
-        return domainUrlMap.containsKey(domainName);
+        boolean doesContain = domainUrlMap.containsKey(domainName);
+        if (doesContain) {
+            domainAccessedSet.add(domainName);
+        } else {
+            domainAccessedSet.add(RepoLocation.UNSUPPORTED_DOMAIN_NAME);
+        }
+        return doesContain;
     }
 
     /**
@@ -92,10 +102,19 @@ public class SupportedDomainUrlMap {
         return DEFAULT_DOMAIN_URL_MAP.isSupportedDomain(domainName);
     }
 
+    protected Set<String> getDomainsAccessed() {
+        return domainAccessedSet;
+    }
+
     /**
      * Returns the singleton copy of the supported domain url map.
      */
     public static Map<String, Map<String, String>> getDefaultDomainUrlMap() {
-        return DEFAULT_DOMAIN_URL_MAP.getDomainUrlMap();
+        Map<String, Map<String, String>> domainUrlMap = DEFAULT_DOMAIN_URL_MAP.getDomainUrlMap();
+        Map<String, Map<String, String>> necessaryDomainUrlMap = new HashMap<>();
+        for (String domain : DEFAULT_DOMAIN_URL_MAP.getDomainsAccessed()) {
+            necessaryDomainUrlMap.put(domain, domainUrlMap.get(domain));
+        }
+        return necessaryDomainUrlMap;
     }
 }

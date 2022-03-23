@@ -135,8 +135,8 @@ window.getRepoLinkUnfiltered = function getRepoLink(repoId) {
   // abstraction for repo link construction. Not supposed to be used by other files
   const domainName = window.REPOS[repoId].location.domainName;
   return window.DOMAIN_URL_MAP[domainName].REPO_URL
-      .replace('ORGANIZATION', window.REPOS[repoId].location.organization)
-      .replace('REPO_NAME', window.REPOS[repoId].location.repoName);
+      .replace('$ORGANIZATION', window.REPOS[repoId].location.organization)
+      .replace('$REPO_NAME', window.REPOS[repoId].location.repoName);
 };
 
 window.getRepoLink = function getRepoLink(repoId) {
@@ -146,27 +146,27 @@ window.getRepoLink = function getRepoLink(repoId) {
 window.getBranchLink = function getBranchLink(repoId, branch) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.filterUnsupported(window.getRepoLinkUnfiltered(repoId) + window.DOMAIN_URL_MAP[domainName].BRANCH
-      .replace('BRANCH', branch));
+      .replace('$BRANCH', branch));
 };
 
 window.getCommitLink = function getCommitLink(repoId, commitHash) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.filterUnsupported(window.getRepoLinkUnfiltered(repoId) + window.DOMAIN_URL_MAP[domainName].COMMIT_PATH
-      .replace('COMMIT_HASH', commitHash));
+      .replace('$COMMIT_HASH', commitHash));
 };
 
 window.getBlameLink = function getBlameLink(repoId, branch, filepath) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.filterUnsupported(window.getRepoLinkUnfiltered(repoId) + window.DOMAIN_URL_MAP[domainName].BLAME_PATH
-      .replace('BRANCH', branch)
-      .replace('FILE_PATH', filepath));
+      .replace('$BRANCH', branch)
+      .replace('$FILE_PATH', filepath));
 };
 
 window.getHistoryLink = function getHistoryLink(repoId, branch, filepath) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.filterUnsupported(window.getRepoLinkUnfiltered(repoId) + window.DOMAIN_URL_MAP[domainName].HISTORY_PATH
-      .replace('BRANCH', branch)
-      .replace('FILE_PATH', filepath));
+      .replace('$BRANCH', branch)
+      .replace('$FILE_PATH', filepath));
 };
 
 window.getGroupName = function getGroupName(group, filterGroupSelection) {
