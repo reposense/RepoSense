@@ -68,6 +68,7 @@ public class CommitHash {
     /**
      * Converts a commit {@code entry} into either itself, or a stream of {@link CommitHash} objects if a range was
      * provided.
+     * Uses {@code root} as the working directory and {@code branchName} as the branch from which to obtain the hashes.
      */
     public static Stream<CommitHash> getHashes(String root, String branchName, CommitHash entry) {
         if (entry.toString().matches(COMMIT_HASH_REGEX)) {
