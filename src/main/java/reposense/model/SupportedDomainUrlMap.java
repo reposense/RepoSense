@@ -31,7 +31,7 @@ public class SupportedDomainUrlMap {
             put(BRANCH_KEY, "tree/" + BRANCH_PLACEHOLDER);
             put(COMMIT_PATH_KEY, "commit/" + COMMIT_HASH_PLACEHOLDER);
             put(BLAME_PATH_KEY, "blame/" + BRANCH_PLACEHOLDER + "/" + FILE_PATH_PLACEHOLDER);
-            put(HISTORY_PATH_KEY, "commits/" + BRANCH_KEY + "/" + FILE_PATH_PLACEHOLDER);
+            put(HISTORY_PATH_KEY, "commits/" + BRANCH_PLACEHOLDER + "/" + FILE_PATH_PLACEHOLDER);
         }
     };
     protected static final Map<String, String> GITLAB_MAP = new HashMap<String, String>() {
