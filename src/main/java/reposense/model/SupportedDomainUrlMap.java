@@ -1,9 +1,10 @@
 package reposense.model;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Represents the map of supported remote repo domain names.
@@ -71,7 +72,8 @@ public class SupportedDomainUrlMap {
 
     private SupportedDomainUrlMap() {
         domainUrlMap = new HashMap<>();
-        domainAccessedSet = new HashSet<>();
+        domainAccessedSet = new TreeSet<>();
+        domainAccessedSet.add(RepoLocation.UNSUPPORTED_DOMAIN_NAME);
         domainUrlMap.put("github", GITHUB_MAP);
         domainUrlMap.put("gitlab", GITLAB_MAP);
         domainUrlMap.put("bitbucket", BITBUCKET_MAP);
@@ -89,8 +91,6 @@ public class SupportedDomainUrlMap {
         boolean doesContain = domainUrlMap.containsKey(domainName);
         if (doesContain) {
             domainAccessedSet.add(domainName);
-        } else {
-            domainAccessedSet.add(RepoLocation.UNSUPPORTED_DOMAIN_NAME);
         }
         return doesContain;
     }
@@ -111,7 +111,7 @@ public class SupportedDomainUrlMap {
      */
     public static Map<String, Map<String, String>> getDefaultDomainUrlMap() {
         Map<String, Map<String, String>> domainUrlMap = DEFAULT_DOMAIN_URL_MAP.getDomainUrlMap();
-        Map<String, Map<String, String>> necessaryDomainUrlMap = new HashMap<>();
+        Map<String, Map<String, String>> necessaryDomainUrlMap = new TreeMap<>();
         for (String domain : DEFAULT_DOMAIN_URL_MAP.getDomainsAccessed()) {
             necessaryDomainUrlMap.put(domain, domainUrlMap.get(domain));
         }
