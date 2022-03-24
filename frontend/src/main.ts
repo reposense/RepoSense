@@ -1,4 +1,4 @@
-import {createApp, DirectiveBinding} from 'vue';
+import { createApp, DirectiveBinding } from 'vue';
 import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import hljs from 'highlight.js';
