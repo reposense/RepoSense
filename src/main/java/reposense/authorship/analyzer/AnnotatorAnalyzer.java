@@ -115,7 +115,11 @@ public class AnnotatorAnalyzer {
     }
 
     /**
+<<<<<<< HEAD
      * Returns the index in {@code COMMENT_FORMATS} representing the type of comment the @@author tag line is.
+=======
+     * Checks if the line is a valid @@author tag comment line
+>>>>>>> master
      *
      * @param line The line to be checked
      * @return The index of the comment syntax type if the comment pattern matches, -1 if no match could be found

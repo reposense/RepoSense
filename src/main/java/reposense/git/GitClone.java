@@ -1,7 +1,8 @@
 package reposense.git;
 
 import static reposense.system.CommandRunner.runCommand;
-import static reposense.util.StringsUtil.addQuote;
+import static reposense.util.StringsUtil.addQuotes;
+import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -136,6 +137,7 @@ public class GitClone {
 
     /**
      * Clones a bare repo specified in {@code config} into the folder {@code outputFolderName}.
+     *
      * @throws IOException if it fails to delete a directory.
      */
     public static void cloneBare(RepoConfiguration config, Path rootPath,
@@ -147,13 +149,14 @@ public class GitClone {
         } else if (SystemUtil.isTestEnvironment() && Files.exists(outputFolderPath)) {
             return;
         }
-        String command = getCloneBareCommand(config, addQuote(outputFolderName));
+        String command = getCloneBareCommand(config, addQuotesForFilePath(outputFolderName));
         runCommand(rootPath, command);
     }
 
     /**
      * Performs a full clone from {@code clonedBareRepoLocation} into the folder {@code outputFolderName} and
      * directly branches out to {@code targetBranch}.
+     *
      * @throws IOException if it fails to delete a directory.
      * @throws GitCloneException when an error occurs during command execution.
      */
@@ -176,8 +179,8 @@ public class GitClone {
         try {
             runCommand(rootPath, command);
         } catch (RuntimeException rte) {
-            logger.severe("Exception met while cloning or checking out " + config.getDisplayName() + "."
-                    + "Analysis terminated.");
+            logger.log(Level.SEVERE, "Exception met while cloning or checking out " + config.getDisplayName() + "."
+                    + "Analysis terminated.", rte);
             throw new GitCloneException(rte);
         }
     }
@@ -187,7 +190,7 @@ public class GitClone {
      * into the folder {@code outputFolderName}.
      */
     private static String getCloneCommand(RepoConfiguration config, String outputFolderName) {
-        return "git clone " + addQuote(config.getLocation().toString()) + " "
+        return "git clone " + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
     }
 
@@ -197,7 +200,7 @@ public class GitClone {
      */
     private static String getCloneBareCommand(RepoConfiguration config, String outputFolderName) {
         String output = "git clone --bare "
-                + addQuote(config.getLocation().toString()) + " "
+                + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
         return output;
     }
@@ -209,8 +212,8 @@ public class GitClone {
     private static String getCloneShallowBareCommand(RepoConfiguration config,
             String outputFolderName, LocalDateTime shallowSinceDate) {
         return "git clone --bare --shallow-since="
-                + addQuote(shallowSinceDate.toString()) + " "
-                + addQuote(config.getLocation().toString()) + " "
+                + addQuotes(shallowSinceDate.toString()) + " "
+                + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
     }
 
@@ -220,7 +223,7 @@ public class GitClone {
      */
     private static String getClonePartialBareCommand(RepoConfiguration config, String outputFolderName) {
         return "git clone --bare --filter=blob:none "
-                + addQuote(config.getLocation().toString()) + " "
+                + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
     }
 
@@ -231,8 +234,8 @@ public class GitClone {
     private static String getCloneShallowPartialBareCommand(RepoConfiguration config,
             String outputFolderName, LocalDateTime shallowSinceDate) {
         return "git clone --bare --filter=blob:none --shallow-since="
-                + addQuote(shallowSinceDate.toString()) + " "
-                + addQuote(config.getLocation().toString()) + " "
+                + addQuotes(shallowSinceDate.toString()) + " "
+                + addQuotesForFilePath(config.getLocation().toString()) + " "
                 + outputFolderName;
     }
 }
