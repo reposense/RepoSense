@@ -47,6 +47,7 @@ public class GitCheckout {
     /**
      * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
      * if {@code untilDate} is not null.
+     *
      * @throws CommitNotFoundException if commits before {@code untilDate} cannot be found.
      */
     public static void checkoutDate(String root, String branchName, LocalDateTime untilDate, ZoneId zoneId)

@@ -58,6 +58,7 @@ public class RepoLocation {
 
     /**
      * Verifies {@code location} can be presented as a {@code URL} or {@code Path}.
+     *
      * @throws InvalidLocationException if otherwise.
      */
     private void verifyLocation(String location) throws InvalidLocationException {

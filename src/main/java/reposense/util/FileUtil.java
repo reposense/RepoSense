@@ -95,6 +95,7 @@ public class FileUtil {
 
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
+     *
      * @return An Optional containing the Path to the JSON file, or an empty Optional
      *         if there was an error while writing the JSON file.
      */
@@ -120,6 +121,7 @@ public class FileUtil {
 
     /**
      * Writes the ignore revs file containing the {@code ignoreCommitList} at the given {@code path}.
+     *
      * @return An Optional containing the Path to the ignore revs file, or an empty Optional
      *         if there was an error while writing the ignore revs file.
      */
@@ -139,6 +141,7 @@ public class FileUtil {
 
     /**
      * Deletes the {@code root} directory.
+     *
      * @throws IOException if the root path does not exist.
      */
     public static void deleteDirectory(String root) throws IOException {
@@ -160,6 +163,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code zipSourcePath} into {@code outputPath}.
+     *
      * @throws IOException if {@code zipSourcePath} is an invalid path.
      */
     public static void unzip(Path zipSourcePath, Path outputPath) throws IOException {
@@ -170,6 +174,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code is} into {@code outputPath}.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void unzip(InputStream is, Path outputPath) throws IOException {
@@ -200,6 +205,7 @@ public class FileUtil {
 
     /**
      * Copies the template files from {@code sourcePath} to the {@code outputPath}.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyTemplate(InputStream is, String outputPath) throws IOException {
@@ -208,6 +214,7 @@ public class FileUtil {
 
     /**
      * Copies files from {@code sourcePath} to the {@code outputPath}.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyDirectoryContents(String sourcePath, String outputPath) throws IOException {
@@ -217,6 +224,7 @@ public class FileUtil {
     /**
      * Copies files from {@code sourcePath} to the {@code outputPath}.
      * If {@code whiteList} is provided, only filenames specified by the whitelist will be copied.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyDirectoryContents(String sourcePath, String outputPath, List<String> whiteList)
