@@ -84,7 +84,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
         config.setIgnoreCommitList(
                 Collections.singletonList(
-                new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
+                        new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assert.assertEquals(commitResultsShort, commitResultsFull);

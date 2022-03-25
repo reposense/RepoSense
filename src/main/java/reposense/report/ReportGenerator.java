@@ -1,7 +1,5 @@
 package reposense.report;
 
-import static org.apache.commons.text.StringEscapeUtils.escapeHtml4;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -65,8 +63,6 @@ public class ReportGenerator {
 
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
-    private static final String INDEX_PAGE_TEMPLATE = "index.html";
-    private static final String INDEX_PAGE_DEFAULT_TITLE = "<title>reposense</title>";
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
@@ -82,6 +78,8 @@ public class ReportGenerator {
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
+    private static final String MESSAGE_MISSING_TEMPLATE =
+            "Unable to find template file. Proceeding to generate report...";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
@@ -124,7 +122,7 @@ public class ReportGenerator {
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone) throws IOException {
-        prepareTemplateFile(reportConfig, outputPath);
+        prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
         }
@@ -152,26 +150,16 @@ public class ReportGenerator {
 
     /**
      * Copies the template file to the specified {@code outputPath} for the repo report to be generated.
-     * @throws IOException if template resource is not found.
+     *
+     * @throws IOException if I/O error encountered while copying template file.
      */
-    private static void prepareTemplateFile(ReportConfiguration config, String outputPath) throws IOException {
+    private static void prepareTemplateFile(String outputPath) throws IOException {
         InputStream is = RepoSense.class.getResourceAsStream(TEMPLATE_FILE);
-        FileUtil.copyTemplate(is, outputPath);
-        setReportConfiguration(config, outputPath);
-    }
-
-    private static void setReportConfiguration(ReportConfiguration config, String outputPath) throws IOException {
-        setLandingPageTitle(outputPath, config.getTitle());
-    }
-
-    /**
-     * Set title of template file located at {@code filePath} to {@code pageTitle}
-     */
-    private static void setLandingPageTitle(String filePath, String pageTitle) throws IOException {
-        Path indexPagePath = Paths.get(filePath, INDEX_PAGE_TEMPLATE);
-        String line = new String(Files.readAllBytes(indexPagePath));
-        String newLine = line.replaceAll(INDEX_PAGE_DEFAULT_TITLE, "<title>" + escapeHtml4(pageTitle) + "</title>");
-        Files.write(indexPagePath, newLine.getBytes());
+        if (is != null) {
+            FileUtil.copyTemplate(is, outputPath);
+        } else {
+            logger.warning(MESSAGE_MISSING_TEMPLATE);
+        }
     }
 
     /**
@@ -314,7 +302,7 @@ public class ReportGenerator {
                     configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
-                GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
+                GitClone.cloneFromBareAndUpdateBranch(Paths.get("."), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
                 generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
@@ -349,6 +337,7 @@ public class ReportGenerator {
 
     /**
      * Analyzes repo specified by {@code config} and generates the report.
+     *
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      */
     private static List<Path> analyzeRepo(RepoConfiguration config, String repoReportDirectory)
@@ -467,6 +456,7 @@ public class ReportGenerator {
 
     /**
      * Generates a report at the {@code repoReportDirectory}.
+     *
      * @return A list of paths to the JSON report files generated for this empty report.
      */
     private static List<Path> generateEmptyRepoReport(String repoReportDirectory, String displayName) {
@@ -483,6 +473,7 @@ public class ReportGenerator {
 
     /**
      * Generates a report for a single repository at {@code repoReportDirectory}.
+     *
      * @return A list of paths to the JSON report files generated for this report.
      */
     private static List<Path> generateIndividualRepoReport(String repoReportDirectory,

@@ -1,7 +1,12 @@
-import Vue from 'vue';
+import { createApp } from 'vue';
 import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import hljs from 'highlight.js';
+import 'muicss/dist/css/mui.min.css';
+import 'normalize.css/normalize.css';
+import 'vue-loading-overlay/dist/vue-loading.css';
+import 'highlight.js/styles/color-brewer.css';
+import '@fontsource/titillium-web';
 
 // Need to import for side effects
 import './utils/api';
@@ -12,10 +17,11 @@ import App from './app.vue';
 import store from './store/store';
 
 dom.watch();
-Vue.component('font-awesome-icon', FontAwesomeIcon);
-// app.use(hljs.vuePlugin);
-Vue.directive('hljs', {
-  mounted(ele, binding) {
+
+const app = createApp(App);
+
+app.directive('hljs', {
+  mounted: (ele, binding) => {
     const element = ele;
     element.className = binding.value.split('.').pop();
 
@@ -23,7 +29,7 @@ Vue.directive('hljs', {
   },
 });
 
-new Vue({
-  render: (h) => h(App),
-  store,
-}).$mount('#app');
+app.component('font-awesome-icon', FontAwesomeIcon);
+app.use(store);
+
+app.mount('#app');

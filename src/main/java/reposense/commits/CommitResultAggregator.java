@@ -148,6 +148,7 @@ public class CommitResultAggregator {
 
     /**
      * Get the earliest commit date from {@code commitInfos}.
+     *
      * @return First commit date if there is at least one {@code CommitResult}. Otherwise, return
      * the {@code ARBITRARY_FIRST_COMMIT_DATE} converted to the timezone given by {@code zoneId}.
      */

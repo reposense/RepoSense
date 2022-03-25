@@ -17,11 +17,12 @@ import reposense.authorship.model.FileResult;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
 import reposense.model.CommitHash;
+import reposense.model.FileType;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
-
 public class FileAnalyzerTest extends GitTestTemplate {
+
     private static final LocalDateTime BLAME_TEST_SINCE_DATE =
             TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 6);
     private static final LocalDateTime BLAME_TEST_UNTIL_DATE =
@@ -49,6 +50,11 @@ public class FileAnalyzerTest extends GitTestTemplate {
             TestUtil.getSinceDate(2017, Month.JANUARY.getValue(), 1);
     private static final LocalDateTime ANALYZE_BINARY_FILES_UNTIL_DATE =
             TestUtil.getUntilDate(2020, Month.JANUARY.getValue(), 1);
+    private static final LocalDateTime ANALYZE_FILES_EMPTY_EMAIL_COMMIT_SINCE_DATE =
+            TestUtil.getSinceDate(2022, Month.FEBRUARY.getValue(), 10);
+    private static final LocalDateTime ANALYZE_FILES_EMPTY_EMAIL_COMMIT_UNTIL_DATE =
+            TestUtil.getUntilDate(2022, Month.FEBRUARY.getValue(), 14);
+
     private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
 
     private static final Author[] EXPECTED_LINE_AUTHORS_BLAME_TEST = {
@@ -150,7 +156,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
         config.setIgnoreCommitList(
                 Collections.singletonList(
-                new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
+                        new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoShort);
 
         Assert.assertEquals(fileInfoFull, fileInfoShort);
@@ -345,5 +351,23 @@ public class FileAnalyzerTest extends GitTestTemplate {
         for (FileInfo binaryFileInfo: binaryFileInfos) {
             Assert.assertNull(FileInfoAnalyzer.analyzeBinaryFile(config, binaryFileInfo));
         }
+    }
+
+    @Test
+    public void analyzeFile_filesWithEmptyEmailCommit_success() {
+        config.setSinceDate(ANALYZE_FILES_EMPTY_EMAIL_COMMIT_SINCE_DATE);
+        config.setUntilDate(ANALYZE_FILES_EMPTY_EMAIL_COMMIT_UNTIL_DATE);
+        config.setBranch("1636-FileAnalyzerTest-analyzeFile_filesWithEmptyEmailCommit_success");
+        config.setAuthorList(Arrays.asList(new Author("chan-j-d")));
+        List<String> relevantFileFormats = Arrays.asList("txt", "png");
+        config.setFormats(FileType.convertFormatStringsToFileTypes(relevantFileFormats));
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+
+        List<FileInfo> fileInfos = FileInfoExtractor.extractTextFileInfos(config);
+        FileInfo textFileInfo = fileInfos.get(0);
+        FileInfo binaryFileInfo = new FileInfo("empty-email-commit-binary-file.png");
+
+        Assert.assertNotNull(FileInfoAnalyzer.analyzeTextFile(config, textFileInfo));
+        Assert.assertNotNull(FileInfoAnalyzer.analyzeBinaryFile(config, binaryFileInfo));
     }
 }
