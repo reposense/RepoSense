@@ -151,6 +151,7 @@ public class ReportGenerator {
 
     /**
      * Copies the template file to the specified {@code outputPath} for the repo report to be generated.
+     *
      * @throws IOException if I/O error encountered while copying template file.
      */
     private static void prepareTemplateFile(String outputPath) throws IOException {
@@ -301,7 +302,7 @@ public class ReportGenerator {
                             + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
-                GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
+                GitClone.cloneFromBareAndUpdateBranch(Paths.get("."), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
                 generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
@@ -336,6 +337,7 @@ public class ReportGenerator {
 
     /**
      * Analyzes repo specified by {@code config} and generates the report.
+     *
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      */
     private static List<Path> analyzeRepo(
@@ -454,6 +456,7 @@ public class ReportGenerator {
 
     /**
      * Generates a report at the {@code repoReportDirectory}.
+     *
      * @return A list of paths to the JSON report files generated for this empty report.
      */
     private static List<Path> generateEmptyRepoReport(String repoReportDirectory, String displayName) {
@@ -470,6 +473,7 @@ public class ReportGenerator {
 
     /**
      * Generates a report for a single repository at {@code repoReportDirectory}.
+     *
      * @return A list of paths to the JSON report files generated for this report.
      */
     private static List<Path> generateIndividualRepoReport(

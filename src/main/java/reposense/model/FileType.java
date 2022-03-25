@@ -51,6 +51,7 @@ public class FileType {
 
     /**
      * Ensures that the string {@code label} is a valid file type.
+     *
      * @throws IllegalArgumentException if {@code label} is an empty string.
      */
     public static void validateFileTypeLabel(String label) {
@@ -61,6 +62,7 @@ public class FileType {
 
     /**
      * Ensures that {@code format} is a valid file format.
+     *
      * @throws IllegalArgumentException if {@code format} is not alphanumeric.
      */
     public static void validateFileFormat(String format) throws IllegalArgumentException {

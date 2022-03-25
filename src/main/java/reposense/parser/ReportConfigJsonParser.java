@@ -24,6 +24,7 @@ public class ReportConfigJsonParser extends JsonParser<ReportConfiguration> {
 
     /**
      * Converts json file from the given {@code path} and returns a {@code ReportConfiguration} object.
+     *
      * @throws IOException if {@code path} is invalid.
      */
     @Override

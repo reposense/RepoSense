@@ -224,6 +224,7 @@ public abstract class CsvParser<T> {
 
     /**
      * Generates map of column header to position number for input {@code possibleHeader}.
+     *
      * @throws InvalidCsvException if {@code possibleHeader} does not contain all the mandatory headers.
      */
     private void validateHeader(String[] possibleHeader) throws InvalidCsvException, InvalidHeaderException {
