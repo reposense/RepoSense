@@ -229,8 +229,10 @@ public class FileInfoExtractor {
     /**
      * Returns the starting line changed number, within the file diff result, by matching the pattern inside
      * {@code linesChanged}.
+     *
+     * @throws AssertionError if matching line number pattern in chunk header fails.
      */
-    private static int getStartingLineNumber(String linesChanged) {
+    private static int getStartingLineNumber(String linesChanged) throws AssertionError {
         Matcher chunkHeaderMatcher = STARTING_LINE_NUMBER_PATTERN.matcher(linesChanged);
 
         if (!chunkHeaderMatcher.find()) {

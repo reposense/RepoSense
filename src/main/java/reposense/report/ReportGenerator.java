@@ -390,8 +390,10 @@ public class ReportGenerator {
 
     /**
      * Updates {@code config} with configuration provided by repository if exists.
+     *
+     * @throws AssertionError if there is a problem with the file existence check.
      */
-    public static void updateRepoConfig(RepoConfiguration config) {
+    public static void updateRepoConfig(RepoConfiguration config) throws AssertionError {
         Path configJsonPath =
                 Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 

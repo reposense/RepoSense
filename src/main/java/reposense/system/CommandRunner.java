@@ -12,8 +12,10 @@ public class CommandRunner {
 
     /**
      * Spawns a backend terminal process, with working directory at {@code path}, to execute the {@code command}.
+     *
+     * @throws RuntimeException if an exception happens while executing the {@code command}.
      */
-    public static String runCommand(Path path, String command) {
+    public static String runCommand(Path path, String command) throws RuntimeException {
         CommandRunnerProcess crp = spawnCommandProcess(path, command);
         try {
             return crp.waitForProcess();
@@ -33,8 +35,10 @@ public class CommandRunner {
     /**
      * Spawns a {@link CommandRunnerProcess} to execute {@code command}, with working directory at {@code path}.
      * Does not wait for process to finish executing.
+     *
+     * @throws RuntimeException if an error happens while attempting to spawn the process.
      */
-    private static CommandRunnerProcess spawnCommandProcess(Path path, String command) {
+    private static CommandRunnerProcess spawnCommandProcess(Path path, String command) throws RuntimeException {
         ProcessBuilder pb = null;
         if (SystemUtil.isWindows()) {
             pb = new ProcessBuilder()
