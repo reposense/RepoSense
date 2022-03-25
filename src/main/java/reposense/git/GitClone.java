@@ -137,6 +137,7 @@ public class GitClone {
 
     /**
      * Clones a bare repo specified in {@code config} into the folder {@code outputFolderName}.
+     *
      * @throws IOException if it fails to delete a directory.
      */
     public static void cloneBare(RepoConfiguration config, Path rootPath,
@@ -155,6 +156,7 @@ public class GitClone {
     /**
      * Performs a full clone from {@code clonedBareRepoLocation} into the folder {@code outputFolderName} and
      * directly branches out to {@code targetBranch}.
+     *
      * @throws IOException if it fails to delete a directory.
      * @throws GitCloneException when an error occurs during command execution.
      */

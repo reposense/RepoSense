@@ -62,7 +62,7 @@ run {
 }
 
 checkstyle {
-    toolVersion = '8.1'
+    toolVersion = '9.3'
     getConfigDirectory().set(file("$rootProject.projectDir/config/checkstyle"))
 }
 
@@ -136,6 +136,15 @@ def zipReport = tasks.register('zipReport', Zip) {
 }
 
 def compileJava = tasks.compileJava
+def checkstyleMain = tasks.checkstyleMain
+def checkstyleTest = tasks.checkstyleTest
+def checkstyleSystemtest = tasks.checkstyleSystemtest
+
+tasks.register('checkstyleAll', Checkstyle) {
+    dependsOn checkstyleMain, checkstyleTest, checkstyleSystemtest
+    tasks.checkstyleTest.mustRunAfter('checkstyleMain')
+    tasks.checkstyleSystemtest.mustRunAfter('checkstyleTest')
+}
 
 tasks.shadowJar.dependsOn(zipReport);
 tasks.compileJava.dependsOn(zipReport);

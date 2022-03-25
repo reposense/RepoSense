@@ -23,6 +23,7 @@ public class StandaloneConfigJsonParser extends JsonParser<StandaloneConfig> {
 
     /**
      * Converts json file from the given {@code path} and returns a {@code StandaloneConfig} object.
+     *
      * @throws IOException if {@code path} is invalid.
      */
     @Override
