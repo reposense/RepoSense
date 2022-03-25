@@ -302,7 +302,7 @@ public class ReportGenerator {
                             + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
-                GitClone.cloneFromBareAndUpdateBranch(Paths.get(FileUtil.REPOS_ADDRESS), configToAnalyze);
+                GitClone.cloneFromBareAndUpdateBranch(Paths.get("."), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
                 generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
