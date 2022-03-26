@@ -52,4 +52,8 @@ To ensure that their PRs are correct, you can use [Netlify _deploy previews_](ht
 2\. To have more precise control over which code segment is attributed to which author, authors can annotate their code using `@@author` tags, as explained below.
   {{ embed("Appendix: **Using `@@author` tags**", "usingAuthorTags.md") }}
 
+<box type="info" seamless>
+
 In both instances, it is **necessary to commit any changes** for them to be detected by RepoSense.
+
+</box>

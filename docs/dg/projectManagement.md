@@ -32,7 +32,7 @@ Before making a release, please check the following prerequisites:
     1. Switch to the local `release` branch, and merge the `master` branch into it with `git merge master --no-ff` (no fast forward to keep the commit history for releases).
     1. Push the local `release` branch directly to the [upstream `release` branch](https://github.com/reposense/RepoSense/tree/release) (make sure you have the push access).
     
-To make a release for RepoSense on GitHub, please follow the `Creating a release` section in the [Github Docs](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository).<br>
+To make a release for RepoSense on GitHub, please follow the `Creating a release` section in the [GitHub Docs](https://docs.github.com/en/github/administering-a-repository/managing-releases-in-a-repository).<br>
 
 Take note of the following when making the release according to the above guide:
 * When entering a release version number, use semantic versioning with some small tweaks:
