@@ -18,7 +18,7 @@ import reposense.model.AuthorConfiguration;
  * will be analyzed. Otherwise, the line will be ignored and treated as normal lines.
  * If the line is analyzed, and the string following the author tag is a valid git id, and there is no author config
  * file, then the code will be attributed to the author with that git id. Otherwise, the code will be attributed to
- * unknown author
+ * unknown author.
  */
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
@@ -92,7 +92,7 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Extracts the name that follows the specific format.
+     * Extracts the {@link Author} name that follows the specific format from {@code line} at {@code formatIndex}.
      *
      * @param line Line to extract the author's name from.
      * @return An optional string containing the author's name.
@@ -110,6 +110,10 @@ public class AnnotatorAnalyzer {
                 .filter(trimmedParameters -> PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters).find());
     }
 
+    /**
+     * Generates regex for valid comment formats in which author tag is found, with {@code REGEX_AUTHOR_TAG_FORMAT}
+     * flanked by {@code commentStart} and {@code commentEnd}.
+     */
     private static String generateCommentRegex(String commentStart, String commentEnd) {
         return "^[\\s]*" + commentStart + "[\\s]*" + REGEX_AUTHOR_TAG_FORMAT + "[\\s]*(" + commentEnd + ")?[\\s]*$";
     }

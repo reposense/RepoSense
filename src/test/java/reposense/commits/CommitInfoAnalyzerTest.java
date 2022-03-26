@@ -434,7 +434,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     /**
-     * Returns a {@code LocalDateTime} from a string {@code gitStrictIsoDate}.
+     * Returns a {@link LocalDateTime} from a string {@code gitStrictIsoDate}.
      */
     private LocalDateTime parseGitStrictIsoDate(String gitStrictIsoDate) throws Exception {
         return ZonedDateTime.parse(gitStrictIsoDate, CommitInfoAnalyzer.GIT_STRICT_ISO_DATE_FORMAT)
