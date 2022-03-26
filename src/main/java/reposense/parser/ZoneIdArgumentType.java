@@ -9,7 +9,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.ArgumentType;
 
 /**
- * Verifies and parses a string-formatted zone id to a {@code ZoneId} object.
+ * Verifies and parses a string-formatted zone id to a {@link ZoneId} object.
  */
 public class ZoneIdArgumentType implements ArgumentType<ZoneId> {
     private static final String MESSAGE_TIMEZONE_INVALID =

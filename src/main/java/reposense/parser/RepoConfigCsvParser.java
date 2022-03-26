@@ -1,6 +1,6 @@
 package reposense.parser;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String SHALLOW_CLONING_CONFIG_HEADER = "Shallow Cloning";
     private static final String FIND_PREVIOUS_AUTHORS_CONFIG_HEADER = "Find Previous Authors";
 
-    public RepoConfigCsvParser(Path csvFilePath) throws IOException {
+    public RepoConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
     }
 
@@ -60,9 +60,11 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     }
 
     /**
-     * Processes the csv file line by line and add created {@code RepoConfiguration} into {@code results} but
-     * ignores duplicated {@code RepoConfiguration} if there exists one that has same {@code location} and
+     * Processes the csv {@code record} line by line and add created {@link RepoConfiguration} into {@code results} but
+     * ignores duplicated {@link RepoConfiguration} if there exists one that has same {@code location} and
      * {@code branch}.
+     *
+     * @throws InvalidLocationException if the location represented in {@code record} is invalid.
      */
     @Override
     protected void processLine(List<RepoConfiguration> results, CSVRecord record) throws InvalidLocationException {

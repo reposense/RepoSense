@@ -46,6 +46,7 @@ public class RepoSense {
 
     /**
      * The entry point of the program.
+     * Additional flags are provided by the user in {@code args}.
      */
     public static void main(String[] args) {
         try {
@@ -109,10 +110,11 @@ public class RepoSense {
     }
 
     /**
-     * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code ConfigCliArguments}.
+     * Constructs a list of {@link RepoConfiguration} if {@code cliArguments} is a {@link ConfigCliArguments}.
      *
-     * @throws IOException if user-supplied csv file does not exists or is not readable.
+     * @throws IOException if user-supplied csv file does not exist or is not readable.
      * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
+     * @throws InvalidHeaderException if user-supplied csv file has header that cannot be parsed.
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments) throws IOException,
             InvalidCsvException, InvalidHeaderException {
@@ -147,7 +149,7 @@ public class RepoSense {
     }
 
     /**
-     * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code LocationsCliArguments}.
+     * Constructs a list of {@link RepoConfiguration} if {@code cliArguments} is a {@link LocationsCliArguments}.
      *
      * @throws ParseException if all repo locations are invalid.
      */

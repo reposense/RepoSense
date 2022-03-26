@@ -25,7 +25,10 @@ public class GitShow {
     private static final Logger logger = LogsManager.getLogger(GitShow.class);
 
     /**
-     * Returns expanded form of the commit hash associated with the {@code shortCommitHash}
+     * Returns expanded form of the {@link CommitHash} associated with the {@code shortCommitHash}, with
+     * the {@link Path} given by {@code root} as the working directory.
+     *
+     * @throws CommitNotFoundException if there is no commit associated with {@code shortCommitHash}.
      */
     public static CommitHash getExpandedCommitHash(String root, String shortCommitHash) throws CommitNotFoundException {
         Path rootPath = Paths.get(root);
@@ -48,7 +51,12 @@ public class GitShow {
     }
 
     /**
-     * Returns date of commit associated with commit hash.
+     * Returns {@link LocalDateTime} of the commit associated with commit hash, with {@link Path} given by {@code root}
+     * as the working directory.
+     *
+     * @throws CommitNotFoundException if no commit exists for the given {@code commitHash}.
+     * @throws ParseException if the date string for the given {@code commitHash} could not be parsed into
+     * a {@link LocalDateTime} object.
      */
     public static LocalDateTime getCommitDate(String root, String commitHash) throws CommitNotFoundException,
             ParseException {
@@ -64,7 +72,11 @@ public class GitShow {
     }
 
     /**
-     * Returns date of earliest commit out of the input list of commits.
+     * Returns {@link LocalDateTime} of the earliest commit out of the input list of commits in {@code commitHashes},
+     * with the {@code root} string denoting the working directory.
+     *
+     * @throws CommitNotFoundException if no commit exists for a given hash in {@code commitHashes}
+     * or if no date string was successfully parsed to a {@link LocalDateTime} for earliest date.
      */
     public static LocalDateTime getEarliestCommitDate(String root, List<String> commitHashes)
             throws CommitNotFoundException {
