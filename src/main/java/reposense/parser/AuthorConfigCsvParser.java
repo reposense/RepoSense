@@ -1,6 +1,6 @@
 package reposense.parser;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     private static final String ALIAS_HEADER = "Author's Git Author Name";
     private static final String IGNORE_GLOB_LIST_HEADER = "Ignore Glob List";
 
-    public AuthorConfigCsvParser(Path csvFilePath) throws IOException {
+    public AuthorConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
     }
 
@@ -54,13 +54,12 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     }
 
     /**
-     * Processes the csv file line by line and add created {@code AuthorConfiguration} into {@code results} but
-     * skips {@code author} already exists in a {@code AuthorConfiguration} that has same {@code location} and
-     * {@code branch}.
+     * Processes the csv {@code record} line by line and add created {@link AuthorConfiguration} into {@code results}
+     * but skips {@code author} already exists in a {@link AuthorConfiguration} that has same {@code location}
+     * and {@code branch}.
      */
     @Override
-    protected void processLine(List<AuthorConfiguration> results, CSVRecord record)
-            throws ParseException {
+    protected void processLine(List<AuthorConfiguration> results, CSVRecord record) throws ParseException {
         String location = get(record, LOCATION_HEADER);
         String branch = getOrDefault(record, BRANCH_HEADER, AuthorConfiguration.DEFAULT_BRANCH);
         String gitHubId = get(record, GITHUB_ID_HEADER);
@@ -94,13 +93,13 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
 
     /**
-     * Gets an existing {@code AuthorConfiguration} from {@code results} if {@code location} and {@code branch} matches.
-     * Otherwise adds a newly created {@code AuthorConfiguration} into {@code results} and returns it.
+     * Gets an existing {@link AuthorConfiguration} from {@code results} if {@code location} and {@code branch} matches.
+     * Otherwise, adds a newly created {@link AuthorConfiguration} into {@code results} and returns it.
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
-    private static AuthorConfiguration findMatchingAuthorConfiguration(
-            List<AuthorConfiguration> results, String location, String branch) throws InvalidLocationException {
+    private static AuthorConfiguration findMatchingAuthorConfiguration(List<AuthorConfiguration> results,
+            String location, String branch) throws InvalidLocationException {
         AuthorConfiguration config = new AuthorConfiguration(new RepoLocation(location), branch);
 
         for (AuthorConfiguration authorConfig : results) {

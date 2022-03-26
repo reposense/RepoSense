@@ -8,7 +8,7 @@ import reposense.model.Author;
 import reposense.model.FileType;
 
 /**
- * Stores the result from analyzing a {@code FileInfo}.
+ * Stores the result from analyzing a {@link FileInfo}.
  */
 public class FileResult {
     private final String path;

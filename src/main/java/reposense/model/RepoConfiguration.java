@@ -130,8 +130,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Merges a {@code RepoConfiguration} from {@code repoConfigs} with an {@code AuthorConfiguration} from
-     * {@code authorConfigs} if their {@code RepoLocation} and branch matches
+     * Merges a {@link RepoConfiguration} from {@code repoConfigs} with an {@link AuthorConfiguration} from
+     * {@code authorConfigs} if their {@link RepoLocation} and branch matches.
      */
     public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
         for (AuthorConfiguration authorConfig : authorConfigs) {
@@ -198,11 +198,11 @@ public class RepoConfiguration {
     }
 
     /**
-     * Iterates through {@code repoConfigs} to find a {@code RepoConfiguration} with {@code RepoLocation} and branch
+     * Iterates through {@code repoConfigs} to find a {@link RepoConfiguration} with {@link RepoLocation} and branch
      * that matches {@code authorConfig}. Returns {@code null} if no match is found.
      */
-    private static RepoConfiguration getMatchingRepoConfig(
-            List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
+    private static RepoConfiguration getMatchingRepoConfig(List<RepoConfiguration> repoConfigs,
+            AuthorConfiguration authorConfig) {
         if (authorConfig.isDefaultBranch()) {
             return null;
         }
@@ -216,16 +216,17 @@ public class RepoConfiguration {
     }
 
     /**
-     * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} matches {@code targetRepoLocation}.
+     * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} of a {@link RepoConfiguration}
+     * in the list of {@code configs} matches {@code targetRepoLocation}.
      */
-    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(
-            List<RepoConfiguration> configs, RepoLocation targetRepoLocation) {
+    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(List<RepoConfiguration> configs,
+            RepoLocation targetRepoLocation) {
         return configs.stream().filter(config -> config.getLocation().equals(targetRepoLocation))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
+     * Sets {@code formats} to {@link RepoConfiguration} in {@code configs} if its format list is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<FileType> formats) {
         for (RepoConfiguration config : configs) {
@@ -236,22 +237,25 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets each {@code RepoConfiguration} in {@code configs} to ignore its standalone config, if
+     * Sets each {@link RepoConfiguration} in {@code configs} to ignore its standalone config, if
      * {@code ignoreAllStandaloneConfigs} is true.
      */
-    public static void setStandaloneConfigIgnoredToRepoConfigs(
-            List<RepoConfiguration> configs, boolean ignoreAllStandaloneConfigs) {
+    public static void setStandaloneConfigIgnoredToRepoConfigs(List<RepoConfiguration> configs,
+            boolean ignoreAllStandaloneConfigs) {
         if (ignoreAllStandaloneConfigs) {
             configs.forEach(config -> config.setStandaloneConfigIgnored(true));
         }
     }
 
+    /**
+     * Checks if any of the {@code configs} is finding previous authors for commit analysis.
+     */
     public static boolean isAnyRepoFindingPreviousAuthors(List<RepoConfiguration> configs) {
         return configs.stream().anyMatch(RepoConfiguration::isFindingPreviousAuthorsPerformed);
     }
 
     /**
-     * Clears existing information related to this repository and its authors, and replaces it with information from the
+     * Clears existing information related to this repository and its authors, and replaces it with information from
      * {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
@@ -278,8 +282,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Attempts to find matching {@code Author} given a name and an email.
-     * If no matching {@code Author} is found, {@code Author#UNKNOWN_AUTHOR} is returned.
+     * Returns the matching {@link Author} given a {@code name} and an {@code email}.
+     * If no matching {@link Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
         return authorConfig.getAuthor(name, email);
@@ -296,6 +300,8 @@ public class RepoConfiguration {
 
     /**
      * Gets the current branch and updates branch with current branch if default branch is specified.
+     *
+     * @throws GitBranchException if current branch cannot be retrieved.
      */
     public void updateBranch() throws GitBranchException {
         if (branch.equals(DEFAULT_BRANCH)) {
@@ -374,16 +380,14 @@ public class RepoConfiguration {
     }
 
     /**
-     * Updates the branch in the {@code displayName} to the
-     * current {@code branch}.
+     * Updates the branch in the {@code displayName} to the current {@code branch}.
      */
     public void updateDisplayName(String branch) {
         this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
     }
 
     /**
-     * Updates the branch in the {@code outputFolderName} to the
-     * current {@code branch}.
+     * Updates the branch in the {@code outputFolderName} to the current {@code branch}.
      */
     public void updateOutputFolderName(String branch) {
         this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch;
@@ -473,7 +477,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Clears authors information and sets the {@code authorList} to {@code RepoConfiguration}.
+     * Clears authors information and sets the {@code authorList} to {@link RepoConfiguration}.
      */
     public void setAuthorList(List<Author> authorList) {
         authorConfig.clear();
