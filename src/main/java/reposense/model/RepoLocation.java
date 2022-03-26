@@ -123,6 +123,8 @@ public class RepoLocation {
     /**
      * Returns a best-guess repo name and organization from the given local repo {@code location}.
      * The return is a length-2 string array with the repo name at index 0 and organization at index 1.
+     *
+     * @throws InvalidLocationException if the location specified is not a proper local repository.
      */
     private String[] getLocalRepoNameAndOrg(String location) throws InvalidLocationException {
         boolean isWindows = SystemUtil.isWindows();
@@ -150,6 +152,8 @@ public class RepoLocation {
     /**
      * Returns a best-guess repo name and organization from the given remote repo {@code location}.
      * The return is a length-2 string array with the repo name at index 0 and organization at index 1.
+     *
+     * @throws InvalidLocationException if the location specified is not a proper remote repository.
      */
     private String[] getRemoteRepoNameAndOrg(String location) throws InvalidLocationException {
         Matcher remoteRepoMatcher = GIT_REPOSITORY_LOCATION_PATTERN.matcher(location);
@@ -196,6 +200,8 @@ public class RepoLocation {
     /**
      * Returns the domain name of the URL from the {@code matcher} if it is one of the recognised ones.
      * Returns {@code UNRECOGNISED_DOMAIN_NAME} if it is a local repo or not recognised.
+     *
+     * @throws InvalidLocationException if the domain specified is not a proper domain name.
      */
     public static String getDomainNameFromDomain(String domain) throws InvalidLocationException {
         Matcher domainNameMatcher = DOMAIN_NAME_PATTERN.matcher(domain);
