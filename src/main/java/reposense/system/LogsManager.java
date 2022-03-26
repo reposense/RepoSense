@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 /**
- * Configures and manages the loggers and handlers, including their levels
+ * Configures and manages the loggers and handlers, including their levels.
  */
 public class LogsManager {
 
@@ -50,7 +50,7 @@ public class LogsManager {
     }
 
     /**
-     * Creates a {@code Logger} for the given class name.
+     * Creates a {@link Logger} for the given {@code clazz} name.
      */
     public static <T> Logger getLogger(Class<T> clazz) {
         if (clazz == null) {
@@ -60,8 +60,8 @@ public class LogsManager {
     }
 
     /**
-     * Adds the Console Handler to the {@code logger}.
-     * Creates the Console Handler if it is null.
+     * Adds the {@link ConsoleHandler} to the {@code logger}.
+     * Creates the {@link ConsoleHandler} if it is null.
      */
     private static void addConsoleHandler(Logger logger) {
         if (consoleHandler == null) {
@@ -81,8 +81,8 @@ public class LogsManager {
     }
 
     /**
-     * Adds the File Handler to the {@code logger}.
-     * Creates File Handler if it is null.
+     * Adds the {@link FileHandler} to the {@code logger}.
+     * Creates {@link FileHandler} if it is null.
      */
     private static void addFileHandler(Logger logger) {
         Path path = logFolderLocation.resolve(LOG_FOLDER_NAME);
@@ -103,7 +103,7 @@ public class LogsManager {
     }
 
     /**
-     * Creates a {@code FileHandler} for the log file.
+     * Creates a {@link FileHandler} for the log file.
      *
      * @throws IOException if there are problems opening the file.
      */
@@ -116,7 +116,7 @@ public class LogsManager {
     }
 
     /**
-     * Creates a {@code ConsoleHandler} to output the log to console.
+     * Creates a {@link ConsoleHandler} to output the log to console.
      */
     private static ConsoleHandler createConsoleHandler() {
         ConsoleHandler consoleHandler = new ConsoleHandler();
