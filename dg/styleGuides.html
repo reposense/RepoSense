@@ -34,7 +34,69 @@
 </span><span>        : commitInfos.get(0).getTime();
 </span></code></pre><p>To preserve readability, it is recommended that if-else blocks should only be
 converted to ternary operators if the resultant code can be kept at most 3 lines long
-(in accordance to the coding standard).</p> <i id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true" class="fa fa-arrow-circle-up fa-lg d-print-none"></i></div></div> <footer><div class="text-center"><small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 3.1.1</a>, generated on Fri, Mar 25, 2022, 10:23:49 AM UTC]</small></div></footer></div>
+(in accordance to the coding standard).</p> <h2 id="additional-javadoc-requirements"><span id="additional-javadoc-requirements" class="anchor"></span>Additional Javadoc requirements:<a href="#additional-javadoc-requirements" onclick="event.stopPropagation()" class="fa fa-anchor"></a></h2> <p>In addition to what has been mentioned in the <a href="https://se-education.org/guides/conventions/java/index.html"><strong>Java</strong> coding standard (SE-EDU)</a> and <a href="https://google.github.io/styleguide/javaguide.html"><strong>Google Java Style Guide</strong></a>, we also stipulate the following standards for Javadoc:</p> <ul><li>If Javadoc is written for a method, all input parameters should be described in the Javadoc, either in the description with <code class="hljs inline no-lang">@code tags</code> or through <code class="hljs inline no-lang">@param</code> block tags.
+<ul><li>If <code class="hljs inline no-lang">@param</code> block tags are used, they must be used for all parameters.</li> <li>This is not necessary (although still recommended) for methods with <code class="hljs inline no-lang">@Override</code> annotations if Javadoc is used. However, if the method that is being overriden is part of your code and has Javadoc, all parameters must be described.</li></ul></li></ul> <p>Negative Examples:</p> <pre><code class="hljs"><span>Not okay (Only mentions zoneId parameter):
+</span><span>/**
+</span><span> * Returns a {@link LocalDateTime} object adjusted for timezone given by {@code zoneId}.
+</span><span> */
+</span><span>public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
+</span><span>    //Code here
+</span><span>}
+</span><span>
+</span><span>Not okay (@param tag used only for zoneId)
+</span><span>/**
+</span><span> * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
+</span><span> * to the timezone given by {@code zoneId}.
+</span><span> *
+</span><span> * @param zoneId The timezone ID to adjust the sinceDate to.
+</span><span> */
+</span><span>public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
+</span><span>    //Code here
+</span><span>}
+</span></code></pre><p>Positive Example #1:</p> <pre><code class="hljs"><span>Okay (No @param tags):
+</span><span>/**
+</span><span> * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
+</span><span> * to the timezone given by {@code zoneId}.
+</span><span> */
+</span><span>public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
+</span><span>    //Code here
+</span><span>}
+</span></code></pre><p>Positive Example #2:</p> <pre><code class="hljs"><span>Okay (@param tags used for all inputs):
+</span><span>/**
+</span><span> * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
+</span><span> * to the timezone given by {@code zoneId}.
+</span><span> * 
+</span><span> * @param sinceDate The date prior to the timezone conversion.
+</span><span> * @param zoneId The timezone ID to adjust the sinceDate to.
+</span><span> */
+</span><span>public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
+</span><span>    //Code here
+</span><span>}
+</span></code></pre><ul><li>Within the main code, if an exception is thrown in a method (both header and body) for which Javadoc is written, a <code class="hljs inline no-lang">@throws</code> tag must be used to describe how the exception is likely to arise.
+<ul><li>This requirement does not apply to test code.</li> <li>One <code class="hljs inline no-lang">@throws</code> tag per unique exception.</li> <li>The order of exceptions in the <code class="hljs inline no-lang">@throws</code> tag block should match that of the method's <code class="hljs inline no-lang">throws</code> statement.</li></ul></li></ul> <pre><code class="hljs"><span>Not okay (order of exceptions in tag block and method signature do not match):
+</span><span>/**
+</span><span> * Returns a {@link LocalDateTime} object from {@code dateString}.
+</span><span> * 
+</span><span> * @throws ParseException if {@code dateString} cannot be parsed.
+</span><span> * @throws NullPointerException if {@code dateString} is null.
+</span><span> */
+</span><span>public LocalDateTime parseDate(String dateString) throws NullPointerException, ParseException {
+</span><span>    String trimmedString = dateString.toUpperCase(); // NullPointerException may happen here.
+</span><span>    // Code here
+</span><span>}
+</span><span>
+</span><span>Should be:
+</span><span>/**
+</span><span> * Returns a {@link LocalDateTime} object from {@code dateString}.
+</span><span> * 
+</span><span> * @throws NullPointerException if {@code dateString} is null.
+</span><span> * @throws ParseException if {@code dateString} cannot be parsed.
+</span><span> */
+</span><span>public LocalDateTime parseDate(String dateString) throws NullPointerException, ParseException {
+</span><span>    String trimmedString = dateString.toUpperCase(); // NullPointerException may happen here.
+</span><span>    // Code here
+</span><span>}
+</span></code></pre> <i id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true" class="fa fa-arrow-circle-up fa-lg d-print-none"></i></div></div> <footer><div class="text-center"><small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 3.1.1</a>, generated on Sat, Mar 26, 2022, 2:22:18 AM UTC]</small></div></footer></div>
 </body><script src="../markbind/js/bootstrap-utility.min.js"></script>
 <script>
   MarkBind.setupWithSearch()
