@@ -72,12 +72,6 @@ This task automates the cleaning up of the pull requests by automatically markin
 
 <!-- ==================================================================================================== -->
 
-## Appveyor
-
-[Appveyor](https://ci.appveyor.com/project/eugenepeh/reposense) is another platform used for running continuous integration tasks on both commits and pull requests, primarily used for running the test suite on the Windows platform. The settings are located in [`appveyor.yml`](https://github.com/reposense/RepoSense/blob/master/appveyor.yml).
-
-<!-- ==================================================================================================== -->
-
 ## Surge.sh
 
 Surge.sh is a platform for hosting the RepoSense report and documentation preview builds. The deployment is automatically performed by the "Surge.sh build preview" job using the [`deploy.sh`](https://github.com/reposense/RepoSense/blob/master/config/gh-actions/deploy.sh) script in the `config/gh-actions/` folder.
