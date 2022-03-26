@@ -6,7 +6,7 @@ import java.util.Objects;
 import reposense.model.Author;
 
 /**
- * Stores the information of a line in a {@code FileInfo}.
+ * Stores the information of a line in a {@link FileInfo}.
  */
 public class LineInfo {
     private int lineNumber;

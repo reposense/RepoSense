@@ -67,7 +67,7 @@ jobs:
       run: ./gradlew lintFrontend
 
     - name: Build with Gradle
-      run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
+      run: time ./gradlew clean checkstyleAll test systemTest coverage
 
     - name: Run code coverage
       if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
@@ -153,7 +153,7 @@ jobs:
       run: ./gradlew lintFrontend
 
     - name: Build with Gradle
-      run: time ./gradlew clean checkstyleMain checkstyleTest test systemTest coverage
+      run: time ./gradlew clean checkstyleAll test systemTest coverage
 
   cypress:
     name: Cypress frontend tests
