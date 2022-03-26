@@ -172,6 +172,9 @@ jobs:
       with:
         java-version: 1.8
 
+    - name: Verify Java version
+      run: Write-Output "Actual JDK in use -- "; java -version
+
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
