@@ -6,4 +6,6 @@
 
 <suppressions>
   <suppress checks="JavadocType" files=".*Test\.java"/>
+  <suppress checks="JavadocMethod" files=".*[\\/]src[\\/]test[\\/]"/>
+  <suppress checks="JavadocMethod" files=".*[\\/]src[\\/]systemtest[\\/]"/>
 </suppressions>
