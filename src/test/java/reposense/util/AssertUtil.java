@@ -1,7 +1,5 @@
 package reposense.util;
 
-import junit.framework.AssertionFailedError;
-
 /**
  * A set of assertion methods useful for writing tests.
  */
@@ -40,10 +38,10 @@ public class AssertUtil {
                 return;
             }
 
-            throw new AssertionFailedError(errorMessage);
+            throw new AssertionError(errorMessage);
         }
 
-        throw new AssertionFailedError(String.format(
+        throw new AssertionError(String.format(
                 "Expected %s to be thrown, but nothing was thrown.", expectedException.getName()));
     }
 
