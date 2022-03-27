@@ -96,19 +96,6 @@ idea {
     }
 }
 
-jacoco {
-    toolVersion = "0.8.7"
-}
-
-jacocoTestReport {
-    reports {
-        html.enabled = true
-        xml.enabled true
-        csv.enabled false
-        html.destination file("${buildDir}/jacocoHtml")
-    }
-}
-
 test {
     environment("REPOSENSE_ENVIRONMENT", "TEST")
 
@@ -214,6 +201,21 @@ tasks.withType(Copy) {
     includeEmptyDirs = true
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        xml.enabled true
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+
+    executionData systemtest, frontendTest
+}
+
 tasks.register('coverage', JacocoReport)
 
 coverage.configure {
@@ -286,8 +288,5 @@ void deleteReposAddressDirectory() {
     def reposDirectory = new File(REPOS_ADDRESS)
     reposDirectory.deleteDir()
 }
-
-jacocoTestReport.executionData(systemtest)
-jacocoTestReport.executionData(frontendTest)
 
 defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
