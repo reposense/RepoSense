@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Collections;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.model.Author;
 import reposense.model.FileType;
@@ -17,21 +17,21 @@ public class GitLogTest extends GitTestTemplate {
     @Test
     public void gitLog_existingFormats_hasContent() {
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
-        Assert.assertFalse(content.isEmpty());
+        Assertions.assertFalse(content.isEmpty());
     }
 
     @Test
     public void gitLog_nonExistingFormats_noContent() {
         config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("py")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
-        Assert.assertTrue(content.isEmpty());
+        Assertions.assertTrue(content.isEmpty());
     }
 
     @Test
     public void gitLog_includeAllJavaFiles_success() {
         config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(10, content));
+        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(10, content));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class GitLogTest extends GitTestTemplate {
         Author fakeAuthorName = new Author(FAKE_AUTHOR_NAME);
 
         String content = GitLog.get(config, fakeAuthorName);
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
+        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
     }
 
     @Test
@@ -47,7 +47,7 @@ public class GitLogTest extends GitTestTemplate {
         Author fakeAuthorName = new Author(FAKE_AUTHOR_NAME.toUpperCase());
 
         String content = GitLog.get(config, fakeAuthorName);
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
+        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
     }
 
     @Test
@@ -55,7 +55,7 @@ public class GitLogTest extends GitTestTemplate {
         Author fakeAuthorWithSpecialCharacter = new Author(FAKE_AUTHOR_NAME.replace("fake", "#()!"));
 
         String content = GitLog.get(config, fakeAuthorWithSpecialCharacter);
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
+        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class GitLogTest extends GitTestTemplate {
         ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
 
         String content = GitLog.getWithFiles(config, ignoreMovedFileAuthor);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(4, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(4, content));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class GitLogTest extends GitTestTemplate {
         ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
 
         String content = GitLog.getWithFiles(config, ignoreAllJavaFilesAuthor);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(0, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(0, content));
     }
 
     @Test
@@ -84,23 +84,23 @@ public class GitLogTest extends GitTestTemplate {
 
         author.setIgnoreGlobList(Collections.singletonList("annotationTest.java"));
         String content = GitLog.getWithFiles(config, author);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
 
         author.setIgnoreGlobList(Collections.singletonList("**Test**"));
         content = GitLog.getWithFiles(config, author);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(5, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(5, content));
 
         author.setIgnoreGlobList(Collections.singletonList("README.md"));
         content = GitLog.getWithFiles(config, author);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
 
         author.setIgnoreGlobList(Collections.singletonList("**.java"));
         content = GitLog.getWithFiles(config, author);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(1, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(1, content));
 
         author.setIgnoreGlobList(Collections.singletonList("./newPos"));
         content = GitLog.getWithFiles(config, author);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
     }
 
     @Test
@@ -109,19 +109,19 @@ public class GitLogTest extends GitTestTemplate {
 
         author.setIgnoreGlobList(Collections.singletonList("../testrepo-Alpha"));
         String content = GitLog.getWithFiles(config, author);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
         author.setIgnoreGlobList(Collections.singletonList("../*.java"));
         content = GitLog.getWithFiles(config, author);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
         author.setIgnoreGlobList(Collections.singletonList("/newPos"));
         content = GitLog.getWithFiles(config, author);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
         author.setIgnoreGlobList(Collections.singletonList(".."));
         content = GitLog.getWithFiles(config, author);
-        Assert.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
+        Assertions.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class GitLogTest extends GitTestTemplate {
         authorWithAllCharactersRegexAlias.setAuthorAliases(Collections.singletonList(".*"));
 
         String content = GitLog.get(config, authorWithAllCharactersRegexAlias);
-        Assert.assertTrue(content.isEmpty());
+        Assertions.assertTrue(content.isEmpty());
     }
 
     @Test
@@ -138,7 +138,7 @@ public class GitLogTest extends GitTestTemplate {
         LocalDateTime date = TestUtil.getSinceDate(2050, Month.JANUARY.getValue(), 1);
         config.setSinceDate(date);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
-        Assert.assertTrue(content.isEmpty());
+        Assertions.assertTrue(content.isEmpty());
     }
 
     @Test
@@ -147,7 +147,7 @@ public class GitLogTest extends GitTestTemplate {
         config.setUntilDate(date);
         config.setSinceDate(null);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
-        Assert.assertTrue(content.isEmpty());
+        Assertions.assertTrue(content.isEmpty());
     }
 
     @Test
@@ -158,6 +158,6 @@ public class GitLogTest extends GitTestTemplate {
         config.setAuthorList(Collections.singletonList(author));
 
         String content = GitLog.get(config, author);
-        Assert.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(1, content));
+        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(1, content));
     }
 }

@@ -4,9 +4,9 @@ import static reposense.model.RepoLocation.UNSUPPORTED_DOMAIN_NAME;
 import static reposense.model.RepoLocation.getDomainNameFromDomain;
 import static reposense.model.RepoLocation.isLocalRepo;
 
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 
 import reposense.parser.InvalidLocationException;
 import reposense.util.AssertUtil;
@@ -43,15 +43,15 @@ public class RepoLocationTest {
 
     @Test
     public void isLocalRepo_validLocalRepos_success() throws Exception {
-        Assert.assertTrue(isLocalRepo(LOCAL_REPO_VALID_WITH_DOT_GIT_ONE));
-        Assert.assertTrue(isLocalRepo(LOCAL_REPO_WINDOWS_VALID_MIXED_ONE));
-        Assert.assertTrue(isLocalRepo("./abc:def"));
+        Assertions.assertTrue(isLocalRepo(LOCAL_REPO_VALID_WITH_DOT_GIT_ONE));
+        Assertions.assertTrue(isLocalRepo(LOCAL_REPO_WINDOWS_VALID_MIXED_ONE));
+        Assertions.assertTrue(isLocalRepo("./abc:def"));
     }
 
     @Test
     public void isLocalRepo_remoteRepos_returnsFalse() throws Exception {
-        Assert.assertFalse(isLocalRepo("https://github.com/reposense/RepoSense.git/"));
-        Assert.assertFalse(isLocalRepo("git@github.com:reposense/RepoSense.git/"));
+        Assertions.assertFalse(isLocalRepo("https://github.com/reposense/RepoSense.git/"));
+        Assertions.assertFalse(isLocalRepo("git@github.com:reposense/RepoSense.git/"));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class RepoLocationTest {
 
     @Test
     public void repoLocation_parseWindowsLocalRepoLocation_success() throws Exception {
-        Assume.assumeTrue(SystemUtil.isWindows());
+        Assumptions.assumeTrue(SystemUtil.isWindows());
         // repeated tests but with windows file separators
         assertParsableLocation(LOCAL_REPO_WINDOWS_VALID_WITHOUT_DOT_GIT_ONE,
                 EXPECTED_REPO_NAME, EXPECTED_ORGANIZATION, EXPECTED_UNRECOGNISED_DOMAIN_NAME);
@@ -172,13 +172,13 @@ public class RepoLocationTest {
 
     @Test
     public void getDomainNameFromMatcher_parseValidDomain_success() throws Exception {
-        Assert.assertEquals("github", getDomainNameFromDomain("www.github.com"));
-        Assert.assertEquals("github", getDomainNameFromDomain("github.com"));
-        Assert.assertEquals("gitlab", getDomainNameFromDomain("www.gitlab.org"));
-        Assert.assertEquals("bitbucket", getDomainNameFromDomain("ww2.bitbucket.com"));
+        Assertions.assertEquals("github", getDomainNameFromDomain("www.github.com"));
+        Assertions.assertEquals("github", getDomainNameFromDomain("github.com"));
+        Assertions.assertEquals("gitlab", getDomainNameFromDomain("www.gitlab.org"));
+        Assertions.assertEquals("bitbucket", getDomainNameFromDomain("ww2.bitbucket.com"));
 
         // valid but unsupported
-        Assert.assertEquals(UNSUPPORTED_DOMAIN_NAME, getDomainNameFromDomain("opensource.ncsa.illinois.edu"));
+        Assertions.assertEquals(UNSUPPORTED_DOMAIN_NAME, getDomainNameFromDomain("opensource.ncsa.illinois.edu"));
     }
 
     @Test
@@ -197,9 +197,9 @@ public class RepoLocationTest {
     public void assertParsableLocation(String rawLocation, String expectedRepoName,
             String expectedOrganization, String expectedDomainName) throws Exception {
         RepoLocation repoLocation = new RepoLocation(rawLocation);
-        Assert.assertEquals(expectedRepoName, repoLocation.getRepoName());
-        Assert.assertEquals(expectedOrganization, repoLocation.getOrganization());
-        Assert.assertEquals(expectedDomainName, repoLocation.getDomainName());
+        Assertions.assertEquals(expectedRepoName, repoLocation.getRepoName());
+        Assertions.assertEquals(expectedOrganization, repoLocation.getOrganization());
+        Assertions.assertEquals(expectedDomainName, repoLocation.getDomainName());
     }
 
     private void assertUnparsableLocation(String rawLocation) {
