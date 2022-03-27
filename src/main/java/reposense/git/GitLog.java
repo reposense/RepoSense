@@ -26,7 +26,7 @@ public class GitLog {
     private static final String DEFAULT_EMAIL_IF_MISSING = "";
 
     /**
-     * Returns the git commit log info of {@code Author}, in the repository specified in {@code config}.
+     * Returns the git commit log info of {@code author}, in the repository specified in {@code config}.
      */
     public static String get(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
@@ -43,7 +43,7 @@ public class GitLog {
     }
 
     /**
-     * Returns the git commit log info of {@code Author}, with the files changed, in the repository specified in
+     * Returns the git commit log info of {@code author}, with the files changed, in the repository specified in
      * {@code config}.
      */
     public static String getWithFiles(RepoConfiguration config, Author author) {

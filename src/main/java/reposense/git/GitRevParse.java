@@ -12,7 +12,7 @@ import reposense.system.CommandRunner;
  */
 public class GitRevParse {
     /**
-     * Asserts that the branch in {@code config} exists.
+     * Asserts that the branch in {@code config} exists, with {@code repoRoot} as working directory.
      *
      * @throws GitBranchException when the branch does not exist.
      */

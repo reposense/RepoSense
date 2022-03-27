@@ -353,6 +353,7 @@
     <module name="JavadocMethod">
       <property name="allowMissingParamTags" value="true"/>
       <property name="allowMissingReturnTag" value="true"/>
+      <property name="validateThrows" value="true"/>
     </module>
 
     <!-- Checks that each line in Javadoc has leading asterisks. -->
@@ -372,7 +373,7 @@
         Single line of code methods are often due to refactor for readability.
       -->
       <property name="minLineCount" value="1"/>
-      <property name="allowedAnnotations" value="Override, Test, Before, BeforeClass, After, AfterClass, Subscribe"/>
+      <property name="allowedAnnotations" value="Override, Test, BeforeEach, BeforeAll, AfterEach, AfterAll, Subscribe"/>
       <property name="scope" value="public"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="ignoreMethodNamesRegex" value="(set.*|get.*)"/>
@@ -385,15 +386,33 @@
         We define methods that have more than 3 lines of code as non-trivial.
       -->
       <property name="minLineCount" value="3"/>
-      <property name="allowedAnnotations" value="Override, Test, Before, BeforeClass, After, AfterClass, Subscribe"/>
+      <property name="allowedAnnotations" value="Override, Test, BeforeEach, BeforeAll, AfterEach, AfterAll, Subscribe"/>
       <property name="scope" value="private"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="ignoreMethodNamesRegex" value="(set.*|get.*)"/>
       <property name="tokens" value="METHOD_DEF, ANNOTATION_FIELD_DEF"/>
     </module>
 
+    <!-- Checks that all Javadoc comments have a description. -->
+    <!-- Javadoc with only block tags will fail this check. -->
+    <module name="JavadocStyle">
+      <!-- The checkFirstSentence property can also be used to check punctuation. -->
+      <!-- However, it duplicates the fullstop check in SummaryJavadocCheck. -->
+      <property name="checkFirstSentence" value="false"/>
+      <property name="checkEmptyJavadoc" value="true"/>
+    </module>
+
+    <!-- Checks that all block tags are accompanied by descriptions. -->
+    <module name="NonEmptyAtclauseDescription"/>
+
     <!-- Checks that there is a line between description and block tag in Javadoc. -->
     <module name="RequireEmptyLineBeforeBlockTagGroup"/>
+
+    <!-- Checks that all summary Javadoc starts with capital letters and ends with fullstop. -->
+    <module name="SummaryJavadocCheck">
+      <property name="forbiddenSummaryFragments" value="^[^A-Z].*$"/>
+      <property name="period" value="."/>
+    </module>
 
   </module>
 </module>

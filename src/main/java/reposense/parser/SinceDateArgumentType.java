@@ -11,7 +11,7 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import reposense.util.TimeUtil;
 
 /**
- * Verifies and parses a string-formatted since date to a {@code Date} object.
+ * Verifies and parses a string-formatted since date to a {@link LocalDateTime} object.
  */
 public class SinceDateArgumentType extends DateArgumentType {
     /*
@@ -26,6 +26,8 @@ public class SinceDateArgumentType extends DateArgumentType {
      * Returns an arbitrary year {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE} if user specifies
      * {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND} in {@code value}, or attempts to return the
      * desired date otherwise.
+     *
+     * @throws ArgumentParserException if the given date cannot be parsed.
      */
     @Override
     public Optional<LocalDateTime> convert(ArgumentParser parser, Argument arg, String value)

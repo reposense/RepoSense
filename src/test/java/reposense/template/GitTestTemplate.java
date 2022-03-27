@@ -1,6 +1,6 @@
 package reposense.template;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.Arrays;
@@ -9,9 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import reposense.authorship.FileInfoAnalyzer;
 import reposense.authorship.FileInfoExtractor;
@@ -95,7 +95,7 @@ public class GitTestTemplate {
 
     protected static RepoConfiguration config;
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
@@ -104,20 +104,20 @@ public class GitTestTemplate {
         config.setIsLastModifiedDateIncluded(false);
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setZoneId(TIME_ZONE_ID_STRING);
         GitClone.clone(config);
     }
 
-    @After
+    @AfterEach
     public void after() {
         GitCheckout.checkout(config.getRepoRoot(), "master");
     }
 
     /**
-     * Generates the information for test file.
+     * Generates the information for test file at {@code relativePath}.
      */
     public FileInfo generateTestFileInfo(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
@@ -130,7 +130,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * Generates the .git-blame-ignore-revs file containing {@code CommitHash}
+     * Generates the .git-blame-ignore-revs file containing {@link CommitHash}es
      * from {@code toIgnore} for the test repo.
      */
     public List<CommitHash> createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
@@ -159,7 +159,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * For each line in {@code FileResult}, assert that it is attributed to the expected author provided by
+     * For each line in {@link FileResult}, assert that it is attributed to the expected author provided by
      * {@code expectedLineAuthors}.
      */
     public void assertFileAnalysisCorrectness(FileResult fileResult, List<Author> expectedLineAuthors) {
@@ -175,7 +175,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * Returns a {@code Author} that has git id and aliases of all authors in testrepo-Alpha, so that no commits
+     * Returns a {@link Author} that has git id and aliases of all authors in testrepo-Alpha, so that no commits
      * will be filtered out in the `git log` command.
      */
     protected Author getAlphaAllAliasAuthor() {
