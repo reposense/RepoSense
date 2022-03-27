@@ -26,7 +26,10 @@ public class RepoLocation {
     private String organization;
 
     /**
-     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
+     * Creates {@link RepoLocation} based on the {@code location}, which is represented by a {@code URL}
+     * or {@link Path}.
+     *
+     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@link Path}.
      */
     public RepoLocation(String location) throws InvalidLocationException {
         if (SystemUtil.isWindows()) {
@@ -57,7 +60,8 @@ public class RepoLocation {
     }
 
     /**
-     * Verifies {@code location} can be presented as a {@code URL} or {@code Path}.
+     * Verifies {@code location} can be presented as a {@code URL} or {@link Path}.
+     *
      * @throws InvalidLocationException if otherwise.
      */
     private void verifyLocation(String location) throws InvalidLocationException {
