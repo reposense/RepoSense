@@ -4,8 +4,10 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import reposense.system.CommandRunner;
+import reposense.system.LogsManager;
 
 /**
  * Contains git remote related functionality.
@@ -13,13 +15,21 @@ import reposense.system.CommandRunner;
  */
 public class GitRemote {
 
+    private static final Logger logger = LogsManager.getLogger(GitRemote.class);
+
     /**
      * Extracts remote repository information. Returns a map
      * with keys of the form REMOTE_NAME(fetch) or REMOTE_NAME(push).
      */
     public static Map<String, String> getRemotes(String repoRoot) {
-        String result =  CommandRunner.runCommand(Paths.get(repoRoot), "git remote -v");
         Map<String, String> remotes = new HashMap<>();
+        String result;
+        try {
+            result = CommandRunner.runCommand(Paths.get(repoRoot), "git remote -v");
+        } catch (RuntimeException re) {
+            logger.warning("Unable to find remotes in given directory");
+            return remotes;
+        }
 
         Arrays.stream(result.split("\n"))
                 .map(s -> s.split("[ \\t]+"))
