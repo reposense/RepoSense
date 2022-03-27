@@ -46,10 +46,17 @@ public class RepoLocation {
 
     private static final String PATH_SEPARATOR_REPLACEMENT = "-";
 
+    // Used for remote link generation (serialized)
     private final String location;
     private final String repoName;
     private final String organization;
     private final String domainName;
+
+    // Used for generation of local repository report output directory
+    private final transient boolean isLocal;
+    private transient String localRepoName;
+    private transient String localOrganization;
+    private transient String localDomainName;
 
     /**
      * Creates {@link RepoLocation} based on the {@code location}, which is represented by a {@code URL}
@@ -63,10 +70,16 @@ public class RepoLocation {
         }
 
         this.location = location;
+        this.isLocal = isLocalRepo(location);
         String[] repoNameAndOrg;
         if (location.isEmpty()) {
             repoNameAndOrg = new String[] {"", "", UNSUPPORTED_DOMAIN_NAME};
-        } else if (isLocalRepo(location)) {
+        } else if (this.isLocal) {
+            String[] localRepoNameAndOrg = getLocalRepoNameAndOrg(location);
+            this.localRepoName = localRepoNameAndOrg[0];
+            this.localOrganization = localRepoNameAndOrg[1];
+            this.localDomainName = localRepoNameAndOrg[2];
+
             Map<String, String> remotes = GitRemote.getRemotes(location);
             String newLocation = remotes.size() == 0
                     ? location
@@ -77,7 +90,7 @@ public class RepoLocation {
                     : remotes.values().iterator().next();
 
             repoNameAndOrg = remotes.size() == 0
-                ? getLocalRepoNameAndOrg(location)
+                ? getLocalRepoNameAndOrg(newLocation)
                 : getRemoteRepoNameAndOrg(newLocation);
         } else {
             repoNameAndOrg = getRemoteRepoNameAndOrg(location);
@@ -93,14 +106,23 @@ public class RepoLocation {
     }
 
     public String getRepoName() {
+        if (this.isLocal && !isEmpty()) {
+            return localRepoName;
+        }
         return repoName;
     }
 
     public String getOrganization() {
+        if (this.isLocal && !isEmpty()) {
+            return localOrganization;
+        }
         return organization;
     }
 
     public String getDomainName() {
+        if (this.isLocal && !isEmpty()) {
+            return localDomainName;
+        }
         return domainName;
     }
 
