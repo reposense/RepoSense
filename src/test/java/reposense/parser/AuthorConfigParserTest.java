@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
@@ -89,14 +89,14 @@ public class AuthorConfigParserTest {
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         AuthorConfiguration config = configs.get(0);
 
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
-        Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
+        Assertions.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
 
     @Test
@@ -107,16 +107,16 @@ public class AuthorConfigParserTest {
         List<AuthorConfiguration> authorConfigs = authorConfigCsvParser.parse();
         AuthorConfiguration authorConfig = authorConfigs.get(0);
 
-        Assert.assertEquals(1, authorConfigs.size());
-        Assert.assertEquals(expectedConfig.getLocation(), authorConfig.getLocation());
-        Assert.assertEquals(expectedConfig.getBranch(), authorConfig.getBranch());
-        Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, authorConfig.getAuthorList());
+        Assertions.assertEquals(1, authorConfigs.size());
+        Assertions.assertEquals(expectedConfig.getLocation(), authorConfig.getLocation());
+        Assertions.assertEquals(expectedConfig.getBranch(), authorConfig.getBranch());
+        Assertions.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, authorConfig.getAuthorList());
     }
 
-    @Test (expected = InvalidCsvException.class)
+    @Test
     public void authorConfig_emptyConfig_throwsInvalidCsvException() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_EMPTY_CONFIG_FILE);
-        authorConfigCsvParser.parse();
+        Assertions.assertThrows(InvalidCsvException.class, () -> authorConfigCsvParser.parse());
     }
 
     @Test
@@ -124,14 +124,14 @@ public class AuthorConfigParserTest {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_SPECIAL_CHARACTER_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         AuthorConfiguration config = configs.get(0);
 
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
-        Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
+        Assertions.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
 
     @Test
@@ -139,13 +139,13 @@ public class AuthorConfigParserTest {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         AuthorConfiguration config = configs.get(0);
 
         Author actualAuthor = config.getAuthorList().get(0);
-        Assert.assertEquals(FIRST_AUTHOR_EMAIL_LIST.size(), actualAuthor.getEmails().size());
-        Assert.assertTrue(actualAuthor.getEmails().containsAll(FIRST_AUTHOR_EMAIL_LIST));
+        Assertions.assertEquals(FIRST_AUTHOR_EMAIL_LIST.size(), actualAuthor.getEmails().size());
+        Assertions.assertTrue(actualAuthor.getEmails().containsAll(FIRST_AUTHOR_EMAIL_LIST));
     }
 
     @Test
@@ -153,11 +153,11 @@ public class AuthorConfigParserTest {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_LOCATION);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         AuthorConfiguration config = configs.get(0);
 
-        Assert.assertEquals(3, config.getAuthorList().size());
+        Assertions.assertEquals(3, config.getAuthorList().size());
     }
 
     @Test
@@ -166,14 +166,14 @@ public class AuthorConfigParserTest {
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_DIFFERENT_COLUMN_ORDER);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         AuthorConfiguration config = configs.get(0);
 
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
-        Assert.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
+        Assertions.assertEquals(AUTHOR_CONFIG_NO_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
 
     @Test
@@ -181,23 +181,23 @@ public class AuthorConfigParserTest {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MISSING_OPTIONAL_HEADER);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         AuthorConfiguration config = configs.get(0);
 
-        Assert.assertEquals(4, config.getAuthorList().size());
+        Assertions.assertEquals(4, config.getAuthorList().size());
     }
 
-    @Test (expected = InvalidCsvException.class)
+    @Test
     public void authorConfig_missingMandatoryHeader_throwsInvalidCsvException() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_MISSING_MANDATORY_HEADER);
-        authorConfigCsvParser.parse();
+        Assertions.assertThrows(InvalidCsvException.class, () -> authorConfigCsvParser.parse());
     }
 
-    @Test (expected = InvalidHeaderException.class)
+    @Test
     public void authorConfig_unknownHeaders_throwsInvalidHeaderException() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_UNKNOWN_HEADER);
-        authorConfigCsvParser.parse();
+        Assertions.assertThrows(InvalidHeaderException.class, () -> authorConfigCsvParser.parse());
     }
 
     @Test
@@ -206,17 +206,17 @@ public class AuthorConfigParserTest {
                 new AuthorConfigCsvParser(AUTHOR_CONFIG_COMMAS_AND_DOUBLEQUOTES_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         AuthorConfiguration config = configs.get(0);
 
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
-        Assert.assertEquals(AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP, config.getAuthorDisplayNameMap());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+        Assertions.assertEquals(AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP, config.getAuthorDisplayNameMap());
 
-        Assert.assertEquals(AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP.size(), config.getAuthorList().size());
+        Assertions.assertEquals(AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP.size(), config.getAuthorList().size());
         config.getAuthorList().forEach(author -> {
-            Assert.assertEquals(AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP.get(author), author.getAuthorAliases());
+            Assertions.assertEquals(AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP.get(author), author.getAuthorAliases());
         });
     }
 }

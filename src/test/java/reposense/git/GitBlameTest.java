@@ -3,9 +3,9 @@ package reposense.git;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 
 import reposense.template.GitTestTemplate;
 
@@ -16,17 +16,17 @@ public class GitBlameTest extends GitTestTemplate {
     @Test
     public void blameRaw_validFile_success() {
         String content = GitBlame.blame(config.getRepoRoot(), "blameTest.java");
-        Assert.assertFalse(content.isEmpty());
+        Assertions.assertFalse(content.isEmpty());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void blameRaw_nonExistentFile_throwsRunTimeException() {
-        GitBlame.blame(config.getRepoRoot(), "nonExistentFile");
+        Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blame(config.getRepoRoot(), "nonExistentFile"));
     }
 
     @Test
     public void blameWithPreviousAuthorsRaw_validFile_success() {
-        Assume.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
+        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setBranch(TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         GitCheckout.checkoutBranch(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);
@@ -35,11 +35,12 @@ public class GitBlameTest extends GitTestTemplate {
         removeTestIgnoreRevsFile();
 
         Matcher ignoredAuthorMatcher = IGNORED_AUTHOR_PATTERN.matcher(content);
-        Assert.assertFalse(ignoredAuthorMatcher.find());
+        Assertions.assertFalse(ignoredAuthorMatcher.find());
     }
 
-    @Test(expected = RuntimeException.class)
+    @Test
     public void blameWithPreviousAuthorsRaw_nonExistentFile_throwsRunTimeException() {
-        GitBlame.blameWithPreviousAuthors(config.getRepoRoot(), "nonExistentFile");
+        Assertions.assertThrows(RuntimeException.class, () ->
+                GitBlame.blameWithPreviousAuthors(config.getRepoRoot(), "nonExistentFile"));
     }
 }

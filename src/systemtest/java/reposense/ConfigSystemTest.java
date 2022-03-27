@@ -1,7 +1,6 @@
 package reposense;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
-
 import static reposense.util.TestUtil.loadResource;
 
 import java.io.IOException;
@@ -13,11 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
@@ -49,14 +48,14 @@ public class ConfigSystemTest {
 
     private static boolean haveNormallyClonedRepo = false;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
         ErrorSummary.getInstance().clearErrorSet();
         AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
@@ -134,12 +133,19 @@ public class ConfigSystemTest {
     }
 
     /**
-     * Generates the testing report and then compared it with the expected report
-     * Re-generates a normal report after the testing finished if the first report is shallow-cloned
+     * Generates the testing report and compares it with the expected report.
+     * Re-generates a normal report after the testing finished if the first report is shallow-cloned.
+     *
+     * @param inputDates The date range for analysis.
+     * @param shouldIncludeModifiedDateInLines Boolean for whether to include last modified date for authorship.
+     * @param shallowCloning Boolean for whether to perform shallow cloning.
+     * @param shouldFreshClone Boolean for whether to clone repo again if it has been cloned before.
+     * @param findPreviousAuthors Boolean for whether to find and blame previous authors for ignored commits.
+     * @param pathToResource The location at which files generated during the test are stored.
+     * @throws Exception if any occur during testing.
      */
-    private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines,
-                        boolean shallowCloning, boolean shouldFreshClone, boolean findPreviousAuthors,
-                        String pathToResource) throws Exception {
+    private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
+            boolean shouldFreshClone, boolean findPreviousAuthors, String pathToResource) throws Exception {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
                 shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
         Path actualFiles = loadResource(getClass(), pathToResource);
@@ -149,10 +155,16 @@ public class ConfigSystemTest {
 
     /**
      * Generates the testing report to be compared with expected report.
+     *
+     * @param inputDates The date range for analysis.
+     * @param shouldIncludeModifiedDateInLines Boolean for whether to include last modified date for authorship.
+     * @param shallowCloning Boolean for whether to perform shallow cloning.
+     * @param shouldFreshClone Boolean for whether to clone repo again if it has been cloned before.
+     * @param findPreviousAuthors Boolean for whether to find and blame previous authors for ignored commits.
+     * @throws Exception if any errors occur during testing.
      */
-    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines,
-                                boolean shallowCloning, boolean shouldFreshClone,
-                                boolean findPreviousAuthors) throws Exception {
+    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
+            boolean shouldFreshClone, boolean findPreviousAuthors) throws Exception {
         Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
@@ -198,7 +210,8 @@ public class ConfigSystemTest {
 
         boolean isGitVersionInsufficient = RepoConfiguration.isAnyRepoFindingPreviousAuthors(repoConfigs)
                 && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors();
-        Assume.assumeFalse("Git version 2.23.0 and above necessary to run test", isGitVersionInsufficient);
+
+        Assumptions.assumeFalse(isGitVersionInsufficient, "Git version 2.23.0 and above necessary to run test");
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
@@ -208,7 +221,7 @@ public class ConfigSystemTest {
     }
 
     /**
-     * Verifies all JSON files in {@code actualDirectory} with {@code expectedDirectory}
+     * Verifies all JSON files in {@code actualRelative} with {@code expectedDirectory}.
      */
     private void verifyAllJson(Path expectedDirectory, String actualRelative) {
         try (Stream<Path> pathStream = Files.list(expectedDirectory)) {
@@ -227,15 +240,16 @@ public class ConfigSystemTest {
     }
 
     /**
-     * Asserts the correctness of given JSON file.
+     * Asserts the correctness of given JSON file at {@code actualRelative} and {@code expectedPosition} by comparing
+     * it with {@code expectedJson}.
      */
     private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
         Path actualJson = Paths.get(actualRelative, expectedPosition);
-        Assert.assertTrue(Files.exists(actualJson));
+        Assertions.assertTrue(Files.exists(actualJson));
         try {
-            Assert.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
+            Assertions.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
         } catch (Exception e) {
-            Assert.fail(e.getMessage());
+            Assertions.fail(e.getMessage());
         }
     }
 }

@@ -20,7 +20,7 @@ public class GitVersion {
     private static final String RELEASE_NUMBER_GROUP = "releaseNumber";
 
     /**
-     * Get current git version of RepoSense user
+     * Get current git version of RepoSense user.
      */
     public static String getGitVersion() {
         Path rootPath = Paths.get("/");

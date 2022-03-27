@@ -1,7 +1,7 @@
 package reposense.git;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
@@ -17,7 +17,7 @@ public class GitBranchTest extends GitTestTemplate {
     @Test
     public void getCurrentBranch_masterBranch_success() throws Exception {
         String currentBranch = GitBranch.getCurrentBranch(config.getRepoRoot());
-        Assert.assertEquals("master", currentBranch);
+        Assertions.assertEquals("master", currentBranch);
     }
 
     @Test
@@ -27,6 +27,6 @@ public class GitBranchTest extends GitTestTemplate {
         uncommonDefaultConfig.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         GitClone.clone(uncommonDefaultConfig);
         String currentBranch = GitBranch.getCurrentBranch(uncommonDefaultConfig.getRepoRoot());
-        Assert.assertEquals("uncommon", currentBranch);
+        Assertions.assertEquals("uncommon", currentBranch);
     }
 }
