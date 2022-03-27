@@ -7,13 +7,13 @@ import java.util.Map;
 
 import reposense.system.CommandRunner;
 
-/***
+/**
  * Contains git remote related functionality.
  * Git remote is responsible for getting remote repository information.
  */
 public class GitRemote {
 
-    /***
+    /**
      * Extracts remote repository information. Returns a map
      * with keys of the form REMOTE_NAME(fetch) or REMOTE_NAME(push).
      */
