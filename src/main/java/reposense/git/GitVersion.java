@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class GitVersion {
 
-    /** Regex for finding Git Version */
+    /** Regex for finding Git Version. */
     private static final Pattern GIT_VERSION_PATTERN =
             Pattern.compile("^git version (?<versionNumber>\\d+)\\.(?<releaseNumber>\\d+).*?\n?$");
     private static final String VERSION_NUMBER_GROUP = "versionNumber";
