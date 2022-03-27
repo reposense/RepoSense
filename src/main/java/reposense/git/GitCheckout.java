@@ -4,7 +4,8 @@ import static reposense.system.CommandRunner.runCommand;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.logging.Logger;
 
 import reposense.commits.model.CommitResult;
@@ -29,6 +30,7 @@ public class GitCheckout {
 
     /**
      * Checkouts to the hash revision given in the {@code commit}.
+     * The {@link Path} given by {@code root} is the working directory.
      */
     public static void checkoutCommit(String root, CommitResult commit) {
         logger.info("Checking out " + commit.getHash() + "time:" + commit.getTime());
@@ -37,6 +39,7 @@ public class GitCheckout {
 
     /**
      * Checkouts to the given {@code hash} revision.
+     * The {@link Path} given by {@code root} is the working directory.
      */
     public static void checkout(String root, String hash) {
         Path rootPath = Paths.get(root);
@@ -44,16 +47,19 @@ public class GitCheckout {
     }
 
     /**
-     * Checks out to the latest commit before {@code untilDate} in {@code branchName} branch
-     * if {@code untilDate} is not null.
+     * Checks out to the latest commit before {@code untilDate}, associated with timezone given by {@code zoneId} in
+     * {@code branchName} branch if {@code untilDate} is not null.
+     * The {@link Path} given by {@code root} is the working directory.
+     *
      * @throws CommitNotFoundException if commits before {@code untilDate} cannot be found.
      */
-    public static void checkoutDate(String root, String branchName, Date untilDate) throws CommitNotFoundException {
+    public static void checkoutDate(String root, String branchName, LocalDateTime untilDate, ZoneId zoneId)
+            throws CommitNotFoundException {
         if (untilDate == null) {
             return;
         }
 
-        String hash = GitRevList.getCommitHashUntilDate(root, branchName, untilDate);
+        String hash = GitRevList.getCommitHashUntilDate(root, branchName, untilDate, zoneId);
         if (hash.isEmpty()) {
             throw new CommitNotFoundException("Commit before until date is not found.");
         }

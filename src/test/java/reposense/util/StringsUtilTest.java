@@ -8,7 +8,10 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Test;
+
+import reposense.system.CommandRunner;
 
 public class StringsUtilTest {
 
@@ -69,5 +72,20 @@ public class StringsUtilTest {
         String actualString = StringsUtil.removeTrailingBackslash(emptyString);
 
         Assert.assertEquals(emptyString, actualString);
+    }
+
+    @Test
+    public void addQuotationMarksForPath_specialBashCharacters_success() {
+        Assume.assumeTrue(!SystemUtil.isWindows());
+
+        // The characters being tested against are taken from this post: https://unix.stackexchange.com/a/357932
+        String specialBashSymbols = "!\"#$&'()*,;<=>?\\[]^`{| }";
+        String result = CommandRunner.runCommand(Paths.get("./"),
+                "echo " + StringsUtil.addQuotesForFilePath(specialBashSymbols));
+
+        // CommandRunner's output ends with an LF character which should be removed.
+        result = result.substring(0, result.length() - 1);
+
+        Assert.assertEquals(specialBashSymbols, result);
     }
 }

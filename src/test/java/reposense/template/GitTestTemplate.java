@@ -35,7 +35,6 @@ import reposense.util.FileUtil;
 
 public class GitTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
-    protected static final String DISK_REPO_DISPLAY_NAME = "testrepo-Alpha_master";
     protected static final String IGNORE_REVS_FILE_LOCATION =
             "repos/reposense_testrepo-Alpha/testrepo-Alpha/.git-blame-ignore-revs";
     protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-find-previous-authors";
@@ -101,6 +100,7 @@ public class GitTestTemplate {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
+        config.setZoneId(TIME_ZONE_ID_STRING);
         config.setIsLastModifiedDateIncluded(false);
     }
 
@@ -117,7 +117,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * Generates the information for test file.
+     * Generates the information for test file at {@code relativePath}.
      */
     public FileInfo generateTestFileInfo(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
@@ -130,7 +130,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * Generates the .git-blame-ignore-revs file containing {@code CommitHash}
+     * Generates the .git-blame-ignore-revs file containing {@link CommitHash}es
      * from {@code toIgnore} for the test repo.
      */
     public List<CommitHash> createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
@@ -159,7 +159,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * For each line in {@code FileResult}, assert that it is attributed to the expected author provided by
+     * For each line in {@link FileResult}, assert that it is attributed to the expected author provided by
      * {@code expectedLineAuthors}.
      */
     public void assertFileAnalysisCorrectness(FileResult fileResult, List<Author> expectedLineAuthors) {
@@ -175,7 +175,7 @@ public class GitTestTemplate {
     }
 
     /**
-     * Returns a {@code Author} that has git id and aliases of all authors in testrepo-Alpha, so that no commits
+     * Returns a {@link Author} that has git id and aliases of all authors in testrepo-Alpha, so that no commits
      * will be filtered out in the `git log` command.
      */
     protected Author getAlphaAllAliasAuthor() {

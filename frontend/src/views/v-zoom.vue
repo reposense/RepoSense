@@ -243,10 +243,13 @@ export default {
       this.initiate();
       this.setInfoHash();
     },
-    selectedFileTypes() {
-      this.$nextTick(() => {
-        this.updateExpandedCommitMessagesCount();
-      });
+    selectedFileTypes: {
+      deep: true,
+      handler() {
+        this.$nextTick(() => {
+          this.updateExpandedCommitMessagesCount();
+        });
+      },
     },
     commitsSortType() {
       window.addHash('zCST', this.commitsSortType);
@@ -267,9 +270,9 @@ export default {
 
     getSliceLink(slice) {
       if (this.info.zIsMerged) {
-        return `${window.getBaseLink(slice.repoId)}/commit/${slice.hash}`;
+        return window.getCommitLink(slice.repoId, slice.hash);
       }
-      return `${window.getBaseLink(this.info.zUser.repoId)}/commit/${slice.hash}`;
+      return window.getCommitLink(this.info.zUser.repoId, slice.hash);
     },
 
     scrollToCommit(tag, commit) {

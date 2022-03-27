@@ -3,7 +3,7 @@ package reposense.system;
 import java.nio.file.Path;
 
 /**
- * Represents a process created by {@code CommandRunner}.
+ * Represents a process created by {@link CommandRunner}.
  */
 public class CommandRunnerProcess {
 
@@ -24,6 +24,8 @@ public class CommandRunnerProcess {
 
     /**
      * Waits for process to finish executing and returns the output from the execution.
+     *
+     * @throws CommandRunnerProcessException if process fails.
      */
     public String waitForProcess() throws CommandRunnerProcessException {
         int exit = 0;
@@ -39,7 +41,7 @@ public class CommandRunnerProcess {
             return outputGobbler.getValue();
         } else {
             String errorMessage = "Error returned from command ";
-            errorMessage += command + "on path ";
+            errorMessage += command + " on path ";
             errorMessage += path.toString() + " :\n" + errorGobbler.getValue();
             throw new CommandRunnerProcessException(errorMessage);
         }

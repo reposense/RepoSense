@@ -1,7 +1,7 @@
 package reposense.authorship.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import reposense.model.Author;
@@ -28,7 +28,7 @@ public class FileInfo {
     }
 
     /**
-     * Returns true if none of the {@code Author} in {@code listedAuthors} contributed to this file.
+     * Returns true if none of the {@link Author} in {@code listedAuthors} contributed to this file.
      */
     public boolean isAllAuthorsIgnored(List<Author> listedAuthors) {
         return lines.stream().noneMatch(line -> listedAuthors.contains(line.getAuthor()));
@@ -63,21 +63,21 @@ public class FileInfo {
     }
 
     /**
-     * Sets the {@code Author} of the {@code LineInfo} in {@code lineNumber} for this {@code FileInfo}.
+     * Sets the {@code author} of the {@link LineInfo} in {@code lineNumber} for this {@link FileInfo}.
      */
     public void setLineAuthor(int lineNumber, Author author) {
         lines.get(lineNumber).setAuthor(author);
     }
 
     /**
-     * Sets the {@code lastModifiedDate} of the {@code LineInfo} in {@code lineNumber} for this {@code FileInfo}.
+     * Sets the {@code lastModifiedDate} of the {@link LineInfo} in {@code lineNumber} for this {@link FileInfo}.
      */
-    public void setLineLastModifiedDate(int lineNumber, Date lastModifiedDate) {
+    public void setLineLastModifiedDate(int lineNumber, LocalDateTime lastModifiedDate) {
         lines.get(lineNumber).setLastModifiedDate(lastModifiedDate);
     }
 
     /**
-     * Returns true if the {@code LineInfo} in {@code lineNumber} index is being tracked.
+     * Returns true if the {@link LineInfo} in {@code lineNumber} index is being tracked.
      */
     public boolean isFileLineTracked(int lineNumber) {
         return getLines().get(lineNumber).isTracked();

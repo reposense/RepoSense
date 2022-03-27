@@ -1,18 +1,18 @@
 package reposense.authorship.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import reposense.model.Author;
 
 /**
- * Stores the information of a line in a {@code FileInfo}.
+ * Stores the information of a line in a {@link FileInfo}.
  */
 public class LineInfo {
     private int lineNumber;
     private Author author;
     private String content;
-    private Date lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
     private transient boolean isTracked;
 
@@ -43,11 +43,11 @@ public class LineInfo {
         this.isTracked = isTracked;
     }
 
-    public Date getLastModifiedDate() {
+    public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(Date lastModifiedDate) {
+    public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 

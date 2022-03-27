@@ -29,6 +29,10 @@
     <property name="file" value="${config_loc}/suppressions.xml"/>
   </module>
 
+  <module name="LineLength">
+    <!-- Checks if a line is too long. -->
+    <property name="max" value="120"/>
+  </module>
 
   <!-- All Java AST specific tests live under TreeWalker module. -->
   <module name="TreeWalker">
@@ -144,11 +148,6 @@
 
     <!-- Checks if a catch block is empty and does not contain any comments. -->
     <module name="EmptyCatchBlock"/>
-
-    <module name="LineLength">
-      <!-- Checks if a line is too long. -->
-      <property name="max" value="120"/>
-    </module>
 
     <!-- Checks for placement of the left curly brace ('{'). -->
     <module name="LeftCurly" />
@@ -341,6 +340,27 @@
     <!--
     JAVADOC CHECKS
     -->
+    <!-- Checks that all block-tags are ordered correctly. -->
+    <module name="AtclauseOrder"/>
+
+    <!-- Checks that Javadoc block tags appear only at the beginning of the line. -->
+    <module name="JavadocBlockTagLocation"/>
+
+    <!-- Checks that all Javadoc comments start from the second line. -->
+    <module name="JavadocContentLocationCheck" />
+
+    <!-- Checks the format's Javadoc for every method (excluding getters, setters and constructors). -->
+    <module name="JavadocMethod">
+      <property name="allowMissingParamTags" value="true"/>
+      <property name="allowMissingReturnTag" value="true"/>
+      <property name="validateThrows" value="true"/>
+    </module>
+
+    <!-- Checks that each line in Javadoc has leading asterisks. -->
+    <module name="JavadocMissingLeadingAsterisk"/>
+
+    <!-- Checks that each line in Javadoc has whitespace after leading asterisk. -->
+    <module name="JavadocMissingWhitespaceAfterAsterisk"/>
 
     <!-- Checks that every class, enumeration and interface have a header comment. -->
     <module name="JavadocType">
@@ -348,38 +368,50 @@
     </module>
 
     <!-- Checks that every public method (excluding getters, setters and constructors) has a header comment. -->
-    <module name="JavadocMethod">
+    <module name="MissingJavadocMethod">
       <!-- Checks public methods that have more than 1 line of code.
         Single line of code methods are often due to refactor for readability.
       -->
       <property name="minLineCount" value="1"/>
       <property name="allowedAnnotations" value="Override, Test, Before, BeforeClass, After, AfterClass, Subscribe"/>
       <property name="scope" value="public"/>
-      <property name="allowUndeclaredRTE" value="true"/>
-      <property name="allowThrowsTagsForSubclasses" value="true"/>
-      <property name="allowMissingParamTags" value="true"/>
-      <property name="allowMissingThrowsTags" value="true"/>
-      <property name="allowMissingReturnTag" value="true"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="ignoreMethodNamesRegex" value="(set.*|get.*)"/>
       <property name="tokens" value="METHOD_DEF, ANNOTATION_FIELD_DEF"/>
     </module>
+
     <!-- Checks that every non-trivial private method (excluding getters, setters and constructors) has a header comment. -->
-    <module name="JavadocMethod">
+    <module name="MissingJavadocMethod">
       <!-- Checks private methods that have more than 3 lines of code.
         We define methods that have more than 3 lines of code as non-trivial.
       -->
       <property name="minLineCount" value="3"/>
       <property name="allowedAnnotations" value="Override, Test, Before, BeforeClass, After, AfterClass, Subscribe"/>
       <property name="scope" value="private"/>
-      <property name="allowUndeclaredRTE" value="true"/>
-      <property name="allowThrowsTagsForSubclasses" value="true"/>
-      <property name="allowMissingParamTags" value="true"/>
-      <property name="allowMissingThrowsTags" value="true"/>
-      <property name="allowMissingReturnTag" value="true"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>
       <property name="ignoreMethodNamesRegex" value="(set.*|get.*)"/>
       <property name="tokens" value="METHOD_DEF, ANNOTATION_FIELD_DEF"/>
+    </module>
+
+    <!-- Checks that all Javadoc comments have a description. -->
+    <!-- Javadoc with only block tags will fail this check. -->
+    <module name="JavadocStyle">
+      <!-- The checkFirstSentence property can also be used to check punctuation. -->
+      <!-- However, it duplicates the fullstop check in SummaryJavadocCheck. -->
+      <property name="checkFirstSentence" value="false"/>
+      <property name="checkEmptyJavadoc" value="true"/>
+    </module>
+
+    <!-- Checks that all block tags are accompanied by descriptions. -->
+    <module name="NonEmptyAtclauseDescription"/>
+
+    <!-- Checks that there is a line between description and block tag in Javadoc. -->
+    <module name="RequireEmptyLineBeforeBlockTagGroup"/>
+
+    <!-- Checks that all summary Javadoc starts with capital letters and ends with fullstop. -->
+    <module name="SummaryJavadocCheck">
+      <property name="forbiddenSummaryFragments" value="^[^A-Z].*$"/>
+      <property name="period" value="."/>
     </module>
 
   </module>

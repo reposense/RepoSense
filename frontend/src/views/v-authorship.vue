@@ -69,9 +69,8 @@
               span All&nbsp;
               span {{ totalLineCount }}&nbsp;
               span ({{ totalLineCount - totalBlankLineCount }})&nbsp;
-          template(v-for="fileType in Object.keys(fileTypeLinesObj)")
+          template(v-for="fileType in Object.keys(fileTypeLinesObj)", v-bind:key="fileType")
             label(
-              v-bind:key="fileType",
               v-bind:style="{\
                 'background-color': fileTypeColors[fileType],\
                 'color': getFontColor(fileTypeColors[fileType])\
@@ -93,26 +92,27 @@
 
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
-    template(v-for="(file, i) in selectedFiles")
-      .file(v-bind:key="file.path")
+    template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
+      .file
         .title
           span.path(v-on:click="toggleFileActiveProperty(file)")
-            .tooltip
-              font-awesome-icon(icon="caret-down", fixed-width, v-show="file.active")
-              span.tooltip-text(v-show="file.active") Click to hide file details
-              font-awesome-icon(icon="caret-right", fixed-width, v-show="!file.active")
-              span.tooltip-text(v-show="!file.active") Click to show file details
+            .tooltip(v-show="file.active")
+              font-awesome-icon(icon="caret-down", fixed-width)
+              span.tooltip-text Click to hide file details
+            .tooltip(v-show="!file.active")
+              font-awesome-icon(icon="caret-right", fixed-width)
+              span.tooltip-text Click to show file details
             span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
           span.icons
             a(
-              v-bind:href="getFileLink(file, 'commits')", target="_blank"
+              v-bind:href="getHistoryLink(file)", target="_blank"
             )
               .tooltip
                 font-awesome-icon.button(icon="history")
                 span.tooltip-text Click to view the history view of file
             a(
               v-if='!file.isBinary && hasValidRemote(info)',
-              v-bind:href="getFileLink(file, 'blame')", target="_blank",
+              v-bind:href="getBlameLink(file)", target="_blank",
               title="click to view the blame view of file"
             )
               .tooltip
@@ -193,8 +193,11 @@ export default {
       this.updateSelectedFiles();
     },
 
-    selectedFileTypes() {
-      this.updateSelectedFiles();
+    selectedFileTypes: {
+      deep: true,
+      handler() {
+        this.updateSelectedFiles();
+      },
     },
 
     toReverseSortFiles() {
@@ -526,11 +529,14 @@ export default {
       this.updateFileTypeHash();
     },
 
-    getFileLink(file, path) {
+    getHistoryLink(file) {
       const repo = window.REPOS[this.info.repo];
+      return window.getHistoryLink(this.info.repo, repo.branch, file.path);
+    },
 
-      return `${window.BASE_URL}/${
-        repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
+    getBlameLink(file) {
+      const repo = window.REPOS[this.info.repo];
+      return window.getBlameLink(this.info.repo, repo.branch, file.path);
     },
 
     getFileTypeBlankLineInfo(fileType) {

@@ -1,12 +1,13 @@
 package reposense.report;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.ReportConfiguration;
+import reposense.model.SupportedDomainUrlMap;
 
 /**
  * Represents the structure of summary.json file in reposense-report folder.
@@ -21,13 +22,14 @@ public class SummaryJson {
     private final String reportTitle;
     private final List<RepoConfiguration> repos;
     private final Set<Map<String, String>> errorSet;
-    private final Date sinceDate;
-    private final Date untilDate;
+    private final LocalDateTime sinceDate;
+    private final LocalDateTime untilDate;
     private final boolean isSinceDateProvided;
     private final boolean isUntilDateProvided;
+    private final Map<String, Map<String, String>> supportedDomainUrlMap;
 
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
-            Date sinceDate, Date untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
+            LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
             String repoSenseVersion, Set<Map<String, String>> errorSet, String reportGenerationTime, String zoneId) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
@@ -40,5 +42,6 @@ public class SummaryJson {
         this.repoSenseVersion = repoSenseVersion;
         this.errorSet = errorSet;
         this.zoneId = zoneId;
+        this.supportedDomainUrlMap = SupportedDomainUrlMap.getDefaultDomainUrlMap();
     }
 }

@@ -18,8 +18,6 @@ public class GroupConfigParserTest {
             "GroupConfigParserTest/groupconfig_multipleLocation_test.csv");
     private static final Path GROUP_CONFIG_EMPTY_LOCATION_FILE = loadResource(GroupConfigParserTest.class,
             "GroupConfigParserTest/groupconfig_emptyLocation_test.csv");
-    private static final Path GROUP_CONFIG_INVALID_LOCATION_FILE = loadResource(GroupConfigParserTest.class,
-            "GroupConfigParserTest/groupconfig_invalidLocation_test.csv");
     private static final Path GROUP_CONFIG_DIFFERENT_COLUMN_ORDER_FILE = loadResource(GroupConfigParserTest.class,
             "GroupConfigParserTest/groupconfig_differentColumnOrder_test.csv");
     private static final Path GROUP_CONFIG_MISSING_OPTIONAL_HEADER_FILE = loadResource(GroupConfigParserTest.class,
@@ -38,17 +36,6 @@ public class GroupConfigParserTest {
     private static final List<FileType> TEST_REPO_DELTA_GROUPS = Arrays.asList(
             new FileType("Main", Collections.singletonList("src/main/**")),
             new FileType("Test", Arrays.asList("src/test/**", "src/systest/**")));
-
-    @Test
-    public void groupConfig_invalidLocation_success() throws Exception {
-        GroupConfigCsvParser groupConfigCsvParser = new GroupConfigCsvParser(GROUP_CONFIG_INVALID_LOCATION_FILE);
-        List<GroupConfiguration> groupConfigs = groupConfigCsvParser.parse();
-
-        Assert.assertEquals(1, groupConfigs.size());
-
-        GroupConfiguration actualConfig = groupConfigs.get(0);
-        Assert.assertEquals(2, actualConfig.getGroupsList().size());
-    }
 
     @Test
     public void groupConfig_emptyLocation_success() throws Exception {

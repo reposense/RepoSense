@@ -31,8 +31,6 @@ public class AuthorConfigParserTest {
             "AuthorConfigParserTest/authorconfig_commasAndDoubleQuotes_test.csv");
     private static final Path AUTHOR_CONFIG_MULTIPLE_EMAILS_FILE = loadResource(AuthorConfigParserTest.class,
             "AuthorConfigParserTest/authorconfig_multipleEmails_test.csv");
-    private static final Path AUTHOR_CONFIG_INVALID_LOCATION = loadResource(AuthorConfigParserTest.class,
-            "AuthorConfigParserTest/authorconfig_invalidLocation_test.csv");
     private static final Path AUTHOR_CONFIG_DIFFERENT_COLUMN_ORDER = loadResource(AuthorConfigParserTest.class,
             "AuthorConfigParserTest/authorconfig_differentColumnOrder_test.csv");
     private static final Path AUTHOR_CONFIG_MISSING_OPTIONAL_HEADER = loadResource(AuthorConfigParserTest.class,
@@ -146,18 +144,6 @@ public class AuthorConfigParserTest {
         Author actualAuthor = config.getAuthorList().get(0);
         Assert.assertEquals(FIRST_AUTHOR_EMAIL_LIST.size(), actualAuthor.getEmails().size());
         Assert.assertTrue(actualAuthor.getEmails().containsAll(FIRST_AUTHOR_EMAIL_LIST));
-    }
-
-    @Test
-    public void authorConfig_invalidLocation_success() throws Exception {
-        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_INVALID_LOCATION);
-        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
-
-        Assert.assertEquals(1, configs.size());
-
-        AuthorConfiguration config = configs.get(0);
-
-        Assert.assertEquals(3, config.getAuthorList().size());
     }
 
     @Test

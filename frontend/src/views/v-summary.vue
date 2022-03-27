@@ -98,9 +98,8 @@
       label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
         span All:&nbsp;
-      template(v-for="fileType in Object.keys(fileTypeColors)" )
+      template(v-for="fileType in Object.keys(fileTypeColors)", v-bind:key="fileType")
         label(
-          v-bind:key="fileType",
           v-bind:style="{ 'background-color': fileTypeColors[fileType], \
             'color': getFontColor(fileTypeColors[fileType])}"
         )
@@ -197,8 +196,11 @@ export default {
       this.getFiltered();
     },
 
-    mergedGroups() {
-      this.getFiltered();
+    mergedGroups: {
+      deep: true,
+      handler() {
+        this.getFiltered();
+      },
     },
   },
   computed: {
@@ -279,7 +281,7 @@ export default {
 
     // view functions //
     getReportIssueGitHubLink(stackTrace) {
-      return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      return `${window.REPOSENSE_REPO_URL}/issues/new?title=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
@@ -350,7 +352,7 @@ export default {
 
     renderFilterHash() {
       const convertBool = (txt) => (txt === 'true');
-      const hash = window.hashParams;
+      const hash = Object.assign({}, window.hashParams);
 
       if (hash.search) { this.filterSearch = hash.search; }
       if (hash.sort) {

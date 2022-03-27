@@ -5,9 +5,9 @@ import static reposense.system.CommandRunner.runCommand;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -25,7 +25,10 @@ public class GitShow {
     private static final Logger logger = LogsManager.getLogger(GitShow.class);
 
     /**
-     * Returns expanded form of the commit hash associated with the {@code shortCommitHash}
+     * Returns expanded form of the {@link CommitHash} associated with the {@code shortCommitHash}, with
+     * the {@link Path} given by {@code root} as the working directory.
+     *
+     * @throws CommitNotFoundException if there is no commit associated with {@code shortCommitHash}.
      */
     public static CommitHash getExpandedCommitHash(String root, String shortCommitHash) throws CommitNotFoundException {
         Path rootPath = Paths.get(root);
@@ -48,29 +51,40 @@ public class GitShow {
     }
 
     /**
-     * Returns date of commit associated with commit hash.
+     * Returns {@link LocalDateTime} of the commit associated with commit hash, with {@link Path} given by {@code root}
+     * as the working directory.
+     *
+     * @throws CommitNotFoundException if no commit exists for the given {@code commitHash}.
+     * @throws ParseException if the date string for the given {@code commitHash} could not be parsed into
+     * a {@link LocalDateTime} object.
      */
-    public static Date getCommitDate(String root, String commitHash) throws CommitNotFoundException, ParseException {
+    public static LocalDateTime getCommitDate(String root, String commitHash)
+            throws CommitNotFoundException, ParseException {
         Path rootPath = Paths.get(root);
         String showCommand = "git show -s --format=%ci " + commitHash;
         try {
             String output = runCommand(rootPath, showCommand);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-            return format.parse(output);
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z'\n'");
+            return LocalDateTime.parse(output, format);
         } catch (RuntimeException re) {
             throw new CommitNotFoundException("Commit not found: " + commitHash);
         }
     }
 
     /**
-     * Returns date of earliest commit out of the input list of commits.
+     * Returns {@link LocalDateTime} of the earliest commit out of the input list of commits in {@code commitHashes},
+     * with the {@code root} string denoting the working directory.
+     *
+     * @throws CommitNotFoundException if no commit exists for a given hash in {@code commitHashes}
+     * or if no date string was successfully parsed to a {@link LocalDateTime} for earliest date.
      */
-    public static Date getEarliestCommitDate(String root, List<String> commitHashes) throws CommitNotFoundException {
-        Date earliest = null;
+    public static LocalDateTime getEarliestCommitDate(String root, List<String> commitHashes)
+            throws CommitNotFoundException {
+        LocalDateTime earliest = null;
         for (String hash : commitHashes) {
             try {
-                Date date = getCommitDate(root, hash);
-                if (earliest == null || date.before(earliest)) {
+                LocalDateTime date = getCommitDate(root, hash);
+                if (earliest == null || date.compareTo(earliest) < 0) {
                     earliest = date;
                 }
             } catch (CommitNotFoundException e) {

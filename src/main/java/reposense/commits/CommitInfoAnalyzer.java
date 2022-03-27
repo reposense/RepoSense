@@ -2,12 +2,13 @@ package reposense.commits;
 
 import static reposense.util.StringsUtil.removeQuote;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,8 @@ import reposense.system.LogsManager;
  * Analyzes commit information found in the git log.
  */
 public class CommitInfoAnalyzer {
-    public static final DateFormat GIT_STRICT_ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    public static final DateTimeFormatter GIT_STRICT_ISO_DATE_FORMAT =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
 
     private static final String TAB_SPLITTER = "\t";
     private static final String MOVED_FILE_INDICATION = "=> ";
@@ -55,13 +57,10 @@ public class CommitInfoAnalyzer {
     private static final int MESSAGE_BODY_INDEX = 5;
     private static final int REF_NAME_INDEX = 6;
 
-    private static final Pattern INSERTION_PATTERN = Pattern.compile("([0-9]+) insertion");
-    private static final Pattern DELETION_PATTERN = Pattern.compile("([0-9]+) deletion");
-
     private static final Pattern MESSAGEBODY_LEADING_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
 
     /**
-     * Analyzes each {@code CommitInfo} in {@code commitInfos} and returns a list of {@code CommitResult} that is not
+     * Analyzes each {@link CommitInfo} in {@code commitInfos} and returns a list of {@link CommitResult} that is not
      * specified to be ignored or the author is inside {@code config}.
      */
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
@@ -77,7 +76,8 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Extracts the relevant data from {@code commitInfo} into a {@code CommitResult}.
+     * Extracts the relevant data from {@code commitInfo} into a {@link CommitResult}. Retrieves the author of the
+     * commit from {@code config}.
      */
     public static CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {
         String infoLine = commitInfo.getInfoLine();
@@ -87,12 +87,15 @@ public class CommitInfoAnalyzer {
         String hash = elements[COMMIT_HASH_INDEX];
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
-        Date date = null;
+        ZonedDateTime date = null;
         try {
-            date = GIT_STRICT_ISO_DATE_FORMAT.parse(elements[DATE_INDEX]);
-        } catch (ParseException pe) {
+            date = ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT);
+        } catch (DateTimeParseException pe) {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
+
+        // Commit date may be in a timezone different from the one given in the config.
+        LocalDateTime adjustedDate = date.withZoneSameInstant(ZoneId.of(config.getZoneId())).toLocalDateTime();
 
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
         String messageBody = (elements.length > MESSAGE_BODY_INDEX)
@@ -109,7 +112,7 @@ public class CommitInfoAnalyzer {
         }
 
         if (statLine.isEmpty()) { // empty commit, no files changed
-            return new CommitResult(author, hash, date, messageTitle, messageBody, tags);
+            return new CommitResult(author, hash, adjustedDate, messageTitle, messageBody, tags);
         }
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
@@ -117,11 +120,13 @@ public class CommitInfoAnalyzer {
         Map<FileType, ContributionPair> fileTypeAndContributionMap =
                 getFileTypesAndContribution(fileTypeContributions, config);
 
-        return new CommitResult(author, hash, date, messageTitle, messageBody, tags, fileTypeAndContributionMap);
+        return new CommitResult(author, hash, adjustedDate, messageTitle, messageBody, tags,
+                fileTypeAndContributionMap);
     }
 
     /**
-     * Returns the number of lines added and deleted for the specified file types in {@code config}.
+     * Returns the number of lines added and deleted in {@code filePathContributions} for the specified file types
+     * in {@code config}.
      */
     private static Map<FileType, ContributionPair> getFileTypesAndContribution(String[] filePathContributions,
             RepoConfiguration config) {
@@ -150,7 +155,7 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Extracts the correct file path from the unprocessed git log {@code filePath}
+     * Extracts the correct file path from the unprocessed git log {@code filePath}.
      */
     private static String extractFilePath(String filePath) {
         String filteredFilePath = filePath;

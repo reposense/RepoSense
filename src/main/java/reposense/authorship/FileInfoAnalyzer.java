@@ -3,11 +3,12 @@ package reposense.authorship;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.HashMap;
-
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -22,10 +23,9 @@ import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
-import reposense.util.TimeUtil;
 
 /**
- * Analyzes the target and information given in the {@code FileInfo}.
+ * Analyzes the target and information given in the {@link FileInfo}.
  */
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
@@ -46,7 +46,7 @@ public class FileInfoAnalyzer {
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
      * Returns null if the file is missing from the local system, or none of the
-     * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
@@ -76,7 +76,7 @@ public class FileInfoAnalyzer {
      * Analyzes the binary file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
      * Returns null if the file is missing from the local system, or none of the
-     * {@code Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public static FileResult analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
@@ -92,7 +92,7 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Generates and returns a {@code FileResult} with the authorship results from {@code fileInfo} consolidated.
+     * Generates and returns a {@link FileResult} with the authorship results from {@code fileInfo} consolidated.
      */
     private static FileResult generateTextFileResult(FileInfo fileInfo) {
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
@@ -105,24 +105,23 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Generates and returns a {@code FileResult} with the authorship results from binary {@code fileInfo} consolidated.
+     * Generates and returns a {@link FileResult} with the authorship results from binary {@code fileInfo} consolidated.
      * Authorship results are indicated in the {@code authorContributionMap} as contributions with zero line counts.
-     * Returns {@code null} if none of the {@code Author} specified in {@code config} contributed to the file in
+     * Returns {@code null} if none of the {@link Author} specified in {@code config} contributed to the file in
      * {@code fileInfo}.
      */
     private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
-        String authorsString = GitLog.getBinaryFileAuthors(config, fileInfo.getPath());
-        if (authorsString.isEmpty()) { // Empty string, means no author at all
+        List<String[]> authorsString = GitLog.getFileAuthors(config, fileInfo.getPath());
+        if (authorsString.size() == 0) {
             return null;
         }
 
         Set<Author> authors = new HashSet<>();
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
 
-        for (String authorString : authorsString.split("\n")) {
-            String[] arr = authorString.split("\t");
-            String authorName = arr[0];
-            String authorEmail = arr[1];
+        for (String[] lineDetails : authorsString) {
+            String authorName = lineDetails[0];
+            String authorEmail = lineDetails[1];
             authors.add(config.getAuthor(authorName, authorEmail));
         }
 
@@ -134,8 +133,11 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Sets the {@code Author} and {@code Date} for each line in {@code fileInfo} based on the git blame analysis
-     * on the file.
+     * Sets the {@link Author} and {@link LocalDateTime} for each line in {@code fileInfo} based on the git blame
+     * analysis of the file.
+     * The {@code config} is used to obtain the root directory for running git blame as well as other parameters used
+     * in determining which author to assign to each line and whether to set the last modified date for a
+     * {@code lineInfo}.
      */
     private static void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo) {
         String blameResults;
@@ -148,8 +150,8 @@ public class FileInfoAnalyzer {
 
         String[] blameResultLines = blameResults.split("\n");
         Path filePath = Paths.get(fileInfo.getPath());
-        Long sinceDateInMs = config.getSinceDate().getTime();
-        Long untilDateInMs = config.getUntilDate().getTime();
+        LocalDateTime sinceDate = config.getSinceDate();
+        LocalDateTime untilDate = config.getUntilDate();
 
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
@@ -157,12 +159,13 @@ public class FileInfoAnalyzer {
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
             Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
-            String authorTimeZone = blameResultLines[lineCount + 4].substring(AUTHOR_TIMEZONE_OFFSET);
+            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(commitDateInMs),
+                    ZoneId.of(config.getZoneId()));
             Author author = config.getAuthor(authorName, authorEmail);
 
             if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
-                    || commitDateInMs < sinceDateInMs || commitDateInMs > untilDateInMs) {
+                    || commitDate.compareTo(sinceDate) < 0 || commitDate.compareTo(untilDate) > 0) {
                 author = Author.UNKNOWN_AUTHOR;
             }
 
@@ -171,25 +174,24 @@ public class FileInfoAnalyzer {
                     logger.warning(String.format(
                             MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT, config.getRepoName()));
                 }
-                // convert the commit date from the system default time zone to cli-specified timezone
-                Date convertedCommitDate = TimeUtil.getZonedDateFromSystemDate(new Date(commitDateInMs),
-                        ZoneId.of(config.getZoneId()));
 
-                fileInfo.setLineLastModifiedDate(lineCount / 5, convertedCommitDate);
+                fileInfo.setLineLastModifiedDate(lineCount / 5, commitDate);
             }
             fileInfo.setLineAuthor(lineCount / 5, author);
         }
     }
 
     /**
-     * Returns the analysis result from running git blame on {@code filePath}.
+     * Returns the analysis result from running git blame on {@code filePath} with reference to the root directory
+     * given in {@code config}.
      */
     private static String getGitBlameResult(RepoConfiguration config, String filePath) {
         return GitBlame.blame(config.getRepoRoot(), filePath);
     }
 
     /**
-     * Returns the analysis result from running git blame with finding previous authors enabled on {@code filePath}.
+     * Returns the analysis result from running git blame with finding previous authors enabled on {@code filePath}
+     * with reference to the root directory given in {@code config}.
      */
     private static String getGitBlameWithPreviousAuthorsResult(RepoConfiguration config, String filePath) {
         return GitBlame.blameWithPreviousAuthors(config.getRepoRoot(), filePath);

@@ -44,7 +44,7 @@ export default {
 
   methods: {
     getLink(commit) {
-      return `${window.getBaseLink(commit.repoId)}/commit/${commit.hash}`;
+      return window.getCommitLink(commit.repoId, commit.hash);
     },
     getWidth(slice) {
       if (slice.insertions === 0) {
@@ -82,7 +82,7 @@ export default {
         zTimeFrame: 'commit',
         zAvgCommitSize: slice.insertions,
         zUser: zoomUser,
-        zLocation: window.getBaseLink(user.repoId),
+        zLocation: window.getRepoLink(user.repoId),
         zSince: slice.date,
         zUntil: this.tframe === 'day' ? slice.date : slice.endDate,
         zIsMerged: this.mergegroup,

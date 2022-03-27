@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Represents an author in {@code StandaloneConfig}.
+ * Represents an author in {@link StandaloneConfig}.
  */
 public class StandaloneAuthor {
     private String githubId;

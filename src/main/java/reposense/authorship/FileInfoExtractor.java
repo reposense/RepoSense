@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -62,12 +63,13 @@ public class FileInfoExtractor {
         // checks out to the latest commit of the date range to ensure the FileInfo generated correspond to the
         // git blame file analyze output
         try {
-            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate());
+            GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate(),
+                    ZoneId.of(config.getZoneId()));
         } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }
-        String lastCommitHash = GitRevList.getCommitHashBeforeDate(
-                config.getRepoRoot(), config.getBranch(), config.getSinceDate());
+        String lastCommitHash = GitRevList.getCommitHashUntilDate(
+                config.getRepoRoot(), config.getBranch(), config.getSinceDate(), ZoneId.of(config.getZoneId()));
 
         fileInfos = (lastCommitHash.isEmpty())
                 ? getAllFileInfo(config, false)
@@ -87,9 +89,9 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Generates a list of relevant {@code FileInfo} for all files that were edited in between the current
-     * commit and the {@code lastCommitHash} commit, marks each {@code LineInfo} for each {@code FileInfo} on
-     * whether they have been inserted within the commit range or not, and returns it.
+     * Returns a list of {@link FileInfo}s for all files in the repo with lines marked indicating if they were edited
+     * in between the current commit and the commit given by {@code lastCommitHash}.
+     * The repo is given by {@code config}.
      */
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -132,9 +134,9 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}
+     * Returns a {@link Set} of non-binary files for the repo {@code repoConfig}
      * if {@code isBinaryFiles} is set to `false`.
-     * Otherwise, returns a {@code Set} of binary files for the repo {@code repoConfig}
+     * Otherwise, returns a {@link Set} of binary files for the repo {@code repoConfig}.
      */
     public static Set<Path> getFiles(RepoConfiguration repoConfig, boolean isBinaryFile) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));
@@ -143,13 +145,13 @@ public class FileInfoExtractor {
         return modifiedFileList.stream()
                 .filter(file -> isBinaryFile == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
                 .map(file -> file.split("\t")[2])
-                .filter(FileUtil::isValidPath)
+                .filter(FileUtil::isValidPathWithLogging)
                 .map(filteredFile -> Paths.get(filteredFile))
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
     /**
-     * Analyzes the {@code fileDiffResult} and marks each {@code LineInfo} in {@code FileInfo} on whether they were
+     * Analyzes the {@code fileDiffResult} and marks each {@link LineInfo} in {@code fileInfo} on whether they were
      * inserted in between the commit range.
      */
     private static void setLinesToTrack(FileInfo fileInfo, String fileDiffResult) {
@@ -185,8 +187,10 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Traverses each file from the repo root directory, generates the {@code FileInfo} for each relevant file found
+     * Traverses each file from the repo root directory, generates the {@link FileInfo} for each relevant file found
      * based on {@code config} and inserts it into {@code fileInfos}.
+     * Adds binary files to {@link List} if {@code isBinaryFiles} is true. Otherwise, adds non-binary files
+     * to {@link List}.
      */
     private static List<FileInfo> getAllFileInfo(RepoConfiguration config, boolean isBinaryFiles) {
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -203,8 +207,8 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Generates and returns a {@code FileInfo} with a list of {@code LineInfo} for each line content in the
-     * {@code relativePath} file.
+     * Returns a {@link FileInfo} with a list of {@link LineInfo} for each line content in the
+     * file located at the {@link Path} given by {@code repoRoot}/{@code relativePath}.
      */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
         FileInfo fileInfo = new FileInfo(relativePath);
@@ -225,8 +229,10 @@ public class FileInfoExtractor {
     /**
      * Returns the starting line changed number, within the file diff result, by matching the pattern inside
      * {@code linesChanged}.
+     *
+     * @throws AssertionError if matching line number pattern in chunk header fails.
      */
-    private static int getStartingLineNumber(String linesChanged) {
+    private static int getStartingLineNumber(String linesChanged) throws AssertionError {
         Matcher chunkHeaderMatcher = STARTING_LINE_NUMBER_PATTERN.matcher(linesChanged);
 
         if (!chunkHeaderMatcher.find()) {
@@ -238,12 +244,12 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code filePath} is valid and the file is not in binary.
+     * Returns true if {@code filePath} is valid and the file is not in binary (i.e. part of {@code textFilesSet}).
      */
     private static boolean isValidTextFile(String filePath, Set<Path> textFilesSet) {
         boolean isValidFilePath;
         try {
-            isValidFilePath = FileUtil.isValidPath(filePath);
+            isValidFilePath = FileUtil.isValidPathWithLogging(filePath);
         } catch (InvalidPathException ipe) {
             logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, filePath));
             isValidFilePath = false;
