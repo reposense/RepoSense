@@ -1,7 +1,5 @@
 package reposense.authorship;
 
-import static reposense.model.RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
-
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
@@ -304,8 +302,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Author author = new Author(MINGYI_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));
 
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), "pr_617.java",
-                DEFAULT_FILE_SIZE_LIMIT);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, "pr_617.java");
         FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
 
         Assert.assertEquals(1, fileInfo.getLines().size());
@@ -322,8 +319,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Author author = new Author(JAMES_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));
 
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(),
-                "includeLastModifiedDateInLinesTest.java", DEFAULT_FILE_SIZE_LIMIT);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, "includeLastModifiedDateInLinesTest.java");
         FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
 
         Assert.assertEquals(4, fileInfo.getLines().size());
@@ -338,8 +334,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setBranch("1647-FileAnalyzerTest-analyzeTextFile_fileExceedingFileSizeLimit_success");
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
 
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(),
-                "largeFile.json", DEFAULT_FILE_SIZE_LIMIT);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, "largeFile.json");
         FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
 
         Assert.assertEquals(46902, fileInfo.getLines().size());

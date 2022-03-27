@@ -73,6 +73,8 @@ public class RepoSense {
             RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId().toString());
             RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
                     cliArguments.isStandaloneConfigIgnored());
+            RepoConfiguration.setFilesizeLimitIgnoredToRepoConfigs(configs,
+                    cliArguments.isFilesizeLimitIgnored());
             RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(configs,
                     cliArguments.isLastModifiedDateIncluded());
             RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(configs,

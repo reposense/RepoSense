@@ -36,6 +36,7 @@ public class RepoConfiguration {
     private transient List<String> ignoredAuthorsList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
+    private transient boolean isFilesizeLimitIgnored;
     private transient List<CommitHash> ignoreCommitList;
     private transient boolean isLastModifiedDateIncluded;
     private transient boolean isShallowCloningPerformed;
@@ -46,6 +47,7 @@ public class RepoConfiguration {
     private transient boolean isIgnoredAuthorsListOverriding = false;
     private transient long fileSizeLimit;
     private transient boolean isFileSizeLimitOverriding;
+    private transient boolean isIgnoredFileAnalysisSkipped;
 
     public RepoConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
@@ -53,29 +55,31 @@ public class RepoConfiguration {
 
     public RepoConfiguration(RepoLocation location, String branch) {
         this(location, branch, Collections.emptyList(), Collections.emptyList(),
-                RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT, false, Collections.emptyList(), false, false, false, false,
-                false, false);
+                RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT, false, false, Collections.emptyList(), false, false, false,
+                false, false, false, false);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
-            long fileSizeLimit, boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList,
-            boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding,
-            boolean isFileDiffLimitOverriding, boolean isShallowCloningPerformed,
-            boolean isFindingPreviousAuthorsPerformed) {
+            long fileSizeLimit, boolean isStandaloneConfigIgnored, boolean isFilesizeLimitIgnored,
+            List<CommitHash> ignoreCommitList, boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding,
+            boolean isIgnoreCommitListOverriding, boolean isFilesizeLimitOverriding, boolean isShallowCloningPerformed,
+            boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
         this.fileSizeLimit = fileSizeLimit;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+        this.isFilesizeLimitIgnored = isFilesizeLimitIgnored;
         this.fileTypeManager = new FileTypeManager(formats);
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
-        this.isFileSizeLimitOverriding = isFileDiffLimitOverriding;
+        this.isFileSizeLimitOverriding = isFilesizeLimitOverriding;
         this.isShallowCloningPerformed = isShallowCloningPerformed;
         this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
+        this.isIgnoredFileAnalysisSkipped = isIgnoredFileAnalysisSkipped;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -244,6 +248,17 @@ public class RepoConfiguration {
             boolean ignoreAllStandaloneConfigs) {
         if (ignoreAllStandaloneConfigs) {
             configs.forEach(config -> config.setStandaloneConfigIgnored(true));
+        }
+    }
+
+    /**
+     * Sets each {@link RepoConfiguration} in {@code configs} to ignore its filesize limit, if
+     * {@code ignoreFilesizeLimit} is true.
+     */
+    public static void setFilesizeLimitIgnoredToRepoConfigs(List<RepoConfiguration> configs,
+                                                               boolean ignoreFilesizeLimit) {
+        if (ignoreFilesizeLimit) {
+            configs.forEach(config -> config.setFileSizeLimitIgnored(true));
         }
     }
 
@@ -569,6 +584,10 @@ public class RepoConfiguration {
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
     }
 
+    public void setFileSizeLimitIgnored(boolean isFileSizeLimitIgnored) {
+        this.isFilesizeLimitIgnored = isFileSizeLimitIgnored;
+    }
+
     public RepoLocation getLocation() {
         return location;
     }
@@ -579,6 +598,14 @@ public class RepoConfiguration {
 
     public boolean isStandaloneConfigIgnored() {
         return isStandaloneConfigIgnored;
+    }
+
+    public boolean isFilesizeLimitIgnored() {
+        return isFilesizeLimitIgnored;
+    }
+
+    public boolean isIgnoredFileAnalysisSkipped() {
+        return isIgnoredFileAnalysisSkipped;
     }
 
     public boolean isFormatsOverriding() {

@@ -18,6 +18,7 @@ public class FileInfo {
     private FileType fileType;
     private long fileSize;
     private boolean exceedsFileLimit = false;
+    private boolean isFileAnalyzed = true;
 
     public FileInfo(String path) {
         if (SystemUtil.isWindows()) {
@@ -70,6 +71,14 @@ public class FileInfo {
 
     public void setFileSize(long fileSize) {
         this.fileSize = fileSize;
+    }
+
+    public void setFileAnalyzed(boolean isFileAnalyzed) {
+        this.isFileAnalyzed = isFileAnalyzed;
+    }
+
+    public boolean isFileAnalyzed() {
+        return isFileAnalyzed;
     }
 
     public boolean exceedsFileLimit() {

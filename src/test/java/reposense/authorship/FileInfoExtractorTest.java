@@ -20,7 +20,6 @@ import reposense.model.FileTypeTest;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
-
 public class FileInfoExtractorTest extends GitTestTemplate {
     private static final Path TEST_DATA_FOLDER = Paths.get("src", "test", "resources", "FileInfoExtractorTest");
     private static final Path FILE_WITH_SPECIAL_CHARACTER = TEST_DATA_FOLDER.resolve("fileWithSpecialCharacters.txt");
@@ -134,14 +133,14 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void generateFileInfo_fileWithSpecialCharacters_correctFileInfoGenerated() {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITH_SPECIAL_CHARACTER.toString(),
-                DEFAULT_FILE_SIZE_LIMIT);
+                DEFAULT_FILE_SIZE_LIMIT, false, false);
         Assert.assertEquals(5, fileInfo.getLines().size());
     }
 
     @Test
     public void generateFileInfo_fileWithoutSpecialCharacters_correctFileInfoGenerated() {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITHOUT_SPECIAL_CHARACTER.toString(),
-                DEFAULT_FILE_SIZE_LIMIT);
+                DEFAULT_FILE_SIZE_LIMIT, false, false);
         Assert.assertEquals(5, fileInfo.getLines().size());
     }
 

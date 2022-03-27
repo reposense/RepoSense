@@ -1,7 +1,6 @@
 package reposense.template;
 
 import static org.junit.Assert.assertEquals;
-import static reposense.model.RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 
 import java.io.File;
 import java.util.Arrays;
@@ -121,8 +120,7 @@ public class GitTestTemplate {
      * Generates the information for test file at {@code relativePath}.
      */
     public FileInfo generateTestFileInfo(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath,
-                DEFAULT_FILE_SIZE_LIMIT);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
 
         config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
