@@ -45,6 +45,13 @@ public class StringsUtil {
         if (SystemUtil.isWindows()) {
             return "\"" + filePath + "\"";
         } else {
+            // Adds support for tilde expansion by not quoting a filepath starting with a '~' symbol
+            // https://www.gnu.org/software/bash/manual/html_node/Tilde-Expansion.html#Tilde-Expansion
+            if (filePath.charAt(0) == '~') {
+                // if the user used tilde expansion correctly, the filepath itself can be directly reused
+                return filePath;
+            }
+
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < filePath.length(); i++) {
                 char c = filePath.charAt(i);

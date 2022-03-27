@@ -75,7 +75,7 @@ public class StringsUtilTest {
     }
 
     @Test
-    public void addQuotationMarksForPath_specialBashCharacters_success() {
+    public void addQuotesForFilePath_specialBashCharacters_success() {
         Assumptions.assumeTrue(!SystemUtil.isWindows());
 
         // The characters being tested against are taken from this post: https://unix.stackexchange.com/a/357932
@@ -87,5 +87,21 @@ public class StringsUtilTest {
         result = result.substring(0, result.length() - 1);
 
         Assertions.assertEquals(specialBashSymbols, result);
+    }
+
+    @Test
+    public void addQuotesForFilePath_tildeBashExpansion_success() {
+        Assumptions.assumeTrue(!SystemUtil.isWindows());
+
+        String standardTildeFilePath = "~/'path with spaces/repo/'";
+        String expectedStandardTildeFilePath = "~/'path with spaces/repo/'";
+
+
+        String tildeFilePathWithLoginName = "~cs3281/'path with spaces/repo'/";
+        String expectedTildeFilePathWithLoginName = "~cs3281/'path with spaces/repo'/";
+
+        Assertions.assertEquals(standardTildeFilePath, StringsUtil.addQuotesForFilePath(expectedStandardTildeFilePath));
+        Assertions.assertEquals(tildeFilePathWithLoginName,
+                StringsUtil.addQuotesForFilePath(expectedTildeFilePathWithLoginName));
     }
 }
