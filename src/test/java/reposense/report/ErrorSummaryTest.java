@@ -1,7 +1,7 @@
 package reposense.report;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.model.RepoLocation;
 import reposense.parser.InvalidLocationException;
@@ -21,34 +21,34 @@ public class ErrorSummaryTest {
         } catch (InvalidLocationException e) {
             // not relevant to the test
         }
-        Assert.assertEquals(1, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(1, errorSummaryInstance.getErrorSet().size());
 
         try {
             new RepoLocation(invalidLocation1);
         } catch (InvalidLocationException e) {
             // not relevant to the test
         }
-        Assert.assertEquals(1, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(1, errorSummaryInstance.getErrorSet().size());
 
         try {
             new RepoLocation(invalidLocation2);
         } catch (InvalidLocationException e) {
             // not relevant to the test
         }
-        Assert.assertEquals(2, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(2, errorSummaryInstance.getErrorSet().size());
 
         try {
             new RepoLocation(invalidLocation1);
         } catch (InvalidLocationException e) {
             // not relevant to the test
         }
-        Assert.assertEquals(2, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(2, errorSummaryInstance.getErrorSet().size());
 
         try {
             new RepoLocation(invalidLocation3);
         } catch (InvalidLocationException e) {
             // not relevant to the test
         }
-        Assert.assertEquals(3, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(3, errorSummaryInstance.getErrorSet().size());
     }
 }
