@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -209,7 +210,8 @@ public class ConfigSystemTest {
 
         boolean isGitVersionInsufficient = RepoConfiguration.isAnyRepoFindingPreviousAuthors(repoConfigs)
                 && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors();
-        Assertions.assertFalse(isGitVersionInsufficient, "Git version 2.23.0 and above necessary to run test");
+
+        Assumptions.assumeFalse(isGitVersionInsufficient, "Git version 2.23.0 and above necessary to run test");
 
         ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
