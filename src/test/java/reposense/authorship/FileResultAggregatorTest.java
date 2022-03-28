@@ -8,8 +8,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
@@ -43,7 +43,7 @@ public class FileResultAggregatorTest extends GitTestTemplate {
         //
 
         FileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(), config.getAllFileTypes());
-        Assert.assertEquals(fileResults.stream()
+        Assertions.assertEquals(fileResults.stream()
                 .filter(f -> f.getPath().contains("largeFile.json"))
                 .findFirst()
                 .map(f -> f.getLines().size()), Optional.of(0));
