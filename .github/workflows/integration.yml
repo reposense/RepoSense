@@ -71,7 +71,10 @@ jobs:
 
     - name: Run code coverage
       if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
-      run: bash <(curl -s https://codecov.io/bash)
+      run: |
+        curl -Os https://uploader.codecov.io/latest/linux/codecov 
+        chmod +x codecov
+        ./codecov
 
     - name: Build preview website (pull request)
       if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
