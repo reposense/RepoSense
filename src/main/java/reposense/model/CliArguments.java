@@ -20,7 +20,7 @@ public abstract class CliArguments {
     protected boolean isShallowCloningPerformed;
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
-    protected boolean isFilesizeLimitIgnored;
+    protected boolean isFileSizeLimitIgnored;
     protected int numCloningThreads;
     protected int numAnalysisThreads;
     protected ZoneId zoneId;
@@ -74,8 +74,8 @@ public abstract class CliArguments {
         return isStandaloneConfigIgnored;
     }
 
-    public boolean isFilesizeLimitIgnored() {
-        return isFilesizeLimitIgnored;
+    public boolean isFileSizeLimitIgnored() {
+        return isFileSizeLimitIgnored;
     }
 
     public int getNumCloningThreads() {

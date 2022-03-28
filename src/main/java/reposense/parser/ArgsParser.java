@@ -256,7 +256,7 @@ public class ArgsParser {
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_CONFIG_FLAGS[0]);
-            boolean isFilesizeLimitIgnored = results.get(IGNORE_SIZELIMIT_FLAGS[0]);
+            boolean isFileSizeLimitIgnored = results.get(IGNORE_SIZELIMIT_FLAGS[0]);
             boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
             boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
             boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
@@ -335,7 +335,7 @@ public class ArgsParser {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                         isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
                         shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-                        isStandaloneConfigIgnored, isFilesizeLimitIgnored, zoneId, shouldFindPreviousAuthors);
+                        isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, shouldFindPreviousAuthors);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
@@ -344,7 +344,7 @@ public class ArgsParser {
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
                     shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-                    isStandaloneConfigIgnored, isFilesizeLimitIgnored, zoneId, reportConfig, shouldFindPreviousAuthors);
+                    isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, reportConfig, shouldFindPreviousAuthors);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

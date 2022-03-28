@@ -224,7 +224,7 @@ public class FileInfoExtractor {
      */
     public static FileInfo generateFileInfo(RepoConfiguration config, String relativePath) {
         return generateFileInfo(config.getRepoRoot(), relativePath, config.getFileSizeLimit(),
-            config.isFilesizeLimitIgnored(), config.isIgnoredFileAnalysisSkipped());
+            config.isFileSizeLimitIgnored(), config.isIgnoredFileAnalysisSkipped());
     }
 
     /**
@@ -232,14 +232,14 @@ public class FileInfoExtractor {
      * file located at the {@link Path} given by {@code repoRoot}/{@code relativePath}.
      */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath, long fileSizeLimit,
-            boolean ignoreFilesizeLimit, boolean skipIgnoredFileAnalysis) {
+            boolean ignoreFileSizeLimit, boolean skipIgnoredFileAnalysis) {
         FileInfo fileInfo = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, fileInfo.getPath());
 
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
             long fileSize = Files.size(path);
             fileInfo.setFileSize(fileSize);
-            if (!ignoreFilesizeLimit && fileSize > fileSizeLimit) {
+            if (!ignoreFileSizeLimit && fileSize > fileSizeLimit) {
                 fileInfo.setExceedsSizeLimit(true);
                 if (skipIgnoredFileAnalysis) {
                     logger.log(Level.WARNING, String.format(MESSAGE_FILE_SIZE_LIMIT_EXCEEDED,

@@ -54,6 +54,8 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_unknownHeaders_test.csv");
     private static final Path REPO_CONFIG_INVALID_FILE_SIZE_LIMIT = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_invalidFileSizeLimit_test.csv");
+    private static final Path REPO_CONFIG_IGNORE_FILE_SIZE_LIMIT = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_ignoreFileSizeLimit_test.csv");
     private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repoconfig_zeroValidRecords_test.csv");
 
@@ -110,6 +112,8 @@ public class RepoConfigParserTest {
         Assertions.assertFalse(config.isIgnoreGlobListOverriding());
         Assertions.assertFalse(config.isIgnoreCommitListOverriding());
         Assertions.assertFalse(config.isFileSizeLimitOverriding());
+        Assertions.assertFalse(config.isFileSizeLimitIgnored());
+        Assertions.assertTrue(config.isIgnoredFileAnalysisSkipped());
     }
 
     @Test
@@ -315,6 +319,8 @@ public class RepoConfigParserTest {
         Assertions.assertFalse(configs.get(0).isStandaloneConfigIgnored());
         Assertions.assertFalse(configs.get(0).isShallowCloningPerformed());
         Assertions.assertFalse(configs.get(0).isFindingPreviousAuthorsPerformed());
+        Assertions.assertFalse(configs.get(0).isFileSizeLimitIgnored());
+        Assertions.assertFalse(configs.get(0).isIgnoredFileAnalysisSkipped());
     }
 
     @Test
@@ -325,6 +331,17 @@ public class RepoConfigParserTest {
 
         Assertions.assertEquals(configs.get(0).getFileSizeLimit(), DEFAULT_FILE_SIZE_LIMIT);
         Assertions.assertFalse(configs.get(0).isFileSizeLimitOverriding());
+    }
+
+    @Test
+    public void repoConfig_ignoreFileSizeLimit_ignoreFileSizeColumns() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_IGNORE_FILE_SIZE_LIMIT);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertTrue(configs.get(0).isFileSizeLimitIgnored());
+        Assertions.assertFalse(configs.get(0).isFileSizeLimitOverriding());
+        Assertions.assertFalse(configs.get(0).isIgnoredFileAnalysisSkipped());
     }
 
     @Test
