@@ -121,11 +121,6 @@ window.toggleNext = function toggleNext(ele) {
   parent.className = classes.join(' ');
 };
 
-window.hasValidRemote = function hasValidRemote(repoId) {
-  return !!(window.REPOS[repoId].location.organization)
-      && !!(window.REPOS[repoId].location.repoName);
-};
-
 window.filterUnsupported = function filterUnsupported(string) {
   // checks for a pre-defined unsupported tag
   return string.includes(window.UNSUPPORTED_INDICATOR) ? undefined : string;

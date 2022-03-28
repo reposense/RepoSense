@@ -21,7 +21,6 @@ import reposense.util.SystemUtil;
  * Represents a repository location.
  */
 public class RepoLocation {
-
     protected static final String UNSUPPORTED_DOMAIN_NAME = "NOT_RECOGNIZED";
 
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
@@ -57,6 +56,7 @@ public class RepoLocation {
     private transient String localRepoName;
     private transient String localOrganization;
     private transient String localDomainName;
+
 
     /**
      * Creates {@link RepoLocation} based on the {@code location}, which is represented by a {@code URL}

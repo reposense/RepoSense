@@ -305,10 +305,6 @@ export default {
       return window.getAuthorLink(repo.repoId, userName);
     },
 
-    hasValidRemote(repo) {
-      return window.hasValidRemote(repo.repoId);
-    },
-
     getRepoLink(repo) {
       const { REPOS } = window;
       const { location, branch } = REPOS[repo.repoId];

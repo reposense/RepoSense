@@ -111,7 +111,7 @@
                 font-awesome-icon.button(icon="history")
                 span.tooltip-text Click to view the history view of file
             a(
-              v-if='!file.isBinary && hasValidRemote(info)',
+              v-if='!file.isBinary',
               v-bind:href="getBlameLink(file)", target="_blank",
               title="click to view the blame view of file"
             )
