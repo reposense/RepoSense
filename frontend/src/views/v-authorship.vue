@@ -366,10 +366,6 @@ export default {
       return false;
     },
 
-    hasValidRemote(info) {
-      return window.hasValidRemote(info.repo);
-    },
-
     splitSegments(lines) {
       // split into segments separated by authored
       let lastState;

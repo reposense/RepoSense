@@ -4,7 +4,7 @@
     template(v-for="(slice, j) in user.commits")
       a.ramp__slice(
         draggable="false",
-        v-on:click="(evt) => rampClick(evt, commit)",
+        v-on:click="rampClick",
         v-for="(commit, k) in slice.commitResults.filter(commitResult => commitResult.insertions > 0)",
         v-bind:href="getLink(commit)", target="_blank",
         v-bind:title="getContributionMessage(slice, commit)",
@@ -118,9 +118,9 @@ export default {
     },
 
     // Prevent browser from switching to new tab when clicking ramp
-    rampClick(evt, commit) {
+    rampClick(evt) {
       const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
-      if (isKeyPressed || !window.hasValidRemote(commit.repoId)) {
+      if (isKeyPressed) {
         evt.preventDefault();
       }
     },
