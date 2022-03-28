@@ -6,9 +6,9 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -43,7 +43,7 @@ public class StandaloneConfigTest extends GitTestTemplate {
 
     private static StandaloneConfig validStandaloneConfig;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
         validStandaloneConfig = new StandaloneConfigJsonParser().parse(VALID_CONFIG);
     }
@@ -59,7 +59,7 @@ public class StandaloneConfigTest extends GitTestTemplate {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(SPECIAL_CHARACTER_AUTHOR_CONFIG);
         config.update(standaloneConfig);
 
-        Assert.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
+        Assertions.assertEquals(AUTHOR_CONFIG_SPECIAL_CHARACTER_AUTHORS, config.getAuthorList());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class StandaloneConfigTest extends GitTestTemplate {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(AUTHORS_TRAILING_COMMAS_CONFIG);
         config.update(standaloneConfig);
 
-        Assert.assertEquals(validStandaloneConfig, standaloneConfig);
+        Assertions.assertEquals(validStandaloneConfig, standaloneConfig);
     }
 
     @Test
@@ -75,29 +75,30 @@ public class StandaloneConfigTest extends GitTestTemplate {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(FILE_SIZE_LIMIT_CONFIG);
         config.update(standaloneConfig);
 
-        Assert.assertEquals(FILE_SIZE_LIMIT, config.getFileSizeLimit());
+        Assertions.assertEquals(FILE_SIZE_LIMIT, config.getFileSizeLimit());
     }
 
-    @Test(expected = JsonSyntaxException.class)
-    public void standaloneConfig_trailingCommasInMaps_throwsJsonSyntaxException() throws Exception {
-        new StandaloneConfigJsonParser().parse(LITHIUMLKID_TRAILING_COMMAS_CONFIG);
+    @Test
+    public void standaloneConfig_trailingCommasInMaps_throwsJsonSyntaxException() {
+        Assertions.assertThrows(JsonSyntaxException.class, () -> new StandaloneConfigJsonParser()
+                .parse(LITHIUMLKID_TRAILING_COMMAS_CONFIG));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void standaloneConfig_invalidIgnoreGlob_throwIllegalArgumentException() throws Exception {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_IGNOREGLOB_CONFIG);
-        config.update(standaloneConfig);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> config.update(standaloneConfig));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void standaloneConfig_invalidFormats_throwIllegalArgumentException() throws Exception {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_FORMATS_CONFIG);
-        config.update(standaloneConfig);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> config.update(standaloneConfig));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void standaloneConfig_invalidIgnoreCommit_throwIllegalArgumentException() throws Exception {
         StandaloneConfig standaloneConfig = new StandaloneConfigJsonParser().parse(INVALID_IGNORECOMMIT_CONFIG);
-        config.update(standaloneConfig);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> config.update(standaloneConfig));
     }
 }

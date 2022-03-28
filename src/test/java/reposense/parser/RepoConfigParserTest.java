@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
@@ -33,8 +33,6 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_overrideKeyword_test.csv");
     private static final Path REPO_CONFIG_REDUNDANT_LINES_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
-    private static final Path REPO_CONFIG_INVALID_LOCATION_FILE = loadResource(RepoConfigParserTest.class,
-            "RepoConfigParserTest/repoconfig_invalidLocation_test.csv");
     private static final Path REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE =
             loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv");
@@ -91,27 +89,27 @@ public class RepoConfigParserTest {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         RepoConfiguration config = configs.get(0);
 
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
+        Assertions.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
 
-        Assert.assertTrue(config.isStandaloneConfigIgnored());
+        Assertions.assertTrue(config.isStandaloneConfigIgnored());
 
-        Assert.assertEquals(config.getIgnoreCommitList(),
+        Assertions.assertEquals(config.getIgnoreCommitList(),
                 CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
-        Assert.assertEquals(config.getFileSizeLimit(), FILE_SIZE_LIMIT_VALUE);
+        Assertions.assertEquals(config.getFileSizeLimit(), FILE_SIZE_LIMIT_VALUE);
 
-        Assert.assertTrue(config.isShallowCloningPerformed());
+        Assertions.assertTrue(config.isShallowCloningPerformed());
 
-        Assert.assertFalse(config.isFormatsOverriding());
-        Assert.assertFalse(config.isIgnoreGlobListOverriding());
-        Assert.assertFalse(config.isIgnoreCommitListOverriding());
-        Assert.assertFalse(config.isFileSizeLimitOverriding());
+        Assertions.assertFalse(config.isFormatsOverriding());
+        Assertions.assertFalse(config.isIgnoreGlobListOverriding());
+        Assertions.assertFalse(config.isIgnoreCommitListOverriding());
+        Assertions.assertFalse(config.isFileSizeLimitOverriding());
     }
 
     @Test
@@ -148,7 +146,7 @@ public class RepoConfigParserTest {
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
-        Assert.assertEquals(2, actualConfigs.size());
+        Assertions.assertEquals(2, actualConfigs.size());
         TestUtil.compareRepoConfig(firstRepo, actualConfigs.get(0));
         TestUtil.compareRepoConfig(secondRepo, actualConfigs.get(1));
     }
@@ -195,8 +193,8 @@ public class RepoConfigParserTest {
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
-        Assert.assertEquals(2, actualConfigs.size());
-        Assert.assertEquals(expectedConfigs, actualConfigs);
+        Assertions.assertEquals(2, actualConfigs.size());
+        Assertions.assertEquals(expectedConfigs, actualConfigs);
 
         TestUtil.compareRepoConfig(expectedConfigs.get(0), actualConfigs.get(0));
         TestUtil.compareRepoConfig(expectedConfigs.get(1), actualConfigs.get(1));
@@ -216,9 +214,9 @@ public class RepoConfigParserTest {
                 new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
-        Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(expectedConfig.getBranch(), actualConfigs.get(0).getBranch());
-        Assert.assertEquals(expectedConfig.getBranch(), authorConfigs.get(0).getBranch());
+        Assertions.assertEquals(1, actualConfigs.size());
+        Assertions.assertEquals(expectedConfig.getBranch(), actualConfigs.get(0).getBranch());
+        Assertions.assertEquals(expectedConfig.getBranch(), authorConfigs.get(0).getBranch());
     }
 
     @Test
@@ -227,19 +225,19 @@ public class RepoConfigParserTest {
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
         RepoConfiguration config = configs.get(0);
 
-        Assert.assertEquals(1, configs.size());
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
-        Assert.assertFalse(config.isStandaloneConfigIgnored());
-        Assert.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
+        Assertions.assertEquals(1, configs.size());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+        Assertions.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
+        Assertions.assertFalse(config.isStandaloneConfigIgnored());
+        Assertions.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
                 config.getIgnoreCommitList());
-        Assert.assertEquals(FILE_SIZE_LIMIT_VALUE, config.getFileSizeLimit());
+        Assertions.assertEquals(FILE_SIZE_LIMIT_VALUE, config.getFileSizeLimit());
 
-        Assert.assertTrue(config.isFormatsOverriding());
-        Assert.assertTrue(config.isIgnoreGlobListOverriding());
-        Assert.assertTrue(config.isIgnoreCommitListOverriding());
-        Assert.assertTrue(config.isFileSizeLimitOverriding());
+        Assertions.assertTrue(config.isFormatsOverriding());
+        Assertions.assertTrue(config.isIgnoreGlobListOverriding());
+        Assertions.assertTrue(config.isIgnoreCommitListOverriding());
+        Assertions.assertTrue(config.isFileSizeLimitOverriding());
     }
 
     @Test
@@ -247,18 +245,18 @@ public class RepoConfigParserTest {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_REDUNDANT_LINES_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
-        Assert.assertEquals(3, configs.size());
+        Assertions.assertEquals(3, configs.size());
         RepoConfiguration betaConfig = configs.get(0);
         RepoConfiguration charlieConfig = configs.get(1);
         RepoConfiguration deltaConfig = configs.get(2);
 
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), betaConfig.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, betaConfig.getBranch());
-        Assert.assertEquals(new RepoLocation(TEST_REPO_CHARLIE_LOCATION), charlieConfig.getLocation());
-        Assert.assertEquals(TEST_REPO_CHARLIE_BRANCH, charlieConfig.getBranch());
-        Assert.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), deltaConfig.getLocation());
-        Assert.assertEquals(TEST_REPO_DELTA_BRANCH, deltaConfig.getBranch());
-        Assert.assertTrue(deltaConfig.isStandaloneConfigIgnored());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), betaConfig.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, betaConfig.getBranch());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_CHARLIE_LOCATION), charlieConfig.getLocation());
+        Assertions.assertEquals(TEST_REPO_CHARLIE_BRANCH, charlieConfig.getBranch());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_DELTA_LOCATION), deltaConfig.getLocation());
+        Assertions.assertEquals(TEST_REPO_DELTA_BRANCH, deltaConfig.getBranch());
+        Assertions.assertTrue(deltaConfig.isStandaloneConfigIgnored());
     }
 
     @Test
@@ -266,23 +264,23 @@ public class RepoConfigParserTest {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_DIFFERENT_COLUMN_ORDER_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         RepoConfiguration config = configs.get(0);
 
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
+        Assertions.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
 
-        Assert.assertTrue(config.isStandaloneConfigIgnored());
+        Assertions.assertTrue(config.isStandaloneConfigIgnored());
 
-        Assert.assertEquals(config.getIgnoreCommitList(),
+        Assertions.assertEquals(config.getIgnoreCommitList(),
                 CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
 
-        Assert.assertFalse(config.isFormatsOverriding());
-        Assert.assertFalse(config.isIgnoreGlobListOverriding());
-        Assert.assertFalse(config.isIgnoreCommitListOverriding());
+        Assertions.assertFalse(config.isFormatsOverriding());
+        Assertions.assertFalse(config.isIgnoreGlobListOverriding());
+        Assertions.assertFalse(config.isIgnoreCommitListOverriding());
     }
 
     @Test
@@ -290,30 +288,22 @@ public class RepoConfigParserTest {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OPTIONAL_HEADER_MISSING_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
-        Assert.assertEquals(1, configs.size());
+        Assertions.assertEquals(1, configs.size());
 
         RepoConfiguration config = configs.get(0);
 
-        Assert.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
-        Assert.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
-        Assert.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
-        Assert.assertEquals(DEFAULT_FILE_SIZE_LIMIT, config.getFileSizeLimit());
+        Assertions.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
+        Assertions.assertEquals(DEFAULT_FILE_SIZE_LIMIT, config.getFileSizeLimit());
 
-        Assert.assertTrue(config.isStandaloneConfigIgnored());
+        Assertions.assertTrue(config.isStandaloneConfigIgnored());
 
-        Assert.assertFalse(config.isFormatsOverriding());
-        Assert.assertFalse(config.isIgnoreGlobListOverriding());
-        Assert.assertFalse(config.isIgnoreCommitListOverriding());
-        Assert.assertFalse(config.isFileSizeLimitOverriding());
-    }
-
-    @Test
-    public void repoConfig_withInvalidLocation_success() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_LOCATION_FILE);
-        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
-
-        Assert.assertEquals(2, configs.size());
+        Assertions.assertFalse(config.isFormatsOverriding());
+        Assertions.assertFalse(config.isIgnoreGlobListOverriding());
+        Assertions.assertFalse(config.isIgnoreCommitListOverriding());
+        Assertions.assertFalse(config.isFileSizeLimitOverriding());
     }
 
     @Test
@@ -322,9 +312,9 @@ public class RepoConfigParserTest {
                 new RepoConfigCsvParser(REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
-        Assert.assertFalse(configs.get(0).isStandaloneConfigIgnored());
-        Assert.assertFalse(configs.get(0).isShallowCloningPerformed());
-        Assert.assertFalse(configs.get(0).isFindingPreviousAuthorsPerformed());
+        Assertions.assertFalse(configs.get(0).isStandaloneConfigIgnored());
+        Assertions.assertFalse(configs.get(0).isShallowCloningPerformed());
+        Assertions.assertFalse(configs.get(0).isFindingPreviousAuthorsPerformed());
     }
 
     @Test
@@ -333,40 +323,40 @@ public class RepoConfigParserTest {
                 new RepoConfigCsvParser(REPO_CONFIG_INVALID_FILE_SIZE_LIMIT);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
-        Assert.assertEquals(configs.get(0).getFileSizeLimit(), DEFAULT_FILE_SIZE_LIMIT);
-        Assert.assertFalse(configs.get(0).isFileSizeLimitOverriding());
+        Assertions.assertEquals(configs.get(0).getFileSizeLimit(), DEFAULT_FILE_SIZE_LIMIT);
+        Assertions.assertFalse(configs.get(0).isFileSizeLimitOverriding());
     }
 
-    @Test (expected = InvalidCsvException.class)
+    @Test
     public void repoConfig_mandatoryHeaderMissing_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_MANDATORY_HEADER_MISSING_FILE);
-        repoConfigCsvParser.parse();
+        Assertions.assertThrows(InvalidCsvException.class, () -> repoConfigCsvParser.parse());
     }
 
-    @Test (expected = InvalidCsvException.class)
+    @Test
     public void repoConfig_zeroValidRecords_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_ZERO_VALID_RECORDS);
-        repoConfigCsvParser.parse();
+        Assertions.assertThrows(InvalidCsvException.class, () -> repoConfigCsvParser.parse());
     }
 
-    @Test (expected = InvalidCsvException.class)
+    @Test
     public void repoConfig_duplicateHeadersCaseSensitive_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
                 new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE);
-        repoConfigCsvParser.parse();
+        Assertions.assertThrows(InvalidCsvException.class, () -> repoConfigCsvParser.parse());
     }
 
-    @Test (expected = InvalidCsvException.class)
+    @Test
     public void repoConfig_duplicateHeadersCaseInsensitive_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
                 new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE);
-        repoConfigCsvParser.parse();
+        Assertions.assertThrows(InvalidCsvException.class, () -> repoConfigCsvParser.parse());
     }
 
-    @Test (expected = InvalidHeaderException.class)
+    @Test
     public void repoConfig_unknownHeaders_throwsInvalidHeaderException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
                 new RepoConfigCsvParser(REPO_CONFIG_UNKNOWN_HEADER_FILE);
-        repoConfigCsvParser.parse();
+        Assertions.assertThrows(InvalidHeaderException.class, () -> repoConfigCsvParser.parse());
     }
 }

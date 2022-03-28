@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import reposense.RepoSense;
 import reposense.git.GitClone;
@@ -57,7 +57,6 @@ public class RepoConfigurationTest {
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
             "https://github.com/reposense/testrepo-minimalstandaloneconfig.git";
-    private static final String TEST_REPO_INVALID_LOCATION = "ftp://github.com/reposense/testrepo-Delta.git";
 
     private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
@@ -88,7 +87,7 @@ public class RepoConfigurationTest {
 
     private static RepoConfiguration repoDeltaStandaloneConfig;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
         FIRST_AUTHOR.setAuthorAliases(FIRST_AUTHOR_ALIASES);
         SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
@@ -531,8 +530,8 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
-        Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(CONFIG_FORMATS, actualConfigs.get(0).getFileTypeManager().getFormats());
+        Assertions.assertEquals(1, actualConfigs.size());
+        Assertions.assertEquals(CONFIG_FORMATS, actualConfigs.get(0).getFileTypeManager().getFormats());
     }
 
     @Test
@@ -547,10 +546,10 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
-        Assert.assertEquals(1, actualConfigs.size());
+        Assertions.assertEquals(1, actualConfigs.size());
 
         List<FileType> actualFormats = actualConfigs.get(0).getFileTypeManager().getFormats();
-        Assert.assertEquals(FileType.convertFormatStringsToFileTypes(CLI_FORMATS), actualFormats);
+        Assertions.assertEquals(FileType.convertFormatStringsToFileTypes(CLI_FORMATS), actualFormats);
     }
 
     @Test
@@ -565,9 +564,9 @@ public class RepoConfigurationTest {
 
         RepoConfiguration.setGroupConfigsToRepos(actualConfigs, groupConfigs);
 
-        Assert.assertEquals(2, actualConfigs.size());
-        Assert.assertEquals(FIRST_CONFIG_GROUPS, actualConfigs.get(0).getFileTypeManager().getGroups());
-        Assert.assertEquals(SECOND_CONFIG_GROUPS, actualConfigs.get(1).getFileTypeManager().getGroups());
+        Assertions.assertEquals(2, actualConfigs.size());
+        Assertions.assertEquals(FIRST_CONFIG_GROUPS, actualConfigs.get(0).getFileTypeManager().getGroups());
+        Assertions.assertEquals(SECOND_CONFIG_GROUPS, actualConfigs.get(1).getFileTypeManager().getGroups());
     }
 
     @Test
@@ -579,8 +578,9 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
-        Assert.assertEquals(1, actualConfigs.size());
-        Assert.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, actualConfigs.get(0).getFileTypeManager().getFormats());
+        Assertions.assertEquals(1, actualConfigs.size());
+        Assertions.assertEquals(FileTypeTest.NO_SPECIFIED_FORMATS, actualConfigs.get(0).getFileTypeManager()
+                .getFormats());
     }
 
     @Test
@@ -589,8 +589,8 @@ public class RepoConfigurationTest {
         RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration(new RepoLocation(""));
         RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration(new RepoLocation(""), "master");
 
-        Assert.assertEquals(emptyLocationDefaultBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
-        Assert.assertEquals(emptyLocationWithBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
+        Assertions.assertEquals(emptyLocationDefaultBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
+        Assertions.assertEquals(emptyLocationWithBranchRepoConfig, emptyLocationEmptyBranchRepoConfig);
     }
 
     @Test
@@ -600,7 +600,7 @@ public class RepoConfigurationTest {
         RepoConfiguration validLocationDefaultBranchRepoConfig =
                 new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA));
 
-        Assert.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
+        Assertions.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
     }
 
     @Test
@@ -702,18 +702,5 @@ public class RepoConfigurationTest {
         updateAuthorList.invoke(null, actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
-    }
-
-    @Test
-    public void repoConfig_withInvalidLocation_success() throws Exception {
-        String formats = String.join(" ", CLI_FORMATS);
-        String input = new InputBuilder().addRepos(TEST_REPO_BETA, TEST_REPO_DELTA, TEST_REPO_INVALID_LOCATION)
-                .addFormats(formats)
-                .addIgnoreStandaloneConfig()
-                .build();
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
-
-        Assert.assertEquals(2, actualConfigs.size());
     }
 }
