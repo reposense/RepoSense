@@ -55,8 +55,6 @@ public class RepoLocation {
     private final transient boolean isLocal;
     private transient String localRepoName;
     private transient String localOrganization;
-    private transient String localDomainName;
-
 
     /**
      * Creates {@link RepoLocation} based on the {@code location}, which is represented by a {@code URL}
@@ -78,7 +76,6 @@ public class RepoLocation {
             String[] localRepoNameAndOrg = getLocalRepoNameAndOrg(location);
             this.localRepoName = localRepoNameAndOrg[0];
             this.localOrganization = localRepoNameAndOrg[1];
-            this.localDomainName = localRepoNameAndOrg[2];
 
             Map<String, String> remotes = GitRemote.getRemotes(location);
             String newLocation = remotes.size() == 0
@@ -120,9 +117,6 @@ public class RepoLocation {
     }
 
     public String getDomainName() {
-        if (this.isLocal && !isEmpty()) {
-            return localDomainName;
-        }
         return domainName;
     }
 
