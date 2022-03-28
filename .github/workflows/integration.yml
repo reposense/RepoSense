@@ -72,7 +72,7 @@ jobs:
     - name: Run code coverage
       if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
       run: |
-        curl -Os https://uploader.codecov.io/latest/linux/codecov 
+        curl -Os https://uploader.codecov.io/latest/linux/codecov
         chmod +x codecov
         ./codecov
 
