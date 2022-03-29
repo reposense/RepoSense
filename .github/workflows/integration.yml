@@ -71,10 +71,10 @@ jobs:
 
     - name: Run code coverage
       if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
-      run: |
-        curl -Os https://uploader.codecov.io/latest/linux/codecov
-        chmod +x codecov
-        ./codecov
+      uses: codecov/codecov-action@v2
+      with:
+        file: ${{ github.workspace }}/build/reports/jacoco/coverage/coverage.xml
+        fail_ci_if_error: true
 
     - name: Build preview website (pull request)
       if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
