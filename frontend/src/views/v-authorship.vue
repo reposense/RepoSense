@@ -105,14 +105,14 @@
             span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
           span.icons
             a(
-              v-bind:href="getFileLink(file, 'commits')", target="_blank"
+              v-bind:href="getHistoryLink(file)", target="_blank"
             )
               .tooltip
                 font-awesome-icon.button(icon="history")
                 span.tooltip-text Click to view the history view of file
             a(
               v-if='!file.isBinary',
-              v-bind:href="getFileLink(file, 'blame')", target="_blank",
+              v-bind:href="getBlameLink(file)", target="_blank",
               title="click to view the blame view of file"
             )
               .tooltip
@@ -525,11 +525,14 @@ export default {
       this.updateFileTypeHash();
     },
 
-    getFileLink(file, path) {
+    getHistoryLink(file) {
       const repo = window.REPOS[this.info.repo];
+      return window.getHistoryLink(this.info.repo, repo.branch, file.path);
+    },
 
-      return `${window.BASE_URL}/${
-        repo.location.organization}/${repo.location.repoName}/${path}/${repo.branch}/${file.path}`;
+    getBlameLink(file) {
+      const repo = window.REPOS[this.info.repo];
+      return window.getBlameLink(this.info.repo, repo.branch, file.path);
     },
 
     getFileTypeBlankLineInfo(fileType) {

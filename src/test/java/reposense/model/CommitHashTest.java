@@ -2,7 +2,8 @@ package reposense.model;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CommitHashTest {
     @Test
@@ -11,13 +12,15 @@ public class CommitHashTest {
                 "136c6713fc00cfe79a1598e8ce83c6ef3b878660"));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void validateCommits_invalidAlphabet_throwIllegalArgumentException() {
-        CommitHash.validateCommits(Arrays.asList("8d0ac2ee20f04dce8df0591caed460gffacb65a4"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> CommitHash.validateCommits(
+                Arrays.asList("8d0ac2ee20f04dce8df0591caed460gffacb65a4")));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void validateCommits_nonAlphanumeric_throwIllegalArgumentException() {
-        CommitHash.validateCommits(Arrays.asList("!d0ac2ee20f04dce8df0591caed460gffacb65a4"));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> CommitHash.validateCommits(
+                Arrays.asList("!d0ac2ee20f04dce8df0591caed460gffacb65a4")));
     }
 }
