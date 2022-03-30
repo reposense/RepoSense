@@ -281,7 +281,7 @@ export default {
 
     // view functions //
     getReportIssueGitHubLink(stackTrace) {
-      return `${window.BASE_URL}/reposense/RepoSense/issues/new?title=${this.getReportIssueTitle()
+      return `${window.REPOSENSE_REPO_URL}/issues/new?title=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
