@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.util.AssertUtil;
 
@@ -21,9 +21,9 @@ public class AuthorTest {
         author.setEmails(Arrays.asList(emails));
 
         // The additional 1 email comes from the Standard GitHub Email.
-        Assert.assertEquals(emails.length + 1, author.getEmails().size());
+        Assertions.assertEquals(emails.length + 1, author.getEmails().size());
 
-        Assert.assertTrue(author.getEmails().containsAll(Arrays.asList(emails)));
+        Assertions.assertTrue(author.getEmails().containsAll(Arrays.asList(emails)));
     }
 
     @Test
@@ -42,26 +42,28 @@ public class AuthorTest {
         String[] testPaths = new String[] {"docs/UserGuide.adoc", "collated/codeeong.md"};
 
         author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
-        Assert.assertEquals(2, author.getIgnoreGlobList().size());
-        Assert.assertTrue(author.getIgnoreGlobList().containsAll(Arrays.asList(ignoreGlobs)));
+        Assertions.assertEquals(2, author.getIgnoreGlobList().size());
+        Assertions.assertTrue(author.getIgnoreGlobList().containsAll(Arrays.asList(ignoreGlobs)));
         Arrays.stream(testPaths).forEach(value ->
-                Assert.assertTrue(author.isIgnoringFile(Paths.get(value))));
+                Assertions.assertTrue(author.isIgnoringFile(Paths.get(value))));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void setIgnoreGlobList_quoteInGlobPattern_throwIllegalArgumentException() {
         Author author = new Author("Tester");
         String[] ignoreGlobs = new String[] {"**.adoc", "collated/**\""};
 
-        author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> author.setIgnoreGlobList(
+                Arrays.asList(ignoreGlobs)));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void setIgnoreGlobList_semicolonInGlobPattern_throwIllegalArgumentException() {
         Author author = new Author("Tester");
         String[] ignoreGlobs = new String[] {"**.adoc; echo hi", "collated/**"};
 
-        author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> author.setIgnoreGlobList(
+                Arrays.asList(ignoreGlobs)));
     }
 
     @Test
@@ -81,17 +83,18 @@ public class AuthorTest {
         author.setIgnoreGlobList(Arrays.asList(ignoreGlobs));
         author.importIgnoreGlobList(Arrays.asList(moreIgnoreGlobs));
 
-        Assert.assertEquals(4, author.getIgnoreGlobList().size());
-        Assert.assertTrue(author.getIgnoreGlobList().containsAll(ignoreGlobList));
+        Assertions.assertEquals(4, author.getIgnoreGlobList().size());
+        Assertions.assertTrue(author.getIgnoreGlobList().containsAll(ignoreGlobList));
         Arrays.stream(testPaths).forEach(value ->
-                Assert.assertTrue(author.isIgnoringFile(Paths.get(value))));
+                Assertions.assertTrue(author.isIgnoringFile(Paths.get(value))));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void appendIgnoreGlobList_appendOrOperator_throwIllegalArgumentException() {
         Author author = new Author("Tester");
         String[] ignoreGlobs = new String[] {"**[!(.md)] | rm -rf /", "C:\\Program Files\\**"};
 
-        author.importIgnoreGlobList(Arrays.asList(ignoreGlobs));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> author.importIgnoreGlobList(
+                Arrays.asList(ignoreGlobs)));
     }
 }

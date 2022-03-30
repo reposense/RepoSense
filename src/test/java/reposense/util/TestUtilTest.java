@@ -6,8 +6,8 @@ import java.io.FileReader;
 import java.nio.file.Path;
 import java.util.Scanner;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class TestUtilTest {
 
@@ -25,7 +25,7 @@ public class TestUtilTest {
         Path path = loadResource(TestUtilTest.class, PATH_NO_SPECIAL_CHAR_TEST);
         FileReader fileReader = new FileReader(path.toString());
         String actualLine = new Scanner(fileReader).nextLine();
-        Assert.assertEquals(EXPECTED_FILE_CONTENTS, actualLine);
+        Assertions.assertEquals(EXPECTED_FILE_CONTENTS, actualLine);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class TestUtilTest {
         Path path = loadResource(TestUtilTest.class, PATH_SPACE_TEST);
         FileReader fileReader = new FileReader(path.toString());
         String actualLine = new Scanner(fileReader).nextLine();
-        Assert.assertEquals(EXPECTED_FILE_CONTENTS, actualLine);
+        Assertions.assertEquals(EXPECTED_FILE_CONTENTS, actualLine);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class TestUtilTest {
         Path path = loadResource(TestUtilTest.class, PATH_PLUS_TEST);
         FileReader fileReader = new FileReader(path.toString());
         String actualLine = new Scanner(fileReader).nextLine();
-        Assert.assertEquals(EXPECTED_FILE_CONTENTS, actualLine);
+        Assertions.assertEquals(EXPECTED_FILE_CONTENTS, actualLine);
     }
 
     @Test
@@ -49,6 +49,6 @@ public class TestUtilTest {
         Path path = loadResource(TestUtilTest.class, PATH_SYMBOLS_TEST);
         FileReader fileReader = new FileReader(path.toString());
         String actualLine = new Scanner(fileReader).nextLine();
-        Assert.assertEquals(EXPECTED_FILE_CONTENTS, actualLine);
+        Assertions.assertEquals(EXPECTED_FILE_CONTENTS, actualLine);
     }
 }
