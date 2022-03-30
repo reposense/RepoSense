@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
 /**
- * Represents a {@code JsonParser} that is able to parse json file from a {@code Path} into an object of type {@code T}.
+ * Represents a json parser that is able to parse json file from a {@link Path} into an object of type {@code T}.
  */
 public abstract class JsonParser<T> {
 
@@ -20,6 +20,7 @@ public abstract class JsonParser<T> {
 
     /**
      * Converts json file from the given {@code path} into an object and returns it.
+     *
      * @throws IOException if {@code path} is invalid.
      */
     public abstract T parse(Path path) throws IOException;

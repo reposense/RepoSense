@@ -26,11 +26,12 @@ This page documents the various components that form part of the DevOps infrastr
 
 ### Continuous integration
 
-All three types of tests in the test suite are run in a single GitHub Actions workflow called "Continuous Integration". The steps are defined in [`integration.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/integration.yml) and are split into three types of jobs:
+All three types of tests in the test suite are run in a single GitHub Actions workflow called "Continuous Integration". The steps are defined in [`integration.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/integration.yml) and are split into four types of jobs:
 
 1. Ubuntu JDK 8 (`ubuntu`): Runs both unit tests and system tests on JDK 1.8 running on supported Ubuntu versions. This job also produces a RepoSense report and the MarkBind documentation website for previewing.
 2. macOS JDK 8 (`macos`): Runs both unit tests and system tests on JDK 1.8 running on supported macOS versions.
-3. Cypress frontend tests (`cypress`): Runs only the frontend tests on JDK 1.8 running on Ubuntu 18.04 LTS.
+3. Windows JDK 8 (`windows`): Runs both unit tests and system tests on JDK 1.8 running on supported Windows versions.
+4. Cypress frontend tests (`cypress`): Runs only the frontend tests on JDK 1.8 running on Ubuntu 18.04 LTS.
 
 The list of supported OS versions are [available on the GitHub Docs website](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources). These jobs should be updated regularly whenever RepoSense supports newer versions of the Java Development Kit (JDK) as well as when new OS versions are made available (via the job OS matrix). Frontend tests are run separately to take advantage of parallel job execution.
 
@@ -68,12 +69,6 @@ This task automates the cleaning up of the pull requests by automatically markin
 ## Codecov
 
 [Codecov](https://app.codecov.io/gh/reposense/RepoSense) is a platform for checking the code coverage status of the project and the pull request patch. It runs automatically on each pull request and the settings are located in [`codecov.yml`](https://github.com/reposense/RepoSense/blob/master/codecov.yml).
-
-<!-- ==================================================================================================== -->
-
-## Appveyor
-
-[Appveyor](https://ci.appveyor.com/project/eugenepeh/reposense) is another platform used for running continuous integration tasks on both commits and pull requests, primarily used for running the test suite on the Windows platform. The settings are located in [`appveyor.yml`](https://github.com/reposense/RepoSense/blob/master/appveyor.yml).
 
 <!-- ==================================================================================================== -->
 
