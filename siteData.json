@@ -71,7 +71,6 @@
         "github-pages": "GitHub Pages",
         "stale-pull-requests": "Stale pull requests",
         "codecov": "Codecov",
-        "appveyor": "Appveyor",
         "surge-sh": "Surge.sh"
       },
       "headingKeywords": {}
