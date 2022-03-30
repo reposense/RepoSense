@@ -4,8 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.template.GitTestTemplate;
 
@@ -16,6 +16,6 @@ public class GitCloneTest extends GitTestTemplate {
         // As the clone has been performed in the {@code GitTestTemplate},
         // this checks whether the clone has been executed successfully by performing a file system check.
         Path dir = Paths.get(config.getRepoRoot());
-        Assert.assertTrue(Files.exists(dir));
+        Assertions.assertTrue(Files.exists(dir));
     }
 }
