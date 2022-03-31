@@ -36,6 +36,8 @@ import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
+import static reposense.util.StringsUtil.stripTrailingWhitespaces;
+
 /**
  * Contains file processing related functionalities.
  */
@@ -337,10 +339,10 @@ public class FileUtil {
     /**
      * Returns the Bash expanded version of the {@code filePath}.
      */
-    public static String getBashExpandedFilePath(String filePath) {
+    public static String getVariableExpandedFilePath(String filePath) {
         String echoOutput = CommandRunner.runCommand(Paths.get("."), "echo " + filePath);
-        // CommandRunner returns a String with the chars \r\n that have to be removed.
-        return echoOutput.substring(0, echoOutput.length() - 2);
+        // CommandRunner returns some white space characters at the end
+        return stripTrailingWhitespaces(echoOutput);
     }
 
     /**

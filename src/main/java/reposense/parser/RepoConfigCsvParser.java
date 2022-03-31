@@ -69,7 +69,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     @Override
     protected void processLine(List<RepoConfiguration> results, CSVRecord record) throws InvalidLocationException {
-        RepoLocation location = new RepoLocation(FileUtil.getBashExpandedFilePath(get(record, LOCATION_HEADER)));
+        RepoLocation location = new RepoLocation(FileUtil.getVariableExpandedFilePath(get(record, LOCATION_HEADER)));
         String branch = getOrDefault(record, BRANCH_HEADER, RepoConfiguration.DEFAULT_BRANCH);
 
         boolean isFormatsOverriding = isElementOverridingStandaloneConfig(record, FILE_FORMATS_HEADER);
