@@ -33,6 +33,7 @@ import com.google.gson.JsonSerializer;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
+import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
 /**
@@ -322,6 +323,15 @@ public class FileUtil {
     }
 
     /**
+     * Returns the Bash expanded version of the {@code filePath}.
+     */
+    public static String getBashExpandedFilePath(String filePath) {
+        String echoOutput = CommandRunner.runCommand(Paths.get("."), "echo " + filePath);
+        // CommandRunner returns a String with an LF character that has to be removed
+        return echoOutput.substring(0, echoOutput.length() - 1);
+    }
+
+    /**
      * Returns a list of {@link Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
      *
      * @throws IOException if an error occurs while trying to access {@code directoryPath}.
@@ -338,4 +348,5 @@ public class FileUtil {
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
     }
+
 }
