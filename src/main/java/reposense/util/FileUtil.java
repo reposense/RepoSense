@@ -36,8 +36,6 @@ import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
-import static reposense.util.StringsUtil.stripTrailingWhitespaces;
-
 /**
  * Contains file processing related functionalities.
  */
@@ -342,7 +340,7 @@ public class FileUtil {
     public static String getVariableExpandedFilePath(String filePath) {
         String echoOutput = CommandRunner.runCommand(Paths.get("."), "echo " + filePath);
         // CommandRunner returns some white space characters at the end
-        return stripTrailingWhitespaces(echoOutput);
+        return StringsUtil.stripTrailingWhitespaces(echoOutput);
     }
 
     /**
