@@ -76,7 +76,7 @@ public class RepoConfiguration {
         outputFolderName = repoName + "_" + branch;
         repoFolderName = repoName;
 
-        if (organization != null) {
+        if (!organization.isEmpty()) {
             repoFolderName = organization + "_" + repoFolderName;
             displayName = organization + "/" + displayName;
             outputFolderName = organization + "_" + outputFolderName;
