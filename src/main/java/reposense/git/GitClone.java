@@ -101,20 +101,28 @@ public class GitClone {
      * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
     public static void clone(RepoConfiguration config) throws GitCloneException {
-        try {
-            Path rootPath = FileUtil.getRepoParentFolder(config);
-            Path repoPath = Paths.get(rootPath.toString(), config.getRepoName());
+        String outputFolderName = Paths.get(FileUtil.getRepoParentFolder(config).toString(),
+                config.getRepoName()).toString();
+        clone(config, Paths.get("."), outputFolderName);
+    }
 
+    /**
+     * Clones repo specified in {@code config} from working directory at {@code rootPath} to {@code outputFolderName}.
+     * After cloning is done, it updates the cloned repo with branch info.
+     *
+     * @throws GitCloneException when an error occurs while attempting to clone the repo.
+     */
+    public static void clone(RepoConfiguration config, Path rootPath, String outputFolderName)
+            throws GitCloneException {
+        try {
             if (!SystemUtil.isTestEnvironment()) {
                 FileUtil.deleteDirectory(config.getRepoRoot());
-            } else if (SystemUtil.isTestEnvironment() && Files.exists(repoPath)) {
+            } else if (SystemUtil.isTestEnvironment() && Files.exists(Paths.get(outputFolderName))) {
                 logger.info("Skipped cloning from " + config.getLocation() + " as it was cloned before.");
             } else {
                 logger.info("Cloning from " + config.getLocation() + "...");
-                Files.createDirectories(rootPath);
-                String command = getCloneCommand(config, repoPath.toString());
-                runCommand(Paths.get("."), command);
-
+                String command = getCloneCommand(config, outputFolderName);
+                runCommand(rootPath, command);
                 logger.info("Cloning completed!");
             }
         } catch (RuntimeException rte) {
