@@ -1,3 +1,7 @@
+**Note**: This branch is used for cypress tests, and is kept independent of master. Commits should only be made to this branch if necessary for new frontend tests.
+
+---
+
 # RepoSense
 
 [![Build Status](https://github.com/reposense/RepoSense/actions/workflows/integration.yml/badge.svg)](https://github.com/reposense/RepoSense/actions/workflows/integration.yml)
