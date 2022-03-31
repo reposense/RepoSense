@@ -339,8 +339,8 @@ public class FileUtil {
      */
     public static String getBashExpandedFilePath(String filePath) {
         String echoOutput = CommandRunner.runCommand(Paths.get("."), "echo " + filePath);
-        // CommandRunner returns a String with an LF character that has to be removed
-        return echoOutput.substring(0, echoOutput.length() - 1);
+        // CommandRunner returns a String with the chars \r\n that have to be removed.
+        return echoOutput.substring(0, echoOutput.length() - 2);
     }
 
     /**
