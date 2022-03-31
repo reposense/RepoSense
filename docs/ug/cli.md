@@ -54,7 +54,7 @@ The section below provides explanations for each of the flags.
 
 <box type="info" seamless>
 
-* Cannot be used with `--repos`.
+* Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
 </box>
 </div>
@@ -98,7 +98,7 @@ Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`
 
 <box type="info" seamless>
 
-Cannot be used with any other flags.
+Cannot be used with any other flags. This flag takes precedence over all other flags.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -125,7 +125,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 <box type="info" seamless>
 
-* Cannot be used with `--shallow-cloning`.
+* Cannot be used with `--shallow-cloning`. This may result in an incorrect last modified date.
 * The last modified dates will be in the same timezone specified with the `--timezone` flag.
 </box>
 
@@ -151,7 +151,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 <box type="info" seamless>
 
 * If both start date and end date are not specified, the date of generating the report will be taken as the end date.
-* Cannot be used with both `--since` and `--until`.
+* Cannot be used with both `--since` and `--until`. The program will throw an exception.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -166,7 +166,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 <box type="info" seamless>
 
-Cannot be used with `--config`.
+Cannot be used with `--config`. This flag takes precedence over `--config`.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -179,7 +179,7 @@ Cannot be used with `--config`.
 
 <box type="info" seamless>
 
-Cannot be used with `--last-modified-date`.
+Cannot be used with `--last-modified-date`. This may result in an incorrect last modified date.
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -231,7 +231,7 @@ Note: If the end date is not specified, the date of generating the report will b
 
 <box type="info" seamless>
 
-Cannot be used with any other flags.
+Cannot be used with any other flags. This flag takes precedence over all other flags other than `--help`.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
