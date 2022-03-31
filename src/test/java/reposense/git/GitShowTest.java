@@ -60,6 +60,6 @@ public class GitShowTest extends GitTestTemplate {
     public void getEarliestCommitDate_nonexistentCommit_throwsEmptyCommitException() {
         Assertions.assertThrows(CommitNotFoundException.class, () -> GitShow.getEarliestCommitDate(
                 config.getRepoRoot(), Arrays.asList(NONEXISTENT_COMMIT_HASH, NONEXISTENT_COMMIT_HASH,
-                        NONEXISTENT_COMMIT_HASH)));
+                NONEXISTENT_COMMIT_HASH)));
     }
 }
