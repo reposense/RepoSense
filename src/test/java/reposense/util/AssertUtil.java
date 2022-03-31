@@ -18,11 +18,11 @@ public class AssertUtil {
      * {@code assertThrows(Class<? extends Throwable>, VoidCallable)} instead.
      * {@see assertThrows(Class<? extends Throwable>, VoidCallable)}
      *
-     * @throws AssertionFailedError if the {@code expectedException} is not thrown or {@code expectedMessage}
+     * @throws AssertionError if the {@code expectedException} is not thrown or {@code expectedMessage}
      * is not correct after calling {@code callable}.
      */
     public static void assertThrows(Class<? extends Throwable> expectedException, String expectedMessage,
-            VoidCallable callable) {
+            VoidCallable callable) throws AssertionError {
         try {
             callable.call();
         } catch (Throwable actualException) {

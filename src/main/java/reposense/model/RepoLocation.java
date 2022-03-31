@@ -51,9 +51,9 @@ public class RepoLocation {
 
     /**
      * Creates {@link RepoLocation} based on the {@code location}, which is represented by a {@code URL}
-     * or {@link Path}.
+     * or {@code Path}.
      *
-     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@link Path}.
+     * @throws InvalidLocationException if {@code location} cannot be represented by a {@code URL} or {@code Path}.
      */
     public RepoLocation(String location) throws InvalidLocationException {
         if (SystemUtil.isWindows()) {
