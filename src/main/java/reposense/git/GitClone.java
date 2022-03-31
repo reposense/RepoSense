@@ -139,6 +139,12 @@ public class GitClone {
         }
     }
 
+    public static void clone(RepoConfiguration config, Path rootPath, String outputFolderName)
+            throws IOException {
+        // TODO replace the above command with something that is more extensible. Then rewrite
+        // the above command using this command
+    }
+
     /**
      * Clones a bare repo, with {@code rootPath} as working directory, specified in {@code config}
      * into the folder {@code outputFolderName}.
