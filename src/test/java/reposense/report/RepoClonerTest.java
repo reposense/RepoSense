@@ -4,8 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.git.GitClone;
 import reposense.model.RepoConfiguration;
@@ -28,7 +28,7 @@ public class RepoClonerTest {
         repoCloner.cloneBare(emptyRepositoryRepoConfig);
         RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
 
-        Assert.assertNull(clonedRepoLocation);
+        Assertions.assertNull(clonedRepoLocation);
     }
 
     @Test
@@ -41,6 +41,6 @@ public class RepoClonerTest {
                 new RepoConfiguration(new RepoLocation(REPOCLONE_LOCAL_TEST_PATH.toString()));
         RepoCloner repoCloner = new RepoCloner();
         repoCloner.cloneBare(repoWithRelativePathingAndSpacesAndEndingBackslash);
-        Assert.assertTrue(Files.exists(REPOCLONE_LOCAL_TEST_PATH));
+        Assertions.assertTrue(Files.exists(REPOCLONE_LOCAL_TEST_PATH));
     }
 }
