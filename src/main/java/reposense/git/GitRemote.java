@@ -27,7 +27,6 @@ public class GitRemote {
         try {
             result = CommandRunner.runCommand(Paths.get(repoRoot), "git remote -v");
         } catch (RuntimeException re) {
-            logger.warning("Unable to find remotes in given directory");
             return remotes;
         }
 
