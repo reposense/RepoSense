@@ -4,18 +4,14 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import reposense.system.CommandRunner;
-import reposense.system.LogsManager;
 
 /**
  * Contains git remote related functionality.
  * Git remote is responsible for getting remote repository information.
  */
 public class GitRemote {
-
-    private static final Logger logger = LogsManager.getLogger(GitRemote.class);
 
     /**
      * Extracts remote repository information. Returns a map
