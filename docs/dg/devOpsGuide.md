@@ -39,6 +39,8 @@ Some of the jobs execute some commands that are too complicated to be included i
 
 This workflow is run for both incoming pull requests to any branch as well as direct commits to any branch in the repository.
 
+Cypress frontend tests are run against reports generated from config files in `frontend/cypress/config`. It uses the `cypress` branch of the RepoSense repository which is kept independent of `master` and should be updated only when there are new frontend tests that need to be accommodated.
+
 ### Report and documentation previews
 
 For each pull request to any branch in the repository, a RepoSense report and the MarkBind documentation website is generated based on the code submitted in the pull request. This is to facilitate pull request reviewers in being able to quickly preview how the RepoSense report and/or the documentation website will change after the pull request is merged.
