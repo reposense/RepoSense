@@ -73,7 +73,7 @@ jobs:
       if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
       uses: codecov/codecov-action@v2
       with:
-        file: ${{ github.workspace }}/build/reports/jacoco/coverage/coverage.xml
+        files: ${{ github.workspace }}/build/reports/jacoco/coverage/coverage.xml
         fail_ci_if_error: true
 
     - name: Build preview website (pull request)
