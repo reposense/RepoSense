@@ -119,7 +119,6 @@ public class GitClone {
 
     /**
      * Clones repo specified in {@code config} from working directory at {@code rootPath} to {@code outputFolderName}.
-     * After cloning is done, it updates the cloned repo with branch info.
      *
      * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
