@@ -11,27 +11,43 @@
           "items": {
             "type": "object",
             "properties": {
-              "hash": {
+              "date": {
                 "type": "string"
               },
-              "messageTitle": {
-                "type": "string"
-              },
-              "messageBody": {
-                "type": "string"
-              },
-              "fileTypesAndContributionMap": {
-                "type": "object",
-                "patternProperties": {
-                  "": {
-                    "type": "object",
-                    "patternProperties": {
-                      "": { "type": "string" }
+              "commitResults": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "hash": {
+                      "type": "string"
+                    },
+                    "messageTitle": {
+                      "type": "string"
+                    },
+                    "messageBody": {
+                      "type": "string"
+                    },
+                    "fileTypesAndContributionMap": {
+                      "type": "object",
+                      "patternProperties": {
+                        "": {
+                          "type": "object",
+                          "patternProperties": {
+                            "": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
                     }
-                  }
+                  },
+                  "required": ["hash", "messageTitle", "messageBody", "fileTypesAndContributionMap"]
                 }
               }
-            }
+            },
+            "required": ["date", "commitResults"]
+          }
         }
       }
     },

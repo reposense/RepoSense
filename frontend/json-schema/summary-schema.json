@@ -1,7 +1,8 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "type": "object",
-  "properties": {
+  "id":  "http://some.site.somewhere/entry-schema#",
+  "$schema":  "http://json-schema-org/draft-06/schema#",
+  "type":  "object",
+  "properties":  {
     "repoSenseVersion": {
       "type": "string"
     },
@@ -19,92 +20,56 @@
     },
     "repos": {
       "type": "array",
-      "items": [
-        {
-          "type": "object",
-          "properties": {
-            "location": {
-              "type": "object",
-              "properties": {
-                "location": {
-                  "type": "string"
-                },
-                "repoName": {
-                  "type": "string"
-                },
-                "organization": {
-                  "type": "string"
-                }
+      "items": {
+        "type": "object",
+        "properties": {
+          "location":{
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string"
               },
-              "required": [
-                "location",
-                "repoName",
-                "organization"
-              ]
+              "repoName": {
+                "type": "string"
+              },
+              "organization": {
+                "type": "string"
+              }
             },
-            "branch": {
-              "type": "string"
-            },
-            "displayName": {
-              "type": "string"
-            },
-            "outputFolderName": {
-              "type": "string"
-            }
+            "required": ["location", "repoName", "organization"]
           },
-          "required": [
-            "location",
-            "branch",
-            "displayName",
-            "outputFolderName"
-          ]
-        }
-      ]
+          "branch": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "outputFolderName": {
+            "type": "string"
+          }
+        },
+        "required": ["location", "branch", "displayName", "outputFolderName"]
+      }
     },
     "errorSet": {
       "type": "array",
-      "items": [
-        {
-          "type": "object",
-          "properties": {
-            "repoName": {
-              "type": "string"
-            },
-            "errorMessage": {
-              "type": "string"
-            }
+      "items": {
+        "type": "object",
+        "properties": {
+          "repoName": {
+            "type": "string"
           },
-          "required": [
-            "repoName",
-            "errorMessage"
-          ]
-        }
-      ]
+          "errorMessage": {
+            "type": "string"
+          }
+        },
+        "required": ["repoName", "errorMessage"]
+      }
     },
-    "sinceDate": {
-      "type": "string"
-    },
-    "untilDate": {
-      "type": "string"
-    },
-    "isSinceDateProvided": {
-      "type": "boolean"
-    },
-    "isUntilDateProvided": {
-      "type": "boolean"
-    }
+    "sinceDate":"date",
+    "untilDate":"date",
+    "isSinceDateProvided": "boolean",
+    "isUntilDateProvided": "boolean"
   },
-  "required": [
-    "repoSenseVersion",
-    "reportGeneratedTime",
-    "reportGenerationTime",
-    "zoneId",
-    "reportTitle",
-    "repos",
-    "errorSet",
-    "sinceDate",
-    "untilDate",
-    "isSinceDateProvided",
-    "isUntilDateProvided"
-  ]
+  "required":  [ "repoSenseVersion", "reportGeneratedTime", "reportGenerationTime", "zoneId", "reportTitle", "repos", "errorSet", "sinceDate", "untilDate", "isSinceDateProvided", "isUntilDateProvided"]
 }
