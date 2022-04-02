@@ -322,8 +322,4 @@ export default app;
 @import './styles/style.scss';
 @import './styles/panels.scss';
 
-.hljs-comment,
-.hljs-meta {
-  color: #5d635a;
-}
 </style>
