@@ -270,12 +270,12 @@ const app = {
     getSpecificCommitLink() {
       const version = window.repoSenseVersion;
       if (!version) {
-        return `${window.BASE_URL}/reposense/RepoSense`;
+        return `${window.REPOSENSE_REPO_URL}`;
       }
       if (version.startsWith('v')) {
-        return `${window.BASE_URL}/reposense/RepoSense/releases/tag/${version}`;
+        return `${window.REPOSENSE_REPO_URL}/releases/tag/${version}`;
       }
-      return `${window.BASE_URL}/reposense/RepoSense/commit/${version}`;
+      return `${window.REPOSENSE_REPO_URL}/commit/${version}`;
     },
 
     getUserGuideLink() {

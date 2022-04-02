@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import reposense.git.GitLog;
 import reposense.model.Author;
@@ -24,7 +24,6 @@ import reposense.model.RepoConfiguration;
 public class TestUtil {
     private static final int[] END_OF_DAY_TIME = {23, 59, 59};
     private static final int[] START_OF_DAY_TIME = {0, 0, 0};
-    private static final ZoneId TIME_ZONE_ID = getZoneId("Asia/Singapore");
     private static final String MESSAGE_COMPARING_FILES = "Comparing files %s & %s\n";
 
     private static final String MESSAGE_LINE_CONTENT_DIFFERENT = "Content different at line number %d:\n"
@@ -37,7 +36,7 @@ public class TestUtil {
     private static final int STAT_FILE_PATH_INDEX = 2;
 
     /**
-     * Returns true if the files' contents are the same.
+     * Returns true if the contents of the files at {@code expected} and {@code actual} are the same.
      * Also prints out error message if the lines count are different,
      * else prints out the first line of content difference (if any).
      */
@@ -46,7 +45,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns true if the files' contents are the same.
+     * Returns true if the contents of the files at {@code expected} and {@code actual} are the same.
      * Also prints out error message if the lines count are different,
      * else prints out maximum {@code maxTraceCounts} lines of content difference (if any).
      */
@@ -103,7 +102,8 @@ public class TestUtil {
     }
 
     /**
-     * Creates and returns a {@code LocalDateTime} object with the specified {@code year}, {@code month}, {@code day}.
+     * Creates and returns a {@link LocalDateTime} object with the specified {@code year}, {@code month}, {@code day}
+     * and {@code time}.
      */
     public static LocalDateTime getDate(int year, int month, int date, int[] time) {
         return LocalDateTime.of(year, month, date, time[0], time[1], time[2], 0);
@@ -111,6 +111,7 @@ public class TestUtil {
 
     /**
      * Wrapper for {@code getDate} method to get since date with time 00:00:00
+     * from the parameters {@code year}, {@code month}, {@code date}.
      */
     public static LocalDateTime getSinceDate(int year, int month, int date) {
         return getDate(year, month, date, START_OF_DAY_TIME);
@@ -118,13 +119,14 @@ public class TestUtil {
 
     /**
      * Wrapper for {@code getDate} method to get until date with time 23:59:59
+     * from the parameters {@code year}, {@code month}, {@code date}.
      */
     public static LocalDateTime getUntilDate(int year, int month, int date) {
         return getDate(year, month, date, END_OF_DAY_TIME);
     }
 
     /**
-     * Returns a {@code ZoneId} object for the specified {@code timezone}.
+     * Returns a {@link ZoneId} object for the specified {@code timezone}.
      */
     public static ZoneId getZoneId(String timezone) {
         return ZoneId.of(timezone);
@@ -136,7 +138,7 @@ public class TestUtil {
      * @throws AssertionError if any attributes fail equality check.
      */
     public static void compareRepoConfig(RepoConfiguration expectedRepoConfig, RepoConfiguration actualRepoConfig) {
-        Assert.assertEquals(expectedRepoConfig, actualRepoConfig);
+        Assertions.assertEquals(expectedRepoConfig, actualRepoConfig);
 
         for (int i = 0; i < expectedRepoConfig.getAuthorList().size(); i++) {
             compareAuthor(expectedRepoConfig.getAuthorList().get(i), actualRepoConfig.getAuthorList().get(i));
@@ -152,9 +154,9 @@ public class TestUtil {
      * @throws AssertionError if any attributes fail equality check.
      */
     public static void compareAuthor(Author expectedAuthor, Author actualAuthor) {
-        Assert.assertEquals(expectedAuthor.getGitId(), actualAuthor.getGitId());
-        Assert.assertEquals(expectedAuthor.getIgnoreGlobList(), actualAuthor.getIgnoreGlobList());
-        Assert.assertEquals(expectedAuthor.getAuthorAliases(), actualAuthor.getAuthorAliases());
+        Assertions.assertEquals(expectedAuthor.getGitId(), actualAuthor.getGitId());
+        Assertions.assertEquals(expectedAuthor.getIgnoreGlobList(), actualAuthor.getIgnoreGlobList());
+        Assertions.assertEquals(expectedAuthor.getAuthorAliases(), actualAuthor.getAuthorAliases());
     }
 
     /**
@@ -191,7 +193,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns the {@code set} of files changed in the commit {@code rawCommitInfo}.
+     * Returns the {@link Set} of files changed in the commit {@code rawCommitInfo}.
      */
     private static Set<String> getFilesChangedInCommit(String rawCommitInfo) {
         Set<String> filesChanged = new HashSet<>();
@@ -223,7 +225,7 @@ public class TestUtil {
     }
 
     /**
-     * Returns the path to a resource
+     * Returns the {@link Path} to a resource given by {@code pathToResource} string, using {@code classForLoading}.
      */
     public static Path loadResource(Class<?> classForLoading, String pathToResource) {
         ClassLoader classLoader = classForLoading.getClassLoader();
