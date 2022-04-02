@@ -5,8 +5,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import reposense.system.CommandRunner;
+import reposense.system.LogsManager;
 
 /**
  * Contains git remote related functionality.
@@ -16,6 +18,8 @@ public class GitRemote {
 
     public static final String DEFAULT_FETCH_REMOTE = "origin(fetch)";
     public static final String DEFAULT_PUSH_REMOTE = "origin(push)";
+
+    private static final Logger logger = LogsManager.getLogger(GitRemote.class);
 
     /**
      * Extracts remote repository information at {@code repoRoot}.
@@ -28,6 +32,7 @@ public class GitRemote {
         try {
             result = CommandRunner.runCommand(Paths.get(repoRoot), "git remote -v");
         } catch (RuntimeException re) {
+            logger.warning(String.format("Unable to run git remote command in directory: %s", repoRoot));
             return remotes;
         }
 
