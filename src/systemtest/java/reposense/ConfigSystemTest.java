@@ -3,17 +3,11 @@ package reposense;
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 import static reposense.util.TestUtil.loadResource;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,8 +28,8 @@ import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
+import reposense.util.SystemTestUtil;
 import reposense.util.InputBuilder;
-import reposense.util.TestUtil;
 
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
@@ -149,7 +143,7 @@ public class ConfigSystemTest {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
                 shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
         Path actualFiles = loadResource(getClass(), pathToResource);
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        SystemTestUtil.verifyAllJson(actualFiles, FT_TEMP_DIR);
         haveNormallyClonedRepo = !shallowCloning;
     }
 
@@ -220,36 +214,4 @@ public class ConfigSystemTest {
                 TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
     }
 
-    /**
-     * Verifies all JSON files in {@code actualRelative} with {@code expectedDirectory}.
-     */
-    private void verifyAllJson(Path expectedDirectory, String actualRelative) {
-        try (Stream<Path> pathStream = Files.list(expectedDirectory)) {
-            for (Path filePath : pathStream.collect(Collectors.toList())) {
-                if (Files.isDirectory(filePath)) {
-                    verifyAllJson(filePath, actualRelative);
-                }
-                if (filePath.toString().endsWith(".json")) {
-                    String relativeDirectory = filePath.toAbsolutePath().toString().split(EXPECTED_FOLDER)[1];
-                    assertJson(filePath, relativeDirectory, actualRelative);
-                }
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
-
-    /**
-     * Asserts the correctness of given JSON file at {@code actualRelative} and {@code expectedPosition} by comparing
-     * it with {@code expectedJson}.
-     */
-    private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
-        Path actualJson = Paths.get(actualRelative, expectedPosition);
-        Assertions.assertTrue(Files.exists(actualJson));
-        try {
-            Assertions.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
-        } catch (Exception e) {
-            Assertions.fail(e.getMessage());
-        }
-    }
 }
