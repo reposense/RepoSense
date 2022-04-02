@@ -1,0 +1,63 @@
+{
+  "id":  "http://some.site.somewhere/entry-schema#",
+  "$schema":  "http://json-schema-org/draft-06/schema#",
+  "type":  "object",
+  "properties": {
+    "authorDailyContributionsMap": {
+      "type": "object",
+      "patternProperties": {
+        "": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "hash": {
+                "type": "string"
+              },
+              "messageTitle": {
+                "type": "string"
+              },
+              "messageBody": {
+                "type": "string"
+              },
+              "fileTypesAndContributionMap": {
+                "type": "object",
+                "patternProperties": {
+                  "": {
+                    "type": "object",
+                    "patternProperties": {
+                      "": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            }
+        }
+      }
+    },
+    "authorFileTypeContributionMap": {
+      "type":  "object",
+      "patternProperties": {
+        "": {
+          "type": "object",
+          "patternProperties": {
+            "": { "type": "number" }
+          }
+        }
+      }
+    },
+    "authorContributionVariance": {
+      "type":  "object",
+      "patternProperties": {
+        "": { "type": "number" }
+      }
+    },
+    "authorDisplayNameMap": {
+      "type":  "object",
+      "patternProperties": {
+        "": { "type": "string" }
+      }
+    }
+  },
+  "required": ["authorDailyContributionsMap", "authorFileTypeContributionMap", "authorContributionVariance", "authorDisplayNameMap"]
+}
