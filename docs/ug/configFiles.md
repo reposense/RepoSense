@@ -40,9 +40,16 @@ Given below are the details of the various config files used by RepoSense.
 | Ignore Commits List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive). |
 | Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name). |
 | Shallow Cloning | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead. |
+| File Size Limit<sup>+</sup>  | Enter a file size limit for the repository that will override the default file size limit. |
+| Ignore File Size Limit | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`. |
+| Skip Ignored File Analysis | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. By default, files exceeding the size limit are analyzed and line count information (but not line diffs) for these files are included in the report. This option can significantly improve report generation time. |
 
 <box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
+</box>
+
+<box type="info" seamless>
+If Ignore File Size Limit is yes, the File Size Limit and Skip Ignored File Analysis columns are ignored.
 </box>
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
@@ -140,6 +147,7 @@ Note: all fields are optional unless specified otherwise.
 * `formats`: File formats to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
 * `ignoreAuthorList`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
+* `fileSizeLimit`: A file size limit for the repository that will override the default file size limit.
 
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.

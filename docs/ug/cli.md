@@ -110,6 +110,27 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### `--ignore-filesize-limit`, `-I`
+
+**`--ignore-filesize-limit`**: Specifies that the file size limit for .
+* Default: the file size limit is not ignored
+* Alias: `-I`
+* Example:`--ignore-filesize-limit` or `-I`
+
+<box type="info" seamless>
+
+All files are subject to a default file size limit or a custom size limit set by the user. Most files should not be 
+affected by the default size limit. This flag can be useful for including files in your report that are affected by
+the size limit. Note that this flag may result in large report sizes and/or slower report generation.
+</box>
+
+<box type="info" seamless>
+
+This flag overrides the `Ignore file size limit` field in the CSV config file.
+</box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### `--last-modified-date`, `-l`
 
 **`--last-modified-date`**: Specifies that the last modified date of each line of code should be added to `authorship.json`.
