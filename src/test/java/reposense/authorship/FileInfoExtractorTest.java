@@ -34,6 +34,10 @@ public class FileInfoExtractorTest extends GitTestTemplate {
             "728-FileInfoExtractorTest-getNonBinaryFilesList_directoryWithBinaryFiles_success";
     private static final String BRANCH_WITH_RARE_FILE_FORMATS =
             "708-FileInfoExtractorTest-extractFileInfos_withoutSpecifiedFormats_success";
+    private static final String BRANCH_WITH_LARGE_FILE =
+            "1647-FileAnalyzerTest-analyzeTextFile_fileExceedingFileSizeLimit_success";
+    private static final String FILE_WITH_LARGE_SIZE = "largeFile.json";
+
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
 
     @Test
@@ -142,6 +146,42 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITHOUT_SPECIAL_CHARACTER.toString(),
                 DEFAULT_FILE_SIZE_LIMIT, false, false);
         Assertions.assertEquals(5, fileInfo.getLines().size());
+    }
+
+    @Test
+    public void generateFileInfo_fileExceedingSizeLimit_correctFileInfoGenerated() {
+        config.setBranch(BRANCH_WITH_LARGE_FILE);
+        GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), FILE_WITH_LARGE_SIZE,
+                DEFAULT_FILE_SIZE_LIMIT, false, false);
+
+        Assertions.assertTrue(fileInfo.isFileAnalyzed());
+        Assertions.assertEquals(46902, fileInfo.getLines().size());
+        Assertions.assertEquals(fileInfo.getFileSize() > DEFAULT_FILE_SIZE_LIMIT, fileInfo.exceedsFileLimit());
+    }
+
+    @Test
+    public void generateFileInfo_fileExceedingSizeLimitAndSkipped_correctFileInfoGenerated() {
+        config.setBranch(BRANCH_WITH_LARGE_FILE);
+        GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), FILE_WITH_LARGE_SIZE,
+                DEFAULT_FILE_SIZE_LIMIT, false, true);
+
+        Assertions.assertFalse(fileInfo.isFileAnalyzed());
+        Assertions.assertEquals(0, fileInfo.getLines().size());
+        Assertions.assertEquals(fileInfo.getFileSize() > DEFAULT_FILE_SIZE_LIMIT, fileInfo.exceedsFileLimit());
+    }
+
+    @Test
+    public void generateFileInfo_fileExceedingSizeLimitAndLimitIgnored_correctFileInfoGenerated() {
+        config.setBranch(BRANCH_WITH_LARGE_FILE);
+        GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), FILE_WITH_LARGE_SIZE,
+                DEFAULT_FILE_SIZE_LIMIT, true, false);
+
+        Assertions.assertTrue(fileInfo.isFileAnalyzed());
+        Assertions.assertEquals(46902, fileInfo.getLines().size());
+        Assertions.assertFalse(fileInfo.exceedsFileLimit());
     }
 
     @Test

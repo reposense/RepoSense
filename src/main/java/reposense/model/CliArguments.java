@@ -117,6 +117,7 @@ public abstract class CliArguments {
                 && this.numCloningThreads == otherCliArguments.numCloningThreads
                 && this.numAnalysisThreads == otherCliArguments.numAnalysisThreads
                 && this.zoneId.equals(otherCliArguments.zoneId)
-                && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed;
+                && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed
+                && this.isFileSizeLimitIgnored == otherCliArguments.isFileSizeLimitIgnored;
     }
 }

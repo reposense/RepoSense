@@ -41,6 +41,11 @@ public class RepoConfigurationTest {
             "RepoConfigurationTest/repoconfig_ignoreAuthors_test");
     private static final Path IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST = loadResource(RepoConfigurationTest.class,
             "RepoConfigurationTest/repoconfig_ignoreStandaloneOverrideCsv_test");
+    private static final Path IGNORE_FILESIZE_LIMIT_TEST_CONFIG_FILES = loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_ignoreFileSizeLimit_test");
+    private static final Path IGNORE_FILESIZE_LIMIT_OVERRIDE_CSV_TEST_CONFIG_FILES =
+            loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_ignoreFileSizeLimitOverrideCsv_test");
     private static final Path SHALLOW_CLONING_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class, "RepoConfigurationTest/repoconfig_shallowCloning_test");
     private static final Path SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES =
@@ -209,6 +214,63 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
                 cliArguments.isStandaloneConfigIgnored());
+
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        GitClone.clone(repoBetaActualConfig);
+        GitClone.clone(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
+        TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
+    }
+
+    @Test
+    public void repoConfig_ignoreFileSizeLimit_success() throws Exception {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedConfig.setFormats(CONFIG_FORMATS);
+        expectedConfig.setStandaloneConfigIgnored(true);
+        expectedConfig.setFileSizeLimitIgnored(true);
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addConfig(IGNORE_FILESIZE_LIMIT_TEST_CONFIG_FILES)
+                .addFormats(formats)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        GitClone.clone(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_ignoreFileSizeLimitInCli_overrideCsv() throws Exception {
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoBetaExpectedConfig.setFileSizeLimitIgnored(true);
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_DELTA), "master");
+        repoDeltaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoDeltaExpectedConfig.setFileSizeLimitIgnored(true);
+
+        String input = new InputBuilder().addConfig(IGNORE_FILESIZE_LIMIT_OVERRIDE_CSV_TEST_CONFIG_FILES)
+                .addIgnoreFilesizeLimit()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setFileSizeLimitIgnoredToRepoConfigs(actualConfigs,
+                cliArguments.isFileSizeLimitIgnored());
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);

@@ -372,7 +372,9 @@ public class RepoConfiguration {
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding
                 && isIgnoredAuthorsListOverriding == otherRepoConfig.isIgnoredAuthorsListOverriding
-                && isFileSizeLimitOverriding == otherRepoConfig.isFileSizeLimitOverriding;
+                && isFileSizeLimitOverriding == otherRepoConfig.isFileSizeLimitOverriding
+                && isFileSizeLimitIgnored == otherRepoConfig.isFileSizeLimitIgnored
+                && isIgnoredFileAnalysisSkipped == otherRepoConfig.isIgnoredFileAnalysisSkipped;
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
