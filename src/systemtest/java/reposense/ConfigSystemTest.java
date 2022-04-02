@@ -68,14 +68,14 @@ public class ConfigSystemTest {
     public void testSinceBeginningDateRange() throws Exception {
         runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
                 false, false, false, false,
-                "sinceBeginningDateRange/expected");
+                "ConfigSystemTest/sinceBeginningDateRange/expected");
     }
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
         runTest(getInputWithUntilDate("1/11/2017"), false,
                 false, false, false,
-                "30daysFromUntilDate/expected");
+                "ConfigSystemTest/30daysFromUntilDate/expected");
     }
 
     /**
@@ -86,7 +86,7 @@ public class ConfigSystemTest {
     public void testDateRangeWithModifiedDateTimeInLines() throws Exception {
         runTest(getInputWithDates("1/9/2017", "30/10/2017"),
                 true, false, false, false,
-                "dateRangeWithModifiedDateTimeInLines/expected");
+                "ConfigSystemTest/dateRangeWithModifiedDateTimeInLines/expected");
     }
 
     /**
@@ -97,14 +97,14 @@ public class ConfigSystemTest {
     public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
         runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
                 false, true, true, false,
-                "sinceBeginningDateRangeWithShallowCloning/expected");
+                "ConfigSystemTest/sinceBeginningDateRangeWithShallowCloning/expected");
     }
 
     @Test
     public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
         runTest(getInputWithUntilDate("1/11/2017"), false,
                 true, true, false,
-                "30daysFromUntilDateWithShallowCloning/expected");
+                "ConfigSystemTest/30daysFromUntilDateWithShallowCloning/expected");
     }
 
     /**
@@ -115,13 +115,13 @@ public class ConfigSystemTest {
     public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
         runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
                 false, false, true, true,
-                "sinceBeginningDateRangeFindPreviousAuthors/expected");
+                "ConfigSystemTest/sinceBeginningDateRangeFindPreviousAuthors/expected");
     }
 
     @Test
     public void test30DaysFromUntilDateWithFindPreviousAuthors() throws Exception {
         runTest(getInputWithUntilDate("1/11/2017"), false, false, true,
-                true, "30daysFromUntilDateFindPreviousAuthors/expected");
+                true, "ConfigSystemTest/30daysFromUntilDateFindPreviousAuthors/expected");
     }
 
     private String getInputWithUntilDate(String untilDate) {
@@ -165,7 +165,7 @@ public class ConfigSystemTest {
      */
     private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
             boolean shouldFreshClone, boolean findPreviousAuthors) throws Exception {
-        Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
+        Path configFolder = loadResource(getClass(), "ConfigSystemTest");
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
 
