@@ -4,13 +4,18 @@ import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.rmi.server.ExportException;
 
+import jdk.vm.ci.meta.Local;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import reposense.git.GitClone;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.util.FileUtil;
 import reposense.util.SystemTestUtil;
 
 public class LocalRepoSystemTest {
@@ -24,13 +29,23 @@ public class LocalRepoSystemTest {
 
     @BeforeAll
     public static void setupLocalRepos() throws Exception {
-        System.out.println(Paths.get(".").toAbsolutePath());
         GitClone.clone(new RepoConfiguration(new RepoLocation("https://github.com/reposense/testrepo-Alpha")),
                 Paths.get("."),
                 LOCAL_DIRECTORY_ONE);
         GitClone.clone(new RepoConfiguration(new RepoLocation(LOCAL_DIRECTORY_ONE)),
                 Paths.get("."),
                 LOCAL_DIRECTORY_TWO);
+    }
+
+    @AfterEach
+    public static void deleteReport() throws Exception {
+        FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
+    }
+
+    @AfterAll
+    public static void deleteClonedLocalRepos() throws Exception {
+        FileUtil.deleteDirectory(LOCAL_DIRECTORY_ONE);
+        FileUtil.deleteDirectory(LOCAL_DIRECTORY_TWO);
     }
 
     @Test
