@@ -229,7 +229,9 @@ public class FileInfoExtractor {
 
     /**
      * Returns a {@link FileInfo} with a list of {@link LineInfo} for each line content in the
-     * file located at the {@link Path} given by {@code repoRoot}/{@code relativePath}.
+     * file located at the {@link Path} given by {@code repoRoot}/{@code relativePath}. {@code fileSizeLimit} and
+     * {@code ignoreFileSizeLimit} are used to set whether the file size limit is exceeding. {@link LineInfo}s are
+     * not included in {@link FileInfo} if  {@code skipIgnoredFileAnalysis} is true and file size limit is exceeding.
      */
     public static FileInfo generateFileInfo(String repoRoot, String relativePath, long fileSizeLimit,
             boolean ignoreFileSizeLimit, boolean skipIgnoredFileAnalysis) {
