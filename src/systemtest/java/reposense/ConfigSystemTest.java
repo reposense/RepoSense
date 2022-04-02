@@ -4,6 +4,7 @@ import static org.apache.tools.ant.types.Commandline.translateCommandline;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +35,6 @@ import reposense.util.InputBuilder;
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String DUMMY_ASSETS_DIR = "dummy";
-    private static final String EXPECTED_FOLDER = "expected";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
     private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
@@ -143,7 +143,7 @@ public class ConfigSystemTest {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
                 shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
         Path actualFiles = loadResource(getClass(), pathToResource);
-        SystemTestUtil.verifyAllJson(actualFiles, FT_TEMP_DIR);
+        SystemTestUtil.verifyAllJson(actualFiles, Paths.get(FT_TEMP_DIR));
         haveNormallyClonedRepo = !shallowCloning;
     }
 
@@ -213,5 +213,4 @@ public class ConfigSystemTest {
                 cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
                 TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
     }
-
 }
