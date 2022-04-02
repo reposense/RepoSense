@@ -3,17 +3,12 @@ package reposense;
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 import static reposense.util.TestUtil.loadResource;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +31,6 @@ import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
-import reposense.util.TestUtil;
 
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
