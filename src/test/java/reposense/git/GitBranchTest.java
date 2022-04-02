@@ -25,7 +25,7 @@ public class GitBranchTest extends GitTestTemplate {
         RepoConfiguration uncommonDefaultConfig = new RepoConfiguration(
                 new RepoLocation(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION), RepoConfiguration.DEFAULT_BRANCH);
         uncommonDefaultConfig.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
-        GitClone.clone(uncommonDefaultConfig);
+        GitClone.cloneAndBranch(uncommonDefaultConfig);
         String currentBranch = GitBranch.getCurrentBranch(uncommonDefaultConfig.getRepoRoot());
         Assertions.assertEquals("uncommon", currentBranch);
     }

@@ -1,12 +1,17 @@
 package reposense;
 
+import static reposense.util.TestUtil.loadResource;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
 import reposense.git.GitClone;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-
-import java.nio.file.Paths;
+import reposense.util.SystemTestUtil;
 
 public class LocalRepoSystemTest {
 
@@ -14,11 +19,12 @@ public class LocalRepoSystemTest {
     private static final String LOCAL_DIRECTORY_TWO = "parent2/test-repo";
 
     private static final String OUTPUT_DIRECTORY = "local-test";
-    private static final String REPORT_DIRECTORY = "local-test/reposense-report";
+    private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
 
 
     @BeforeAll
     public static void setupLocalRepos() throws Exception {
+        System.out.println(Paths.get(".").toAbsolutePath());
         GitClone.clone(new RepoConfiguration(new RepoLocation("https://github.com/reposense/testrepo-Alpha")),
                 Paths.get("."),
                 LOCAL_DIRECTORY_ONE);
@@ -28,9 +34,23 @@ public class LocalRepoSystemTest {
     }
 
     @Test
-    public static void testSameFinalDirectory() throws Exception {
-
+    public void testSameFinalDirectory() throws Exception {
+        String cliInput = String.format("-r %s %s -s d1 -u 01/04/2022 -o local-test",
+                LOCAL_DIRECTORY_ONE, LOCAL_DIRECTORY_TWO);
+        String[] args = cliInput.split(" ");
+        RepoSense.main(args);
+        Path expectedFilePath = loadResource(getClass(), "LocalRepoSystemTest/testSameFinalDirectory");
+        SystemTestUtil.verifyAllJson(expectedFilePath, REPORT_DIRECTORY_PATH);
     }
-    // write one dual local repo with same final directory test
-    // write one for relative path test
+
+    @Test
+    public void testRelativePathing() throws Exception {
+        String relativePathForTesting = "parent1/../parent1/./test-repo";
+        String cliInput = String.format("-r %s -s d1 -u 01/04/2022 -o local-test",
+                relativePathForTesting);
+        String[] args = cliInput.split(" ");
+        RepoSense.main(args);
+        Path expectedFilePath = loadResource(getClass(), "LocalRepoSystemTest/testRelativePathing");
+        SystemTestUtil.verifyAllJson(expectedFilePath, REPORT_DIRECTORY_PATH);
+    }
 }

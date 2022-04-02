@@ -100,10 +100,21 @@ public class GitClone {
      *
      * @throws GitCloneException when an error occurs while attempting to clone the repo.
      */
-    public static void clone(RepoConfiguration config) throws GitCloneException {
+    public static void cloneAndBranch(RepoConfiguration config) throws GitCloneException {
         String outputFolderName = Paths.get(FileUtil.getRepoParentFolder(config).toString(),
                 config.getRepoName()).toString();
         clone(config, Paths.get("."), outputFolderName);
+        try {
+            config.updateBranch();
+            GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
+        } catch (GitBranchException gbe) {
+            logger.log(Level.SEVERE,
+                    "Exception met while trying to get current branch of repo. Analysis terminated.", gbe);
+            throw new GitCloneException(gbe);
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", rte);
+            throw new GitCloneException(rte);
+        }
     }
 
     /**
@@ -132,18 +143,6 @@ public class GitClone {
             // though the repo is cloned properly.
         } catch (IOException ioe) {
             throw new GitCloneException(ioe);
-        }
-
-        try {
-            config.updateBranch();
-            GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-        } catch (GitBranchException gbe) {
-            logger.log(Level.SEVERE,
-                    "Exception met while trying to get current branch of repo. Analysis terminated.", gbe);
-            throw new GitCloneException(gbe);
-        } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", rte);
-            throw new GitCloneException(rte);
         }
     }
 

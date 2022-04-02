@@ -29,8 +29,8 @@ import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
-import reposense.util.SystemTestUtil;
 import reposense.util.InputBuilder;
+import reposense.util.SystemTestUtil;
 
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";

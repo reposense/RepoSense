@@ -108,7 +108,7 @@ public class GitTestTemplate {
     public static void beforeClass() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setZoneId(TIME_ZONE_ID_STRING);
-        GitClone.clone(config);
+        GitClone.cloneAndBranch(config);
     }
 
     @AfterEach
