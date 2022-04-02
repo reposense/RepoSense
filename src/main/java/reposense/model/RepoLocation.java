@@ -52,9 +52,8 @@ public class RepoLocation {
     private final String domainName;
 
     // Used for generation of local repository report output directory
-    private final transient boolean isLocal;
-    private transient String localRepoName;
-    private transient String localOrganization;
+    private final transient String outputFolderRepoName;
+    private final transient String outputFolderOrganization;
 
     /**
      * Creates {@link RepoLocation} based on the {@code location}, which is represented by a {@code URL}
@@ -68,34 +67,31 @@ public class RepoLocation {
         }
 
         this.location = location;
-        this.isLocal = isLocalRepo(location);
-        String[] repoNameAndOrg;
+        String[] remoteRepoNameAndOrg;
+        String[] outputFolderRepoNameAndOrg;
         if (location.isEmpty()) {
-            repoNameAndOrg = new String[] {"", "", UNSUPPORTED_DOMAIN_NAME};
-        } else if (this.isLocal) {
-            String[] localRepoNameAndOrg = getLocalRepoNameAndOrg(location);
-            this.localRepoName = localRepoNameAndOrg[0];
-            this.localOrganization = localRepoNameAndOrg[1];
+            remoteRepoNameAndOrg = new String[] {"", "", UNSUPPORTED_DOMAIN_NAME};
+            outputFolderRepoNameAndOrg = remoteRepoNameAndOrg;
+        } else if (isLocalRepo(location)) {
+            outputFolderRepoNameAndOrg = getLocalRepoNameAndOrg(location);
 
             Map<String, String> remotes = GitRemote.getRemotes(location);
-            String newLocation = remotes.size() == 0
-                    ? location
-                    : remotes.containsKey("origin(fetch)")
-                    // Get fetch remote named 'origin' if possible
-                    ? remotes.get("origin(fetch)")
-                    // Get any remote otherwise
-                    : remotes.values().iterator().next();
+            String newLocation = GitRemote.getAvailableRemoteLocation(remotes).orElse(location);
 
-            repoNameAndOrg = remotes.size() == 0
-                ? getLocalRepoNameAndOrg(newLocation)
+            remoteRepoNameAndOrg = remotes.size() == 0
+                ? outputFolderRepoNameAndOrg
                 : getRemoteRepoNameAndOrg(newLocation);
         } else {
-            repoNameAndOrg = getRemoteRepoNameAndOrg(location);
+            remoteRepoNameAndOrg = getRemoteRepoNameAndOrg(location);
+            outputFolderRepoNameAndOrg = remoteRepoNameAndOrg;
         }
 
-        this.repoName = repoNameAndOrg[0];
-        this.organization = repoNameAndOrg[1];
-        this.domainName = repoNameAndOrg[2];
+        this.repoName = remoteRepoNameAndOrg[0];
+        this.organization = remoteRepoNameAndOrg[1];
+        this.domainName = remoteRepoNameAndOrg[2];
+
+        this.outputFolderRepoName = outputFolderRepoNameAndOrg[0];
+        this.outputFolderOrganization = outputFolderRepoNameAndOrg[1];
     }
 
     public boolean isEmpty() {
@@ -103,17 +99,11 @@ public class RepoLocation {
     }
 
     public String getRepoName() {
-        if (this.isLocal && !isEmpty()) {
-            return localRepoName;
-        }
-        return repoName;
+        return outputFolderRepoName;
     }
 
     public String getOrganization() {
-        if (this.isLocal && !isEmpty()) {
-            return localOrganization;
-        }
-        return organization;
+        return outputFolderOrganization;
     }
 
     public String getDomainName() {
