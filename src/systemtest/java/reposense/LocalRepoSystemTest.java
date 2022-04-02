@@ -18,6 +18,8 @@ import reposense.util.SystemTestUtil;
 
 public class LocalRepoSystemTest {
 
+    private static final String LOCAL_DIRECTORY_ONE_PARENT = "parent1";
+    private static final String LOCAL_DIRECTORY_TWO_PARENT = "parent2";
     private static final String LOCAL_DIRECTORY_ONE = "parent1/test-repo";
     private static final String LOCAL_DIRECTORY_TWO = "parent2/test-repo";
 
@@ -36,18 +38,18 @@ public class LocalRepoSystemTest {
     }
 
     @AfterEach
-    public static void deleteReport() throws Exception {
+    public void deleteReportDirectory() throws Exception {
         FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
     }
 
     @AfterAll
     public static void deleteClonedLocalRepos() throws Exception {
-        FileUtil.deleteDirectory(LOCAL_DIRECTORY_ONE);
-        FileUtil.deleteDirectory(LOCAL_DIRECTORY_TWO);
+        FileUtil.deleteDirectory(LOCAL_DIRECTORY_ONE_PARENT);
+        FileUtil.deleteDirectory(LOCAL_DIRECTORY_TWO_PARENT);
     }
 
     @Test
-    public void testSameFinalDirectory() throws Exception {
+    public void testSameFinalDirectory() {
         String cliInput = String.format("-r %s %s -s d1 -u 01/04/2022 -o local-test",
                 LOCAL_DIRECTORY_ONE, LOCAL_DIRECTORY_TWO);
         String[] args = cliInput.split(" ");
@@ -57,7 +59,7 @@ public class LocalRepoSystemTest {
     }
 
     @Test
-    public void testRelativePathing() throws Exception {
+    public void testRelativePathing() {
         String relativePathForTesting = "parent1/../parent1/./test-repo";
         String cliInput = String.format("-r %s -s d1 -u 01/04/2022 -o local-test",
                 relativePathForTesting);
