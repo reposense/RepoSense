@@ -258,7 +258,9 @@ public class RepoLocation {
         return this.location.equals(otherLocation.location)
                 && this.repoName.equals(otherLocation.repoName)
                 && this.organization.equals(otherLocation.organization)
-                && this.domainName.equals(otherLocation.domainName);
+                && this.domainName.equals(otherLocation.domainName)
+                && this.outputFolderRepoName.equals(otherLocation.outputFolderRepoName)
+                && this.outputFolderOrganization.equals(otherLocation.outputFolderOrganization);
     }
 
     @Override
