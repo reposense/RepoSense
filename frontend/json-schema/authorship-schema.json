@@ -1,0 +1,45 @@
+{
+  "id":  "http://some.site.somewhere/entry-schema#",
+  "$schema":  "http://json-schema-org/draft-06/schema#",
+  "type": "array",
+  "items": {
+    "type":  "object",
+    "properties": {
+      "path": {
+        "type": "string"
+      },
+      "fileType": {
+        "type": "string"
+      },
+      "lines": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "lineNumber": {
+              "type": "integer"
+            },
+            "author": {
+              "type": "object",
+              "properties": {
+                "gitId": "string"
+              },
+              "required": ["gitId"]
+            },
+            "content": {
+              "type": "string"
+            }
+          },
+          "required": ["lineNumber", "author", "content"]
+        }
+      },
+      "authorContributionMap": {
+        "type": "object",
+        "patternProperties": {
+          "": { "type": "integer" }
+        }
+      }
+    },
+    "required": ["path", "fileType", "lines", "authorContributionMap"]
+  }
+}
