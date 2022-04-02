@@ -4,9 +4,7 @@ import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.rmi.server.ExportException;
 
-import jdk.vm.ci.meta.Local;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
