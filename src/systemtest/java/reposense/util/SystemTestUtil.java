@@ -8,10 +8,13 @@ import java.nio.file.Path;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Contains utility methods for system tests.
+ */
 public class SystemTestUtil {
 
     /**
-     * Verifies all JSON files in {@code actualRelative} with {@code expectedDirectory}.
+     * Verifies that all JSON files in the {@code actualDirectory} matches those at the {@code expectedDirectory}.
      */
     public static void verifyAllJson(Path expectedDirectory, Path actualDirectory) {
         try (Stream<Path> pathStream = Files.list(expectedDirectory)) {
@@ -31,8 +34,6 @@ public class SystemTestUtil {
     }
 
     /**
-     * Asserts the correctness of given JSON file at {@code actualRelative} and {@code expectedPosition} by comparing
-     * it with {@code expectedJson}.
      * Asserts that the contents in the given JSON file at {@code actualJsonPath} is the same as the JSON file
      * at {@code expectedJsonPath}.
      */
