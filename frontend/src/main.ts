@@ -32,10 +32,10 @@ app.directive('hljs', {
 
 app.directive('observe-visibility', {
   beforeMount: (el, binding, vnode) => {
-    vnode.context = binding.instance;
+    (vnode as any).context = binding.instance;
     ObserveVisibility.bind(el, binding, vnode);
   },
-  update: ObserveVisibility.update,
+  updated: ObserveVisibility.update,
   unmounted: ObserveVisibility.unbind,
 });
 app.component('font-awesome-icon', FontAwesomeIcon);
