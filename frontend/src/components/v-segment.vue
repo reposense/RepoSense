@@ -1,6 +1,6 @@
 <template lang="pug">
 .segment(v-observe-visibility="{ callback: visibilityChanged, throttle: 300, }",
-         v-bind:class="{ untouched: !segment.authored, active: isOpen }")
+  v-bind:class="{ untouched: !segment.authored, active: isOpen }")
   template(v-if="isRendered")
     .closer(v-if="canOpen",
       v-on:click="toggleCode", ref="topButton")
