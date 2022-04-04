@@ -89,6 +89,11 @@ The issues for first timers usually have guidance provided in the comment or hav
 See [vue-devtools project home](https://github.com/vuejs/vue-devtools) page for more details.
 </box>
 
+**You can use the json schemas provided in `/frontend/json-schema/` to check if the json data generated in `/reposense-report/` has the correct format.**
+* If you are using **IntelliJ**, please follow the guide [here](https://www.jetbrains.com/help/idea/json.html#ws_json_using_schemas).
+* If you are using **Visual Studio Code**, open the `.json` data file. Using `summary.json` as an example, add `"$schema": "../frontend/json-schema/summary-schema.json"` to the start of json. If you need to check using other schemas, replace `summary-schema.json` with other schema files provided.
+* Once this is set up, you should be able to see warnings being flagged out if the data is not in the correct format.
+
 <!-- ==================================================================================================== -->
 
 ## Testing (front-end)
