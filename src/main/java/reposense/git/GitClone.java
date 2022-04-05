@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
@@ -96,56 +95,6 @@ public class GitClone {
     }
 
     /**
-     * Clones repo specified in the {@code config} and updates it with the branch info.
-     *
-     * @throws GitCloneException when an error occurs while attempting to clone the repo.
-     */
-    public static void cloneAndBranch(RepoConfiguration config) throws GitCloneException {
-        String outputFolderName = Paths.get(FileUtil.getRepoParentFolder(config).toString(),
-                config.getRepoName()).toString();
-        clone(config, Paths.get("."), outputFolderName);
-        try {
-            config.updateBranch();
-            GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-        } catch (GitBranchException gbe) {
-            logger.log(Level.SEVERE,
-                    "Exception met while trying to get current branch of repo. Analysis terminated.", gbe);
-            throw new GitCloneException(gbe);
-        } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Branch does not exist! Analysis terminated.", rte);
-            throw new GitCloneException(rte);
-        }
-    }
-
-    /**
-     * Clones repo specified in {@code config} from working directory at {@code rootPath} to {@code outputFolderName}.
-     *
-     * @throws GitCloneException when an error occurs while attempting to clone the repo.
-     */
-    public static void clone(RepoConfiguration config, Path rootPath, String outputFolderName)
-            throws GitCloneException {
-        try {
-            if (!SystemUtil.isTestEnvironment()) {
-                FileUtil.deleteDirectory(config.getRepoRoot());
-            } else if (SystemUtil.isTestEnvironment() && Files.exists(Paths.get(outputFolderName))) {
-                logger.info("Skipped cloning from " + config.getLocation() + " as it was cloned before.");
-            } else {
-                logger.info("Cloning from " + config.getLocation() + "...");
-                String command = getCloneCommand(config, outputFolderName);
-                runCommand(rootPath, command);
-                logger.info("Cloning completed!");
-            }
-        } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "Error encountered in Git Cloning, will attempt to continue analyzing", rte);
-            throw new GitCloneException(rte);
-            //Due to an unsolved bug on Windows Git, for some repository, Git Clone will return an error even
-            // though the repo is cloned properly.
-        } catch (IOException ioe) {
-            throw new GitCloneException(ioe);
-        }
-    }
-
-    /**
      * Clones a bare repo, with {@code rootPath} as working directory, specified in {@code config}
      * into the folder {@code outputFolderName}.
      *
@@ -195,13 +144,6 @@ public class GitClone {
         }
     }
 
-    /**
-     * Constructs the command to clone a repo specified in the {@code config} into the folder {@code outputFolderName}.
-     */
-    private static String getCloneCommand(RepoConfiguration config, String outputFolderName) {
-        return "git clone " + addQuotesForFilePath(config.getLocation().toString()) + " "
-                + addQuotesForFilePath(outputFolderName);
-    }
 
     /**
      * Constructs the command to clone a bare repo specified in the {@code config}
