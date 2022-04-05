@@ -33,7 +33,7 @@ public class TestRepoCloner {
      * Clones repo specified in {@code config} from working directory at {@code rootPath} to {@code outputFolderName}.
      */
     public static void clone(RepoConfiguration config, Path rootPath, String outputFolderName) {
-        if (SystemUtil.isTestEnvironment() && Files.exists(Paths.get(outputFolderName))) {
+        if (Files.exists(Paths.get(outputFolderName))) {
             logger.info("Skipped cloning from " + config.getLocation() + " as it was cloned before.");
         } else {
             logger.info("Cloning from " + config.getLocation() + "...");
