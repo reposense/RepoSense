@@ -28,6 +28,7 @@ import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.FileUtil;
+import reposense.util.TestRepoCloner;
 
 /**
  * Contains templates for git testing.
@@ -108,7 +109,7 @@ public class GitTestTemplate {
     public static void beforeClass() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setZoneId(TIME_ZONE_ID_STRING);
-        GitClone.cloneAndBranch(config);
+        TestRepoCloner.cloneAndBranch(config);
     }
 
     @AfterEach
