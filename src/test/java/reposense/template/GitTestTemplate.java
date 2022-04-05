@@ -19,7 +19,6 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
-import reposense.git.GitClone;
 import reposense.git.GitShow;
 import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Author;

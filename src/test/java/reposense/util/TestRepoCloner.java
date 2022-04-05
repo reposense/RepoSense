@@ -1,17 +1,17 @@
 package reposense.util;
 
-import reposense.git.GitCheckout;
-import reposense.git.exception.GitBranchException;
-import reposense.model.RepoConfiguration;
-import reposense.system.LogsManager;
+import static reposense.system.CommandRunner.runCommand;
+import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Logger;
 
-import static reposense.system.CommandRunner.runCommand;
-import static reposense.util.StringsUtil.addQuotesForFilePath;
+import reposense.git.GitCheckout;
+import reposense.git.exception.GitBranchException;
+import reposense.model.RepoConfiguration;
+import reposense.system.LogsManager;
 
 public class TestRepoCloner {
     private static final Logger logger = LogsManager.getLogger(TestRepoCloner.class);
