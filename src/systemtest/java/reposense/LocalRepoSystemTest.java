@@ -15,6 +15,7 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.FileUtil;
 import reposense.util.SystemTestUtil;
+import reposense.util.TestRepoCloner;
 
 public class LocalRepoSystemTest {
 
@@ -29,10 +30,10 @@ public class LocalRepoSystemTest {
 
     @BeforeAll
     public static void setupLocalRepos() throws Exception {
-        GitClone.clone(new RepoConfiguration(new RepoLocation("https://github.com/reposense/testrepo-Alpha")),
+        TestRepoCloner.clone(new RepoConfiguration(new RepoLocation("https://github.com/reposense/testrepo-Alpha")),
                 Paths.get("."),
                 LOCAL_DIRECTORY_ONE);
-        GitClone.clone(new RepoConfiguration(new RepoLocation(LOCAL_DIRECTORY_ONE)),
+        TestRepoCloner.clone(new RepoConfiguration(new RepoLocation(LOCAL_DIRECTORY_ONE)),
                 Paths.get("."),
                 LOCAL_DIRECTORY_TWO);
     }
