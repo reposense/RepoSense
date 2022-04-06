@@ -112,7 +112,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 ### `--ignore-filesize-limit`, `-I`
 
-**`--ignore-filesize-limit`**: Specifies that the file size limit for .
+**`--ignore-filesize-limit`**: Specifies that the file size limit (both default and user-defined) should be ignored during the analysis.
 * Default: the file size limit is not ignored
 * Alias: `-I`
 * Example:`--ignore-filesize-limit` or `-I`
