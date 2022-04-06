@@ -147,7 +147,7 @@ Note: all fields are optional unless specified otherwise.
 * `formats`: File formats to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
 * `ignoreAuthorList`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
-* `fileSizeLimit`: A file size limit for the repository in bytes, that will override the default file size limit.
+* `fileSizeLimit`: A file size limit for the repository in bytes, that will override the default file size limit. If not specified, the default file size limit is used.
 
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
