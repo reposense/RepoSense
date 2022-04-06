@@ -95,24 +95,6 @@ public class GitClone {
     }
 
     /**
-     * Clones a bare repo, with {@code rootPath} as working directory, specified in {@code config}
-     * into the folder {@code outputFolderName}.
-     *
-     * @throws IOException if it fails to delete or create a directory.
-     */
-    public static void cloneBare(RepoConfiguration config, Path rootPath, String outputFolderName) throws IOException {
-        Path outputFolderPath = Paths.get(outputFolderName);
-        if (!SystemUtil.isTestEnvironment()) {
-            FileUtil.deleteDirectory(outputFolderName);
-            FileUtil.createDirectory(outputFolderPath);
-        } else if (SystemUtil.isTestEnvironment() && Files.exists(outputFolderPath)) {
-            return;
-        }
-        String command = getCloneBareCommand(config, outputFolderName);
-        runCommand(rootPath, command);
-    }
-
-    /**
      * Performs a full clone with {@code rootPath} as working directory relative to the location of the bare repo
      * version of {@code config} into the folder {@code outputFolderName} and checks out the branch specified in
      * {@code config}.
