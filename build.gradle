@@ -185,8 +185,8 @@ def startServerInBackground = tasks.register('startServerInBackground', com.gith
     args = ['--config', './frontend/cypress/config', '--since', 'd1', '--view']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
-    killDescendants = false // Needed because Java 8 does not support killDescendants.
-    // This flag should be removed if we fully migrate to Java 11.
+    killDescendants = false // Kills descendants of started process using methods only found in Java 9 and beyond.
+    // Above flag is set to true by default but is incompatible with Java 8. It should be removed from this file if we fully migrate to Java 11.
     waitForPort = 9000
 }
 
