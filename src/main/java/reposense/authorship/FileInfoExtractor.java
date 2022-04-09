@@ -123,10 +123,6 @@ public class FileInfoExtractor {
                 continue;
             }
 
-            if (false) {
-                continue;
-            }
-
             if (config.getFileTypeManager().isInsideWhitelistedFormats(filePath)) {
                 FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
                 setLinesToTrack(currentFileInfo, fileDiffResult);
