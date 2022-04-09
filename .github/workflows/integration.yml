@@ -159,6 +159,14 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean checkstyleAll test systemTest coverage
 
+    - name: Run code coverage
+      if: ${{ success() && matrix.os == 'macos-11' }}
+      uses: codecov/codecov-action@v2
+      with:
+        directory: ${{ github.workspace }}/build/reports/jacoco/coverage
+        files: coverage.xml
+        fail_ci_if_error: true
+
   windows:
     name: ${{ matrix.os }} JDK 8
     strategy:
@@ -207,6 +215,14 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew clean checkstyleAll test systemTest coverage
+
+    - name: Run code coverage
+      if: ${{ success() && matrix.os == 'windows-2022' }}
+      uses: codecov/codecov-action@v2
+      with:
+        directory: ${{ github.workspace }}/build/reports/jacoco/coverage
+        files: coverage.xml
+        fail_ci_if_error: true
 
   cypress:
     name: Cypress frontend tests
