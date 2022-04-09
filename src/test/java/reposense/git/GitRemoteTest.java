@@ -1,5 +1,8 @@
 package reposense.git;
 
+import static reposense.git.GitRemote.DEFAULT_FETCH_REMOTE;
+import static reposense.git.GitRemote.DEFAULT_PUSH_REMOTE;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -8,9 +11,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import reposense.template.GitTestTemplate;
-
-import static reposense.git.GitRemote.DEFAULT_FETCH_REMOTE;
-import static reposense.git.GitRemote.DEFAULT_PUSH_REMOTE;
 
 class GitRemoteTest extends GitTestTemplate {
 
