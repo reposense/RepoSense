@@ -62,5 +62,4 @@ class GitRemoteTest extends GitTestTemplate {
         String remoteName = GitRemote.getAvailableRemoteLocation(remotes).orElse("");
         Assertions.assertTrue(remotes.containsValue(remoteName));
     }
-
 }
