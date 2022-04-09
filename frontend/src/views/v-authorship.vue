@@ -145,7 +145,7 @@
           .binary-segment
             .indicator BIN
             .bin-text Binary file not shown.
-        pre.file-content(v-else="file.isIgnored", v-show="file.active")
+        pre.file-content(v-else-if="file.isIgnored", v-show="file.active")
           .ignored-segment
             .ignore-text File is ignored.
 </template>
