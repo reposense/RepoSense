@@ -74,7 +74,7 @@ jobs:
       uses: codecov/codecov-action@v2
       with:
         directory: ${{ github.workspace }}/build/reports/jacoco/coverage
-        files: ./coverage.xml
+        files: coverage.xml
         fail_ci_if_error: true
 
     - name: Build preview website (pull request)
