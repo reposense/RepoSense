@@ -88,17 +88,4 @@ public class StringsUtilTest {
 
         Assertions.assertEquals(specialBashSymbols, result);
     }
-
-    @Test
-    public void stripTrailingWhitespaces_noWhitespaces_noChange() {
-        Assertions.assertEquals("", StringsUtil.stripTrailingWhitespaces(""));
-        Assertions.assertEquals("non-empty test string",
-                StringsUtil.stripTrailingWhitespaces("non-empty test string"));
-    }
-    @Test
-    public void stripTrailingWhitespaces_containsVariousWhiteSpaces_whitespacesStripped() {
-        Assertions.assertEquals("", StringsUtil.stripTrailingWhitespaces("\r\n\t\f \r\n\t\f "));
-        Assertions.assertEquals("test string with trailing",
-                StringsUtil.stripTrailingWhitespaces("test string with trailing\r\n\t\f \r\n\t\f "));
-    }
 }

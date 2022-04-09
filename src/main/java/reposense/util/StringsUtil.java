@@ -84,18 +84,4 @@ public class StringsUtil {
         }
         return editedString;
     }
-
-    /**
-     * Returns a string with the trailing white spaces of {@code string} removed.
-     */
-    public static String stripTrailingWhitespaces(String string) {
-        int index = string.length() - 1;
-        while (index != -1) {
-            if (!Character.isWhitespace(string.charAt(index))) {
-                return string.substring(0, index + 1);
-            }
-            index--;
-        }
-        return "";
-    }
 }

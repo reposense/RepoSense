@@ -340,7 +340,7 @@ public class FileUtil {
     public static String getVariableExpandedFilePath(String filePath) {
         String echoOutput = CommandRunner.runCommand(Paths.get("."), "echo " + filePath);
         // CommandRunner returns some white space characters at the end
-        return StringsUtil.stripTrailingWhitespaces(echoOutput);
+        return echoOutput.trim();
     }
 
     /**
