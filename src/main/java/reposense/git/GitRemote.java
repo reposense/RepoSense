@@ -57,14 +57,16 @@ public class GitRemote {
      * @return an {@code Optional} of an available remote location.
      */
     public static Optional<String> getAvailableRemoteLocation(Map<String, String> remoteMap) {
-        String remoteLocation = remoteMap.size() == 0
-                ? null
-                : remoteMap.containsKey(DEFAULT_FETCH_REMOTE)
+        if (remoteMap.size() == 0) {
+            return Optional.empty();
+        }
+
+        String remoteLocation = remoteMap.containsKey(DEFAULT_FETCH_REMOTE)
                 // Get default fetch remote if possible
                 ? remoteMap.get(DEFAULT_FETCH_REMOTE)
-                // Get any remote otherwise
+                // Get any available remote otherwise
                 : remoteMap.values().iterator().next();
-        return Optional.ofNullable(remoteLocation);
+        return Optional.of(remoteLocation);
     }
 
 }
