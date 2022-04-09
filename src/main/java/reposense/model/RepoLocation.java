@@ -141,7 +141,8 @@ public class RepoLocation {
 
     /**
      * Returns a best-guess repo name and organization from the given local repo {@code location}.
-     * The return is a length-2 string array with the repo name at index 0 and organization at index 1.
+     * The return is a length-3 string array with the repo name at index 0, organization at index 1
+     * and domain name (unsupported domain) at index 2.
      *
      * @throws InvalidLocationException if the location specified is not a proper local repository.
      */
@@ -169,8 +170,9 @@ public class RepoLocation {
     }
 
     /**
-     * Returns a best-guess repo name and organization from the given remote repo {@code location}.
-     * The return is a length-2 string array with the repo name at index 0 and organization at index 1.
+     * Returns a best-guess repo name, organization and domain name from the given remote repo
+     * {@code location}. The return is a length-3 string array with the repo name at index 0,
+     * organization at index 1 and domain name at index 2.
      *
      * @throws InvalidLocationException if the location specified is not a proper remote repository.
      */
