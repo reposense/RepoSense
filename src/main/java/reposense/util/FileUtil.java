@@ -360,5 +360,4 @@ public class FileUtil {
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
     }
-
 }
