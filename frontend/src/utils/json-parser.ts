@@ -130,7 +130,7 @@ window.api = {
       return json;
     } catch (e) {
       if (e instanceof z.ZodError) {
-        console.log(e.issues);
+        throw e;
       }
       throw new Error(`Unable to read ${fname}.`);
     }
