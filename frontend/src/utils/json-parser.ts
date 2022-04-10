@@ -1,16 +1,116 @@
 import { z } from 'zod';
 
+interface CommitResult {
+  deletions?: number;
+  fileTypesAndContributionMap: {
+    [key:string]: {
+      deletions: number;
+      insertions: number;
+    }
+  };
+  hash: string;
+  insertions?: number;
+  messageBody: string;
+  messageTitle: string;
+  repoId?: string;
+}
+
 declare global {
   interface Window {
     api: any;
     REPORT_ZIP: any;
-    REPOS: any;
+    REPOS: {
+      [key:string]: {
+        branch: string;
+        commits: {
+          authorContributionVariance: {
+            [key:string]: number;
+          };
+          authorDailyContributionsMap: {
+            [key:string]: {
+              commitResults: CommitResult[];
+              date: string;
+            }[];
+          };
+          authorDisplayNameMap: {
+            [key:string]: string;
+          };
+          authorFileTypeContributionMap: {
+            [key:string]: {
+              [key:string]: number;
+            };
+          };
+        };
+        displayName: string;
+        files: {
+          authorContributionMap: {
+            [key:string]: number;
+          };
+          fileType: string;
+          lines: {
+            author: {
+              [key:string]: string;
+            };
+            content: string;
+            lineNumber: number;
+          }[];
+          path: string;
+        }[];
+        location: {
+          domainName: string;
+          location: string;
+          organization: string;
+          repoName: string;
+        };
+        outputFolderName: string;
+        users: {
+          checkedFileTypeContribution: number;
+          commits: {
+            commitResults: CommitResult[];
+            date: string;
+            deletions: number;
+            insertions: number;
+          }[];
+          dailyCommits: {
+            commitResults: CommitResult[];
+            date: string;
+          }[];
+          displayName: string;
+          fileTypeContribution: {
+            [key:string]: number;
+          };
+          location: string;
+          name: string;
+          repoId: string;
+          repoName: string;
+          searchPath: string;
+          variance: number;
+        }[]
+      };
+    };
     sinceDate: string;
     untilDate: string;
     repoSenseVersion: string;
     isSinceDateProvided: boolean;
     isUntilDateProvided: boolean;
-    DOMAIN_URL_MAP: any;
+    DOMAIN_URL_MAP: {
+      NOT_RECOGNIZED: {
+        BASE_URL: string;
+        BLAME_PATH: string;
+        BRANCH: string;
+        COMMIT_PATH: string;
+        HISTORY_PATH: string;
+        REPO_URL: string;
+      };
+      github: {
+        BASE_URL: string;
+        BLAME_PATH: string;
+        BRANCH: string;
+        COMMIT_PATH: string;
+        HISTORY_PATH: string;
+        REPO_URL: string;
+      },
+    };
   }
 }
 
@@ -136,7 +236,7 @@ window.api = {
     }
   },
   async loadSummary() {
-    window.REPOS = {};
+    // window.REPOS = {};
     let data: {
       reportGeneratedTime: string;
       reportGenerationTime: string;
@@ -150,12 +250,52 @@ window.api = {
       repos: {
         branch: string;
         commits: {
-          authorContributionVariance: any;
-          authorDailyContributionsMap: any;
-          authorDisplayNameMap: any;
-          authorFileTypeContributionMap: any;
+          authorContributionVariance: {
+            [key:string]: number;
+          };
+          authorDailyContributionsMap: {
+            [key:string]: {
+              commitResults: {
+                deletions?: number;
+                fileTypesAndContributionMap: {
+                  [key:string]: {
+                    deletions: number;
+                    insertions: number;
+                  }
+                };
+                hash: string;
+                insertions?: number;
+                messageBody: string;
+                messageTitle: string;
+                repoId?: string;
+              }[];
+              date: string;
+            }[];
+          };
+          authorDisplayNameMap: {
+            [key:string]: string;
+          };
+          authorFileTypeContributionMap: {
+            [key:string]: {
+              [key:string]: number;
+            };
+          };
         };
         displayName: string;
+        files: {
+          authorContributionMap: {
+            [key:string]: number;
+          };
+          fileType: string;
+          lines: {
+            author: {
+              [key:string]: string;
+            };
+            content: string;
+            lineNumber: number;
+          }[];
+          path: string;
+        }[];
         location: {
           domainName: string;
           location: string;
@@ -165,10 +305,20 @@ window.api = {
         outputFolderName: string;
         users: {
           checkedFileTypeContribution: number;
-          commits: any;
-          dailyCommits: any;
+          commits: {
+            commitResults: CommitResult[];
+            date: string;
+            deletions: number;
+            insertions: number;
+          }[];
+          dailyCommits: {
+            commitResults: CommitResult[];
+            date: string;
+          }[];
           displayName: string;
-          fileTypeContribution: any;
+          fileTypeContribution: {
+            [key:string]: number;
+          };
           location: string;
           name: string;
           repoId: string;
@@ -178,7 +328,24 @@ window.api = {
         }[]
       }[];
       zoneId: string;
-      supportedDomainUrlMap: any;
+      supportedDomainUrlMap: {
+        NOT_RECOGNIZED: {
+          BASE_URL: string;
+          BLAME_PATH: string;
+          BRANCH: string;
+          COMMIT_PATH: string;
+          HISTORY_PATH: string;
+          REPO_URL: string;
+        },
+        github: {
+          BASE_URL: string;
+          BLAME_PATH: string;
+          BRANCH: string;
+          COMMIT_PATH: string;
+          HISTORY_PATH: string;
+          REPO_URL: string;
+        },
+      };
     };
 
     try {
@@ -255,14 +422,27 @@ window.api = {
 
     repo.commits = commits;
     repo.users = res;
-
+    console.log(res);
     return res;
   },
 
   loadAuthorship(repoName: string) {
     const folderName = window.REPOS[repoName].outputFolderName;
     return this.loadJSON(`${folderName}/authorship.json`, 'authorship')
-        .then((files: any) => {
+        .then((files: {
+          authorContributionMap: {
+            [key:string]: number;
+          };
+          fileType: string;
+          lines: {
+            author: {
+              [key:string]: string;
+            };
+            content: string;
+            lineNumber: number;
+          }[];
+          path: string;
+        }[]) => {
           window.REPOS[repoName].files = files;
           return files;
         });
