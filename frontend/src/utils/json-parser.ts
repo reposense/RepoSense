@@ -1,17 +1,65 @@
-const REPORT_DIR: string = '.';
+import { z } from 'zod';
 
-interface Window {
-  api: any;
-  REPORT_ZIP: any;
-  REPOS: any;
-  sinceDate: string;
-  untilDate: string;
-  repoSenseVersion: string;
-  isSinceDateProvided: boolean;
-  isUntilDateProvided: boolean;
-  DOMAIN_URL_MAP: any;
+declare global {
+  interface Window {
+    api: any;
+    REPORT_ZIP: any;
+    REPOS: any;
+    sinceDate: string;
+    untilDate: string;
+    repoSenseVersion: string;
+    isSinceDateProvided: boolean;
+    isUntilDateProvided: boolean;
+    DOMAIN_URL_MAP: any;
+  }
 }
 
+const REPORT_DIR: string = '.';
+const summarySchema = z.object({
+  repoSenseVersion: z.string(),
+  reportGeneratedTime: z.string(),
+  reportGenerationTime: z.string(),
+  zoneId: z.string(),
+  reportTitle: z.string(),
+  repos: z.array(
+      z.object({
+        location: z.object({
+          domainName: z.string(),
+          location: z.string(),
+          repoName: z.string(),
+          organization: z.string(),
+        }),
+        branch: z.string(),
+        displayName: z.string(),
+        outputFolderName: z.string(),
+      }),
+  ),
+  errorSet: z.array(
+      z.object({ repoName: z.string(), errorMessage: z.string() }),
+  ),
+  sinceDate: z.string(),
+  untilDate: z.string(),
+  isSinceDateProvided: z.boolean(),
+  isUntilDateProvided: z.boolean(),
+  supportedDomainUrlMap: z.object({
+    NOT_RECOGNIZED: z.object({
+      BASE_URL: z.string(),
+      BLAME_PATH: z.string(),
+      BRANCH: z.string(),
+      COMMIT_PATH: z.string(),
+      HISTORY_PATH: z.string(),
+      REPO_URL: z.string(),
+    }),
+    github: z.object({
+      BASE_URL: z.string(),
+      BLAME_PATH: z.string(),
+      BRANCH: z.string(),
+      COMMIT_PATH: z.string(),
+      HISTORY_PATH: z.string(),
+      REPO_URL: z.string(),
+    }),
+  }),
+});
 window.api = {
   async loadJSON(fname: string) {
     if (window.REPORT_ZIP) {
@@ -29,9 +77,16 @@ window.api = {
     try {
       const response = await fetch(`${REPORT_DIR}/${fname}`);
       // Not directly returned in case response is not actually json.
-      const json = await response.json();
+      let json = await response.json();
+      console.log(json);
+      if (fname === 'summary.json') {
+        json = summarySchema.parse(json);
+      }
       return json;
     } catch (e) {
+      if (e instanceof z.ZodError) {
+        console.log(e.issues);
+      }
       throw new Error(`Unable to read ${fname}.`);
     }
   },
