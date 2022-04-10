@@ -85,6 +85,23 @@ const commitsSchema = z.object({
   authorDisplayNameMap: z.object({}).catchall(z.string()),
 });
 
+const authorshipSchema = z.array(
+    z.object({
+      path: z.string(),
+      fileType: z.string(),
+      lines: z.array(
+          z.object({
+            lineNumber: z.number(),
+            author: z.object({
+              gitId: z.string(),
+            }),
+            content: z.string(),
+          }),
+      ),
+      authorContributionMap: z.object({}).catchall(z.number()),
+    }),
+);
+
 window.api = {
   async loadJSON(fname: string, type: string) {
     if (window.REPORT_ZIP) {
@@ -103,11 +120,12 @@ window.api = {
       const response = await fetch(`${REPORT_DIR}/${fname}`);
       // Not directly returned in case response is not actually json.
       let json = await response.json();
-      console.log(json);
       if (type === 'summary') {
         json = summarySchema.parse(json);
       } else if (type === 'commits') {
         json = commitsSchema.parse(json);
+      } else if (type === 'authorship') {
+        json = authorshipSchema.parse(json);
       }
       return json;
     } catch (e) {
