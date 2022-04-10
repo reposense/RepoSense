@@ -23,8 +23,7 @@ public class SystemTestUtil {
                 Path actualFilePath = actualDirectory.resolve(file);
                 if (Files.isDirectory(file)) {
                     verifyAllJson(expectedFilePath, actualFilePath);
-                }
-                if (file.toString().endsWith(".json")) {
+                } else if (file.toString().endsWith(".json")) {
                     assertJson(expectedFilePath, actualFilePath);
                 }
             }
