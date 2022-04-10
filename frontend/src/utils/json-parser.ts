@@ -60,8 +60,33 @@ const summarySchema = z.object({
     }),
   }),
 });
+
+const commitsSchema = z.object({
+  authorFileTypeContributionMap: z.object({}).catchall(z.object({}).catchall(z.number())),
+  authorDailyContributionsMap: z.object({}).catchall(z.array(
+      z.object({
+        date: z.string(),
+        commitResults: z.array(
+            z.object({
+              deletions: z.number().optional(),
+              fileTypesAndContributionMap: z.object({}).catchall(z.object({
+                deletions: z.number(), insertions: z.number(),
+              })),
+              hash: z.string(),
+              insertions: z.number().optional(),
+              messageBody: z.string(),
+              messageTitle: z.string(),
+              repoId: z.string().optional(),
+            }),
+        ),
+      }),
+  )),
+  authorContributionVariance: z.object({}).catchall(z.number()),
+  authorDisplayNameMap: z.object({}).catchall(z.string()),
+});
+
 window.api = {
-  async loadJSON(fname: string) {
+  async loadJSON(fname: string, type: string) {
     if (window.REPORT_ZIP) {
       const zipObject = window.REPORT_ZIP.file(fname);
       if (zipObject) {
@@ -79,8 +104,10 @@ window.api = {
       // Not directly returned in case response is not actually json.
       let json = await response.json();
       console.log(json);
-      if (fname === 'summary.json') {
+      if (type === 'summary') {
         json = summarySchema.parse(json);
+      } else if (type === 'commits') {
+        json = commitsSchema.parse(json);
       }
       return json;
     } catch (e) {
@@ -137,7 +164,7 @@ window.api = {
     };
 
     try {
-      data = await this.loadJSON('summary.json');
+      data = await this.loadJSON('summary.json', 'summary');
     } catch (error: any) {
       if (error.message === 'Unable to read summary.json.') {
         return null;
@@ -175,7 +202,7 @@ window.api = {
 
   async loadCommits(repoName: string) {
     const folderName = window.REPOS[repoName].outputFolderName;
-    const commits = await this.loadJSON(`${folderName}/commits.json`);
+    const commits = await this.loadJSON(`${folderName}/commits.json`, 'commits');
     const res: any[] = [];
     const repo = window.REPOS[repoName];
 
@@ -216,7 +243,7 @@ window.api = {
 
   loadAuthorship(repoName: string) {
     const folderName = window.REPOS[repoName].outputFolderName;
-    return this.loadJSON(`${folderName}/authorship.json`)
+    return this.loadJSON(`${folderName}/authorship.json`, 'authorship')
         .then((files: any) => {
           window.REPOS[repoName].files = files;
           return files;
