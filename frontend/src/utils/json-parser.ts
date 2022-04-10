@@ -1,7 +1,19 @@
-const REPORT_DIR = '.';
+const REPORT_DIR: string = '.';
+
+interface Window {
+  api: any;
+  REPORT_ZIP: any;
+  REPOS: any;
+  sinceDate: string;
+  untilDate: string;
+  repoSenseVersion: string;
+  isSinceDateProvided: boolean;
+  isUntilDateProvided: boolean;
+  DOMAIN_URL_MAP: any;
+}
 
 window.api = {
-  async loadJSON(fname) {
+  async loadJSON(fname: string) {
     if (window.REPORT_ZIP) {
       const zipObject = window.REPORT_ZIP.file(fname);
       if (zipObject) {
@@ -25,10 +37,53 @@ window.api = {
   },
   async loadSummary() {
     window.REPOS = {};
-    let data = {};
+    let data: {
+      reportGeneratedTime: string;
+      reportGenerationTime: string;
+      sinceDate: string;
+      untilDate: string;
+      repoSenseVersion: string;
+      isSinceDateProvided: boolean;
+      isUntilDateProvided: boolean;
+      reportTitle: string;
+      errorSet: { repoName: string; errorMessage: string }[];
+      repos: {
+        branch: string;
+        commits: {
+          authorContributionVariance: any;
+          authorDailyContributionsMap: any;
+          authorDisplayNameMap: any;
+          authorFileTypeContributionMap: any;
+        };
+        displayName: string;
+        location: {
+          domainName: string;
+          location: string;
+          organization: string;
+          repoName: string;
+        };
+        outputFolderName: string;
+        users: {
+          checkedFileTypeContribution: number;
+          commits: any;
+          dailyCommits: any;
+          displayName: string;
+          fileTypeContribution: any;
+          location: string;
+          name: string;
+          repoId: string;
+          repoName: string;
+          searchPath: string;
+          variance: number;
+        }[]
+      }[];
+      zoneId: string;
+      supportedDomainUrlMap: any;
+    };
+
     try {
       data = await this.loadJSON('summary.json');
-    } catch (error) {
+    } catch (error: any) {
       if (error.message === 'Unable to read summary.json.') {
         return null;
       }
@@ -42,14 +97,14 @@ window.api = {
     window.isUntilDateProvided = data.isUntilDateProvided;
     document.title = data.reportTitle || document.title;
 
-    const errorMessages = {};
+    const errorMessages: any = {};
     Object.entries(data.errorSet).forEach(([repoName, message]) => {
       errorMessages[repoName] = message;
     });
 
     window.DOMAIN_URL_MAP = data.supportedDomainUrlMap;
 
-    const names = [];
+    const names: string[] = [];
     data.repos.forEach((repo) => {
       const repoName = `${repo.displayName}`;
       window.REPOS[repoName] = repo;
@@ -63,10 +118,10 @@ window.api = {
     };
   },
 
-  async loadCommits(repoName) {
+  async loadCommits(repoName: string) {
     const folderName = window.REPOS[repoName].outputFolderName;
     const commits = await this.loadJSON(`${folderName}/commits.json`);
-    const res = [];
+    const res: any[] = [];
     const repo = window.REPOS[repoName];
 
     Object.keys(commits.authorDisplayNameMap).forEach((author) => {
@@ -78,6 +133,9 @@ window.api = {
           displayName: commits.authorDisplayNameMap[author],
           dailyCommits: commits.authorDailyContributionsMap[author],
           fileTypeContribution: commits.authorFileTypeContributionMap[author],
+          searchPath: '',
+          repoName: '',
+          location: '',
         };
 
         this.setContributionOfCommitResultsAndInsertRepoId(obj.dailyCommits, obj.repoId);
@@ -101,17 +159,19 @@ window.api = {
     return res;
   },
 
-  loadAuthorship(repoName) {
+  loadAuthorship(repoName: string) {
     const folderName = window.REPOS[repoName].outputFolderName;
     return this.loadJSON(`${folderName}/authorship.json`)
-        .then((files) => {
+        .then((files: any) => {
           window.REPOS[repoName].files = files;
           return files;
         });
   },
 
   // calculate and set the contribution of each commitResult and insert repoId into commitResult, since not provided in json file
-  setContributionOfCommitResultsAndInsertRepoId(dailyCommits, repoId) {
+  setContributionOfCommitResultsAndInsertRepoId(dailyCommits: { date: string; commitResults: { deletions: number;
+    fileTypesAndContributionMap: Map<string, {insertions: number; deletions: number}>; hash: string; insertions: number;
+    repoId: string; messageBody: string; messageTitle: string; }[] }[], repoId: string) {
     dailyCommits.forEach((commit) => {
       commit.commitResults.forEach((result) => {
         result.repoId = repoId;
