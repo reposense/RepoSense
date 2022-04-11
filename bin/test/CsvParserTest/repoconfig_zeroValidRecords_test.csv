@@ -1,0 +1,4 @@
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Find Previous Authors
+https://github.com/reposense/testrepo-Beta.git,override:java;adoc;md,override:docs**,no,override:abcde12345;67890fdecba,
+https://github.com/reposense/testrepo-Charlie.git,master,,
+,master,java,docs**,no,823fdd73f7d3feae86d3075ee5706f5f001b73a5,

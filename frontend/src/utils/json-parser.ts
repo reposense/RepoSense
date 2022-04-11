@@ -364,7 +364,7 @@ window.api = {
     window.isUntilDateProvided = data.isUntilDateProvided;
     document.title = data.reportTitle || document.title;
 
-    const errorMessages: any = {};
+    const errorMessages: { [key:string]: {errorMessage: string; repoName: string}; } = {};
     Object.entries(data.errorSet).forEach(([repoName, message]) => {
       errorMessages[repoName] = message;
     });
@@ -406,23 +406,19 @@ window.api = {
         };
 
         this.setContributionOfCommitResultsAndInsertRepoId(obj.dailyCommits, obj.repoId);
-
         const searchParams = [
             repo.displayName,
             obj.displayName, author,
         ];
-
         obj.searchPath = searchParams.join('_').toLowerCase();
         obj.repoName = `${repo.displayName}`;
         obj.location = `${repo.location.location}`;
-
         res.push(obj);
       }
     });
 
     repo.commits = commits;
     repo.users = res;
-    console.log(res);
     return res;
   },
 

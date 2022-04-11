@@ -1,0 +1,14 @@
+[
+  {
+    "organization": "reposense",
+    "repoName": "testrepo-Beta",
+    "branch": "master",
+    "displayName": "reposense_testrepo-Beta"
+  },
+  {
+    "organization": "reposense",
+    "repoName": "testrepo-Charlie",
+    "branch": "master",
+    "displayName": "reposense_testrepo-Charlie"
+  }
+]
