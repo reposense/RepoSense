@@ -271,6 +271,10 @@
       <property name="allowEmptyLambdas" value="true" />
     </module>
 
+    <!-- Checks that non-whitespace characters are separated by only one white space. -->
+    <!-- Indents and comment whitespaces are okay. -->
+    <module name="SingleSpaceSeparator" />
+
     <module name="WhitespaceAfter">
       <!-- Checks that commas, semicolons and typecasts are followed by whitespace. -->
       <property name="tokens" value="COMMA, SEMI, TYPECAST"/>
@@ -326,6 +330,7 @@
     <module name="Indentation">
       <property name="caseIndent" value="0" />
       <property name="lineWrappingIndentation" value="8" />
+      <property name="throwsIndent" value="8" />
     </module>
 
     <module name="NoWhitespaceBefore">
@@ -333,6 +338,9 @@
       <property name="tokens" value="SEMI, DOT, POST_DEC, POST_INC"/>
       <property name="allowLineBreaks" value="true"/>
     </module>
+
+    <!-- Checks that there is no whitespace between method/constructor name and open parenthesis. -->
+    <module name="MethodParamPad"/>
 
     <!-- Checks that there is no whitespace before close parenthesis or after open parenthesis. -->
     <module name="ParenPad"/>
