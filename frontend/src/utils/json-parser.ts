@@ -364,7 +364,7 @@ window.api = {
     window.isUntilDateProvided = data.isUntilDateProvided;
     document.title = data.reportTitle || document.title;
 
-    const errorMessages: any = {};
+    const errorMessages: { [key:string]: {errorMessage: string; repoName: string}; } = {};
     Object.entries(data.errorSet).forEach(([repoName, message]) => {
       errorMessages[repoName] = message;
     });
