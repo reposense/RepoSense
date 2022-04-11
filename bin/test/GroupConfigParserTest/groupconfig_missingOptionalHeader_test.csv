@@ -1,4 +1,0 @@
-Group Name,Globs
-Code,**/*.java;**/*.py
-Main,**/*.py
-Docs,docs/**

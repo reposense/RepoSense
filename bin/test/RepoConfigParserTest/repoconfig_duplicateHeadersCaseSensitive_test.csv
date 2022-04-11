@@ -1,2 +1,0 @@
-Repository's Location,Branch,File FORMATS,File formats,Ignore Glob List,Ignore standalone config,Ignore standalone config,Ignore Commits List,Ignore Authors List,Find Previous Authors
-https://github.com/reposense/testrepo-Beta.git,master,py,java;adoc;md,docs**,,yes,abcde12345;67890fdecba,zacharytang,

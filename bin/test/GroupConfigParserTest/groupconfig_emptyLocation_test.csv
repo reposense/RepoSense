@@ -1,4 +1,0 @@
-Repository's Location,Group Name,Globs
-https://github.com/reposense/RepoSense.git,Code,**/*.java;**/*.py
-,Main,**/*.py
-https://github.com/reposense/RepoSense.git,Docs,**.md

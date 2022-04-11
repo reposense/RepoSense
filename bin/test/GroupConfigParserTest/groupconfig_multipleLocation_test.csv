@@ -1,5 +1,0 @@
-Repository's Location,Group Name,Globs
-https://github.com/reposense/testrepo-Beta.git,Code,**/*.java;**/*.py
-https://github.com/reposense/testrepo-Delta.git,Main,src/main/**
-https://github.com/reposense/testrepo-Beta.git,Docs,docs/**
-https://github.com/reposense/testrepo-Delta.git,Test,src/test/**;src/systest/**

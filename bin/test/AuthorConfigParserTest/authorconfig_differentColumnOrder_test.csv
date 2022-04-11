@@ -1,3 +1,0 @@
-Branch,Ignore Glob List,Repository's Location,Author's Git Author Name,Author's Emails,Author's Display Name,Author's GitHub ID
-master,,https://github.com/reposense/testrepo-Beta.git,,,Nbr,nbriannl
-master,src/main**,https://github.com/reposense/testrepo-Beta.git,Zachary Tang,,Zac,zacharytang
