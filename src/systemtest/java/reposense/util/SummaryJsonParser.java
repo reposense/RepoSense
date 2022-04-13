@@ -1,12 +1,13 @@
 package reposense.util;
 
-import com.google.gson.reflect.TypeToken;
-import reposense.parser.JsonParser;
-import reposense.report.SummaryJson;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
+
+import com.google.gson.reflect.TypeToken;
+
+import reposense.parser.JsonParser;
+import reposense.report.SummaryJson;
 
 public class SummaryJsonParser extends JsonParser<SummaryJson> {
 
