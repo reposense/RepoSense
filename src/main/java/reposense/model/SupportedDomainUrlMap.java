@@ -99,8 +99,6 @@ public class SupportedDomainUrlMap {
     public boolean isSupportedDomain(String domainName) {
         boolean doesContain = domainUrlMap.containsKey(domainName);
         if (doesContain) {
-            System.out.println(domainName);
-            System.out.println(domainAccessedSet);
             domainAccessedSet.add(domainName);
         }
         return doesContain;
@@ -117,6 +115,9 @@ public class SupportedDomainUrlMap {
         return domainAccessedSet;
     }
 
+    /**
+     * Clears the accessed set back to the default.
+     */
     public static void clearAccessedSet() {
         DEFAULT_DOMAIN_URL_MAP.domainAccessedSet.clear();
         DEFAULT_DOMAIN_URL_MAP.domainAccessedSet.add(RepoLocation.UNSUPPORTED_DOMAIN_NAME);
