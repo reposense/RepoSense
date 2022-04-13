@@ -1,17 +1,28 @@
 package reposense.util;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.junit.jupiter.api.Assertions;
 
 /**
  * Contains utility methods for system tests.
  */
 public class SystemTestUtil {
+
+    private static final String[] JSON_FIELDS_TO_IGNORE = new String[]
+            {"repoSenseVersion", "reportGeneratedTime", "reportGenerationTime", "zoneId"};
 
     /**
      * Verifies that all JSON files in the {@code actualDirectory} matches those at the {@code expectedDirectory}.
@@ -24,7 +35,8 @@ public class SystemTestUtil {
                 if (Files.isDirectory(file)) {
                     verifyReportJsonFiles(expectedFilePath, actualFilePath);
                 } else if (file.toString().endsWith(".json")) {
-                    if (file.toString().equals("summary.json")) {
+                    System.out.println(file.getFileName());
+                    if (file.getFileName().toString().equals("summary.json")) {
                         assertSummaryJson(expectedFilePath, actualFilePath);
                     } else {
                         assertJson(expectedFilePath, actualFilePath);
@@ -38,9 +50,15 @@ public class SystemTestUtil {
 
     public static void assertSummaryJson(Path expectedSummaryJsonPath, Path actualSummaryJsonPath)
             throws IOException {
-        SummaryJsonParser parser = new SummaryJsonParser();
-        Assertions.assertTrue(parser.parse(expectedSummaryJsonPath)
-                .equalsInNonTransientFields(parser.parse(actualSummaryJsonPath)));
+        JsonObject jsonExpected = JsonParser.parseReader(
+                new FileReader(expectedSummaryJsonPath.toFile())).getAsJsonObject();
+        JsonObject jsonActual = JsonParser.parseReader(
+                new FileReader(actualSummaryJsonPath.toFile())).getAsJsonObject();
+        for (String ignoredKey : JSON_FIELDS_TO_IGNORE) {
+            jsonExpected.remove(ignoredKey);
+            jsonActual.remove(ignoredKey);
+        }
+        Assertions.assertEquals(jsonExpected, jsonActual);
     }
 
     /**

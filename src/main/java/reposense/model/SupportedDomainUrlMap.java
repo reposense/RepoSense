@@ -99,6 +99,8 @@ public class SupportedDomainUrlMap {
     public boolean isSupportedDomain(String domainName) {
         boolean doesContain = domainUrlMap.containsKey(domainName);
         if (doesContain) {
+            System.out.println(domainName);
+            System.out.println(domainAccessedSet);
             domainAccessedSet.add(domainName);
         }
         return doesContain;

@@ -44,15 +44,4 @@ public class SummaryJson {
         this.zoneId = zoneId;
         this.supportedDomainUrlMap = SupportedDomainUrlMap.getDefaultDomainUrlMap();
     }
-
-    /**
-     * Returns true if the non-transient fields of this SummaryJson are equal to those in {@code other} SummaryJson.
-     */
-    public boolean equalsInNonTransientFields(SummaryJson other) {
-        return repos.equals(other.repos)
-                && reportTitle.equals(other.reportTitle)
-                && isSinceDateProvided == other.isSinceDateProvided
-                && errorSet.equals(other.errorSet)
-                && supportedDomainUrlMap.equals(other.supportedDomainUrlMap);
-    }
 }
