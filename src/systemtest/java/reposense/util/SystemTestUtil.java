@@ -16,20 +16,31 @@ public class SystemTestUtil {
     /**
      * Verifies that all JSON files in the {@code actualDirectory} matches those at the {@code expectedDirectory}.
      */
-    public static void verifyAllJson(Path expectedDirectory, Path actualDirectory) {
+    public static void verifyReportJsonFiles(Path expectedDirectory, Path actualDirectory) {
         try (Stream<Path> pathStream = Files.list(expectedDirectory)) {
             for (Path file : pathStream.collect(Collectors.toList())) {
                 Path expectedFilePath = expectedDirectory.resolve(file);
                 Path actualFilePath = actualDirectory.resolve(file);
                 if (Files.isDirectory(file)) {
-                    verifyAllJson(expectedFilePath, actualFilePath);
+                    verifyReportJsonFiles(expectedFilePath, actualFilePath);
                 } else if (file.toString().endsWith(".json")) {
-                    assertJson(expectedFilePath, actualFilePath);
+                    if (file.toString().equals("summary.json")) {
+                        assertSummaryJson(expectedFilePath, actualFilePath);
+                    } else {
+                        assertJson(expectedFilePath, actualFilePath);
+                    }
                 }
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+    }
+
+    public static void assertSummaryJson(Path expectedSummaryJsonPath, Path actualSummaryJsonPath)
+            throws IOException {
+        SummaryJsonParser parser = new SummaryJsonParser();
+        Assertions.assertTrue(parser.parse(expectedSummaryJsonPath)
+                .equalsInNonTransientFields(parser.parse(actualSummaryJsonPath)));
     }
 
     /**

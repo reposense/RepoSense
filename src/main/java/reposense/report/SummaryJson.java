@@ -44,4 +44,12 @@ public class SummaryJson {
         this.zoneId = zoneId;
         this.supportedDomainUrlMap = SupportedDomainUrlMap.getDefaultDomainUrlMap();
     }
+
+    public boolean equalsInNonTransientFields(SummaryJson other) {
+        return repos.equals(other.repos)
+                && reportTitle.equals(other.reportTitle)
+                && isSinceDateProvided == other.isSinceDateProvided
+                && errorSet.equals(other.errorSet)
+                && supportedDomainUrlMap.equals(other.supportedDomainUrlMap);
+    }
 }

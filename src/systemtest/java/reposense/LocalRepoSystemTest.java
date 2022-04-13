@@ -55,7 +55,7 @@ public class LocalRepoSystemTest {
         String[] args = cliInput.split(" ");
         RepoSense.main(args);
         Path expectedFilePath = loadResource(getClass(), "LocalRepoSystemTest/testSameFinalDirectory");
-        SystemTestUtil.verifyAllJson(expectedFilePath, REPORT_DIRECTORY_PATH);
+        SystemTestUtil.verifyReportJsonFiles(expectedFilePath, REPORT_DIRECTORY_PATH);
     }
 
     @Test
@@ -66,6 +66,6 @@ public class LocalRepoSystemTest {
         String[] args = cliInput.split(" ");
         RepoSense.main(args);
         Path expectedFilePath = loadResource(getClass(), "LocalRepoSystemTest/testRelativePathing");
-        SystemTestUtil.verifyAllJson(expectedFilePath, REPORT_DIRECTORY_PATH);
+        SystemTestUtil.verifyReportJsonFiles(expectedFilePath, REPORT_DIRECTORY_PATH);
     }
 }
