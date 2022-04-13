@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.model.SupportedDomainUrlMap;
 import reposense.util.FileUtil;
 import reposense.util.SystemTestUtil;
 import reposense.util.TestRepoCloner;
@@ -35,6 +36,7 @@ public class LocalRepoSystemTest {
         TestRepoCloner.clone(new RepoConfiguration(new RepoLocation(LOCAL_DIRECTORY_ONE)),
                 Paths.get("."),
                 LOCAL_DIRECTORY_TWO);
+        SupportedDomainUrlMap.clearAccessedSet();
     }
 
     @AfterEach

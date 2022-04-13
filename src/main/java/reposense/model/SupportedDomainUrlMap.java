@@ -117,6 +117,11 @@ public class SupportedDomainUrlMap {
         return domainAccessedSet;
     }
 
+    public static void clearAccessedSet() {
+        DEFAULT_DOMAIN_URL_MAP.domainAccessedSet.clear();
+        DEFAULT_DOMAIN_URL_MAP.domainAccessedSet.add(RepoLocation.UNSUPPORTED_DOMAIN_NAME);
+    }
+
     /**
      * Returns the URL mappings for required domains.
      */

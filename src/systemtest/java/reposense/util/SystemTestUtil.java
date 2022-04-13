@@ -35,7 +35,6 @@ public class SystemTestUtil {
                 if (Files.isDirectory(file)) {
                     verifyReportJsonFiles(expectedFilePath, actualFilePath);
                 } else if (file.toString().endsWith(".json")) {
-                    System.out.println(file.getFileName());
                     if (file.getFileName().toString().equals("summary.json")) {
                         assertSummaryJson(expectedFilePath, actualFilePath);
                     } else {
@@ -50,15 +49,17 @@ public class SystemTestUtil {
 
     public static void assertSummaryJson(Path expectedSummaryJsonPath, Path actualSummaryJsonPath)
             throws IOException {
-        JsonObject jsonExpected = JsonParser.parseReader(
-                new FileReader(expectedSummaryJsonPath.toFile())).getAsJsonObject();
-        JsonObject jsonActual = JsonParser.parseReader(
-                new FileReader(actualSummaryJsonPath.toFile())).getAsJsonObject();
+        FileReader fileReaderExpected = new FileReader(expectedSummaryJsonPath.toFile());
+        FileReader fileReaderActual = new FileReader(actualSummaryJsonPath.toFile());
+        JsonObject jsonExpected = JsonParser.parseReader(fileReaderExpected).getAsJsonObject();
+        JsonObject jsonActual = JsonParser.parseReader(fileReaderActual).getAsJsonObject();
         for (String ignoredKey : JSON_FIELDS_TO_IGNORE) {
             jsonExpected.remove(ignoredKey);
             jsonActual.remove(ignoredKey);
         }
         Assertions.assertEquals(jsonExpected, jsonActual);
+        fileReaderExpected.close();
+        fileReaderActual.close();
     }
 
     /**
