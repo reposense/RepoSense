@@ -19,8 +19,8 @@ public class SystemTestUtil {
     public static void verifyAllJson(Path expectedDirectory, Path actualDirectory) {
         try (Stream<Path> pathStream = Files.list(expectedDirectory)) {
             for (Path file : pathStream.collect(Collectors.toList())) {
-                Path expectedFilePath = expectedDirectory.resolve(file);
-                Path actualFilePath = actualDirectory.resolve(file);
+                Path expectedFilePath = expectedDirectory.resolve(file.getFileName());
+                Path actualFilePath = actualDirectory.resolve(file.getFileName());
                 if (Files.isDirectory(file)) {
                     verifyAllJson(expectedFilePath, actualFilePath);
                 } else if (file.toString().endsWith(".json")) {
