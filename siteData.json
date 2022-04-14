@@ -207,6 +207,7 @@
         "find-previous-authors-f": "--find-previous-authors, -F",
         "help-h": "--help, -h",
         "ignore-standalone-config-i": "--ignore-standalone-config, -i",
+        "ignore-filesize-limit-i": "--ignore-filesize-limit, -I",
         "last-modified-date-l": "--last-modified-date, -l",
         "output-o": "--output, -o",
         "period-p": "--period, -p",
