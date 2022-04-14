@@ -75,7 +75,7 @@ public class StringsUtilTest {
     }
 
     @Test
-    public void addQuotationMarksForPath_specialBashCharacters_success() {
+    public void addQuotesForFilePath_specialBashCharacters_success() {
         Assumptions.assumeTrue(!SystemUtil.isWindows());
 
         // The characters being tested against are taken from this post: https://unix.stackexchange.com/a/357932
