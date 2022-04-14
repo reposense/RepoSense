@@ -162,14 +162,14 @@ const summarySchema = z.object({
 });
 
 const commitsSchema = z.object({
-  authorFileTypeContributionMap: z.object({}).catchall(z.object({}).catchall(z.number())),
-  authorDailyContributionsMap: z.object({}).catchall(z.array(
+  authorFileTypeContributionMap: z.record(z.record(z.number())),
+  authorDailyContributionsMap: z.record(z.array(
       z.object({
         date: z.string(),
         commitResults: z.array(
             z.object({
               deletions: z.number().optional(),
-              fileTypesAndContributionMap: z.object({}).catchall(z.object({
+              fileTypesAndContributionMap: z.record(z.object({
                 deletions: z.number(), insertions: z.number(),
               })),
               hash: z.string(),
@@ -181,8 +181,8 @@ const commitsSchema = z.object({
         ),
       }),
   )),
-  authorContributionVariance: z.object({}).catchall(z.number()),
-  authorDisplayNameMap: z.object({}).catchall(z.string()),
+  authorContributionVariance: z.record(z.number()),
+  authorDisplayNameMap: z.record(z.string()),
 });
 
 const authorshipSchema = z.array(
@@ -198,7 +198,7 @@ const authorshipSchema = z.array(
             content: z.string(),
           }),
       ),
-      authorContributionMap: z.object({}).catchall(z.number()),
+      authorContributionMap: z.record(z.number()),
     }),
 );
 
@@ -236,7 +236,7 @@ window.api = {
     }
   },
   async loadSummary() {
-    // window.REPOS = {};
+    window.REPOS = {};
     let data: {
       reportGeneratedTime: string;
       reportGenerationTime: string;
@@ -422,7 +422,6 @@ window.api = {
 
     repo.commits = commits;
     repo.users = res;
-    console.log(res);
     return res;
   },
 
