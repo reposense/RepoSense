@@ -74,6 +74,8 @@ const commitsSchema = z.object({
   authorDisplayNameMap: z.record(z.string()),
 });
 
+type CommitsSchema = z.infer<typeof commitsSchema>
+
 const authorshipSchema = z.array(
     z.object({
       path: z.string(),
@@ -113,25 +115,7 @@ declare global {
     REPOS: {
       [key:string]: {
         branch: string;
-        commits?: {
-          authorContributionVariance: {
-            [key:string]: number;
-          };
-          authorDailyContributionsMap: {
-            [key:string]: {
-              commitResults: CommitResult[];
-              date: string;
-            }[];
-          };
-          authorDisplayNameMap: {
-            [key:string]: string;
-          };
-          authorFileTypeContributionMap: {
-            [key:string]: {
-              [key:string]: number;
-            };
-          };
-        };
+        commits?: CommitsSchema;
         displayName: string;
         files?: {
           authorContributionMap: {
