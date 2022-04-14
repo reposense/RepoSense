@@ -1,5 +1,96 @@
 import { z } from 'zod';
 
+const REPORT_DIR: string = '.';
+
+const summarySchema = z.object({
+  repoSenseVersion: z.string(),
+  reportGeneratedTime: z.string(),
+  reportGenerationTime: z.string(),
+  zoneId: z.string(),
+  reportTitle: z.string(),
+  repos: z.array(
+      z.object({
+        location: z.object({
+          domainName: z.string(),
+          location: z.string(),
+          repoName: z.string(),
+          organization: z.string(),
+        }),
+        branch: z.string(),
+        displayName: z.string(),
+        outputFolderName: z.string(),
+      }),
+  ),
+  errorSet: z.array(
+      z.object({ repoName: z.string(), errorMessage: z.string() }),
+  ),
+  sinceDate: z.string(),
+  untilDate: z.string(),
+  isSinceDateProvided: z.boolean(),
+  isUntilDateProvided: z.boolean(),
+  supportedDomainUrlMap: z.object({
+    NOT_RECOGNIZED: z.object({
+      BASE_URL: z.string(),
+      BLAME_PATH: z.string(),
+      BRANCH: z.string(),
+      COMMIT_PATH: z.string(),
+      HISTORY_PATH: z.string(),
+      REPO_URL: z.string(),
+    }),
+    github: z.object({
+      BASE_URL: z.string(),
+      BLAME_PATH: z.string(),
+      BRANCH: z.string(),
+      COMMIT_PATH: z.string(),
+      HISTORY_PATH: z.string(),
+      REPO_URL: z.string(),
+    }),
+  }),
+});
+
+type Summary = z.infer<typeof summarySchema>
+
+const commitsSchema = z.object({
+  authorFileTypeContributionMap: z.record(z.record(z.number())),
+  authorDailyContributionsMap: z.record(z.array(
+      z.object({
+        date: z.string(),
+        commitResults: z.array(
+            z.object({
+              deletions: z.number().optional(),
+              fileTypesAndContributionMap: z.record(z.object({
+                deletions: z.number(), insertions: z.number(),
+              })),
+              hash: z.string(),
+              insertions: z.number().optional(),
+              messageBody: z.string(),
+              messageTitle: z.string(),
+              repoId: z.string().optional(),
+            }),
+        ),
+      }),
+  )),
+  authorContributionVariance: z.record(z.number()),
+  authorDisplayNameMap: z.record(z.string()),
+});
+
+const authorshipSchema = z.array(
+    z.object({
+      path: z.string(),
+      fileType: z.string(),
+      lines: z.array(
+          z.object({
+            lineNumber: z.number(),
+            author: z.object({
+              gitId: z.string(),
+            }),
+            content: z.string(),
+          }),
+      ),
+      authorContributionMap: z.record(z.number()),
+    }),
+);
+
 interface CommitResult {
   deletions?: number;
   fileTypesAndContributionMap: {
@@ -22,7 +113,7 @@ declare global {
     REPOS: {
       [key:string]: {
         branch: string;
-        commits: {
+        commits?: {
           authorContributionVariance: {
             [key:string]: number;
           };
@@ -42,7 +133,7 @@ declare global {
           };
         };
         displayName: string;
-        files: {
+        files?: {
           authorContributionMap: {
             [key:string]: number;
           };
@@ -63,7 +154,7 @@ declare global {
           repoName: string;
         };
         outputFolderName: string;
-        users: {
+        users?: {
           checkedFileTypeContribution: number;
           commits: {
             commitResults: CommitResult[];
@@ -114,94 +205,6 @@ declare global {
   }
 }
 
-const REPORT_DIR: string = '.';
-const summarySchema = z.object({
-  repoSenseVersion: z.string(),
-  reportGeneratedTime: z.string(),
-  reportGenerationTime: z.string(),
-  zoneId: z.string(),
-  reportTitle: z.string(),
-  repos: z.array(
-      z.object({
-        location: z.object({
-          domainName: z.string(),
-          location: z.string(),
-          repoName: z.string(),
-          organization: z.string(),
-        }),
-        branch: z.string(),
-        displayName: z.string(),
-        outputFolderName: z.string(),
-      }),
-  ),
-  errorSet: z.array(
-      z.object({ repoName: z.string(), errorMessage: z.string() }),
-  ),
-  sinceDate: z.string(),
-  untilDate: z.string(),
-  isSinceDateProvided: z.boolean(),
-  isUntilDateProvided: z.boolean(),
-  supportedDomainUrlMap: z.object({
-    NOT_RECOGNIZED: z.object({
-      BASE_URL: z.string(),
-      BLAME_PATH: z.string(),
-      BRANCH: z.string(),
-      COMMIT_PATH: z.string(),
-      HISTORY_PATH: z.string(),
-      REPO_URL: z.string(),
-    }),
-    github: z.object({
-      BASE_URL: z.string(),
-      BLAME_PATH: z.string(),
-      BRANCH: z.string(),
-      COMMIT_PATH: z.string(),
-      HISTORY_PATH: z.string(),
-      REPO_URL: z.string(),
-    }),
-  }),
-});
-
-const commitsSchema = z.object({
-  authorFileTypeContributionMap: z.record(z.record(z.number())),
-  authorDailyContributionsMap: z.record(z.array(
-      z.object({
-        date: z.string(),
-        commitResults: z.array(
-            z.object({
-              deletions: z.number().optional(),
-              fileTypesAndContributionMap: z.record(z.object({
-                deletions: z.number(), insertions: z.number(),
-              })),
-              hash: z.string(),
-              insertions: z.number().optional(),
-              messageBody: z.string(),
-              messageTitle: z.string(),
-              repoId: z.string().optional(),
-            }),
-        ),
-      }),
-  )),
-  authorContributionVariance: z.record(z.number()),
-  authorDisplayNameMap: z.record(z.string()),
-});
-
-const authorshipSchema = z.array(
-    z.object({
-      path: z.string(),
-      fileType: z.string(),
-      lines: z.array(
-          z.object({
-            lineNumber: z.number(),
-            author: z.object({
-              gitId: z.string(),
-            }),
-            content: z.string(),
-          }),
-      ),
-      authorContributionMap: z.record(z.number()),
-    }),
-);
-
 window.api = {
   async loadJSON(fname: string, type: string) {
     if (window.REPORT_ZIP) {
@@ -237,116 +240,7 @@ window.api = {
   },
   async loadSummary() {
     window.REPOS = {};
-    let data: {
-      reportGeneratedTime: string;
-      reportGenerationTime: string;
-      sinceDate: string;
-      untilDate: string;
-      repoSenseVersion: string;
-      isSinceDateProvided: boolean;
-      isUntilDateProvided: boolean;
-      reportTitle: string;
-      errorSet: { repoName: string; errorMessage: string }[];
-      repos: {
-        branch: string;
-        commits: {
-          authorContributionVariance: {
-            [key:string]: number;
-          };
-          authorDailyContributionsMap: {
-            [key:string]: {
-              commitResults: {
-                deletions?: number;
-                fileTypesAndContributionMap: {
-                  [key:string]: {
-                    deletions: number;
-                    insertions: number;
-                  }
-                };
-                hash: string;
-                insertions?: number;
-                messageBody: string;
-                messageTitle: string;
-                repoId?: string;
-              }[];
-              date: string;
-            }[];
-          };
-          authorDisplayNameMap: {
-            [key:string]: string;
-          };
-          authorFileTypeContributionMap: {
-            [key:string]: {
-              [key:string]: number;
-            };
-          };
-        };
-        displayName: string;
-        files: {
-          authorContributionMap: {
-            [key:string]: number;
-          };
-          fileType: string;
-          lines: {
-            author: {
-              [key:string]: string;
-            };
-            content: string;
-            lineNumber: number;
-          }[];
-          path: string;
-        }[];
-        location: {
-          domainName: string;
-          location: string;
-          organization: string;
-          repoName: string;
-        };
-        outputFolderName: string;
-        users: {
-          checkedFileTypeContribution: number;
-          commits: {
-            commitResults: CommitResult[];
-            date: string;
-            deletions: number;
-            insertions: number;
-          }[];
-          dailyCommits: {
-            commitResults: CommitResult[];
-            date: string;
-          }[];
-          displayName: string;
-          fileTypeContribution: {
-            [key:string]: number;
-          };
-          location: string;
-          name: string;
-          repoId: string;
-          repoName: string;
-          searchPath: string;
-          variance: number;
-        }[]
-      }[];
-      zoneId: string;
-      supportedDomainUrlMap: {
-        NOT_RECOGNIZED: {
-          BASE_URL: string;
-          BLAME_PATH: string;
-          BRANCH: string;
-          COMMIT_PATH: string;
-          HISTORY_PATH: string;
-          REPO_URL: string;
-        },
-        github: {
-          BASE_URL: string;
-          BLAME_PATH: string;
-          BRANCH: string;
-          COMMIT_PATH: string;
-          HISTORY_PATH: string;
-          REPO_URL: string;
-        },
-      };
-    };
+    let data: Summary;
 
     try {
       data = await this.loadJSON('summary.json', 'summary');
