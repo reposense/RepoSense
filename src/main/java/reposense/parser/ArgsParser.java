@@ -52,7 +52,8 @@ public class ArgsParser {
     public static final String[] PERIOD_FLAGS = new String[]{"--period", "-p"};
     public static final String[] SHALLOW_CLONING_FLAGS = new String[]{"--shallow-cloning", "-S"};
     public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
-    public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
+    public static final String[] IGNORE_CONFIG_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
+    public static final String[] IGNORE_SIZELIMIT_FLAGS = new String[]{"--ignore-filesize-limit", "-I"};
     public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
     public static final String[] VERSION_FLAGS = new String[]{"--version", "-V"};
     public static final String[] LAST_MODIFIED_DATE_FLAGS = new String[]{"--last-modified-date", "-l"};
@@ -104,10 +105,15 @@ public class ArgsParser {
                 .help("Show the version of RepoSense.")
                 .action(new VersionArgumentAction());
 
-        parser.addArgument(IGNORE_FLAGS)
-                .dest(IGNORE_FLAGS[0])
+        parser.addArgument(IGNORE_CONFIG_FLAGS)
+                .dest(IGNORE_CONFIG_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to ignore the standalone config file in the repo.");
+
+        parser.addArgument(IGNORE_SIZELIMIT_FLAGS)
+                .dest(IGNORE_SIZELIMIT_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to ignore the filesize limit for analyzed files.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
@@ -249,7 +255,8 @@ public class ArgsParser {
             Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
-            boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
+            boolean isStandaloneConfigIgnored = results.get(IGNORE_CONFIG_FLAGS[0]);
+            boolean isFileSizeLimitIgnored = results.get(IGNORE_SIZELIMIT_FLAGS[0]);
             boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
             boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
             boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
@@ -328,7 +335,7 @@ public class ArgsParser {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                         isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
                         shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-                        isStandaloneConfigIgnored, zoneId, shouldFindPreviousAuthors);
+                        isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, shouldFindPreviousAuthors);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
@@ -337,7 +344,7 @@ public class ArgsParser {
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
                     shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-                    isStandaloneConfigIgnored, zoneId, reportConfig, shouldFindPreviousAuthors);
+                    isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, reportConfig, shouldFindPreviousAuthors);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
