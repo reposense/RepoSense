@@ -48,7 +48,7 @@ First, RepoSense checks whether the line matches the supported comment formats. 
 RepoSense treats it as a normal line. Else, it continues to check whether the GitHub username is in valid format.
 
 If the username is valid, the code till the next start tag, the end tag, or the end of file will be attributed to that author.
-Otherwise the code will not be attributed to any author.
+Otherwise, the code will not be attributed to any author.
 </box>
 
 Note: Remember to **commit** the files after the changes. (reason: RepoSense can see committed code only)

@@ -52,6 +52,10 @@ public class FileAnalyzerTest extends GitTestTemplate {
             TestUtil.getSinceDate(2017, Month.JANUARY.getValue(), 1);
     private static final LocalDateTime ANALYZE_BINARY_FILES_UNTIL_DATE =
             TestUtil.getUntilDate(2020, Month.JANUARY.getValue(), 1);
+    private static final LocalDateTime ANALYZE_LARGE_FILES_SINCE_DATE =
+            TestUtil.getSinceDate(2017, Month.JANUARY.getValue(), 1);
+    private static final LocalDateTime ANALYZE_LARGE_FILES_UNTIL_DATE =
+            TestUtil.getUntilDate(2022, Month.MARCH.getValue(), 8);
     private static final LocalDateTime ANALYZE_FILES_EMPTY_EMAIL_COMMIT_SINCE_DATE =
             TestUtil.getSinceDate(2022, Month.FEBRUARY.getValue(), 10);
     private static final LocalDateTime ANALYZE_FILES_EMPTY_EMAIL_COMMIT_UNTIL_DATE =
@@ -150,7 +154,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeFile_blameTestFileIgnoreFakeAuthorCommitFullHash_success() {
+    public void analyzeTextFile_blameTestFileIgnoreFakeAuthorCommitFullHash_success() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
@@ -206,7 +210,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeFile_blameTestFileIgnoreAllCommit_success() {
+    public void analyzeTextFile_blameTestFileIgnoreAllCommit_success() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
@@ -256,7 +260,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeFile_blameTestFileIgnoreRangedCommit_success() {
+    public void analyzeTextFile_blameTestFileIgnoreRangedCommit_success() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
@@ -276,7 +280,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeFile_blameTestFileIgnoreRangedCommitShort_success() {
+    public void analyzeTextFile_blameTestFileIgnoreRangedCommitShort_success() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
         FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
@@ -296,7 +300,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeFile_emailWithAdditionOperator_success() {
+    public void analyzeTextFile_emailWithAdditionOperator_success() {
         config.setSinceDate(EMAIL_WITH_ADDITION_TEST_SINCE_DATE);
         config.setUntilDate(EMAIL_WITH_ADDITION_TEST_UNTIL_DATE);
         config.setBranch("617-FileAnalyzerTest-analyzeFile_emailWithAdditionOperator_success");
@@ -304,7 +308,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Author author = new Author(MINGYI_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));
 
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), "pr_617.java");
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, "pr_617.java");
         FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
 
         Assertions.assertEquals(1, fileInfo.getLines().size());
@@ -312,7 +316,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void analyzeFile_shouldIncludeLastModifiedDateInLines_success() {
+    public void analyzeTextFile_shouldIncludeLastModifiedDateInLines_success() {
         config.setSinceDate(SHOULD_INCLUDE_LAST_MODIFIED_IN_LINES_SINCE_DATE);
         config.setUntilDate(SHOULD_INCLUDE_LAST_MODIFIED_IN_LINES_UNTIL_DATE);
         config.setIsLastModifiedDateIncluded(true);
@@ -321,13 +325,26 @@ public class FileAnalyzerTest extends GitTestTemplate {
         Author author = new Author(JAMES_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));
 
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(),
-                "includeLastModifiedDateInLinesTest.java");
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, "includeLastModifiedDateInLinesTest.java");
         FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
 
         Assertions.assertEquals(4, fileInfo.getLines().size());
         fileInfo.getLines().forEach(lineInfo ->
                 Assertions.assertEquals(LAST_MODIFIED_DATE, lineInfo.getLastModifiedDate()));
+    }
+
+    @Test
+    public void analyzeTextFile_fileExceedingFileSizeLimit_success() {
+        config.setSinceDate(ANALYZE_LARGE_FILES_SINCE_DATE);
+        config.setUntilDate(ANALYZE_LARGE_FILES_UNTIL_DATE);
+        config.setBranch("1647-FileAnalyzerTest-analyzeTextFile_fileExceedingFileSizeLimit_success");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, "largeFile.json");
+        FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
+
+        Assertions.assertEquals(46902, fileInfo.getLines().size());
+        Assertions.assertEquals(fileInfo.getFileSize() > config.getFileSizeLimit(), fileInfo.exceedsFileLimit());
     }
 
     @Test
