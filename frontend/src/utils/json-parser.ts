@@ -83,15 +83,15 @@ const authorshipSchema = z.array(
       lines: z.array(
           z.object({
             lineNumber: z.number(),
-            author: z.object({
-              gitId: z.string(),
-            }),
+            author: z.record(z.string()),
             content: z.string(),
           }),
       ),
       authorContributionMap: z.record(z.number()),
     }),
 );
+
+type AuthorshipSchema = z.infer<typeof authorshipSchema>
 
 interface CommitResult {
   deletions?: number;
@@ -117,20 +117,7 @@ declare global {
         branch: string;
         commits?: CommitsSchema;
         displayName: string;
-        files?: {
-          authorContributionMap: {
-            [key:string]: number;
-          };
-          fileType: string;
-          lines: {
-            author: {
-              [key:string]: string;
-            };
-            content: string;
-            lineNumber: number;
-          }[];
-          path: string;
-        }[];
+        files?: AuthorshipSchema;
         location: {
           domainName: string;
           location: string;
@@ -306,20 +293,7 @@ window.api = {
   loadAuthorship(repoName: string) {
     const folderName = window.REPOS[repoName].outputFolderName;
     return this.loadJSON(`${folderName}/authorship.json`, 'authorship')
-        .then((files: {
-          authorContributionMap: {
-            [key:string]: number;
-          };
-          fileType: string;
-          lines: {
-            author: {
-              [key:string]: string;
-            };
-            content: string;
-            lineNumber: number;
-          }[];
-          path: string;
-        }[]) => {
+        .then((files: AuthorshipSchema) => {
           window.REPOS[repoName].files = files;
           return files;
         });
