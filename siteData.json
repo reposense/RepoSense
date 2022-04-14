@@ -104,7 +104,7 @@
       "headings": {
         "project-management": "Project management",
         "merging-prs": "Merging PRs",
-        "making-a-release-on-github": "Making a release on Github",
+        "making-a-release-on-github": "Making a release on GitHub",
         "deploying-the-production-website": "Deploying the production website",
         "hot-patching-after-the-release": "Hot patching after the release"
       },
@@ -210,7 +210,7 @@
         "last-modified-date-l": "--last-modified-date, -l",
         "output-o": "--output, -o",
         "period-p": "--period, -p",
-        "repos-r": "--repos, -r",
+        "repo-repos-r": "--repo, --repos, -r",
         "shallow-cloning-s": "--shallow-cloning, -S",
         "since-s": "--since, -s",
         "timezone-t": "--timezone, -t",
