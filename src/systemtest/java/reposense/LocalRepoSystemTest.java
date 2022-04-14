@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.model.RepoConfiguration;
@@ -36,7 +37,12 @@ public class LocalRepoSystemTest {
         TestRepoCloner.clone(new RepoConfiguration(new RepoLocation(LOCAL_DIRECTORY_ONE)),
                 Paths.get("."),
                 LOCAL_DIRECTORY_TWO);
+    }
+
+    @BeforeEach
+    public void clearAccessedSet() throws Exception {
         SupportedDomainUrlMap.clearAccessedSet();
+        FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
     }
 
     @AfterEach
