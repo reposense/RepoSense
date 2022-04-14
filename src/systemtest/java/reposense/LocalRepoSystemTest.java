@@ -35,7 +35,7 @@ public class LocalRepoSystemTest {
         TestRepoCloner.clone(new RepoConfiguration(new RepoLocation("https://github.com/reposense/testrepo-Alpha")),
                 Paths.get("."),
                 LOCAL_DIRECTORY_ONE);
-        TestRepoCloner.clone(new RepoConfiguration(new RepoLocation(LOCAL_DIRECTORY_ONE)),
+        TestRepoCloner.clone(new RepoConfiguration(new RepoLocation("https://github.com/reposense/testrepo-Alpha")),
                 Paths.get("."),
                 LOCAL_DIRECTORY_TWO);
         ErrorSummary.getInstance().clearErrorSet();
