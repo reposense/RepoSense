@@ -244,7 +244,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -274,8 +274,8 @@ public class RepoConfigurationTest {
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
-        GitClone.clone(repoBetaActualConfig);
-        GitClone.clone(repoDeltaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
         ReportGenerator.updateRepoConfig(repoBetaActualConfig);
         ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
