@@ -33,6 +33,7 @@ import com.google.gson.JsonSerializer;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
+import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
 /**
@@ -331,6 +332,15 @@ public class FileUtil {
 
     public static boolean isEmptyFile(String directoryPath, String relativeFilePath) {
         return (new File(directoryPath, relativeFilePath).length() == 0);
+    }
+
+    /**
+     * Returns the Bash expanded version of the {@code filePath}.
+     */
+    public static String getVariableExpandedFilePath(String filePath) {
+        String echoOutput = CommandRunner.runCommand(Paths.get("."), "echo " + filePath);
+        // CommandRunner returns some white space characters at the end
+        return echoOutput.trim();
     }
 
     /**
