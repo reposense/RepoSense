@@ -45,17 +45,16 @@ public class SystemTestUtil {
 
     public static void assertSummaryJson(Path expectedSummaryJsonPath, Path actualSummaryJsonPath)
             throws IOException {
-        FileReader fileReaderExpected = new FileReader(expectedSummaryJsonPath.toFile());
-        FileReader fileReaderActual = new FileReader(actualSummaryJsonPath.toFile());
-        JsonObject jsonExpected = JsonParser.parseReader(fileReaderExpected).getAsJsonObject();
-        JsonObject jsonActual = JsonParser.parseReader(fileReaderActual).getAsJsonObject();
-        for (String ignoredKey : JSON_FIELDS_TO_IGNORE) {
-            jsonExpected.remove(ignoredKey);
-            jsonActual.remove(ignoredKey);
+        try (FileReader fileReaderExpected = new FileReader(expectedSummaryJsonPath.toFile());
+             FileReader fileReaderActual = new FileReader(actualSummaryJsonPath.toFile())) {
+            JsonObject jsonExpected = JsonParser.parseReader(fileReaderExpected).getAsJsonObject();
+            JsonObject jsonActual = JsonParser.parseReader(fileReaderActual).getAsJsonObject();
+            for (String ignoredKey : JSON_FIELDS_TO_IGNORE) {
+                jsonExpected.remove(ignoredKey);
+                jsonActual.remove(ignoredKey);
+            }
+            Assertions.assertEquals(jsonExpected, jsonActual);
         }
-        Assertions.assertEquals(jsonExpected, jsonActual);
-        fileReaderExpected.close();
-        fileReaderActual.close();
     }
 
     /**
