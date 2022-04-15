@@ -18,7 +18,7 @@ This page documents the various components that form part of the DevOps infrastr
 
 ## GitHub Actions
 
-[GitHub Actions](https://docs.github.com/en/actions) is a platform that is used by RepoSense for running the test suite and is primarily used for continuous integration and testing. The test suite is is stored in `.github/workflows/` and comprises of:
+[GitHub Actions](https://docs.github.com/en/actions) is a platform that is used by RepoSense for running the test suite and is primarily used for continuous integration and testing. The test suite is stored in `.github/workflows/` and comprises of:
 
 - Unit tests (in `src/tests/`)
 - System tests (in `src/systemtest/`)
@@ -38,6 +38,8 @@ The list of supported OS versions are [available on the GitHub Docs website](htt
 Some of the jobs execute some commands that are too complicated to be included in the workflow configuration files. Such commands are written in the form of a bash script and are located in the [`config/gh-actions`](https://github.com/reposense/RepoSense/tree/master/config/gh-actions) folder.
 
 This workflow is run for both incoming pull requests to any branch as well as direct commits to any branch in the repository.
+
+Cypress frontend tests are run against reports generated from config files in `frontend/cypress/config`. It uses the `cypress` branch of the RepoSense repository which is kept independent of `master` and should be updated only when there are new frontend tests that need to be accommodated.
 
 ### Report and documentation previews
 

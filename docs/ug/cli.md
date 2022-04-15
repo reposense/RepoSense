@@ -54,7 +54,7 @@ The section below provides explanations for each of the flags.
 
 <box type="info" seamless>
 
-* Cannot be used with `--repos`.
+* Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
 </box>
 </div>
@@ -83,6 +83,12 @@ Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`
 * Alias: `-F` (uppercase F)
 * Example:`--find-previous-authors` or `-F`
 
+<box type="info" seamless>
+
+* This flag only works on **git `2.23`** or later.
+* If an earlier version of **git** is used, RepoSense can still run but this flag will be ignored.
+</box>
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--help`, `-h`
@@ -92,7 +98,7 @@ Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`
 
 <box type="info" seamless>
 
-Cannot be used with any other flags.
+Cannot be used with any other flags. This flag takes precedence over all other flags.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -112,7 +118,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 ### `--ignore-filesize-limit`, `-I`
 
-**`--ignore-filesize-limit`**: Specifies that the file size limit for .
+**`--ignore-filesize-limit`**: Specifies that the file size limit (both default and user-defined) should be ignored during the analysis.
 * Default: the file size limit is not ignored
 * Alias: `-I`
 * Example:`--ignore-filesize-limit` or `-I`
@@ -140,7 +146,7 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 
 <box type="info" seamless>
 
-* Cannot be used with `--shallow-cloning`.
+* Cannot be used with `--shallow-cloning`. This may result in an incorrect last modified date.
 * The last modified dates will be in the same timezone specified with the `--timezone` flag.
 </box>
 
@@ -166,22 +172,22 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 <box type="info" seamless>
 
 * If both start date and end date are not specified, the date of generating the report will be taken as the end date.
-* Cannot be used with both `--since` and `--until`.
+* Cannot be used with both `--since` and `--until`. The program will throw an exception.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### `--repos`, `-r`
+### `--repo`, `--repos`, `-r`
 
-**`--repos REPO_LOCATION`**: Specifies which repositories to analyze.
+**`--repo REPO_LOCATION`**: Specifies which repositories to analyze.
 * Parameter: `REPO_LOCATION` A list of URLs or the disk location of the git repositories to analyze, separated by spaces.
 * Alias: `-r`
 * Examples:
   * `--repos https://github.com/reposense/RepoSense.git`
-  * `--repos https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar`: analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
+  * `--repo https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar`: analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
 
 <box type="info" seamless>
 
-Cannot be used with `--config`.
+Cannot be used with `--config`. This flag takes precedence over `--config`.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -194,7 +200,7 @@ Cannot be used with `--config`.
 
 <box type="info" seamless>
 
-Cannot be used with `--last-modified-date`.
+Cannot be used with `--last-modified-date`. This may result in an incorrect last modified date.
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -210,7 +216,7 @@ Cannot be used with `--last-modified-date`.
 <box type="info" seamless>
 
 * If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.
-* If `d1` is specified as the start date (`--since d1` or `-s d1`), then the earliest commit date of all repositories will be taken as the since date.
+* If `d1` is specified as the start date (`--since d1` or `-s d1`), then the earliest commit date of all repositories will be taken as the start date.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -246,7 +252,7 @@ Note: If the end date is not specified, the date of generating the report will b
 
 <box type="info" seamless>
 
-Cannot be used with any other flags.
+Cannot be used with any other flags. This flag takes precedence over all other flags other than `--help`.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 

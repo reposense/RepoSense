@@ -138,16 +138,16 @@
           span.ignored-tag.fileTypeLabel(
             v-if='file.isIgnored'
           ) ignored ({{ file.lineCount }})&nbsp;
-        pre.hljs.file-content(v-if="file.wasCodeLoaded && !file.isBinary && !file.isIgnored", v-show="file.active")
-          template(v-for="segment in file.segments")
-            v-segment(v-bind:segment="segment", v-bind:path="file.path")
-        pre.file-content(v-else-if="file.isBinary", v-show="file.active")
+        pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
             .bin-text Binary file not shown.
-        pre.file-content(v-else="file.isIgnored", v-show="file.active")
+        pre.file-content(v-else-if="file.isIgnored", v-show="file.active")
           .ignored-segment
             .ignore-text File is ignored.
+        pre.hljs.file-content(v-else-if="file.wasCodeLoaded", v-show="file.active")
+          template(v-for="segment in file.segments")
+            v-segment(v-bind:segment="segment", v-bind:path="file.path")
 </template>
 
 <script>
@@ -331,8 +331,10 @@ export default {
           files = repo.files;
         } else {
           const author = repo.users.find((user) => user.name === this.info.author);
-          this.authorDisplayName = author.displayName;
-          files = repo.files.filter((f) => !!f.authorContributionMap[author.name]);
+          if (author) {
+            this.authorDisplayName = author.displayName;
+            files = repo.files.filter((f) => !!f.authorContributionMap[author.name]);
+          }
         }
         this.updateTotalFileTypeContribution(files);
       }

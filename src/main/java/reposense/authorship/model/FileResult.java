@@ -25,6 +25,7 @@ public class FileResult {
         this.lines = lines;
         this.authorContributionMap = authorContributionMap;
         // isBinary and isIgnored are mutually exclusive
+        assert !(isBinary && isIgnored);
         if (isBinary) {
             this.isBinary = true;
         } else if (isIgnored) {

@@ -15,13 +15,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import reposense.RepoSense;
-import reposense.git.GitClone;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
 import reposense.util.InputBuilder;
+import reposense.util.TestRepoCloner;
 import reposense.util.TestUtil;
 
 public class RepoConfigurationTest {
@@ -131,7 +131,7 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_usesStandaloneConfig_success() throws Exception {
         RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(repoDeltaStandaloneConfig, actualConfig);
@@ -166,7 +166,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -189,7 +189,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
                 cliArguments.isStandaloneConfigIgnored());
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -217,8 +217,65 @@ public class RepoConfigurationTest {
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
-        GitClone.clone(repoBetaActualConfig);
-        GitClone.clone(repoDeltaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
+        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
+        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
+        TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
+    }
+
+    @Test
+    public void repoConfig_ignoreFileSizeLimit_success() throws Exception {
+        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
+        expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        expectedConfig.setFormats(CONFIG_FORMATS);
+        expectedConfig.setStandaloneConfigIgnored(true);
+        expectedConfig.setFileSizeLimitIgnored(true);
+
+        String formats = String.join(" ", CLI_FORMATS);
+        String input = new InputBuilder().addConfig(IGNORE_FILESIZE_LIMIT_TEST_CONFIG_FILES)
+                .addFormats(formats)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+
+        RepoConfiguration actualConfig = actualConfigs.get(0);
+        TestRepoCloner.cloneAndBranch(actualConfig);
+        ReportGenerator.updateRepoConfig(actualConfig);
+
+        TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoConfig_ignoreFileSizeLimitInCli_overrideCsv() throws Exception {
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_BETA), "master");
+        repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
+        repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoBetaExpectedConfig.setFileSizeLimitIgnored(true);
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration(
+                new RepoLocation(TEST_REPO_DELTA), "master");
+        repoDeltaExpectedConfig.setStandaloneConfigIgnored(true);
+        repoDeltaExpectedConfig.setFileSizeLimitIgnored(true);
+
+        String input = new InputBuilder().addConfig(IGNORE_FILESIZE_LIMIT_OVERRIDE_CSV_TEST_CONFIG_FILES)
+                .addIgnoreFilesizeLimit()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
+        RepoConfiguration.setFileSizeLimitIgnoredToRepoConfigs(actualConfigs,
+                cliArguments.isFileSizeLimitIgnored());
+
+        RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
+        RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
+        TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
         ReportGenerator.updateRepoConfig(repoBetaActualConfig);
         ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
@@ -298,8 +355,8 @@ public class RepoConfigurationTest {
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
-        GitClone.clone(repoBetaActualConfig);
-        GitClone.clone(repoDeltaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
         ReportGenerator.updateRepoConfig(repoBetaActualConfig);
         ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
@@ -318,7 +375,7 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(repoDeltaStandaloneConfig, actualConfig);
@@ -343,7 +400,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -369,7 +426,7 @@ public class RepoConfigurationTest {
                 cliArguments.isShallowCloningPerformed());
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -399,8 +456,8 @@ public class RepoConfigurationTest {
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
-        GitClone.clone(repoBetaActualConfig);
-        GitClone.clone(repoDeltaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
         ReportGenerator.updateRepoConfig(repoBetaActualConfig);
         ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
@@ -428,8 +485,8 @@ public class RepoConfigurationTest {
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
-        GitClone.clone(repoBetaActualConfig);
-        GitClone.clone(repoDeltaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
         ReportGenerator.updateRepoConfig(repoBetaActualConfig);
         ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
@@ -455,7 +512,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -481,7 +538,7 @@ public class RepoConfigurationTest {
                 cliArguments.isFindingPreviousAuthorsPerformed());
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -511,8 +568,8 @@ public class RepoConfigurationTest {
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
-        GitClone.clone(repoBetaActualConfig);
-        GitClone.clone(repoDeltaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
         ReportGenerator.updateRepoConfig(repoBetaActualConfig);
         ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
@@ -540,8 +597,8 @@ public class RepoConfigurationTest {
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
-        GitClone.clone(repoBetaActualConfig);
-        GitClone.clone(repoDeltaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
         ReportGenerator.updateRepoConfig(repoBetaActualConfig);
         ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
@@ -572,8 +629,8 @@ public class RepoConfigurationTest {
 
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
-        GitClone.clone(repoBetaActualConfig);
-        GitClone.clone(repoDeltaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
+        TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
         ReportGenerator.updateRepoConfig(repoBetaActualConfig);
         ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
@@ -699,7 +756,7 @@ public class RepoConfigurationTest {
                 new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -721,7 +778,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG),
                 "master");
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
@@ -757,7 +814,7 @@ public class RepoConfigurationTest {
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
-        GitClone.clone(actualConfig);
+        TestRepoCloner.cloneAndBranch(actualConfig);
         ReportGenerator.updateRepoConfig(actualConfig);
         Method updateAuthorList = ReportGenerator.class.getDeclaredMethod("updateAuthorList", RepoConfiguration.class);
         updateAuthorList.setAccessible(true);
