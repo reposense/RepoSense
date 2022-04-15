@@ -36,13 +36,13 @@ public class LocalRepoSystemTest {
                 Paths.get("."), LOCAL_DIRECTORY_ONE);
         TestRepoCloner.clone(new RepoConfiguration(new RepoLocation("https://github.com/reposense/testrepo-Alpha")),
                 Paths.get("."), LOCAL_DIRECTORY_TWO);
-        ErrorSummary.getInstance().clearErrorSet();
     }
 
     @BeforeEach
-    public void clearAccessedSetAndOutputDirectory() throws Exception {
+    public void setupLocalTest() throws Exception {
         SupportedDomainUrlMap.clearAccessedSet();
         FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
+        ErrorSummary.getInstance().clearErrorSet();
     }
 
     @AfterEach
