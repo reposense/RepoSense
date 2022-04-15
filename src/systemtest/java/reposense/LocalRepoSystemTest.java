@@ -60,10 +60,7 @@ public class LocalRepoSystemTest {
     public void testSameFinalDirectory() {
         String cliInput = String.format("-r %s %s -s d1 -u 01/04/2022 -o local-test -t UTC+08",
                 LOCAL_DIRECTORY_ONE, LOCAL_DIRECTORY_TWO);
-        String[] args = cliInput.split(" ");
-        RepoSense.main(args);
-        Path expectedFilePath = loadResource(getClass(), "LocalRepoSystemTest/testSameFinalDirectory");
-        SystemTestUtil.verifyReportJsonFiles(expectedFilePath, REPORT_DIRECTORY_PATH);
+        runTest(cliInput, "LocalRepoSystemTest/testSameFinalDirectory");
     }
 
     @Test
@@ -71,9 +68,17 @@ public class LocalRepoSystemTest {
         String relativePathForTesting = "parent1/../parent1/./test-repo";
         String cliInput = String.format("-r %s -s d1 -u 01/04/2022 -o local-test -t UTC+08",
                 relativePathForTesting);
-        String[] args = cliInput.split(" ");
+        runTest(cliInput, "LocalRepoSystemTest/testRelativePathing");
+    }
+
+    /**
+     * Runs RepoSense with {@code commandArgs} and tests it against the expected
+     * files in {@code expectedFilesPathString}.
+     */
+    private void runTest(String commandArgs, String expectedFilesPathString) {
+        String[] args = commandArgs.split(" ");
         RepoSense.main(args);
-        Path expectedFilePath = loadResource(getClass(), "LocalRepoSystemTest/testRelativePathing");
-        SystemTestUtil.verifyReportJsonFiles(expectedFilePath, REPORT_DIRECTORY_PATH);
+        Path expectedFilesPath = loadResource(getClass(), expectedFilesPathString);
+        SystemTestUtil.verifyReportJsonFiles(expectedFilesPath, REPORT_DIRECTORY_PATH);
     }
 }
