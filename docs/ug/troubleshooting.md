@@ -20,7 +20,7 @@ Alternatively, you may choose to configure *RepoSense* to track using your GitHu
 
 ### Contribution bar and code panel is empty (despite a non-empty ramp chart)
 
-The contribution bar and code panel records the lines you have authored to the **latest** commit of the repository and branch you are analyzing.  As such, it is possible that while you have lots of committed contributions, your final authorship contribution is low. This happens if you have only deleted lines or someone else has overwritten your code and taken authorship for it (currently, RepoSense does not have the functionality to track overwritten lines)..<br>
+The contribution bar and code panel records the lines you have authored to the **latest** commit of the repository and branch you are analyzing.  As such, it is possible that while you have lots of committed contributions, your final authorship contribution is low. This happens if you have only deleted lines or someone else has overwritten your code and taken authorship for it (currently, RepoSense does not have the functionality to track overwritten lines).<br>
 It is also possible that another user has overridden the authorship of your lines using the [@@author tags](#provide-data-using-author-tags).
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
