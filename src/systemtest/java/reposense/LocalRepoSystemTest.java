@@ -42,7 +42,7 @@ public class LocalRepoSystemTest {
     }
 
     @BeforeEach
-    public void clearAccessedSet() throws Exception {
+    public void clearAccessedSetAndOutputDirectory() throws Exception {
         SupportedDomainUrlMap.clearAccessedSet();
         FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
     }
@@ -60,7 +60,7 @@ public class LocalRepoSystemTest {
 
     @Test
     public void testSameFinalDirectory() {
-        String cliInput = String.format("-r %s %s -s d1 -u 01/04/2022 -o local-test",
+        String cliInput = String.format("-r %s %s -s d1 -u 01/04/2022 -o local-test -t UTC+08",
                 LOCAL_DIRECTORY_ONE, LOCAL_DIRECTORY_TWO);
         String[] args = cliInput.split(" ");
         RepoSense.main(args);
@@ -71,7 +71,7 @@ public class LocalRepoSystemTest {
     @Test
     public void testRelativePathing() {
         String relativePathForTesting = "parent1/../parent1/./test-repo";
-        String cliInput = String.format("-r %s -s d1 -u 01/04/2022 -o local-test",
+        String cliInput = String.format("-r %s -s d1 -u 01/04/2022 -o local-test -t UTC+08",
                 relativePathForTesting);
         String[] args = cliInput.split(" ");
         RepoSense.main(args);

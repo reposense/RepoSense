@@ -18,7 +18,7 @@ import com.google.gson.JsonParser;
 public class SystemTestUtil {
 
     private static final String[] JSON_FIELDS_TO_IGNORE = new String[]
-            {"repoSenseVersion", "reportGeneratedTime", "reportGenerationTime", "zoneId"};
+            {"repoSenseVersion", "reportGeneratedTime", "reportGenerationTime"};
 
     /**
      * Verifies that all JSON files in the {@code actualDirectory} matches those at the {@code expectedDirectory}.
