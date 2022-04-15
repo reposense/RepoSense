@@ -46,7 +46,7 @@ public class SystemTestUtil {
     public static void assertSummaryJson(Path expectedSummaryJsonPath, Path actualSummaryJsonPath)
             throws IOException {
         try (FileReader fileReaderExpected = new FileReader(expectedSummaryJsonPath.toFile());
-             FileReader fileReaderActual = new FileReader(actualSummaryJsonPath.toFile())) {
+                FileReader fileReaderActual = new FileReader(actualSummaryJsonPath.toFile())) {
             JsonObject jsonExpected = JsonParser.parseReader(fileReaderExpected).getAsJsonObject();
             JsonObject jsonActual = JsonParser.parseReader(fileReaderActual).getAsJsonObject();
             for (String ignoredKey : JSON_FIELDS_TO_IGNORE) {
