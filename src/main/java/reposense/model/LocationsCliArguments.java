@@ -16,7 +16,8 @@ public class LocationsCliArguments extends CliArguments {
             boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, List<FileType> formats, boolean isLastModifiedDateIncluded,
             boolean isShallowCloningPerformed, boolean isAutomaticallyLaunching,
-            boolean isStandaloneConfigIgnored, ZoneId zoneId, boolean isFindingPreviousAuthorsPerformed) {
+            boolean isStandaloneConfigIgnored, boolean isFileSizeLimitIgnored, ZoneId zoneId,
+            boolean isFindingPreviousAuthorsPerformed) {
         this.locations = locations;
         this.outputFilePath = outputFilePath;
         this.assetsFilePath = assetsFilePath;
@@ -29,6 +30,7 @@ public class LocationsCliArguments extends CliArguments {
         this.formats = formats;
         this.isAutomaticallyLaunching = isAutomaticallyLaunching;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+        this.isFileSizeLimitIgnored = isFileSizeLimitIgnored;
         this.numCloningThreads = numCloningThreads;
         this.numAnalysisThreads = numAnalysisThreads;
         this.zoneId = zoneId;

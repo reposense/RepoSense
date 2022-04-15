@@ -79,6 +79,7 @@ public class ArgsParserTest {
                 .addUntilDate("30/11/2017")
                 .addFormats("java adoc html css js")
                 .addIgnoreStandaloneConfig()
+                .addIgnoreFilesizeLimit()
                 .addView()
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
@@ -101,6 +102,7 @@ public class ArgsParserTest {
         Assertions.assertEquals(expectedFormats, cliArguments.getFormats());
 
         Assertions.assertTrue(cliArguments.isAutomaticallyLaunching());
+        Assertions.assertTrue(cliArguments.isFileSizeLimitIgnored());
 
         Assertions.assertEquals(DEFAULT_TIME_ZONE_ID, cliArguments.getZoneId());
     }
@@ -114,7 +116,7 @@ public class ArgsParserTest {
     @Test
     public void parse_allCorrectInputsAlias_success() throws Exception {
         String input = String.format(
-                "-c \"%s\" -o \"%s\" -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -v -t %s",
+                "-c \"%s\" -o \"%s\" -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -I -v -t %s",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE, DEFAULT_TIME_ZONE_STRING);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
@@ -135,6 +137,7 @@ public class ArgsParserTest {
         Assertions.assertEquals(expectedFormats, cliArguments.getFormats());
 
         Assertions.assertTrue(cliArguments.isAutomaticallyLaunching());
+        Assertions.assertTrue(cliArguments.isFileSizeLimitIgnored());
 
         Assertions.assertEquals(DEFAULT_TIME_ZONE_ID, cliArguments.getZoneId());
     }
@@ -147,6 +150,7 @@ public class ArgsParserTest {
                 .addUntilDate("30/11/2017").addWhiteSpace(6)
                 .addFormats("java   adoc  html      css js   ")
                 .addIgnoreStandaloneConfig().addWhiteSpace(1)
+                .addIgnoreFilesizeLimit().addWhiteSpace(2)
                 .addView().addWhiteSpace(4)
                 .addTimezone(DEFAULT_TIME_ZONE_STRING).addWhiteSpace(5)
                 .build();
@@ -169,6 +173,7 @@ public class ArgsParserTest {
         Assertions.assertEquals(expectedFormats, cliArguments.getFormats());
 
         Assertions.assertTrue(cliArguments.isAutomaticallyLaunching());
+        Assertions.assertTrue(cliArguments.isFileSizeLimitIgnored());
 
         Assertions.assertEquals(DEFAULT_TIME_ZONE_ID, cliArguments.getZoneId());
     }

@@ -71,7 +71,11 @@ jobs:
 
     - name: Run code coverage
       if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
-      run: bash <(curl -s https://codecov.io/bash)
+      uses: codecov/codecov-action@v2
+      with:
+        directory: ${{ github.workspace }}/build/reports/jacoco/coverage
+        files: coverage.xml
+        fail_ci_if_error: true
 
     - name: Build preview website (pull request)
       if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
@@ -155,6 +159,14 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean checkstyleAll test systemTest coverage
 
+    - name: Run code coverage
+      if: ${{ success() && matrix.os == 'macos-11' }}
+      uses: codecov/codecov-action@v2
+      with:
+        directory: ${{ github.workspace }}/build/reports/jacoco/coverage
+        files: coverage.xml
+        fail_ci_if_error: true
+
   windows:
     name: ${{ matrix.os }} JDK 8
     strategy:
@@ -204,6 +216,14 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean checkstyleAll test systemTest coverage
 
+    - name: Run code coverage
+      if: ${{ success() && matrix.os == 'windows-2022' }}
+      uses: codecov/codecov-action@v2
+      with:
+        directory: ${{ github.workspace }}/build/reports/jacoco/coverage
+        files: coverage.xml
+        fail_ci_if_error: true
+
   cypress:
     name: Cypress frontend tests
     runs-on: ubuntu-18.04
@@ -225,7 +245,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14.19.0'
+        node-version: '14.x'
 
     - name: Set up Gradle caching
       uses: actions/cache@v2
