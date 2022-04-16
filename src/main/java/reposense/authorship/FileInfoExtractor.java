@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,6 +37,10 @@ public class FileInfoExtractor {
     private static final String MESSAGE_START_EXTRACTING_FILE_INFO = "Extracting relevant file info from %s (%s)...";
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path for current OS or "
             + "indicates a possible regex match issue. Skipping this directory.";
+    private static final String MESSAGE_FILE_SIZE_LIMIT_EXCEEDED = "File \"%s\" has %dB size. The file size "
+            + "limit is set at %dB. %s";
+    private static final String MESSAGE_FILE_ANALYSIS_SKIPPED = "Skipping analysis of this file...";
+    private static final String MESSAGE_FILE_EXCLUDED_FROM_REPORT = "Exact line diffs will be excluded from report...";
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git \"?\'?a/.*\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
@@ -124,9 +129,11 @@ public class FileInfoExtractor {
             }
 
             if (config.getFileTypeManager().isInsideWhitelistedFormats(filePath)) {
-                FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
+                FileInfo currentFileInfo = generateFileInfo(config, filePath);
                 setLinesToTrack(currentFileInfo, fileDiffResult);
-                fileInfos.add(currentFileInfo);
+                if (currentFileInfo.isFileAnalyzed()) {
+                    fileInfos.add(currentFileInfo);
+                }
             }
         }
 
@@ -199,22 +206,52 @@ public class FileInfoExtractor {
             if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
                 continue;
             }
-            fileInfos.add((isBinaryFiles)
+
+            FileInfo fileInfo = (isBinaryFiles)
                     ? new FileInfo(relativePath.toString())
-                    : generateFileInfo(config.getRepoRoot(), relativePath.toString()));
+                    : generateFileInfo(config, relativePath.toString());
+
+            if (fileInfo.isFileAnalyzed()) {
+                fileInfos.add(fileInfo);
+            }
         }
         return fileInfos;
     }
 
     /**
      * Returns a {@link FileInfo} with a list of {@link LineInfo} for each line content in the
-     * file located at the {@link Path} given by {@code repoRoot}/{@code relativePath}.
+     * file located in the repository given by {@code config}/{@code relativePath}.
      */
-    public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
+    public static FileInfo generateFileInfo(RepoConfiguration config, String relativePath) {
+        return generateFileInfo(config.getRepoRoot(), relativePath, config.getFileSizeLimit(),
+            config.isFileSizeLimitIgnored(), config.isIgnoredFileAnalysisSkipped());
+    }
+
+    /**
+     * Returns a {@link FileInfo} with a list of {@link LineInfo} for each line content in the
+     * file located at the {@link Path} given by {@code repoRoot}/{@code relativePath}. {@code fileSizeLimit} and
+     * {@code ignoreFileSizeLimit} are used to set whether the file size limit is exceeding. {@link LineInfo}s are
+     * not included in {@link FileInfo} if  {@code skipIgnoredFileAnalysis} is true and file size limit is exceeding.
+     */
+    public static FileInfo generateFileInfo(String repoRoot, String relativePath, long fileSizeLimit,
+            boolean ignoreFileSizeLimit, boolean skipIgnoredFileAnalysis) {
         FileInfo fileInfo = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, fileInfo.getPath());
 
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
+            long fileSize = Files.size(path);
+            fileInfo.setFileSize(fileSize);
+            if (!ignoreFileSizeLimit && fileSize > fileSizeLimit) {
+                fileInfo.setExceedsSizeLimit(true);
+                if (skipIgnoredFileAnalysis) {
+                    logger.log(Level.WARNING, String.format(MESSAGE_FILE_SIZE_LIMIT_EXCEEDED,
+                            fileInfo.getPath(), fileSize, fileSizeLimit, MESSAGE_FILE_ANALYSIS_SKIPPED));
+                    fileInfo.setFileAnalyzed(false);
+                    return fileInfo;
+                }
+                logger.log(Level.WARNING, String.format(MESSAGE_FILE_SIZE_LIMIT_EXCEEDED,
+                        fileInfo.getPath(), fileSize, fileSizeLimit, MESSAGE_FILE_EXCLUDED_FROM_REPORT));
+            }
             String line;
             int lineNum = 1;
             while ((line = br.readLine()) != null) {

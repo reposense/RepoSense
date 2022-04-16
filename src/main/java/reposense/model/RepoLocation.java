@@ -6,10 +6,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import reposense.git.GitRemote;
 import reposense.parser.InvalidLocationException;
 import reposense.report.ErrorSummary;
 import reposense.util.StringsUtil;
@@ -19,7 +21,6 @@ import reposense.util.SystemUtil;
  * Represents a repository location.
  */
 public class RepoLocation {
-
     protected static final String UNSUPPORTED_DOMAIN_NAME = "NOT_RECOGNIZED";
 
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
@@ -44,10 +45,15 @@ public class RepoLocation {
 
     private static final String PATH_SEPARATOR_REPLACEMENT = "-";
 
+    // Used for remote link generation (serialized)
     private final String location;
     private final String repoName;
     private final String organization;
     private final String domainName;
+
+    // Used for generation of local repository report output directory
+    private final transient String outputFolderRepoName;
+    private final transient String outputFolderOrganization;
 
     /**
      * Creates {@link RepoLocation} based on the {@code location}, which is represented by a {@code URL}
@@ -61,18 +67,31 @@ public class RepoLocation {
         }
 
         this.location = location;
-        String[] repoNameAndOrg;
+        String[] remoteRepoNameAndOrg;
+        String[] outputFolderRepoNameAndOrg;
         if (location.isEmpty()) {
-            repoNameAndOrg = new String[] {"", "", UNSUPPORTED_DOMAIN_NAME};
+            remoteRepoNameAndOrg = new String[] {"", "", UNSUPPORTED_DOMAIN_NAME};
+            outputFolderRepoNameAndOrg = remoteRepoNameAndOrg;
         } else if (isLocalRepo(location)) {
-            repoNameAndOrg = getLocalRepoNameAndOrg(location);
+            outputFolderRepoNameAndOrg = getLocalRepoNameAndOrg(location);
+
+            Map<String, String> remotes = GitRemote.getRemotes(location);
+            String newLocation = GitRemote.getAvailableRemoteLocation(remotes).orElse(location);
+
+            remoteRepoNameAndOrg = remotes.size() == 0
+                ? outputFolderRepoNameAndOrg
+                : getRemoteRepoNameAndOrg(newLocation);
         } else {
-            repoNameAndOrg = getRemoteRepoNameAndOrg(location);
+            remoteRepoNameAndOrg = getRemoteRepoNameAndOrg(location);
+            outputFolderRepoNameAndOrg = remoteRepoNameAndOrg;
         }
 
-        this.repoName = repoNameAndOrg[0];
-        this.organization = repoNameAndOrg[1];
-        this.domainName = repoNameAndOrg[2];
+        this.repoName = remoteRepoNameAndOrg[0];
+        this.organization = remoteRepoNameAndOrg[1];
+        this.domainName = remoteRepoNameAndOrg[2];
+
+        this.outputFolderRepoName = outputFolderRepoNameAndOrg[0];
+        this.outputFolderOrganization = outputFolderRepoNameAndOrg[1];
     }
 
     public boolean isEmpty() {
@@ -80,11 +99,11 @@ public class RepoLocation {
     }
 
     public String getRepoName() {
-        return repoName;
+        return outputFolderRepoName;
     }
 
     public String getOrganization() {
-        return organization;
+        return outputFolderOrganization;
     }
 
     public String getDomainName() {
@@ -122,7 +141,8 @@ public class RepoLocation {
 
     /**
      * Returns a best-guess repo name and organization from the given local repo {@code location}.
-     * The return is a length-2 string array with the repo name at index 0 and organization at index 1.
+     * The return is a length-3 string array with the repo name at index 0, organization at index 1
+     * and domain name (unsupported domain) at index 2.
      *
      * @throws InvalidLocationException if the location specified is not a proper local repository.
      */
@@ -150,8 +170,9 @@ public class RepoLocation {
     }
 
     /**
-     * Returns a best-guess repo name and organization from the given remote repo {@code location}.
-     * The return is a length-2 string array with the repo name at index 0 and organization at index 1.
+     * Returns a best-guess repo name, organization and domain name from the given remote repo
+     * {@code location}. The return is a length-3 string array with the repo name at index 0,
+     * organization at index 1 and domain name at index 2.
      *
      * @throws InvalidLocationException if the location specified is not a proper remote repository.
      */
@@ -239,7 +260,9 @@ public class RepoLocation {
         return this.location.equals(otherLocation.location)
                 && this.repoName.equals(otherLocation.repoName)
                 && this.organization.equals(otherLocation.organization)
-                && this.domainName.equals(otherLocation.domainName);
+                && this.domainName.equals(otherLocation.domainName)
+                && this.outputFolderRepoName.equals(otherLocation.outputFolderRepoName)
+                && this.outputFolderOrganization.equals(otherLocation.outputFolderOrganization);
     }
 
     @Override

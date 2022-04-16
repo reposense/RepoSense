@@ -19,7 +19,6 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
-import reposense.git.GitClone;
 import reposense.git.GitShow;
 import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Author;
@@ -28,6 +27,7 @@ import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.FileUtil;
+import reposense.util.TestRepoCloner;
 
 /**
  * Contains templates for git testing.
@@ -108,7 +108,7 @@ public class GitTestTemplate {
     public static void beforeClass() throws Exception {
         config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
         config.setZoneId(TIME_ZONE_ID_STRING);
-        GitClone.clone(config);
+        TestRepoCloner.cloneAndBranch(config);
     }
 
     @AfterEach
@@ -120,7 +120,7 @@ public class GitTestTemplate {
      * Generates the information for test file at {@code relativePath}.
      */
     public FileInfo generateTestFileInfo(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
 
         config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
         config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
