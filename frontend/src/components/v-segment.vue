@@ -41,3 +41,7 @@ export default {
   },
 };
 </script>
+
+<style lang="css">
+@import '../styles/hightlight-js-style.css';
+</style>
