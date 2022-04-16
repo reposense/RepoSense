@@ -2,6 +2,17 @@ import { z } from 'zod';
 
 const REPORT_DIR: string = '.';
 
+const urlShape = z.object({
+  BASE_URL: z.string(),
+  BLAME_PATH: z.string(),
+  BRANCH: z.string(),
+  COMMIT_PATH: z.string(),
+  HISTORY_PATH: z.string(),
+  REPO_URL: z.string(),
+});
+
+type UrlShape = z.infer<typeof urlShape>
+
 const summarySchema = z.object({
   repoSenseVersion: z.string(),
   reportGeneratedTime: z.string(),
@@ -29,22 +40,8 @@ const summarySchema = z.object({
   isSinceDateProvided: z.boolean(),
   isUntilDateProvided: z.boolean(),
   supportedDomainUrlMap: z.object({
-    NOT_RECOGNIZED: z.object({
-      BASE_URL: z.string(),
-      BLAME_PATH: z.string(),
-      BRANCH: z.string(),
-      COMMIT_PATH: z.string(),
-      HISTORY_PATH: z.string(),
-      REPO_URL: z.string(),
-    }),
-    github: z.object({
-      BASE_URL: z.string(),
-      BLAME_PATH: z.string(),
-      BRANCH: z.string(),
-      COMMIT_PATH: z.string(),
-      HISTORY_PATH: z.string(),
-      REPO_URL: z.string(),
-    }),
+    NOT_RECOGNIZED: z.object(urlShape.shape),
+    github: z.object(urlShape.shape),
   }),
 });
 
@@ -156,22 +153,8 @@ declare global {
     isSinceDateProvided: boolean;
     isUntilDateProvided: boolean;
     DOMAIN_URL_MAP: {
-      NOT_RECOGNIZED: {
-        BASE_URL: string;
-        BLAME_PATH: string;
-        BRANCH: string;
-        COMMIT_PATH: string;
-        HISTORY_PATH: string;
-        REPO_URL: string;
-      };
-      github: {
-        BASE_URL: string;
-        BLAME_PATH: string;
-        BRANCH: string;
-        COMMIT_PATH: string;
-        HISTORY_PATH: string;
-        REPO_URL: string;
-      },
+      NOT_RECOGNIZED: UrlShape;
+      github: UrlShape;
     };
   }
 }
