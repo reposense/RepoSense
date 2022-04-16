@@ -9,13 +9,16 @@ import reposense.model.FileType;
 import reposense.util.SystemUtil;
 
 /**
- * Stores the path to the file and the list of {@code LineInfo} for each line in the file.
+ * Stores the path to the file, the list of {@code LineInfo} for each line in the file and file size.
  */
 public class FileInfo {
     private final String path;
     private final ArrayList<LineInfo> lines;
 
     private FileType fileType;
+    private long fileSize;
+    private boolean exceedsFileLimit = false;
+    private boolean isFileAnalyzed = true;
 
     public FileInfo(String path) {
         if (SystemUtil.isWindows()) {
@@ -60,6 +63,30 @@ public class FileInfo {
 
     public void setFileType(FileType fileType) {
         this.fileType = fileType;
+    }
+
+    public long getFileSize() {
+        return this.fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public void setFileAnalyzed(boolean isFileAnalyzed) {
+        this.isFileAnalyzed = isFileAnalyzed;
+    }
+
+    public boolean isFileAnalyzed() {
+        return isFileAnalyzed;
+    }
+
+    public boolean exceedsFileLimit() {
+        return exceedsFileLimit;
+    }
+
+    public void setExceedsSizeLimit(boolean exceedsFileLimit) {
+        this.exceedsFileLimit = exceedsFileLimit;
     }
 
     /**
