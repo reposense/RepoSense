@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { authorshipSchema, AuthorshipSchema } from '../types/authorship-type';
 import { commitsSchema } from '../types/commit-type';
 import { summarySchema, Summary } from '../types/summary-type';
-import { Repo } from '../types/repo-type';
+import { Repo, User } from '../types/repo-type';
 import { UrlShape } from '../types/urlShape-type';
 
 const REPORT_DIR: string = '.';
@@ -103,21 +103,23 @@ window.api = {
   async loadCommits(repoName: string) {
     const folderName = window.REPOS[repoName].outputFolderName;
     const commits = await this.loadJSON(`${folderName}/commits.json`, 'commits');
-    const res: any[] = [];
+    const res: User[] = [];
     const repo = window.REPOS[repoName];
 
     Object.keys(commits.authorDisplayNameMap).forEach((author) => {
       if (author) {
-        const obj = {
+        const obj: User = {
+          checkedFileTypeContribution: undefined,
+          commits: [],
+          dailyCommits: commits.authorDailyContributionsMap[author],
+          displayName: commits.authorDisplayNameMap[author],
+          fileTypeContribution: commits.authorFileTypeContributionMap[author],
+          location: '',
           name: author,
           repoId: repoName,
-          variance: commits.authorContributionVariance[author],
-          displayName: commits.authorDisplayNameMap[author],
-          dailyCommits: commits.authorDailyContributionsMap[author],
-          fileTypeContribution: commits.authorFileTypeContributionMap[author],
-          searchPath: '',
           repoName: '',
-          location: '',
+          searchPath: '',
+          variance: commits.authorContributionVariance[author],
         };
 
         this.setContributionOfCommitResultsAndInsertRepoId(obj.dailyCommits, obj.repoId);
@@ -150,9 +152,7 @@ window.api = {
   },
 
   // calculate and set the contribution of each commitResult and insert repoId into commitResult, since not provided in json file
-  setContributionOfCommitResultsAndInsertRepoId(dailyCommits: { date: string; commitResults: { deletions: number;
-    fileTypesAndContributionMap: Map<string, {insertions: number; deletions: number}>; hash: string; insertions: number;
-    repoId: string; messageBody: string; messageTitle: string; }[] }[], repoId: string) {
+  setContributionOfCommitResultsAndInsertRepoId(dailyCommits: { date: string; commitResults: CommitResult[] }[], repoId: string) {
     dailyCommits.forEach((commit) => {
       commit.commitResults.forEach((result) => {
         result.repoId = repoId;
