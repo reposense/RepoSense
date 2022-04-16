@@ -5,7 +5,10 @@
   "extends": [
     "airbnb-base",
     "plugin:vue/recommended",
-    "@vue/typescript"
+    "@vue/typescript",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
   ],
   "rules": {
     "vue/component-definition-name-casing": [
@@ -44,6 +47,16 @@
       "error",
       {
         "code": 130
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
       }
     ]
   },

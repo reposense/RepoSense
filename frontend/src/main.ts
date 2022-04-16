@@ -10,7 +10,7 @@ import '@fontsource/titillium-web';
 
 // Need to import for side effects
 import './utils/api';
-import './utils/json-parser.ts';
+import './utils/json-parser';
 import './utils/safari_date';
 import './utils/load-font-awesome-icons';
 
