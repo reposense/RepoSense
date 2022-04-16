@@ -1,14 +1,6 @@
-/* eslint-disable */
+import { authorshipSchema, AuthorshipSchema, commitsSchema, Repo, Url_Shape, Summary, summarySchema } from "@/utils/types";
+
 import { z } from 'zod';
-import {
-  AuthorshipSchema,
-  authorshipSchema,
-  commitsSchema,
-  Repo,
-  Summary,
-  summarySchema,
-  UrlShape,
-} from './types';
 
 const REPORT_DIR: string = '.';
 
@@ -25,8 +17,8 @@ declare global {
     isSinceDateProvided: boolean;
     isUntilDateProvided: boolean;
     DOMAIN_URL_MAP: {
-      NOT_RECOGNIZED: UrlShape;
-      github: UrlShape,
+      NOT_RECOGNIZED: Url_Shape;
+      github: Url_Shape,
     };
   }
 }
