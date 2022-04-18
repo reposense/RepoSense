@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { authorshipSchema, AuthorshipSchema } from '../types/authorship-type';
+import { authorshipSchema } from '../types/authorship-type';
 import { commitsSchema } from '../types/commit-type';
-import { summarySchema, Summary } from '../types/summary-type';
-import { Repo, User } from '../types/repo-type';
+import { Summary, summarySchema } from '../types/summary-type';
+import { DailyCommit, Repo, User } from '../types/repo-type';
 import { UrlShape } from '../types/urlShape-type';
 
 const REPORT_DIR: string = '.';
@@ -27,7 +27,7 @@ declare global {
 }
 
 window.api = {
-  async loadJSON(fname: string, type: string) {
+  async loadJSON(fname: string) {
     if (window.REPORT_ZIP) {
       const zipObject = window.REPORT_ZIP.file(fname);
       if (zipObject) {
@@ -42,16 +42,7 @@ window.api = {
     }
     try {
       const response = await fetch(`${REPORT_DIR}/${fname}`);
-      // Not directly returned in case response is not actually json.
-      let json = await response.json();
-      if (type === 'summary') {
-        json = summarySchema.parse(json);
-      } else if (type === 'commits') {
-        json = commitsSchema.parse(json);
-      } else if (type === 'authorship') {
-        json = authorshipSchema.parse(json);
-      }
-      return json;
+      return await response.json();
     } catch (e) {
       if (e instanceof z.ZodError) {
         throw e;
@@ -64,7 +55,8 @@ window.api = {
     let data: Summary;
 
     try {
-      data = await this.loadJSON('summary.json', 'summary');
+      const json = await this.loadJSON('summary.json');
+      data = summarySchema.parse(json);
     } catch (error: any) {
       if (error.message === 'Unable to read summary.json.') {
         return null;
@@ -79,7 +71,7 @@ window.api = {
     window.isUntilDateProvided = data.isUntilDateProvided;
     document.title = data.reportTitle || document.title;
 
-    const errorMessages: { [key:string]: {errorMessage: string; repoName: string}; } = {};
+    const errorMessages: { [key:string]: { errorMessage: string; repoName: string }; } = {};
     Object.entries(data.errorSet).forEach(([repoName, message]) => {
       errorMessages[repoName] = message;
     });
@@ -102,7 +94,8 @@ window.api = {
 
   async loadCommits(repoName: string) {
     const folderName = window.REPOS[repoName].outputFolderName;
-    const commits = await this.loadJSON(`${folderName}/commits.json`, 'commits');
+    const json = await this.loadJSON(`${folderName}/commits.json`);
+    const commits = commitsSchema.parse(json);
     const res: User[] = [];
     const repo = window.REPOS[repoName];
 
@@ -142,17 +135,16 @@ window.api = {
     return res;
   },
 
-  loadAuthorship(repoName: string) {
+  async loadAuthorship(repoName: string) {
     const folderName = window.REPOS[repoName].outputFolderName;
-    return this.loadJSON(`${folderName}/authorship.json`, 'authorship')
-        .then((files: AuthorshipSchema) => {
-          window.REPOS[repoName].files = files;
-          return files;
-        });
+    const json = await this.loadJSON(`${folderName}/authorship.json`);
+    const result = authorshipSchema.parse(json);
+    window.REPOS[repoName].files = result;
+    return result;
   },
 
   // calculate and set the contribution of each commitResult and insert repoId into commitResult, since not provided in json file
-  setContributionOfCommitResultsAndInsertRepoId(dailyCommits: { date: string; commitResults: CommitResult[] }[], repoId: string) {
+  setContributionOfCommitResultsAndInsertRepoId(dailyCommits: DailyCommit[], repoId: string) {
     dailyCommits.forEach((commit) => {
       commit.commitResults.forEach((result) => {
         result.repoId = repoId;

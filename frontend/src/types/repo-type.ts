@@ -1,18 +1,29 @@
 import { CommitsSchema } from './commit-type'
 import { AuthorshipSchema } from './authorship-type'
 
+export interface Commit {
+    commitResults: CommitResult[];
+    date: string;
+    deletions: number;
+    insertions: number;
+}
+
+export interface DailyCommit {
+    commitResults: CommitResult[];
+    date: string;
+}
+
+export interface Location {
+    domainName: string;
+    location: string;
+    organization: string;
+    repoName: string;
+}
+
 export interface User {
     checkedFileTypeContribution?: number;
-    commits: {
-        commitResults: CommitResult[];
-        date: string;
-        deletions: number;
-        insertions: number;
-    }[];
-    dailyCommits: {
-        commitResults: CommitResult[];
-        date: string;
-    }[];
+    commits: Commit[];
+    dailyCommits: DailyCommit[];
     displayName: string;
     fileTypeContribution: {
         [key:string]: number;
@@ -30,12 +41,7 @@ export interface Repo {
     commits?: CommitsSchema;
     displayName: string;
     files?: AuthorshipSchema;
-    location: {
-        domainName: string;
-        location: string;
-        organization: string;
-        repoName: string;
-    };
+    location: Location;
     outputFolderName: string;
     users?: User[]
 }
