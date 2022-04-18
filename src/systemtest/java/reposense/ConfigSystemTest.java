@@ -3,17 +3,12 @@ package reposense;
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
 import static reposense.util.TestUtil.loadResource;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,12 +30,11 @@ import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
-import reposense.util.TestUtil;
+import reposense.util.SystemTestUtil;
 
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String DUMMY_ASSETS_DIR = "dummy";
-    private static final String EXPECTED_FOLDER = "expected";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
     private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
@@ -68,14 +62,14 @@ public class ConfigSystemTest {
     public void testSinceBeginningDateRange() throws Exception {
         runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
                 false, false, false, false,
-                "sinceBeginningDateRange/expected");
+                "ConfigSystemTest/sinceBeginningDateRange/expected");
     }
 
     @Test
     public void test30DaysFromUntilDate() throws Exception {
         runTest(getInputWithUntilDate("1/11/2017"), false,
                 false, false, false,
-                "30daysFromUntilDate/expected");
+                "ConfigSystemTest/30daysFromUntilDate/expected");
     }
 
     /**
@@ -86,7 +80,7 @@ public class ConfigSystemTest {
     public void testDateRangeWithModifiedDateTimeInLines() throws Exception {
         runTest(getInputWithDates("1/9/2017", "30/10/2017"),
                 true, false, false, false,
-                "dateRangeWithModifiedDateTimeInLines/expected");
+                "ConfigSystemTest/dateRangeWithModifiedDateTimeInLines/expected");
     }
 
     /**
@@ -97,14 +91,14 @@ public class ConfigSystemTest {
     public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
         runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
                 false, true, true, false,
-                "sinceBeginningDateRangeWithShallowCloning/expected");
+                "ConfigSystemTest/sinceBeginningDateRangeWithShallowCloning/expected");
     }
 
     @Test
     public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
         runTest(getInputWithUntilDate("1/11/2017"), false,
                 true, true, false,
-                "30daysFromUntilDateWithShallowCloning/expected");
+                "ConfigSystemTest/30daysFromUntilDateWithShallowCloning/expected");
     }
 
     /**
@@ -115,13 +109,13 @@ public class ConfigSystemTest {
     public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
         runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
                 false, false, true, true,
-                "sinceBeginningDateRangeFindPreviousAuthors/expected");
+                "ConfigSystemTest/sinceBeginningDateRangeFindPreviousAuthors/expected");
     }
 
     @Test
     public void test30DaysFromUntilDateWithFindPreviousAuthors() throws Exception {
         runTest(getInputWithUntilDate("1/11/2017"), false, false, true,
-                true, "30daysFromUntilDateFindPreviousAuthors/expected");
+                true, "ConfigSystemTest/30daysFromUntilDateFindPreviousAuthors/expected");
     }
 
     private String getInputWithUntilDate(String untilDate) {
@@ -149,7 +143,7 @@ public class ConfigSystemTest {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
                 shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
         Path actualFiles = loadResource(getClass(), pathToResource);
-        verifyAllJson(actualFiles, FT_TEMP_DIR);
+        SystemTestUtil.verifyAllJson(actualFiles, Paths.get(FT_TEMP_DIR));
         haveNormallyClonedRepo = !shallowCloning;
     }
 
@@ -165,7 +159,7 @@ public class ConfigSystemTest {
      */
     private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
             boolean shouldFreshClone, boolean findPreviousAuthors) throws Exception {
-        Path configFolder = loadResource(getClass(), "repo-config.csv").getParent();
+        Path configFolder = loadResource(getClass(), "ConfigSystemTest");
 
         String formats = String.join(" ", TESTING_FILE_FORMATS);
 
@@ -218,38 +212,5 @@ public class ConfigSystemTest {
                 cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                 cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
                 TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
-    }
-
-    /**
-     * Verifies all JSON files in {@code actualRelative} with {@code expectedDirectory}.
-     */
-    private void verifyAllJson(Path expectedDirectory, String actualRelative) {
-        try (Stream<Path> pathStream = Files.list(expectedDirectory)) {
-            for (Path filePath : pathStream.collect(Collectors.toList())) {
-                if (Files.isDirectory(filePath)) {
-                    verifyAllJson(filePath, actualRelative);
-                }
-                if (filePath.toString().endsWith(".json")) {
-                    String relativeDirectory = filePath.toAbsolutePath().toString().split(EXPECTED_FOLDER)[1];
-                    assertJson(filePath, relativeDirectory, actualRelative);
-                }
-            }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
-
-    /**
-     * Asserts the correctness of given JSON file at {@code actualRelative} and {@code expectedPosition} by comparing
-     * it with {@code expectedJson}.
-     */
-    private void assertJson(Path expectedJson, String expectedPosition, String actualRelative) {
-        Path actualJson = Paths.get(actualRelative, expectedPosition);
-        Assertions.assertTrue(Files.exists(actualJson));
-        try {
-            Assertions.assertTrue(TestUtil.compareFileContents(expectedJson, actualJson));
-        } catch (Exception e) {
-            Assertions.fail(e.getMessage());
-        }
     }
 }

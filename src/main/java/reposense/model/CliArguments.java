@@ -20,6 +20,7 @@ public abstract class CliArguments {
     protected boolean isShallowCloningPerformed;
     protected boolean isAutomaticallyLaunching;
     protected boolean isStandaloneConfigIgnored;
+    protected boolean isFileSizeLimitIgnored;
     protected int numCloningThreads;
     protected int numAnalysisThreads;
     protected ZoneId zoneId;
@@ -73,6 +74,10 @@ public abstract class CliArguments {
         return isStandaloneConfigIgnored;
     }
 
+    public boolean isFileSizeLimitIgnored() {
+        return isFileSizeLimitIgnored;
+    }
+
     public int getNumCloningThreads() {
         return numCloningThreads;
     }
@@ -112,6 +117,7 @@ public abstract class CliArguments {
                 && this.numCloningThreads == otherCliArguments.numCloningThreads
                 && this.numAnalysisThreads == otherCliArguments.numAnalysisThreads
                 && this.zoneId.equals(otherCliArguments.zoneId)
-                && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed;
+                && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed
+                && this.isFileSizeLimitIgnored == otherCliArguments.isFileSizeLimitIgnored;
     }
 }

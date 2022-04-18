@@ -1,6 +1,7 @@
 package reposense.parser;
 
 import static org.apache.tools.ant.types.Commandline.translateCommandline;
+import static reposense.model.RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
@@ -51,6 +52,10 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_merge_empty_location_test");
     private static final Path REPO_CONFIG_UNKNOWN_HEADER_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_unknownHeaders_test.csv");
+    private static final Path REPO_CONFIG_INVALID_FILE_SIZE_LIMIT = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_invalidFileSizeLimit_test.csv");
+    private static final Path REPO_CONFIG_IGNORE_FILE_SIZE_LIMIT = loadResource(RepoConfigParserTest.class,
+            "RepoConfigParserTest/repoconfig_ignoreFileSizeLimit_test.csv");
     private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repoconfig_zeroValidRecords_test.csv");
 
@@ -67,6 +72,8 @@ public class RepoConfigParserTest {
             FileType.convertFormatStringsToFileTypes(Arrays.asList("java", "adoc", "md"));
     private static final List<String> TEST_REPO_BETA_CONFIG_IGNORED_COMMITS =
             Arrays.asList("abcde12345", "67890fdecba");
+
+    private static final int FILE_SIZE_LIMIT_VALUE = 100000;
 
     private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
@@ -97,12 +104,16 @@ public class RepoConfigParserTest {
 
         Assertions.assertEquals(config.getIgnoreCommitList(),
                 CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS));
+        Assertions.assertEquals(config.getFileSizeLimit(), FILE_SIZE_LIMIT_VALUE);
 
         Assertions.assertTrue(config.isShallowCloningPerformed());
 
         Assertions.assertFalse(config.isFormatsOverriding());
         Assertions.assertFalse(config.isIgnoreGlobListOverriding());
         Assertions.assertFalse(config.isIgnoreCommitListOverriding());
+        Assertions.assertFalse(config.isFileSizeLimitOverriding());
+        Assertions.assertFalse(config.isFileSizeLimitIgnored());
+        Assertions.assertTrue(config.isIgnoredFileAnalysisSkipped());
     }
 
     @Test
@@ -120,14 +131,14 @@ public class RepoConfigParserTest {
         firstRepo.setAuthorList(expectedAuthors);
         firstRepo.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         firstRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        firstRepo.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        firstRepo.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR, Arrays.asList("Zachary Tang"));
         firstRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         RepoConfiguration secondRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
                 TEST_REPO_BETA_ADD_CONFIG_JSON_BRANCH);
         secondRepo.setAuthorList(Arrays.asList(SECOND_AUTHOR));
         secondRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        secondRepo.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        secondRepo.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR, Arrays.asList("Zachary Tang"));
         secondRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
         String input = new InputBuilder().addConfig(TEST_CONFIG_FOLDER).build();
@@ -162,7 +173,7 @@ public class RepoConfigParserTest {
         expectedBetaConfig.setAuthorList(expectedBetaAuthors);
         expectedBetaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedBetaConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
-        expectedBetaConfig.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR,  Arrays.asList("Zachary Tang"));
+        expectedBetaConfig.addAuthorDetailsToAuthorMapEntry(SECOND_AUTHOR, Arrays.asList("Zachary Tang"));
         expectedBetaConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedBetaConfig.setIsShallowCloningPerformed(true);
 
@@ -225,10 +236,12 @@ public class RepoConfigParserTest {
         Assertions.assertFalse(config.isStandaloneConfigIgnored());
         Assertions.assertEquals(CommitHash.convertStringsToCommits(TEST_REPO_BETA_CONFIG_IGNORED_COMMITS),
                 config.getIgnoreCommitList());
+        Assertions.assertEquals(FILE_SIZE_LIMIT_VALUE, config.getFileSizeLimit());
 
         Assertions.assertTrue(config.isFormatsOverriding());
         Assertions.assertTrue(config.isIgnoreGlobListOverriding());
         Assertions.assertTrue(config.isIgnoreCommitListOverriding());
+        Assertions.assertTrue(config.isFileSizeLimitOverriding());
     }
 
     @Test
@@ -287,12 +300,14 @@ public class RepoConfigParserTest {
         Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
 
         Assertions.assertEquals(TEST_REPO_BETA_CONFIG_FORMATS, config.getFileTypeManager().getFormats());
+        Assertions.assertEquals(DEFAULT_FILE_SIZE_LIMIT, config.getFileSizeLimit());
 
         Assertions.assertTrue(config.isStandaloneConfigIgnored());
 
         Assertions.assertFalse(config.isFormatsOverriding());
         Assertions.assertFalse(config.isIgnoreGlobListOverriding());
         Assertions.assertFalse(config.isIgnoreCommitListOverriding());
+        Assertions.assertFalse(config.isFileSizeLimitOverriding());
     }
 
     @Test
@@ -304,6 +319,29 @@ public class RepoConfigParserTest {
         Assertions.assertFalse(configs.get(0).isStandaloneConfigIgnored());
         Assertions.assertFalse(configs.get(0).isShallowCloningPerformed());
         Assertions.assertFalse(configs.get(0).isFindingPreviousAuthorsPerformed());
+        Assertions.assertFalse(configs.get(0).isFileSizeLimitIgnored());
+        Assertions.assertFalse(configs.get(0).isIgnoredFileAnalysisSkipped());
+    }
+
+    @Test
+    public void repoConfig_invalidFileSizeLimit_valueIgnored() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_INVALID_FILE_SIZE_LIMIT);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertEquals(configs.get(0).getFileSizeLimit(), DEFAULT_FILE_SIZE_LIMIT);
+        Assertions.assertFalse(configs.get(0).isFileSizeLimitOverriding());
+    }
+
+    @Test
+    public void repoConfig_ignoreFileSizeLimit_ignoreFileSizeColumns() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser =
+                new RepoConfigCsvParser(REPO_CONFIG_IGNORE_FILE_SIZE_LIMIT);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertTrue(configs.get(0).isFileSizeLimitIgnored());
+        Assertions.assertFalse(configs.get(0).isFileSizeLimitOverriding());
+        Assertions.assertFalse(configs.get(0).isIgnoredFileAnalysisSkipped());
     }
 
     @Test
