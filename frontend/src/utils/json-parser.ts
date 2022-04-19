@@ -27,7 +27,7 @@ declare global {
 }
 
 window.api = {
-  async loadJSON(fname: string) {
+  async loadJSON(fname: string): Promise<any> {
     if (window.REPORT_ZIP) {
       const zipObject = window.REPORT_ZIP.file(fname);
       if (zipObject) {
@@ -50,7 +50,10 @@ window.api = {
       throw new Error(`Unable to read ${fname}.`);
     }
   },
-  async loadSummary() {
+  async loadSummary(): Promise<{creationDate: string,
+    reportGenerationTime: string,
+    errorMessages: {[p: string]: {errorMessage: string, repoName: string}},
+    names: string[]} | null> {
     window.REPOS = {};
     let data: Summary;
 
@@ -92,7 +95,7 @@ window.api = {
     };
   },
 
-  async loadCommits(repoName: string) {
+  async loadCommits(repoName: string): Promise<User[]> {
     const folderName = window.REPOS[repoName].outputFolderName;
     const json = await this.loadJSON(`${folderName}/commits.json`);
     const commits = commitsSchema.parse(json);
@@ -135,7 +138,10 @@ window.api = {
     return res;
   },
 
-  async loadAuthorship(repoName: string) {
+  async loadAuthorship(repoName: string): Promise<{path: string,
+    fileType: string,
+    lines: {lineNumber: number, author: Record<string, string>, content: string}[],
+    authorContributionMap: Record<string, number>}[]> {
     const folderName = window.REPOS[repoName].outputFolderName;
     const json = await this.loadJSON(`${folderName}/authorship.json`);
     const result = authorshipSchema.parse(json);
