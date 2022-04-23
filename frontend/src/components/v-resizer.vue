@@ -21,7 +21,6 @@
     slot(name="right")
 </template>
 
-
 <script>
 import { mapState } from 'vuex';
 
