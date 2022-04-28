@@ -352,9 +352,7 @@ export default {
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
-      const toRename = this.showAllCommitMessageBody
-        ? 'commit-message message-body active'
-        : 'commit-message message-body';
+      const toRename = this.showAllCommitMessageBody ? 'commit-message message-body active' : 'commit-message message-body';
 
       const commitMessageClasses = document.getElementsByClassName('commit-message message-body');
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {

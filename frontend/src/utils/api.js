@@ -296,8 +296,7 @@ window.api = {
         });
   },
 
-  // calculate and set the contribution of each commitResult and insert repoId into commitResult,
-  // since not provided in json file
+  // calculate and set the contribution of each commitResult and insert repoId into commitResult, since not provided in json file
   setContributionOfCommitResultsAndInsertRepoId(dailyCommits, repoId) {
     dailyCommits.forEach((commit) => {
       commit.commitResults.forEach((result) => {
