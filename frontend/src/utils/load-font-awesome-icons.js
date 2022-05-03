@@ -4,8 +4,8 @@ import {
   faChevronDown, faChevronUp, faCircle, faCode,
   faEllipsisH, faExclamation, faHistory, faListUl,
   faPlusCircle, faSpinner, faTags, faUser, faUserEdit,
+  faDatabase,
 } from '@fortawesome/free-solid-svg-icons';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 // app
 library.add(faExclamation, faSpinner, faCode, faListUl);
@@ -17,7 +17,7 @@ library.add(faCaretRight);
 library.add(faExclamation);
 
 // v-summary-charts
-library.add(faChevronUp, faChevronDown, faGithub, faUser, faCode, faListUl, faCircle);
+library.add(faChevronUp, faChevronDown, faDatabase, faUser, faCode, faListUl, faCircle);
 
 // v-zoom
 library.add(faTags, faEllipsisH);

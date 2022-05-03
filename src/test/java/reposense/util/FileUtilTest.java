@@ -9,9 +9,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.report.SummaryJson;
 
@@ -43,40 +43,40 @@ public class FileUtilTest {
         FileUtil.zipFoldersAndFiles(REPORT_FOLDER_FILE_PATHS, REPO_REPORT_DIRECTORY_PATH, FILE_UTIL_TEST_DIRECTORY,
                 ".json");
         FileUtil.unzip(ARCHIVE_ZIP_PATH, UNZIPPED_DIRECTORY_PATH);
-        Assert.assertTrue(TestUtil.compareDirectories(EXPECTED_RELEVANT_FOLDER_PATH, UNZIPPED_DIRECTORY_PATH));
+        Assertions.assertTrue(TestUtil.compareDirectories(EXPECTED_RELEVANT_FOLDER_PATH, UNZIPPED_DIRECTORY_PATH));
     }
 
     @Test
     public void zipFoldersAndFiles_validLocation_success() throws Exception {
         FileUtil.zipFoldersAndFiles(REPORT_FOLDER_FILE_PATHS, REPO_REPORT_DIRECTORY_PATH, FILE_UTIL_TEST_DIRECTORY,
                 ".json");
-        Assert.assertTrue(Files.exists(ARCHIVE_ZIP_PATH));
-        Assert.assertTrue(Files.size(ARCHIVE_ZIP_PATH) > 0);
+        Assertions.assertTrue(Files.exists(ARCHIVE_ZIP_PATH));
+        Assertions.assertTrue(Files.size(ARCHIVE_ZIP_PATH) > 0);
     }
 
     @Test
     public void zipFoldersAndFiles_validFileType_success() throws Exception {
         List<Path> paths = Collections.singletonList(Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "test.csv"));
         FileUtil.zipFoldersAndFiles(paths, FILE_UTIL_TEST_DIRECTORY, ".csv");
-        Assert.assertTrue(Files.exists(ARCHIVE_ZIP_PATH));
-        Assert.assertTrue(Files.size(ARCHIVE_ZIP_PATH) > 0);
+        Assertions.assertTrue(Files.exists(ARCHIVE_ZIP_PATH));
+        Assertions.assertTrue(Files.size(ARCHIVE_ZIP_PATH) > 0);
     }
 
     @Test
     public void unzip_validZipFile_success() throws Exception {
         FileUtil.unzip(TEST_ZIP_PATH, UNZIPPED_DIRECTORY_PATH);
-        Assert.assertTrue(Files.exists(UNZIPPED_DIRECTORY_PATH));
-        Assert.assertTrue(TestUtil.compareDirectories(EXPECTED_UNZIPPED_DIRECTORY_PATH, UNZIPPED_DIRECTORY_PATH));
+        Assertions.assertTrue(Files.exists(UNZIPPED_DIRECTORY_PATH));
+        Assertions.assertTrue(TestUtil.compareDirectories(EXPECTED_UNZIPPED_DIRECTORY_PATH, UNZIPPED_DIRECTORY_PATH));
     }
 
     @Test
     public void unzip_invalidZipFile_fail() throws Exception {
         Path invalidZipFile = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "test.csv");
         FileUtil.unzip(invalidZipFile, FILE_UTIL_TEST_DIRECTORY);
-        Assert.assertFalse(Files.exists(Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "test")));
+        Assertions.assertFalse(Files.exists(Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "test")));
     }
 
-    @After
+    @AfterEach
     public void after() throws Exception {
         Files.deleteIfExists(ARCHIVE_ZIP_PATH);
         if (Files.exists(UNZIPPED_DIRECTORY_PATH)) {

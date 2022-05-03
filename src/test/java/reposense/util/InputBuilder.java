@@ -19,7 +19,7 @@ public class InputBuilder {
     }
 
     /**
-     * Returns the {@code input} generated from this {@code InputBuilder}
+     * Returns the {@code input} generated from this {@link InputBuilder}.
      */
     public String build() {
         return input.toString();
@@ -139,7 +139,16 @@ public class InputBuilder {
      * This method should only be called once in one build.
      */
     public InputBuilder addIgnoreStandaloneConfig() {
-        input.append(ArgsParser.IGNORE_FLAGS[0] + WHITESPACE);
+        input.append(ArgsParser.IGNORE_CONFIG_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the ignoreFilesizeLimit flag to the input.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addIgnoreFilesizeLimit() {
+        input.append(ArgsParser.IGNORE_SIZELIMIT_FLAGS[0] + WHITESPACE);
         return this;
     }
 

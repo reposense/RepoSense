@@ -51,7 +51,7 @@ Some example insights RepoSense can provide:
 
 * Which programmers/teams are falling behind?
 * How does everyone compare in their front-end coding work over the past two weeks?
-* Who are the the top 10 code contributors?
+* Who are the top 10 code contributors?
 
 </span>
 

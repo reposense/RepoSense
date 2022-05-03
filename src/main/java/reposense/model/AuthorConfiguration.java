@@ -40,7 +40,8 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Clears authors information and use the information provided from {@code standaloneConfig}.
+     * Clears authors information and use the information provided from {@code standaloneConfig}. Also updates each
+     * author's {@code ignoreGlobList}.
      */
     public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
@@ -69,9 +70,8 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Checks for duplicate aliases in {@code authorDetailsToAuthorMap} and generates warnings
-     * @param authorDetailsToAuthorMap
-     * @param alias
+     * Checks if {@code alias} of author with {@code gitId} is already being used by another author in
+     * {@code authorDetailsToAuthorMap} and generates warnings.
      */
     public void checkDuplicateAliases(Map<String, Author> authorDetailsToAuthorMap, String alias, String gitId) {
         if (authorDetailsToAuthorMap.containsKey(alias)) {
@@ -120,7 +120,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Sets the details of {@code author} to {@code AuthorConfiguration} including the default alias, aliases
+     * Sets the details of {@code author} to {@link AuthorConfiguration} including the default alias, aliases
      * and display name.
      */
     private void setAuthorDetails(Author author) {
@@ -141,7 +141,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds author to the {@code AuthorList}.
+     * Adds author to the {@code authorList}.
      */
     public void addAuthor(Author author) {
         authorList.add(author);
@@ -149,7 +149,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds {@code author} to the {@code AuthorList}, and propagates {@code ignoreGlobList} to the {@code author}.
+     * Adds {@code author} to the {@code authorList}, and propagates {@code ignoreGlobList} to the {@code author}.
      */
     public void addAuthor(Author author, List<String> ignoreGlobList) {
         addAuthor(author);
@@ -168,9 +168,10 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Removes all information of the {@code author} from the configs
-     * Precondition: {@code author} must be present in {@code authorDetailsToAuthorMap}
-     * @param author Can be an author's git ID, email, or alias
+     * Removes all information of the {@code author} from the configs.
+     * Precondition: {@code author} must be present in {@code authorDetailsToAuthorMap}.
+     *
+     * @param author Can be an author's git ID, email, or alias.
      */
     public void removeAuthorInformation(String author) {
         Author authorToRemove = authorDetailsToAuthorMap.get(author);
@@ -186,8 +187,9 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds new authors from {@code authorList} and sets the default alias, aliases, emails and display name
-     * of the new authors. Skips authors that have already been added previously.
+     * Adds new authors from {@code authorList}.
+     * Also sets the default alias, aliases, emails and display name as well as {@code ignoreGlobList} of the new
+     * authors. Skips the authors that have already been added previously.
      */
     public void addAuthors(List<Author> authorList, List<String> ignoreGlobList) {
         for (Author author : authorList) {
@@ -237,9 +239,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds {@code aliases} of {@code author} into the map
-     * @param author
-     * @param values
+     * Adds {@code values} as aliases of {@code author} into the map.
      */
     public void addAuthorDetailsToAuthorMapEntry(Author author, List<String> values) {
         values.forEach(value -> {
@@ -253,8 +253,8 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Attempts to find matching {@code Author} given a name and an email.
-     * If no matching {@code Author} is found, {@code Author#UNKNOWN_AUTHOR} is returned.
+     * Attempts to find matching {@link Author} given a {@code name} and an {@code email}.
+     * If no matching {@link Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
         if (authorDetailsToAuthorMap.containsKey(name)) {

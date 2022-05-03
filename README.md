@@ -1,7 +1,6 @@
 # RepoSense
 
 [![Build Status](https://github.com/reposense/RepoSense/actions/workflows/integration.yml/badge.svg)](https://github.com/reposense/RepoSense/actions/workflows/integration.yml)
-[![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)
 [![codecov.io](https://codecov.io/gh/reposense/RepoSense/branch/master/graphs/badge.svg?branch=master)](http://codecov.io/github/reposense/RepoSense?branch=master)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/260983b3-589e-4619-a2e8-0bfb7a2b4422/deploy-status)](https://app.netlify.com/sites/reposense/deploys)
 

@@ -3,6 +3,7 @@ package reposense.authorship;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,6 +37,10 @@ public class FileInfoExtractor {
     private static final String MESSAGE_START_EXTRACTING_FILE_INFO = "Extracting relevant file info from %s (%s)...";
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path for current OS or "
             + "indicates a possible regex match issue. Skipping this directory.";
+    private static final String MESSAGE_FILE_SIZE_LIMIT_EXCEEDED = "File \"%s\" has %dB size. The file size "
+            + "limit is set at %dB. %s";
+    private static final String MESSAGE_FILE_ANALYSIS_SKIPPED = "Skipping analysis of this file...";
+    private static final String MESSAGE_FILE_EXCLUDED_FROM_REPORT = "Exact line diffs will be excluded from report...";
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git \"?\'?a/.*\n";
     private static final String LINE_CHUNKS_SEPARATOR = "\n@@ ";
@@ -89,9 +94,9 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Generates a list of relevant {@code FileInfo} for all files that were edited in between the current
-     * commit and the {@code lastCommitHash} commit, marks each {@code LineInfo} for each {@code FileInfo} on
-     * whether they have been inserted within the commit range or not, and returns it.
+     * Returns a list of {@link FileInfo}s for all files in the repo with lines marked indicating if they were edited
+     * in between the current commit and the commit given by {@code lastCommitHash}.
+     * The repo is given by {@code config}.
      */
     public static List<FileInfo> getEditedFileInfos(RepoConfiguration config, String lastCommitHash) {
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -124,9 +129,11 @@ public class FileInfoExtractor {
             }
 
             if (config.getFileTypeManager().isInsideWhitelistedFormats(filePath)) {
-                FileInfo currentFileInfo = generateFileInfo(config.getRepoRoot(), filePath);
+                FileInfo currentFileInfo = generateFileInfo(config, filePath);
                 setLinesToTrack(currentFileInfo, fileDiffResult);
-                fileInfos.add(currentFileInfo);
+                if (currentFileInfo.isFileAnalyzed()) {
+                    fileInfos.add(currentFileInfo);
+                }
             }
         }
 
@@ -134,9 +141,9 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns a {@code Set} of non-binary files for the repo {@code repoConfig}
+     * Returns a {@link Set} of non-binary files for the repo {@code repoConfig}
      * if {@code isBinaryFiles} is set to `false`.
-     * Otherwise, returns a {@code Set} of binary files for the repo {@code repoConfig}
+     * Otherwise, returns a {@link Set} of binary files for the repo {@code repoConfig}.
      */
     public static Set<Path> getFiles(RepoConfiguration repoConfig, boolean isBinaryFile) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));
@@ -145,13 +152,13 @@ public class FileInfoExtractor {
         return modifiedFileList.stream()
                 .filter(file -> isBinaryFile == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
                 .map(file -> file.split("\t")[2])
-                .filter(FileUtil::isValidPath)
+                .filter(FileUtil::isValidPathWithLogging)
                 .map(filteredFile -> Paths.get(filteredFile))
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
     /**
-     * Analyzes the {@code fileDiffResult} and marks each {@code LineInfo} in {@code FileInfo} on whether they were
+     * Analyzes the {@code fileDiffResult} and marks each {@link LineInfo} in {@code fileInfo} on whether they were
      * inserted in between the commit range.
      */
     private static void setLinesToTrack(FileInfo fileInfo, String fileDiffResult) {
@@ -187,8 +194,10 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Traverses each file from the repo root directory, generates the {@code FileInfo} for each relevant file found
+     * Traverses each file from the repo root directory, generates the {@link FileInfo} for each relevant file found
      * based on {@code config} and inserts it into {@code fileInfos}.
+     * Adds binary files to {@link List} if {@code isBinaryFiles} is true. Otherwise, adds non-binary files
+     * to {@link List}.
      */
     private static List<FileInfo> getAllFileInfo(RepoConfiguration config, boolean isBinaryFiles) {
         List<FileInfo> fileInfos = new ArrayList<>();
@@ -197,22 +206,52 @@ public class FileInfoExtractor {
             if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
                 continue;
             }
-            fileInfos.add((isBinaryFiles)
+
+            FileInfo fileInfo = (isBinaryFiles)
                     ? new FileInfo(relativePath.toString())
-                    : generateFileInfo(config.getRepoRoot(), relativePath.toString()));
+                    : generateFileInfo(config, relativePath.toString());
+
+            if (fileInfo.isFileAnalyzed()) {
+                fileInfos.add(fileInfo);
+            }
         }
         return fileInfos;
     }
 
     /**
-     * Generates and returns a {@code FileInfo} with a list of {@code LineInfo} for each line content in the
-     * {@code relativePath} file.
+     * Returns a {@link FileInfo} with a list of {@link LineInfo} for each line content in the
+     * file located in the repository given by {@code config}/{@code relativePath}.
      */
-    public static FileInfo generateFileInfo(String repoRoot, String relativePath) {
+    public static FileInfo generateFileInfo(RepoConfiguration config, String relativePath) {
+        return generateFileInfo(config.getRepoRoot(), relativePath, config.getFileSizeLimit(),
+            config.isFileSizeLimitIgnored(), config.isIgnoredFileAnalysisSkipped());
+    }
+
+    /**
+     * Returns a {@link FileInfo} with a list of {@link LineInfo} for each line content in the
+     * file located at the {@link Path} given by {@code repoRoot}/{@code relativePath}. {@code fileSizeLimit} and
+     * {@code ignoreFileSizeLimit} are used to set whether the file size limit is exceeding. {@link LineInfo}s are
+     * not included in {@link FileInfo} if  {@code skipIgnoredFileAnalysis} is true and file size limit is exceeding.
+     */
+    public static FileInfo generateFileInfo(String repoRoot, String relativePath, long fileSizeLimit,
+            boolean ignoreFileSizeLimit, boolean skipIgnoredFileAnalysis) {
         FileInfo fileInfo = new FileInfo(relativePath);
         Path path = Paths.get(repoRoot, fileInfo.getPath());
 
         try (BufferedReader br = new BufferedReader(new FileReader(path.toFile()))) {
+            long fileSize = Files.size(path);
+            fileInfo.setFileSize(fileSize);
+            if (!ignoreFileSizeLimit && fileSize > fileSizeLimit) {
+                fileInfo.setExceedsSizeLimit(true);
+                if (skipIgnoredFileAnalysis) {
+                    logger.log(Level.WARNING, String.format(MESSAGE_FILE_SIZE_LIMIT_EXCEEDED,
+                            fileInfo.getPath(), fileSize, fileSizeLimit, MESSAGE_FILE_ANALYSIS_SKIPPED));
+                    fileInfo.setFileAnalyzed(false);
+                    return fileInfo;
+                }
+                logger.log(Level.WARNING, String.format(MESSAGE_FILE_SIZE_LIMIT_EXCEEDED,
+                        fileInfo.getPath(), fileSize, fileSizeLimit, MESSAGE_FILE_EXCLUDED_FROM_REPORT));
+            }
             String line;
             int lineNum = 1;
             while ((line = br.readLine()) != null) {
@@ -227,8 +266,10 @@ public class FileInfoExtractor {
     /**
      * Returns the starting line changed number, within the file diff result, by matching the pattern inside
      * {@code linesChanged}.
+     *
+     * @throws AssertionError if matching line number pattern in chunk header fails.
      */
-    private static int getStartingLineNumber(String linesChanged) {
+    private static int getStartingLineNumber(String linesChanged) throws AssertionError {
         Matcher chunkHeaderMatcher = STARTING_LINE_NUMBER_PATTERN.matcher(linesChanged);
 
         if (!chunkHeaderMatcher.find()) {
@@ -240,12 +281,12 @@ public class FileInfoExtractor {
     }
 
     /**
-     * Returns true if {@code filePath} is valid and the file is not in binary.
+     * Returns true if {@code filePath} is valid and the file is not in binary (i.e. part of {@code textFilesSet}).
      */
     private static boolean isValidTextFile(String filePath, Set<Path> textFilesSet) {
         boolean isValidFilePath;
         try {
-            isValidFilePath = FileUtil.isValidPath(filePath);
+            isValidFilePath = FileUtil.isValidPathWithLogging(filePath);
         } catch (InvalidPathException ipe) {
             logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, filePath));
             isValidFilePath = false;

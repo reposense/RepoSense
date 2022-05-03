@@ -9,13 +9,16 @@ import reposense.model.FileType;
 import reposense.util.SystemUtil;
 
 /**
- * Stores the path to the file and the list of {@code LineInfo} for each line in the file.
+ * Stores the path to the file, the list of {@code LineInfo} for each line in the file and file size.
  */
 public class FileInfo {
     private final String path;
     private final ArrayList<LineInfo> lines;
 
     private FileType fileType;
+    private long fileSize;
+    private boolean exceedsFileLimit = false;
+    private boolean isFileAnalyzed = true;
 
     public FileInfo(String path) {
         if (SystemUtil.isWindows()) {
@@ -28,7 +31,7 @@ public class FileInfo {
     }
 
     /**
-     * Returns true if none of the {@code Author} in {@code listedAuthors} contributed to this file.
+     * Returns true if none of the {@link Author} in {@code listedAuthors} contributed to this file.
      */
     public boolean isAllAuthorsIgnored(List<Author> listedAuthors) {
         return lines.stream().noneMatch(line -> listedAuthors.contains(line.getAuthor()));
@@ -62,22 +65,46 @@ public class FileInfo {
         this.fileType = fileType;
     }
 
+    public long getFileSize() {
+        return this.fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
+    }
+
+    public void setFileAnalyzed(boolean isFileAnalyzed) {
+        this.isFileAnalyzed = isFileAnalyzed;
+    }
+
+    public boolean isFileAnalyzed() {
+        return isFileAnalyzed;
+    }
+
+    public boolean exceedsFileLimit() {
+        return exceedsFileLimit;
+    }
+
+    public void setExceedsSizeLimit(boolean exceedsFileLimit) {
+        this.exceedsFileLimit = exceedsFileLimit;
+    }
+
     /**
-     * Sets the {@code Author} of the {@code LineInfo} in {@code lineNumber} for this {@code FileInfo}.
+     * Sets the {@code author} of the {@link LineInfo} in {@code lineNumber} for this {@link FileInfo}.
      */
     public void setLineAuthor(int lineNumber, Author author) {
         lines.get(lineNumber).setAuthor(author);
     }
 
     /**
-     * Sets the {@code lastModifiedDate} of the {@code LineInfo} in {@code lineNumber} for this {@code FileInfo}.
+     * Sets the {@code lastModifiedDate} of the {@link LineInfo} in {@code lineNumber} for this {@link FileInfo}.
      */
     public void setLineLastModifiedDate(int lineNumber, LocalDateTime lastModifiedDate) {
         lines.get(lineNumber).setLastModifiedDate(lastModifiedDate);
     }
 
     /**
-     * Returns true if the {@code LineInfo} in {@code lineNumber} index is being tracked.
+     * Returns true if the {@link LineInfo} in {@code lineNumber} index is being tracked.
      */
     public boolean isFileLineTracked(int lineNumber) {
         return getLines().get(lineNumber).isTracked();

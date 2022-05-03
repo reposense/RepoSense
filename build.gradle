@@ -6,17 +6,17 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
-    id 'com.liferay.node' version '4.4.0'
-    id 'com.github.psxpaul.execfork' version '0.1.8'
-    id 'com.palantir.git-version' version '0.12.3'
+    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'com.liferay.node' version '7.2.16'
+    id 'com.github.psxpaul.execfork' version '0.2.0'
+    id 'com.palantir.git-version' version '0.13.0'
 }
 
 OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
 
 mainClassName = 'reposense.RepoSense'
 
-node.nodeVersion = '10.16.0'
+node.nodeVersion = '14.19.0'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -31,15 +31,17 @@ configurations {
 }
 
 dependencies {
-    implementation  group: 'com.google.code.gson' ,name: 'gson', version:'2.8.5'
-    implementation  group: 'net.freeutils', name: 'jlhttp', version: '2.4'
-    implementation  group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.8.1'
-    implementation  group: 'org.apache.ant', name: 'ant', version: '1.10.3'
-    implementation  group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
+    String jUnitVersion = '5.8.2'
+    implementation  group: 'com.google.code.gson' ,name: 'gson', version:'2.9.0'
+    implementation  group: 'net.freeutils', name: 'jlhttp', version: '2.6'
+    implementation  group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.9.0'
+    implementation  group: 'org.apache.ant', name: 'ant', version: '1.10.12'
+    implementation  group: 'org.apache.commons', name: 'commons-csv', version: '1.9.0'
     implementation  group: 'org.apache.commons', name: 'commons-text', version: '1.9'
-    implementation  group: 'org.fusesource.jansi', name: 'jansi', version: '1.18'
+    implementation  group: 'org.fusesource.jansi', name: 'jansi', version: '2.4.0'
 
-    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitVersion
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnitVersion
 }
 
 sourceSets {
@@ -52,36 +54,47 @@ sourceSets {
 }
 
 wrapper {
-    gradleVersion = '5.2.1'
+    gradleVersion = '6.9.2'
 }
+
+def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    workingDir 'frontend/'
+    args = ['install']
+}
+
+def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    dependsOn installFrontend
+    workingDir 'frontend/'
+    args = ['run', 'devbuild']
+}
+
+def zipReport = tasks.register('zipReport', Zip) {
+    dependsOn buildFrontend
+    from 'frontend/build/'
+    archiveBaseName = 'templateZip'
+    destinationDirectory = file('src/main/resources')
+}
+
+def compileJava = tasks.compileJava
+def classes = tasks.classes
+
+tasks.run.dependsOn(zipReport);
 
 run {
     //the second arguments indicates the default value associated with the property.
+    tasks.compileJava.mustRunAfter(zipReport)
     args System.getProperty('args', '').split()
     systemProperty "version", getRepoSenseVersion()
 }
 
 checkstyle {
-    toolVersion = '8.1'
-    configDir = file("$rootProject.projectDir/config/checkstyle")
+    toolVersion = '9.3'
+    getConfigDirectory().set(file("$rootProject.projectDir/config/checkstyle"))
 }
 
 idea {
     module {
         sourceSets.systemtest.allSource.srcDirs.each { srcDir -> module.testSourceDirs += srcDir }
-    }
-}
-
-jacoco {
-    toolVersion = "0.8.3"
-}
-
-jacocoTestReport {
-    reports {
-        html.enabled = true
-        xml.enabled true
-        csv.enabled false
-        html.destination file("${buildDir}/jacocoHtml")
     }
 }
 
@@ -97,46 +110,42 @@ test {
         deleteReposAddressDirectory()
     }
 
+    useJUnitPlatform()
+
     doLast {
         deleteReposAddressDirectory()
     }
 }
 
+tasks.shadowJar.dependsOn(zipReport);
+
 shadowJar {
-    archiveName = 'RepoSense.jar'
-    destinationDir = file("${buildDir}/jar/")
+    tasks.compileJava.mustRunAfter(zipReport)
+    archiveFileName = 'RepoSense.jar'
+    destinationDirectory = file("${buildDir}/jar/")
 
     manifest {
         attributes 'Implementation-Version': getRepoSenseVersion()
     }
 }
 
-task installFrontend(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    workingDir 'frontend/'
-    args = ['install']
-}
-
-task buildFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    workingDir 'frontend/'
-    args = ['run', 'devbuild']
-}
-
-task lintFrontend(dependsOn: ['installFrontend'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+tasks.register('lintFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    dependsOn installFrontend
     workingDir 'frontend/'
     args = ['run', 'lint']
 }
 
-task zipReport(dependsOn: 'buildFrontend', type: Zip) {
-    from 'frontend/build/'
-    baseName = 'templateZip'
-    destinationDir = file('src/main/resources')
+def checkstyleMain = tasks.checkstyleMain
+def checkstyleTest = tasks.checkstyleTest
+def checkstyleSystemtest = tasks.checkstyleSystemtest
+
+tasks.register('checkstyleAll', Checkstyle) {
+    dependsOn checkstyleMain, checkstyleTest, checkstyleSystemtest
+    tasks.checkstyleTest.mustRunAfter('checkstyleMain')
+    tasks.checkstyleSystemtest.mustRunAfter('checkstyleTest')
 }
 
-tasks.shadowJar.dependsOn('zipReport');
-tasks.compileJava.dependsOn('zipReport');
-tasks.run.dependsOn('compileJava');
-
-task systemtest(dependsOn: 'zipReport', type: Test) {
+tasks.register('systemtest', Test) {
     testClassesDirs = sourceSets.systemtest.output.classesDirs
     classpath = sourceSets.systemtest.runtimeClasspath
     environment("REPOSENSE_ENVIRONMENT", "TEST")
@@ -150,34 +159,42 @@ task systemtest(dependsOn: 'zipReport', type: Test) {
         deleteReposAddressDirectory()
     }
 
+    useJUnitPlatform()
+
     doLast {
         deleteReposAddressDirectory()
     }
 }
 
-task startServerInBackground(dependsOn: 'classes', type: com.github.psxpaul.task.JavaExecFork) {
+def serveTestReportInBackground = tasks.register('serveTestReportInBackground', com.github.psxpaul.task.JavaExecFork) {
+    dependsOn zipReport, compileJava, classes
+    tasks.compileJava.mustRunAfter(zipReport)
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
     args = ['--config', './frontend/cypress/config', '--since', 'd1', '--view']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
+    killDescendants = false // Kills descendants of started process using methods only found in Java 9 and beyond.
+    // Above flag is set to true by default but is incompatible with Java 8. It should be removed from this file if we fully migrate to Java 11.
     waitForPort = 9000
 }
 
-task installCypress(type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
+def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/cypress/'
     args = ['install']
 }
 
-task cypress(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    tasks.startServerInBackground.mustRunAfter('installCypress')
+tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    dependsOn installCypress, serveTestReportInBackground
+    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
 }
 
-task frontendTest(dependsOn: ['zipReport', 'installCypress', 'startServerInBackground'], type: com.liferay.gradle.plugins.node.tasks.ExecuteNpmTask) {
-    tasks.startServerInBackground.mustRunAfter('installCypress')
+tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    dependsOn installCypress, serveTestReportInBackground
+    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "tests"]
@@ -192,7 +209,24 @@ tasks.withType(Copy) {
     includeEmptyDirs = true
 }
 
-task coverage(type: JacocoReport) {
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        xml.enabled true
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+
+    executionData systemtest, frontendTest
+}
+
+tasks.register('coverage', JacocoReport)
+
+coverage.configure {
     sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
     classDirectories.from files(sourceSets.main.output)
     executionData.from files(jacocoTestReport.executionData)
@@ -217,7 +251,7 @@ String getRepoSenseVersion() {
     return repoSenseVersion
 }
 
-task syncFrontendPublic(type: Sync) {
+def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
     from 'reposense-report'
     into 'frontend/public/'
     include '**/*.json'
@@ -228,28 +262,28 @@ task syncFrontendPublic(type: Sync) {
     }
 }
 
-task macHotReloadFrontend(type: Exec) {
-    dependsOn(installFrontend)
+def macHotReloadFrontend = tasks.register('macHotReloadFrontend', Exec) {
+    dependsOn installFrontend
     onlyIf {os.isMacOsX()}
     workingDir 'frontend/'
     commandLine 'npm', 'run', 'serveOpen'
 }
 
-task windowsHotReloadFrontend(type: Exec) {
-    dependsOn(installFrontend)
+def windowsHotReloadFrontend = tasks.register('windowsHotReloadFrontend', Exec) {
+    dependsOn installFrontend
     onlyIf {os.isWindows()}
     workingDir 'frontend/'
     commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
 }
 
-task linuxHotReloadFrontend(type: Exec) {
-    dependsOn(installFrontend)
+def linuxHotReloadFrontend = tasks.register('linuxHotReloadFrontend', Exec) {
+    dependsOn installFrontend
     onlyIf {os.isLinux()}
     workingDir 'frontend/'
     commandLine 'npm', 'run', 'serveOpen'
 }
 
-task hotReloadFrontend() {
+tasks.register('hotReloadFrontend') {
     dependsOn syncFrontendPublic
     finalizedBy windowsHotReloadFrontend
     finalizedBy macHotReloadFrontend
@@ -262,8 +296,5 @@ void deleteReposAddressDirectory() {
     def reposDirectory = new File(REPOS_ADDRESS)
     reposDirectory.deleteDir()
 }
-
-jacocoTestReport.executionData(systemtest)
-jacocoTestReport.executionData(frontendTest)
 
 defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'

@@ -9,12 +9,12 @@ import com.google.gson.reflect.TypeToken;
 import reposense.model.StandaloneConfig;
 
 /**
- * Parses json file from {@code Path} and creates a new {@code StandaloneConfig} object.
+ * Parses json file from {@link Path} and creates a new {@link StandaloneConfig} object.
  */
 public class StandaloneConfigJsonParser extends JsonParser<StandaloneConfig> {
 
     /**
-     * Gets the type of {@code StandaloneConfig} for json conversion.
+     * Gets the type of {@link StandaloneConfig} for json conversion.
      */
     @Override
     public Type getType() {
@@ -22,7 +22,8 @@ public class StandaloneConfigJsonParser extends JsonParser<StandaloneConfig> {
     }
 
     /**
-     * Converts json file from the given {@code path} and returns a {@code StandaloneConfig} object.
+     * Converts json file from the given {@code path} and returns a {@link StandaloneConfig} object.
+     *
      * @throws IOException if {@code path} is invalid.
      */
     @Override
