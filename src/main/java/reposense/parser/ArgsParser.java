@@ -290,6 +290,10 @@ public class ArgsParser {
 
             if (isSinceDateProvided) {
                 sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
+                // For --since d1, need to adjust the arbitrary date based on timezone
+                if (sinceDate.equals(SinceDateArgumentType.getArbitraryFirstCommitDateUtcLocal())) {
+                    sinceDate = SinceDateArgumentType.getArbitraryFirstCommitDateConverted(zoneId);
+                }
             } else {
                 if (isUntilDateProvided) {
                     sinceDate = isPeriodProvided

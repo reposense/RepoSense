@@ -160,7 +160,8 @@ public class ReportGenerator {
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath,
                 numCloningThreads, numAnalysisThreads, shouldFreshClone);
 
-        LocalDateTime reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
+        LocalDateTime reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType
+                .getArbitraryFirstCommitDateConverted(zoneId)))
                 ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(

@@ -22,8 +22,6 @@ import reposense.report.ReportGenerator;
  */
 public class CommitResultAggregator {
     private static final int DAYS_IN_MS = 24 * 60 * 60 * 1000;
-    private static final ZonedDateTime ARBITRARY_FIRST_COMMIT_DATE_UTC =
-            ZonedDateTime.of(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE, ZoneId.of("Z"));
 
     /**
      * Returns the {@link CommitContributionSummary} generated from aggregating the {@code commitResults}.
@@ -33,7 +31,7 @@ public class CommitResultAggregator {
             RepoConfiguration config, List<CommitResult> commitResults) {
         LocalDateTime startDate;
         ZoneId zoneId = ZoneId.of(config.getZoneId());
-        startDate = (config.getSinceDate().equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
+        startDate = (config.getSinceDate().equals(SinceDateArgumentType.getArbitraryFirstCommitDateConverted(zoneId)))
                 ? getStartOfDate(getStartDate(commitResults, zoneId), zoneId)
                 : config.getSinceDate();
         ReportGenerator.setEarliestSinceDate(startDate);
@@ -157,11 +155,11 @@ public class CommitResultAggregator {
     /**
      * Gets the starting point of the {@code current} date.
      *
-     * @return the {@code current} date if it is equal to the {@code ARBITRARY_FIRST_COMMIT_DATE_UTC} adjusted to the
+     * @return the {@code current} date if it is equal to the {@code ARBITRARY_FIRST_COMMIT_DATE} adjusted to the
      * timezone given by {@code zoneId}. Otherwise, return a {@link LocalDateTime} adjusted to have a time of 00:00:00.
      */
     private static LocalDateTime getStartOfDate(LocalDateTime current, ZoneId zoneId) {
-        if (current.equals(ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime())) {
+        if (current.equals(SinceDateArgumentType.getArbitraryFirstCommitDateConverted(zoneId))) {
             return current;
         }
 
@@ -172,11 +170,11 @@ public class CommitResultAggregator {
      * Gets the earliest commit date from {@code commitInfos}.
      *
      * @return First commit date if there is at least one {@link CommitResult}. Otherwise, return
-     * the {@code ARBITRARY_FIRST_COMMIT_DATE_UTC} converted to the timezone given by {@code zoneId}.
+     * the {@code ARBITRARY_FIRST_COMMIT_DATE} converted to the timezone given by {@code zoneId}.
      */
     private static LocalDateTime getStartDate(List<CommitResult> commitInfos, ZoneId zoneId) {
         return (commitInfos.isEmpty())
-                ? ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime()
+                ? SinceDateArgumentType.getArbitraryFirstCommitDateConverted(zoneId)
                 : commitInfos.get(0).getTime();
     }
 }

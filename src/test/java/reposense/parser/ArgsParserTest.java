@@ -72,6 +72,30 @@ public class ArgsParserTest {
     }
 
     @Test
+    public void parse_d1CorrectTimeZone_success() throws Exception {
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
+                .addUntilDate("30/11/2017")
+                .addTimezone(DEFAULT_TIME_ZONE_STRING)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assertions.assertTrue(Files.isSameFile(
+                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+        Assertions.assertTrue(Files.isSameFile(
+                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+
+        LocalDateTime expectedSinceDate = SinceDateArgumentType
+                .getArbitraryFirstCommitDateConverted(DEFAULT_TIME_ZONE_ID);
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
+        Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
+        Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
+
+
+        Assertions.assertEquals(DEFAULT_TIME_ZONE_ID, cliArguments.getZoneId());
+    }
+
+    @Test
     public void parse_allCorrectInputs_success() throws Exception {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
