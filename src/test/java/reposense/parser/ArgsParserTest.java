@@ -91,7 +91,6 @@ public class ArgsParserTest {
         Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
 
-
         Assertions.assertEquals(DEFAULT_TIME_ZONE_ID, cliArguments.getZoneId());
     }
 
