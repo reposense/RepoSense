@@ -171,7 +171,7 @@ def serveTestReportInBackground = tasks.register('serveTestReportInBackground', 
     tasks.compileJava.mustRunAfter(zipReport)
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    args = ['--config', './frontend/cypress/config', '--since', 'd1', '--view']
+    args = ['--config', './frontend/cypress/config', '--since', '30/9/2017', '--view']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
     killDescendants = false // Kills descendants of started process using methods only found in Java 9 and beyond.

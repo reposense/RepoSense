@@ -25,7 +25,6 @@ import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.parser.ReportConfigJsonParser;
-import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
@@ -54,17 +53,6 @@ public class ConfigSystemTest {
         FileUtil.deleteDirectory(FT_TEMP_DIR);
     }
 
-    /**
-     * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
-     * since date to capture from the first commit.
-     */
-    @Test
-    public void testSinceBeginningDateRange() throws Exception {
-        runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, false, false, false,
-                "ConfigSystemTest/sinceBeginningDateRange/expected");
-    }
-
     @Test
     public void test30DaysFromUntilDate() throws Exception {
         runTest(getInputWithUntilDate("1/11/2017"), false,
@@ -83,33 +71,11 @@ public class ConfigSystemTest {
                 "ConfigSystemTest/dateRangeWithModifiedDateTimeInLines/expected");
     }
 
-    /**
-     * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
-     * since date to capture from the first commit, using shallow cloning.
-     */
-    @Test
-    public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
-        runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, true, true, false,
-                "ConfigSystemTest/sinceBeginningDateRangeWithShallowCloning/expected");
-    }
-
     @Test
     public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
         runTest(getInputWithUntilDate("1/11/2017"), false,
                 true, true, false,
                 "ConfigSystemTest/30daysFromUntilDateWithShallowCloning/expected");
-    }
-
-    /**
-     * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
-     * since date to capture from the first commit, using find previous authors.
-     */
-    @Test
-    public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
-        runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, false, true, true,
-                "ConfigSystemTest/sinceBeginningDateRangeFindPreviousAuthors/expected");
     }
 
     @Test
