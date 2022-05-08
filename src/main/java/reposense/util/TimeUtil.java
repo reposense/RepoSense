@@ -70,7 +70,7 @@ public class TimeUtil {
      * returned as such.
      */
     public static LocalDateTime getSinceDate(LocalDateTime sinceDate) {
-        if (sinceDate.equals(SinceDateArgumentType.getArbitraryFirstCommitDateUtcLocal())) {
+        if (isEqualToArbitraryFirstDateUtc(sinceDate)) {
             return sinceDate;
         }
 
@@ -112,6 +112,36 @@ public class TimeUtil {
      */
     public static LocalDateTime getCurrentDate(ZoneId zoneId) {
         return LocalDateTime.now(zoneId).withHour(23).withMinute(59).withSecond(59).withNano(0);
+    }
+
+    /**
+     * Returns the {@link LocalDateTime} of {@code ARBITRARY_FIRST_COMMIT_DATE} in the UTC time zone.
+     */
+    public static LocalDateTime getArbitraryFirstCommitDateUtcLocal() {
+        return SinceDateArgumentType.getArbitraryFirstCommitDateUtcLocal();
+    }
+
+    /**
+     * Returns the {@link LocalDateTime} of {@code ARBITRARY_FIRST_COMMIT_DATE} adjusted for the time zone based on
+     * {@code toZoneId}.
+     */
+    public static LocalDateTime getArbitraryFirstCommitDateConverted(ZoneId toZoneId) {
+        return SinceDateArgumentType.getArbitraryFirstCommitDateConverted(toZoneId);
+    }
+
+    /**
+     * Checks whether the given {@code dateTime} is the {@code ARBITRARY_FIRST_COMMIT_DATE} in UTC time.
+     */
+    public static boolean isEqualToArbitraryFirstDateUtc(LocalDateTime dateTime) {
+        return dateTime.equals(getArbitraryFirstCommitDateUtcLocal());
+    }
+
+    /**
+     * Checks whether the given {@code dateTime} is the {@code ARBITRARY_FIRST_COMMIT_DATE} in the time zone given by
+     * {@code zoneId}.
+     */
+    public static boolean isEqualToArbitraryFirstDateConverted(LocalDateTime dateTime, ZoneId zoneId) {
+        return dateTime.equals(getArbitraryFirstCommitDateConverted(zoneId));
     }
 
     /**

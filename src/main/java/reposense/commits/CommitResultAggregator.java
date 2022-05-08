@@ -14,8 +14,8 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
-import reposense.parser.SinceDateArgumentType;
 import reposense.report.ReportGenerator;
+import reposense.util.TimeUtil;
 
 /**
  * Uses the commit analysis results to generate the summary information of a repository.
@@ -31,7 +31,7 @@ public class CommitResultAggregator {
             RepoConfiguration config, List<CommitResult> commitResults) {
         LocalDateTime startDate;
         ZoneId zoneId = ZoneId.of(config.getZoneId());
-        startDate = (config.getSinceDate().equals(SinceDateArgumentType.getArbitraryFirstCommitDateConverted(zoneId)))
+        startDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(config.getSinceDate(), zoneId))
                 ? getStartOfDate(getStartDate(commitResults, zoneId), zoneId)
                 : config.getSinceDate();
         ReportGenerator.setEarliestSinceDate(startDate);
@@ -159,7 +159,7 @@ public class CommitResultAggregator {
      * timezone given by {@code zoneId}. Otherwise, return a {@link LocalDateTime} adjusted to have a time of 00:00:00.
      */
     private static LocalDateTime getStartOfDate(LocalDateTime current, ZoneId zoneId) {
-        if (current.equals(SinceDateArgumentType.getArbitraryFirstCommitDateConverted(zoneId))) {
+        if (TimeUtil.isEqualToArbitraryFirstDateConverted(current, zoneId)) {
             return current;
         }
 
@@ -174,7 +174,7 @@ public class CommitResultAggregator {
      */
     private static LocalDateTime getStartDate(List<CommitResult> commitInfos, ZoneId zoneId) {
         return (commitInfos.isEmpty())
-                ? SinceDateArgumentType.getArbitraryFirstCommitDateConverted(zoneId)
+                ? TimeUtil.getArbitraryFirstCommitDateConverted(zoneId)
                 : commitInfos.get(0).getTime();
     }
 }

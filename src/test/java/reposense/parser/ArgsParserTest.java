@@ -31,6 +31,7 @@ import reposense.model.ViewCliArguments;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
+import reposense.util.TimeUtil;
 
 public class ArgsParserTest {
 
@@ -85,8 +86,7 @@ public class ArgsParserTest {
         Assertions.assertTrue(Files.isSameFile(
                 AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
 
-        LocalDateTime expectedSinceDate = SinceDateArgumentType
-                .getArbitraryFirstCommitDateConverted(DEFAULT_TIME_ZONE_ID);
+        LocalDateTime expectedSinceDate = TimeUtil.getArbitraryFirstCommitDateConverted(DEFAULT_TIME_ZONE_ID);
         LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
         Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
