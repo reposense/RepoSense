@@ -146,14 +146,13 @@
           .ignored-segment
             .ignore-text File is ignored.
         pre.hljs.file-content(v-else-if="file.wasCodeLoaded", v-show="file.active")
-          template(v-for="segment in file.segments")
-            v-segment(v-bind:segment="segment", v-bind:path="file.path")
+          v-segment-collection(v-bind:segments="file.segments", v-bind:path="file.path")
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
-import vSegment from '../components/v-segment.vue';
+import vSegmentCollection from '../components/v-segment-collection.vue';
 
 const getFontColor = window.getFontColor;
 
@@ -188,7 +187,7 @@ const repoCache = [];
 export default {
   name: 'v-authorship',
   components: {
-    vSegment,
+    vSegmentCollection,
   },
   emits: [
       'deactivate-tab',
@@ -429,7 +428,7 @@ export default {
 
     processFiles(files) {
       const SINGLE_FILE_LINE_COUNT_THRESHOLD = 2000;
-      const TOTAL_CHAR_COUNT_THRESHOLD = 100000;
+      const SINGLE_FILE_CHAR_COUNT_THRESHOLD = 1000000;
       const res = [];
       const fileTypeBlanksInfoObj = {};
 
@@ -469,14 +468,10 @@ export default {
         res.push(out);
       });
 
-      let remainingThreshold = TOTAL_CHAR_COUNT_THRESHOLD;
       res.sort((a, b) => b.lineCount - a.lineCount).forEach((file) => {
         // hide files over total char count limit
         if (!file.isIgnored && !file.isBinary && file.active) {
-          if (remainingThreshold >= 0) {
-            remainingThreshold -= file.charCount;
-          }
-          file.active = remainingThreshold >= 0;
+          file.active = file.charCount <= SINGLE_FILE_CHAR_COUNT_THRESHOLD;
           file.wasCodeLoaded = file.active;
         }
       });
