@@ -32,7 +32,6 @@ export default {
     return {
       isOpen: this.segment.authored || this.segment.lines.length < 5,
       canOpen: !this.segment.authored && this.segment.lines.length > 4,
-      isRendered: false,
     };
   },
   methods: {
