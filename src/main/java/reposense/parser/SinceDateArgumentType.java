@@ -17,6 +17,7 @@ import reposense.util.TimeUtil;
 public class SinceDateArgumentType extends DateArgumentType {
     /*
      * When user specifies "d1", arbitrary first commit date will be returned.
+     * This date is equivalent to 1970-01-01 00:00:00 in UTC time.
      * Then, ReportGenerator will replace the arbitrary since date with the earliest commit date.
      */
     public static final String FIRST_COMMIT_DATE_SHORTHAND = "d1";

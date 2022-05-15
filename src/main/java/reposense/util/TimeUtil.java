@@ -66,14 +66,8 @@ public class TimeUtil {
 
     /**
      * Returns a {@link LocalDateTime} that is set to midnight for the given {@code sinceDate}.
-     * If {@code sinceDate} is {@code ARBITRARY_FIRST_COMMIT_DATE_UTC_LOCAL}, it is simply
-     * returned as such.
      */
     public static LocalDateTime getSinceDate(LocalDateTime sinceDate) {
-        if (isEqualToArbitraryFirstDateUtc(sinceDate)) {
-            return sinceDate;
-        }
-
         return sinceDate.withHour(0).withMinute(0).withSecond(0);
     }
 
