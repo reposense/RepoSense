@@ -282,6 +282,7 @@ public class ArgsParser {
             boolean isSinceDateProvided = cliSinceDate.isPresent();
             boolean isUntilDateProvided = cliUntilDate.isPresent();
             boolean isPeriodProvided = cliPeriod.isPresent();
+            boolean isUsingArbitraryDate = false;
             if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
@@ -294,9 +295,7 @@ public class ArgsParser {
                 sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
                 // For --since d1, need to adjust the arbitrary date based on timezone
                 if (TimeUtil.isEqualToArbitraryFirstDateUtc(sinceDate)) {
-                    if (isPeriodProvided) {
-                        logger.warning(MESSAGE_SINCE_D1_WITH_PERIOD);
-                    }
+                    isUsingArbitraryDate = true;
                     sinceDate = TimeUtil.getArbitraryFirstCommitDateConverted(zoneId);
                 }
             } else {
@@ -310,6 +309,10 @@ public class ArgsParser {
                             : TimeUtil.getDateMinusAMonth(currentDate);
                 }
 
+            }
+
+            if (isPeriodProvided && isUsingArbitraryDate) {
+                logger.warning(MESSAGE_SINCE_D1_WITH_PERIOD);
             }
 
             if (isUntilDateProvided) {

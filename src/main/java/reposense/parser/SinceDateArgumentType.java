@@ -21,13 +21,13 @@ public class SinceDateArgumentType extends DateArgumentType {
      * Then, ReportGenerator will replace the arbitrary since date with the earliest commit date.
      */
     public static final String FIRST_COMMIT_DATE_SHORTHAND = "d1";
-    private static final ZonedDateTime ARBITRARY_FIRST_COMMIT_DATE = ZonedDateTime.ofInstant(
+    private static final ZonedDateTime ARBITRARY_FIRST_COMMIT_DATE_UTC = ZonedDateTime.ofInstant(
             Instant.ofEpochMilli(0), ZoneId.of("Z"));
-    private static final LocalDateTime ARBITRARY_FIRST_COMMIT_DATE_UTC_LOCAL = ARBITRARY_FIRST_COMMIT_DATE
+    private static final LocalDateTime ARBITRARY_FIRST_COMMIT_DATE_LOCAL = ARBITRARY_FIRST_COMMIT_DATE_UTC
             .toLocalDateTime();
 
     /**
-     * Returns an arbitrary year {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE_UTC_LOCAL} if user specifies
+     * Returns an arbitrary year {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE_LOCAL} if user specifies
      * {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND} in {@code value}, or attempts to return the
      * desired date otherwise.
      *
@@ -37,25 +37,25 @@ public class SinceDateArgumentType extends DateArgumentType {
     public Optional<LocalDateTime> convert(ArgumentParser parser, Argument arg, String value)
             throws ArgumentParserException {
         if (FIRST_COMMIT_DATE_SHORTHAND.equals(value)) {
-            return Optional.of(ARBITRARY_FIRST_COMMIT_DATE_UTC_LOCAL);
+            return Optional.of(ARBITRARY_FIRST_COMMIT_DATE_LOCAL);
         }
         String sinceDate = TimeUtil.extractDate(value);
         return super.convert(parser, arg, sinceDate + " 00:00:00");
     }
 
     /**
-     * Returns the {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE_UTC_LOCAL}, which is the
-     * {@link LocalDateTime} of {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE}.
+     * Returns the {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE_LOCAL}, which is the
+     * {@link LocalDateTime} of {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE_UTC}.
      */
-    public static LocalDateTime getArbitraryFirstCommitDateUtcLocal() {
-        return ARBITRARY_FIRST_COMMIT_DATE_UTC_LOCAL;
+    public static LocalDateTime getArbitraryFirstCommitDateLocal() {
+        return ARBITRARY_FIRST_COMMIT_DATE_LOCAL;
     }
 
     /**
-     * Returns the {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE} adjusted for the time zone based on
+     * Returns the {@link SinceDateArgumentType#ARBITRARY_FIRST_COMMIT_DATE_UTC} adjusted for the time zone based on
      * {@code toZoneId} and converted to a {@link LocalDateTime} object.
      */
     public static LocalDateTime getArbitraryFirstCommitDateConverted(ZoneId toZoneId) {
-        return ARBITRARY_FIRST_COMMIT_DATE.withZoneSameInstant(toZoneId).toLocalDateTime();
+        return ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(toZoneId).toLocalDateTime();
     }
 }

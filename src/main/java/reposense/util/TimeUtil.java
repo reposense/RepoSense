@@ -111,8 +111,8 @@ public class TimeUtil {
     /**
      * Returns the {@link LocalDateTime} of {@code ARBITRARY_FIRST_COMMIT_DATE} in the UTC time zone.
      */
-    public static LocalDateTime getArbitraryFirstCommitDateUtcLocal() {
-        return SinceDateArgumentType.getArbitraryFirstCommitDateUtcLocal();
+    public static LocalDateTime getArbitraryFirstCommitDateLocal() {
+        return SinceDateArgumentType.getArbitraryFirstCommitDateLocal();
     }
 
     /**
@@ -127,7 +127,7 @@ public class TimeUtil {
      * Checks whether the given {@code dateTime} is the {@code ARBITRARY_FIRST_COMMIT_DATE} in UTC time.
      */
     public static boolean isEqualToArbitraryFirstDateUtc(LocalDateTime dateTime) {
-        return dateTime.equals(getArbitraryFirstCommitDateUtcLocal());
+        return dateTime.equals(getArbitraryFirstCommitDateLocal());
     }
 
     /**
