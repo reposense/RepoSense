@@ -358,7 +358,7 @@
     <!-- Checks that all Javadoc comments start from the second line. -->
     <module name="JavadocContentLocationCheck" />
 
-    <!-- Checks the format's Javadoc for every method (excluding getters, setters and constructors). -->
+    <!-- Checks the Javadoc's format for every method (excluding getters, setters and constructors). -->
     <module name="JavadocMethod">
       <property name="allowMissingParamTags" value="true"/>
       <property name="allowMissingReturnTag" value="true"/>
@@ -371,7 +371,7 @@
     <!-- Checks that each line in Javadoc has whitespace after leading asterisk. -->
     <module name="JavadocMissingWhitespaceAfterAsterisk"/>
 
-    <!-- Checks that every class, enumeration and interface have a header comment. -->
+    <!-- Checks the Javadoc's format for every class, enumeration and interface. -->
     <module name="JavadocType">
       <property name="allowMissingParamTags" value="true"/>
     </module>
