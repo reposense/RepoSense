@@ -402,6 +402,9 @@
       <property name="tokens" value="METHOD_DEF, ANNOTATION_FIELD_DEF"/>
     </module>
 
+    <!-- Checks that every public class, enumeration and interface has a header comment. -->
+    <module name="MissingJavadocType"/>
+
     <!-- Checks that all Javadoc comments have a description. -->
     <!-- Javadoc with only block tags will fail this check. -->
     <module name="JavadocStyle">
