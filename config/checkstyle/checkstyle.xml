@@ -4,8 +4,9 @@
     "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
 <!--
-    This configuration file enforces rules for a modified version of the module's code standard at
-    https://oss-generic.github.io/process/codingstandards/coding-standards-java.html
+    This configuration file enforces rules for the coding standard at
+    https://se-education.org/guides/conventions/java/index.html as well as additional standards at
+    https://reposense.org/RepoSense/dg/styleGuides.html
 -->
 
 <module name="Checker">
