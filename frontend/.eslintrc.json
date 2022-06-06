@@ -45,7 +45,10 @@
       {
         "code": 130
       }
-    ]
+    ],
+    "prefer-object-spread": 0,
+    "function-call-argument-newline": 0,
+    "vue/no-computed-properties-in-data": 0
   },
   "parserOptions": {
     "parser": "@typescript-eslint/parser"
