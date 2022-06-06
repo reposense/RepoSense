@@ -74,6 +74,8 @@ public class ArgsParser {
             "Config path not provided, using the config folder as default.";
     private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
+    private static final String MESSAGE_SINCE_D1_WITH_PERIOD = "You may be using --since d1 with the --period flag. "
+            + "This may result in an incorrect date range being analysed.";
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
@@ -280,6 +282,7 @@ public class ArgsParser {
             boolean isSinceDateProvided = cliSinceDate.isPresent();
             boolean isUntilDateProvided = cliUntilDate.isPresent();
             boolean isPeriodProvided = cliPeriod.isPresent();
+            boolean isUsingArbitraryDate = false;
             if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
@@ -290,6 +293,11 @@ public class ArgsParser {
 
             if (isSinceDateProvided) {
                 sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
+                // For --since d1, need to adjust the arbitrary date based on timezone
+                if (TimeUtil.isEqualToArbitraryFirstDateUtc(sinceDate)) {
+                    isUsingArbitraryDate = true;
+                    sinceDate = TimeUtil.getArbitraryFirstCommitDateConverted(zoneId);
+                }
             } else {
                 if (isUntilDateProvided) {
                     sinceDate = isPeriodProvided
@@ -301,6 +309,10 @@ public class ArgsParser {
                             : TimeUtil.getDateMinusAMonth(currentDate);
                 }
 
+            }
+
+            if (isPeriodProvided && isUsingArbitraryDate) {
+                logger.warning(MESSAGE_SINCE_D1_WITH_PERIOD);
             }
 
             if (isUntilDateProvided) {
