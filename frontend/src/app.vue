@@ -1,10 +1,8 @@
 <template lang="pug">
 #app
   loading-overlay.overlay-loader(
-    v-cloak,
-    v-bind:active.sync="isLoadingOverlayEnabled",
-    v-bind:opacity='loadingOverlayOpacity',
-    v-bind:is-full-page="true"
+    v-bind:active='isLoadingOverlayEnabled',
+    v-bind:opacity='loadingOverlayOpacity'
   )
     template(v-slot:default)
       i.overlay-loading-icon.fa.fa-spinner.fa-spin()
@@ -119,7 +117,9 @@ const app = {
       this.activateTab('authorship');
     },
     '$store.state.loadingOverlayCount': function () {
-      this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
+      this.$nextTick(() => {
+        this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
+      });
     },
   },
   methods: {
