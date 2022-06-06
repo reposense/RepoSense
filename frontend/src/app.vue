@@ -1,7 +1,7 @@
 <template lang="pug">
 #app
   loading-overlay.overlay-loader(
-    v-bind:active='$store.state.loadingOverlayCount > 0',
+    v-bind:active='loadingOverlayCount > 0',
     v-bind:opacity='loadingOverlayOpacity'
   )
     template(v-slot:default)
@@ -290,7 +290,7 @@ const app = {
   },
 
   computed: {
-    ...mapState(['loadingOverlayMessage', 'isTabActive']),
+    ...mapState(['loadingOverlayCount', 'loadingOverlayMessage', 'isTabActive']),
   },
 
   components: {
