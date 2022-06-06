@@ -180,7 +180,7 @@ export default {
       const { allGroupsMerged } = this;
 
       this.$store.commit('incrementLoadingOverlayCount', 1);
-      window.browserRerender.then(() => {
+      window.browserRerender().then(() => {
         this.getFilteredRepos();
         this.updateMergedGroup(allGroupsMerged);
         this.$store.commit('incrementLoadingOverlayCount', -1);
