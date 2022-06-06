@@ -46,12 +46,12 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.ReportConfiguration;
 import reposense.model.StandaloneConfig;
-import reposense.parser.SinceDateArgumentType;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 import reposense.util.ProgressTracker;
+import reposense.util.TimeUtil;
 
 /**
  * Contains report generation related functionalities.
@@ -160,7 +160,7 @@ public class ReportGenerator {
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath,
                 numCloningThreads, numAnalysisThreads, shouldFreshClone);
 
-        LocalDateTime reportSinceDate = (cliSinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE))
+        LocalDateTime reportSinceDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId))
                 ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
