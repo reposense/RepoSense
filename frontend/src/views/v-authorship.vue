@@ -536,8 +536,7 @@ export default {
     },
 
     async updateSelectedFiles(setIsLoaded = false) {
-      this.$store.commit('incrementLoadingOverlayCount', 1);
-      await window.browserRerender();
+      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       this.selectedFiles = this.files.filter(
           (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
           || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))

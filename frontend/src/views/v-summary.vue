@@ -179,8 +179,7 @@ export default {
       }
       const { allGroupsMerged } = this;
 
-      this.$store.commit('incrementLoadingOverlayCount', 1);
-      window.browserRerender().then(() => {
+      this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1).then(() => {
         this.getFilteredRepos();
         this.updateMergedGroup(allGroupsMerged);
         this.$store.commit('incrementLoadingOverlayCount', -1);
@@ -411,8 +410,7 @@ export default {
       this.setSummaryHash();
       window.deactivateAllOverlays();
 
-      this.$store.commit('incrementLoadingOverlayCount', 1);
-      await window.browserRerender();
+      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       this.getFilteredRepos();
       this.getMergedRepos();
       this.$store.commit('incrementLoadingOverlayCount', -1);

@@ -139,10 +139,9 @@ const app = {
     },
 
     async updateReportView() {
-      this.$store.commit('incrementLoadingOverlayCount', 1);
       this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
       this.userUpdated = false;
-      await window.browserRerender();
+      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       try {
         const {
           creationDate,

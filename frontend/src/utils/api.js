@@ -14,17 +14,6 @@ window.REPORT_ZIP = null;
 const HASH_ANCHOR = '?';
 const REPORT_DIR = '.';
 
-function requestAnimationFramePromise() {
-  return new Promise(requestAnimationFrame);
-}
-
-window.browserRerender = async function browserRerender() {
-  // Needed as browsers render lazily by default
-  // https://stackoverflow.com/a/44146560
-  await requestAnimationFramePromise();
-  await requestAnimationFramePromise();
-};
-
 window.deactivateAllOverlays = function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
       .forEach((x) => {
