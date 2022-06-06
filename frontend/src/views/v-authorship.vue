@@ -535,20 +535,19 @@ export default {
       window.encodeHash();
     },
 
-    updateSelectedFiles(setIsLoaded = false) {
+    async updateSelectedFiles(setIsLoaded = false) {
       this.$store.commit('incrementLoadingOverlayCount', 1);
-      setTimeout(() => {
-        this.selectedFiles = this.files.filter(
-            (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
-            || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))
-            && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
-        )
-            .sort(this.sortingFunction);
-        if (setIsLoaded) {
-          this.isLoaded = true;
-        }
-        this.$store.commit('incrementLoadingOverlayCount', -1);
-      });
+      await window.browserRerender();
+      this.selectedFiles = this.files.filter(
+          (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
+          || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))
+          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
+      )
+          .sort(this.sortingFunction);
+      if (setIsLoaded) {
+        this.isLoaded = true;
+      }
+      this.$store.commit('incrementLoadingOverlayCount', -1);
     },
 
     indicateSearchBar() {
