@@ -6,7 +6,6 @@ import hljs from 'highlight.js';
 import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import 'highlight.js/styles/color-brewer.css';
 import '@fontsource/titillium-web';
 
 // Need to import for side effects
@@ -26,7 +25,7 @@ app.directive('hljs', {
     const element = ele;
     element.className = binding.value.split('.').pop();
 
-    hljs.highlightBlock(element);
+    hljs.highlightElement(element);
   },
 });
 

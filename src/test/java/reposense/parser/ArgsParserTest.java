@@ -31,6 +31,7 @@ import reposense.model.ViewCliArguments;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
+import reposense.util.TimeUtil;
 
 public class ArgsParserTest {
 
@@ -69,6 +70,28 @@ public class ArgsParserTest {
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    @Test
+    public void parse_d1CorrectTimeZone_success() throws Exception {
+        String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
+                .addUntilDate("30/11/2017")
+                .addTimezone(DEFAULT_TIME_ZONE_STRING)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        Assertions.assertTrue(Files.isSameFile(
+                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+        Assertions.assertTrue(Files.isSameFile(
+                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+
+        LocalDateTime expectedSinceDate = TimeUtil.getArbitraryFirstCommitDateConverted(DEFAULT_TIME_ZONE_ID);
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
+        Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
+        Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
+
+        Assertions.assertEquals(DEFAULT_TIME_ZONE_ID, cliArguments.getZoneId());
     }
 
     @Test

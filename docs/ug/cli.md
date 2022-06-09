@@ -172,6 +172,7 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 <box type="info" seamless>
 
 * If both start date and end date are not specified, the date of generating the report will be taken as the end date.
+* May analyze the incorrect date range if used with `--since d1`. The program will throw a warning.
 * Cannot be used with both `--since` and `--until`. The program will throw an exception.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -216,7 +217,8 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 <box type="info" seamless>
 
 * If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.
-* If `d1` is specified as the start date (`--since d1` or `-s d1`), then the earliest commit date of all repositories will be taken as the start date.
+* If `d1` is specified as the start date (`--since d1` or `-s d1`), then the program will search for the earliest commit date of all repositories and use that as the start date.
+* If `d1` is specified together with `--period`, then the program will warn that the date range being analyzed may be incorrect.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
