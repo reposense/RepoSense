@@ -276,7 +276,7 @@ jobs:
       run: npm install
 
     - name: Set up Cypress
-      uses: cypress-io/github-action@v3
+      uses: cypress-io/github-action@v4
       with:
         build: npm i -D cypress
         working-directory: ./frontend/cypress
