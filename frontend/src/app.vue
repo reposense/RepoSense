@@ -1,10 +1,8 @@
 <template lang="pug">
 #app
   loading-overlay.overlay-loader(
-    v-cloak,
-    v-bind:active.sync="isLoadingOverlayEnabled",
-    v-bind:opacity='loadingOverlayOpacity',
-    v-bind:is-full-page="true"
+    v-bind:active='loadingOverlayCount > 0',
+    v-bind:opacity='loadingOverlayOpacity'
   )
     template(v-slot:default)
       i.overlay-loading-icon.fa.fa-spinner.fa-spin()
@@ -99,7 +97,6 @@ const app = {
       users: [],
       userUpdated: false,
 
-      isLoadingOverlayEnabled: false,
       loadingOverlayOpacity: 1,
 
       tabType: 'empty',
@@ -117,9 +114,6 @@ const app = {
     },
     '$store.state.tabAuthorshipInfo': function () {
       this.activateTab('authorship');
-    },
-    '$store.state.loadingOverlayCount': function () {
-      this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
     },
   },
   methods: {
@@ -145,9 +139,9 @@ const app = {
     },
 
     async updateReportView() {
-      this.$store.commit('incrementLoadingOverlayCount', 1);
       this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
       this.userUpdated = false;
+      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       try {
         const {
           creationDate,
@@ -296,7 +290,7 @@ const app = {
   },
 
   computed: {
-    ...mapState(['loadingOverlayMessage', 'isTabActive']),
+    ...mapState(['loadingOverlayCount', 'loadingOverlayMessage', 'isTabActive']),
   },
 
   components: {
