@@ -5,7 +5,6 @@ import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,8 +31,7 @@ public class GitLog {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges -i ";
-        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(),
-                ZoneId.of(config.getZoneId()));
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(), config.getZoneId());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
@@ -50,8 +48,7 @@ public class GitLog {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --no-merges -i ";
-        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(),
-                ZoneId.of(config.getZoneId()));
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(), config.getZoneId());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --numstat --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
         command += GitUtil.convertToGitFormatsArgs(config.getFileTypeManager().getFormats());
@@ -68,8 +65,7 @@ public class GitLog {
         Path rootPath = Paths.get(config.getRepoRoot());
 
         String command = "git log --pretty=format:\"%an\t%ae\" ";
-        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(),
-                ZoneId.of(config.getZoneId()));
+        command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(), config.getZoneId());
         command += " " + addQuotesForFilePath(filePath);
 
         String result = runCommand(rootPath, command);
