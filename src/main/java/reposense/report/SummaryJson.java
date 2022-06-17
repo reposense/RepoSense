@@ -1,6 +1,7 @@
 package reposense.report;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class SummaryJson {
 
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
             LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
-            String repoSenseVersion, Set<Map<String, String>> errorSet, String reportGenerationTime, String zoneId) {
+            String repoSenseVersion, Set<Map<String, String>> errorSet, String reportGenerationTime, ZoneId zoneId) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;
@@ -41,7 +42,7 @@ public class SummaryJson {
         this.isUntilDateProvided = isUntilDateProvided;
         this.repoSenseVersion = repoSenseVersion;
         this.errorSet = errorSet;
-        this.zoneId = zoneId;
+        this.zoneId = zoneId.toString();
         this.supportedDomainUrlMap = SupportedDomainUrlMap.getDefaultDomainUrlMap();
     }
 }
