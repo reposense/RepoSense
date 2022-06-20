@@ -24,6 +24,29 @@ public class TimeUtilTest {
     }
 
     @Test
+    public void extractDate_validSingleDigitDate_success() {
+        String expectedDate = "1/1/2022";
+        String actualDate = TimeUtil.extractDate(expectedDate);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validSingleDigitDateAndTime_success() {
+        String originalDateAndTime = "1/1/2022 12:34:56";
+        String expectedDate = "1/1/2022";
+        String actualDate = TimeUtil.extractDate(originalDateAndTime);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validSingleDigitDateAndString_success() {
+        String originalDateAndTime = "1/1/2022 addedstring";
+        String expectedDate = "1/1/2022";
+        String actualDate = TimeUtil.extractDate(originalDateAndTime);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
     public void parseDate_validDateAndTime_success() throws Exception {
         String originalDateAndTime = "20/05/2020 00:00:00";
         LocalDateTime expectedDate = TestUtil.getSinceDate(2020, Month.MAY.getValue(), 20);
