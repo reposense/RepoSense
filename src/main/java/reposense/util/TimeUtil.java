@@ -17,7 +17,8 @@ import reposense.parser.SinceDateArgumentType;
 public class TimeUtil {
     private static Long startTime;
     private static final String DATE_FORMAT_REGEX =
-            "^((0[1-9]|[12][0-9]|3[01])[/.-](0[1-9]|1[012])[/.-](19|2[0-9])[0-9]{2})";
+            "^((0[1-9]|[12][0-9]|3[01])[/.-](0[1-9]|1[012])[/.-]((19|2[0-9])[0-9]{2}))";
+    private static final String STANDARD_DATE_FORMAT = "%s/%s/%s"; // d/M/yyyy
 
     // "uuuu" is used for year since "yyyy" does not work with ResolverStyle.STRICT
     private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss");
@@ -169,7 +170,11 @@ public class TimeUtil {
         Matcher matcher = Pattern.compile(DATE_FORMAT_REGEX).matcher(date);
         String extractedDate = date;
         if (matcher.find()) {
-            extractedDate = matcher.group(1);
+            String day = matcher.group(2);
+            String month = matcher.group(3);
+            String year = matcher.group(4);
+
+            extractedDate = String.format(STANDARD_DATE_FORMAT, day, month, year);
         }
         return extractedDate;
     }
