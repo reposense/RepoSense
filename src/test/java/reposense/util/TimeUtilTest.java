@@ -16,10 +16,42 @@ public class TimeUtilTest {
     }
 
     @Test
+    public void extractDate_validDateWithDashDelimiter_success() {
+        String originalDate = "20-05-2019";
+        String expectedDate = "20/05/2019";
+        String actualDate = TimeUtil.extractDate(originalDate);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validDateWithDotDelimiter_success() {
+        String originalDate = "20.05.2019";
+        String expectedDate = "20/05/2019";
+        String actualDate = TimeUtil.extractDate(originalDate);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
     public void extractDate_validDateAndTime_success() {
         String originalDateAndTime = "20/05/2020 12:34:56";
         String expectedDate = "20/05/2020";
         String actualDate = TimeUtil.extractDate(originalDateAndTime);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validDateAndTimeWithDashDelimiter_success() {
+        String originalDate = "20-05-2019 12:34:56";
+        String expectedDate = "20/05/2019";
+        String actualDate = TimeUtil.extractDate(originalDate);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validDateAndTimeWithDotDelimiter_success() {
+        String originalDate = "20.05.2019 12:34:56";
+        String expectedDate = "20/05/2019";
+        String actualDate = TimeUtil.extractDate(originalDate);
         Assertions.assertEquals(expectedDate, actualDate);
     }
 
