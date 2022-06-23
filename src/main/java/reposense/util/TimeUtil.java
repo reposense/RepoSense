@@ -16,8 +16,10 @@ import reposense.parser.SinceDateArgumentType;
  */
 public class TimeUtil {
     private static Long startTime;
-    private static final String DATE_FORMAT_REGEX =
+    private static final String DATE_FORMAT_DAY_MONTH_YEAR_REGEX =
             "^((0[1-9]|[12][0-9]|3[01])[/.-](0[1-9]|1[012])[/.-]((19|2[0-9])[0-9]{2}))";
+    private static final String DATE_FORMAT_YEAR_MONTH_DAY_REGEX =
+            "^((19|2[0-9])[0-9]{2})[/.-](0[1-9]|1[012])[/.-](0[1-9]|[12][0-9]|3[01])";
     private static final String STANDARD_DATE_FORMAT = "%s/%s/%s"; // d/M/yyyy
 
     // "uuuu" is used for year since "yyyy" does not work with ResolverStyle.STRICT
@@ -167,14 +169,25 @@ public class TimeUtil {
      * Extracts the first substring of {@code date} string that matches the {@code DATE_FORMAT_REGEX}.
      */
     public static String extractDate(String date) {
-        Matcher matcher = Pattern.compile(DATE_FORMAT_REGEX).matcher(date);
+        Matcher matcher = Pattern.compile(DATE_FORMAT_DAY_MONTH_YEAR_REGEX).matcher(date);
         String extractedDate = date;
+
         if (matcher.find()) {
             String day = matcher.group(2);
             String month = matcher.group(3);
             String year = matcher.group(4);
 
             extractedDate = String.format(STANDARD_DATE_FORMAT, day, month, year);
+        } else {
+            matcher = Pattern.compile(DATE_FORMAT_YEAR_MONTH_DAY_REGEX).matcher(date);
+
+            if (matcher.find()) {
+                String day = matcher.group(4);
+                String month = matcher.group(3);
+                String year = matcher.group(1);
+
+                extractedDate = String.format(STANDARD_DATE_FORMAT, day, month, year);
+            }
         }
         return extractedDate;
     }
