@@ -5,6 +5,9 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +23,20 @@ public class TimeUtil {
             "^((0[1-9]|[12][0-9]|3[01])[/.-](0[1-9]|1[012])[/.-]((19|2[0-9])[0-9]{2}))";
     private static final String DATE_FORMAT_YEAR_MONTH_DAY_REGEX =
             "^((19|2[0-9])[0-9]{2})[/.-](0[1-9]|1[012])[/.-](0[1-9]|[12][0-9]|3[01])";
+    private static final Map<String, int[]> DATE_FORMAT_REGEX_MAP;
+
+    // Initializes and populates DATE_FORMAT_REGEX_MAP.
+    static {
+        HashMap<String, int[]> map = new HashMap<>();
+
+        // The int array specifies the group number to be extracted for day, month, and year.
+        // E.g. String day = matcher.group(groupNumber[0]);
+        map.put(DATE_FORMAT_DAY_MONTH_YEAR_REGEX, new int[]{2, 3, 4});
+        map.put(DATE_FORMAT_YEAR_MONTH_DAY_REGEX, new int[]{4, 3, 1});
+
+        DATE_FORMAT_REGEX_MAP = Collections.unmodifiableMap(map);
+    }
+
     private static final String STANDARD_DATE_FORMAT = "%s/%s/%s"; // d/M/yyyy
 
     // "uuuu" is used for year since "yyyy" does not work with ResolverStyle.STRICT
@@ -169,26 +186,23 @@ public class TimeUtil {
      * Extracts the first substring of {@code date} string that matches the {@code DATE_FORMAT_REGEX}.
      */
     public static String extractDate(String date) {
-        Matcher matcher = Pattern.compile(DATE_FORMAT_DAY_MONTH_YEAR_REGEX).matcher(date);
+        Matcher matcher;
         String extractedDate = date;
 
-        if (matcher.find()) {
-            String day = matcher.group(2);
-            String month = matcher.group(3);
-            String year = matcher.group(4);
-
-            extractedDate = String.format(STANDARD_DATE_FORMAT, day, month, year);
-        } else {
-            matcher = Pattern.compile(DATE_FORMAT_YEAR_MONTH_DAY_REGEX).matcher(date);
+        for (String regex : DATE_FORMAT_REGEX_MAP.keySet()) {
+            matcher = Pattern.compile(regex).matcher(date);
 
             if (matcher.find()) {
-                String day = matcher.group(4);
-                String month = matcher.group(3);
-                String year = matcher.group(1);
+                int[] groupNumber = DATE_FORMAT_REGEX_MAP.get(regex);
+
+                String day = matcher.group(groupNumber[0]);
+                String month = matcher.group(groupNumber[1]);
+                String year = matcher.group(groupNumber[2]);
 
                 extractedDate = String.format(STANDARD_DATE_FORMAT, day, month, year);
             }
         }
+
         return extractedDate;
     }
 
