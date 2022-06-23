@@ -41,17 +41,17 @@ public class TimeUtilTest {
 
     @Test
     public void extractDate_validDateAndTimeWithDashDelimiter_success() {
-        String originalDate = "20-05-2019 12:34:56";
+        String originalDateAndTime = "20-05-2019 12:34:56";
         String expectedDate = "20/05/2019";
-        String actualDate = TimeUtil.extractDate(originalDate);
+        String actualDate = TimeUtil.extractDate(originalDateAndTime);
         Assertions.assertEquals(expectedDate, actualDate);
     }
 
     @Test
     public void extractDate_validDateAndTimeWithDotDelimiter_success() {
-        String originalDate = "20.05.2019 12:34:56";
+        String originalDateAndTime = "20.05.2019 12:34:56";
         String expectedDate = "20/05/2019";
-        String actualDate = TimeUtil.extractDate(originalDate);
+        String actualDate = TimeUtil.extractDate(originalDateAndTime);
         Assertions.assertEquals(expectedDate, actualDate);
     }
 
