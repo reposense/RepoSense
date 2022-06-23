@@ -32,6 +32,30 @@ public class TimeUtilTest {
     }
 
     @Test
+    public void extractDate_validReverseOrderDate_success() {
+        String originalDate = "1900/01/01";
+        String expectedDate = "01/01/1900";
+        String actualDate = TimeUtil.extractDate(originalDate);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validReverseOrderDateWithDashDelimiter_success() {
+        String originalDate = "2056-10-14";
+        String expectedDate = "14/10/2056";
+        String actualDate = TimeUtil.extractDate(originalDate);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validReverseOrderDateWithDotDelimiter_success() {
+        String originalDate = "2999.12.31";
+        String expectedDate = "31/12/2999";
+        String actualDate = TimeUtil.extractDate(originalDate);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
     public void extractDate_validDateAndTime_success() {
         String originalDateAndTime = "20/05/2020 12:34:56";
         String expectedDate = "20/05/2020";
@@ -51,6 +75,30 @@ public class TimeUtilTest {
     public void extractDate_validDateAndTimeWithDotDelimiter_success() {
         String originalDateAndTime = "20.05.2019 12:34:56";
         String expectedDate = "20/05/2019";
+        String actualDate = TimeUtil.extractDate(originalDateAndTime);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validReverseOrderDateAndTime_success() {
+        String originalDateAndTime = "1900/01/01 12:34:56";
+        String expectedDate = "01/01/1900";
+        String actualDate = TimeUtil.extractDate(originalDateAndTime);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validReverseOrderDateAndTimeWithDashDelimiter_success() {
+        String originalDateAndTime = "2056-10-14 12:34:56";
+        String expectedDate = "14/10/2056";
+        String actualDate = TimeUtil.extractDate(originalDateAndTime);
+        Assertions.assertEquals(expectedDate, actualDate);
+    }
+
+    @Test
+    public void extractDate_validReverseOrderDateAndTimeWithDotDelimiter_success() {
+        String originalDateAndTime = "2999.12.31 12:34:56";
+        String expectedDate = "31/12/2999";
         String actualDate = TimeUtil.extractDate(originalDateAndTime);
         Assertions.assertEquals(expectedDate, actualDate);
     }
