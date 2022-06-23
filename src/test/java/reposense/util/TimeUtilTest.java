@@ -40,9 +40,9 @@ public class TimeUtilTest {
 
     @Test
     public void extractDate_validSingleDigitDateAndString_success() {
-        String originalDateAndTime = "1/1/2022 addedstring";
+        String originalDateAndString = "1/1/2022addedstring";
         String expectedDate = "1/1/2022";
-        String actualDate = TimeUtil.extractDate(originalDateAndTime);
+        String actualDate = TimeUtil.extractDate(originalDateAndString);
         Assertions.assertEquals(expectedDate, actualDate);
     }
 
