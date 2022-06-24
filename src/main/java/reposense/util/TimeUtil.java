@@ -178,7 +178,7 @@ public class TimeUtil {
      * the input is earlier than it, otherwise returns {@code inputTime}.
      */
     public static LocalDateTime getOrDefaultValidTime(LocalDateTime inputTime, ZoneId zoneId) {
-        if (inputTime == null) {
+        if (inputTime == null || zoneId == null) {
             return null;
         }
         if (ZonedDateTime.of(inputTime, zoneId).isAfter(LATEST_GIT_DATE)) {
