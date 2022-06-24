@@ -330,7 +330,9 @@ public class ArgsParser {
             LogsManager.setLogFolderLocation(outputFolderPath);
 
             TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
-            TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
+            LocalDateTime validSinceDate = TimeUtil.getOrDefaultValidTime(sinceDate, zoneId);
+            LocalDateTime validUntilDate = TimeUtil.getOrDefaultValidTime(untilDate, zoneId);
+            TimeUtil.verifyDatesRangeIsCorrect(validSinceDate, validUntilDate);
 
             if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)
                     && configFolderPath.equals(DEFAULT_CONFIG_PATH) && locations == null) {
@@ -344,18 +346,18 @@ public class ArgsParser {
             }
 
             if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                        isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
-                        shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
+                return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, validSinceDate,
+                        validUntilDate, isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads,
+                        formats, shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
                         isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, shouldFindPreviousAuthors);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                    isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
-                    shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
+            return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, validSinceDate,
+                    validUntilDate, isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads,
+                    formats, shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
                     isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, reportConfig, shouldFindPreviousAuthors);
         } catch (HelpScreenException hse) {
             throw hse;

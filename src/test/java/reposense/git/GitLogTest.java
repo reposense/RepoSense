@@ -2,13 +2,20 @@ package reposense.git;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.Author;
+import reposense.model.CliArguments;
+import reposense.model.ConfigCliArguments;
 import reposense.model.FileType;
+import reposense.parser.ArgsParser;
+import reposense.parser.ParseException;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -139,6 +146,12 @@ public class GitLogTest extends GitTestTemplate {
         config.setSinceDate(date);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assertions.assertTrue(content.isEmpty());
+
+        date = TestUtil.getSinceDate(2200, Month.JANUARY.getValue(), 1);
+        config.setUntilDate(null);
+        config.setSinceDate(date);
+        content = GitLog.get(config, getAlphaAllAliasAuthor());
+        Assertions.assertTrue(content.isEmpty());
     }
 
     @Test
@@ -147,6 +160,12 @@ public class GitLogTest extends GitTestTemplate {
         config.setUntilDate(date);
         config.setSinceDate(null);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
+        Assertions.assertTrue(content.isEmpty());
+
+        date = TestUtil.getUntilDate(1950, Month.JANUARY.getValue(), 1);
+        config.setUntilDate(date);
+        config.setSinceDate(null);
+        content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assertions.assertTrue(content.isEmpty());
     }
 

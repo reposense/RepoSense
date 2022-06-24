@@ -2,6 +2,7 @@ package reposense.model;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +14,7 @@ import reposense.git.GitBranch;
 import reposense.git.exception.GitBranchException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
+import reposense.util.TimeUtil;
 
 /**
  * Represents configuration information from CSV config file for a single repository.
@@ -539,7 +541,7 @@ public class RepoConfiguration {
     }
 
     public LocalDateTime getSinceDate() {
-        return sinceDate;
+        return TimeUtil.getOrDefaultValidTime(sinceDate, ZoneId.of(zoneId));
     }
 
     public void setSinceDate(LocalDateTime sinceDate) {
@@ -547,7 +549,7 @@ public class RepoConfiguration {
     }
 
     public LocalDateTime getUntilDate() {
-        return untilDate;
+        return TimeUtil.getOrDefaultValidTime(untilDate, ZoneId.of(zoneId));
     }
 
     public void setUntilDate(LocalDateTime untilDate) {

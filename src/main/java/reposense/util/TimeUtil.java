@@ -2,19 +2,27 @@ package reposense.util;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import reposense.parser.ParseException;
 import reposense.parser.SinceDateArgumentType;
+import reposense.system.LogsManager;
 
 /**
  * Contains time related functionalities.
  */
 public class TimeUtil {
+    public static final ZonedDateTime EARLIEST_GIT_DATE = ZonedDateTime.of(
+            LocalDateTime.of(1970, 1, 1, 0, 0, 0), ZoneId.of("UTC"));
+    public static final ZonedDateTime LATEST_GIT_DATE = ZonedDateTime.of(
+            LocalDateTime.of(2099, 12, 31, 23, 59, 59), ZoneId.of("UTC"));
+    private static final Logger logger = LogsManager.getLogger(TimeUtil.class);
     private static Long startTime;
     private static final String DATE_FORMAT_REGEX =
             "^((0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
@@ -160,6 +168,32 @@ public class TimeUtil {
         if (sinceDate.compareTo(currentDate) > 0) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
+    }
+
+    /**
+     * Checks that {@code inputTime} is no later than {@code LATEST_GIT_DATE} and no earlier than
+     * {@code EARLIEST_GIT_DATE}.
+     *
+     * @return {@code LATEST_GIT_DATE} if the input is later than it and {@code EARLIEST_GIT_DATE} if
+     * the input is earlier than it, otherwise returns {@code inputTime}.
+     */
+    public static LocalDateTime getOrDefaultValidTime(LocalDateTime inputTime, ZoneId zoneId) {
+        if (inputTime == null) {
+            return null;
+        }
+        if (ZonedDateTime.of(inputTime, zoneId).isAfter(LATEST_GIT_DATE)) {
+            LocalDateTime validTime = LocalDateTime.from(LATEST_GIT_DATE.withZoneSameInstant(zoneId));
+            logger.warning(String.format("Input date %s is after latest permitted time, changing it to %s",
+                    inputTime, validTime));
+            return validTime;
+        }
+        if (ZonedDateTime.of(inputTime, zoneId).isBefore(EARLIEST_GIT_DATE)) {
+            LocalDateTime validTime = LocalDateTime.from(EARLIEST_GIT_DATE.withZoneSameInstant(zoneId));
+            logger.warning(String.format("Input date %s is before earliest permitted time, changing it to %s",
+                    inputTime, validTime));
+            return validTime;
+        }
+        return inputTime;
     }
 
     /**
