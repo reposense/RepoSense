@@ -1,4 +1,4 @@
-Repository's Location,Branch,Author's Git Host ID,Author's Emails,Author's Display Name,Author's Git Author Name,Ignore Glob List
+Repository's Location,Branch,Author's GitHub ID,Author's Emails,Author's Display Name,Author's Git Author Name,Ignore Glob List
 https://github.com/reposense/testrepo-Beta.git,master,nbriannl,,"Ashwin Mukadaan Singhania, Rathod",,
 https://github.com/reposense/testrepo-Beta.git,master,zacharytang,zacharytang.tc@gmail.com,Yagami Rukei Polland,,src/main**
 https://github.com/reposense/testrepo-Beta.git,master,April0616,,2805Tagoe,LAPTOP-7KFM2KSP\User;Fan Yuting,
