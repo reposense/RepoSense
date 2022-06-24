@@ -2,20 +2,13 @@ package reposense.git;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
-import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.model.Author;
-import reposense.model.CliArguments;
-import reposense.model.ConfigCliArguments;
 import reposense.model.FileType;
-import reposense.parser.ArgsParser;
-import reposense.parser.ParseException;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
