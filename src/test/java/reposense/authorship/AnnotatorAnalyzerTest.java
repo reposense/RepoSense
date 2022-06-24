@@ -24,11 +24,15 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     private static final LocalDateTime SINCE_DATE = TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 8);
     private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2021, Month.AUGUST.getValue(), 3);
     private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
+    private static final Author VALID_AUTHOR_IF_REGEX_CHECK_ABSENT_1 =
+            new Author("-invalidGitUsername_TreatedAsUnknownUser");
     private static final Author[] EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST = {
             FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR,
             MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR,
             FAKE_AUTHOR, FAKE_AUTHOR,
-            UNKNOWN_AUTHOR, UNKNOWN_AUTHOR, UNKNOWN_AUTHOR, UNKNOWN_AUTHOR, UNKNOWN_AUTHOR,
+            VALID_AUTHOR_IF_REGEX_CHECK_ABSENT_1, VALID_AUTHOR_IF_REGEX_CHECK_ABSENT_1,
+            VALID_AUTHOR_IF_REGEX_CHECK_ABSENT_1, VALID_AUTHOR_IF_REGEX_CHECK_ABSENT_1,
+            VALID_AUTHOR_IF_REGEX_CHECK_ABSENT_1,
             FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR,
             UNKNOWN_AUTHOR, UNKNOWN_AUTHOR, UNKNOWN_AUTHOR
     };
@@ -228,15 +232,15 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
         line = "% @@author thisAuthorNameHasMoreThanThirtyNineLetters";
         Assertions.assertEquals(4, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
+        Assertions.assertTrue(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
-        line = "# @@author -invalidUsernameFormat";
+        line = "# @@author -validUsernameFormat";
         Assertions.assertEquals(2, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
+        Assertions.assertTrue(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "/*@@author fakeAuthor-->";
         Assertions.assertEquals(1, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
+        Assertions.assertTrue(AnnotatorAnalyzer.extractAuthorName(line).isPresent()); // author name is "fakeAuthor-->"
     }
 
     @Test

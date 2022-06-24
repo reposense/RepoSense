@@ -22,9 +22,6 @@ import reposense.model.AuthorConfiguration;
  */
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
-    // GitHub username format
-    private static final String REGEX_AUTHOR_NAME_FORMAT = "^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$";
-    private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
     private static final String REGEX_AUTHOR_TAG_FORMAT = "@@author(\\s+[^\\s]+)?";
 
     private static final String[][] COMMENT_FORMATS = {
@@ -106,8 +103,7 @@ public class AnnotatorAnalyzer {
                 .map(array -> array[1].trim().split(COMMENT_FORMATS[getCommentTypeIndex(line)][1]))
                 .filter(array -> array.length > 0)
                 .map(array -> array[0].trim())
-                // checks if the author name is valid
-                .filter(trimmedParameters -> PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters).find());
+                .filter(trimmedParameters -> !trimmedParameters.isEmpty());
     }
 
     /**
