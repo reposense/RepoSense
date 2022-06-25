@@ -150,13 +150,23 @@ public abstract class CsvParser<T> {
                     csvFilePath.getFileName(), getRowContentAsRawString(record)));
             return true;
         }
-        for (String header : mandatoryHeaders()) {
-            if (get(record, header).isEmpty()) {
+
+        for (String[] equivalentHeaders : mandatoryHeaders()) {
+            boolean isLineFormatMalformed = true;
+            for (String header : equivalentHeaders) {
+                if (!get(record, header).isEmpty()) {
+                    isLineFormatMalformed = false;
+                    break;
+                }
+            }
+
+            if (isLineFormatMalformed) {
                 logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
                         csvFilePath.getFileName(), getRowContentAsRawString(record)));
                 return true;
             }
         }
+
         return false;
     }
 
@@ -165,6 +175,20 @@ public abstract class CsvParser<T> {
      */
     protected String get(final CSVRecord record, String header) {
         return headerMap.containsKey(header) ? record.get(headerMap.get(header)).trim() : EMPTY_STRING;
+    }
+
+    /**
+     * Returns the value of {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders}.
+     */
+    protected String get(final CSVRecord record, String[] equivalentHeaders) {
+        for (String header : equivalentHeaders) {
+            if (headerMap.containsKey(header)) {
+                return record.get(headerMap.get(header)).trim();
+            }
+        }
+
+        return EMPTY_STRING;
     }
 
     /**
@@ -237,15 +261,18 @@ public abstract class CsvParser<T> {
         int headerSize = possibleHeader.length;
         Set<String> knownColumns = new HashSet<>();
         ArrayList<String> unknownColumns = new ArrayList<>();
+        List<String> parsedHeaders = mandatoryAndOptionalHeaders();
+
         for (int i = 0; i < headerSize; i++) {
             String possible = possibleHeader[i].trim();
-            for (String parsedHeader : mandatoryAndOptionalHeaders()) {
+            for (String parsedHeader : parsedHeaders) {
                 if (possible.equalsIgnoreCase(parsedHeader)) {
                     headerMap.put(parsedHeader, i);
                     knownColumns.add(possible);
                     break;
                 }
             }
+
             if (!knownColumns.contains(possible)) {
                 unknownColumns.add(possible);
             }
@@ -257,12 +284,22 @@ public abstract class CsvParser<T> {
                     String.format(MESSAGE_UNKNOWN_COLUMN, errorMessage, csvFilePath.toString()));
         }
 
-        for (String mandatory : mandatoryHeaders()) {
-            if (!headerMap.containsKey(mandatory)) {
+        for (String[] equivalentHeaders : mandatoryHeaders()) {
+            boolean isAnyEquivalentHeaderPresent = false;
+            for (String mandatory : equivalentHeaders) {
+                if (headerMap.containsKey(mandatory)) {
+                    isAnyEquivalentHeaderPresent = true;
+                    break;
+                }
+            }
+
+            if (!isAnyEquivalentHeaderPresent) {
                 throw new InvalidCsvException(String.format(
-                        MESSAGE_MANDATORY_HEADER_MISSING, mandatory, csvFilePath.getFileName()));
+                        MESSAGE_MANDATORY_HEADER_MISSING, Arrays.toString(equivalentHeaders),
+                        csvFilePath.getFileName()));
             }
         }
+
         logger.info(String.format(MESSAGE_COLUMNS_RECOGNIZED, csvFilePath.getFileName(),
                 String.join(",  ", headerMap.keySet())));
     }
@@ -270,18 +307,30 @@ public abstract class CsvParser<T> {
     /**
      * Gets the list of headers that are mandatory for verification.
      */
-    protected abstract String[] mandatoryHeaders();
+    protected abstract String[][] mandatoryHeaders();
 
     /**
      * Gets the list of optional headers that can be parsed.
      */
-    protected abstract String[] optionalHeaders();
+    protected abstract String[][] optionalHeaders();
+
+    /**
+     * Helper function to combine {@code equivalentHeaders} and {@code singleHeaders} for
+     * {@link CsvParser#mandatoryHeaders()} and {@link CsvParser#optionalHeaders()}.
+     */
+    protected String[][] combineHeaders(String[][] equivalentHeaders, String[] singleHeaders) {
+        return Stream.concat(
+                        Arrays.stream(equivalentHeaders),
+                        Arrays.stream(singleHeaders).map(header -> new String[] {header}))
+                .toArray(String[][]::new);
+    }
 
     /**
      * Gets the list of all mandatory and optional headers that can be parsed.
      */
     protected List<String> mandatoryAndOptionalHeaders() {
         return Stream.concat(Arrays.stream(mandatoryHeaders()), Arrays.stream(optionalHeaders()))
+                .flatMap(Stream::of)
                 .collect(Collectors.toList());
     }
 

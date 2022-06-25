@@ -31,20 +31,32 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      * Gets the list of headers that are mandatory for verification.
      */
     @Override
-    protected String[] mandatoryHeaders() {
-        return new String[] {
+    protected String[][] mandatoryHeaders() {
+        String[][] equivalentHeaders = new String[][] {
+                // Can be added in the future
+        };
+
+        String[] singleHeaders = new String[] {
                 GROUP_NAME_HEADER, FILES_GLOB_HEADER,
         };
+
+        return combineHeaders(equivalentHeaders, singleHeaders);
     }
 
     /**
      * Gets the list of optional headers that can be parsed.
      */
     @Override
-    protected String[] optionalHeaders() {
-        return new String[] {
+    protected String[][] optionalHeaders() {
+        String[][] equivalentHeaders = new String[][] {
+                // Can be added in the future
+        };
+
+        String[] singleHeaders = new String[] {
                 LOCATION_HEADER,
         };
+
+        return combineHeaders(equivalentHeaders, singleHeaders);
     }
 
     /**

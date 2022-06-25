@@ -48,23 +48,35 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      * Gets the list of headers that are mandatory for verification.
      */
     @Override
-    protected String[] mandatoryHeaders() {
-        return new String[] {
+    protected String[][] mandatoryHeaders() {
+        String[][] equivalentHeaders = new String[][] {
+                // Can be added in the future
+        };
+
+        String[] singleHeaders = new String[] {
                 LOCATION_HEADER,
         };
+
+        return combineHeaders(equivalentHeaders, singleHeaders);
     }
 
     /**
      * Gets the list of optional headers that can be parsed.
      */
     @Override
-    protected String[] optionalHeaders() {
-        return new String[] {
+    protected String[][] optionalHeaders() {
+        String[][] equivalentHeaders = new String[][] {
+                // Can be added in the future
+        };
+
+        String[] singleHeaders = new String[] {
                 BRANCH_HEADER, FILE_FORMATS_HEADER, IGNORE_GLOB_LIST_HEADER, IGNORE_STANDALONE_CONFIG_HEADER,
                 IGNORE_FILESIZE_LIMIT_HEADER, IGNORE_COMMIT_LIST_CONFIG_HEADER, IGNORE_AUTHOR_LIST_CONFIG_HEADER,
                 SHALLOW_CLONING_CONFIG_HEADER, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER, FILESIZE_LIMIT_HEADER,
                 SKIP_IGNORED_FILE_ANALYSIS_HEADER
         };
+
+        return combineHeaders(equivalentHeaders, singleHeaders);
     }
 
     /**
