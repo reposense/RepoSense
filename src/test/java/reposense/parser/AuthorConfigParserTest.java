@@ -39,6 +39,10 @@ public class AuthorConfigParserTest {
             "AuthorConfigParserTest/authorconfig_missingMandatoryHeader_test.csv");
     private static final Path AUTHOR_CONFIG_UNKNOWN_HEADER = loadResource(AuthorConfigParserTest.class,
             "AuthorConfigParserTest/authorconfig_unknownHeaders_test.csv");
+    private static final Path AUTHOR_CONFIG_GITHUB_ID_HEADER = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_gitHubIdHeader_test.csv");
+    private static final Path AUTHOR_CONFIG_GIT_HOST_ID_HEADER = loadResource(AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_gitHostIdHeader_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
@@ -172,6 +176,19 @@ public class AuthorConfigParserTest {
         AuthorConfiguration config = configs.get(0);
 
         Assertions.assertEquals(4, config.getAuthorList().size());
+    }
+
+    @Test
+    public void authorConfig_newGitHostIdHeader_success() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser;
+
+        authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_GIT_HOST_ID_HEADER);
+        List<AuthorConfiguration> configsWithGitHostIdHeader = authorConfigCsvParser.parse();
+
+        authorConfigCsvParser = new AuthorConfigCsvParser(AUTHOR_CONFIG_GITHUB_ID_HEADER);
+        List<AuthorConfiguration> configsWithGitHubIdHeader = authorConfigCsvParser.parse();
+
+        Assertions.assertEquals(configsWithGitHubIdHeader, configsWithGitHostIdHeader);
     }
 
     @Test
