@@ -76,8 +76,7 @@ Optionally, you can use an `author-config.csv` (which should be in the same dire
 | Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name). |
 | Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`. |
 
-<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the
-separator.</sup>
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 </br>
 <sup>** **Backward compatibility**: `Author's Git Host ID` can be replaced with `Author's GitHub ID`.</sup>
 
