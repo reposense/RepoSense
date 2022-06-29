@@ -37,33 +37,19 @@
           font-awesome-icon.icon-button(:icon="['fas', 'chevron-down']")
           span.tooltip-text Click to expand group
       a(
-        v-if="filterGroupSelection === 'groupByRepos' && getRepoType(repo[0]) === 'default'",
+        v-if="filterGroupSelection === 'groupByRepos'",
         v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
-          font-awesome-icon.icon-button(:icon="['fas', 'database']")
+          font-awesome-icon.icon-button(
+            v-if="getRepoType(repo[0]) === 'default'",
+            :icon="['fas', 'database']"
+          )
+          font-awesome-icon.icon-button(
+            v-else,
+            :icon="['fab', getRepoType(repo[0])]"
+          )
           span.tooltip-text Click to view group's repo (default)
-      a(
-        v-if="filterGroupSelection === 'groupByRepos' && getRepoType(repo[0]) === 'github'",
-        v-bind:href="getRepoLink(repo[0])", target="_blank"
-      )
-        .tooltip
-          font-awesome-icon.icon-button(:icon="['fab', 'github']")
-          span.tooltip-text Click to view group's repo (github)
-      a(
-        v-if="filterGroupSelection === 'groupByRepos' && getRepoType(repo[0]) === 'gitlab'",
-        v-bind:href="getRepoLink(repo[0])", target="_blank"
-      )
-        .tooltip
-          font-awesome-icon.icon-button(:icon="['fab', 'gitlab']")
-          span.tooltip-text Click to view group's repo (gitlab)
-      a(
-        v-if="filterGroupSelection === 'groupByRepos' && getRepoType(repo[0]) === 'bitbucket'",
-        v-bind:href="getRepoLink(repo[0])", target="_blank"
-      )
-        .tooltip
-          font-awesome-icon.icon-button(:icon="['fab', 'bitbucket']")
-          span.tooltip-text Click to view group's repo (bitbucket)
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
         v-bind:href="getAuthorProfileLink(repo[0], repo[0].name)", target="_blank"
