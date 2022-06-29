@@ -49,7 +49,7 @@
             v-else,
             :icon="['fab', getRepoType(repo[0])]"
           )
-          span.tooltip-text Click to view group's repo (default)
+          span.tooltip-text Click to view group's repo
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
         v-bind:href="getAuthorProfileLink(repo[0], repo[0].name)", target="_blank"
