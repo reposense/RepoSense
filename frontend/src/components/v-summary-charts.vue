@@ -316,6 +316,24 @@ export default {
       return repo.location;
     },
 
+    getRepoType(repo) {
+      const repoLink = this.getRepoLink(repo);
+
+      if (repoLink.includes('github')) {
+        return 'github';
+      }
+
+      if (repoLink.includes('gitlab')) {
+        return 'gitlab';
+      }
+
+      if (repoLink.includes('bitbucket')) {
+        return 'bitbucket';
+      }
+
+      return 'default';
+    },
+
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index, isMerged) {
       const {
