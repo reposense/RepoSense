@@ -111,7 +111,14 @@
           v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
-            font-awesome-icon.icon-button(:icon="['fas', 'database']")
+            font-awesome-icon.icon-button(
+              v-if="getRepoType(repo[0]) === 'default'",
+              :icon="['fas', 'database']"
+            )
+            font-awesome-icon.icon-button(
+              v-else,
+              :icon="['fab', getRepoType(repo[0])]"
+            )
             span.tooltip-text Click to view repo
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
