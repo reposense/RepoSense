@@ -331,7 +331,6 @@ export default {
         name: user.displayName,
         isMergeGroup: isMerged,
         location: this.getRepoLink(repo[index]),
-        repoIndex: index,
       };
       this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
