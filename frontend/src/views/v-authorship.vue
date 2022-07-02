@@ -710,19 +710,24 @@ export default {
         vertical-align: middle;
       }
 
-      #search {
-        @include medium-font;
-        margin-top: 1.25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
-        width: 70%;
-      }
+      .mui-form--inline {
+        display: flex;
+        flex-wrap: wrap;
 
-      #submit-button {
-        @include medium-font;
-        background-color: mui-color('blue');
-        color: mui-color('white');
-        margin: 1.0rem 0 0 .25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
+        #search {
+          @include medium-font;
+          margin-top: 1.25rem;
+          padding: .5rem 1.0rem .25rem 1.0rem;
+          width: 70%;
+        }
+
+        #submit-button {
+          @include medium-font;
+          background-color: mui-color('blue');
+          color: mui-color('white');
+          margin: 1.0rem 0 0 .25rem;
+          padding: .5rem 1.0rem .25rem 1.0rem;
+        }
       }
 
       .searchbox {
