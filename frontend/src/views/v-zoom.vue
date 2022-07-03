@@ -101,8 +101,9 @@
       .hash
         span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
+        v-if="containsAtLeastOneSelected(Object.keys(slice.fileTypesAndContributionMap))"
         v-for="fileType in\
-          filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
+          Object.keys(slice.fileTypesAndContributionMap)",
         vbind:key="fileType",
         v-bind:style="{\
           'background-color': fileTypeColors[fileType],\
@@ -383,8 +384,14 @@ export default {
       window.encodeHash();
     },
 
-    filterSelectedFileTypes(fileTypes) {
-      return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
+    containsAtLeastOneSelected(fileTypes) {
+      let includesSelectedFileTypes = false;
+      fileTypes.forEach((fileType) => {
+        if (this.selectedFileTypes.includes(fileType)) {
+          includesSelectedFileTypes = true;
+        }
+      });
+      return includesSelectedFileTypes;
     },
 
     getFontColor,
