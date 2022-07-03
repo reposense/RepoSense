@@ -317,17 +317,17 @@ export default {
     },
 
     getRepoIcon(repo) {
-      const repoLink = this.getRepoLink(repo);
+      const domainName = window.REPOS[repo.repoId].location.domainName;
 
-      if (repoLink.includes('github')) {
+      if (domainName === 'github') {
         return ['fab', 'github'];
       }
 
-      if (repoLink.includes('gitlab')) {
+      if (domainName === 'gitlab') {
         return ['fab', 'gitlab'];
       }
 
-      if (repoLink.includes('bitbucket')) {
+      if (domainName === 'bitbucket') {
         return ['fab', 'bitbucket'];
       }
 
