@@ -319,20 +319,16 @@ export default {
     getRepoIcon(repo) {
       const domainName = window.REPOS[repo.repoId].location.domainName;
 
-      if (domainName === 'github') {
+      switch (domainName) {
+      case 'github':
         return ['fab', 'github'];
-      }
-
-      if (domainName === 'gitlab') {
+      case 'gitlab':
         return ['fab', 'gitlab'];
-      }
-
-      if (domainName === 'bitbucket') {
+      case 'bitbucket':
         return ['fab', 'bitbucket'];
+      default:
+        return ['fas', 'database'];
       }
-
-      // default icon
-      return ['fas', 'database'];
     },
 
     // triggering opening of tabs //
