@@ -41,14 +41,7 @@
         v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
-          font-awesome-icon.icon-button(
-            v-if="getRepoType(repo[0]) === 'default'",
-            :icon="['fas', 'database']"
-          )
-          font-awesome-icon.icon-button(
-            v-else,
-            :icon="['fab', getRepoType(repo[0])]"
-          )
+          font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
           span.tooltip-text Click to view group's repo
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
@@ -111,14 +104,7 @@
           v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
-            font-awesome-icon.icon-button(
-              v-if="getRepoType(repo[0]) === 'default'",
-              :icon="['fas', 'database']"
-            )
-            font-awesome-icon.icon-button(
-              v-else,
-              :icon="['fab', getRepoType(repo[0])]"
-            )
+            font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
             span.tooltip-text Click to view repo
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
@@ -330,22 +316,23 @@ export default {
       return repo.location;
     },
 
-    getRepoType(repo) {
+    getRepoIcon(repo) {
       const repoLink = this.getRepoLink(repo);
 
       if (repoLink.includes('github')) {
-        return 'github';
+        return ['fab', 'github'];
       }
 
       if (repoLink.includes('gitlab')) {
-        return 'gitlab';
+        return ['fab', 'gitlab'];
       }
 
       if (repoLink.includes('bitbucket')) {
-        return 'bitbucket';
+        return ['fab', 'bitbucket'];
       }
 
-      return 'default';
+      // default icon
+      return ['fas', 'database'];
     },
 
     // triggering opening of tabs //
