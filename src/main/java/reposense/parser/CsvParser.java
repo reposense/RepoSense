@@ -192,38 +192,43 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns the value of {@code record} at the column with the header {@code header} if present, or
-     * returns {@code defaultValue} otherwise.
+     * Returns the value of {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders} if present, or returns {@code defaultValue} otherwise.
      */
-    protected String getOrDefault(final CSVRecord record, String header, String defaultValue) {
-        return get(record, header).isEmpty() ? defaultValue : get(record, header);
+    protected String getOrDefault(final CSVRecord record, String[] equivalentHeaders, String defaultValue) {
+        String value = get(record, equivalentHeaders);
+        return value.isEmpty() ? defaultValue : value;
     }
 
     /**
-     * Returns the value of {@code record} at the column with the header {@code header} as a {@link List}
-     * if it is in {@code record} and not empty.
+     * Returns the value of {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders} as a {@link List} if it is in {@code record} and not empty.
      * The column is delimited by {@code COLUMN_VALUES_SEPARATOR}.
      * Returns an empty {@link List} otherwise.
      */
-    protected List<String> getAsList(final CSVRecord record, String header) {
-        if (get(record, header).isEmpty()) {
+    protected List<String> getAsList(final CSVRecord record, String[] equivalentHeaders) {
+        String value = get(record, equivalentHeaders);
+        if (value.isEmpty()) {
             return Collections.emptyList();
         }
-        return Arrays.stream(get(record, header).split(COLUMN_VALUES_SEPARATOR))
+
+        return Arrays.stream(value.split(COLUMN_VALUES_SEPARATOR))
                 .map(String::trim)
                 .collect(Collectors.toList());
     }
 
     /**
      * Returns the values in {@code record} as a list with the {@link CsvParser#OVERRIDE_KEYWORD} prefix removed.
-     * Returns an empty list if {@code record} at the column with the header {@code header} is empty.
+     * Returns an empty list if {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders} is empty.
      */
-    protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, String header) {
-        List<String> data = getAsList(record, header);
-        if (isElementOverridingStandaloneConfig(record, header)) {
+    protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, String[] equivalentHeaders) {
+        List<String> data = getAsList(record, equivalentHeaders);
+        if (isElementOverridingStandaloneConfig(record, equivalentHeaders)) {
             data.set(0, data.get(0).replaceFirst(OVERRIDE_KEYWORD, ""));
             data.removeIf(String::isEmpty);
         }
+
         return data;
     }
 
@@ -232,11 +237,11 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns true if the {@code record} at the column with the header {@code header} is prefixed with
-     * the override keyword.
+     * Returns true if the {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders} is prefixed with the override keyword.
      */
-    protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, String header) {
-        return get(record, header).startsWith(OVERRIDE_KEYWORD);
+    protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, String[] equivalentHeaders) {
+        return get(record, equivalentHeaders).startsWith(OVERRIDE_KEYWORD);
     }
 
     /**
