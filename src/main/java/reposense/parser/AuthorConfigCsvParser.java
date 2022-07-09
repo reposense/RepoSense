@@ -20,13 +20,13 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     /**
      * Positions of the elements of a line in author-config.csv config file.
      */
-    private static final String LOCATION_HEADER = "Repository's Location";
-    private static final String BRANCH_HEADER = "Branch";
+    private static final String[] LOCATION_HEADER = {"Repository's Location"};
+    private static final String[] BRANCH_HEADER = {"Branch"};
     private static final String[] GIT_ID_HEADERS = {"Author's Git Host ID", "Author's GitHub ID"};
-    private static final String EMAIL_HEADER = "Author's Emails";
-    private static final String DISPLAY_NAME_HEADER = "Author's Display Name";
-    private static final String ALIAS_HEADER = "Author's Git Author Name";
-    private static final String IGNORE_GLOB_LIST_HEADER = "Ignore Glob List";
+    private static final String[] EMAIL_HEADER = {"Author's Emails"};
+    private static final String[] DISPLAY_NAME_HEADER = {"Author's Display Name"};
+    private static final String[] ALIAS_HEADER = {"Author's Git Author Name"};
+    private static final String[] IGNORE_GLOB_LIST_HEADER = {"Ignore Glob List"};
 
     public AuthorConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
@@ -37,15 +37,9 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      */
     @Override
     protected String[][] mandatoryHeaders() {
-        String[][] equivalentHeaders = new String[][] {
+        return new String[][] {
                 GIT_ID_HEADERS,
         };
-
-        String[] singleHeaders = new String[] {
-                // Can be added in the future
-        };
-
-        return combineHeaders(equivalentHeaders, singleHeaders);
     }
 
     /**
@@ -53,16 +47,10 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      */
     @Override
     protected String[][] optionalHeaders() {
-        String[][] equivalentHeaders = new String[][] {
-                // Can be added in the future
-        };
-
-        String[] singleHeaders = new String[] {
+        return new String[][] {
                 LOCATION_HEADER, BRANCH_HEADER, EMAIL_HEADER, DISPLAY_NAME_HEADER, ALIAS_HEADER,
                 IGNORE_GLOB_LIST_HEADER,
         };
-
-        return combineHeaders(equivalentHeaders, singleHeaders);
     }
 
     /**

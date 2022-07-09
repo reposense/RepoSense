@@ -315,17 +315,6 @@ public abstract class CsvParser<T> {
     protected abstract String[][] optionalHeaders();
 
     /**
-     * Helper function to combine {@code equivalentHeaders} and {@code singleHeaders} for
-     * {@link CsvParser#mandatoryHeaders()} and {@link CsvParser#optionalHeaders()}.
-     */
-    protected String[][] combineHeaders(String[][] equivalentHeaders, String[] singleHeaders) {
-        return Stream.concat(
-                        Arrays.stream(equivalentHeaders),
-                        Arrays.stream(singleHeaders).map(header -> new String[] {header}))
-                .toArray(String[][]::new);
-    }
-
-    /**
      * Gets the list of all mandatory and optional headers that can be parsed.
      */
     protected List<String> mandatoryAndOptionalHeaders() {

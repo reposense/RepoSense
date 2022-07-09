@@ -19,9 +19,9 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     /**
      * Positions of the elements of a line in group-config.csv config file
      */
-    private static final String LOCATION_HEADER = "Repository's Location";
-    private static final String GROUP_NAME_HEADER = "Group Name";
-    private static final String FILES_GLOB_HEADER = "Globs";
+    private static final String[] LOCATION_HEADER = {"Repository's Location"};
+    private static final String[] GROUP_NAME_HEADER = {"Group Name"};
+    private static final String[] FILES_GLOB_HEADER = {"Globs"};
 
     public GroupConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
@@ -32,15 +32,9 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      */
     @Override
     protected String[][] mandatoryHeaders() {
-        String[][] equivalentHeaders = new String[][] {
-                // Can be added in the future
-        };
-
-        String[] singleHeaders = new String[] {
+        return new String[][] {
                 GROUP_NAME_HEADER, FILES_GLOB_HEADER,
         };
-
-        return combineHeaders(equivalentHeaders, singleHeaders);
     }
 
     /**
@@ -48,15 +42,9 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      */
     @Override
     protected String[][] optionalHeaders() {
-        String[][] equivalentHeaders = new String[][] {
-                // Can be added in the future
-        };
-
-        String[] singleHeaders = new String[] {
+        return new String[][] {
                 LOCATION_HEADER,
         };
-
-        return combineHeaders(equivalentHeaders, singleHeaders);
     }
 
     /**
