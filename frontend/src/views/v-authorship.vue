@@ -711,6 +711,7 @@ export default {
       }
 
       .mui-form--inline {
+        align-items: flex-end;
         display: flex;
         flex-wrap: wrap;
 
