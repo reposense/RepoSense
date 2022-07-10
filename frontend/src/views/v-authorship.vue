@@ -530,20 +530,18 @@ export default {
       window.encodeHash();
     },
 
-    updateSelectedFiles(setIsLoaded = false) {
-      this.$store.commit('incrementLoadingOverlayCount', 1);
-      setTimeout(() => {
-        this.selectedFiles = this.files.filter(
-            (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
-            || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))
-            && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
-        )
-            .sort(this.sortingFunction);
-        if (setIsLoaded) {
-          this.isLoaded = true;
-        }
-        this.$store.commit('incrementLoadingOverlayCount', -1);
-      });
+    async updateSelectedFiles(setIsLoaded = false) {
+      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
+      this.selectedFiles = this.files.filter(
+          (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
+          || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))
+          && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
+      )
+          .sort(this.sortingFunction);
+      if (setIsLoaded) {
+        this.isLoaded = true;
+      }
+      this.$store.commit('incrementLoadingOverlayCount', -1);
     },
 
     indicateSearchBar() {

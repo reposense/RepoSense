@@ -45,4 +45,15 @@ export default createStore({
       window.encodeHash();
     },
   },
+  actions: {
+    // Actions are called with dispatch
+
+    async incrementLoadingOverlayCountForceReload({ commit }, increment) {
+      commit('incrementLoadingOverlayCount', increment);
+      await new Promise(window.requestAnimationFrame);
+      await new Promise(window.requestAnimationFrame);
+      // Needed as browsers render lazily by default
+      // https://stackoverflow.com/a/44146560
+    },
+  },
 });
