@@ -78,7 +78,7 @@ Optionally, you can use an `author-config.csv` (which should be in the same dire
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 </br>
-<sup>** **Backward compatibility**: `Author's Git Host ID` can be replaced with `Author's GitHub ID`.</sup>
+<sup>** For backward compatibility, `Author's GitHub ID` is still accepted as the header in place of `Author's Git Host ID`.</sup>
 
 If `author-config.csv` is not given and the repo has not provided author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
