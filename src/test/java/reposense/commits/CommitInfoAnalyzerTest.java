@@ -234,7 +234,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
 
         ZoneId originalZoneId = config.getZoneId();
-        config.setZoneId("UTC-0530");
+        config.setZoneId(ZoneId.of("UTC-0530"));
         config.setSinceDate(LocalDateTime.of(2019, Month.JUNE, 18, 0, 0));
         config.setUntilDate(LocalDateTime.of(2019, Month.JUNE, 19, 0, 0));
 
@@ -310,7 +310,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setBranch("879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success");
         config.setAuthorList(Collections.singletonList(author));
 
-        config.setZoneId("UTC+10");
+        config.setZoneId(ZoneId.of("UTC+10"));
         config.setSinceDate(LocalDateTime.of(2019, Month.DECEMBER, 21, 0, 0));
         config.setUntilDate(LocalDateTime.of(2019, Month.DECEMBER, 22, 0, 0));
 
@@ -362,7 +362,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         // Equivalent to 2020-01-27 23:20:51 in UTC+9 time.
         ZoneId originalZoneId = config.getZoneId();
-        config.setZoneId("UTC+9");
+        config.setZoneId(ZoneId.of("UTC+9"));
         config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
         config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
 
