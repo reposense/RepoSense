@@ -28,7 +28,7 @@ describe('check file types ', () => {
         .should('not.exist');
   });
 
-  it('uncheck file type should uncheck all option and not show legend', () => {
+  it('uncheck file type should uncheck all option', () => {
     // Assumptions: the first author of the first repo
     // committed .java, .js and .gradle files.
     cy.get('.icon-button.fa-list-ul')
@@ -44,10 +44,7 @@ describe('check file types ', () => {
         .uncheck()
         .should('not.be.checked');
 
-    cy.get('.zoom__day > .commit-message > .fileTypeLabel')
-        .should('not.contain.text', 'java');
-
-    cy.get('.zoom__day > .commit-message > .fileTypeLabel')
-        .should('contain.text', 'gradle');
+    cy.get('#tab-zoom .fileTypes input[value="all"]')
+        .should('not.be.checked');
   });
 });
