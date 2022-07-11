@@ -62,7 +62,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     protected void processLine(List<AuthorConfiguration> results, CSVRecord record) throws ParseException {
         String location = get(record, LOCATION_HEADER);
         String branch = getOrDefault(record, BRANCH_HEADER, AuthorConfiguration.DEFAULT_BRANCH);
-        String gitHostId = get(record, GIT_ID_HEADERS);
+        String gitId = get(record, GIT_ID_HEADERS);
         List<String> emails = getAsList(record, EMAIL_HEADER);
         String displayName = get(record, DISPLAY_NAME_HEADER);
         List<String> aliases = getAsList(record, ALIAS_HEADER);
@@ -70,7 +70,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
         AuthorConfiguration config = findMatchingAuthorConfiguration(results, location, branch);
 
-        Author author = new Author(gitHostId);
+        Author author = new Author(gitId);
 
         if (config.containsAuthor(author)) {
             logger.warning(String.format(
