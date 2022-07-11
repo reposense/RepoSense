@@ -563,10 +563,6 @@ public class RepoConfiguration {
         this.zoneId = zoneId;
     }
 
-    public void setZoneId(String zoneId) {
-        this.zoneId = ZoneId.of(zoneId);
-    }
-
     public void setAuthorDisplayName(Author author, String displayName) {
         authorConfig.setAuthorDisplayName(author, displayName);
     }
