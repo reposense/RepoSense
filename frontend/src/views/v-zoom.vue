@@ -101,7 +101,7 @@
       .hash
         span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
-        v-if="containsAtLeastOneSelected(Object.keys(slice.fileTypesAndContributionMap))"
+        v-if="containsAtLeastOneSelected(Object.keys(slice.fileTypesAndContributionMap))",
         v-for="fileType in\
           Object.keys(slice.fileTypesAndContributionMap)",
         vbind:key="fileType",
