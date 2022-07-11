@@ -152,14 +152,8 @@ public abstract class CsvParser<T> {
         }
 
         for (String[] equivalentHeaders : mandatoryHeaders()) {
-            boolean isLineFormatMalformed = true;
-            for (String header : equivalentHeaders) {
-                if (!get(record, header).isEmpty()) {
-                    isLineFormatMalformed = false;
-                    break;
-                }
-            }
-
+            boolean isLineFormatMalformed =
+                    Arrays.stream(equivalentHeaders).allMatch(header -> get(record, header).isEmpty());
             if (isLineFormatMalformed) {
                 logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
                         csvFilePath.getFileName(), getRowContentAsRawString(record)));
@@ -290,13 +284,8 @@ public abstract class CsvParser<T> {
         }
 
         for (String[] equivalentHeaders : mandatoryHeaders()) {
-            boolean isAnyEquivalentHeaderPresent = false;
-            for (String mandatory : equivalentHeaders) {
-                if (headerMap.containsKey(mandatory)) {
-                    isAnyEquivalentHeaderPresent = true;
-                    break;
-                }
-            }
+            boolean isAnyEquivalentHeaderPresent =
+                    Arrays.stream(equivalentHeaders).anyMatch(header -> headerMap.containsKey(header));
 
             if (!isAnyEquivalentHeaderPresent) {
                 throw new InvalidCsvException(String.format(
