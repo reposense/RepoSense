@@ -26,7 +26,10 @@ public class LocalRepoSystemTest {
     private static final String LOCAL_DIRECTORY_ONE = "parent1/test-repo";
     private static final String LOCAL_DIRECTORY_TWO = "parent2/test-repo";
 
+    private static final String LAST_COMMIT_DATE = "01/04/2022";
+
     private static final String OUTPUT_DIRECTORY = "local-test";
+    private static final String TIME_ZONE = "UTC+08";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
 
 
@@ -58,16 +61,16 @@ public class LocalRepoSystemTest {
 
     @Test
     public void testSameFinalDirectory() {
-        String cliInput = String.format("-r %s %s -s d1 -u 01/04/2022 -o local-test -t UTC+08",
-                LOCAL_DIRECTORY_ONE, LOCAL_DIRECTORY_TWO);
+        String cliInput = String.format("-r %s %s -s d1 -u %s -o %s -t %s",
+                LOCAL_DIRECTORY_ONE, LOCAL_DIRECTORY_TWO, LAST_COMMIT_DATE, OUTPUT_DIRECTORY, TIME_ZONE);
         runTest(cliInput, "LocalRepoSystemTest/testSameFinalDirectory");
     }
 
     @Test
     public void testRelativePathing() {
         String relativePathForTesting = "parent1/../parent1/./test-repo";
-        String cliInput = String.format("-r %s -s d1 -u 01/04/2022 -o local-test -t UTC+08",
-                relativePathForTesting);
+        String cliInput = String.format("-r %s -s d1 -u %s -o %s -t %s",
+                relativePathForTesting, LAST_COMMIT_DATE, OUTPUT_DIRECTORY, TIME_ZONE);
         runTest(cliInput, "LocalRepoSystemTest/testRelativePathing");
     }
 
