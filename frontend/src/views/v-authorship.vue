@@ -429,7 +429,7 @@ export default {
 
     processFiles(files) {
       const SINGLE_FILE_LINE_COUNT_THRESHOLD = 2000;
-      const TOTAL_CHAR_COUNT_THRESHOLD = 100000;
+      const TOTAL_CHAR_COUNT_THRESHOLD = 3000000;
       const res = [];
       const fileTypeBlanksInfoObj = {};
 
