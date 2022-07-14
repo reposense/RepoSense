@@ -97,7 +97,7 @@ public class GitTestTemplate {
 
     @BeforeEach
     public void before() throws Exception {
-        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        config = newRepoConfiguration();
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         config.setZoneId(TIME_ZONE_ID_STRING);
@@ -106,7 +106,7 @@ public class GitTestTemplate {
 
     @BeforeAll
     public static void beforeClass() throws Exception {
-        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        config = newRepoConfiguration();
         config.setZoneId(TIME_ZONE_ID_STRING);
         TestRepoCloner.cloneAndBranch(config);
     }
@@ -114,6 +114,10 @@ public class GitTestTemplate {
     @AfterEach
     public void after() {
         GitCheckout.checkout(config.getRepoRoot(), "master");
+    }
+
+    private static RepoConfiguration newRepoConfiguration() throws Exception {
+        return new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
     }
 
     /**
