@@ -94,30 +94,42 @@ public class GitTestTemplate {
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
 
-    protected static RepoConfiguration config;
+    protected static ThreadLocal<RepoConfiguration> configs = ThreadLocal.withInitial(
+            () -> {
+                try {
+                    return newRepoConfiguration();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+    );
 
     private static final Supplier<String> EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER =
             () -> String.valueOf(Thread.currentThread().getId());
 
     @BeforeEach
     public void before() throws Exception {
-        config = newRepoConfiguration();
+        RepoConfiguration config = newRepoConfiguration();
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         config.setZoneId(TIME_ZONE_ID_STRING);
         config.setIsLastModifiedDateIncluded(false);
+
+        configs.set(config);
     }
 
     @BeforeAll
     public static void beforeClass() throws Exception {
-        config = newRepoConfiguration();
+        RepoConfiguration config = newRepoConfiguration();
         config.setZoneId(TIME_ZONE_ID_STRING);
+        configs.set(config);
+
         TestRepoCloner.cloneAndBranch(config, EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get());
     }
 
     @AfterEach
     public void after() {
-        GitCheckout.checkout(config.getRepoRoot(), "master");
+        GitCheckout.checkout(configs.get().getRepoRoot(), "master");
     }
 
     private static RepoConfiguration newRepoConfiguration() throws Exception {
@@ -129,6 +141,7 @@ public class GitTestTemplate {
      * Generates the information for test file at {@code relativePath}.
      */
     public FileInfo generateTestFileInfo(String relativePath) {
+        RepoConfiguration config = configs.get();
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
 
         config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
@@ -143,11 +156,12 @@ public class GitTestTemplate {
      * from {@code toIgnore} for the test repo.
      */
     public List<CommitHash> createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
+        String repoRoot = configs.get().getRepoRoot();
         List<CommitHash> expandedIgnoreCommitList = toIgnore.stream()
                 .map(CommitHash::toString)
                 .map(commitHash -> {
                     try {
-                        return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
+                        return GitShow.getExpandedCommitHash(repoRoot, commitHash);
                     } catch (CommitNotFoundException e) {
                         return new CommitHash(commitHash);
                     }
@@ -164,7 +178,7 @@ public class GitTestTemplate {
 
     public FileResult getFileResult(String relativePath) {
         FileInfo fileinfo = generateTestFileInfo(relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(config, fileinfo);
+        return FileInfoAnalyzer.analyzeTextFile(configs.get(), fileinfo);
     }
 
     /**

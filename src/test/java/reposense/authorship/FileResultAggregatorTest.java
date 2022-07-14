@@ -9,11 +9,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.git.GitCheckout;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -23,6 +25,14 @@ public class FileResultAggregatorTest extends GitTestTemplate {
             TestUtil.getSinceDate(2017, Month.JANUARY.getValue(), 1);
     private static final LocalDateTime CLEAR_FILE_LINES_UNTIL_DATE =
             TestUtil.getUntilDate(2022, Month.MARCH.getValue(), 8);
+
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     public void aggregateFileResult_clearFileLines_success() {
