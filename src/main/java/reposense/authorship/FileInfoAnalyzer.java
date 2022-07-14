@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -162,7 +161,7 @@ public class FileInfoAnalyzer {
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
             Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
             LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(commitDateInMs),
-                    ZoneId.of(config.getZoneId()));
+                    config.getZoneId());
             Author author = config.getAuthor(authorName, authorEmail);
 
             if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
