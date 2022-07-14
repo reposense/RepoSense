@@ -718,6 +718,7 @@ export default {
         #search {
           @include medium-font;
           margin-top: 1.25rem;
+          min-width: 130px;
           padding: .5rem 1.0rem .25rem 1.0rem;
           width: 70%;
         }
