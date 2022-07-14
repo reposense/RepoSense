@@ -36,7 +36,8 @@ public class TestRepoCloner {
      *
      * @throws GitBranchException when an error occurs while attempting to branch.
      */
-    public static void cloneAndBranch(RepoConfiguration config, String extraOutputFolderName) throws GitBranchException {
+    public static void cloneAndBranch(RepoConfiguration config, String extraOutputFolderName)
+            throws GitBranchException {
         String outputFolderName = Paths.get(FileUtil.getRepoParentFolder(config).toString(),
                 config.getRepoName(), extraOutputFolderName).toString();
         clone(config, Paths.get("."), outputFolderName);

@@ -93,18 +93,16 @@ public class GitTestTemplate {
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
 
-    protected static ThreadLocal<RepoConfiguration> configs = ThreadLocal.withInitial(
-            () -> {
-                try {
-                    return newRepoConfiguration();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-    );
+    protected static ThreadLocal<RepoConfiguration> configs = ThreadLocal.withInitial(() -> {
+        try {
+            return newRepoConfiguration();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    });
 
-    private static final Supplier<String> EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER =
-            () -> String.valueOf(Thread.currentThread().getId());
+    private static final Supplier<String> EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER = () ->
+            String.valueOf(Thread.currentThread().getId());
 
     @BeforeEach
     public void before() throws Exception {
