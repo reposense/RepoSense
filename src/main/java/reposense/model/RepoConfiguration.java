@@ -56,9 +56,13 @@ public class RepoConfiguration {
     }
 
     public RepoConfiguration(RepoLocation location, String branch) {
+        this(location, branch, DEFAULT_EXTRA_OUTPUT_FOLDER_NAME);
+    }
+
+    public RepoConfiguration(RepoLocation location, String branch, String extraOutputFolderName) {
         this(location, branch, Collections.emptyList(), Collections.emptyList(),
                 RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT, false, false, Collections.emptyList(), false, false, false,
-                false, false, false, false, DEFAULT_EXTRA_OUTPUT_FOLDER_NAME);
+                false, false, false, false, extraOutputFolderName);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,

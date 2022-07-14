@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterEach;
@@ -95,6 +96,9 @@ public class GitTestTemplate {
 
     protected static RepoConfiguration config;
 
+    private static final Supplier<String> EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER =
+            () -> String.valueOf(Thread.currentThread().getId());
+
     @BeforeEach
     public void before() throws Exception {
         config = newRepoConfiguration();
@@ -108,7 +112,7 @@ public class GitTestTemplate {
     public static void beforeClass() throws Exception {
         config = newRepoConfiguration();
         config.setZoneId(TIME_ZONE_ID_STRING);
-        TestRepoCloner.cloneAndBranch(config);
+        TestRepoCloner.cloneAndBranch(config, EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get());
     }
 
     @AfterEach
@@ -117,7 +121,8 @@ public class GitTestTemplate {
     }
 
     private static RepoConfiguration newRepoConfiguration() throws Exception {
-        return new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        return new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master",
+                EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get());
     }
 
     /**
