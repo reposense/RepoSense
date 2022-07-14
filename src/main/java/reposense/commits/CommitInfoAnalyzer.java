@@ -3,7 +3,6 @@ package reposense.commits;
 import static reposense.util.StringsUtil.removeQuote;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -95,7 +94,7 @@ public class CommitInfoAnalyzer {
         }
 
         // Commit date may be in a timezone different from the one given in the config.
-        LocalDateTime adjustedDate = date.withZoneSameInstant(ZoneId.of(config.getZoneId())).toLocalDateTime();
+        LocalDateTime adjustedDate = date.withZoneSameInstant(config.getZoneId()).toLocalDateTime();
 
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
         String messageBody = (elements.length > MESSAGE_BODY_INDEX)
