@@ -385,13 +385,12 @@ export default {
     },
 
     containsAtLeastOneSelected(fileTypes) {
-      let includesSelectedFileTypes = false;
-      fileTypes.forEach((fileType) => {
-        if (this.selectedFileTypes.includes(fileType)) {
-          includesSelectedFileTypes = true;
+      for (let i = 0; i < fileTypes.length; i += 1) {
+        if (this.selectedFileTypes.includes(fileTypes[i])) {
+          return true;
         }
-      });
-      return includesSelectedFileTypes;
+      }
+      return false;
     },
 
     getFontColor,
