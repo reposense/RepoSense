@@ -60,18 +60,18 @@ describe('check file types ', () => {
         .eq(2)
         .within(() => {
           cy.get('.hash')
-              .should('have.text', '19e3294')
+              .should('have.text', '19e3294');
           cy.get('.fileTypeLabel')
-              .should('have.text', 'java')
-        })
+              .should('have.text', 'java');
+        });
 
     cy.get('#tab-zoom .fileTypes input[value="java"]')
         .uncheck()
         .should('not.be.checked');
 
     cy.get('.zoom__day > .commit-message')
-        .should('not.contain.text', '19e3294')
-  })
+        .should('not.contain.text', '19e3294');
+  });
 
   it.only('unchecked file type label can still remain in a commit of multiple file types', () => {
     // Assumptions: the sixth commit (5ab0322) of the first author of the first repo
@@ -85,11 +85,11 @@ describe('check file types ', () => {
         .eq(5)
         .within(() => {
           cy.get('.hash')
-              .should('have.text', '5ab0322')
+              .should('have.text', '5ab0322');
           cy.get('.fileTypeLabel')
               .should('contain.text', 'java')
-              .should('contain.text', 'md')
-        })
+              .should('contain.text', 'md');
+        });
 
     cy.get('#tab-zoom .fileTypes input[value="java"]')
         .uncheck()
@@ -100,10 +100,10 @@ describe('check file types ', () => {
         // were filtered out
         .within(() => {
           cy.get('.hash')
-              .should('have.text', '5ab0322')
+              .should('have.text', '5ab0322');
           cy.get('.fileTypeLabel')
               .should('contain.text', 'java')
-              .should('contain.text', 'md')
-        })
-  })
+              .should('contain.text', 'md');
+        });
+  });
 });
