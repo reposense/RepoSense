@@ -233,8 +233,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
         secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
 
-        String originalZoneId = config.getZoneId();
-        config.setZoneId("UTC-0530");
+        ZoneId originalZoneId = config.getZoneId();
+        config.setZoneId(ZoneId.of("UTC-0530"));
         config.setSinceDate(LocalDateTime.of(2019, Month.JUNE, 18, 0, 0));
         config.setUntilDate(LocalDateTime.of(2019, Month.JUNE, 19, 0, 0));
 
@@ -305,12 +305,12 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
         secondFileTypeAndContributionMap.put(FILETYPE_MD, new ContributionPair(1, 0));
 
-        String originalZoneId = config.getZoneId();
+        ZoneId originalZoneId = config.getZoneId();
 
         config.setBranch("879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success");
         config.setAuthorList(Collections.singletonList(author));
 
-        config.setZoneId("UTC+10");
+        config.setZoneId(ZoneId.of("UTC+10"));
         config.setSinceDate(LocalDateTime.of(2019, Month.DECEMBER, 21, 0, 0));
         config.setUntilDate(LocalDateTime.of(2019, Month.DECEMBER, 22, 0, 0));
 
@@ -361,8 +361,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
         // Equivalent to 2020-01-27 23:20:51 in UTC+9 time.
-        String originalZoneId = config.getZoneId();
-        config.setZoneId("UTC+9");
+        ZoneId originalZoneId = config.getZoneId();
+        config.setZoneId(ZoneId.of("UTC+9"));
         config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
         config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
 
@@ -436,8 +436,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     /**
      * Returns a {@link LocalDateTime} from a string {@code gitStrictIsoDate}.
      */
-    private LocalDateTime parseGitStrictIsoDate(String gitStrictIsoDate) throws Exception {
+    private LocalDateTime parseGitStrictIsoDate(String gitStrictIsoDate) {
         return ZonedDateTime.parse(gitStrictIsoDate, CommitInfoAnalyzer.GIT_STRICT_ISO_DATE_FORMAT)
-                .withZoneSameInstant(ZoneId.of(config.getZoneId())).toLocalDateTime();
+                .withZoneSameInstant(config.getZoneId()).toLocalDateTime();
     }
 }

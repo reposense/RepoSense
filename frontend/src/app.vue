@@ -200,6 +200,7 @@ const app = {
         isRefresh: true,
         minDate,
         maxDate,
+        location: this.getRepoLink(),
       };
       const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
@@ -286,6 +287,16 @@ const app = {
         return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;
       }
       return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
+    },
+
+    getRepoLink() {
+      const { REPOS, hashParams } = window;
+      const { location, branch } = REPOS[hashParams.tabRepo];
+
+      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
+        return window.getBranchLink(hashParams.tabRepo, branch);
+      }
+      return REPOS[hashParams.tabRepo].location.location;
     },
   },
 
