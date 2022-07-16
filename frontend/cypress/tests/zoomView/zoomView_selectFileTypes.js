@@ -98,6 +98,7 @@ describe('check file types ', () => {
     cy.get('.zoom__day > .commit-message')
         // note that the same commit is now of second order since other commits
         // were filtered out
+        .eq(2)
         .within(() => {
           cy.get('.hash')
               .should('have.text', '5ab0322');
