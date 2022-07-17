@@ -165,6 +165,19 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                     "Ignoring unknown value " + findPreviousAuthorsConfig + " in find previous authors column.");
         }
 
+        addConfig(results, location, branch, isFormatsOverriding, formats, isIgnoreGlobListOverriding, ignoreGlobList,
+                isIgnoreCommitListOverriding, ignoreCommitList, isIgnoredAuthorsListOverriding, ignoredAuthorsList,
+                isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
+                isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed);
+    }
+
+    private void addConfig(List<RepoConfiguration> results, RepoLocation location, String branch,
+            boolean isFormatsOverriding, List<FileType> formats, boolean isIgnoreGlobListOverriding,
+            List<String> ignoreGlobList, boolean isIgnoreCommitListOverriding, List<CommitHash> ignoreCommitList,
+            boolean isIgnoredAuthorsListOverriding, List<String> ignoredAuthorsList, boolean isFileSizeLimitIgnored,
+            boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
+            boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
+            boolean isFindingPreviousAuthorsPerformed) {
         RepoConfiguration config = new RepoConfiguration(
                 location, branch, formats, ignoreGlobList, fileSizeLimit, isStandaloneConfigIgnored,
                 isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding, isIgnoreGlobListOverriding,
