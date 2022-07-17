@@ -3,6 +3,7 @@ package reposense.template;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -88,7 +89,7 @@ public class GitTestTemplate {
             new CommitHash(AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING)
     );
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
-    protected static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
+    protected static final ZoneId TIME_ZONE_ID = ZoneId.of("Asia/Singapore");
 
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
@@ -109,7 +110,7 @@ public class GitTestTemplate {
         RepoConfiguration config = newRepoConfiguration();
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
-        config.setZoneId(TIME_ZONE_ID_STRING);
+        config.setZoneId(TIME_ZONE_ID);
         config.setIsLastModifiedDateIncluded(false);
 
         configs.set(config);
@@ -118,7 +119,7 @@ public class GitTestTemplate {
     @BeforeAll
     public static void beforeClass() throws Exception {
         RepoConfiguration config = newRepoConfiguration();
-        config.setZoneId(TIME_ZONE_ID_STRING);
+        config.setZoneId(TIME_ZONE_ID);
         configs.set(config);
 
         TestRepoCloner.cloneAndBranch(config, EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get());
