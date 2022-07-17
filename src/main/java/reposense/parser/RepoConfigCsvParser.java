@@ -178,11 +178,10 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
             boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
             boolean isFindingPreviousAuthorsPerformed) {
-        RepoConfiguration config = new RepoConfiguration(
-                location, branch, formats, ignoreGlobList, fileSizeLimit, isStandaloneConfigIgnored,
-                isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding, isIgnoreGlobListOverriding,
-                isIgnoreCommitListOverriding, isFileSizeLimitOverriding, isShallowCloningPerformed,
-                isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped);
+        RepoConfiguration config = new RepoConfiguration(location, branch, formats, ignoreGlobList, fileSizeLimit,
+                isStandaloneConfigIgnored, isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding,
+                isIgnoreGlobListOverriding, isIgnoreCommitListOverriding, isFileSizeLimitOverriding,
+                isShallowCloningPerformed, isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped);
         config.setIgnoredAuthorsList(ignoredAuthorsList);
         config.setIsIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding);
 
