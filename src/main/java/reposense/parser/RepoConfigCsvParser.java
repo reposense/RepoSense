@@ -97,22 +97,11 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isElementOverridingStandaloneConfig(record, IGNORE_AUTHOR_LIST_CONFIG_HEADER);
         List<String> ignoredAuthorsList = getAsListWithoutOverridePrefix(record, IGNORE_AUTHOR_LIST_CONFIG_HEADER);
 
-        String ignoreFileSizeLimit = get(record, IGNORE_FILESIZE_LIMIT_HEADER);
-        boolean isFileSizeLimitIgnored = ignoreFileSizeLimit.equalsIgnoreCase(IGNORE_FILESIZE_LIMIT_KEYWORD);
+        boolean isFileSizeLimitIgnored = matchValueAndKeyword(record, IGNORE_FILESIZE_LIMIT_HEADER,
+                IGNORE_FILESIZE_LIMIT_KEYWORD);
 
-        if (!isFileSizeLimitIgnored && !ignoreFileSizeLimit.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + ignoreFileSizeLimit + " in ignore filesize limit column.");
-        }
-
-        String skipIgnoredFileAnalysis = get(record, SKIP_IGNORED_FILE_ANALYSIS_HEADER);
-        boolean isIgnoredFileAnalysisSkipped = skipIgnoredFileAnalysis.equalsIgnoreCase(
+        boolean isIgnoredFileAnalysisSkipped = matchValueAndKeyword(record, SKIP_IGNORED_FILE_ANALYSIS_HEADER,
                 SKIP_IGNORED_FILE_ANALYSIS_KEYWORD);
-
-        if (!isIgnoredFileAnalysisSkipped && !skipIgnoredFileAnalysis.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + skipIgnoredFileAnalysis + " in skip ignored file analysis column.");
-        }
 
         if (isFileSizeLimitIgnored && isIgnoredFileAnalysisSkipped) {
             logger.warning("Ignoring skip ignored file analysis column since file size limit is ignored");
@@ -140,35 +129,35 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             }
         }
 
-        String ignoreStandaloneConfig = get(record, IGNORE_STANDALONE_CONFIG_HEADER);
-        boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
+        boolean isStandaloneConfigIgnored = matchValueAndKeyword(record, IGNORE_STANDALONE_CONFIG_HEADER,
+                IGNORE_STANDALONE_CONFIG_KEYWORD);
 
-        if (!isStandaloneConfigIgnored && !ignoreStandaloneConfig.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + ignoreStandaloneConfig + " in ignore standalone config column.");
-        }
+        boolean isShallowCloningPerformed = matchValueAndKeyword(record, SHALLOW_CLONING_CONFIG_HEADER,
+                SHALLOW_CLONING_CONFIG_KEYWORD);
 
-        String shallowCloningConfig = get(record, SHALLOW_CLONING_CONFIG_HEADER);
-        boolean isShallowCloningPerformed = shallowCloningConfig.equalsIgnoreCase(SHALLOW_CLONING_CONFIG_KEYWORD);
-
-        if (!isShallowCloningPerformed && !shallowCloningConfig.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + shallowCloningConfig + " in shallow cloning column.");
-        }
-
-        String findPreviousAuthorsConfig = get(record, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER);
-        boolean isFindingPreviousAuthorsPerformed = findPreviousAuthorsConfig
-                                                        .equalsIgnoreCase(FIND_PREVIOUS_AUTHORS_KEYWORD);
-
-        if (!isFindingPreviousAuthorsPerformed && !findPreviousAuthorsConfig.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + findPreviousAuthorsConfig + " in find previous authors column.");
-        }
+        boolean isFindingPreviousAuthorsPerformed = matchValueAndKeyword(record, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER,
+                FIND_PREVIOUS_AUTHORS_KEYWORD);
 
         addConfig(results, location, branch, isFormatsOverriding, formats, isIgnoreGlobListOverriding, ignoreGlobList,
                 isIgnoreCommitListOverriding, ignoreCommitList, isIgnoredAuthorsListOverriding, ignoredAuthorsList,
                 isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
                 isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed);
+    }
+
+    /**
+     * Returns true if value from {@code record} that matches the given {@code header} is the same as the given
+     * {@code keyword}, else false.
+     * Logs a warning message if unknown value is found.
+     */
+    private boolean matchValueAndKeyword(CSVRecord record, String header, String keyword) {
+        String value = get(record, header);
+        boolean isIgnored = value.equalsIgnoreCase(keyword);
+
+        if (!isIgnored && !value.isEmpty()) {
+            logger.warning(String.format("Ignoring unknown value %s in %s column.", value, keyword.toLowerCase()));
+        }
+
+        return isIgnored;
     }
 
     private void addConfig(List<RepoConfiguration> results, RepoLocation location, String branch,
