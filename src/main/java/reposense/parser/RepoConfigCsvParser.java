@@ -147,7 +147,6 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     /**
      * Returns true if value from {@code record} that matches the given {@code header} is the same as the given
      * {@code keyword}, else false.
-     * Logs a warning message if unknown value is found.
      */
     private boolean matchValueAndKeyword(CSVRecord record, String header, String keyword) {
         String value = get(record, header);
@@ -160,6 +159,10 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         return isIgnored;
     }
 
+    /**
+     * Creates a new {@link RepoConfiguration} with the supplied inputs and attempts to add it to {@code results}.
+     * Does nothing if the repo already exists in {@code results}.
+     */
     private void addConfig(List<RepoConfiguration> results, RepoLocation location, String branch,
             boolean isFormatsOverriding, List<FileType> formats, boolean isIgnoreGlobListOverriding,
             List<String> ignoreGlobList, boolean isIgnoreCommitListOverriding, List<CommitHash> ignoreCommitList,
