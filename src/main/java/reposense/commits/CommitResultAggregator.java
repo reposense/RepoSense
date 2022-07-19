@@ -30,22 +30,21 @@ public class CommitResultAggregator {
     public static CommitContributionSummary aggregateCommitResults(
             RepoConfiguration config, List<CommitResult> commitResults) {
         LocalDateTime startDate;
-        ZoneId zoneId = ZoneId.of(config.getZoneId());
+        ZoneId zoneId = config.getZoneId();
         startDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(config.getSinceDate(), zoneId))
                 ? getStartOfDate(getStartDate(commitResults, zoneId), zoneId)
                 : config.getSinceDate();
         ReportGenerator.setEarliestSinceDate(startDate);
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
-                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(),
-                        commitResults, ZoneId.of(config.getZoneId()));
+                getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults, zoneId);
 
         LocalDateTime lastDate = commitResults.size() == 0
                 ? null
                 : getStartOfDate(commitResults.get(commitResults.size() - 1).getTime(), zoneId);
 
         Map<Author, Float> authorContributionVariance =
-                calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate, config.getZoneId());
+                calcAuthorContributionVariance(authorDailyContributionsMap, startDate, lastDate, zoneId);
 
         return new CommitContributionSummary(
                 config.getAuthorDisplayNameMap(),
@@ -60,7 +59,7 @@ public class CommitResultAggregator {
      */
     private static Map<Author, Float> calcAuthorContributionVariance(
             Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, LocalDateTime startDate,
-            LocalDateTime lastDate, String zoneId) {
+            LocalDateTime lastDate, ZoneId zoneId) {
         Map<Author, Float> result = new HashMap<>();
         for (Author author : intervalContributionMaps.keySet()) {
             List<AuthorDailyContribution> contributions = intervalContributionMaps.get(author);
@@ -74,15 +73,15 @@ public class CommitResultAggregator {
      * between {@code startDate} and {@code lastDate}.
      * The {@code startDate} and {@code lastDate} are determined based on {@code zoneId}.
      */
-    private static float getContributionVariance(List<AuthorDailyContribution> contributions,
-            LocalDateTime startDate, LocalDateTime lastDate, String zoneId) {
+    private static float getContributionVariance(List<AuthorDailyContribution> contributions, LocalDateTime startDate,
+            LocalDateTime lastDate, ZoneId zoneId) {
         if (contributions.size() == 0) {
             return 0;
         }
         //get mean
         float total = 0;
-        long startDateInMs = ZonedDateTime.of(startDate, ZoneId.of(zoneId)).toInstant().toEpochMilli();
-        long lastDateInMs = ZonedDateTime.of(lastDate, ZoneId.of(zoneId)).toInstant().toEpochMilli();
+        long startDateInMs = ZonedDateTime.of(startDate, zoneId).toInstant().toEpochMilli();
+        long lastDateInMs = ZonedDateTime.of(lastDate, zoneId).toInstant().toEpochMilli();
         long totalDays = (lastDateInMs - startDateInMs) / DAYS_IN_MS + 1;
 
         for (AuthorDailyContribution contribution : contributions) {
@@ -91,14 +90,14 @@ public class CommitResultAggregator {
         float mean = total / totalDays;
 
         float variance = 0;
-        long currentDate = ZonedDateTime.of(startDate, ZoneId.of(zoneId)).toInstant().toEpochMilli();
+        long currentDate = ZonedDateTime.of(startDate, zoneId).toInstant().toEpochMilli();
 
         int contributionIndex = 0;
         for (int i = 0; i < totalDays; i += 1) {
 
             // Check whether the contributionIndex is valid and the date being looked at has any contributions.
             if (contributionIndex < contributions.size() && currentDate
-                    == ZonedDateTime.of(contributions.get(contributionIndex).getDate(), ZoneId.of(zoneId))
+                    == ZonedDateTime.of(contributions.get(contributionIndex).getDate(), zoneId)
                     .toInstant().toEpochMilli()) {
                 variance += Math.pow((mean - contributions.get(contributionIndex).getTotalContribution()), 2);
                 contributionIndex += 1;
