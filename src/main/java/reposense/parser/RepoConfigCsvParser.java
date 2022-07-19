@@ -113,19 +113,21 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         long fileSizeLimit = RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 
         // If file diff limit is specified
-        if (isFileSizeLimitIgnored && fileSizeLimitStringList.size() > 0) {
-            logger.warning("Ignoring file size limit column since file size limit is ignored");
-            isFileSizeLimitOverriding = false;
-        } else if (fileSizeLimitStringList.size() > 0) {
-            String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
-            int parseValue;
-            if (!StringsUtil.isNumeric(fileSizeLimitString)
-                    || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
-                logger.warning(String.format("Values in \"%s\" column should be positive integers.",
-                        FILESIZE_LIMIT_HEADER));
+        if (fileSizeLimitStringList.size() > 0) {
+            if (isFileSizeLimitIgnored) {
+                logger.warning("Ignoring file size limit column since file size limit is ignored");
                 isFileSizeLimitOverriding = false;
             } else {
-                fileSizeLimit = parseValue;
+                String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
+                int parseValue;
+                if (!StringsUtil.isNumeric(fileSizeLimitString)
+                        || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
+                    logger.warning(String.format("Values in \"%s\" column should be positive integers.",
+                            FILESIZE_LIMIT_HEADER));
+                    isFileSizeLimitOverriding = false;
+                } else {
+                    fileSizeLimit = parseValue;
+                }
             }
         }
 
