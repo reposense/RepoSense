@@ -73,7 +73,7 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-            RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId().toString());
+            RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId());
             RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
                     cliArguments.isStandaloneConfigIgnored());
             RepoConfiguration.setFileSizeLimitIgnoredToRepoConfigs(configs,
