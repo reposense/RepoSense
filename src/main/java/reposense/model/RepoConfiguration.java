@@ -2,6 +2,7 @@ package reposense.model;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +27,7 @@ public class RepoConfiguration {
     private String branch;
     private String displayName;
     private String outputFolderName;
-    private transient String zoneId;
+    private transient ZoneId zoneId;
     private transient LocalDateTime sinceDate;
     private transient LocalDateTime untilDate;
     private transient String repoFolderName;
@@ -116,7 +117,7 @@ public class RepoConfiguration {
         }
     }
 
-    public static void setZoneIdToRepoConfigs(List<RepoConfiguration> configs, String zoneId) {
+    public static void setZoneIdToRepoConfigs(List<RepoConfiguration> configs, ZoneId zoneId) {
         for (RepoConfiguration config : configs) {
             config.setZoneId(zoneId);
         }
@@ -568,11 +569,11 @@ public class RepoConfiguration {
         this.untilDate = untilDate;
     }
 
-    public String getZoneId() {
+    public ZoneId getZoneId() {
         return zoneId;
     }
 
-    public void setZoneId(String zoneId) {
+    public void setZoneId(ZoneId zoneId) {
         this.zoneId = zoneId;
     }
 
