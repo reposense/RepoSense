@@ -44,7 +44,7 @@ public class RepoConfiguration {
     private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
-    private transient boolean isIgnoredAuthorsListOverriding = false;
+    private transient boolean isIgnoredAuthorsListOverriding;
     private transient long fileSizeLimit;
     private transient boolean isFileSizeLimitOverriding;
     private transient boolean isIgnoredFileAnalysisSkipped;
@@ -64,6 +64,18 @@ public class RepoConfiguration {
             List<CommitHash> ignoreCommitList, boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding,
             boolean isIgnoreCommitListOverriding, boolean isFileSizeLimitOverriding, boolean isShallowCloningPerformed,
             boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped) {
+        this(location, branch, formats, ignoreGlobList, fileSizeLimit, isStandaloneConfigIgnored,
+                isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding, isIgnoreGlobListOverriding,
+                isIgnoreCommitListOverriding, isFileSizeLimitOverriding, isShallowCloningPerformed,
+                isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped, Collections.emptyList(), false);
+    }
+
+    public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
+            long fileSizeLimit, boolean isStandaloneConfigIgnored, boolean isFileSizeLimitIgnored,
+            List<CommitHash> ignoreCommitList, boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding,
+            boolean isIgnoreCommitListOverriding, boolean isFileSizeLimitOverriding, boolean isShallowCloningPerformed,
+            boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped,
+            List<String> ignoredAuthorsList, boolean isIgnoredAuthorsListOverriding) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
@@ -80,6 +92,8 @@ public class RepoConfiguration {
         this.isShallowCloningPerformed = isShallowCloningPerformed;
         this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
         this.isIgnoredFileAnalysisSkipped = isIgnoredFileAnalysisSkipped;
+        this.ignoredAuthorsList = ignoredAuthorsList;
+        this.isIgnoredAuthorsListOverriding = isIgnoredAuthorsListOverriding;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();

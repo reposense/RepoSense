@@ -175,9 +175,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         RepoConfiguration config = new RepoConfiguration(location, branch, formats, ignoreGlobList, fileSizeLimit,
                 isStandaloneConfigIgnored, isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding,
                 isIgnoreGlobListOverriding, isIgnoreCommitListOverriding, isFileSizeLimitOverriding,
-                isShallowCloningPerformed, isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped);
-        config.setIgnoredAuthorsList(ignoredAuthorsList);
-        config.setIsIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding);
+                isShallowCloningPerformed, isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped,
+                ignoredAuthorsList, isIgnoredAuthorsListOverriding);
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);
