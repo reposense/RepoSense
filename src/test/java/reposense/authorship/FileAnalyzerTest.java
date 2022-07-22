@@ -2,7 +2,6 @@ package reposense.authorship;
 
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -61,8 +60,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
     private static final LocalDateTime ANALYZE_FILES_EMPTY_EMAIL_COMMIT_UNTIL_DATE =
             TestUtil.getUntilDate(2022, Month.FEBRUARY.getValue(), 14);
 
-    private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
-
     private static final Author[] EXPECTED_LINE_AUTHORS_BLAME_TEST = {
             MAIN_AUTHOR, MAIN_AUTHOR, FAKE_AUTHOR, MAIN_AUTHOR
     };
@@ -76,7 +73,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     @BeforeEach
     public void before() throws Exception {
         super.before();
-        config.setZoneId(TIME_ZONE_ID_STRING);
+        config.setZoneId(TIME_ZONE_ID);
     }
 
     @Test
@@ -114,8 +111,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameTestDateRange() throws Exception {
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), BLAME_TEST_UNTIL_DATE,
-                ZoneId.of(config.getZoneId()));
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), BLAME_TEST_UNTIL_DATE, config.getZoneId());
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
 
@@ -133,7 +129,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
         GitCheckout.checkout(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE,
-                ZoneId.of(config.getZoneId()));
+                config.getZoneId());
 
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);
         FileResult fileResult = getFileResult("blameTest.java");
@@ -144,8 +140,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void movedFileBlameTestDateRange() throws Exception {
-        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), MOVED_FILE_UNTIL_DATE,
-                ZoneId.of(config.getZoneId()));
+        GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), MOVED_FILE_UNTIL_DATE, config.getZoneId());
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
 
