@@ -41,7 +41,7 @@
         v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
-          font-awesome-icon.icon-button(:icon="['fas', 'database']")
+          font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
           span.tooltip-text Click to view group's repo
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
@@ -104,7 +104,7 @@
           v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
-            font-awesome-icon.icon-button(:icon="['fas', 'database']")
+            font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
             span.tooltip-text Click to view repo
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
@@ -316,6 +316,21 @@ export default {
       return repo.location;
     },
 
+    getRepoIcon(repo) {
+      const domainName = window.REPOS[repo.repoId].location.domainName;
+
+      switch (domainName) {
+      case 'github':
+        return ['fab', 'github'];
+      case 'gitlab':
+        return ['fab', 'gitlab'];
+      case 'bitbucket':
+        return ['fab', 'bitbucket'];
+      default:
+        return ['fas', 'database'];
+      }
+    },
+
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index, isMerged) {
       const {
@@ -331,7 +346,6 @@ export default {
         name: user.displayName,
         isMergeGroup: isMerged,
         location: this.getRepoLink(repo[index]),
-        repoIndex: index,
       };
       this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);

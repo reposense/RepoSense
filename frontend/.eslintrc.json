@@ -43,7 +43,7 @@
     "max-len": [
       "error",
       {
-        "code": 130
+        "code": 120
       }
     ],
     "prefer-object-spread": 0,
