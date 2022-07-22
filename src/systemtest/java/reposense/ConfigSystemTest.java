@@ -197,7 +197,7 @@ public class ConfigSystemTest {
         RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-        RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId().toString());
+        RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId());
         RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(repoConfigs, shouldIncludeModifiedDateInLines);
         RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(repoConfigs,
                 cliArguments.isFindingPreviousAuthorsPerformed());

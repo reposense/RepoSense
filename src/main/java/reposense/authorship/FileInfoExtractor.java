@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -69,12 +68,12 @@ public class FileInfoExtractor {
         // git blame file analyze output
         try {
             GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), config.getUntilDate(),
-                    ZoneId.of(config.getZoneId()));
+                    config.getZoneId());
         } catch (CommitNotFoundException cnfe) {
             return fileInfos;
         }
         String lastCommitHash = GitRevList.getCommitHashUntilDate(
-                config.getRepoRoot(), config.getBranch(), config.getSinceDate(), ZoneId.of(config.getZoneId()));
+                config.getRepoRoot(), config.getBranch(), config.getSinceDate(), config.getZoneId());
 
         fileInfos = (lastCommitHash.isEmpty())
                 ? getAllFileInfo(config, false)
