@@ -143,7 +143,7 @@ public class ConfigSystemTest {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
                 shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
         Path actualFiles = loadResource(getClass(), pathToResource);
-        SystemTestUtil.verifyAllJson(actualFiles, Paths.get(FT_TEMP_DIR));
+        SystemTestUtil.verifyReportJsonFiles(actualFiles, Paths.get(FT_TEMP_DIR));
         haveNormallyClonedRepo = !shallowCloning;
     }
 
@@ -197,7 +197,7 @@ public class ConfigSystemTest {
         RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-        RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId().toString());
+        RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId());
         RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(repoConfigs, shouldIncludeModifiedDateInLines);
         RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(repoConfigs,
                 cliArguments.isFindingPreviousAuthorsPerformed());
