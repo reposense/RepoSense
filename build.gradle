@@ -6,8 +6,8 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
-    id 'com.liferay.node' version '7.2.16'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.liferay.node' version '7.2.18'
     id 'com.github.psxpaul.execfork' version '0.2.0'
     id 'com.palantir.git-version' version '0.13.0'
 }
@@ -54,7 +54,7 @@ sourceSets {
 }
 
 wrapper {
-    gradleVersion = '6.9.2'
+    gradleVersion = '7.4.2'
 }
 
 def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
@@ -77,6 +77,10 @@ def zipReport = tasks.register('zipReport', Zip) {
 
 def compileJava = tasks.compileJava
 def classes = tasks.classes
+
+tasks.named("processSystemtestResources").configure {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
 
 tasks.run.dependsOn(zipReport);
 
@@ -121,6 +125,7 @@ tasks.shadowJar.dependsOn(zipReport);
 
 shadowJar {
     tasks.compileJava.mustRunAfter(zipReport)
+    tasks.processResources.mustRunAfter(zipReport)
     archiveFileName = 'RepoSense.jar'
     destinationDirectory = file("${buildDir}/jar/")
 
@@ -167,8 +172,9 @@ tasks.register('systemtest', Test) {
 }
 
 def serveTestReportInBackground = tasks.register('serveTestReportInBackground', com.github.psxpaul.task.JavaExecFork) {
-    dependsOn zipReport, compileJava, classes
+    dependsOn zipReport, compileJava, processResources, classes
     tasks.compileJava.mustRunAfter(zipReport)
+    tasks.processResources.mustRunAfter(zipReport)
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
     args = ['--config', './frontend/cypress/config', '--since', 'd1', '--view']
@@ -215,9 +221,9 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        html.enabled = true
-        xml.enabled true
-        csv.enabled false
+        html.required = true
+        xml.required = true
+        csv.required = false
         html.destination file("${buildDir}/jacocoHtml")
     }
 
@@ -238,8 +244,8 @@ coverage.configure {
     }
 
     reports {
-        html.enabled = true
-        xml.enabled = true
+        html.required = true
+        xml.required = true
     }
 }
 
