@@ -48,7 +48,7 @@ describe('check file types ', () => {
         .should('not.be.checked');
   });
 
-  it('a commit of a specific file type should not be seen when that type is unchecked', () => {
+  it('a commit should not be seen when all of its file types are unchecked', () => {
     // Assumptions: the third commit (19e3294) of the first author of the first repo
     // contains changes in only .java files.
     cy.get('.icon-button.fa-list-ul')
