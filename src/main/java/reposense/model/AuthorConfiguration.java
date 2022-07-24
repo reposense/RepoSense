@@ -228,6 +228,9 @@ public class AuthorConfiguration {
         authorDisplayNameMap.clear();
     }
 
+    /**
+     * Clears author details mapping information.
+     */
     public void clearAuthorDetailsToAuthorMap() {
         authorNamesToAuthorMap.clear();
         authorEmailsToAuthorMap.clear();
