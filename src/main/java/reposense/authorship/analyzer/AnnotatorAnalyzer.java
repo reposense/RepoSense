@@ -83,12 +83,15 @@ public class AnnotatorAnalyzer {
      * @return Optional {@code Author} found in the line.
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig) {
-        Map<String, Author> authorAliasMap = authorConfig.getAuthorDetailsToAuthorMap();
+        Map<String, Author> authorAliasMap = authorConfig.getAuthorNamesToAuthorMap();
+        Map<String, Author> authorEmailsMap = authorConfig.getAuthorEmailsToAuthorMap();
         Optional<String> optionalName = extractAuthorName(line);
 
-        optionalName.filter(name -> !authorAliasMap.containsKey(name) && !AuthorConfiguration.hasAuthorConfigFile())
+        optionalName.filter(name -> !(authorAliasMap.containsKey(name) || authorEmailsMap.containsKey(name))
+                        && !AuthorConfiguration.hasAuthorConfigFile())
                 .ifPresent(name -> authorConfig.addAuthor(new Author(name)));
-        return optionalName.map(name -> authorAliasMap.getOrDefault(name, Author.UNKNOWN_AUTHOR));
+
+        return optionalName.map(name -> authorConfig.getAuthor(name, name));
     }
 
     /**

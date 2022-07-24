@@ -504,12 +504,20 @@ public class RepoConfiguration {
         authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
     }
 
-    public Map<String, Author> getAuthorDetailsToAuthorMap() {
-        return authorConfig.getAuthorDetailsToAuthorMap();
+    public Map<String, Author> getAuthorNamesToAuthorMap() {
+        return authorConfig.getAuthorNamesToAuthorMap();
     }
 
-    public void setAuthorDetailsToAuthorMap(Map<String, Author> authorDetailsToAuthorMap) {
-        authorConfig.setAuthorDetailsToAuthorMap(authorDetailsToAuthorMap);
+    public void setAuthorNamesToAuthorMap(Map<String, Author> authorNamesToAuthorMap) {
+        authorConfig.setAuthorNamesToAuthorMap(authorNamesToAuthorMap);
+    }
+
+    public Map<String, Author> getAuthorEmailsToAuthorMap() {
+        return authorConfig.getAuthorEmailsToAuthorMap();
+    }
+
+    public void setAuthorEmailsToAuthorMap(Map<String, Author> authorEmailsToAuthorMap) {
+        authorConfig.setAuthorEmailsToAuthorMap(authorEmailsToAuthorMap);
     }
 
     public void setFormats(List<FileType> formats) {
@@ -567,8 +575,12 @@ public class RepoConfiguration {
         authorConfig.setAuthorDisplayName(author, displayName);
     }
 
-    public void addAuthorDetailsToAuthorMapEntry(Author author, List<String> values) {
-        authorConfig.addAuthorDetailsToAuthorMapEntry(author, values);
+    public void addAuthorNamesToAuthorMapEntry(Author author, List<String> names) {
+        authorConfig.addAuthorNamesToAuthorMapEntry(author, names);
+    }
+
+    public void addAuthorEmailsToAuthorMapEntry(Author author, List<String> emails) {
+        authorConfig.addAuthorEmailsToAuthorMapEntry(author, emails);
     }
 
     public String getDisplayName() {
