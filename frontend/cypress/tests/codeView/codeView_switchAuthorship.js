@@ -51,7 +51,7 @@ describe('switch authorship', () => {
         .should('be.checked');
   });
 
-  it.only('switch authorship view should not retain information from previous visited tabs', () => {
+  it('switch authorship view should not retain information from previous visited tabs', () => {
     // Assumptions:
     // The first repository has more than one person listed.
     // The first displayed file which the first and last person worked on is different.
