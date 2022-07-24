@@ -143,7 +143,7 @@ public class ConfigSystemTest {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
                 shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
         Path actualFiles = loadResource(getClass(), pathToResource);
-        SystemTestUtil.verifyAllJson(actualFiles, Paths.get(FT_TEMP_DIR));
+        SystemTestUtil.verifyReportJsonFiles(actualFiles, Paths.get(FT_TEMP_DIR));
         haveNormallyClonedRepo = !shallowCloning;
     }
 
