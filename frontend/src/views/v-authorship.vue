@@ -598,12 +598,8 @@ export default {
       const fileNameOnly = file.path.slice(fileSplitIndex + 1);
       if (this.filesSortType === 'fileName') {
         return `${filePathOnly}[${fileNameOnly}]`;
-      } if (this.filesSortType === 'path') {
-        // root file
-        if (!filePathOnly) {
-          return `[/]${fileNameOnly}`;
-        }
-        return `[${filePathOnly}]${fileNameOnly}`;
+      } else if (this.filesSortType === 'path') {
+        return `[${filePathOnly}${fileNameOnly}]`;
       }
       return file.path;
     },
