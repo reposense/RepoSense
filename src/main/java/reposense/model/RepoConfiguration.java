@@ -352,11 +352,11 @@ public class RepoConfiguration {
         String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
 
         if (!getRepoName().isEmpty()) {
-            path += getRepoName() + File.separator;
-
             if (!extraOutputFolderName.isEmpty()) {
                 path += extraOutputFolderName + File.separator;
             }
+
+            path += getRepoName() + File.separator;
         }
 
         return path;
