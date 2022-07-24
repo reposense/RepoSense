@@ -520,6 +520,10 @@ public class RepoConfiguration {
         authorConfig.setAuthorEmailsToAuthorMap(authorEmailsToAuthorMap);
     }
 
+    public void clearAuthorDetailsToAuthorMap() {
+        authorConfig.clearAuthorDetailsToAuthorMap();
+    }
+
     public void setFormats(List<FileType> formats) {
         fileTypeManager.setFormats(formats);
     }
@@ -573,6 +577,10 @@ public class RepoConfiguration {
 
     public void setAuthorDisplayName(Author author, String displayName) {
         authorConfig.setAuthorDisplayName(author, displayName);
+    }
+
+    public void addAuthorNamesToAuthorMapEntry(Author author, String name) {
+        authorConfig.addAuthorNamesToAuthorMapEntry(author, name);
     }
 
     public void addAuthorNamesToAuthorMapEntry(Author author, List<String> names) {

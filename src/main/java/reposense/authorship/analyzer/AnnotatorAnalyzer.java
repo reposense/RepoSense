@@ -2,7 +2,6 @@ package reposense.authorship.analyzer;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -83,12 +82,9 @@ public class AnnotatorAnalyzer {
      * @return Optional {@code Author} found in the line.
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig) {
-        Map<String, Author> authorAliasMap = authorConfig.getAuthorNamesToAuthorMap();
-        Map<String, Author> authorEmailsMap = authorConfig.getAuthorEmailsToAuthorMap();
         Optional<String> optionalName = extractAuthorName(line);
 
-        optionalName.filter(name -> !(authorAliasMap.containsKey(name) || authorEmailsMap.containsKey(name))
-                        && !AuthorConfiguration.hasAuthorConfigFile())
+        optionalName.filter(name -> !authorConfig.containsName(name) && !AuthorConfiguration.hasAuthorConfigFile())
                 .ifPresent(name -> authorConfig.addAuthor(new Author(name)));
 
         return optionalName.map(name -> authorConfig.getAuthor(name, name));

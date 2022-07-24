@@ -1,7 +1,6 @@
 package reposense.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,7 +128,7 @@ public class AuthorConfiguration {
      */
     private void setAuthorDetails(Author author) {
         // Set GitHub Id and its corresponding email as default
-        addAuthorNamesToAuthorMapEntry(author, Arrays.asList(author.getGitId()));
+        addAuthorNamesToAuthorMapEntry(author, author.getGitId());
         addAuthorNamesToAuthorMapEntry(author, author.getAuthorAliases());
 
         addAuthorEmailsToAuthorMapEntry(author, author.getEmails());
@@ -225,9 +224,13 @@ public class AuthorConfiguration {
      * Clears author mapping information.
      */
     public void clear() {
+        clearAuthorDetailsToAuthorMap();
+        authorDisplayNameMap.clear();
+    }
+
+    public void clearAuthorDetailsToAuthorMap() {
         authorNamesToAuthorMap.clear();
         authorEmailsToAuthorMap.clear();
-        authorDisplayNameMap.clear();
     }
 
     /**
@@ -256,6 +259,15 @@ public class AuthorConfiguration {
 
     public void setAuthorDisplayName(Author author, String displayName) {
         authorDisplayNameMap.put(author, displayName);
+    }
+
+    /**
+     * Adds {@code name} as alias of {@code author} into the map.
+     */
+    public void addAuthorNamesToAuthorMapEntry(Author author, String name) {
+        String nameInLowerCase = name.toLowerCase();
+        checkDuplicateAliases(authorNamesToAuthorMap, nameInLowerCase, author.getGitId());
+        authorNamesToAuthorMap.put(nameInLowerCase, author);
     }
 
     /**
@@ -308,6 +320,10 @@ public class AuthorConfiguration {
 
     public boolean isDefaultBranch() {
         return this.branch.equals(DEFAULT_BRANCH);
+    }
+
+    public boolean containsName(String name) {
+        return authorNamesToAuthorMap.containsKey(name.toLowerCase()) || authorEmailsToAuthorMap.containsKey(name);
     }
 
     public static void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
