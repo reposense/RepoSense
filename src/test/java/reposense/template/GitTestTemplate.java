@@ -123,9 +123,9 @@ public class GitTestTemplate {
     public FileInfo generateTestFileInfo(String relativePath) {
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
 
-        config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(IGNORED_AUTHOR_NAME, new Author(IGNORED_AUTHOR_NAME));
+        config.getAuthorNamesToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
+        config.getAuthorNamesToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.getAuthorNamesToAuthorMap().put(IGNORED_AUTHOR_NAME, new Author(IGNORED_AUTHOR_NAME));
 
         return fileInfo;
     }
