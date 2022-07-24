@@ -103,14 +103,35 @@
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
       .file
         .title
-          span.path(v-on:click="toggleFileActiveProperty(file)")
+          span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(v-show="file.active")
               font-awesome-icon(icon="caret-down", fixed-width)
               span.tooltip-text Click to hide file details
             .tooltip(v-show="!file.active")
               font-awesome-icon(icon="caret-right", fixed-width)
               span.tooltip-text Click to show file details
-            span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
+          span {{ i + 1 }}. &nbsp;
+          span.fileTypeLabel(
+            v-if="!file.isBinary && !file.isIgnored &&\
+                (this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType')",
+            v-bind:style="{\
+            'background-color': fileTypeColors[file.fileType],\
+            'color': getFontColor(fileTypeColors[file.fileType])\
+            }"
+          ) {{ getMarkedFileTypeLabel(file) }}
+          span.path {{ getMarkedPath(file) }} &nbsp;
+          span.fileTypeLabel(
+            v-if="!file.isBinary && !file.isIgnored &&\
+                (this.filesSortType === 'fileName' || this.filesSortType === 'path')",
+            v-bind:style="{\
+              'background-color': fileTypeColors[file.fileType],\
+              'color': getFontColor(fileTypeColors[file.fileType])\
+              }"
+          ) {{ getMarkedFileTypeLabel(file) }}
+          span.fileTypeLabel.binary(v-if='file.isBinary') binary &nbsp;
+          span.ignored-tag.fileTypeLabel(
+            v-if='file.isIgnored'
+          ) ignored ({{ file.lineCount }}) &nbsp;
           span.icons
             a(
               v-bind:href="getHistoryLink(file)", target="_blank"
@@ -126,18 +147,6 @@
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
                 span.tooltip-text Click to view the blame view of file
-          span.fileTypeLabel(
-            v-if='!file.isBinary && !file.isIgnored',
-            v-bind:style="{\
-              'background-color': fileTypeColors[file.fileType],\
-              'color': getFontColor(fileTypeColors[file.fileType])\
-              }"
-          ) {{ file.fileType }}&nbsp;{{ file.lineCount }}
-            |&nbsp;({{ file.lineCount - file.blankLineCount }})
-          span.fileTypeLabel.binary(v-if='file.isBinary') binary&nbsp;
-          span.ignored-tag.fileTypeLabel(
-            v-if='file.isIgnored'
-          ) ignored ({{ file.lineCount }})&nbsp;
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
@@ -582,6 +591,30 @@ export default {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
+
+    getMarkedPath(file) {
+      const fileSplitIndex = file.path.lastIndexOf('/');
+      const filePathOnly = file.path.slice(0, fileSplitIndex + 1);
+      const fileNameOnly = file.path.slice(fileSplitIndex + 1);
+      if (this.filesSortType === 'fileName') {
+        return `${filePathOnly}[${fileNameOnly}]`;
+      } if (this.filesSortType === 'path') {
+        // root file
+        if (!filePathOnly) {
+          return `[/]${fileNameOnly}`;
+        }
+        return `[${filePathOnly}]${fileNameOnly}`;
+      }
+      return file.path;
+    },
+
+    getMarkedFileTypeLabel(file) {
+      if (this.filesSortType === 'lineOfCode') {
+        return `${file.lineCount} (${file.lineCount - file.blankLineCount}) ${file.fileType}`;
+      }
+      return `${file.fileType} ${file.lineCount} (${file.lineCount - file.blankLineCount})`;
+    },
+
     getFontColor,
   },
 
@@ -787,7 +820,7 @@ export default {
       margin-top: 1rem;
       padding: .3em .5em;
 
-      .path {
+      .caret {
         cursor: pointer;
         overflow-wrap: break-word;
       }
