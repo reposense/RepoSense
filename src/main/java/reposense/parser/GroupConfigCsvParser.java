@@ -19,9 +19,9 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     /**
      * Positions of the elements of a line in group-config.csv config file
      */
-    private static final String LOCATION_HEADER = "Repository's Location";
-    private static final String GROUP_NAME_HEADER = "Group Name";
-    private static final String FILES_GLOB_HEADER = "Globs";
+    private static final String[] LOCATION_HEADER = {"Repository's Location"};
+    private static final String[] GROUP_NAME_HEADER = {"Group Name"};
+    private static final String[] FILES_GLOB_HEADER = {"Globs"};
 
     public GroupConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
@@ -31,8 +31,8 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      * Gets the list of headers that are mandatory for verification.
      */
     @Override
-    protected String[] mandatoryHeaders() {
-        return new String[] {
+    protected String[][] mandatoryHeaders() {
+        return new String[][] {
                 GROUP_NAME_HEADER, FILES_GLOB_HEADER,
         };
     }
@@ -41,8 +41,8 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      * Gets the list of optional headers that can be parsed.
      */
     @Override
-    protected String[] optionalHeaders() {
-        return new String[] {
+    protected String[][] optionalHeaders() {
+        return new String[][] {
                 LOCATION_HEADER,
         };
     }
