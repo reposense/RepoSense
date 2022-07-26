@@ -17,14 +17,9 @@ import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
-import reposense.model.GroupConfiguration;
 import reposense.model.RepoConfiguration;
 import reposense.model.ReportConfiguration;
 import reposense.parser.ArgsParser;
-import reposense.parser.AuthorConfigCsvParser;
-import reposense.parser.GroupConfigCsvParser;
-import reposense.parser.RepoConfigCsvParser;
-import reposense.parser.ReportConfigJsonParser;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
@@ -183,41 +178,42 @@ public class ConfigSystemTest {
         }
 
         String input = inputBuilder.build();
+        String[] args = translateCommandline(input);
 
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+//        RepoSense.main(args);
 
-        List<RepoConfiguration> repoConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+        // Change as close to RepoSense.main() as possible
+        CliArguments cliArguments = ArgsParser.parse(args);
+        List<RepoConfiguration> configs = RepoSense.getRepoConfigurations((ConfigCliArguments) cliArguments);
+        ReportConfiguration reportConfig = ((ConfigCliArguments) cliArguments).getReportConfiguration();
 
-        repoConfigs.forEach(repoConfig -> repoConfig.setIsShallowCloningPerformed(shallowCloning));
-
-        List<AuthorConfiguration> authorConfigs =
-                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
-        List<GroupConfiguration> groupConfigs =
-                new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath()).parse();
-        ReportConfiguration reportConfig = new ReportConfigJsonParser().parse((
-                (ConfigCliArguments) cliArguments).getReportConfigFilePath());
-
-        RepoConfiguration.merge(repoConfigs, authorConfigs);
-        RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
-
-        RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
-        RepoConfiguration.setDatesToRepoConfigs(
-                repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-        RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId());
-        RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(repoConfigs, shouldIncludeModifiedDateInLines);
-        RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(repoConfigs,
+        RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
+        RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
+        RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId());
+        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
+                cliArguments.isStandaloneConfigIgnored());
+        RepoConfiguration.setFileSizeLimitIgnoredToRepoConfigs(configs,
+                cliArguments.isFileSizeLimitIgnored());
+        RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(configs,
+                cliArguments.isLastModifiedDateIncluded());
+        RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(configs,
+                cliArguments.isShallowCloningPerformed());
+        RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
                 cliArguments.isFindingPreviousAuthorsPerformed());
 
-        boolean isGitVersionInsufficient = RepoConfiguration.isAnyRepoFindingPreviousAuthors(repoConfigs)
-                && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors();
+        if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
+                && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
+            Assumptions.assumeFalse(false, "Git version 2.23.0 and above necessary to run test");
+            RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
+        }
 
-        Assumptions.assumeFalse(isGitVersionInsufficient, "Git version 2.23.0 and above necessary to run test");
+        // Only diff between this method and main(), to be added to main
+        AuthorConfiguration.setHasAuthorConfigFile(false);
 
-        ReportGenerator.generateReposReport(repoConfigs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
+        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
                 TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                 cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                 cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
-                TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
+                        TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
     }
 }
