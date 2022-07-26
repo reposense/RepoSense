@@ -202,6 +202,33 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the flag to enable test mode.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addTestMode() {
+        input.append(ArgsParser.TEST_MODE_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to include modified date in lines.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addLastModifiedDateFlags() {
+        input.append(ArgsParser.LAST_MODIFIED_DATE_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to enable fresh cloning.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addFreshCloning() {
+        input.append(ArgsParser.FRESH_CLONING_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {
@@ -236,5 +263,4 @@ public class InputBuilder {
     private static String addQuotationMarksToPath(Path path) {
         return addQuotationMarksToPath(path.toString());
     }
-
 }

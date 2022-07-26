@@ -166,13 +166,20 @@ public class ConfigSystemTest {
         InputBuilder inputBuilder = new InputBuilder().addConfig(configFolder)
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
-                .add(inputDates);
+                .add(inputDates)
+                .addTestMode();
 
         if (shallowCloning) {
             inputBuilder = inputBuilder.addShallowCloning();
         }
         if (findPreviousAuthors) {
             inputBuilder = inputBuilder.addFindPreviousAuthors();
+        }
+        if (shouldIncludeModifiedDateInLines) {
+            inputBuilder = inputBuilder.addLastModifiedDateFlags();
+        }
+        if (shouldFreshClone) {
+            inputBuilder = inputBuilder.addFreshCloning();
         }
 
         String input = inputBuilder.build();
