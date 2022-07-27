@@ -49,8 +49,6 @@ public class RepoSense {
 
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String DUMMY_ASSETS_DIR = "dummy";
-    private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
-    private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
 
     /**
      * The entry point of the program.
@@ -107,11 +105,14 @@ public class RepoSense {
 
                 AuthorConfiguration.setHasAuthorConfigFile(false);
 
-                ReportGenerator.generateReposReport(configs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
-                        TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
+                ReportGenerator.generateReposReport(configs,
+                        FT_TEMP_DIR,
+                        DUMMY_ASSETS_DIR, reportConfig,
+                        formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
+                        cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                         cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
-                        cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
-                                TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
+                        cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
+                        TimeUtil::getElapsedTime, cliArguments.getZoneId(), shouldFreshClone);
 
                 return;
             }
