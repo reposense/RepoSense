@@ -49,6 +49,7 @@ public class RepoSense {
 
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String DUMMY_ASSETS_DIR = "dummy";
+    private static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
 
     /**
      * The entry point of the program.
@@ -61,7 +62,7 @@ public class RepoSense {
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
             boolean isTestMode = false;
-            boolean shouldFreshClone = false;
+            boolean shouldFreshClone = DEFAULT_SHOULD_FRESH_CLONE;
 
             if (cliArguments instanceof ViewCliArguments) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, ((
@@ -100,37 +101,34 @@ public class RepoSense {
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 
+            String outputFilePath = cliArguments.getOutputFilePath().toAbsolutePath().toString();
+            String assetsFilePath = cliArguments.getAssetsFilePath().toAbsolutePath().toString();
+
             if (isTestMode) {
                 assert !isGitVersionInsufficient;
 
                 AuthorConfiguration.setHasAuthorConfigFile(false);
 
-                ReportGenerator.generateReposReport(configs,
-                        FT_TEMP_DIR,
-                        DUMMY_ASSETS_DIR, reportConfig,
-                        formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
-                        cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                        cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
-                        cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                        TimeUtil::getElapsedTime, cliArguments.getZoneId(), shouldFreshClone);
-
-                return;
+                outputFilePath = FT_TEMP_DIR;
+                assetsFilePath = DUMMY_ASSETS_DIR;
             }
 
-            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
-                    cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                    cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
+            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(
+                    configs, outputFilePath, assetsFilePath, reportConfig,
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                    TimeUtil::getElapsedTime, cliArguments.getZoneId());
-            FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
-                    ".json");
+                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), shouldFreshClone);
+
+            if (!isTestMode) {
+                FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+                        ".json");
+            }
 
             logger.info(TimeUtil.getElapsedTimeMessage());
 
-            if (cliArguments.isAutomaticallyLaunching()) {
+            if (!isTestMode && cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
         } catch (IOException | ParseException | InvalidCsvException | InvalidHeaderException e) {
