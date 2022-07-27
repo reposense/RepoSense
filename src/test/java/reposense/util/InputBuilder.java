@@ -17,7 +17,11 @@ public class InputBuilder {
     private boolean shallowCloning;
 
     public InputBuilder() {
-        this.input = new StringBuilder();
+        init();
+    }
+
+    private void init() {
+        input = new StringBuilder();
         shallowCloning = false;
     }
 
@@ -260,7 +264,8 @@ public class InputBuilder {
      * Clears all input and flags given.
      */
     public InputBuilder reset() {
-        return new InputBuilder();
+        init();
+        return this;
     }
 
     private static String addQuotationMarksToPath(String path) {
