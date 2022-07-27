@@ -13,9 +13,11 @@ public class InputBuilder {
     private static final String WHITESPACE = " ";
 
     private StringBuilder input;
+    private boolean shallowCloning;
 
     public InputBuilder() {
         this.input = new StringBuilder();
+        shallowCloning = false;
     }
 
     /**
@@ -189,6 +191,7 @@ public class InputBuilder {
      */
     public InputBuilder addShallowCloning() {
         input.append(ArgsParser.SHALLOW_CLONING_FLAGS[0] + WHITESPACE);
+        shallowCloning = true;
         return this;
     }
 
@@ -252,8 +255,7 @@ public class InputBuilder {
      * Clears all input and flags given.
      */
     public InputBuilder reset() {
-        input = new StringBuilder();
-        return this;
+        return new InputBuilder();
     }
 
     private static String addQuotationMarksToPath(String path) {
@@ -262,5 +264,9 @@ public class InputBuilder {
 
     private static String addQuotationMarksToPath(Path path) {
         return addQuotationMarksToPath(path.toString());
+    }
+
+    public boolean isShallowCloning() {
+        return shallowCloning;
     }
 }

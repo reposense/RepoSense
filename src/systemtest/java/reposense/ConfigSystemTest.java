@@ -43,16 +43,20 @@ public class ConfigSystemTest {
      * since date to capture from the first commit.
      */
     @Test
-    public void testSinceBeginningDateRange() throws Exception {
-        runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, false, false, false,
+    public void testSinceBeginningDateRange() {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
+                .addUntilDate("2/3/2019");
+
+        runTest(inputBuilder, false,
                 "ConfigSystemTest/sinceBeginningDateRange/expected");
     }
 
     @Test
-    public void test30DaysFromUntilDate() throws Exception {
-        runTest(getInputWithUntilDate("1/11/2017"), false,
-                false, false, false,
+    public void test30DaysFromUntilDate() {
+        InputBuilder inputBuilder = initInputBuilder().addUntilDate("1/11/2017");
+
+        runTest(inputBuilder, false,
                 "ConfigSystemTest/30daysFromUntilDate/expected");
     }
 
@@ -61,9 +65,13 @@ public class ConfigSystemTest {
      * line of code.
      */
     @Test
-    public void testDateRangeWithModifiedDateTimeInLines() throws Exception {
-        runTest(getInputWithDates("1/9/2017", "30/10/2017"),
-                true, false, false, false,
+    public void testDateRangeWithModifiedDateTimeInLines() {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addSinceDate("1/9/2017")
+                .addUntilDate("30/10/2017")
+                .addLastModifiedDateFlags();
+
+        runTest(inputBuilder, false,
                 "ConfigSystemTest/dateRangeWithModifiedDateTimeInLines/expected");
     }
 
@@ -72,16 +80,23 @@ public class ConfigSystemTest {
      * since date to capture from the first commit, using shallow cloning.
      */
     @Test
-    public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
-        runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, true, true, false,
+    public void testSinceBeginningDateRangeWithShallowCloning() {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
+                .addUntilDate("2/3/2019")
+                .addShallowCloning();
+
+        runTest(inputBuilder, true,
                 "ConfigSystemTest/sinceBeginningDateRangeWithShallowCloning/expected");
     }
 
     @Test
-    public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
-        runTest(getInputWithUntilDate("1/11/2017"), false,
-                true, true, false,
+    public void test30DaysFromUntilDateWithShallowCloning() {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addUntilDate("1/11/2017")
+                .addShallowCloning();
+
+        runTest(inputBuilder, true,
                 "ConfigSystemTest/30daysFromUntilDateWithShallowCloning/expected");
     }
 
@@ -90,85 +105,53 @@ public class ConfigSystemTest {
      * since date to capture from the first commit, using find previous authors.
      */
     @Test
-    public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
-        runTest(getInputWithDates(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND, "2/3/2019"),
-                false, false, true, true,
+    public void testSinceBeginningDateRangeWithFindPreviousAuthors() {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
+                .addUntilDate("2/3/2019")
+                .addFindPreviousAuthors();
+
+        runTest(inputBuilder, true,
                 "ConfigSystemTest/sinceBeginningDateRangeFindPreviousAuthors/expected");
     }
 
     @Test
-    public void test30DaysFromUntilDateWithFindPreviousAuthors() throws Exception {
-        runTest(getInputWithUntilDate("1/11/2017"), false, false, true,
-                true, "ConfigSystemTest/30daysFromUntilDateFindPreviousAuthors/expected");
+    public void test30DaysFromUntilDateWithFindPreviousAuthors() {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addUntilDate("1/11/2017")
+                .addFindPreviousAuthors();
+
+        runTest(inputBuilder, true,
+                "ConfigSystemTest/30daysFromUntilDateFindPreviousAuthors/expected");
     }
 
-    private String getInputWithUntilDate(String untilDate) {
-        return String.format("--until %s", untilDate);
-    }
+    private InputBuilder initInputBuilder() {
+        Path configFolder = loadResource(getClass(), "ConfigSystemTest");
+        String formats = String.join(" ", TESTING_FILE_FORMATS);
 
-    private String getInputWithDates(String sinceDate, String untilDate) {
-        return String.format("--since %s --until %s", sinceDate, untilDate);
+        return new InputBuilder().addConfig(configFolder)
+                .addFormats(formats)
+                .addTimezone(TEST_TIME_ZONE)
+                .addTestMode();
     }
 
     /**
      * Generates the testing report and compares it with the expected report.
      * Re-generates a normal report after the testing finished if the first report is shallow-cloned.
      *
-     * @param inputDates The date range for analysis.
-     * @param shouldIncludeModifiedDateInLines Boolean for whether to include last modified date for authorship.
-     * @param shallowCloning Boolean for whether to perform shallow cloning.
      * @param shouldFreshClone Boolean for whether to clone repo again if it has been cloned before.
-     * @param findPreviousAuthors Boolean for whether to find and blame previous authors for ignored commits.
      * @param pathToResource The location at which files generated during the test are stored.
-     * @throws Exception if any occur during testing.
      */
-    private void runTest(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
-            boolean shouldFreshClone, boolean findPreviousAuthors, String pathToResource) throws Exception {
-        generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
-                shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
-        Path actualFiles = loadResource(getClass(), pathToResource);
-        SystemTestUtil.verifyReportJsonFiles(actualFiles, Paths.get(FT_TEMP_DIR));
-        haveNormallyClonedRepo = !shallowCloning;
-    }
-
-    /**
-     * Generates the testing report to be compared with expected report.
-     *
-     * @param inputDates The date range for analysis.
-     * @param shouldIncludeModifiedDateInLines Boolean for whether to include last modified date for authorship.
-     * @param shallowCloning Boolean for whether to perform shallow cloning.
-     * @param shouldFreshClone Boolean for whether to clone repo again if it has been cloned before.
-     * @param findPreviousAuthors Boolean for whether to find and blame previous authors for ignored commits.
-     * @throws Exception if any errors occur during testing.
-     */
-    private void generateReport(String inputDates, boolean shouldIncludeModifiedDateInLines, boolean shallowCloning,
-            boolean shouldFreshClone, boolean findPreviousAuthors) throws Exception {
-        Path configFolder = loadResource(getClass(), "ConfigSystemTest");
-
-        String formats = String.join(" ", TESTING_FILE_FORMATS);
-
-        InputBuilder inputBuilder = new InputBuilder().addConfig(configFolder)
-                .addFormats(formats)
-                .addTimezone(TEST_TIME_ZONE)
-                .add(inputDates)
-                .addTestMode();
-
-        if (shallowCloning) {
-            inputBuilder = inputBuilder.addShallowCloning();
-        }
-        if (findPreviousAuthors) {
-            inputBuilder = inputBuilder.addFindPreviousAuthors();
-        }
-        if (shouldIncludeModifiedDateInLines) {
-            inputBuilder = inputBuilder.addLastModifiedDateFlags();
-        }
-        if (shouldFreshClone) {
+    private void runTest(InputBuilder inputBuilder, boolean shouldFreshClone, String pathToResource) {
+        if (shouldFreshClone || !haveNormallyClonedRepo) {
             inputBuilder = inputBuilder.addFreshCloning();
         }
 
-        String input = inputBuilder.build();
-        String[] args = translateCommandline(input);
+        RepoSense.main(translateCommandline(inputBuilder.build()));
 
-        RepoSense.main(args);
+        Path actualFiles = loadResource(getClass(), pathToResource);
+        SystemTestUtil.verifyReportJsonFiles(actualFiles, Paths.get(FT_TEMP_DIR));
+
+        haveNormallyClonedRepo = !inputBuilder.isShallowCloning();
     }
 }
