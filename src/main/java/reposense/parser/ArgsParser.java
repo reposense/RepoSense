@@ -376,8 +376,8 @@ public class ArgsParser {
             }
 
             boolean isTestMode = results.get(TEST_MODE_FLAGS[0]);
-            boolean shouldPerformFreshCloning = isTestMode ?
-                    results.get(FRESH_CLONING_FLAGS[0])
+            boolean shouldPerformFreshCloning = isTestMode
+                    ? results.get(FRESH_CLONING_FLAGS[0])
                     : DEFAULT_SHOULD_FRESH_CLONE;
 
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
