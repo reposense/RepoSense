@@ -9,30 +9,19 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
-import reposense.model.CliArguments;
-import reposense.model.ConfigCliArguments;
-import reposense.model.RepoConfiguration;
-import reposense.model.ReportConfiguration;
-import reposense.parser.ArgsParser;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
-import reposense.report.ReportGenerator;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
 
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
-    private static final String DUMMY_ASSETS_DIR = "dummy";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
-    private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
-    private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
 
     private static boolean haveNormallyClonedRepo = false;
@@ -180,40 +169,6 @@ public class ConfigSystemTest {
         String input = inputBuilder.build();
         String[] args = translateCommandline(input);
 
-//        RepoSense.main(args);
-
-        // Change as close to RepoSense.main() as possible
-        CliArguments cliArguments = ArgsParser.parse(args);
-        List<RepoConfiguration> configs = RepoSense.getRepoConfigurations((ConfigCliArguments) cliArguments);
-        ReportConfiguration reportConfig = ((ConfigCliArguments) cliArguments).getReportConfiguration();
-
-        RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
-        RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-        RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId());
-        RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
-                cliArguments.isStandaloneConfigIgnored());
-        RepoConfiguration.setFileSizeLimitIgnoredToRepoConfigs(configs,
-                cliArguments.isFileSizeLimitIgnored());
-        RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(configs,
-                cliArguments.isLastModifiedDateIncluded());
-        RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(configs,
-                cliArguments.isShallowCloningPerformed());
-        RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
-                cliArguments.isFindingPreviousAuthorsPerformed());
-
-        if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
-                && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
-            Assumptions.assumeFalse(false, "Git version 2.23.0 and above necessary to run test");
-            RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
-        }
-
-        // Only diff between this method and main(), to be added to main
-        AuthorConfiguration.setHasAuthorConfigFile(false);
-
-        ReportGenerator.generateReposReport(configs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
-                TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
-                cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
-                        TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
+        RepoSense.main(args);
     }
 }

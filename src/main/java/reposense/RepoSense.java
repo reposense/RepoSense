@@ -47,6 +47,11 @@ public class RepoSense {
     private static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE =
             "--find-previous-authors/-F requires git version 2.23 and above. Feature will be disabled for this run";
 
+    private static final String FT_TEMP_DIR = "ft_temp";
+    private static final String DUMMY_ASSETS_DIR = "dummy";
+    private static final String TEST_REPORT_GENERATED_TIME = "Tue Jul 24 17:45:15 SGT 2018";
+    private static final String TEST_REPORT_GENERATION_TIME = "15 second(s)";
+
     /**
      * The entry point of the program.
      * Additional flags are provided by the user in {@code args}.
@@ -57,6 +62,8 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
+            boolean isTestMode = false;
+            boolean shouldFreshClone = false;
 
             if (cliArguments instanceof ViewCliArguments) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, ((
@@ -65,6 +72,9 @@ public class RepoSense {
             } else if (cliArguments instanceof ConfigCliArguments) {
                 configs = getRepoConfigurations((ConfigCliArguments) cliArguments);
                 reportConfig = ((ConfigCliArguments) cliArguments).getReportConfiguration();
+
+                isTestMode = ((ConfigCliArguments) cliArguments).isTestMode();
+                shouldFreshClone = ((ConfigCliArguments) cliArguments).isFreshClonePerformed();
             } else if (cliArguments instanceof LocationsCliArguments) {
                 configs = getRepoConfigurations((LocationsCliArguments) cliArguments);
             } else {
@@ -85,10 +95,25 @@ public class RepoSense {
             RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
                     cliArguments.isFindingPreviousAuthorsPerformed());
 
-            if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
-                    && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
+            boolean isGitVersionInsufficient = RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
+                    && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors();
+            if (isGitVersionInsufficient) {
                 logger.warning(FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
+            }
+
+            if (isTestMode) {
+                assert !isGitVersionInsufficient;
+
+                AuthorConfiguration.setHasAuthorConfigFile(false);
+
+                ReportGenerator.generateReposReport(configs, FT_TEMP_DIR, DUMMY_ASSETS_DIR, reportConfig,
+                        TEST_REPORT_GENERATED_TIME, cliArguments.getSinceDate(), cliArguments.getUntilDate(),
+                        cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
+                        cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(), () ->
+                                TEST_REPORT_GENERATION_TIME, cliArguments.getZoneId(), shouldFreshClone);
+
+                return;
             }
 
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
