@@ -147,11 +147,11 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     }
 
     /**
-     * Returns true if value from {@code record} that matches the given {@code header} is the same as the given
-     * {@code keyword}, else false.
+     * Returns true if value from {@code record}, that matches any of the equivalent headers in
+     * {@code equivalentHeaders}, is the same as the given {@code keyword}, else false.
      */
-    private boolean matchValueAndKeyword(CSVRecord record, String header, String keyword) {
-        String value = get(record, header);
+    private boolean matchValueAndKeyword(CSVRecord record, String[] equivalentHeaders, String keyword) {
+        String value = get(record, equivalentHeaders);
         boolean isIgnored = value.equalsIgnoreCase(keyword);
 
         if (!isIgnored && !value.isEmpty()) {
