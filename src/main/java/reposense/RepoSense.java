@@ -47,8 +47,6 @@ public class RepoSense {
     private static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE =
             "--find-previous-authors/-F requires git version 2.23 and above. Feature will be disabled for this run";
 
-    private static final String DUMMY_ASSETS_DIR = "dummy";
-
     /**
      * The entry point of the program.
      * Additional flags are provided by the user in {@code args}.
@@ -95,18 +93,15 @@ public class RepoSense {
             }
 
             boolean isTestMode = cliArguments.isTestMode();
-            String assetsFilePath = cliArguments.getAssetsFilePath().toAbsolutePath().toString();
 
             if (isTestMode) {
                 assert !isGitVersionInsufficient;
-
                 AuthorConfiguration.setHasAuthorConfigFile(false);
-
-                assetsFilePath = DUMMY_ASSETS_DIR;
             }
 
-            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(
-                    configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(), assetsFilePath, reportConfig,
+            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
+                    cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+                    cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
