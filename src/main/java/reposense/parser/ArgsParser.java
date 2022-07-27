@@ -41,6 +41,8 @@ public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
     public static final int DEFAULT_NUM_CLONING_THREADS = 4;
     public static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
+    public static final boolean DEFAULT_IS_TEST_MODE = false;
+    public static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
 
     public static final String[] HELP_FLAGS = new String[] {"--help", "-h"};
     public static final String[] CONFIG_FLAGS = new String[] {"--config", "-c"};
@@ -374,7 +376,9 @@ public class ArgsParser {
             }
 
             boolean isTestMode = results.get(TEST_MODE_FLAGS[0]);
-            boolean shouldPerformFreshCloning = results.get(FRESH_CLONING_FLAGS[0]);
+            boolean shouldPerformFreshCloning = isTestMode ?
+                    results.get(FRESH_CLONING_FLAGS[0])
+                    : DEFAULT_SHOULD_FRESH_CLONE;
 
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,

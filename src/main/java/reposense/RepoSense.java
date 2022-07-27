@@ -49,7 +49,6 @@ public class RepoSense {
 
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String DUMMY_ASSETS_DIR = "dummy";
-    private static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
 
     /**
      * The entry point of the program.
@@ -61,8 +60,6 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
-            boolean isTestMode = false;
-            boolean shouldFreshClone = DEFAULT_SHOULD_FRESH_CLONE;
 
             if (cliArguments instanceof ViewCliArguments) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, ((
@@ -71,9 +68,6 @@ public class RepoSense {
             } else if (cliArguments instanceof ConfigCliArguments) {
                 configs = getRepoConfigurations((ConfigCliArguments) cliArguments);
                 reportConfig = ((ConfigCliArguments) cliArguments).getReportConfiguration();
-
-                isTestMode = ((ConfigCliArguments) cliArguments).isTestMode();
-                shouldFreshClone = ((ConfigCliArguments) cliArguments).isFreshClonePerformed();
             } else if (cliArguments instanceof LocationsCliArguments) {
                 configs = getRepoConfigurations((LocationsCliArguments) cliArguments);
             } else {
@@ -101,6 +95,7 @@ public class RepoSense {
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 
+            boolean isTestMode = cliArguments.isTestMode();
             String outputFilePath = cliArguments.getOutputFilePath().toAbsolutePath().toString();
             String assetsFilePath = cliArguments.getAssetsFilePath().toAbsolutePath().toString();
 
@@ -119,7 +114,7 @@ public class RepoSense {
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), shouldFreshClone);
+                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed());
 
             if (!isTestMode) {
                 FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),

@@ -24,9 +24,6 @@ public class ConfigCliArguments extends CliArguments {
     private Path reportConfigFilePath;
     private ReportConfiguration reportConfiguration;
 
-    private final boolean isTestMode;
-    private final boolean isFreshClonePerformed;
-
     public ConfigCliArguments(Path configFolderPath, Path outputFilePath, Path assetsFilePath, LocalDateTime sinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, List<FileType> formats, boolean isLastModifiedDateIncluded,
@@ -85,14 +82,6 @@ public class ConfigCliArguments extends CliArguments {
         return reportConfiguration;
     }
 
-    public boolean isTestMode() {
-        return isTestMode;
-    }
-
-    public boolean isFreshClonePerformed() {
-        return isFreshClonePerformed;
-    }
-
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -111,8 +100,6 @@ public class ConfigCliArguments extends CliArguments {
                 && this.repoConfigFilePath.equals(otherConfigCliArguments.repoConfigFilePath)
                 && this.authorConfigFilePath.equals(otherConfigCliArguments.authorConfigFilePath)
                 && this.groupConfigFilePath.equals(otherConfigCliArguments.groupConfigFilePath)
-                && this.reportConfigFilePath.equals(otherConfigCliArguments.reportConfigFilePath)
-                && this.isTestMode == otherConfigCliArguments.isTestMode
-                && this.isFreshClonePerformed == otherConfigCliArguments.isFreshClonePerformed;
+                && this.reportConfigFilePath.equals(otherConfigCliArguments.reportConfigFilePath);
     }
 }
