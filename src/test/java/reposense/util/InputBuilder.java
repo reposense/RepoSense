@@ -1,6 +1,7 @@
 package reposense.util;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import reposense.parser.ArgsParser;
 
@@ -90,6 +91,10 @@ public class InputBuilder {
     public InputBuilder addOutput(Path path) {
         input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
+    }
+
+    public InputBuilder addOutput(String path) {
+        return addOutput(Paths.get(path));
     }
 
     /**

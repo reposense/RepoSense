@@ -20,22 +20,24 @@ import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
 
 public class ConfigSystemTest {
-    private static final String FT_TEMP_DIR = "ft_temp";
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
+
+    private static final String OUTPUT_DIRECTORY = "ft_temp";
+    private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
 
     private static boolean haveNormallyClonedRepo = false;
 
     @BeforeEach
     public void setUp() throws Exception {
-        FileUtil.deleteDirectory(FT_TEMP_DIR);
+        FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
         ErrorSummary.getInstance().clearErrorSet();
         AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
     @AfterEach
     public void tearDown() throws Exception {
-        FileUtil.deleteDirectory(FT_TEMP_DIR);
+        FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
     }
 
     /**
@@ -132,7 +134,8 @@ public class ConfigSystemTest {
         return new InputBuilder().addConfig(configFolder)
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
-                .addTestMode();
+                .addTestMode()
+                .addOutput(OUTPUT_DIRECTORY);
     }
 
     /**
@@ -150,7 +153,7 @@ public class ConfigSystemTest {
         RepoSense.main(translateCommandline(inputBuilder.build()));
 
         Path actualFiles = loadResource(getClass(), pathToResource);
-        SystemTestUtil.verifyReportJsonFiles(actualFiles, Paths.get(FT_TEMP_DIR));
+        SystemTestUtil.verifyReportJsonFiles(actualFiles, REPORT_DIRECTORY_PATH);
 
         haveNormallyClonedRepo = !inputBuilder.isShallowCloning();
     }

@@ -47,7 +47,6 @@ public class RepoSense {
     private static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE =
             "--find-previous-authors/-F requires git version 2.23 and above. Feature will be disabled for this run";
 
-    private static final String FT_TEMP_DIR = "ft_temp";
     private static final String DUMMY_ASSETS_DIR = "dummy";
 
     /**
@@ -96,7 +95,6 @@ public class RepoSense {
             }
 
             boolean isTestMode = cliArguments.isTestMode();
-            String outputFilePath = cliArguments.getOutputFilePath().toAbsolutePath().toString();
             String assetsFilePath = cliArguments.getAssetsFilePath().toAbsolutePath().toString();
 
             if (isTestMode) {
@@ -104,12 +102,11 @@ public class RepoSense {
 
                 AuthorConfiguration.setHasAuthorConfigFile(false);
 
-                outputFilePath = FT_TEMP_DIR;
                 assetsFilePath = DUMMY_ASSETS_DIR;
             }
 
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(
-                    configs, outputFilePath, assetsFilePath, reportConfig,
+                    configs, cliArguments.getOutputFilePath().toAbsolutePath().toString(), assetsFilePath, reportConfig,
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
