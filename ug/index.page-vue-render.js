@@ -14,6 +14,6 @@ with(this){return _c('h1',{staticClass:"display-3",attrs:{"id":"user-guide"}},[_
 with(this){return _c('div',{staticClass:"lead"},[_c('p',[_v("Welcome to the RepoSense user guide. This user guide takes you through a three-step approach to adopting RepoSense for your own use.")])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.0")]),_v(", generated on Tue, 26 Jul 2022, 15:15:56 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.0")]),_v(", generated on Fri, 29 Jul 2022, 7:10:31 UTC]")])])])}
 }];
   
