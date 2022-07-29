@@ -27,18 +27,18 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     /**
      * Positions of the elements of a line in repo-config.csv config file
      */
-    private static final String LOCATION_HEADER = "Repository's Location";
-    private static final String BRANCH_HEADER = "Branch";
-    private static final String FILE_FORMATS_HEADER = "File formats";
-    private static final String IGNORE_GLOB_LIST_HEADER = "Ignore Glob List";
-    private static final String IGNORE_STANDALONE_CONFIG_HEADER = "Ignore Standalone Config";
-    private static final String IGNORE_FILESIZE_LIMIT_HEADER = "Ignore File Size Limit";
-    private static final String IGNORE_COMMIT_LIST_CONFIG_HEADER = "Ignore Commits List";
-    private static final String IGNORE_AUTHOR_LIST_CONFIG_HEADER = "Ignore Authors List";
-    private static final String SKIP_IGNORED_FILE_ANALYSIS_HEADER = "Skip Ignored File Analysis";
-    private static final String SHALLOW_CLONING_CONFIG_HEADER = "Shallow Cloning";
-    private static final String FIND_PREVIOUS_AUTHORS_CONFIG_HEADER = "Find Previous Authors";
-    private static final String FILESIZE_LIMIT_HEADER = "File Size Limit";
+    private static final String[] LOCATION_HEADER = {"Repository's Location"};
+    private static final String[] BRANCH_HEADER = {"Branch"};
+    private static final String[] FILE_FORMATS_HEADER = {"File formats"};
+    private static final String[] IGNORE_GLOB_LIST_HEADER = {"Ignore Glob List"};
+    private static final String[] IGNORE_STANDALONE_CONFIG_HEADER = {"Ignore Standalone Config"};
+    private static final String[] IGNORE_FILESIZE_LIMIT_HEADER = {"Ignore File Size Limit"};
+    private static final String[] IGNORE_COMMIT_LIST_CONFIG_HEADER = {"Ignore Commits List"};
+    private static final String[] IGNORE_AUTHOR_LIST_CONFIG_HEADER = {"Ignore Authors List"};
+    private static final String[] SKIP_IGNORED_FILE_ANALYSIS_HEADER = {"Skip Ignored File Analysis"};
+    private static final String[] SHALLOW_CLONING_CONFIG_HEADER = {"Shallow Cloning"};
+    private static final String[] FIND_PREVIOUS_AUTHORS_CONFIG_HEADER = {"Find Previous Authors"};
+    private static final String[] FILESIZE_LIMIT_HEADER = {"File Size Limit"};
 
     public RepoConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
@@ -48,8 +48,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      * Gets the list of headers that are mandatory for verification.
      */
     @Override
-    protected String[] mandatoryHeaders() {
-        return new String[] {
+    protected String[][] mandatoryHeaders() {
+        return new String[][] {
                 LOCATION_HEADER,
         };
     }
@@ -58,8 +58,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      * Gets the list of optional headers that can be parsed.
      */
     @Override
-    protected String[] optionalHeaders() {
-        return new String[] {
+    protected String[][] optionalHeaders() {
+        return new String[][] {
                 BRANCH_HEADER, FILE_FORMATS_HEADER, IGNORE_GLOB_LIST_HEADER, IGNORE_STANDALONE_CONFIG_HEADER,
                 IGNORE_FILESIZE_LIMIT_HEADER, IGNORE_COMMIT_LIST_CONFIG_HEADER, IGNORE_AUTHOR_LIST_CONFIG_HEADER,
                 SHALLOW_CLONING_CONFIG_HEADER, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER, FILESIZE_LIMIT_HEADER,

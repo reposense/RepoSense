@@ -150,13 +150,17 @@ public abstract class CsvParser<T> {
                     csvFilePath.getFileName(), getRowContentAsRawString(record)));
             return true;
         }
-        for (String header : mandatoryHeaders()) {
-            if (get(record, header).isEmpty()) {
+
+        for (String[] equivalentHeaders : mandatoryHeaders()) {
+            boolean isLineFormatMalformed =
+                    Arrays.stream(equivalentHeaders).allMatch(header -> get(record, header).isEmpty());
+            if (isLineFormatMalformed) {
                 logger.warning(String.format(MESSAGE_MALFORMED_LINE_FORMAT, getLineNumber(record),
                         csvFilePath.getFileName(), getRowContentAsRawString(record)));
                 return true;
             }
         }
+
         return false;
     }
 
@@ -168,38 +172,57 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns the value of {@code record} at the column with the header {@code header} if present, or
-     * returns {@code defaultValue} otherwise.
+     * Returns the value of {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders}.
      */
-    protected String getOrDefault(final CSVRecord record, String header, String defaultValue) {
-        return get(record, header).isEmpty() ? defaultValue : get(record, header);
+    protected String get(final CSVRecord record, String[] equivalentHeaders) {
+        for (String header : equivalentHeaders) {
+            if (headerMap.containsKey(header)) {
+                return record.get(headerMap.get(header)).trim();
+            }
+        }
+
+        return EMPTY_STRING;
     }
 
     /**
-     * Returns the value of {@code record} at the column with the header {@code header} as a {@link List}
-     * if it is in {@code record} and not empty.
+     * Returns the value of {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders} if present, or returns {@code defaultValue} otherwise.
+     */
+    protected String getOrDefault(final CSVRecord record, String[] equivalentHeaders, String defaultValue) {
+        String value = get(record, equivalentHeaders);
+        return value.isEmpty() ? defaultValue : value;
+    }
+
+    /**
+     * Returns the value of {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders} as a {@link List} if it is in {@code record} and not empty.
      * The column is delimited by {@code COLUMN_VALUES_SEPARATOR}.
      * Returns an empty {@link List} otherwise.
      */
-    protected List<String> getAsList(final CSVRecord record, String header) {
-        if (get(record, header).isEmpty()) {
+    protected List<String> getAsList(final CSVRecord record, String[] equivalentHeaders) {
+        String value = get(record, equivalentHeaders);
+        if (value.isEmpty()) {
             return Collections.emptyList();
         }
-        return Arrays.stream(get(record, header).split(COLUMN_VALUES_SEPARATOR))
+
+        return Arrays.stream(value.split(COLUMN_VALUES_SEPARATOR))
                 .map(String::trim)
                 .collect(Collectors.toList());
     }
 
     /**
      * Returns the values in {@code record} as a list with the {@link CsvParser#OVERRIDE_KEYWORD} prefix removed.
-     * Returns an empty list if {@code record} at the column with the header {@code header} is empty.
+     * Returns an empty list if {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders} is empty.
      */
-    protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, String header) {
-        List<String> data = getAsList(record, header);
-        if (isElementOverridingStandaloneConfig(record, header)) {
+    protected List<String> getAsListWithoutOverridePrefix(final CSVRecord record, String[] equivalentHeaders) {
+        List<String> data = getAsList(record, equivalentHeaders);
+        if (isElementOverridingStandaloneConfig(record, equivalentHeaders)) {
             data.set(0, data.get(0).replaceFirst(OVERRIDE_KEYWORD, ""));
             data.removeIf(String::isEmpty);
         }
+
         return data;
     }
 
@@ -208,11 +231,11 @@ public abstract class CsvParser<T> {
     }
 
     /**
-     * Returns true if the {@code record} at the column with the header {@code header} is prefixed with
-     * the override keyword.
+     * Returns true if the {@code record} at the column that match any of the equivalent headers in
+     * {@code equivalentHeaders} is prefixed with the override keyword.
      */
-    protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, String header) {
-        return get(record, header).startsWith(OVERRIDE_KEYWORD);
+    protected boolean isElementOverridingStandaloneConfig(final CSVRecord record, String[] equivalentHeaders) {
+        return get(record, equivalentHeaders).startsWith(OVERRIDE_KEYWORD);
     }
 
     /**
@@ -237,15 +260,18 @@ public abstract class CsvParser<T> {
         int headerSize = possibleHeader.length;
         Set<String> knownColumns = new HashSet<>();
         ArrayList<String> unknownColumns = new ArrayList<>();
+        List<String> parsedHeaders = mandatoryAndOptionalHeaders();
+
         for (int i = 0; i < headerSize; i++) {
             String possible = possibleHeader[i].trim();
-            for (String parsedHeader : mandatoryAndOptionalHeaders()) {
+            for (String parsedHeader : parsedHeaders) {
                 if (possible.equalsIgnoreCase(parsedHeader)) {
                     headerMap.put(parsedHeader, i);
                     knownColumns.add(possible);
                     break;
                 }
             }
+
             if (!knownColumns.contains(possible)) {
                 unknownColumns.add(possible);
             }
@@ -257,12 +283,17 @@ public abstract class CsvParser<T> {
                     String.format(MESSAGE_UNKNOWN_COLUMN, errorMessage, csvFilePath.toString()));
         }
 
-        for (String mandatory : mandatoryHeaders()) {
-            if (!headerMap.containsKey(mandatory)) {
+        for (String[] equivalentHeaders : mandatoryHeaders()) {
+            boolean isAnyEquivalentHeaderPresent =
+                    Arrays.stream(equivalentHeaders).anyMatch(header -> headerMap.containsKey(header));
+
+            if (!isAnyEquivalentHeaderPresent) {
                 throw new InvalidCsvException(String.format(
-                        MESSAGE_MANDATORY_HEADER_MISSING, mandatory, csvFilePath.getFileName()));
+                        MESSAGE_MANDATORY_HEADER_MISSING, Arrays.toString(equivalentHeaders),
+                        csvFilePath.getFileName()));
             }
         }
+
         logger.info(String.format(MESSAGE_COLUMNS_RECOGNIZED, csvFilePath.getFileName(),
                 String.join(",  ", headerMap.keySet())));
     }
@@ -270,18 +301,19 @@ public abstract class CsvParser<T> {
     /**
      * Gets the list of headers that are mandatory for verification.
      */
-    protected abstract String[] mandatoryHeaders();
+    protected abstract String[][] mandatoryHeaders();
 
     /**
      * Gets the list of optional headers that can be parsed.
      */
-    protected abstract String[] optionalHeaders();
+    protected abstract String[][] optionalHeaders();
 
     /**
      * Gets the list of all mandatory and optional headers that can be parsed.
      */
     protected List<String> mandatoryAndOptionalHeaders() {
         return Stream.concat(Arrays.stream(mandatoryHeaders()), Arrays.stream(optionalHeaders()))
+                .flatMap(Stream::of)
                 .collect(Collectors.toList());
     }
 
