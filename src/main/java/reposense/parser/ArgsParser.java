@@ -65,8 +65,8 @@ public class ArgsParser {
     public static final String[] CLONING_THREADS_FLAG = new String[] {"--cloning-threads"};
     public static final String[] ANALYSIS_THREADS_FLAG = new String[] {"--analysis-threads"};
 
-    public static final String[] TEST_MODE_FLAGS = new String[] {"--test-mode", "-T"};
-    public static final String[] FRESH_CLONING_FLAGS = new String[] {"--fresh-cloning", "-fc"};
+    public static final String[] TEST_MODE_FLAG = new String[] {"--test-mode"};
+    public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -240,13 +240,13 @@ public class ArgsParser {
                 .help(FeatureControl.SUPPRESS);
 
         // Testing flags
-        argumentGroup.addArgument(TEST_MODE_FLAGS)
-                .dest(TEST_MODE_FLAGS[0])
+        argumentGroup.addArgument(TEST_MODE_FLAG)
+                .dest(TEST_MODE_FLAG[0])
                 .action(Arguments.storeTrue())
                 .help("Enable testing mode.");
 
-        argumentGroup.addArgument(FRESH_CLONING_FLAGS)
-                .dest(FRESH_CLONING_FLAGS[0])
+        argumentGroup.addArgument(FRESH_CLONING_FLAG)
+                .dest(FRESH_CLONING_FLAG[0])
                 .action(Arguments.storeTrue())
                 .help("Enable fresh cloning.");
 
@@ -375,9 +375,9 @@ public class ArgsParser {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
 
-            boolean isTestMode = results.get(TEST_MODE_FLAGS[0]);
+            boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
             boolean shouldPerformFreshCloning = isTestMode
-                    ? results.get(FRESH_CLONING_FLAGS[0])
+                    ? results.get(FRESH_CLONING_FLAG[0])
                     : DEFAULT_SHOULD_FRESH_CLONE;
 
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,

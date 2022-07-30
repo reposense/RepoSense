@@ -218,7 +218,7 @@ public class InputBuilder {
      * This method should only be called once in one build.
      */
     public InputBuilder addTestMode() {
-        input.append(ArgsParser.TEST_MODE_FLAGS[0] + WHITESPACE);
+        input.append(ArgsParser.TEST_MODE_FLAG[0] + WHITESPACE);
         return this;
     }
 
@@ -236,7 +236,7 @@ public class InputBuilder {
      * This method should only be called once in one build.
      */
     public InputBuilder addFreshCloning() {
-        input.append(ArgsParser.FRESH_CLONING_FLAGS[0] + WHITESPACE);
+        input.append(ArgsParser.FRESH_CLONING_FLAG[0] + WHITESPACE);
         return this;
     }
 
