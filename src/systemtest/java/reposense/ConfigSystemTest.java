@@ -127,6 +127,14 @@ public class ConfigSystemTest {
                 "ConfigSystemTest/30daysFromUntilDateFindPreviousAuthors/expected");
     }
 
+    /**
+     * Returns a {@link InputBuilder} that is initialized with some default values.
+     * <br>Config Folder Path: {@code ConfigSystemTest}
+     * <br>Formats: {@link ConfigSystemTest#TESTING_FILE_FORMATS TESTING_FILE_FORMATS}
+     * <br>Timezone: {@link ConfigSystemTest#TEST_TIME_ZONE TEST_TIME_ZONE}
+     * <br>Output Folder Path: {@link ConfigSystemTest#OUTPUT_DIRECTORY OUTPUT_DIRECTORY}
+     * <br>Test mode: {@code Enabled}
+     */
     private InputBuilder initInputBuilder() {
         Path configFolder = loadResource(getClass(), "ConfigSystemTest");
         String formats = String.join(" ", TESTING_FILE_FORMATS);
@@ -142,6 +150,7 @@ public class ConfigSystemTest {
      * Generates the testing report and compares it with the expected report.
      * Re-generates a normal report after the testing finished if the first report is shallow-cloned.
      *
+     * @param inputBuilder The input builder that contains the command line input specified by user.
      * @param shouldFreshClone Boolean for whether to clone repo again if it has been cloned before.
      * @param pathToResource The location at which files generated during the test are stored.
      */

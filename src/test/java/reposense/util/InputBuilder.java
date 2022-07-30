@@ -20,6 +20,10 @@ public class InputBuilder {
         init();
     }
 
+    /**
+     * Initialize variables to default values.
+     * Used by {@link InputBuilder#InputBuilder() constructor} and {@link InputBuilder#reset() reset} method.
+     */
     private void init() {
         input = new StringBuilder();
         shallowCloning = false;
@@ -90,13 +94,19 @@ public class InputBuilder {
      * Adds the output flag with the {@code path} as argument to the input.
      * This method should only be called once in one build.
      *
-     * @param path The output folder path.
+     * @param path The output folder path (type {@link Path}).
      */
     public InputBuilder addOutput(Path path) {
         input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
     }
 
+    /**
+     * Adds the output flag with the {@code path} as argument to the input.
+     * This method should only be called once in one build.
+     *
+     * @param path The output folder path (type {@link String}).
+     */
     public InputBuilder addOutput(String path) {
         return addOutput(Paths.get(path));
     }
