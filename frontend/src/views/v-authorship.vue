@@ -110,24 +110,27 @@
             .tooltip(v-show="!file.active")
               font-awesome-icon(icon="caret-right", fixed-width)
               span.tooltip-text Click to show file details
-          span {{ i + 1 }}. &nbsp;
+          span.index {{ i + 1 }}. &nbsp
+          span.path
+            span(
+              v-bind:class="{'selected-parameter':\
+                  this.filesSortType === 'path' || this.filesSortType === 'fileName'}"
+            ) {{ getFirstPartOfPath(file) }}&nbsp;
+            span {{ getSecondPartOfPath(file) }}&nbsp;
           span.fileTypeLabel(
-            v-if="!file.isBinary && !file.isIgnored &&\
-                (this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType')",
-            v-bind:style="{\
-            'background-color': fileTypeColors[file.fileType],\
-            'color': getFontColor(fileTypeColors[file.fileType])\
-            }"
-          ) {{ getMarkedFileTypeLabel(file) }}
-          span.path {{ getMarkedPath(file) }} &nbsp;
-          span.fileTypeLabel(
-            v-if="!file.isBinary && !file.isIgnored &&\
-                (this.filesSortType === 'fileName' || this.filesSortType === 'path')",
+            v-if="!file.isBinary && !file.isIgnored",
             v-bind:style="{\
               'background-color': fileTypeColors[file.fileType],\
               'color': getFontColor(fileTypeColors[file.fileType])\
-              }"
-          ) {{ getMarkedFileTypeLabel(file) }}
+              }",
+            v-bind:class="{'selected-label':\
+                this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType'}"
+          )
+            span(
+              v-bind:class="{'selected-parameter':\
+                  this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType'}"
+            ) {{ getFirstPartOfLabel(file) }}&nbsp;
+            span {{ getSecondPartOfLabel(file) }}
           span.fileTypeLabel.binary(v-if='file.isBinary') binary &nbsp;
           span.ignored-tag.fileTypeLabel(
             v-if='file.isIgnored'
@@ -592,24 +595,41 @@ export default {
         this.totalLineCount - this.totalBlankLineCount}`;
     },
 
-    getMarkedPath(file) {
+    getFirstPartOfPath(file) {
       const fileSplitIndex = file.path.lastIndexOf('/');
-      const filePathOnly = file.path.slice(0, fileSplitIndex + 1);
       const fileNameOnly = file.path.slice(fileSplitIndex + 1);
+
       if (this.filesSortType === 'fileName') {
-        return `${filePathOnly}[${fileNameOnly}]`;
-      }
-      if (this.filesSortType === 'path') {
-        return `[${filePathOnly}${fileNameOnly}]`;
+        return `${fileNameOnly}`;
       }
       return file.path;
     },
 
-    getMarkedFileTypeLabel(file) {
-      if (this.filesSortType === 'lineOfCode') {
-        return `${file.lineCount} (${file.lineCount - file.blankLineCount}) ${file.fileType}`;
+    getSecondPartOfPath(file) {
+      const fileSplitIndex = file.path.lastIndexOf('/');
+      const filePathOnly = file.path.slice(0, fileSplitIndex + 1);
+
+      if (this.filesSortType === 'fileName') {
+        if (!filePathOnly) {
+          return 'from /';
+        }
+        return `from ${filePathOnly}`;
       }
-      return `${file.fileType} ${file.lineCount} (${file.lineCount - file.blankLineCount})`;
+      return '';
+    },
+
+    getFirstPartOfLabel(file) {
+      if (this.filesSortType === 'lineOfCode') {
+        return `${file.lineCount} (${file.lineCount - file.blankLineCount})`;
+      }
+      return `${file.fileType}`;
+    },
+
+    getSecondPartOfLabel(file) {
+      if (this.filesSortType === 'lineOfCode') {
+        return `${file.fileType}`;
+      }
+      return `${file.lineCount} (${file.lineCount - file.blankLineCount})`;
     },
 
     getFontColor,
@@ -812,14 +832,22 @@ export default {
       background-color: mui-color('github', 'title-background');
       border: 1px solid mui-color('github', 'border');
       border-radius: 4px 4px 0 0;
+      display: flex;
+      flex-wrap: wrap;
       font-size: medium;
-      font-weight: bold;
       margin-top: 1rem;
       padding: .3em .5em;
+      white-space: pre-wrap;
+      word-break: break-all;
 
       .caret {
         cursor: pointer;
+        order: -2;
         overflow-wrap: break-word;
+      }
+
+      .index {
+        order: -2;
       }
 
       .loc {
@@ -835,6 +863,14 @@ export default {
       .icons {
         margin-right: 8px;
         vertical-align: middle;
+      }
+
+      .selected-parameter {
+        font-weight: bold;
+      }
+
+      .selected-label {
+        order: -1;
       }
     }
 
