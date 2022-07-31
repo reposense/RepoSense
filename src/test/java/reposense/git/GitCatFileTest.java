@@ -4,12 +4,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.git.exception.CommitNotFoundException;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 
 public class GitCatFileTest extends GitTestTemplate {
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     public void getParentCommits_normalCommit_success() throws Exception {

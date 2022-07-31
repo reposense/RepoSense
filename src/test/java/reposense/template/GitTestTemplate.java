@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterEach;
@@ -36,8 +37,7 @@ import reposense.util.TestRepoCloner;
 
 public class GitTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
-    protected static final String IGNORE_REVS_FILE_LOCATION =
-            "repos/reposense_testrepo-Alpha/testrepo-Alpha/.git-blame-ignore-revs";
+    protected static final String IGNORE_REVS_FILE_NAME = ".git-blame-ignore-revs";
     protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-find-previous-authors";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String ROOT_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
@@ -94,33 +94,52 @@ public class GitTestTemplate {
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
 
-    protected static RepoConfiguration config;
+    protected static ThreadLocal<RepoConfiguration> configs = ThreadLocal.withInitial(() -> {
+        try {
+            return newRepoConfiguration();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    });
+
+    private static final Supplier<String> EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER = () ->
+            String.valueOf(Thread.currentThread().getId());
 
     @BeforeEach
     public void before() throws Exception {
-        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        RepoConfiguration config = newRepoConfiguration();
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         config.setZoneId(TIME_ZONE_ID);
         config.setIsLastModifiedDateIncluded(false);
+
+        configs.set(config);
     }
 
     @BeforeAll
     public static void beforeClass() throws Exception {
-        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        RepoConfiguration config = newRepoConfiguration();
         config.setZoneId(TIME_ZONE_ID);
-        TestRepoCloner.cloneAndBranch(config);
+        configs.set(config);
+
+        TestRepoCloner.cloneAndBranch(config, EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get());
     }
 
     @AfterEach
     public void after() {
-        GitCheckout.checkout(config.getRepoRoot(), "master");
+        GitCheckout.checkout(configs.get().getRepoRoot(), "master");
+    }
+
+    private static RepoConfiguration newRepoConfiguration() throws Exception {
+        return new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master",
+                EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get());
     }
 
     /**
      * Generates the information for test file at {@code relativePath}.
      */
     public FileInfo generateTestFileInfo(String relativePath) {
+        RepoConfiguration config = configs.get();
         FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
 
         config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
@@ -135,28 +154,31 @@ public class GitTestTemplate {
      * from {@code toIgnore} for the test repo.
      */
     public List<CommitHash> createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
+        String repoRoot = configs.get().getRepoRoot();
         List<CommitHash> expandedIgnoreCommitList = toIgnore.stream()
                 .map(CommitHash::toString)
                 .map(commitHash -> {
                     try {
-                        return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
+                        return GitShow.getExpandedCommitHash(repoRoot, commitHash);
                     } catch (CommitNotFoundException e) {
                         return new CommitHash(commitHash);
                     }
                 })
                 .collect(Collectors.toList());
 
-        FileUtil.writeIgnoreRevsFile(IGNORE_REVS_FILE_LOCATION, expandedIgnoreCommitList);
+        String fileLocation = repoRoot + IGNORE_REVS_FILE_NAME;
+        FileUtil.writeIgnoreRevsFile(fileLocation, expandedIgnoreCommitList);
         return expandedIgnoreCommitList;
     }
 
     public void removeTestIgnoreRevsFile() {
-        new File(IGNORE_REVS_FILE_LOCATION).delete();
+        String fileLocation = configs.get().getRepoRoot() + IGNORE_REVS_FILE_NAME;
+        new File(fileLocation).delete();
     }
 
     public FileResult getFileResult(String relativePath) {
         FileInfo fileinfo = generateTestFileInfo(relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(config, fileinfo);
+        return FileInfoAnalyzer.analyzeTextFile(configs.get(), fileinfo);
     }
 
     /**
