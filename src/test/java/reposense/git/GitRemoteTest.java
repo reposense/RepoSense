@@ -8,8 +8,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 
 class GitRemoteTest extends GitTestTemplate {
@@ -20,6 +22,14 @@ class GitRemoteTest extends GitTestTemplate {
     private static final String NON_ORIGIN_PUSH_REMOTE_NAME_1 = "testrepo(push)";
     private static final String NON_ORIGIN_FETCH_REMOTE_NAME_2 = "testrepo2(fetch)";
     private static final String NON_ORIGIN_PUSH_REMOTE_NAME_2 = "testrepo2(push)";
+
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     void getRemotes_singleOriginRemote_success() {

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
@@ -32,6 +34,7 @@ import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
 
+@Execution(ExecutionMode.SAME_THREAD)
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String DUMMY_ASSETS_DIR = "dummy";
