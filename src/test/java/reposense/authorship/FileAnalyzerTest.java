@@ -19,6 +19,7 @@ import reposense.git.GitVersion;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -70,9 +71,13 @@ public class FileAnalyzerTest extends GitTestTemplate {
             MAIN_AUTHOR, MAIN_AUTHOR, FAKE_AUTHOR, MAIN_AUTHOR
     };
 
+    private RepoConfiguration config;
+
     @BeforeEach
     public void before() throws Exception {
         super.before();
+
+        config = configs.get();
         config.setZoneId(TIME_ZONE_ID);
     }
 
