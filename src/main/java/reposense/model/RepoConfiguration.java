@@ -70,12 +70,13 @@ public class RepoConfiguration {
             long fileSizeLimit, boolean isStandaloneConfigIgnored, boolean isFileSizeLimitIgnored,
             List<CommitHash> ignoreCommitList, boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding,
             boolean isIgnoreCommitListOverriding, boolean isFileSizeLimitOverriding, boolean isShallowCloningPerformed,
-            boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped) {
+            boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped,
+            List<String> ignoredAuthorsList, boolean isIgnoredAuthorsListOverriding) {
         this(location, branch, formats, ignoreGlobList, fileSizeLimit, isStandaloneConfigIgnored,
                 isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding, isIgnoreGlobListOverriding,
                 isIgnoreCommitListOverriding, isFileSizeLimitOverriding, isShallowCloningPerformed,
-                isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped, Collections.emptyList(), false,
-                DEFAULT_EXTRA_OUTPUT_FOLDER_NAME);
+                isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped, ignoredAuthorsList,
+                isIgnoredAuthorsListOverriding, DEFAULT_EXTRA_OUTPUT_FOLDER_NAME);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,

@@ -668,10 +668,9 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_overrideStandaloneConfig_success() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master",
-                Collections.emptyList(), Collections.emptyList(), RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT,
-                false, false, Collections.emptyList(), true, true, true, false, false, false, false);
-        expectedConfig.setIsIgnoredAuthorsListOverriding(true);
-        expectedConfig.setIgnoredAuthorsList(Arrays.asList("lithiumlkid"));
+                Collections.emptyList(), Collections.emptyList(), RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT, false,
+                false, Collections.emptyList(), true, true, true, false, false, false, false,
+                Arrays.asList("lithiumlkid"), true);
 
         List<Author> expectedAuthorList = new ArrayList<>();
         Author[] authors = new Author[]{FIRST_AUTHOR, SECOND_AUTHOR, THIRD_AUTHOR, FOURTH_AUTHOR};
