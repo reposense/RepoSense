@@ -29,7 +29,7 @@ public class ConfigSystemTest {
     private static final String OUTPUT_DIRECTORY = "ft_temp";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
 
-    private static boolean haveNormallyClonedRepo = false;
+    private static boolean didNotNormallyClonedRepo = true;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -158,7 +158,7 @@ public class ConfigSystemTest {
      * @param pathToResource The location at which files generated during the test are stored.
      */
     private void runTest(InputBuilder inputBuilder, boolean shouldFreshClone, String pathToResource) {
-        if (shouldFreshClone || !haveNormallyClonedRepo) {
+        if (shouldFreshClone || didNotNormallyClonedRepo) {
             inputBuilder = inputBuilder.addFreshCloning();
         }
 
@@ -167,6 +167,6 @@ public class ConfigSystemTest {
         Path actualFiles = loadResource(getClass(), pathToResource);
         SystemTestUtil.verifyReportJsonFiles(actualFiles, REPORT_DIRECTORY_PATH);
 
-        haveNormallyClonedRepo = !inputBuilder.isShallowCloning();
+        didNotNormallyClonedRepo = inputBuilder.isShallowCloning();
     }
 }
