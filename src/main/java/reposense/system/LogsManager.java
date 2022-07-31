@@ -129,9 +129,8 @@ public class LogsManager {
      * Sets the log folder location using {@code location} and adds file handler with this location to all the loggers
      * created.
      */
-    public static void setLogFolderLocation(Path location) {
+    public static synchronized void setLogFolderLocation(Path location) {
         logFolderLocation = location;
         LOGGER_LIST.stream().forEach(logger -> addFileHandler(logger));
     }
 }
-

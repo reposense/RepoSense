@@ -23,6 +23,7 @@ import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.FileTypeTest;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.SystemUtil;
 
@@ -35,9 +36,12 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final FileType FILETYPE_TXT = new FileType("txt", Collections.singletonList("**txt"));
     private static final String DUPLICATE_AUTHORS_DUPLICATE_COMMITS_HASH = "f34c20ec2c3be63e0764d4079a575dd75269ffeb";
 
+    private RepoConfiguration config;
+
     @BeforeEach
     public void before() throws Exception {
         super.before();
+        config = configs.get();
         config.getAuthorDetailsToAuthorMap().clear();
     }
 
