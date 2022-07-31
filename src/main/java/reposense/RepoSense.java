@@ -108,14 +108,12 @@ public class RepoSense {
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
                     TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed());
 
-            if (!isTestMode) {
-                FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
-                        ".json");
-            }
+            FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+                    ".json");
 
             logger.info(TimeUtil.getElapsedTimeMessage());
 
-            if (!isTestMode && cliArguments.isAutomaticallyLaunching()) {
+            if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
         } catch (IOException | ParseException | InvalidCsvException | InvalidHeaderException e) {
