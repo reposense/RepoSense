@@ -11,6 +11,8 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reposense.model.AuthorConfiguration;
 import reposense.parser.SinceDateArgumentType;
@@ -19,6 +21,7 @@ import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
 
+@Execution(ExecutionMode.SAME_THREAD)
 public class ConfigSystemTest {
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
