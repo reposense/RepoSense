@@ -97,22 +97,11 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isElementOverridingStandaloneConfig(record, IGNORE_AUTHOR_LIST_CONFIG_HEADER);
         List<String> ignoredAuthorsList = getAsListWithoutOverridePrefix(record, IGNORE_AUTHOR_LIST_CONFIG_HEADER);
 
-        String ignoreFileSizeLimit = get(record, IGNORE_FILESIZE_LIMIT_HEADER);
-        boolean isFileSizeLimitIgnored = ignoreFileSizeLimit.equalsIgnoreCase(IGNORE_FILESIZE_LIMIT_KEYWORD);
+        boolean isFileSizeLimitIgnored = matchValueAndKeyword(record, IGNORE_FILESIZE_LIMIT_HEADER,
+                IGNORE_FILESIZE_LIMIT_KEYWORD);
 
-        if (!isFileSizeLimitIgnored && !ignoreFileSizeLimit.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + ignoreFileSizeLimit + " in ignore filesize limit column.");
-        }
-
-        String skipIgnoredFileAnalysis = get(record, SKIP_IGNORED_FILE_ANALYSIS_HEADER);
-        boolean isIgnoredFileAnalysisSkipped = skipIgnoredFileAnalysis.equalsIgnoreCase(
+        boolean isIgnoredFileAnalysisSkipped = matchValueAndKeyword(record, SKIP_IGNORED_FILE_ANALYSIS_HEADER,
                 SKIP_IGNORED_FILE_ANALYSIS_KEYWORD);
-
-        if (!isIgnoredFileAnalysisSkipped && !skipIgnoredFileAnalysis.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + skipIgnoredFileAnalysis + " in skip ignored file analysis column.");
-        }
 
         if (isFileSizeLimitIgnored && isIgnoredFileAnalysisSkipped) {
             logger.warning("Ignoring skip ignored file analysis column since file size limit is ignored");
@@ -124,54 +113,70 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         long fileSizeLimit = RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 
         // If file diff limit is specified
-        if (isFileSizeLimitIgnored && fileSizeLimitStringList.size() > 0) {
-            logger.warning("Ignoring file size limit column since file size limit is ignored");
-            isFileSizeLimitOverriding = false;
-        } else if (fileSizeLimitStringList.size() > 0) {
-            String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
-            int parseValue;
-            if (!StringsUtil.isNumeric(fileSizeLimitString)
-                    || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
-                logger.warning(String.format("Values in \"%s\" column should be positive integers.",
-                        FILESIZE_LIMIT_HEADER[0]));
+        if (fileSizeLimitStringList.size() > 0) {
+            if (isFileSizeLimitIgnored) {
+                logger.warning("Ignoring file size limit column since file size limit is ignored");
                 isFileSizeLimitOverriding = false;
             } else {
-                fileSizeLimit = parseValue;
+                String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
+                int parseValue;
+                if (!StringsUtil.isNumeric(fileSizeLimitString)
+                        || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
+                    logger.warning(String.format("Values in \"%s\" column should be positive integers.",
+                            FILESIZE_LIMIT_HEADER[0]));
+                    isFileSizeLimitOverriding = false;
+                } else {
+                    fileSizeLimit = parseValue;
+                }
             }
         }
 
-        String ignoreStandaloneConfig = get(record, IGNORE_STANDALONE_CONFIG_HEADER);
-        boolean isStandaloneConfigIgnored = ignoreStandaloneConfig.equalsIgnoreCase(IGNORE_STANDALONE_CONFIG_KEYWORD);
+        boolean isStandaloneConfigIgnored = matchValueAndKeyword(record, IGNORE_STANDALONE_CONFIG_HEADER,
+                IGNORE_STANDALONE_CONFIG_KEYWORD);
 
-        if (!isStandaloneConfigIgnored && !ignoreStandaloneConfig.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + ignoreStandaloneConfig + " in ignore standalone config column.");
+        boolean isShallowCloningPerformed = matchValueAndKeyword(record, SHALLOW_CLONING_CONFIG_HEADER,
+                SHALLOW_CLONING_CONFIG_KEYWORD);
+
+        boolean isFindingPreviousAuthorsPerformed = matchValueAndKeyword(record, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER,
+                FIND_PREVIOUS_AUTHORS_KEYWORD);
+
+        addConfig(results, location, branch, isFormatsOverriding, formats, isIgnoreGlobListOverriding, ignoreGlobList,
+                isIgnoreCommitListOverriding, ignoreCommitList, isIgnoredAuthorsListOverriding, ignoredAuthorsList,
+                isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
+                isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed);
+    }
+
+    /**
+     * Returns true if value from {@code record}, that matches any of the equivalent headers in
+     * {@code equivalentHeaders}, is the same as the given {@code keyword}, else false.
+     */
+    private boolean matchValueAndKeyword(CSVRecord record, String[] equivalentHeaders, String keyword) {
+        String value = get(record, equivalentHeaders);
+        boolean isIgnored = value.equalsIgnoreCase(keyword);
+
+        if (!isIgnored && !value.isEmpty()) {
+            logger.warning(String.format("Ignoring unknown value %s in %s column.", value, keyword.toLowerCase()));
         }
 
-        String shallowCloningConfig = get(record, SHALLOW_CLONING_CONFIG_HEADER);
-        boolean isShallowCloningPerformed = shallowCloningConfig.equalsIgnoreCase(SHALLOW_CLONING_CONFIG_KEYWORD);
+        return isIgnored;
+    }
 
-        if (!isShallowCloningPerformed && !shallowCloningConfig.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + shallowCloningConfig + " in shallow cloning column.");
-        }
-
-        String findPreviousAuthorsConfig = get(record, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER);
-        boolean isFindingPreviousAuthorsPerformed = findPreviousAuthorsConfig
-                                                        .equalsIgnoreCase(FIND_PREVIOUS_AUTHORS_KEYWORD);
-
-        if (!isFindingPreviousAuthorsPerformed && !findPreviousAuthorsConfig.isEmpty()) {
-            logger.warning(
-                    "Ignoring unknown value " + findPreviousAuthorsConfig + " in find previous authors column.");
-        }
-
-        RepoConfiguration config = new RepoConfiguration(
-                location, branch, formats, ignoreGlobList, fileSizeLimit, isStandaloneConfigIgnored,
-                isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding, isIgnoreGlobListOverriding,
-                isIgnoreCommitListOverriding, isFileSizeLimitOverriding, isShallowCloningPerformed,
-                isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped);
-        config.setIgnoredAuthorsList(ignoredAuthorsList);
-        config.setIsIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding);
+    /**
+     * Creates a new {@link RepoConfiguration} with the supplied inputs and attempts to add it to {@code results}.
+     * Does nothing if the repo already exists in {@code results}.
+     */
+    private void addConfig(List<RepoConfiguration> results, RepoLocation location, String branch,
+            boolean isFormatsOverriding, List<FileType> formats, boolean isIgnoreGlobListOverriding,
+            List<String> ignoreGlobList, boolean isIgnoreCommitListOverriding, List<CommitHash> ignoreCommitList,
+            boolean isIgnoredAuthorsListOverriding, List<String> ignoredAuthorsList, boolean isFileSizeLimitIgnored,
+            boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
+            boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
+            boolean isFindingPreviousAuthorsPerformed) {
+        RepoConfiguration config = new RepoConfiguration(location, branch, formats, ignoreGlobList, fileSizeLimit,
+                isStandaloneConfigIgnored, isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding,
+                isIgnoreGlobListOverriding, isIgnoreCommitListOverriding, isFileSizeLimitOverriding,
+                isShallowCloningPerformed, isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped,
+                ignoredAuthorsList, isIgnoredAuthorsListOverriding);
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);
