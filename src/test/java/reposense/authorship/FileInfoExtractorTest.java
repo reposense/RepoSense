@@ -52,11 +52,14 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void extractFileInfosTest() {
-        config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
+
         GitCheckout.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
         List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+
         Assertions.assertEquals(6, files.size());
+
         Assertions.assertTrue(isFileExistence(Paths.get("README.md"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("blameTest.java"), files));
