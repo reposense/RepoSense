@@ -243,12 +243,12 @@ public class ArgsParser {
         argumentGroup.addArgument(TEST_MODE_FLAG)
                 .dest(TEST_MODE_FLAG[0])
                 .action(Arguments.storeTrue())
-                .help("Enable testing mode.");
+                .help("Enables testing mode.");
 
         argumentGroup.addArgument(FRESH_CLONING_FLAG)
                 .dest(FRESH_CLONING_FLAG[0])
                 .action(Arguments.storeTrue())
-                .help("Enable fresh cloning.");
+                .help("Enables fresh cloning. Requires testing mode to be enabled.");
 
         return parser;
     }
