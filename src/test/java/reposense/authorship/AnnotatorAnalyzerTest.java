@@ -17,6 +17,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -40,13 +41,17 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
             UNKNOWN_AUTHOR, UNKNOWN_AUTHOR, UNKNOWN_AUTHOR
     };
 
+    private RepoConfiguration config;
 
     @BeforeEach
     public void before() throws Exception {
         super.before();
+
+        config = configs.get();
         config.setSinceDate(SINCE_DATE);
         config.setUntilDate(UNTIL_DATE);
         config.setZoneId(TIME_ZONE_ID);
+
         AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 

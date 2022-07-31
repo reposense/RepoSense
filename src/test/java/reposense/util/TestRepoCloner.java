@@ -26,7 +26,19 @@ public class TestRepoCloner {
      * @throws GitBranchException when an error occurs while attempting to branch.
      */
     public static void cloneAndBranch(RepoConfiguration config) throws GitBranchException {
-        String outputFolderName = Paths.get(FileUtil.getRepoParentFolder(config).toString(),
+        cloneAndBranch(config, "");
+    }
+
+    /**
+     * Clones repo specified in the {@code config} and updates it with the branch info. {@code extraOutputFolderName}
+     * will be appended to the output folder name. If the original output folder is './aaa', it is now
+     * './aaa/{@code extraOutputFolderName}'.
+     *
+     * @throws GitBranchException when an error occurs while attempting to branch.
+     */
+    public static void cloneAndBranch(RepoConfiguration config, String extraOutputFolderName)
+            throws GitBranchException {
+        String outputFolderName = Paths.get(FileUtil.getRepoParentFolder(config).toString(), extraOutputFolderName,
                 config.getRepoName()).toString();
         clone(config, Paths.get("."), outputFolderName);
         config.updateBranch();
