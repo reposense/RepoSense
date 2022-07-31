@@ -112,8 +112,8 @@ public class RepoConfigurationTest {
 
         repoDeltaStandaloneConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         repoDeltaStandaloneConfig.setAuthorList(expectedAuthors);
-        repoDeltaStandaloneConfig.addAuthorDetailsToAuthorMapEntry(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
-        repoDeltaStandaloneConfig.addAuthorDetailsToAuthorMapEntry(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
+        repoDeltaStandaloneConfig.addAuthorNamesToAuthorMapEntry(FIRST_AUTHOR, FIRST_AUTHOR_ALIASES);
+        repoDeltaStandaloneConfig.addAuthorNamesToAuthorMapEntry(FOURTH_AUTHOR, FOURTH_AUTHOR_ALIASES);
         repoDeltaStandaloneConfig.setAuthorDisplayName(FIRST_AUTHOR, "Ahm");
         repoDeltaStandaloneConfig.setAuthorDisplayName(SECOND_AUTHOR, "Cod");
         repoDeltaStandaloneConfig.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
@@ -121,7 +121,7 @@ public class RepoConfigurationTest {
 
         SECOND_AUTHOR.setEmails(Arrays.asList("codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"));
         for (Author author : expectedAuthors) {
-            repoDeltaStandaloneConfig.addAuthorDetailsToAuthorMapEntry(author, author.getEmails());
+            repoDeltaStandaloneConfig.addAuthorEmailsToAuthorMapEntry(author, author.getEmails());
         }
 
         repoDeltaStandaloneConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
@@ -146,7 +146,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setAuthorList(expectedAuthors);
-        expectedConfig.addAuthorDetailsToAuthorMapEntry(author, FIRST_AUTHOR_ALIASES);
+        expectedConfig.addAuthorNamesToAuthorMapEntry(author, FIRST_AUTHOR_ALIASES);
         expectedConfig.setAuthorDisplayName(author, "Ahm");
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
@@ -686,7 +686,8 @@ public class RepoConfigurationTest {
         }
         expectedConfig.setAuthorList(expectedAuthorList);
         expectedConfig.setAuthorDisplayNameMap(repoDeltaStandaloneConfig.getAuthorDisplayNameMap());
-        expectedConfig.setAuthorDetailsToAuthorMap(repoDeltaStandaloneConfig.getAuthorDetailsToAuthorMap());
+        expectedConfig.setAuthorNamesToAuthorMap(repoDeltaStandaloneConfig.getAuthorNamesToAuthorMap());
+        expectedConfig.setAuthorEmailsToAuthorMap(repoDeltaStandaloneConfig.getAuthorEmailsToAuthorMap());
 
         String formats = String.join(" ", CLI_FORMATS);
         String input = new InputBuilder().addConfig(OVERRIDE_STANDALONE_TEST_CONFIG_FILE)
@@ -735,7 +736,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         expectedConfig.setAuthorList(expectedAuthors);
-        expectedConfig.addAuthorDetailsToAuthorMapEntry(author, FIRST_AUTHOR_ALIASES);
+        expectedConfig.addAuthorNamesToAuthorMapEntry(author, FIRST_AUTHOR_ALIASES);
         expectedConfig.setAuthorDisplayName(author, "Ahm");
 
         expectedConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
