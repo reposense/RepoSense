@@ -123,7 +123,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 if (!StringsUtil.isNumeric(fileSizeLimitString)
                         || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
                     logger.warning(String.format("Values in \"%s\" column should be positive integers.",
-                            FILESIZE_LIMIT_HEADER));
+                            FILESIZE_LIMIT_HEADER[0]));
                     isFileSizeLimitOverriding = false;
                 } else {
                     fileSizeLimit = parseValue;
