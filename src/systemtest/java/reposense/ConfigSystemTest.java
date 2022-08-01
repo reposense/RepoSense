@@ -9,11 +9,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
+import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
@@ -111,6 +113,9 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRangeWithFindPreviousAuthors() {
+        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
+                "Git version 2.23.0 and above necessary to run test");
+
         InputBuilder inputBuilder = initInputBuilder()
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate("2/3/2019")
@@ -122,6 +127,9 @@ public class ConfigSystemTest {
 
     @Test
     public void test30DaysFromUntilDateWithFindPreviousAuthors() {
+        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
+                "Git version 2.23.0 and above necessary to run test");
+
         InputBuilder inputBuilder = initInputBuilder()
                 .addUntilDate("1/11/2017")
                 .addFindPreviousAuthors();

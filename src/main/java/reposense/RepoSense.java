@@ -85,9 +85,8 @@ public class RepoSense {
             RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
                     cliArguments.isFindingPreviousAuthorsPerformed());
 
-            boolean isGitVersionInsufficient = RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
-                    && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors();
-            if (isGitVersionInsufficient) {
+            if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
+                    && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
                 logger.warning(FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
@@ -95,7 +94,6 @@ public class RepoSense {
             boolean isTestMode = cliArguments.isTestMode();
 
             if (isTestMode) {
-                assert !isGitVersionInsufficient;
                 AuthorConfiguration.setHasAuthorConfigFile(false);
             }
 
