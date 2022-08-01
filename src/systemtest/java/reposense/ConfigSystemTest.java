@@ -27,9 +27,9 @@ import reposense.util.SystemTestUtil;
 public class ConfigSystemTest {
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
-
     private static final String OUTPUT_DIRECTORY = "ft_temp";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
+    private static final String GIT_VERSION_INSUFFICIENT_MESSAGE = "Git version 2.23.0 and above necessary to run test";
 
     private static boolean didNotCloneRepoNormally = true;
 
@@ -114,7 +114,7 @@ public class ConfigSystemTest {
     @Test
     public void testSinceBeginningDateRangeWithFindPreviousAuthors() {
         Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
-                "Git version 2.23.0 and above necessary to run test");
+                GIT_VERSION_INSUFFICIENT_MESSAGE);
 
         InputBuilder inputBuilder = initInputBuilder()
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
@@ -128,7 +128,7 @@ public class ConfigSystemTest {
     @Test
     public void test30DaysFromUntilDateWithFindPreviousAuthors() {
         Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
-                "Git version 2.23.0 and above necessary to run test");
+                GIT_VERSION_INSUFFICIENT_MESSAGE);
 
         InputBuilder inputBuilder = initInputBuilder()
                 .addUntilDate("1/11/2017")
