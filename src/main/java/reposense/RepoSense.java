@@ -94,6 +94,7 @@ public class RepoSense {
             boolean isTestMode = cliArguments.isTestMode();
 
             if (isTestMode) {
+                // Required by ConfigSystemTest to pass
                 AuthorConfiguration.setHasAuthorConfigFile(false);
             }
 
