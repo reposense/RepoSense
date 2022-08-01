@@ -37,7 +37,7 @@ public class ConfigSystemTest {
     public void setUp() throws Exception {
         FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
         ErrorSummary.getInstance().clearErrorSet();
-        RepoSense.DEFAULT_HAS_AUTHOR_CONFIG_FILE = AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE;
+        RepoSense.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
     @AfterEach
