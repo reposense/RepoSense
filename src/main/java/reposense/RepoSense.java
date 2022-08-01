@@ -93,12 +93,6 @@ public class RepoSense {
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 
-            boolean isTestMode = cliArguments.isTestMode();
-
-            if (isTestMode) {
-                AuthorConfiguration.setHasAuthorConfigFile(false);
-            }
-
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,

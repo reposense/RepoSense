@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-import reposense.parser.ArgsParser;
-
 /**
  * Represents command line arguments user supplied when running the program.
  */
@@ -27,8 +25,7 @@ public abstract class CliArguments {
     protected int numAnalysisThreads;
     protected ZoneId zoneId;
     protected boolean isFindingPreviousAuthorsPerformed;
-    protected boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
-    protected boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
+    protected boolean isFreshClonePerformed;
 
     public ZoneId getZoneId() {
         return zoneId;
@@ -94,10 +91,6 @@ public abstract class CliArguments {
         return isFindingPreviousAuthorsPerformed;
     }
 
-    public boolean isTestMode() {
-        return isTestMode;
-    }
-
     public boolean isFreshClonePerformed() {
         return isFreshClonePerformed;
     }
@@ -131,7 +124,6 @@ public abstract class CliArguments {
                 && this.zoneId.equals(otherCliArguments.zoneId)
                 && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed
                 && this.isFileSizeLimitIgnored == otherCliArguments.isFileSizeLimitIgnored
-                && this.isTestMode == otherCliArguments.isTestMode
                 && this.isFreshClonePerformed == otherCliArguments.isFreshClonePerformed;
     }
 }
