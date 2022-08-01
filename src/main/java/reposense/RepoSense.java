@@ -47,8 +47,6 @@ public class RepoSense {
     private static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE =
             "--find-previous-authors/-F requires git version 2.23 and above. Feature will be disabled for this run";
 
-    private static boolean hasAuthorConfigFile = true;
-
     /**
      * The entry point of the program.
      * Additional flags are provided by the user in {@code args}.
@@ -93,6 +91,12 @@ public class RepoSense {
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 
+            boolean isTestMode = cliArguments.isTestMode();
+
+            if (isTestMode) {
+                AuthorConfiguration.setHasAuthorConfigFile(false);
+            }
+
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
@@ -135,7 +139,7 @@ public class RepoSense {
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
-            AuthorConfiguration.setHasAuthorConfigFile(hasAuthorConfigFile);
+            AuthorConfiguration.setHasAuthorConfigFile(true);
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as author-config.csv is not found.
             // Ignore exception as the file is optional.
@@ -189,9 +193,5 @@ public class RepoSense {
         }
 
         return version;
-    }
-
-    public static void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
-        RepoSense.hasAuthorConfigFile = hasAuthorConfigFile;
     }
 }

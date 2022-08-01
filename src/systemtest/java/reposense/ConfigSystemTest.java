@@ -16,7 +16,6 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reposense.git.GitVersion;
-import reposense.model.AuthorConfiguration;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
 import reposense.util.FileUtil;
@@ -27,8 +26,10 @@ import reposense.util.SystemTestUtil;
 public class ConfigSystemTest {
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
+
     private static final String OUTPUT_DIRECTORY = "ft_temp";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
+
     private static final String GIT_VERSION_INSUFFICIENT_MESSAGE = "Git version 2.23.0 and above necessary to run test";
 
     private static boolean didNotCloneRepoNormally = true;
@@ -37,7 +38,6 @@ public class ConfigSystemTest {
     public void setUp() throws Exception {
         FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
         ErrorSummary.getInstance().clearErrorSet();
-        RepoSense.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
     @AfterEach
@@ -152,6 +152,7 @@ public class ConfigSystemTest {
         return new InputBuilder().addConfig(configFolder)
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
+                .addTestMode()
                 .addOutput(OUTPUT_DIRECTORY);
     }
 
