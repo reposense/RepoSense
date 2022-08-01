@@ -1,0 +1,9 @@
+Repository's Location,Branch,Author's GitHub ID,Author's Emails,Author's Display Name,Author's Git Author Name,Ignore Glob List
+https://github.com/reposense/testrepo-Beta.git,master,nbriannl,,"Ashwin Mukadaan Singhania, Rathod",,
+https://github.com/reposense/testrepo-Beta.git,master,zacharytang,zacharytang.tc@gmail.com,Yagami Rukei Polland,,src/main**
+https://github.com/reposense/testrepo-Beta.git,master,April0616,,2805Tagoe,LAPTOP-7KFM2KSP\User;Fan Yuting,
+https://github.com/reposense/testrepo-Beta.git,master,CindyTsai1,,,YuHsuan,src/test**
+https://github.com/reposense/testrepo-Beta.git,add-config-json,nbriannl,,A.M.S.Rathod,,
+https://github.com/reposense/testrepo-Beta.git,add-config-json,zacharytang,zacharytang.tc@gmail.com,Yaga..Polland,,src/main**
+https://github.com/reposense/testrepo-Beta.git,add-config-json,April0616,,  ,LAPTOP-7KFM2KSP\User;Fan Yuting,
+https://github.com/reposense/testrepo-Beta.git,add-config-json,CindyTsai1,,Ravind s/o Ramesh,YuHsuan,src/test**

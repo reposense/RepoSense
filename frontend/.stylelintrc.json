@@ -2,6 +2,10 @@
   "plugins": [
     "stylelint-order"
   ],
+  "extends": [
+    "stylelint-config-recommended-scss",
+    "stylelint-config-recommended-vue"
+  ],
   "rules": {
     "color-no-invalid-hex": true,
     "string-no-newline": true,
@@ -24,6 +28,14 @@
     "selector-list-comma-newline-after": "always",
     "no-eol-whitespace": true,
     "order/properties-alphabetical-order": true,
-    "indentation": 2
+    "indentation": 2,
+    "scss/at-import-partial-extension": null,
+    "function-no-unknown": null,
+    "scss/at-import-no-partial-leading-underscore": null,
+    "no-descending-specificity": null,
+    "scss/no-global-function-names": null,
+    "selector-type-no-unknown": null,
+    "at-rule-no-unknown": null,
+    "no-duplicate-selectors": null
   }
 }

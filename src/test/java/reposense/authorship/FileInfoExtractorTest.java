@@ -11,12 +11,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.authorship.model.FileInfo;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
 import reposense.model.FileTypeTest;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
@@ -40,13 +42,24 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
 
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
+
     @Test
     public void extractFileInfosTest() {
-        config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
+
         GitCheckout.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
         List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+
         Assertions.assertEquals(6, files.size());
+
         Assertions.assertTrue(isFileExistence(Paths.get("README.md"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("blameTest.java"), files));
