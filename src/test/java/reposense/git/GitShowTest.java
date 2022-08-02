@@ -5,12 +5,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.git.exception.CommitNotFoundException;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 
 public class GitShowTest extends GitTestTemplate {
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     public void getExpandedCommitHash_shortCommitHash_success() throws Exception {

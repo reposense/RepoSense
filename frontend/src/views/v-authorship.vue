@@ -429,7 +429,7 @@ export default {
 
     processFiles(files) {
       const SINGLE_FILE_LINE_COUNT_THRESHOLD = 2000;
-      const TOTAL_CHAR_COUNT_THRESHOLD = 100000;
+      const TOTAL_CHAR_COUNT_THRESHOLD = 3000000;
       const res = [];
       const fileTypeBlanksInfoObj = {};
 
@@ -462,8 +462,7 @@ export default {
           out.segments = segmentInfo.segments;
           out.blankLineCount = segmentInfo.blankLineCount;
 
-          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
-              fileTypeBlanksInfoObj);
+          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount, fileTypeBlanksInfoObj);
         }
 
         res.push(out);
@@ -710,19 +709,26 @@ export default {
         vertical-align: middle;
       }
 
-      #search {
-        @include medium-font;
-        margin-top: 1.25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
-        width: 30%;
-      }
+      .mui-form--inline {
+        align-items: flex-end;
+        display: flex;
+        flex-wrap: wrap;
 
-      #submit-button {
-        @include medium-font;
-        background-color: mui-color('blue');
-        color: mui-color('white');
-        margin: 1.0rem 0 0 .25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
+        #search {
+          @include medium-font;
+          margin-top: 1.25rem;
+          min-width: 130px;
+          padding: .5rem 1.0rem .25rem 1.0rem;
+          width: 70%;
+        }
+
+        #submit-button {
+          @include medium-font;
+          background-color: mui-color('blue');
+          color: mui-color('white');
+          margin: 1.0rem 0 0 .25rem;
+          padding: .5rem 1.0rem .25rem 1.0rem;
+        }
       }
 
       .searchbox {

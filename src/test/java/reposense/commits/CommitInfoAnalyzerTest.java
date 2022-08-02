@@ -23,6 +23,7 @@ import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.FileTypeTest;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.SystemUtil;
 
@@ -35,17 +36,21 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final FileType FILETYPE_TXT = new FileType("txt", Collections.singletonList("**txt"));
     private static final String DUPLICATE_AUTHORS_DUPLICATE_COMMITS_HASH = "f34c20ec2c3be63e0764d4079a575dd75269ffeb";
 
+    private RepoConfiguration config;
+
     @BeforeEach
     public void before() throws Exception {
         super.before();
-        config.getAuthorDetailsToAuthorMap().clear();
+
+        config = configs.get();
+        config.clearAuthorDetailsToAuthorMap();
     }
 
     @Test
     public void analyzeCommits_allAuthorNoIgnoredCommitsNoDateRange_success() {
-        config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
+        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(EUGENE_AUTHOR_NAME), EUGENE_AUTHOR_NAME);
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
@@ -55,8 +60,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_fakeMainAuthorNoIgnoredCommitsNoDateRange_success() {
-        config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
+        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
@@ -66,7 +71,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_eugeneAuthorNoIgnoredCommitsNoDateRange_success() {
-        config.getAuthorDetailsToAuthorMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
+        config.addAuthorNamesToAuthorMapEntry(new Author(EUGENE_AUTHOR_NAME), EUGENE_AUTHOR_NAME);
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
@@ -76,15 +81,18 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_allAuthorSingleCommitIgnoredNoDateRange_success() {
-        config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
+        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(EUGENE_AUTHOR_NAME), EUGENE_AUTHOR_NAME);
+
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
+
         List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
-        config.setIgnoreCommitList(
-                Collections.singletonList(
-                        new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
+        config.setIgnoreCommitList(Collections.singletonList(
+                new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))
+        ));
+
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assertions.assertEquals(commitResultsShort, commitResultsFull);
@@ -93,16 +101,19 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_allAuthorMultipleCommitIgnoredNoDateRange_success() {
-        config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(EUGENE_AUTHOR_NAME, new Author(EUGENE_AUTHOR_NAME));
+        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(EUGENE_AUTHOR_NAME), EUGENE_AUTHOR_NAME);
+
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         config.setIgnoreCommitList(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018, EUGENE_AUTHOR_README_FILE_COMMIT_07052018));
+
         List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
         config.setIgnoreCommitList(CommitHash.convertStringsToCommits(Arrays.asList(
                 FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
                 EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING.substring(0, 8))));
+
         List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assertions.assertEquals(commitResultsShort, commitResultsFull);
@@ -112,8 +123,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeCommits_noCommitMessage_success() {
         config.setBranch("empty-commit-message");
-        config.getAuthorDetailsToAuthorMap().clear();
-        config.getAuthorDetailsToAuthorMap().put(YONG_AUTHOR_NAME, new Author(YONG_AUTHOR_NAME));
+        config.clearAuthorDetailsToAuthorMap();
+        config.addAuthorNamesToAuthorMapEntry(new Author(YONG_AUTHOR_NAME), YONG_AUTHOR_NAME);
 
         List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
@@ -233,8 +244,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
         secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
 
-        String originalZoneId = config.getZoneId();
-        config.setZoneId("UTC-0530");
+        ZoneId originalZoneId = config.getZoneId();
+        config.setZoneId(ZoneId.of("UTC-0530"));
         config.setSinceDate(LocalDateTime.of(2019, Month.JUNE, 18, 0, 0));
         config.setUntilDate(LocalDateTime.of(2019, Month.JUNE, 19, 0, 0));
 
@@ -305,12 +316,12 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
         secondFileTypeAndContributionMap.put(FILETYPE_MD, new ContributionPair(1, 0));
 
-        String originalZoneId = config.getZoneId();
+        ZoneId originalZoneId = config.getZoneId();
 
         config.setBranch("879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success");
         config.setAuthorList(Collections.singletonList(author));
 
-        config.setZoneId("UTC+10");
+        config.setZoneId(ZoneId.of("UTC+10"));
         config.setSinceDate(LocalDateTime.of(2019, Month.DECEMBER, 21, 0, 0));
         config.setUntilDate(LocalDateTime.of(2019, Month.DECEMBER, 22, 0, 0));
 
@@ -361,8 +372,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
         // Equivalent to 2020-01-27 23:20:51 in UTC+9 time.
-        String originalZoneId = config.getZoneId();
-        config.setZoneId("UTC+9");
+        ZoneId originalZoneId = config.getZoneId();
+        config.setZoneId(ZoneId.of("UTC+9"));
         config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
         config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
 
@@ -436,8 +447,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     /**
      * Returns a {@link LocalDateTime} from a string {@code gitStrictIsoDate}.
      */
-    private LocalDateTime parseGitStrictIsoDate(String gitStrictIsoDate) throws Exception {
+    private LocalDateTime parseGitStrictIsoDate(String gitStrictIsoDate) {
         return ZonedDateTime.parse(gitStrictIsoDate, CommitInfoAnalyzer.GIT_STRICT_ISO_DATE_FORMAT)
-                .withZoneSameInstant(ZoneId.of(config.getZoneId())).toLocalDateTime();
+                .withZoneSameInstant(config.getZoneId()).toLocalDateTime();
     }
 }

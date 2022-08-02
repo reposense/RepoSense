@@ -41,7 +41,7 @@
         v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
-          font-awesome-icon.icon-button(:icon="['fas', 'database']")
+          font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
           span.tooltip-text Click to view group's repo
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
@@ -104,7 +104,7 @@
           v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
-            font-awesome-icon.icon-button(:icon="['fas', 'database']")
+            font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
             span.tooltip-text Click to view repo
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
@@ -316,6 +316,21 @@ export default {
       return repo.location;
     },
 
+    getRepoIcon(repo) {
+      const domainName = window.REPOS[repo.repoId].location.domainName;
+
+      switch (domainName) {
+      case 'github':
+        return ['fab', 'github'];
+      case 'gitlab':
+        return ['fab', 'gitlab'];
+      case 'bitbucket':
+        return ['fab', 'bitbucket'];
+      default:
+        return ['fas', 'database'];
+      }
+    },
+
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index, isMerged) {
       const {
@@ -331,7 +346,6 @@ export default {
         name: user.displayName,
         isMergeGroup: isMerged,
         location: this.getRepoLink(repo[index]),
-        repoIndex: index,
       };
       this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
@@ -351,7 +365,7 @@ export default {
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
         const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
-        const idxs = this.drags.map((x) => x * tdiff / 100);
+        const idxs = this.drags.map((x) => (x * tdiff) / 100);
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
         this.drags = [];
@@ -401,7 +415,7 @@ export default {
 
       const overlay = ramp.getElementsByClassName('overlay')[0];
       overlay.style.marginLeft = '0';
-      overlay.style.width = `${(pos - offset) * 100 / base}%`;
+      overlay.style.width = `${((pos - offset) * 100) / base}%`;
       overlay.className += ' edge';
     },
 
@@ -414,7 +428,7 @@ export default {
       this.drags.sort((a, b) => a - b);
 
       const offset = ramp.parentElement.offsetLeft;
-      this.drags = this.drags.map((x) => (x - offset) * 100 / base);
+      this.drags = this.drags.map((x) => ((x - offset) * 100) / base);
 
       const overlay = ramp.getElementsByClassName('overlay')[0];
       overlay.style.marginLeft = `${this.drags[0]}%`;
@@ -424,9 +438,9 @@ export default {
 
     getPercentile(index) {
       if (this.filterGroupSelection === 'groupByNone') {
-        return (Math.round((index + 1) * 1000 / this.filtered[0].length) / 10).toFixed(1);
+        return (Math.round(((index + 1) * 1000) / this.filtered[0].length) / 10).toFixed(1);
       }
-      return (Math.round((index + 1) * 1000 / this.filtered.length) / 10).toFixed(1);
+      return (Math.round(((index + 1) * 1000) / this.filtered.length) / 10).toFixed(1);
     },
 
     getGroupName(group) {

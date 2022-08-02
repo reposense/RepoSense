@@ -101,8 +101,9 @@
       .hash
         span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
+        v-if="containsAtLeastOneSelected(Object.keys(slice.fileTypesAndContributionMap))",
         v-for="fileType in\
-          filterSelectedFileTypes(Object.keys(slice.fileTypesAndContributionMap))",
+          Object.keys(slice.fileTypesAndContributionMap)",
         vbind:key="fileType",
         v-bind:style="{\
           'background-color': fileTypeColors[fileType],\
@@ -352,7 +353,9 @@ export default {
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
 
-      const toRename = this.showAllCommitMessageBody ? 'commit-message message-body active' : 'commit-message message-body';
+      const toRename = this.showAllCommitMessageBody
+        ? 'commit-message message-body active'
+        : 'commit-message message-body';
 
       const commitMessageClasses = document.getElementsByClassName('commit-message message-body');
       Array.from(commitMessageClasses).forEach((commitMessageClass) => {
@@ -383,8 +386,13 @@ export default {
       window.encodeHash();
     },
 
-    filterSelectedFileTypes(fileTypes) {
-      return fileTypes.filter((fileType) => this.selectedFileTypes.includes(fileType));
+    containsAtLeastOneSelected(fileTypes) {
+      for (let i = 0; i < fileTypes.length; i += 1) {
+        if (this.selectedFileTypes.includes(fileTypes[i])) {
+          return true;
+        }
+      }
+      return false;
     },
 
     getFontColor,

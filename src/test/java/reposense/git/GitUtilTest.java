@@ -7,11 +7,20 @@ import java.io.File;
 import java.util.Collections;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 
 public class GitUtilTest extends GitTestTemplate {
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     public void gitUtil_convertToGitExcludeGlobArgs_success() {

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
@@ -32,6 +34,7 @@ import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
 
+@Execution(ExecutionMode.SAME_THREAD)
 public class ConfigSystemTest {
     private static final String FT_TEMP_DIR = "ft_temp";
     private static final String DUMMY_ASSETS_DIR = "dummy";
@@ -143,7 +146,7 @@ public class ConfigSystemTest {
         generateReport(inputDates, shouldIncludeModifiedDateInLines, shallowCloning,
                 shouldFreshClone || !haveNormallyClonedRepo, findPreviousAuthors);
         Path actualFiles = loadResource(getClass(), pathToResource);
-        SystemTestUtil.verifyAllJson(actualFiles, Paths.get(FT_TEMP_DIR));
+        SystemTestUtil.verifyReportJsonFiles(actualFiles, Paths.get(FT_TEMP_DIR));
         haveNormallyClonedRepo = !shallowCloning;
     }
 
@@ -197,7 +200,7 @@ public class ConfigSystemTest {
         RepoConfiguration.setFormatsToRepoConfigs(repoConfigs, cliArguments.getFormats());
         RepoConfiguration.setDatesToRepoConfigs(
                 repoConfigs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-        RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId().toString());
+        RepoConfiguration.setZoneIdToRepoConfigs(repoConfigs, cliArguments.getZoneId());
         RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(repoConfigs, shouldIncludeModifiedDateInLines);
         RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(repoConfigs,
                 cliArguments.isFindingPreviousAuthorsPerformed());
