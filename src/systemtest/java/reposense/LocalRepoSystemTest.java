@@ -18,6 +18,7 @@ import reposense.model.RepoLocation;
 import reposense.model.SupportedDomainUrlMap;
 import reposense.report.ErrorSummary;
 import reposense.util.FileUtil;
+import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
 import reposense.util.TestRepoCloner;
 
@@ -33,7 +34,7 @@ public class LocalRepoSystemTest {
     private static final String OUTPUT_DIRECTORY = "local-test";
     private static final String TIME_ZONE = "UTC+08";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
-
+    private static final String EARLIEST_COMMIT_DATE = "d1";
 
     @BeforeAll
     public static void setupLocalRepos() throws Exception {
@@ -63,16 +64,29 @@ public class LocalRepoSystemTest {
 
     @Test
     public void testSameFinalDirectory() {
-        String cliInput = String.format("-r %s %s -s d1 -u %s -o %s -t %s",
-                LOCAL_DIRECTORY_ONE, LOCAL_DIRECTORY_TWO, LAST_COMMIT_DATE, OUTPUT_DIRECTORY, TIME_ZONE);
+        InputBuilder inputBuilder = new InputBuilder()
+                .addRepos(LOCAL_DIRECTORY_ONE, LOCAL_DIRECTORY_TWO)
+                .addSinceDate(EARLIEST_COMMIT_DATE)
+                .addUntilDate(LAST_COMMIT_DATE)
+                .addOutput(Paths.get(OUTPUT_DIRECTORY))
+                .addTimezone(TIME_ZONE);
+
+        String cliInput = inputBuilder.build();
         runTest(cliInput, "LocalRepoSystemTest/testSameFinalDirectory");
     }
 
     @Test
     public void testRelativePathing() {
         String relativePathForTesting = "parent1/../parent1/./test-repo";
-        String cliInput = String.format("-r %s -s d1 -u %s -o %s -t %s",
-                relativePathForTesting, LAST_COMMIT_DATE, OUTPUT_DIRECTORY, TIME_ZONE);
+
+        InputBuilder inputBuilder = new InputBuilder()
+                .addRepos(relativePathForTesting)
+                .addSinceDate(EARLIEST_COMMIT_DATE)
+                .addUntilDate(LAST_COMMIT_DATE)
+                .addOutput(Paths.get(OUTPUT_DIRECTORY))
+                .addTimezone(TIME_ZONE);
+
+        String cliInput = inputBuilder.build();
         runTest(cliInput, "LocalRepoSystemTest/testRelativePathing");
     }
 
