@@ -1,5 +1,6 @@
 package reposense;
 
+import static org.apache.tools.ant.types.Commandline.translateCommandline;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
@@ -16,6 +17,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.SupportedDomainUrlMap;
+import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
@@ -66,13 +68,11 @@ public class LocalRepoSystemTest {
     public void testSameFinalDirectory() {
         InputBuilder inputBuilder = new InputBuilder()
                 .addRepos(LOCAL_DIRECTORY_ONE, LOCAL_DIRECTORY_TWO)
-                .addSinceDate(EARLIEST_COMMIT_DATE)
+                .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate(LAST_COMMIT_DATE)
                 .addOutput(Paths.get(OUTPUT_DIRECTORY))
                 .addTimezone(TIME_ZONE);
-
-        String cliInput = inputBuilder.build();
-        runTest(cliInput, "LocalRepoSystemTest/testSameFinalDirectory");
+        runTest(inputBuilder, "LocalRepoSystemTest/testSameFinalDirectory");
     }
 
     @Test
@@ -81,22 +81,20 @@ public class LocalRepoSystemTest {
 
         InputBuilder inputBuilder = new InputBuilder()
                 .addRepos(relativePathForTesting)
-                .addSinceDate(EARLIEST_COMMIT_DATE)
+                .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate(LAST_COMMIT_DATE)
                 .addOutput(Paths.get(OUTPUT_DIRECTORY))
                 .addTimezone(TIME_ZONE);
 
-        String cliInput = inputBuilder.build();
-        runTest(cliInput, "LocalRepoSystemTest/testRelativePathing");
+        runTest(inputBuilder, "LocalRepoSystemTest/testRelativePathing");
     }
 
     /**
-     * Runs RepoSense with {@code commandArgs} and tests it against the expected
+     * Runs RepoSense with {@code inputBuilder} and tests it against the expected
      * files in {@code expectedFilesPathString}.
      */
-    private void runTest(String commandArgs, String expectedFilesPathString) {
-        String[] args = commandArgs.split(" ");
-        RepoSense.main(args);
+    private void runTest(InputBuilder inputBuilder, String expectedFilesPathString) {
+        RepoSense.main(translateCommandline(inputBuilder.build()));
         Path expectedFilesPath = loadResource(getClass(), expectedFilesPathString);
         SystemTestUtil.verifyReportJsonFiles(expectedFilesPath, REPORT_DIRECTORY_PATH);
     }
