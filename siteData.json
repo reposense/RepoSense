@@ -221,7 +221,10 @@
         "timezone-t": "--timezone, -t",
         "until-u": "--until, -u",
         "version-v": "--version, -V",
-        "view-v": "--view, -v"
+        "view-v": "--view, -v",
+        "system-test": "System Test",
+        "test-mode": "--test-mode",
+        "fresh-cloning": "--fresh-cloning"
       },
       "headingKeywords": {}
     },
