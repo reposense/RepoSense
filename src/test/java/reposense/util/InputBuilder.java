@@ -54,7 +54,7 @@ public class InputBuilder {
     public InputBuilder addRepos(String... paths) {
         input.append(ArgsParser.REPO_FLAGS[0] + WHITESPACE);
         for (String path : paths) {
-            input.append(path + WHITESPACE);
+            input.append(addQuotationMarksToPath(path) + WHITESPACE);
         }
         return this;
     }
@@ -86,7 +86,7 @@ public class InputBuilder {
      * @param path The output folder path.
      */
     public InputBuilder addOutput(Path path) {
-        input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + path.toString() + WHITESPACE);
+        input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
     }
 
