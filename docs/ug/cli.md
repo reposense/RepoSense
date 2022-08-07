@@ -268,6 +268,12 @@ Cannot be used with any other flags. This flag takes precedence over all other f
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+# System Test
+
+The section below provides explanations for flags used in system testing.
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### `--test-mode`
 
 **`--test-mode`**: Enables test mode behavior.
