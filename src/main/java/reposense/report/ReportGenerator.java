@@ -92,37 +92,6 @@ public class ReportGenerator {
     private static final List<String> assetsFilesWhiteList =
             Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
 
-    private static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
-
-    /**
-     * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
-     * well as the summary JSON file of all the repos.
-     *
-     * @param configs The list of repos to analyze.
-     * @param outputPath The location at which to save the report.
-     * @param assetsPath The location at which assets for generating the report are stored.
-     * @param reportConfig The config for the output report.
-     * @param generationDate The time at which the report was generated.
-     * @param cliSinceDate The date-time from which to start analyzing commits.
-     * @param untilDate The cut-off date-time for analyzing commits.
-     * @param isSinceDateProvided The boolean variable for whether client provided a sinceDate.
-     * @param isUntilDateProvided The boolean variable for whether client provided an untilDate.
-     * @param numCloningThreads The number of threads to use to clone the repos.
-     * @param numAnalysisThreads The number of threads to use to analyze the repos.
-     * @param reportGenerationTimeProvider Supplier for time taken to generate the report.
-     * @param zoneId The timezone to adjust all date-times to.
-     * @return The list of file paths that were generated.
-     * @throws IOException if templateZip.zip does not exists in jar file.
-     */
-    public static List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
-            ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
-            LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
-            int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId) throws IOException {
-        return generateReposReport(configs, outputPath, assetsPath, reportConfig, generationDate,
-                cliSinceDate, untilDate, isSinceDateProvided, isUntilDateProvided, numCloningThreads,
-                numAnalysisThreads, reportGenerationTimeProvider, zoneId, DEFAULT_SHOULD_FRESH_CLONE);
-    }
-
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
      * well as the summary JSON file of all the repos.
