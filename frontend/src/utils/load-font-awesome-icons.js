@@ -1,7 +1,7 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faCaretDown, faCaretRight, faChevronCircleDown, faChevronCircleUp,
-  faChevronDown, faChevronUp, faCircle, faCode,
+  faChevronDown, faChevronUp, faCircle, faCircleQuestion, faCode,
   faEllipsisH, faExclamation, faHistory, faListUl,
   faPlusCircle, faSpinner, faTags, faUser, faUserEdit,
   faDatabase,
@@ -21,8 +21,8 @@ library.add(faCaretRight);
 library.add(faExclamation);
 
 // v-summary-charts
-library.add(faChevronUp, faChevronDown, faDatabase, faUser, faCode, faListUl, faCircle, faGithub, faGitlab,
-    faBitbucket);
+library.add(faChevronUp, faChevronDown, faCircleQuestion, faDatabase, faUser, faCode, faListUl, faCircle,
+    faGithub, faGitlab, faBitbucket);
 
 // v-zoom
 library.add(faTags, faEllipsisH);

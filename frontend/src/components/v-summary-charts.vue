@@ -74,7 +74,12 @@
             span.tooltip-text Click to view breakdown of commits
       .summary-chart__title--percentile(
           v-if="sortGroupSelection.includes('totalCommits')"
-        ) {{ getPercentile(i) }} %
+        ) {{ getPercentile(i) }} %&nbsp
+        a.tooltip
+          font-awesome-icon.icon-button(
+            v-bind:icon="['fas', 'circle-question']",
+          )
+          span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -135,7 +140,12 @@
             span.tooltip-text Click to view breakdown of commits
         .summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
-        ) {{ getPercentile(j) }} %
+        ) {{ getPercentile(j) }} %&nbsp
+          a.tooltip
+            font-awesome-icon.icon-button(
+              v-bind:icon="['fas', 'circle-question']",
+            )
+            span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
 
       .summary-chart__ramp(
         v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
@@ -549,6 +559,14 @@ export default {
           && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
           || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
     },
+
+    getPercentileExplanation(j) {
+      const contributionOrder = this.sortGroupSelection === 'totalCommits dsc' ? 'descending' : 'ascending';
+      const explanation = `The selected group belongs to the top ${this.getPercentile(j)} %
+        of the entire cohort when sorted by contribution in ${contributionOrder} order.`;
+      return explanation;
+    },
+
   },
   created() {
     this.retrieveSelectedTabHash();
