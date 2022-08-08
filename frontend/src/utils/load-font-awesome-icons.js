@@ -21,8 +21,19 @@ library.add(faCaretRight);
 library.add(faExclamation);
 
 // v-summary-charts
-library.add(faChevronUp, faChevronDown, faCircleQuestion, faDatabase, faUser, faCode, faListUl, faCircle,
-    faGithub, faGitlab, faBitbucket);
+library.add(
+    faChevronUp,
+    faChevronDown,
+    faCircleQuestion,
+    faDatabase,
+    faUser,
+    faCode,
+    faListUl,
+    faCircle,
+    faGithub,
+    faGitlab,
+    faBitbucket,
+);
 
 // v-zoom
 library.add(faTags, faEllipsisH);

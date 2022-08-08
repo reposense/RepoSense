@@ -75,7 +75,6 @@
       input(type="file", accept=".zip", v-on:change="updateReportZip")
 </template>
 
-
 <script>
 import JSZip from 'jszip';
 import LoadingOverlay from 'vue-loading-overlay';
@@ -85,7 +84,6 @@ import vResizer from './components/v-resizer.vue';
 import vZoom from './views/v-zoom.vue';
 import vSummary from './views/v-summary.vue';
 import vAuthorship from './views/v-authorship.vue';
-
 
 const loadingResourcesMessage = 'Loading resources...';
 
@@ -321,7 +319,6 @@ window.app = app;
 
 export default app;
 </script>
-
 
 <style lang="scss">
 @import './styles/style.scss';

@@ -7,13 +7,22 @@ import java.time.LocalDateTime;
 import java.time.Month;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.git.exception.CommitNotFoundException;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 public class GitCheckoutTest extends GitTestTemplate {
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     public void checkout_validBranch_success() {

@@ -10,6 +10,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -19,8 +21,8 @@ import reposense.util.FileUtil;
 import reposense.util.SystemTestUtil;
 import reposense.util.TestRepoCloner;
 
+@Execution(ExecutionMode.SAME_THREAD)
 public class LocalRepoSystemTest {
-
     private static final String LOCAL_DIRECTORY_ONE_PARENT = "parent1";
     private static final String LOCAL_DIRECTORY_TWO_PARENT = "parent2";
     private static final String LOCAL_DIRECTORY_ONE = "parent1/test-repo";
