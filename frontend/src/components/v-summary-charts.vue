@@ -561,9 +561,7 @@ export default {
     },
 
     getPercentileExplanation(j) {
-      const contributionOrder = this.sortGroupSelection === 'totalCommits dsc' ? 'descending' : 'ascending';
-      const explanation = `The selected group belongs to the top ${this.getPercentile(j)} %
-        of the entire cohort when sorted by contribution in ${contributionOrder} order.`;
+      const explanation = `Based on the current sorting order, this item is in the top ${this.getPercentile(j)}%`;
       return explanation;
     },
 
