@@ -110,13 +110,14 @@
             .tooltip(v-show="!file.active")
               font-awesome-icon(icon="caret-right", fixed-width)
               span.tooltip-text Click to show file details
-          span.index {{ i + 1 }}. &nbsp
+          span.index {{ i + 1 }}. &nbsp;
           span.path
             span(
               v-bind:class="{'selected-parameter':\
                   this.filesSortType === 'path' || this.filesSortType === 'fileName'}"
             ) {{ getFirstPartOfPath(file) }}&nbsp;
-            span {{ getSecondPartOfPath(file) }}&nbsp;
+            span.in(v-if="this.filesSortType === 'fileName'") in&nbsp;
+            span(v-if="this.filesSortType === 'fileName'") {{ getSecondPartOfPath(file) }}&nbsp;
           span.fileTypeLabel(
             v-if="!file.isBinary && !file.isIgnored",
             v-bind:style="{\
@@ -609,13 +610,10 @@ export default {
       const fileSplitIndex = file.path.lastIndexOf('/');
       const filePathOnly = file.path.slice(0, fileSplitIndex + 1);
 
-      if (this.filesSortType === 'fileName') {
-        if (!filePathOnly) {
-          return 'from /';
-        }
-        return `from ${filePathOnly}`;
+      if (!filePathOnly) {
+        return '/';
       }
-      return '';
+      return filePathOnly;
     },
 
     getFirstPartOfLabel(file) {
@@ -848,6 +846,12 @@ export default {
 
       .index {
         order: -2;
+      }
+
+      .path {
+        .in {
+          color: mui-color('grey', '600');
+        }
       }
 
       .loc {
