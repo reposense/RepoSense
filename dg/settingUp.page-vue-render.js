@@ -14,7 +14,7 @@ with(this){return _c('p',[_c('strong',[_v("Prerequisites:")])])}
 with(this){return _c('li',[_c('p',[_c('strong',[_v("JDK "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("1.8.0_60")])]),_v(" up to "),_c('strong',[_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("17")])]),_v(" ("),_c('a',{attrs:{"href":"https://www.oracle.com/technetwork/java/javase/downloads/index.html"}},[_v("download "),_c('span',{staticClass:"fas fa-download",attrs:{"aria-hidden":"true"}})]),_v(").")])])}
 },function anonymous(
 ) {
-with(this){return _c('li',[_c('p',[_c('strong',[_v("npm")]),_v(" "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("6.0")]),_v(" or later ("),_c('a',{attrs:{"href":"https://www.npmjs.com/get-npm"}},[_v("download "),_c('span',{staticClass:"fas fa-download",attrs:{"aria-hidden":"true"}})]),_v(").")])])}
+with(this){return _c('li',[_c('p',[_c('strong',[_v("Node.js")]),_v(" "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("14.19.0")]),_v(" to the latest minor version for "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("16")]),_v(" ("),_c('a',{attrs:{"href":"https://www.npmjs.com/get-npm"}},[_v("download "),_c('span',{staticClass:"fas fa-download",attrs:{"aria-hidden":"true"}})]),_v(").")])])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_c('strong',[_v("git "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("2.14")])]),_v(" or later ("),_c('a',{attrs:{"href":"https://git-scm.com/downloads"}},[_v("download "),_c('span',{staticClass:"fas fa-download",attrs:{"aria-hidden":"true"}})]),_v(").")])}
@@ -44,6 +44,6 @@ with(this){return _c('h2',{attrs:{"id":"before-you-start-coding"}},[_c('span',{s
 with(this){return _c('p',[_v("... read the "),_c('a',{attrs:{"href":"/RepoSense/dg/workflow.html"}},[_v("Workflow")]),_v(" section.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.0")]),_v(", generated on Sun, 7 Aug 2022, 13:52:49 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.0")]),_v(", generated on Tue, 9 Aug 2022, 3:05:50 UTC]")])])])}
 }];
   
