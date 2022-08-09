@@ -36,7 +36,6 @@ public class LocalRepoSystemTest {
     private static final String OUTPUT_DIRECTORY = "local-test";
     private static final String TIME_ZONE = "UTC+08";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
-    private static final String EARLIEST_COMMIT_DATE = "d1";
 
     @BeforeAll
     public static void setupLocalRepos() throws Exception {
