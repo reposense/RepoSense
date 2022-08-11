@@ -65,6 +65,16 @@
       "headingKeywords": {}
     },
     {
+      "src": "dg/cli.md",
+      "title": "Appendix: CLI syntax reference",
+      "headings": {
+        "appendix-cli-syntax-reference": "Appendix: CLI syntax reference",
+        "test-mode": "--test-mode",
+        "fresh-cloning": "--fresh-cloning"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "dg/devOpsGuide.md",
       "title": "DevOps Guide",
       "headings": {
@@ -221,10 +231,7 @@
         "timezone-t": "--timezone, -t",
         "until-u": "--until, -u",
         "version-v": "--version, -V",
-        "view-v": "--view, -v",
-        "system-test": "System Test",
-        "test-mode": "--test-mode",
-        "fresh-cloning": "--fresh-cloning"
+        "view-v": "--view, -v"
       },
       "headingKeywords": {}
     },
