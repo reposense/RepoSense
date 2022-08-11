@@ -265,34 +265,3 @@ Cannot be used with any other flags. This flag takes precedence over all other f
   Default: `./reposense-report`
 * Alias: `-v`
 * Example:`--view` or `-v`
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-# System Test
-
-The section below provides explanations for flags used in system testing.
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### `--test-mode`
-
-**`--test-mode`**: Enables test mode behavior.
-
-<box type="info" seamless>
-
-* Used for `ConfigSystemTest`.
-
-</box>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### `--fresh-cloning`
-
-**`--fresh-cloning`**: Clones the repo again if it has been cloned before.
-
-<box type="info" seamless>
-
-* Used for `ConfigSystemTest`.
-* Requires `--test-mode` to be enabled.
-
-</box>
