@@ -17,13 +17,13 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 public class AnnotatorAnalyzerTest extends GitTestTemplate {
     private static final LocalDateTime SINCE_DATE = TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 8);
     private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2021, Month.AUGUST.getValue(), 3);
-    private static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
     private static final Author[] EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST = {
             FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR,
             MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR,
@@ -41,13 +41,17 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
             UNKNOWN_AUTHOR, UNKNOWN_AUTHOR, UNKNOWN_AUTHOR
     };
 
+    private RepoConfiguration config;
 
     @BeforeEach
     public void before() throws Exception {
         super.before();
+
+        config = configs.get();
         config.setSinceDate(SINCE_DATE);
         config.setUntilDate(UNTIL_DATE);
-        config.setZoneId(TIME_ZONE_ID_STRING);
+        config.setZoneId(TIME_ZONE_ID);
+
         AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 

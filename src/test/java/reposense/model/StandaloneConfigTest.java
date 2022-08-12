@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.google.gson.JsonSyntaxException;
@@ -42,6 +43,13 @@ public class StandaloneConfigTest extends GitTestTemplate {
     private static final long FILE_SIZE_LIMIT = 100000;
 
     private static StandaloneConfig validStandaloneConfig;
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @BeforeAll
     public static void setUp() throws Exception {

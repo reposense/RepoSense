@@ -5,13 +5,22 @@ import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 
 public class GitBlameTest extends GitTestTemplate {
-
     protected static final Pattern IGNORED_AUTHOR_PATTERN = Pattern.compile("(FH-30)");
+
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     public void blameRaw_validFile_success() {

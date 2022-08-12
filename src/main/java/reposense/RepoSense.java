@@ -73,7 +73,7 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-            RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId().toString());
+            RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId());
             RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
                     cliArguments.isStandaloneConfigIgnored());
             RepoConfiguration.setFileSizeLimitIgnoredToRepoConfigs(configs,
@@ -91,6 +91,13 @@ public class RepoSense {
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 
+            boolean isTestMode = cliArguments.isTestMode();
+
+            if (isTestMode) {
+                // Required by ConfigSystemTest to pass
+                AuthorConfiguration.setHasAuthorConfigFile(false);
+            }
+
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
@@ -98,7 +105,8 @@ public class RepoSense {
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                    TimeUtil::getElapsedTime, cliArguments.getZoneId());
+                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed());
+
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
 

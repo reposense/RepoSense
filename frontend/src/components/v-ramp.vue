@@ -96,7 +96,7 @@ export default {
 
     // position for commit granularity
     getCommitPos(i, total) {
-      return (total - i - 1) * window.DAY_IN_MS / total
+      return (((total - i - 1) * window.DAY_IN_MS) / total)
           / (this.getTotalForPos(this.sdate, this.udate) + window.DAY_IN_MS);
     },
     // position for day granularity

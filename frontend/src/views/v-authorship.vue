@@ -103,14 +103,39 @@
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
       .file
         .title
-          span.path(v-on:click="toggleFileActiveProperty(file)")
+          span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(v-show="file.active")
               font-awesome-icon(icon="caret-down", fixed-width)
               span.tooltip-text Click to hide file details
             .tooltip(v-show="!file.active")
               font-awesome-icon(icon="caret-right", fixed-width)
               span.tooltip-text Click to show file details
-            span {{ i + 1 }}. &nbsp;&nbsp; {{ file.path }} &nbsp;
+          span.index {{ i + 1 }}. &nbsp;
+          span.path
+            span(
+              v-bind:class="{'selected-parameter':\
+                  this.filesSortType === 'path' || this.filesSortType === 'fileName'}"
+            ) {{ getFirstPartOfPath(file) }}&nbsp;
+            span.in(v-if="this.filesSortType === 'fileName'") in&nbsp;
+            span(v-if="this.filesSortType === 'fileName'") {{ getSecondPartOfPath(file) }}&nbsp;
+          span.fileTypeLabel(
+            v-if="!file.isBinary && !file.isIgnored",
+            v-bind:style="{\
+              'background-color': fileTypeColors[file.fileType],\
+              'color': getFontColor(fileTypeColors[file.fileType])\
+              }",
+            v-bind:class="{'selected-label':\
+                this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType'}"
+          )
+            span(
+              v-bind:class="{'selected-parameter':\
+                  this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType'}"
+            ) {{ getFirstPartOfLabel(file) }}&nbsp;
+            span {{ getSecondPartOfLabel(file) }}
+          span.fileTypeLabel.binary(v-if='file.isBinary') binary &nbsp;
+          span.ignored-tag.fileTypeLabel(
+            v-if='file.isIgnored'
+          ) ignored ({{ file.lineCount }}) &nbsp;
           span.icons
             a(
               v-bind:href="getHistoryLink(file)", target="_blank"
@@ -126,18 +151,6 @@
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
                 span.tooltip-text Click to view the blame view of file
-          span.fileTypeLabel(
-            v-if='!file.isBinary && !file.isIgnored',
-            v-bind:style="{\
-              'background-color': fileTypeColors[file.fileType],\
-              'color': getFontColor(fileTypeColors[file.fileType])\
-              }"
-          ) {{ file.fileType }}&nbsp;{{ file.lineCount }}
-            |&nbsp;({{ file.lineCount - file.blankLineCount }})
-          span.fileTypeLabel.binary(v-if='file.isBinary') binary&nbsp;
-          span.ignored-tag.fileTypeLabel(
-            v-if='file.isIgnored'
-          ) ignored ({{ file.lineCount }})&nbsp;
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
@@ -461,8 +474,7 @@ export default {
           out.segments = segmentInfo.segments;
           out.blankLineCount = segmentInfo.blankLineCount;
 
-          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount,
-              fileTypeBlanksInfoObj);
+          this.addBlankLineCount(file.fileType, segmentInfo.blankLineCount, fileTypeBlanksInfoObj);
         }
 
         res.push(out);
@@ -577,6 +589,41 @@ export default {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
+
+    getFirstPartOfPath(file) {
+      const fileSplitIndex = file.path.lastIndexOf('/');
+      const fileNameOnly = file.path.slice(fileSplitIndex + 1);
+
+      if (this.filesSortType === 'fileName') {
+        return `${fileNameOnly}`;
+      }
+      return file.path;
+    },
+
+    getSecondPartOfPath(file) {
+      const fileSplitIndex = file.path.lastIndexOf('/');
+      const filePathOnly = file.path.slice(0, fileSplitIndex + 1);
+
+      if (!filePathOnly) {
+        return '/';
+      }
+      return filePathOnly;
+    },
+
+    getFirstPartOfLabel(file) {
+      if (this.filesSortType === 'lineOfCode') {
+        return `${file.lineCount} (${file.lineCount - file.blankLineCount})`;
+      }
+      return `${file.fileType}`;
+    },
+
+    getSecondPartOfLabel(file) {
+      if (this.filesSortType === 'lineOfCode') {
+        return `${file.fileType}`;
+      }
+      return `${file.lineCount} (${file.lineCount - file.blankLineCount})`;
+    },
+
     getFontColor,
   },
 
@@ -705,19 +752,26 @@ export default {
         vertical-align: middle;
       }
 
-      #search {
-        @include medium-font;
-        margin-top: 1.25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
-        width: 30%;
-      }
+      .mui-form--inline {
+        align-items: flex-end;
+        display: flex;
+        flex-wrap: wrap;
 
-      #submit-button {
-        @include medium-font;
-        background-color: mui-color('blue');
-        color: mui-color('white');
-        margin: 1.0rem 0 0 .25rem;
-        padding: .5rem 1.0rem .25rem 1.0rem;
+        #search {
+          @include medium-font;
+          margin-top: 1.25rem;
+          min-width: 130px;
+          padding: .5rem 1.0rem .25rem 1.0rem;
+          width: 70%;
+        }
+
+        #submit-button {
+          @include medium-font;
+          background-color: mui-color('blue');
+          color: mui-color('white');
+          margin: 1.0rem 0 0 .25rem;
+          padding: .5rem 1.0rem .25rem 1.0rem;
+        }
       }
 
       .searchbox {
@@ -777,14 +831,28 @@ export default {
       background-color: mui-color('github', 'title-background');
       border: 1px solid mui-color('github', 'border');
       border-radius: 4px 4px 0 0;
+      display: flex;
+      flex-wrap: wrap;
       font-size: medium;
-      font-weight: bold;
       margin-top: 1rem;
       padding: .3em .5em;
+      white-space: pre-wrap;
+      word-break: break-all;
+
+      .caret {
+        cursor: pointer;
+        order: -2;
+        overflow-wrap: break-word;
+      }
+
+      .index {
+        order: -2;
+      }
 
       .path {
-        cursor: pointer;
-        overflow-wrap: break-word;
+        .in {
+          color: mui-color('grey', '600');
+        }
       }
 
       .loc {
@@ -800,6 +868,14 @@ export default {
       .icons {
         margin-right: 8px;
         vertical-align: middle;
+      }
+
+      .selected-parameter {
+        font-weight: bold;
+      }
+
+      .selected-label {
+        order: -1;
       }
     }
 

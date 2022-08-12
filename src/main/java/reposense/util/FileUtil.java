@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -105,9 +106,13 @@ public class FileUtil {
                 .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
                         -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
+                .registerTypeAdapter(ZoneId.class, (JsonSerializer<ZoneId>) (zoneId, typeOfSrc, context)
+                        -> new JsonPrimitive(zoneId.toString()))
                 .create();
+
         // Gson serializer from:
         // https://stackoverflow.com/questions/39192945/serialize-java-8-localdate-as-yyyy-mm-dd-with-gson
+
         String result = gson.toJson(object);
 
         try (PrintWriter out = new PrintWriter(path)) {

@@ -75,7 +75,6 @@
       input(type="file", accept=".zip", v-on:change="updateReportZip")
 </template>
 
-
 <script>
 import JSZip from 'jszip';
 import LoadingOverlay from 'vue-loading-overlay';
@@ -85,7 +84,6 @@ import vResizer from './components/v-resizer.vue';
 import vZoom from './views/v-zoom.vue';
 import vSummary from './views/v-summary.vue';
 import vAuthorship from './views/v-authorship.vue';
-
 
 const loadingResourcesMessage = 'Loading resources...';
 
@@ -200,6 +198,7 @@ const app = {
         isRefresh: true,
         minDate,
         maxDate,
+        location: this.getRepoLink(),
       };
       const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
@@ -287,6 +286,16 @@ const app = {
       }
       return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
     },
+
+    getRepoLink() {
+      const { REPOS, hashParams } = window;
+      const { location, branch } = REPOS[hashParams.tabRepo];
+
+      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
+        return window.getBranchLink(hashParams.tabRepo, branch);
+      }
+      return REPOS[hashParams.tabRepo].location.location;
+    },
   },
 
   computed: {
@@ -310,7 +319,6 @@ window.app = app;
 
 export default app;
 </script>
-
 
 <style lang="scss">
 @import './styles/style.scss';

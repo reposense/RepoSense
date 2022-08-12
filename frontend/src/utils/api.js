@@ -311,5 +311,4 @@ window.api = {
   },
 };
 
-
 export default 'test';
