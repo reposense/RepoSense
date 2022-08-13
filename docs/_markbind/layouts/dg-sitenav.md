@@ -9,6 +9,7 @@
   {name: "Project management", link: "dg/projectManagement.html"},
   {name: "DevOps guide", link: "dg/devOpsGuide.html"},
   {name: "Appendices"},
+  {level: 2, name: "CLI syntax reference", link: "dg/cli.html"},
   {level: 2, name: "Style guides", link: "dg/styleGuides.html"}
 ]
 %}

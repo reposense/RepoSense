@@ -78,7 +78,6 @@ describe('switch authorship', () => {
         });
 
     cy.get('#tab-authorship > .files > .file > .title > .path')
-        .children('span')
         .first()
         .then(($span) => {
           firstFilename = $span.text();
@@ -106,7 +105,6 @@ describe('switch authorship', () => {
         });
 
     cy.get('#tab-authorship > .files > .file > .title > .path')
-        .children('span')
         .first()
         .should(($span) => {
           const lastFilename = $span.text();
