@@ -1,6 +1,7 @@
 import { createApp, DirectiveBinding } from 'vue';
 import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { ObserveVisibility } from 'vue-observe-visibility';
 import hljs from 'highlight.js';
 import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
@@ -28,6 +29,14 @@ app.directive('hljs', {
   },
 });
 
+app.directive('observe-visibility', {
+  beforeMount: (el, binding, vnode) => {
+    (vnode as any).context = binding.instance;
+    ObserveVisibility.bind(el, binding, vnode);
+  },
+  updated: ObserveVisibility.update,
+  unmounted: ObserveVisibility.unbind,
+});
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(store);
 
