@@ -40,7 +40,7 @@
           type="radio",
           value="search",
           v-model="filterType",
-          v-on:change="indicateSearchBar(); updateSearchBarValue();"
+          v-on:change="indicateSearchBar()"
         )
         .mui-form--inline
           input#search(
@@ -48,12 +48,11 @@
             placeholder="Filter by glob",
             ref="searchBar",
             v-bind:value="searchBarValue",
-            v-on:focus="indicateSearchBar",
-            v-on:keyup.enter="updateSearchBarValue"
+            v-on:keyup.enter="updateSearchBarValue(); indicateSearchBar()",
           )
           button#submit-button(
             type="button",
-            v-on:click="indicateSearchBar(); updateSearchBarValue();"
+            v-on:click="updateSearchBarValue(); indicateSearchBar()"
           ) Filter
       .fileTypes
         input.radio-button--checkbox(
@@ -159,13 +158,14 @@
           .ignored-segment
             .ignore-text File is ignored.
         pre.hljs.file-content(v-else-if="file.wasCodeLoaded", v-show="file.active")
-          v-segment-collection(v-bind:segments="file.segments", v-bind:path="file.path")
+          template(v-for="segment in file.segments")
+            v-segment(v-bind:segment="segment", v-bind:path="file.path")
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
-import vSegmentCollection from '../components/v-segment-collection.vue';
+import vSegment from '../components/v-segment.vue';
 
 const getFontColor = window.getFontColor;
 
@@ -200,7 +200,7 @@ const repoCache = [];
 export default {
   name: 'v-authorship',
   components: {
-    vSegmentCollection,
+    vSegment,
   },
   emits: [
       'deactivate-tab',
@@ -441,7 +441,7 @@ export default {
 
     processFiles(files) {
       const SINGLE_FILE_LINE_COUNT_THRESHOLD = 2000;
-      const SINGLE_FILE_CHAR_COUNT_THRESHOLD = 1000000;
+      const TOTAL_CHAR_COUNT_THRESHOLD = 3000000;
       const res = [];
       const fileTypeBlanksInfoObj = {};
 
@@ -480,10 +480,14 @@ export default {
         res.push(out);
       });
 
+      let remainingThreshold = TOTAL_CHAR_COUNT_THRESHOLD;
       res.sort((a, b) => b.lineCount - a.lineCount).forEach((file) => {
         // hide files over total char count limit
         if (!file.isIgnored && !file.isBinary && file.active) {
-          file.active = file.charCount <= SINGLE_FILE_CHAR_COUNT_THRESHOLD;
+          if (remainingThreshold >= 0) {
+            remainingThreshold -= file.charCount;
+          }
+          file.active = remainingThreshold >= 0;
           file.wasCodeLoaded = file.active;
         }
       });
