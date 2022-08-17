@@ -40,7 +40,7 @@
           type="radio",
           value="search",
           v-model="filterType",
-          v-on:change="indicateSearchBar()"
+          v-on:change="indicateSearchBar"
         )
         .mui-form--inline
           input#search(
@@ -48,11 +48,11 @@
             placeholder="Filter by glob",
             ref="searchBar",
             v-bind:value="searchBarValue",
-            v-on:keyup.enter="updateSearchBarValue(); indicateSearchBar()",
+            v-on:keyup.enter="indicateSearchBar(); updateSearchBarValue()",
           )
           button#submit-button(
             type="button",
-            v-on:click="updateSearchBarValue(); indicateSearchBar()"
+            v-on:click="indicateSearchBar(); updateSearchBarValue()"
           ) Filter
       .fileTypes
         input.radio-button--checkbox(
