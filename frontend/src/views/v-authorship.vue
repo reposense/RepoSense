@@ -48,11 +48,11 @@
             placeholder="Filter by glob",
             ref="searchBar",
             v-bind:value="searchBarValue",
-            v-on:keyup.enter="indicateSearchBar(); updateSearchBarValue()",
+            v-on:keyup.enter="indicateSearchBar(); updateSearchBarValue();",
           )
           button#submit-button(
             type="button",
-            v-on:click="indicateSearchBar(); updateSearchBarValue()"
+            v-on:click="indicateSearchBar(); updateSearchBarValue();"
           ) Filter
       .fileTypes
         input.radio-button--checkbox(
