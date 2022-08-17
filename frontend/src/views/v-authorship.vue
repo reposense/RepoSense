@@ -48,7 +48,7 @@
             placeholder="Filter by glob",
             ref="searchBar",
             v-bind:value="searchBarValue",
-            v-on:keyup.enter="indicateSearchBar(); updateSearchBarValue();",
+            v-on:keyup.enter="indicateSearchBar(); updateSearchBarValue();"
           )
           button#submit-button(
             type="button",
