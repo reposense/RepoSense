@@ -29,6 +29,7 @@
     "seedrandom": "^3.0.5",
     "vue": "^3.2.31",
     "vue-loading-overlay": "^5.0.3",
+    "vue-observe-visibility": "^1.0.0",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
