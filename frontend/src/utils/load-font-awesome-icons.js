@@ -1,7 +1,7 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faCaretDown, faCaretRight, faChevronCircleDown, faChevronCircleUp,
-  faChevronDown, faChevronUp, faCircle, faCircleQuestion, faCode,
+  faChevronDown, faChevronUp, faCircle, faCode,
   faEllipsisH, faExclamation, faHistory, faListUl,
   faPlusCircle, faSpinner, faTags, faUser, faUserEdit,
   faDatabase,
@@ -24,7 +24,6 @@ library.add(faExclamation);
 library.add(
     faChevronUp,
     faChevronDown,
-    faCircleQuestion,
     faDatabase,
     faUser,
     faCode,

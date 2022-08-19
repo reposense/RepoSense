@@ -72,14 +72,10 @@
               v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
             )
             span.tooltip-text Click to view breakdown of commits
-      .summary-chart__title--percentile(
+      .tooltip.summary-chart__title--percentile(
           v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
-        a.tooltip
-          font-awesome-icon.icon-button(
-            v-bind:icon="['fas', 'circle-question']",
-          )
-          span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
+        span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -138,14 +134,10 @@
               v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'zoom', false) }"
             )
             span.tooltip-text Click to view breakdown of commits
-        .summary-chart__title--percentile(
+        .tooltip.summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
-          a.tooltip
-            font-awesome-icon.icon-button(
-              v-bind:icon="['fas', 'circle-question']",
-            )
-            span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
+          span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
 
       .summary-chart__ramp(
         v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
