@@ -40,9 +40,9 @@ Given below are the details of the various config files used by RepoSense.
 | Ignore Commits List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive). |
 | Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name). |
 | Shallow Cloning | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead. |
-| File Size Limit<sup>+</sup>  | Enter a file size limit for the repository in bytes as a single number without units, that will override the default file size limit. |
+| File Size Limit<sup>+</sup> | Enter a file size limit for the repository in bytes as a single number without units (for a size limit of 1MB for example, enter 1000000). This file size limit will override the default file size limit (500KB). If file analysis is not skipped, files exceeding the file size limit will be marked as ignored and only the file name and line count will be reflected in the report. |
 | Ignore File Size Limit | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`. |
-| Skip Ignored File Analysis | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. By default, files exceeding the size limit are analyzed and line count information (but not line diffs) for these files are included in the report. This option can significantly improve report generation time. |
+| Skip Ignored File Analysis | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is ignored, all information about the file will be omitted from the generated report. This option can significantly improve report generation time. |
 
 <box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
@@ -52,7 +52,7 @@ The Shallow Cloning option is incompatible with the "--last-modified-date" CLI f
 If Ignore File Size Limit is yes, the File Size Limit and Skip Ignored File Analysis columns are ignored.
 </box>
 
-<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup></br>
 <sup>+ **Overrideable column**: prepend with `override:` to use entered value(s) instead of value(s) from standalone config.</sup>
 
 <box type="info" seamless>
