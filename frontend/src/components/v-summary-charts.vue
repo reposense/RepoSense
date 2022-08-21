@@ -37,19 +37,35 @@
           font-awesome-icon.icon-button(:icon="['fas', 'chevron-down']")
           span.tooltip-text Click to expand group
       a(
-        v-if="filterGroupSelection === 'groupByRepos'",
-        v-bind:href="getRepoLink(repo[0])", target="_blank"
+        v-if="filterGroupSelection === 'groupByRepos' && !isBrokenLink(getRepoLink(repo[0]))",
+        v-bind:href="getRepoLink(repo[0])",target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
           span.tooltip-text Click to view group's repo
+      a.broken-link(
+        v-else-if="filterGroupSelection === 'groupByRepos' && isBrokenLink(getRepoLink(repo[0]))",
+        target="_blank",
+      )
+        .tooltip
+          font-awesome-icon.broken-link-icon-button(:icon="getRepoIcon(repo[0])")
+          span.tooltip-text This remote link is unsupported
       a(
-        v-else-if="filterGroupSelection === 'groupByAuthors'",
+        v-else-if="!isBrokenLink(getAuthorProfileLink(repo[0], repo[0].name)) &&\
+          filterGroupSelection === 'groupByAuthors'",
         v-bind:href="getAuthorProfileLink(repo[0], repo[0].name)", target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(icon="user")
           span.tooltip-text Click to view author's profile
+      a.broken-link(
+        v-else-if="filterGroupSelection === 'groupByAuthors' &&\
+          isBrokenLink(getAuthorProfileLink(repo[0], repo[0].name))",
+        target="_blank"
+      )
+        .tooltip
+          font-awesome-icon.broken-link-icon-button(icon="user")
+          span.tooltip-text This remote link is unsupported
       template(v-if="isGroupMerged(getGroupName(repo))")
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
@@ -100,19 +116,33 @@
         ) {{ user.displayName }} ({{ user.name }})
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
         a(
-          v-if="filterGroupSelection !== 'groupByRepos'",
+          v-if="filterGroupSelection !== 'groupByRepos' && !isBrokenLink(getRepoLink(repo[j]))",
           v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
             span.tooltip-text Click to view repo
+        a.broken-link(
+          v-if="filterGroupSelection !== 'groupByRepos' && isBrokenLink(getRepoLink(repo[j]))",
+          target="_blank"
+        )
+          .tooltip
+            font-awesome-icon.broken-link-icon-button(:icon="getRepoIcon(repo[0])")
+            span.tooltip-text This remote link is unsupported
         a(
-          v-if="filterGroupSelection !== 'groupByAuthors'",
+          v-if="filterGroupSelection !== 'groupByAuthors'&& !isBrokenLink(getAuthorProfileLink(repo[j], repo[j].name))",
           v-bind:href="getAuthorProfileLink(repo[j], repo[j].name)", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="user")
             span.tooltip-text Click to view author's profile
+        a.broken-link(
+          v-if="filterGroupSelection !== 'groupByAuthors'&& isBrokenLink(getAuthorProfileLink(repo[j], repo[j].name))",
+          target="_blank"
+        )
+          .tooltip
+            font-awesome-icon.broken-link-icon-button(icon="user")
+            span.tooltip-text This remote link is unsupported
         a(
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
@@ -314,6 +344,11 @@ export default {
       }
       this.removeSelectedTab();
       return repo.location;
+    },
+
+    isBrokenLink(link) {
+      const linkFormat = /^(https:\/\/)(github.com|bitbucket.org|gitlab.com).*/;
+      return !linkFormat.test(link);
     },
 
     getRepoIcon(repo) {

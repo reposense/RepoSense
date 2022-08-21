@@ -138,19 +138,35 @@
           ) ignored ({{ file.lineCount }}) &nbsp;
           span.icons
             a(
+              v-if="!isBrokenLink(getHistoryLink(file))",
               v-bind:href="getHistoryLink(file)", target="_blank"
             )
               .tooltip
                 font-awesome-icon.button(icon="history")
                 span.tooltip-text Click to view the history view of file
+            a.broken-link(
+              v-else-if="isBrokenLink(getHistoryLink(file))",
+              target="_blank"
+            )
+              .tooltip
+                font-awesome-icon.button(icon="history")
+                span.tooltip-text This remote link is unsupported
             a(
-              v-if='!file.isBinary',
+              v-if='!file.isBinary && !isBrokenLink(getBlameLink(file))',
               v-bind:href="getBlameLink(file)", target="_blank",
               title="click to view the blame view of file"
             )
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
                 span.tooltip-text Click to view the blame view of file
+            a.broken-link(
+              v-else-if='!file.isBinary && isBrokenLink(getBlameLink(file))',
+              target="_blank",
+              title="click to view the blame view of file"
+            )
+              .tooltip
+                font-awesome-icon.button(icon="user-edit")
+                span.tooltip-text This remote link is unsupported
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
@@ -577,6 +593,11 @@ export default {
     getBlameLink(file) {
       const repo = window.REPOS[this.info.repo];
       return window.getBlameLink(this.info.repo, repo.branch, file.path);
+    },
+
+    isBrokenLink(link) {
+      const linkFormat = /^(https:\/\/)(github.com|bitbucket.org|gitlab.com).*/;
+      return !linkFormat.test(link);
     },
 
     getFileTypeBlankLineInfo(fileType) {
