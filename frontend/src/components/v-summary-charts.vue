@@ -38,14 +38,14 @@
           span.tooltip-text Click to expand group
       a(
         v-if="filterGroupSelection === 'groupByRepos' && !isBrokenLink(getRepoLink(repo[0]))",
-        v-bind:href="getRepoLink(repo[0])",target="_blank"
+        v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
           span.tooltip-text Click to view group's repo
       a.broken-link(
         v-else-if="filterGroupSelection === 'groupByRepos' && isBrokenLink(getRepoLink(repo[0]))",
-        target="_blank",
+        target="_blank"
       )
         .tooltip
           font-awesome-icon.broken-link-icon-button(:icon="getRepoIcon(repo[0])")
