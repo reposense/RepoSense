@@ -45,7 +45,7 @@ describe('hide all file details', () => {
         .should('contain.text', 'show all file details');
 
     // open contents of the first file
-    cy.get('#tab-authorship .title .path')
+    cy.get('#tab-authorship .title .caret')
         .should('be.visible')
         .first()
         .click();
