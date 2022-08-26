@@ -88,9 +88,10 @@
               v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
             )
             span.tooltip-text Click to view breakdown of commits
-      .summary-chart__title--percentile(
+      .tooltip.summary-chart__title--percentile(
           v-if="sortGroupSelection.includes('totalCommits')"
-        ) {{ getPercentile(i) }} %
+        ) {{ getPercentile(i) }} %&nbsp
+        span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -163,9 +164,10 @@
               v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'zoom', false) }"
             )
             span.tooltip-text Click to view breakdown of commits
-        .summary-chart__title--percentile(
+        .tooltip.summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
-        ) {{ getPercentile(j) }} %
+        ) {{ getPercentile(j) }} %&nbsp
+          span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
 
       .summary-chart__ramp(
         v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
@@ -584,6 +586,12 @@ export default {
           && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
           || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
     },
+
+    getPercentileExplanation(j) {
+      const explanation = `Based on the current sorting order, this item is in the top ${this.getPercentile(j)}%`;
+      return explanation;
+    },
+
   },
   created() {
     this.retrieveSelectedTabHash();
