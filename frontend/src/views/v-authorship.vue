@@ -150,7 +150,7 @@
             )
               .tooltip
                 font-awesome-icon.button(icon="history")
-                span.tooltip-text This remote link is unsupported
+                span.tooltip-text {{disabledLinkMessage}}
             a(
               v-if='!file.isBinary && !isBrokenLink(getBlameLink(file))',
               v-bind:href="getBlameLink(file)", target="_blank",
@@ -166,7 +166,7 @@
             )
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
-                span.tooltip-text This remote link is unsupported
+                span.tooltip-text {{disabledLinkMessage}}
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
@@ -182,6 +182,7 @@
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
 import vSegmentCollection from '../components/v-segment-collection.vue';
+import brokenLinkDisabler from '../utils/broken-link-disabler';
 
 const getFontColor = window.getFontColor;
 
@@ -215,6 +216,7 @@ const repoCache = [];
 
 export default {
   name: 'v-authorship',
+  mixins: [brokenLinkDisabler],
   components: {
     vSegmentCollection,
   },
@@ -593,11 +595,6 @@ export default {
     getBlameLink(file) {
       const repo = window.REPOS[this.info.repo];
       return window.getBlameLink(this.info.repo, repo.branch, file.path);
-    },
-
-    isBrokenLink(link) {
-      const linkFormat = /^(https:\/\/)(github.com|bitbucket.org|gitlab.com).*/;
-      return !linkFormat.test(link);
     },
 
     getFileTypeBlankLineInfo(fileType) {

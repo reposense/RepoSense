@@ -49,7 +49,7 @@
       )
         .tooltip
           font-awesome-icon.broken-link-icon-button(:icon="getRepoIcon(repo[0])")
-          span.tooltip-text This remote link is unsupported
+          span.tooltip-text {{disabledLinkMessage}}
       a(
         v-else-if="!isBrokenLink(getAuthorProfileLink(repo[0], repo[0].name)) &&\
           filterGroupSelection === 'groupByAuthors'",
@@ -65,7 +65,7 @@
       )
         .tooltip
           font-awesome-icon.broken-link-icon-button(icon="user")
-          span.tooltip-text This remote link is unsupported
+          span.tooltip-text {{disabledLinkMessage}}
       template(v-if="isGroupMerged(getGroupName(repo))")
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
@@ -128,7 +128,7 @@
         )
           .tooltip
             font-awesome-icon.broken-link-icon-button(:icon="getRepoIcon(repo[0])")
-            span.tooltip-text This remote link is unsupported
+            span.tooltip-text {{disabledLinkMessage}}
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'&& !isBrokenLink(getAuthorProfileLink(repo[j], repo[j].name))",
           v-bind:href="getAuthorProfileLink(repo[j], repo[j].name)", target="_blank"
@@ -142,7 +142,7 @@
         )
           .tooltip
             font-awesome-icon.broken-link-icon-button(icon="user")
-            span.tooltip-text This remote link is unsupported
+            span.tooltip-text {{disabledLinkMessage}}
         a(
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
@@ -209,9 +209,11 @@
 import { mapState } from 'vuex';
 
 import vRamp from './v-ramp.vue';
+import brokenLinkDisabler from '../utils/broken-link-disabler';
 
 export default {
   name: 'v-summary-charts',
+  mixins: [brokenLinkDisabler],
   components: {
     vRamp,
   },
@@ -344,11 +346,6 @@ export default {
       }
       this.removeSelectedTab();
       return repo.location;
-    },
-
-    isBrokenLink(link) {
-      const linkFormat = /^(https:\/\/)(github.com|bitbucket.org|gitlab.com).*/;
-      return !linkFormat.test(link);
     },
 
     getRepoIcon(repo) {

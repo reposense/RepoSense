@@ -22,7 +22,7 @@
           v-on:click="rampClick",
           v-else-if="isBrokenLink(getLink(commit))",
           target="_blank",
-          v-bind:title="'This remote link is unsupported'",
+          v-bind:title="disabledLinkMessage",
           v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
           v-bind:style="{\
             cursor:'default',\
@@ -49,8 +49,11 @@
 </template>
 
 <script>
+import brokenLinkDisabler from '../utils/broken-link-disabler';
+
 export default {
   name: 'v-ramp',
+  mixins: [brokenLinkDisabler],
   props: ['groupby', 'user', 'tframe', 'avgsize', 'sdate', 'udate', 'mergegroup', 'fromramp', 'filtersearch'],
   data() {
     return {
@@ -61,11 +64,6 @@ export default {
   methods: {
     getLink(commit) {
       return window.getCommitLink(commit.repoId, commit.hash);
-    },
-
-    isBrokenLink(link) {
-      const linkFormat = /^(https:\/\/)(github.com|bitbucket.org|gitlab.com).*/;
-      return !linkFormat.test(link);
     },
 
     getWidth(slice) {
