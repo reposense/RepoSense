@@ -87,6 +87,17 @@ a.broken-link {
       position: absolute;
       top: 100%;
     }
+
+    &.right-aligned {
+      @include mini-font;
+      bottom: 135%;
+      margin-left: -5.5rem;
+    }
+
+    &.right-aligned:after {
+      left: 75%;
+      margin-left: -.15rem;
+    }
   }
 
   &:hover {
