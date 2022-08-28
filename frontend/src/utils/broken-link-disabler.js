@@ -1,7 +1,7 @@
 const mixin = {
   methods: {
     isBrokenLink(link) {
-      return link !== undefined;
+      return link === undefined;
     },
   },
   data: {
