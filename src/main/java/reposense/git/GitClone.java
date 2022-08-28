@@ -149,7 +149,8 @@ public class GitClone {
      */
     private static String getCloneBareAndBranchCommand(Path repoPath, RepoConfiguration config,
             String outputFolderName) {
-        return GitConfig.SKIP_SMUDGE_CONFIG_COMMAND + "git clone "
+//        String install = "git lfs install --skip-smudge && ";
+        return "git clone "
                 + addQuotesForFilePath(repoPath.toString())
                 + " --branch " + config.getBranch()
                 + " " + addQuotesForFilePath(outputFolderName);
