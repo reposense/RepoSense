@@ -38,6 +38,6 @@ with(this){return _c('p',[_v("Note: Remember to "),_c('strong',[_v("commit")]),_
 with(this){return _c('p',[_v("Special thanks to "),_c('a',{attrs:{"href":"https://github.com/se-edu/collate"}},[_v("Collate project")]),_v(" for providing the inspiration for this functionality.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.1")]),_v(", generated on Wed, 24 Aug 2022, 15:38:45 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.1")]),_v(", generated on Wed, 31 Aug 2022, 13:02:53 UTC]")])])])}
 }];
   
