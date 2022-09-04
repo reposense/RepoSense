@@ -40,7 +40,7 @@
           type="radio",
           value="search",
           v-model="filterType",
-          v-on:change="indicateSearchBar(); updateSearchBarValue();"
+          v-on:change="indicateSearchBar"
         )
         .mui-form--inline
           input#search(
@@ -48,8 +48,7 @@
             placeholder="Filter by glob",
             ref="searchBar",
             v-bind:value="searchBarValue",
-            v-on:focus="indicateSearchBar",
-            v-on:keyup.enter="updateSearchBarValue"
+            v-on:keyup.enter="indicateSearchBar(); updateSearchBarValue();"
           )
           button#submit-button(
             type="button",
