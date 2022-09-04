@@ -56,10 +56,6 @@ public class GitConfig {
      */
     public static void setGlobalGitLfsConfig(List<String[]> lfsConfigs) {
         String command = setGitLfsConfigCommand(lfsConfigs);
-        if (command.equals("")) {
-            logger.log(Level.INFO, "Global Git-lfs configs already skips smudge.");
-            return;
-        }
         CommandRunner.runCommand(Paths.get("."), command);
     }
 
@@ -68,10 +64,7 @@ public class GitConfig {
         for (String[] config : lfsConfigs) {
             command += "git config --global " + config[0] + " " + "\"" + config[1] + "\"" + " && ";
         }
-        if (command.equals("")) {
-            return "";
-        }
-        return command.substring(0, command.length() - 4);
+        return command.substring(0, Math.max(0, command.length() - 4));
     }
 
     private static String getGitGlobalConfig() {
