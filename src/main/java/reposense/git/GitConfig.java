@@ -22,11 +22,11 @@ public class GitConfig {
     public static final String FILTER_LFS_PROCESS_KEY = "filter.lfs.process";
     public static final String FILTER_LFS_PROCESS_VALUE = "git-lfs filter-process --skip";
 
-    public static final String SKIP_PROCESS_CONFIG_COMMAND = "git config --global filter.lfs.process "
-            + "\"git-lfs filter-process --skip\"";
-    public static final String SKIP_SMUDGE_CONFIG_COMMAND = "git config --global filter.lfs.smudge "
-            + "\"git-lfs smudge --skip -- %f\"";
     public static final String LIST_GLOBAL_CONFIG_COMMAND = "git config --global --list";
+
+    public static final List<String[]> SKIP_SMUDGE_CONFIG_SETTINGS = Arrays.asList(
+            new String[] {FILTER_LFS_SMUDGE_KEY, FILTER_LFS_SMUDGE_VALUE},
+            new String[] {FILTER_LFS_PROCESS_KEY, FILTER_LFS_PROCESS_VALUE});
 
     private static final Logger logger = LogsManager.getLogger(GitConfig.class);
 
@@ -60,27 +60,12 @@ public class GitConfig {
             logger.log(Level.INFO, "Global Git-lfs configs already skips smudge.");
             return;
         }
-
         CommandRunner.runCommand(Paths.get("."), command);
     }
 
-    public static void setGitConfig() {
-        String command = SKIP_PROCESS_CONFIG_COMMAND + " && " + SKIP_SMUDGE_CONFIG_COMMAND;
-        CommandRunner.runCommand(Paths.get("."), command);
-    }
-
-    /**
-     * Constructs the command to set the global git lfs configuration values using settings
-     * specified in {@code lfsConfigs}.
-     */
-    public static String setGitLfsConfigCommand(List<String[]> lfsConfigs) {
+    private static String setGitLfsConfigCommand(List<String[]> lfsConfigs) {
         String command = "";
         for (String[] config : lfsConfigs) {
-            if (config[0].equals(FILTER_LFS_SMUDGE_KEY) && config[1].equals(FILTER_LFS_SMUDGE_VALUE)) {
-                continue;
-            } else if (config[0].equals(FILTER_LFS_PROCESS_KEY) && config[1].equals(FILTER_LFS_PROCESS_VALUE)) {
-                continue;
-            }
             command += "git config --global " + config[0] + " " + "\"" + config[1] + "\"" + " && ";
         }
         if (command.equals("")) {
@@ -89,9 +74,6 @@ public class GitConfig {
         return command.substring(0, command.length() - 4);
     }
 
-    /**
-     * Returns the global Git config.
-     */
     private static String getGitGlobalConfig() {
         return CommandRunner.runCommand(Paths.get("."), LIST_GLOBAL_CONFIG_COMMAND);
     }
