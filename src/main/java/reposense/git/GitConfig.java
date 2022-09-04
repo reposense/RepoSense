@@ -64,18 +64,9 @@ public class GitConfig {
         CommandRunner.runCommand(Paths.get("."), command);
     }
 
-    public static void setGitConfig() throws Exception {
-        try {
-            String process = "git config --global filter.lfs.process "
-                    + "\"git-lfs filter-process --skip\"";
-            String smudge = "git config --global filter.lfs.smudge "
-                    + "\"git-lfs smudge --skip -- %f\"";
-            CommandRunner.runCommand(Paths.get("."), process);
-            CommandRunner.runCommand(Paths.get("."), smudge);
-        } catch (RuntimeException rte) {
-            logger.log(Level.SEVERE, "FUCKKKKERRR");
-            throw new Exception("FUCK MY SHIT UP");
-        }
+    public static void setGitConfig() {
+        String command = SKIP_PROCESS_CONFIG_COMMAND + " && " + SKIP_SMUDGE_CONFIG_COMMAND;
+        CommandRunner.runCommand(Paths.get("."), command);
     }
 
     /**
@@ -101,7 +92,7 @@ public class GitConfig {
     /**
      * Returns the global Git config.
      */
-    public static String getGitGlobalConfig() {
+    private static String getGitGlobalConfig() {
         return CommandRunner.runCommand(Paths.get("."), LIST_GLOBAL_CONFIG_COMMAND);
     }
 }

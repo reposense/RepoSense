@@ -92,8 +92,10 @@ public class RepoSense {
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 
-            boolean isTestMode = cliArguments.isTestMode();
+            List<String[]> globalGitConfig = GitConfig.getGlobalGitLfsConfig();
             GitConfig.setGitConfig();
+
+            boolean isTestMode = cliArguments.isTestMode();
             if (isTestMode) {
                 // Required by ConfigSystemTest to pass
                 AuthorConfiguration.setHasAuthorConfigFile(false);
@@ -111,6 +113,8 @@ public class RepoSense {
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
 
+            GitConfig.setGlobalGitLfsConfig(globalGitConfig);
+
             logger.info(TimeUtil.getElapsedTimeMessage());
 
             if (cliArguments.isAutomaticallyLaunching()) {
@@ -120,8 +124,6 @@ public class RepoSense {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
         }
 
         LogManager.getLogManager().reset();
