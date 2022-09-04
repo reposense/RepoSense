@@ -1,6 +1,6 @@
 <template lang="pug">
 #summary-charts
-  .summary-charts(v-for="(repo, i) in filteredRepos")
+  .c-summary-charts(v-for="(repo, i) in filteredRepos")
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone'",
       v-bind:class="{ 'active-background': \
@@ -140,7 +140,7 @@
       .summary-chart__ramp(
         v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
       )
-        v-ramp(
+        c-ramp(
           v-bind:groupby="filterGroupSelection",
           v-bind:user="user",
           v-bind:tframe="filterTimeFrame",
@@ -178,12 +178,12 @@
 <script>
 import { mapState } from 'vuex';
 
-import vRamp from './v-ramp.vue';
+import cRamp from './c-ramp.vue';
 
 export default {
-  name: 'v-summary-charts',
+  name: 'c-summary-charts',
   components: {
-    vRamp,
+    cRamp,
   },
   props: ['checkedFileTypes', 'filtered', 'avgContributionSize', 'filterBreakdown',
       'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',

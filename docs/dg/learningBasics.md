@@ -333,22 +333,22 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 1">
 
-  Try to locate where the author title is in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
+  Try to locate where the author title is in [`c-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check what `activeUser` and `activeRepo` do in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
+  You can check what `activeUser` and `activeRepo` do in [`c-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
   </panel>
 
   <panel header="Hint 3">
 
-  Refer to how changes are made to the title background and icon background in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
+  Refer to how changes are made to the title background and icon background in [`c-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
   </panel>
 
   <panel header="Hint 4">
 
-  Some of the CSS styling for `v-summary-charts.vue` is in [`style.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/styles/style.scss). You can add corresponding class selector if necessary.
+  Some of the CSS styling for `c-summary-charts.vue` is in [`style.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/styles/style.scss). You can add corresponding class selector if necessary.
   </panel>
 
   <panel header="Suggested solution">
@@ -363,7 +363,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   }
   ```
 
-  In `v-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
+  In `c-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
 
   ```
   'active-text': user.name === activeUser && user.repoName === activeRepo

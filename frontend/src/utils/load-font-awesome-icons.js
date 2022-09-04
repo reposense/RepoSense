@@ -14,13 +14,13 @@ import {
 // app
 library.add(faExclamation, faSpinner, faCode, faListUl);
 
-// v-resizer
+// c-resizer
 library.add(faCaretRight);
 
-// v-summary
+// c-summary
 library.add(faExclamation);
 
-// v-summary-charts
+// c-summary-charts
 library.add(
     faChevronUp,
     faChevronDown,
@@ -37,8 +37,8 @@ library.add(
 // v-zoom
 library.add(faTags, faEllipsisH);
 
-// v-authorship
+// c-authorship
 library.add(faCaretDown, faCaretRight, faHistory, faUserEdit);
 
-// v-segment
+// c-segment
 library.add(faPlusCircle, faChevronCircleUp, faChevronCircleDown);

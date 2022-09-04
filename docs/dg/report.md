@@ -36,11 +36,11 @@ The tabbed interface is responsible for loading various modules such as authorsh
 - **main.js** - sets up plugins and 3rd party components used in the report
 - [**app.vue**](#app-app-vue) - module that supports the report interface
 - [**api.js**](#data-loader-api-js) - loading and parsing of the report content
-- [**v_summary.vue**](#summary-view-v-summary-vue) - module that supports the summary view
-- [**v_authorship.vue**](#authorship-view-v-authorship-vue) - module that supports the authorship tab view
-- [**v_zoom.vue**](#zoom-view-v-zoom-vue) - module that supports the zoom tab view
-- [**v_ramp.vue**](#ramp-view-v-ramp-vue) - module that supports the ramp chart view
-- [**v_segment.vue**](#segment-view-v-segment-vue) - module that supports the code segment view
+- [**c_summary.vue**](#summary-view-c-summary-vue) - module that supports the summary view
+- [**c_authorship.vue**](#authorship-view-c-authorship-vue) - module that supports the authorship tab view
+- [**c_zoom.vue**](#zoom-view-c-zoom-vue) - module that supports the zoom tab view
+- [**c_ramp.vue**](#ramp-view-c-ramp-vue) - module that supports the ramp chart view
+- [**c_segment.vue**](#segment-view-c-segment-vue) - module that supports the code segment view
 
 <!-- ==================================================================================================== -->
 
@@ -58,7 +58,7 @@ This contains the logic for the main VueJS object, `app.vue`, which is the entry
 
 Vuex in `store.js` is used to pass the necessary data into the relevant modules.
 
-`v_summary`, `v_authorship`, `v_zoom`, `v_segment`, and `v_ramp` are components embedded into the report and will render the corresponding content based on the data passed into it from Vuex.
+`c_summary`, `c_authorship`, `c_zoom`, `c_segment`, and `c_ramp` are components embedded into the report and will render the corresponding content based on the data passed into it from Vuex.
 
 ### Loading of report information
 The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js`, which loads the relevant file information from the network files if available; otherwise, a report archive, `archive.zip`, has to be used.
@@ -113,15 +113,15 @@ The files will be filtered, picking only files the selected author has written i
 
 <!-- ==================================================================================================== -->
 
-## Zoom view ([v-zoom.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue))
+## Zoom view ([c-zoom.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue))
 
-The `v_zoom` module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.
+The `c_zoom` module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.
 
 <!-- ==================================================================================================== -->
 
-## Ramp view ([v-ramp.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-ramp.vue))
+## Ramp view ([c-ramp.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-ramp.vue))
 
-The `v_ramp` module is responsible for receiving the relevant information from `v_summary` and generating ramp charts that contain ramp slices.
+The `c_ramp` module is responsible for receiving the relevant information from `v_summary` and generating ramp charts that contain ramp slices.
 
 ### Padding for dates
 For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
