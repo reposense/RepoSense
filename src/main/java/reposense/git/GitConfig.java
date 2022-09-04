@@ -22,8 +22,10 @@ public class GitConfig {
     public static final String FILTER_LFS_PROCESS_KEY = "filter.lfs.process";
     public static final String FILTER_LFS_PROCESS_VALUE = "git-lfs filter-process --skip";
 
-    public static final String SKIP_PROCESS_CONFIG_COMMAND = "git config --global filter.lfs.process \"git-lfs filter-process --skip\"";
-    public static final String SKIP_SMUDGE_CONFIG_COMMAND = "git config --global filter.lfs.smudge \"git-lfs smudge --skip -- %f\"";
+    public static final String SKIP_PROCESS_CONFIG_COMMAND = "git config --global filter.lfs.process "
+            + "\"git-lfs filter-process --skip\"";
+    public static final String SKIP_SMUDGE_CONFIG_COMMAND = "git config --global filter.lfs.smudge "
+            + "\"git-lfs smudge --skip -- %f\"";
     public static final String LIST_GLOBAL_CONFIG_COMMAND = "git config --global --list";
 
     private static final Logger logger = LogsManager.getLogger(GitConfig.class);
@@ -62,6 +64,20 @@ public class GitConfig {
         CommandRunner.runCommand(Paths.get("."), command);
     }
 
+    public static void setGitConfig() throws Exception {
+        try {
+            String process = "git config --global filter.lfs.process "
+                    + "\"git-lfs filter-process --skip\"";
+            String smudge = "git config --global filter.lfs.smudge "
+                    + "\"git-lfs smudge --skip -- %f\"";
+            CommandRunner.runCommand(Paths.get("."), process);
+            CommandRunner.runCommand(Paths.get("."), smudge);
+        } catch (RuntimeException rte) {
+            logger.log(Level.SEVERE, "FUCKKKKERRR");
+            throw new Exception("FUCK MY SHIT UP");
+        }
+    }
+
     /**
      * Constructs the command to set the global git lfs configuration values using settings
      * specified in {@code lfsConfigs}.
@@ -87,11 +103,5 @@ public class GitConfig {
      */
     public static String getGitGlobalConfig() {
         return CommandRunner.runCommand(Paths.get("."), LIST_GLOBAL_CONFIG_COMMAND);
-    }
-
-    public static void setGitConfig() {
-        // String install = "git lfs install --skip-smudge && ";
-        CommandRunner.runCommand(Paths.get("."), GitConfig.SKIP_PROCESS_CONFIG_COMMAND);
-        CommandRunner.runCommand(Paths.get("."), GitConfig.SKIP_SMUDGE_CONFIG_COMMAND);
     }
 }

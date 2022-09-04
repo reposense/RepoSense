@@ -34,7 +34,6 @@ import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitBlame;
 import reposense.git.GitClone;
-import reposense.git.GitConfig;
 import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
 import reposense.git.GitShow;
@@ -301,7 +300,7 @@ public class ReportGenerator {
                             + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
-                GitConfig.setGitConfig();
+
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get("."), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);

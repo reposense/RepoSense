@@ -12,6 +12,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
+import reposense.git.GitConfig;
 import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
@@ -92,7 +93,7 @@ public class RepoSense {
             }
 
             boolean isTestMode = cliArguments.isTestMode();
-
+            GitConfig.setGitConfig();
             if (isTestMode) {
                 // Required by ConfigSystemTest to pass
                 AuthorConfiguration.setHasAuthorConfigFile(false);
@@ -119,6 +120,8 @@ public class RepoSense {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage(), e);
         }
 
         LogManager.getLogManager().reset();
