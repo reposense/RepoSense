@@ -1,6 +1,6 @@
 <template lang="pug">
 #summary-charts
-  .c-summary-charts(v-for="(repo, i) in filteredRepos")
+  .summary-charts(v-for="(repo, i) in filteredRepos")
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone'",
       v-bind:class="{ 'active-background': \

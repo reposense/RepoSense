@@ -63,7 +63,7 @@ Vuex in `store.js` is used to pass the necessary data into the relevant modules.
 ### Loading of report information
 The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js`, which loads the relevant file information from the network files if available; otherwise, a report archive, `archive.zip`, has to be used.
 
-Once the relevant `commit.json` files are loaded, all the repo information will be passed into `v_summary` to be loaded in the summary view as the relevant ramp charts.
+Once the relevant `commit.json` files are loaded, all the repo information will be passed into `c_summary` to be loaded in the summary view as the relevant ramp charts.
 
 ### Activating additional view modules
 Most activity or actions should happen within the module itself, but in the case where there is a need to spawn or alter the view of another module, an event is emitted from the first module to the Vuex store, which then handles the data received and passes it along to the relevant modules.
@@ -88,9 +88,9 @@ For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` 
 
 <!-- ==================================================================================================== -->
 
-## Summary view ([v-summary.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-summary.vue))
+## Summary view ([c-summary.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-summary.vue))
 
-The `v_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
+The `c_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
 <puml src="../diagrams/ReportArchitectureSummary.puml"/>
 
@@ -102,7 +102,7 @@ The commits information is retrieved from the corresponding project folders for 
 
 <!-- ==================================================================================================== -->
 
-## Authorship view ([v-authorship.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-authorship.vue))
+## Authorship view ([c-authorship.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-authorship.vue))
 
 The authorship module retrieves the relevant information from the corresponding `authorship.json` file if it is not yet loaded. If it has been loaded, the data will be written into `window.REPOS` and be read from there instead.
 
@@ -113,7 +113,7 @@ The files will be filtered, picking only files the selected author has written i
 
 <!-- ==================================================================================================== -->
 
-## Zoom view ([c-zoom.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue))
+## Zoom view ([c-zoom.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-zoom.vue))
 
 The `c_zoom` module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.
 
@@ -121,13 +121,13 @@ The `c_zoom` module is in charge of filtering and displaying the commits from th
 
 ## Ramp view ([c-ramp.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-ramp.vue))
 
-The `c_ramp` module is responsible for receiving the relevant information from `v_summary` and generating ramp charts that contain ramp slices.
+The `c_ramp` module is responsible for receiving the relevant information from `c_summary` and generating ramp charts that contain ramp slices.
 
 ### Padding for dates
 For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
 
 <!-- ==================================================================================================== -->
 
-## Segment view ([v-segment.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-segment.vue))
+## Segment view ([c-segment.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-segment.vue))
 
-The `v-segment` module is used as a component in `v_authorship`. It separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled.
+The `c-segment` module is used as a component in `c_authorship`. It separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled.

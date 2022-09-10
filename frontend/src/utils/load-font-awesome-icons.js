@@ -34,7 +34,7 @@ library.add(
     faBitbucket,
 );
 
-// v-zoom
+// c-zoom
 library.add(faTags, faEllipsisH);
 
 // c-authorship
