@@ -185,7 +185,7 @@
 import { mapState } from 'vuex';
 
 import vRamp from './v-ramp.vue';
-import brokenLinkDisabler from '../utils/broken-link-disabler';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 
 export default {
   name: 'v-summary-charts',

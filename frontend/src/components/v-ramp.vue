@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import brokenLinkDisabler from '../utils/broken-link-disabler';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 
 export default {
   name: 'v-ramp',

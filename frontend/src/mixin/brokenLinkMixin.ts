@@ -1,10 +1,11 @@
 const mixin = {
   methods: {
-    isBrokenLink(link) {
+    isBrokenLink(link: string) {
       return link === undefined;
     },
-    getLinkMessage(link, linkMessage) {
+    getLinkMessage(link: string, linkMessage: string): string {
       if (this.isBrokenLink(link)) {
+        // @ts-ignore
         return this.disabledLinkMessage;
       }
       return linkMessage;

@@ -169,7 +169,7 @@
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
 import vSegmentCollection from '../components/v-segment-collection.vue';
-import brokenLinkDisabler from '../utils/broken-link-disabler';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 
 const getFontColor = window.getFontColor;
 
