@@ -100,6 +100,7 @@ public class GitClone {
      * {@code config}.
      *
      * @throws GitCloneException when an error occurs while attempting to clone the repo.
+     * @throws GitBranchException when the branch cannot be found.
      * @throws IOException if it fails to delete a directory.
      */
     public static void cloneFromBareAndUpdateBranch(Path rootPath, RepoConfiguration config)
