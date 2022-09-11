@@ -1,4 +1,4 @@
-const mixin = {
+export default {
   methods: {
     isBrokenLink(link: string) {
       return link === undefined;
@@ -15,4 +15,3 @@ const mixin = {
     disabledLinkMessage: 'This remote link is unsupported',
   },
 };
-export default mixin;
