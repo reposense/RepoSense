@@ -115,6 +115,7 @@ public class GitClone {
         String command = getCloneBareAndBranchCommand(relativePath, config, outputFolderPath.toString());
 
         try {
+            // Creates a local copy of the remote branch that can be accessed as if it were local.
             GitCheckout.checkoutBranch(relativePath.toString(), config.getBranch());
         } catch (RuntimeException rte) {
             throw new GitBranchException(rte);
