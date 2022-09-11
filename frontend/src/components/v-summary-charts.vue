@@ -46,7 +46,7 @@
           span.tooltip-text {{getGroupRepoLinkMessage(repo[0])}}
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
-        v-bind:class="!isBrokenLink(getAuthorProfileLink(repo[0], repo[0].name)) ? '' : 'broken-link'"
+        v-bind:class="!isBrokenLink(getAuthorProfileLink(repo[0], repo[0].name)) ? '' : 'broken-link'",
         v-bind:href="getAuthorProfileLink(repo[0], repo[0].name)", target="_blank"
       )
         .tooltip
@@ -104,7 +104,7 @@
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
-          v-bind:class="!isBrokenLink(getRepoLink(repo[j])) ? '' : 'broken-link'"
+          v-bind:class="!isBrokenLink(getRepoLink(repo[j])) ? '' : 'broken-link'",
           v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
@@ -112,7 +112,7 @@
             span.tooltip-text {{getRepoLinkMessage(repo[j])}}
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
-          v-bind:class="!isBrokenLink(getAuthorProfileLink(repo[j], repo[j].name)) ? '' : 'broken-link'"
+          v-bind:class="!isBrokenLink(getAuthorProfileLink(repo[j], repo[j].name)) ? '' : 'broken-link'",
           v-bind:href="getAuthorProfileLink(repo[j], repo[j].name)", target="_blank"
         )
           .tooltip
