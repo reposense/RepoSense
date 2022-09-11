@@ -34,7 +34,6 @@ import reposense.commits.CommitsReporter;
 import reposense.commits.model.CommitContributionSummary;
 import reposense.git.GitBlame;
 import reposense.git.GitClone;
-import reposense.git.GitRevParse;
 import reposense.git.GitShortlog;
 import reposense.git.GitShow;
 import reposense.git.exception.CommitNotFoundException;
@@ -299,9 +298,7 @@ public class ReportGenerator {
                     String.format(progressTracker.getProgress() + " "
                             + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
             try {
-                GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get("."), configToAnalyze);
-
                 FileUtil.createDirectory(repoReportDirectory);
                 generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
             } catch (IOException ioe) {
