@@ -139,34 +139,21 @@
           span.icons
             a(
               v-if="!isBrokenLink(getHistoryLink(file))",
+              v-bind:class="!isBrokenLink(getHistoryLink(file)) ? '' : 'broken-link'"
               v-bind:href="getHistoryLink(file)", target="_blank"
             )
               .tooltip
                 font-awesome-icon.button(icon="history")
-                span.tooltip-text Click to view the history view of file
-            a.broken-link(
-              v-else-if="isBrokenLink(getHistoryLink(file))",
-              target="_blank"
-            )
-              .tooltip
-                font-awesome-icon.button(icon="history")
-                span.tooltip-text {{disabledLinkMessage}}
+                span.tooltip-text {{getLinkMessage(getHistoryLink(file), 'Click to view the history view of file')}}
             a(
               v-if='!file.isBinary && !isBrokenLink(getBlameLink(file))',
+              v-bind:class="!isBrokenLink(getBlameLink(file)) ? '' : 'broken-link'"
               v-bind:href="getBlameLink(file)", target="_blank",
               title="click to view the blame view of file"
             )
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
-                span.tooltip-text Click to view the blame view of file
-            a.broken-link(
-              v-else-if='!file.isBinary && isBrokenLink(getBlameLink(file))',
-              target="_blank",
-              title="click to view the blame view of file"
-            )
-              .tooltip
-                font-awesome-icon.button(icon="user-edit")
-                span.tooltip-text {{disabledLinkMessage}}
+                span.tooltip-text {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN

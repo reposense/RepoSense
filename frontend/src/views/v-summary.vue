@@ -873,9 +873,11 @@ export default {
     @include icon-button-config;
     cursor: pointer;
   }
-  .broken-link-icon-button {
-    @include icon-button-config;
-    cursor: default;
+
+  .broken-link {
+    .icon-button {
+      cursor: default;
+    }
   }
 
   .summary-picker {
