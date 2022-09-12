@@ -8,7 +8,6 @@
     "@vue/typescript"
   ],
   "rules": {
-    "vue/multi-word-component-names": "off",
     "vue/component-definition-name-casing": [
       "error",
       "kebab-case"
