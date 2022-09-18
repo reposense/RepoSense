@@ -56,7 +56,9 @@ public class GitConfig {
      */
     public static void setGlobalGitLfsConfig(List<String[]> lfsConfigs) {
         String command = setGitLfsConfigCommand(lfsConfigs);
-        CommandRunner.runCommand(Paths.get("."), command);
+        if (!command.equals("")) {
+            CommandRunner.runCommand(Paths.get("."), command);
+        }
     }
 
     private static String setGitLfsConfigCommand(List<String[]> lfsConfigs) {

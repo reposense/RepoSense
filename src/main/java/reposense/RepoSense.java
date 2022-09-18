@@ -93,8 +93,10 @@ public class RepoSense {
             }
 
             List<String[]> globalGitConfig = GitConfig.getGlobalGitLfsConfig();
-            GitConfig.setGlobalGitLfsConfig(GitConfig.SKIP_SMUDGE_CONFIG_SETTINGS);
-
+            if (globalGitConfig.size() != 0) {
+                GitConfig.setGlobalGitLfsConfig(GitConfig.SKIP_SMUDGE_CONFIG_SETTINGS);
+            }
+            
             boolean isTestMode = cliArguments.isTestMode();
             if (isTestMode) {
                 // Required by ConfigSystemTest to pass
