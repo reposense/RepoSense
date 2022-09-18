@@ -22,7 +22,7 @@ public class GitConfig {
     public static final String FILTER_LFS_PROCESS_KEY = "filter.lfs.process";
     public static final String FILTER_LFS_PROCESS_VALUE = "git-lfs filter-process --skip";
 
-    public static final String LIST_GLOBAL_CONFIG_COMMAND = "git config --global --list";
+    private static final String LIST_GLOBAL_CONFIG_COMMAND = "git config --global --list";
 
     public static final List<String[]> SKIP_SMUDGE_CONFIG_SETTINGS = Arrays.asList(
             new String[] {FILTER_LFS_SMUDGE_KEY, FILTER_LFS_SMUDGE_VALUE},
@@ -59,6 +59,15 @@ public class GitConfig {
         if (!command.equals("")) {
             CommandRunner.runCommand(Paths.get("."), command);
         }
+    }
+
+    /**
+     * Delete the global git lfs configuration values.
+     */
+    public static void deleteGlobalGitLfsConfig() {
+        String command = "git config --global --unset " + FILTER_LFS_SMUDGE_KEY
+                + " && git config --global --unset " + FILTER_LFS_PROCESS_KEY;
+        CommandRunner.runCommand(Paths.get("."), command);
     }
 
     private static String setGitLfsConfigCommand(List<String[]> lfsConfigs) {
