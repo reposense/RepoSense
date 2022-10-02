@@ -65,17 +65,21 @@ public class GitConfig {
      * Delete the global git lfs configuration values.
      */
     public static void deleteGlobalGitLfsConfig() {
-        String command = "git config --global --unset " + FILTER_LFS_SMUDGE_KEY
-                + " && git config --global --unset " + FILTER_LFS_PROCESS_KEY;
+        String command = String.format("git config --global --unset %s && git config --global --unset %s",
+                FILTER_LFS_SMUDGE_KEY, FILTER_LFS_PROCESS_KEY);
+
         CommandRunner.runCommand(Paths.get("."), command);
     }
 
     private static String setGitLfsConfigCommand(List<String[]> lfsConfigs) {
-        String command = "";
+        List<String> commands = new ArrayList<>();
         for (String[] config : lfsConfigs) {
-            command += "git config --global " + config[0] + " " + "\"" + config[1] + "\"" + " && ";
+            String key = config[0];
+            String value = config.length > 1 ? config[1] : "";
+            commands.add(String.format("git config --global %s \"%s\"", key, value));
         }
-        return command.substring(0, Math.max(0, command.length() - 4));
+
+        return String.join(" && ", commands);
     }
 
     private static String getGitGlobalConfig() {
