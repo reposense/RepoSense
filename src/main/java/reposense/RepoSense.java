@@ -115,7 +115,7 @@ public class RepoSense {
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
 
-            // Set to user's initial global git lfs config
+            // Set back to user's initial global git lfs config
             GitConfig.setGlobalGitLfsConfig(globalGitConfig);
 
             logger.info(TimeUtil.getElapsedTimeMessage());
