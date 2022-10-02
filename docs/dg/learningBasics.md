@@ -355,7 +355,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   There is more than 1 way to achieve this. One solution is shown as the following:
 
-  Add this to `v_summary.scss`.
+  Add this to `c_summary.scss`.
 
   ```
   .active-text {

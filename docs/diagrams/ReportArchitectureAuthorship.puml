@@ -3,11 +3,11 @@ hide footbox
 skinparam monochrome true
 skinparam Shadowing false
 
-Participant ":Summary\n(v_summary.vue)" as summary
+Participant ":Summary\n(c_summary.vue)" as summary
 Participant ":Main\n(window.app)" as main
 Participant ":Authorship\n(c_authorship.vue)" as authorship
 Participant ":API\n(api.js)" as api
-Participant ":Segment\n(v_segment.vue)" as segment
+Participant ":Segment\n(c_segment.vue)" as segment
 
 -> summary : view code icon clicked
 activate summary
