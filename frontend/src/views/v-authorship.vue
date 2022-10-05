@@ -137,7 +137,6 @@
           ) ignored ({{ file.lineCount }}) &nbsp;
           span.icons
             a(
-              v-if="!isBrokenLink(getHistoryLink(file))",
               v-bind:class="!isBrokenLink(getHistoryLink(file)) ? '' : 'broken-link'",
               v-bind:href="getHistoryLink(file)", target="_blank"
             )
@@ -145,7 +144,7 @@
                 font-awesome-icon.button(icon="history")
                 span.tooltip-text {{getLinkMessage(getHistoryLink(file), 'Click to view the history view of file')}}
             a(
-              v-if='!file.isBinary && !isBrokenLink(getBlameLink(file))',
+              v-if='!file.isBinary',
               v-bind:class="!isBrokenLink(getBlameLink(file)) ? '' : 'broken-link'",
               v-bind:href="getBlameLink(file)", target="_blank",
               title="click to view the blame view of file"

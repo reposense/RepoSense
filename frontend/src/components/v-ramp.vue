@@ -7,7 +7,6 @@
           draggable="false",
           v-on:click="rampClick",
           v-bind:href="getLink(commit)", target="_blank",
-          v-if="!isBrokenLink(getLink(commit))",
           v-bind:title="getLinkMessage(getLink(commit), getContributionMessage(slice, commit))",
           v-bind:class="'ramp__slice--color' + getSliceColor(slice.date),\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
