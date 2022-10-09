@@ -4,22 +4,22 @@ skinparam monochrome true
 skinparam Shadowing false
 
 rectangle "main.js\n(window.app)" as main
-rectangle "v_zoom.vue" as v_zoom
-rectangle "v_ramp.vue" as v_ramp
-rectangle "v_summary.vue" as v_summary
-rectangle "v_authorship.vue" as v_authorship
-rectangle "v_segment.vue" as v_segment
+rectangle "c_zoom.vue" as c_zoom
+rectangle "c_ramp.vue" as c_ramp
+rectangle "c_summary.vue" as c_summary
+rectangle "c_authorship.vue" as c_authorship
+rectangle "c_segment.vue" as c_segment
 database "api.js\n" as api
 
-main -down-> v_summary
-v_summary -down-> v_zoom
-v_summary -> v_ramp
-v_zoom -> v_ramp
+main -down-> c_summary
+c_summary -down-> c_zoom
+c_summary -> c_ramp
+c_zoom -> c_ramp
 
-main -down-> v_authorship
-v_authorship -down-> v_segment
+main -down-> c_authorship
+c_authorship -down-> c_segment
 
 api -down--> main : summary.json
-api -down-> v_summary : projectName/commits.json
-api -down-> v_authorship : projectName/authorship.json
+api -down-> c_summary : projectName/commits.json
+api -down-> c_authorship : projectName/authorship.json
 @enduml

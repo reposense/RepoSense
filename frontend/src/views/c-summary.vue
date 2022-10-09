@@ -111,7 +111,7 @@
             v-on:change="getFiltered"
           )
           span {{ fileType }}
-  v-summary-charts(
+  c-summary-charts(
     v-bind:filtered="filtered",
     v-bind:checked-file-types="checkedFileTypes",
     v-bind:avg-contribution-size="avgContributionSize",
@@ -130,7 +130,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import vSummaryCharts from '../components/v-summary-charts.vue';
+import cSummaryCharts from '../components/c-summary-charts.vue';
 import getNonRepeatingColor from '../utils/ramp-colour-generator';
 import sortFiltered from '../utils/repo-sorter';
 
@@ -138,9 +138,9 @@ const getFontColor = window.getFontColor;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 export default {
-  name: 'v-summary',
+  name: 'c-summary',
   components: {
-    vSummaryCharts,
+    cSummaryCharts,
   },
   props: ['repos', 'errorMessages'],
   data() {
