@@ -139,15 +139,15 @@
         "data-loader-api-js": "Data loader (api.js)",
         "loading-from-zip-file": "Loading from ZIP file",
         "retrieving-and-parsing-information": "Retrieving and parsing information",
-        "summary-view-v-summary-vue": "Summary view (v-summary.vue)",
+        "summary-view-c-summary-vue": "Summary view (c-summary.vue)",
         "initializing-the-data-for-the-ramp-charts": "Initializing the data for the ramp charts",
         "filtering-users-and-repositories": "Filtering users and repositories",
-        "authorship-view-v-authorship-vue": "Authorship view (v-authorship.vue)",
+        "authorship-view-c-authorship-vue": "Authorship view (c-authorship.vue)",
         "showing-relevant-information-by-authors": "Showing relevant information by authors",
-        "zoom-view-v-zoom-vue": "Zoom view (v-zoom.vue)",
-        "ramp-view-v-ramp-vue": "Ramp view (v-ramp.vue)",
+        "zoom-view-c-zoom-vue": "Zoom view (c-zoom.vue)",
+        "ramp-view-c-ramp-vue": "Ramp view (c-ramp.vue)",
         "padding-for-dates": "Padding for dates",
-        "segment-view-v-segment-vue": "Segment view (v-segment.vue)"
+        "segment-view-c-segment-vue": "Segment view (c-segment.vue)"
       },
       "headingKeywords": {}
     },
