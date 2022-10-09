@@ -39,7 +39,7 @@ const throttledEvent = (delay, handler) => {
 };
 
 export default {
-  name: 'v-resizer',
+  name: 'c-resizer',
 
   data() {
     return {
