@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -107,6 +108,7 @@ public class FileInfoExtractor {
 
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
         Set<Path> textFilesSet = getFiles(config, false);
+        List<PathMatcher> pathMatchers = config.getIgnoreGlobPathMatcherList();
 
         for (String fileDiffResult : fileDiffResultList) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
@@ -118,21 +120,17 @@ public class FileInfoExtractor {
 
             String filePath = filePathMatcher.group(FILE_CHANGED_GROUP_NAME);
 
-            // file is deleted, skip it as well
-            if (filePath.equals(FILE_DELETED_SYMBOL)) {
+            if (filePath.equals(FILE_DELETED_SYMBOL) // file is deleted, skip it as well
+                    || !isValidTextFile(filePath, textFilesSet)
+                    || !config.getFileTypeManager().isInsideWhitelistedFormats(filePath)
+                    || isFileIgnoredByGlob(config, Paths.get(filePath))) {
                 continue;
             }
 
-            if (!isValidTextFile(filePath, textFilesSet)) {
-                continue;
-            }
-
-            if (config.getFileTypeManager().isInsideWhitelistedFormats(filePath)) {
-                FileInfo currentFileInfo = generateFileInfo(config, filePath);
-                setLinesToTrack(currentFileInfo, fileDiffResult);
-                if (currentFileInfo.isFileAnalyzed()) {
-                    fileInfos.add(currentFileInfo);
-                }
+            FileInfo currentFileInfo = generateFileInfo(config, filePath);
+            setLinesToTrack(currentFileInfo, fileDiffResult);
+            if (currentFileInfo.isFileAnalyzed()) {
+                fileInfos.add(currentFileInfo);
             }
         }
 
@@ -201,8 +199,10 @@ public class FileInfoExtractor {
     private static List<FileInfo> getAllFileInfo(RepoConfiguration config, boolean isBinaryFiles) {
         List<FileInfo> fileInfos = new ArrayList<>();
         Set<Path> files = getFiles(config, isBinaryFiles);
+
         for (Path relativePath : files) {
-            if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
+            if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())
+                    || isFileIgnoredByGlob(config, relativePath)) {
                 continue;
             }
 
@@ -292,5 +292,16 @@ public class FileInfoExtractor {
         }
 
         return isValidFilePath && textFilesSet.contains(Paths.get(filePath));
+    }
+
+    /**
+     *  Returns true if {@code relativePath} has been specified to be ignored in the {@code config}.
+     */
+    private static boolean isFileIgnoredByGlob(RepoConfiguration config, Path relativePath) {
+        List<PathMatcher> pathMatchers = config.getIgnoreGlobPathMatcherList();
+        boolean hasNoGlobMatches = pathMatchers.stream()
+                .filter(pathMatcher -> pathMatcher.matches(relativePath))
+                .collect(Collectors.toList()).isEmpty();
+        return !hasNoGlobMatches;
     }
 }

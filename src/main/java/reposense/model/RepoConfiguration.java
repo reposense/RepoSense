@@ -1,6 +1,8 @@
 package reposense.model;
 
 import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.PathMatcher;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -440,6 +442,12 @@ public class RepoConfiguration {
 
     public List<String> getIgnoreGlobList() {
         return ignoreGlobList;
+    }
+
+    public List<PathMatcher> getIgnoreGlobPathMatcherList() {
+        return ignoreGlobList.stream()
+                .map(glob -> FileSystems.getDefault().getPathMatcher("glob:" + glob))
+                .collect(Collectors.toList());
     }
 
     public void setIgnoreGlobList(List<String> ignoreGlobList) {
