@@ -108,7 +108,6 @@ public class FileInfoExtractor {
 
         String[] fileDiffResultList = fullDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
         Set<Path> textFilesSet = getFiles(config, false);
-        List<PathMatcher> pathMatchers = config.getIgnoreGlobPathMatcherList();
 
         for (String fileDiffResult : fileDiffResultList) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
