@@ -15,8 +15,9 @@ a {
 }
 
 a.broken-link {
-  color: red;
+  color: black;
   cursor: default;
+  text-decoration: none;
 }
 
 [v-cloak] {
