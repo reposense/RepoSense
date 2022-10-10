@@ -69,6 +69,23 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     }
 
     @Test
+    public void extractFileInfos_skipGlobs_success() {
+        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
+        config.setIgnoreGlobList(Arrays.asList("newPos/**.java", "**.md"));
+
+        GitCheckout.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
+        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+
+        Assertions.assertEquals(4, files.size());
+
+        Assertions.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
+        Assertions.assertTrue(isFileExistence(Paths.get("blameTest.java"), files));
+        Assertions.assertTrue(isFileExistence(Paths.get("inMasterBranch.java"), files));
+        Assertions.assertTrue(isFileExistence(Paths.get("newFile.java"), files));
+    }
+
+    @Test
     public void extractFileInfos_sinceDateFebrauaryNineToLatestCommit_success() {
         LocalDateTime date = TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 9);
         config.setSinceDate(date);
@@ -129,6 +146,22 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
         Assertions.assertEquals(3, files.size());
         Assertions.assertTrue(isFileExistence(Paths.get("README.md"), files));
+        Assertions.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
+        Assertions.assertTrue(isFileExistence(Paths.get("newPos/movedFile.java"), files));
+
+        // file renamed without changing content, not included
+        Assertions.assertFalse(isFileExistence(Paths.get("renamedFile.java"), files));
+    }
+
+    @Test
+    public void getEditedFileInfos_editFileInfoBranchSinceFebrauryEightSkipGlobs_success() {
+        GitCheckout.checkout(config.getRepoRoot(), EDITED_FILE_INFO_BRANCH);
+        config.setIgnoreGlobList(Arrays.asList("**.md"));
+
+        List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
+
+        Assertions.assertEquals(2, files.size());
+
         Assertions.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("newPos/movedFile.java"), files));
 
