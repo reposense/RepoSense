@@ -160,14 +160,14 @@
           .ignored-segment
             .ignore-text File is ignored.
         pre.hljs.file-content(v-else-if="file.wasCodeLoaded", v-show="file.active")
-          v-segment-collection(v-bind:segments="file.segments", v-bind:path="file.path")
+          c-segment-collection(v-bind:segments="file.segments", v-bind:path="file.path")
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
-import vSegmentCollection from '../components/v-segment-collection.vue';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
+import cSegmentCollection from '../components/c-segment-collection.vue';
 
 const getFontColor = window.getFontColor;
 
@@ -200,10 +200,10 @@ function authorshipInitialState() {
 const repoCache = [];
 
 export default {
-  name: 'v-authorship',
+  name: 'c-authorship',
   mixins: [brokenLinkDisabler],
   components: {
-    vSegmentCollection,
+    cSegmentCollection,
   },
   emits: [
       'deactivate-tab',

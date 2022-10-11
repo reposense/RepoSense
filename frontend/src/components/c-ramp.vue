@@ -37,8 +37,8 @@
 import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 
 export default {
-  name: 'v-ramp',
   mixins: [brokenLinkDisabler],
+  name: 'c-ramp',
   props: ['groupby', 'user', 'tframe', 'avgsize', 'sdate', 'udate', 'mergegroup', 'fromramp', 'filtersearch'],
   data() {
     return {

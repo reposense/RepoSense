@@ -333,29 +333,29 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 1">
 
-  Try to locate where the author title is in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
+  Try to locate where the author title is in [`c-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-summary-charts.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check what `activeUser` and `activeRepo` do in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
+  You can check what `activeUser` and `activeRepo` do in [`c-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-summary-charts.vue).
   </panel>
 
   <panel header="Hint 3">
 
-  Refer to how changes are made to the title background and icon background in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
+  Refer to how changes are made to the title background and icon background in [`c-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-summary-charts.vue).
   </panel>
 
   <panel header="Hint 4">
 
-  Some of the CSS styling for `v-summary-charts.vue` is in [`style.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/styles/style.scss). You can add corresponding class selector if necessary.
+  Some of the CSS styling for `c-summary-charts.vue` is in [`style.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/styles/style.scss). You can add corresponding class selector if necessary.
   </panel>
 
   <panel header="Suggested solution">
 
   There is more than 1 way to achieve this. One solution is shown as the following:
 
-  Add this to `v_summary.scss`.
+  Add this to `c_summary.scss`.
 
   ```
   .active-text {
@@ -363,7 +363,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   }
   ```
 
-  In `v-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
+  In `c-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
 
   ```
   'active-text': user.name === activeUser && user.repoName === activeRepo
@@ -393,12 +393,12 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 1">
 
-  Try to locate where the file title and the file path are in [`v-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-authorship.vue).
+  Try to locate where the file title and the file path are in [`c-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-authorship.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check how tooltip is added for the triangular icon in the file title in [`v-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-authorship.vue).
+  You can check how tooltip is added for the triangular icon in the file title in [`c-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-authorship.vue).
   </panel>
 
   <panel header="Hint 3">
@@ -410,7 +410,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  1. In `v-authorship.vue`, locate the section that iterates through each file in `selectedFiles`. 
+  1. In `c-authorship.vue`, locate the section that iterates through each file in `selectedFiles`. 
   2. There is a specific portion of the section that renders the toggle icon, the file index, and the file path of the file title.
   3. Try to locate the `span` tag that renders `file.path`, and wraps it inside a new `tooptip`.
   4. In the `tooltip`, use the following instructions to handle the switch of tooltip message.
@@ -442,12 +442,12 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 1">
 
-  Try to locate where the commit title is in [`v-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue).
+  Try to locate where the commit title is in [`c-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-zoom.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check how tooltip is added for other icons in [`v-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue).
+  You can check how tooltip is added for other icons in [`c-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-zoom.vue).
   </panel>
 
   <panel header="Hint 3">
@@ -459,7 +459,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  1. In `v-zoom.vue`, locate the section that iterates through each `day` in `selectedCommits`.
+  1. In `c-zoom.vue`, locate the section that iterates through each `day` in `selectedCommits`.
   2. The component that helps render the commit message title should be an `a` tag which uses the `getSliceLink` method to set the link to the commit details and uses `slice.messageTitle` to show the commit message title.
   3. Wrap the `a` tag in a new `tooltip`.
   4. In the `tooltip`, add the following content to show the tooltip message.
