@@ -87,11 +87,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
         return FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
     }
 
-    private FileResult getFileResult(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
-    }
-
     @Test
     public void blameTest() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
@@ -121,7 +116,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     public void movedFileBlameTest() {
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
-        FileResult fileResult = getFileResult("newPos/movedFile.java");
+        FileResult fileResult = getFileResultInsertFakeAuthor("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
     }
 
@@ -160,7 +155,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
 
-        FileResult fileResult = getFileResult("newPos/movedFile.java");
+        FileResult fileResult = getFileResultInsertFakeAuthor("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
     }
 
