@@ -61,6 +61,11 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
+    private FileResult getFileResult(String relativePath) {
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
+        return FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
+    }
+
     @Test
     public void analyzeAnnotation_authorNamePresentInConfig_overrideAuthorship() {
         config.setAuthorList(new ArrayList<>(Arrays.asList(FAKE_AUTHOR)));
@@ -81,11 +86,6 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         AuthorConfiguration.setHasAuthorConfigFile(true);
         FileResult fileResult = getFileResult("annotationTest.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_DISOWN_CODE_TEST));
-    }
-
-    public FileResult getFileResult(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
     }
 
     @Test

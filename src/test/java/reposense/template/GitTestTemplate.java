@@ -15,9 +15,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import reposense.authorship.FileInfoAnalyzer;
-import reposense.authorship.FileInfoExtractor;
-import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
@@ -136,20 +133,6 @@ public class GitTestTemplate {
     }
 
     /**
-     * Generates the information for test file at {@code relativePath}.
-     */
-    public FileInfo generateTestFileInfo(String relativePath) {
-        RepoConfiguration config = configs.get();
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
-
-        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
-        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
-        config.addAuthorNamesToAuthorMapEntry(new Author(IGNORED_AUTHOR_NAME), IGNORED_AUTHOR_NAME);
-
-        return fileInfo;
-    }
-
-    /**
      * Generates the .git-blame-ignore-revs file containing {@link CommitHash}es
      * from {@code toIgnore} for the test repo.
      */
@@ -174,11 +157,6 @@ public class GitTestTemplate {
     public void removeTestIgnoreRevsFile() {
         String fileLocation = configs.get().getRepoRoot() + IGNORE_REVS_FILE_NAME;
         new File(fileLocation).delete();
-    }
-
-    public FileResult getFileResult(String relativePath) {
-        FileInfo fileinfo = generateTestFileInfo(relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(configs.get(), fileinfo);
     }
 
     /**
