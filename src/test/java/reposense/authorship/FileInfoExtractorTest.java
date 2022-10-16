@@ -79,8 +79,10 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
         Assertions.assertEquals(4, files.size());
 
+        Assertions.assertFalse(isFileExistence(Paths.get("README.md"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("blameTest.java"), files));
+        Assertions.assertFalse(isFileExistence(Paths.get("newPos/movedFile.java"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("inMasterBranch.java"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("newFile.java"), files));
     }
@@ -162,6 +164,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
         Assertions.assertEquals(2, files.size());
 
+        Assertions.assertFalse(isFileExistence(Paths.get("README.md"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("annotationTest.java"), files));
         Assertions.assertTrue(isFileExistence(Paths.get("newPos/movedFile.java"), files));
 

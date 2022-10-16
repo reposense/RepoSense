@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -122,7 +121,7 @@ public class FileInfoExtractor {
             if (filePath.equals(FILE_DELETED_SYMBOL) // file is deleted, skip it as well
                     || !isValidTextFile(filePath, textFilesSet)
                     || !config.getFileTypeManager().isInsideWhitelistedFormats(filePath)
-                    || isFileIgnoredByGlob(config, Paths.get(filePath))) {
+                    || FileUtil.isFileIgnoredByGlob(config, Paths.get(filePath))) {
                 continue;
             }
 
@@ -201,7 +200,7 @@ public class FileInfoExtractor {
 
         for (Path relativePath : files) {
             if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())
-                    || isFileIgnoredByGlob(config, relativePath)) {
+                    || FileUtil.isFileIgnoredByGlob(config, relativePath)) {
                 continue;
             }
 
@@ -291,16 +290,5 @@ public class FileInfoExtractor {
         }
 
         return isValidFilePath && textFilesSet.contains(Paths.get(filePath));
-    }
-
-    /**
-     *  Returns true if {@code relativePath} has been specified to be ignored in the {@code config}.
-     */
-    private static boolean isFileIgnoredByGlob(RepoConfiguration config, Path relativePath) {
-        List<PathMatcher> pathMatchers = config.getIgnoreGlobPathMatcherList();
-        boolean hasNoGlobMatches = pathMatchers.stream()
-                .filter(pathMatcher -> pathMatcher.matches(relativePath))
-                .collect(Collectors.toList()).isEmpty();
-        return !hasNoGlobMatches;
     }
 }
