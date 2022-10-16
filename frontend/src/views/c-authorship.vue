@@ -137,19 +137,21 @@
           ) ignored ({{ file.lineCount }}) &nbsp;
           span.icons
             a(
+              v-bind:class="!isBrokenLink(getHistoryLink(file)) ? '' : 'broken-link'",
               v-bind:href="getHistoryLink(file)", target="_blank"
             )
               .tooltip
                 font-awesome-icon.button(icon="history")
-                span.tooltip-text Click to view the history view of file
+                span.tooltip-text {{getLinkMessage(getHistoryLink(file), 'Click to view the history view of file')}}
             a(
               v-if='!file.isBinary',
+              v-bind:class="!isBrokenLink(getBlameLink(file)) ? '' : 'broken-link'",
               v-bind:href="getBlameLink(file)", target="_blank",
               title="click to view the blame view of file"
             )
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
-                span.tooltip-text Click to view the blame view of file
+                span.tooltip-text {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
@@ -164,6 +166,7 @@
 <script>
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 
 const getFontColor = window.getFontColor;
@@ -198,6 +201,7 @@ const repoCache = [];
 
 export default {
   name: 'c-authorship',
+  mixins: [brokenLinkDisabler],
   components: {
     cSegmentCollection,
   },

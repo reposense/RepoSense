@@ -38,18 +38,20 @@
           span.tooltip-text Click to expand group
       a(
         v-if="filterGroupSelection === 'groupByRepos'",
+        v-bind:class="!isBrokenLink(getRepoLink(repo[0])) ? '' : 'broken-link'",
         v-bind:href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
-          span.tooltip-text Click to view group's repo
+          span.tooltip-text {{getGroupRepoLinkMessage(repo[0])}}
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
+        v-bind:class="!isBrokenLink(getAuthorProfileLink(repo[0], repo[0].name)) ? '' : 'broken-link'",
         v-bind:href="getAuthorProfileLink(repo[0], repo[0].name)", target="_blank"
       )
         .tooltip
           font-awesome-icon.icon-button(icon="user")
-          span.tooltip-text Click to view author's profile
+          span.tooltip-text {{getAuthorProfileLinkMessage(repo[0])}}
       template(v-if="isGroupMerged(getGroupName(repo))")
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
@@ -102,18 +104,20 @@
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
+          v-bind:class="!isBrokenLink(getRepoLink(repo[j])) ? '' : 'broken-link'",
           v-bind:href="getRepoLink(repo[j])", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
-            span.tooltip-text Click to view repo
+            span.tooltip-text {{getRepoLinkMessage(repo[j])}}
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
+          v-bind:class="!isBrokenLink(getAuthorProfileLink(repo[j], repo[j].name)) ? '' : 'broken-link'",
           v-bind:href="getAuthorProfileLink(repo[j], repo[j].name)", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="user")
-            span.tooltip-text Click to view author's profile
+            span.tooltip-text {{getAuthorProfileLinkMessage(repo[j])}}
         a(
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
@@ -180,10 +184,12 @@
 <script>
 import { mapState } from 'vuex';
 
+import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 import cRamp from './c-ramp.vue';
 
 export default {
   name: 'c-summary-charts',
+  mixins: [brokenLinkDisabler],
   components: {
     cRamp,
   },
@@ -305,6 +311,18 @@ export default {
 
     getAuthorProfileLink(repo, userName) {
       return window.getAuthorLink(repo.repoId, userName);
+    },
+
+    getGroupRepoLinkMessage(repo) {
+      return this.getLinkMessage(this.getRepoLink(repo), 'Click to view group\'s repo');
+    },
+
+    getAuthorProfileLinkMessage(repo) {
+      return this.getLinkMessage(this.getAuthorProfileLink(repo, repo.name), 'Click to view author\'s profile');
+    },
+
+    getRepoLinkMessage(repo) {
+      return this.getLinkMessage(this.getRepoLink(repo), 'Click to view repo');
     },
 
     getRepoLink(repo) {
