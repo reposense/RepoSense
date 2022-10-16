@@ -79,19 +79,16 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
         config = configs.get();
         config.setZoneId(TIME_ZONE_ID);
-    }
-
-    private FileResult getFileResultInsertFakeAuthor(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
+        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
         config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
-        return FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
+        config.addAuthorNamesToAuthorMapEntry(new Author(IGNORED_AUTHOR_NAME), IGNORED_AUTHOR_NAME);
     }
 
     @Test
     public void blameTest() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
-        FileResult fileResult = getFileResultInsertFakeAuthor("blameTest.java");
+        FileResult fileResult = getFileResult("blameTest.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
     }
 
@@ -106,7 +103,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         GitCheckout.checkout(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
 
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);
-        FileResult fileResult = getFileResultInsertFakeAuthor("blameTest.java");
+        FileResult fileResult = getFileResult("blameTest.java");
         removeTestIgnoreRevsFile();
 
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
@@ -116,7 +113,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
     public void movedFileBlameTest() {
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
-        FileResult fileResult = getFileResultInsertFakeAuthor("newPos/movedFile.java");
+        FileResult fileResult = getFileResult("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
     }
 
@@ -126,7 +123,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
 
-        FileResult fileResult = getFileResultInsertFakeAuthor("blameTest.java");
+        FileResult fileResult = getFileResult("blameTest.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
     }
 
@@ -143,7 +140,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 config.getZoneId());
 
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);
-        FileResult fileResult = getFileResultInsertFakeAuthor("blameTest.java");
+        FileResult fileResult = getFileResult("blameTest.java");
         removeTestIgnoreRevsFile();
 
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
@@ -155,7 +152,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
 
-        FileResult fileResult = getFileResultInsertFakeAuthor("newPos/movedFile.java");
+        FileResult fileResult = getFileResult("newPos/movedFile.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
     }
 
@@ -193,8 +190,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
         GitCheckout.checkout(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
 
         FileInfo fileInfoFull = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
-        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
-        config.addAuthorNamesToAuthorMapEntry(new Author(IGNORED_AUTHOR_NAME), IGNORED_AUTHOR_NAME);
 
         config.setIgnoreCommitList(Collections.singletonList(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018));
         createTestIgnoreRevsFile(config.getIgnoreCommitList());

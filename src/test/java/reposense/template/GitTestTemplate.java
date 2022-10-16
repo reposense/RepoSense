@@ -15,6 +15,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import reposense.authorship.FileInfoAnalyzer;
+import reposense.authorship.FileInfoExtractor;
+import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
@@ -173,6 +176,11 @@ public class GitTestTemplate {
         while (linesItr.hasNext() && lineAuthorsItr.hasNext()) {
             assertEquals(lineAuthorsItr.next(), linesItr.next().getAuthor());
         }
+    }
+
+    public FileResult getFileResult(String relativePath) {
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(configs.get(), relativePath);
+        return FileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
     }
 
     /**
