@@ -863,11 +863,21 @@ export default {
     text-align: center;
   }
 
-  .icon-button {
+  @mixin icon-button-config {
     color: mui-color('grey');
-    cursor: pointer;
     padding: 0 1.2px 0 1.2px;
     text-decoration: none;
+  }
+
+  .icon-button {
+    @include icon-button-config;
+    cursor: pointer;
+  }
+
+  .broken-link {
+    .icon-button {
+      cursor: default;
+    }
   }
 
   .summary-picker {
