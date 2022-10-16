@@ -93,7 +93,8 @@
       v-bind:key="slice.hash",
       v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
     )
-      a.message-title(v-bind:href="getSliceLink(slice)", target="_blank")
+      a.message-title(v-bind:href="getSliceLink(slice)",
+        v-bind:class="!isBrokenLink(getSliceLink(slice)) ? '' : 'broken-link'", target="_blank")
         .within-border {{ slice.messageTitle.substr(0, 50) }}
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
@@ -134,6 +135,7 @@
 <script>
 import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 import cRamp from '../components/c-ramp.vue';
 
 const getFontColor = window.getFontColor;
@@ -151,6 +153,7 @@ function zoomInitialState() {
 
 export default {
   name: 'c-zoom',
+  mixins: [brokenLinkDisabler],
   components: {
     FontAwesomeIcon,
     cRamp,

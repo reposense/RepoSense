@@ -12,6 +12,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
+import reposense.git.GitConfig;
 import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
@@ -91,8 +92,12 @@ public class RepoSense {
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
             }
 
-            boolean isTestMode = cliArguments.isTestMode();
+            List<String[]> globalGitConfig = GitConfig.getGlobalGitLfsConfig();
+            if (globalGitConfig.size() != 0) {
+                GitConfig.setGlobalGitLfsConfig(GitConfig.SKIP_SMUDGE_CONFIG_SETTINGS);
+            }
 
+            boolean isTestMode = cliArguments.isTestMode();
             if (isTestMode) {
                 // Required by ConfigSystemTest to pass
                 AuthorConfiguration.setHasAuthorConfigFile(false);
@@ -109,6 +114,9 @@ public class RepoSense {
 
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
+
+            // Set back to user's initial global git lfs config
+            GitConfig.setGlobalGitLfsConfig(globalGitConfig);
 
             logger.info(TimeUtil.getElapsedTimeMessage());
 
