@@ -14,6 +14,12 @@ a {
   cursor: pointer;
 }
 
+a.broken-link {
+  color: black;
+  cursor: default;
+  text-decoration: none;
+}
+
 [v-cloak] {
   display: none;
 }
