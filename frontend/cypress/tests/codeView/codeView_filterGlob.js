@@ -61,7 +61,7 @@ describe('filter glob', () => {
         .should('have.value', '');
   });
 
-  it('check filter nothing should show all file types', () => {
+  it('check request to filter nothing by enter should show all file types', () => {
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()
@@ -79,7 +79,25 @@ describe('filter glob', () => {
         .should('be.visible');
   });
 
-  it('check invalid glob should not show any files', () => {
+  it('check request to filter nothing by clicking should show all file types', () => {
+    cy.get('.icon-button.fa-code')
+        .should('be.visible')
+        .first()
+        .click();
+
+    cy.get('.radio-button--search')
+        .should('be.visible')
+        .click();
+
+    // click 'Filter' on empty input
+    cy.get('#submit-button')
+        .click();
+
+    cy.get('#tab-authorship .files', { timeout: 90000 })
+        .should('be.visible');
+  });
+
+  it('check request to filter invalid glob by enter should not show any files', () => {
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()
@@ -95,11 +113,33 @@ describe('filter glob', () => {
     cy.get('#search')
         .type('invalid glob');
 
-    // click 'Filter' button
+    cy.get('#submit-button')
+        .type('{enter}');
+
+    // no file should be shown
+    cy.get('#tab-authorship .files')
+        .should('not.be.visible');
+  });
+
+  it('check request to filter invalid glob by clicking should not show any files', () => {
+    cy.get('.icon-button.fa-code')
+        .should('be.visible')
+        .first()
+        .click();
+
+    cy.get('.radio-button--search')
+        .should('be.visible')
+        .click();
+
+    cy.get('#tab-authorship .files', { timeout: 90000 })
+        .should('be.visible');
+
+    cy.get('#search')
+        .type('invalid glob');
+
     cy.get('#submit-button')
         .click();
 
-    // no file should be shown
     cy.get('#tab-authorship .files')
         .should('not.be.visible');
   });
