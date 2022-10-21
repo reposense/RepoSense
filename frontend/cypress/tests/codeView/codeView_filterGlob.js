@@ -13,7 +13,7 @@ describe('filter glob', () => {
 
     // filter by file type should be unchecked
     cy.get('.radio-button--checkbox')
-        .should('not.be.checked')
+        .should('not.be.checked');
   });
 
   it('check no filter glob input should show all file types by default', () => {
@@ -93,7 +93,7 @@ describe('filter glob', () => {
         .should('be.visible');
 
     cy.get('#search')
-        .type('invalid glob')
+        .type('invalid glob');
 
     // click 'Filter' button
     cy.get('#submit-button')
