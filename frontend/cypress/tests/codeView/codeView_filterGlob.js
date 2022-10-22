@@ -161,16 +161,17 @@ describe('filter glob', () => {
     cy.get('#submit-button')
         .click();
 
-    cy.get('#tab-authorship .files').then($files => {
-        // check if there is any file with .java extension
-        if ($files.hasClass('path')) {
-            // check each file for .java extension
-            cy.get('.title > .path > span').then($spans => {
-                $spans.toArray().forEach(span => {
-                    cy.wrap(span).contains('.java');
-                });
+    cy.get('#tab-authorship .files').then(($files) => {
+      // check if there is any file with .java extension
+      if ($files.hasClass('path')) {
+        // check each file for .java extension
+        cy.get('.title > .path > span')
+            .then(($spans) => {
+              $spans.toArray().forEach((span) => {
+                cy.wrap(span).contains('.java');
+              });
             });
-        }
+      }
     });
   });
 });
