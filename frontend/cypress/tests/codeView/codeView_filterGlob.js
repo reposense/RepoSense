@@ -143,4 +143,34 @@ describe('filter glob', () => {
     cy.get('#tab-authorship .files')
         .should('not.be.visible');
   });
+
+  it('check filter glob should only show files with that extension', () => {
+    cy.get('.icon-button.fa-code')
+        .should('be.visible')
+        .first()
+        .click();
+
+    cy.get('.radio-button--search')
+        .should('be.visible')
+        .click();
+
+    // try java
+    cy.get('#search')
+        .type('*java');
+
+    cy.get('#submit-button')
+        .click();
+
+    cy.get('#tab-authorship .files').then($files => {
+        // check if there is any file with .java extension
+        if ($files.hasClass('path')) {
+            // check each file for .java extension
+            cy.get('.title > .path > span').then($spans => {
+                $spans.toArray().forEach(span => {
+                    cy.wrap(span).contains('.java');
+                });
+            });
+        }
+    });
+  });
 });
