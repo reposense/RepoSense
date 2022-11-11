@@ -61,7 +61,7 @@ describe('filter glob', () => {
         .should('have.value', '');
   });
 
-  it('check request to filter nothing by enter should show all file types', () => {
+  it('check request to filter something to nothing by enter should show all file types', () => {
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()
@@ -70,6 +70,18 @@ describe('filter glob', () => {
     cy.get('.radio-button--search')
         .should('be.visible')
         .click();
+
+    // enter some input
+    cy.get('#search')
+        .type('an input');
+
+    // submit some input
+    cy.get('#search')
+        .type('{enter}');
+
+    // delete previous input
+    cy.get('#search')
+        .clear();
 
     // enter on empty input
     cy.get('#search')
@@ -79,7 +91,7 @@ describe('filter glob', () => {
         .should('be.visible');
   });
 
-  it('check request to filter nothing by clicking should show all file types', () => {
+  it('check request to filter something to nothing by clicking should show all file types', () => {
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()
@@ -88,6 +100,15 @@ describe('filter glob', () => {
     cy.get('.radio-button--search')
         .should('be.visible')
         .click();
+
+    cy.get('#search')
+        .type('an input');
+
+    cy.get('#submit-button')
+        .click();
+
+    cy.get('#search')
+        .clear();
 
     // click 'Filter' on empty input
     cy.get('#submit-button')
@@ -113,7 +134,7 @@ describe('filter glob', () => {
     cy.get('#search')
         .type('invalid glob');
 
-    cy.get('#submit-button')
+    cy.get('#search')
         .type('{enter}');
 
     // no file should be shown
