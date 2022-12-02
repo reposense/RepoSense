@@ -61,7 +61,7 @@ describe('filter glob', () => {
         .should('have.value', '');
   });
 
-  it('check request to filter something to nothing by enter should show all file types', () => {
+  it('check deleting previously searched input to filter empty input by enter should show all file types', () => {
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()
@@ -91,7 +91,7 @@ describe('filter glob', () => {
         .should('be.visible');
   });
 
-  it('check request to filter something to nothing by clicking should show all file types', () => {
+  it('check deleting previously searched input to filter empty input by clicking should show all file types', () => {
     cy.get('.icon-button.fa-code')
         .should('be.visible')
         .first()
