@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -346,6 +347,17 @@ public class FileUtil {
         String echoOutput = CommandRunner.runCommand(Paths.get("."), "echo " + filePath);
         // CommandRunner returns some white space characters at the end
         return echoOutput.trim();
+    }
+
+    /**
+     *  Returns true if {@code relativePath} has been specified to be ignored in the {@code config}.
+     */
+    public static boolean isFileIgnoredByGlob(RepoConfiguration config, Path relativePath) {
+        boolean hasNoGlobMatches = config.getIgnoreGlobList().stream()
+                .map(glob -> FileSystems.getDefault().getPathMatcher("glob:" + glob))
+                .filter(pathMatcher -> pathMatcher.matches(relativePath))
+                .collect(Collectors.toList()).isEmpty();
+        return !hasNoGlobMatches;
     }
 
     /**
