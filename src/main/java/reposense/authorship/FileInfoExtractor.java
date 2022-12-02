@@ -118,21 +118,17 @@ public class FileInfoExtractor {
 
             String filePath = filePathMatcher.group(FILE_CHANGED_GROUP_NAME);
 
-            // file is deleted, skip it as well
-            if (filePath.equals(FILE_DELETED_SYMBOL)) {
+            if (filePath.equals(FILE_DELETED_SYMBOL) // file is deleted, skip it as well
+                    || !isValidTextFile(filePath, textFilesSet)
+                    || !config.getFileTypeManager().isInsideWhitelistedFormats(filePath)
+                    || FileUtil.isFileIgnoredByGlob(config, Paths.get(filePath))) {
                 continue;
             }
 
-            if (!isValidTextFile(filePath, textFilesSet)) {
-                continue;
-            }
-
-            if (config.getFileTypeManager().isInsideWhitelistedFormats(filePath)) {
-                FileInfo currentFileInfo = generateFileInfo(config, filePath);
-                setLinesToTrack(currentFileInfo, fileDiffResult);
-                if (currentFileInfo.isFileAnalyzed()) {
-                    fileInfos.add(currentFileInfo);
-                }
+            FileInfo currentFileInfo = generateFileInfo(config, filePath);
+            setLinesToTrack(currentFileInfo, fileDiffResult);
+            if (currentFileInfo.isFileAnalyzed()) {
+                fileInfos.add(currentFileInfo);
             }
         }
 
@@ -201,8 +197,10 @@ public class FileInfoExtractor {
     private static List<FileInfo> getAllFileInfo(RepoConfiguration config, boolean isBinaryFiles) {
         List<FileInfo> fileInfos = new ArrayList<>();
         Set<Path> files = getFiles(config, isBinaryFiles);
+
         for (Path relativePath : files) {
-            if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())) {
+            if (!config.getFileTypeManager().isInsideWhitelistedFormats(relativePath.toString())
+                    || FileUtil.isFileIgnoredByGlob(config, relativePath)) {
                 continue;
             }
 
