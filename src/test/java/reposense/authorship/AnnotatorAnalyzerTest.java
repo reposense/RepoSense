@@ -13,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
-import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
@@ -81,11 +80,6 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         AuthorConfiguration.setHasAuthorConfigFile(true);
         FileResult fileResult = getFileResult("annotationTest.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_DISOWN_CODE_TEST));
-    }
-
-    public FileResult getFileResult(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(config, fileInfo);
     }
 
     @Test

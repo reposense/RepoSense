@@ -136,20 +136,6 @@ public class GitTestTemplate {
     }
 
     /**
-     * Generates the information for test file at {@code relativePath}.
-     */
-    public FileInfo generateTestFileInfo(String relativePath) {
-        RepoConfiguration config = configs.get();
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config, relativePath);
-
-        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
-        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
-        config.addAuthorNamesToAuthorMapEntry(new Author(IGNORED_AUTHOR_NAME), IGNORED_AUTHOR_NAME);
-
-        return fileInfo;
-    }
-
-    /**
      * Generates the .git-blame-ignore-revs file containing {@link CommitHash}es
      * from {@code toIgnore} for the test repo.
      */
@@ -176,11 +162,6 @@ public class GitTestTemplate {
         new File(fileLocation).delete();
     }
 
-    public FileResult getFileResult(String relativePath) {
-        FileInfo fileinfo = generateTestFileInfo(relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(configs.get(), fileinfo);
-    }
-
     /**
      * For each line in {@link FileResult}, assert that it is attributed to the expected author provided by
      * {@code expectedLineAuthors}.
@@ -195,6 +176,11 @@ public class GitTestTemplate {
         while (linesItr.hasNext() && lineAuthorsItr.hasNext()) {
             assertEquals(lineAuthorsItr.next(), linesItr.next().getAuthor());
         }
+    }
+
+    public FileResult getFileResult(String relativePath) {
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(configs.get(), relativePath);
+        return FileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
     }
 
     /**
