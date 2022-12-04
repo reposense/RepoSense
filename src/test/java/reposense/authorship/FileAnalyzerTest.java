@@ -79,6 +79,9 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
         config = configs.get();
         config.setZoneId(TIME_ZONE_ID);
+        config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(new Author(IGNORED_AUTHOR_NAME), IGNORED_AUTHOR_NAME);
     }
 
     @Test
@@ -157,11 +160,11 @@ public class FileAnalyzerTest extends GitTestTemplate {
     public void analyzeTextFile_blameTestFileIgnoreFakeAuthorCommitFullHash_success() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
-        FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoFull = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
 
-        FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoShort = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         config.setIgnoreCommitList(
                 Collections.singletonList(
                         new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))));
@@ -186,13 +189,14 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setBranch(TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         GitCheckout.checkout(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
 
-        FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoFull = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
+
         config.setIgnoreCommitList(Collections.singletonList(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018));
         createTestIgnoreRevsFile(config.getIgnoreCommitList());
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
         removeTestIgnoreRevsFile();
 
-        FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoShort = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         config.setIgnoreCommitList(Collections.singletonList(
                         new CommitHash(MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
         config.setIgnoreCommitList(createTestIgnoreRevsFile(config.getIgnoreCommitList()));
@@ -213,12 +217,12 @@ public class FileAnalyzerTest extends GitTestTemplate {
     public void analyzeTextFile_blameTestFileIgnoreAllCommit_success() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
-        FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoFull = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         config.setIgnoreCommitList(Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018,
                 MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018));
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
 
-        FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoShort = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         config.setIgnoreCommitList(CommitHash.convertStringsToCommits(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
                         MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8))));
@@ -238,14 +242,14 @@ public class FileAnalyzerTest extends GitTestTemplate {
         config.setBranch(TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         GitCheckout.checkout(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
 
-        FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoFull = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         config.setIgnoreCommitList(Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018,
                 MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018, AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021));
         createTestIgnoreRevsFile(config.getIgnoreCommitList());
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
         removeTestIgnoreRevsFile();
 
-        FileInfo fileInfoShort = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoShort = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         config.setIgnoreCommitList(CommitHash.convertStringsToCommits(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
                         MAIN_AUTHOR_BLAME_TEST_FILE_COMMIT_06022018_STRING.substring(0, 8),
@@ -263,11 +267,11 @@ public class FileAnalyzerTest extends GitTestTemplate {
     public void analyzeTextFile_blameTestFileIgnoreRangedCommit_success() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
-        FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoFull = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         config.setIgnoreCommitList(FAKE_AUTHOR_BLAME_RANGED_COMMIT_LIST_09022018);
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
 
-        FileInfo fileInfoRanged = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoRanged = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         String rangedCommit = FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING + ".."
                 + FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING;
         config.setIgnoreCommitList(CommitHash.getHashes(config.getRepoRoot(), config.getBranch(),
@@ -283,11 +287,11 @@ public class FileAnalyzerTest extends GitTestTemplate {
     public void analyzeTextFile_blameTestFileIgnoreRangedCommitShort_success() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
-        FileInfo fileInfoFull = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoFull = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         config.setIgnoreCommitList(FAKE_AUTHOR_BLAME_RANGED_COMMIT_LIST_09022018);
         FileInfoAnalyzer.analyzeTextFile(config, fileInfoFull);
 
-        FileInfo fileInfoRangedShort = generateTestFileInfo("blameTest.java");
+        FileInfo fileInfoRangedShort = FileInfoExtractor.generateFileInfo(config, "blameTest.java");
         String rangedCommitShort = FAKE_AUTHOR_BLAME_RANGED_COMMIT_ONE_06022018_STRING.substring(0, 8) + ".."
                 + FAKE_AUTHOR_BLAME_RANGED_COMMIT_FOUR_08022018_STRING.substring(0, 8);
         config.setIgnoreCommitList(CommitHash.getHashes(config.getRepoRoot(), config.getBranch(),
