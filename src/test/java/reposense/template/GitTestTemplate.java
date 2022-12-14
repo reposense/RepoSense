@@ -46,6 +46,7 @@ public class GitTestTemplate {
     protected static final String TEST_COMMIT_HASH_PARENT = "c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151";
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
+    protected static final String UNCONVENTIONAL_AUTHOR_NAME = "-invalidGitUsername_TreatedAsUnknownUser";
     protected static final String IGNORED_AUTHOR_NAME = "FH-30";
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
     protected static final String YONG_AUTHOR_NAME = "Yong Hao TENG";
@@ -93,6 +94,7 @@ public class GitTestTemplate {
 
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
+    protected static final Author UNCONVENTIONAL_AUTHOR = new Author(UNCONVENTIONAL_AUTHOR_NAME);
 
     protected static ThreadLocal<RepoConfiguration> configs = ThreadLocal.withInitial(() -> {
         try {
