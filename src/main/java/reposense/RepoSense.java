@@ -3,6 +3,7 @@ package reposense;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,7 +15,9 @@ import java.util.logging.Logger;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
 import reposense.git.GitVersion;
+import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
+import reposense.model.AuthorNameToGitId;
 import reposense.model.CliArguments;
 import reposense.model.ConfigCliArguments;
 import reposense.model.GroupConfiguration;
@@ -25,6 +28,7 @@ import reposense.model.ReportConfiguration;
 import reposense.model.ViewCliArguments;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.AuthorNameToGitIdCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.InvalidCsvException;
 import reposense.parser.InvalidHeaderException;
@@ -58,6 +62,10 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
+
+            //TODO: Change this to a better location
+            Path path = Paths.get("config/author-name-to-gitid.csv");
+            updateAuthorNameToGitIdMap(path);
 
             if (cliArguments instanceof ViewCliArguments) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, ((
@@ -202,5 +210,12 @@ public class RepoSense {
         }
 
         return version;
+    }
+
+    //TODO: get this path via cliArguments
+    public static void updateAuthorNameToGitIdMap(Path configFilePath)
+            throws IOException, InvalidCsvException, InvalidHeaderException {
+        List<AuthorNameToGitId> authorNameToGitIds = new AuthorNameToGitIdCsvParser(configFilePath).parse();
+        Author.updateAuthorNameToGitIdMap(authorNameToGitIds);
     }
 }

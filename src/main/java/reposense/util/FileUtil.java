@@ -109,6 +109,7 @@ public class FileUtil {
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
                 .registerTypeAdapter(ZoneId.class, (JsonSerializer<ZoneId>) (zoneId, typeOfSrc, context)
                         -> new JsonPrimitive(zoneId.toString()))
+                .setPrettyPrinting()
                 .create();
 
         // Gson serializer from:

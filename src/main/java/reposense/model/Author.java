@@ -4,6 +4,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,8 +20,12 @@ public class Author {
     private static final String COMMON_EMAIL_REGEX =
             "^([a-zA-Z0-9_\\-\\.\\+]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
     private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
+    //Need to initialize this before any Author initializations.
+    public static HashMap<String, String> authorNameToGitIdMap = new HashMap<>();
 
     public static final Author UNKNOWN_AUTHOR = new Author(UNKNOWN_AUTHOR_GIT_ID);
+
+
 
     private final String gitId;
 
@@ -30,10 +35,12 @@ public class Author {
     private transient List<String> ignoreGlobList;
     private transient PathMatcher ignoreGlobMatcher;
 
-    public Author(String gitId) {
-        this.gitId = gitId;
+    //TODO: Issue is that gitId supplied is the displayName, not the actual gitId. This is then caused by the way
+    //these names are sourced via GitShortLog. Figure out how to attribute the commits to the gitId instead of gitAuthor
+    public Author(String authorName) {
+        this.gitId = Author.authorNameToGitIdMap.getOrDefault(authorName, authorName);
         this.emails = new ArrayList<>();
-        this.displayName = gitId;
+        this.displayName = authorName;
         this.authorAliases = new ArrayList<>();
         this.ignoreGlobList = new ArrayList<>();
 
@@ -63,6 +70,13 @@ public class Author {
         this.authorAliases = another.authorAliases;
         this.ignoreGlobList = another.ignoreGlobList;
         this.ignoreGlobMatcher = another.ignoreGlobMatcher;
+    }
+
+    public static void updateAuthorNameToGitIdMap(List<AuthorNameToGitId> nameToIds) {
+        for (AuthorNameToGitId nameToId : nameToIds) {
+            Author.authorNameToGitIdMap.putIfAbsent(nameToId.getAuthorName(), nameToId.getGitId());
+            //Might want to consider logging something if duplicate is detected.
+        }
     }
 
     /**
