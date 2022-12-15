@@ -56,7 +56,7 @@ function groupByNone(repos, sortingControl) {
   });
   sortedRepos.sort(window.comparator((repo) => {
     if (isSortingGroupTitle) {
-      return repo.searchPath + repo.name;
+      return `${repo.searchPath}${repo.name}`;
     }
     if (sortingOption === 'totalCommits') {
       return repo.checkedFileTypeContribution;
