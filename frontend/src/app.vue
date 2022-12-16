@@ -123,8 +123,8 @@ const app = {
           .then((zip) => {
             window.REPORT_ZIP = zip;
           }, () => {
-            window.alert(`Either the .zip file is corrupted, or you uploaded a .zip file that is not generated \
-              by RepoSense.`);
+            window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
+              + 'by RepoSense.');
           })
           .then(() => this.updateReportView());
     },
