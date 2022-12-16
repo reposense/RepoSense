@@ -113,7 +113,7 @@ public class TimeUtil {
      * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusAMonth(LocalDateTime cliUntilDate) {
-        return getSinceDate(cliUntilDate).minusMonths(1);
+        return getSinceDate(cliUntilDate.minusMonths(1));
     }
 
     /**
@@ -121,14 +121,14 @@ public class TimeUtil {
      * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusNDays(LocalDateTime cliUntilDate, int numOfDays) {
-        return getSinceDate(cliUntilDate).minusDays(numOfDays);
+        return getSinceDate(cliUntilDate.minusDays(numOfDays));
     }
 
     /**
      * Returns a {@link LocalDateTime} that is {@code numOfDays} after {@code cliSinceDate} (if present).
      */
     public static LocalDateTime getDatePlusNDays(LocalDateTime cliSinceDate, int numOfDays) {
-        return getUntilDate(cliSinceDate).plusDays(numOfDays);
+        return getUntilDate(cliSinceDate.plusDays(numOfDays));
     }
 
     /**
