@@ -3,7 +3,7 @@ const StyleLintPlugin = require('stylelint-webpack-plugin');
 module.exports = {
   pages: {
     index: {
-      entry: 'src/main.js',
+      entry: 'src/main.ts',
       title: 'RepoSense Report',
     },
   },
@@ -25,19 +25,17 @@ module.exports = {
         .loader('pug-plain-loader')
         .end();
     config.plugin('copy').tap((options) => {
-      options[0][0].ignore.push('*.json');
+      options[0].patterns[0].globOptions.ignore.push('*.json');
       return options;
     });
     config.module
         .rule('vue')
         .use('vue-loader')
-        .tap(options => {
-          return {
-            ...options,
-            compilerOptions: {
-              whitespace: 'preserve',
-            }
-          }
-        })
+        .tap((options) => ({
+          ...options,
+          compilerOptions: {
+            whitespace: 'preserve',
+          },
+        }));
   },
 };

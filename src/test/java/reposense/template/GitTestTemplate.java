@@ -1,17 +1,19 @@
 package reposense.template;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import reposense.authorship.FileInfoAnalyzer;
 import reposense.authorship.FileInfoExtractor;
@@ -19,7 +21,6 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitCheckout;
-import reposense.git.GitClone;
 import reposense.git.GitShow;
 import reposense.git.exception.CommitNotFoundException;
 import reposense.model.Author;
@@ -28,6 +29,7 @@ import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.FileUtil;
+import reposense.util.TestRepoCloner;
 
 /**
  * Contains templates for git testing.
@@ -35,8 +37,7 @@ import reposense.util.FileUtil;
 
 public class GitTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
-    protected static final String IGNORE_REVS_FILE_LOCATION =
-            "repos/reposense_testrepo-Alpha/testrepo-Alpha/.git-blame-ignore-revs";
+    protected static final String IGNORE_REVS_FILE_NAME = ".git-blame-ignore-revs";
     protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-find-previous-authors";
     protected static final String FIRST_COMMIT_HASH = "7d7584f";
     protected static final String ROOT_COMMIT_HASH = "fd425072e12004b71d733a58d819d845509f8db3";
@@ -88,78 +89,81 @@ public class GitTestTemplate {
             new CommitHash(AUTHOR_TO_IGNORE_BLAME_TEST_FILE_COMMIT_07082021_STRING)
     );
     protected static final String NONEXISTENT_COMMIT_HASH = "nonExistentCommitHash";
-    protected static final String TIME_ZONE_ID_STRING = "Asia/Singapore";
+    protected static final ZoneId TIME_ZONE_ID = ZoneId.of("Asia/Singapore");
 
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
 
-    protected static RepoConfiguration config;
+    protected static ThreadLocal<RepoConfiguration> configs = ThreadLocal.withInitial(() -> {
+        try {
+            return newRepoConfiguration();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    });
 
-    @Before
+    private static final Supplier<String> EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER = () ->
+            String.valueOf(Thread.currentThread().getId());
+
+    @BeforeEach
     public void before() throws Exception {
-        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
+        RepoConfiguration config = newRepoConfiguration();
         config.setAuthorList(Collections.singletonList(getAlphaAllAliasAuthor()));
         config.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
-        config.setZoneId(TIME_ZONE_ID_STRING);
+        config.setZoneId(TIME_ZONE_ID);
         config.setIsLastModifiedDateIncluded(false);
+
+        configs.set(config);
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws Exception {
-        config = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master");
-        config.setZoneId(TIME_ZONE_ID_STRING);
-        GitClone.clone(config);
+        RepoConfiguration config = newRepoConfiguration();
+        config.setZoneId(TIME_ZONE_ID);
+        configs.set(config);
+
+        TestRepoCloner.cloneAndBranch(config, EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get());
     }
 
-    @After
+    @AfterEach
     public void after() {
-        GitCheckout.checkout(config.getRepoRoot(), "master");
+        GitCheckout.checkout(configs.get().getRepoRoot(), "master");
+    }
+
+    private static RepoConfiguration newRepoConfiguration() throws Exception {
+        return new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master",
+                EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get());
     }
 
     /**
-     * Generates the information for test file.
-     */
-    public FileInfo generateTestFileInfo(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), relativePath);
-
-        config.getAuthorDetailsToAuthorMap().put(MAIN_AUTHOR_NAME, new Author(MAIN_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(FAKE_AUTHOR_NAME, new Author(FAKE_AUTHOR_NAME));
-        config.getAuthorDetailsToAuthorMap().put(IGNORED_AUTHOR_NAME, new Author(IGNORED_AUTHOR_NAME));
-
-        return fileInfo;
-    }
-
-    /**
-     * Generates the .git-blame-ignore-revs file containing {@code CommitHash}
+     * Generates the .git-blame-ignore-revs file containing {@link CommitHash}es
      * from {@code toIgnore} for the test repo.
      */
     public List<CommitHash> createTestIgnoreRevsFile(List<CommitHash> toIgnore) {
+        String repoRoot = configs.get().getRepoRoot();
         List<CommitHash> expandedIgnoreCommitList = toIgnore.stream()
                 .map(CommitHash::toString)
                 .map(commitHash -> {
                     try {
-                        return GitShow.getExpandedCommitHash(config.getRepoRoot(), commitHash);
+                        return GitShow.getExpandedCommitHash(repoRoot, commitHash);
                     } catch (CommitNotFoundException e) {
                         return new CommitHash(commitHash);
                     }
                 })
                 .collect(Collectors.toList());
 
-        FileUtil.writeIgnoreRevsFile(IGNORE_REVS_FILE_LOCATION, expandedIgnoreCommitList);
+        String fileLocation = repoRoot + IGNORE_REVS_FILE_NAME;
+        FileUtil.writeIgnoreRevsFile(fileLocation, expandedIgnoreCommitList);
         return expandedIgnoreCommitList;
     }
 
     public void removeTestIgnoreRevsFile() {
-        new File(IGNORE_REVS_FILE_LOCATION).delete();
-    }
-
-    public FileResult getFileResult(String relativePath) {
-        FileInfo fileinfo = generateTestFileInfo(relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(config, fileinfo);
+        String fileLocation = configs.get().getRepoRoot() + IGNORE_REVS_FILE_NAME;
+        new File(fileLocation).delete();
     }
 
     /**
-     * For each line in {@code FileResult}, assert that it is attributed to the expected author provided by
+     * For each line in {@link FileResult}, assert that it is attributed to the expected author provided by
      * {@code expectedLineAuthors}.
      */
     public void assertFileAnalysisCorrectness(FileResult fileResult, List<Author> expectedLineAuthors) {
@@ -174,8 +178,13 @@ public class GitTestTemplate {
         }
     }
 
+    public FileResult getFileResult(String relativePath) {
+        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(configs.get(), relativePath);
+        return FileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
+    }
+
     /**
-     * Returns a {@code Author} that has git id and aliases of all authors in testrepo-Alpha, so that no commits
+     * Returns a {@link Author} that has git id and aliases of all authors in testrepo-Alpha, so that no commits
      * will be filtered out in the `git log` command.
      */
     protected Author getAlphaAllAliasAuthor() {

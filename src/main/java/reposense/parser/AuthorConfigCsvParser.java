@@ -1,6 +1,6 @@
 package reposense.parser;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +20,15 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     /**
      * Positions of the elements of a line in author-config.csv config file.
      */
-    private static final String LOCATION_HEADER = "Repository's Location";
-    private static final String BRANCH_HEADER = "Branch";
-    private static final String GITHUB_ID_HEADER = "Author's GitHub ID";
-    private static final String EMAIL_HEADER = "Author's Emails";
-    private static final String DISPLAY_NAME_HEADER = "Author's Display Name";
-    private static final String ALIAS_HEADER = "Author's Git Author Name";
-    private static final String IGNORE_GLOB_LIST_HEADER = "Ignore Glob List";
+    private static final String[] LOCATION_HEADER = {"Repository's Location"};
+    private static final String[] BRANCH_HEADER = {"Branch"};
+    private static final String[] GIT_ID_HEADERS = {"Author's Git Host ID", "Author's GitHub ID"};
+    private static final String[] EMAIL_HEADER = {"Author's Emails"};
+    private static final String[] DISPLAY_NAME_HEADER = {"Author's Display Name"};
+    private static final String[] ALIAS_HEADER = {"Author's Git Author Name"};
+    private static final String[] IGNORE_GLOB_LIST_HEADER = {"Ignore Glob List"};
 
-    public AuthorConfigCsvParser(Path csvFilePath) throws IOException {
+    public AuthorConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
     }
 
@@ -36,9 +36,9 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      * Gets the list of headers that are mandatory for verification.
      */
     @Override
-    protected String[] mandatoryHeaders() {
-        return new String[] {
-                GITHUB_ID_HEADER,
+    protected String[][] mandatoryHeaders() {
+        return new String[][] {
+                GIT_ID_HEADERS,
         };
     }
 
@@ -46,24 +46,23 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      * Gets the list of optional headers that can be parsed.
      */
     @Override
-    protected String[] optionalHeaders() {
-        return new String[] {
+    protected String[][] optionalHeaders() {
+        return new String[][] {
                 LOCATION_HEADER, BRANCH_HEADER, EMAIL_HEADER, DISPLAY_NAME_HEADER, ALIAS_HEADER,
                 IGNORE_GLOB_LIST_HEADER,
         };
     }
 
     /**
-     * Processes the csv file line by line and add created {@code AuthorConfiguration} into {@code results} but
-     * skips {@code author} already exists in a {@code AuthorConfiguration} that has same {@code location} and
-     * {@code branch}.
+     * Processes the csv {@code record} line by line and add created {@link AuthorConfiguration} into {@code results}
+     * but skips {@code author} already exists in a {@link AuthorConfiguration} that has same {@code location}
+     * and {@code branch}.
      */
     @Override
-    protected void processLine(List<AuthorConfiguration> results, CSVRecord record)
-            throws ParseException {
+    protected void processLine(List<AuthorConfiguration> results, CSVRecord record) throws ParseException {
         String location = get(record, LOCATION_HEADER);
         String branch = getOrDefault(record, BRANCH_HEADER, AuthorConfiguration.DEFAULT_BRANCH);
-        String gitHubId = get(record, GITHUB_ID_HEADER);
+        String gitId = get(record, GIT_ID_HEADERS);
         List<String> emails = getAsList(record, EMAIL_HEADER);
         String displayName = get(record, DISPLAY_NAME_HEADER);
         List<String> aliases = getAsList(record, ALIAS_HEADER);
@@ -71,7 +70,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
         AuthorConfiguration config = findMatchingAuthorConfiguration(results, location, branch);
 
-        Author author = new Author(gitHubId);
+        Author author = new Author(gitId);
 
         if (config.containsAuthor(author)) {
             logger.warning(String.format(
@@ -94,13 +93,13 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
 
     /**
-     * Gets an existing {@code AuthorConfiguration} from {@code results} if {@code location} and {@code branch} matches.
-     * Otherwise adds a newly created {@code AuthorConfiguration} into {@code results} and returns it.
+     * Gets an existing {@link AuthorConfiguration} from {@code results} if {@code location} and {@code branch} matches.
+     * Otherwise, adds a newly created {@link AuthorConfiguration} into {@code results} and returns it.
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
-    private static AuthorConfiguration findMatchingAuthorConfiguration(
-            List<AuthorConfiguration> results, String location, String branch) throws InvalidLocationException {
+    private static AuthorConfiguration findMatchingAuthorConfiguration(List<AuthorConfiguration> results,
+            String location, String branch) throws InvalidLocationException {
         AuthorConfiguration config = new AuthorConfiguration(new RepoLocation(location), branch);
 
         for (AuthorConfiguration authorConfig : results) {

@@ -3,7 +3,6 @@ package reposense.commits;
 import static reposense.util.StringsUtil.removeQuote;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -60,7 +59,7 @@ public class CommitInfoAnalyzer {
     private static final Pattern MESSAGEBODY_LEADING_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
 
     /**
-     * Analyzes each {@code CommitInfo} in {@code commitInfos} and returns a list of {@code CommitResult} that is not
+     * Analyzes each {@link CommitInfo} in {@code commitInfos} and returns a list of {@link CommitResult} that is not
      * specified to be ignored or the author is inside {@code config}.
      */
     public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
@@ -76,7 +75,8 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Extracts the relevant data from {@code commitInfo} into a {@code CommitResult}.
+     * Extracts the relevant data from {@code commitInfo} into a {@link CommitResult}. Retrieves the author of the
+     * commit from {@code config}.
      */
     public static CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {
         String infoLine = commitInfo.getInfoLine();
@@ -94,7 +94,7 @@ public class CommitInfoAnalyzer {
         }
 
         // Commit date may be in a timezone different from the one given in the config.
-        LocalDateTime adjustedDate = date.withZoneSameInstant(ZoneId.of(config.getZoneId())).toLocalDateTime();
+        LocalDateTime adjustedDate = date.withZoneSameInstant(config.getZoneId()).toLocalDateTime();
 
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
         String messageBody = (elements.length > MESSAGE_BODY_INDEX)
@@ -124,7 +124,8 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Returns the number of lines added and deleted for the specified file types in {@code config}.
+     * Returns the number of lines added and deleted in {@code filePathContributions} for the specified file types
+     * in {@code config}.
      */
     private static Map<FileType, ContributionPair> getFileTypesAndContribution(String[] filePathContributions,
             RepoConfiguration config) {
@@ -153,7 +154,7 @@ public class CommitInfoAnalyzer {
     }
 
     /**
-     * Extracts the correct file path from the unprocessed git log {@code filePath}
+     * Extracts the correct file path from the unprocessed git log {@code filePath}.
      */
     private static String extractFilePath(String filePath) {
         String filteredFilePath = filePath;

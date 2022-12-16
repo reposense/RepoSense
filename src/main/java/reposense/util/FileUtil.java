@@ -8,12 +8,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -33,6 +35,7 @@ import com.google.gson.JsonSerializer;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
+import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 
 /**
@@ -70,8 +73,8 @@ public class FileUtil {
      * Zips all files listed in {@code pathsToZip} of type {@code fileTypes} located in the directory
      * {@code sourcePath} into {@code outputPath}.
      */
-    public static void zipFoldersAndFiles(List<Path> pathsToZip,
-            Path sourcePath, Path outputPath, String... fileTypes) {
+    public static void zipFoldersAndFiles(List<Path> pathsToZip, Path sourcePath, Path outputPath,
+            String... fileTypes) {
         try (
                 FileOutputStream fos = new FileOutputStream(outputPath + File.separator + ZIP_FILE);
                 ZipOutputStream zos = new ZipOutputStream(fos)
@@ -95,17 +98,22 @@ public class FileUtil {
 
     /**
      * Writes the JSON file representing the {@code object} at the given {@code path}.
-     * @return An Optional containing the Path to the JSON file, or an empty Optional
-     *         if there was an error while writing the JSON file.
+     *
+     * @return An {@link Optional} containing the {@link Path} to the JSON file, or an empty {@link Optional} if there
+     * was an error while writing the JSON file.
      */
     public static Optional<Path> writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
                         -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
+                .registerTypeAdapter(ZoneId.class, (JsonSerializer<ZoneId>) (zoneId, typeOfSrc, context)
+                        -> new JsonPrimitive(zoneId.toString()))
                 .create();
+
         // Gson serializer from:
         // https://stackoverflow.com/questions/39192945/serialize-java-8-localdate-as-yyyy-mm-dd-with-gson
+
         String result = gson.toJson(object);
 
         try (PrintWriter out = new PrintWriter(path)) {
@@ -120,8 +128,9 @@ public class FileUtil {
 
     /**
      * Writes the ignore revs file containing the {@code ignoreCommitList} at the given {@code path}.
-     * @return An Optional containing the Path to the ignore revs file, or an empty Optional
-     *         if there was an error while writing the ignore revs file.
+     *
+     * @return An {@link Optional} containing the {@link Path} to the ignore revs file, or an empty {@link Optional}
+     * if there was an error while writing the ignore revs file.
      */
     public static Optional<Path> writeIgnoreRevsFile(String path, List<CommitHash> ignoreCommitList) {
         String contentOfIgnoreRevsFile = ignoreCommitList.stream()
@@ -139,6 +148,7 @@ public class FileUtil {
 
     /**
      * Deletes the {@code root} directory.
+     *
      * @throws IOException if the root path does not exist.
      */
     public static void deleteDirectory(String root) throws IOException {
@@ -160,6 +170,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code zipSourcePath} into {@code outputPath}.
+     *
      * @throws IOException if {@code zipSourcePath} is an invalid path.
      */
     public static void unzip(Path zipSourcePath, Path outputPath) throws IOException {
@@ -170,6 +181,7 @@ public class FileUtil {
 
     /**
      * Unzips the contents of the {@code is} into {@code outputPath}.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void unzip(InputStream is, Path outputPath) throws IOException {
@@ -199,7 +211,8 @@ public class FileUtil {
     }
 
     /**
-     * Copies the template files from {@code sourcePath} to the {@code outputPath}.
+     * Copies the template files from the {@code is} to the {@code outputPath}.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyTemplate(InputStream is, String outputPath) throws IOException {
@@ -208,6 +221,7 @@ public class FileUtil {
 
     /**
      * Copies files from {@code sourcePath} to the {@code outputPath}.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyDirectoryContents(String sourcePath, String outputPath) throws IOException {
@@ -217,6 +231,7 @@ public class FileUtil {
     /**
      * Copies files from {@code sourcePath} to the {@code outputPath}.
      * If {@code whiteList} is provided, only filenames specified by the whitelist will be copied.
+     *
      * @throws IOException if {@code is} refers to an invalid path.
      */
     public static void copyDirectoryContents(String sourcePath, String outputPath, List<String> whiteList)
@@ -236,6 +251,8 @@ public class FileUtil {
     }
     /**
      * Creates the {@code dest} directory if it does not exist.
+     *
+     * @throws IOException if the directory could not be created.
      */
     public static void createDirectory(Path dest) throws IOException {
         Files.createDirectories(dest);
@@ -297,11 +314,23 @@ public class FileUtil {
      * Returns true if {@code path} is a valid path.
      * Produces log messages when the invalid file path is skipped.
      */
-    public static boolean isValidPath(String path) {
+    public static boolean isValidPathWithLogging(String path) {
         try {
             Paths.get(path);
         } catch (InvalidPathException ipe) {
             logger.log(Level.WARNING, String.format(MESSAGE_INVALID_FILE_PATH, path));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if {@code path} is a valid path.
+     */
+    public static boolean isValidPath(String path) {
+        try {
+            Paths.get(path);
+        } catch (InvalidPathException ipe) {
             return false;
         }
         return true;
@@ -312,7 +341,29 @@ public class FileUtil {
     }
 
     /**
-     * Returns a list of {@code Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
+     * Returns the Bash expanded version of the {@code filePath}.
+     */
+    public static String getVariableExpandedFilePath(String filePath) {
+        String echoOutput = CommandRunner.runCommand(Paths.get("."), "echo " + filePath);
+        // CommandRunner returns some white space characters at the end
+        return echoOutput.trim();
+    }
+
+    /**
+     *  Returns true if {@code relativePath} has been specified to be ignored in the {@code config}.
+     */
+    public static boolean isFileIgnoredByGlob(RepoConfiguration config, Path relativePath) {
+        boolean hasNoGlobMatches = config.getIgnoreGlobList().stream()
+                .map(glob -> FileSystems.getDefault().getPathMatcher("glob:" + glob))
+                .filter(pathMatcher -> pathMatcher.matches(relativePath))
+                .collect(Collectors.toList()).isEmpty();
+        return !hasNoGlobMatches;
+    }
+
+    /**
+     * Returns a list of {@link Path} of {@code fileTypes} contained in the given {@code directoryPath} directory.
+     *
+     * @throws IOException if an error occurs while trying to access {@code directoryPath}.
      */
     private static List<Path> getFilePaths(Path directoryPath, String... fileTypes) throws IOException {
         return Files.walk(directoryPath)

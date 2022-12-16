@@ -18,7 +18,7 @@ This page documents the various components that form part of the DevOps infrastr
 
 ## GitHub Actions
 
-[GitHub Actions](https://docs.github.com/en/actions) is a platform that is used by RepoSense for running the test suite and is primarily used for continuous integration and testing. The test suite is is stored in `.github/workflows/` and comprises of:
+[GitHub Actions](https://docs.github.com/en/actions) is a platform that is used by RepoSense for running the test suite and is primarily used for continuous integration and testing. The test suite is stored in `.github/workflows/` and comprises of:
 
 - Unit tests (in `src/tests/`)
 - System tests (in `src/systemtest/`)
@@ -26,17 +26,20 @@ This page documents the various components that form part of the DevOps infrastr
 
 ### Continuous integration
 
-All three types of tests in the test suite are run in a single GitHub Actions workflow called "Continuous Integration". The steps are defined in [`integration.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/integration.yml) and are split into three types of jobs:
+All three types of tests in the test suite are run in a single GitHub Actions workflow called "Continuous Integration". The steps are defined in [`integration.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/integration.yml) and are split into four types of jobs:
 
 1. Ubuntu JDK 8 (`ubuntu`): Runs both unit tests and system tests on JDK 1.8 running on supported Ubuntu versions. This job also produces a RepoSense report and the MarkBind documentation website for previewing.
 2. macOS JDK 8 (`macos`): Runs both unit tests and system tests on JDK 1.8 running on supported macOS versions.
-3. Cypress frontend tests (`cypress`): Runs only the frontend tests on JDK 1.8 running on Ubuntu 18.04 LTS.
+3. Windows JDK 8 (`windows`): Runs both unit tests and system tests on JDK 1.8 running on supported Windows versions.
+4. Cypress frontend tests (`cypress`): Runs only the frontend tests on JDK 1.8 running on Ubuntu 20.04 LTS.
 
 The list of supported OS versions are [available on the GitHub Docs website](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources). These jobs should be updated regularly whenever RepoSense supports newer versions of the Java Development Kit (JDK) as well as when new OS versions are made available (via the job OS matrix). Frontend tests are run separately to take advantage of parallel job execution.
 
 Some of the jobs execute some commands that are too complicated to be included in the workflow configuration files. Such commands are written in the form of a bash script and are located in the [`config/gh-actions`](https://github.com/reposense/RepoSense/tree/master/config/gh-actions) folder.
 
 This workflow is run for both incoming pull requests to any branch as well as direct commits to any branch in the repository.
+
+Cypress frontend tests are run against reports generated from config files in `frontend/cypress/config`. It uses the `cypress` branch of the RepoSense repository which is kept independent of `master` and should be updated only when there are new frontend tests that need to be accommodated.
 
 ### Report and documentation previews
 
@@ -68,12 +71,6 @@ This task automates the cleaning up of the pull requests by automatically markin
 ## Codecov
 
 [Codecov](https://app.codecov.io/gh/reposense/RepoSense) is a platform for checking the code coverage status of the project and the pull request patch. It runs automatically on each pull request and the settings are located in [`codecov.yml`](https://github.com/reposense/RepoSense/blob/master/codecov.yml).
-
-<!-- ==================================================================================================== -->
-
-## Appveyor
-
-[Appveyor](https://ci.appveyor.com/project/eugenepeh/reposense) is another platform used for running continuous integration tasks on both commits and pull requests, primarily used for running the test suite on the Windows platform. The settings are located in [`appveyor.yml`](https://github.com/reposense/RepoSense/blob/master/appveyor.yml).
 
 <!-- ==================================================================================================== -->
 

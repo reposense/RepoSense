@@ -1,0 +1,2 @@
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List,Shallow Cloning,Find Previous Authors,File Size Limit, Skip Ignored File Analysis, Ignore File Size Limit
+https://github.com/reposense/testrepo-Beta.git,master,java;adoc;md,docs**,yes,abcde12345;67890fdecba,zacharytang,yes,,100000, yes, yes

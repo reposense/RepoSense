@@ -17,7 +17,7 @@ import reposense.parser.SinceDateArgumentType;
 public class TimeUtil {
     private static Long startTime;
     private static final String DATE_FORMAT_REGEX =
-            "^((0[1-9]|[12][0-9]|3[01])\\/(0[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
+            "^((0?[1-9]|[12][0-9]|3[01])\\/(0?[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
 
     // "uuuu" is used for year since "yyyy" does not work with ResolverStyle.STRICT
     private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss");
@@ -27,14 +27,14 @@ public class TimeUtil {
             "\"Since Date\" must not be later than today's date.";
 
     /**
-     * Sets the {@code startTime} to be the current time
+     * Sets the {@code startTime} to be the current time.
      */
     public static void startTimer() {
         startTime = System.nanoTime();
     }
 
     /**
-     * Returns the formatted elapsed time from {@code startTime} until current time
+     * Returns the formatted elapsed time from {@code startTime} until current time.
      */
     public static String getElapsedTime() {
         long endTime = System.nanoTime();
@@ -65,25 +65,21 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is set to midnight.
+     * Returns a {@link LocalDateTime} that is set to midnight for the given {@code sinceDate}.
      */
     public static LocalDateTime getSinceDate(LocalDateTime sinceDate) {
-        if (sinceDate.equals(SinceDateArgumentType.ARBITRARY_FIRST_COMMIT_DATE)) {
-            return sinceDate;
-        }
-
         return sinceDate.withHour(0).withMinute(0).withSecond(0);
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is set to 23:59:59.
+     * Returns a {@link LocalDateTime} that is set to 23:59:59 for the given {@code untilDate}.
      */
     public static LocalDateTime getUntilDate(LocalDateTime untilDate) {
         return untilDate.withHour(23).withMinute(59).withSecond(59);
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is one month before {@code cliUntilDate} (if present) or one month
+     * Returns a {@link LocalDateTime} that is one month before {@code cliUntilDate} (if present) or one month
      * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusAMonth(LocalDateTime cliUntilDate) {
@@ -91,7 +87,7 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month
+     * Returns a {@link LocalDateTime} that is {@code numOfDays} before {@code cliUntilDate} (if present) or one month
      * before report generation date otherwise.
      */
     public static LocalDateTime getDateMinusNDays(LocalDateTime cliUntilDate, int numOfDays) {
@@ -99,7 +95,7 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@code LocalDateTime} that is {@code numOfDays} after {@code cliSinceDate} (if present).
+     * Returns a {@link LocalDateTime} that is {@code numOfDays} after {@code cliSinceDate} (if present).
      */
     public static LocalDateTime getDatePlusNDays(LocalDateTime cliSinceDate, int numOfDays) {
         return getUntilDate(cliSinceDate.plusDays(numOfDays));
@@ -110,6 +106,36 @@ public class TimeUtil {
      */
     public static LocalDateTime getCurrentDate(ZoneId zoneId) {
         return LocalDateTime.now(zoneId).withHour(23).withMinute(59).withSecond(59).withNano(0);
+    }
+
+    /**
+     * Returns the {@link LocalDateTime} of {@code ARBITRARY_FIRST_COMMIT_DATE} in the UTC time zone.
+     */
+    public static LocalDateTime getArbitraryFirstCommitDateLocal() {
+        return SinceDateArgumentType.getArbitraryFirstCommitDateLocal();
+    }
+
+    /**
+     * Returns the {@link LocalDateTime} of {@code ARBITRARY_FIRST_COMMIT_DATE} adjusted for the time zone based on
+     * {@code toZoneId}.
+     */
+    public static LocalDateTime getArbitraryFirstCommitDateConverted(ZoneId toZoneId) {
+        return SinceDateArgumentType.getArbitraryFirstCommitDateConverted(toZoneId);
+    }
+
+    /**
+     * Checks whether the given {@code dateTime} is the {@code ARBITRARY_FIRST_COMMIT_DATE} in UTC time.
+     */
+    public static boolean isEqualToArbitraryFirstDateUtc(LocalDateTime dateTime) {
+        return dateTime.equals(getArbitraryFirstCommitDateLocal());
+    }
+
+    /**
+     * Checks whether the given {@code dateTime} is the {@code ARBITRARY_FIRST_COMMIT_DATE} in the time zone given by
+     * {@code zoneId}.
+     */
+    public static boolean isEqualToArbitraryFirstDateConverted(LocalDateTime dateTime, ZoneId zoneId) {
+        return dateTime.equals(getArbitraryFirstCommitDateConverted(zoneId));
     }
 
     /**
@@ -125,7 +151,7 @@ public class TimeUtil {
     }
 
     /**
-     * Verifies that {@code sinceDate} is no later than the date of report generation.
+     * Verifies that {@code sinceDate} is no later than the date of report generation, given by {@code currentDate}.
      *
      * @throws ParseException if {@code sinceDate} supplied is later than date of report generation.
      */
@@ -137,7 +163,7 @@ public class TimeUtil {
     }
 
     /**
-     * Extracts the first substring that matches the {@code DATE_FORMAT_REGEX}.
+     * Extracts the first substring of {@code date} string that matches the {@code DATE_FORMAT_REGEX}.
      */
     public static String extractDate(String date) {
         Matcher matcher = Pattern.compile(DATE_FORMAT_REGEX).matcher(date);
@@ -149,8 +175,10 @@ public class TimeUtil {
     }
 
     /**
-     * Parses the given String as a Date based on the {@code CLI_ARGS_DATE_FORMAT}.
-     * Uses {@code ResolverStyle.STRICT} to avoid unexpected dates like 31/02/2020.
+     * Parses the given {@code date} string as a {@link LocalDateTime} based on the {@code CLI_ARGS_DATE_FORMAT}.
+     * Uses {@link ResolverStyle#STRICT} to avoid unexpected dates like 31/02/2020.
+     *
+     * @throws java.text.ParseException if date cannot be parsed by the required format.
      */
     public static LocalDateTime parseDate(String date) throws java.text.ParseException {
         try {

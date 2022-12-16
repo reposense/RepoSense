@@ -6,12 +6,21 @@ import static reposense.util.StringsUtil.addQuotes;
 import java.io.File;
 import java.util.Collections;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 
 public class GitUtilTest extends GitTestTemplate {
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     public void gitUtil_convertToGitExcludeGlobArgs_success() {
@@ -20,27 +29,27 @@ public class GitUtilTest extends GitTestTemplate {
         final String emptyResult = "";
 
         String result = convertToGitExcludeGlobArgs(repoRoot, Collections.emptyList());
-        Assert.assertEquals(emptyResult, result);
+        Assertions.assertEquals(emptyResult, result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("**.js"));
-        Assert.assertEquals(String.format(cmdFormat, "**.js"), result);
+        Assertions.assertEquals(String.format(cmdFormat, "**.js"), result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("movedFile**"));
-        Assert.assertEquals(String.format(cmdFormat, "movedFile**"), result);
+        Assertions.assertEquals(String.format(cmdFormat, "movedFile**"), result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("*\\newPos"));
-        Assert.assertEquals(String.format(cmdFormat, "*\\newPos"), result);
+        Assertions.assertEquals(String.format(cmdFormat, "*\\newPos"), result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("newPos/*"));
-        Assert.assertEquals(String.format(cmdFormat, "newPos/*"), result);
+        Assertions.assertEquals(String.format(cmdFormat, "newPos/*"), result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("../**"));
-        Assert.assertEquals(emptyResult, result);
+        Assertions.assertEquals(emptyResult, result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("\\**"));
-        Assert.assertEquals(emptyResult, result);
+        Assertions.assertEquals(emptyResult, result);
 
         result = convertToGitExcludeGlobArgs(repoRoot, Collections.singletonList("/newPos/*"));
-        Assert.assertEquals(emptyResult, result);
+        Assertions.assertEquals(emptyResult, result);
     }
 }

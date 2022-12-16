@@ -5,7 +5,7 @@
 
 <h1 class="display-3"><md>{{ title }}</md></h1>
 
-RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), funded by a _Teaching Enhancement Grant_ from the [NUS Center for Development of Teaching and Learning](http://www.cdtl.nus.edu.sg/).
+RepoSense is a project based in the [National University of Singapore, School of Computing](http://www.comp.nus.edu.sg/), funded by a _Teaching Enhancement Grant_ from the [NUS Center for Development of Teaching and Learning](https://nus.edu.sg/cdtl).
 
 <!-- ==================================================================================================== -->
 
@@ -20,64 +20,48 @@ RepoSense is a project based in the [National University of Singapore, School of
 ### [Wang Chao](https://github.com/fzdy1914)
 ![](https://avatars3.githubusercontent.com/u/35621726?s=150&v=4)<br/>
 **Role**: Project Lead [2021 Jan - ]<br/>
-Maintainer [2020 May- 2021 Jan]<br/>
+Maintainer [2020 May - 2021 Jan]<br/>
 Committer [2019 May - 2020 May]<br/>
 Contributor [2018 Dec - 2019 May]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Peh Xian Bin, Eugene](https://github.com/eugenepeh)
-![](https://avatars.githubusercontent.com/u/19277206?s=150&v=4)<br/>
-**Role**: Maintainer [2020 May - ]<br/>
-Project Lead [2018 May - 2020 May]<br/>
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [James Pang Mun Wai](https://github.com/jamessspanggg)
-![](https://avatars1.githubusercontent.com/u/32864116?s=150&v=4)<br/>
-**Role**: Maintainer [2021 Jan - ]<br/>
-Committer [2020 May - 2021 Jan]<br/>
-Contributor [2019 May - 2020 May]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Liu Yiwen](https://github.com/0blivious)
-**Role**: Contributor [2019 August - ]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Tejas Bhuwania](https://github.com/Tejas2805)
-![](https://avatars2.githubusercontent.com/u/35946746?s=150&v=4)<br/>
-**Role**: Contributor [2019 August - ]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Anubhav](https://github.com/anubh-v)
-**Role**: Contributor [2019 September - ]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Ang Ze Yu](https://github.com/ang-zeyu)
-**Role**: Contributor [2020 January - ]<br/>
+### [Hsu Zhong Jun](https://github.com/dcshzj)
+![](https://avatars.githubusercontent.com/u/27919917?s=150&v=4)<br/>
+**Role**: Committer [2021 June - ]<br/>
+Contributor [2020 August - 2021 May]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Chan Ger Hean](https://github.com/gerhean)
-**Role**: Contributor [2021 January - ]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Hsu Zhong Jun](https://github.com/dcshzj)
-**Role**: Contributor [2021 January - ]<br/>
+**Role**: Committer [2022 January - ]<br/>
+Contributor [2021 January - 2021 December]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Huang Chengyu](https://github.com/HCY123902)
-**Role**: Contributor [2021 January - ]<br/>
+**Role**: Committer [2022 January - ]<br/>
+Contributor [2021 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Roland Yu Wenyang](https://github.com/rolandyuwy)
-**Role**: Contributor [2021 January - ]<br/>
+### [Chan Jun Da](https://github.com/chan-j-d)
+**Role**: Contributor [2021 July - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Tay Yi Hsuen](https://github.com/yhtMinceraft1010X)
+**Role**: Contributor [2021 July - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Gokul Rajiv](https://github.com/gok99)
+**Role**: Contributor [2022 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Zhou Jiahao](https://github.com/Zhou-Jiahao-1998)
+**Role**: Contributor [2022 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -112,6 +96,13 @@ Contributor [2018 May - 2018 Aug]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### [Peh Xian Bin, Eugene](https://github.com/eugenepeh)
+![](https://avatars.githubusercontent.com/u/19277206?s=150&v=4)<br/>
+**Role**: Maintainer [2020 May - 2021 Jan]<br/>
+Project Lead [2018 May - 2020 May]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### [Aditya Agarwal](https://github.com/adityaa1998)
 Contributor [2018 May - 2018 Aug]
 
@@ -122,7 +113,7 @@ Contributor [2018 Aug - 2019 May]
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Chelsey Ong Hee](https://github.com/chelseyong)
+### [Chelsey Ong Hee](https://github.com/chel-seyy)
 Contributor [2018 Dec - 2019 May]
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -139,6 +130,13 @@ Contributor [2018 Dec - 2019 May]
 
 ### [Jin Minjia](https://github.com/bluein-green)
 **Role**: Contributor [2019 May - 2019 Aug]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [James Pang Mun Wai](https://github.com/jamessspanggg)
+![](https://avatars1.githubusercontent.com/u/32864116?s=150&v=4)<br/>
+**Role**: Committer [2020 May - 2021 Jan]<br/>
+Contributor [2019 May - 2020 May]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -161,3 +159,30 @@ Contributor [2018 Dec - 2019 May]
 ### [Yash Chowdhary](https://github.com/yash-chowdhary)
 ![](https://avatars2.githubusercontent.com/u/21968718?s=150&v=4)<br/>
 **Role**: Contributor [2020 January - 2020 May]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Liu Yiwen](https://github.com/0blivious)
+**Role**: Contributor [2019 August - 2021 May]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Tejas Bhuwania](https://github.com/Tejas2805)
+![](https://avatars2.githubusercontent.com/u/35946746?s=150&v=4)<br/>
+**Role**: Contributor [2019 August - 2021 August]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Anubhav](https://github.com/anubh-v)
+**Role**: Contributor [2019 September - 2020 August]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Ang Ze Yu](https://github.com/ang-zeyu)
+**Role**: Contributor [2020 January - 2021 May]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Roland Yu Wenyang](https://github.com/rolandyuwy)
+**Role**: Contributor [2021 January - 2021 March]<br/>
+

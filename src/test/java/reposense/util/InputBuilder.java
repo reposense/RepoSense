@@ -1,6 +1,7 @@
 package reposense.util;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import reposense.parser.ArgsParser;
 
@@ -13,13 +14,23 @@ public class InputBuilder {
     private static final String WHITESPACE = " ";
 
     private StringBuilder input;
+    private boolean shallowCloning;
 
     public InputBuilder() {
-        this.input = new StringBuilder();
+        init();
     }
 
     /**
-     * Returns the {@code input} generated from this {@code InputBuilder}
+     * Initialize variables to default values.
+     * Used by {@link InputBuilder#InputBuilder() constructor} and {@link InputBuilder#reset() reset} method.
+     */
+    private void init() {
+        input = new StringBuilder();
+        shallowCloning = false;
+    }
+
+    /**
+     * Returns the {@code input} generated from this {@link InputBuilder}.
      */
     public String build() {
         return input.toString();
@@ -83,11 +94,21 @@ public class InputBuilder {
      * Adds the output flag with the {@code path} as argument to the input.
      * This method should only be called once in one build.
      *
-     * @param path The output folder path.
+     * @param path The output folder path (type {@link Path}).
      */
     public InputBuilder addOutput(Path path) {
         input.append(ArgsParser.OUTPUT_FLAGS[0] + WHITESPACE + addQuotationMarksToPath(path) + WHITESPACE);
         return this;
+    }
+
+    /**
+     * Adds the output flag with the {@code path} as argument to the input.
+     * This method should only be called once in one build.
+     *
+     * @param path The output folder path (type {@link String}).
+     */
+    public InputBuilder addOutput(String path) {
+        return addOutput(Paths.get(path));
     }
 
     /**
@@ -139,7 +160,16 @@ public class InputBuilder {
      * This method should only be called once in one build.
      */
     public InputBuilder addIgnoreStandaloneConfig() {
-        input.append(ArgsParser.IGNORE_FLAGS[0] + WHITESPACE);
+        input.append(ArgsParser.IGNORE_CONFIG_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the ignoreFilesizeLimit flag to the input.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addIgnoreFilesizeLimit() {
+        input.append(ArgsParser.IGNORE_SIZELIMIT_FLAGS[0] + WHITESPACE);
         return this;
     }
 
@@ -180,6 +210,7 @@ public class InputBuilder {
      */
     public InputBuilder addShallowCloning() {
         input.append(ArgsParser.SHALLOW_CLONING_FLAGS[0] + WHITESPACE);
+        shallowCloning = true;
         return this;
     }
 
@@ -189,6 +220,33 @@ public class InputBuilder {
      */
     public InputBuilder addFindPreviousAuthors() {
         input.append(ArgsParser.FIND_PREVIOUS_AUTHORS_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to enable test mode.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addTestMode() {
+        input.append(ArgsParser.TEST_MODE_FLAG[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to include modified date in lines.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addLastModifiedDateFlags() {
+        input.append(ArgsParser.LAST_MODIFIED_DATE_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to enable fresh cloning.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addFreshCloning() {
+        input.append(ArgsParser.FRESH_CLONING_FLAG[0] + WHITESPACE);
         return this;
     }
 
@@ -216,7 +274,7 @@ public class InputBuilder {
      * Clears all input and flags given.
      */
     public InputBuilder reset() {
-        input = new StringBuilder();
+        init();
         return this;
     }
 
@@ -228,4 +286,7 @@ public class InputBuilder {
         return addQuotationMarksToPath(path.toString());
     }
 
+    public boolean isShallowCloning() {
+        return shallowCloning;
+    }
 }

@@ -4,13 +4,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import reposense.git.GitClone;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.FileUtil;
+import reposense.util.TestRepoCloner;
 
 public class RepoClonerTest {
 
@@ -28,19 +28,19 @@ public class RepoClonerTest {
         repoCloner.cloneBare(emptyRepositoryRepoConfig);
         RepoLocation clonedRepoLocation = repoCloner.getClonedRepoLocation();
 
-        Assert.assertNull(clonedRepoLocation);
+        Assertions.assertNull(clonedRepoLocation);
     }
 
     @Test
     public void repoCloner_validRepoLocationWithRelativePathingAndSpaces_success() throws Exception {
         // Clones a test repository into the test directory for testing of relative pathing
         RepoConfiguration tempRemoteConfiguration = new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION));
-        GitClone.cloneBare(tempRemoteConfiguration, Paths.get("."), REPOCLONE_LOCAL_TEST_PATH.toString());
+        TestRepoCloner.cloneBare(tempRemoteConfiguration, Paths.get("."), REPOCLONE_LOCAL_TEST_PATH.toString());
 
         RepoConfiguration repoWithRelativePathingAndSpacesAndEndingBackslash =
                 new RepoConfiguration(new RepoLocation(REPOCLONE_LOCAL_TEST_PATH.toString()));
         RepoCloner repoCloner = new RepoCloner();
         repoCloner.cloneBare(repoWithRelativePathingAndSpacesAndEndingBackslash);
-        Assert.assertTrue(Files.exists(REPOCLONE_LOCAL_TEST_PATH));
+        Assertions.assertTrue(Files.exists(REPOCLONE_LOCAL_TEST_PATH));
     }
 }

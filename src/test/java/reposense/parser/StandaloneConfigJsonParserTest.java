@@ -5,8 +5,9 @@ import static reposense.util.TestUtil.loadResource;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -49,7 +50,7 @@ public class StandaloneConfigJsonParserTest {
     private static RepoConfiguration expectedGithubIdOnlyRepoconfig;
     private static RepoConfiguration expectedFullRepoConfig;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
         Author author = new Author("yong24s");
         author.setAuthorAliases(Arrays.asList("Yong Hao TENG"));
@@ -58,7 +59,7 @@ public class StandaloneConfigJsonParserTest {
         expectedGithubIdOnlyRepoconfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         expectedGithubIdOnlyRepoconfig.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         expectedGithubIdOnlyRepoconfig.setAuthorList(Arrays.asList(new Author("yong24s")));
-        expectedGithubIdOnlyRepoconfig.addAuthorDetailsToAuthorMapEntry(author, author.getEmails());
+        expectedGithubIdOnlyRepoconfig.addAuthorEmailsToAuthorMapEntry(author, author.getEmails());
 
         expectedFullRepoConfig = new RepoConfiguration(new RepoLocation(TEST_DUMMY_LOCATION));
         expectedFullRepoConfig.setFormats(FileType.convertFormatStringsToFileTypes(
@@ -69,9 +70,9 @@ public class StandaloneConfigJsonParserTest {
         expectedFullRepoConfig.setIgnoredAuthorsList(Arrays.asList("yong24s"));
         expectedFullRepoConfig.setAuthorList(Arrays.asList(author));
         expectedFullRepoConfig.setAuthorDisplayName(author, "Yong Hao");
-        expectedFullRepoConfig.addAuthorDetailsToAuthorMapEntry(author, Arrays.asList(author.getGitId()));
-        expectedFullRepoConfig.addAuthorDetailsToAuthorMapEntry(author, author.getAuthorAliases());
-        expectedFullRepoConfig.addAuthorDetailsToAuthorMapEntry(author, author.getEmails());
+        expectedFullRepoConfig.addAuthorNamesToAuthorMapEntry(author, Arrays.asList(author.getGitId()));
+        expectedFullRepoConfig.addAuthorNamesToAuthorMapEntry(author, author.getAuthorAliases());
+        expectedFullRepoConfig.addAuthorEmailsToAuthorMapEntry(author, author.getEmails());
     }
 
     @Test
@@ -101,9 +102,10 @@ public class StandaloneConfigJsonParserTest {
         assertSameConfig(expectedGithubIdOnlyRepoconfig, config);
     }
 
-    @Test(expected = JsonSyntaxException.class)
-    public void standaloneConfig_malformedJsonFile_throwsJsonSyntaxException() throws Exception {
-        new StandaloneConfigJsonParser().parse(STANDALONE_MALFORMED_CONFIG);
+    @Test
+    public void standaloneConfig_malformedJsonFile_throwsJsonSyntaxException() {
+        Assertions.assertThrows(JsonSyntaxException.class, () -> new StandaloneConfigJsonParser()
+                .parse(STANDALONE_MALFORMED_CONFIG));
     }
 
     private void assertSameConfig(RepoConfiguration expectedRepoConfig, StandaloneConfig actualStandaloneConfig)

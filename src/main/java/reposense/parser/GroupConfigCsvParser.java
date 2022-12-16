@@ -1,6 +1,6 @@
 package reposense.parser;
 
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -19,11 +19,11 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     /**
      * Positions of the elements of a line in group-config.csv config file
      */
-    private static final String LOCATION_HEADER = "Repository's Location";
-    private static final String GROUP_NAME_HEADER = "Group Name";
-    private static final String FILES_GLOB_HEADER = "Globs";
+    private static final String[] LOCATION_HEADER = {"Repository's Location"};
+    private static final String[] GROUP_NAME_HEADER = {"Group Name"};
+    private static final String[] FILES_GLOB_HEADER = {"Globs"};
 
-    public GroupConfigCsvParser(Path csvFilePath) throws IOException {
+    public GroupConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
     }
 
@@ -31,8 +31,8 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      * Gets the list of headers that are mandatory for verification.
      */
     @Override
-    protected String[] mandatoryHeaders() {
-        return new String[] {
+    protected String[][] mandatoryHeaders() {
+        return new String[][] {
                 GROUP_NAME_HEADER, FILES_GLOB_HEADER,
         };
     }
@@ -41,14 +41,14 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      * Gets the list of optional headers that can be parsed.
      */
     @Override
-    protected String[] optionalHeaders() {
-        return new String[] {
+    protected String[][] optionalHeaders() {
+        return new String[][] {
                 LOCATION_HEADER,
         };
     }
 
     /**
-     * Processes the csv file line by line and adds created {@code Group} into {@code results}.
+     * Processes the csv {@code record} line by line and adds created {@link GroupConfiguration} into {@code results}.
      */
     @Override
     protected void processLine(List<GroupConfiguration> results, CSVRecord record) throws InvalidLocationException {
@@ -71,13 +71,13 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     }
 
     /**
-     * Gets an existing {@code GroupConfiguration} from {@code results} if {@code location} matches.
-     * Otherwise adds a newly created {@code GroupConfiguration} into {@code results} and returns it.
+     * Gets an existing {@link GroupConfiguration} from {@code results} if {@code location} matches.
+     * Otherwise, adds a newly created {@link GroupConfiguration} into {@code results} and returns it.
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
-    private static GroupConfiguration findMatchingGroupConfiguration(
-            List<GroupConfiguration> results, String location) throws InvalidLocationException {
+    private static GroupConfiguration findMatchingGroupConfiguration(List<GroupConfiguration> results,
+            String location) throws InvalidLocationException {
         GroupConfiguration config = new GroupConfiguration(new RepoLocation(location));
 
         for (GroupConfiguration groupConfig : results) {

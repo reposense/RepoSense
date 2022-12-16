@@ -31,7 +31,7 @@ Given below are the details of the various config files used by RepoSense.
 
 | Column Name | Explanation |
 |-------------|-------------|
-| Repository's Location {{ mandatory }} | The `GitHub URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar` |
+| Repository's Location {{ mandatory }} | The `Remote Repo URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar` |
 | Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo |
 | File formats<sup>*+</sup> | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats |
 | Find Previous Authors | Enter **`yes`** to utilize Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available). |
@@ -40,12 +40,19 @@ Given below are the details of the various config files used by RepoSense.
 | Ignore Commits List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive). |
 | Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name). |
 | Shallow Cloning | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead. |
+| File Size Limit<sup>+</sup> | Enter a file size limit for the repository in bytes as a single number without units (for a size limit of 1MB for example, enter 1000000). This file size limit will override the default file size limit (500KB). Files exceeding the file size limit will be marked as ignored and only the file name and line count will be reflected in the report. |
+| Ignore File Size Limit | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`. |
+| Skip Ignored File Analysis | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is skipped, all information about the file will be omitted from the generated report. This option can significantly improve report generation time. |
 
 <box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
 </box>
 
-<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
+<box type="info" seamless>
+If Ignore File Size Limit is yes, the File Size Limit and Skip Ignored File Analysis columns are ignored.
+</box>
+
+<sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup></br>
 <sup>+ **Overrideable column**: prepend with `override:` to use entered value(s) instead of value(s) from standalone config.</sup>
 
 <box type="info" seamless>
@@ -63,13 +70,15 @@ Optionally, you can use an `author-config.csv` (which should be in the same dire
 |-------------|-------------|
 | Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
 | Branch | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch. |
-| Author's GitHub ID {{ mandatory }} | GitHub username of the target author, e.g., `JohnDoe` |
-| Author's Emails<sup>*</sup> | Associated Github emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails). |
-| Author's Display Name | The name to display for the author. Default: author's GitHub username. |
+| Author's Git Host ID<sup>#</sup> {{ mandatory }} | Username of the target author's profile on GitHub, GitLab or Bitbucket, e.g.`JohnDoe`. |  
+| Author's Emails<sup>*</sup> | Associated emails of the author. For GitHub users, this can be found in your [GitHub settings](https://github.com/settings/emails). |
+| Author's Display Name | The name to display for the author. Default: author's username. |
 | Author's Git Author Name<sup>*</sup> | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name). |
 | Ignore Glob List<sup>*</sup> | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
+</br>
+<sup># For backward compatibility, `Author's GitHub ID` is still accepted as the header in place of `Author's Git Host ID`.</sup>
 
 If `author-config.csv` is not given and the repo has not provided author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
 
@@ -107,7 +116,7 @@ You can optionally use `report-config.json` to customize report generation by pr
 
 Repo owners can provide the following additional information to RepoSense using a config file that we call the **_standalone config file_**:
 * which files/authors/commits to analyze/omit
-* which git and GitHub usernames belong to which authors
+* which git and git host usernames belong to which authors
 * the display of an author
 
 To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](https://github.com/reposense/RepoSense/blob/master/_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
@@ -140,11 +149,12 @@ Note: all fields are optional unless specified otherwise.
 * `formats`: File formats to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats
 * `ignoreCommitList`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
 * `ignoreAuthorList`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
+* `fileSizeLimit`: A file size limit for the repository in bytes as a single number without units, that will override the default file size limit. If not specified, the default file size limit will continue to be used.
 
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
-* `githubId`: GitHub username of the author. {{ mandatory }} field.
-* `emails`: Associated GitHub emails of the author. This can be found in your [GitHub settings](https://github.com/settings/emails).
+* `githubId`: Username of the author. {{ mandatory }} field.
+* `emails`: Associated git emails of the author. For GitHub, this can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
 * `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author. The path glob syntax is specified by the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob). In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`.
@@ -166,13 +176,13 @@ Date:   Fri Feb 9 19:14:41 2018 +0800
     Make some changes to show my new author's name
 
 commit e3f699fd4ef128eebce98d5b4e5b3bb06a512f49
-Author: ActualGitHubId <author@example.com>
+Author: ActualGitHostId <author@example.com>
 Date:   Fri Feb 9 19:13:13 2018 +0800
 
     Initial commit
  ...
 ```
-`ActualGitHubId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.<br>
+`ActualGitHostId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.<br>
 To find the author name that you are currently using for your current git repository, run the following command within your git repository:
 ``` {.no-line-numbers}
 git config user.name
@@ -185,7 +195,7 @@ To set the author name to use a default value you want for future git repositori
 ``` {.no-line-numbers}
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
-RepoSense expects the Git Author Name to be the same as author's GitHub username. If an author's `Git Author Name` is different from her `GitHub ID`, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
+RepoSense expects the Git Author Name to be the same as author's username on the Git hosting platform (GitHub, GitLab, BitBucket). If an author's `Git Author Name` is different from their username on the Git hosting platform, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
 
 <box type="warning" seamless>
 

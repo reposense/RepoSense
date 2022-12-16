@@ -2,6 +2,7 @@ package reposense.model;
 
 import java.io.File;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,13 +20,16 @@ import reposense.util.FileUtil;
  */
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
+    public static final String DEFAULT_EXTRA_OUTPUT_FOLDER_NAME = "";
+    public static final long DEFAULT_FILE_SIZE_LIMIT = 500000;
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
 
     private RepoLocation location;
     private String branch;
     private String displayName;
     private String outputFolderName;
-    private transient String zoneId;
+    private final transient String extraOutputFolderName;
+    private transient ZoneId zoneId;
     private transient LocalDateTime sinceDate;
     private transient LocalDateTime untilDate;
     private transient String repoFolderName;
@@ -35,6 +39,7 @@ public class RepoConfiguration {
     private transient List<String> ignoredAuthorsList = new ArrayList<>();
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
+    private transient boolean isFileSizeLimitIgnored;
     private transient List<CommitHash> ignoreCommitList;
     private transient boolean isLastModifiedDateIncluded;
     private transient boolean isShallowCloningPerformed;
@@ -42,33 +47,63 @@ public class RepoConfiguration {
     private transient boolean isFormatsOverriding;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding;
-    private transient boolean isIgnoredAuthorsListOverriding = false;
+    private transient boolean isIgnoredAuthorsListOverriding;
+    private transient long fileSizeLimit;
+    private transient boolean isFileSizeLimitOverriding;
+    private transient boolean isIgnoredFileAnalysisSkipped;
 
     public RepoConfiguration(RepoLocation location) {
         this(location, DEFAULT_BRANCH);
     }
 
     public RepoConfiguration(RepoLocation location, String branch) {
-        this(location, branch, Collections.emptyList(), Collections.emptyList(), false, Collections.emptyList(),
-                false, false, false, false, false);
+        this(location, branch, DEFAULT_EXTRA_OUTPUT_FOLDER_NAME);
+    }
+
+    public RepoConfiguration(RepoLocation location, String branch, String extraOutputFolderName) {
+        this(location, branch, Collections.emptyList(), Collections.emptyList(),
+                RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT, false, false, Collections.emptyList(), false, false, false,
+                false, false, false, false, Collections.emptyList(), false, extraOutputFolderName);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
-            boolean isStandaloneConfigIgnored, List<CommitHash> ignoreCommitList, boolean isFormatsOverriding,
-            boolean isIgnoreGlobListOverriding, boolean isIgnoreCommitListOverriding,
-            boolean isShallowCloningPerformed, boolean isFindingPreviousAuthorsPerformed) {
+            long fileSizeLimit, boolean isStandaloneConfigIgnored, boolean isFileSizeLimitIgnored,
+            List<CommitHash> ignoreCommitList, boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding,
+            boolean isIgnoreCommitListOverriding, boolean isFileSizeLimitOverriding, boolean isShallowCloningPerformed,
+            boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped,
+            List<String> ignoredAuthorsList, boolean isIgnoredAuthorsListOverriding) {
+        this(location, branch, formats, ignoreGlobList, fileSizeLimit, isStandaloneConfigIgnored,
+                isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding, isIgnoreGlobListOverriding,
+                isIgnoreCommitListOverriding, isFileSizeLimitOverriding, isShallowCloningPerformed,
+                isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped, ignoredAuthorsList,
+                isIgnoredAuthorsListOverriding, DEFAULT_EXTRA_OUTPUT_FOLDER_NAME);
+    }
+
+    public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
+            long fileSizeLimit, boolean isStandaloneConfigIgnored, boolean isFileSizeLimitIgnored,
+            List<CommitHash> ignoreCommitList, boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding,
+            boolean isIgnoreCommitListOverriding, boolean isFileSizeLimitOverriding, boolean isShallowCloningPerformed,
+            boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped,
+            List<String> ignoredAuthorsList, boolean isIgnoredAuthorsListOverriding, String extraOutputFolderName) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
         this.ignoreGlobList = ignoreGlobList;
+        this.fileSizeLimit = fileSizeLimit;
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+        this.isFileSizeLimitIgnored = isFileSizeLimitIgnored;
         this.fileTypeManager = new FileTypeManager(formats);
         this.ignoreCommitList = ignoreCommitList;
         this.isFormatsOverriding = isFormatsOverriding;
         this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
         this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
+        this.isFileSizeLimitOverriding = isFileSizeLimitOverriding;
         this.isShallowCloningPerformed = isShallowCloningPerformed;
         this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
+        this.isIgnoredFileAnalysisSkipped = isIgnoredFileAnalysisSkipped;
+        this.ignoredAuthorsList = ignoredAuthorsList;
+        this.isIgnoredAuthorsListOverriding = isIgnoredAuthorsListOverriding;
+        this.extraOutputFolderName = extraOutputFolderName;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -76,7 +111,7 @@ public class RepoConfiguration {
         outputFolderName = repoName + "_" + branch;
         repoFolderName = repoName;
 
-        if (organization != null) {
+        if (!organization.isEmpty()) {
             repoFolderName = organization + "_" + repoFolderName;
             displayName = organization + "/" + displayName;
             outputFolderName = organization + "_" + outputFolderName;
@@ -91,7 +126,7 @@ public class RepoConfiguration {
         }
     }
 
-    public static void setZoneIdToRepoConfigs(List<RepoConfiguration> configs, String zoneId) {
+    public static void setZoneIdToRepoConfigs(List<RepoConfiguration> configs, ZoneId zoneId) {
         for (RepoConfiguration config : configs) {
             config.setZoneId(zoneId);
         }
@@ -123,8 +158,8 @@ public class RepoConfiguration {
     }
 
     /**
-     * Merges a {@code RepoConfiguration} from {@code repoConfigs} with an {@code AuthorConfiguration} from
-     * {@code authorConfigs} if their {@code RepoLocation} and branch matches
+     * Merges a {@link RepoConfiguration} from {@code repoConfigs} with an {@link AuthorConfiguration} from
+     * {@code authorConfigs} if their {@link RepoLocation} and branch matches.
      */
     public static void merge(List<RepoConfiguration> repoConfigs, List<AuthorConfiguration> authorConfigs) {
         for (AuthorConfiguration authorConfig : authorConfigs) {
@@ -191,11 +226,11 @@ public class RepoConfiguration {
     }
 
     /**
-     * Iterates through {@code repoConfigs} to find a {@code RepoConfiguration} with {@code RepoLocation} and branch
+     * Iterates through {@code repoConfigs} to find a {@link RepoConfiguration} with {@link RepoLocation} and branch
      * that matches {@code authorConfig}. Returns {@code null} if no match is found.
      */
-    private static RepoConfiguration getMatchingRepoConfig(
-            List<RepoConfiguration> repoConfigs, AuthorConfiguration authorConfig) {
+    private static RepoConfiguration getMatchingRepoConfig(List<RepoConfiguration> repoConfigs,
+            AuthorConfiguration authorConfig) {
         if (authorConfig.isDefaultBranch()) {
             return null;
         }
@@ -209,16 +244,17 @@ public class RepoConfiguration {
     }
 
     /**
-     * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} matches {@code targetRepoLocation}.
+     * Returns a list of {@link RepoConfiguration} where the {@link RepoLocation} of a {@link RepoConfiguration}
+     * in the list of {@code configs} matches {@code targetRepoLocation}.
      */
-    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(
-            List<RepoConfiguration> configs, RepoLocation targetRepoLocation) {
+    private static List<RepoConfiguration> getMatchingRepoConfigsByLocation(List<RepoConfiguration> configs,
+            RepoLocation targetRepoLocation) {
         return configs.stream().filter(config -> config.getLocation().equals(targetRepoLocation))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Sets {@code formats} to {@code RepoConfiguration} in {@code configs} if its format list is empty.
+     * Sets {@code formats} to {@link RepoConfiguration} in {@code configs} if its format list is empty.
      */
     public static void setFormatsToRepoConfigs(List<RepoConfiguration> configs, List<FileType> formats) {
         for (RepoConfiguration config : configs) {
@@ -229,22 +265,36 @@ public class RepoConfiguration {
     }
 
     /**
-     * Sets each {@code RepoConfiguration} in {@code configs} to ignore its standalone config, if
+     * Sets each {@link RepoConfiguration} in {@code configs} to ignore its standalone config, if
      * {@code ignoreAllStandaloneConfigs} is true.
      */
-    public static void setStandaloneConfigIgnoredToRepoConfigs(
-            List<RepoConfiguration> configs, boolean ignoreAllStandaloneConfigs) {
+    public static void setStandaloneConfigIgnoredToRepoConfigs(List<RepoConfiguration> configs,
+            boolean ignoreAllStandaloneConfigs) {
         if (ignoreAllStandaloneConfigs) {
             configs.forEach(config -> config.setStandaloneConfigIgnored(true));
         }
     }
 
+    /**
+     * Sets each {@link RepoConfiguration} in {@code configs} to ignore its filesize limit, if
+     * {@code ignoreFilesizeLimit} is true.
+     */
+    public static void setFileSizeLimitIgnoredToRepoConfigs(List<RepoConfiguration> configs,
+                                                            boolean ignoreFileSizeLimit) {
+        if (ignoreFileSizeLimit) {
+            configs.forEach(config -> config.setFileSizeLimitIgnored(true));
+        }
+    }
+
+    /**
+     * Checks if any of the {@code configs} is finding previous authors for commit analysis.
+     */
     public static boolean isAnyRepoFindingPreviousAuthors(List<RepoConfiguration> configs) {
         return configs.stream().anyMatch(RepoConfiguration::isFindingPreviousAuthorsPerformed);
     }
 
     /**
-     * Clears existing information related to this repository and its authors, and replaces it with information from the
+     * Clears existing information related to this repository and its authors, and replaces it with information from
      * {@code standaloneConfig}.
      */
     public void update(StandaloneConfig standaloneConfig) {
@@ -264,12 +314,15 @@ public class RepoConfiguration {
         if (!isIgnoredAuthorsListOverriding) {
             ignoredAuthorsList = standaloneConfig.getIgnoreAuthorList();
         }
+        if (!isFileSizeLimitOverriding) {
+            fileSizeLimit = standaloneConfig.getFileSizeLimit();
+        }
         authorConfig.update(standaloneConfig, ignoreGlobList);
     }
 
     /**
-     * Attempts to find matching {@code Author} given a name and an email.
-     * If no matching {@code Author} is found, {@code Author#UNKNOWN_AUTHOR} is returned.
+     * Returns the matching {@link Author} given a {@code name} and an {@code email}.
+     * If no matching {@link Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
         return authorConfig.getAuthor(name, email);
@@ -286,6 +339,8 @@ public class RepoConfiguration {
 
     /**
      * Gets the current branch and updates branch with current branch if default branch is specified.
+     *
+     * @throws GitBranchException if current branch cannot be retrieved.
      */
     public void updateBranch() throws GitBranchException {
         if (branch.equals(DEFAULT_BRANCH)) {
@@ -301,6 +356,10 @@ public class RepoConfiguration {
         String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
 
         if (!getRepoName().isEmpty()) {
+            if (!extraOutputFolderName.isEmpty()) {
+                path += extraOutputFolderName + File.separator;
+            }
+
             path += getRepoName() + File.separator;
         }
 
@@ -332,6 +391,7 @@ public class RepoConfiguration {
                 && authorConfig.equals(otherRepoConfig.authorConfig)
                 && ignoreGlobList.equals(otherRepoConfig.ignoreGlobList)
                 && ignoredAuthorsList.equals(otherRepoConfig.ignoredAuthorsList)
+                && fileSizeLimit == otherRepoConfig.fileSizeLimit
                 && isStandaloneConfigIgnored == otherRepoConfig.isStandaloneConfigIgnored
                 && fileTypeManager.equals(otherRepoConfig.fileTypeManager)
                 && isLastModifiedDateIncluded == otherRepoConfig.isLastModifiedDateIncluded
@@ -339,7 +399,10 @@ public class RepoConfiguration {
                 && isShallowCloningPerformed == otherRepoConfig.isShallowCloningPerformed
                 && isIgnoreGlobListOverriding == otherRepoConfig.isIgnoreGlobListOverriding
                 && isIgnoreCommitListOverriding == otherRepoConfig.isIgnoreCommitListOverriding
-                && isIgnoredAuthorsListOverriding == otherRepoConfig.isIgnoredAuthorsListOverriding;
+                && isIgnoredAuthorsListOverriding == otherRepoConfig.isIgnoredAuthorsListOverriding
+                && isFileSizeLimitOverriding == otherRepoConfig.isFileSizeLimitOverriding
+                && isFileSizeLimitIgnored == otherRepoConfig.isFileSizeLimitIgnored
+                && isIgnoredFileAnalysisSkipped == otherRepoConfig.isIgnoredFileAnalysisSkipped;
     }
 
     public Map<Author, String> getAuthorDisplayNameMap() {
@@ -362,16 +425,14 @@ public class RepoConfiguration {
     }
 
     /**
-     * Updates the branch in the {@code displayName} to the
-     * current {@code branch}.
+     * Updates the branch in the {@code displayName} to the current {@code branch}.
      */
     public void updateDisplayName(String branch) {
         this.displayName = displayName.substring(0, displayName.lastIndexOf('[') + 1) + branch + "]";
     }
 
     /**
-     * Updates the branch in the {@code outputFolderName} to the
-     * current {@code branch}.
+     * Updates the branch in the {@code outputFolderName} to the current {@code branch}.
      */
     public void updateOutputFolderName(String branch) {
         this.outputFolderName = outputFolderName.substring(0, outputFolderName.lastIndexOf('_') + 1) + branch;
@@ -387,6 +448,10 @@ public class RepoConfiguration {
 
     public List<CommitHash> getIgnoreCommitList() {
         return ignoreCommitList;
+    }
+
+    public long getFileSizeLimit() {
+        return fileSizeLimit;
     }
 
     public void setIgnoreCommitList(List<CommitHash> ignoreCommitList) {
@@ -457,7 +522,7 @@ public class RepoConfiguration {
     }
 
     /**
-     * Clears authors information and sets the {@code authorList} to {@code RepoConfiguration}.
+     * Clears authors information and sets the {@code authorList} to {@link RepoConfiguration}.
      */
     public void setAuthorList(List<Author> authorList) {
         authorConfig.clear();
@@ -466,12 +531,24 @@ public class RepoConfiguration {
         authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
     }
 
-    public Map<String, Author> getAuthorDetailsToAuthorMap() {
-        return authorConfig.getAuthorDetailsToAuthorMap();
+    public Map<String, Author> getAuthorNamesToAuthorMap() {
+        return authorConfig.getAuthorNamesToAuthorMap();
     }
 
-    public void setAuthorDetailsToAuthorMap(Map<String, Author> authorDetailsToAuthorMap) {
-        authorConfig.setAuthorDetailsToAuthorMap(authorDetailsToAuthorMap);
+    public void setAuthorNamesToAuthorMap(Map<String, Author> authorNamesToAuthorMap) {
+        authorConfig.setAuthorNamesToAuthorMap(authorNamesToAuthorMap);
+    }
+
+    public Map<String, Author> getAuthorEmailsToAuthorMap() {
+        return authorConfig.getAuthorEmailsToAuthorMap();
+    }
+
+    public void setAuthorEmailsToAuthorMap(Map<String, Author> authorEmailsToAuthorMap) {
+        authorConfig.setAuthorEmailsToAuthorMap(authorEmailsToAuthorMap);
+    }
+
+    public void clearAuthorDetailsToAuthorMap() {
+        authorConfig.clearAuthorDetailsToAuthorMap();
     }
 
     public void setFormats(List<FileType> formats) {
@@ -517,11 +594,11 @@ public class RepoConfiguration {
         this.untilDate = untilDate;
     }
 
-    public String getZoneId() {
+    public ZoneId getZoneId() {
         return zoneId;
     }
 
-    public void setZoneId(String zoneId) {
+    public void setZoneId(ZoneId zoneId) {
         this.zoneId = zoneId;
     }
 
@@ -529,8 +606,16 @@ public class RepoConfiguration {
         authorConfig.setAuthorDisplayName(author, displayName);
     }
 
-    public void addAuthorDetailsToAuthorMapEntry(Author author, List<String> values) {
-        authorConfig.addAuthorDetailsToAuthorMapEntry(author, values);
+    public void addAuthorNamesToAuthorMapEntry(Author author, String name) {
+        authorConfig.addAuthorNamesToAuthorMapEntry(author, name);
+    }
+
+    public void addAuthorNamesToAuthorMapEntry(Author author, List<String> names) {
+        authorConfig.addAuthorNamesToAuthorMapEntry(author, names);
+    }
+
+    public void addAuthorEmailsToAuthorMapEntry(Author author, List<String> emails) {
+        authorConfig.addAuthorEmailsToAuthorMapEntry(author, emails);
     }
 
     public String getDisplayName() {
@@ -549,6 +634,10 @@ public class RepoConfiguration {
         this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
     }
 
+    public void setFileSizeLimitIgnored(boolean isFileSizeLimitIgnored) {
+        this.isFileSizeLimitIgnored = isFileSizeLimitIgnored;
+    }
+
     public RepoLocation getLocation() {
         return location;
     }
@@ -561,6 +650,14 @@ public class RepoConfiguration {
         return isStandaloneConfigIgnored;
     }
 
+    public boolean isFileSizeLimitIgnored() {
+        return isFileSizeLimitIgnored;
+    }
+
+    public boolean isIgnoredFileAnalysisSkipped() {
+        return isIgnoredFileAnalysisSkipped;
+    }
+
     public boolean isFormatsOverriding() {
         return isFormatsOverriding;
     }
@@ -571,6 +668,10 @@ public class RepoConfiguration {
 
     public boolean isIgnoreCommitListOverriding() {
         return isIgnoreCommitListOverriding;
+    }
+
+    public boolean isFileSizeLimitOverriding() {
+        return isFileSizeLimitOverriding;
     }
 
     public boolean isFindingPreviousAuthorsPerformed() {

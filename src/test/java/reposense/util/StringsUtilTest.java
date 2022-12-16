@@ -7,9 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Assume;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
 
 import reposense.system.CommandRunner;
 
@@ -29,7 +29,7 @@ public class StringsUtilTest {
 
         String filteredText = StringsUtil.filterText(text, "(^author .*)|(^[0-9a-f]{40} .*)");
 
-        Assert.assertEquals(expected, filteredText);
+        Assertions.assertEquals(expected, filteredText);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class StringsUtilTest {
         String noSpecialSymbolString = "Just A Normal String";
         String convertedString = StringsUtil.replaceSpecialSymbols(noSpecialSymbolString, ".");
 
-        Assert.assertEquals(noSpecialSymbolString, convertedString);
+        Assertions.assertEquals(noSpecialSymbolString, convertedString);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class StringsUtilTest {
         String convertedString = StringsUtil.replaceSpecialSymbols(noSpecialSymbolString, ".");
         String expectedConvertedString = "..t..ng W.th .pec..l Symbols.";
 
-        Assert.assertEquals(expectedConvertedString, convertedString);
+        Assertions.assertEquals(expectedConvertedString, convertedString);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class StringsUtilTest {
         String expectedString = "abc\\cde";
         String actualString = StringsUtil.removeTrailingBackslash(multipleTrailingBackslashString);
 
-        Assert.assertEquals(expectedString, actualString);
+        Assertions.assertEquals(expectedString, actualString);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class StringsUtilTest {
         String multipleTrailingBackslashString = "abc\\cde";
         String actualString = StringsUtil.removeTrailingBackslash(multipleTrailingBackslashString);
 
-        Assert.assertEquals(multipleTrailingBackslashString, actualString);
+        Assertions.assertEquals(multipleTrailingBackslashString, actualString);
     }
 
     @Test
@@ -71,12 +71,12 @@ public class StringsUtilTest {
         String emptyString = "";
         String actualString = StringsUtil.removeTrailingBackslash(emptyString);
 
-        Assert.assertEquals(emptyString, actualString);
+        Assertions.assertEquals(emptyString, actualString);
     }
 
     @Test
-    public void addQuotationMarksForPath_specialBashCharacters_success() {
-        Assume.assumeTrue(!SystemUtil.isWindows());
+    public void addQuotesForFilePath_specialBashCharacters_success() {
+        Assumptions.assumeTrue(!SystemUtil.isWindows());
 
         // The characters being tested against are taken from this post: https://unix.stackexchange.com/a/357932
         String specialBashSymbols = "!\"#$&'()*,;<=>?\\[]^`{| }";
@@ -86,6 +86,6 @@ public class StringsUtilTest {
         // CommandRunner's output ends with an LF character which should be removed.
         result = result.substring(0, result.length() - 1);
 
-        Assert.assertEquals(specialBashSymbols, result);
+        Assertions.assertEquals(specialBashSymbols, result);
     }
 }

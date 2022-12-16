@@ -1,12 +1,14 @@
 package reposense.report;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.ReportConfiguration;
+import reposense.model.SupportedDomainUrlMap;
 
 /**
  * Represents the structure of summary.json file in reposense-report folder.
@@ -17,7 +19,7 @@ public class SummaryJson {
     private final String repoSenseVersion;
     private final String reportGeneratedTime;
     private final String reportGenerationTime;
-    private final String zoneId;
+    private final ZoneId zoneId;
     private final String reportTitle;
     private final List<RepoConfiguration> repos;
     private final Set<Map<String, String>> errorSet;
@@ -25,10 +27,11 @@ public class SummaryJson {
     private final LocalDateTime untilDate;
     private final boolean isSinceDateProvided;
     private final boolean isUntilDateProvided;
+    private final Map<String, Map<String, String>> supportedDomainUrlMap;
 
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
             LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
-            String repoSenseVersion, Set<Map<String, String>> errorSet, String reportGenerationTime, String zoneId) {
+            String repoSenseVersion, Set<Map<String, String>> errorSet, String reportGenerationTime, ZoneId zoneId) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;
@@ -40,5 +43,6 @@ public class SummaryJson {
         this.repoSenseVersion = repoSenseVersion;
         this.errorSet = errorSet;
         this.zoneId = zoneId;
+        this.supportedDomainUrlMap = SupportedDomainUrlMap.getDefaultDomainUrlMap();
     }
 }

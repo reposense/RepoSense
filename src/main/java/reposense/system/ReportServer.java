@@ -42,6 +42,8 @@ public class ReportServer {
 
     /**
      * Launches the default browser with {@code url}.
+     *
+     * @throws IOException if the browser cannot be launched for the {@code url}.
      */
     private static void launchBrowser(String url) throws IOException {
         try {

@@ -4,8 +4,8 @@ import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import reposense.model.ReportConfiguration;
 
@@ -22,17 +22,17 @@ public class ReportConfigJsonParserTest {
     @Test
     public void reportConfig_parseEmptyJsonFile_getDefaultTitle() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigJsonParser().parse(EMPTY_REPORT_CONFIG);
-        Assert.assertEquals(reportConfig.getTitle(), DEFAULT_TITLE);
+        Assertions.assertEquals(reportConfig.getTitle(), DEFAULT_TITLE);
     }
     @Test
     public void reportConfig_parseInvalidJsonFile_getDefaultTitle() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigJsonParser().parse(INVALID_REPORT_CONFIG);
-        Assert.assertEquals(reportConfig.getTitle(), DEFAULT_TITLE);
+        Assertions.assertEquals(reportConfig.getTitle(), DEFAULT_TITLE);
     }
 
     @Test
     public void reportConfig_parseValidJsonFile_getCustomTitle() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigJsonParser().parse(VALID_REPORT_CONFIG);
-        Assert.assertNotEquals(reportConfig.getTitle(), DEFAULT_TITLE);
+        Assertions.assertNotEquals(reportConfig.getTitle(), DEFAULT_TITLE);
     }
 }

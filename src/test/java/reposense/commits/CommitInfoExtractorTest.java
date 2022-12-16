@@ -4,19 +4,28 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import reposense.commits.model.CommitInfo;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 public class CommitInfoExtractorTest extends GitTestTemplate {
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     public void withContentTest() {
         List<CommitInfo> commits = CommitInfoExtractor.extractCommitInfos(config);
-        Assert.assertFalse(commits.isEmpty());
+        Assertions.assertFalse(commits.isEmpty());
     }
 
     @Test
@@ -25,6 +34,6 @@ public class CommitInfoExtractorTest extends GitTestTemplate {
         config.setSinceDate(sinceDate);
 
         List<CommitInfo> commits = CommitInfoExtractor.extractCommitInfos(config);
-        Assert.assertTrue(commits.isEmpty());
+        Assertions.assertTrue(commits.isEmpty());
     }
 }

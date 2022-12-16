@@ -34,7 +34,7 @@ The backend implementation of RepoSense is located in `src/main`.
 The RepoSense backend is mostly written in `Java 8`. 
 
 1. You need to have a basic knowledge of Java before getting started, including its syntax, [API](https://docs.oracle.com/javase/8/docs/api/), and certain frameworks such as [JUnit](https://se-education.org/learningresources/contents/java/JUnit.html).
-1. Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as [concurrency](https://se-education.org/learningresources/contents/java/JavaConcurrency.html), [synchronization](https://se-education.org/learningresources/contents/java/JavaSynchronization.html), and [streams](https://se-education.org/learningresources/contents/java/streams-an-introduction.html). These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc). They are optional but you may find them useful when working on certain issues.
+1. Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as [concurrency](https://se-education.org/learningresources/contents/java/JavaConcurrency.html), [synchronization](https://se-education.org/learningresources/contents/java/JavaSynchronization.html), and [streams](https://se-education.org/learningresources/contents/java/streams-an-introduction.html). These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc.). They are optional but you may find them useful when working on certain issues.
 
 {{ step(2) }} **Learn the RepoSense backend architecture**
 
@@ -265,10 +265,10 @@ Vue.js uses JavaScript as its programming language. Before learning **Vue.js**, 
 You can refer to the [Javascript documentation](https://devdocs.io/javascript/) to learn the basic syntax. There are plenty of other resources available and please feel free to find the resource most suitable for you.
 </box>
 
-RepoSense uses **Vue.js** (Vue2) in its front-end implementation. In particular, major user interface components, such as [summary view](report.html#summary-view-v-summary-js), [authorship view](report.html#authorship-view-v-authorship-js), and [zoom view](report.html#zoom-view-v-zoom-js), are implemented as Vue components. The corresponding source files are in `frontend/src`.
+RepoSense uses **Vue.js** (Vue3) in its front-end implementation. In particular, major user interface components, such as [summary view](report.html#summary-view-v-summary-js), [authorship view](report.html#authorship-view-v-authorship-js), and [zoom view](report.html#zoom-view-v-zoom-js), are implemented as Vue components. The corresponding source files are in `frontend/src`.
 
-* If you are new to Vue.js, you may want to start learning by looking at the [the beginner tutorial](https://www.vuemastery.com/courses/intro-to-vue-js/).
-* You can dive deeper later by checking the [Vue.js documentation](https://vuejs.org/v2/guide/index.html) to learn about essential concepts such as component life cycle hooks, and component properties.
+* If you are new to Vue.js, you may want to start learning by looking at [the beginner tutorial](https://www.vuemastery.com/courses/intro-to-vue-js/).
+* You can dive deeper later by checking the [Vue.js documentation](https://vuejs.org/guide/introduction.html) to learn about essential concepts such as component life cycle hooks, and component properties.
 * It is recommended if you can work on some small projects first to gain more solid understanding of Vue.js.
 
 <box type="warning" seamless>
@@ -333,29 +333,29 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 1">
 
-  Try to locate where the author title is in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
+  Try to locate where the author title is in [`c-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-summary-charts.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check what `activeUser` and `activeRepo` do in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
+  You can check what `activeUser` and `activeRepo` do in [`c-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-summary-charts.vue).
   </panel>
 
   <panel header="Hint 3">
 
-  Refer to how changes are made to the title background and icon background in [`v-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/v-summary-charts.vue).
+  Refer to how changes are made to the title background and icon background in [`c-summary-charts.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-summary-charts.vue).
   </panel>
 
   <panel header="Hint 4">
 
-  Some of the CSS styling for `v-summary-charts.vue` is in [`style.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/styles/style.scss). You can add corresponding class selector if necessary.
+  Some of the CSS styling for `c-summary-charts.vue` is in [`style.scss`](https://github.com/reposense/RepoSense/blob/master/frontend/src/styles/style.scss). You can add corresponding class selector if necessary.
   </panel>
 
   <panel header="Suggested solution">
 
   There is more than 1 way to achieve this. One solution is shown as the following:
 
-  Add this to `v_summary.scss`.
+  Add this to `c_summary.scss`.
 
   ```
   .active-text {
@@ -363,7 +363,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   }
   ```
 
-  In `v-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
+  In `c-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
 
   ```
   'active-text': user.name === activeUser && user.repoName === activeRepo
@@ -393,12 +393,12 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 1">
 
-  Try to locate where the file title and the file path are in [`v-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-authorship.vue).
+  Try to locate where the file title and the file path are in [`c-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-authorship.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check how tooltip is added for the triangular icon in the file title in [`v-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-authorship.vue).
+  You can check how tooltip is added for the triangular icon in the file title in [`c-authorship.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-authorship.vue).
   </panel>
 
   <panel header="Hint 3">
@@ -410,7 +410,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  1. In `v-authorship.vue`, locate the section that iterates through each file in `selectedFiles`. 
+  1. In `c-authorship.vue`, locate the section that iterates through each file in `selectedFiles`. 
   2. There is a specific portion of the section that renders the toggle icon, the file index, and the file path of the file title.
   3. Try to locate the `span` tag that renders `file.path`, and wraps it inside a new `tooptip`.
   4. In the `tooltip`, use the following instructions to handle the switch of tooltip message.
@@ -442,12 +442,12 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 1">
 
-  Try to locate where the commit title is in [`v-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue).
+  Try to locate where the commit title is in [`c-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-zoom.vue).
   </panel>
 
   <panel header="Hint 2">
 
-  You can check how tooltip is added for other icons in [`v-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/v-zoom.vue).
+  You can check how tooltip is added for other icons in [`c-zoom.vue`](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-zoom.vue).
   </panel>
 
   <panel header="Hint 3">
@@ -459,7 +459,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   There is more than 1 way to achieve this. One solution is shown as the following:
   
-  1. In `v-zoom.vue`, locate the section that iterates througth each `day` in `selectedCommits`.
+  1. In `c-zoom.vue`, locate the section that iterates through each `day` in `selectedCommits`.
   2. The component that helps render the commit message title should be an `a` tag which uses the `getSliceLink` method to set the link to the commit details and uses `slice.messageTitle` to show the commit message title.
   3. Wrap the `a` tag in a new `tooltip`.
   4. In the `tooltip`, add the following content to show the tooltip message.

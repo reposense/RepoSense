@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Represents the structure of a config.json in _reposense folder.
+ * Represents the structure of a config.json in the _reposense folder.
  */
 public class StandaloneConfig {
     private List<StandaloneAuthor> authors;
@@ -13,6 +13,7 @@ public class StandaloneConfig {
     private List<String> formats;
     private List<String> ignoreCommitsList;
     private List<String> ignoreAuthorsList;
+    private Long fileSizeLimit;
 
     public List<StandaloneAuthor> getAuthors() {
         if (authors == null) {
@@ -58,6 +59,13 @@ public class StandaloneConfig {
         return ignoreAuthorsList;
     }
 
+    public Long getFileSizeLimit() {
+        if (fileSizeLimit == null || fileSizeLimit <= 0) {
+            return RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
+        }
+        return fileSizeLimit;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -73,6 +81,7 @@ public class StandaloneConfig {
                 && getIgnoreGlobList().equals(otherStandaloneConfig.getIgnoreGlobList())
                 && getFormats().equals(otherStandaloneConfig.getFormats())
                 && getIgnoreCommitList().equals(otherStandaloneConfig.getIgnoreCommitList())
-                && getIgnoreAuthorList().equals(otherStandaloneConfig.getIgnoreAuthorList());
+                && getIgnoreAuthorList().equals(otherStandaloneConfig.getIgnoreAuthorList())
+                && getFileSizeLimit().equals(otherStandaloneConfig.getFileSizeLimit());
     }
 }

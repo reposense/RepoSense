@@ -14,6 +14,12 @@ a {
   cursor: pointer;
 }
 
+a.broken-link {
+  color: black;
+  cursor: default;
+  text-decoration: none;
+}
+
 [v-cloak] {
   display: none;
 }
@@ -82,6 +88,17 @@ a {
       margin-left: -.4rem;
       position: absolute;
       top: 100%;
+    }
+
+    &.right-aligned {
+      @include mini-font;
+      bottom: 135%;
+      margin-left: -5.5rem;
+    }
+
+    &.right-aligned:after {
+      left: 75%;
+      margin-left: -.15rem;
     }
   }
 

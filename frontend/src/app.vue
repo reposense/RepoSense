@@ -1,10 +1,8 @@
 <template lang="pug">
 #app
   loading-overlay.overlay-loader(
-    v-cloak,
-    v-bind:active.sync="isLoadingOverlayEnabled",
-    v-bind:opacity='loadingOverlayOpacity',
-    v-bind:is-full-page="true"
+    v-bind:active='loadingOverlayCount > 0',
+    v-bind:opacity='loadingOverlayOpacity'
   )
     template(v-slot:default)
       i.overlay-loading-icon.fa.fa-spinner.fa-spin()
@@ -12,10 +10,10 @@
       h3 {{ loadingOverlayMessage }}
 
   template(v-if="userUpdated")
-    v-resizer
+    c-resizer
       template(v-slot:left)
         #summary-wrapper
-          v-summary.tab-padding(
+          c-summary.tab-padding(
             ref="summary",
             v-bind:repos="users",
             v-bind:error-messages="errorMessages"
@@ -44,8 +42,8 @@
         #tabs-wrapper(ref="tabWrapper")
           .tab-content.panel-padding
             .tab-pane
-              v-authorship#tab-authorship(v-if="tabType === 'authorship'")
-              v-zoom#tab-zoom(v-else-if="tabType === 'zoom'")
+              c-authorship#tab-authorship(v-if="tabType === 'authorship'")
+              c-zoom#tab-zoom(v-else-if="tabType === 'zoom'")
               #tab-empty(v-else)
                 .title
                   h2 Welcome to this RepoSense report!
@@ -77,17 +75,15 @@
       input(type="file", accept=".zip", v-on:change="updateReportZip")
 </template>
 
-
 <script>
 import JSZip from 'jszip';
 import LoadingOverlay from 'vue-loading-overlay';
 import { mapState } from 'vuex';
 
-import vResizer from './components/v-resizer.vue';
-import vZoom from './views/v-zoom.vue';
-import vSummary from './views/v-summary.vue';
-import vAuthorship from './views/v-authorship.vue';
-
+import cResizer from './components/c-resizer.vue';
+import cZoom from './views/c-zoom.vue';
+import cSummary from './views/c-summary.vue';
+import cAuthorship from './views/c-authorship.vue';
 
 const loadingResourcesMessage = 'Loading resources...';
 
@@ -99,7 +95,6 @@ const app = {
       users: [],
       userUpdated: false,
 
-      isLoadingOverlayEnabled: false,
       loadingOverlayOpacity: 1,
 
       tabType: 'empty',
@@ -117,9 +112,6 @@ const app = {
     },
     '$store.state.tabAuthorshipInfo': function () {
       this.activateTab('authorship');
-    },
-    '$store.state.loadingOverlayCount': function () {
-      this.isLoadingOverlayEnabled = this.$store.state.loadingOverlayCount > 0;
     },
   },
   methods: {
@@ -145,9 +137,9 @@ const app = {
     },
 
     async updateReportView() {
-      this.$store.commit('incrementLoadingOverlayCount', 1);
       this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
       this.userUpdated = false;
+      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       try {
         const {
           creationDate,
@@ -206,6 +198,7 @@ const app = {
         isRefresh: true,
         minDate,
         maxDate,
+        location: this.getRepoLink(),
       };
       const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
@@ -270,12 +263,12 @@ const app = {
     getSpecificCommitLink() {
       const version = window.repoSenseVersion;
       if (!version) {
-        return `${window.BASE_URL}/reposense/RepoSense`;
+        return `${window.REPOSENSE_REPO_URL}`;
       }
       if (version.startsWith('v')) {
-        return `${window.BASE_URL}/reposense/RepoSense/releases/tag/${version}`;
+        return `${window.REPOSENSE_REPO_URL}/releases/tag/${version}`;
       }
-      return `${window.BASE_URL}/reposense/RepoSense/commit/${version}`;
+      return `${window.REPOSENSE_REPO_URL}/commit/${version}`;
     },
 
     getUserGuideLink() {
@@ -293,18 +286,28 @@ const app = {
       }
       return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
     },
+
+    getRepoLink() {
+      const { REPOS, hashParams } = window;
+      const { location, branch } = REPOS[hashParams.tabRepo];
+
+      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
+        return window.getBranchLink(hashParams.tabRepo, branch);
+      }
+      return REPOS[hashParams.tabRepo].location.location;
+    },
   },
 
   computed: {
-    ...mapState(['loadingOverlayMessage', 'isTabActive']),
+    ...mapState(['loadingOverlayCount', 'loadingOverlayMessage', 'isTabActive']),
   },
 
   components: {
     LoadingOverlay,
-    vResizer,
-    vZoom,
-    vSummary,
-    vAuthorship,
+    cResizer,
+    cZoom,
+    cSummary,
+    cAuthorship,
   },
   created() {
     window.decodeHash();
@@ -316,7 +319,6 @@ window.app = app;
 
 export default app;
 </script>
-
 
 <style lang="scss">
 @import './styles/style.scss';

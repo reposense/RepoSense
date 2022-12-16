@@ -1,7 +1,6 @@
 package reposense.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,8 @@ public class AuthorConfiguration {
     private String branch;
 
     private transient List<Author> authorList = new ArrayList<>();
-    private transient Map<String, Author> authorDetailsToAuthorMap = new HashMap<>();
+    private transient Map<String, Author> authorNamesToAuthorMap = new HashMap<>();
+    private transient Map<String, Author> authorEmailsToAuthorMap = new HashMap<>();
     private transient Map<Author, String> authorDisplayNameMap = new HashMap<>();
 
     public AuthorConfiguration(RepoLocation location) {
@@ -40,11 +40,13 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Clears authors information and use the information provided from {@code standaloneConfig}.
+     * Clears authors information and use the information provided from {@code standaloneConfig}. Also updates each
+     * author's {@code ignoreGlobList}.
      */
     public void update(StandaloneConfig standaloneConfig, List<String> ignoreGlobList) {
         List<Author> newAuthorList = new ArrayList<>();
-        Map<String, Author> newAuthorDetailsToAuthorMap = new HashMap<>();
+        Map<String, Author> newAuthorNamesToAuthorMap = new HashMap<>();
+        Map<String, Author> newAuthorEmailsToAuthorMap = new HashMap<>();
         Map<Author, String> newAuthorDisplayNameMap = new HashMap<>();
 
         for (StandaloneAuthor sa : standaloneConfig.getAuthors()) {
@@ -57,21 +59,21 @@ public class AuthorConfiguration {
             List<String> emails = new ArrayList<>(author.getEmails());
             aliases.add(author.getGitId());
             aliases.forEach(alias -> {
-                checkDuplicateAliases(newAuthorDetailsToAuthorMap, alias, author.getGitId());
-                newAuthorDetailsToAuthorMap.put(alias, author);
+                checkDuplicateAliases(newAuthorNamesToAuthorMap, alias, author.getGitId());
+                newAuthorNamesToAuthorMap.put(alias, author);
             });
-            emails.forEach(email -> newAuthorDetailsToAuthorMap.put(email, author));
+            emails.forEach(email -> newAuthorEmailsToAuthorMap.put(email, author));
         }
 
         setAuthorList(newAuthorList);
-        setAuthorDetailsToAuthorMap(newAuthorDetailsToAuthorMap);
+        setAuthorNamesToAuthorMap(newAuthorNamesToAuthorMap);
+        setAuthorEmailsToAuthorMap(newAuthorEmailsToAuthorMap);
         setAuthorDisplayNameMap(newAuthorDisplayNameMap);
     }
 
     /**
-     * Checks for duplicate aliases in {@code authorDetailsToAuthorMap} and generates warnings
-     * @param authorDetailsToAuthorMap
-     * @param alias
+     * Checks if {@code alias} of author with {@code gitId} is already being used by another author in
+     * {@code authorDetailsToAuthorMap} and generates warnings.
      */
     public void checkDuplicateAliases(Map<String, Author> authorDetailsToAuthorMap, String alias, String gitId) {
         if (authorDetailsToAuthorMap.containsKey(alias)) {
@@ -95,7 +97,8 @@ public class AuthorConfiguration {
         return location.equals(otherAuthorConfig.location)
                 && branch.equals(otherAuthorConfig.branch)
                 && authorList.equals(otherAuthorConfig.authorList)
-                && authorDetailsToAuthorMap.equals(otherAuthorConfig.authorDetailsToAuthorMap)
+                && authorNamesToAuthorMap.equals(otherAuthorConfig.authorNamesToAuthorMap)
+                && authorEmailsToAuthorMap.equals(otherAuthorConfig.authorEmailsToAuthorMap)
                 && authorDisplayNameMap.equals(otherAuthorConfig.authorDisplayNameMap);
     }
 
@@ -120,15 +123,15 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Sets the details of {@code author} to {@code AuthorConfiguration} including the default alias, aliases
+     * Sets the details of {@code author} to {@link AuthorConfiguration} including the default alias, aliases
      * and display name.
      */
     private void setAuthorDetails(Author author) {
         // Set GitHub Id and its corresponding email as default
-        addAuthorDetailsToAuthorMapEntry(author, Arrays.asList(author.getGitId()));
+        addAuthorNamesToAuthorMapEntry(author, author.getGitId());
+        addAuthorNamesToAuthorMapEntry(author, author.getAuthorAliases());
 
-        addAuthorDetailsToAuthorMapEntry(author, author.getAuthorAliases());
-        addAuthorDetailsToAuthorMapEntry(author, author.getEmails());
+        addAuthorEmailsToAuthorMapEntry(author, author.getEmails());
 
         setAuthorDisplayName(author, author.getDisplayName());
     }
@@ -141,7 +144,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds author to the {@code AuthorList}.
+     * Adds author to the {@code authorList}.
      */
     public void addAuthor(Author author) {
         authorList.add(author);
@@ -149,7 +152,7 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds {@code author} to the {@code AuthorList}, and propagates {@code ignoreGlobList} to the {@code author}.
+     * Adds {@code author} to the {@code authorList}, and propagates {@code ignoreGlobList} to the {@code author}.
      */
     public void addAuthor(Author author, List<String> ignoreGlobList) {
         addAuthor(author);
@@ -161,33 +164,41 @@ public class AuthorConfiguration {
      */
     public void removeIgnoredAuthors(List<String> ignoredAuthorsList) {
         for (String author : ignoredAuthorsList) {
-            if (authorDetailsToAuthorMap.containsKey(author)) {
-                removeAuthorInformation(author);
+            Author authorToRemove = null;
+            if (authorEmailsToAuthorMap.containsKey(author)) {
+                authorToRemove = authorEmailsToAuthorMap.get(author);
+            } else if (authorNamesToAuthorMap.containsKey(author.toLowerCase())) {
+                authorToRemove = authorNamesToAuthorMap.get(author.toLowerCase());
+            }
+
+            if (authorToRemove != null) {
+                removeAuthorInformation(authorToRemove);
             }
         }
     }
 
     /**
-     * Removes all information of the {@code author} from the configs
-     * Precondition: {@code author} must be present in {@code authorDetailsToAuthorMap}
-     * @param author Can be an author's git ID, email, or alias
+     * Removes all information of the {@code author} from the configs.
+     * Precondition: {@code author} must be present in {@code authorDetailsToAuthorMap}.
+     *
+     * @param author the author to be removed.
      */
-    public void removeAuthorInformation(String author) {
-        Author authorToRemove = authorDetailsToAuthorMap.get(author);
-        authorList.remove(authorToRemove);
-        authorDisplayNameMap.remove(authorToRemove);
-        authorDetailsToAuthorMap.remove(authorToRemove.getGitId());
+    public void removeAuthorInformation(Author author) {
+        authorList.remove(author);
+        authorDisplayNameMap.remove(author);
+        authorNamesToAuthorMap.remove(author.getGitId().toLowerCase());
 
-        List<String> aliases = authorToRemove.getAuthorAliases();
-        aliases.forEach(alias -> authorDetailsToAuthorMap.remove(alias));
+        List<String> aliases = author.getAuthorAliases();
+        aliases.forEach(alias -> authorNamesToAuthorMap.remove(alias.toLowerCase()));
 
-        List<String> emails = authorToRemove.getEmails();
-        emails.forEach(email -> authorDetailsToAuthorMap.remove(email));
+        List<String> emails = author.getEmails();
+        emails.forEach(email -> authorEmailsToAuthorMap.remove(email));
     }
 
     /**
-     * Adds new authors from {@code authorList} and sets the default alias, aliases, emails and display name
-     * of the new authors. Skips authors that have already been added previously.
+     * Adds new authors from {@code authorList}.
+     * Also sets the default alias, aliases, emails and display name as well as {@code ignoreGlobList} of the new
+     * authors. Skips the authors that have already been added previously.
      */
     public void addAuthors(List<Author> authorList, List<String> ignoreGlobList) {
         for (Author author : authorList) {
@@ -213,8 +224,16 @@ public class AuthorConfiguration {
      * Clears author mapping information.
      */
     public void clear() {
-        authorDetailsToAuthorMap.clear();
+        clearAuthorDetailsToAuthorMap();
         authorDisplayNameMap.clear();
+    }
+
+    /**
+     * Clears author details mapping information.
+     */
+    public void clearAuthorDetailsToAuthorMap() {
+        authorNamesToAuthorMap.clear();
+        authorEmailsToAuthorMap.clear();
     }
 
     /**
@@ -224,12 +243,21 @@ public class AuthorConfiguration {
         authorList.forEach(this::setAuthorDetails);
     }
 
-    public Map<String, Author> getAuthorDetailsToAuthorMap() {
-        return authorDetailsToAuthorMap;
+    public Map<String, Author> getAuthorNamesToAuthorMap() {
+        return authorNamesToAuthorMap;
     }
 
-    public void setAuthorDetailsToAuthorMap(Map<String, Author> authorDetailsToAuthorMap) {
-        this.authorDetailsToAuthorMap = authorDetailsToAuthorMap;
+    public void setAuthorNamesToAuthorMap(Map<String, Author> authorNamesToAuthorMap) {
+        this.authorNamesToAuthorMap = new HashMap<>();
+        authorNamesToAuthorMap.forEach((name, author) -> this.authorNamesToAuthorMap.put(name.toLowerCase(), author));
+    }
+
+    public Map<String, Author> getAuthorEmailsToAuthorMap() {
+        return authorEmailsToAuthorMap;
+    }
+
+    public void setAuthorEmailsToAuthorMap(Map<String, Author> authorEmailsToAuthorMap) {
+        this.authorEmailsToAuthorMap = authorEmailsToAuthorMap;
     }
 
     public void setAuthorDisplayName(Author author, String displayName) {
@@ -237,14 +265,33 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Adds {@code aliases} of {@code author} into the map
-     * @param author
-     * @param values
+     * Adds {@code name} as alias of {@code author} into the map.
      */
-    public void addAuthorDetailsToAuthorMapEntry(Author author, List<String> values) {
-        values.forEach(value -> {
-            checkDuplicateAliases(authorDetailsToAuthorMap, value, author.getGitId());
-            authorDetailsToAuthorMap.put(value, author);
+    public void addAuthorNamesToAuthorMapEntry(Author author, String name) {
+        String nameInLowerCase = name.toLowerCase();
+        checkDuplicateAliases(authorNamesToAuthorMap, nameInLowerCase, author.getGitId());
+        authorNamesToAuthorMap.put(nameInLowerCase, author);
+    }
+
+    /**
+     * Adds {@code names} as aliases of {@code author} into the map.
+     */
+    public void addAuthorNamesToAuthorMapEntry(Author author, List<String> names) {
+        names.stream()
+                .map(String::toLowerCase)
+                .forEach(name -> {
+                    checkDuplicateAliases(authorNamesToAuthorMap, name, author.getGitId());
+                    authorNamesToAuthorMap.put(name, author);
+                });
+    }
+
+    /**
+     * Adds {@code emails} as aliases of {@code author} into the map.
+     */
+    public void addAuthorEmailsToAuthorMapEntry(Author author, List<String> emails) {
+        emails.forEach(email -> {
+            checkDuplicateAliases(authorEmailsToAuthorMap, email, author.getGitId());
+            authorEmailsToAuthorMap.put(email, author);
         });
     }
 
@@ -253,27 +300,33 @@ public class AuthorConfiguration {
     }
 
     /**
-     * Attempts to find matching {@code Author} given a name and an email.
-     * If no matching {@code Author} is found, {@code Author#UNKNOWN_AUTHOR} is returned.
+     * Attempts to find matching {@link Author} given a {@code name} and an {@code email}.
+     * If no matching {@link Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
-        if (authorDetailsToAuthorMap.containsKey(name)) {
-            return authorDetailsToAuthorMap.get(name);
+        if (authorNamesToAuthorMap.containsKey(name.toLowerCase())) {
+            return authorNamesToAuthorMap.get(name.toLowerCase());
         }
-        if (authorDetailsToAuthorMap.containsKey(email)) {
-            return authorDetailsToAuthorMap.get(email);
-        }
-        Matcher matcher = EMAIL_PLUS_OPERATOR_PATTERN.matcher(email);
 
+        if (authorEmailsToAuthorMap.containsKey(email)) {
+            return authorEmailsToAuthorMap.get(email);
+        }
+
+        Matcher matcher = EMAIL_PLUS_OPERATOR_PATTERN.matcher(email);
         if (matcher.matches()) {
-            return authorDetailsToAuthorMap.getOrDefault(matcher.group("suffix") + matcher.group("domain"),
+            return authorEmailsToAuthorMap.getOrDefault(matcher.group("suffix") + matcher.group("domain"),
                     Author.UNKNOWN_AUTHOR);
         }
+
         return Author.UNKNOWN_AUTHOR;
     }
 
     public boolean isDefaultBranch() {
         return this.branch.equals(DEFAULT_BRANCH);
+    }
+
+    public boolean containsName(String name) {
+        return authorNamesToAuthorMap.containsKey(name.toLowerCase()) || authorEmailsToAuthorMap.containsKey(name);
     }
 
     public static void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {

@@ -4,14 +4,23 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import reposense.model.Author;
+import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
 
 public class GitShortlogTest extends GitTestTemplate {
+    private RepoConfiguration config;
+
+    @BeforeEach
+    public void before() throws Exception {
+        super.before();
+        config = configs.get();
+    }
 
     @Test
     public void getAuthors_validRepoNoDateRange_success() {
@@ -26,8 +35,8 @@ public class GitShortlogTest extends GitTestTemplate {
 
         List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 
-        Assert.assertEquals(expectedAuthorList.size(), actualAuthorList.size());
-        Assert.assertEquals(expectedAuthorList, actualAuthorList);
+        Assertions.assertEquals(expectedAuthorList.size(), actualAuthorList.size());
+        Assertions.assertEquals(expectedAuthorList, actualAuthorList);
     }
 
     @Test
@@ -40,8 +49,8 @@ public class GitShortlogTest extends GitTestTemplate {
 
         List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 
-        Assert.assertEquals(expectedAuthorList.size(), actualAuthorList.size());
-        Assert.assertEquals(expectedAuthorList, actualAuthorList);
+        Assertions.assertEquals(expectedAuthorList.size(), actualAuthorList.size());
+        Assertions.assertEquals(expectedAuthorList, actualAuthorList);
     }
 
     @Test
@@ -51,6 +60,6 @@ public class GitShortlogTest extends GitTestTemplate {
 
         List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 
-        Assert.assertTrue(actualAuthorList.isEmpty());
+        Assertions.assertTrue(actualAuthorList.isEmpty());
     }
 }

@@ -18,6 +18,7 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.impl.action.VersionArgumentAction;
+import net.sourceforge.argparse4j.inf.ArgumentGroup;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.FeatureControl;
@@ -34,32 +35,38 @@ import reposense.system.LogsManager;
 import reposense.util.TimeUtil;
 
 /**
- * Verifies and parses a string-formatted date to a {@code CliArguments} object.
+ * Verifies and parses a string-formatted date to a {@link CliArguments} object.
  */
 public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
     public static final int DEFAULT_NUM_CLONING_THREADS = 4;
     public static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
+    public static final boolean DEFAULT_IS_TEST_MODE = false;
+    public static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
 
-    public static final String[] HELP_FLAGS = new String[]{"--help", "-h"};
-    public static final String[] CONFIG_FLAGS = new String[]{"--config", "-c"};
-    public static final String[] REPO_FLAGS = new String[]{"--repo", "--repos", "-r"};
-    public static final String[] VIEW_FLAGS = new String[]{"--view", "-v"};
-    public static final String[] OUTPUT_FLAGS = new String[]{"--output", "-o"};
-    public static final String[] ASSETS_FLAGS = new String[]{"--assets", "-a"};
-    public static final String[] SINCE_FLAGS = new String[]{"--since", "-s"};
-    public static final String[] UNTIL_FLAGS = new String[]{"--until", "-u"};
-    public static final String[] PERIOD_FLAGS = new String[]{"--period", "-p"};
-    public static final String[] SHALLOW_CLONING_FLAGS = new String[]{"--shallow-cloning", "-S"};
-    public static final String[] FORMAT_FLAGS = new String[]{"--formats", "-f"};
-    public static final String[] IGNORE_FLAGS = new String[]{"--ignore-standalone-config", "-i"};
-    public static final String[] TIMEZONE_FLAGS = new String[]{"--timezone", "-t"};
-    public static final String[] VERSION_FLAGS = new String[]{"--version", "-V"};
-    public static final String[] LAST_MODIFIED_DATE_FLAGS = new String[]{"--last-modified-date", "-l"};
-    public static final String[] FIND_PREVIOUS_AUTHORS_FLAGS = new String[]{"--find-previous-authors", "-F"};
+    public static final String[] HELP_FLAGS = new String[] {"--help", "-h"};
+    public static final String[] CONFIG_FLAGS = new String[] {"--config", "-c"};
+    public static final String[] REPO_FLAGS = new String[] {"--repo", "--repos", "-r"};
+    public static final String[] VIEW_FLAGS = new String[] {"--view", "-v"};
+    public static final String[] OUTPUT_FLAGS = new String[] {"--output", "-o"};
+    public static final String[] ASSETS_FLAGS = new String[] {"--assets", "-a"};
+    public static final String[] SINCE_FLAGS = new String[] {"--since", "-s"};
+    public static final String[] UNTIL_FLAGS = new String[] {"--until", "-u"};
+    public static final String[] PERIOD_FLAGS = new String[] {"--period", "-p"};
+    public static final String[] SHALLOW_CLONING_FLAGS = new String[] {"--shallow-cloning", "-S"};
+    public static final String[] FORMAT_FLAGS = new String[] {"--formats", "-f"};
+    public static final String[] IGNORE_CONFIG_FLAGS = new String[] {"--ignore-standalone-config", "-i"};
+    public static final String[] IGNORE_SIZELIMIT_FLAGS = new String[] {"--ignore-filesize-limit", "-I"};
+    public static final String[] TIMEZONE_FLAGS = new String[] {"--timezone", "-t"};
+    public static final String[] VERSION_FLAGS = new String[] {"--version", "-V"};
+    public static final String[] LAST_MODIFIED_DATE_FLAGS = new String[] {"--last-modified-date", "-l"};
+    public static final String[] FIND_PREVIOUS_AUTHORS_FLAGS = new String[] {"--find-previous-authors", "-F"};
 
-    public static final String[] CLONING_THREADS_FLAG = new String[]{"--cloning-threads"};
-    public static final String[] ANALYSIS_THREADS_FLAG = new String[]{"--analysis-threads"};
+    public static final String[] CLONING_THREADS_FLAG = new String[] {"--cloning-threads"};
+    public static final String[] ANALYSIS_THREADS_FLAG = new String[] {"--analysis-threads"};
+
+    public static final String[] TEST_MODE_FLAG = new String[] {"--test-mode"};
+    public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -67,12 +74,15 @@ public class ArgsParser {
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
+    private static final String MESSAGE_HEADER_TESTING = "test mode arguments";
     private static final String MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
             "\"Since Date\", \"Until Date\", and \"Period\" cannot be applied together.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
     private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
+    private static final String MESSAGE_SINCE_D1_WITH_PERIOD = "You may be using --since d1 with the --period flag. "
+            + "This may result in an incorrect date range being analysed.";
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
@@ -94,6 +104,9 @@ public class ArgsParser {
                 .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
                 .required(false);
 
+        ArgumentGroup argumentGroup = parser
+                .addArgumentGroup(MESSAGE_HEADER_TESTING);
+
         // Boolean flags
         parser.addArgument(HELP_FLAGS)
                 .help("Show help message.")
@@ -104,10 +117,15 @@ public class ArgsParser {
                 .help("Show the version of RepoSense.")
                 .action(new VersionArgumentAction());
 
-        parser.addArgument(IGNORE_FLAGS)
-                .dest(IGNORE_FLAGS[0])
+        parser.addArgument(IGNORE_CONFIG_FLAGS)
+                .dest(IGNORE_CONFIG_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("A flag to ignore the standalone config file in the repo.");
+
+        parser.addArgument(IGNORE_SIZELIMIT_FLAGS)
+                .dest(IGNORE_SIZELIMIT_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to ignore the filesize limit for analyzed files.");
 
         parser.addArgument(VIEW_FLAGS)
                 .dest(VIEW_FLAGS[0])
@@ -221,15 +239,26 @@ public class ArgsParser {
                 .setDefault(DEFAULT_NUM_ANALYSIS_THREADS)
                 .help(FeatureControl.SUPPRESS);
 
+        // Testing flags
+        argumentGroup.addArgument(TEST_MODE_FLAG)
+                .dest(TEST_MODE_FLAG[0])
+                .action(Arguments.storeTrue())
+                .help("Enables testing mode.");
+
+        argumentGroup.addArgument(FRESH_CLONING_FLAG)
+                .dest(FRESH_CLONING_FLAG[0])
+                .action(Arguments.storeTrue())
+                .help("Enables fresh cloning. Requires testing mode to be enabled.");
+
         return parser;
     }
 
     /**
-     * Parses the given string arguments to a {@code CliArguments} object.
+     * Parses the given string {@code args} to a {@link CliArguments} object.
      *
      * @throws HelpScreenException if given args contain the --help flag. Help message will be printed out
-     * by the {@code ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
-     * @throws ParseException if the given string arguments fails to parse to a {@code CliArguments} object.
+     * by the {@link ArgumentParser} hence this is to signal to the caller that the program is safe to exit.
+     * @throws ParseException if the given string arguments fails to parse to a {@link CliArguments} object.
      */
     public static CliArguments parse(String[] args) throws HelpScreenException, ParseException {
         try {
@@ -249,7 +278,8 @@ public class ArgsParser {
             Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
-            boolean isStandaloneConfigIgnored = results.get(IGNORE_FLAGS[0]);
+            boolean isStandaloneConfigIgnored = results.get(IGNORE_CONFIG_FLAGS[0]);
+            boolean isFileSizeLimitIgnored = results.get(IGNORE_SIZELIMIT_FLAGS[0]);
             boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
             boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
             boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
@@ -273,6 +303,7 @@ public class ArgsParser {
             boolean isSinceDateProvided = cliSinceDate.isPresent();
             boolean isUntilDateProvided = cliUntilDate.isPresent();
             boolean isPeriodProvided = cliPeriod.isPresent();
+            boolean isUsingArbitraryDate = false;
             if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
                 throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
             }
@@ -283,6 +314,11 @@ public class ArgsParser {
 
             if (isSinceDateProvided) {
                 sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
+                // For --since d1, need to adjust the arbitrary date based on timezone
+                if (TimeUtil.isEqualToArbitraryFirstDateUtc(sinceDate)) {
+                    isUsingArbitraryDate = true;
+                    sinceDate = TimeUtil.getArbitraryFirstCommitDateConverted(zoneId);
+                }
             } else {
                 if (isUntilDateProvided) {
                     sinceDate = isPeriodProvided
@@ -294,6 +330,10 @@ public class ArgsParser {
                             : TimeUtil.getDateMinusAMonth(currentDate);
                 }
 
+            }
+
+            if (isPeriodProvided && isUsingArbitraryDate) {
+                logger.warning(MESSAGE_SINCE_D1_WITH_PERIOD);
             }
 
             if (isUntilDateProvided) {
@@ -328,16 +368,23 @@ public class ArgsParser {
                 return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                         isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
                         shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-                        isStandaloneConfigIgnored, zoneId, shouldFindPreviousAuthors);
+                        isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, shouldFindPreviousAuthors);
             }
 
             if (configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
+
+            boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
+            boolean shouldPerformFreshCloning = isTestMode
+                    ? results.get(FRESH_CLONING_FLAG[0])
+                    : DEFAULT_SHOULD_FRESH_CLONE;
+
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
                     shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-                    isStandaloneConfigIgnored, zoneId, reportConfig, shouldFindPreviousAuthors);
+                    isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, reportConfig, shouldFindPreviousAuthors,
+                    isTestMode, shouldPerformFreshCloning);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

@@ -8,9 +8,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
+import reposense.git.GitConfig;
 import reposense.git.GitVersion;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
@@ -43,9 +45,12 @@ public class RepoSense {
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
     private static final String VERSION_UNSPECIFIED = "unspecified";
+    private static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE =
+            "--find-previous-authors/-F requires git version 2.23 and above. Feature will be disabled for this run";
 
     /**
      * The entry point of the program.
+     * Additional flags are provided by the user in {@code args}.
      */
     public static void main(String[] args) {
         try {
@@ -69,9 +74,11 @@ public class RepoSense {
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
-            RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId().toString());
+            RepoConfiguration.setZoneIdToRepoConfigs(configs, cliArguments.getZoneId());
             RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(configs,
                     cliArguments.isStandaloneConfigIgnored());
+            RepoConfiguration.setFileSizeLimitIgnoredToRepoConfigs(configs,
+                    cliArguments.isFileSizeLimitIgnored());
             RepoConfiguration.setIsLastModifiedDateIncludedToRepoConfigs(configs,
                     cliArguments.isLastModifiedDateIncluded());
             RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(configs,
@@ -81,8 +88,19 @@ public class RepoSense {
 
             if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
                     && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
-                logger.warning(GitVersion.FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
+                logger.warning(FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
                 RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
+            }
+
+            List<String[]> globalGitConfig = GitConfig.getGlobalGitLfsConfig();
+            if (globalGitConfig.size() != 0) {
+                GitConfig.setGlobalGitLfsConfig(GitConfig.SKIP_SMUDGE_CONFIG_SETTINGS);
+            }
+
+            boolean isTestMode = cliArguments.isTestMode();
+            if (isTestMode) {
+                // Required by ConfigSystemTest to pass
+                AuthorConfiguration.setHasAuthorConfigFile(false);
             }
 
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
@@ -92,9 +110,13 @@ public class RepoSense {
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                    TimeUtil::getElapsedTime, cliArguments.getZoneId());
+                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed());
+
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
+
+            // Set back to user's initial global git lfs config
+            GitConfig.setGlobalGitLfsConfig(globalGitConfig);
 
             logger.info(TimeUtil.getElapsedTimeMessage());
 
@@ -106,13 +128,16 @@ public class RepoSense {
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
         }
+
+        LogManager.getLogManager().reset();
     }
 
     /**
-     * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code ConfigCliArguments}.
+     * Constructs a list of {@link RepoConfiguration} if {@code cliArguments} is a {@link ConfigCliArguments}.
      *
-     * @throws IOException if user-supplied csv file does not exists or is not readable.
+     * @throws IOException if user-supplied csv file does not exist or is not readable.
      * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
+     * @throws InvalidHeaderException if user-supplied csv file has header that cannot be parsed.
      */
     public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments)
             throws IOException, InvalidCsvException, InvalidHeaderException {
@@ -147,7 +172,7 @@ public class RepoSense {
     }
 
     /**
-     * Constructs a list of {@code RepoConfiguration} if {@code cliArguments} is a {@code LocationsCliArguments}.
+     * Constructs a list of {@link RepoConfiguration} if {@code cliArguments} is a {@link LocationsCliArguments}.
      *
      * @throws ParseException if all repo locations are invalid.
      */

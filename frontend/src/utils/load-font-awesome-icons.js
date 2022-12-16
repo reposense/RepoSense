@@ -4,26 +4,41 @@ import {
   faChevronDown, faChevronUp, faCircle, faCode,
   faEllipsisH, faExclamation, faHistory, faListUl,
   faPlusCircle, faSpinner, faTags, faUser, faUserEdit,
+  faDatabase,
 } from '@fortawesome/free-solid-svg-icons';
-import { faGithub } from '@fortawesome/free-brands-svg-icons';
+
+import {
+  faGithub, faGitlab, faBitbucket,
+} from '@fortawesome/free-brands-svg-icons';
 
 // app
 library.add(faExclamation, faSpinner, faCode, faListUl);
 
-// v-resizer
+// c-resizer
 library.add(faCaretRight);
 
-// v-summary
+// c-summary
 library.add(faExclamation);
 
-// v-summary-charts
-library.add(faChevronUp, faChevronDown, faGithub, faUser, faCode, faListUl, faCircle);
+// c-summary-charts
+library.add(
+    faChevronUp,
+    faChevronDown,
+    faDatabase,
+    faUser,
+    faCode,
+    faListUl,
+    faCircle,
+    faGithub,
+    faGitlab,
+    faBitbucket,
+);
 
-// v-zoom
+// c-zoom
 library.add(faTags, faEllipsisH);
 
-// v-authorship
+// c-authorship
 library.add(faCaretDown, faCaretRight, faHistory, faUserEdit);
 
-// v-segment
+// c-segment
 library.add(faPlusCircle, faChevronCircleUp, faChevronCircleDown);
