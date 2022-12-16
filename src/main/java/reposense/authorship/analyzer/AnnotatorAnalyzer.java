@@ -1,5 +1,7 @@
 package reposense.authorship.analyzer;
 
+import static java.util.Objects.requireNonNull;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -20,6 +22,10 @@ import reposense.model.AuthorConfiguration;
  * unknown author.
  */
 public class AnnotatorAnalyzer {
+    public static final Pattern[] COMMENT_PATTERNS_GENERIC = new Pattern[5];
+
+    public static final Pattern[] COMMENT_PATTERNS_MARKDOWN = new Pattern[3];
+
     private static final String AUTHOR_TAG = "@@author";
     // GitHub username format
     private static final String REGEX_AUTHOR_NAME_FORMAT = "^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$";
@@ -90,6 +96,7 @@ public class AnnotatorAnalyzer {
      *
      * @param line         Line to be analyzed.
      * @param authorConfig AuthorConfiguration for the analysis of this repo.
+     * @param isMarkdownFileType Boolean that signifies if the file is a Markdown file
      * @return Optional {@code Author} found in the line.
      */
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
@@ -106,6 +113,7 @@ public class AnnotatorAnalyzer {
      * Extracts the {@link Author} name that follows the specific format from {@code line} at {@code formatIndex}.
      *
      * @param line Line to extract the author's name from.
+     * @param isMarkdownFileType Boolean that signifies if the file is a Markdown file
      * @return An optional string containing the author's name.
      */
     public static Optional<String> extractAuthorName(String line, boolean isMarkdownFileType) {
@@ -138,7 +146,8 @@ public class AnnotatorAnalyzer {
     }
 
     /**
-     * Returns the index in {@code COMMENT_FORMATS} representing the type of comment the @@author tag line is.
+     * Returns the index in the default {@code COMMENT_FORMATS} representing the type of comment the @@author tag line
+     * is.
      *
      * @param line The line to be checked
      * @return The index of the comment syntax type if the comment pattern matches, -1 if no match could be found
