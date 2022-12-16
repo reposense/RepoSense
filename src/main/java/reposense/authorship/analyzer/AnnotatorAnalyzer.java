@@ -68,6 +68,7 @@ public class AnnotatorAnalyzer {
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
         Optional<Author> currentAnnotatedAuthor = Optional.empty();
         Path filePath = Paths.get(fileInfo.getPath());
+        boolean isMarkdownFileType = fileInfo.verifyFileExtension("md") || fileInfo.verifyFileExtension("markdown");
         for (LineInfo lineInfo : fileInfo.getLines()) {
             String lineContent = lineInfo.getContent();
             if (lineContent.contains(AUTHOR_TAG) && isValidCommentLine(lineContent, isMarkdownFileType)) {
