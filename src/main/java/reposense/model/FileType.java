@@ -22,7 +22,7 @@ public class FileType {
     private static final String MESSAGE_ILLEGAL_FILE_FORMAT = "The provided file format, %s, contains illegal "
             + "characters.";
 
-    private String label;
+    private final String label;
     private List<String> paths;
     private PathMatcher pathsGlob;
 
@@ -83,6 +83,10 @@ public class FileType {
     private void setPathsGlobMatcher(List<String> filePaths) {
         String globString = "glob:{" + String.join(",", filePaths) + "}";
         this.pathsGlob = FileSystems.getDefault().getPathMatcher(globString);
+    }
+
+    public boolean isFileTypeLabelMatching(String labelToTest) {
+        return this.label.equals(labelToTest);
     }
 
     @Override

@@ -26,26 +26,37 @@ public class AnnotatorAnalyzer {
     private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
     private static final String REGEX_AUTHOR_TAG_FORMAT = "@@author(\\s+[^\\s]+)?";
 
-    private static final String[][] COMMENT_FORMATS = {
+    private static final String[] COMMON_COMMENT_FORMAT = {"<!--", "-->"};
+
+    private static final String[][] COMMENT_FORMATS_GENERIC = {
             {"//", "\\s"},
             {"/\\*", "\\*/"},
             {"#", "\\s"},
-            {"<!--", "-->"},
+            COMMON_COMMENT_FORMAT,
             {"%", "\\s"},
     };
 
-    private static final Pattern[] COMMENT_PATTERNS = {
-            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[0][0], COMMENT_FORMATS[0][1])),
-            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[1][0], COMMENT_FORMATS[1][1])),
-            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[2][0], COMMENT_FORMATS[2][1])),
-            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[3][0], COMMENT_FORMATS[3][1])),
-            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[4][0], COMMENT_FORMATS[4][1]))
+    private static final String[][] COMMENT_FORMATS_MARKDOWN = {
+            {"\\[.*]:\\s*#\\s*\\(", "\\)"},
+            COMMON_COMMENT_FORMAT,
+            {"<!---", "--->"}
     };
+
+    static {
+        for (int i = 0; i < COMMENT_FORMATS_GENERIC.length; i++) {
+            COMMENT_PATTERNS_GENERIC[i] = Pattern.compile(generateCommentRegex(COMMENT_FORMATS_GENERIC[i][0],
+                    COMMENT_FORMATS_GENERIC[i][1]));
+        }
+        for (int i = 0; i < COMMENT_FORMATS_MARKDOWN.length; i++) {
+            COMMENT_PATTERNS_MARKDOWN[i] = Pattern.compile(generateCommentRegex(COMMENT_FORMATS_MARKDOWN[i][0],
+                    COMMENT_FORMATS_MARKDOWN[i][1]));
+        }
+    }
 
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
      *
-     * @param fileInfo FileInfo to be further analyzed with author annotations.
+     * @param fileInfo     FileInfo to be further analyzed with author annotations.
      * @param authorConfig AuthorConfiguration for current analysis.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
@@ -53,8 +64,8 @@ public class AnnotatorAnalyzer {
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
             String lineContent = lineInfo.getContent();
-            if (lineContent.contains(AUTHOR_TAG) && isValidCommentLine(lineContent)) {
-                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig);
+            if (lineContent.contains(AUTHOR_TAG) && isValidCommentLine(lineContent, isMarkdownFileType)) {
+                Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig, isMarkdownFileType);
                 boolean isEndOfAnnotatedSegment = currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
                 boolean isUnknownAuthorSegment = !currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
 
@@ -77,12 +88,13 @@ public class AnnotatorAnalyzer {
      * {@code authorConfig} and returns it. If an author config file is specified and the
      * author name found is not in it, then it returns {@code Author#UNKNOWN_AUTHOR} instead.
      *
-     * @param line Line to be analyzed.
+     * @param line         Line to be analyzed.
      * @param authorConfig AuthorConfiguration for the analysis of this repo.
      * @return Optional {@code Author} found in the line.
      */
-    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig) {
-        Optional<String> optionalName = extractAuthorName(line);
+    private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig,
+                                                     boolean isMarkdownFileType) {
+        Optional<String> optionalName = extractAuthorName(line, isMarkdownFileType);
 
         optionalName.filter(name -> !authorConfig.containsName(name) && !AuthorConfiguration.hasAuthorConfigFile())
                 .ifPresent(name -> authorConfig.addAuthor(new Author(name)));
@@ -96,17 +108,25 @@ public class AnnotatorAnalyzer {
      * @param line Line to extract the author's name from.
      * @return An optional string containing the author's name.
      */
-    public static Optional<String> extractAuthorName(String line) {
+    public static Optional<String> extractAuthorName(String line, boolean isMarkdownFileType) {
         return Optional.of(line)
                 // gets component after AUTHOR_TAG
                 .map(l -> l.split(AUTHOR_TAG))
                 .filter(array -> array.length >= 2)
                 // separates by end-comment format to obtain the author's name at the zeroth index
-                .map(array -> array[1].trim().split(COMMENT_FORMATS[getCommentTypeIndex(line)][1]))
+                .map(array -> array[1].trim().split(getClosingCommentTag(line, isMarkdownFileType)))
                 .filter(array -> array.length > 0)
                 .map(array -> array[0].trim())
                 // checks if the author name is valid
                 .filter(trimmedParameters -> PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters).find());
+    }
+
+    /**
+     * Returns the closing comment tag to split the {@code line} by.
+     */
+    private static String getClosingCommentTag(String line, boolean isMarkdownFileType) {
+        return isMarkdownFileType ? COMMENT_FORMATS_MARKDOWN[getCommentTypeIndex(line, COMMENT_PATTERNS_MARKDOWN)][1]
+                : COMMENT_FORMATS_GENERIC[getCommentTypeIndex(line, COMMENT_PATTERNS_GENERIC)][1];
     }
 
     /**
@@ -124,8 +144,21 @@ public class AnnotatorAnalyzer {
      * @return The index of the comment syntax type if the comment pattern matches, -1 if no match could be found
      */
     public static int getCommentTypeIndex(String line) {
-        for (int i = 0; i < COMMENT_PATTERNS.length; i++) {
-            Pattern commentPattern = COMMENT_PATTERNS[i];
+        return getCommentTypeIndex(line, COMMENT_PATTERNS_GENERIC);
+    }
+
+    /**
+     * Returns the index in the Markdown {@code COMMENT_FORMATS} representing the type of comment the @@author tag line
+     * is.
+     *
+     * @param line The line to be checked
+     * @param commentPatterns The comment patterns to check against
+     * @return The index of the comment syntax type if the comment pattern matches, -1 if no match could be found
+     */
+    public static int getCommentTypeIndex(String line, Pattern[] commentPatterns) {
+        requireNonNull(commentPatterns);
+        for (int i = 0; i < commentPatterns.length; i++) {
+            Pattern commentPattern = commentPatterns[i];
             Matcher matcher = commentPattern.matcher(line);
             if (matcher.find()) {
                 return i;
@@ -140,7 +173,8 @@ public class AnnotatorAnalyzer {
      * @param line Line to be checked.
      * @return True if line is a valid comment line.
      */
-    private static boolean isValidCommentLine(String line) {
-        return getCommentTypeIndex(line) >= 0;
+    private static boolean isValidCommentLine(String line, boolean isMarkdownFileType) {
+        return isMarkdownFileType ? getCommentTypeIndex(line, COMMENT_PATTERNS_MARKDOWN) >= 0
+                : getCommentTypeIndex(line, COMMENT_PATTERNS_GENERIC) >= 0;
     }
 }

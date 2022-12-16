@@ -32,14 +32,21 @@ The `@@author` tags should be enclosed within a comment, using the comment synta
 
 ![author tags](../images/add-author-tags.png)
 
-Currently, the following comment formats are supported:
+Currently, the following comment formats are supported for all files except Markdown files:
 <ul>
     <li>// @@author authorName</li>
     <li>/* @@author authorName */</li>
     <li>/* @@author authorName</li>
     <li># @@author authorName</li>
     <li>&lt!-- @@author authorName --&gt</li>
-    <li>% @@author authorName</li>  
+    <li>% @@author authorName</li>
+</ul>
+
+The following formats are supported for Markdown files:
+<ul>
+    <li>&lt!-- @@author authorName --&gt</li>
+    <li>&lt!--- @@author authorName ---&gt</li>
+    <li>[//]: # (@@author authorName)</li>
 </ul>
 
 <box type="info" seamless>

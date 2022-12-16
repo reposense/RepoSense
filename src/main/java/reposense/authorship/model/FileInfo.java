@@ -85,6 +85,10 @@ public class FileInfo {
         return exceedsFileLimit;
     }
 
+    public boolean verifyFileExtension(String fileExtension) {
+        return this.fileType.isFileTypeLabelMatching(fileExtension);
+    }
+
     public void setExceedsSizeLimit(boolean exceedsFileLimit) {
         this.exceedsFileLimit = exceedsFileLimit;
     }
