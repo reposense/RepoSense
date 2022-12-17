@@ -39,7 +39,17 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 export default {
   mixins: [brokenLinkDisabler],
   name: 'c-ramp',
-  props: ['groupby', 'user', 'tframe', 'avgsize', 'sdate', 'udate', 'mergegroup', 'fromramp', 'filtersearch'],
+  props: {
+    groupby: String,
+    user: Object,
+    tframe: String,
+    avgsize: [Number, String],
+    sdate: String,
+    udate: String,
+    mergegroup: Boolean,
+    fromramp: Boolean,
+    filtersearch: String,
+  },
   data() {
     return {
       rampSize: 0.01,

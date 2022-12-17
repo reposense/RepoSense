@@ -193,9 +193,21 @@ export default {
   components: {
     cRamp,
   },
-  props: ['checkedFileTypes', 'filtered', 'avgContributionSize', 'filterBreakdown',
-      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
-      'minDate', 'maxDate', 'filterSearch', 'sortGroupSelection'],
+  props: {
+    checkedFileTypes: Array,
+    filtered: Array,
+    avgContributionSize: Number,
+    filterBreakdown: Boolean,
+    filterGroupSelection: String,
+    filterTimeFrame: String,
+    filterSinceDate: String,
+    filterUntilDate: String,
+    isMergeGroup: Boolean,
+    minDate: String,
+    maxDate: String,
+    filterSearch: String,
+    sortGroupSelection: String,
+  },
   data() {
     return {
       drags: [],

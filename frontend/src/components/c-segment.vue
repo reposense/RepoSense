@@ -27,7 +27,10 @@
 <script>
 export default {
   name: 'c-segment',
-  props: ['segment', 'path'],
+  props: {
+    segment: Object,
+    path: String,
+  },
   data() {
     return {
       isOpen: this.segment.authored || this.segment.lines.length < 5,
