@@ -100,7 +100,7 @@
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
-      .file
+      .file(:ref="file.path")
         .title
           span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(v-show="file.active")
@@ -381,8 +381,13 @@ export default {
     },
 
     toggleFileActiveProperty(file) {
+      this.scrollFileIntoView(file);
       file.active = !file.active;
       file.wasCodeLoaded = file.wasCodeLoaded || file.active;
+    },
+
+    scrollFileIntoView(file) {
+      this.$refs[file.path][0].scrollIntoView(true);
     },
 
     isUnknownAuthor(name) {
