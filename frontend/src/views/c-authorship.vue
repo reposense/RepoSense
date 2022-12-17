@@ -839,6 +839,8 @@ export default {
       font-size: medium;
       margin-top: 1rem;
       padding: .3em .5em;
+      position: sticky;
+      top: 0;
       white-space: pre-wrap;
       word-break: break-all;
 
