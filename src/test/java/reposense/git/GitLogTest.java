@@ -146,13 +146,13 @@ public class GitLogTest extends GitTestTemplate {
     @Test
     public void gitLog_sinceDateInFuture_noContent() {
         LocalDateTime date = TimeUtil.getSinceDate(
-                LocalDateTime.of(2050, Month.JANUARY,1, 0, 0));
+                LocalDateTime.of(2050, Month.JANUARY, 1, 0, 0));
         config.setSinceDate(date);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assertions.assertTrue(content.isEmpty());
 
         date = TimeUtil.getSinceDate(
-                LocalDateTime.of(2100, Month.JANUARY,1, 0, 0));
+                LocalDateTime.of(2100, Month.JANUARY, 1, 0, 0));
         config.setSinceDate(date);
         content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assertions.assertTrue(content.isEmpty());
@@ -161,14 +161,14 @@ public class GitLogTest extends GitTestTemplate {
     @Test
     public void gitLog_untilDateBeforeAnyCommit_noContent() {
         LocalDateTime date = TimeUtil.getUntilDate(
-                LocalDateTime.of(2010, Month.JANUARY,1, 0, 0));
+                LocalDateTime.of(2010, Month.JANUARY, 1, 0, 0));
         config.setUntilDate(date);
         config.setSinceDate(null);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assertions.assertTrue(content.isEmpty());
 
         date = TimeUtil.getUntilDate(
-                LocalDateTime.of(1970, Month.JANUARY,1, 0, 0));
+                LocalDateTime.of(1970, Month.JANUARY, 1, 0, 0));
         config.setUntilDate(date);
         config.setSinceDate(null);
         content = GitLog.get(config, getAlphaAllAliasAuthor());
