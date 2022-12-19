@@ -85,15 +85,15 @@
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
             span(
-              v-bind:title="binaryFilesCount + \
-              ' binary files (not included in total line count)'"
+              v-bind:title="`${binaryFilesCount} \
+              binary files (not included in total line count)`"
             )
               span {{ binaryFilesCount }} binary file(s)
           label.ignored-fileType(v-if="ignoredFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isIgnoredChecked")
             span(
-              v-bind:title="ignoredFilesCount + \
-              ' ignored files (included in total line count)'"
+              v-bind:title="`${ignoredFilesCount} \
+              ignored files (included in total line count)`"
             )
               span {{ ignoredFilesCount }} ignored file(s)
 
