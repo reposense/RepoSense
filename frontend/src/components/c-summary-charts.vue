@@ -194,19 +194,58 @@ export default {
     cRamp,
   },
   props: {
-    checkedFileTypes: Array,
-    filtered: Array,
-    avgContributionSize: Number,
-    filterBreakdown: Boolean,
-    filterGroupSelection: String,
-    filterTimeFrame: String,
-    filterSinceDate: String,
-    filterUntilDate: String,
-    isMergeGroup: Boolean,
-    minDate: String,
-    maxDate: String,
-    filterSearch: String,
-    sortGroupSelection: String,
+    checkedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    filtered: {
+      type: Array,
+      required: true,
+    },
+    avgContributionSize: {
+      type: Number,
+      required: true,
+    },
+    filterBreakdown: {
+      type: Boolean,
+      default: false,
+    },
+    filterGroupSelection: {
+      type: String,
+      default: 'groupByRepos',
+    },
+    filterTimeFrame: {
+      type: String,
+      default: 'commit',
+    },
+    filterSinceDate: {
+      type: String,
+      required: true,
+    },
+    filterUntilDate: {
+      type: String,
+      required: true,
+    },
+    isMergeGroup: {
+      type: Boolean,
+      default: false,
+    },
+    minDate: {
+      type: String,
+      required: true,
+    },
+    maxDate: {
+      type: String,
+      required: true,
+    },
+    filterSearch: {
+      type: String,
+      default: '',
+    },
+    sortGroupSelection: {
+      type: String,
+      default: 'groupTitle',
+    },
   },
   data() {
     return {

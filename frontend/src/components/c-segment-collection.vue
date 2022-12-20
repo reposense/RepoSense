@@ -13,8 +13,14 @@ export default {
     cSegment,
   },
   props: {
-    segments: Array,
-    path: String,
+    segments: {
+      type: Array,
+      required: true,
+    },
+    path: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {

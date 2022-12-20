@@ -28,8 +28,14 @@
 export default {
   name: 'c-segment',
   props: {
-    segment: Object,
-    path: String,
+    segment: {
+      type: Object,
+      required: true,
+    },
+    path: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {

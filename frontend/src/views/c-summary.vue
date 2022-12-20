@@ -143,8 +143,16 @@ export default {
     cSummaryCharts,
   },
   props: {
-    repos: Object,
-    errorMessages: Object,
+    repos: {
+      type: Object,
+      required: true,
+    },
+    errorMessages: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
   },
   data() {
     return {

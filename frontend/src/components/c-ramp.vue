@@ -40,15 +40,42 @@ export default {
   mixins: [brokenLinkDisabler],
   name: 'c-ramp',
   props: {
-    groupby: String,
-    user: Object,
-    tframe: String,
-    avgsize: [Number, String],
-    sdate: String,
-    udate: String,
-    mergegroup: Boolean,
-    fromramp: Boolean,
-    filtersearch: String,
+    groupby: {
+      type: String,
+      default: 'groupByRepos',
+    },
+    user: {
+      type: Object,
+      required: true,
+    },
+    tframe: {
+      type: String,
+      default: 'commit',
+    },
+    avgsize: {
+      type: [Number, String],
+      required: true,
+    },
+    sdate: {
+      type: String,
+      required: true,
+    },
+    udate: {
+      type: String,
+      required: true,
+    },
+    mergegroup: {
+      type: Boolean,
+      required: true,
+    },
+    fromramp: {
+      type: Boolean,
+      default: false,
+    },
+    filtersearch: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
