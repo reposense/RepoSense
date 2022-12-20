@@ -66,7 +66,7 @@ export default {
     },
     mergegroup: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     fromramp: {
       type: Boolean,
