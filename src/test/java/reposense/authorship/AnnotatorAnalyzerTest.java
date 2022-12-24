@@ -83,228 +83,250 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void extractAuthorName_matchGenericCommentPattern0_returnAuthorName() {
+    public void extractAuthorName_matchCommentPattern0_returnAuthorName() {
         int index = 0;
         String line;
         line = "//@@author fakeAuthor";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "// @@author fakeauthor  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  //  @@author   fake-4u-th0r  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
-    public void extractAuthorName_matchGenericCommentPattern1_returnAuthorName() {
+    public void extractAuthorName_matchCommentPattern1_returnAuthorName() {
         int index = 1;
         String line;
         line = "/*@@author fakeAuthor";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "/* @@author fakeauthor  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  /*  @@author   fake-4u-th0r  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "/*@@author fakeAuthor*/";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "/* @@author fakeauthor */";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  /*  @@author   fake-4u-th0r  */  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
-    public void extractAuthorName_matchGenericCommentPattern2_returnAuthorName() {
+    public void extractAuthorName_matchCommentPattern2_returnAuthorName() {
         int index = 2;
         String line;
         line = "#@@author fakeAuthor";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "# @@author fakeauthor  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  #  @@author   fake-4u-th0r  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
-    public void extractAuthorName_matchGenericCommentPattern3_returnAuthorName() {
+    public void extractAuthorName_matchCommentPattern3_returnAuthorName() {
         int index = 3;
         String line;
         line = "<!--@@author fakeAuthor";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "<!-- @@author fakeauthor  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  <!--  @@author   fake-4u-th0r  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "<!--@@author fakeAuthor-->";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "<!-- @@author fakeauthor -->";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  <!--  @@author   fake-4u-th0r  -->  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
-    public void extractAuthorName_matchGenericCommentPattern4_returnAuthorName() {
+    public void extractAuthorName_matchCommentPattern4_returnAuthorName() {
         int index = 4;
         String line;
         line = "%@@author fakeAuthor";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "% @@author fakeauthor  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  %  @@author   fake-4u-th0r  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, false).get());
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
-    public void extractAuthorName_matchMarkdownCommentPattern0_returnAuthorName() {
-        int index = 0;
+    public void extractAuthorName_matchMarkdownCommentPattern5_returnAuthorName() {
+        int index = 5;
         String line;
 
         line = "[//]:#(@@author fakeAuthor";
-        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, true).get());
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "[//]: # (@@author fakeAuthor";
-        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, true).get());
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "[//]: # (@@author fakeauthor   ";
-        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, true).get());
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "  [//]:   #   (@@author    fake-4u-th0r  ";
-        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, true).get());
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "[//]: # (@@author fakeAuthor)";
-        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line, true).get());
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "[//]: # (@@author fakeauthor   )";
-        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line, true).get());
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "   [//]:   #   (@@author fake-4u-th0r   )  ";
-        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, true).get());
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "   [fake inner text 123+%^&!@#$(`]:   #   (@@author fake-4u-th0r   )  ";
-        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, true).get());
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
 
         line = "   [    space   separated   inner   text   ]:   #   (  @@author fake-4u-th0r   )  ";
-        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line, true).get());
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
+    }
+
+
+    @Test
+    public void extractAuthorName_matchCommentPattern6_returnAuthorName() {
+        int index = 3;
+        String line;
+        line = "<!---@@author fakeAuthor";
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
+
+        line = "<!--- @@author fakeauthor  ";
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
+
+        line = "  <!---  @@author   fake-4u-th0r  ";
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
+
+        line = "<!---@@author fakeAuthor--->";
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fakeAuthor", AnnotatorAnalyzer.extractAuthorName(line).get());
+
+        line = "<!--- @@author fakeauthor --->";
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
+
+        line = "  <!---  @@author   fake-4u-th0r  --->  ";
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
     }
 
     @Test
-    public void extractAuthorName_noAuthorNameGeneric_returnNull() {
+    public void extractAuthorName_noAuthorName_returnNull() {
         String line;
 
         line = "//@@author";
         Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, false).isPresent());
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "/*@@author ";
         Assertions.assertEquals(1, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, false).isPresent());
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "/* @@author*/ ";
         Assertions.assertEquals(1, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, false).isPresent());
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "#@@author ";
         Assertions.assertEquals(2, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, false).isPresent());
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "  <!--@@author --> ";
         Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, false).isPresent());
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "% @@author ";
         Assertions.assertEquals(4, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, false).isPresent());
-    }
-
-    @Test
-    public void extractAuthorName_noAuthorNameMarkdown_returnNull() {
-        String line;
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "[//]: # (@@author)";
-        Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, true).isPresent());
+        Assertions.assertEquals(4, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
-        line = "[//]: # (@@author     )  ";
-        Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex(line,
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, true).isPresent());
+        line = "  <!---@@author ---> ";
+        Assertions.assertEquals(6, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
     }
 
     @Test
-    public void extractAuthorName_invalidAuthorNameGeneric_returnNull() {
+    public void extractAuthorName_invalidAuthorName_returnNull() {
         String line;
 
         line = "% @@author thisAuthorNameHasMoreThanThirtyNineLetters";
         Assertions.assertEquals(4, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, false).isPresent());
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "# @@author -invalidUsernameFormat";
         Assertions.assertEquals(2, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, false).isPresent());
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "/*@@author fakeAuthor-->";
         Assertions.assertEquals(1, AnnotatorAnalyzer.getCommentTypeIndex(line));
-        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line, false).isPresent());
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
+
+        line = "[//]: # (@@author)";
+        Assertions.assertEquals(5, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
+
+        line = "[//]: # (@@author     )  ";
+        Assertions.assertEquals(5, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
     }
 
     @Test
-    public void getCommentType_matchGenericCommentPattern0_success() {
+    public void getCommentType_matchCommentPattern0_success() {
         Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex("//@@author fakeAuthor"));
         Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex("// @@author fakeAuthor"));
         Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex("   // @@author fakeAuthor"));
@@ -312,7 +334,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void getCommentType_matchGenericCommentPattern1_success() {
+    public void getCommentType_matchCommentPattern1_success() {
         Assertions.assertEquals(1, AnnotatorAnalyzer.getCommentTypeIndex("/*@@author fakeAuthor"));
         Assertions.assertEquals(1, AnnotatorAnalyzer.getCommentTypeIndex("/* @@author fakeAuthor"));
         Assertions.assertEquals(1, AnnotatorAnalyzer.getCommentTypeIndex("   /* @@author fakeAuthor*/"));
@@ -320,7 +342,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void getCommentType_matchGenericCommentPattern2_success() {
+    public void getCommentType_matchCommentPattern2_success() {
         Assertions.assertEquals(2, AnnotatorAnalyzer.getCommentTypeIndex("#@@author fakeAuthor"));
         Assertions.assertEquals(2, AnnotatorAnalyzer.getCommentTypeIndex("# @@author fakeAuthor"));
         Assertions.assertEquals(2, AnnotatorAnalyzer.getCommentTypeIndex("   # @@author fakeAuthor"));
@@ -328,7 +350,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void getCommentType_matchGenericCommentPattern3_success() {
+    public void getCommentType_matchCommentPattern3_success() {
         Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("<!--@@author fakeAuthor"));
         Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("<!-- @@author fakeAuthor"));
         Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("   <!-- @@author fakeAuthor-->"));
@@ -336,7 +358,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void getCommentType_matchGenericCommentPattern4_success() {
+    public void getCommentType_matchCommentPattern4_success() {
         Assertions.assertEquals(4, AnnotatorAnalyzer.getCommentTypeIndex("%@@author fakeAuthor"));
         Assertions.assertEquals(4, AnnotatorAnalyzer.getCommentTypeIndex("% @@author fakeAuthor"));
         Assertions.assertEquals(4, AnnotatorAnalyzer.getCommentTypeIndex("   % @@author fakeAuthor"));
@@ -344,7 +366,23 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void getCommentType_invalidGenericCommentPattern_returnMinus1() {
+    public void getCommentType_matchCommentPattern5_success() {
+        Assertions.assertEquals(5, AnnotatorAnalyzer.getCommentTypeIndex("[//]:#(@@author fakeAuthor)"));
+        Assertions.assertEquals(5, AnnotatorAnalyzer.getCommentTypeIndex("[//]: # (@@author fakeAuthor)"));
+        Assertions.assertEquals(5, AnnotatorAnalyzer.getCommentTypeIndex("   [//]:  #  (@@author fakeAuthor)  "));
+        Assertions.assertEquals(5, AnnotatorAnalyzer.getCommentTypeIndex("   [//]:  #  (  @@author   fakeAuthor  )  "));
+    }
+
+    @Test
+    public void getCommentType_matchCommentPattern6_success() {
+        Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("<!---@@author fakeAuthor"));
+        Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("<!--- @@author fakeAuthor"));
+        Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("   <!--- @@author fakeAuthor--->"));
+        Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("   <!---  @@author  fakeAuthor  --->  "));
+    }
+
+    @Test
+    public void getCommentType_invalidCommentPattern_returnMinus1() {
         Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("// @@author fakeAuthor //"));
         Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("@@author fakeAuthor"));
         Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("/@@author fakeAuthor"));
@@ -356,36 +394,15 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
-    public void getCommentType_matchMarkdownCommentPattern0_success() {
-        Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex("[//]:#(@@author fakeAuthor)",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex("[//]: # (@@author fakeAuthor)",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex("   [//]:  #  (@@author fakeAuthor)  ",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(0, AnnotatorAnalyzer.getCommentTypeIndex("   [//]:  #  (  @@author   fakeAuthor  )  ",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-    }
-
-    @Test
     public void getCommentType_invalidMarkdownCommentPattern_returnMinus1() {
-        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("// @@author fakeAuthor //",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("@@author fakeAuthor",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("/@@author fakeAuthor",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("@@author fakeAuthor */",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("# something @@author fakeAuthor",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("something % @@author fakeAuthor",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("# @@author fakeAuthor something",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("<!--@@authorfakeAuthor-->",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
-        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("[//]: # (@@authorfakeAuthor)",
-                AnnotatorAnalyzer.COMMENT_PATTERNS_MARKDOWN));
+        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("// @@author fakeAuthor //"));
+        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("@@author fakeAuthor"));
+        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("/@@author fakeAuthor"));
+        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("@@author fakeAuthor */"));
+        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("# something @@author fakeAuthor"));
+        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("something % @@author fakeAuthor"));
+        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("# @@author fakeAuthor something"));
+        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("<!--@@authorfakeAuthor-->"));
+        Assertions.assertEquals(-1, AnnotatorAnalyzer.getCommentTypeIndex("[//]: # (@@authorfakeAuthor)"));
     }
 }
