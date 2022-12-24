@@ -8,13 +8,13 @@
           v-on:click="rampClick",
           v-bind:href="getLink(commit)", target="_blank",
           v-bind:title="getContributionMessage(slice, commit)",
-          v-bind:class="'ramp__slice--color' + getSliceColor(slice.date),\
+          v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`,\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
           v-bind:style="{\
             zIndex: user.commits.length - j,\
-            borderLeftWidth: getWidth(commit) + 'em',\
-            right: ((getSlicePos(slice.date)\
-              + (getCommitPos(k, slice.commitResults.length))) * 100) + '%'\
+            borderLeftWidth: `${getWidth(commit)}em`,\
+            right: `${((getSlicePos(slice.date)\
+              + (getCommitPos(k, slice.commitResults.length))) * 100)}%`\
             }"
         )
 
@@ -24,11 +24,11 @@
       v-for="(slice, j) in user.commits.filter(commit => commit.insertions > 0)",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
+      v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`",
       v-bind:style="{\
         zIndex: user.commits.length - j,\
-        borderLeftWidth: getWidth(slice) + 'em',\
-        right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%' \
+        borderLeftWidth: `${getWidth(slice)}em`,\
+        right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
         }"
     )
 </template>
