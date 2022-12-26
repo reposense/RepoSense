@@ -236,7 +236,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void extractAuthorName_matchCommentPattern6_returnAuthorName() {
-        int index = 3;
+        int index = 6;
         String line;
         line = "<!---@@author fakeAuthor";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
@@ -292,7 +292,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "[//]: # (@@author)";
-        Assertions.assertEquals(4, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals(5, AnnotatorAnalyzer.getCommentTypeIndex(line));
         Assertions.assertFalse(AnnotatorAnalyzer.extractAuthorName(line).isPresent());
 
         line = "  <!---@@author ---> ";
@@ -375,10 +375,10 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void getCommentType_matchCommentPattern6_success() {
-        Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("<!---@@author fakeAuthor"));
-        Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("<!--- @@author fakeAuthor"));
-        Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("   <!--- @@author fakeAuthor--->"));
-        Assertions.assertEquals(3, AnnotatorAnalyzer.getCommentTypeIndex("   <!---  @@author  fakeAuthor  --->  "));
+        Assertions.assertEquals(6, AnnotatorAnalyzer.getCommentTypeIndex("<!---@@author fakeAuthor"));
+        Assertions.assertEquals(6, AnnotatorAnalyzer.getCommentTypeIndex("<!--- @@author fakeAuthor"));
+        Assertions.assertEquals(6, AnnotatorAnalyzer.getCommentTypeIndex("   <!--- @@author fakeAuthor--->"));
+        Assertions.assertEquals(6, AnnotatorAnalyzer.getCommentTypeIndex("   <!---  @@author  fakeAuthor  --->  "));
     }
 
     @Test
