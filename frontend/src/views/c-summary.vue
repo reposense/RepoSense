@@ -305,7 +305,7 @@ export default {
     },
 
     getReportIssueTitle() {
-      return encodeURI('Unexpected error with RepoSense version ') + window.repoSenseVersion;
+      return `${encodeURI('Unexpected error with RepoSense version ')}${window.repoSenseVersion}`;
     },
 
     getReportIssueMessage(message) {

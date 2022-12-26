@@ -14,8 +14,8 @@
     )
   div(v-if="isOpen", v-hljs="path")
     .code(v-for="(line, index) in segment.lines", v-bind:key="index")
-      .line-number {{ segment.lineNumbers[index] + "\n" }}
-      .line-content {{ line + "\n" }}
+      .line-number {{ `${segment.lineNumbers[index]}\n` }}
+      .line-content {{ `${line}\n` }}
   .closer.bottom(v-if="canOpen", v-on:click="toggleCode")
     font-awesome-icon.icon(
       v-show="isOpen",
