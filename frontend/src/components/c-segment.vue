@@ -25,11 +25,13 @@
 </template>
 
 <script>
+import Segment from '../utils/segment';
+
 export default {
   name: 'c-segment',
   props: {
     segment: {
-      type: Object,
+      type: Segment,
       required: true,
     },
     path: {

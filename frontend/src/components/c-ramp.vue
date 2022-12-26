@@ -35,6 +35,7 @@
 
 <script>
 import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
+import User from '../utils/user';
 
 export default {
   mixins: [brokenLinkDisabler],
@@ -45,7 +46,7 @@ export default {
       default: 'groupByRepos',
     },
     user: {
-      type: Object,
+      type: User,
       required: true,
     },
     tframe: {

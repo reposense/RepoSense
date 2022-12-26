@@ -144,7 +144,7 @@ export default {
   },
   props: {
     repos: {
-      type: Object,
+      type: Array,
       required: true,
     },
     errorMessages: {
