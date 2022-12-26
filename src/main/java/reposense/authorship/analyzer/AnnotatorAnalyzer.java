@@ -49,7 +49,7 @@ public class AnnotatorAnalyzer {
     /**
      * Overrides the authorship information in {@code fileInfo} based on annotations given on the file.
      *
-     * @param fileInfo     FileInfo to be further analyzed with author annotations.
+     * @param fileInfo FileInfo to be further analyzed with author annotations.
      * @param authorConfig AuthorConfiguration for current analysis.
      */
     public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
@@ -81,7 +81,7 @@ public class AnnotatorAnalyzer {
      * {@code authorConfig} and returns it. If an author config file is specified and the
      * author name found is not in it, then it returns {@code Author#UNKNOWN_AUTHOR} instead.
      *
-     * @param line         Line to be analyzed.
+     * @param line Line to be analyzed.
      * @param authorConfig AuthorConfiguration for the analysis of this repo.
      * @return Optional {@code Author} found in the line.
      */
