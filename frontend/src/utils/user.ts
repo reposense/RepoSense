@@ -1,27 +1,27 @@
 export default class User {
-  checkedFileTypeContribution;
+  checkedFileTypeContribution : number;
 
-  commits;
+  commits: Array<object>;
 
-  dailyCommits;
+  dailyCommits: Array<object>;
 
-  displayName;
+  displayName: string;
 
-  fileTypeContribution;
+  fileTypeContribution: object;
 
-  location;
+  location: string;
 
-  name;
+  name: string;
 
-  repoId;
+  repoId: string;
 
-  repoName;
+  repoName: string;
 
-  searchPath;
+  searchPath: string;
 
-  variance;
+  variance: number;
 
-  constructor(userObj) {
+  constructor(userObj: User) {
     this.checkedFileTypeContribution = userObj.checkedFileTypeContribution || 0;
     this.commits = userObj.commits || [];
     this.dailyCommits = userObj.dailyCommits || [];
