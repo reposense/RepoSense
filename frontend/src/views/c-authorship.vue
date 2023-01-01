@@ -100,7 +100,7 @@
   .files(v-if="isLoaded")
     .empty(v-if="files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
-      .file(:ref="file.path")
+      .file(v-bind:ref="file.path")
         .title
           span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(v-show="file.active")
