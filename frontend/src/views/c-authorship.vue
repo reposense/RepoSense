@@ -327,7 +327,7 @@ export default {
       if (!files) {
         files = await window.api.loadAuthorship(this.info.repo);
       }
-      this.getRepoProps(repo);
+
       this.processFiles(files);
 
       if (this.info.isRefresh) {
@@ -337,34 +337,6 @@ export default {
       }
 
       this.setInfoHash();
-    },
-
-    getRepoProps(repo) {
-      if (repo) {
-        let files = [];
-        if (this.info.isMergeGroup) {
-          files = repo.files;
-        } else {
-          const author = repo.users.find((user) => user.name === this.info.author);
-          if (author) {
-            this.authorDisplayName = author.displayName;
-            files = repo.files.filter((f) => !!f.authorContributionMap[author.name]);
-          }
-        }
-        this.updateTotalFileTypeContribution(files);
-      }
-    },
-
-    updateTotalFileTypeContribution(files) {
-      files.filter((f) => !f.isIgnored).forEach((f) => {
-        const lines = f.lines ? f.lines.length : 0;
-        const type = f.fileType;
-        if (this.filesLinesObj[type]) {
-          this.filesLinesObj[type] += lines;
-        } else {
-          this.filesLinesObj[type] = lines;
-        }
-      });
     },
 
     expandAll() {
@@ -464,6 +436,12 @@ export default {
         out.fileSize = file.fileSize;
         out.isIgnored = !!file.isIgnored;
         out.isBinary = !!file.isBinary;
+
+        if (this.filesLinesObj[out.fileType]) {
+          this.filesLinesObj[out.fileType] += lineCnt;
+        } else {
+          this.filesLinesObj[out.fileType] = lineCnt;
+        }
 
         if (!out.isBinary && !out.isIgnored) {
           out.charCount = file.lines.reduce(
