@@ -328,6 +328,11 @@ export default {
         files = await window.api.loadAuthorship(this.info.repo);
       }
 
+      const author = repo.users.find((user) => user.name === this.info.author);
+      if (author) {
+        this.authorDisplayName = author.displayName;
+      }
+
       this.processFiles(files);
 
       if (this.info.isRefresh) {
