@@ -60,7 +60,7 @@ class GitUtil {
      * Returns the {@code String} command to specify the {@code author} to analyze for `git log` command.
      */
     static String convertToFilterAuthorArgs(Author author) {
-        StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --extended-regexp --author=\"");
+        StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
 
         // git author names and emails may contain regex meta-characters, so we need to escape those
         author.getAuthorAliases().stream()
