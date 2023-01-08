@@ -58,6 +58,7 @@ class GitUtil {
 
     /**
      * Returns the {@code String} command to specify the {@code author} to analyze for `git log` command.
+     * The regex type used is extended regex, which corresponds to the `--extended-regexp` flag in `git log`.
      */
     static String convertToFilterAuthorArgs(Author author) {
         StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
