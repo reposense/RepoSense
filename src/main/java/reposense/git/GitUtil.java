@@ -33,9 +33,9 @@ class GitUtil {
     private static final String AUTHOR_NAME_PATTERN = "^%s <.*>$";
 
     // ignore check against author name
-    private static final String AUTHOR_EMAIL_PATTERN = "^.* <\\(.*+\\)\\?%s>$";
+    private static final String AUTHOR_EMAIL_PATTERN = "^.* <(.*\\+)?%s>$";
 
-    private static final String OR_OPERATOR_PATTERN = "\\|";
+    private static final String OR_OPERATOR_PATTERN = "|";
 
     /**
      * Returns the {@code String} command to specify the date range of commits to analyze for `git` commands.
@@ -60,7 +60,7 @@ class GitUtil {
      * Returns the {@code String} command to specify the {@code author} to analyze for `git log` command.
      */
     static String convertToFilterAuthorArgs(Author author) {
-        StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --author=\"");
+        StringBuilder filterAuthorArgsBuilder = new StringBuilder(" --extended-regexp --author=\"");
 
         // git author names and emails may contain regex meta-characters, so we need to escape those
         author.getAuthorAliases().stream()
