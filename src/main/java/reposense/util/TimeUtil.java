@@ -28,12 +28,14 @@ public class TimeUtil {
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
             "\"Since Date\" must not be later than today's date.";
 
-    private static final String MESSAGE_SINCE_DATE_EARLIER_THAN_EARLIEST_VALID_DATE =
-            "\"Since Date\" of %s must not be earlier than %s, resetting it to earliest valid date";
-    private static final String MESSAGE_UNTIL_DATE_LATER_THAN_LATEST_VALID_DATE =
-            "\"Until Date\" of %s must not be later than %s, resetting it to latest valid date";
     private static final String EARLIEST_VALID_DATE = "1970-01-01T00:00:00";
     private static final String LATEST_VALID_DATE = "2099-12-31T23:59:59";
+    private static final String MESSAGE_SINCE_DATE_EARLIER_THAN_EARLIEST_VALID_DATE =
+            "Date of %s must not be earlier than "
+            + String.format("%s, resetting it to earliest valid date", EARLIEST_VALID_DATE);
+    private static final String MESSAGE_UNTIL_DATE_LATER_THAN_LATEST_VALID_DATE =
+            "Date of %s must not be later than "
+            + String.format("%s, resetting it to latest valid date", LATEST_VALID_DATE);
 
     private static final Logger logger = LogsManager.getLogger(TimeUtil.class);
 
@@ -95,14 +97,12 @@ public class TimeUtil {
      */
     public static LocalDateTime getValidDate(LocalDateTime date) {
         if (date.isBefore(LocalDateTime.parse(EARLIEST_VALID_DATE))) {
-            logger.warning(String.format(MESSAGE_SINCE_DATE_EARLIER_THAN_EARLIEST_VALID_DATE,
-                    date, EARLIEST_VALID_DATE));
+            logger.warning(String.format(MESSAGE_SINCE_DATE_EARLIER_THAN_EARLIEST_VALID_DATE, date));
             return LocalDateTime.parse(EARLIEST_VALID_DATE);
         }
 
         if (date.isAfter(LocalDateTime.parse(LATEST_VALID_DATE))) {
-            logger.warning(String.format(MESSAGE_UNTIL_DATE_LATER_THAN_LATEST_VALID_DATE,
-                    date, LATEST_VALID_DATE));
+            logger.warning(String.format(MESSAGE_UNTIL_DATE_LATER_THAN_LATEST_VALID_DATE, date));
             return LocalDateTime.parse(LATEST_VALID_DATE);
         }
         return date;
