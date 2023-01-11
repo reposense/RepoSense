@@ -30,7 +30,7 @@ public class GitLog {
     public static String get(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
-        String command = "git log --no-merges -i ";
+        String command = "git log --no-merges -i --extended-regexp ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(), config.getZoneId());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
@@ -47,7 +47,7 @@ public class GitLog {
     public static String getWithFiles(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
-        String command = "git log --no-merges -i ";
+        String command = "git log --no-merges -i --extended-regexp ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(), config.getZoneId());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --numstat --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
