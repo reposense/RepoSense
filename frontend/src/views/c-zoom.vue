@@ -153,11 +153,11 @@ function zoomInitialState() {
 
 export default {
   name: 'c-zoom',
-  mixins: [brokenLinkDisabler],
   components: {
     FontAwesomeIcon,
     cRamp,
   },
+  mixins: [brokenLinkDisabler],
   data() {
     return {
       expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
@@ -263,6 +263,14 @@ export default {
       window.addHash('zRSC', this.toReverseSortedCommits);
       window.encodeHash();
     },
+  },
+  created() {
+    this.initiate();
+    this.retrieveHashes();
+    this.setInfoHash();
+  },
+  beforeUnmount() {
+    this.removeZoomHashes();
   },
 
   methods: {
@@ -399,14 +407,6 @@ export default {
     },
 
     getFontColor,
-  },
-  created() {
-    this.initiate();
-    this.retrieveHashes();
-    this.setInfoHash();
-  },
-  beforeUnmount() {
-    this.removeZoomHashes();
   },
 };
 

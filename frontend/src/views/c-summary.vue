@@ -170,38 +170,6 @@ export default {
       filterGroupSelectionWatcherFlag: false,
     };
   },
-  watch: {
-
-    filterGroupSelection() {
-      // Deactivates watcher
-      if (!this.filterGroupSelectionWatcherFlag) {
-        return;
-      }
-      const { allGroupsMerged } = this;
-
-      this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1).then(() => {
-        this.getFilteredRepos();
-        this.updateMergedGroup(allGroupsMerged);
-        this.$store.commit('incrementLoadingOverlayCount', -1);
-      });
-    },
-
-    '$store.state.summaryDates': function () {
-      this.hasModifiedSinceDate = true;
-      this.hasModifiedUntilDate = true;
-      this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
-      this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
-      window.deactivateAllOverlays();
-      this.getFiltered();
-    },
-
-    mergedGroups: {
-      deep: true,
-      handler() {
-        this.getFiltered();
-      },
-    },
-  },
   computed: {
     checkAllFileTypes: {
       get() {
@@ -272,6 +240,54 @@ export default {
     },
 
     ...mapState(['mergedGroups']),
+  },
+  watch: {
+
+    filterGroupSelection() {
+      // Deactivates watcher
+      if (!this.filterGroupSelectionWatcherFlag) {
+        return;
+      }
+      const { allGroupsMerged } = this;
+
+      this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1).then(() => {
+        this.getFilteredRepos();
+        this.updateMergedGroup(allGroupsMerged);
+        this.$store.commit('incrementLoadingOverlayCount', -1);
+      });
+    },
+
+    '$store.state.summaryDates': function () {
+      this.hasModifiedSinceDate = true;
+      this.hasModifiedUntilDate = true;
+      this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
+      this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
+      window.deactivateAllOverlays();
+      this.getFiltered();
+    },
+
+    mergedGroups: {
+      deep: true,
+      handler() {
+        this.getFiltered();
+      },
+    },
+  },
+  created() {
+    this.processFileTypes();
+    this.renderFilterHash();
+    this.getFiltered();
+    if (this.$store.state.tabZoomInfo.isRefreshing) {
+      const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
+      this.restoreZoomFiltered(zoomInfo);
+    }
+  },
+  mounted() {
+    // Delay execution of filterGroupSelection watcher
+    // to prevent clearing of merged groups
+    setTimeout(() => {
+      this.filterGroupSelectionWatcherFlag = true;
+    }, 0);
   },
   methods: {
     dismissTab(event) {
@@ -833,22 +849,6 @@ export default {
     },
 
     getFontColor,
-  },
-  created() {
-    this.processFileTypes();
-    this.renderFilterHash();
-    this.getFiltered();
-    if (this.$store.state.tabZoomInfo.isRefreshing) {
-      const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
-      this.restoreZoomFiltered(zoomInfo);
-    }
-  },
-  mounted() {
-    // Delay execution of filterGroupSelection watcher
-    // to prevent clearing of merged groups
-    setTimeout(() => {
-      this.filterGroupSelectionWatcherFlag = true;
-    }, 0);
   },
 };
 </script>
