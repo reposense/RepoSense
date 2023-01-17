@@ -229,6 +229,10 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
         Assertions.assertEquals("fakeauthor", AnnotatorAnalyzer.extractAuthorName(line).get());
 
+        line = " % @@author fake-4u-th0r";
+        Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
+        Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
+
         line = "  %  @@author   fake-4u-th0r  ";
         Assertions.assertEquals(index, AnnotatorAnalyzer.getCommentTypeIndex(line));
         Assertions.assertEquals("fake-4u-th0r", AnnotatorAnalyzer.extractAuthorName(line).get());
