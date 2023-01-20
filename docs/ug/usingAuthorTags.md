@@ -38,8 +38,10 @@ Currently, the following comment formats are supported:
     <li>/* @@author authorName */</li>
     <li>/* @@author authorName</li>
     <li># @@author authorName</li>
+    <li>% @@author authorName</li>
     <li>&lt!-- @@author authorName --&gt</li>
-    <li>% @@author authorName</li>  
+    <li>&lt!--- @@author authorName ---&gt</li>
+    <li>[//]: # (@@author authorName)</li>
 </ul>
 
 <box type="info" seamless>
