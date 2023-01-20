@@ -5,11 +5,13 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import reposense.parser.ParseException;
 import reposense.parser.SinceDateArgumentType;
+import reposense.system.LogsManager;
 
 /**
  * Contains time related functionalities.
@@ -25,6 +27,17 @@ public class TimeUtil {
             "\"Since Date\" cannot be later than \"Until Date\".";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
             "\"Since Date\" must not be later than today's date.";
+
+    private static final String EARLIEST_VALID_DATE = "1970-01-01T00:00:00";
+    private static final String LATEST_VALID_DATE = "2099-12-31T23:59:59";
+    private static final String MESSAGE_SINCE_DATE_EARLIER_THAN_EARLIEST_VALID_DATE =
+            "Date of %s must not be earlier than "
+            + String.format("%s, resetting it to earliest valid date", EARLIEST_VALID_DATE);
+    private static final String MESSAGE_UNTIL_DATE_LATER_THAN_LATEST_VALID_DATE =
+            "Date of %s must not be later than "
+            + String.format("%s, resetting it to latest valid date", LATEST_VALID_DATE);
+
+    private static final Logger logger = LogsManager.getLogger(TimeUtil.class);
 
     /**
      * Sets the {@code startTime} to be the current time.
@@ -65,17 +78,34 @@ public class TimeUtil {
     }
 
     /**
-     * Returns a {@link LocalDateTime} that is set to midnight for the given {@code sinceDate}.
+     * Returns a valid {@link LocalDateTime} that is set to midnight for the given {@code sinceDate}.
      */
     public static LocalDateTime getSinceDate(LocalDateTime sinceDate) {
-        return sinceDate.withHour(0).withMinute(0).withSecond(0);
+        return getValidDate(sinceDate).withHour(0).withMinute(0).withSecond(0);
     }
 
     /**
-     * Returns a {@link LocalDateTime} that is set to 23:59:59 for the given {@code untilDate}.
+     * Returns a valid {@link LocalDateTime} that is set to 23:59:59 for the given {@code untilDate}.
      */
     public static LocalDateTime getUntilDate(LocalDateTime untilDate) {
-        return untilDate.withHour(23).withMinute(59).withSecond(59);
+        return getValidDate(untilDate).withHour(23).withMinute(59).withSecond(59);
+    }
+
+    /**
+     * Returns a valid {@link LocalDateTime} that is within {@value EARLIEST_VALID_DATE} and {@value LATEST_VALID_DATE}.
+     * Resets {@code date} passed the closest valid date if it exceeds the date range.
+     */
+    public static LocalDateTime getValidDate(LocalDateTime date) {
+        if (date.isBefore(LocalDateTime.parse(EARLIEST_VALID_DATE))) {
+            logger.warning(String.format(MESSAGE_SINCE_DATE_EARLIER_THAN_EARLIEST_VALID_DATE, date));
+            return LocalDateTime.parse(EARLIEST_VALID_DATE);
+        }
+
+        if (date.isAfter(LocalDateTime.parse(LATEST_VALID_DATE))) {
+            logger.warning(String.format(MESSAGE_UNTIL_DATE_LATER_THAN_LATEST_VALID_DATE, date));
+            return LocalDateTime.parse(LATEST_VALID_DATE);
+        }
+        return date;
     }
 
     /**
