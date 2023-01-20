@@ -32,6 +32,8 @@ public class AnnotatorAnalyzer {
             {"#", "\\s"},
             {"<!--", "-->"},
             {"%", "\\s"},
+            {"\\[.*]:\\s*#\\s*\\(", "\\)"},
+            {"<!---", "--->"}
     };
 
     private static final Pattern[] COMMENT_PATTERNS = {
@@ -39,7 +41,9 @@ public class AnnotatorAnalyzer {
             Pattern.compile(generateCommentRegex(COMMENT_FORMATS[1][0], COMMENT_FORMATS[1][1])),
             Pattern.compile(generateCommentRegex(COMMENT_FORMATS[2][0], COMMENT_FORMATS[2][1])),
             Pattern.compile(generateCommentRegex(COMMENT_FORMATS[3][0], COMMENT_FORMATS[3][1])),
-            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[4][0], COMMENT_FORMATS[4][1]))
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[4][0], COMMENT_FORMATS[4][1])),
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[5][0], COMMENT_FORMATS[5][1])),
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[6][0], COMMENT_FORMATS[6][1]))
     };
 
     /**
