@@ -12,7 +12,16 @@ export default {
   components: {
     cSegment,
   },
-  props: ['segments', 'path'],
+  props: {
+    segments: {
+      type: Array,
+      required: true,
+    },
+    path: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       isRendered: false,

@@ -28,7 +28,7 @@ If an end tag is not provided, the code till the next start tag (or the end of t
 If an end tag is provided without a corresponding start tag, the code until the next start tag, the next end tag, or the end of the file, will not be attributed to any author. This should only be used if the code should not be attributed to any author.
 </box>
 
-The `@@author` tags should be enclosed within a comment, using the comment syntax of the file in concern. Below are some examples:
+The `@@author` tags should be enclosed within a single-line comment, using the comment syntax of the file in concern. Below are some examples:
 
 ![author tags](../images/add-author-tags.png)
 
@@ -38,8 +38,10 @@ Currently, the following comment formats are supported:
     <li>/* @@author authorName */</li>
     <li>/* @@author authorName</li>
     <li># @@author authorName</li>
+    <li>% @@author authorName</li>
     <li>&lt!-- @@author authorName --&gt</li>
-    <li>% @@author authorName</li>  
+    <li>&lt!--- @@author authorName ---&gt</li>
+    <li>[//]: # (@@author authorName)</li>
 </ul>
 
 <box type="info" seamless>
