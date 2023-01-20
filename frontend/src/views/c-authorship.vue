@@ -168,6 +168,7 @@ import { mapState } from 'vuex';
 import minimatch from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 import cSegmentCollection from '../components/c-segment-collection.vue';
+import Segment from '../utils/segment.ts';
 
 const getFontColor = window.getFontColor;
 
@@ -416,11 +417,11 @@ export default {
         const authored = (line.author && isAuthorMatched);
 
         if (authored !== lastState || lastId === -1) {
-          segments.push({
-            authored,
-            lines: [],
-            lineNumbers: [],
-          });
+          segments.push(new Segment(
+              authored,
+              [],
+              [],
+          ));
 
           lastId += 1;
           lastState = authored;
