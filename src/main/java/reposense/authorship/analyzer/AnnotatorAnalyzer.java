@@ -101,7 +101,7 @@ public class AnnotatorAnalyzer {
                 // separates by end-comment format to obtain the author's name at the zeroth index
                 .map(array -> COMMENT_FORMATS[getCommentTypeIndex(line)][1] != null
                         ? array[1].trim().split(COMMENT_FORMATS[getCommentTypeIndex(line)][1])
-                        : array[1].trim().split("", 1))
+                        : new String[]{ array[1].trim() })
                 .filter(array -> array.length > 0)
                 .map(array -> array[0].trim())
                 // checks if the author name is not empty
