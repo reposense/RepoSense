@@ -8,13 +8,13 @@
           v-on:click="rampClick",
           v-bind:href="getLink(commit)", target="_blank",
           v-bind:title="getContributionMessage(slice, commit)",
-          v-bind:class="'ramp__slice--color' + getSliceColor(slice.date),\
+          v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`,\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
           v-bind:style="{\
             zIndex: user.commits.length - j,\
-            borderLeftWidth: getWidth(commit) + 'em',\
-            right: ((getSlicePos(slice.date)\
-              + (getCommitPos(k, slice.commitResults.length))) * 100) + '%'\
+            borderLeftWidth: `${getWidth(commit)}em`,\
+            right: `${((getSlicePos(slice.date)\
+              + (getCommitPos(k, slice.commitResults.length))) * 100)}%`\
             }"
         )
 
@@ -24,22 +24,60 @@
       v-for="(slice, j) in user.commits.filter(commit => commit.insertions > 0)",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="'ramp__slice--color' + getSliceColor(slice.date)",
+      v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`",
       v-bind:style="{\
         zIndex: user.commits.length - j,\
-        borderLeftWidth: getWidth(slice) + 'em',\
-        right: (getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100) + '%' \
+        borderLeftWidth: `${getWidth(slice)}em`,\
+        right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
         }"
     )
 </template>
 
 <script>
 import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
+import User from '../utils/user.ts';
 
 export default {
   mixins: [brokenLinkDisabler],
   name: 'c-ramp',
-  props: ['groupby', 'user', 'tframe', 'avgsize', 'sdate', 'udate', 'mergegroup', 'fromramp', 'filtersearch'],
+  props: {
+    groupby: {
+      type: String,
+      default: 'groupByRepos',
+    },
+    user: {
+      type: User,
+      required: true,
+    },
+    tframe: {
+      type: String,
+      default: 'commit',
+    },
+    avgsize: {
+      type: [Number, String],
+      required: true,
+    },
+    sdate: {
+      type: String,
+      required: true,
+    },
+    udate: {
+      type: String,
+      required: true,
+    },
+    mergegroup: {
+      type: Boolean,
+      default: false,
+    },
+    fromramp: {
+      type: Boolean,
+      default: false,
+    },
+    filtersearch: {
+      type: String,
+      default: '',
+    },
+  },
   data() {
     return {
       rampSize: 0.01,

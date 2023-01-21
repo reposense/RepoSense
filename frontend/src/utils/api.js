@@ -1,3 +1,5 @@
+import User from './user.ts';
+
 // utility functions //
 window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
@@ -128,7 +130,7 @@ window.filterUnsupported = function filterUnsupported(string) {
 
 window.getAuthorLink = function getAuthorLink(repoId, author) {
   const domainName = window.REPOS[repoId].location.domainName;
-  return window.filterUnsupported(window.DOMAIN_URL_MAP[domainName].BASE_URL + author);
+  return window.filterUnsupported(`${window.DOMAIN_URL_MAP[domainName].BASE_URL}${author}`);
 };
 
 window.getRepoLinkUnfiltered = function getRepoLink(repoId) {
@@ -145,26 +147,29 @@ window.getRepoLink = function getRepoLink(repoId) {
 
 window.getBranchLink = function getBranchLink(repoId, branch) {
   const domainName = window.REPOS[repoId].location.domainName;
-  return window.filterUnsupported(window.getRepoLinkUnfiltered(repoId) + window.DOMAIN_URL_MAP[domainName].BRANCH
+  return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repoId)}${window.DOMAIN_URL_MAP[domainName].BRANCH}`
       .replace('$BRANCH', branch));
 };
 
 window.getCommitLink = function getCommitLink(repoId, commitHash) {
   const domainName = window.REPOS[repoId].location.domainName;
-  return window.filterUnsupported(window.getRepoLinkUnfiltered(repoId) + window.DOMAIN_URL_MAP[domainName].COMMIT_PATH
+  return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repoId)}${window.DOMAIN_URL_MAP[domainName]
+      .COMMIT_PATH}`
       .replace('$COMMIT_HASH', commitHash));
 };
 
 window.getBlameLink = function getBlameLink(repoId, branch, filepath) {
   const domainName = window.REPOS[repoId].location.domainName;
-  return window.filterUnsupported(window.getRepoLinkUnfiltered(repoId) + window.DOMAIN_URL_MAP[domainName].BLAME_PATH
+  return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repoId)}${window.DOMAIN_URL_MAP[domainName]
+      .BLAME_PATH}`
       .replace('$BRANCH', branch)
       .replace('$FILE_PATH', filepath));
 };
 
 window.getHistoryLink = function getHistoryLink(repoId, branch, filepath) {
   const domainName = window.REPOS[repoId].location.domainName;
-  return window.filterUnsupported(window.getRepoLinkUnfiltered(repoId) + window.DOMAIN_URL_MAP[domainName].HISTORY_PATH
+  return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repoId)}${window.DOMAIN_URL_MAP[domainName]
+      .HISTORY_PATH}`
       .replace('$BRANCH', branch)
       .replace('$FILE_PATH', filepath));
 };
@@ -277,7 +282,8 @@ window.api = {
         obj.repoName = `${repo.displayName}`;
         obj.location = `${repo.location.location}`;
 
-        res.push(obj);
+        const user = new User(obj);
+        res.push(user);
       }
     });
 

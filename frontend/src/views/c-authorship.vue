@@ -85,15 +85,15 @@
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
             span(
-              v-bind:title="binaryFilesCount + \
-              ' binary files (not included in total line count)'"
+              v-bind:title="`${binaryFilesCount} \
+              binary files (not included in total line count)`"
             )
               span {{ binaryFilesCount }} binary file(s)
           label.ignored-fileType(v-if="ignoredFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isIgnoredChecked")
             span(
-              v-bind:title="ignoredFilesCount + \
-              ' ignored files (included in total line count)'"
+              v-bind:title="`${ignoredFilesCount} \
+              ignored files (included in total line count)`"
             )
               span {{ ignoredFilesCount }} ignored file(s)
 
@@ -168,6 +168,7 @@ import { mapState } from 'vuex';
 import minimatch from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 import cSegmentCollection from '../components/c-segment-collection.vue';
+import Segment from '../utils/segment.ts';
 
 const getFontColor = window.getFontColor;
 
@@ -421,11 +422,11 @@ export default {
         const authored = (line.author && isAuthorMatched);
 
         if (authored !== lastState || lastId === -1) {
-          segments.push({
-            authored,
-            lines: [],
-            lineNumbers: [],
-          });
+          segments.push(new Segment(
+              authored,
+              [],
+              [],
+          ));
 
           lastId += 1;
           lastState = authored;

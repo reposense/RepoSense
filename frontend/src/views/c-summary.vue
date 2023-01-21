@@ -142,7 +142,18 @@ export default {
   components: {
     cSummaryCharts,
   },
-  props: ['repos', 'errorMessages'],
+  props: {
+    repos: {
+      type: Array,
+      required: true,
+    },
+    errorMessages: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   data() {
     return {
       checkedFileTypes: [],
@@ -294,7 +305,7 @@ export default {
     },
 
     getReportIssueTitle() {
-      return encodeURI('Unexpected error with RepoSense version ') + window.repoSenseVersion;
+      return `${encodeURI('Unexpected error with RepoSense version ')}${window.repoSenseVersion}`;
     },
 
     getReportIssueMessage(message) {
