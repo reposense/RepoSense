@@ -60,7 +60,7 @@ Contributor [2021 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Zhou Jiahao](https://github.com/Zhou-Jiahao-1998)
+### [Zhou Jiahao](https://github.com/zhoukerrr)
 **Role**: Contributor [2022 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -140,7 +140,7 @@ Contributor [2019 May - 2020 May]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Lee Jin Yao](https://github.com/jylee-git)
+### [Lee Jin Yao](https://github.com/jinyao-lee)
 ![](https://avatars3.githubusercontent.com/u/35756209?s=150&v=4)<br/>
 **Role**: Contributor [2019 May - 2020 May]<br/>
 
