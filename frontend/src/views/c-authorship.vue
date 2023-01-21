@@ -737,6 +737,7 @@ export default {
 
 <style lang="scss">
 @import '../styles/_colors.scss';
+@import '../styles/z-indices.scss';
 
 /* Authorship */
 #tab-authorship {
@@ -849,6 +850,7 @@ export default {
       top: 0;
       white-space: pre-wrap;
       word-break: break-all;
+      z-index: z-index('file-title');
 
       .caret {
         cursor: pointer;
