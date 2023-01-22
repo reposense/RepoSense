@@ -59,7 +59,7 @@ wrapper {
 
 def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/'
-    args = ['install']
+    args = ['ci']
 }
 
 def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
