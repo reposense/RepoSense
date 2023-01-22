@@ -142,7 +142,18 @@ export default {
   components: {
     cSummaryCharts,
   },
-  props: ['repos', 'errorMessages'],
+  props: {
+    repos: {
+      type: Array,
+      required: true,
+    },
+    errorMessages: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+  },
   data() {
     return {
       checkedFileTypes: [],

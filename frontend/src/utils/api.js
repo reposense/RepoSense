@@ -1,3 +1,5 @@
+import User from './user.ts';
+
 // utility functions //
 window.$ = (id) => document.getElementById(id);
 window.enquery = (key, val) => `${key}=${encodeURIComponent(val)}`;
@@ -280,7 +282,8 @@ window.api = {
         obj.repoName = `${repo.displayName}`;
         obj.location = `${repo.location.location}`;
 
-        res.push(obj);
+        const user = new User(obj);
+        res.push(user);
       }
     });
 
