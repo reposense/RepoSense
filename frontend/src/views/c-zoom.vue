@@ -370,22 +370,12 @@ export default {
 
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
-
-      const toRename = this.showAllCommitMessageBody
-        ? 'commit-message message-body active'
-        : 'commit-message message-body';
-
-      const commitMessageClasses = document.getElementsByClassName('commit-message message-body');
-      Array.from(commitMessageClasses).forEach((commitMessageClass) => {
-        commitMessageClass.className = toRename;
-      });
-
-      this.expandedCommitMessagesCount = isActive ? this.totalCommitMessageBodyCount : 0;
-    },
-
-    updateExpandedCommitMessagesCount() {
-      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message message-body active')
-          .length;
+      this.selectedCommits = this.selectedCommits.map((commit) => commit.commitResults.map((slice) => {
+        if (slice.isOpen !== undefined) {
+          slice.isOpen = isActive;
+        }
+        return slice;
+      }));
     },
 
     removeZoomHashes() {
