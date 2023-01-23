@@ -187,7 +187,7 @@ def serveTestReportInBackground = tasks.register('serveTestReportInBackground', 
 
 def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/cypress/'
-    args = ['install']
+    args = ['ci']
 }
 
 tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
