@@ -354,7 +354,10 @@ export default {
 
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
-      this.$store.commit('setAllZoomCommitMessageBody', isActive);
+      this.$store.commit('setAllZoomCommitMessageBody', {
+        isExpand: isActive,
+        commitHashes: this.selectedCommits.flatMap((commit) => commit.commitResults.map((slice) => slice.hash)),
+      });
     },
 
     removeZoomHashes() {

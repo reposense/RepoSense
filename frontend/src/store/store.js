@@ -52,10 +52,10 @@ export default createStore({
         }
       });
     },
-    setAllZoomCommitMessageBody(state, isExpand) {
+    setAllZoomCommitMessageBody(state, { isExpand, commitHashes }) {
       state.tabZoomInfo.zUser.commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
-          if (slice.isOpen !== undefined) {
+          if (slice.isOpen !== undefined && commitHashes.includes(slice.hash)) {
             slice.isOpen = isExpand;
           }
         });
