@@ -188,23 +188,29 @@ export default {
 
       return new User(filteredUser);
     },
-    selectedCommits() {
-      const commits = [];
-      this.filteredUser.commits.forEach((commit) => {
-        const filteredCommit = { ...commit };
-        filteredCommit.commitResults = [];
-        commit.commitResults.forEach((slice) => {
-          if (Object.keys(slice.fileTypesAndContributionMap).some(
-              (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
-          )) {
-            filteredCommit.commitResults.push(slice);
+    selectedCommits: {
+      get() {
+        const commits = [];
+        this.filteredUser.commits.forEach((commit) => {
+          const filteredCommit = { ...commit };
+          filteredCommit.commitResults = [];
+          commit.commitResults.forEach((slice) => {
+            if (Object.keys(slice.fileTypesAndContributionMap).some(
+                (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
+            )) {
+              filteredCommit.commitResults.push(slice);
+            }
+          });
+          if (filteredCommit.commitResults.length > 0) {
+            commits.push(filteredCommit);
           }
         });
-        if (filteredCommit.commitResults.length > 0) {
-          commits.push(filteredCommit);
-        }
-      });
-      return commits;
+        return commits;
+      },
+
+      set(newValue) {
+        return newValue;
+      },
     },
     totalCommitMessageBodyCount() {
       let nonEmptyCommitMessageCount = 0;
@@ -352,6 +358,15 @@ export default {
       addHash('zFGS', zFilterGroup);
       addHash('zFR', zFromRamp);
       encodeHash();
+    },
+
+    toggleSelectedCommitMessageBody(commitHash) {
+      this.selectedCommits = this.selectedCommits.map((commit) => commit.commitResults.map((slice) => {
+        if (slice.hash === commitHash) {
+          slice.isOpen = !slice.isOpen;
+        }
+        return slice;
+      }));
     },
 
     toggleAllCommitMessagesBody(isActive) {
