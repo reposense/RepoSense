@@ -186,29 +186,23 @@ export default {
 
       return new User(filteredUser);
     },
-    selectedCommits: {
-      get() {
-        const commits = [];
-        this.filteredUser.commits.forEach((commit) => {
-          const filteredCommit = { ...commit };
-          filteredCommit.commitResults = [];
-          commit.commitResults.forEach((slice) => {
-            if (Object.keys(slice.fileTypesAndContributionMap).some(
-                (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
-            )) {
-              filteredCommit.commitResults.push(slice);
-            }
-          });
-          if (filteredCommit.commitResults.length > 0) {
-            commits.push(filteredCommit);
+    selectedCommits() {
+      const commits = [];
+      this.filteredUser.commits.forEach((commit) => {
+        const filteredCommit = { ...commit };
+        filteredCommit.commitResults = [];
+        commit.commitResults.forEach((slice) => {
+          if (Object.keys(slice.fileTypesAndContributionMap).some(
+              (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
+          )) {
+            filteredCommit.commitResults.push(slice);
           }
         });
-        return commits;
-      },
-
-      set(newValue) {
-        return newValue;
-      },
+        if (filteredCommit.commitResults.length > 0) {
+          commits.push(filteredCommit);
+        }
+      });
+      return commits;
     },
     totalCommitMessageBodyCount() {
       let nonEmptyCommitMessageCount = 0;
@@ -250,7 +244,6 @@ export default {
   watch: {
     info() {
       const newData = {
-        expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
         ...zoomInitialState(),
       };
       Object.assign(this.$data, newData);
@@ -356,22 +349,12 @@ export default {
     },
 
     toggleSelectedCommitMessageBody(commitHash) {
-      this.selectedCommits = this.selectedCommits.map((commit) => commit.commitResults.map((slice) => {
-        if (slice.hash === commitHash) {
-          slice.isOpen = !slice.isOpen;
-        }
-        return slice;
-      }));
+      this.$store.commit('toggleZoomCommitMessageBody', commitHash);
     },
 
     toggleAllCommitMessagesBody(isActive) {
       this.showAllCommitMessageBody = isActive;
-      this.selectedCommits = this.selectedCommits.map((commit) => commit.commitResults.map((slice) => {
-        if (slice.isOpen !== undefined) {
-          slice.isOpen = isActive;
-        }
-        return slice;
-      }));
+      this.$store.commit('setAllZoomCommitMessageBody', isActive);
     },
 
     removeZoomHashes() {

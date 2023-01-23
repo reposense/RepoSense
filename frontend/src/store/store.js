@@ -44,6 +44,23 @@ export default createStore({
       }
       window.encodeHash();
     },
+    toggleZoomCommitMessageBody(state, commitHash) {
+      state.tabZoomInfo.zUser.commits.forEach((commit) => {
+        const toUpdate = commit.commitResults.find((slice) => slice.hash === commitHash);
+        if (toUpdate && toUpdate.isOpen !== undefined) {
+          toUpdate.isOpen = !toUpdate.isOpen;
+        }
+      });
+    },
+    setAllZoomCommitMessageBody(state, isExpand) {
+      state.tabZoomInfo.zUser.commits.forEach((commit) => {
+        commit.commitResults.forEach((slice) => {
+          if (slice.isOpen !== undefined) {
+            slice.isOpen = isExpand;
+          }
+        });
+      });
+    },
   },
   actions: {
     // Actions are called with dispatch
