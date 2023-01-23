@@ -365,7 +365,12 @@ export default {
     },
 
     scrollFileIntoView(file) {
-      this.$refs[file.path][0].scrollIntoView(true);
+      const fileElement = this.$refs[file.path][0];
+      const isFileElementAtTopOfScrollable = fileElement.getBoundingClientRect().top <= 0;
+
+      if (isFileElementAtTopOfScrollable) {
+        fileElement.scrollIntoView(true);
+      }
     },
 
     isUnknownAuthor(name) {
