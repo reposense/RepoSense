@@ -189,10 +189,10 @@ import cRamp from './c-ramp.vue';
 
 export default {
   name: 'c-summary-charts',
-  mixins: [brokenLinkDisabler],
   components: {
     cRamp,
   },
+  mixins: [brokenLinkDisabler],
   props: {
     checkedFileTypes: {
       type: Array,
