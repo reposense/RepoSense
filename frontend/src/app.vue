@@ -124,7 +124,7 @@ const app = {
             window.REPORT_ZIP = zip;
           }, () => {
             window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
-                + 'by RepoSense.');
+              + 'by RepoSense.');
           })
           .then(() => this.updateReportView());
     },

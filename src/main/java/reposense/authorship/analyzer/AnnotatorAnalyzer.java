@@ -21,17 +21,16 @@ import reposense.model.AuthorConfiguration;
  */
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
-    // GitHub username format
-    private static final String REGEX_AUTHOR_NAME_FORMAT = "^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$";
-    private static final Pattern PATTERN_AUTHOR_NAME_FORMAT = Pattern.compile(REGEX_AUTHOR_NAME_FORMAT);
-    private static final String REGEX_AUTHOR_TAG_FORMAT = "@@author(\\s+[^\\s]+)?";
+    private static final String REGEX_AUTHOR_TAG_FORMAT = "@@author(\\s+.*)?";
 
     private static final String[][] COMMENT_FORMATS = {
-            {"//", "\\s"},
+            {"//", null},
             {"/\\*", "\\*/"},
-            {"#", "\\s"},
+            {"#", null},
             {"<!--", "-->"},
-            {"%", "\\s"},
+            {"%", null},
+            {"\\[.*]:\\s*#\\s*\\(", "\\)"},
+            {"<!---", "--->"}
     };
 
     private static final Pattern[] COMMENT_PATTERNS = {
@@ -39,7 +38,9 @@ public class AnnotatorAnalyzer {
             Pattern.compile(generateCommentRegex(COMMENT_FORMATS[1][0], COMMENT_FORMATS[1][1])),
             Pattern.compile(generateCommentRegex(COMMENT_FORMATS[2][0], COMMENT_FORMATS[2][1])),
             Pattern.compile(generateCommentRegex(COMMENT_FORMATS[3][0], COMMENT_FORMATS[3][1])),
-            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[4][0], COMMENT_FORMATS[4][1]))
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[4][0], COMMENT_FORMATS[4][1])),
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[5][0], COMMENT_FORMATS[5][1])),
+            Pattern.compile(generateCommentRegex(COMMENT_FORMATS[6][0], COMMENT_FORMATS[6][1]))
     };
 
     /**
@@ -102,11 +103,13 @@ public class AnnotatorAnalyzer {
                 .map(l -> l.split(AUTHOR_TAG))
                 .filter(array -> array.length >= 2)
                 // separates by end-comment format to obtain the author's name at the zeroth index
-                .map(array -> array[1].trim().split(COMMENT_FORMATS[getCommentTypeIndex(line)][1]))
+                .map(array -> COMMENT_FORMATS[getCommentTypeIndex(line)][1] != null
+                        ? array[1].trim().split(COMMENT_FORMATS[getCommentTypeIndex(line)][1])
+                        : new String[]{ array[1].trim() })
                 .filter(array -> array.length > 0)
                 .map(array -> array[0].trim())
-                // checks if the author name is valid
-                .filter(trimmedParameters -> PATTERN_AUTHOR_NAME_FORMAT.matcher(trimmedParameters).find());
+                // checks if the author name is not empty
+                .filter(trimmedParameters -> !trimmedParameters.isEmpty());
     }
 
     /**
@@ -114,6 +117,9 @@ public class AnnotatorAnalyzer {
      * flanked by {@code commentStart} and {@code commentEnd}.
      */
     private static String generateCommentRegex(String commentStart, String commentEnd) {
+        if (commentEnd == null) {
+            return "^[\\s]*" + commentStart + "[\\s]*" + REGEX_AUTHOR_TAG_FORMAT + "[\\s]*$";
+        }
         return "^[\\s]*" + commentStart + "[\\s]*" + REGEX_AUTHOR_TAG_FORMAT + "[\\s]*(" + commentEnd + ")?[\\s]*$";
     }
 

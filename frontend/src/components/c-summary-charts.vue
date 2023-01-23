@@ -164,20 +164,20 @@
           )
             .summary-chart__contrib--bar(
               v-for="width in widths",
-              v-bind:style="{ width: width + '%',\
+              v-bind:style="{ width: `${width}%`,\
                 'background-color': fileTypeColors[fileType] }",
-              v-bind:title="fileType + ': ' + user.fileTypeContribution[fileType] + ' lines, '\
-                + 'total: ' + user.checkedFileTypeContribution + ' lines ' + '(contribution from ' + minDate + ' to '\
-                + maxDate + ')'"
+              v-bind:title="`${fileType}: ${user.fileTypeContribution[fileType]} lines, \
+                total: ${user.checkedFileTypeContribution} lines (contribution from ${minDate} to \
+                ${maxDate})`"
             )
         template(v-else)
           .summary-chart__contrib(
-            v-bind:title="'Total contribution from ' + minDate + ' to ' + maxDate + ': '\
-              + user.checkedFileTypeContribution + ' lines'"
+            v-bind:title="`Total contribution from ${minDate} to ${maxDate}: \
+              ${user.checkedFileTypeContribution} lines`"
           )
             .summary-chart__contrib--bar(
               v-for="width in getContributionBars(user.checkedFileTypeContribution)",
-              v-bind:style="{ width: width+'%' }"
+              v-bind:style="{ width: `${width}%` }"
             )
 </template>
 
@@ -193,9 +193,60 @@ export default {
   components: {
     cRamp,
   },
-  props: ['checkedFileTypes', 'filtered', 'avgContributionSize', 'filterBreakdown',
-      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
-      'minDate', 'maxDate', 'filterSearch', 'sortGroupSelection'],
+  props: {
+    checkedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    filtered: {
+      type: Array,
+      required: true,
+    },
+    avgContributionSize: {
+      type: Number,
+      required: true,
+    },
+    filterBreakdown: {
+      type: Boolean,
+      default: false,
+    },
+    filterGroupSelection: {
+      type: String,
+      default: 'groupByRepos',
+    },
+    filterTimeFrame: {
+      type: String,
+      default: 'commit',
+    },
+    filterSinceDate: {
+      type: String,
+      required: true,
+    },
+    filterUntilDate: {
+      type: String,
+      required: true,
+    },
+    isMergeGroup: {
+      type: Boolean,
+      default: false,
+    },
+    minDate: {
+      type: String,
+      required: true,
+    },
+    maxDate: {
+      type: String,
+      required: true,
+    },
+    filterSearch: {
+      type: String,
+      default: '',
+    },
+    sortGroupSelection: {
+      type: String,
+      default: 'groupTitle',
+    },
+  },
   data() {
     return {
       drags: [],

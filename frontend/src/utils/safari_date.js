@@ -40,9 +40,9 @@ window.appendDashInputDate = function appendDashInputDate(event) {
   const date = event.target.value;
   // append dash to date with format yyyy-mm-dd
   if (date.match(/^\d{4}$/) !== null) {
-    event.target.value += '-';
+    event.target.value = `${event.target.value}-`;
   } else if (date.match(/^\d{4}-\d{2}$/) !== null) {
-    event.target.value += '-';
+    event.target.value = `${event.target.value}-`;
   }
 };
 

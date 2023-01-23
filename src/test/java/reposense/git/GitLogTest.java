@@ -13,6 +13,7 @@ import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
+import reposense.util.TimeUtil;
 
 public class GitLogTest extends GitTestTemplate {
     private RepoConfiguration config;
@@ -144,7 +145,17 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_sinceDateInFuture_noContent() {
-        LocalDateTime date = TestUtil.getSinceDate(2050, Month.JANUARY.getValue(), 1);
+        LocalDateTime date = TimeUtil.getSinceDate(
+                LocalDateTime.of(2050, Month.JANUARY, 1, 0, 0));
+        config.setSinceDate(date);
+        String content = GitLog.get(config, getAlphaAllAliasAuthor());
+        Assertions.assertTrue(content.isEmpty());
+    }
+
+    @Test
+    public void gitLog_invalidSinceDateInFuture_noContent() {
+        LocalDateTime date = TimeUtil.getSinceDate(
+                LocalDateTime.of(2100, Month.JANUARY, 1, 0, 0));
         config.setSinceDate(date);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
         Assertions.assertTrue(content.isEmpty());
@@ -152,7 +163,18 @@ public class GitLogTest extends GitTestTemplate {
 
     @Test
     public void gitLog_untilDateBeforeAnyCommit_noContent() {
-        LocalDateTime date = TestUtil.getUntilDate(2010, Month.JANUARY.getValue(), 1);
+        LocalDateTime date = TimeUtil.getUntilDate(
+                LocalDateTime.of(2010, Month.JANUARY, 1, 0, 0));
+        config.setUntilDate(date);
+        config.setSinceDate(null);
+        String content = GitLog.get(config, getAlphaAllAliasAuthor());
+        Assertions.assertTrue(content.isEmpty());
+    }
+
+    @Test
+    public void gitLog_invalidUntilDateBeforeAnyCommit_noContent() {
+        LocalDateTime date = TimeUtil.getUntilDate(
+                LocalDateTime.of(1969, Month.JANUARY, 1, 0, 0));
         config.setUntilDate(date);
         config.setSinceDate(null);
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
