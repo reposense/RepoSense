@@ -160,7 +160,6 @@ export default {
   },
   data() {
     return {
-      expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
       ...zoomInitialState(),
     };
   },
@@ -223,6 +222,11 @@ export default {
 
       return nonEmptyCommitMessageCount;
     },
+    expandedCommitMessagesCount() {
+      return this.selectedCommits.reduce((prev, commit) => (
+        prev + commit.commitResults.filter((slice) => slice.isOpen).length
+      ), 0);
+    },
     isSelectAllChecked: {
       get() {
         return this.selectedFileTypes.length === this.fileTypes.length;
@@ -252,14 +256,6 @@ export default {
       Object.assign(this.$data, newData);
       this.initiate();
       this.setInfoHash();
-    },
-    selectedFileTypes: {
-      deep: true,
-      handler() {
-        this.$nextTick(() => {
-          this.updateExpandedCommitMessagesCount();
-        });
-      },
     },
     commitsSortType() {
       window.addHash('zCST', this.commitsSortType);
