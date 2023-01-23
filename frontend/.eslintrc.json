@@ -12,6 +12,7 @@
       "error",
       "kebab-case"
     ],
+    "vue/require-prop-types": 0,
     "no-param-reassign": 0,
     "arrow-parens": [
       "error",
