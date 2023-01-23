@@ -189,13 +189,64 @@ import cRamp from './c-ramp.vue';
 
 export default {
   name: 'c-summary-charts',
+  mixins: [brokenLinkDisabler],
   components: {
     cRamp,
   },
-  mixins: [brokenLinkDisabler],
-  props: ['checkedFileTypes', 'filtered', 'avgContributionSize', 'filterBreakdown',
-      'filterGroupSelection', 'filterTimeFrame', 'filterSinceDate', 'filterUntilDate', 'isMergeGroup',
-      'minDate', 'maxDate', 'filterSearch', 'sortGroupSelection'],
+  props: {
+    checkedFileTypes: {
+      type: Array,
+      required: true,
+    },
+    filtered: {
+      type: Array,
+      required: true,
+    },
+    avgContributionSize: {
+      type: Number,
+      required: true,
+    },
+    filterBreakdown: {
+      type: Boolean,
+      default: false,
+    },
+    filterGroupSelection: {
+      type: String,
+      default: 'groupByRepos',
+    },
+    filterTimeFrame: {
+      type: String,
+      default: 'commit',
+    },
+    filterSinceDate: {
+      type: String,
+      required: true,
+    },
+    filterUntilDate: {
+      type: String,
+      required: true,
+    },
+    isMergeGroup: {
+      type: Boolean,
+      default: false,
+    },
+    minDate: {
+      type: String,
+      required: true,
+    },
+    maxDate: {
+      type: String,
+      required: true,
+    },
+    filterSearch: {
+      type: String,
+      default: '',
+    },
+    sortGroupSelection: {
+      type: String,
+      default: 'groupTitle',
+    },
+  },
   data() {
     return {
       drags: [],

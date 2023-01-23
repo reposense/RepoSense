@@ -34,6 +34,12 @@ You can use [_GitHub Actions_](https://github.com/features/actions) (together wi
 
 To access your regenerated RepoSense report, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]`. It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`.
 ![GitHub Setting](../images/publishingguide-githubsetting.jpg "GitHub Setting")
+
+<box type="tip" seamless>
+
+There is also a published GitHub Action ([reposense-action](https://github.com/marketplace/actions/reposense-action)) that can be used to generate and publish RepoSense reports. It is especially convenient for users who wish to skip the forking and setting up of a separate repository. For more information, refer to the [usage description](https://github.com/marketplace/actions/reposense-action#usage).
+</box>
+
 </div>
 
 <!-- ==================================================================================================== -->

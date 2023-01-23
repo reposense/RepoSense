@@ -25,9 +25,20 @@
 </template>
 
 <script>
+import Segment from '../utils/segment.ts';
+
 export default {
   name: 'c-segment',
-  props: ['segment', 'path'],
+  props: {
+    segment: {
+      type: Segment,
+      required: true,
+    },
+    path: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       isOpen: this.segment.authored || this.segment.lines.length < 5,
