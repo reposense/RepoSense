@@ -146,7 +146,7 @@
           span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
 
       .summary-chart__ramp(
-        v-on:click="openTabZoomSubrange(JSON.parse(JSON.stringify(user))\, $event, isGroupMerged(getGroupName(repo)))"
+        v-on:click="openTabZoomSubrange(JSON.parse(JSON.stringify(user)), $event, isGroupMerged(getGroupName(repo)))"
       )
         c-ramp(
           v-bind:groupby="filterGroupSelection",
