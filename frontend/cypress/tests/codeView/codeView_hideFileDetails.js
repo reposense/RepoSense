@@ -120,7 +120,7 @@ describe('hide all file details', () => {
   it('check show all file details shows the content of all the files', () => {
     cy.get('.icon-button.fa-code')
         .should('be.visible')
-        .eq(1)
+        .first()
         .click();
 
     cy.get('#tab-authorship .files', { timeout: 90000 })
