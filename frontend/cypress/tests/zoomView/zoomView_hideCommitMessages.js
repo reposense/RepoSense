@@ -163,4 +163,50 @@ describe('hide all commit messages ', () => {
         .eq(1)
         .should('have.text', 'hide all commit messages');
   });
+
+  it('check hidden commit message persists after sort', () => {
+    cy.get('.icon-button.fa-list-ul')
+        .should('be.visible')
+        .first()
+        .click();
+
+    cy.get('#tab-zoom .commit-message', { timeout: 90000 })
+        .should('be.visible');
+
+    // hide the message body of the first commit
+    cy.get('#tab-zoom .commit-message > a .tooltip')
+        .should('be.visible')
+        .first()
+        .click();
+
+    cy.get('#tab-zoom .commit-message .body')
+        .first()
+        .should('not.be.visible');
+
+    cy.get('#tab-zoom .commit-message .hash')
+        .first()
+        .invoke('text')
+        // keep track of first commit by hash so test doesn't rely on correctness of sort
+        .then((hash) => {
+          // change sort by
+          cy.get('#tab-zoom > .sorting > .sort-by > select')
+              .select('LoC')
+              .should('have.value', 'lineOfCode');
+
+          // message body should still be hidden
+          cy.contains('#tab-zoom .commit-message', hash)
+              .children('.body')
+              .should('not.be.visible');
+
+          // change sort order
+          cy.get('#tab-zoom > .sorting > .sort-order > select:visible')
+              .select('Ascending')
+              .should('have.value', 'false');
+
+          // message body should still be hidden
+          cy.contains('#tab-zoom .commit-message', hash)
+              .children('.body')
+              .should('not.be.visible');
+        });
+  });
 });
