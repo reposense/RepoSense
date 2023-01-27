@@ -54,7 +54,7 @@ describe('hide all commit messages ', () => {
         .should('be.visible');
   });
 
-  it('check correct display of show all and hide all commit messages', () => {
+  it('should only display hide all commit messages when none are hidden', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
@@ -69,9 +69,22 @@ describe('hide all commit messages ', () => {
         .children()
         .should('have.length', 1);
 
+    cy.get('#tab-zoom .toolbar--multiline > a')
+        .should('have.text', 'hide all commit messages');
+  });
+
+  it('should only display show all commit messages when all are hidden', () => {
+    // open the commit panel
+    cy.get('.icon-button.fa-list-ul')
+        .should('be.visible')
+        .first()
+        .click();
+
+    cy.get('#tab-zoom .commit-message', { timeout: 90000 })
+        .should('be.visible');
+
     // hides all the commit messages
     cy.get('#tab-zoom .toolbar--multiline > a')
-        .should('have.text', 'hide all commit messages')
         .click();
 
     // should only display 'show all commit messages'
@@ -81,22 +94,23 @@ describe('hide all commit messages ', () => {
 
     cy.get('#tab-zoom .toolbar--multiline > a')
         .should('have.text', 'show all commit messages');
+  });
 
-    // first commit message body should be hidden
-    cy.get('#tab-zoom .commit-message .body')
-        .first()
-        .should('not.be.visible');
-
-    // show the message body of the first commit
-    cy.get('#tab-zoom .commit-message > a .tooltip')
+  it('should display both show and hide all commit messages when some are hidden', () => {
+    // open the commit panel
+    cy.get('.icon-button.fa-list-ul')
         .should('be.visible')
         .first()
         .click();
 
-    // first commit message body should be visible
-    cy.get('#tab-zoom .commit-message .body')
-        .first()
+    cy.get('#tab-zoom .commit-message', { timeout: 90000 })
         .should('be.visible');
+
+    // hide the message body of the first commit
+    cy.get('#tab-zoom .commit-message > a .tooltip')
+        .should('be.visible')
+        .first()
+        .click();
 
     // should now display both 'hide all & show all commit messages'
     cy.get('#tab-zoom .toolbar--multiline')
