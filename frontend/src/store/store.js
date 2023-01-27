@@ -44,19 +44,16 @@ export default createStore({
       }
       window.encodeHash();
     },
-    toggleZoomCommitMessageBody(state, commitHash) {
-      state.tabZoomInfo.zUser.commits.forEach((commit) => {
-        const toUpdate = commit.commitResults.find((slice) => slice.hash === commitHash);
-        if (toUpdate && toUpdate.isOpen !== undefined) {
-          toUpdate.isOpen = !toUpdate.isOpen;
-        }
-      });
+    toggleZoomCommitMessageBody(_, slice) {
+      if (slice.isOpen !== undefined) {
+        slice.isOpen = !slice.isOpen;
+      }
     },
-    setAllZoomCommitMessageBody(state, { isExpand, commitHashes }) {
-      state.tabZoomInfo.zUser.commits.forEach((commit) => {
+    setAllZoomCommitMessageBody(_, { isOpen, commits }) {
+      commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
-          if (slice.isOpen !== undefined && commitHashes.includes(slice.hash)) {
-            slice.isOpen = isExpand;
+          if (slice.isOpen !== undefined) {
+            slice.isOpen = isOpen;
           }
         });
       });

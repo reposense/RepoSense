@@ -121,7 +121,7 @@
           span &nbsp;{{ tag }}
       a(
         v-if="slice.messageBody !== ''",
-        v-on:click="toggleSelectedCommitMessageBody(slice.hash)"
+        v-on:click="toggleSelectedCommitMessageBody(slice)"
       )
         .tooltip
           font-awesome-icon.commit-message--button(icon="ellipsis-h")
@@ -348,15 +348,15 @@ export default {
       encodeHash();
     },
 
-    toggleSelectedCommitMessageBody(commitHash) {
-      this.$store.commit('toggleZoomCommitMessageBody', commitHash);
+    toggleSelectedCommitMessageBody(slice) {
+      this.$store.commit('toggleZoomCommitMessageBody', slice);
     },
 
-    toggleAllCommitMessagesBody(isActive) {
-      this.showAllCommitMessageBody = isActive;
+    toggleAllCommitMessagesBody(isOpen) {
+      this.showAllCommitMessageBody = isOpen;
       this.$store.commit('setAllZoomCommitMessageBody', {
-        isExpand: isActive,
-        commitHashes: this.selectedCommits.flatMap((commit) => commit.commitResults.map((slice) => slice.hash)),
+        isOpen,
+        commits: this.selectedCommits,
       });
     },
 
