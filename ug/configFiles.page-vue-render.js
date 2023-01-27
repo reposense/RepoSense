@@ -128,6 +128,6 @@ with(this){return _c('pre',[_c('code',{pre:true,attrs:{"class":"no-line-numbers 
 with(this){return _c('p',[_v("RepoSense expects the Git Author Name to be the same as author's username on the Git hosting platform (GitHub, GitLab, BitBucket). If an author's "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Git Author Name")]),_v(" is different from their username on the Git hosting platform, the "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Git Author Name")]),_v(" needs to be specified in the standalone config file. If the author has more than one "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Git Author Name")]),_v(", multiple values can be entered too.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.2")]),_v(", generated on Fri, 27 Jan 2023, 1:48:59 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.2")]),_v(", generated on Fri, 27 Jan 2023, 2:28:15 UTC]")])])])}
 }];
   
