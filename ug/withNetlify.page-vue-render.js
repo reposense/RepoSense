@@ -14,16 +14,16 @@ with(this){return _c('h1',{staticClass:"display-4",attrs:{"id":"appendix-reposen
 with(this){return _c('h2',{attrs:{"id":"setting-up"}},[_c('span',{staticClass:"anchor",attrs:{"id":"setting-up"}}),_v("Setting up"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#setting-up","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 1")]),_v(" "),_c('strong',[_v("Fork the "),_c('em',[_v("publish-RepoSense")]),_v(" repository")]),_v(" using this "),_c('a',{attrs:{"href":"https://github.com/RepoSense/publish-RepoSense/fork"}},[_v("link")]),_v(". Optionally, you can rename the fork to match your RepoSense report e.g., "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("project-code-dashboard")]),_v(".")])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 1")]),_v(" "),_c('strong',[_v("Fork the "),_c('em',[_v("publish-RepoSense")]),_v(" repository")]),_v(" using this "),_c('a',{attrs:{"href":"https://github.com/RepoSense/publish-RepoSense/fork"}},[_v("link")]),_v(". Optionally, you can rename the fork to match your RepoSense report e.g., "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("project-code-dashboard")]),_v(".")])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 2")]),_v(" "),_c('strong',[_v("Set up Netlify for your fork")]),_v(" as described in this "),_c('a',{attrs:{"href":"https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/"}},[_v("guide")]),_v("."),_c('br'),_v(" "),_c('mark',[_v("You will need to use the following in "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Step 5: Configure Your Settings")]),_v(" of that guide")]),_v(":")])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 2")]),_v(" "),_c('strong',[_v("Set up Netlify for your fork")]),_v(" as described in this "),_c('a',{attrs:{"href":"https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/"}},[_v("guide")]),_v("."),_c('br'),_v(" "),_c('mark',[_v("You will need to use the following in "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Step 5: Configure Your Settings")]),_v(" of that guide")]),_v(":")])}
 },function anonymous(
 ) {
 with(this){return _c('ul',[_c('li',[_v("build command: "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("pip install requests && ./run.sh")]),_c('br')]),_v(" "),_c('li',[_v("publish directory: "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("./reposense-report")])])])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 3")]),_v(" "),_c('strong',[_v("Generate the report you want")]),_v(" by updating the settings in your fork.")])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 3")]),_v(" "),_c('strong',[_v("Generate the report you want")]),_v(" by updating the settings in your fork.")])}
 },function anonymous(
 ) {
 with(this){return _c('ol',[_c('li',[_v("Go to the "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("run.sh")]),_v(" file of your fork (on GitHub).")]),_v(" "),_c('li',[_v("Update the last line (i.e., the command for running RepoSense) to match the report you want to generate:"),_c('br'),_v(" "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("java -jar RepoSense.jar --repos FULL_REPO_URL")]),_v(" (assuming you want to generate a default report for just one repo)"),_c('br'),_v("\ne.g., "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git")]),_v(" ("),_c('mark',[_v("note the .git at the end of the repo URL")]),_v(")")]),_v(" "),_c('li',[_v("Commit the file. This will trigger Netlify to rebuild the report.")]),_v(" "),_c('li',[_v("Go to the URL of your Netlify site to see the updated RepoSense report (it might take about 2-5 minutes for Netlify to generate the report).")])])}
@@ -68,6 +68,6 @@ with(this){return _c('li',[_c('p',[_v("Leave the "),_c('strong',[_v("Active")]),
 with(this){return _c('li',[_c('p',[_v("Click on "),_c('strong',[_v("Add webhook")]),_v(" to save the webhook and add it.")])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.2")]),_v(", generated on Fri, 27 Jan 2023, 2:28:15 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.2")]),_v(", generated on Fri, 27 Jan 2023, 2:44:46 UTC]")])])])}
 }];
   

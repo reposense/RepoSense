@@ -17,7 +17,7 @@ with(this){return _c('h2',{attrs:{"id":"backend"}},[_c('span',{staticClass:"anch
 with(this){return _c('p',[_v("The backend implementation of RepoSense is located in "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("src/main")]),_v(".")])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 1")]),_v(" "),_c('strong',[_v("Know Java")])])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 1")]),_v(" "),_c('strong',[_v("Know Java")])])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("The RepoSense backend is mostly written in "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Java 8")]),_v(".")])}
@@ -26,7 +26,7 @@ with(this){return _c('p',[_v("The RepoSense backend is mostly written in "),_c('
 with(this){return _c('ol',[_c('li',[_v("You need to have a basic knowledge of Java before getting started, including its syntax, "),_c('a',{attrs:{"href":"https://docs.oracle.com/javase/8/docs/api/"}},[_v("API")]),_v(", and certain frameworks such as "),_c('a',{attrs:{"href":"https://se-education.org/learningresources/contents/java/JUnit.html"}},[_v("JUnit")]),_v(".")]),_v(" "),_c('li',[_v("Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as "),_c('a',{attrs:{"href":"https://se-education.org/learningresources/contents/java/JavaConcurrency.html"}},[_v("concurrency")]),_v(", "),_c('a',{attrs:{"href":"https://se-education.org/learningresources/contents/java/JavaSynchronization.html"}},[_v("synchronization")]),_v(", and "),_c('a',{attrs:{"href":"https://se-education.org/learningresources/contents/java/streams-an-introduction.html"}},[_v("streams")]),_v(". These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc.). They are optional but you may find them useful when working on certain issues.")])])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 2")]),_v(" "),_c('strong',[_v("Learn the RepoSense backend architecture")])])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 2")]),_v(" "),_c('strong',[_v("Learn the RepoSense backend architecture")])])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("You may want to refer to the "),_c('a',{attrs:{"href":"/RepoSense/dg/architecture.html"}},[_v("backend architecture")]),_v(" to understand the RepoSense backend implementation logic.")])}
@@ -35,10 +35,10 @@ with(this){return _c('p',[_v("You may want to refer to the "),_c('a',{attrs:{"hr
 with(this){return _c('ul',[_c('li',[_v("Check the "),_c('a',{attrs:{"href":"https://www.jetbrains.com/help/idea/debugging-your-first-java-application.html"}},[_v("debugging guide")]),_v(" if you are not familiar with debugging in "),_c('strong',[_v("Intelij")]),_v(".")]),_v(" "),_c('li',[_v("In "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("RepoSense.java")]),_v(", the main class, set appropriate break points. Here are some relevant method calls in the "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("main")]),_v(" method at which you can set the breakpoints:\n"),_c('ul',[_c('li',[_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("ArgsParser.parse(args)")]),_v(": RepoSense parses the CLI arguments from the command given by the user.")]),_v(" "),_c('li',[_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("getRepoConfigurations(cliArguments)")]),_v(": RepoSense gets the configuration for each repository by parsing the CSV files.")]),_v(" "),_c('li',[_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("getReportConfigurations(cliArguments)")]),_v(": RepoSense gets the report configuration (report title) by parsing the JSON files.")]),_v(" "),_c('li',[_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("ReportGenerator.generateReposReport(...)")]),_v(" This is where the bulk of the work is conducted, including cloning repositories, analyzing repositories, and generating the JSON files to be used by the report.")])])])])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 3")]),_v(" "),_c('strong',[_v("Gain some hands-on experience")])])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 3")]),_v(" "),_c('strong',[_v("Gain some hands-on experience")])])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 4")]),_v(" "),_c('strong',[_v("Next Step")])])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 4")]),_v(" "),_c('strong',[_v("Next Step")])])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("You can now proceed to learn the "),_c('a',{attrs:{"href":"/RepoSense/dg/workflow.html"}},[_v("contributing workflow")]),_v(".")])}
@@ -50,7 +50,7 @@ with(this){return _c('h2',{attrs:{"id":"frontend"}},[_c('span',{staticClass:"anc
 with(this){return _c('p',[_v("The frontend implementation of RepoSense is located in "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("frontend/src")]),_v(".")])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 1")]),_v(" "),_c('strong',[_v("Learn the necessary tools")])])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 1")]),_v(" "),_c('strong',[_v("Learn the necessary tools")])])}
 },function anonymous(
 ) {
 with(this){return _c('h3',{attrs:{"id":"vue-js"}},[_c('span',{staticClass:"anchor",attrs:{"id":"vue-js"}}),_v("Vue.js"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#vue-js","onclick":"event.stopPropagation()"}})])}
@@ -89,16 +89,16 @@ with(this){return _c('p',[_v("SCSS is used for styling the Pug template. The cor
 with(this){return _c('ul',[_c('li',[_v("You can refer to the "),_c('a',{attrs:{"href":"https://sass-lang.com/documentation/style-rules"}},[_v("style rules")]),_v(" to learn about the similarities and differences between SCSS and CSS.")])])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 2")]),_v(" "),_c('strong',[_v("Learn the RepoSense frontend architecture")])])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 2")]),_v(" "),_c('strong',[_v("Learn the RepoSense frontend architecture")])])}
 },function anonymous(
 ) {
 with(this){return _c('ul',[_c('li',[_v("You may want to refer to the "),_c('a',{attrs:{"href":"/RepoSense/dg/report.html#report-architecture"}},[_v("frontend architecture")]),_v(" to understand the implementation.")]),_v(" "),_c('li',[_v("Another way for you to understand the frontend is to use "),_c('strong',[_v("Vue.js devtools")]),_v(" to learn how the various Vue Components interact with each other. You can refer to the "),_c('a',{attrs:{"href":"/RepoSense/dg/workflow.html#debugging-front-end"}},[_v("frontend debugging guide")]),_v(" for more information.")])])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 3")]),_v(" "),_c('strong',[_v("Gain some hands-on experience")])])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 3")]),_v(" "),_c('strong',[_v("Gain some hands-on experience")])])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('span',{staticClass:"badge badge-dark bigger-level0"},[_v("Step 4")]),_v(" "),_c('strong',[_v("Next Step")])])}
+with(this){return _c('p',[_c('span',{staticClass:"badge bg-dark bigger-level0"},[_v("Step 4")]),_v(" "),_c('strong',[_v("Next Step")])])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("You can now proceed to learn the "),_c('a',{attrs:{"href":"/RepoSense/dg/workflow.html"}},[_v("contributing workflow")]),_v(".")])}
@@ -110,6 +110,6 @@ with(this){return _c('h2',{attrs:{"id":"devops"}},[_c('span',{staticClass:"ancho
 with(this){return _c('p',[_v("If you want to understand and contribute to the DevOps aspect of RepoSense, you can refer to the "),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/wiki/DevOps-guide"}},[_v("DevOps guide")]),_v(" for more information.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.2")]),_v(", generated on Fri, 27 Jan 2023, 2:28:15 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.2")]),_v(", generated on Fri, 27 Jan 2023, 2:44:46 UTC]")])])])}
 }];
   
