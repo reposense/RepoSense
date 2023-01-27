@@ -21,7 +21,7 @@
       span {{ info.minDate }} to {{ info.maxDate }}
         |&nbsp;&nbsp; ({{ selectedFiles.length }} files changed)
   .title
-    .contribution(v-if="isLoaded && files.length!=0")
+    .contribution(v-if="isLoaded && info.files.length!=0")
       .sorting.mui-form--inline
         .mui-select.sort-by
           select(v-model="filesSortType")
@@ -61,7 +61,7 @@
           v-model="filterType",
           v-on:change="indicateCheckBoxes"
         )
-        .checkboxes.mui-form--inline(v-if="files.length > 0")
+        .checkboxes.mui-form--inline(v-if="info.files.length > 0")
           label(style='background-color: #000000; color: #ffffff')
             input.mui-checkbox--fileType#all(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
@@ -98,7 +98,7 @@
               span {{ ignoredFilesCount }} ignored file(s)
 
   .files(v-if="isLoaded")
-    .empty(v-if="files.length === 0") nothing to see here :(
+    .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
       .file
         .title
@@ -182,7 +182,6 @@ const filesSortDict = {
 function authorshipInitialState() {
   return {
     isLoaded: false,
-    files: [],
     selectedFiles: [],
     filterType: 'checkboxes',
     selectedFileTypes: [],
@@ -531,7 +530,7 @@ export default {
 
     async updateSelectedFiles(setIsLoaded = false) {
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
-      this.selectedFiles = this.files.filter(
+      this.selectedFiles = this.info.files.filter(
           (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
           || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))
           && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
@@ -690,11 +689,11 @@ export default {
     },
 
     binaryFilesCount() {
-      return this.files.filter((file) => file.isBinary).length;
+      return this.info.files.filter((file) => file.isBinary).length;
     },
 
     ignoredFilesCount() {
-      return this.files.filter((file) => file.isIgnored).length;
+      return this.info.files.filter((file) => file.isIgnored).length;
     },
 
     ...mapState({
