@@ -86,7 +86,7 @@ describe('hide all file details', () => {
         .scrollIntoView({ offset: { top: 500, left: 0 } });
 
     // title of the second file should still be visible
-    cy.get('#tab-authorship .file ')
+    cy.get('#tab-authorship .file .title ')
         .eq(1)
         .should('be.visible');
 
