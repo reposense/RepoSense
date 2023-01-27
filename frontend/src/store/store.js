@@ -61,6 +61,19 @@ export default createStore({
         });
       });
     },
+    updateTabAuthorshipFiles(state, files) {
+      state.tabAuthorshipInfo.files.splice(0, state.tabAuthorshipInfo.files.length, ...files);
+    },
+    toggleAuthorshipFileActiveProperty(_, file) {
+      file.active = !file.active;
+      file.wasCodeLoaded = file.wasCodeLoaded || file.active;
+    },
+    setAllAuthorshipFileActiveProperty(_, { isActive, files }) {
+      files.forEach((file) => {
+        file.active = isActive;
+        file.wasCodeLoaded = file.wasCodeLoaded || file.active;
+      });
+    },
   },
   actions: {
     // Actions are called with dispatch
