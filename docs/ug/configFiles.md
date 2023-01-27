@@ -4,7 +4,7 @@
   pageNav: 3
 </frontmatter>
 
-{% set mandatory %}<span class="badge badge-danger">mandatory</span>{% endset %}
+{% set mandatory %}<span class="badge bg-danger">mandatory</span>{% endset %}
 
 <h1 class="display-4"><md>{{ title }}</md></h1>
 
