@@ -18,8 +18,6 @@ node_modules
 /frontend/public/
 !/frontend/public/favicon.ico
 !/frontend/public/index.html
-package-lock.json
-!frontend/cypress/package-lock.json
 
 reposense-report/
 docs/_site/
