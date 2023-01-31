@@ -38,8 +38,8 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
 import User from '../utils/user.ts';
 
 export default {
-  mixins: [brokenLinkDisabler],
   name: 'c-ramp',
+  mixins: [brokenLinkDisabler],
   props: {
     groupby: {
       type: String,
