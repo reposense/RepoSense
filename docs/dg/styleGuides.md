@@ -16,6 +16,7 @@ Our coding standards are mostly based on those at [se-education.org/guides](http
 * [**Markdown/MarkBind** coding standard](https://se-education.org/guides/conventions/markdown.html)
 * [**Java** coding standard](https://se-education.org/guides/conventions/java/index.html)
 * [**JavaScript** coding standard](https://se-education.org/guides/conventions/javascript.html)
+* **Vue Components**: Follow the [**Vue style guide**](https://vuejs.org/style-guide/), up to the **Recommended** section.
 * **Documentation**: Follow the [**Google developer documentation style guide**](https://developers.google.com/style).
 
 ## Note on Ternary Operators:

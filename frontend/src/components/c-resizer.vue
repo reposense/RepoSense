@@ -49,22 +49,6 @@ export default {
     };
   },
 
-  methods: {
-    registerMouseMove() {
-      this.isResizing = true;
-    },
-
-    deregisterMouseMove() {
-      this.isResizing = false;
-      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
-        / window.innerWidth;
-    },
-
-    closeTab() {
-      this.$store.commit('updateTabState', false);
-    },
-  },
-
   computed: {
     appStyles() {
       return this.isResizing
@@ -101,6 +85,22 @@ export default {
     },
 
     ...mapState(['isTabActive']),
+  },
+
+  methods: {
+    registerMouseMove() {
+      this.isResizing = true;
+    },
+
+    deregisterMouseMove() {
+      this.isResizing = false;
+      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
+        / window.innerWidth;
+    },
+
+    closeTab() {
+      this.$store.commit('updateTabState', false);
+    },
   },
 };
 </script>

@@ -189,10 +189,10 @@ import cRamp from './c-ramp.vue';
 
 export default {
   name: 'c-summary-charts',
-  mixins: [brokenLinkDisabler],
   components: {
     cRamp,
   },
+  mixins: [brokenLinkDisabler],
   props: {
     checkedFileTypes: {
       type: Array,
@@ -286,6 +286,9 @@ export default {
         this.removeSelectedTab();
       }
     },
+  },
+  created() {
+    this.retrieveSelectedTabHash();
   },
   methods: {
     getFileTypeContributionBars(fileTypeContribution) {
@@ -626,9 +629,6 @@ export default {
       return explanation;
     },
 
-  },
-  created() {
-    this.retrieveSelectedTabHash();
   },
 };
 </script>
