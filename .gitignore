@@ -1,22 +1,23 @@
 .idea/
 .vs/
 
+.DS_Store
 *.class
 *.iml
+*.zip
+
+ft_temp/
 /target/
 .gradle/
-
+build/
 repos/
 logs/
 out/
-ft_temp/
-*.zip
 
-build/
-frontend/build
 node_modules
-package-lock.json
-reposense-report/
+/frontend/public/
+!/frontend/public/favicon.ico
+!/frontend/public/index.html
 
+reposense-report/
 docs/_site/
-**/.DS_Store
