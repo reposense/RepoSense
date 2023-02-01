@@ -5,13 +5,13 @@
 <span id="icon_example"><md>:fas-cube:</md></span>
 <span id="icon_embedding"><md>:glyphicon-log-in:</md></span>
 <span id="icon_exercise"><md>:fas-dumbbell:</md></span>
-<span id="icon_extra"><span class='badge badge-pill badge-secondary'><md>:fas-plus: extra</md></span></span>
+<span id="icon_extra"><span class='badge rounded-pill bg-secondary'><md>:fas-plus: extra</md></span></span>
 <span id="icon_info"><md>:fas-info-circle:</md></span>
 <span id="icon_like"><md>:fas-thumbs-up:</md></span>
 <span id="icon_linux"><md>:fab-linux:</md></span>
-<span id="icon_level_basic"><md><span class="badge badge-pill badge-danger">:far-star:</span></md></span>
-<span id="icon_level_intermediate"><md><span class="badge badge-pill badge-warning text-white">:far-star::far-star:</span></md></span>
-<span id="icon_level_advanced"><md><span class="badge badge-pill badge-success">:far-star::far-star::far-star:</span></md></span>
+<span id="icon_level_basic"><md><span class="badge rounded-pill bg-danger">:far-star:</span></md></span>
+<span id="icon_level_intermediate"><md><span class="badge rounded-pill bg-warning text-white">:far-star::far-star:</span></md></span>
+<span id="icon_level_advanced"><md><span class="badge rounded-pill bg-success">:far-star::far-star::far-star:</span></md></span>
 <span id="icon_important_big_red"><font color="red"><big>:glyphicon-exclamation-sign:</big></font></span>
 <span id="icon_important"><md>:glyphicon-exclamation-sign:</md></span>
 <span id="icon_new_window"><md>:glyphicon-new-window:</md></span>
@@ -21,14 +21,14 @@
 <span id="icon_print"><md>:glyphicon-print:</md></span>
 <span id="icon_prereq"><md>:glyphicon-education:</md></span>
 <span id="icon_preview"><md>:glyphicon-eye-open:</md></span>
-<span id="icon_pro_tip"><span class="badge badge-pill badge-warning">:fas-lightbulb: PRO TIP</span></span>
+<span id="icon_pro_tip"><span class="badge rounded-pill bg-warning">:fas-lightbulb: PRO TIP</span></span>
 <span id="icon_Q"><md>:glyphicon-question-sign:</md></span>
 <span id="icon_Q_A">{{ icon_Q | safe }}:glyphicon-ok-sign:</span>
 <span id="icon_resource"><md>:fas-paperclip:</md></span>
-<span id="icon_terminal"><smal><span class="badge badge-secondary">&gt;_</span></smal></span>
+<span id="icon_terminal"><smal><span class="badge bg-secondary">&gt;_</span></smal></span>
 <span id="icon_text"><md>:far-file-alt:</md></span>
 <span id="icon_tick"><md>:fas-check:</md></span>
-<span id="icon_tip"><span class="badge badge-pill badge-warning">:fas-lightbulb:</span></span>
+<span id="icon_tip"><span class="badge rounded-pill bg-warning">:fas-lightbulb:</span></span>
 <span id="icon_tick_green"><span style="color:green">{{ icon_tick | safe }}</span></span>
 <span id="icon_todo"><md>:glyphicon-check:</md></span>
 <span id="icon_slides"><md>:far-images:</md></span>
