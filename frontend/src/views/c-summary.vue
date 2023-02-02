@@ -703,7 +703,7 @@ export default {
         const filteredFileTypes = this.getFilteredFileTypes(result);
         this.updateCommitResultWithFileTypes(result, filteredFileTypes);
         return result;
-      }).filter((result) => Object.values(result.fileTypesAndContributionMap).length > 0);
+      });
 
       commit.insertions = filteredCommitResults.reduce((acc, result) => acc + result.insertions, 0);
       commit.deletions = filteredCommitResults.reduce((acc, result) => acc + result.deletions, 0);
