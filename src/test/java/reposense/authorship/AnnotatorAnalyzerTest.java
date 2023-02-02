@@ -22,7 +22,7 @@ import reposense.util.TestUtil;
 
 public class AnnotatorAnalyzerTest extends GitTestTemplate {
     private static final LocalDateTime SINCE_DATE = TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 8);
-    private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2021, Month.AUGUST.getValue(), 3);
+    private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2023, Month.JANUARY.getValue(), 31);
     private static final Author[] EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST = {
             FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR,
             MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR,

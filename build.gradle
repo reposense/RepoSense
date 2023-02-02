@@ -59,7 +59,7 @@ wrapper {
 
 def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/'
-    args = ['install']
+    args = ['ci']
 }
 
 def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
@@ -187,7 +187,7 @@ def serveTestReportInBackground = tasks.register('serveTestReportInBackground', 
 
 def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/cypress/'
-    args = ['install']
+    args = ['ci']
 }
 
 tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
