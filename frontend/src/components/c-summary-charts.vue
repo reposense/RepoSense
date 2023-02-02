@@ -66,8 +66,7 @@
             span.tooltip-text Click to view group's code
         a(
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(JSON.parse(JSON.stringify(repo[0])), filterSinceDate, filterUntilDate,\
-           isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
             font-awesome-icon.icon-button(
@@ -131,8 +130,7 @@
             span.tooltip-text Click to view author's contribution.
         a(
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(JSON.parse(JSON.stringify(user)), filterSinceDate, filterUntilDate,\
-           isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip
             font-awesome-icon.icon-button(
@@ -146,7 +144,7 @@
           span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
 
       .summary-chart__ramp(
-        v-on:click="openTabZoomSubrange(JSON.parse(JSON.stringify(user)), $event, isGroupMerged(getGroupName(repo)))"
+        v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
       )
         c-ramp(
           v-bind:groupby="filterGroupSelection",
@@ -454,7 +452,8 @@ export default {
       const {
         avgCommitSize, filterGroupSelection, filterTimeFrame, filterSearch,
       } = this;
-      const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
+      // Deep copy to ensure changes in zoom (e.g. toggle state) won't affect summary, and vice versa
+      const clonedUser = JSON.parse(JSON.stringify(user));
       const info = {
         zRepo: user.repoName,
         zAuthor: user.name,
