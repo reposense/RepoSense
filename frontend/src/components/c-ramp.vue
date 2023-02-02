@@ -2,7 +2,7 @@
 .ramp
   template(v-if="tframe === 'commit'")
     template(v-for="(slice, j) in user.commits")
-      template(v-for="(commit, k) in slice.commitResults.filter(commitResult => commitResult.insertions > 0)")
+      template(v-for="(commit, k) in slice.commitResults.filter(commitResult => getContributions(commitResult) > 0)")
         a.ramp__slice(
           draggable="false",
           v-on:click="rampClick",
@@ -21,7 +21,7 @@
   template(v-else)
     a.ramp__slice(
       draggable="false",
-      v-for="(slice, j) in user.commits.filter(commit => commit.insertions > 0)",
+      v-for="(slice, j) in user.commits.filter(commit => getContributions(commit) > 0)",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
       v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`",
@@ -88,25 +88,27 @@ export default {
     getLink(commit) {
       return window.getCommitLink(commit.repoId, commit.hash);
     },
-
+    getContributions(commit) {
+      return commit.insertions + commit.deletions;
+    },
     getWidth(slice) {
-      if (slice.insertions === 0) {
+      if (this.getContributions(slice) === 0) {
         return 0;
       }
 
-      const newSize = 100 * (slice.insertions / this.avgsize);
+      const newSize = 100 * (this.getContributions(slice) / this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
     getContributionMessage(slice, commit) {
       let title = '';
       if (this.tframe === 'commit') {
-        return `[${slice.date}] ${commit.messageTitle}: ${commit.insertions} lines`;
+        return `[${slice.date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
       }
 
       title = this.tframe === 'day'
             ? `[${slice.date}] Daily `
             : `[${slice.date} till ${slice.endDate}] Weekly `;
-      title += `contribution: ${slice.insertions} lines`;
+      title += `contribution: +${slice.insertions} -${slice.deletions} lines`;
       return title;
     },
     openTabZoom(user, slice, evt) {
@@ -123,7 +125,7 @@ export default {
         zAuthor: user.name,
         zFilterGroup: this.groupby,
         zTimeFrame: 'commit',
-        zAvgCommitSize: slice.insertions,
+        zAvgCommitSize: this.getContributions(slice),
         zUser: zoomUser,
         zLocation: window.getRepoLink(user.repoId),
         zSince: slice.date,

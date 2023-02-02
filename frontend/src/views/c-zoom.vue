@@ -98,7 +98,7 @@
         .within-border {{ slice.messageTitle.substr(0, 50) }}
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
-      span &nbsp; ({{ slice.insertions }} lines) &nbsp;
+      span &nbsp; (+{{ slice.insertions }} -{{ slice.deletions }} lines) &nbsp;
       .hash
         span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
@@ -170,7 +170,7 @@ export default {
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === 'time'
         ? (commit) => commit.date
-        : (commit) => commit.insertions;
+        : (commit) => commit.insertions + commit.deletions;
 
       return (a, b) => (this.toReverseSortedCommits ? -1 : 1)
         * window.comparator(commitSortFunction)(a, b);
