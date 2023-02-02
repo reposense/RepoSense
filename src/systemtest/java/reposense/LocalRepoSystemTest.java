@@ -31,7 +31,7 @@ public class LocalRepoSystemTest {
     private static final String LOCAL_DIRECTORY_ONE = "parent1/test-repo";
     private static final String LOCAL_DIRECTORY_TWO = "parent2/test-repo";
 
-    private static final String LAST_COMMIT_DATE = "01/04/2022";
+    private static final String LAST_COMMIT_DATE = "31/01/2023";
 
     private static final String OUTPUT_DIRECTORY = "local-test";
     private static final String TIME_ZONE = "UTC+08";
