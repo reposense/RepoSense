@@ -170,7 +170,7 @@ export default {
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === 'time'
         ? (commit) => commit.date
-        : (commit) => commit.insertions + commit.deletions;
+        : (commit) => commit.insertions;
 
       return (a, b) => (this.toReverseSortedCommits ? -1 : 1)
         * window.comparator(commitSortFunction)(a, b);

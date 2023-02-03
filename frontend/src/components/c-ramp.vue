@@ -81,6 +81,7 @@ export default {
   data() {
     return {
       rampSize: 0.01,
+      deletesCommitRampSize: this.rampSize * 20,
     };
   },
 
@@ -95,8 +96,11 @@ export default {
       if (this.getContributions(slice) === 0) {
         return 0;
       }
+      if (slice.insertions === 0) {
+        return this.deletesCommitRampSize;
+      }
 
-      const newSize = 100 * (this.getContributions(slice) / this.avgsize);
+      const newSize = 100 * (slice.insertions / this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
     getContributionMessage(slice, commit) {
@@ -125,7 +129,7 @@ export default {
         zAuthor: user.name,
         zFilterGroup: this.groupby,
         zTimeFrame: 'commit',
-        zAvgCommitSize: this.getContributions(slice),
+        zAvgCommitSize: slice.insertions,
         zUser: zoomUser,
         zLocation: window.getRepoLink(user.repoId),
         zSince: slice.date,
