@@ -35,8 +35,8 @@ jobs:
     - name: Set up JDK 1.8
       uses: actions/setup-java@v3
       with:
-        distribution: env.JAVA_DISTRIBUTION
-        java-version: env.JAVA_VER
+        distribution: $JAVA_DISTRIBUTION
+        java-version: $JAVA_VER
 
     - name: Verify Java version
       run: echo -e "Actual JDK in use -- "; java -version
@@ -44,7 +44,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: env.NODE_VER
+        node-version: $NODE_VER
 
     - name: Set up Gradle caching
       uses: actions/cache@v3
@@ -122,8 +122,8 @@ jobs:
     - name: Set up JDK 1.8
       uses: actions/setup-java@v3
       with:
-        distribution: env.JAVA_DISTRIBUTION
-        java-version: env.JAVA_VER
+        distribution: $JAVA_DISTRIBUTION
+        java-version: $JAVA_VER
 
     - name: Verify Java version
       run: echo -e "Actual JDK in use -- "; java -version
@@ -131,7 +131,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: env.NODE_VER
+        node-version: $NODE_VER
 
     - name: Set up Gradle caching
       uses: actions/cache@v3
