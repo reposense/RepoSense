@@ -11,12 +11,12 @@ on:
       - gh-pages
 
 env:
-  UBUNTU_SECOND_LATEST: 'ubuntu-20.04'
-  UBUNTU_LATEST: 'ubuntu-22.04'
-  MACOS_SECOND_LATEST: 'macos-11'
-  MACOS_LATEST: 'macos-12'
-  WINDOWS_SECOND_LATEST: 'windows-2019'
-  WINDOWS_LATEST: 'windows-2022'
+  UBUNTU_SECOND_LATEST: ubuntu-20.04
+  UBUNTU_LATEST: ubuntu-22.04
+  MACOS_SECOND_LATEST: macos-11
+  MACOS_LATEST: macos-12
+  WINDOWS_SECOND_LATEST: windows-2019
+  WINDOWS_LATEST: windows-2022
   NODE_VER: '14.x'
   JAVA_DISTRIBUTION: 'zulu'
   JAVA_VER: 8
@@ -26,7 +26,7 @@ jobs:
     name: ${{ matrix.os }} JDK 8
     strategy:
       matrix:
-        os: [env.UBUNTU_SECOND_LATEST, env.UBUNTU_LATEST, env.MACOS_SECOND_LATEST, env.MACOS_LATEST, env.WINDOWS_SECOND_LATEST, env.WINDOWS_LATEST]
+        os: [$UBUNTU_SECOND_LATEST, $UBUNTU_LATEST, $MACOS_SECOND_LATEST, $MACOS_LATEST, $WINDOWS_SECOND_LATEST, $WINDOWS_LATEST]
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: "lts/*"
