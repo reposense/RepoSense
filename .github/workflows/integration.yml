@@ -38,8 +38,13 @@ jobs:
         distribution: ${{ env.JAVA_DISTRIBUTION }}
         java-version: ${{ env.JAVA_VER }}
 
-    - name: Verify Java version
+    - name: Verify Java version (Ubuntu and Mac)
+      if: ${{ runner.os != 'Windows' }}
       run: echo -e "Actual JDK in use -- "; java -version
+
+    - name: Verify Java version (Windows)
+      if: ${{ runner.os == 'Windows' }}
+      run: Write-Output "Actual JDK in use -- "; java -version
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
