@@ -26,7 +26,7 @@ jobs:
     name: ${{ matrix.os }} JDK 8
     strategy:
       matrix:
-        os: [$UBUNTU_SECOND_LATEST, $UBUNTU_LATEST, $MACOS_SECOND_LATEST, $MACOS_LATEST, $WINDOWS_SECOND_LATEST, $WINDOWS_LATEST]
+        os: [env.UBUNTU_SECOND_LATEST, env.UBUNTU_LATEST, env.MACOS_SECOND_LATEST, env.MACOS_LATEST, env.WINDOWS_SECOND_LATEST, env.WINDOWS_LATEST]
     runs-on: ${{ matrix.os }}
     env:
       NODE_VERSION: "lts/*"
@@ -41,8 +41,8 @@ jobs:
     - name: Set up JDK 1.8
       uses: actions/setup-java@v3
       with:
-        distribution: $JAVA_DISTRIBUTION
-        java-version: $JAVA_VER
+        distribution: env.JAVA_DISTRIBUTION
+        java-version: env.JAVA_VER
 
     - name: Verify Java version
       run: echo -e "Actual JDK in use -- "; java -version
@@ -50,7 +50,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: $NODE_VER
+        node-version: env.NODE_VER
 
     - name: Set up Gradle caching
       uses: actions/cache@v3
@@ -84,7 +84,7 @@ jobs:
       run: ./gradlew clean checkstyleAll test systemTest coverage
 
     - name: Run code coverage
-      if: ${{ success() && ( matrix.os == $UBUNTU_LATEST || matrix.os == $MACOS_LATEST || matrix.os == $WINDOWS_LATEST ) }}
+      if: ${{ success() && ( matrix.os == env.UBUNTU_LATEST || matrix.os == env.MACOS_LATEST || matrix.os == env.WINDOWS_LATEST ) }}
       uses: codecov/codecov-action@v3
       with:
         directory: ${{ github.workspace }}/build/reports/jacoco/coverage
@@ -92,21 +92,21 @@ jobs:
         fail_ci_if_error: true
 
     - name: Build preview website (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == $UBUNTU_LATEST }}
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == env.UBUNTU_LATEST }}
       run: |
         git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
         npm install -g markbind-cli
         (cd docs && markbind build)
 
     - name: Save PR number and HEAD commit (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == $UBUNTU_LATEST }}
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == env.UBUNTU_LATEST }}
       run: |
         mkdir -p ./pr
         echo ${{ github.event.number }} > ./pr/NUMBER
         echo ${{ github.event.pull_request.head.sha }} > ./pr/SHA
 
     - name: Upload artifacts (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == $UBUNTU_LATEST }}
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == env.UBUNTU_LATEST }}
       uses: actions/upload-artifact@v3
       with:
         name: reposense-deployment
@@ -117,7 +117,7 @@ jobs:
 
   cypress:
     name: Cypress frontend tests
-    runs-on: $UBUNTU_LATEST
+    runs-on: env.UBUNTU_LATEST
 
     steps:
     - name: Checkout repository
@@ -128,8 +128,8 @@ jobs:
     - name: Set up JDK 1.8
       uses: actions/setup-java@v3
       with:
-        distribution: $JAVA_DISTRIBUTION
-        java-version: $JAVA_VER
+        distribution: env.JAVA_DISTRIBUTION
+        java-version: env.JAVA_VER
 
     - name: Verify Java version
       run: echo -e "Actual JDK in use -- "; java -version
@@ -137,7 +137,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: $NODE_VER
+        node-version: env.NODE_VER
 
     - name: Set up Gradle caching
       uses: actions/cache@v3
