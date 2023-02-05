@@ -199,6 +199,7 @@ const app = {
         minDate,
         maxDate,
         location: this.getRepoLink(),
+        files: [],
       };
       const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
