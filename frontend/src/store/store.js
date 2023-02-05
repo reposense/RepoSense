@@ -44,6 +44,33 @@ export default createStore({
       }
       window.encodeHash();
     },
+    toggleZoomCommitMessageBody(_, slice) {
+      if (slice.isOpen !== undefined) {
+        slice.isOpen = !slice.isOpen;
+      }
+    },
+    setAllZoomCommitMessageBody(_, { isOpen, commits }) {
+      commits.forEach((commit) => {
+        commit.commitResults.forEach((slice) => {
+          if (slice.isOpen !== undefined) {
+            slice.isOpen = isOpen;
+          }
+        });
+      });
+    },
+    updateTabAuthorshipFiles(state, files) {
+      state.tabAuthorshipInfo.files.splice(0, state.tabAuthorshipInfo.files.length, ...files);
+    },
+    toggleAuthorshipFileActiveProperty(_, file) {
+      file.active = !file.active;
+      file.wasCodeLoaded = file.wasCodeLoaded || file.active;
+    },
+    setAllAuthorshipFileActiveProperty(_, { isActive, files }) {
+      files.forEach((file) => {
+        file.active = isActive;
+        file.wasCodeLoaded = file.wasCodeLoaded || file.active;
+      });
+    },
   },
   actions: {
     // Actions are called with dispatch
