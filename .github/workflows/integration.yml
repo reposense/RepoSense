@@ -127,7 +127,7 @@ jobs:
         java-version: ${{ env.JAVA_VER }}
 
     - name: Verify Java version
-      run: echo -e "Actual JDK in use -- "; java -version
+      run: echo "Actual JDK in use -- "; java -version
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
