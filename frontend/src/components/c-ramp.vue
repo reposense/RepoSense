@@ -8,7 +8,7 @@
           v-on:click="rampClick",
           v-bind:href="getLink(commit)", target="_blank",
           v-bind:title="getContributionMessage(slice, commit)",
-          v-bind:class="`ramp__slice--color${getSliceColor(slice)}`,\
+          v-bind:class="`ramp__slice--color${getSliceColor(commit, slice.date)}`,\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
           v-bind:style="{\
             zIndex: user.commits.length - j,\
@@ -24,7 +24,7 @@
       v-for="(slice, j) in user.commits.filter(commit => getContributions(commit) > 0)",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
+      v-bind:class="`ramp__slice--color${getSliceColor(commit, slice.date)}`",
       v-bind:style="{\
         zIndex: user.commits.length - j,\
         borderLeftWidth: `${getWidth(slice)}em`,\
@@ -161,13 +161,13 @@ export default {
     getTotalForPos(sinceDate, untilDate) {
       return new Date(untilDate) - new Date(sinceDate);
     },
-    getSliceColor(slice) {
-      if (this.isDeletesCommit(slice)) {
+    getSliceColor(commit, date) {
+      if (this.isDeletesCommit(commit)) {
         return '-deletes';
       }
       const timeMs = this.fromramp
           ? (new Date(this.sdate)).getTime()
-          : (new Date(slice.date)).getTime();
+          : (new Date(date)).getTime();
 
       return (timeMs / window.DAY_IN_MS) % 5;
     },
@@ -225,7 +225,7 @@ export default {
     }
 
     &--color-deletes {
-      border-bottom: $height rgba(mui-color('red'), .5) solid;
+      border-bottom: $height rgba(mui-color('red'), .7) solid;
     }
   }
 }
