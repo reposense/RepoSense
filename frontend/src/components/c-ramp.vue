@@ -8,7 +8,7 @@
           v-on:click="rampClick",
           v-bind:href="getLink(commit)", target="_blank",
           v-bind:title="getContributionMessage(slice, commit)",
-          v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`,\
+          v-bind:class="`ramp__slice--color${getSliceColor(slice)}`,\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
           v-bind:style="{\
             zIndex: user.commits.length - j,\
@@ -24,7 +24,7 @@
       v-for="(slice, j) in user.commits.filter(commit => getContributions(commit) > 0)",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`",
+      v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
       v-bind:style="{\
         zIndex: user.commits.length - j,\
         borderLeftWidth: `${getWidth(slice)}em`,\
@@ -92,11 +92,14 @@ export default {
     getContributions(commit) {
       return commit.insertions + commit.deletions;
     },
+    isDeletesCommit(commit) {
+      return commit.insertions === 0 && commit.deletions > 0;
+    },
     getWidth(slice) {
       if (this.getContributions(slice) === 0) {
         return 0;
       }
-      if (slice.insertions === 0) {
+      if (this.isDeletesCommit(slice)) {
         return this.deletesCommitRampSize;
       }
 
@@ -158,10 +161,13 @@ export default {
     getTotalForPos(sinceDate, untilDate) {
       return new Date(untilDate) - new Date(sinceDate);
     },
-    getSliceColor(date) {
+    getSliceColor(slice) {
+      if (this.isDeletesCommit(slice)) {
+        return '-deletes';
+      }
       const timeMs = this.fromramp
           ? (new Date(this.sdate)).getTime()
-          : (new Date(date)).getTime();
+          : (new Date(slice.date)).getTime();
 
       return (timeMs / window.DAY_IN_MS) % 5;
     },
@@ -216,6 +222,10 @@ export default {
 
     &--color4 {
       border-bottom: $height rgba(mui-color('pink'), .5) solid;
+    }
+
+    &--color-deletes {
+      border-bottom: $height rgba(mui-color('red'), .5) solid;
     }
   }
 }
