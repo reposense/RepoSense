@@ -22,11 +22,11 @@
       "error",
       2,
       {
-        "MemberExpression": 2,
+        "MemberExpression": 1,
         "CallExpression": {
-          "arguments": 2
+          "arguments": 1
         },
-        "ArrayExpression": 2,
+        "ArrayExpression": 1,
         "ignoredNodes": [
           "ConditionalExpression"
         ]
