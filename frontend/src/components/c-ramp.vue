@@ -8,7 +8,7 @@
           v-on:click="rampClick",
           v-bind:href="getLink(commit)", target="_blank",
           v-bind:title="getContributionMessage(slice, commit)",
-          v-bind:class="`ramp__slice--color${getSliceColor(commit, slice.date)}`,\
+          v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
           v-bind:style="{\
             zIndex: user.commits.length - j,\
@@ -24,7 +24,7 @@
       v-for="(slice, j) in user.commits.filter(commit => getContributions(commit) > 0)",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="`ramp__slice--color${getSliceColor(commit, slice.date)}`",
+      v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
       v-bind:style="{\
         zIndex: user.commits.length - j,\
         borderLeftWidth: `${getWidth(slice)}em`,\
@@ -81,7 +81,7 @@ export default {
   data() {
     return {
       rampSize: 0.01,
-      deletesCommitRampSize: this.rampSize * 20,
+      deletesContributionRampSize: this.rampSize * 20,
     };
   },
 
@@ -92,15 +92,15 @@ export default {
     getContributions(commit) {
       return commit.insertions + commit.deletions;
     },
-    isDeletesCommit(commit) {
+    isDeletesContribution(commit) {
       return commit.insertions === 0 && commit.deletions > 0;
     },
     getWidth(slice) {
       if (this.getContributions(slice) === 0) {
         return 0;
       }
-      if (this.isDeletesCommit(slice)) {
-        return this.deletesCommitRampSize;
+      if (this.isDeletesContribution(slice)) {
+        return this.deletesContributionRampSize;
       }
 
       const newSize = 100 * (slice.insertions / this.avgsize);
@@ -161,13 +161,19 @@ export default {
     getTotalForPos(sinceDate, untilDate) {
       return new Date(untilDate) - new Date(sinceDate);
     },
-    getSliceColor(commit, date) {
-      if (this.isDeletesCommit(commit)) {
+    getRampColor(commit, slice) {
+      if (this.isDeletesContribution(commit)) {
+        return '-deletes';
+      }
+      return this.getSliceColor(slice);
+    },
+    getSliceColor(slice) {
+      if (this.isDeletesContribution(slice)) {
         return '-deletes';
       }
       const timeMs = this.fromramp
           ? (new Date(this.sdate)).getTime()
-          : (new Date(date)).getTime();
+          : (new Date(slice.date)).getTime();
 
       return (timeMs / window.DAY_IN_MS) % 5;
     },
