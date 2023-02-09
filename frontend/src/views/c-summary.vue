@@ -690,6 +690,11 @@ export default {
           this.filterCommitByCheckedFileTypes(filteredCommit);
 
           if (filteredCommit.commitResults.length > 0) {
+            filteredCommit.commitResults.forEach((commitResult) => {
+              if (commitResult.messageBody !== '') {
+                commitResult.isOpen = true;
+              }
+            });
             user.commits.push(filteredCommit);
           }
         }

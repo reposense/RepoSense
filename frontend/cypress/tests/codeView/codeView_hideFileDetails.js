@@ -94,4 +94,62 @@ describe('hide all file details', () => {
     cy.get('#tab-authorship .file-content ')
         .should('be.visible');
   });
+
+  it('check collapsed file persists after sort', () => {
+    cy.get('.icon-button.fa-code')
+        .should('be.visible')
+        .first()
+        .click();
+
+    cy.get('#tab-authorship .files', { timeout: 90000 })
+        .should('be.visible');
+
+    cy.get('#tab-authorship .file-content ')
+        .first()
+        .should('be.visible');
+
+    // hide contents of the first file
+    cy.get('#tab-authorship .title .caret')
+        .should('be.visible')
+        .first()
+        .click();
+
+    cy.get('#tab-authorship .file-content ')
+        .first()
+        .should('not.be.visible');
+
+    cy.get('#tab-authorship .title .path')
+        .first()
+        .invoke('text')
+        // keep track of first file by file path so test doesn't rely on correctness of sort
+        .then((filePath) => {
+          // change sort by
+          cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select')
+              .select('Path')
+              .should('have.value', 'path');
+
+          // wait until loading is finished
+          cy.get('[aria-label="Loading"]')
+              .should('not.be.visible');
+
+          // contents of file should still be hidden
+          cy.contains('#tab-authorship .file', filePath.trim())
+              .children('.file-content')
+              .should('not.be.visible');
+
+          // change sort order
+          cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')
+              .select('Ascending')
+              .should('have.value', 'false');
+
+          // wait until loading is finished
+          cy.get('[aria-label="Loading"]')
+              .should('not.be.visible');
+
+          // contents of file should still be hidden
+          cy.contains('#tab-authorship .file', filePath.trim())
+              .children('.file-content')
+              .should('not.be.visible');
+        });
+  });
 });
