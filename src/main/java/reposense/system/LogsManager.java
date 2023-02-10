@@ -36,7 +36,6 @@ public class LogsManager {
 
     public static Logger getLogger(String name) {
         Logger logger = Logger.getLogger(name);
-        LOGGER_LIST.add(logger);
         logger.setUseParentHandlers(false);
 
         removeHandlers(logger);
@@ -44,6 +43,10 @@ public class LogsManager {
 
         if (logFolderLocation != null) {
             addFileHandler(logger);
+        }
+
+        synchronized (LOGGER_LIST) {
+            LOGGER_LIST.add(logger);
         }
 
         return logger;
@@ -131,6 +134,9 @@ public class LogsManager {
      */
     public static synchronized void setLogFolderLocation(Path location) {
         logFolderLocation = location;
-        LOGGER_LIST.stream().forEach(logger -> addFileHandler(logger));
+
+        synchronized (LOGGER_LIST) {
+            LOGGER_LIST.stream().forEach(logger -> addFileHandler(logger));
+        }
     }
 }
