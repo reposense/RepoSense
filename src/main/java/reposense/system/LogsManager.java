@@ -132,7 +132,7 @@ public class LogsManager {
      * Sets the log folder location using {@code location} and adds file handler with this location to all the loggers
      * created.
      */
-    public static synchronized void setLogFolderLocation(Path location) {
+    public static void setLogFolderLocation(Path location) {
         logFolderLocation = location;
 
         synchronized (LOGGER_LIST) {
