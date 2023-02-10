@@ -8,8 +8,9 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -29,22 +30,68 @@ public class ConfigSystemTest {
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
 
     private static final String OUTPUT_DIRECTORY = "ft_temp";
-    private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
+    private static final String DEFAULT_OUTPUT_FOLDER_NAME = "reposense-report";
+
+    private static final String SINCE_BEGINNING_DATE_RANGE_REPORT_DIRECTORY =
+            String.join("/", OUTPUT_DIRECTORY, "since_beginning_date_range");
+    private static final Path SINCE_BEGINNING_DATE_RANGE_REPORT_DIRECTORY_PATH =
+            Paths.get(SINCE_BEGINNING_DATE_RANGE_REPORT_DIRECTORY, DEFAULT_OUTPUT_FOLDER_NAME);
+
+    private static final String THIRTY_DAYS_FROM_UNTIL_DATE_REPORT_DIRECTORY =
+            String.join("/", OUTPUT_DIRECTORY, "thirty_days_from_until_date");
+    private static final Path THIRTY_DAYS_FROM_UNTIL_DATE_REPORT_DIRECTORY_PATH =
+            Paths.get(THIRTY_DAYS_FROM_UNTIL_DATE_REPORT_DIRECTORY, DEFAULT_OUTPUT_FOLDER_NAME);
+
+    private static final String DATE_RANGE_WITH_MODIFIED_DATETIME_IN_LINES_REPORT_DIRECTORY =
+            String.join("/", OUTPUT_DIRECTORY, "date_range_with_modified_datetime_in_lines");
+    private static final Path DATE_RANGE_WITH_MODIFIED_DATETIME_IN_LINES_REPORT_DIRECTORY_PATH =
+            Paths.get(DATE_RANGE_WITH_MODIFIED_DATETIME_IN_LINES_REPORT_DIRECTORY, DEFAULT_OUTPUT_FOLDER_NAME);
+
+    private static final String SINCE_BEGINNING_DATE_RANGE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY =
+            String.join("/", OUTPUT_DIRECTORY, "since_beginning_date_range_with_shallow_cloning");
+    private static final Path SINCE_BEGINNING_DATE_RANGE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY_PATH =
+            Paths.get(SINCE_BEGINNING_DATE_RANGE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY, DEFAULT_OUTPUT_FOLDER_NAME);
+
+    private static final String THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY =
+            String.join("/", OUTPUT_DIRECTORY, "thirty_days_from_until_date_with_shallow_cloning");
+    private static final Path THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY_PATH =
+            Paths.get(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY, DEFAULT_OUTPUT_FOLDER_NAME);
+
+    private static final String SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY =
+            String.join("/", "since_beginning_date_range_with_find_previous_author");
+    private static final Path SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY_PATH =
+            Paths.get(SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY,
+                    DEFAULT_OUTPUT_FOLDER_NAME);
+
+    private static final String THIRTY_DAYS_FROM_UNTIL_DATE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY =
+            String.join("/", OUTPUT_DIRECTORY,
+                    "thirty_days_from_until_date_with_find_previous_author");
+    private static final Path THIRTY_DAYS_FROM_UNTIL_DATE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY_PATH =
+            Paths.get(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY,
+                    DEFAULT_OUTPUT_FOLDER_NAME);
 
     private static final String GIT_VERSION_INSUFFICIENT_MESSAGE = "Git version 2.23.0 and above necessary to run test";
 
     private static boolean didNotCloneRepoNormally = true;
 
+    @BeforeAll
+    public static void clearReportDirectory() throws Exception {
+        FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
+    }
+
     @BeforeEach
     public void setUp() throws Exception {
         SupportedDomainUrlMap.clearAccessedSet();
-        FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
         ErrorSummary.getInstance().clearErrorSet();
     }
 
-    @AfterEach
-    public void tearDown() throws Exception {
+    @AfterAll
+    public static void tearDown() throws Exception {
         FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
+    }
+
+    public void deleteReportDirectory(String reportDirectory) throws Exception {
+        FileUtil.deleteDirectory(reportDirectory);
     }
 
     /**
@@ -52,21 +99,30 @@ public class ConfigSystemTest {
      * since date to capture from the first commit.
      */
     @Test
-    public void testSinceBeginningDateRange() {
+    public void testSinceBeginningDateRange() throws Exception {
         InputBuilder inputBuilder = initInputBuilder()
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
-                .addUntilDate("2/3/2019");
+                .addUntilDate("2/3/2019")
+                .addOutput(SINCE_BEGINNING_DATE_RANGE_REPORT_DIRECTORY);
 
         runTest(inputBuilder, false,
-                "ConfigSystemTest/sinceBeginningDateRange/expected");
+                "ConfigSystemTest/sinceBeginningDateRange/expected",
+                SINCE_BEGINNING_DATE_RANGE_REPORT_DIRECTORY_PATH);
+
+        deleteReportDirectory(SINCE_BEGINNING_DATE_RANGE_REPORT_DIRECTORY);
     }
 
     @Test
-    public void test30DaysFromUntilDate() {
-        InputBuilder inputBuilder = initInputBuilder().addUntilDate("1/11/2017");
+    public void test30DaysFromUntilDate() throws Exception {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addUntilDate("1/11/2017")
+                .addOutput(THIRTY_DAYS_FROM_UNTIL_DATE_REPORT_DIRECTORY);
 
         runTest(inputBuilder, false,
-                "ConfigSystemTest/30daysFromUntilDate/expected");
+                "ConfigSystemTest/30daysFromUntilDate/expected",
+                THIRTY_DAYS_FROM_UNTIL_DATE_REPORT_DIRECTORY_PATH);
+
+        deleteReportDirectory(THIRTY_DAYS_FROM_UNTIL_DATE_REPORT_DIRECTORY);
     }
 
     /**
@@ -74,14 +130,18 @@ public class ConfigSystemTest {
      * line of code.
      */
     @Test
-    public void testDateRangeWithModifiedDateTimeInLines() {
+    public void testDateRangeWithModifiedDateTimeInLines() throws Exception {
         InputBuilder inputBuilder = initInputBuilder()
                 .addSinceDate("1/9/2017")
                 .addUntilDate("30/10/2017")
-                .addLastModifiedDateFlags();
+                .addLastModifiedDateFlags()
+                .addOutput(DATE_RANGE_WITH_MODIFIED_DATETIME_IN_LINES_REPORT_DIRECTORY);
 
         runTest(inputBuilder, false,
-                "ConfigSystemTest/dateRangeWithModifiedDateTimeInLines/expected");
+                "ConfigSystemTest/dateRangeWithModifiedDateTimeInLines/expected",
+                DATE_RANGE_WITH_MODIFIED_DATETIME_IN_LINES_REPORT_DIRECTORY_PATH);
+
+        deleteReportDirectory(DATE_RANGE_WITH_MODIFIED_DATETIME_IN_LINES_REPORT_DIRECTORY);
     }
 
     /**
@@ -89,24 +149,32 @@ public class ConfigSystemTest {
      * since date to capture from the first commit, using shallow cloning.
      */
     @Test
-    public void testSinceBeginningDateRangeWithShallowCloning() {
+    public void testSinceBeginningDateRangeWithShallowCloning() throws Exception {
         InputBuilder inputBuilder = initInputBuilder()
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate("2/3/2019")
-                .addShallowCloning();
+                .addShallowCloning()
+                .addOutput(SINCE_BEGINNING_DATE_RANGE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY);
 
         runTest(inputBuilder, true,
-                "ConfigSystemTest/sinceBeginningDateRangeWithShallowCloning/expected");
+                "ConfigSystemTest/sinceBeginningDateRangeWithShallowCloning/expected",
+                SINCE_BEGINNING_DATE_RANGE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY_PATH);
+
+        deleteReportDirectory(SINCE_BEGINNING_DATE_RANGE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY);
     }
 
     @Test
-    public void test30DaysFromUntilDateWithShallowCloning() {
+    public void test30DaysFromUntilDateWithShallowCloning() throws Exception {
         InputBuilder inputBuilder = initInputBuilder()
                 .addUntilDate("1/11/2017")
-                .addShallowCloning();
+                .addShallowCloning()
+                .addOutput(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY);
 
         runTest(inputBuilder, true,
-                "ConfigSystemTest/30daysFromUntilDateWithShallowCloning/expected");
+                "ConfigSystemTest/30daysFromUntilDateWithShallowCloning/expected",
+                THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY_PATH);
+
+        deleteReportDirectory(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY);
     }
 
     /**
@@ -114,30 +182,38 @@ public class ConfigSystemTest {
      * since date to capture from the first commit, using find previous authors.
      */
     @Test
-    public void testSinceBeginningDateRangeWithFindPreviousAuthors() {
+    public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
         Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
                 GIT_VERSION_INSUFFICIENT_MESSAGE);
 
         InputBuilder inputBuilder = initInputBuilder()
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate("2/3/2019")
-                .addFindPreviousAuthors();
+                .addFindPreviousAuthors()
+                .addOutput(SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY);
 
         runTest(inputBuilder, true,
-                "ConfigSystemTest/sinceBeginningDateRangeFindPreviousAuthors/expected");
+                "ConfigSystemTest/sinceBeginningDateRangeFindPreviousAuthors/expected",
+                SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY_PATH);
+
+        deleteReportDirectory(SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY);
     }
 
     @Test
-    public void test30DaysFromUntilDateWithFindPreviousAuthors() {
+    public void test30DaysFromUntilDateWithFindPreviousAuthors() throws Exception {
         Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
                 GIT_VERSION_INSUFFICIENT_MESSAGE);
 
         InputBuilder inputBuilder = initInputBuilder()
                 .addUntilDate("1/11/2017")
-                .addFindPreviousAuthors();
+                .addFindPreviousAuthors()
+                .addOutput(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY);
 
         runTest(inputBuilder, true,
-                "ConfigSystemTest/30daysFromUntilDateFindPreviousAuthors/expected");
+                "ConfigSystemTest/30daysFromUntilDateFindPreviousAuthors/expected",
+                THIRTY_DAYS_FROM_UNTIL_DATE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY_PATH);
+
+        deleteReportDirectory(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY);
     }
 
     /**
@@ -155,8 +231,7 @@ public class ConfigSystemTest {
         return new InputBuilder().addConfig(configFolder)
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
-                .addTestMode()
-                .addOutput(OUTPUT_DIRECTORY);
+                .addTestMode();
     }
 
     /**
@@ -167,7 +242,8 @@ public class ConfigSystemTest {
      * @param shouldFreshClone Boolean for whether to clone repo again if it has been cloned before.
      * @param pathToResource The location at which files generated during the test are stored.
      */
-    private void runTest(InputBuilder inputBuilder, boolean shouldFreshClone, String pathToResource) {
+    private void runTest(InputBuilder inputBuilder, boolean shouldFreshClone,
+                         String pathToResource, Path reportDirectoryPath) {
         if (shouldFreshClone || didNotCloneRepoNormally) {
             inputBuilder = inputBuilder.addFreshCloning();
         }
@@ -175,7 +251,7 @@ public class ConfigSystemTest {
         RepoSense.main(translateCommandline(inputBuilder.build()));
 
         Path actualFiles = loadResource(getClass(), pathToResource);
-        SystemTestUtil.verifyReportJsonFiles(actualFiles, REPORT_DIRECTORY_PATH);
+        SystemTestUtil.verifyReportJsonFiles(actualFiles, reportDirectoryPath);
 
         didNotCloneRepoNormally = inputBuilder.isShallowCloning();
     }
