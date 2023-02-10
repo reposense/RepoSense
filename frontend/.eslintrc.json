@@ -5,7 +5,8 @@
   "extends": [
     "airbnb-base",
     "plugin:vue/recommended",
-    "@vue/typescript"
+    "@vue/typescript",
+    "plugin:import/typescript"
   ],
   "rules": {
     "vue/component-definition-name-casing": [
@@ -47,7 +48,15 @@
     ],
     "prefer-object-spread": 0,
     "function-call-argument-newline": 0,
-    "vue/no-computed-properties-in-data": 0
+    "vue/no-computed-properties-in-data": 0,
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "ts": "never"
+      }
+    ]
   },
   "parserOptions": {
     "parser": "@typescript-eslint/parser"

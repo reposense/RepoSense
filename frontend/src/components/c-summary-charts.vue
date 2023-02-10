@@ -184,7 +184,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from './c-ramp.vue';
 
 export default {
