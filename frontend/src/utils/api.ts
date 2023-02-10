@@ -1,6 +1,7 @@
-import { authorshipSchema } from '@/types/zod/authorship-type';
-import { commitsSchema } from '@/types/zod/commits-type';
-import { summarySchema } from '@/types/zod/summary-type';
+import { DailyCommit, User as UserType, CommitResult } from '../types/types';
+import { authorshipSchema } from '../types/zod/authorship-type';
+import { commitsSchema } from '../types/zod/commits-type';
+import { ErrorMessage, summarySchema } from '../types/zod/summary-type';
 import User from './user';
 
 // utility functions //
@@ -33,7 +34,10 @@ window.getDateStr = function getDateStr(date) {
 window.getHexToRGB = function getHexToRGB(color) {
   // to convert color from hex code to rgb format
   const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-  return arr.slice(1).map((val) => parseInt(val, 16));
+  if (arr) {
+    return arr.slice(1).map((val) => parseInt(val, 16));
+  }
+  return [];
 };
 
 window.getFontColor = function getFontColor(color) {
@@ -67,7 +71,7 @@ window.encodeHash = function encodeHash() {
 };
 
 window.decodeHash = function decodeHash() {
-  const hashParams = {};
+  const hashParams: { [key:string]: string } = {};
 
   const hashIndex = window.location.href.indexOf(HASH_ANCHOR);
   const parameterString = hashIndex === -1 ? '' : window.location.href.slice(hashIndex + 1);
@@ -79,8 +83,8 @@ window.decodeHash = function decodeHash() {
           try {
             hashParams[key] = decodeURIComponent(val);
           } catch (error) {
-            this.userUpdated = false;
-            this.isLoading = false;
+            (this as any).userUpdated = false;
+            (this as any).isLoading = false;
           }
         }
       });
@@ -206,7 +210,7 @@ window.api = {
     try {
       const json = await this.loadJSON('summary.json');
       data = summarySchema.parse(json);
-    } catch (error) {
+    } catch (error: any) {
       if (error.message === 'Unable to read summary.json.') {
         return null;
       }
@@ -220,14 +224,14 @@ window.api = {
     window.isUntilDateProvided = data.isUntilDateProvided;
     document.title = data.reportTitle || document.title;
 
-    const errorMessages = {};
+    const errorMessages: { [key: string]: ErrorMessage } = {};
     Object.entries(data.errorSet).forEach(([repoName, message]) => {
       errorMessages[repoName] = message;
     });
 
     window.DOMAIN_URL_MAP = data.supportedDomainUrlMap;
 
-    const names = [];
+    const names: string[] = [];
     data.repos.forEach((repo) => {
       const repoName = `${repo.displayName}`;
       window.REPOS[repoName] = repo;
@@ -246,12 +250,12 @@ window.api = {
     const json = await this.loadJSON(`${folderName}/commits.json`);
     const commits = commitsSchema.parse(json);
 
-    const res = [];
+    const res: User[] = [];
     const repo = window.REPOS[repoName];
 
     Object.keys(commits.authorDisplayNameMap).forEach((author) => {
       if (author) {
-        const obj = {
+        const obj: any = {
           name: author,
           repoId: repoName,
           variance: commits.authorContributionVariance[author],
@@ -271,6 +275,8 @@ window.api = {
         obj.repoName = `${repo.displayName}`;
         obj.location = `${repo.location.location}`;
 
+        obj as UserType;
+
         const user = new User(obj);
         res.push(user);
       }
@@ -285,7 +291,7 @@ window.api = {
   loadAuthorship(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
     return this.loadJSON(`${folderName}/authorship.json`)
-        .then((json: any) => {
+        .then((json) => {
           const files = authorshipSchema.parse(json);
           window.REPOS[repoName].files = files;
           return files;
@@ -297,12 +303,14 @@ window.api = {
   setContributionOfCommitResultsAndInsertRepoId(dailyCommits, repoId) {
     dailyCommits.forEach((commit) => {
       commit.commitResults.forEach((result) => {
-        result.repoId = repoId;
-        result.insertions = Object.values(result.fileTypesAndContributionMap)
+        (result as CommitResult).repoId = repoId;
+        (result as CommitResult).insertions = Object.values(result.fileTypesAndContributionMap)
             .reduce((acc, fileType) => acc + fileType.insertions, 0);
-        result.deletions = Object.values(result.fileTypesAndContributionMap)
+        (result as CommitResult).deletions = Object.values(result.fileTypesAndContributionMap)
             .reduce((acc, fileType) => acc + fileType.deletions, 0);
       });
+      // typecast to DailyCommit since we added repoId/insertions/deletions
+      commit as any as DailyCommit;
     });
   },
 };
