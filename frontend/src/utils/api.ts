@@ -1,4 +1,7 @@
-import User from './user.ts';
+import { authorshipSchema } from '@/types/zod/authorship-type';
+import { commitsSchema } from '@/types/zod/commits-type';
+import { summarySchema } from '@/types/zod/summary-type';
+import User from './user';
 
 // utility functions //
 window.$ = (id) => document.getElementById(id);
@@ -199,9 +202,10 @@ window.api = {
   },
   async loadSummary() {
     window.REPOS = {};
-    let data = {};
+    let data;
     try {
-      data = await this.loadJSON('summary.json');
+      const json = await this.loadJSON('summary.json');
+      data = summarySchema.parse(json);
     } catch (error) {
       if (error.message === 'Unable to read summary.json.') {
         return null;
@@ -239,7 +243,9 @@ window.api = {
 
   async loadCommits(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
-    const commits = await this.loadJSON(`${folderName}/commits.json`);
+    const json = await this.loadJSON(`${folderName}/commits.json`);
+    const commits = commitsSchema.parse(json);
+
     const res = [];
     const repo = window.REPOS[repoName];
 
@@ -279,7 +285,8 @@ window.api = {
   loadAuthorship(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
     return this.loadJSON(`${folderName}/authorship.json`)
-        .then((files) => {
+        .then((json: any) => {
+          const files = authorshipSchema.parse(json);
           window.REPOS[repoName].files = files;
           return files;
         });
