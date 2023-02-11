@@ -16,7 +16,7 @@ export interface CommitResult extends CommitResultRaw {
 // Similar to AuthorDailyContributions, but uses the updated CommitResult with the three new fields
 export interface DailyCommit {
   commitResults: CommitResult[];
-  date: String;
+  date: string;
 }
 
 // Similar to DailyCommit, but contains the total insertions and deletions for all CommitResults

@@ -34,10 +34,7 @@ window.getDateStr = function getDateStr(date) {
 window.getHexToRGB = function getHexToRGB(color) {
   // to convert color from hex code to rgb format
   const arr = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-  if (arr) {
-    return arr.slice(1).map((val) => parseInt(val, 16));
-  }
-  return [];
+  return arr ? arr.slice(1).map((val) => parseInt(val, 16)) : [];
 };
 
 window.getFontColor = function getFontColor(color) {
@@ -71,7 +68,7 @@ window.encodeHash = function encodeHash() {
 };
 
 window.decodeHash = function decodeHash() {
-  const hashParams: { [key:string]: string } = {};
+  const hashParams: { [key: string]: string } = {};
 
   const hashIndex = window.location.href.indexOf(HASH_ANCHOR);
   const parameterString = hashIndex === -1 ? '' : window.location.href.slice(hashIndex + 1);
@@ -310,7 +307,7 @@ window.api = {
             .reduce((acc, fileType) => acc + fileType.deletions, 0);
       });
       // typecast to DailyCommit since we added repoId/insertions/deletions
-      commit as any as DailyCommit;
+      commit as unknown as DailyCommit;
     });
   },
 };
