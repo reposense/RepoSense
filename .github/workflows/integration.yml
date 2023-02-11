@@ -62,7 +62,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Run environmental checks
-      run: ./config/gh-actions/run-checks.sh
+      run: ./gradlew environmentalChecks
 
     - name: Run linter
       run: ./gradlew lintFrontend
