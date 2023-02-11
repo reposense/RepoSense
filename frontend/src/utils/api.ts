@@ -272,8 +272,6 @@ window.api = {
         obj.repoName = `${repo.displayName}`;
         obj.location = `${repo.location.location}`;
 
-        obj as UserType;
-
         const user = new User(obj);
         res.push(user);
       }
@@ -306,8 +304,6 @@ window.api = {
         (result as CommitResult).deletions = Object.values(result.fileTypesAndContributionMap)
             .reduce((acc, fileType) => acc + fileType.deletions, 0);
       });
-      // typecast to DailyCommit since we added repoId/insertions/deletions
-      commit as unknown as DailyCommit;
     });
   },
 };
