@@ -1,17 +1,25 @@
 @echo off
 setlocal enabledelayedexpansion
 
-set "expected="
+git grep --cached -I -l -e "*" -- "../../" > temp.txt
 
-git grep --cached -I -l -e "*" -- "../../" | (
-    set lastline="test"
-    for /f "delims=" %%F in ('more') do @(
-       for /f "delims==" %%A in (%%F) do @(
-        set lastline=%%A
-        echo # %%A
+
+for /f "delims=" %%F in (temp.txt) do @(
+       rem /* Count the number of lines that contain zero or more characters at the end;
+       rem    this is true for every line except for the last when it is not terminated
+       rem    by a line-break, because the `$` is anchored to such: */
+
+       set file=%%F
+       set "file=!file:/=\!"
+
+       for /F %%D in ('findstr ".*$" "!file!" ^| find /C /V ""') do (
+           rem // Count the total number of lines in the file:
+           for /F %%C in ('^< "!file!" find /C /V ""') do (
+               (
+                   rem // Compare the line counts and conditionally append a line-break:
+                   if %%D lss %%C echo "ERROR:!file!:%%C: no newline at EOF."
+               )
+           )
        )
-    )
-
-    if not "%expected%" == "%lastline%" ( echo "ERROR:%%F:line: no newline at EOF." )
-
 )
+
