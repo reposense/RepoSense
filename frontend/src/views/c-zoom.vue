@@ -181,7 +181,7 @@ export default {
 
       const date = zTimeFrame === 'week' ? 'endDate' : 'date';
       filteredUser.commits = zUser.commits.filter(
-          (commit) => commit[date] >= zSince && commit[date] <= zUntil,
+        (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
 
       return new User(filteredUser);
@@ -193,7 +193,7 @@ export default {
         filteredCommit.commitResults = [];
         commit.commitResults.forEach((slice) => {
           if (Object.keys(slice.fileTypesAndContributionMap).some(
-              (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
+            (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
           )) {
             filteredCommit.commitResults.push(slice);
           }
@@ -299,7 +299,7 @@ export default {
         });
       });
       this.fileTypes = Object.keys(this.filteredUser.fileTypeContribution).filter(
-          (fileType) => commitsFileTypes.has(fileType),
+        (fileType) => commitsFileTypes.has(fileType),
       );
     },
 
@@ -323,8 +323,8 @@ export default {
 
       if (hash.zFT) {
         this.selectedFileTypes = hash.zFT
-            .split(window.HASH_DELIMITER)
-            .filter((fileType) => this.fileTypes.includes(fileType));
+          .split(window.HASH_DELIMITER)
+          .filter((fileType) => this.fileTypes.includes(fileType));
       }
     },
 
