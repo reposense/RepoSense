@@ -16,7 +16,7 @@ OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
 
 mainClassName = 'reposense.RepoSense'
 
-node.download = false // The Liferay Node Gradle Plugin will use the system PATH
+node.download = false // The Liferay Node Gradle Plugin will use the system PATH to find the Node/npm executable.
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
