@@ -53,6 +53,7 @@ The information below is for **Intellij**. If you are using a different IDE, you
   * `getRepoConfigurations(cliArguments)`: RepoSense gets the configuration for each repository by parsing the CSV files.
   * `getReportConfigurations(cliArguments)`: RepoSense gets the report configuration (report title) by parsing the JSON files.
   * `ReportGenerator.generateReposReport(...)` This is where the bulk of the work is conducted, including cloning repositories, analyzing repositories, and generating the JSON files to be used by the report.
+* To supply debugging arguments, right-click on the run button of `RepoSense.main`, click `Modify Run Configuration`, and add [CLI flags](https://reposense.org/ug/customizingReports.html#customize-using-cli-flags) in `Program arguments`. Examples: `--since 16/12/2021 --until 18/12/2022`; `-s 16/12/2021 -u 18/12/2022`.
 
 <box type="info" seamless>
 

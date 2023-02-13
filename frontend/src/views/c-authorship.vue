@@ -5,9 +5,9 @@
   .toolbar--multiline
     a(
       v-if="activeFilesCount < selectedFiles.length",
-      v-on:click="expandAll()"
+      v-on:click="toggleAllFileActiveProperty(true)"
     ) show all file details
-    a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
+    a(v-if="activeFilesCount > 0", v-on:click="toggleAllFileActiveProperty(false)") hide all file details
   .panel-heading
     a.group-name(
       v-bind:href="info.location", target="_blank",
@@ -21,7 +21,7 @@
       span {{ info.minDate }} to {{ info.maxDate }}
         |&nbsp;&nbsp; ({{ selectedFiles.length }} files changed)
   .title
-    .contribution(v-if="isLoaded && files.length!=0")
+    .contribution(v-if="isLoaded && info.files.length!=0")
       .sorting.mui-form--inline
         .mui-select.sort-by
           select(v-model="filesSortType")
@@ -61,7 +61,7 @@
           v-model="filterType",
           v-on:change="indicateCheckBoxes"
         )
-        .checkboxes.mui-form--inline(v-if="files.length > 0")
+        .checkboxes.mui-form--inline(v-if="info.files.length > 0")
           label(style='background-color: #000000; color: #ffffff')
             input.mui-checkbox--fileType#all(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
@@ -98,7 +98,7 @@
               span {{ ignoredFilesCount }} ignored file(s)
 
   .files(v-if="isLoaded")
-    .empty(v-if="files.length === 0") nothing to see here :(
+    .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
       .file(v-bind:ref="file.path")
         .title
@@ -182,7 +182,6 @@ const filesSortDict = {
 function authorshipInitialState() {
   return {
     isLoaded: false,
-    files: [],
     selectedFiles: [],
     filterType: 'checkboxes',
     selectedFileTypes: [],
@@ -207,7 +206,7 @@ export default {
   },
   mixins: [brokenLinkDisabler],
   emits: [
-      'deactivate-tab',
+    'deactivate-tab',
   ],
   data() {
     return authorshipInitialState();
@@ -281,19 +280,19 @@ export default {
     fileTypeLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
-          .filter(([, value]) => value > 0)
-          .forEach(([langType, value]) => {
-            numLinesModified[langType] = value;
-          });
+        .filter(([, value]) => value > 0)
+        .forEach(([langType, value]) => {
+          numLinesModified[langType] = value;
+        });
       return numLinesModified;
     },
 
     binaryFilesCount() {
-      return this.files.filter((file) => file.isBinary).length;
+      return this.info.files.filter((file) => file.isBinary).length;
     },
 
     ignoredFilesCount() {
-      return this.files.filter((file) => file.isIgnored).length;
+      return this.info.files.filter((file) => file.isIgnored).length;
     },
 
     ...mapState({
@@ -358,8 +357,8 @@ export default {
 
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
-            .split(window.HASH_DELIMITER)
-            .filter((fileType) => this.fileTypes.includes(fileType));
+          .split(window.HASH_DELIMITER)
+          .filter((fileType) => this.fileTypes.includes(fileType));
       } else {
         this.resetSelectedFileTypes();
       }
@@ -442,23 +441,13 @@ export default {
       this.setInfoHash();
     },
 
-    expandAll() {
-      this.selectedFiles.forEach((file) => {
-        file.active = true;
-        file.wasCodeLoaded = true;
-      });
-    },
-
-    collapseAll() {
-      this.selectedFiles.forEach((file) => {
-        file.active = false;
-      });
+    toggleAllFileActiveProperty(isActive) {
+      this.$store.commit('setAllAuthorshipFileActiveProperty', { isActive, files: this.selectedFiles });
     },
 
     toggleFileActiveProperty(file) {
       this.scrollFileIntoView(file);
-      file.active = !file.active;
-      file.wasCodeLoaded = file.wasCodeLoaded || file.active;
+      this.$store.commit('toggleAuthorshipFileActiveProperty', file);
     },
 
     scrollFileIntoView(file) {
@@ -502,9 +491,9 @@ export default {
 
         if (authored !== lastState || lastId === -1) {
           segments.push(new Segment(
-              authored,
-              [],
-              [],
+            authored,
+            [],
+            [],
           ));
 
           lastId += 1;
@@ -558,8 +547,8 @@ export default {
 
         if (!out.isBinary && !out.isIgnored) {
           out.charCount = file.lines.reduce(
-              (count, line) => count + (line ? line.content.length : 0),
-              0,
+            (count, line) => count + (line ? line.content.length : 0),
+            0,
           );
         }
 
@@ -589,14 +578,14 @@ export default {
       });
 
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
-      this.files = res;
+      this.$store.commit('updateTabAuthorshipFiles', res);
       this.updateSelectedFiles(true);
     },
 
     isValidFile(file) {
       return this.info.isMergeGroup
           ? Object.entries(file.authorContributionMap)
-              .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
+            .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
           : this.info.author in file.authorContributionMap;
     },
 
@@ -638,12 +627,12 @@ export default {
 
     async updateSelectedFiles(setIsLoaded = false) {
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
-      this.selectedFiles = this.files.filter(
-          (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
+      this.selectedFiles = this.info.files.filter(
+        (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
           || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))
           && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
       )
-          .sort(this.sortingFunction);
+        .sort(this.sortingFunction);
       if (setIsLoaded) {
         this.isLoaded = true;
       }

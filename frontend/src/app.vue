@@ -120,13 +120,13 @@ const app = {
       this.users = [];
 
       JSZip.loadAsync(evt.target.files[0])
-          .then((zip) => {
-            window.REPORT_ZIP = zip;
-          }, () => {
-            window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
+        .then((zip) => {
+          window.REPORT_ZIP = zip;
+        }, () => {
+          window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
               + 'by RepoSense.');
-          })
-          .then(() => this.updateReportView());
+        })
+        .then(() => this.updateReportView());
     },
 
     updateReportDir() {
@@ -199,6 +199,7 @@ const app = {
         minDate,
         maxDate,
         location: this.getRepoLink(),
+        files: [],
       };
       const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
       if (Object.keys(info).length === tabInfoLength) {
