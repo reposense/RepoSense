@@ -14,7 +14,7 @@
 -->
 Fixes #xxxx
 
-## Proposed commit message
+### Proposed commit message
 <!--
     Propose a detailed commit message for this pull request within the triple backticks below.
     Wrap lines at 72 characters.
@@ -28,7 +28,7 @@ Brief description of current behaviour and reason(s) for the change.
 Call-to-action statement describing what you are doing in this PR.
 ```
 
-## Other information
+### Other information
 <!--
     Are there other relevant information, such as special testing instructions, 
     which will help the reviewer better understand the code?
