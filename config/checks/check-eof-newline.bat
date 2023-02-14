@@ -1,4 +1,5 @@
 @echo
+rem Checks that all text files end with a newline.
 
 set temp=check-eof-newline~%RANDOM%.tmp
 

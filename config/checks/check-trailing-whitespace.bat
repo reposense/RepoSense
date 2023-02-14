@@ -1,4 +1,6 @@
 @echo off
+rem Checks for prohibited line endings.
+rem Prohibited line endings: \r\n
 
 set temp=check-trailing-whitespace~%RANDOM%.tmp
 
