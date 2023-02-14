@@ -152,8 +152,11 @@ tasks.register('checkstyleAll', Checkstyle) {
 
 tasks.register('environmentalChecks', Exec) {
     workingDir 'config/checks'
-    onlyIf {!os.isWindows()}
-    commandLine  './run-checks.sh'
+    if (os.isWindows()){
+        commandLine  'cmd', '/c', 'run-checks.bat'
+    } else {
+        commandLine  './run-checks.sh'
+    }
 }
 
 
