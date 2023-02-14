@@ -155,7 +155,7 @@ tasks.register('environmentalChecks', Exec) {
     if (os.isWindows()){
         commandLine 'cmd', '/c', 'run-checks.bat'
     } else {
-        commandLine './run-checks.sh'
+        commandLine 'sh', './run-checks.sh'
     }
 }
 

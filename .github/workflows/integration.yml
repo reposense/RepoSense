@@ -64,11 +64,11 @@ jobs:
     - name: Run linter
       run: ./gradlew lintFrontend
 
-    - name: Build with Gradle
-      run: ./gradlew clean checkstyleAll test systemTest coverage
-
     - name: Run environmental checks
       run: ./gradlew environmentalChecks
+
+    - name: Build with Gradle
+      run: ./gradlew clean checkstyleAll test systemTest coverage
 
     - name: Run code coverage
       if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
@@ -155,11 +155,11 @@ jobs:
     - name: Run linter
       run: ./gradlew lintFrontend
 
-    - name: Build with Gradle
-      run: ./gradlew clean checkstyleAll test systemTest coverage
-
     - name: Run environmental checks
       run: ./gradlew environmentalChecks
+
+    - name: Build with Gradle
+      run: ./gradlew clean checkstyleAll test systemTest coverage
 
     - name: Run code coverage
       if: ${{ success() && matrix.os == 'macos-11' }}
@@ -216,11 +216,11 @@ jobs:
     - name: Run linter
       run: ./gradlew lintFrontend
 
-    - name: Build with Gradle
-      run: ./gradlew clean checkstyleAll test systemTest coverage
-
     - name: Run environmental checks
       run: ./gradlew environmentalChecks
+
+    - name: Build with Gradle
+      run: ./gradlew clean checkstyleAll test systemTest coverage
 
     - name: Run code coverage
       if: ${{ success() && matrix.os == 'windows-2022' }}
