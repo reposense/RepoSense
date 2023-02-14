@@ -61,11 +61,11 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Run linter
-      run: ./gradlew lintFrontend
-
     - name: Run environmental checks
       run: ./gradlew environmentalChecks
+
+    - name: Run linter
+      run: ./gradlew lintFrontend
 
     - name: Build with Gradle
       run: ./gradlew clean checkstyleAll test systemTest coverage
@@ -152,11 +152,11 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Run linter
-      run: ./gradlew lintFrontend
-
     - name: Run environmental checks
       run: ./gradlew environmentalChecks
+
+    - name: Run linter
+      run: ./gradlew lintFrontend
 
     - name: Build with Gradle
       run: ./gradlew clean checkstyleAll test systemTest coverage
@@ -213,11 +213,11 @@ jobs:
         restore-keys: |
           ${{ matrix.os }}-node-
 
-    - name: Run linter
-      run: ./gradlew lintFrontend
-
     - name: Run environmental checks
       run: ./gradlew environmentalChecks
+
+    - name: Run linter
+      run: ./gradlew lintFrontend
 
     - name: Build with Gradle
       run: ./gradlew clean checkstyleAll test systemTest coverage
