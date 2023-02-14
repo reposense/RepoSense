@@ -5,7 +5,6 @@ setlocal enabledelayedexpansion
 set ret=0
 
 for /R %%X in (check-*.bat) do (
- echo %%X
  call %%X
  if ERRORLEVEL 1 set ret=1
 )
