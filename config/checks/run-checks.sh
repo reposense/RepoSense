@@ -4,6 +4,7 @@
 dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd) &&
 ret=0 &&
 for checkscript in "$dir"/check-*.sh; do
+    chmod +x $checkscript
     if ! "$checkscript"; then
         ret=1
     fi
