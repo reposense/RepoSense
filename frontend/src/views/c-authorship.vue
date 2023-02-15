@@ -206,7 +206,7 @@ export default {
   },
   mixins: [brokenLinkDisabler],
   emits: [
-      'deactivate-tab',
+    'deactivate-tab',
   ],
   data() {
     return authorshipInitialState();
@@ -280,10 +280,10 @@ export default {
     fileTypeLinesObj() {
       const numLinesModified = {};
       Object.entries(this.filesLinesObj)
-          .filter(([, value]) => value > 0)
-          .forEach(([langType, value]) => {
-            numLinesModified[langType] = value;
-          });
+        .filter(([, value]) => value > 0)
+        .forEach(([langType, value]) => {
+          numLinesModified[langType] = value;
+        });
       return numLinesModified;
     },
 
@@ -357,8 +357,8 @@ export default {
 
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
-            .split(window.HASH_DELIMITER)
-            .filter((fileType) => this.fileTypes.includes(fileType));
+          .split(window.HASH_DELIMITER)
+          .filter((fileType) => this.fileTypes.includes(fileType));
       } else {
         this.resetSelectedFileTypes();
       }
@@ -481,9 +481,9 @@ export default {
 
         if (authored !== lastState || lastId === -1) {
           segments.push(new Segment(
-              authored,
-              [],
-              [],
+            authored,
+            [],
+            [],
           ));
 
           lastId += 1;
@@ -537,8 +537,8 @@ export default {
 
         if (!out.isBinary && !out.isIgnored) {
           out.charCount = file.lines.reduce(
-              (count, line) => count + (line ? line.content.length : 0),
-              0,
+            (count, line) => count + (line ? line.content.length : 0),
+            0,
           );
         }
 
@@ -575,7 +575,7 @@ export default {
     isValidFile(file) {
       return this.info.isMergeGroup
           ? Object.entries(file.authorContributionMap)
-              .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
+            .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
           : this.info.author in file.authorContributionMap;
     },
 
@@ -618,11 +618,11 @@ export default {
     async updateSelectedFiles(setIsLoaded = false) {
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       this.selectedFiles = this.info.files.filter(
-          (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
+        (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
           || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))
           && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
       )
-          .sort(this.sortingFunction);
+        .sort(this.sortingFunction);
       if (setIsLoaded) {
         this.isLoaded = true;
       }
