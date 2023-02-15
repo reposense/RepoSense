@@ -252,27 +252,29 @@ window.api = {
 
     Object.keys(commits.authorDisplayNameMap).forEach((author) => {
       if (author) {
-        const obj: any = {
+        this.setContributionOfCommitResultsAndInsertRepoId(commits.authorDailyContributionsMap[author], repoName);
+
+        const searchParams = [
+            repo.displayName,
+            commits.authorDisplayNameMap[author],
+            author,
+        ];
+
+        // commits and checkedFileTypeContribution are set in c-summary
+        const user = new User({
           name: author,
           repoId: repoName,
           variance: commits.authorContributionVariance[author],
           displayName: commits.authorDisplayNameMap[author],
-          dailyCommits: commits.authorDailyContributionsMap[author],
+          commits: [],
+          dailyCommits: commits.authorDailyContributionsMap[author] as DailyCommit[],
           fileTypeContribution: commits.authorFileTypeContributionMap[author],
-        };
+          searchPath: searchParams.join('_').toLowerCase(),
+          repoName: `${repo.displayName}`,
+          location: `${repo.location.location}`,
+          checkedFileTypeContribution: 0,
+        });
 
-        this.setContributionOfCommitResultsAndInsertRepoId(obj.dailyCommits, obj.repoId);
-
-        const searchParams = [
-            repo.displayName,
-            obj.displayName, author,
-        ];
-
-        obj.searchPath = searchParams.join('_').toLowerCase();
-        obj.repoName = `${repo.displayName}`;
-        obj.location = `${repo.location.location}`;
-
-        const user = new User(obj);
         res.push(user);
       }
     });
