@@ -22,16 +22,16 @@ library.add(faExclamation);
 
 // c-summary-charts
 library.add(
-    faChevronUp,
-    faChevronDown,
-    faDatabase,
-    faUser,
-    faCode,
-    faListUl,
-    faCircle,
-    faGithub,
-    faGitlab,
-    faBitbucket,
+  faChevronUp,
+  faChevronDown,
+  faDatabase,
+  faUser,
+  faCode,
+  faListUl,
+  faCircle,
+  faGithub,
+  faGitlab,
+  faBitbucket,
 );
 
 // c-zoom
