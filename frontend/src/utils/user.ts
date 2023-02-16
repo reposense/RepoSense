@@ -34,4 +34,5 @@ export default class User {
     this.searchPath = userObj.searchPath || '';
     this.variance = userObj.variance || 0;
   }
+
 }
