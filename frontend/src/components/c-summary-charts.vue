@@ -16,10 +16,10 @@
       .summary-charts__title--contribution
         .tooltip
           | [{{ getGroupTotalContribution(repo) }} lines]
-          span.tooltip-text(
+          span.tooltip-text.bottom-aligned(
             v-if="filterGroupSelection === 'groupByRepos'"
           ) Total contribution of group
-          span.tooltip-text(
+          span.tooltip-text.bottom-aligned(
             v-else-if="filterGroupSelection === 'groupByAuthors'"
           ) Total contribution of author
       a(
