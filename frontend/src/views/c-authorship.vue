@@ -100,8 +100,8 @@
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
-      .file(v-bind:ref="file.path")
-        .title
+      .file
+        .title(v-observe-position-at-top="{ callback: scrollIntoView }")
           span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(v-show="file.active")
               font-awesome-icon(icon="caret-down", fixed-width)
@@ -446,17 +446,11 @@ export default {
     },
 
     toggleFileActiveProperty(file) {
-      this.scrollFileIntoView(file);
       this.$store.commit('toggleAuthorshipFileActiveProperty', file);
     },
 
-    scrollFileIntoView(file) {
-      const fileElement = this.$refs[file.path][0];
-      const isFileElementAtTopOfScrollable = fileElement.getBoundingClientRect().top <= 0;
-
-      if (isFileElementAtTopOfScrollable) {
-        fileElement.scrollIntoView(true);
-      }
+    scrollIntoView(element) {
+      element.scrollIntoView(true);
     },
 
     isUnknownAuthor(name) {
