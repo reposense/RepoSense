@@ -88,6 +88,7 @@ a.broken-link {
     transition: opacity .3s;
     visibility: hidden;
     width: 6rem;
+    word-break: normal;
     z-index: z-index('tooltip');
 
     &::before {
