@@ -1,6 +1,5 @@
 @echo off
-rem Checks for prohibited line endings.
-rem Prohibited line endings: \r\n
+rem Checks for trailing whitespace
 set temp=check-trailing-whitespace~%RANDOM%.tmp
 
 git grep --cached -I -n --no-color -P "[ \t]+$" -- ":/" | findstr /V /C:"/require_trailing_whitespaces/" > %temp%
