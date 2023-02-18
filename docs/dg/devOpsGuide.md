@@ -26,12 +26,10 @@ This page documents the various components that form part of the DevOps infrastr
 
 ### Continuous integration
 
-All three types of tests in the test suite are run in a single GitHub Actions workflow called "Continuous Integration". The steps are defined in [`integration.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/integration.yml) and are split into four types of jobs:
+All three types of tests in the test suite are run in a single GitHub Actions workflow called "Continuous Integration". The steps are defined in [`integration.yml`](https://github.com/reposense/RepoSense/blob/master/.github/workflows/integration.yml) and are split into two types of jobs:
 
-1. Ubuntu JDK 8 (`ubuntu`): Runs both unit tests and system tests on JDK 1.8 running on supported Ubuntu versions. This job also produces a RepoSense report and the MarkBind documentation website for previewing.
-2. macOS JDK 8 (`macos`): Runs both unit tests and system tests on JDK 1.8 running on supported macOS versions.
-3. Windows JDK 8 (`windows`): Runs both unit tests and system tests on JDK 1.8 running on supported Windows versions.
-4. Cypress frontend tests (`cypress`): Runs only the frontend tests on JDK 1.8 running on Ubuntu 20.04 LTS.
+1. Ubuntu/macOS/Windows JDK 8 (`mainbuild`): Runs both unit tests and system tests on JDK 1.8 running on supported Ubuntu, macOS and Windows versions. For Ubuntu, this job also produces a RepoSense report and the MarkBind documentation website for previewing.
+2. Cypress frontend tests (`cypress`): Runs only the frontend tests on JDK 1.8 running on Ubuntu.
 
 The list of supported OS versions are [available on the GitHub Docs website](https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources). These jobs should be updated regularly whenever RepoSense supports newer versions of the Java Development Kit (JDK) as well as when new OS versions are made available (via the job OS matrix). Frontend tests are run separately to take advantage of parallel job execution.
 

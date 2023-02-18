@@ -9,7 +9,7 @@ describe('contribution bar', () => {
     });
 
     cy.get('#summary-wrapper label').contains('breakdown by file type').siblings().filter('input')
-        .check();
+      .check();
 
     let actualWidthSum = 0;
     cy.get('.summary-chart__contrib--bar').then((ele) => {
@@ -23,10 +23,10 @@ describe('contribution bar', () => {
 
   it('no contribution bar when breakdown selected and all file types unchecked', () => {
     cy.get('#summary-wrapper label').contains('breakdown by file type').siblings().filter('input')
-        .check();
+      .check();
 
     cy.get('#summary-wrapper label').contains('All').siblings().filter('input')
-        .uncheck();
+      .uncheck();
 
     cy.get('.summary-chart__contrib--bar').should('not.exist');
   });
@@ -34,16 +34,16 @@ describe('contribution bar', () => {
   it('display selected file types only', () => {
     let expectedWidthSum = 0;
     cy.get('#summary-wrapper label').contains('breakdown by file type').siblings().filter('input')
-        .check();
+      .check();
     cy.get('.summary-chart__contrib--bar').then((ele) => {
       expectedWidthSum += parseFloat(ele[0].style.width.split('%')[0]);
     });
 
     cy.get('#summary-wrapper label').contains('All').siblings().filter('input')
-        .uncheck();
+      .uncheck();
 
     cy.get('#summary-wrapper label').contains('gradle').siblings().filter('input')
-        .check();
+      .check();
 
     let actualWidthSum = 0;
     cy.get('.summary-chart__contrib--bar').then((ele) => {

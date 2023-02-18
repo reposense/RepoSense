@@ -11,31 +11,31 @@ module.exports = {
   outputDir: 'build/',
   configureWebpack: {
     plugins: [
-        new StyleLintPlugin({
-          files: ['src/**/*.{vue,scss}'],
-        }),
+      new StyleLintPlugin({
+        files: ['src/**/*.{vue,scss}'],
+      }),
     ],
   },
   chainWebpack: (config) => {
     // Pug Loader
     config.module
-        .rule('pug')
-        .test(/\.pug$/)
-        .use('pug-plain-loader')
-        .loader('pug-plain-loader')
-        .end();
+      .rule('pug')
+      .test(/\.pug$/)
+      .use('pug-plain-loader')
+      .loader('pug-plain-loader')
+      .end();
     config.plugin('copy').tap((options) => {
       options[0].patterns[0].globOptions.ignore.push('*.json');
       return options;
     });
     config.module
-        .rule('vue')
-        .use('vue-loader')
-        .tap((options) => ({
-          ...options,
-          compilerOptions: {
-            whitespace: 'preserve',
-          },
-        }));
+      .rule('vue')
+      .use('vue-loader')
+      .tap((options) => ({
+        ...options,
+        compilerOptions: {
+          whitespace: 'preserve',
+        },
+      }));
   },
 };
