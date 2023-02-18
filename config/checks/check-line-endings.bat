@@ -1,5 +1,6 @@
 @echo off
-rem Checks that all text files end with a newline.
+rem Checks for prohibited line endings.
+rem Prohibited line endings: \r\n
 
 set temp=check-line-endings~%RANDOM%.tmp
 
