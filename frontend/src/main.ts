@@ -38,18 +38,6 @@ app.directive('observe-visibility', {
   unmounted: ObserveVisibility.unbind,
 });
 
-app.directive('observe-position-at-top', {
-  mounted: (el: HTMLElement, binding) => {
-    el.style.cursor = 'pointer';
-    el.addEventListener('click', () => {
-      const isElementAtTopOfScrollable = el.getBoundingClientRect().top <= 0;
-      if (isElementAtTopOfScrollable) {
-        binding.value.callback(el);
-      }
-    });
-  },
-});
-
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(store);
 
