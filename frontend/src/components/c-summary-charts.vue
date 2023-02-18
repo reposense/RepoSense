@@ -299,34 +299,34 @@ export default {
       const allFileTypesContributionBars = {};
 
       Object.keys(fileTypeContribution)
-          .filter((fileType) => this.checkedFileTypes.includes(fileType))
-          .forEach((fileType) => {
-            const contribution = fileTypeContribution[fileType];
-            let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
-            const contributionBars = [];
+        .filter((fileType) => this.checkedFileTypes.includes(fileType))
+        .forEach((fileType) => {
+          const contribution = fileTypeContribution[fileType];
+          let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
+          const contributionBars = [];
 
-            // if contribution bar for file type is able to fit on the current line
-            if (currentBarWidth + barWidth < fullBarWidth) {
-              contributionBars.push(barWidth);
-              currentBarWidth += barWidth;
-            } else {
-              // take up all the space left on the current line
-              contributionBars.push(fullBarWidth - currentBarWidth);
-              barWidth -= fullBarWidth - currentBarWidth;
-              // additional bar width will start on a new line
-              const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-              for (let i = 0; i < numOfFullBars; i += 1) {
-                contributionBars.push(fullBarWidth);
-              }
-              const remainingBarWidth = barWidth % fullBarWidth;
-              if (remainingBarWidth !== 0) {
-                contributionBars.push(remainingBarWidth);
-              }
-              currentBarWidth = remainingBarWidth;
+          // if contribution bar for file type is able to fit on the current line
+          if (currentBarWidth + barWidth < fullBarWidth) {
+            contributionBars.push(barWidth);
+            currentBarWidth += barWidth;
+          } else {
+            // take up all the space left on the current line
+            contributionBars.push(fullBarWidth - currentBarWidth);
+            barWidth -= fullBarWidth - currentBarWidth;
+            // additional bar width will start on a new line
+            const numOfFullBars = Math.floor(barWidth / fullBarWidth);
+            for (let i = 0; i < numOfFullBars; i += 1) {
+              contributionBars.push(fullBarWidth);
             }
+            const remainingBarWidth = barWidth % fullBarWidth;
+            if (remainingBarWidth !== 0) {
+              contributionBars.push(remainingBarWidth);
+            }
+            currentBarWidth = remainingBarWidth;
+          }
 
-            allFileTypesContributionBars[fileType] = contributionBars;
-          });
+          allFileTypesContributionBars[fileType] = contributionBars;
+        });
 
       return allFileTypesContributionBars;
     },
@@ -421,6 +421,7 @@ export default {
         name: user.displayName,
         isMergeGroup: isMerged,
         location: this.getRepoLink(repo[index]),
+        files: [],
       };
       this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
@@ -452,7 +453,8 @@ export default {
       const {
         avgCommitSize, filterGroupSelection, filterTimeFrame, filterSearch,
       } = this;
-      const clonedUser = Object.assign({}, user); // so that changes in summary won't affect zoom
+      // Deep copy to ensure changes in zoom (e.g. toggle state) won't affect summary, and vice versa
+      const clonedUser = JSON.parse(JSON.stringify(user));
       const info = {
         zRepo: user.repoName,
         zAuthor: user.name,

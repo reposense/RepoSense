@@ -18,9 +18,9 @@ const REPORT_DIR = '.';
 
 window.deactivateAllOverlays = function deactivateAllOverlays() {
   document.querySelectorAll('.summary-chart__ramp .overlay')
-      .forEach((x) => {
-        x.className = 'overlay';
-      });
+    .forEach((x) => {
+      x.className = 'overlay';
+    });
 };
 
 window.getDateStr = function getDateStr(date) {
@@ -56,8 +56,8 @@ window.encodeHash = function encodeHash() {
   const { hashParams } = window;
 
   const hash = Object.keys(hashParams)
-      .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
-      .join('&');
+    .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
+    .join('&');
 
   const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}${HASH_ANCHOR}${hash}`;
   window.history.replaceState(null, '', newUrl);
@@ -70,17 +70,17 @@ window.decodeHash = function decodeHash() {
   const parameterString = hashIndex === -1 ? '' : window.location.href.slice(hashIndex + 1);
 
   parameterString.split('&')
-      .forEach((param) => {
-        const [key, val] = param.split('=');
-        if (key) {
-          try {
-            hashParams[key] = decodeURIComponent(val);
-          } catch (error) {
-            this.userUpdated = false;
-            this.isLoading = false;
-          }
+    .forEach((param) => {
+      const [key, val] = param.split('=');
+      if (key) {
+        try {
+          hashParams[key] = decodeURIComponent(val);
+        } catch (error) {
+          this.userUpdated = false;
+          this.isLoading = false;
         }
-      });
+      }
+    });
   window.hashParams = hashParams;
 };
 
@@ -106,23 +106,6 @@ window.comparator = (fn, sortingOption = '') => function compare(a, b) {
   return 1;
 };
 
-window.toggleNext = function toggleNext(ele) {
-  // function for toggling unopened code
-  const targetClass = 'active';
-
-  const parent = ele.parentNode;
-  const classes = parent.className.split(' ');
-  const idx = classes.indexOf(targetClass);
-
-  if (idx === -1) {
-    classes.push(targetClass);
-  } else {
-    classes.splice(idx, 1);
-  }
-
-  parent.className = classes.join(' ');
-};
-
 window.filterUnsupported = function filterUnsupported(string) {
   // checks for a pre-defined unsupported tag
   return string.includes(window.UNSUPPORTED_INDICATOR) ? undefined : string;
@@ -137,8 +120,8 @@ window.getRepoLinkUnfiltered = function getRepoLink(repoId) {
   // abstraction for repo link construction. Not supposed to be used by other files
   const domainName = window.REPOS[repoId].location.domainName;
   return window.DOMAIN_URL_MAP[domainName].REPO_URL
-      .replace('$ORGANIZATION', window.REPOS[repoId].location.organization)
-      .replace('$REPO_NAME', window.REPOS[repoId].location.repoName);
+    .replace('$ORGANIZATION', window.REPOS[repoId].location.organization)
+    .replace('$REPO_NAME', window.REPOS[repoId].location.repoName);
 };
 
 window.getRepoLink = function getRepoLink(repoId) {
@@ -148,30 +131,30 @@ window.getRepoLink = function getRepoLink(repoId) {
 window.getBranchLink = function getBranchLink(repoId, branch) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repoId)}${window.DOMAIN_URL_MAP[domainName].BRANCH}`
-      .replace('$BRANCH', branch));
+    .replace('$BRANCH', branch));
 };
 
 window.getCommitLink = function getCommitLink(repoId, commitHash) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repoId)}${window.DOMAIN_URL_MAP[domainName]
-      .COMMIT_PATH}`
-      .replace('$COMMIT_HASH', commitHash));
+    .COMMIT_PATH}`
+    .replace('$COMMIT_HASH', commitHash));
 };
 
 window.getBlameLink = function getBlameLink(repoId, branch, filepath) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repoId)}${window.DOMAIN_URL_MAP[domainName]
-      .BLAME_PATH}`
-      .replace('$BRANCH', branch)
-      .replace('$FILE_PATH', filepath));
+    .BLAME_PATH}`
+    .replace('$BRANCH', branch)
+    .replace('$FILE_PATH', filepath));
 };
 
 window.getHistoryLink = function getHistoryLink(repoId, branch, filepath) {
   const domainName = window.REPOS[repoId].location.domainName;
   return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repoId)}${window.DOMAIN_URL_MAP[domainName]
-      .HISTORY_PATH}`
-      .replace('$BRANCH', branch)
-      .replace('$FILE_PATH', filepath));
+    .HISTORY_PATH}`
+    .replace('$BRANCH', branch)
+    .replace('$FILE_PATH', filepath));
 };
 
 window.getGroupName = function getGroupName(group, filterGroupSelection) {
@@ -274,8 +257,8 @@ window.api = {
         this.setContributionOfCommitResultsAndInsertRepoId(obj.dailyCommits, obj.repoId);
 
         const searchParams = [
-            repo.displayName,
-            obj.displayName, author,
+          repo.displayName,
+          obj.displayName, author,
         ];
 
         obj.searchPath = searchParams.join('_').toLowerCase();
@@ -296,10 +279,10 @@ window.api = {
   loadAuthorship(repoName) {
     const folderName = window.REPOS[repoName].outputFolderName;
     return this.loadJSON(`${folderName}/authorship.json`)
-        .then((files) => {
-          window.REPOS[repoName].files = files;
-          return files;
-        });
+      .then((files) => {
+        window.REPOS[repoName].files = files;
+        return files;
+      });
   },
 
   // calculate and set the contribution of each commitResult and insert repoId into commitResult,
@@ -309,9 +292,9 @@ window.api = {
       commit.commitResults.forEach((result) => {
         result.repoId = repoId;
         result.insertions = Object.values(result.fileTypesAndContributionMap)
-            .reduce((acc, fileType) => acc + fileType.insertions, 0);
+          .reduce((acc, fileType) => acc + fileType.insertions, 0);
         result.deletions = Object.values(result.fileTypesAndContributionMap)
-            .reduce((acc, fileType) => acc + fileType.deletions, 0);
+          .reduce((acc, fileType) => acc + fileType.deletions, 0);
       });
     });
   },
