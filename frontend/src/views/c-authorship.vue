@@ -105,10 +105,22 @@
           span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(v-show="file.active")
               font-awesome-icon(icon="caret-down", fixed-width)
-              span.tooltip-text Click to hide file details
+              span.tooltip-text(
+                v-observe-visibility="{ callback: onTooltipVisibilityChanged, intersection: { \
+                  root: null, \
+                  rootMargin: \"0px\", \
+                  threshold: 0.9 \
+                }, }"
+              ) Click to hide file details
             .tooltip(v-show="!file.active")
               font-awesome-icon(icon="caret-right", fixed-width)
-              span.tooltip-text Click to show file details
+              span.tooltip-text(
+                v-observe-visibility="{ callback: onTooltipVisibilityChanged, intersection: { \
+                  root: null, \
+                  rootMargin: \"0px\", \
+                  threshold: 0.9 \
+                }, }"
+              ) Click to show file details
           span.index {{ i + 1 }}. &nbsp;
           span.path
             span(
@@ -456,6 +468,21 @@ export default {
       if (isFileElementAtTopOfScrollable) {
         fileElement.scrollIntoView(true);
       }
+    },
+
+    onTooltipVisibilityChanged(isVisible, entry) {
+      if (isVisible) {
+        return;
+      }
+      if (this.isTooltipAboveViewport(entry)) {
+        entry.target.classList.add('bottom-aligned');
+      } else {
+        entry.target.classList.remove('bottom-aligned');
+      }
+    },
+
+    isTooltipAboveViewport(entry) {
+      return entry.boundingClientRect.top <= 0;
     },
 
     isUnknownAuthor(name) {
