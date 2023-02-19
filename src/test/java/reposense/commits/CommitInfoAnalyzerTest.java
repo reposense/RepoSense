@@ -14,6 +14,7 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reposense.commits.model.CommitInfo;
@@ -389,6 +390,29 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
         config.setZoneId(originalZoneId);
+    }
+
+    @Disabled
+    @Test
+    public void analyzeCommits_mergeCommits_success() throws Exception {
+        Author author = new Author(CHARISMA_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        expectedCommitResults.add(new CommitResult(author, "568d1d4d38e8ec58b4b72988f7416b2047d5ad6e", true,
+                parseGitStrictIsoDate("2023-02-20T00:10:31+08:00"), "Merge remote-tracking branch " +
+                "'origin/1019-CommitInfoAnalyzerTest-emptyCommits' into " +
+                "1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success", "", null));
+
+        config.setBranch("1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
+        config.setSinceDate(LocalDateTime.of(2023, Month.FEBRUARY, 20, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2023, Month.FEBRUARY, 21, 0, 0));
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
 
     @Test
