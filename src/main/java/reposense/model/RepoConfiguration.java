@@ -159,9 +159,7 @@ public class RepoConfiguration {
 
     public static void setHasAuthorConfigFileToRepoConfigs(List<RepoConfiguration> configs,
                                                            boolean setHasAuthorConfigFile) {
-        for (RepoConfiguration config : configs) {
-            config.setHasAuthorConfigFile(setHasAuthorConfigFile);
-        }
+        configs.stream().forEach(config -> config.setHasAuthorConfigFile(setHasAuthorConfigFile));
     }
 
     /**
