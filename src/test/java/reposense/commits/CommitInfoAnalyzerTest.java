@@ -14,7 +14,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import reposense.commits.model.CommitInfo;
@@ -392,22 +391,21 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setZoneId(originalZoneId);
     }
 
-    @Disabled
     @Test
     public void analyzeCommits_mergeCommits_success() throws Exception {
-        Author author = new Author(CHARISMA_AUTHOR_NAME);
+        Author author = new Author(CHENYU_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
-        expectedCommitResults.add(new CommitResult(author, "568d1d4d38e8ec58b4b72988f7416b2047d5ad6e", true,
-                parseGitStrictIsoDate("2023-02-20T00:10:31+08:00"), "Merge remote-tracking branch "
-                + "'origin/1019-CommitInfoAnalyzerTest-emptyCommits' into "
-                + "1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success", "", null));
+        expectedCommitResults.add(new CommitResult(author, "188e6afc49cafe0cf4c2a88d55e97679fa0b798b", true,
+                parseGitStrictIsoDate("2023-01-31T15:08:54+08:00"),
+                "Merge pull request #15 from sikai00/update-authorship-tags",
+                "Update authorship tags", null));
 
-        config.setBranch("1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success");
+        config.setBranch("master");
         config.setAuthorList(Collections.singletonList(author));
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
-        config.setSinceDate(LocalDateTime.of(2023, Month.FEBRUARY, 20, 0, 0));
-        config.setUntilDate(LocalDateTime.of(2023, Month.FEBRUARY, 21, 0, 0));
+        config.setSinceDate(LocalDateTime.of(2023, Month.JANUARY, 31, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2023, Month.FEBRUARY, 1, 0, 0));
 
         List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
         List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
