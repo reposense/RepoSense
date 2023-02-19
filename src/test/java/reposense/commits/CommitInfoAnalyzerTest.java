@@ -393,7 +393,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeCommits_mergeCommits_success() throws Exception {
-        Author author = new Author(CHENYU_AUTHOR_NAME);
+        Author author = new Author(CHENGYU_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
         expectedCommitResults.add(new CommitResult(author, "188e6afc49cafe0cf4c2a88d55e97679fa0b798b", true,
