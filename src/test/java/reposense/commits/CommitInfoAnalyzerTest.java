@@ -401,7 +401,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
                 "Merge pull request #15 from sikai00/update-authorship-tags",
                 "Update authorship tags", null));
 
-        config.setBranch("master");
+        config.setBranch("1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success");
         config.setAuthorList(Collections.singletonList(author));
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         config.setSinceDate(LocalDateTime.of(2023, Month.JANUARY, 31, 0, 0));
