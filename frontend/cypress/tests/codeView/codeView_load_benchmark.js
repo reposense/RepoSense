@@ -18,30 +18,30 @@ describe('load code view benchmark', () => {
     let startTime;
 
     cy.get('#summary-wrapper .sort-within-group select').select(
-        'totalCommits dsc',
+      'totalCommits dsc',
     );
 
     cy.get('.icon-button.fa-code')
-        .should('be.visible')
-        .first()
-        .click()
-        .then(() => {
-          startTime = performance.now();
-        });
+      .should('be.visible')
+      .first()
+      .click()
+      .then(() => {
+        startTime = performance.now();
+      });
 
     cy.get('#tab-authorship .files', { timeout: 90000 })
-        .should('be.visible')
-        .then(() => {
-          const endTime = performance.now();
-          const loadingTime = endTime - startTime;
-          const loadingTimeSeconds = loadingTime / 1000;
+      .should('be.visible')
+      .then(() => {
+        const endTime = performance.now();
+        const loadingTime = endTime - startTime;
+        const loadingTimeSeconds = loadingTime / 1000;
 
-          cy.log(`trial ${i} loading time: ${loadingTimeSeconds.toFixed(3)}s`);
+        cy.log(`trial ${i} loading time: ${loadingTimeSeconds.toFixed(3)}s`);
 
-          if (loadingTime <= MAXIMUM_LOADING_TIME) {
-            isATrialWithinMaxTime = true;
-          }
-        });
+        if (loadingTime <= MAXIMUM_LOADING_TIME) {
+          isATrialWithinMaxTime = true;
+        }
+      });
   };
 
   const runTimeTrialIfNeeded = function (i) {

@@ -1,7 +1,7 @@
 describe('code view', () => {
   it('at first start shows tutorial message', () => {
     cy.get('#tabs-wrapper')
-        .should('be.visible');
+      .should('be.visible');
 
     cy.get('#tab-empty > .title').then(($ele) => {
       const expected = 'Welcome to this RepoSense report!'
@@ -18,27 +18,27 @@ describe('code view', () => {
 
   it('can be closed', () => {
     cy.get('#tabs-wrapper')
-        .should('be.visible');
+      .should('be.visible');
 
     cy.get('#app #tab-resize .tab-close')
-        .click();
+      .click();
 
     cy.get('#tabs-wrapper')
-        .should('not.exist');
+      .should('not.exist');
   });
 
   it('merge group and view code for entire repository', () => {
     cy.get('#summary label.merge-group > input')
-        .should('be.visible')
-        .check({ force: true })
-        .should('be.checked');
+      .should('be.visible')
+      .check({ force: true })
+      .should('be.checked');
 
     cy.get('.icon-button.fa-code')
-        .should('be.visible')
-        .first()
-        .click();
+      .should('be.visible')
+      .first()
+      .click();
 
     cy.get('#tab-authorship .files', { timeout: 90000 })
-        .should('be.visible');
+      .should('be.visible');
   });
 });

@@ -10,15 +10,21 @@ on:
     branches-ignore:
       - gh-pages
 
+env:
+  NODE_VER: '14.x'
+  JAVA_DISTRIBUTION: 'zulu'
+  JAVA_VER: 8
+
 jobs:
-  ubuntu:
+  mainbuild:
     name: ${{ matrix.os }} JDK 8
     strategy:
+      fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04]
+        os: [ubuntu-20.04, ubuntu-22.04, macos-11, macos-12, windows-2019, windows-2022]
     runs-on: ${{ matrix.os }}
     env:
-      NODE_VERSION: "lts/*"
+      HOMEBREW_NO_AUTO_UPDATE: 1 # Prevent time-consuming brew update
 
     steps:
     - name: Checkout repository
@@ -29,23 +35,23 @@ jobs:
     - name: Set up JDK 1.8
       uses: actions/setup-java@v3
       with:
-        distribution: 'zulu'
-        java-version: 8
+        distribution: ${{ env.JAVA_DISTRIBUTION }}
+        java-version: ${{ env.JAVA_VER }}
 
     - name: Verify Java version
-      run: echo -e "Actual JDK in use -- "; java -version
+      run: echo "Actual JDK in use -- "; java -version
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '14.x'
+        node-version: ${{ env.NODE_VER }}
 
     - name: Set up Gradle caching
       uses: actions/cache@v3
       with:
         path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
+          $HOME/.gradle/caches
+          $HOME/.gradle/wrapper
         key: ${{ matrix.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
         restore-keys: |
           ${{ matrix.os }}-gradle-
@@ -53,13 +59,14 @@ jobs:
     - name: Set up Node caching
       uses: actions/cache@v3
       with:
-        path: ~/.npm
+        path: $HOME/.npm
         key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ matrix.os }}-node-
 
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      if: ${{ runner.os != 'Windows' }}
+      run: chmod +x gradlew # Windows does not need this
 
     - name: Run environmental checks
       run: ./config/gh-actions/run-checks.sh
@@ -71,7 +78,7 @@ jobs:
       run: ./gradlew clean checkstyleAll test systemTest coverage
 
     - name: Run code coverage
-      if: ${{ success() && matrix.os == 'ubuntu-20.04' }}
+      if: ${{ success() && ( matrix.os == 'ubuntu-20.04' || matrix.os == 'macos-11' || matrix.os == 'windows-2022' ) }}
       uses: codecov/codecov-action@v3
       with:
         directory: ${{ github.workspace }}/build/reports/jacoco/coverage
@@ -102,131 +109,6 @@ jobs:
           ./docs/_site
           ./pr
 
-  macos:
-    name: ${{ matrix.os }} JDK 8
-    strategy:
-      matrix:
-        os: [macos-11, macos-12]
-    runs-on: ${{ matrix.os }}
-    env:
-      HOMEBREW_NO_AUTO_UPDATE: 1 # Prevent time-consuming brew update
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: 8
-
-    - name: Verify Java version
-      run: echo -e "Actual JDK in use -- "; java -version
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14.x'
-
-    - name: Set up Gradle caching
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ matrix.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-        restore-keys: |
-          ${{ matrix.os }}-gradle-
-
-    - name: Set up Node caching
-      uses: actions/cache@v3
-      with:
-        path: ~/.npm
-        key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ matrix.os }}-node-
-
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-
-    - name: Run environmental checks
-      run: ./config/gh-actions/run-checks.sh
-
-    - name: Run linter
-      run: ./gradlew lintFrontend
-
-    - name: Build with Gradle
-      run: ./gradlew clean checkstyleAll test systemTest coverage
-
-    - name: Run code coverage
-      if: ${{ success() && matrix.os == 'macos-11' }}
-      uses: codecov/codecov-action@v3
-      with:
-        directory: ${{ github.workspace }}/build/reports/jacoco/coverage
-        files: coverage.xml
-        fail_ci_if_error: true
-
-  windows:
-    name: ${{ matrix.os }} JDK 8
-    strategy:
-      matrix:
-        os: [windows-2019, windows-2022]
-    runs-on: ${{ matrix.os }}
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'zulu'
-        java-version: 8
-
-    - name: Verify Java version
-      run: Write-Output "Actual JDK in use -- "; java -version
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14.x'
-
-    - name: Set up Gradle caching
-      uses: actions/cache@v3
-      with:
-        path: |
-          $HOME/.gradle/caches
-          $HOME/.gradle/wrapper
-        key: ${{ matrix.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-        restore-keys: |
-          ${{ matrix.os }}-gradle-
-
-    - name: Set up Node caching
-      uses: actions/cache@v3
-      with:
-        path: $HOME/.npm
-        key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ matrix.os }}-node-
-
-    - name: Run linter
-      run: ./gradlew lintFrontend
-
-    - name: Build with Gradle
-      run: ./gradlew clean checkstyleAll test systemTest coverage
-
-    - name: Run code coverage
-      if: ${{ success() && matrix.os == 'windows-2022' }}
-      uses: codecov/codecov-action@v3
-      with:
-        directory: ${{ github.workspace }}/build/reports/jacoco/coverage
-        files: coverage.xml
-        fail_ci_if_error: true
-
   cypress:
     name: Cypress frontend tests
     runs-on: ubuntu-20.04
@@ -240,23 +122,23 @@ jobs:
     - name: Set up JDK 1.8
       uses: actions/setup-java@v3
       with:
-        distribution: 'zulu'
-        java-version: 8
+        distribution: ${{ env.JAVA_DISTRIBUTION }}
+        java-version: ${{ env.JAVA_VER }}
 
     - name: Verify Java version
-      run: echo -e "Actual JDK in use -- "; java -version
+      run: echo "Actual JDK in use -- "; java -version
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '14.x'
+        node-version: ${{ env.NODE_VER }}
 
     - name: Set up Gradle caching
       uses: actions/cache@v3
       with:
         path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
+          $HOME/.gradle/caches
+          $HOME/.gradle/wrapper
         key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
         restore-keys: |
           ${{ runner.os }}-gradle-
@@ -264,7 +146,7 @@ jobs:
     - name: Set up Node caching
       uses: actions/cache@v3
       with:
-        path: ~/.npm
+        path: $HOME/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
