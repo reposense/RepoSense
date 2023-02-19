@@ -137,9 +137,9 @@
 <script>
 import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from '../components/c-ramp.vue';
-import User from '../utils/user.ts';
+import User from '../utils/user';
 
 const getFontColor = window.getFontColor;
 

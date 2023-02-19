@@ -1,4 +1,4 @@
-import User from './user.ts';
+import User from './user';
 
 // utility functions //
 window.$ = (id) => document.getElementById(id);
