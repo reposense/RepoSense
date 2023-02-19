@@ -334,6 +334,6 @@ public class AuthorConfiguration {
     }
 
     public boolean hasAuthorConfigFile() {
-        return this.hasAuthorConfigFile;
+        return hasAuthorConfigFile;
     }
 }
