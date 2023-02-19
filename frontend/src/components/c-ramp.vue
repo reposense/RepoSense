@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
-import User from '../utils/user.ts';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
+import User from '../utils/user';
 
 export default {
   name: 'c-ramp',
