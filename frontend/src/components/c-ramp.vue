@@ -21,7 +21,7 @@
   template(v-else)
     a.ramp__slice(
       draggable="false",
-      v-for="(slice, j) in user.commitsq",
+      v-for="(slice, j) in user.commits",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
       v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
