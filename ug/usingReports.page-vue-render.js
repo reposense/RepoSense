@@ -23,7 +23,7 @@ with(this){return _c('ul',[_c('li',[_c('strong',[_v("Situation 1: The report has
 with(this){return _c('h2',{attrs:{"id":"report-structure"}},[_c('span',{staticClass:"anchor",attrs:{"id":"report-structure"}}),_v("Report structure"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#report-structure","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('a',{attrs:{"href":"/RepoSense/images/report-features.png","target":"_self"}},[_c('img',{staticClass:"img-fluid",attrs:{"src":"/RepoSense/images/report-features.png","alt":""}})])])}
+with(this){return _c('p',[_c('a',{attrs:{"href":"/RepoSense/images/report-features.png","target":"_self"}},[_c('img',{staticClass:"img-fluid",attrs:{"src":"/RepoSense/images/report-features.png","alt":"report"}})])])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("The report is divided into two sections: "),_c('a',{attrs:{"href":"#chart-panel"}},[_c('em',[_c('strong',[_v("Chart panel")])])]),_v(" and the "),_c('a',{attrs:{"href":"#code-panel"}},[_c('em',[_c('strong',[_v("Code panel")])])]),_v(". In some situations, the "),_c('a',{attrs:{"href":"#commits-panel"}},[_c('em',[_c('strong',[_v("Commits panel")])])]),_v(" will appear in place of the "),_c('em',[_v("code panel")]),_v(". All three are explained in the sections below.")])}
@@ -32,7 +32,7 @@ with(this){return _c('p',[_v("The report is divided into two sections: "),_c('a'
 with(this){return _c('h2',{attrs:{"id":"chart-panel"}},[_c('span',{staticClass:"anchor",attrs:{"id":"chart-panel"}}),_v("Chart panel"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#chart-panel","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('a',{attrs:{"href":"/RepoSense/images/rampchart.png","target":"_self"}},[_c('img',{staticClass:"img-fluid",attrs:{"src":"/RepoSense/images/rampchart.png","alt":""}})]),_c('br')])}
+with(this){return _c('p',[_c('a',{attrs:{"href":"/RepoSense/images/rampchart.png","target":"_self"}},[_c('img',{staticClass:"img-fluid",attrs:{"src":"/RepoSense/images/rampchart.png","alt":"Ramp Charts"}})]),_c('br')])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("The "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Chart panel")]),_v(" (an example is shown above) contains a series of "),_c('em',[_v("ramp chart")]),_v(" + "),_c('em',[_v("contribution bar")]),_v(" pairs, possibly organized into sub-groups, with a "),_c('em',[_v("tool bar")]),_v(" at the top.")])}
@@ -80,12 +80,12 @@ with(this){return _c('p',[_v("The "),_c('code',{pre:true,attrs:{"class":"hljs in
 with(this){return _c('ul',[_c('li',[_v("To view all commits attributed to an author, locate the author's ramp chart in the chart panel, and click on the "),_c('span',{staticClass:"dimmed"},[_c('span',{staticClass:"fas fa-list-ul",attrs:{"aria-hidden":"true"}})]),_v(" icon above the ramp chart.")]),_v(" "),_c('li',[_v("To view commits of a specific period, locate the author's ramp chart in the chart panel, hold down the "),_c('kbd',[_v("Ctrl")]),_v(" key ("),_c('kbd',[_v("⌘")]),_v(" in MacOS), and click on the start and end positions of the period (on the ramp chart) you want to view. "),_c('br')])])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('a',{attrs:{"href":"/RepoSense/images/opening-commits-panel.gif","target":"_self"}},[_c('img',{staticClass:"img-fluid",attrs:{"src":"/RepoSense/images/opening-commits-panel.gif","alt":""}})])])}
+with(this){return _c('p',[_c('a',{attrs:{"href":"/RepoSense/images/opening-commits-panel.gif","target":"_self"}},[_c('img',{staticClass:"img-fluid",attrs:{"src":"/RepoSense/images/opening-commits-panel.gif","alt":"Opening commits panel"}})])])}
 },function anonymous(
 ) {
 with(this){return _c('ul',[_c('li',[_v("The commits can be sorted by the date it was committed or by LoC.")]),_v(" "),_c('li',[_v("The tags of the commits will also be displayed on top if any. Clicking on a tag will direct you to the commit having that particular tag.")]),_v(" "),_c('li',[_v("The date range for the "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Chart panel")]),_v(" can be updated by clicking on the \"Show ramp chart for this period\" below the name of the author.")]),_v(" "),_c('li',[_v("The ramp chart at the top of the "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Commits panel")]),_v(" represents individual commits (not weekly or daily contributions).")]),_v(" "),_c('li',[_v("The commit messages body can be expanded or collapsed by clicking on the "),_c('span',{staticClass:"dimmed"},[_c('span',{staticClass:"fas fa-ellipsis-h",attrs:{"aria-hidden":"true"}})]),_v(" icon beside each commit message title.")]),_v(" "),_c('li',[_v("To promote and encourage the 50/72 rule for commit messages, a dotted vertical line will be shown for:\n"),_c('ul',[_c('li',[_v("Commit message subject that exceeds 50 characters.")]),_v(" "),_c('li',[_v("Commit message body after the 72nd character mark.")])])])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.2")]),_v(", generated on Mon, 13 Feb 2023, 2:46:22 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.1.0")]),_v(", generated on Sun, 19 Feb 2023, 7:50:01 UTC]")])])])}
 }];
   

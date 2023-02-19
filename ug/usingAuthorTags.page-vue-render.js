@@ -26,7 +26,7 @@ with(this){return _c('ul',[_c('li',[_v("Start Tags (format: "),_c('code',{pre:tr
 with(this){return _c('p',[_v("The "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("@@author")]),_v(" tags should be enclosed within a single-line comment, using the comment syntax of the file in concern. Below are some examples:")])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_c('a',{attrs:{"href":"/RepoSense/images/add-author-tags.png","target":"_self"}},[_c('img',{staticClass:"img-fluid",attrs:{"src":"/RepoSense/images/add-author-tags.png","alt":""}})])])}
+with(this){return _c('p',[_c('a',{attrs:{"href":"/RepoSense/images/add-author-tags.png","target":"_self"}},[_c('img',{staticClass:"img-fluid",attrs:{"src":"/RepoSense/images/add-author-tags.png","alt":"author tags"}})])])}
 },function anonymous(
 ) {
 with(this){return _c('ul',[_c('li',[_v("// @@author authorName")]),_v(" "),_c('li',[_v("/* @@author authorName */")]),_v(" "),_c('li',[_v("/* @@author authorName")]),_v(" "),_c('li',[_v("# @@author authorName")]),_v(" "),_c('li',[_v("% @@author authorName")]),_v(" "),_c('li',[_v("<!-- @@author authorName -->")]),_v(" "),_c('li',[_v("<!--- @@author authorName --->")]),_v(" "),_c('li',[_v("[//]: # (@@author authorName)")])])}
@@ -38,6 +38,6 @@ with(this){return _c('p',[_v("Note: Remember to "),_c('strong',[_v("commit")]),_
 with(this){return _c('p',[_v("Special thanks to "),_c('a',{attrs:{"href":"https://github.com/se-edu/collate"}},[_v("Collate project")]),_v(" for providing the inspiration for this functionality.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.0.2")]),_v(", generated on Mon, 13 Feb 2023, 2:46:22 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 4.1.0")]),_v(", generated on Sun, 19 Feb 2023, 7:50:01 UTC]")])])])}
 }];
   
