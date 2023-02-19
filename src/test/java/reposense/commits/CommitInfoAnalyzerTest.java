@@ -399,9 +399,9 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
         expectedCommitResults.add(new CommitResult(author, "568d1d4d38e8ec58b4b72988f7416b2047d5ad6e", true,
-                parseGitStrictIsoDate("2023-02-20T00:10:31+08:00"), "Merge remote-tracking branch " +
-                "'origin/1019-CommitInfoAnalyzerTest-emptyCommits' into " +
-                "1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success", "", null));
+                parseGitStrictIsoDate("2023-02-20T00:10:31+08:00"), "Merge remote-tracking branch "
+                + "'origin/1019-CommitInfoAnalyzerTest-emptyCommits' into "
+                + "1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success", "", null));
 
         config.setBranch("1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success");
         config.setAuthorList(Collections.singletonList(author));
