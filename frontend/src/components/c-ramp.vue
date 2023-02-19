@@ -2,7 +2,7 @@
 .ramp
   template(v-if="tframe === 'commit'")
     template(v-for="(slice, j) in user.commits")
-      template(v-for="(commit, k) in slice.commitResults.filter(commitResult => getContributions(commitResult) > 0)")
+      template(v-for="(commit, k) in slice.commitResults")
         a.ramp__slice(
           draggable="false",
           v-on:click="rampClick",
@@ -21,7 +21,7 @@
   template(v-else)
     a.ramp__slice(
       draggable="false",
-      v-for="(slice, j) in user.commits.filter(commit => getContributions(commit) > 0)",
+      v-for="(slice, j) in user.commitsq",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
       v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",

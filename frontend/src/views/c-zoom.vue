@@ -93,6 +93,9 @@
       v-bind:key="slice.hash",
       v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
     )
+      span.code-merge-icon(v-if="slice.isMergeCommit")
+        font-awesome-icon(icon="code-merge")
+        span &nbsp;
       a.message-title(v-bind:href="getSliceLink(slice)",
         v-bind:class="!isBrokenLink(getSliceLink(slice)) ? '' : 'broken-link'", target="_blank")
         .within-border {{ slice.messageTitle.substr(0, 50) }}
@@ -478,6 +481,14 @@ export default {
             width: 72ch;
           }
         }
+      }
+    }
+
+    .code-merge-icon {
+      color: mui-color('grey');
+
+      .fa-code-merge {
+        width: .65rem;
       }
     }
 
