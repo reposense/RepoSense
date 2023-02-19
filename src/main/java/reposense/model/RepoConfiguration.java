@@ -157,6 +157,13 @@ public class RepoConfiguration {
         configs.stream().forEach(config -> config.setIsFindingPreviousAuthorsPerformed(false));
     }
 
+    public static void setHasAuthorConfigFileToRepoConfigs(List<RepoConfiguration> configs,
+                                                           boolean setHasAuthorConfigFile) {
+        for (RepoConfiguration config : configs) {
+            config.setHasAuthorConfigFile(setHasAuthorConfigFile);
+        }
+    }
+
     /**
      * Merges a {@link RepoConfiguration} from {@code repoConfigs} with an {@link AuthorConfiguration} from
      * {@code authorConfigs} if their {@link RepoLocation} and branch matches.
@@ -166,7 +173,6 @@ public class RepoConfiguration {
             if (authorConfig.getLocation().isEmpty()) {
                 for (RepoConfiguration repoConfig : repoConfigs) {
                     repoConfig.addAuthors(authorConfig.getAuthorList());
-                    repoConfig.setHasAuthorConfigFile(true);
                 }
                 continue;
             }
@@ -183,7 +189,6 @@ public class RepoConfiguration {
             if (authorConfig.isDefaultBranch()) {
                 locationMatchingRepoConfigs.forEach(matchingRepoConfig -> {
                     matchingRepoConfig.addAuthors(authorConfig.getAuthorList());
-                    matchingRepoConfig.setHasAuthorConfigFile(true);
                 });
                 continue;
             }
@@ -200,7 +205,6 @@ public class RepoConfiguration {
             }
 
             branchMatchingRepoConfig.addAuthors(authorConfig.getAuthorList());
-            branchMatchingRepoConfig.setHasAuthorConfigFile(true);
         }
     }
 

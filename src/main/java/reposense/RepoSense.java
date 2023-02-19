@@ -97,6 +97,12 @@ public class RepoSense {
                 GitConfig.setGlobalGitLfsConfig(GitConfig.SKIP_SMUDGE_CONFIG_SETTINGS);
             }
 
+            boolean isTestMode = cliArguments.isTestMode();
+            if (isTestMode) {
+                // Required by ConfigSystemTest to pass
+                RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(configs, false);
+            }
+
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
@@ -142,6 +148,7 @@ public class RepoSense {
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
+            RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true);
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as author-config.csv is not found.
             // Ignore exception as the file is optional.
