@@ -264,10 +264,9 @@ export default {
       this.filteredRepos.forEach((repo) => {
         repo.forEach((user) => {
           user.commits.forEach((slice) => {
-            const contributions = slice.insertions + slice.deletions;
-            if (contributions > 0) {
+            if (slice.insertions > 0) {
               totalCount += 1;
-              totalCommits += contributions;
+              totalCommits += slice.insertions;
             }
           });
         });
