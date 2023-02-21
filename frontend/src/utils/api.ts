@@ -80,8 +80,7 @@ window.decodeHash = function decodeHash() {
         try {
           hashParams[key] = decodeURIComponent(val);
         } catch (error) {
-          (this as any).userUpdated = false;
-          (this as any).isLoading = false;
+          throw Error;
         }
       }
     });
