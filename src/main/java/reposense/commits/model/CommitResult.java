@@ -66,10 +66,6 @@ public class CommitResult {
         return hash;
     }
 
-    public Boolean getIsMergeCommit() {
-        return isMergeCommit;
-    }
-
     public LocalDateTime getTime() {
         return time;
     }
