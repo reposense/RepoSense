@@ -1,4 +1,4 @@
-import { DailyCommit, User as UserType, CommitResult } from '../types/types';
+import { DailyCommit, CommitResult } from '../types/types';
 import { authorshipSchema } from '../types/zod/authorship-type';
 import { commitsSchema } from '../types/zod/commits-type';
 import { ErrorMessage, summarySchema } from '../types/zod/summary-type';
