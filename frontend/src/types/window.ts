@@ -8,16 +8,16 @@ import { DomainUrlMap, ErrorMessage } from './zod/summary-type';
 // Declares the types for all the global variables under the window object
 export {};
 
-interface comparatorFunction {
-  (a: any, b: any): -1 | 0 | 1;
+interface comparatorFunction<T> {
+  (a: T, b: T): -1 | 0 | 1;
 }
 
-interface sortingFunction {
-  (item: any, sortingOption?: string): any;
+interface sortingFunction<T> {
+  (item: T, sortingOption?: string): T;
 }
 
 interface api {
-  loadJSON: (fname: string) => Promise<any>;
+  loadJSON: (fname: string) => Promise<unknown>;
   loadSummary: () => Promise<{
     creationDate: string,
     reportGenerationTime: string,
@@ -50,7 +50,7 @@ declare global {
     removeHash: (key: string) => void;
     encodeHash: () => void;
     decodeHash: () => void;
-    comparator: (fn: sortingFunction, sortingOption: string) => comparatorFunction;
+    comparator: <T> (fn: sortingFunction<T>, sortingOption: string) => comparatorFunction<T>;
     filterUnsupported: (string: string) => string | undefined;
     getAuthorLink: (repoId: string, author: string) => string | undefined;
     getRepoLinkUnfiltered: (repoId: string) => string;
