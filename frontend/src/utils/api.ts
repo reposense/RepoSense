@@ -92,15 +92,17 @@ window.comparator = (fn, sortingOption = '') => function compare(a, b) {
   let a1;
   let b1;
   if (sortingOption) {
-    a1 = fn(a, sortingOption).toLowerCase
-        ? fn(a, sortingOption).toLowerCase()
-        : fn(a, sortingOption);
-    b1 = fn(b, sortingOption).toLowerCase
-        ? fn(b, sortingOption).toLowerCase()
-        : fn(b, sortingOption);
+    a1 = fn(a, sortingOption);
+    b1 = fn(b, sortingOption);
   } else {
-    a1 = fn(a).toLowerCase ? fn(a).toLowerCase() : fn(a);
-    b1 = fn(b).toLowerCase ? fn(b).toLowerCase() : fn(b);
+    a1 = fn(a);
+    b1 = fn(b);
+  }
+  if (typeof a1 === 'string') {
+    a1 = a1.toLowerCase();
+  }
+  if (typeof b1 === 'string') {
+    b1 = b1.toLowerCase();
   }
   if (a1 === b1) {
     return 0;
