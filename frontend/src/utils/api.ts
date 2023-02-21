@@ -208,8 +208,8 @@ window.api = {
     try {
       const json = await this.loadJSON('summary.json');
       data = summarySchema.parse(json);
-    } catch (error: any) {
-      if (error.message === 'Unable to read summary.json.') {
+    } catch (error) {
+      if (error instanceof Error && error.message === 'Unable to read summary.json.') {
         return null;
       }
       throw error;
