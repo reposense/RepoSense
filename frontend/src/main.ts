@@ -21,7 +21,7 @@ dom.watch();
 const app = createApp(App);
 
 app.directive('hljs', {
-  mounted: (ele: any, binding: DirectiveBinding) => {
+  mounted: (ele, binding: DirectiveBinding) => {
     const element = ele;
     element.className = binding.value.split('.').pop();
 
@@ -31,6 +31,8 @@ app.directive('hljs', {
 
 app.directive('observe-visibility', {
   beforeMount: (el, binding, vnode) => {
+    // From https://github.com/Akryum/vue-observe-visibility/issues/219
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     (vnode as any).context = binding.instance;
     ObserveVisibility.bind(el, binding, vnode);
   },
