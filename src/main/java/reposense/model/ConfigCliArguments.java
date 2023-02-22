@@ -29,7 +29,8 @@ public class ConfigCliArguments extends CliArguments {
             int numAnalysisThreads, List<FileType> formats, boolean isLastModifiedDateIncluded,
             boolean isShallowCloningPerformed, boolean isAutomaticallyLaunching, boolean isStandaloneConfigIgnored,
             boolean isFileSizeLimitIgnored, ZoneId zoneId, ReportConfiguration reportConfiguration,
-            boolean isFindingPreviousAuthorsPerformed, boolean isTestMode, boolean isFreshClonePerformed) {
+            boolean isFindingPreviousAuthorsPerformed, boolean isTestMode, boolean isFreshClonePerformed,
+            String clonedRepoParentFolderName) {
         this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
                 : configFolderPath;
@@ -56,6 +57,7 @@ public class ConfigCliArguments extends CliArguments {
         this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
         this.isTestMode = isTestMode;
         this.isFreshClonePerformed = isFreshClonePerformed;
+        this.clonedRepoParentFolderName = clonedRepoParentFolderName;
     }
 
     public Path getConfigFolderPath() {

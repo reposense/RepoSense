@@ -43,6 +43,7 @@ public class ArgsParser {
     public static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
     public static final boolean DEFAULT_IS_TEST_MODE = false;
     public static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
+    public static final String DEFAULT_CLONED_REPO_PARENT_FOLDER_NAME = "";
 
     public static final String[] HELP_FLAGS = new String[] {"--help", "-h"};
     public static final String[] CONFIG_FLAGS = new String[] {"--config", "-c"};
@@ -67,6 +68,7 @@ public class ArgsParser {
 
     public static final String[] TEST_MODE_FLAG = new String[] {"--test-mode"};
     public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
+    public static final String[] CLONED_REPO_PARENT_FOLDER_NAME_FLAG = new String[] {"--parent-folder"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -250,6 +252,12 @@ public class ArgsParser {
                 .action(Arguments.storeTrue())
                 .help("Enables fresh cloning. Requires testing mode to be enabled.");
 
+        argumentGroup.addArgument(CLONED_REPO_PARENT_FOLDER_NAME_FLAG)
+                .dest(CLONED_REPO_PARENT_FOLDER_NAME_FLAG[0])
+                .metavar("PARENT_FOLDER_NAME")
+                .setDefault(DEFAULT_CLONED_REPO_PARENT_FOLDER_NAME)
+                .help("The parent directory of the cloned repo during a run of RepoSense.");
+
         return parser;
     }
 
@@ -379,12 +387,15 @@ public class ArgsParser {
             boolean shouldPerformFreshCloning = isTestMode
                     ? results.get(FRESH_CLONING_FLAG[0])
                     : DEFAULT_SHOULD_FRESH_CLONE;
+            String clonedRepoParentFolderName = isTestMode
+                    ? results.get(CLONED_REPO_PARENT_FOLDER_NAME_FLAG[0])
+                    : DEFAULT_CLONED_REPO_PARENT_FOLDER_NAME;
 
             return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
                     isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
                     shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
                     isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, reportConfig, shouldFindPreviousAuthors,
-                    isTestMode, shouldPerformFreshCloning);
+                    isTestMode, shouldPerformFreshCloning, clonedRepoParentFolderName);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {

@@ -29,6 +29,7 @@ public abstract class CliArguments {
     protected boolean isFindingPreviousAuthorsPerformed;
     protected boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     protected boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
+    protected String clonedRepoParentFolderName = ArgsParser.DEFAULT_CLONED_REPO_PARENT_FOLDER_NAME;
 
     public ZoneId getZoneId() {
         return zoneId;
@@ -101,6 +102,9 @@ public abstract class CliArguments {
     public boolean isFreshClonePerformed() {
         return isFreshClonePerformed;
     }
+    public String getClonedRepoParentFolderName() {
+        return clonedRepoParentFolderName;
+    }
 
     @Override
     public boolean equals(Object other) {
@@ -132,6 +136,7 @@ public abstract class CliArguments {
                 && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed
                 && this.isFileSizeLimitIgnored == otherCliArguments.isFileSizeLimitIgnored
                 && this.isTestMode == otherCliArguments.isTestMode
-                && this.isFreshClonePerformed == otherCliArguments.isFreshClonePerformed;
+                && this.isFreshClonePerformed == otherCliArguments.isFreshClonePerformed
+                && this.clonedRepoParentFolderName.equals(otherCliArguments.clonedRepoParentFolderName);
     }
 }

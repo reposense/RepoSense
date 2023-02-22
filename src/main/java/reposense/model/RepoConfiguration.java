@@ -21,6 +21,7 @@ import reposense.util.FileUtil;
 public class RepoConfiguration {
     public static final String DEFAULT_BRANCH = "HEAD";
     public static final String DEFAULT_EXTRA_OUTPUT_FOLDER_NAME = "";
+    public static final String DEFAULT_PARENT_FOLDER_NAME = "";
     public static final long DEFAULT_FILE_SIZE_LIMIT = 500000;
     private static final Logger logger = LogsManager.getLogger(RepoConfiguration.class);
 
@@ -29,6 +30,8 @@ public class RepoConfiguration {
     private String displayName;
     private String outputFolderName;
     private final transient String extraOutputFolderName;
+    private transient String parentFolderName;
+
     private transient ZoneId zoneId;
     private transient LocalDateTime sinceDate;
     private transient LocalDateTime untilDate;
@@ -63,7 +66,8 @@ public class RepoConfiguration {
     public RepoConfiguration(RepoLocation location, String branch, String extraOutputFolderName) {
         this(location, branch, Collections.emptyList(), Collections.emptyList(),
                 RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT, false, false, Collections.emptyList(), false, false, false,
-                false, false, false, false, Collections.emptyList(), false, extraOutputFolderName);
+                false, false, false, false, Collections.emptyList(), false, extraOutputFolderName,
+                DEFAULT_PARENT_FOLDER_NAME);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
@@ -76,7 +80,7 @@ public class RepoConfiguration {
                 isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding, isIgnoreGlobListOverriding,
                 isIgnoreCommitListOverriding, isFileSizeLimitOverriding, isShallowCloningPerformed,
                 isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped, ignoredAuthorsList,
-                isIgnoredAuthorsListOverriding, DEFAULT_EXTRA_OUTPUT_FOLDER_NAME);
+                isIgnoredAuthorsListOverriding, DEFAULT_EXTRA_OUTPUT_FOLDER_NAME, DEFAULT_PARENT_FOLDER_NAME);
     }
 
     public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
@@ -84,7 +88,8 @@ public class RepoConfiguration {
             List<CommitHash> ignoreCommitList, boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding,
             boolean isIgnoreCommitListOverriding, boolean isFileSizeLimitOverriding, boolean isShallowCloningPerformed,
             boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped,
-            List<String> ignoredAuthorsList, boolean isIgnoredAuthorsListOverriding, String extraOutputFolderName) {
+            List<String> ignoredAuthorsList, boolean isIgnoredAuthorsListOverriding, String extraOutputFolderName,
+            String parentFolderName) {
         this.authorConfig = new AuthorConfiguration(location, branch);
         this.location = location;
         this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
@@ -104,6 +109,7 @@ public class RepoConfiguration {
         this.ignoredAuthorsList = ignoredAuthorsList;
         this.isIgnoredAuthorsListOverriding = isIgnoredAuthorsListOverriding;
         this.extraOutputFolderName = extraOutputFolderName;
+        this.parentFolderName = parentFolderName;
 
         String organization = location.getOrganization();
         String repoName = location.getRepoName();
@@ -155,6 +161,11 @@ public class RepoConfiguration {
 
     public static void setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(List<RepoConfiguration> configs) {
         configs.stream().forEach(config -> config.setIsFindingPreviousAuthorsPerformed(false));
+    }
+
+    public static void setClonedRepoParentFolderNameToRepoConfigs(List<RepoConfiguration> configs,
+                                                                  String parentFolderName) {
+        configs.stream().forEach(config -> config.setParentFolderName(parentFolderName));
     }
 
     /**
@@ -480,6 +491,13 @@ public class RepoConfiguration {
 
     public void setIsFindingPreviousAuthorsPerformed(boolean isFindingPreviousAuthorsPerformed) {
         this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
+    }
+
+    public String getParentFolderName() {
+        return parentFolderName;
+    }
+    public void setParentFolderName(String parentFolderName) {
+        this.parentFolderName = parentFolderName;
     }
 
     public boolean isLastModifiedDateIncluded() {

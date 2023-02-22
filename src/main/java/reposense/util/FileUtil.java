@@ -262,14 +262,14 @@ public class FileUtil {
      * Returns the relative path to the bare repo version of {@code config}.
      */
     public static Path getRepoParentFolder(RepoConfiguration config) {
-        return Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
+        return Paths.get(FileUtil.REPOS_ADDRESS, config.getParentFolderName(), config.getRepoFolderName());
     }
 
     /**
      * Returns the relative path to the bare repo version of {@code config}.
      */
     public static Path getBareRepoPath(RepoConfiguration config) {
-        return Paths.get(FileUtil.REPOS_ADDRESS,
+        return Paths.get(FileUtil.REPOS_ADDRESS, config.getParentFolderName(),
                 config.getRepoFolderName(), config.getRepoName() + BARE_REPO_SUFFIX);
     }
 
@@ -277,7 +277,7 @@ public class FileUtil {
      * Returns the relative path to the partial bare repo version of {@code config}.
      */
     public static Path getPartialBareRepoPath(RepoConfiguration config) {
-        return Paths.get(FileUtil.REPOS_ADDRESS,
+        return Paths.get(FileUtil.REPOS_ADDRESS, config.getParentFolderName(),
                 config.getRepoFolderName(), config.getRepoName() + PARTIAL_REPO_SUFFIX);
     }
 
@@ -285,7 +285,7 @@ public class FileUtil {
      * Returns the relative path to the shallow partial bare repo version of {@code config}.
      */
     public static Path getShallowPartialBareRepoPath(RepoConfiguration config) {
-        return Paths.get(FileUtil.REPOS_ADDRESS,
+        return Paths.get(FileUtil.REPOS_ADDRESS, config.getParentFolderName(),
                 config.getRepoFolderName(), config.getRepoName() + SHALLOW_PARTIAL_REPO_SUFFIX);
     }
 

@@ -102,6 +102,10 @@ public class RepoSense {
                 // Required by ConfigSystemTest to pass
                 AuthorConfiguration.setHasAuthorConfigFile(false);
             }
+            if (isTestMode) {
+                RepoConfiguration.setClonedRepoParentFolderNameToRepoConfigs(configs,
+                        cliArguments.getClonedRepoParentFolderName());
+            }
 
             List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
