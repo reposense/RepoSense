@@ -365,6 +365,10 @@ public class RepoConfiguration {
      */
     public String getRepoRoot() {
         String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
+        if (!getParentFolderName().equals("")) {
+            path = FileUtil.REPOS_ADDRESS + File.separator + getParentFolderName()
+                    + File.separator + getRepoFolderName() + File.separator;
+        }
 
         if (!getRepoName().isEmpty()) {
             if (!extraOutputFolderName.isEmpty()) {

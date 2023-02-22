@@ -251,6 +251,16 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the parent-folder flag with the {@code parentFolderName} as argument to the input.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addClonedRepoParentFolder(String parentFolderName) {
+        input.append(ArgsParser.CLONED_REPO_PARENT_FOLDER_NAME_FLAG[0] + WHITESPACE + parentFolderName + WHITESPACE);
+        return this;
+    }
+
+
+    /**
      * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {

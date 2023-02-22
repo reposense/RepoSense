@@ -103,7 +103,8 @@ public class ConfigSystemTest {
         InputBuilder inputBuilder = initInputBuilder()
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate("2/3/2019")
-                .addOutput(SINCE_BEGINNING_DATE_RANGE_REPORT_DIRECTORY);
+                .addOutput(SINCE_BEGINNING_DATE_RANGE_REPORT_DIRECTORY)
+                .addClonedRepoParentFolder("test");
 
         runTest(inputBuilder, false,
                 "ConfigSystemTest/sinceBeginningDateRange/expected",

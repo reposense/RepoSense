@@ -105,7 +105,8 @@ public class GitClone {
     public static void cloneFromBareAndUpdateBranch(Path rootPath, RepoConfiguration config)
             throws GitCloneException, IOException {
         Path relativePath = FileUtil.getBareRepoPath(config);
-        String outputFolderName = Paths.get(config.getRepoFolderName(), config.getRepoName()).toString();
+        String outputFolderName = Paths.get(config.getParentFolderName(),
+                config.getRepoFolderName(), config.getRepoName()).toString();
         Path outputFolderPath = Paths.get(FileUtil.REPOS_ADDRESS, outputFolderName);
 
         if (!SystemUtil.isTestEnvironment()) {
