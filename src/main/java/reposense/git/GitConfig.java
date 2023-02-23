@@ -54,7 +54,7 @@ public class GitConfig {
      *
      * @param lfsConfigs a list of string arrays where 0-index is key and 1-index is value.
      */
-    public static void setGlobalGitLfsConfig(List<String[]> lfsConfigs) {
+    public static synchronized void setGlobalGitLfsConfig(List<String[]> lfsConfigs) {
         String command = setGitLfsConfigCommand(lfsConfigs);
         if (!command.equals("")) {
             CommandRunner.runCommand(Paths.get("."), command);
