@@ -762,7 +762,7 @@ public class RepoConfigurationTest {
         reportGenerator.updateRepoConfig(actualConfig);
         Method updateAuthorList = ReportGenerator.class.getDeclaredMethod("updateAuthorList", RepoConfiguration.class);
         updateAuthorList.setAccessible(true);
-        updateAuthorList.invoke(null, actualConfig);
+        updateAuthorList.invoke(reportGenerator, actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
