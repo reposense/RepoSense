@@ -37,6 +37,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     private static final String DUPLICATE_AUTHORS_DUPLICATE_COMMITS_HASH = "f34c20ec2c3be63e0764d4079a575dd75269ffeb";
 
     private RepoConfiguration config;
+    private CommitInfoExtractor commitInfoExtractor = new CommitInfoExtractor();
+    private CommitInfoAnalyzer commitInfoAnalyzer = new CommitInfoAnalyzer();
 
     @BeforeEach
     public void before() throws Exception {
@@ -52,8 +54,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
         config.addAuthorNamesToAuthorMapEntry(new Author(EUGENE_AUTHOR_NAME), EUGENE_AUTHOR_NAME);
 
-        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        List<CommitInfo> commitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> commitResults = commitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assertions.assertEquals(commitInfos.size(), commitResults.size());
     }
@@ -63,8 +65,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.addAuthorNamesToAuthorMapEntry(new Author(MAIN_AUTHOR_NAME), MAIN_AUTHOR_NAME);
         config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
 
-        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        List<CommitInfo> commitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> commitResults = commitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assertions.assertEquals(commitInfos.size() - NUMBER_EUGENE_COMMIT, commitResults.size());
     }
@@ -73,8 +75,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     public void analyzeCommits_eugeneAuthorNoIgnoredCommitsNoDateRange_success() {
         config.addAuthorNamesToAuthorMapEntry(new Author(EUGENE_AUTHOR_NAME), EUGENE_AUTHOR_NAME);
 
-        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        List<CommitInfo> commitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> commitResults = commitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assertions.assertEquals(NUMBER_EUGENE_COMMIT, commitResults.size());
     }
@@ -85,15 +87,15 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
         config.addAuthorNamesToAuthorMapEntry(new Author(EUGENE_AUTHOR_NAME), EUGENE_AUTHOR_NAME);
 
-        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitInfo> commitInfos = commitInfoExtractor.extractCommitInfos(config);
         config.setIgnoreCommitList(Collections.singletonList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018));
 
-        List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        List<CommitResult> commitResultsFull = commitInfoAnalyzer.analyzeCommits(commitInfos, config);
         config.setIgnoreCommitList(Collections.singletonList(
                 new CommitHash(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8))
         ));
 
-        List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        List<CommitResult> commitResultsShort = commitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assertions.assertEquals(commitResultsShort, commitResultsFull);
         Assertions.assertEquals(commitInfos.size() - 1, commitResultsFull.size());
@@ -105,16 +107,16 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
         config.addAuthorNamesToAuthorMapEntry(new Author(EUGENE_AUTHOR_NAME), EUGENE_AUTHOR_NAME);
 
-        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitInfo> commitInfos = commitInfoExtractor.extractCommitInfos(config);
         config.setIgnoreCommitList(
                 Arrays.asList(FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018, EUGENE_AUTHOR_README_FILE_COMMIT_07052018));
 
-        List<CommitResult> commitResultsFull = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        List<CommitResult> commitResultsFull = commitInfoAnalyzer.analyzeCommits(commitInfos, config);
         config.setIgnoreCommitList(CommitHash.convertStringsToCommits(Arrays.asList(
                 FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING.substring(0, 8),
                 EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING.substring(0, 8))));
 
-        List<CommitResult> commitResultsShort = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        List<CommitResult> commitResultsShort = commitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assertions.assertEquals(commitResultsShort, commitResultsFull);
         Assertions.assertEquals(commitInfos.size() - 2, commitResultsFull.size());
@@ -126,8 +128,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.clearAuthorDetailsToAuthorMap();
         config.addAuthorNamesToAuthorMapEntry(new Author(YONG_AUTHOR_NAME), YONG_AUTHOR_NAME);
 
-        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        List<CommitInfo> commitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> commitResults = commitInfoAnalyzer.analyzeCommits(commitInfos, config);
         commitResults.removeIf(s -> !s.getMessageTitle().isEmpty());
 
         Assertions.assertEquals(NUMBER_EMPTY_MESSAGE_COMMIT, commitResults.size());
@@ -139,8 +141,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Author author = new Author(MINGYI_AUTHOR_NAME);
         config.setAuthorList(Collections.singletonList(author));
 
-        List<CommitInfo> commitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> commitResults = CommitInfoAnalyzer.analyzeCommits(commitInfos, config);
+        List<CommitInfo> commitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> commitResults = commitInfoAnalyzer.analyzeCommits(commitInfos, config);
 
         Assertions.assertEquals(NUMBER_MINGYI_COMMIT, commitResults.size());
     }
@@ -160,8 +162,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(LocalDateTime.of(2021, Month.AUGUST, 3, 0, 0));
         config.setUntilDate(LocalDateTime.of(2021, Month.AUGUST, 4, 0, 0));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(actualCommitInfos.size(), 2);
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
@@ -192,8 +194,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(LocalDateTime.of(2019, Month.JULY, 2, 0, 0));
         config.setUntilDate(LocalDateTime.of(2019, Month.JULY, 3, 0, 0));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
@@ -224,8 +226,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(LocalDateTime.of(2019, Month.JUNE, 19, 0, 0));
         config.setUntilDate(LocalDateTime.of(2019, Month.JUNE, 20, 0, 0));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
@@ -265,8 +267,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setBranch("751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success");
         config.setAuthorList(Collections.singletonList(author));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
 
@@ -296,8 +298,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(LocalDateTime.of(2019, Month.DECEMBER, 20, 0, 0));
         config.setUntilDate(LocalDateTime.of(2019, Month.DECEMBER, 21, 0, 0));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
@@ -335,8 +337,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
                 parseGitStrictIsoDate("2019-12-20T22:47:21+08:00"), "Double Tag Commit",
                 "", new String[] {"2nd-tag", "1st-tag"}, secondFileTypeAndContributionMap));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
 
@@ -357,8 +359,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
         config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
@@ -384,8 +386,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setAuthorList(Collections.singletonList(author));
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
         config.setZoneId(originalZoneId);
@@ -406,8 +408,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(LocalDateTime.of(2020, Month.APRIL, 6, 0, 0));
         config.setUntilDate(LocalDateTime.of(2020, Month.APRIL, 7, 0, 0));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
@@ -437,8 +439,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(LocalDateTime.of(2020, Month.APRIL, 20, 0, 0));
         config.setUntilDate(LocalDateTime.of(2020, Month.APRIL, 21, 0, 0));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(2, actualCommitInfos.size());
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);

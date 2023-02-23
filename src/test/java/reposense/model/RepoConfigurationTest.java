@@ -91,6 +91,7 @@ public class RepoConfigurationTest {
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration repoDeltaStandaloneConfig;
+    private ReportGenerator reportGenerator = new ReportGenerator();
 
     @BeforeAll
     public static void setUp() throws Exception {
@@ -132,7 +133,7 @@ public class RepoConfigurationTest {
     public void repoConfig_usesStandaloneConfig_success() throws Exception {
         RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA), "master");
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(repoDeltaStandaloneConfig, actualConfig);
     }
@@ -167,7 +168,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
@@ -190,7 +191,7 @@ public class RepoConfigurationTest {
                 cliArguments.isStandaloneConfigIgnored());
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
@@ -219,8 +220,8 @@ public class RepoConfigurationTest {
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
         TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
         TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
-        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
-        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        reportGenerator.updateRepoConfig(repoBetaActualConfig);
+        reportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
         TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
     }
@@ -245,7 +246,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
@@ -276,8 +277,8 @@ public class RepoConfigurationTest {
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
         TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
         TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
-        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
-        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        reportGenerator.updateRepoConfig(repoBetaActualConfig);
+        reportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
         TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
     }
@@ -300,8 +301,8 @@ public class RepoConfigurationTest {
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
         TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
         TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
-        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
-        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        reportGenerator.updateRepoConfig(repoBetaActualConfig);
+        reportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
         TestUtil.compareRepoConfig(repoDeltaStandaloneConfig, repoDeltaActualConfig);
     }
@@ -319,7 +320,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(repoDeltaStandaloneConfig, actualConfig);
     }
@@ -344,7 +345,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
@@ -370,7 +371,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
@@ -401,8 +402,8 @@ public class RepoConfigurationTest {
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
         TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
         TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
-        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
-        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        reportGenerator.updateRepoConfig(repoBetaActualConfig);
+        reportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
         TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
     }
@@ -430,8 +431,8 @@ public class RepoConfigurationTest {
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
         TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
         TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
-        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
-        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        reportGenerator.updateRepoConfig(repoBetaActualConfig);
+        reportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
         TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
     }
@@ -456,7 +457,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
@@ -482,7 +483,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
@@ -513,8 +514,8 @@ public class RepoConfigurationTest {
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
         TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
         TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
-        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
-        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        reportGenerator.updateRepoConfig(repoBetaActualConfig);
+        reportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
         TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
     }
@@ -542,8 +543,8 @@ public class RepoConfigurationTest {
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
         TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
         TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
-        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
-        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        reportGenerator.updateRepoConfig(repoBetaActualConfig);
+        reportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
         TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
     }
@@ -574,8 +575,8 @@ public class RepoConfigurationTest {
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
         TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
         TestRepoCloner.cloneAndBranch(repoDeltaActualConfig);
-        ReportGenerator.updateRepoConfig(repoBetaActualConfig);
-        ReportGenerator.updateRepoConfig(repoDeltaActualConfig);
+        reportGenerator.updateRepoConfig(repoBetaActualConfig);
+        reportGenerator.updateRepoConfig(repoDeltaActualConfig);
         TestUtil.compareRepoConfig(repoBetaExpectedConfig, repoBetaActualConfig);
         TestUtil.compareRepoConfig(repoDeltaExpectedConfig, repoDeltaActualConfig);
     }
@@ -700,7 +701,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
@@ -722,7 +723,7 @@ public class RepoConfigurationTest {
         RepoConfiguration actualConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG),
                 "master");
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
     }
@@ -758,7 +759,7 @@ public class RepoConfigurationTest {
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
-        ReportGenerator.updateRepoConfig(actualConfig);
+        reportGenerator.updateRepoConfig(actualConfig);
         Method updateAuthorList = ReportGenerator.class.getDeclaredMethod("updateAuthorList", RepoConfiguration.class);
         updateAuthorList.setAccessible(true);
         updateAuthorList.invoke(null, actualConfig);
