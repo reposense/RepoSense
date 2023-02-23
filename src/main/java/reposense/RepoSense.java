@@ -103,7 +103,8 @@ public class RepoSense {
                 AuthorConfiguration.setHasAuthorConfigFile(false);
             }
 
-            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
+            ReportGenerator reportGenerator = new ReportGenerator();
+            List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),

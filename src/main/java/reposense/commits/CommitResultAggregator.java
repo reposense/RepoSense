@@ -27,14 +27,14 @@ public class CommitResultAggregator {
      * Returns the {@link CommitContributionSummary} generated from aggregating the {@code commitResults}.
      * Uses {@code config} to obtain details like author name, since date and timezone.
      */
-    public static CommitContributionSummary aggregateCommitResults(
-            RepoConfiguration config, List<CommitResult> commitResults) {
+    public CommitContributionSummary aggregateCommitResults(
+            RepoConfiguration config, List<CommitResult> commitResults, ReportGenerator reportGenerator) {
         LocalDateTime startDate;
         ZoneId zoneId = config.getZoneId();
         startDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(config.getSinceDate(), zoneId))
                 ? getStartOfDate(getStartDate(commitResults, zoneId), zoneId)
                 : config.getSinceDate();
-        ReportGenerator.setEarliestSinceDate(startDate);
+        reportGenerator.setEarliestSinceDate(startDate);
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults, zoneId);
@@ -57,7 +57,7 @@ public class CommitResultAggregator {
      * This date range is between {@code startDate} and {@code lastDate}, which are determined based on {@code zoneId}.
      * The authors and their respective contributions are stored in {@code intervalContributionMaps}.
      */
-    private static Map<Author, Float> calcAuthorContributionVariance(
+    private Map<Author, Float> calcAuthorContributionVariance(
             Map<Author, List<AuthorDailyContribution>> intervalContributionMaps, LocalDateTime startDate,
             LocalDateTime lastDate, ZoneId zoneId) {
         Map<Author, Float> result = new HashMap<>();
@@ -73,7 +73,7 @@ public class CommitResultAggregator {
      * between {@code startDate} and {@code lastDate}.
      * The {@code startDate} and {@code lastDate} are determined based on {@code zoneId}.
      */
-    private static float getContributionVariance(List<AuthorDailyContribution> contributions, LocalDateTime startDate,
+    private float getContributionVariance(List<AuthorDailyContribution> contributions, LocalDateTime startDate,
             LocalDateTime lastDate, ZoneId zoneId) {
         if (contributions.size() == 0) {
             return 0;
@@ -120,7 +120,7 @@ public class CommitResultAggregator {
      * @return a {@link Map} of each author to a list of {@link AuthorDailyContribution} across all dates in which
      * the author made commits.
      */
-    private static Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
+    private Map<Author, List<AuthorDailyContribution>> getAuthorDailyContributionsMap(
             Set<Author> authorSet, List<CommitResult> commitResults, ZoneId zoneId) {
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap = new HashMap<>();
         authorSet.forEach(author -> authorDailyContributionsMap.put(author, new ArrayList<>()));
@@ -146,7 +146,7 @@ public class CommitResultAggregator {
         return authorDailyContributionsMap;
     }
 
-    private static void addDailyContributionForNewDate(
+    private void addDailyContributionForNewDate(
             List<AuthorDailyContribution> authorDailyContributions, LocalDateTime date) {
         authorDailyContributions.add(new AuthorDailyContribution(date));
     }
@@ -157,7 +157,7 @@ public class CommitResultAggregator {
      * @return the {@code current} date if it is equal to the {@code ARBITRARY_FIRST_COMMIT_DATE} adjusted to the
      * timezone given by {@code zoneId}. Otherwise, return a {@link LocalDateTime} adjusted to have a time of 00:00:00.
      */
-    private static LocalDateTime getStartOfDate(LocalDateTime current, ZoneId zoneId) {
+    private LocalDateTime getStartOfDate(LocalDateTime current, ZoneId zoneId) {
         if (TimeUtil.isEqualToArbitraryFirstDateConverted(current, zoneId)) {
             return current;
         }
@@ -171,7 +171,7 @@ public class CommitResultAggregator {
      * @return First commit date if there is at least one {@link CommitResult}. Otherwise, return
      * the {@code ARBITRARY_FIRST_COMMIT_DATE} converted to the timezone given by {@code zoneId}.
      */
-    private static LocalDateTime getStartDate(List<CommitResult> commitInfos, ZoneId zoneId) {
+    private LocalDateTime getStartDate(List<CommitResult> commitInfos, ZoneId zoneId) {
         return (commitInfos.isEmpty())
                 ? TimeUtil.getArbitraryFirstCommitDateConverted(zoneId)
                 : commitInfos.get(0).getTime();
