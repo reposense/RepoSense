@@ -24,7 +24,7 @@ import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
 
-@Execution(ExecutionMode.SAME_THREAD)
+@Execution(ExecutionMode.CONCURRENT)
 public class ConfigSystemTest {
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
@@ -58,7 +58,7 @@ public class ConfigSystemTest {
             Paths.get(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY, DEFAULT_OUTPUT_FOLDER_NAME);
 
     private static final String SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY =
-            String.join("/", "since_beginning_date_range_with_find_previous_author");
+            String.join("/", OUTPUT_DIRECTORY, "since_beginning_date_range_with_find_previous_author");
     private static final Path SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY_PATH =
             Paths.get(SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY,
                     DEFAULT_OUTPUT_FOLDER_NAME);
@@ -117,7 +117,8 @@ public class ConfigSystemTest {
     public void test30DaysFromUntilDate() throws Exception {
         InputBuilder inputBuilder = initInputBuilder()
                 .addUntilDate("1/11/2017")
-                .addOutput(THIRTY_DAYS_FROM_UNTIL_DATE_REPORT_DIRECTORY);
+                .addOutput(THIRTY_DAYS_FROM_UNTIL_DATE_REPORT_DIRECTORY)
+                .addClonedRepoParentFolder("test2");
 
         runTest(inputBuilder, false,
                 "ConfigSystemTest/30daysFromUntilDate/expected",
@@ -136,7 +137,8 @@ public class ConfigSystemTest {
                 .addSinceDate("1/9/2017")
                 .addUntilDate("30/10/2017")
                 .addLastModifiedDateFlags()
-                .addOutput(DATE_RANGE_WITH_MODIFIED_DATETIME_IN_LINES_REPORT_DIRECTORY);
+                .addOutput(DATE_RANGE_WITH_MODIFIED_DATETIME_IN_LINES_REPORT_DIRECTORY)
+                .addClonedRepoParentFolder("test3");
 
         runTest(inputBuilder, false,
                 "ConfigSystemTest/dateRangeWithModifiedDateTimeInLines/expected",
@@ -155,7 +157,8 @@ public class ConfigSystemTest {
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate("2/3/2019")
                 .addShallowCloning()
-                .addOutput(SINCE_BEGINNING_DATE_RANGE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY);
+                .addOutput(SINCE_BEGINNING_DATE_RANGE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY)
+                .addClonedRepoParentFolder("test4");
 
         runTest(inputBuilder, true,
                 "ConfigSystemTest/sinceBeginningDateRangeWithShallowCloning/expected",
@@ -169,7 +172,8 @@ public class ConfigSystemTest {
         InputBuilder inputBuilder = initInputBuilder()
                 .addUntilDate("1/11/2017")
                 .addShallowCloning()
-                .addOutput(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY);
+                .addOutput(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY)
+                .addClonedRepoParentFolder("test5");
 
         runTest(inputBuilder, true,
                 "ConfigSystemTest/30daysFromUntilDateWithShallowCloning/expected",
@@ -191,7 +195,8 @@ public class ConfigSystemTest {
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate("2/3/2019")
                 .addFindPreviousAuthors()
-                .addOutput(SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY);
+                .addOutput(SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY)
+                .addClonedRepoParentFolder("test6");
 
         runTest(inputBuilder, true,
                 "ConfigSystemTest/sinceBeginningDateRangeFindPreviousAuthors/expected",
@@ -208,7 +213,8 @@ public class ConfigSystemTest {
         InputBuilder inputBuilder = initInputBuilder()
                 .addUntilDate("1/11/2017")
                 .addFindPreviousAuthors()
-                .addOutput(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY);
+                .addOutput(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY)
+                .addClonedRepoParentFolder("test7");
 
         runTest(inputBuilder, true,
                 "ConfigSystemTest/30daysFromUntilDateFindPreviousAuthors/expected",
