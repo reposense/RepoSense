@@ -105,18 +105,18 @@
           span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(
               v-show="file.active",
-              v-on:mouseover="onTooltipHover(file.path + 'hide-file-tooltip')",
-              v-on:mouseout="resetTooltip(file.path + 'hide-file-tooltip')"
+              v-on:mouseover="onTooltipHover(`${file.path}-hide-file-tooltip`)",
+              v-on:mouseout="resetTooltip(`${file.path}-hide-file-tooltip`)"
             )
               font-awesome-icon(icon="caret-down", fixed-width)
-              span.tooltip-text(v-bind:ref="file.path + 'hide-file-tooltip'") Click to hide file details
+              span.tooltip-text(v-bind:ref="`${file.path}-hide-file-tooltip`") Click to hide file details
             .tooltip(
               v-show="!file.active",
-              v-on:mouseover="onTooltipHover(file.path + 'show-file-tooltip')",
-              v-on:mouseout="resetTooltip(file.path + 'show-file-tooltip')"
+              v-on:mouseover="onTooltipHover(`${file.path}-show-file-tooltip`)",
+              v-on:mouseout="resetTooltip(`${file.path}-show-file-tooltip`)"
             )
               font-awesome-icon(icon="caret-right", fixed-width)
-              span.tooltip-text(v-bind:ref="file.path + 'show-file-tooltip'") Click to show file details
+              span.tooltip-text(v-bind:ref="`${file.path}-show-file-tooltip`") Click to show file details
           span.index {{ i + 1 }}. &nbsp;
           span.path
             span(
