@@ -101,7 +101,7 @@
     .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
       .file(v-bind:ref="file.path")
-        .title
+        .title(v-bind:class="{'sticky':\ file.active}")
           span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(
               v-show="file.active"
@@ -845,11 +845,15 @@ export default {
       font-size: medium;
       margin-top: 1rem;
       padding: .3em .5em;
-      position: sticky;
+      position: unset;
       top: 0;
       white-space: pre-wrap;
       word-break: break-all;
       z-index: z-index('file-title');
+
+      &.sticky {
+        position: sticky;
+      }
 
       .caret {
         cursor: pointer;
