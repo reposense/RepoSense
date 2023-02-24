@@ -103,24 +103,20 @@
       .file(v-bind:ref="file.path")
         .title
           span.caret(v-on:click="toggleFileActiveProperty(file)")
-            .tooltip(v-show="file.active")
+            .tooltip(
+              v-show="file.active"
+              v-on:mouseover="onTooltipHover(file.path + 'hide-file-tooltip')",
+              v-on:mouseout="resetTooltip(file.path + 'hide-file-tooltip')"
+            )
               font-awesome-icon(icon="caret-down", fixed-width)
-              span.tooltip-text(
-                v-observe-visibility="{ callback: onTooltipVisibilityChanged, intersection: { \
-                  root: null, \
-                  rootMargin: \"0px\", \
-                  threshold: 0.9 \
-                }, }"
-              ) Click to hide file details
-            .tooltip(v-show="!file.active")
+              .tooltip-text(v-bind:ref="file.path + 'hide-file-tooltip'") Click to hide file details
+            .tooltip(
+              v-show="!file.active"
+              v-on:mouseover="onTooltipHover(file.path + 'show-file-tooltip')",
+              v-on:mouseout="resetTooltip(file.path + 'show-file-tooltip')"
+            )
               font-awesome-icon(icon="caret-right", fixed-width)
-              span.tooltip-text(
-                v-observe-visibility="{ callback: onTooltipVisibilityChanged, intersection: { \
-                  root: null, \
-                  rootMargin: \"0px\", \
-                  threshold: 0.9 \
-                }, }"
-              ) Click to show file details
+              .tooltip-text(v-bind:ref="file.path + 'show-file-tooltip'") Click to show file details
           span.index {{ i + 1 }}. &nbsp;
           span.path
             span(
@@ -464,25 +460,25 @@ export default {
 
     scrollFileIntoView(file) {
       const fileElement = this.$refs[file.path][0];
-      const isFileElementAtTopOfScrollable = fileElement.getBoundingClientRect().top <= 0;
-      if (isFileElementAtTopOfScrollable) {
+      if (this.isElementAboveViewport(fileElement)) {
         fileElement.scrollIntoView(true);
       }
     },
 
-    onTooltipVisibilityChanged(isVisible, entry) {
-      if (isVisible) {
-        return;
-      }
-      if (this.isTooltipAboveViewport(entry)) {
-        entry.target.classList.add('bottom-aligned');
-      } else {
-        entry.target.classList.remove('bottom-aligned');
+    onTooltipHover(refName) {
+      const tooltipTextElement = this.$refs[refName][0];
+      if (this.isElementAboveViewport(tooltipTextElement)) {
+        tooltipTextElement.classList.add('bottom-aligned');
       }
     },
 
-    isTooltipAboveViewport(entry) {
-      return entry.boundingClientRect.top <= 0;
+    resetTooltip(refName) {
+      const tooltipTextElement = this.$refs[refName][0];
+      tooltipTextElement.classList.remove('bottom-aligned');
+    },
+
+    isElementAboveViewport(el) {
+      return el.getBoundingClientRect().top <= 0;
     },
 
     isUnknownAuthor(name) {
