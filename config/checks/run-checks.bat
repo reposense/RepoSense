@@ -8,5 +8,4 @@ for %%X in (check-*.bat) do (
  call "%%X"
  if ERRORLEVEL 1 set ret=1
 )
-echo bye
 exit /b !ret!
