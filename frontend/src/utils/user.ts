@@ -1,13 +1,16 @@
-export default class User {
+import { Commit, DailyCommit, User as UserType } from '../types/types';
+import { AuthorFileTypeContributions } from '../types/zod/commits-type';
+
+export default class User implements UserType {
   checkedFileTypeContribution : number;
 
-  commits: Array<object>;
+  commits: Commit[];
 
-  dailyCommits: Array<object>;
+  dailyCommits: DailyCommit[];
 
   displayName: string;
 
-  fileTypeContribution: object;
+  fileTypeContribution: AuthorFileTypeContributions;
 
   location: string;
 
