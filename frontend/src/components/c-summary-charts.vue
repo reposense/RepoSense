@@ -74,6 +74,12 @@
               v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
             )
             span.tooltip-text Click to view breakdown of commits
+      a(
+        v-on:click="handleExpandGroup(getGroupName(repo))"
+      )
+        .tooltip
+          font-awesome-icon.icon-button(icon="code")
+          span.tooltip-text Click to copy embedded widget link
       .tooltip.summary-chart__title--percentile(
           v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
