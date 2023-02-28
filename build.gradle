@@ -149,6 +149,16 @@ tasks.register('checkstyleAll', Checkstyle) {
     tasks.checkstyleSystemtest.mustRunAfter('checkstyleTest')
 }
 
+tasks.register('environmentalChecks', Exec) {
+    workingDir 'config/checks/'
+    if (os.isWindows()){
+        commandLine 'cmd', '/c', 'run-checks.bat'
+    } else {
+        commandLine 'sh', './run-checks.sh'
+    }
+}
+
+
 tasks.register('systemtest', Test) {
     testClassesDirs = sourceSets.systemtest.output.classesDirs
     classpath = sourceSets.systemtest.runtimeClasspath
