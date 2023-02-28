@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Segment from '../utils/segment.ts';
+import Segment from '../utils/segment';
 
 export default {
   name: 'c-segment',
