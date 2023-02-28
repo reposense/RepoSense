@@ -37,6 +37,7 @@ app.directive('observe-visibility', {
   updated: ObserveVisibility.update,
   unmounted: ObserveVisibility.unbind,
 });
+
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(store);
 
