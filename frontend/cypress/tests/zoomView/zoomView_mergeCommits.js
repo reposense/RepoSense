@@ -22,7 +22,7 @@ describe('include merge commits in zoom view', () => {
     cy.get('#tab-zoom .fileTypes input[value="java"]')
       .uncheck()
       .should('not.be.checked');
-    
+
     // check if the icon for merge commits is not visible
     cy.get('.code-merge-icon')
       .should('not.exist');
