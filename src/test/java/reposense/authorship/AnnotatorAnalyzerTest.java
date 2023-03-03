@@ -54,13 +54,13 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(UNTIL_DATE);
         config.setZoneId(TIME_ZONE_ID);
 
-        AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
+        config.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
     @AfterEach
     public void after() {
         super.after();
-        AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
+        config.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeAnnotation_authorNameNotInConfigAndHaveAuthorConfigFile_disownCode() {
         config.setAuthorList(new ArrayList<>(Arrays.asList(FAKE_AUTHOR)));
-        AuthorConfiguration.setHasAuthorConfigFile(true);
+        config.setHasAuthorConfigFile(true);
         FileResult fileResult = getFileResult("annotationTest.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_DISOWN_CODE_TEST));
     }

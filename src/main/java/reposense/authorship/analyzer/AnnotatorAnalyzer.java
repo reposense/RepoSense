@@ -85,7 +85,7 @@ public class AnnotatorAnalyzer {
     private static Optional<Author> findAuthorInLine(String line, AuthorConfiguration authorConfig) {
         Optional<String> optionalName = extractAuthorName(line);
 
-        optionalName.filter(name -> !authorConfig.containsName(name) && !AuthorConfiguration.hasAuthorConfigFile())
+        optionalName.filter(name -> !authorConfig.containsName(name) && !authorConfig.hasAuthorConfigFile())
                 .ifPresent(name -> authorConfig.addAuthor(new Author(name)));
 
         return optionalName.map(name -> authorConfig.getAuthor(name, name));

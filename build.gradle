@@ -16,7 +16,7 @@ OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
 
 mainClassName = 'reposense.RepoSense'
 
-node.nodeVersion = '14.20.1'
+node.download = false // The Liferay Node Gradle Plugin will use the system PATH to find the Node/npm executable.
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
@@ -37,7 +37,6 @@ dependencies {
     implementation  group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.9.0'
     implementation  group: 'org.apache.ant', name: 'ant', version: '1.10.12'
     implementation  group: 'org.apache.commons', name: 'commons-csv', version: '1.9.0'
-    implementation  group: 'org.apache.commons', name: 'commons-text', version: '1.9'
     implementation  group: 'org.fusesource.jansi', name: 'jansi', version: '2.4.0'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitVersion
@@ -149,6 +148,16 @@ tasks.register('checkstyleAll', Checkstyle) {
     tasks.checkstyleTest.mustRunAfter('checkstyleMain')
     tasks.checkstyleSystemtest.mustRunAfter('checkstyleTest')
 }
+
+tasks.register('environmentalChecks', Exec) {
+    workingDir 'config/checks/'
+    if (os.isWindows()){
+        commandLine 'cmd', '/c', 'run-checks.bat'
+    } else {
+        commandLine 'sh', './run-checks.sh'
+    }
+}
+
 
 tasks.register('systemtest', Test) {
     testClassesDirs = sourceSets.systemtest.output.classesDirs
