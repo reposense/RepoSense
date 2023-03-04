@@ -100,7 +100,7 @@ public class RepoSense {
             boolean isTestMode = cliArguments.isTestMode();
             if (isTestMode) {
                 // Required by ConfigSystemTest to pass
-                AuthorConfiguration.setHasAuthorConfigFile(false);
+                RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(configs, false);
             }
 
             ReportGenerator reportGenerator = new ReportGenerator();
@@ -149,7 +149,7 @@ public class RepoSense {
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
-            AuthorConfiguration.setHasAuthorConfigFile(true);
+            RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true);
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as author-config.csv is not found.
             // Ignore exception as the file is optional.

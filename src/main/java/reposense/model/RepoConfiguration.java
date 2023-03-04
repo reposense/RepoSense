@@ -157,6 +157,11 @@ public class RepoConfiguration {
         configs.stream().forEach(config -> config.setIsFindingPreviousAuthorsPerformed(false));
     }
 
+    public static void setHasAuthorConfigFileToRepoConfigs(List<RepoConfiguration> configs,
+                                                           boolean setHasAuthorConfigFile) {
+        configs.stream().forEach(config -> config.setHasAuthorConfigFile(setHasAuthorConfigFile));
+    }
+
     /**
      * Merges a {@link RepoConfiguration} from {@code repoConfigs} with an {@link AuthorConfiguration} from
      * {@code authorConfigs} if their {@link RepoLocation} and branch matches.
@@ -529,6 +534,10 @@ public class RepoConfiguration {
         authorConfig.setAuthorList(authorList);
         authorConfig.buildFromAuthorList();
         authorList.forEach(author -> AuthorConfiguration.propagateIgnoreGlobList(author, this.getIgnoreGlobList()));
+    }
+
+    public void setHasAuthorConfigFile(boolean hasAuthorConfigFile) {
+        authorConfig.setHasAuthorConfigFile(hasAuthorConfigFile);
     }
 
     public Map<String, Author> getAuthorNamesToAuthorMap() {
