@@ -5,6 +5,7 @@
 *.class
 *.iml
 *.zip
+*.tmp
 
 ft_temp/
 /target/
