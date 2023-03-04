@@ -28,13 +28,12 @@ public class CommitResultAggregator {
      * Uses {@code config} to obtain details like author name, since date and timezone.
      */
     public CommitContributionSummary aggregateCommitResults(
-            RepoConfiguration config, List<CommitResult> commitResults, ReportGenerator reportGenerator) {
+            RepoConfiguration config, List<CommitResult> commitResults) {
         LocalDateTime startDate;
         ZoneId zoneId = config.getZoneId();
         startDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(config.getSinceDate(), zoneId))
                 ? getStartOfDate(getStartDate(commitResults, zoneId), zoneId)
                 : config.getSinceDate();
-        reportGenerator.setEarliestSinceDate(startDate);
 
         Map<Author, List<AuthorDailyContribution>> authorDailyContributionsMap =
                 getAuthorDailyContributionsMap(config.getAuthorDisplayNameMap().keySet(), commitResults, zoneId);
@@ -49,7 +48,8 @@ public class CommitResultAggregator {
         return new CommitContributionSummary(
                 config.getAuthorDisplayNameMap(),
                 authorDailyContributionsMap,
-                authorContributionVariance);
+                authorContributionVariance,
+                startDate);
     }
 
     /**

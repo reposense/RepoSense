@@ -354,7 +354,9 @@ public class ReportGenerator {
         AuthorshipSummary authorshipSummary = authorshipReporter.generateAuthorshipSummary(config);
 
         CommitsReporter commitsReporter = new CommitsReporter();
-        CommitContributionSummary commitSummary = commitsReporter.generateCommitSummary(config, this);
+        CommitContributionSummary commitSummary = commitsReporter.generateCommitSummary(config);
+        earliestSinceDate = commitSummary.getEarliestSinceDate();
+
         List<Path> generatedFiles = generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
         return generatedFiles;
