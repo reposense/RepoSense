@@ -14,7 +14,6 @@ import reposense.commits.model.CommitContributionSummary;
 import reposense.commits.model.CommitResult;
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
-import reposense.report.ReportGenerator;
 import reposense.util.TimeUtil;
 
 /**
