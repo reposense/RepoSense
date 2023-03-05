@@ -1,6 +1,6 @@
 describe('show ramp chart for period', () => {
-  // These tests rely on the correctness of the filtering of 
-  // commit messages in the zoom view
+  // Assumptions: The commit messages on the zoom view are
+  // correctly filtered according to the selected period.
 
   it('show ramp chart for all commits by default', () => {
     // open the commit panel
@@ -66,7 +66,7 @@ describe('show ramp chart for period', () => {
     cy.get('#tab-zoom > .ramp')
       .should('be.visible');
 
-    // ramp chart should have the same number of slices commits
+    // ramp chart should have the same number of slices as commits
     cy.get('#tab-zoom .commit-message')
     .its('length').then(($length) => {
       cy.get('#tab-zoom .ramp .ramp__slice')
