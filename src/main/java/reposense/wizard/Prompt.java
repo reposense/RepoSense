@@ -15,6 +15,11 @@ public abstract class Prompt {
         this.description = description;
     }
 
+    /**
+     * Prompts the user for an input and stores it in response.
+     *
+     * @param sc Scanner that takes in the input
+     */
     public void promptAndGetInput(Scanner sc) {
         System.out.println(this);
         response = getInput(sc);

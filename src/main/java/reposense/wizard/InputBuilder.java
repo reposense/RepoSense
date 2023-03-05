@@ -294,6 +294,14 @@ public class InputBuilder {
         return shallowCloning;
     }
 
+    /**
+     * Crack a command line.
+     *
+     * @param toProcess the command line to process.
+     * @return the command line broken into strings.
+     * @throws BuildException if there are unbalanced quotes.
+     * An empty or null toProcess parameter results in a zero sized array.
+     */
     public static String[] translateCommandline(String toProcess) {
         if (toProcess == null || toProcess.isEmpty()) {
             //no command? no string
