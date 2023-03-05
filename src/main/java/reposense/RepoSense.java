@@ -142,7 +142,7 @@ public class RepoSense {
         try {
             authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
-            AuthorConfiguration.setHasAuthorConfigFile(true);
+            RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true);
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as author-config.csv is not found.
             // Ignore exception as the file is optional.
