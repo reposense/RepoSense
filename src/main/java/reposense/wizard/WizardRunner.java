@@ -3,7 +3,7 @@ package reposense.wizard;
 import static reposense.wizard.InputBuilder.translateCommandline;
 
 import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.Deque;
 import java.util.Scanner;
 
 import reposense.RepoSense;
@@ -15,7 +15,7 @@ import reposense.RepoSense;
  * the prompts until the queue is empty.
  */
 public class WizardRunner {
-    private final Queue<Prompt> prompts;
+    private final Deque<Prompt> prompts;
     private InputBuilder inputBuilder;
 
     public WizardRunner(Wizard wizard) {
@@ -37,8 +37,8 @@ public class WizardRunner {
             prompt.promptAndGetInput(sc);
             inputBuilder = prompt.addToInput(inputBuilder);
             Prompt[] newPrompts = prompt.run();
-            for (Prompt p : newPrompts) {
-                prompts.add(p);
+            for (int i = newPrompts.length - 1; i >= 0; i--) {
+                prompts.addFirst(newPrompts[i]);
             }
             prompt = prompts.poll();
         }
