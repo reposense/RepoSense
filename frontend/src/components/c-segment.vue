@@ -1,5 +1,5 @@
 <template lang="pug">
-.segment(v-bind:class="{ untouched: !segment.authored, active: isOpen }")
+.segment(v-bind:class="{ untouched: !segment.knownAuthor, active: isOpen }")
   .closer(v-if="canOpen",
     v-on:click="toggleCode", ref="topButton")
     font-awesome-icon.icon(
@@ -41,8 +41,8 @@ export default {
   },
   data() {
     return {
-      isOpen: this.segment.authored || this.segment.lines.length < 5,
-      canOpen: !this.segment.authored && this.segment.lines.length > 4,
+      isOpen: this.segment.knownAuthor || this.segment.lines.length < 5,
+      canOpen: !this.segment.knownAuthor && this.segment.lines.length > 4,
     };
   },
   methods: {

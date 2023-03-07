@@ -1,12 +1,12 @@
 export default class Segment {
-  authored: boolean;
+  knownAuthor?: string;
 
   lineNumbers: Array<number>;
 
   lines: Array<string>;
 
-  constructor(isAuthored: boolean, lineNumbers: Array<number>, lines: Array<string>) {
-    this.authored = isAuthored;
+  constructor(knownAuthor: string, lineNumbers: Array<number>, lines: Array<string>) {
+    this.knownAuthor = knownAuthor;
     this.lineNumbers = lineNumbers;
     this.lines = lines;
   }
