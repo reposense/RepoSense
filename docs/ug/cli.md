@@ -125,7 +125,7 @@ This flag overrides the `Ignore standalone config` field in the CSV config file.
 
 <box type="info" seamless>
 
-All files are subject to a default file size limit or a custom size limit set by the user. Most files should not be 
+All files are subject to a default file size limit or a custom size limit set by the user. Most files should not be
 affected by the default size limit. This flag can be useful for including files in your report that are affected by
 the size limit. Note that this flag may result in large report sizes and/or slower report generation.
 </box>
