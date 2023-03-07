@@ -47,7 +47,7 @@ Currently, the following comment formats are supported:
 <box type="info" seamless>
 
 RepoSense checks whether the line matches the supported comment formats. If the line does not match the formats,
-RepoSense treats it as a normal line. 
+RepoSense treats it as a normal line.
 
 The code until the next start tag, the end tag, or the end of file will be attributed to that author.
 </box>

@@ -13,6 +13,7 @@ import reposense.model.FileType;
  */
 public class CommitResult {
     private final String hash;
+    private final Boolean isMergeCommit;
     private final String messageTitle;
     private final String messageBody;
     private final String[] tags;
@@ -21,10 +22,11 @@ public class CommitResult {
     private final transient Author author;
     private final transient LocalDateTime time;
 
-    public CommitResult(Author author, String hash, LocalDateTime time, String messageTitle,
+    public CommitResult(Author author, String hash, Boolean isMergeCommit, LocalDateTime time, String messageTitle,
             String messageBody, String[] tags, Map<FileType, ContributionPair> fileTypesAndContributionMap) {
         this.author = author;
         this.hash = hash;
+        this.isMergeCommit = isMergeCommit;
         this.time = time;
         this.messageTitle = messageTitle;
         this.messageBody = messageBody;
@@ -32,10 +34,11 @@ public class CommitResult {
         this.fileTypesAndContributionMap = fileTypesAndContributionMap;
     }
 
-    public CommitResult(Author author, String hash, LocalDateTime time, String messageTitle, String messageBody,
-            String[] tags) {
+    public CommitResult(Author author, String hash, Boolean isMergeCommit, LocalDateTime time, String messageTitle,
+            String messageBody, String[] tags) {
         this.author = author;
         this.hash = hash;
+        this.isMergeCommit = isMergeCommit;
         this.time = time;
         this.messageTitle = messageTitle;
         this.messageBody = messageBody;
@@ -100,6 +103,7 @@ public class CommitResult {
         CommitResult otherCommitResult = (CommitResult) other;
         return author.equals(otherCommitResult.author)
                 && hash.equals(otherCommitResult.hash)
+                && isMergeCommit.equals(otherCommitResult.isMergeCommit)
                 && time.equals(otherCommitResult.time)
                 && messageTitle.equals(otherCommitResult.messageTitle)
                 && messageBody.equals(otherCommitResult.messageBody)
