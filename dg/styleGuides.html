@@ -66,7 +66,7 @@ converted to ternary operators if the resultant code can be kept at most 3 lines
 </span><span>/**
 </span><span> * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
 </span><span> * to the timezone given by {@code zoneId}.
-</span><span> * 
+</span><span> *
 </span><span> * @param sinceDate The date prior to the timezone conversion.
 </span><span> * @param zoneId The timezone ID to adjust the sinceDate to.
 </span><span> */
@@ -77,7 +77,7 @@ converted to ternary operators if the resultant code can be kept at most 3 lines
 <ul><li>This requirement does not apply to test code.</li> <li>One <code class="hljs inline no-lang">@throws</code> tag per unique exception.</li> <li>The order of exceptions in the <code class="hljs inline no-lang">@throws</code> tag block should match that of the method's <code class="hljs inline no-lang">throws</code> statement.</li></ul></li></ul> <pre><code class="hljs"><span>Not okay (order of exceptions in tag block and method signature do not match):
 </span><span>/**
 </span><span> * Returns a {@link LocalDateTime} object from {@code dateString}.
-</span><span> * 
+</span><span> *
 </span><span> * @throws ParseException if {@code dateString} cannot be parsed.
 </span><span> * @throws NullPointerException if {@code dateString} is null.
 </span><span> */
@@ -89,7 +89,7 @@ converted to ternary operators if the resultant code can be kept at most 3 lines
 </span><span>Should be:
 </span><span>/**
 </span><span> * Returns a {@link LocalDateTime} object from {@code dateString}.
-</span><span> * 
+</span><span> *
 </span><span> * @throws NullPointerException if {@code dateString} is null.
 </span><span> * @throws ParseException if {@code dateString} cannot be parsed.
 </span><span> */
@@ -97,7 +97,7 @@ converted to ternary operators if the resultant code can be kept at most 3 lines
 </span><span>    String trimmedString = dateString.toUpperCase(); // NullPointerException may happen here.
 </span><span>    // Code here
 </span><span>}
-</span></code></pre> <i id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true" class="fa fa-arrow-circle-up fa-lg d-print-none"></i></div></div> <footer><div class="text-center"><small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 4.1.0</a>, generated on Wed, 1 Mar 2023, 14:28:59 UTC]</small></div></footer></div>
+</span></code></pre> <i id="scroll-top-button" onclick="handleScrollTop()" aria-hidden="true" class="fa fa-arrow-circle-up fa-lg d-print-none"></i></div></div> <footer><div class="text-center"><small>[<span><strong>Powered by</strong></span> <img src="https://markbind.org/favicon.ico" width="30"> <a href="https://markbind.org/">MarkBind 4.1.0</a>, generated on Tue, 7 Mar 2023, 15:47:38 UTC]</small></div></footer></div>
 </body><script src="/RepoSense/markbind/js/bootstrap-utility.min.js"></script>
 <script>
   MarkBind.setupWithSearch()
