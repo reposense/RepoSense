@@ -74,7 +74,7 @@ describe('check file types ', () => {
   });
 
   it.only('unchecked file type label can still remain in a commit of multiple file types', () => {
-    // Assumptions: the sixth commit (5ab0322) of the first author of the first repo
+    // Assumptions: the eighth commit (5ab0322) of the first author of the first repo
     // contains changes in both .java and .md files.
     cy.get('.icon-button.fa-list-ul')
       .should('be.visible')
@@ -82,7 +82,7 @@ describe('check file types ', () => {
       .click();
 
     cy.get('.zoom__day > .commit-message')
-      .eq(5)
+      .eq(7)
       .within(() => {
         cy.get('.hash')
           .should('have.text', '5ab0322');
@@ -96,9 +96,9 @@ describe('check file types ', () => {
       .should('not.be.checked');
 
     cy.get('.zoom__day > .commit-message')
-    // note that the same commit is now of second order since other commits
+    // note that the same commit is now of fourth order since other commits
     // were filtered out
-      .eq(2)
+      .eq(3)
       .within(() => {
         cy.get('.hash')
           .should('have.text', '5ab0322');
