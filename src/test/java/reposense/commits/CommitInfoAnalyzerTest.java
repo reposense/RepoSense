@@ -153,7 +153,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         Map<FileType, ContributionPair> fileTypeAndContributionMap = new HashMap<>();
         fileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(3, 3));
-        expectedCommitResults.add(new CommitResult(author, DUPLICATE_AUTHORS_DUPLICATE_COMMITS_HASH,
+        expectedCommitResults.add(new CommitResult(author, DUPLICATE_AUTHORS_DUPLICATE_COMMITS_HASH, false,
                 parseGitStrictIsoDate("2021-08-03T12:53:39+08:00"),
                 "Update annotationTest.java",
                 "", null, fileTypeAndContributionMap));
@@ -181,11 +181,11 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
 
         // 1st test: Contains commit message title but no commit message body.
-        expectedCommitResults.add(new CommitResult(author, "e54ae8fdb77c6c7d2c39131b816bfc03e6a6dd44",
+        expectedCommitResults.add(new CommitResult(author, "e54ae8fdb77c6c7d2c39131b816bfc03e6a6dd44", false,
                 parseGitStrictIsoDate("2019-07-02T12:35:46+08:00"), "Test 1: With message title but no body",
                 "", null, firstFileTypeAndContributionMap));
         // 2nd test: Contains no commit message title and no commit message body.
-        expectedCommitResults.add(new CommitResult(author, "57fa22fc2550210203c2941692f69ccb0cf18252",
+        expectedCommitResults.add(new CommitResult(author, "57fa22fc2550210203c2941692f69ccb0cf18252", false,
                 parseGitStrictIsoDate("2019-07-02T12:36:14+08:00"), "", "", null,
                 secondFileTypeAndContributionMap));
 
@@ -211,11 +211,11 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
         secondFileTypeAndContributionMap.put(FILETYPE_JAVA, new ContributionPair(0, 1));
 
-        expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe",
+        expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe", false,
                 parseGitStrictIsoDate("2019-06-19T13:02:01+08:00"), ">>>COMMIT INFO<<<",
                 "Hi there!\n\n>>>COMMIT INFO<<<\n", null,
                 firstFileTypeAndContributionMap));
-        expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7",
+        expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7", false,
                 parseGitStrictIsoDate("2019-06-19T13:03:39+08:00"), "[#123] Reverted 1st commit",
                 "This is a test to see if the commit message body works. "
                         + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null,
@@ -252,13 +252,13 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(LocalDateTime.of(2019, Month.JUNE, 19, 0, 0));
 
         // Equivalent to 2019-06-18 23:32:01 in UTC-0530 time.
-        expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe",
+        expectedCommitResults.add(new CommitResult(author, "2eccc111e813e8b2977719b5959e32b674c56afe", false,
                 parseGitStrictIsoDate("2019-06-19T13:02:01+08:00"), ">>>COMMIT INFO<<<",
                 "Hi there!\n\n>>>COMMIT INFO<<<\n", null,
                 firstFileTypeAndContributionMap));
 
         // Equivalent to 2019-06-18 23:33:39 in UTC-0530 time.
-        expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7",
+        expectedCommitResults.add(new CommitResult(author, "8f8359649361f6736c31b87d499a4264f6cf7ed7", false,
                 parseGitStrictIsoDate("2019-06-19T13:03:39+08:00"), "[#123] Reverted 1st commit",
                 "This is a test to see if the commit message body works. "
                         + "All should be same same.\n>>>COMMIT INFO<<<\n|The end.", null,
@@ -286,10 +286,10 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
         secondFileTypeAndContributionMap.put(FILETYPE_MD, new ContributionPair(1, 0));
 
-        expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04",
+        expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04", false,
                 parseGitStrictIsoDate("2019-12-20T22:45:18+08:00"), "Single Tag Commit",
                 "", new String[] {"1st"}, firstFileTypeAndContributionMap));
-        expectedCommitResults.add(new CommitResult(author, "c5e36ec059390233ac036db61a84fa6b55952506",
+        expectedCommitResults.add(new CommitResult(author, "c5e36ec059390233ac036db61a84fa6b55952506", false,
                 parseGitStrictIsoDate("2019-12-20T22:47:21+08:00"), "Double Tag Commit",
                 "", new String[] {"2nd-tag", "1st-tag"}, secondFileTypeAndContributionMap));
 
@@ -328,12 +328,12 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(LocalDateTime.of(2019, Month.DECEMBER, 22, 0, 0));
 
         // Date-time equivalent to 2019-12-21 00:45:18 in UTC+10 time
-        expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04",
+        expectedCommitResults.add(new CommitResult(author, "62c3a50ef9b3580b2070deac1eed2b3e2d701e04", false,
                 parseGitStrictIsoDate("2019-12-20T22:45:18+08:00"), "Single Tag Commit",
                 "", new String[] {"1st"}, firstFileTypeAndContributionMap));
 
         // Date-time equivalent to 2019-12-21 00:47:21 in UTC+10 time
-        expectedCommitResults.add(new CommitResult(author, "c5e36ec059390233ac036db61a84fa6b55952506",
+        expectedCommitResults.add(new CommitResult(author, "c5e36ec059390233ac036db61a84fa6b55952506", false,
                 parseGitStrictIsoDate("2019-12-20T22:47:21+08:00"), "Double Tag Commit",
                 "", new String[] {"2nd-tag", "1st-tag"}, secondFileTypeAndContributionMap));
 
@@ -350,7 +350,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         Author author = new Author(JAMES_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
-        expectedCommitResults.add(new CommitResult(author, "016ab87c4afe89a98225b96c98ff28dd4774410f",
+        expectedCommitResults.add(new CommitResult(author, "016ab87c4afe89a98225b96c98ff28dd4774410f", false,
                 parseGitStrictIsoDate("2020-01-27T22:20:51+08:00"), "empty commit", "", null));
 
         config.setBranch("1019-CommitInfoAnalyzerTest-emptyCommits");
@@ -379,7 +379,7 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(LocalDateTime.of(2020, Month.JANUARY, 27, 0, 0));
         config.setUntilDate(LocalDateTime.of(2020, Month.JANUARY, 28, 0, 0));
 
-        expectedCommitResults.add(new CommitResult(author, "016ab87c4afe89a98225b96c98ff28dd4774410f",
+        expectedCommitResults.add(new CommitResult(author, "016ab87c4afe89a98225b96c98ff28dd4774410f", false,
                 parseGitStrictIsoDate("2020-01-27T22:20:51+08:00"), "empty commit", "", null));
 
         config.setBranch("1019-CommitInfoAnalyzerTest-emptyCommits");
@@ -394,12 +394,34 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
     }
 
     @Test
+    public void analyzeCommits_mergeCommits_success() throws Exception {
+        Author author = new Author(CHENGYU_AUTHOR_NAME);
+        List<CommitResult> expectedCommitResults = new ArrayList<>();
+
+        expectedCommitResults.add(new CommitResult(author, "188e6afc49cafe0cf4c2a88d55e97679fa0b798b", true,
+                parseGitStrictIsoDate("2023-01-31T15:08:54+08:00"),
+                "Merge pull request #15 from sikai00/update-authorship-tags",
+                "Update authorship tags", null));
+
+        config.setBranch("1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success");
+        config.setAuthorList(Collections.singletonList(author));
+        config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
+        config.setSinceDate(LocalDateTime.of(2023, Month.JANUARY, 31, 0, 0));
+        config.setUntilDate(LocalDateTime.of(2023, Month.FEBRUARY, 1, 0, 0));
+
+        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+
+        Assertions.assertEquals(expectedCommitResults, actualCommitResults);
+    }
+
+    @Test
     public void analyzeCommits_commitsWithBinaryFileContribution_success() throws Exception {
         Author author = new Author(JAMES_AUTHOR_NAME);
         List<CommitResult> expectedCommitResults = new ArrayList<>();
 
         // binary file contribution will have 0 contribution and won't be added to fileTypesAndContributionMap
-        expectedCommitResults.add(new CommitResult(author, "a00c51138cbf5ab7d14f52b52abb182c8a369169",
+        expectedCommitResults.add(new CommitResult(author, "a00c51138cbf5ab7d14f52b52abb182c8a369169", false,
                 parseGitStrictIsoDate("2020-04-06T16:41:10+08:00"), "Add binary file", "", null));
 
         config.setBranch("1192-CommitInfoAnalyzerTest-analyzeCommits_commitsWithBinaryContribution_success");
@@ -423,13 +445,13 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         List<CommitResult> expectedCommitResults = new ArrayList<>();
         Map<FileType, ContributionPair> firstFileTypeAndContributionMap = new HashMap<>();
         firstFileTypeAndContributionMap.put(FILETYPE_TXT, new ContributionPair(1, 0));
-        expectedCommitResults.add(new CommitResult(author, "cfb3c8dc477cb0af19fce8bead4d278f35afa396",
+        expectedCommitResults.add(new CommitResult(author, "cfb3c8dc477cb0af19fce8bead4d278f35afa396", false,
                 parseGitStrictIsoDate("2020-04-20T12:09:39+08:00"),
                 "Create file name without special chars",
                 "", null, firstFileTypeAndContributionMap));
         Map<FileType, ContributionPair> secondFileTypeAndContributionMap = new HashMap<>();
         secondFileTypeAndContributionMap.put(FILETYPE_TXT, new ContributionPair(0, 0));
-        expectedCommitResults.add(new CommitResult(author, "17bde492e9a80d8699ad193cf87e677341f936cc",
+        expectedCommitResults.add(new CommitResult(author, "17bde492e9a80d8699ad193cf87e677341f936cc", false,
                 parseGitStrictIsoDate("2020-04-20T12:17:40+08:00"),
                 "Rename to file name with special chars",
                 "", null, secondFileTypeAndContributionMap));

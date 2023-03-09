@@ -43,18 +43,20 @@ public class CommitInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
+    private static final String HASH_SPLITTER = "\\s";
     private static final String LOG_SPLITTER = "\\|\\n\\|";
     private static final String REF_SPLITTER = ",\\s";
     private static final String NEW_LINE_SPLITTER = "\\n";
     private static final String TAG_PREFIX = "tag:";
 
     private static final int COMMIT_HASH_INDEX = 0;
-    private static final int AUTHOR_INDEX = 1;
-    private static final int EMAIL_INDEX = 2;
-    private static final int DATE_INDEX = 3;
-    private static final int MESSAGE_TITLE_INDEX = 4;
-    private static final int MESSAGE_BODY_INDEX = 5;
-    private static final int REF_NAME_INDEX = 6;
+    private static final int PARENT_HASHES_INDEX = 1;
+    private static final int AUTHOR_INDEX = 2;
+    private static final int EMAIL_INDEX = 3;
+    private static final int DATE_INDEX = 4;
+    private static final int MESSAGE_TITLE_INDEX = 5;
+    private static final int MESSAGE_BODY_INDEX = 6;
+    private static final int REF_NAME_INDEX = 7;
 
     private static final Pattern MESSAGEBODY_LEADING_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
 
@@ -82,8 +84,9 @@ public class CommitInfoAnalyzer {
         String infoLine = commitInfo.getInfoLine();
         String statLine = commitInfo.getStatLine();
 
-        String[] elements = infoLine.split(LOG_SPLITTER, 7);
+        String[] elements = infoLine.split(LOG_SPLITTER, 8);
         String hash = elements[COMMIT_HASH_INDEX];
+        Boolean isMergeCommit = elements[PARENT_HASHES_INDEX].split(HASH_SPLITTER).length > 1;
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
         ZonedDateTime date = null;
@@ -111,7 +114,7 @@ public class CommitInfoAnalyzer {
         }
 
         if (statLine.isEmpty()) { // empty commit, no files changed
-            return new CommitResult(author, hash, adjustedDate, messageTitle, messageBody, tags);
+            return new CommitResult(author, hash, isMergeCommit, adjustedDate, messageTitle, messageBody, tags);
         }
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
@@ -119,7 +122,7 @@ public class CommitInfoAnalyzer {
         Map<FileType, ContributionPair> fileTypeAndContributionMap =
                 getFileTypesAndContribution(fileTypeContributions, config);
 
-        return new CommitResult(author, hash, adjustedDate, messageTitle, messageBody, tags,
+        return new CommitResult(author, hash, isMergeCommit, adjustedDate, messageTitle, messageBody, tags,
                 fileTypeAndContributionMap);
     }
 
