@@ -409,8 +409,8 @@ public class CommitInfoAnalyzerTest extends GitTestTemplate {
         config.setSinceDate(LocalDateTime.of(2023, Month.JANUARY, 31, 0, 0));
         config.setUntilDate(LocalDateTime.of(2023, Month.FEBRUARY, 1, 0, 0));
 
-        List<CommitInfo> actualCommitInfos = CommitInfoExtractor.extractCommitInfos(config);
-        List<CommitResult> actualCommitResults = CommitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
+        List<CommitInfo> actualCommitInfos = commitInfoExtractor.extractCommitInfos(config);
+        List<CommitResult> actualCommitResults = commitInfoAnalyzer.analyzeCommits(actualCommitInfos, config);
 
         Assertions.assertEquals(expectedCommitResults, actualCommitResults);
     }
