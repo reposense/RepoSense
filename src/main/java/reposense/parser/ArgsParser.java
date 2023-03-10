@@ -25,7 +25,13 @@ import net.sourceforge.argparse4j.inf.FeatureControl;
 import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
-import reposense.model.*;
+import reposense.model.CliArguments;
+import reposense.model.ConfigCliArguments;
+import reposense.model.FileType;
+import reposense.model.LocationsCliArguments;
+import reposense.model.ReportConfiguration;
+import reposense.model.ViewCliArguments;
+import reposense.model.WizardCliArguments;
 import reposense.system.LogsManager;
 import reposense.util.TimeUtil;
 
