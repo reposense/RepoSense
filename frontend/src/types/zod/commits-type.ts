@@ -9,6 +9,7 @@ const commitResult = z.object({
   hash: z.string(),
   messageTitle: z.string(),
   messageBody: z.string(),
+  isMergeCommit: z.boolean(),
   tags: z.array(z.string()).optional(),
   fileTypesAndContributionMap: z.record(fileTypesAndContributionSchema),
 });
