@@ -62,6 +62,16 @@ a.broken-link {
   display: inline-block;
   position: relative;
 
+  %tooltip-tail {
+    border-color: mui-color('black') transparent transparent transparent;
+    border-style: solid;
+    border-width: .4rem;
+    content: '';
+    left: 50%;
+    margin-left: -.4rem;
+    position: absolute;
+  }
+
   .tooltip-text {
     @include medium-font;
     background-color: mui-color('black');
@@ -74,20 +84,38 @@ a.broken-link {
     padding: .25rem .5rem;
     position: absolute;
     text-align: center;
+    top: auto;
     transition: opacity .3s;
     visibility: hidden;
     width: 6rem;
+    word-break: normal;
     z-index: z-index('tooltip');
 
+    &::before {
+      border: none;
+    }
+
     &::after {
-      border-color: mui-color('black') transparent transparent transparent;
-      border-style: solid;
-      border-width: .4rem;
-      content: '';
-      left: 50%;
-      margin-left: -.4rem;
-      position: absolute;
+      @extend %tooltip-tail;
+      bottom: auto;
       top: 100%;
+    }
+
+    &.bottom-aligned {
+      @include medium-font;
+      bottom: auto;
+      top: 125%;
+    }
+
+    &.bottom-aligned::before {
+      @extend %tooltip-tail;
+      bottom: 100%;
+      top: auto;
+      transform: rotate(180deg);
+    }
+
+    &.bottom-aligned::after {
+      border-style: none;
     }
 
     &.right-aligned {
