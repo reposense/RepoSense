@@ -77,11 +77,7 @@ window.decodeHash = function decodeHash() {
     .forEach((param) => {
       const [key, val] = param.split('=');
       if (key) {
-        try {
-          hashParams[key] = decodeURIComponent(val);
-        } catch (error) {
-          throw Error;
-        }
+        hashParams[key] = decodeURIComponent(val);
       }
     });
   window.hashParams = hashParams;
