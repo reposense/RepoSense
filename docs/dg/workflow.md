@@ -99,9 +99,11 @@ See [vue-devtools project home](https://github.com/vuejs/vue-devtools) page for 
 ### Writing tests
 1. Create a new test file in `frontend/cypress/tests`.
 1. At project root start *Cypress Test Runner* by running `gradlew cypress`.
-1. On the top right hand corner, set `Chrome` as the default browser.
-1. Under **Integration Tests**, click on the newly created test file to run it.
-![Cypress Test Runner](../images/cypress-test-runner.jpg "Cypress Test Runner")
+1. Select **E2E Testing** and choose **Chrome** as the preferred browser.
+ ![Cypress Test E2E](../images/cypress-test-e2e.png)
+ ![Cypress Test Chrome](../images/cypress-test-chrome.png)
+1. Under **E2E specs**, click on the newly created test file to run it.
+![Cypress Test Runner](../images/cypress-test-runner.png "Cypress Test Runner")
 
 <box type="info" seamless>
 
@@ -118,9 +120,8 @@ Note that it is **compulsory** to add tests for the new front-end changes that y
 ### Running tests
 
 To run all tests locally, run `gradlew frontendTest`.
-* Using the above command, tests are run on the CLI without the report being displayed.
-* To show the report, run `gradlew cypress` then select `Run 18 integration specs` in the Cypress GUI as shown below:
-![Cypress Test Run All](../images/cypress-test-run-all.jpg)
+* Using the above command, tests are run on the CLI in a headless browser without the report being displayed.
+* To run tests in a headed browser, run `gradlew cypress` then select the test file(s) in the Cypress GUI as shown above.
 
 <box type="info" seamless>
 
