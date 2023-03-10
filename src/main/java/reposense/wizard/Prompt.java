@@ -15,6 +15,11 @@ public abstract class Prompt {
         this.description = description;
     }
 
+    public Prompt(String question) {
+        this.question = question;
+        this.description = "";
+    }
+
     /**
      * Prompts the user for an input and stores it in response.
      *
@@ -30,7 +35,11 @@ public abstract class Prompt {
     }
 
     public String getResponse() {
-        return response;
+        return response.trim();
+    }
+
+    public String getQuestion() {
+        return question;
     }
 
     public abstract InputBuilder addToInput(InputBuilder inputBuilder);
@@ -43,6 +52,9 @@ public abstract class Prompt {
 
     @Override
     public String toString() {
+        if (description.isEmpty()) {
+            return String.format("%s: ", question);
+        }
         return String.format("%s (%s): ", question, description);
     }
 }
