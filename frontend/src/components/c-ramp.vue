@@ -2,7 +2,7 @@
 .ramp
   template(v-if="tframe === 'commit'")
     template(v-for="(slice, j) in user.commits")
-      template(v-for="(commit, k) in slice.commitResults.filter(commitResult => getContributions(commitResult) > 0)")
+      template(v-for="(commit, k) in slice.commitResults")
         a.ramp__slice(
           draggable="false",
           v-on:click="rampClick",
@@ -21,7 +21,7 @@
   template(v-else)
     a.ramp__slice(
       draggable="false",
-      v-for="(slice, j) in user.commits.filter(commit => getContributions(commit) > 0)",
+      v-for="(slice, j) in user.commits",
       v-bind:title="getContributionMessage(slice)",
       v-on:click="openTabZoom(user, slice, $event)",
       v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
@@ -81,6 +81,7 @@ export default {
   data() {
     return {
       rampSize: 0.01,
+      mergeCommitRampSize: this.rampSize * 20,
       deletesContributionRampSize: this.rampSize * 20,
     };
   },
@@ -96,13 +97,15 @@ export default {
       return commit.insertions === 0 && commit.deletions > 0;
     },
     getWidth(slice) {
+      if (slice.isMergeCommit) {
+        return this.mergeCommitRampSize;
+      }
       if (this.getContributions(slice) === 0) {
         return 0;
       }
       if (this.isDeletesContribution(slice)) {
         return this.deletesContributionRampSize;
       }
-
       const newSize = 100 * (slice.insertions / this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
     },

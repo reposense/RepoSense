@@ -704,15 +704,21 @@ export default {
     },
 
     filterCommitByCheckedFileTypes(commit) {
-      const filteredCommitResults = commit.commitResults.map((result) => {
+      let commitResults = commit.commitResults.map((result) => {
         const filteredFileTypes = this.getFilteredFileTypes(result);
         this.updateCommitResultWithFileTypes(result, filteredFileTypes);
         return result;
-      }).filter((result) => Object.values(result.fileTypesAndContributionMap).length > 0);
+      });
 
-      commit.insertions = filteredCommitResults.reduce((acc, result) => acc + result.insertions, 0);
-      commit.deletions = filteredCommitResults.reduce((acc, result) => acc + result.deletions, 0);
-      commit.commitResults = filteredCommitResults;
+      if (!this.checkAllFileTypes) {
+        commitResults = commitResults.filter(
+          (result) => Object.values(result.fileTypesAndContributionMap).length > 0,
+        );
+      }
+
+      commit.insertions = commitResults.reduce((acc, result) => acc + result.insertions, 0);
+      commit.deletions = commitResults.reduce((acc, result) => acc + result.deletions, 0);
+      commit.commitResults = commitResults;
     },
 
     getFilteredFileTypes(commitResult) {
