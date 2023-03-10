@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -14,15 +15,7 @@ import java.util.logging.Logger;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
 import reposense.git.GitVersion;
-import reposense.model.AuthorConfiguration;
-import reposense.model.CliArguments;
-import reposense.model.ConfigCliArguments;
-import reposense.model.GroupConfiguration;
-import reposense.model.LocationsCliArguments;
-import reposense.model.RepoConfiguration;
-import reposense.model.RepoLocation;
-import reposense.model.ReportConfiguration;
-import reposense.model.ViewCliArguments;
+import reposense.model.*;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
@@ -36,6 +29,8 @@ import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
 import reposense.util.TimeUtil;
+import reposense.wizard.BasicWizard;
+import reposense.wizard.WizardRunner;
 
 /**
  * The main RepoSense class.
@@ -68,6 +63,11 @@ public class RepoSense {
                 reportConfig = ((ConfigCliArguments) cliArguments).getReportConfiguration();
             } else if (cliArguments instanceof LocationsCliArguments) {
                 configs = getRepoConfigurations((LocationsCliArguments) cliArguments);
+            } else if (cliArguments instanceof WizardCliArguments) {
+                WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
+                wizardRunner.buildInput(new Scanner(System.in));
+                wizardRunner.run();
+                return;
             } else {
                 throw new AssertionError("CliArguments's subclass type is unhandled.");
             }
