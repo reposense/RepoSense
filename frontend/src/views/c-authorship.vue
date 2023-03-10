@@ -100,15 +100,23 @@
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
-      .file
-        .title
+      .file(v-bind:ref="file.path")
+        .title(v-bind:class="{'sticky':\ file.active}")
           span.caret(v-on:click="toggleFileActiveProperty(file)")
-            .tooltip(v-show="file.active")
+            .tooltip(
+              v-show="file.active",
+              v-on:mouseover="onTooltipHover(`${file.path}-hide-file-tooltip`)",
+              v-on:mouseout="resetTooltip(`${file.path}-hide-file-tooltip`)"
+            )
               font-awesome-icon(icon="caret-down", fixed-width)
-              span.tooltip-text Click to hide file details
-            .tooltip(v-show="!file.active")
+              span.tooltip-text(v-bind:ref="`${file.path}-hide-file-tooltip`") Click to hide file details
+            .tooltip(
+              v-show="!file.active",
+              v-on:mouseover="onTooltipHover(`${file.path}-show-file-tooltip`)",
+              v-on:mouseout="resetTooltip(`${file.path}-show-file-tooltip`)"
+            )
               font-awesome-icon(icon="caret-right", fixed-width)
-              span.tooltip-text Click to show file details
+              span.tooltip-text(v-bind:ref="`${file.path}-show-file-tooltip`") Click to show file details
           span.index {{ i + 1 }}. &nbsp;
           span.path
             span(
@@ -446,7 +454,31 @@ export default {
     },
 
     toggleFileActiveProperty(file) {
+      this.scrollFileIntoView(file);
       this.$store.commit('toggleAuthorshipFileActiveProperty', file);
+    },
+
+    scrollFileIntoView(file) {
+      const fileElement = this.$refs[file.path][0];
+      if (this.isElementAboveViewport(fileElement)) {
+        fileElement.scrollIntoView(true);
+      }
+    },
+
+    onTooltipHover(refName) {
+      const tooltipTextElement = this.$refs[refName][0];
+      if (this.isElementAboveViewport(tooltipTextElement)) {
+        tooltipTextElement.classList.add('bottom-aligned');
+      }
+    },
+
+    resetTooltip(refName) {
+      const tooltipTextElement = this.$refs[refName][0];
+      tooltipTextElement.classList.remove('bottom-aligned');
+    },
+
+    isElementAboveViewport(el) {
+      return el.getBoundingClientRect().top <= 0;
     },
 
     isUnknownAuthor(name) {
@@ -704,6 +736,7 @@ export default {
 
 <style lang="scss">
 @import '../styles/_colors.scss';
+@import '../styles/z-indices.scss';
 
 /* Authorship */
 #tab-authorship {
@@ -812,8 +845,15 @@ export default {
       font-size: medium;
       margin-top: 1rem;
       padding: .3em .5em;
+      position: unset;
+      top: 0;
       white-space: pre-wrap;
       word-break: break-all;
+      z-index: z-index('file-title');
+
+      &.sticky {
+        position: sticky;
+      }
 
       .caret {
         cursor: pointer;

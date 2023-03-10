@@ -20,7 +20,7 @@ public class GitLog {
     public static final String COMMIT_INFO_DELIMITER = "(?m)^>>>COMMIT INFO<<<\\n";
 
     private static final String PRETTY_FORMAT_STRING =
-            "\">>>COMMIT INFO<<<%n%H|%n|%aN|%n|%aE|%n|%cI|%n|%s|%n|%w(0,4,4)%b%w(0,0,0)|%n|%D|\"";
+            "\">>>COMMIT INFO<<<%n%H|%n|%p|%n|%aN|%n|%aE|%n|%cI|%n|%s|%n|%w(0,4,4)%b%w(0,0,0)|%n|%D|\"";
 
     private static final String DEFAULT_EMAIL_IF_MISSING = "";
 
@@ -30,7 +30,7 @@ public class GitLog {
     public static String get(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
-        String command = "git log --no-merges -i --extended-regexp ";
+        String command = "git log --full-history -i --extended-regexp ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(), config.getZoneId());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
@@ -42,12 +42,12 @@ public class GitLog {
 
     /**
      * Returns the git commit log info of {@code author}, with the files changed, in the repository specified in
-     * {@code config}.
+     * {@code config}. Merge commits are included.
      */
     public static String getWithFiles(RepoConfiguration config, Author author) {
         Path rootPath = Paths.get(config.getRepoRoot());
 
-        String command = "git log --no-merges -i --extended-regexp ";
+        String command = "git log --full-history -i --extended-regexp ";
         command += GitUtil.convertToGitDateRangeArgs(config.getSinceDate(), config.getUntilDate(), config.getZoneId());
         command += " --pretty=format:" + PRETTY_FORMAT_STRING + " --numstat --shortstat";
         command += GitUtil.convertToFilterAuthorArgs(author);
