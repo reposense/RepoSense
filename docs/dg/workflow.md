@@ -100,8 +100,8 @@ See [vue-devtools project home](https://github.com/vuejs/vue-devtools) page for 
 1. Create a new test file in `frontend/cypress/tests`.
 1. At project root start *Cypress Test Runner* by running `gradlew cypress`.
 1. Select **E2E Testing** and choose **Chrome** as the preferred browser.
- ![Cypress Test E2E](../images/cypress-test-e2e.png)
- ![Cypress Test Chrome](../images/cypress-test-chrome.png)
+![Cypress Test E2E](../images/cypress-test-e2e.png)
+![Cypress Test Chrome](../images/cypress-test-chrome.png)
 1. Under **E2E specs**, click on the newly created test file to run it.
 ![Cypress Test Runner](../images/cypress-test-runner.png "Cypress Test Runner")
 
