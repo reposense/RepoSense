@@ -127,7 +127,7 @@ describe('hide all commit messages ', () => {
   });
 
   it('check show all and hide all commit messages only toggle current commits', () => {
-    // Assumptions: the third commit (19e3294) of the first author of the first repo
+    // Assumptions: the fifth commit (19e3294) of the first author of the first repo
     // contains changes in only .java files.
     cy.get('.icon-button.fa-list-ul')
       .should('be.visible')
@@ -159,9 +159,20 @@ describe('hide all commit messages ', () => {
       .check()
       .should('be.checked');
 
-    // commit body of the third commit should be visible
+    // commit body of the merge commit should be visible
     cy.get('#tab-zoom .commit-message .body')
-      .eq(2)
+      .eq(1)
+      .should('be.visible');
+
+    // commit body of the md commit should not be visible
+    cy.get('#tab-zoom .commit-message .body')
+      .eq(0)
+      .should('not.be.visible');
+
+    // commit body of the java commit should be visible
+    cy.get('#tab-zoom .commit-message .body')
+      .eq(4)
+      .scrollIntoView()
       .should('be.visible');
 
     // should now display both 'hide all & show all commit messages'
