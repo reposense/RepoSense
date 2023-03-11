@@ -31,12 +31,12 @@ interface ZoomInfo {
   zUser: User;
 }
 
-export interface SummaryDates {
+interface SummaryDates {
   since: string;
   until: string;
 }
 
-export interface StoreState {
+interface StoreState {
   tabAuthorshipInfo: AuthorshipInfo;
   tabZoomInfo: ZoomInfo;
   summaryDates: SummaryDates;
