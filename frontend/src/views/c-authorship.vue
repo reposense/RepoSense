@@ -160,6 +160,16 @@
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
                 span.tooltip-text {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
+          .author-breakdown(v-if="info.isMergeGroup")
+            .author-breakdown__legend(
+              v-for="author in getAuthors(file)",
+              v-bind:key="author"
+            )
+              font-awesome-icon(
+                icon="circle",
+                v-bind:style="{ 'color': authorColors[author] }"
+              )
+              span &nbsp; {{ author }} &nbsp;
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
@@ -177,6 +187,7 @@ import minimatch from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 import Segment from '../utils/segment';
+import getNonRepeatingColor from '../utils/random-colour-generator';
 
 const getFontColor = window.getFontColor;
 
@@ -202,6 +213,10 @@ function authorshipInitialState() {
     isIgnoredFilesChecked: false,
     searchBarValue: '',
     authorDisplayName: '',
+    authorColors: {},
+    selectedColors: ['#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3', '#adff2f', '#808000', '#800000',
+      '#ff8c00', '#c71585'],
+    authorColorIndex: 0,
   };
 }
 
@@ -449,6 +464,10 @@ export default {
       this.setInfoHash();
     },
 
+    getAuthors(file) {
+      return [...new Set(file.segments.map((segment) => segment.knownAuthor).filter(Boolean))];
+    },
+
     toggleAllFileActiveProperty(isActive) {
       this.$store.commit('setAllAuthorshipFileActiveProperty', { isActive, files: this.selectedFiles });
     },
@@ -530,7 +549,19 @@ export default {
         if (line.content === '' && knownAuthor) {
           blankLineCount += 1;
         }
+
+        if (this.info.isMergeGroup && knownAuthor
+        && !Object.prototype.hasOwnProperty.call(this.authorColors, knownAuthor)) {
+          if (this.authorColorIndex < this.selectedColors.length) {
+            this.authorColors[knownAuthor] = this.selectedColors[this.authorColorIndex];
+            this.authorColorIndex += 1;
+          } else {
+            this.authorColors[knownAuthor] = getNonRepeatingColor(Object.values(this.authorColors));
+          }
+        }
       });
+
+      this.$store.commit('updateAuthorColors', this.authorColors);
 
       return {
         segments,
@@ -892,6 +923,16 @@ export default {
 
       .selected-label {
         order: -1;
+      }
+
+      .author-breakdown {
+        overflow-y: hidden;
+
+        &__legend {
+          display: inline;
+          float: left;
+          font-size: 14px;
+        }
       }
     }
 

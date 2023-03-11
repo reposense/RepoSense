@@ -7,6 +7,7 @@ export default createStore({
     summaryDates: {},
     mergedGroups: [],
     fileTypeColors: {},
+    tabAuthorColors: {},
     loadingOverlayCount: 0,
     loadingOverlayMessage: '',
     isTabActive: true,
@@ -23,6 +24,9 @@ export default createStore({
     },
     updateFileTypeColors(state, info) {
       state.fileTypeColors = info;
+    },
+    updateAuthorColors(state, info) {
+      state.tabAuthorColors = info;
     },
     updateMergedGroup(state, info) {
       state.mergedGroups = info;
