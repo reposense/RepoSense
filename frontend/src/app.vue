@@ -311,7 +311,11 @@ const app = {
     cAuthorship,
   },
   created() {
-    window.decodeHash();
+    try {
+      window.decodeHash();
+    } catch (error) {
+      this.userUpdated = false;
+    }
     this.updateReportDir();
   },
 };
