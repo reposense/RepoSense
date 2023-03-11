@@ -131,7 +131,7 @@
 import { mapState } from 'vuex';
 
 import cSummaryCharts from '../components/c-summary-charts.vue';
-import getNonRepeatingColor from '../utils/random-colour-generator';
+import getNonRepeatingColor from '../utils/random-color-generator';
 import sortFiltered from '../utils/repo-sorter';
 
 const getFontColor = window.getFontColor;

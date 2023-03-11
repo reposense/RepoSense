@@ -187,7 +187,7 @@ import minimatch from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 import Segment from '../utils/segment';
-import getNonRepeatingColor from '../utils/random-colour-generator';
+import getNonRepeatingColor from '../utils/random-color-generator';
 
 const getFontColor = window.getFontColor;
 
@@ -977,7 +977,7 @@ export default {
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
         width: 2rem;
-        // overwrite all hljs colours
+        // overwrite all hljs colors
         [class^='hljs'] {
           color: mui-color('grey');
         }
