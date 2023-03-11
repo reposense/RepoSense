@@ -213,6 +213,7 @@ function authorshipInitialState() {
     isIgnoredFilesChecked: false,
     searchBarValue: '',
     authorDisplayName: '',
+    authors: new Set(),
     authorColors: {},
     selectedColors: ['#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3', '#adff2f', '#808000', '#800000',
       '#ff8c00', '#c71585'],
@@ -550,23 +551,29 @@ export default {
           blankLineCount += 1;
         }
 
-        if (this.info.isMergeGroup && knownAuthor
-        && !Object.prototype.hasOwnProperty.call(this.authorColors, knownAuthor)) {
-          if (this.authorColorIndex < this.selectedColors.length) {
-            this.authorColors[knownAuthor] = this.selectedColors[this.authorColorIndex];
-            this.authorColorIndex += 1;
-          } else {
-            this.authorColors[knownAuthor] = getNonRepeatingColor(Object.values(this.authorColors));
-          }
+        if (knownAuthor) {
+          this.authors.add(knownAuthor);
         }
       });
-
-      this.$store.commit('updateAuthorColors', this.authorColors);
 
       return {
         segments,
         blankLineCount,
       };
+    },
+
+    assignAuthorColors() {
+      if (this.info.isMergeGroup) {
+        this.authors.forEach((author) => {
+          if (this.authorColorIndex < this.selectedColors.length) {
+            this.authorColors[author] = this.selectedColors[this.authorColorIndex];
+            this.authorColorIndex += 1;
+          } else {
+            this.authorColors[author] = getNonRepeatingColor(Object.values(this.authorColors));
+          }
+        });
+      }
+      this.$store.commit('updateAuthorColors', this.authorColors);
     },
 
     processFiles(files) {
@@ -630,6 +637,7 @@ export default {
         }
       });
 
+      this.assignAuthorColors();
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.$store.commit('updateTabAuthorshipFiles', res);
       this.updateSelectedFiles(true);
