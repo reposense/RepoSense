@@ -11,6 +11,7 @@ export interface CommitResult extends CommitResultRaw {
   repoId: string;
   insertions: number;
   deletions: number;
+  isOpen?: boolean;
 }
 
 // Similar to AuthorDailyContributions, but uses the updated CommitResult with the three new fields
