@@ -91,6 +91,13 @@ const loadingResourcesMessage = 'Loading resources...';
 
 const app = defineComponent({
   name: 'app',
+  components: {
+    LoadingOverlay,
+    cResizer,
+    cZoom,
+    cSummary,
+    cAuthorship,
+  },
   data() {
     return {
       repos: {} as { [key: string]: Repo },
@@ -105,6 +112,9 @@ const app = defineComponent({
       errorMessages: {},
     };
   },
+  computed: {
+    ...mapState(['loadingOverlayCount', 'loadingOverlayMessage', 'isTabActive']),
+  },
   watch: {
     '$store.state.tabZoomInfo': function () {
       if (this.$store.state.tabZoomInfo.isRefreshing) {
@@ -115,6 +125,14 @@ const app = defineComponent({
     '$store.state.tabAuthorshipInfo': function () {
       this.activateTab('authorship');
     },
+  },
+  created() {
+    try {
+      window.decodeHash();
+    } catch (error) {
+      this.userUpdated = false;
+    }
+    this.updateReportDir();
   },
   methods: {
     // model functions //
@@ -303,26 +321,6 @@ const app = defineComponent({
       }
       return REPOS[hashParams.tabRepo].location.location;
     },
-  },
-
-  computed: {
-    ...mapState(['loadingOverlayCount', 'loadingOverlayMessage', 'isTabActive']),
-  },
-
-  components: {
-    LoadingOverlay,
-    cResizer,
-    cZoom,
-    cSummary,
-    cAuthorship,
-  },
-  created() {
-    try {
-      window.decodeHash();
-    } catch (error) {
-      this.userUpdated = false;
-    }
-    this.updateReportDir();
   },
 });
 
