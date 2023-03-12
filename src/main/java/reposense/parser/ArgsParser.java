@@ -364,12 +364,6 @@ public class ArgsParser {
             TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
             TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
-//            // TODO can try commenting out
-//            if (cliArgumentsBuilder.build().isViewMode()) {
-//                // TODO previously ViewCliArguments
-//                return cliArgumentsBuilder.build();
-//            }
-
             boolean isAutomaticallyLaunching = reportFolderPath != null;
 
             cliArgumentsBuilder.sinceDate(sinceDate)
@@ -385,15 +379,6 @@ public class ArgsParser {
                 logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
             }
 
-//            if (locations != null) {
-//                return cliArgumentsBuilder.build();
-//                // TODO
-////                return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-////                        isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
-////                        shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-////                        isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, shouldFindPreviousAuthors);
-//            }
-
             if (locations == null && configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
@@ -404,12 +389,7 @@ public class ArgsParser {
                     : DEFAULT_SHOULD_FRESH_CLONE;
 
             cliArgumentsBuilder.isTestMode(isTestMode).isFreshClonePerformed(shouldPerformFreshCloning);
-// TODO
-//            return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-//                    isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
-//                    shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-//                    isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, reportConfig, shouldFindPreviousAuthors,
-//                    isTestMode, shouldPerformFreshCloning);
+
             return cliArgumentsBuilder.build();
         } catch (HelpScreenException hse) {
             throw hse;

@@ -22,22 +22,22 @@ public class CliArguments {
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
 
-    private Path outputFilePath;
-    private Path assetsFilePath;
-    private LocalDateTime sinceDate;
-    private LocalDateTime untilDate;
-    private boolean isSinceDateProvided;
-    private boolean isUntilDateProvided;
-    private List<FileType> formats;
-    private boolean isLastModifiedDateIncluded;
-    private boolean isShallowCloningPerformed;
-    private boolean isAutomaticallyLaunching;
-    private boolean isStandaloneConfigIgnored;
-    private boolean isFileSizeLimitIgnored;
-    private int numCloningThreads;
-    private int numAnalysisThreads;
-    private ZoneId zoneId;
-    private boolean isFindingPreviousAuthorsPerformed;
+    private final Path outputFilePath;
+    private final Path assetsFilePath;
+    private final LocalDateTime sinceDate;
+    private final LocalDateTime untilDate;
+    private final boolean isSinceDateProvided;
+    private final boolean isUntilDateProvided;
+    private final List<FileType> formats;
+    private final boolean isLastModifiedDateIncluded;
+    private final boolean isShallowCloningPerformed;
+    private final boolean isAutomaticallyLaunching;
+    private final boolean isStandaloneConfigIgnored;
+    private final boolean isFileSizeLimitIgnored;
+    private final int numCloningThreads;
+    private final int numAnalysisThreads;
+    private final ZoneId zoneId;
+    private final boolean isFindingPreviousAuthorsPerformed;
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
 
@@ -234,7 +234,7 @@ public class CliArguments {
     }
 
     /**
-     * Builder used to build CliArguments
+     * Builder used to build CliArguments.
      */
     public static final class Builder {
         private Path outputFilePath;

@@ -1,5 +1,11 @@
 package reposense.model;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.InvalidCsvException;
@@ -7,13 +13,7 @@ import reposense.parser.InvalidHeaderException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.system.LogsManager;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-public class CliRunConfiguration implements RunConfiguration{
+public class CliRunConfiguration implements RunConfiguration {
     private static final Logger logger = LogsManager.getLogger(CliRunConfiguration.class);
 
     private final CliArguments cliArguments;

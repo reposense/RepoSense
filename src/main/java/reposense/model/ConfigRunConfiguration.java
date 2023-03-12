@@ -1,13 +1,13 @@
 package reposense.model;
 
-import reposense.parser.InvalidLocationException;
-import reposense.parser.ParseException;
-import reposense.system.LogsManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import reposense.parser.InvalidLocationException;
+import reposense.parser.ParseException;
+import reposense.system.LogsManager;
 
 public class ConfigRunConfiguration implements RunConfiguration {
     private static final Logger logger = LogsManager.getLogger(ConfigRunConfiguration.class);
