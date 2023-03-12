@@ -217,7 +217,6 @@ function authorshipInitialState() {
     authorColors: {},
     selectedColors: ['#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3', '#adff2f', '#808000', '#800000',
       '#ff8c00', '#c71585'],
-    authorColorIndex: 0,
   };
 }
 
@@ -563,11 +562,12 @@ export default {
     },
 
     assignAuthorColors() {
+      let authorColorIndex = 0;
       if (this.info.isMergeGroup) {
         this.authors.forEach((author) => {
-          if (this.authorColorIndex < this.selectedColors.length) {
-            this.authorColors[author] = this.selectedColors[this.authorColorIndex];
-            this.authorColorIndex += 1;
+          if (authorColorIndex < this.selectedColors.length) {
+            this.authorColors[author] = this.selectedColors[authorColorIndex];
+            authorColorIndex += 1;
           } else {
             this.authorColors[author] = getNonRepeatingColor(Object.values(this.authorColors));
           }
