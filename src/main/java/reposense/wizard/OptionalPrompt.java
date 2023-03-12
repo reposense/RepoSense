@@ -4,9 +4,9 @@ package reposense.wizard;
  * Represents an optional prompt that only calls the provided prompt if requested by the user.
  */
 public abstract class OptionalPrompt extends Prompt {
-    private final static String YES_FLAG = "Y";
-    private final static String NO_FLAG = "N";
-    private final static String FORMAT = String.format("%s/%s", YES_FLAG, NO_FLAG);
+    private static final String YES_FLAG = "Y";
+    private static final String NO_FLAG = "N";
+    private static final String FORMAT = String.format("%s/%s", YES_FLAG, NO_FLAG);
 
     public OptionalPrompt(String description) {
         super(description, FORMAT);
