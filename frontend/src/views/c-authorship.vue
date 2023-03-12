@@ -465,7 +465,7 @@ export default {
     },
 
     getAuthors(file) {
-      return [...new Set(file.segments.map((segment) => segment.knownAuthor).filter(Boolean))];
+      return new Set(file.segments.map((segment) => segment.knownAuthor).filter(Boolean));
     },
 
     toggleAllFileActiveProperty(isActive) {
@@ -940,6 +940,7 @@ export default {
           display: inline;
           float: left;
           font-size: 14px;
+          padding-right: 8px;
         }
       }
     }
