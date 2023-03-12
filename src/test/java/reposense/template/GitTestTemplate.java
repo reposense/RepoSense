@@ -109,6 +109,8 @@ public class GitTestTemplate {
 
     private static final Supplier<String> EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER = () ->
             String.valueOf(Thread.currentThread().getId());
+    private FileInfoExtractor fileInfoExtractor = new FileInfoExtractor();
+    private FileInfoAnalyzer fileInfoAnalyzer = new FileInfoAnalyzer();
 
     @BeforeEach
     public void before() throws Exception {
@@ -184,8 +186,8 @@ public class GitTestTemplate {
     }
 
     public FileResult getFileResult(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(configs.get(), relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
+        FileInfo fileInfo = fileInfoExtractor.generateFileInfo(configs.get(), relativePath);
+        return fileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
     }
 
     /**
