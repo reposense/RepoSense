@@ -157,12 +157,12 @@ describe('show ramp chart for period', () => {
     // last 2 ramps should have expected relative z-indices
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
-      .then($el => $el.css('z-index'))  
+      .then($el => $el.css('z-index'))
       .then(parseInt) // get 1st z-index
       .then(index1 => {
         cy.get('#tab-zoom .ramp .ramp__slice')
           .eq(1)
-          .then($el => $el.css('z-index')) 
+          .then($el => $el.css('z-index'))
           .then(parseInt) // get 2nd z-index
           .then(index2 => {
             expect(index1).to.be.gt(index2)
@@ -172,12 +172,12 @@ describe('show ramp chart for period', () => {
     // last 2 ramps should have expected relative distances
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
-      .then($el => $el.css('right'))  
+      .then($el => $el.css('right'))
       .then(parseFloat) // get 1st distance
       .then(distance1 => {
         cy.get('#tab-zoom .ramp .ramp__slice')
           .eq(1)
-          .then($el => $el.css('right')) 
+          .then($el => $el.css('right'))
           .then(parseFloat) // get 2nd distance
           .then(distance2 => {
             expect(distance1).to.be.lt(distance2)
