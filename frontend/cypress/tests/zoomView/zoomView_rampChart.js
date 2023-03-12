@@ -170,7 +170,7 @@ describe('show ramp chart for period', () => {
     // last 2 ramps should have expected relative distances from the right
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
-      .then(($el => $el.css('right'))
+      .then(($el) => $el.css('right'))
       .then(parseFloat) // get 1st distance
       .then((distance1) => {
         cy.get('#tab-zoom .ramp .ramp__slice')
