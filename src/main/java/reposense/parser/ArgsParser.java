@@ -26,11 +26,8 @@ import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
-import reposense.model.ConfigCliArguments;
 import reposense.model.FileType;
-import reposense.model.LocationsCliArguments;
 import reposense.model.ReportConfiguration;
-import reposense.model.ViewCliArguments;
 import reposense.system.LogsManager;
 import reposense.util.TimeUtil;
 
@@ -284,6 +281,20 @@ public class ArgsParser {
             boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
             boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
 
+            CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
+                    .configFolderPath(configFolderPath)
+                    .reportDirectoryPath(reportFolderPath)
+                    .outputFilePath(outputFolderPath)
+                    .zoneId(zoneId)
+                    .assetsFilePath(assetsFolderPath)
+                    .locations(locations)
+                    .formats(formats)
+                    .isStandaloneConfigIgnored(isStandaloneConfigIgnored)
+                    .isFileSizeLimitIgnored(isFileSizeLimitIgnored)
+                    .isLastModifiedDateIncluded(shouldIncludeLastModifiedDate)
+                    .isShallowCloningPerformed(shouldPerformShallowCloning)
+                    .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors);
+
             // Report config is ignored if --repos is provided
             if (locations == null) {
                 Path reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
@@ -353,25 +364,37 @@ public class ArgsParser {
             TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
             TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
-            if (reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)
-                    && configFolderPath.equals(DEFAULT_CONFIG_PATH) && locations == null) {
-                return new ViewCliArguments(reportFolderPath);
-            }
+//            // TODO can try commenting out
+//            if (cliArgumentsBuilder.build().isViewMode()) {
+//                // TODO previously ViewCliArguments
+//                return cliArgumentsBuilder.build();
+//            }
 
             boolean isAutomaticallyLaunching = reportFolderPath != null;
 
-            if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH)) {
+            cliArgumentsBuilder.sinceDate(sinceDate)
+                    .isSinceDateProvided(isSinceDateProvided)
+                    .untilDate(untilDate)
+                    .isUntilDateProvided(isUntilDateProvided)
+                    .isAutomaticallyLaunching(isAutomaticallyLaunching)
+                    .numCloningThreads(numCloningThreads)
+                    .numAnalysisThreads(numAnalysisThreads);
+
+            if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH)
+                    && (!configFolderPath.equals(DEFAULT_CONFIG_PATH) || locations != null)) {
                 logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
             }
 
-            if (locations != null) {
-                return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                        isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
-                        shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-                        isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, shouldFindPreviousAuthors);
-            }
+//            if (locations != null) {
+//                return cliArgumentsBuilder.build();
+//                // TODO
+////                return new LocationsCliArguments(locations, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
+////                        isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
+////                        shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
+////                        isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, shouldFindPreviousAuthors);
+//            }
 
-            if (configFolderPath.equals(EMPTY_PATH)) {
+            if (locations == null && configFolderPath.equals(EMPTY_PATH)) {
                 logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
             }
 
@@ -380,11 +403,14 @@ public class ArgsParser {
                     ? results.get(FRESH_CLONING_FLAG[0])
                     : DEFAULT_SHOULD_FRESH_CLONE;
 
-            return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
-                    isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
-                    shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
-                    isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, reportConfig, shouldFindPreviousAuthors,
-                    isTestMode, shouldPerformFreshCloning);
+            cliArgumentsBuilder.isTestMode(isTestMode).isFreshClonePerformed(shouldPerformFreshCloning);
+// TODO
+//            return new ConfigCliArguments(configFolderPath, outputFolderPath, assetsFolderPath, sinceDate, untilDate,
+//                    isSinceDateProvided, isUntilDateProvided, numCloningThreads, numAnalysisThreads, formats,
+//                    shouldIncludeLastModifiedDate, shouldPerformShallowCloning, isAutomaticallyLaunching,
+//                    isStandaloneConfigIgnored, isFileSizeLimitIgnored, zoneId, reportConfig, shouldFindPreviousAuthors,
+//                    isTestMode, shouldPerformFreshCloning);
+            return cliArgumentsBuilder.build();
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
