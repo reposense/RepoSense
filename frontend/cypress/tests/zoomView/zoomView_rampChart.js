@@ -97,14 +97,13 @@ describe('show ramp chart for period', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2018-06-12] Setup AppVeyor CI (#142): +19 -0 lines ')
+      .should('eq', '[2018-06-12] Setup AppVeyor CI (#142): +19 -0 lines ');
 
     // last ramp should be for commit before end date
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2019-03-25] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines ')
-
+      .should('eq', '[2019-03-25] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines ');
   });
 
   it('ramp should have expected properties', () => {
@@ -136,7 +135,6 @@ describe('show ramp chart for period', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .should('have.css', 'right', '84.0078px');
-
   });
 
   it('ramps should have expected relative properties', () => {
@@ -157,32 +155,32 @@ describe('show ramp chart for period', () => {
     // last 2 ramps should have expected relative z-indices
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
-      .then($el => $el.css('z-index'))
+      .then(($el) => $el.css('z-index'))
       .then(parseInt) // get 1st z-index
-      .then(index1 => {
+      .then((index1) => {
         cy.get('#tab-zoom .ramp .ramp__slice')
           .eq(1)
-          .then($el => $el.css('z-index'))
+          .then(($el) => $el.css('z-index'))
           .then(parseInt) // get 2nd z-index
-          .then(index2 => {
-            expect(index1).to.be.gt(index2)
-          })
-      })
+          .then((index2) => {
+            expect(index1).to.be.gt(index2);
+          });
+      });
 
-    // last 2 ramps should have expected relative distances
+    // last 2 ramps should have expected relative distances from the right
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
-      .then($el => $el.css('right'))
+      .then(($el => $el.css('right'))
       .then(parseFloat) // get 1st distance
-      .then(distance1 => {
+      .then((distance1) => {
         cy.get('#tab-zoom .ramp .ramp__slice')
           .eq(1)
-          .then($el => $el.css('right'))
+          .then(($el) => $el.css('right'))
           .then(parseFloat) // get 2nd distance
-          .then(distance2 => {
-            expect(distance1).to.be.lt(distance2)
-          })
-      })
+          .then((distance2) => {
+            expect(distance1).to.be.lt(distance2);
+          });
+      });
   });
 
   it('ramp should link to commit webpage', () => {
@@ -205,7 +203,5 @@ describe('show ramp chart for period', () => {
       .first()
       .invoke('attr', 'href')
       .should('eq', 'https://github.com/reposense/RepoSense/commit/19e32944d4c67ed0b6bdc5697016536cc9e17ed9');
-
   });
-
 });
