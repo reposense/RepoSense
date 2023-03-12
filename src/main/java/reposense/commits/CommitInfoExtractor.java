@@ -27,7 +27,7 @@ public class CommitInfoExtractor {
     /**
      * Extracts out and returns the raw information of each commit for the repo in {@code config}.
      */
-    public static List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
+    public List<CommitInfo> extractCommitInfos(RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_EXTRACTING_COMMIT_INFO, config.getLocation(), config.getBranch()));
 
         GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
@@ -46,7 +46,7 @@ public class CommitInfoExtractor {
     /**
      * Parses the {@code gitLogResult} into a list of {@link CommitInfo} and returns it.
      */
-    private static ArrayList<CommitInfo> parseGitLogResults(String gitLogResult) {
+    private ArrayList<CommitInfo> parseGitLogResults(String gitLogResult) {
         ArrayList<CommitInfo> commitInfos = new ArrayList<>();
         String[] rawCommitInfos = gitLogResult.split(GitLog.COMMIT_INFO_DELIMITER);
 
