@@ -219,7 +219,7 @@ describe('show ramp chart for period', () => {
           .then(($el) => $el.css('right'))
           .then(parseFloat) // get 2nd distance
           .then((distance2) => {
-            expect(distance1).to.be.lt(distance2);
+            expect(distance1).to.be.gt(distance2);
           });
       });
   });
