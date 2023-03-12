@@ -17,7 +17,7 @@ public abstract class OptionalPrompt extends Prompt {
 
     @Override
     public InputBuilder addToInput(InputBuilder inputBuilder) {
-        return inputBuilder.addRepos(getResponse());
+        return inputBuilder;
     }
 
     @Override
