@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
@@ -65,23 +66,23 @@ public class CliArguments {
         this.formats = builder.formats;
         this.isLastModifiedDateIncluded = builder.isLastModifiedDateIncluded;
         this.isShallowCloningPerformed = builder.isShallowCloningPerformed;
-        this.isAutomaticallyLaunching= builder.isAutomaticallyLaunching;
-        this.isStandaloneConfigIgnored= builder.isStandaloneConfigIgnored;
-        this.isFileSizeLimitIgnored= builder.isFileSizeLimitIgnored;
-        this.numCloningThreads= builder.numCloningThreads;
-        this.numAnalysisThreads= builder.numAnalysisThreads;
-        this.zoneId= builder.zoneId;
-        this.isFindingPreviousAuthorsPerformed= builder.isFindingPreviousAuthorsPerformed;
-        this.isTestMode= builder.isTestMode;
-        this.isFreshClonePerformed= builder.isFreshClonePerformed;
-        this.locations= builder.locations;
-        this.reportDirectoryPath= builder.reportDirectoryPath;
-        this.configFolderPath= builder.configFolderPath;
-        this.repoConfigFilePath= builder.repoConfigFilePath;
-        this.authorConfigFilePath= builder.authorConfigFilePath;
-        this.groupConfigFilePath= builder.groupConfigFilePath;
-        this.reportConfigFilePath= builder.reportConfigFilePath;
-        this.reportConfiguration= builder.reportConfiguration;
+        this.isAutomaticallyLaunching = builder.isAutomaticallyLaunching;
+        this.isStandaloneConfigIgnored = builder.isStandaloneConfigIgnored;
+        this.isFileSizeLimitIgnored = builder.isFileSizeLimitIgnored;
+        this.numCloningThreads = builder.numCloningThreads;
+        this.numAnalysisThreads = builder.numAnalysisThreads;
+        this.zoneId = builder.zoneId;
+        this.isFindingPreviousAuthorsPerformed = builder.isFindingPreviousAuthorsPerformed;
+        this.isTestMode = builder.isTestMode;
+        this.isFreshClonePerformed = builder.isFreshClonePerformed;
+        this.locations = builder.locations;
+        this.reportDirectoryPath = builder.reportDirectoryPath;
+        this.configFolderPath = builder.configFolderPath;
+        this.repoConfigFilePath = builder.repoConfigFilePath;
+        this.authorConfigFilePath = builder.authorConfigFilePath;
+        this.groupConfigFilePath = builder.groupConfigFilePath;
+        this.reportConfigFilePath = builder.reportConfigFilePath;
+        this.reportConfiguration = builder.reportConfiguration;
     }
 
     public ZoneId getZoneId() {
@@ -207,29 +208,29 @@ public class CliArguments {
 
         CliArguments otherCliArguments = (CliArguments) other;
 
-        return this.outputFilePath.equals(otherCliArguments.outputFilePath)
-                && this.sinceDate.equals(otherCliArguments.sinceDate)
-                && this.untilDate.equals(otherCliArguments.untilDate)
+        return Objects.equals(this.outputFilePath, otherCliArguments.outputFilePath)
+                && Objects.equals(this.sinceDate, otherCliArguments.sinceDate)
+                && Objects.equals(this.untilDate, otherCliArguments.untilDate)
                 && this.isSinceDateProvided == otherCliArguments.isSinceDateProvided
                 && this.isUntilDateProvided == otherCliArguments.isUntilDateProvided
-                && this.formats.equals(otherCliArguments.formats)
+                && Objects.equals(this.formats, otherCliArguments.formats)
                 && this.isLastModifiedDateIncluded == otherCliArguments.isLastModifiedDateIncluded
                 && this.isShallowCloningPerformed == otherCliArguments.isShallowCloningPerformed
                 && this.isAutomaticallyLaunching == otherCliArguments.isAutomaticallyLaunching
                 && this.isStandaloneConfigIgnored == otherCliArguments.isStandaloneConfigIgnored
                 && this.numCloningThreads == otherCliArguments.numCloningThreads
                 && this.numAnalysisThreads == otherCliArguments.numAnalysisThreads
-                && this.zoneId.equals(otherCliArguments.zoneId)
+                && Objects.equals(this.zoneId, otherCliArguments.zoneId)
                 && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed
                 && this.isFileSizeLimitIgnored == otherCliArguments.isFileSizeLimitIgnored
                 && this.isTestMode == otherCliArguments.isTestMode
                 && this.isFreshClonePerformed == otherCliArguments.isFreshClonePerformed
-                && this.locations.equals(otherCliArguments.locations)
-                && this.reportDirectoryPath.equals(otherCliArguments.reportDirectoryPath)
-                && this.repoConfigFilePath.equals(otherCliArguments.repoConfigFilePath)
-                && this.authorConfigFilePath.equals(otherCliArguments.authorConfigFilePath)
-                && this.groupConfigFilePath.equals(otherCliArguments.groupConfigFilePath)
-                && this.reportConfigFilePath.equals(otherCliArguments.reportConfigFilePath);
+                && Objects.equals(this.locations, otherCliArguments.locations)
+                && Objects.equals(this.reportDirectoryPath, otherCliArguments.reportDirectoryPath)
+                && Objects.equals(this.repoConfigFilePath, otherCliArguments.repoConfigFilePath)
+                && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
+                && Objects.equals(this.groupConfigFilePath, otherCliArguments.groupConfigFilePath)
+                && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath);
     }
 
     /**

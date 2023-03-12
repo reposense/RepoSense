@@ -20,14 +20,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
-import reposense.RepoSense;
 import reposense.model.CliArguments;
-import reposense.model.ConfigCliArguments;
 import reposense.model.FileType;
 import reposense.model.FileTypeTest;
-import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
-import reposense.model.ViewCliArguments;
+import reposense.model.RunConfigurationDecider;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
@@ -80,11 +77,10 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
 
         LocalDateTime expectedSinceDate = TimeUtil.getArbitraryFirstCommitDateConverted(DEFAULT_TIME_ZONE_ID);
         LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
@@ -107,11 +103,10 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
@@ -142,11 +137,10 @@ public class ArgsParserTest {
                 "-c \"%s\" -o \"%s\" -s 01/07/2017 -u 30/11/2017 -f java adoc html css js -i -I -v -t %s",
                 CONFIG_FOLDER_ABSOLUTE, OUTPUT_DIRECTORY_ABSOLUTE, DEFAULT_TIME_ZONE_STRING);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
@@ -178,11 +172,10 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING).addWhiteSpace(5)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
                 OUTPUT_DIRECTORY_ABSOLUTE.resolve(ArgsParser.DEFAULT_REPORT_NAME), cliArguments.getOutputFilePath()));
 
@@ -205,11 +198,10 @@ public class ArgsParserTest {
     public void parse_configFolderOnly_success() throws Exception {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         // Optional arguments have default values
         assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
         assertDateDiffEndOfDay(cliArguments.getUntilDate());
@@ -220,11 +212,11 @@ public class ArgsParserTest {
 
         input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE).build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         // Optional arguments have default values
         assertDateDiffOneMonth(cliArguments.getSinceDate(), cliArguments.getUntilDate());
         assertDateDiffEndOfDay(cliArguments.getUntilDate());
@@ -239,9 +231,8 @@ public class ArgsParserTest {
     public void parse_viewOnly_success() throws Exception {
         String input = new InputBuilder().addView(OUTPUT_DIRECTORY_ABSOLUTE).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ViewCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                OUTPUT_DIRECTORY_ABSOLUTE, ((ViewCliArguments) cliArguments).getReportDirectoryPath()));
+                OUTPUT_DIRECTORY_ABSOLUTE, cliArguments.getReportDirectoryPath()));
     }
 
     @Test
@@ -256,11 +247,10 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
 
-        Assertions.assertTrue(cliArguments instanceof LocationsCliArguments);
-        Assertions.assertTrue(cliArgumentsWithAlias instanceof LocationsCliArguments);
+        Assertions.assertTrue(cliArguments.isStandaloneConfigIgnored());
+        Assertions.assertTrue(cliArgumentsWithAlias.isStandaloneConfigIgnored());
 
-        Assertions.assertTrue(((LocationsCliArguments) cliArguments).isStandaloneConfigIgnored());
-        Assertions.assertTrue(((LocationsCliArguments) cliArgumentsWithAlias).isStandaloneConfigIgnored());
+        Assertions.assertTrue(cliArguments.equals(cliArgumentsWithAlias));
 
         Assertions.assertEquals(cliArguments, cliArgumentsWithAlias);
     }
@@ -270,8 +260,7 @@ public class ArgsParserTest {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof LocationsCliArguments);
-        Assertions.assertFalse(((LocationsCliArguments) cliArguments).isStandaloneConfigIgnored());
+        Assertions.assertFalse(cliArguments.isStandaloneConfigIgnored());
     }
 
     @Test
@@ -279,9 +268,8 @@ public class ArgsParserTest {
         String input = new InputBuilder().addView().build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertEquals(CONFIG_DIRECTORY.toString(), (
-                (ConfigCliArguments) cliArguments).getConfigFolderPath().toString());
+                cliArguments).getConfigFolderPath().toString());
         Assertions.assertTrue(cliArguments.isAutomaticallyLaunching());
     }
 
@@ -294,22 +282,20 @@ public class ArgsParserTest {
                 .addOutput(OUTPUT_DIRECTORY_RELATIVE)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(expectedRelativeOutputDirectoryPath, cliArguments.getOutputFilePath()));
 
         input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE)
                 .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
                 .build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(expectedAbsoluteOutputDirectoryPath, cliArguments.getOutputFilePath()));
     }
 
@@ -320,11 +306,10 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         Assertions.assertTrue(cliArguments.isAutomaticallyLaunching());
 
         input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE)
@@ -332,11 +317,10 @@ public class ArgsParserTest {
                 .build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         Assertions.assertTrue(cliArguments.isAutomaticallyLaunching());
     }
 
@@ -347,11 +331,10 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
         Assertions.assertTrue(Files.isSameFile(
-                REPO_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getRepoConfigFilePath()));
+                REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
-                AUTHOR_CONFIG_CSV_FILE, ((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()));
+                AUTHOR_CONFIG_CSV_FILE, cliArguments.getAuthorConfigFilePath()));
         Assertions.assertTrue(cliArguments.isAutomaticallyLaunching());
     }
 
@@ -362,7 +345,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Month.JULY.getValue(), 1);
         Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
@@ -374,7 +357,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
@@ -386,7 +369,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Month.JULY.getValue(), 1);
         Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
@@ -398,7 +381,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
@@ -411,7 +394,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.JULY.getValue(), 3);
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
@@ -424,7 +407,7 @@ public class ArgsParserTest {
                 .addPeriod("2w")
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Month.JUNE.getValue(), 30);
         Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
@@ -433,7 +416,7 @@ public class ArgsParserTest {
     public void formats_inAlphanumeric_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER.addFormats("java js css 7z").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("java", "js", "css", "7z"));
         Assertions.assertEquals(expectedFormats, cliArguments.getFormats());
@@ -443,7 +426,7 @@ public class ArgsParserTest {
     public void numCloningThreads_default_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER.build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         int expectedNumThreads = ArgsParser.DEFAULT_NUM_CLONING_THREADS;
         Assertions.assertEquals(expectedNumThreads, cliArguments.getNumCloningThreads());
     }
@@ -455,7 +438,7 @@ public class ArgsParserTest {
                 .build();
         System.out.println(input);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         int expectedNumThreads = 2;
         Assertions.assertEquals(expectedNumThreads, cliArguments.getNumCloningThreads());
     }
@@ -464,7 +447,7 @@ public class ArgsParserTest {
     public void numAnalysisThreads_default_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER.build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         int expectedNumThreads = ArgsParser.DEFAULT_NUM_ANALYSIS_THREADS;
         Assertions.assertEquals(expectedNumThreads, cliArguments.getNumAnalysisThreads());
     }
@@ -475,7 +458,7 @@ public class ArgsParserTest {
                 .addNumAnalysisThreads(2)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         int expectedNumThreads = 2;
         Assertions.assertEquals(expectedNumThreads, cliArguments.getNumAnalysisThreads());
     }
@@ -484,8 +467,9 @@ public class ArgsParserTest {
     public void parse_validGitRepoLocations_repoConfigurationListCorrectSize() throws Exception {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof LocationsCliArguments);
-        List<RepoConfiguration> repoConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        List<RepoConfiguration> repoConfigs = RunConfigurationDecider
+                .getRunConfiguration(cliArguments)
+                .getRepoConfigurations();
         Assertions.assertEquals(2, repoConfigs.size());
     }
 
@@ -496,10 +480,9 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof LocationsCliArguments);
         Assertions.assertTrue(cliArguments.isAutomaticallyLaunching());
         List<String> expectedLocations = Arrays.asList(TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
-        Assertions.assertEquals(expectedLocations, ((LocationsCliArguments) cliArguments).getLocations());
+        Assertions.assertEquals(expectedLocations, cliArguments.getLocations());
     }
 
     @Test
@@ -507,10 +490,9 @@ public class ArgsParserTest {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof LocationsCliArguments);
         Assertions.assertFalse(cliArguments.isAutomaticallyLaunching());
         List<String> expectedLocations = Arrays.asList(TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
-        Assertions.assertEquals(expectedLocations, ((LocationsCliArguments) cliArguments).getLocations());
+        Assertions.assertEquals(expectedLocations, cliArguments.getLocations());
     }
 
     @Test
@@ -520,33 +502,24 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof LocationsCliArguments);
         Assertions.assertTrue(cliArguments.isAutomaticallyLaunching());
         List<String> expectedLocations = Arrays.asList(TEST_REPO_REPOSENSE, TEST_REPO_DELTA);
-        Assertions.assertEquals(expectedLocations, ((LocationsCliArguments) cliArguments).getLocations());
-    }
-
-    @Test
-    public void parse_viewWithArgCwd_returnsViewCliArguments() throws Exception {
-        String input = new InputBuilder().addView(new File(".").toPath()).build();
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-
-        Assertions.assertTrue(cliArguments instanceof ViewCliArguments);
+        Assertions.assertEquals(expectedLocations, cliArguments.getLocations());
     }
 
     @Test
     public void parse_configOrLocationsSimilar_success() throws Exception {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).build();
         CliArguments configCliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(configCliArguments instanceof ConfigCliArguments);
-        List<RepoConfiguration> actualRepoConfigs =
-                RepoSense.getRepoConfigurations((ConfigCliArguments) configCliArguments);
+        List<RepoConfiguration> actualRepoConfigs = RunConfigurationDecider
+                .getRunConfiguration(configCliArguments)
+                .getRepoConfigurations();
 
         input = new InputBuilder().addRepos(TEST_REPO_BETA, TEST_REPO_CHARLIE, TEST_REPO_DELTA).build();
         CliArguments locationCliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(locationCliArguments instanceof LocationsCliArguments);
-        List<RepoConfiguration> expectedRepoConfigs =
-                RepoSense.getRepoConfigurations((LocationsCliArguments) locationCliArguments);
+        List<RepoConfiguration> expectedRepoConfigs = RunConfigurationDecider
+                .getRunConfiguration(locationCliArguments)
+                .getRepoConfigurations();
 
         Assertions.assertEquals(actualRepoConfigs, expectedRepoConfigs);
     }
@@ -554,9 +527,8 @@ public class ArgsParserTest {
     @Test
     public void emptyArgs_defaultConfigFolderPath() throws Exception {
         CliArguments cliArguments = ArgsParser.parse(new String[]{});
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
-        Assertions.assertEquals(CONFIG_DIRECTORY.toString(), (
-                (ConfigCliArguments) cliArguments).getConfigFolderPath().toString());
+        
+        Assertions.assertEquals(CONFIG_DIRECTORY.toString(), cliArguments.getConfigFolderPath().toString());
     }
 
     @Test
@@ -609,7 +581,7 @@ public class ArgsParserTest {
         Path expectedRelativeOutputDirectoryPath = nonExistentDirectory.resolve(ArgsParser.DEFAULT_REPORT_NAME);
         String input = new InputBuilder().addOutput(nonExistentDirectory).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         Assertions.assertTrue(Files.isSameFile(
                 expectedRelativeOutputDirectoryPath, cliArguments.getOutputFilePath()));
     }
@@ -681,21 +653,21 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         Assertions.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
 
         zoneId = "UTC-1030";
         input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         Assertions.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
 
         zoneId = "UTC";
         input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         Assertions.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
     }
 
@@ -717,7 +689,7 @@ public class ArgsParserTest {
                 .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        Assertions.assertTrue(cliArguments instanceof ConfigCliArguments);
+        
         Assertions.assertEquals(false, cliArguments.isShallowCloningPerformed());
 
         String inputShallow = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
@@ -725,7 +697,6 @@ public class ArgsParserTest {
                 .addShallowCloning()
                 .build();
         CliArguments cliArgumentsShallow = ArgsParser.parse(translateCommandline(inputShallow));
-        Assertions.assertTrue(cliArgumentsShallow instanceof ConfigCliArguments);
         Assertions.assertEquals(true, cliArgumentsShallow.isShallowCloningPerformed());
     }
 
