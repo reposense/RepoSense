@@ -36,7 +36,7 @@ return (commitInfos.isEmpty())
         : commitInfos.get(0).getTime();
 ```
 
-To preserve readability, it is recommended that if-else blocks should only be 
+To preserve readability, it is recommended that if-else blocks should only be
 converted to ternary operators if the resultant code can be kept at most 3 lines long
 (in accordance to the coding standard).
 
@@ -84,7 +84,7 @@ Okay (@param tags used for all inputs):
 /**
  * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
  * to the timezone given by {@code zoneId}.
- * 
+ *
  * @param sinceDate The date prior to the timezone conversion.
  * @param zoneId The timezone ID to adjust the sinceDate to.
  */
@@ -101,7 +101,7 @@ public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
 Not okay (order of exceptions in tag block and method signature do not match):
 /**
  * Returns a {@link LocalDateTime} object from {@code dateString}.
- * 
+ *
  * @throws ParseException if {@code dateString} cannot be parsed.
  * @throws NullPointerException if {@code dateString} is null.
  */
@@ -113,7 +113,7 @@ public LocalDateTime parseDate(String dateString) throws NullPointerException, P
 Should be:
 /**
  * Returns a {@link LocalDateTime} object from {@code dateString}.
- * 
+ *
  * @throws NullPointerException if {@code dateString} is null.
  * @throws ParseException if {@code dateString} cannot be parsed.
  */
