@@ -132,7 +132,11 @@ describe('show ramp chart for period', () => {
       .should('have.css', 'border-left-width', '7px');
   });
 
-  it('ramps should have expected relative properties', () => {
+  it('ramps from the different days should have expected relative properties', () => {
+    // change until date
+    cy.get('input[name="until"]:visible')
+      .type('2019-06-10');
+
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
       .should('be.visible')
@@ -155,6 +159,52 @@ describe('show ramp chart for period', () => {
           .then(parseInt) // get 2nd z-index
           .then((index2) => {
             expect(index1).to.be.gt(index2);
+          });
+      });
+
+    // last 2 ramps should have expected relative distances from the right
+    cy.get('#tab-zoom .ramp .ramp__slice')
+      .first()
+      .then(($el) => $el.css('right'))
+      .then(parseFloat) // get 1st distance
+      .then((distance1) => {
+        cy.get('#tab-zoom .ramp .ramp__slice')
+          .eq(1)
+          .then(($el) => $el.css('right'))
+          .then(parseFloat) // get 2nd distance
+          .then((distance2) => {
+            expect(distance1).to.be.lt(distance2);
+          });
+      });
+  });
+
+  it('ramps from the same day should have expected relative properties', () => {
+    // change until date
+    cy.get('input[name="until"]:visible')
+      .type('2023-03-04');
+
+    // open the commit panel
+    cy.get('.icon-button.fa-list-ul')
+      .should('be.visible')
+      .first()
+      .click();
+
+    // ramp chart should be visible
+    cy.get('#tab-zoom > .ramp')
+      .should('be.visible');
+
+    // last 2 ramps should have expected relative z-indices
+    cy.get('#tab-zoom .ramp .ramp__slice')
+      .first()
+      .then(($el) => $el.css('z-index'))
+      .then(parseInt) // get 1st z-index
+      .then((index1) => {
+        cy.get('#tab-zoom .ramp .ramp__slice')
+          .eq(1)
+          .then(($el) => $el.css('z-index'))
+          .then(parseInt) // get 2nd z-index
+          .then((index2) => {
+            expect(index1).to.be.eq(index2);
           });
       });
 
