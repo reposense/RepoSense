@@ -1,4 +1,7 @@
 package reposense.util;
+
+import reposense.wizard.OptionalPrompt;
+
 /**
  * A utility class to help with building command line input for Wizard CLI.
  * Example usage: <br>
@@ -17,8 +20,24 @@ public class WizardInputBuilder {
      *
      * @param command The command by the user
      */
-    public WizardInputBuilder append(String command) {
+    public WizardInputBuilder add(String command) {
         input.append(command).append(NEW_LINE);
+        return this;
+    }
+
+    /**
+     * Adds Yes Flag entered by the user to the input.
+     */
+    public WizardInputBuilder addYesFlag() {
+        input.append(OptionalPrompt.YES_FLAG).append(NEW_LINE);
+        return this;
+    }
+
+    /**
+     * Adds No Flag entered by the user to the input.
+     */
+    public WizardInputBuilder addNoFlag() {
+        input.append(OptionalPrompt.NO_FLAG).append(NEW_LINE);
         return this;
     }
 

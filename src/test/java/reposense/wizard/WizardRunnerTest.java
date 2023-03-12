@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import reposense.util.WizardInputBuilder;
 
 public class WizardRunnerTest {
-    private static final String YES_FLAG = "Y";
-    private static final String NO_FLAG = "N";
     private static final String SINCE_DATE = "30/09/2022";
     private static final String REPORT_PATH = "C:\\User\\RepoSense";
     private static final String REPO_LINK = "https://github.com/reposense/RepoSense.git";
@@ -22,9 +20,9 @@ public class WizardRunnerTest {
     public void buildInput_repoOnly_success() {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         String input = new WizardInputBuilder()
-                .append(NO_FLAG)
-                .append(NO_FLAG)
-                .append(REPO_LINK)
+                .addNoFlag()
+                .addNoFlag()
+                .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
@@ -39,10 +37,10 @@ public class WizardRunnerTest {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         // Yes only for sinceDate flag
         String input = new WizardInputBuilder()
-                .append(YES_FLAG)
-                .append(SINCE_DATE)
-                .append(NO_FLAG)
-                .append(REPO_LINK)
+                .addYesFlag()
+                .add(SINCE_DATE)
+                .addNoFlag()
+                .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
@@ -60,10 +58,10 @@ public class WizardRunnerTest {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         // Yes only for view flag
         String input = new WizardInputBuilder()
-                .append(NO_FLAG)
-                .append(YES_FLAG)
-                .append(REPORT_PATH)
-                .append(REPO_LINK)
+                .addNoFlag()
+                .addYesFlag()
+                .add(REPORT_PATH)
+                .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
@@ -81,11 +79,11 @@ public class WizardRunnerTest {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         // Yes for all flags
         String input = new WizardInputBuilder()
-                .append(YES_FLAG)
-                .append(SINCE_DATE)
-                .append(YES_FLAG)
-                .append(REPORT_PATH)
-                .append(REPO_LINK)
+                .addYesFlag()
+                .add(SINCE_DATE)
+                .addYesFlag()
+                .add(REPORT_PATH)
+                .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
