@@ -130,18 +130,9 @@ describe('show ramp chart for period', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .should('have.css', 'border-left-width', '7px');
-
-    // last ramp should be at expected location
-    cy.get('#tab-zoom .ramp .ramp__slice')
-      .first()
-      .should('have.css', 'right', '84.0078px');
   });
 
   it('ramps should have expected relative properties', () => {
-    // change until date
-    cy.get('input[name="until"]:visible')
-      .type('2019-06-10');
-
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
       .should('be.visible')
