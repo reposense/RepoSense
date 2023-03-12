@@ -1,10 +1,14 @@
 package reposense.wizard;
+
 /**
  * Represents a Prompt to get the repo flag.
  */
 public class RepoPrompt extends Prompt {
+    private static final String DESCRIPTION = "Enter a list of URLs or the disk location of the git repositories " +
+            "to analyze, separated by spaces";
+
     public RepoPrompt() {
-        super("Enter a list of URLs or the disk location of the git repositories to analyze, separated by spaces");
+        super(DESCRIPTION);
     }
 
     @Override

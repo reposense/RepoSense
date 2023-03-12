@@ -4,11 +4,11 @@ package reposense.wizard;
  * Represents a Prompt to get the sinceDate flag.
  */
 public class SincePrompt extends Prompt {
-    public static final String OPTIONAL_PROMPT = "Do you want to specify the start date for the period to be" +
-            " analyzed? The default is one month before the current date";
+    private static final String DESCRIPTION = "Enter the start date for the period to be analyzed";
+    private static final String FORMAT = "DD/MM/YYYY";
 
     public SincePrompt() {
-        super("Enter the start date for the period to be analyzed", "DD/MM/YYYY");
+        super(DESCRIPTION, FORMAT);
     }
 
     @Override
