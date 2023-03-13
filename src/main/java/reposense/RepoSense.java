@@ -97,12 +97,6 @@ public class RepoSense {
                 GitConfig.setGlobalGitLfsConfig(GitConfig.SKIP_SMUDGE_CONFIG_SETTINGS);
             }
 
-            boolean isTestMode = cliArguments.isTestMode();
-            if (isTestMode) {
-                // Required by ConfigSystemTest to pass
-                RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(configs, false);
-            }
-
             ReportGenerator reportGenerator = new ReportGenerator();
             List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
