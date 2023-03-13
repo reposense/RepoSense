@@ -49,7 +49,6 @@ public class LocalRepoSystemTest {
     public void setupLocalTest() throws Exception {
         SupportedDomainUrlMap.clearAccessedSet();
         FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
-        ErrorSummary.getInstance().clearErrorSet();
     }
 
     @AfterEach

@@ -10,6 +10,7 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.report.ErrorSummary;
 import reposense.util.FileUtil;
 import reposense.util.StringsUtil;
 
@@ -40,8 +41,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String[] FIND_PREVIOUS_AUTHORS_CONFIG_HEADER = {"Find Previous Authors"};
     private static final String[] FILESIZE_LIMIT_HEADER = {"File Size Limit"};
 
-    public RepoConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
-        super(csvFilePath);
+    public RepoConfigCsvParser(Path csvFilePath, ErrorSummary errorSummary) throws FileNotFoundException {
+        super(csvFilePath, errorSummary);
     }
 
     /**

@@ -31,6 +31,7 @@ import reposense.parser.InvalidHeaderException;
 import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
@@ -58,16 +59,17 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
+            ErrorSummary errorSummary = new ErrorSummary();
 
             if (cliArguments instanceof ViewCliArguments) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, ((
                         ViewCliArguments) cliArguments).getReportDirectoryPath().toAbsolutePath());
                 return;
             } else if (cliArguments instanceof ConfigCliArguments) {
-                configs = getRepoConfigurations((ConfigCliArguments) cliArguments);
+                configs = getRepoConfigurations((ConfigCliArguments) cliArguments, errorSummary);
                 reportConfig = ((ConfigCliArguments) cliArguments).getReportConfiguration();
             } else if (cliArguments instanceof LocationsCliArguments) {
-                configs = getRepoConfigurations((LocationsCliArguments) cliArguments);
+                configs = getRepoConfigurations((LocationsCliArguments) cliArguments, errorSummary);
             } else {
                 throw new AssertionError("CliArguments's subclass type is unhandled.");
             }
@@ -97,7 +99,7 @@ public class RepoSense {
                 GitConfig.setGlobalGitLfsConfig(GitConfig.SKIP_SMUDGE_CONFIG_SETTINGS);
             }
 
-            ReportGenerator reportGenerator = new ReportGenerator();
+            ReportGenerator reportGenerator = new ReportGenerator(errorSummary);
             List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
@@ -134,14 +136,16 @@ public class RepoSense {
      * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
      * @throws InvalidHeaderException if user-supplied csv file has header that cannot be parsed.
      */
-    public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments)
+    public static List<RepoConfiguration> getRepoConfigurations(
+            ConfigCliArguments cliArguments, ErrorSummary errorSummary)
             throws IOException, InvalidCsvException, InvalidHeaderException {
-        List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
+        List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(
+                cliArguments.getRepoConfigFilePath(), errorSummary).parse();
         List<AuthorConfiguration> authorConfigs;
         List<GroupConfiguration> groupConfigs;
 
         try {
-            authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
+            authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath(), errorSummary).parse();
             RepoConfiguration.merge(repoConfigs, authorConfigs);
             RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true);
         } catch (FileNotFoundException fnfe) {
@@ -153,7 +157,7 @@ public class RepoSense {
         }
 
         try {
-            groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
+            groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath(), errorSummary).parse();
             RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
         } catch (FileNotFoundException fnfe) {
             // FileNotFoundException thrown as groups-config.csv is not found.
@@ -171,13 +175,15 @@ public class RepoSense {
      *
      * @throws ParseException if all repo locations are invalid.
      */
-    public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments)
+    public static List<RepoConfiguration> getRepoConfigurations(
+            LocationsCliArguments cliArguments, ErrorSummary errorSummary)
             throws ParseException {
         List<RepoConfiguration> configs = new ArrayList<>();
         for (String locationString : cliArguments.getLocations()) {
             try {
                 configs.add(new RepoConfiguration(new RepoLocation(locationString)));
             } catch (InvalidLocationException ile) {
+                errorSummary.addErrorMessage(locationString, ile.getMessage());
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }
         }

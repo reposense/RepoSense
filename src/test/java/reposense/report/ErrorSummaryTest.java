@@ -13,42 +13,41 @@ public class ErrorSummaryTest {
         String invalidLocation2 = "https://github.com/contains-illegal-chars/^\\/";
         String invalidLocation3 = "not-valid-protocol://abc.com/reposense/RepoSense.git";
 
-        ErrorSummary errorSummaryInstance = ErrorSummary.getInstance();
-        errorSummaryInstance.clearErrorSet();
+        ErrorSummary errorSummary = new ErrorSummary();
 
         try {
             new RepoLocation(invalidLocation1);
-        } catch (InvalidLocationException e) {
-            // not relevant to the test
+        } catch (InvalidLocationException ile) {
+            errorSummary.addErrorMessage(invalidLocation1, ile.getMessage());
         }
-        Assertions.assertEquals(1, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(1, errorSummary.getErrorSet().size());
 
         try {
             new RepoLocation(invalidLocation1);
-        } catch (InvalidLocationException e) {
-            // not relevant to the test
+        } catch (InvalidLocationException ile) {
+            errorSummary.addErrorMessage(invalidLocation1, ile.getMessage());
         }
-        Assertions.assertEquals(1, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(1, errorSummary.getErrorSet().size());
 
         try {
             new RepoLocation(invalidLocation2);
-        } catch (InvalidLocationException e) {
-            // not relevant to the test
+        } catch (InvalidLocationException ile) {
+            errorSummary.addErrorMessage(invalidLocation2, ile.getMessage());
         }
-        Assertions.assertEquals(2, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(2, errorSummary.getErrorSet().size());
 
         try {
             new RepoLocation(invalidLocation1);
-        } catch (InvalidLocationException e) {
-            // not relevant to the test
+        } catch (InvalidLocationException ile) {
+            errorSummary.addErrorMessage(invalidLocation1, ile.getMessage());
         }
-        Assertions.assertEquals(2, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(2, errorSummary.getErrorSet().size());
 
         try {
             new RepoLocation(invalidLocation3);
-        } catch (InvalidLocationException e) {
-            // not relevant to the test
+        } catch (InvalidLocationException ile) {
+            errorSummary.addErrorMessage(invalidLocation3, ile.getMessage());
         }
-        Assertions.assertEquals(3, errorSummaryInstance.getErrorSet().size());
+        Assertions.assertEquals(3, errorSummary.getErrorSet().size());
     }
 }

@@ -28,6 +28,7 @@ import reposense.model.FileTypeTest;
 import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.ViewCliArguments;
+import reposense.report.ErrorSummary;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
@@ -57,6 +58,8 @@ public class ArgsParserTest {
 
     private static final String DEFAULT_TIME_ZONE_STRING = "Asia/Singapore";
     private static final ZoneId DEFAULT_TIME_ZONE_ID = TestUtil.getZoneId(DEFAULT_TIME_ZONE_STRING);
+
+    private ErrorSummary errorSummary = new ErrorSummary();
 
     @BeforeEach
     public void before() {
@@ -485,7 +488,8 @@ public class ArgsParserTest {
         String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         Assertions.assertTrue(cliArguments instanceof LocationsCliArguments);
-        List<RepoConfiguration> repoConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        List<RepoConfiguration> repoConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments,
+                errorSummary);
         Assertions.assertEquals(2, repoConfigs.size());
     }
 
@@ -540,13 +544,13 @@ public class ArgsParserTest {
         CliArguments configCliArguments = ArgsParser.parse(translateCommandline(input));
         Assertions.assertTrue(configCliArguments instanceof ConfigCliArguments);
         List<RepoConfiguration> actualRepoConfigs =
-                RepoSense.getRepoConfigurations((ConfigCliArguments) configCliArguments);
+                RepoSense.getRepoConfigurations((ConfigCliArguments) configCliArguments, errorSummary);
 
         input = new InputBuilder().addRepos(TEST_REPO_BETA, TEST_REPO_CHARLIE, TEST_REPO_DELTA).build();
         CliArguments locationCliArguments = ArgsParser.parse(translateCommandline(input));
         Assertions.assertTrue(locationCliArguments instanceof LocationsCliArguments);
         List<RepoConfiguration> expectedRepoConfigs =
-                RepoSense.getRepoConfigurations((LocationsCliArguments) locationCliArguments);
+                RepoSense.getRepoConfigurations((LocationsCliArguments) locationCliArguments, errorSummary);
 
         Assertions.assertEquals(actualRepoConfigs, expectedRepoConfigs);
     }

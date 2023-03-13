@@ -24,6 +24,7 @@ import java.util.stream.Stream;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
+import reposense.report.ErrorSummary;
 import reposense.system.LogsManager;
 
 /**
@@ -51,6 +52,7 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_ZERO_VALID_CONFIGS = "No valid configurations in the %s.";
     private static final String MESSAGE_UNKNOWN_COLUMN = "Unknown column(s) found: %s (%s)";
 
+    protected ErrorSummary errorSummary;
     private Path csvFilePath;
     private Map<String, Integer> headerMap = new HashMap<>();
     private int numOfLinesBeforeFirstRecord = 0;
@@ -60,13 +62,14 @@ public abstract class CsvParser<T> {
      *
      * @throws FileNotFoundException if the csv file cannot be found in the provided {@code csvFilePath}.
      */
-    public CsvParser(Path csvFilePath) throws FileNotFoundException {
+    public CsvParser(Path csvFilePath, ErrorSummary errorSummary) throws FileNotFoundException {
         if (csvFilePath == null || !Files.exists(csvFilePath)) {
             throw new FileNotFoundException("Csv file does not exist at the given path.\n"
                     + "Use '-help' to list all the available subcommands and some concept guides.");
         }
 
         this.csvFilePath = csvFilePath;
+        this.errorSummary = errorSummary;
     }
 
     /**

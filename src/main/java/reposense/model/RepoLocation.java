@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 import reposense.git.GitRemote;
 import reposense.parser.InvalidLocationException;
-import reposense.report.ErrorSummary;
 import reposense.util.StringsUtil;
 import reposense.util.SystemUtil;
 
@@ -159,8 +158,6 @@ public class RepoLocation {
         Matcher localRepoMatcher = localRepoPattern.matcher(location);
 
         if (!localRepoMatcher.matches()) {
-            ErrorSummary.getInstance().addErrorMessage(location,
-                    String.format(MESSAGE_INVALID_LOCATION, location));
             throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
         }
 
@@ -185,15 +182,11 @@ public class RepoLocation {
             try {
                 new URI(location);
             } catch (URISyntaxException e) {
-                ErrorSummary.getInstance().addErrorMessage(location,
-                        String.format(MESSAGE_INVALID_REMOTE_URL, location));
                 throw new InvalidLocationException(String.format(MESSAGE_INVALID_REMOTE_URL, location));
             }
         }
         boolean isValidRemoteRepoUrl = remoteRepoMatcher.matches() || sshRepoMatcher.matches();
         if (!isValidRemoteRepoUrl) {
-            ErrorSummary.getInstance().addErrorMessage(location,
-                    String.format(MESSAGE_INVALID_REMOTE_URL, location));
             throw new InvalidLocationException(String.format(MESSAGE_INVALID_REMOTE_URL, location));
         }
 
