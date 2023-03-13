@@ -189,7 +189,7 @@ public class CliArguments {
         return reportConfiguration;
     }
 
-    public boolean isViewMode() {
+    public boolean isViewModeOnly() {
         return (reportDirectoryPath != null && !reportDirectoryPath.equals(EMPTY_PATH)
                     && configFolderPath.equals(DEFAULT_CONFIG_PATH) && locations == null);
     }

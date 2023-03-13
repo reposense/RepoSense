@@ -48,12 +48,13 @@ public class RepoSense {
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
 
-            if (cliArguments.isViewMode()) {
+            if (cliArguments.isViewModeOnly()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
                 return;
             }
 
             configs = RunConfigurationDecider.getRunConfiguration(cliArguments).getRepoConfigurations();
+            reportConfig = cliArguments.getReportConfiguration();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());

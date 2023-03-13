@@ -366,7 +366,8 @@ public class ArgsParser {
 
             boolean isAutomaticallyLaunching = reportFolderPath != null;
 
-            cliArgumentsBuilder.sinceDate(sinceDate)
+            cliArgumentsBuilder.reportConfiguration(reportConfig)
+                    .sinceDate(sinceDate)
                     .isSinceDateProvided(isSinceDateProvided)
                     .untilDate(untilDate)
                     .isUntilDateProvided(isUntilDateProvided)
