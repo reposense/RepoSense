@@ -1,7 +1,6 @@
 describe('show ramp chart for period', () => {
   // Assumptions: The commit messages on the zoom view are
   // correctly filtered according to the selected period.
-
   it('show ramp chart for all commits by default', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
@@ -21,6 +20,8 @@ describe('show ramp chart for period', () => {
       });
   });
 
+  // Assumptions: The commit messages on the zoom view are
+  // correctly filtered according to the selected period.
   it('show ramp chart for selected commits when date range changed', () => {
     // change since date
     cy.get('input[name="since"]:visible')
@@ -48,6 +49,8 @@ describe('show ramp chart for period', () => {
       });
   });
 
+  // Assumptions: The commit messages on the zoom view are
+  // correctly filtered according to the selected period.
   it('show ramp chart for selected commits when zooming', () => {
     const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
 
@@ -74,6 +77,8 @@ describe('show ramp chart for period', () => {
       });
   });
 
+  // Assumptions: The first author on the summary panel 
+  // should be 'eugenepeh'.
   it('ramps should be between start date and end date', () => {
     // change since date
     cy.get('input[name="since"]:visible')
@@ -89,10 +94,6 @@ describe('show ramp chart for period', () => {
       .first()
       .click();
 
-    // ramp chart should be visible
-    cy.get('#tab-zoom > .ramp')
-      .should('be.visible');
-
     // first ramp should be for commit after start date
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
@@ -106,6 +107,8 @@ describe('show ramp chart for period', () => {
       .should('eq', '[2019-03-25] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines ');
   });
 
+  // Assumptions: The first author on the summary panel 
+  // should be 'eugenepeh'.
   it('ramp should have expected properties', () => {
     // change until date
     cy.get('input[name="until"]:visible')
@@ -117,10 +120,6 @@ describe('show ramp chart for period', () => {
       .first()
       .click();
 
-    // ramp chart should be visible
-    cy.get('#tab-zoom > .ramp')
-      .should('be.visible');
-
     // last ramp should have expected z-index
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
@@ -130,9 +129,79 @@ describe('show ramp chart for period', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .should('have.css', 'border-left-width', '7px');
+
+    // last ramp should have expected location
+    cy.get('#tab-zoom .ramp .ramp__slice')
+      .first()
+      .should('have.css', 'right', '84.0078px');
   });
 
-  it('ramps from the different days should have expected relative properties', () => {
+  // Assumptions: The second author on the summary panel 
+  // should be 'jamessspanggg'.
+  it('deletes commit ramp should have expected properties', () => {
+    // change since date
+    cy.get('input[name="since"]:visible')
+      .type('2019-07-16');
+
+    // change until date
+    cy.get('input[name="until"]:visible')
+      .type('2019-07-29');
+
+    // open the commit panel
+    cy.get('.icon-button.fa-list-ul')
+      .should('be.visible')
+      .eq(1)
+      .click();
+
+    // deletes commit ramp should have expected width
+    cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls to getFiltered() (#800)\\" (#832): +0 -9 lines "]')
+      .eq(1)
+      .should('have.class', 'ramp__slice')
+      .should('have.css', 'border-left-width', '1.5px');
+
+    // deletes commit ramp should have expected color
+    cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls to getFiltered() (#800)\\" (#832): +0 -9 lines "]')
+      .eq(1)
+      .should('have.class', 'ramp__slice')
+      .should('have.css', 'border-bottom', '48px solid rgba(244, 67, 54, 0.7)');
+  });
+
+  // Assumptions: The first author on the summary panel 
+  // should be 'eugenepeh'.
+  it('merge commit ramp should have expected properties', () => {
+    // change until date
+    cy.get('input[name="until"]:visible')
+      .type('2024-03-04');
+
+    // open the commit panel
+    cy.get('.icon-button.fa-list-ul')
+      .should('be.visible')
+      .first()
+      .click();
+
+    // merge commit ramp should have expected width
+    cy.get('#tab-zoom .ramp .ramp__slice')
+      .eq(1)
+      .should('have.class', 'ramp__slice')
+      .should('have.css', 'border-left-width', '1.5px');
+
+    // merge commit ramp should have expected color
+    cy.get('#tab-zoom .ramp .ramp__slice')
+      .eq(1)
+      .then(($el) => $el.css('border-bottom'))
+      .then((border1) => {
+        cy.get('#tab-zoom .ramp .ramp__slice')
+          .first()
+          .then(($el) => $el.css('border-bottom'))
+          .then((border2) => {
+            expect(border1).to.be.eq(border2);
+          });
+      });
+  });
+
+  // Assumptions: The first author on the summary panel 
+  // should be 'eugenepeh'.
+  it('ramps from different days should have expected relative properties', () => {
     // change until date
     cy.get('input[name="until"]:visible')
       .type('2019-06-10');
@@ -142,10 +211,6 @@ describe('show ramp chart for period', () => {
       .should('be.visible')
       .first()
       .click();
-
-    // ramp chart should be visible
-    cy.get('#tab-zoom > .ramp')
-      .should('be.visible');
 
     // last 2 ramps should have expected relative z-indices
     cy.get('#tab-zoom .ramp .ramp__slice')
@@ -178,6 +243,8 @@ describe('show ramp chart for period', () => {
       });
   });
 
+  // Assumptions: The first author on the summary panel 
+  // should be 'eugenepeh'.
   it('ramps from the same day should have expected relative properties', () => {
     // change until date
     cy.get('input[name="until"]:visible')
@@ -188,10 +255,6 @@ describe('show ramp chart for period', () => {
       .should('be.visible')
       .first()
       .click();
-
-    // ramp chart should be visible
-    cy.get('#tab-zoom > .ramp')
-      .should('be.visible');
 
     // last 2 ramps should have expected relative z-indices
     cy.get('#tab-zoom .ramp .ramp__slice')
@@ -224,6 +287,8 @@ describe('show ramp chart for period', () => {
       });
   });
 
+  // Assumptions: The first author on the summary panel 
+  // should be 'eugenepeh'.
   it('ramp should link to commit webpage', () => {
     // change until date
     cy.get('input[name="until"]:visible')
@@ -234,10 +299,6 @@ describe('show ramp chart for period', () => {
       .should('be.visible')
       .first()
       .click();
-
-    // ramp chart should be visible
-    cy.get('#tab-zoom > .ramp')
-      .should('be.visible');
 
     // last ramp should have expected link
     cy.get('#tab-zoom .ramp .ramp__slice')
