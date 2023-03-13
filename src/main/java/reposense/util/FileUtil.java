@@ -215,7 +215,7 @@ public class FileUtil {
      *
      * @throws IOException if {@code is} refers to an invalid path.
      */
-    public static void copyTemplate(InputStream is, String outputPath) throws IOException {
+    public static synchronized void copyTemplate(InputStream is, String outputPath) throws IOException {
         FileUtil.unzip(is, Paths.get(outputPath));
     }
 
