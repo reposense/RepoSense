@@ -40,11 +40,11 @@ interface StoreState {
   tabAuthorshipInfo: AuthorshipInfo;
   tabZoomInfo: ZoomInfo;
   summaryDates: SummaryDates;
-  mergedGroups: string[]
-  fileTypeColors: { [key: string]: string }
-  loadingOverlayCount: number
-  loadingOverlayMessage: string
-  isTabActive: boolean
+  mergedGroups: string[];
+  fileTypeColors: { [key: string]: string };
+  loadingOverlayCount: number;
+  loadingOverlayMessage: string;
+  isTabActive: boolean;
 }
 
 declare module '@vue/runtime-core' {
