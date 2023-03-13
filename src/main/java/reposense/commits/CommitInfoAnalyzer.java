@@ -43,18 +43,20 @@ public class CommitInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(CommitInfoAnalyzer.class);
     private static final String MESSAGE_START_ANALYZING_COMMIT_INFO = "Analyzing commits info for %s (%s)...";
 
+    private static final String HASH_SPLITTER = "\\s";
     private static final String LOG_SPLITTER = "\\|\\n\\|";
     private static final String REF_SPLITTER = ",\\s";
     private static final String NEW_LINE_SPLITTER = "\\n";
     private static final String TAG_PREFIX = "tag:";
 
     private static final int COMMIT_HASH_INDEX = 0;
-    private static final int AUTHOR_INDEX = 1;
-    private static final int EMAIL_INDEX = 2;
-    private static final int DATE_INDEX = 3;
-    private static final int MESSAGE_TITLE_INDEX = 4;
-    private static final int MESSAGE_BODY_INDEX = 5;
-    private static final int REF_NAME_INDEX = 6;
+    private static final int PARENT_HASHES_INDEX = 1;
+    private static final int AUTHOR_INDEX = 2;
+    private static final int EMAIL_INDEX = 3;
+    private static final int DATE_INDEX = 4;
+    private static final int MESSAGE_TITLE_INDEX = 5;
+    private static final int MESSAGE_BODY_INDEX = 6;
+    private static final int REF_NAME_INDEX = 7;
 
     private static final Pattern MESSAGEBODY_LEADING_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
 
@@ -62,7 +64,7 @@ public class CommitInfoAnalyzer {
      * Analyzes each {@link CommitInfo} in {@code commitInfos} and returns a list of {@link CommitResult} that is not
      * specified to be ignored or the author is inside {@code config}.
      */
-    public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
+    public List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_ANALYZING_COMMIT_INFO, config.getLocation(), config.getBranch()));
 
         return commitInfos.stream()
@@ -78,12 +80,13 @@ public class CommitInfoAnalyzer {
      * Extracts the relevant data from {@code commitInfo} into a {@link CommitResult}. Retrieves the author of the
      * commit from {@code config}.
      */
-    public static CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {
+    public CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {
         String infoLine = commitInfo.getInfoLine();
         String statLine = commitInfo.getStatLine();
 
-        String[] elements = infoLine.split(LOG_SPLITTER, 7);
+        String[] elements = infoLine.split(LOG_SPLITTER, 8);
         String hash = elements[COMMIT_HASH_INDEX];
+        Boolean isMergeCommit = elements[PARENT_HASHES_INDEX].split(HASH_SPLITTER).length > 1;
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
         ZonedDateTime date = null;
@@ -111,7 +114,7 @@ public class CommitInfoAnalyzer {
         }
 
         if (statLine.isEmpty()) { // empty commit, no files changed
-            return new CommitResult(author, hash, adjustedDate, messageTitle, messageBody, tags);
+            return new CommitResult(author, hash, isMergeCommit, adjustedDate, messageTitle, messageBody, tags);
         }
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
@@ -119,7 +122,7 @@ public class CommitInfoAnalyzer {
         Map<FileType, ContributionPair> fileTypeAndContributionMap =
                 getFileTypesAndContribution(fileTypeContributions, config);
 
-        return new CommitResult(author, hash, adjustedDate, messageTitle, messageBody, tags,
+        return new CommitResult(author, hash, isMergeCommit, adjustedDate, messageTitle, messageBody, tags,
                 fileTypeAndContributionMap);
     }
 
@@ -127,7 +130,7 @@ public class CommitInfoAnalyzer {
      * Returns the number of lines added and deleted in {@code filePathContributions} for the specified file types
      * in {@code config}.
      */
-    private static Map<FileType, ContributionPair> getFileTypesAndContribution(String[] filePathContributions,
+    private Map<FileType, ContributionPair> getFileTypesAndContribution(String[] filePathContributions,
             RepoConfiguration config) {
         Map<FileType, ContributionPair> fileTypesAndContributionMap = new HashMap<>();
         for (String filePathContribution : filePathContributions) {
@@ -156,7 +159,7 @@ public class CommitInfoAnalyzer {
     /**
      * Extracts the correct file path from the unprocessed git log {@code filePath}.
      */
-    private static String extractFilePath(String filePath) {
+    private String extractFilePath(String filePath) {
         String filteredFilePath = filePath;
         if (filteredFilePath.contains(MOVED_FILE_INDICATION)) {
             // moved file has the format: fileA => newPosition/fileA
@@ -175,7 +178,7 @@ public class CommitInfoAnalyzer {
     /**
      * Detects binary file contribution based on the git log {@code addition} and {@code deletion}.
      */
-    private static boolean isBinaryContribution(String addition, String deletion) {
+    private boolean isBinaryContribution(String addition, String deletion) {
         // git log returns "-" for binary file additions and deletions
         return addition.equals(BINARY_FILE_CONTRIBUTION) && deletion.equals(BINARY_FILE_CONTRIBUTION);
     }
@@ -183,13 +186,13 @@ public class CommitInfoAnalyzer {
     /**
      * Extracts the tag names in {@code tags}.
      */
-    private static void extractTagNames(String[] tags) {
+    private void extractTagNames(String[] tags) {
         for (int i = 0; i < tags.length; i++) {
             tags[i] = tags[i].substring(tags[i].lastIndexOf(TAG_PREFIX) + TAG_PREFIX.length()).trim();
         }
     }
 
-    private static String getCommitMessageBody(String raw) {
+    private String getCommitMessageBody(String raw) {
         Matcher matcher = MESSAGEBODY_LEADING_PATTERN.matcher(raw);
         return matcher.replaceAll("");
     }
