@@ -58,4 +58,4 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 
 </box>
 
-3\. Add a git `.mailmap` file at the toplevel of the repository, specifying mapped authors/commiters and/or e-mail addresses as per [gitmailmap documentation](https://git-scm.com/docs/gitmailmap). Any mappings specified here will be applied by git before all other RepoSense configurations. Configuration via `.mailmap` is particularly useful if you want the mapping to apply for all git commands as well instead of just for RepoSense.
+3\. Add a git `.mailmap` file at the top-level of the repository, specifying mapped authors/commiters and/or e-mail addresses as per [gitmailmap documentation](https://git-scm.com/docs/gitmailmap). Any mappings specified here will be applied by git before all other RepoSense configurations. Configuration via `.mailmap` is particularly useful if you want the mapping to apply for all git commands as well instead of just for RepoSense.
