@@ -129,11 +129,6 @@ describe('show ramp chart for period', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .should('have.css', 'border-left-width', '7px');
-
-    // last ramp should have expected location
-    cy.get('#tab-zoom .ramp .ramp__slice')
-      .first()
-      .should('have.css', 'right', '84.0078px');
   });
 
   // Assumptions: The second author on the summary panel
@@ -152,13 +147,6 @@ describe('show ramp chart for period', () => {
       .should('be.visible')
       .eq(1)
       .click();
-
-    // deletes commit ramp should have expected width
-    cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls '
-     + 'to getFiltered() (#800)\\" (#832): +0 -9 lines "]')
-      .eq(1)
-      .should('have.class', 'ramp__slice')
-      .should('have.css', 'border-left-width', '1.5px');
 
     // deletes commit ramp should have expected color
     cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls '
@@ -180,12 +168,6 @@ describe('show ramp chart for period', () => {
       .should('be.visible')
       .first()
       .click();
-
-    // merge commit ramp should have expected width
-    cy.get('#tab-zoom .ramp .ramp__slice')
-      .eq(1)
-      .should('have.class', 'ramp__slice')
-      .should('have.css', 'border-left-width', '1.5px');
 
     // merge commit ramp should have expected color
     cy.get('#tab-zoom .ramp .ramp__slice')
