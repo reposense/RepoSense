@@ -212,7 +212,7 @@ public class ArgsParserTest {
 
         input = new InputBuilder().addConfig(CONFIG_FOLDER_RELATIVE).build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         Assertions.assertTrue(Files.isSameFile(
                 REPO_CONFIG_CSV_FILE, cliArguments.getRepoConfigFilePath()));
         Assertions.assertTrue(Files.isSameFile(
@@ -345,7 +345,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Month.JULY.getValue(), 1);
         Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
@@ -357,7 +357,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
@@ -369,7 +369,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Month.JULY.getValue(), 1);
         Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
@@ -381,7 +381,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
@@ -394,7 +394,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.JULY.getValue(), 3);
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
@@ -407,7 +407,7 @@ public class ArgsParserTest {
                 .addPeriod("2w")
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         LocalDateTime expectedSinceDate = TestUtil.getSinceDate(2017, Month.JUNE.getValue(), 30);
         Assertions.assertEquals(expectedSinceDate, cliArguments.getSinceDate());
     }
@@ -416,7 +416,7 @@ public class ArgsParserTest {
     public void formats_inAlphanumeric_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER.addFormats("java js css 7z").build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         List<FileType> expectedFormats = FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("java", "js", "css", "7z"));
         Assertions.assertEquals(expectedFormats, cliArguments.getFormats());
@@ -426,7 +426,7 @@ public class ArgsParserTest {
     public void numCloningThreads_default_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER.build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         int expectedNumThreads = ArgsParser.DEFAULT_NUM_CLONING_THREADS;
         Assertions.assertEquals(expectedNumThreads, cliArguments.getNumCloningThreads());
     }
@@ -438,7 +438,7 @@ public class ArgsParserTest {
                 .build();
         System.out.println(input);
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         int expectedNumThreads = 2;
         Assertions.assertEquals(expectedNumThreads, cliArguments.getNumCloningThreads());
     }
@@ -447,7 +447,7 @@ public class ArgsParserTest {
     public void numAnalysisThreads_default_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER.build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         int expectedNumThreads = ArgsParser.DEFAULT_NUM_ANALYSIS_THREADS;
         Assertions.assertEquals(expectedNumThreads, cliArguments.getNumAnalysisThreads());
     }
@@ -458,7 +458,7 @@ public class ArgsParserTest {
                 .addNumAnalysisThreads(2)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         int expectedNumThreads = 2;
         Assertions.assertEquals(expectedNumThreads, cliArguments.getNumAnalysisThreads());
     }
@@ -527,7 +527,7 @@ public class ArgsParserTest {
     @Test
     public void emptyArgs_defaultConfigFolderPath() throws Exception {
         CliArguments cliArguments = ArgsParser.parse(new String[]{});
-        
+
         Assertions.assertEquals(CONFIG_DIRECTORY.toString(), cliArguments.getConfigFolderPath().toString());
     }
 
@@ -581,7 +581,7 @@ public class ArgsParserTest {
         Path expectedRelativeOutputDirectoryPath = nonExistentDirectory.resolve(ArgsParser.DEFAULT_REPORT_NAME);
         String input = new InputBuilder().addOutput(nonExistentDirectory).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
+
         Assertions.assertTrue(Files.isSameFile(
                 expectedRelativeOutputDirectoryPath, cliArguments.getOutputFilePath()));
     }
@@ -653,21 +653,18 @@ public class ArgsParserTest {
         String input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        
         Assertions.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
 
         zoneId = "UTC-1030";
         input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        
         Assertions.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
 
         zoneId = "UTC";
         input = DEFAULT_INPUT_BUILDER.addTimezone(zoneId).build();
         cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        
         Assertions.assertEquals(ZoneId.of(zoneId), cliArguments.getZoneId());
     }
 
@@ -689,7 +686,6 @@ public class ArgsParserTest {
                 .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        
         Assertions.assertEquals(false, cliArguments.isShallowCloningPerformed());
 
         String inputShallow = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)

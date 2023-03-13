@@ -13,6 +13,9 @@ import reposense.parser.InvalidHeaderException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.system.LogsManager;
 
+/**
+ * Represents RepoSense run configured by CLI.
+ */
 public class CliRunConfiguration implements RunConfiguration {
     private static final Logger logger = LogsManager.getLogger(CliRunConfiguration.class);
 

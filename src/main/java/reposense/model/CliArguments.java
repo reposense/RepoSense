@@ -267,106 +267,213 @@ public class CliArguments {
         public Builder() {
         }
 
+        /**
+         * Adds the {@code outputFilePath} to CliArguments.
+         *
+         * @param outputFilePath The output file path.
+         */
         public Builder outputFilePath(Path outputFilePath) {
             this.outputFilePath = outputFilePath;
             return this;
         }
 
+        /**
+         * Adds the {@code assetsFilePath} to CliArguments.
+         *
+         * @param assetsFilePath The assets file path.
+         */
         public Builder assetsFilePath(Path assetsFilePath) {
             this.assetsFilePath = assetsFilePath;
             return this;
         }
 
+        /**
+         * Adds the {@code sinceDate} to CliArguments.
+         *
+         * @param sinceDate The since date.
+         */
         public Builder sinceDate(LocalDateTime sinceDate) {
             this.sinceDate = sinceDate;
             return this;
         }
 
+        /**
+         * Adds the {@code untilDate} to CliArguments.
+         *
+         * @param untilDate The until date.
+         */
         public Builder untilDate(LocalDateTime untilDate) {
             this.untilDate = untilDate;
             return this;
         }
 
+        /**
+         * Adds the {@code isSinceDateProvided} to CliArguments.
+         *
+         * @param isSinceDateProvided Is the since date provided.
+         */
         public Builder isSinceDateProvided(boolean isSinceDateProvided) {
             this.isSinceDateProvided = isSinceDateProvided;
             return this;
         }
 
+        /**
+         * Adds the {@code isUntilDateProvided} to CliArguments.
+         *
+         * @param isUntilDateProvided Is the until date provided.
+         */
         public Builder isUntilDateProvided(boolean isUntilDateProvided) {
             this.isUntilDateProvided = isUntilDateProvided;
             return this;
         }
 
+        /**
+         * Adds the {@code formats} to CliArguments.
+         *
+         * @param formats The list of {@link FileType}.
+         */
         public Builder formats(List<FileType> formats) {
             this.formats = formats;
             return this;
         }
 
+        /**
+         * Adds the {@code isLastModifiedDateIncluded} to CliArguments.
+         *
+         * @param isLastModifiedDateIncluded Is the last modified date included.
+         */
         public Builder isLastModifiedDateIncluded(boolean isLastModifiedDateIncluded) {
             this.isLastModifiedDateIncluded = isLastModifiedDateIncluded;
             return this;
         }
 
+        /**
+         * Adds the {@code isShallowCloningPerformed} to CliArguments.
+         *
+         * @param isShallowCloningPerformed Is shallow cloning performed.
+         */
         public Builder isShallowCloningPerformed(boolean isShallowCloningPerformed) {
             this.isShallowCloningPerformed = isShallowCloningPerformed;
             return this;
         }
 
+        /**
+         * Adds the {@code isAutomaticallyLaunching} to CliArguments.
+         *
+         * @param isAutomaticallyLaunching Is automatically launching.
+         */
         public Builder isAutomaticallyLaunching(boolean isAutomaticallyLaunching) {
             this.isAutomaticallyLaunching = isAutomaticallyLaunching;
             return this;
         }
 
+        /**
+         * Adds the {@code isStandaloneConfigIgnored} to CliArguments.
+         *
+         * @param isStandaloneConfigIgnored Is standalone config ignored.
+         */
         public Builder isStandaloneConfigIgnored(boolean isStandaloneConfigIgnored) {
             this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
             return this;
         }
 
+        /**
+         * Adds the {@code isFileSizeLimitIgnored} to CliArguments.
+         *
+         * @param isFileSizeLimitIgnored Is file size limit ignored.
+         */
         public Builder isFileSizeLimitIgnored(boolean isFileSizeLimitIgnored) {
             this.isFileSizeLimitIgnored = isFileSizeLimitIgnored;
             return this;
         }
 
+        /**
+         * Adds the {@code numCloningThreads} to CliArguments.
+         *
+         * @param numCloningThreads The number of cloning threads.
+         */
         public Builder numCloningThreads(int numCloningThreads) {
             this.numCloningThreads = numCloningThreads;
             return this;
         }
 
+        /**
+         * Adds the {@code numAnalysisThreads} to CliArguments.
+         *
+         * @param numAnalysisThreads The number of analysis threads.
+         */
         public Builder numAnalysisThreads(int numAnalysisThreads) {
             this.numAnalysisThreads = numAnalysisThreads;
             return this;
         }
 
+        /**
+         * Adds the {@code zoneId} to CliArguments.
+         *
+         * @param zoneId The timezone Id.
+         */
         public Builder zoneId(ZoneId zoneId) {
             this.zoneId = zoneId;
             return this;
         }
 
+        /**
+         * Adds the {@code isFindingPreviousAuthorsPerformed} to CliArguments.
+         *
+         * @param isFindingPreviousAuthorsPerformed Is finding previous authors performed.
+         */
         public Builder isFindingPreviousAuthorsPerformed(boolean isFindingPreviousAuthorsPerformed) {
             this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
             return this;
         }
 
+        /**
+         * Adds the {@code isTestMode} to CliArguments.
+         *
+         * @param isTestMode Is test mode.
+         */
         public Builder isTestMode(boolean isTestMode) {
             this.isTestMode = isTestMode;
             return this;
         }
 
+        /**
+         * Adds the {@code isFreshClonePerformed} to CliArguments.
+         *
+         * @param isFreshClonePerformed Is fresh clone performed.
+         */
         public Builder isFreshClonePerformed(boolean isFreshClonePerformed) {
             this.isFreshClonePerformed = isFreshClonePerformed;
             return this;
         }
 
+        /**
+         * Adds the {@code locations} to CliArguments.
+         *
+         * @param locations The list of locations.
+         */
         public Builder locations(List<String> locations) {
             this.locations = locations;
             return this;
         }
 
+        /**
+         * Adds the {@code reportDirectoryPath} to CliArguments.
+         *
+         * @param reportDirectoryPath The report directory path.
+         */
         public Builder reportDirectoryPath(Path reportDirectoryPath) {
             this.reportDirectoryPath = reportDirectoryPath;
             return this;
         }
 
+        /**
+         * Adds the {@code configFolderPath} to CliArguments. {@code configFolderPath} is utilised to configure the
+         * {@code repoConfigFilePath}, {@code authorConfigFilePath}, {@code groupConfigFilePath} and
+         * {@code reportConfigFilePath}.
+         *
+         * @param configFolderPath The config folder path.
+         */
         public Builder configFolderPath(Path configFolderPath) {
             this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
@@ -378,11 +485,21 @@ public class CliArguments {
             return this;
         }
 
+        /**
+         * Adds the {@code reportConfiguration} to CliArguments.
+         *
+         * @param reportConfiguration The report configuration.
+         */
         public Builder reportConfiguration(ReportConfiguration reportConfiguration) {
             this.reportConfiguration = reportConfiguration;
             return this;
         }
 
+        /**
+         * Builds CliArguments.
+         *
+         * @return CliArguments
+         */
         public CliArguments build() {
             return new CliArguments(this);
         }

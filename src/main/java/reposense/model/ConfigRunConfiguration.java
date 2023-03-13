@@ -9,6 +9,9 @@ import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
 import reposense.system.LogsManager;
 
+/**
+ * Represents RepoSense run configured by config files.
+ */
 public class ConfigRunConfiguration implements RunConfiguration {
     private static final Logger logger = LogsManager.getLogger(ConfigRunConfiguration.class);
 
