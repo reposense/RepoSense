@@ -97,7 +97,8 @@ public class RepoSense {
                 GitConfig.setGlobalGitLfsConfig(GitConfig.SKIP_SMUDGE_CONFIG_SETTINGS);
             }
 
-            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
+            ReportGenerator reportGenerator = new ReportGenerator();
+            List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
