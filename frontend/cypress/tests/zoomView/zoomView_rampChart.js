@@ -154,13 +154,15 @@ describe('show ramp chart for period', () => {
       .click();
 
     // deletes commit ramp should have expected width
-    cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls to getFiltered() (#800)\\" (#832): +0 -9 lines "]')
+    cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls '
+     + 'to getFiltered() (#800)\\" (#832): +0 -9 lines "]')
       .eq(1)
       .should('have.class', 'ramp__slice')
       .should('have.css', 'border-left-width', '1.5px');
 
     // deletes commit ramp should have expected color
-    cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls to getFiltered() (#800)\\" (#832): +0 -9 lines "]')
+    cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls '
+     + 'to getFiltered() (#800)\\" (#832): +0 -9 lines "]')
       .eq(1)
       .should('have.class', 'ramp__slice')
       .should('have.css', 'border-bottom', '48px solid rgba(244, 67, 54, 0.7)');
