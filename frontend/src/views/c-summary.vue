@@ -391,8 +391,8 @@ export default {
       if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
       if (hash.mergegroup) {
         this.$store.commit(
-            'updateMergedGroup',
-            hash.mergegroup.split(window.HASH_DELIMITER),
+          'updateMergedGroup',
+          hash.mergegroup.split(window.HASH_DELIMITER),
         );
       }
       if (hash.since && dateFormatRegex.test(hash.since)) {
@@ -420,9 +420,9 @@ export default {
 
     isMatchSearchedUser(filterSearch, user) {
       return !filterSearch || filterSearch.toLowerCase()
-          .split(' ')
-          .filter(Boolean)
-          .some((param) => user.searchPath.includes(param));
+        .split(' ')
+        .filter(Boolean)
+        .some((param) => user.searchPath.includes(param));
     },
 
     toggleBreakdown() {
@@ -581,8 +581,8 @@ export default {
 
     processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
-          '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
-          '#000075', '#808080'];
+        '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
+        '#000075', '#808080'];
       const fileTypeColors = {};
       let i = 0;
 
@@ -704,24 +704,30 @@ export default {
     },
 
     filterCommitByCheckedFileTypes(commit) {
-      const filteredCommitResults = commit.commitResults.map((result) => {
+      let commitResults = commit.commitResults.map((result) => {
         const filteredFileTypes = this.getFilteredFileTypes(result);
         this.updateCommitResultWithFileTypes(result, filteredFileTypes);
         return result;
-      }).filter((result) => Object.values(result.fileTypesAndContributionMap).length > 0);
+      });
 
-      commit.insertions = filteredCommitResults.reduce((acc, result) => acc + result.insertions, 0);
-      commit.deletions = filteredCommitResults.reduce((acc, result) => acc + result.deletions, 0);
-      commit.commitResults = filteredCommitResults;
+      if (!this.checkAllFileTypes) {
+        commitResults = commitResults.filter(
+          (result) => Object.values(result.fileTypesAndContributionMap).length > 0,
+        );
+      }
+
+      commit.insertions = commitResults.reduce((acc, result) => acc + result.insertions, 0);
+      commit.deletions = commitResults.reduce((acc, result) => acc + result.deletions, 0);
+      commit.commitResults = commitResults;
     },
 
     getFilteredFileTypes(commitResult) {
       return Object.keys(commitResult.fileTypesAndContributionMap)
-          .filter(this.isFileTypeChecked)
-          .reduce((obj, fileType) => {
-            obj[fileType] = commitResult.fileTypesAndContributionMap[fileType];
-            return obj;
-          }, {});
+        .filter(this.isFileTypeChecked)
+        .reduce((obj, fileType) => {
+          obj[fileType] = commitResult.fileTypesAndContributionMap[fileType];
+          return obj;
+        }, {});
     },
 
     isFileTypeChecked(fileType) {
@@ -733,9 +739,9 @@ export default {
 
     updateCommitResultWithFileTypes(commitResult, filteredFileTypes) {
       commitResult.insertions = Object.values(filteredFileTypes)
-          .reduce((acc, fileType) => acc + fileType.insertions, 0);
+        .reduce((acc, fileType) => acc + fileType.insertions, 0);
       commitResult.deletions = Object.values(filteredFileTypes)
-          .reduce((acc, fileType) => acc + fileType.deletions, 0);
+        .reduce((acc, fileType) => acc + fileType.deletions, 0);
       commitResult.fileTypesAndContributionMap = filteredFileTypes;
     },
 

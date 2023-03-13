@@ -47,7 +47,7 @@ public class FileInfoAnalyzer {
      * Returns null if the file is missing from the local system, or none of the
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public static FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
+    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
@@ -77,7 +77,7 @@ public class FileInfoAnalyzer {
      * Returns null if the file is missing from the local system, or none of the
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public static FileResult analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
+    public FileResult analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
@@ -93,7 +93,7 @@ public class FileInfoAnalyzer {
     /**
      * Generates and returns a {@link FileResult} with the authorship results from {@code fileInfo} consolidated.
      */
-    private static FileResult generateTextFileResult(FileInfo fileInfo) {
+    private FileResult generateTextFileResult(FileInfo fileInfo) {
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
         for (LineInfo line : fileInfo.getLines()) {
             Author author = line.getAuthor();
@@ -111,7 +111,7 @@ public class FileInfoAnalyzer {
      * Returns {@code null} if none of the {@link Author} specified in {@code config} contributed to the file in
      * {@code fileInfo}.
      */
-    private static FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
+    private FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
         List<String[]> authorsString = GitLog.getFileAuthors(config, fileInfo.getPath());
         if (authorsString.size() == 0) {
             return null;
@@ -140,7 +140,7 @@ public class FileInfoAnalyzer {
      * in determining which author to assign to each line and whether to set the last modified date for a
      * {@code lineInfo}.
      */
-    private static void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo) {
+    private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo) {
         String blameResults;
 
         if (!config.isFindingPreviousAuthorsPerformed()) {
@@ -186,7 +186,7 @@ public class FileInfoAnalyzer {
      * Returns the analysis result from running git blame on {@code filePath} with reference to the root directory
      * given in {@code config}.
      */
-    private static String getGitBlameResult(RepoConfiguration config, String filePath) {
+    private String getGitBlameResult(RepoConfiguration config, String filePath) {
         return GitBlame.blame(config.getRepoRoot(), filePath);
     }
 
@@ -194,7 +194,7 @@ public class FileInfoAnalyzer {
      * Returns the analysis result from running git blame with finding previous authors enabled on {@code filePath}
      * with reference to the root directory given in {@code config}.
      */
-    private static String getGitBlameWithPreviousAuthorsResult(RepoConfiguration config, String filePath) {
+    private String getGitBlameWithPreviousAuthorsResult(RepoConfiguration config, String filePath) {
         return GitBlame.blameWithPreviousAuthors(config.getRepoRoot(), filePath);
     }
 }

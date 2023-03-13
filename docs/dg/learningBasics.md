@@ -31,7 +31,7 @@ The backend implementation of RepoSense is located in `src/main`.
 
 {{ step(1) }} **Know Java**
 
-The RepoSense backend is mostly written in `Java 8`. 
+The RepoSense backend is mostly written in `Java 8`.
 
 1. You need to have a basic knowledge of Java before getting started, including its syntax, [API](https://docs.oracle.com/javase/8/docs/api/), and certain frameworks such as [JUnit](https://se-education.org/learningresources/contents/java/JUnit.html).
 1. Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as [concurrency](https://se-education.org/learningresources/contents/java/JavaConcurrency.html), [synchronization](https://se-education.org/learningresources/contents/java/JavaSynchronization.html), and [streams](https://se-education.org/learningresources/contents/java/streams-an-introduction.html). These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc.). They are optional but you may find them useful when working on certain issues.
@@ -98,7 +98,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 2">
 
-  After the step in hint 1, the argument is captured by `ArgumentParser`. Now make corresponding changes to `CliArguments.java`, `ConfigCliArguments.java`, and the `parse` method in `ArgsParser.java` to make the return result of `parse` include the new argument. 
+  After the step in hint 1, the argument is captured by `ArgumentParser`. Now make corresponding changes to `CliArguments.java`, `ConfigCliArguments.java`, and the `parse` method in `ArgsParser.java` to make the return result of `parse` include the new argument.
 
   1. Add the following content to `CliArguments` to include `isPrettyPrintingUsed` as a new attribute to the class.
 
@@ -120,21 +120,21 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   ```
   boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
-  ``` 
+  ```
 
   4. Additionally, change the return statement of the `parse` method so that the `ConfigCliArguments` object returned will now include `isJsonPrettyPrintingUsed`.
   </panel>
 
   <panel header="Hint 3">
 
-  After the steps in hint 1 and hint 2, the result returned from `ArgsParser.parse(args)` in `RepoSense.java` should be able to capture the new argument when it is specified in the command. 
+  After the steps in hint 1 and hint 2, the result returned from `ArgsParser.parse(args)` in `RepoSense.java` should be able to capture the new argument when it is specified in the command.
 
   The next step is to extract the argument from the `CliArguments` object, and pass it to JSON file writer to notify it of the specified printing mode.
 
   Note that the creation and writing of JSON file is invoked in `ReportGenerator.generateReposReport`, which calls `FileUtil.writeJsonFile` directly to write the `summary.json` file or indirectly (Check `generateIndividualRepoReport` and `generateEmptyRepoReport`) to write the `commits.json` or `authorship.json` files of individual repositories.
 
   Therefore, the task now is to make `FileUtil.writeJsonFile` switch between different printing mode.
- 
+
   1. You can find out what [`Gson.setPrettyPrinting`](https://www.javadoc.io/doc/com.google.code.gson/gson/2.8.5/com/google/gson/GsonBuilder.html#setPrettyPrinting--) does and how it can be used in the `writeJsonFile` method of [`FileUtil.java`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/util/FileUtil.java).
 
   2. Add the following content to `FileUtil`.
@@ -178,7 +178,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   <panel header="Suggested solution">
 
   There is more than 1 way to achieve this. By combining the changes in hint 1, hint 2, and hint 3, you should be able to get a possible solution.
-  
+
   Try the command `java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --view --use-json-pretty-printing` and check the generated JSON files to see if it works.
   </panel>
 
@@ -207,25 +207,25 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 2">
 
-  Try to understand the cloning process. 
+  Try to understand the cloning process.
 
-  * The cloning process is invoked by [`RepoGenerator.java`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java) in the `cloneAndAnalyzeRepos` method, which subsequently calls `cloneBare` in `RepoCloner.java` to start the cloning. 
-  * The `cloneAndAnalyzeRepos` method will then call `getRepoLocation`  in `RepoCloner.java` to try to get the repository location. 
+  * The cloning process is invoked by [`RepoGenerator.java`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/report/ReportGenerator.java) in the `cloneAndAnalyzeRepos` method, which subsequently calls `cloneBare` in `RepoCloner.java` to start the cloning.
+  * The `cloneAndAnalyzeRepos` method will then call `getRepoLocation`  in `RepoCloner.java` to try to get the repository location.
   * Beneath the surface, `RepoCloner` will first execute `spawnCloneProcess` and then execute `waitForCloneProcess` when it is invoked by `RepoGenerator` for the first and second time respectively.
   </panel>
 
   <panel header="Hint 3">
 
-  In `RepoCloner`, the potential exceptions in `spawnCloneProcess` and `waitForCloneProcess` are caught but not recorded by `ErrorSummary`. 
+  In `RepoCloner`, the potential exceptions in `spawnCloneProcess` and `waitForCloneProcess` are caught but not recorded by `ErrorSummary`.
   </panel>
 
   <panel header="Suggested solution">
 
   There is more than 1 way to achieve this. One solution is shown as the following:
-  
+
   Add this to the catch block of `spawnCloneProcess` and `waitForCloneProcess`, so that the message will be captured in `summary.json`.
-  
-  ``` 
+
+  ```
   ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), e.getMessage());
   ```
   </panel>
@@ -254,7 +254,7 @@ The frontend implementation of RepoSense is located in `frontend/src`.
 
 {{ step(1) }} **Learn the necessary tools**
 
-It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before working on the project. 
+It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before working on the project.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -410,8 +410,8 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   <panel header="Suggested solution">
 
   There is more than 1 way to achieve this. One solution is shown as the following:
-  
-  1. In `c-authorship.vue`, locate the section that iterates through each file in `selectedFiles`. 
+
+  1. In `c-authorship.vue`, locate the section that iterates through each file in `selectedFiles`.
   2. There is a specific portion of the section that renders the toggle icon, the file index, and the file path of the file title.
   3. Try to locate the `span` tag that renders `file.path`, and wraps it inside a new `tooptip`.
   4. In the `tooltip`, use the following instructions to handle the switch of tooltip message.
@@ -459,7 +459,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   <panel header="Suggested solution">
 
   There is more than 1 way to achieve this. One solution is shown as the following:
-  
+
   1. In `c-zoom.vue`, locate the section that iterates through each `day` in `selectedCommits`.
   2. The component that helps render the commit message title should be an `a` tag which uses the `getSliceLink` method to set the link to the commit details and uses `slice.messageTitle` to show the commit message title.
   3. Wrap the `a` tag in a new `tooltip`.

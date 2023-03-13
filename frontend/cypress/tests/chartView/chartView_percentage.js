@@ -1,94 +1,94 @@
 describe('sort by contribution', () => {
   it('percentage should only be displayed when sort by contribution', () => {
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist');
+      .should('not.exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
-        .select('↑ contribution');
+      .select('↑ contribution');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('exist');
+      .should('exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
-        .select('↓ group title');
+      .select('↓ group title');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist');
+      .should('not.exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
-        .select('↓ contribution');
+      .select('↓ contribution');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('exist');
+      .should('exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
-        .select('↑ variance');
+      .select('↑ variance');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist');
+      .should('not.exist');
 
     cy.get('div.mui-select.sort-group > select:visible')
-        .select('↓ variance');
+      .select('↓ variance');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist');
+      .should('not.exist');
   });
 
   it('percentage is NOT shown even after changing other fields', () => {
     cy.get('div.mui-select.grouping > select:visible')
-        .select('None');
+      .select('None');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist');
+      .should('not.exist');
 
     cy.get('div.mui-select.grouping > select:visible')
-        .select('Author');
+      .select('Author');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist');
+      .should('not.exist');
 
     cy.get('div.mui-select.sort-within-group > select:visible')
-        .select('↓ contribution');
+      .select('↓ contribution');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist');
+      .should('not.exist');
 
     cy.get('div.mui-select.sort-within-group > select:visible')
-        .select('↑ variance');
+      .select('↑ variance');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('not.exist');
+      .should('not.exist');
   });
 
   it('percentage is NOT hidden even after changing other fields', () => {
     cy.get('div.mui-select.sort-group > select:visible')
-        .select('↓ contribution');
+      .select('↓ contribution');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('exist');
+      .should('exist');
 
     cy.get('div.mui-select.grouping > select:visible')
-        .select('None');
+      .select('None');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('exist');
+      .should('exist');
 
     cy.get('div.mui-select.grouping > select:visible')
-        .select('Author');
+      .select('Author');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('exist');
+      .should('exist');
 
     cy.get('div.mui-select.sort-within-group > select:visible')
-        .select('↑ contribution');
+      .select('↑ contribution');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('exist');
+      .should('exist');
 
     cy.get('div.mui-select.sort-within-group > select:visible')
-        .select('↓ title');
+      .select('↓ title');
 
     cy.get('#summary .summary-chart__title--percentile')
-        .should('exist');
+      .should('exist');
   });
 });

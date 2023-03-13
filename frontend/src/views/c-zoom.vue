@@ -22,7 +22,7 @@
         v-bind:title="'Click to open the repo'"
       )
         span {{ filteredUser.repoName }}
-    .author(v-if="!info.zIsMerge")
+    .author(v-if="!info.zIsMerged")
       span &#8627; &nbsp;
       span(v-if="info.zFilterGroup === 'groupByAuthors'") {{ filteredUser.repoName }}
       span(v-else) {{ filteredUser.displayName }} ({{ filteredUser.name }})
@@ -93,12 +93,15 @@
       v-bind:key="slice.hash",
       v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
     )
+      span.code-merge-icon(v-if="slice.isMergeCommit")
+        font-awesome-icon(icon="code-merge")
+        span &nbsp;
       a.message-title(v-bind:href="getSliceLink(slice)",
         v-bind:class="!isBrokenLink(getSliceLink(slice)) ? '' : 'broken-link'", target="_blank")
         .within-border {{ slice.messageTitle.substr(0, 50) }}
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
-      span &nbsp; ({{ slice.insertions }} lines) &nbsp;
+      span &nbsp; (+{{ slice.insertions }} -{{ slice.deletions }} lines) &nbsp;
       .hash
         span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
@@ -134,9 +137,9 @@
 <script>
 import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from '../components/c-ramp.vue';
-import User from '../utils/user.ts';
+import User from '../utils/user';
 
 const getFontColor = window.getFontColor;
 
@@ -181,19 +184,23 @@ export default {
 
       const date = zTimeFrame === 'week' ? 'endDate' : 'date';
       filteredUser.commits = zUser.commits.filter(
-          (commit) => commit[date] >= zSince && commit[date] <= zUntil,
+        (commit) => commit[date] >= zSince && commit[date] <= zUntil,
       ).sort(this.sortingFunction);
 
       return new User(filteredUser);
     },
     selectedCommits() {
+      if (this.isSelectAllChecked) {
+        return this.filteredUser.commits;
+      }
+
       const commits = [];
       this.filteredUser.commits.forEach((commit) => {
         const filteredCommit = { ...commit };
         filteredCommit.commitResults = [];
         commit.commitResults.forEach((slice) => {
           if (Object.keys(slice.fileTypesAndContributionMap).some(
-              (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
+            (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
           )) {
             filteredCommit.commitResults.push(slice);
           }
@@ -299,7 +306,7 @@ export default {
         });
       });
       this.fileTypes = Object.keys(this.filteredUser.fileTypeContribution).filter(
-          (fileType) => commitsFileTypes.has(fileType),
+        (fileType) => commitsFileTypes.has(fileType),
       );
     },
 
@@ -323,8 +330,8 @@ export default {
 
       if (hash.zFT) {
         this.selectedFileTypes = hash.zFT
-            .split(window.HASH_DELIMITER)
-            .filter((fileType) => this.fileTypes.includes(fileType));
+          .split(window.HASH_DELIMITER)
+          .filter((fileType) => this.fileTypes.includes(fileType));
       }
     },
 
@@ -474,6 +481,14 @@ export default {
             width: 72ch;
           }
         }
+      }
+    }
+
+    .code-merge-icon {
+      color: mui-color('grey');
+
+      .fa-code-merge {
+        width: .65rem;
       }
     }
 

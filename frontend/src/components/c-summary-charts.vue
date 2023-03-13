@@ -184,7 +184,7 @@
 <script>
 import { mapState } from 'vuex';
 
-import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from './c-ramp.vue';
 
 export default {
@@ -298,34 +298,34 @@ export default {
       const allFileTypesContributionBars = {};
 
       Object.keys(fileTypeContribution)
-          .filter((fileType) => this.checkedFileTypes.includes(fileType))
-          .forEach((fileType) => {
-            const contribution = fileTypeContribution[fileType];
-            let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
-            const contributionBars = [];
+        .filter((fileType) => this.checkedFileTypes.includes(fileType))
+        .forEach((fileType) => {
+          const contribution = fileTypeContribution[fileType];
+          let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
+          const contributionBars = [];
 
-            // if contribution bar for file type is able to fit on the current line
-            if (currentBarWidth + barWidth < fullBarWidth) {
-              contributionBars.push(barWidth);
-              currentBarWidth += barWidth;
-            } else {
-              // take up all the space left on the current line
-              contributionBars.push(fullBarWidth - currentBarWidth);
-              barWidth -= fullBarWidth - currentBarWidth;
-              // additional bar width will start on a new line
-              const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-              for (let i = 0; i < numOfFullBars; i += 1) {
-                contributionBars.push(fullBarWidth);
-              }
-              const remainingBarWidth = barWidth % fullBarWidth;
-              if (remainingBarWidth !== 0) {
-                contributionBars.push(remainingBarWidth);
-              }
-              currentBarWidth = remainingBarWidth;
+          // if contribution bar for file type is able to fit on the current line
+          if (currentBarWidth + barWidth < fullBarWidth) {
+            contributionBars.push(barWidth);
+            currentBarWidth += barWidth;
+          } else {
+            // take up all the space left on the current line
+            contributionBars.push(fullBarWidth - currentBarWidth);
+            barWidth -= fullBarWidth - currentBarWidth;
+            // additional bar width will start on a new line
+            const numOfFullBars = Math.floor(barWidth / fullBarWidth);
+            for (let i = 0; i < numOfFullBars; i += 1) {
+              contributionBars.push(fullBarWidth);
             }
+            const remainingBarWidth = barWidth % fullBarWidth;
+            if (remainingBarWidth !== 0) {
+              contributionBars.push(remainingBarWidth);
+            }
+            currentBarWidth = remainingBarWidth;
+          }
 
-            allFileTypesContributionBars[fileType] = contributionBars;
-          });
+          allFileTypesContributionBars[fileType] = contributionBars;
+        });
 
       return allFileTypesContributionBars;
     },
