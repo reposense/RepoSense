@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public class ErrorSummary {
     private static ErrorSummary instance = null;
-    private static Set<Map<String, String>> errorSet = new HashSet<>();
+    private Set<Map<String, String>> errorSet = new HashSet<>();
 
     public static ErrorSummary getInstance() {
         if (instance == null) {
@@ -34,12 +34,5 @@ public class ErrorSummary {
      */
     public Set<Map<String, String>> getErrorSet() {
         return errorSet;
-    }
-
-    /**
-     * Clears all previously stored set of errors in {@link ErrorSummary#errorSet}.
-     */
-    public void clearErrorSet() {
-        errorSet.clear();
     }
 }

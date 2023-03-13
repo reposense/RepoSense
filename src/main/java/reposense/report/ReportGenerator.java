@@ -91,6 +91,11 @@ public class ReportGenerator {
 
     private LocalDateTime earliestSinceDate = null;
     private ProgressTracker progressTracker = null;
+    private ErrorSummary errorSummary;
+
+    public ReportGenerator(ErrorSummary errorSummary) {
+        this.errorSummary = errorSummary;
+    }
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -135,7 +140,7 @@ public class ReportGenerator {
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
                         reportSinceDate, untilDate, isSinceDateProvided,
-                        isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
+                        isUntilDateProvided, RepoSense.getVersion(), errorSummary.getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
@@ -456,7 +461,7 @@ public class ReportGenerator {
         while (itr.hasNext()) {
             RepoConfiguration config = itr.next();
             if (failedConfigs.contains(config)) {
-                ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), errorMessage);
+                errorSummary.addErrorMessage(config.getDisplayName(), errorMessage);
                 itr.remove();
             }
         }

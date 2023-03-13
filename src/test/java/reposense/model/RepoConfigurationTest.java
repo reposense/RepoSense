@@ -19,6 +19,7 @@ import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.report.ErrorSummary;
 import reposense.report.ReportGenerator;
 import reposense.util.InputBuilder;
 import reposense.util.TestRepoCloner;
@@ -45,18 +46,18 @@ public class RepoConfigurationTest {
             "RepoConfigurationTest/repoconfig_ignoreFileSizeLimit_test");
     private static final Path IGNORE_FILESIZE_LIMIT_OVERRIDE_CSV_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
-            "RepoConfigurationTest/repoconfig_ignoreFileSizeLimitOverrideCsv_test");
+                    "RepoConfigurationTest/repoconfig_ignoreFileSizeLimitOverrideCsv_test");
     private static final Path SHALLOW_CLONING_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class, "RepoConfigurationTest/repoconfig_shallowCloning_test");
     private static final Path SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
-            "RepoConfigurationTest/repoconfig_shallowCloningOverrideCsv_test");
+                    "RepoConfigurationTest/repoconfig_shallowCloningOverrideCsv_test");
     private static final Path FIND_PREVIOUS_AUTHORS_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
-            "RepoConfigurationTest/repoconfig_findPreviousAuthors_test");
+                    "RepoConfigurationTest/repoconfig_findPreviousAuthors_test");
     private static final Path FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
-            "RepoConfigurationTest/repoconfig_findPreviousAuthorsOverrideCsv_test");
+                    "RepoConfigurationTest/repoconfig_findPreviousAuthorsOverrideCsv_test");
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
@@ -91,7 +92,9 @@ public class RepoConfigurationTest {
     private static final List<String> CLI_FORMATS = Arrays.asList("css", "html");
 
     private static RepoConfiguration repoDeltaStandaloneConfig;
-    private ReportGenerator reportGenerator = new ReportGenerator();
+    private ErrorSummary errorSummary = new ErrorSummary();
+    private ReportGenerator reportGenerator = new ReportGenerator(errorSummary);
+
 
     @BeforeAll
     public static void setUp() throws Exception {
@@ -161,9 +164,11 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         List<AuthorConfiguration> authorConfigs =
-                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
@@ -185,7 +190,8 @@ public class RepoConfigurationTest {
                 .addIgnoreStandaloneConfig()
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments,
+                errorSummary);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
                 cliArguments.isStandaloneConfigIgnored());
@@ -212,7 +218,8 @@ public class RepoConfigurationTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
                 cliArguments.isStandaloneConfigIgnored());
 
@@ -241,7 +248,8 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
@@ -268,7 +276,8 @@ public class RepoConfigurationTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
         RepoConfiguration.setFileSizeLimitIgnoredToRepoConfigs(actualConfigs,
                 cliArguments.isFileSizeLimitIgnored());
@@ -293,7 +302,8 @@ public class RepoConfigurationTest {
         String input = new InputBuilder().addConfig(IGNORE_STANDALONE_FLAG_OVERRIDE_CSV_TEST).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs,
                 cliArguments.isStandaloneConfigIgnored());
 
@@ -316,7 +326,8 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
@@ -340,7 +351,8 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
@@ -363,7 +375,8 @@ public class RepoConfigurationTest {
                 .addShallowCloning()
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments,
+                errorSummary);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
         RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(actualConfigs,
@@ -393,7 +406,8 @@ public class RepoConfigurationTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
         RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(actualConfigs,
                 cliArguments.isShallowCloningPerformed());
@@ -422,7 +436,8 @@ public class RepoConfigurationTest {
         String input = new InputBuilder().addConfig(SHALLOW_CLONING_FLAG_OVERRIDE_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
         RepoConfiguration.setIsShallowCloningPerformedToRepoConfigs(actualConfigs,
                 cliArguments.isShallowCloningPerformed());
@@ -452,7 +467,8 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
@@ -475,7 +491,8 @@ public class RepoConfigurationTest {
                 .addFindPreviousAuthors()
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments);
+        List<RepoConfiguration> actualConfigs = RepoSense.getRepoConfigurations((LocationsCliArguments) cliArguments,
+                errorSummary);
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
         RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
@@ -505,7 +522,8 @@ public class RepoConfigurationTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
         RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
                 cliArguments.isFindingPreviousAuthorsPerformed());
@@ -534,7 +552,8 @@ public class RepoConfigurationTest {
         String input = new InputBuilder().addConfig(FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
         RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
                 cliArguments.isFindingPreviousAuthorsPerformed());
@@ -563,7 +582,8 @@ public class RepoConfigurationTest {
         String input = new InputBuilder().addConfig(FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setStandaloneConfigIgnoredToRepoConfigs(actualConfigs, true);
         RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
                 cliArguments.isFindingPreviousAuthorsPerformed());
@@ -590,7 +610,8 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assertions.assertEquals(1, actualConfigs.size());
@@ -606,7 +627,8 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assertions.assertEquals(1, actualConfigs.size());
@@ -621,9 +643,11 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         List<GroupConfiguration> groupConfigs =
-                new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath()).parse();
+                new GroupConfigCsvParser(((ConfigCliArguments) cliArguments).getGroupConfigFilePath(),
+                        errorSummary).parse();
 
         RepoConfiguration.setGroupConfigsToRepos(actualConfigs, groupConfigs);
 
@@ -638,7 +662,8 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.setFormatsToRepoConfigs(actualConfigs, cliArguments.getFormats());
 
         Assertions.assertEquals(1, actualConfigs.size());
@@ -697,7 +722,8 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
 
         RepoConfiguration actualConfig = actualConfigs.get(0);
         TestRepoCloner.cloneAndBranch(actualConfig);
@@ -752,9 +778,11 @@ public class RepoConfigurationTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         List<AuthorConfiguration> authorConfigs =
-                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         RepoConfiguration actualConfig = actualConfigs.get(0);

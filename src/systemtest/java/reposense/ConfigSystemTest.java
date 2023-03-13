@@ -19,7 +19,6 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import reposense.git.GitVersion;
 import reposense.model.SupportedDomainUrlMap;
 import reposense.parser.SinceDateArgumentType;
-import reposense.report.ErrorSummary;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
@@ -82,7 +81,6 @@ public class ConfigSystemTest {
     @BeforeEach
     public void setUp() throws Exception {
         SupportedDomainUrlMap.clearAccessedSet();
-        ErrorSummary.getInstance().clearErrorSet();
     }
 
     @AfterAll

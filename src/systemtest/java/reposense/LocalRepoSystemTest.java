@@ -49,7 +49,6 @@ public class LocalRepoSystemTest {
     public void setupLocalTest() throws Exception {
         SupportedDomainUrlMap.clearAccessedSet();
         FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
-        ErrorSummary.getInstance().clearErrorSet();
     }
 
     @AfterEach
@@ -70,7 +69,9 @@ public class LocalRepoSystemTest {
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate(LAST_COMMIT_DATE)
                 .addOutput(Paths.get(OUTPUT_DIRECTORY))
-                .addTimezone(TIME_ZONE);
+                .addTimezone(TIME_ZONE)
+                .addTestMode()
+                .addClonedRepoParentFolder("localtest1");
         runTest(inputBuilder, "LocalRepoSystemTest/testSameFinalDirectory");
     }
 
@@ -83,7 +84,9 @@ public class LocalRepoSystemTest {
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate(LAST_COMMIT_DATE)
                 .addOutput(Paths.get(OUTPUT_DIRECTORY))
-                .addTimezone(TIME_ZONE);
+                .addTimezone(TIME_ZONE)
+                .addTestMode()
+                .addClonedRepoParentFolder("localtest2");;
 
         runTest(inputBuilder, "LocalRepoSystemTest/testRelativePathing");
     }

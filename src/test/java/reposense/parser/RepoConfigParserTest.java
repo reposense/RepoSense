@@ -20,6 +20,7 @@ import reposense.model.ConfigCliArguments;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.report.ErrorSummary;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
 
@@ -35,13 +36,13 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
     private static final Path REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE =
             loadResource(RepoConfigParserTest.class,
-            "RepoConfigParserTest/repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv");
+                    "RepoConfigParserTest/repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv");
     private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE =
             loadResource(RepoConfigParserTest.class,
-            "RepoConfigParserTest/repoconfig_duplicateHeadersCaseSensitive_test.csv");
+                    "RepoConfigParserTest/repoconfig_duplicateHeadersCaseSensitive_test.csv");
     private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE =
             loadResource(RepoConfigParserTest.class,
-            "RepoConfigParserTest/repoconfig_duplicateHeadersCaseInsensitive_test.csv");
+                    "RepoConfigParserTest/repoconfig_duplicateHeadersCaseInsensitive_test.csv");
     private static final Path REPO_CONFIG_DIFFERENT_COLUMN_ORDER_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_differentColumnOrder_test.csv");
     private static final Path REPO_CONFIG_OPTIONAL_HEADER_MISSING_FILE = loadResource(RepoConfigParserTest.class,
@@ -85,10 +86,13 @@ public class RepoConfigParserTest {
     private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("**.java", "collated**");
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("**.doc", "collated**");
+    private ErrorSummary errorSummary = new ErrorSummary();
+
 
     @Test
     public void repoConfig_noSpecialCharacter_success() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_NO_SPECIAL_CHARACTER_FILE,
+                errorSummary);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertEquals(1, configs.size());
@@ -145,9 +149,11 @@ public class RepoConfigParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         List<AuthorConfiguration> authorConfigs =
-                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         Assertions.assertEquals(2, actualConfigs.size());
@@ -192,9 +198,11 @@ public class RepoConfigParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         List<AuthorConfiguration> authorConfigs =
-                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         Assertions.assertEquals(2, actualConfigs.size());
@@ -213,9 +221,11 @@ public class RepoConfigParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath()).parse();
+                new RepoConfigCsvParser(((ConfigCliArguments) cliArguments).getRepoConfigFilePath(),
+                        errorSummary).parse();
         List<AuthorConfiguration> authorConfigs =
-                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath()).parse();
+                new AuthorConfigCsvParser(((ConfigCliArguments) cliArguments).getAuthorConfigFilePath(),
+                        errorSummary).parse();
         RepoConfiguration.merge(actualConfigs, authorConfigs);
 
         Assertions.assertEquals(1, actualConfigs.size());
@@ -225,7 +235,8 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoConfig_overrideKeyword_success() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_KEYWORD_FILE);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_KEYWORD_FILE,
+                errorSummary);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
         RepoConfiguration config = configs.get(0);
 
@@ -246,7 +257,8 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoConfig_redundantLines_success() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_REDUNDANT_LINES_FILE);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_REDUNDANT_LINES_FILE,
+                errorSummary);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertEquals(3, configs.size());
@@ -265,7 +277,8 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoConfig_differentColumnOrder_success() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_DIFFERENT_COLUMN_ORDER_FILE);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_DIFFERENT_COLUMN_ORDER_FILE,
+                errorSummary);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertEquals(1, configs.size());
@@ -289,7 +302,8 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoConfig_missingOptionalHeader_success() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OPTIONAL_HEADER_MISSING_FILE);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OPTIONAL_HEADER_MISSING_FILE,
+                errorSummary);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertEquals(1, configs.size());
@@ -313,7 +327,8 @@ public class RepoConfigParserTest {
     @Test
     public void repoConfig_withUnrecognizedValuesForYesKeywordHeaders_valuesIgnored() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
-                new RepoConfigCsvParser(REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE);
+                new RepoConfigCsvParser(REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE,
+                        errorSummary);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertFalse(configs.get(0).isStandaloneConfigIgnored());
@@ -326,7 +341,7 @@ public class RepoConfigParserTest {
     @Test
     public void repoConfig_invalidFileSizeLimit_valueIgnored() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
-                new RepoConfigCsvParser(REPO_CONFIG_INVALID_FILE_SIZE_LIMIT);
+                new RepoConfigCsvParser(REPO_CONFIG_INVALID_FILE_SIZE_LIMIT, errorSummary);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertEquals(configs.get(0).getFileSizeLimit(), DEFAULT_FILE_SIZE_LIMIT);
@@ -336,7 +351,7 @@ public class RepoConfigParserTest {
     @Test
     public void repoConfig_ignoreFileSizeLimit_ignoreFileSizeColumns() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
-                new RepoConfigCsvParser(REPO_CONFIG_IGNORE_FILE_SIZE_LIMIT);
+                new RepoConfigCsvParser(REPO_CONFIG_IGNORE_FILE_SIZE_LIMIT, errorSummary);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertTrue(configs.get(0).isFileSizeLimitIgnored());
@@ -346,34 +361,36 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoConfig_mandatoryHeaderMissing_throwsInvalidCsvException() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_MANDATORY_HEADER_MISSING_FILE);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_MANDATORY_HEADER_MISSING_FILE,
+                errorSummary);
         Assertions.assertThrows(InvalidCsvException.class, () -> repoConfigCsvParser.parse());
     }
 
     @Test
     public void repoConfig_zeroValidRecords_throwsInvalidCsvException() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_ZERO_VALID_RECORDS);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_ZERO_VALID_RECORDS,
+                errorSummary);
         Assertions.assertThrows(InvalidCsvException.class, () -> repoConfigCsvParser.parse());
     }
 
     @Test
     public void repoConfig_duplicateHeadersCaseSensitive_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
-                new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE);
+                new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE, errorSummary);
         Assertions.assertThrows(InvalidCsvException.class, () -> repoConfigCsvParser.parse());
     }
 
     @Test
     public void repoConfig_duplicateHeadersCaseInsensitive_throwsInvalidCsvException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
-                new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE);
+                new RepoConfigCsvParser(REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE, errorSummary);
         Assertions.assertThrows(InvalidCsvException.class, () -> repoConfigCsvParser.parse());
     }
 
     @Test
     public void repoConfig_unknownHeaders_throwsInvalidHeaderException() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser =
-                new RepoConfigCsvParser(REPO_CONFIG_UNKNOWN_HEADER_FILE);
+                new RepoConfigCsvParser(REPO_CONFIG_UNKNOWN_HEADER_FILE, errorSummary);
         Assertions.assertThrows(InvalidHeaderException.class, () -> repoConfigCsvParser.parse());
     }
 }

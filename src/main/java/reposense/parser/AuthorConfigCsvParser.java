@@ -10,6 +10,7 @@ import org.apache.commons.csv.CSVRecord;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.RepoLocation;
+import reposense.report.ErrorSummary;
 
 /**
  * Container for the values parsed from {@code author-config.csv} file.
@@ -28,8 +29,8 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
     private static final String[] ALIAS_HEADER = {"Author's Git Author Name"};
     private static final String[] IGNORE_GLOB_LIST_HEADER = {"Ignore Glob List"};
 
-    public AuthorConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
-        super(csvFilePath);
+    public AuthorConfigCsvParser(Path csvFilePath, ErrorSummary errorSummary) throws FileNotFoundException {
+        super(csvFilePath, errorSummary);
     }
 
     /**
@@ -98,18 +99,23 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
-    private static AuthorConfiguration findMatchingAuthorConfiguration(List<AuthorConfiguration> results,
+    private AuthorConfiguration findMatchingAuthorConfiguration(List<AuthorConfiguration> results,
             String location, String branch) throws InvalidLocationException {
-        AuthorConfiguration config = new AuthorConfiguration(new RepoLocation(location), branch);
+        try {
+            AuthorConfiguration config = new AuthorConfiguration(new RepoLocation(location), branch);
 
-        for (AuthorConfiguration authorConfig : results) {
-            if (authorConfig.getLocation().equals(config.getLocation())
-                    && authorConfig.getBranch().equals(config.getBranch())) {
-                return authorConfig;
+            for (AuthorConfiguration authorConfig : results) {
+                if (authorConfig.getLocation().equals(config.getLocation())
+                        && authorConfig.getBranch().equals(config.getBranch())) {
+                    return authorConfig;
+                }
             }
-        }
 
-        results.add(config);
-        return config;
+            results.add(config);
+            return config;
+        } catch (InvalidLocationException ile) {
+            errorSummary.addErrorMessage(location, ile.getMessage());
+            throw ile;
+        }
     }
 }

@@ -9,6 +9,7 @@ import org.apache.commons.csv.CSVRecord;
 import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
+import reposense.report.ErrorSummary;
 
 /**
  * Container for the values parsed from {@code group-config.csv} file.
@@ -23,8 +24,8 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
     private static final String[] GROUP_NAME_HEADER = {"Group Name"};
     private static final String[] FILES_GLOB_HEADER = {"Globs"};
 
-    public GroupConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
-        super(csvFilePath);
+    public GroupConfigCsvParser(Path csvFilePath, ErrorSummary errorSummary) throws FileNotFoundException {
+        super(csvFilePath, errorSummary);
     }
 
     /**
@@ -76,17 +77,22 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
      *
      * @throws InvalidLocationException if {@code location} is invalid.
      */
-    private static GroupConfiguration findMatchingGroupConfiguration(List<GroupConfiguration> results,
+    private GroupConfiguration findMatchingGroupConfiguration(List<GroupConfiguration> results,
             String location) throws InvalidLocationException {
-        GroupConfiguration config = new GroupConfiguration(new RepoLocation(location));
+        try {
+            GroupConfiguration config = new GroupConfiguration(new RepoLocation(location));
 
-        for (GroupConfiguration groupConfig : results) {
-            if (groupConfig.getLocation().equals(config.getLocation())) {
-                return groupConfig;
+            for (GroupConfiguration groupConfig : results) {
+                if (groupConfig.getLocation().equals(config.getLocation())) {
+                    return groupConfig;
+                }
             }
-        }
 
-        results.add(config);
-        return config;
+            results.add(config);
+            return config;
+        } catch (InvalidLocationException ile) {
+            errorSummary.addErrorMessage(location, ile.getMessage());
+            throw ile;
+        }
     }
 }
