@@ -7,7 +7,7 @@ import {
   ZoomInfo,
 } from '../types/vuex.d';
 
-export default createStore({
+export default createStore<StoreState>({
   state: {
     tabAuthorshipInfo: {} as AuthorshipInfo,
     tabZoomInfo: {} as ZoomInfo,
@@ -19,31 +19,31 @@ export default createStore({
     isTabActive: true,
   } as StoreState,
   mutations: {
-    updateTabZoomInfo(state, info: ZoomInfo) {
+    updateTabZoomInfo(state: StoreState, info: ZoomInfo) {
       state.tabZoomInfo = info;
     },
-    updateTabAuthorshipInfo(state, info: AuthorshipInfo) {
+    updateTabAuthorshipInfo(state: StoreState, info: AuthorshipInfo) {
       state.tabAuthorshipInfo = info;
     },
-    updateSummaryDates(state, info: SummaryDates) {
+    updateSummaryDates(state: StoreState, info: SummaryDates) {
       state.summaryDates = info;
     },
-    updateFileTypeColors(state, info: { [key: string]: string }) {
+    updateFileTypeColors(state: StoreState, info: { [key: string]: string }) {
       state.fileTypeColors = info;
     },
-    updateMergedGroup(state, info: string[]) {
+    updateMergedGroup(state: StoreState, info: string[]) {
       state.mergedGroups = info;
     },
-    incrementLoadingOverlayCount(state, increment: number) {
+    incrementLoadingOverlayCount(state: StoreState, increment: number) {
       state.loadingOverlayCount += increment;
       if (state.loadingOverlayCount === 0) {
         state.loadingOverlayMessage = 'Loading. Please wait...';
       }
     },
-    updateLoadingOverlayMessage(state, message: string) {
+    updateLoadingOverlayMessage(state: StoreState, message: string) {
       state.loadingOverlayMessage = message;
     },
-    updateTabState(state, isTabOpen: boolean) {
+    updateTabState(state: StoreState, isTabOpen: boolean) {
       state.isTabActive = isTabOpen;
       window.addHash('tabOpen', isTabOpen.toString());
       if (!isTabOpen) {
@@ -65,7 +65,7 @@ export default createStore({
         });
       });
     },
-    updateTabAuthorshipFiles(state, files: AuthorshipFile[]) {
+    updateTabAuthorshipFiles(state: StoreState, files: AuthorshipFile[]) {
       state.tabAuthorshipInfo.files.splice(0, state.tabAuthorshipInfo.files.length, ...files);
     },
     toggleAuthorshipFileActiveProperty(_, file: AuthorshipFile) {
