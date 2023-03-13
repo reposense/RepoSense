@@ -214,7 +214,6 @@ function authorshipInitialState() {
     searchBarValue: '',
     authorDisplayName: '',
     authors: new Set(),
-    authorColors: {},
     selectedColors: ['#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3', '#adff2f', '#808000', '#800000',
       '#ff8c00', '#c71585'],
   };
@@ -321,6 +320,7 @@ export default {
     ...mapState({
       fileTypeColors: 'fileTypeColors',
       info: 'tabAuthorshipInfo',
+      authorColors: 'tabAuthorColors',
     }),
   },
 
@@ -563,17 +563,18 @@ export default {
 
     assignAuthorColors() {
       let authorColorIndex = 0;
+      const authorColors = {};
       if (this.info.isMergeGroup) {
         this.authors.forEach((author) => {
           if (authorColorIndex < this.selectedColors.length) {
-            this.authorColors[author] = this.selectedColors[authorColorIndex];
+            authorColors[author] = this.selectedColors[authorColorIndex];
             authorColorIndex += 1;
           } else {
-            this.authorColors[author] = getNonRepeatingColor(Object.values(this.authorColors));
+            authorColors[author] = getNonRepeatingColor(Object.values(authorColors));
           }
         });
       }
-      this.$store.commit('updateAuthorColors', this.authorColors);
+      this.$store.commit('updateAuthorColors', authorColors);
     },
 
     processFiles(files) {
