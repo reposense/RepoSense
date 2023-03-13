@@ -88,6 +88,7 @@ run {
     tasks.compileJava.mustRunAfter(zipReport)
     args System.getProperty('args', '').split()
     systemProperty "version", getRepoSenseVersion()
+    standardInput = System.in
 }
 
 checkstyle {

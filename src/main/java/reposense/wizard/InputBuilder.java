@@ -66,11 +66,8 @@ public class InputBuilder {
      *
      * @param paths The repo paths.
      */
-    public InputBuilder addRepos(String... paths) {
-        input.append(ArgsParser.REPO_FLAGS[0] + WHITESPACE);
-        for (String path : paths) {
-            input.append(addQuotationMarksToPath(path) + WHITESPACE);
-        }
+    public InputBuilder addRepos(String paths) {
+        input.append(ArgsParser.REPO_FLAGS[0] + WHITESPACE + paths);
         return this;
     }
 

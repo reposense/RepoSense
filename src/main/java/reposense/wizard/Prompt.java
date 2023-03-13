@@ -6,13 +6,18 @@ import java.util.Scanner;
  * Represents an abstract prompt.
  */
 public abstract class Prompt {
-    private final String question;
     private final String description;
+    private final String format;
     private String response;
 
-    public Prompt(String question, String description) {
-        this.question = question;
+    public Prompt(String description, String format) {
         this.description = description;
+        this.format = format;
+    }
+
+    public Prompt(String description) {
+        this.description = description;
+        this.format = "";
     }
 
     /**
@@ -30,7 +35,7 @@ public abstract class Prompt {
     }
 
     public String getResponse() {
-        return response;
+        return response.trim();
     }
 
     public abstract InputBuilder addToInput(InputBuilder inputBuilder);
@@ -43,6 +48,9 @@ public abstract class Prompt {
 
     @Override
     public String toString() {
-        return String.format("%s (%s): ", question, description);
+        if (format.isEmpty()) {
+            return String.format("%s: ", description);
+        }
+        return String.format("%s (%s): ", description, format);
     }
 }
