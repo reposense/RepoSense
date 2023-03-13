@@ -77,7 +77,7 @@ describe('show ramp chart for period', () => {
       });
   });
 
-  // Assumptions: The first author on the summary panel 
+  // Assumptions: The first author on the summary panel
   // should be 'eugenepeh'.
   it('ramps should be between start date and end date', () => {
     // change since date
@@ -107,7 +107,7 @@ describe('show ramp chart for period', () => {
       .should('eq', '[2019-03-25] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines ');
   });
 
-  // Assumptions: The first author on the summary panel 
+  // Assumptions: The first author on the summary panel
   // should be 'eugenepeh'.
   it('ramp should have expected properties', () => {
     // change until date
@@ -136,7 +136,7 @@ describe('show ramp chart for period', () => {
       .should('have.css', 'right', '84.0078px');
   });
 
-  // Assumptions: The second author on the summary panel 
+  // Assumptions: The second author on the summary panel
   // should be 'jamessspanggg'.
   it('deletes commit ramp should have expected properties', () => {
     // change since date
@@ -166,7 +166,7 @@ describe('show ramp chart for period', () => {
       .should('have.css', 'border-bottom', '48px solid rgba(244, 67, 54, 0.7)');
   });
 
-  // Assumptions: The first author on the summary panel 
+  // Assumptions: The first author on the summary panel
   // should be 'eugenepeh'.
   it('merge commit ramp should have expected properties', () => {
     // change until date
@@ -199,7 +199,7 @@ describe('show ramp chart for period', () => {
       });
   });
 
-  // Assumptions: The first author on the summary panel 
+  // Assumptions: The first author on the summary panel
   // should be 'eugenepeh'.
   it('ramps from different days should have expected relative properties', () => {
     // change until date
@@ -243,7 +243,7 @@ describe('show ramp chart for period', () => {
       });
   });
 
-  // Assumptions: The first author on the summary panel 
+  // Assumptions: The first author on the summary panel
   // should be 'eugenepeh'.
   it('ramps from the same day should have expected relative properties', () => {
     // change until date
@@ -287,7 +287,7 @@ describe('show ramp chart for period', () => {
       });
   });
 
-  // Assumptions: The first author on the summary panel 
+  // Assumptions: The first author on the summary panel
   // should be 'eugenepeh'.
   it('ramp should link to commit webpage', () => {
     // change until date
