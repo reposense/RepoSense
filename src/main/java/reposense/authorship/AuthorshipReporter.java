@@ -25,11 +25,16 @@ public class AuthorshipReporter {
             + " \"Ignore Glob List\" columns in the repo-config.csv so as to reduce the number of files to be "
             + " analyzed.";
 
+    private final FileInfoExtractor fileInfoExtractor = new FileInfoExtractor();
+    private final FileInfoAnalyzer fileInfoAnalyzer = new FileInfoAnalyzer();
+    private final FileResultAggregator fileResultAggregator = new FileResultAggregator();
+
+
     /**
      * Generates and returns the authorship summary for each repo in {@code config}.
      */
-    public static AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config) {
-        List<FileInfo> textFileInfos = FileInfoExtractor.extractTextFileInfos(config);
+    public AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config) {
+        List<FileInfo> textFileInfos = fileInfoExtractor.extractTextFileInfos(config);
 
         int numFiles = textFileInfos.size();
         int totalNumLines = textFileInfos.stream()
@@ -41,20 +46,20 @@ public class AuthorshipReporter {
         }
 
         List<FileResult> fileResults = textFileInfos.stream()
-                .map(fileInfo -> FileInfoAnalyzer.analyzeTextFile(config, fileInfo))
+                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-        List<FileInfo> binaryFileInfos = FileInfoExtractor.extractBinaryFileInfos(config);
+        List<FileInfo> binaryFileInfos = fileInfoExtractor.extractBinaryFileInfos(config);
 
         List<FileResult> binaryFileResults = binaryFileInfos.stream()
-                .map(fileInfo -> FileInfoAnalyzer.analyzeBinaryFile(config, fileInfo))
+                .map(fileInfo -> fileInfoAnalyzer.analyzeBinaryFile(config, fileInfo))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
         fileResults.addAll(binaryFileResults);
 
-        return FileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(),
+        return fileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(),
                 config.getAllFileTypes());
     }
 }
