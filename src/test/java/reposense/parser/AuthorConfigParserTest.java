@@ -72,15 +72,15 @@ public class AuthorConfigParserTest {
             Arrays.asList("Borex T\"ony Tong");
     private static final Map<Author, List<String>> AUTHOR_ALIAS_COMMAS_AND_DOUBLE_QUOTES_MAP =
             Stream.of(new SimpleEntry<>(FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_ALIAS),
-                            new SimpleEntry<>(SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS),
-                            new SimpleEntry<>(THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS))
+                      new SimpleEntry<>(SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_ALIAS),
+                      new SimpleEntry<>(THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_ALIAS))
                     .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
     private static final Map<Author, String> AUTHOR_DISPLAY_NAME_COMMAS_AND_DOUBLE_QUOTES_MAP =
-            Stream.of(new SimpleEntry<>(FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR,
-                                    FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME),
-                            new SimpleEntry<>(SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR,
-                                    SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME),
-                            new SimpleEntry<>(THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME))
+            Stream.of(
+                    new SimpleEntry<>(FIRST_COMMAS_AND_DOUBLEQUOTES_AUTHOR, FIRST_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME),
+                    new SimpleEntry<>(
+                            SECOND_COMMAS_AND_DOUBLEQUOTES_AUTHOR, SECOND_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME),
+                    new SimpleEntry<>(THIRD_COMMAS_AND_DOUBLEQUOTES_AUTHOR, THIRD_COMMAS_AND_DOUBLEQUOTES_DISPLAY_NAME))
                     .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
 
     private static final List<String> FIRST_AUTHOR_EMAIL_LIST =
