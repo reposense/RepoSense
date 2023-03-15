@@ -140,7 +140,7 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 ### `--init`
 
 **`--init`**: Launches the RepoSense CLI set-up wizard.
-* Example:`--init`
+* Example: `--init`
 
 <box type="info" seamless>
 
