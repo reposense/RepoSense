@@ -6,6 +6,7 @@ package reposense.wizard;
 public class BasicWizard extends Wizard {
     private static final Prompt[] INITIAL_PROMPTS = new Prompt[] {
             new OptionalSincePrompt(),
+            new OptionalUntilPrompt(),
             new OptionalViewPrompt(),
             new RepoPrompt()
     };
