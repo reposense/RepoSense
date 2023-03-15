@@ -1,4 +1,6 @@
-package reposense.wizard;
+package reposense.wizard.prompt;
+
+import reposense.wizard.InputBuilder;
 
 /**
  * Represents an optional prompt that only calls the provided prompt if requested by the user.

@@ -1,6 +1,8 @@
-package reposense.wizard;
+package reposense.wizard.prompt;
 
 import java.util.Scanner;
+
+import reposense.wizard.InputBuilder;
 
 /**
  * Represents an abstract prompt.

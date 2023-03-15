@@ -1,6 +1,8 @@
-package reposense.wizard;
+package reposense.wizard.prompt;
 
 import java.nio.file.Paths;
+
+import reposense.wizard.InputBuilder;
 
 /**
  * Represents a Prompt to get the view flag.
