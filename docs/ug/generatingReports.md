@@ -44,6 +44,9 @@ For other types of repositories, external links are disabled.
 
 **To learn how to generate a report using <tooltip content="e.g., generate a report for a different period, for specific file types, for specific authors, etc.">other settings</tooltip>**, head over to the [_**Customizing reports**_](customizingReports.html) section.
 
+**Alternatively**, you may also use the RepoSense CLI set-up wizard, which will take you through a basic configuration of RepoSense through the following command:
+  * `java -jar RepoSense.jar --init`
+
 <!-- ==================================================================================================== -->
 
 ## Generating reports remotely

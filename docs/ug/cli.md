@@ -137,6 +137,19 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### `--init`
+
+**`--init`**: Launches the RepoSense CLI set-up wizard.
+* Example:`--init`
+
+<box type="info" seamless>
+
+* The wizard will run through the basic config flags in this order: `--since`, `--until`, `--view`, `--repos`.
+* This flag overrides all other flags and thus should be used on its own.
+</box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### `--last-modified-date`, `-l`
 
 **`--last-modified-date`**: Specifies that the last modified date of each line of code should be added to `authorship.json`.
