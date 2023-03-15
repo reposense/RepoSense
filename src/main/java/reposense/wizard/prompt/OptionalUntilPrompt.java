@@ -1,4 +1,4 @@
-package reposense.wizard.prompts;
+package reposense.wizard.prompt;
 
 /**
  * Represents an Optional Prompt to get the untilDate flag.

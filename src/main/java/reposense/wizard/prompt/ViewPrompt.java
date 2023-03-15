@@ -1,4 +1,4 @@
-package reposense.wizard.prompts;
+package reposense.wizard.prompt;
 
 import java.nio.file.Paths;
 

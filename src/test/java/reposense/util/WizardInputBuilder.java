@@ -1,6 +1,6 @@
 package reposense.util;
 
-import reposense.wizard.prompts.OptionalPrompt;
+import reposense.wizard.prompt.OptionalPrompt;
 
 /**
  * A utility class to help with building command line input for Wizard CLI.

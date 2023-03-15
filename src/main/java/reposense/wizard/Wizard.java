@@ -1,6 +1,6 @@
 package reposense.wizard;
 
-import reposense.wizard.prompts.Prompt;
+import reposense.wizard.prompt.Prompt;
 
 /**
  * This class implements an abstract wizard.
