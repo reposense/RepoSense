@@ -1,4 +1,4 @@
-package reposense.wizard;
+package reposense.wizard.prompts;
 
 /**
  * Represents an Optional Prompt to get the sinceDate flag.

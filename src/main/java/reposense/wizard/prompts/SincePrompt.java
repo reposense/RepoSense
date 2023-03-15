@@ -1,4 +1,6 @@
-package reposense.wizard;
+package reposense.wizard.prompts;
+
+import reposense.wizard.InputBuilder;
 
 /**
  * Represents a Prompt to get the sinceDate flag.

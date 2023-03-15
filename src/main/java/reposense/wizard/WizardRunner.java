@@ -7,6 +7,7 @@ import java.util.Deque;
 import java.util.Scanner;
 
 import reposense.RepoSense;
+import reposense.wizard.prompts.Prompt;
 
 /**
  * This class implements a wizard runner in the form
