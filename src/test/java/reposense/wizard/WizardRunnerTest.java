@@ -13,6 +13,7 @@ import reposense.util.WizardInputBuilder;
 
 public class WizardRunnerTest {
     private static final String SINCE_DATE = "30/09/2022";
+    private static final String UNTIL_DATE = "15/03/2023";
     private static final String REPORT_PATH = "C:\\User\\RepoSense";
     private static final String REPO_LINK = "https://github.com/reposense/RepoSense.git";
 
@@ -20,6 +21,7 @@ public class WizardRunnerTest {
     public void buildInput_repoOnly_success() {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         String input = new WizardInputBuilder()
+                .addNoFlag()
                 .addNoFlag()
                 .addNoFlag()
                 .add(REPO_LINK)
@@ -40,6 +42,7 @@ public class WizardRunnerTest {
                 .addYesFlag()
                 .add(SINCE_DATE)
                 .addNoFlag()
+                .addNoFlag()
                 .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
@@ -54,10 +57,55 @@ public class WizardRunnerTest {
     }
 
     @Test
+    public void buildInput_untilDateAndRepo_success() {
+        WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
+        String input = new WizardInputBuilder()
+                .addNoFlag()
+                .addYesFlag()
+                .add(UNTIL_DATE)
+                .addNoFlag()
+                .add(REPO_LINK)
+                .build();
+        InputStream targetStream = new ByteArrayInputStream(input.getBytes());
+        Scanner sc = new Scanner(targetStream);
+        wizardRunner.buildInput(sc);
+
+        String expectedInput = new InputBuilder()
+                .addUntilDate(UNTIL_DATE)
+                .addRepos(REPO_LINK)
+                .build();
+        assertEquals(expectedInput, wizardRunner.getBuiltInput());
+    }
+
+    @Test
+    public void buildInput_sinceDateAndUntilDateAndRepo_success() {
+        WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
+        String input = new WizardInputBuilder()
+                .addYesFlag()
+                .add(SINCE_DATE)
+                .addYesFlag()
+                .add(UNTIL_DATE)
+                .addNoFlag()
+                .add(REPO_LINK)
+                .build();
+        InputStream targetStream = new ByteArrayInputStream(input.getBytes());
+        Scanner sc = new Scanner(targetStream);
+        wizardRunner.buildInput(sc);
+
+        String expectedInput = new InputBuilder()
+                .addSinceDate(SINCE_DATE)
+                .addUntilDate(UNTIL_DATE)
+                .addRepos(REPO_LINK)
+                .build();
+        assertEquals(expectedInput, wizardRunner.getBuiltInput());
+    }
+
+    @Test
     public void buildInput_viewAndRepo_success() {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         // Yes only for view flag
         String input = new WizardInputBuilder()
+                .addNoFlag()
                 .addNoFlag()
                 .addYesFlag()
                 .add(REPORT_PATH)
@@ -82,6 +130,8 @@ public class WizardRunnerTest {
                 .addYesFlag()
                 .add(SINCE_DATE)
                 .addYesFlag()
+                .add(UNTIL_DATE)
+                .addYesFlag()
                 .add(REPORT_PATH)
                 .add(REPO_LINK)
                 .build();
@@ -91,6 +141,7 @@ public class WizardRunnerTest {
 
         String expectedInput = new InputBuilder()
                 .addSinceDate(SINCE_DATE)
+                .addUntilDate(UNTIL_DATE)
                 .addView(Paths.get(REPORT_PATH))
                 .addRepos(REPO_LINK)
                 .build();
