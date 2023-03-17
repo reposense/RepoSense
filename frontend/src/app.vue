@@ -86,6 +86,8 @@ import cZoom from './views/c-zoom.vue';
 import cSummary from './views/c-summary.vue';
 import cAuthorship from './views/c-authorship.vue';
 import { Repo } from './types/types';
+import { ErrorMessage } from './types/zod/summary-type';
+import { ZoomInfo, AuthorshipInfo } from './types/vuex.d';
 
 const loadingResourcesMessage = 'Loading resources...';
 
@@ -109,7 +111,7 @@ const app = defineComponent({
       tabType: 'empty',
       creationDate: '',
       reportGenerationTime: '',
-      errorMessages: {},
+      errorMessages: {} as { [key: string]: ErrorMessage },
     };
   },
   computed: {
@@ -215,7 +217,7 @@ const app = defineComponent({
 
     renderAuthorShipTabHash(minDate: string, maxDate: string) {
       const hash = window.hashParams;
-      const info = {
+      const info: AuthorshipInfo = {
         author: hash.tabAuthor,
         repo: hash.tabRepo,
         isMergeGroup: hash.authorshipIsMergeGroup === 'true',
@@ -235,7 +237,7 @@ const app = defineComponent({
 
     renderZoomTabHash() {
       const hash = window.hashParams;
-      const zoomInfo = {
+      const zoomInfo: ZoomInfo = {
         isRefreshing: true,
         zAuthor: hash.zA,
         zRepo: hash.zR,
