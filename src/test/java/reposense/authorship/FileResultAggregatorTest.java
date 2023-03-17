@@ -27,6 +27,8 @@ public class FileResultAggregatorTest extends GitTestTemplate {
             TestUtil.getUntilDate(2022, Month.MARCH.getValue(), 8);
 
     private RepoConfiguration config;
+    private FileInfoExtractor fileInfoExtractor = new FileInfoExtractor();
+    private FileInfoAnalyzer fileInfoAnalyzer = new FileInfoAnalyzer();
 
     @BeforeEach
     public void before() throws Exception {
@@ -43,16 +45,17 @@ public class FileResultAggregatorTest extends GitTestTemplate {
         GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
 
         // Logic identical to AuthorshipReporter.java
-        List<FileInfo> textFileInfos = FileInfoExtractor.extractTextFileInfos(config);
+        List<FileInfo> textFileInfos = fileInfoExtractor.extractTextFileInfos(config);
 
         List<FileResult> fileResults = textFileInfos.stream()
                 .filter(f -> !f.getPath().equals("annotationTest.java"))
-                .map(fileInfo -> FileInfoAnalyzer.analyzeTextFile(config, fileInfo))
+                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
         //
 
-        FileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(), config.getAllFileTypes());
+        FileResultAggregator fileResultAggregator = new FileResultAggregator();
+        fileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(), config.getAllFileTypes());
         Assertions.assertEquals(fileResults.stream()
                 .filter(f -> f.getPath().contains("largeFile.json"))
                 .findFirst()
