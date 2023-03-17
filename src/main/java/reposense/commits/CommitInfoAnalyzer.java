@@ -64,7 +64,7 @@ public class CommitInfoAnalyzer {
      * Analyzes each {@link CommitInfo} in {@code commitInfos} and returns a list of {@link CommitResult} that is not
      * specified to be ignored or the author is inside {@code config}.
      */
-    public static List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
+    public List<CommitResult> analyzeCommits(List<CommitInfo> commitInfos, RepoConfiguration config) {
         logger.info(String.format(MESSAGE_START_ANALYZING_COMMIT_INFO, config.getLocation(), config.getBranch()));
 
         return commitInfos.stream()
@@ -80,7 +80,7 @@ public class CommitInfoAnalyzer {
      * Extracts the relevant data from {@code commitInfo} into a {@link CommitResult}. Retrieves the author of the
      * commit from {@code config}.
      */
-    public static CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {
+    public CommitResult analyzeCommit(CommitInfo commitInfo, RepoConfiguration config) {
         String infoLine = commitInfo.getInfoLine();
         String statLine = commitInfo.getStatLine();
 
@@ -130,7 +130,7 @@ public class CommitInfoAnalyzer {
      * Returns the number of lines added and deleted in {@code filePathContributions} for the specified file types
      * in {@code config}.
      */
-    private static Map<FileType, ContributionPair> getFileTypesAndContribution(String[] filePathContributions,
+    private Map<FileType, ContributionPair> getFileTypesAndContribution(String[] filePathContributions,
             RepoConfiguration config) {
         Map<FileType, ContributionPair> fileTypesAndContributionMap = new HashMap<>();
         for (String filePathContribution : filePathContributions) {
@@ -159,7 +159,7 @@ public class CommitInfoAnalyzer {
     /**
      * Extracts the correct file path from the unprocessed git log {@code filePath}.
      */
-    private static String extractFilePath(String filePath) {
+    private String extractFilePath(String filePath) {
         String filteredFilePath = filePath;
         if (filteredFilePath.contains(MOVED_FILE_INDICATION)) {
             // moved file has the format: fileA => newPosition/fileA
@@ -178,7 +178,7 @@ public class CommitInfoAnalyzer {
     /**
      * Detects binary file contribution based on the git log {@code addition} and {@code deletion}.
      */
-    private static boolean isBinaryContribution(String addition, String deletion) {
+    private boolean isBinaryContribution(String addition, String deletion) {
         // git log returns "-" for binary file additions and deletions
         return addition.equals(BINARY_FILE_CONTRIBUTION) && deletion.equals(BINARY_FILE_CONTRIBUTION);
     }
@@ -186,13 +186,13 @@ public class CommitInfoAnalyzer {
     /**
      * Extracts the tag names in {@code tags}.
      */
-    private static void extractTagNames(String[] tags) {
+    private void extractTagNames(String[] tags) {
         for (int i = 0; i < tags.length; i++) {
             tags[i] = tags[i].substring(tags[i].lastIndexOf(TAG_PREFIX) + TAG_PREFIX.length()).trim();
         }
     }
 
-    private static String getCommitMessageBody(String raw) {
+    private String getCommitMessageBody(String raw) {
         Matcher matcher = MESSAGEBODY_LEADING_PATTERN.matcher(raw);
         return matcher.replaceAll("");
     }

@@ -18,9 +18,6 @@ syntax reference under Appendix section of User Guide.
 <box type="info" seamless>
 
 * Used in `ConfigSystemTest`.
-* Some test cases requires `AuthorConfiguration.hasAuthorConfigFile` to be set to `false` to pass. The exact
-reason is unknown as the test cases are pretty old to track back. Tracing this shows that there is something to do
-with `AnnotatorAnalyzer.findAuthorInLine()` where `AuthorConfiguration.hasAuthorConfigFile()` is called.
 * Can be used for behaviors specific to test code.
   * E.g. `--fresh-cloning`. Fresh cloning is always `false` when running RepoSense normally, and is only used in
   system tests.
