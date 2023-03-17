@@ -40,23 +40,16 @@ interface StoreState {
   tabAuthorshipInfo: AuthorshipInfo;
   tabZoomInfo: ZoomInfo;
   summaryDates: SummaryDates;
-  mergedGroups: string[]
-  fileTypeColors: { [key: string]: string }
-  loadingOverlayCount: number
-  loadingOverlayMessage: string
-  isTabActive: boolean
+  mergedGroups: string[];
+  fileTypeColors: { [key: string]: string };
+  loadingOverlayCount: number;
+  loadingOverlayMessage: string;
+  isTabActive: boolean;
 }
 
 declare module '@vue/runtime-core' {
-  interface State {
-    tabAuthorshipInfo: AuthorshipInfo;
-    tabZoomInfo: ZoomInfo;
-    summaryDates: SummaryDates;
-    mergedGroups: string[]
-    fileTypeColors: { [key: string]: string }
-    loadingOverlayCount: number
-    loadingOverlayMessage: string
-    isTabActive: boolean
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  interface State extends StoreState {
   }
   interface ComponentCustomProperties {
     $store: Store<State>;

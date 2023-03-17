@@ -22,7 +22,7 @@
         v-bind:title="'Click to open the repo'"
       )
         span {{ filteredUser.repoName }}
-    .author(v-if="!info.zIsMerge")
+    .author(v-if="!info.zIsMerged")
       span &#8627; &nbsp;
       span(v-if="info.zFilterGroup === 'groupByAuthors'") {{ filteredUser.repoName }}
       span(v-else) {{ filteredUser.displayName }} ({{ filteredUser.name }})
