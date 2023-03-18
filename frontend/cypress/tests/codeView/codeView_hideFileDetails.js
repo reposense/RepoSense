@@ -66,6 +66,57 @@ describe('hide all file details', () => {
       .should('not.be.visible');
   });
 
+  it('check file can be hidden after scrolling', () => {
+    cy.get('.icon-button.fa-code')
+      .should('be.visible')
+      .first()
+      .click();
+
+    cy.get('#tab-authorship .files', { timeout: 90000 })
+      .should('be.visible');
+
+    // contents of the first file should be visible
+    cy.get('#tab-authorship .file-content ')
+      .first()
+      .should('be.visible');
+
+    // scroll some lines in the contents of the second file
+    cy.get('#tab-authorship .file-content ')
+      .eq(1)
+      .scrollIntoView({ offset: { top: 500, left: 0 } });
+
+    // title of the second file should still be visible
+    cy.get('#tab-authorship .file .title ')
+      .eq(1)
+      .should('be.visible');
+
+    // close contents of the second file
+    cy.get('#tab-authorship .title .caret')
+      .should('be.visible')
+      .eq(1)
+      .click();
+
+    // contents of the second file should not be visible
+    cy.get('#tab-authorship .file-content ')
+      .eq(1)
+      .should('not.be.visible');
+
+    // title of the second file should still be visible
+    cy.get('#tab-authorship .file .title ')
+      .eq(1)
+      .should('be.visible');
+
+    // scroll some lines up from the top of the second file
+    cy.get('#tab-authorship .file-content ')
+      .eq(1)
+      .scrollIntoView({ offset: { top: -500, left: 0 } });
+
+    // title of the first file should be visible
+    cy.get('#tab-authorship .file .title ')
+      .first()
+      .should('be.visible');
+  });
+
   it('check show all file details shows the content of all the files', () => {
     cy.get('.icon-button.fa-code')
       .should('be.visible')

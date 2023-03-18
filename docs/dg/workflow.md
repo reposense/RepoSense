@@ -43,11 +43,12 @@ The issues for first timers usually have guidance provided in the comment or hav
 * Make sure you know our coding standards.
   {{ embed('Appendix: Coding Standards', 'styleGuides.md', level=2) }}
 * **Follow [the tutorial](https://se-education.org/guides/tutorials/intellijCodeStyle.html) to configure Intellij to follow our coding style**.
-* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it. 
+* **This project uses Checkstyle** to check the compliance of Java code. You can use [this document](https://se-education.org/guides/tutorials/checkstyle.html) to find how to use it.
   * In particular, run `gradlew checkstyleAll` to check the style of all the relevant Java code. This will check the Java code in the following order: main code -> test code -> systemtest code.
   * If you only want to check the main code, run `gradlew checkstyleMain`. Likewise, for test code, run `gradlew checkstyleTest` and for systemtest code, run `gradlew checkstyleSystemtest`.
   * You can also run any of the combination of the above, such as `gradlew checkstyleMain checkstyleTest` or `gradlew checkstyleTest checkstyleSystemtest`.
 * **To check Vue files for style errors**, run `gradlew lintFrontend` from the project root directory. You can also run `npm run lintfix` in the `frontend` folder to automatically fix some of the JavaScript and CSS lint errors.
+* **To perform environmental checks for style errors**, run `gradlew environmentalChecks` from the project root directory. This checks if all files end with a newline, if prohibited line endings (`\r\n`) are present and if trailing whitespaces are present.
 
 <!-- ==================================================================================================== -->
 
@@ -116,8 +117,8 @@ Note that it is **compulsory** to add tests for the new front-end changes that y
 
 ### Running tests
 
-To run all tests locally, run `gradlew frontendTest`. 
-* Using the above command, tests are run on the CLI without the report being displayed. 
+To run all tests locally, run `gradlew frontendTest`.
+* Using the above command, tests are run on the CLI without the report being displayed.
 * To show the report, run `gradlew cypress` then select `Run 18 integration specs` in the Cypress GUI as shown below:
 ![Cypress Test Run All](../images/cypress-test-run-all.jpg)
 
