@@ -13,7 +13,8 @@ interface ComparatorFunction<T> {
 }
 
 interface SortingFunction<T> {
-  (item: T, sortingOption?: string): T;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (item: T, sortingOption?: string): any;
 }
 
 interface Api {
@@ -50,7 +51,7 @@ declare global {
     removeHash: (key: string) => void;
     encodeHash: () => void;
     decodeHash: () => void;
-    comparator: <T> (fn: SortingFunction<T>, sortingOption: string) => ComparatorFunction<T>;
+    comparator: <T> (fn: SortingFunction<T>, sortingOption?: string) => ComparatorFunction<T>;
     filterUnsupported: (string: string) => string | undefined;
     getAuthorLink: (repoId: string, author: string) => string | undefined;
     getRepoLinkUnfiltered: (repoId: string) => string;
