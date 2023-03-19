@@ -75,11 +75,12 @@
             )
             span.tooltip-text Click to view breakdown of commits
       a(
-        v-on:click="handleExpandGroup(getGroupName(repo))"
+        v-on:click="getEmbeddedUrl(i, repo)"
       )
         .tooltip
-          font-awesome-icon.icon-button(icon="code")
-          span.tooltip-text Click to copy embedded widget link
+          font-awesome-icon.icon-button(icon="clipboard")
+          span.tooltip-text Click to copy iframe link
+
       .tooltip.summary-chart__title--percentile(
           v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
@@ -477,6 +478,17 @@ export default {
       };
       this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
+    },
+
+    async getEmbeddedUrl(index, repo) {
+      const iframeStart = '<iframe src="';
+      const url = 'http://localhost:8080/#/widget/?search=&sort=groupTitle'
+       + '&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false'
+       + `&chartNo=${index}`;
+      const titleHeight = 55;
+      const chartHeight = 90;
+      const iframeEnd = `" width="800px" height="${titleHeight + chartHeight * repo.length}px"></iframe>`;
+      await navigator.clipboard.writeText(iframeStart + url + iframeEnd);
     },
 
     getBaseTarget(target) {

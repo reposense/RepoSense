@@ -4,7 +4,7 @@ import {
   faChevronDown, faChevronUp, faCircle, faCode, faCodeMerge,
   faEllipsisH, faExclamation, faHistory, faListUl,
   faPlusCircle, faSpinner, faTags, faUser, faUserEdit,
-  faDatabase,
+  faDatabase, faClipboard,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -32,6 +32,7 @@ library.add(
   faGithub,
   faGitlab,
   faBitbucket,
+  faClipboard,
 );
 
 // c-zoom
