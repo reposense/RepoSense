@@ -54,5 +54,30 @@
   },
   "parserOptions": {
     "parser": "@typescript-eslint/parser"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "airbnb-typescript/base",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "parserOptions": {
+        "project": ["./tsconfig.json"]
+      },
+      "rules": {
+        "indent": "off",
+        "@typescript-eslint/indent": [
+          "error",
+          2,
+          {
+            "ignoredNodes": [
+              "ConditionalExpression"
+            ],
+            "SwitchCase": 0
+          }
+        ]
+      }
+    }
+  ]
 }

@@ -43,6 +43,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     private static final String FEBRUARY_EIGHT_COMMIT_HASH = "768015345e70f06add2a8b7d1f901dc07bf70582";
 
     private RepoConfiguration config;
+    private FileInfoExtractor fileInfoExtractor = new FileInfoExtractor();
 
     @BeforeEach
     public void before() throws Exception {
@@ -56,7 +57,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.addAuthorNamesToAuthorMapEntry(new Author(FAKE_AUTHOR_NAME), FAKE_AUTHOR_NAME);
 
         GitCheckout.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
-        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+        List<FileInfo> files = fileInfoExtractor.extractTextFileInfos(config);
 
         Assertions.assertEquals(6, files.size());
 
@@ -75,7 +76,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.setIgnoreGlobList(Arrays.asList("newPos/**.java", "**.md"));
 
         GitCheckout.checkout(config.getRepoRoot(), TEST_COMMIT_HASH);
-        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+        List<FileInfo> files = fileInfoExtractor.extractTextFileInfos(config);
 
         Assertions.assertEquals(4, files.size());
 
@@ -92,7 +93,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         LocalDateTime date = TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 9);
         config.setSinceDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+        List<FileInfo> files = fileInfoExtractor.extractTextFileInfos(config);
         Assertions.assertEquals(5, files.size());
 
         // files edited within commit range
@@ -109,7 +110,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void extractFileInfos_directoryWithValidWhitelistedName_success() {
         GitCheckout.checkout(config.getRepoRoot(), DIRECTORY_WITH_VALID_WHITELISTED_NAME_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+        List<FileInfo> files = fileInfoExtractor.extractTextFileInfos(config);
 
         Assertions.assertEquals(7, files.size());
         Assertions.assertTrue(isFileExistence(Paths.get(".gradle/anything.txt"), files));
@@ -118,7 +119,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void extractFileInfos_branchWithValidWhitelistedFileName_success() {
         GitCheckout.checkout(config.getRepoRoot(), BRANCH_WITH_VALID_WHITELISTED_FILE_NAME_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+        List<FileInfo> files = fileInfoExtractor.extractTextFileInfos(config);
 
         Assertions.assertTrue(isFileExistence(Paths.get("whitelisted-format.txt"), files));
     }
@@ -128,7 +129,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         LocalDateTime date = TestUtil.getSinceDate(2050, Month.DECEMBER.getValue(), 31);
         config.setSinceDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+        List<FileInfo> files = fileInfoExtractor.extractTextFileInfos(config);
         Assertions.assertTrue(files.isEmpty());
     }
 
@@ -137,14 +138,14 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         LocalDateTime date = TestUtil.getUntilDate(2015, Month.DECEMBER.getValue(), 31);
         config.setUntilDate(date);
 
-        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+        List<FileInfo> files = fileInfoExtractor.extractTextFileInfos(config);
         Assertions.assertTrue(files.isEmpty());
     }
 
     @Test
     public void getEditedFileInfos_editFileInfoBranchSinceFebrauryEight_success() {
         GitCheckout.checkout(config.getRepoRoot(), EDITED_FILE_INFO_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
+        List<FileInfo> files = fileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
 
         Assertions.assertEquals(3, files.size());
         Assertions.assertTrue(isFileExistence(Paths.get("README.md"), files));
@@ -160,7 +161,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         GitCheckout.checkout(config.getRepoRoot(), EDITED_FILE_INFO_BRANCH);
         config.setIgnoreGlobList(Arrays.asList("**.md"));
 
-        List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
+        List<FileInfo> files = fileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
 
         Assertions.assertEquals(2, files.size());
 
@@ -175,7 +176,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     @Test
     public void getEditedFileInfos_editFileInfoBranchSinceFirstCommit_success() {
         GitCheckout.checkout(config.getRepoRoot(), EDITED_FILE_INFO_BRANCH);
-        List<FileInfo> files = FileInfoExtractor.getEditedFileInfos(config, FIRST_COMMIT_HASH);
+        List<FileInfo> files = fileInfoExtractor.getEditedFileInfos(config, FIRST_COMMIT_HASH);
 
         Assertions.assertEquals(5, files.size());
 
@@ -185,14 +186,14 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void generateFileInfo_fileWithSpecialCharacters_correctFileInfoGenerated() {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITH_SPECIAL_CHARACTER.toString(),
+        FileInfo fileInfo = fileInfoExtractor.generateFileInfo(".", FILE_WITH_SPECIAL_CHARACTER.toString(),
                 DEFAULT_FILE_SIZE_LIMIT, false, false);
         Assertions.assertEquals(5, fileInfo.getLines().size());
     }
 
     @Test
     public void generateFileInfo_fileWithoutSpecialCharacters_correctFileInfoGenerated() {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(".", FILE_WITHOUT_SPECIAL_CHARACTER.toString(),
+        FileInfo fileInfo = fileInfoExtractor.generateFileInfo(".", FILE_WITHOUT_SPECIAL_CHARACTER.toString(),
                 DEFAULT_FILE_SIZE_LIMIT, false, false);
         Assertions.assertEquals(5, fileInfo.getLines().size());
     }
@@ -201,7 +202,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     public void generateFileInfo_fileExceedingSizeLimit_correctFileInfoGenerated() {
         config.setBranch(BRANCH_WITH_LARGE_FILE);
         GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), FILE_WITH_LARGE_SIZE,
+        FileInfo fileInfo = fileInfoExtractor.generateFileInfo(config.getRepoRoot(), FILE_WITH_LARGE_SIZE,
                 DEFAULT_FILE_SIZE_LIMIT, false, false);
 
         Assertions.assertTrue(fileInfo.isFileAnalyzed());
@@ -213,7 +214,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     public void generateFileInfo_fileExceedingSizeLimitAndSkipped_correctFileInfoGenerated() {
         config.setBranch(BRANCH_WITH_LARGE_FILE);
         GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), FILE_WITH_LARGE_SIZE,
+        FileInfo fileInfo = fileInfoExtractor.generateFileInfo(config.getRepoRoot(), FILE_WITH_LARGE_SIZE,
                 DEFAULT_FILE_SIZE_LIMIT, false, true);
 
         Assertions.assertFalse(fileInfo.isFileAnalyzed());
@@ -225,7 +226,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
     public void generateFileInfo_fileExceedingSizeLimitAndLimitIgnored_correctFileInfoGenerated() {
         config.setBranch(BRANCH_WITH_LARGE_FILE);
         GitCheckout.checkout(config.getRepoRoot(), config.getBranch());
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(config.getRepoRoot(), FILE_WITH_LARGE_SIZE,
+        FileInfo fileInfo = fileInfoExtractor.generateFileInfo(config.getRepoRoot(), FILE_WITH_LARGE_SIZE,
                 DEFAULT_FILE_SIZE_LIMIT, true, false);
 
         Assertions.assertTrue(fileInfo.isFileAnalyzed());
@@ -243,7 +244,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
                 "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
                 "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_BINARY_FILES);
-        Set<Path> textFiles = FileInfoExtractor.getFiles(config, false);
+        Set<Path> textFiles = fileInfoExtractor.getFiles(config, false);
 
         Assertions.assertEquals(6, textFiles.size());
         // Non binary files should be captured
@@ -262,7 +263,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
                 "binaryFileTest/binaryFile.txt", "My Documents/word.docx", "My Documents/pdfDocument.pdf",
                 "My Documents/wordToHtml_files/themedata.thmx", "My Pictures/pngPicture.png");
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_BINARY_FILES);
-        Set<Path> binaryFiles = FileInfoExtractor.getFiles(config, true);
+        Set<Path> binaryFiles = fileInfoExtractor.getFiles(config, true);
 
         Assertions.assertEquals(5, binaryFiles.size());
         // Binary files should be captured
@@ -283,7 +284,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
         config.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         GitCheckout.checkoutBranch(config.getRepoRoot(), BRANCH_WITH_RARE_FILE_FORMATS);
 
-        List<FileInfo> files = FileInfoExtractor.extractTextFileInfos(config);
+        List<FileInfo> files = fileInfoExtractor.extractTextFileInfos(config);
 
         Assertions.assertEquals(textFilesList.size(), files.size());
         // Non binary files should be captured
@@ -294,7 +295,7 @@ public class FileInfoExtractorTest extends GitTestTemplate {
 
     @Test
     public void getEditedFileInfos_repoWithFilesWithSpaces_success() {
-        List<FileInfo> fileInfos = FileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
+        List<FileInfo> fileInfos = fileInfoExtractor.getEditedFileInfos(config, FEBRUARY_EIGHT_COMMIT_HASH);
 
         Assertions.assertTrue(isFileExistence(Paths.get("space test.txt"), fileInfos));
     }
