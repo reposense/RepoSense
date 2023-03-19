@@ -14,6 +14,7 @@
     v-bind:max-date="maxDate",
     v-bind:sort-group-selection="sortGroupSelection"
     v-bind:chart-group-index="chartGroupIndex"
+    v-bind:chart-index="chartIndex"
   )
 </template>
 
@@ -67,6 +68,7 @@ export default {
       minDate: window.sinceDate,
       maxDate: window.untilDate,
       chartGroupIndex: -1,
+      chartIndex: -1,
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
@@ -306,6 +308,10 @@ export default {
 
       if (hash.chartGroupIndex) {
         this.chartGroupIndex = hash.chartGroupIndex;
+      }
+
+      if (hash.chartIndex) {
+        this.chartIndex = hash.chartIndex;
       }
     },
 

@@ -2,7 +2,7 @@
 #summary-charts
   .summary-charts(v-for="(repo, i) in filteredRepos")
     .summary-charts__title(
-      v-if="filterGroupSelection !== 'groupByNone'",
+      v-if="filterGroupSelection !== 'groupByNone' && !isChartWidgetMode",
       v-bind:class="{ 'active-background': \
         isSelectedGroup(repo[0].name, repo[0].repoName) }"
     )
@@ -76,11 +76,11 @@
             span.tooltip-text Click to view breakdown of commits
       a(
         v-if="!isChartGroupWidgetMode",
-        v-on:click="getEmbeddedIframe(i, repo)"
+        v-on:click="getEmbeddedIframe(repo, i)"
       )
         .tooltip
           font-awesome-icon.icon-button(icon="clipboard")
-          span.tooltip-text Click to copy iframe link
+          span.tooltip-text Click to copy iframe link for group
 
       .tooltip.summary-chart__title--percentile(
           v-if="sortGroupSelection.includes('totalCommits')"
@@ -97,12 +97,15 @@
             v-bind:style="{ 'color': fileTypeColors[fileType] }"
           )
           span &nbsp; {{ fileType }} &nbsp;
-    .summary-chart(v-for="(user, j) in repo")
+    .summary-chart(
+      v-for="(user, j) in getRepo(repo)"
+      v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}"
+      )
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
         v-bind:class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo }"
       )
-        .summary-chart__title--index {{ j+1 }}
+        .summary-chart__title--index(v-if="!isChartWidgetMode") {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
@@ -157,6 +160,13 @@
               icon="list-ul",
             )
             span.tooltip-text Click to view breakdown of commits on RepoSense
+        a(
+          v-if="!isChartGroupWidgetMode",
+          v-on:click="getEmbeddedIframe(repo, i , j)"
+        )
+          .tooltip
+            font-awesome-icon.icon-button(icon="clipboard")
+            span.tooltip-text Click to copy iframe link
         .tooltip.summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
@@ -268,6 +278,10 @@ export default {
       type: Number,
       default: -1,
     },
+    chartIndex: {
+      type: Number,
+      default: -1,
+    },
   },
   data() {
     return {
@@ -301,6 +315,9 @@ export default {
     },
     isChartGroupWidgetMode() {
       return this.chartGroupIndex >= 0;
+    },
+    isChartWidgetMode() {
+      return this.chartIndex >= 0 && this.isChartGroupWidgetMode;
     },
     ...mapState(['mergedGroups', 'fileTypeColors']),
   },
@@ -497,22 +514,32 @@ export default {
       this.$store.commit('updateTabZoomInfo', info);
     },
 
-    async getEmbeddedIframe(index, repo) {
-      const titleHeight = 55;
+    async getEmbeddedIframe(repo, chartGroupIndex, chartIndex = -1) {
+      const isChartIndexProvided = chartIndex !== -1;
+      const titleHeight = isChartIndexProvided ? 0 : 55;
       const chartHeight = 90;
+      // Set height of iframe according to number of charts to avoid scrolling
+      const totalChartHeight = isChartIndexProvided ? chartHeight : chartHeight * repo.length;
 
       const iframeStart = '<iframe src="';
-      // Set height of iframe according to number of charts to avoid scrolling
-      const iframeEnd = `" width="800px" height="${titleHeight + chartHeight * repo.length}px"></iframe>`;
+      const iframeEnd = `" frameBorder="0" width="800px" height="${titleHeight + totalChartHeight}px"></iframe>`;
 
       const [baseUrl, ...params] = window.location.href.split('?');
-      const url = `${baseUrl}#/widget/?${params.join('?')}&chartGroupIndex=${index}`;
+      const groupIndexParam = isChartIndexProvided ? `&chartIndex=${chartIndex}` : '';
+      const url = `${baseUrl}#/widget/?${params.join('?')}&chartGroupIndex=${chartGroupIndex}${groupIndexParam}`;
 
       await navigator.clipboard.writeText(iframeStart + url + iframeEnd);
     },
 
     getReportLink() {
       return window.location.href;
+    },
+
+    getRepo(repo) {
+      if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
+        return [repo[this.chartIndex]];
+      }
+      return repo;
     },
 
     getBaseTarget(target) {
