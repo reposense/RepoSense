@@ -1,17 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../views/Home.vue';
-import About from '../views/c-widget.vue';
+import { createRouter, createWebHashHistory } from 'vue-router';
+import Home from '../views/c-home.vue';
+import Widget from '../views/c-widget.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
     component: Home,
   },
   {
-    path: '/about',
-    name: 'About',
-    component: About,
+    path: '/widget',
+    component: Widget,
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -20,7 +18,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(),
   routes,
 });
 
