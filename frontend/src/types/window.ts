@@ -46,7 +46,7 @@ declare global {
     getDateStr: (date: Date) => string;
     getHexToRGB: (color: string) => number[];
     getFontColor: (color: string) => string;
-    addHash: (newKey: string, newVal: string) => void;
+    addHash: (newKey: string, newVal: string | boolean) => void;
     removeHash: (key: string) => void;
     encodeHash: () => void;
     decodeHash: () => void;
