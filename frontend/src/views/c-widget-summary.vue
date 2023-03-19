@@ -13,6 +13,7 @@
     v-bind:min-date="minDate",
     v-bind:max-date="maxDate",
     v-bind:sort-group-selection="sortGroupSelection"
+    v-bind:chart-group-index="chartGroupIndex"
   )
 </template>
 
@@ -65,7 +66,7 @@ export default {
       filterHash: '',
       minDate: window.sinceDate,
       maxDate: window.untilDate,
-      chartNo: -1,
+      chartGroupIndex: -1,
       fileTypeColors: {},
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
@@ -303,8 +304,8 @@ export default {
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
 
-      if (hash.chartNo) {
-        this.chartNo = hash.chartNo;
+      if (hash.chartGroupIndex) {
+        this.chartGroupIndex = hash.chartGroupIndex;
       }
     },
 
@@ -376,8 +377,8 @@ export default {
       };
       this.getOptionWithOrder();
       this.filtered = sortFiltered(this.filtered, filterControl);
-      if (this.chartNo > 0 && this.chartNo < this.filtered.length) {
-        this.filtered = [this.filtered[this.chartNo]];
+      if (this.chartGroupIndex > 0 && this.chartGroupIndex < this.filtered.length) {
+        this.filtered = [this.filtered[this.chartGroupIndex]];
       }
     },
 

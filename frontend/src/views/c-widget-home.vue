@@ -211,7 +211,7 @@ export default {
 
 </script>
 
-  <style lang="scss">
-  @import '../styles/style.scss';
-  @import '../styles/panels.scss';
-  </style>
+<style lang="scss">
+@import '../styles/style.scss';
+@import '../styles/panels.scss';
+</style>

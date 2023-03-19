@@ -6,7 +6,7 @@
       v-bind:class="{ 'active-background': \
         isSelectedGroup(repo[0].name, repo[0].repoName) }"
     )
-      .summary-charts__title--index {{ i+1 }}
+      .summary-charts__title--index(v-if="!isChartGroupWidgetMode") {{ i+1 }}
       .summary-charts__title--groupname
         template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
         template(
@@ -23,7 +23,7 @@
             v-else-if="filterGroupSelection === 'groupByAuthors'"
           ) Total contribution of author
       a(
-        v-if="!isGroupMerged(getGroupName(repo))",
+        v-if="!isGroupMerged(getGroupName(repo)) && !isChartGroupWidgetMode",
         v-on:click="handleMergeGroup(getGroupName(repo))"
       )
         .tooltip
@@ -75,7 +75,8 @@
             )
             span.tooltip-text Click to view breakdown of commits
       a(
-        v-on:click="getEmbeddedUrl(i, repo)"
+        v-if="!isChartGroupWidgetMode",
+        v-on:click="getEmbeddedIframe(i, repo)"
       )
         .tooltip
           font-awesome-icon.icon-button(icon="clipboard")
@@ -126,6 +127,7 @@
             font-awesome-icon.icon-button(icon="user")
             span.tooltip-text {{getAuthorProfileLinkMessage(repo[j])}}
         a(
+          v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
         )
@@ -136,6 +138,7 @@
             )
             span.tooltip-text Click to view author's contribution.
         a(
+          v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
@@ -145,6 +148,15 @@
               v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'zoom', false) }"
             )
             span.tooltip-text Click to view breakdown of commits
+        a(
+          v-if="isChartGroupWidgetMode",
+          v-bind:href="getReportLink()", target="_blank"
+        )
+          .tooltip
+            font-awesome-icon.icon-button(
+              icon="list-ul",
+            )
+            span.tooltip-text Click to view breakdown of commits on RepoSense
         .tooltip.summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
@@ -190,7 +202,6 @@
 
 <script>
 import { mapState } from 'vuex';
-
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from './c-ramp.vue';
 
@@ -253,6 +264,10 @@ export default {
       type: String,
       default: 'groupTitle',
     },
+    chartGroupIndex: {
+      type: Number,
+      default: -1,
+    },
   },
   data() {
     return {
@@ -284,7 +299,9 @@ export default {
     filteredRepos() {
       return this.filtered.filter((repo) => repo.length > 0);
     },
-
+    isChartGroupWidgetMode() {
+      return this.chartGroupIndex >= 0;
+    },
     ...mapState(['mergedGroups', 'fileTypeColors']),
   },
   watch: {
@@ -480,15 +497,22 @@ export default {
       this.$store.commit('updateTabZoomInfo', info);
     },
 
-    async getEmbeddedUrl(index, repo) {
-      const iframeStart = '<iframe src="';
-      const url = 'http://localhost:8080/#/widget/?search=&sort=groupTitle'
-       + '&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=false'
-       + `&chartNo=${index}`;
+    async getEmbeddedIframe(index, repo) {
       const titleHeight = 55;
       const chartHeight = 90;
+
+      const iframeStart = '<iframe src="';
+      // Set height of iframe according to number of charts to avoid scrolling
       const iframeEnd = `" width="800px" height="${titleHeight + chartHeight * repo.length}px"></iframe>`;
+
+      const [baseUrl, ...params] = window.location.href.split('?');
+      const url = `${baseUrl}#/widget/?${params.join('?')}&chartGroupIndex=${index}`;
+
       await navigator.clipboard.writeText(iframeStart + url + iframeEnd);
+    },
+
+    getReportLink() {
+      return window.location.href;
     },
 
     getBaseTarget(target) {
