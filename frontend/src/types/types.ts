@@ -24,6 +24,12 @@ export interface DailyCommit {
 export interface Commit extends DailyCommit {
   deletions: number;
   insertions: number;
+  endDate?: string;
+}
+
+// User-defined type guard. https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards
+export function isCommit(commit: Commit | DailyCommit): commit is Commit {
+  return (commit as Commit).deletions !== undefined;
 }
 
 export interface User {
