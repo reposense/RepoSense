@@ -19,10 +19,10 @@ interface SortingFunction<T> {
 interface Api {
   loadJSON: (fname: string) => Promise<unknown>;
   loadSummary: () => Promise<{
-    creationDate: string,
-    reportGenerationTime: string,
-    errorMessages: { [key: string]: ErrorMessage },
-    names: string[],
+    creationDate: string;
+    reportGenerationTime: string;
+    errorMessages: { [key: string]: ErrorMessage };
+    names: string[];
   } | null>;
   loadCommits: (repoName: string) => Promise<User[]>;
   loadAuthorship: (repoName: string) => Promise<AuthorshipSchema>;
