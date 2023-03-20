@@ -15,6 +15,7 @@ import reposense.model.RepoLocation;
  * Container for the values parsed from {@code author-config.csv} file.
  */
 public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
+    public static final String LOCATION_BRANCH_DELIMITER = "#";
     public static final String AUTHOR_CONFIG_FILENAME = "author-config.csv";
 
     /**
@@ -60,7 +61,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      */
     @Override
     protected void processLine(List<AuthorConfiguration> results, CSVRecord record) throws ParseException {
-        String location = get(record, LOCATION_HEADER);
+        List<String> locationsWithBranch = getAsListOrDefault(record, LOCATION_HEADER);
         String branch = getOrDefault(record, BRANCH_HEADER, AuthorConfiguration.DEFAULT_BRANCH);
         String gitId = get(record, GIT_ID_HEADERS);
         List<String> emails = getAsList(record, EMAIL_HEADER);
@@ -68,27 +69,32 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         List<String> aliases = getAsList(record, ALIAS_HEADER);
         List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_HEADER);
 
-        AuthorConfiguration config = findMatchingAuthorConfiguration(results, location, branch);
+        for (String locationWithBranch : locationsWithBranch) {
+            String[] parsedLocationWithBranch = splitLocationAndBranch(locationWithBranch);
+            String currLocation = parsedLocationWithBranch[0];
+            String currBranch = parsedLocationWithBranch[1] == null ? branch : parsedLocationWithBranch[1];
+            AuthorConfiguration config = findMatchingAuthorConfiguration(results, currLocation, currBranch);
 
-        Author author = new Author(gitId);
+            Author author = new Author(gitId);
 
-        if (config.containsAuthor(author)) {
-            logger.warning(String.format(
-                    "Skipping author as %s already in repository %s %s",
-                    author.getGitId(), config.getLocation(), config.getBranch()));
-            return;
+            if (config.containsAuthor(author)) {
+                logger.warning(String.format(
+                        "Skipping author as %s already in repository %s %s",
+                        author.getGitId(), config.getLocation(), config.getBranch()));
+                return;
+            }
+
+            author.setEmails(new ArrayList<>(emails));
+            author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
+            if (!aliases.isEmpty()) {
+                author.setAuthorAliases(aliases);
+            }
+            if (!ignoreGlobList.isEmpty()) {
+                author.setIgnoreGlobList(ignoreGlobList);
+            }
+
+            config.addAuthor(author);
         }
-
-        author.setEmails(new ArrayList<>(emails));
-        author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
-        if (!aliases.isEmpty()) {
-            author.setAuthorAliases(aliases);
-        }
-        if (!ignoreGlobList.isEmpty()) {
-            author.setIgnoreGlobList(ignoreGlobList);
-        }
-
-        config.addAuthor(author);
     }
 
 
@@ -111,5 +117,19 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
         results.add(config);
         return config;
+    }
+
+    private static String[] splitLocationAndBranch(String locationWithBranch) {
+        int lastLocationBranchDelimiterIndex = locationWithBranch.lastIndexOf(LOCATION_BRANCH_DELIMITER);
+        String location;
+        String branch;
+        if (lastLocationBranchDelimiterIndex == -1) {
+            location = locationWithBranch;
+            branch = null;
+        } else {
+            location = locationWithBranch.substring(0, lastLocationBranchDelimiterIndex);
+            branch = locationWithBranch.substring(lastLocationBranchDelimiterIndex + 1);
+        }
+        return new String[] { location, branch };
     }
 }
