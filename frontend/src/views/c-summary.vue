@@ -210,7 +210,9 @@ export default {
           }
         });
       });
-
+      if (totalCount === 0) {
+        return 0;
+      }
       return totalLines / totalCount;
     },
 

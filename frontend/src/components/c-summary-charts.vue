@@ -349,7 +349,9 @@ export default {
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
-
+      if (contributionLimit === 0) {
+        return [];
+      }
       const cnt = Math.floor(totalContribution / contributionLimit);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
         res.push(100);
