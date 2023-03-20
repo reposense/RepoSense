@@ -124,8 +124,9 @@ public LocalDateTime parseDate(String dateString) throws NullPointerException, P
 }
 ```
 ## TypeScript specific formatting
+
 For TypeScript specific code, such as within an `interface` or type annotations, we also stipulate the following standards:
-- Use semicolons as delimiters for TypeScript interfaces and types.
+* Use semicolons as delimiters for TypeScript interfaces and types.
 
 Negative Examples:
 ```typescript
@@ -149,7 +150,7 @@ interface Foo {
     greet(): string;
 }
 ```
-- For type annotations, use a space after but not before.
+* For type annotations, use a space after but not before.
 
 Negative Examples:
 ```typescript
@@ -183,4 +184,3 @@ class Foo {
     name: string;
 }
 ```
-
