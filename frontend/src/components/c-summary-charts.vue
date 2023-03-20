@@ -1,6 +1,6 @@
 <template lang="pug">
 #summary-charts
-  .summary-charts(v-for="(repo, i) in filteredRepos")
+  .summary-charts(v-for="(repo, i) in filteredRepos" v-bind:ref="'summary-charts-' + i")
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone' && !isChartWidgetMode",
       v-bind:class="{ 'active-background': \
@@ -30,7 +30,7 @@
           font-awesome-icon.icon-button(:icon="['fas', 'chevron-up']")
           span.tooltip-text Click to merge group
       a(
-        v-if="isGroupMerged(getGroupName(repo))",
+        v-if="isGroupMerged(getGroupName(repo)) && !isChartGroupWidgetMode",
         v-on:click="handleExpandGroup(getGroupName(repo))"
       )
         .tooltip
@@ -54,7 +54,7 @@
           span.tooltip-text {{getAuthorProfileLinkMessage(repo[0])}}
       template(v-if="isGroupMerged(getGroupName(repo))")
         a(
-          v-if="filterGroupSelection !== 'groupByAuthors'",
+          v-if="filterGroupSelection !== 'groupByAuthors' && !isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(repo[0], repo, 0, isGroupMerged(getGroupName(repo)))"
         )
@@ -65,6 +65,7 @@
             )
             span.tooltip-text Click to view group's code
         a(
+          v-if="!isChartGroupWidgetMode"
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
@@ -74,9 +75,18 @@
               v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
             )
             span.tooltip-text Click to view breakdown of commits
+        a(
+          v-if="isChartGroupWidgetMode",
+          v-bind:href="getReportLink()", target="_blank"
+        )
+          .tooltip
+            font-awesome-icon.icon-button(
+              icon="list-ul",
+            )
+            span.tooltip-text Click to view breakdown of commits on RepoSense
       a(
         v-if="!isChartGroupWidgetMode",
-        v-on:click="getEmbeddedIframe(repo, i)"
+        v-on:click="getEmbeddedIframe(i)"
       )
         .tooltip
           font-awesome-icon.icon-button(icon="clipboard")
@@ -100,6 +110,7 @@
     .summary-chart(
       v-for="(user, j) in getRepo(repo)"
       v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}"
+      v-bind:ref="'summary-chart-' + j"
       )
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
@@ -162,7 +173,7 @@
             span.tooltip-text Click to view breakdown of commits on RepoSense
         a(
           v-if="!isChartGroupWidgetMode",
-          v-on:click="getEmbeddedIframe(repo, i , j)"
+          v-on:click="getEmbeddedIframe(i , j)"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="clipboard")
@@ -514,15 +525,16 @@ export default {
       this.$store.commit('updateTabZoomInfo', info);
     },
 
-    async getEmbeddedIframe(repo, chartGroupIndex, chartIndex = -1) {
+    async getEmbeddedIframe(chartGroupIndex, chartIndex = -1) {
       const isChartIndexProvided = chartIndex !== -1;
-      const titleHeight = isChartIndexProvided ? 0 : 55;
-      const chartHeight = 90;
       // Set height of iframe according to number of charts to avoid scrolling
-      const totalChartHeight = isChartIndexProvided ? chartHeight : chartHeight * repo.length;
+      const totalChartHeight = isChartIndexProvided
+        ? this.$refs[`summary-chart-${chartIndex}`][0].clientHeight
+        : this.$refs[`summary-charts-${chartGroupIndex}`][0].clientHeight;
+      const margins = 30;
 
       const iframeStart = '<iframe src="';
-      const iframeEnd = `" frameBorder="0" width="800px" height="${titleHeight + totalChartHeight}px"></iframe>`;
+      const iframeEnd = `" frameBorder="0" width="800px" height="${totalChartHeight + margins}px"></iframe>`;
 
       const [baseUrl, ...params] = window.location.href.split('?');
       const groupIndexParam = isChartIndexProvided ? `&chartIndex=${chartIndex}` : '';
