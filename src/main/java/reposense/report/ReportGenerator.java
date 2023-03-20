@@ -540,7 +540,7 @@ public class ReportGenerator {
         return repoReportDirectory + "/commits.json";
     }
 
-    public void setEarliestSinceDate(LocalDateTime newEarliestSinceDate) {
+    public synchronized void setEarliestSinceDate(LocalDateTime newEarliestSinceDate) {
         if (earliestSinceDate == null || newEarliestSinceDate.compareTo(earliestSinceDate) < 0) {
             earliestSinceDate = newEarliestSinceDate;
         }
