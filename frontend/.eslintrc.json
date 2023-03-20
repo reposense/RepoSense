@@ -76,7 +76,8 @@
             ],
             "SwitchCase": 0
           }
-        ]
+        ],
+        "@typescript-eslint/member-delimiter-style": "error"
       }
     }
   ]
