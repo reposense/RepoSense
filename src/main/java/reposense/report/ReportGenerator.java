@@ -128,7 +128,6 @@ public class ReportGenerator {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
         }
 
-        earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
 
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath,
@@ -360,7 +359,10 @@ public class ReportGenerator {
 
         CommitsReporter commitsReporter = new CommitsReporter();
         CommitContributionSummary commitSummary = commitsReporter.generateCommitSummary(config);
-        earliestSinceDate = commitSummary.getEarliestSinceDate();
+        LocalDateTime newEarliestSinceDate = commitSummary.getEarliestSinceDate();
+        if (earliestSinceDate == null || newEarliestSinceDate.compareTo(earliestSinceDate) < 0) {
+            earliestSinceDate = newEarliestSinceDate;
+        }
 
         List<Path> generatedFiles = generateIndividualRepoReport(repoReportDirectory, commitSummary, authorshipSummary);
         logger.info(String.format(MESSAGE_COMPLETE_ANALYSIS, config.getLocation(), config.getBranch()));
@@ -538,11 +540,5 @@ public class ReportGenerator {
 
     private String getIndividualCommitsPath(String repoReportDirectory) {
         return repoReportDirectory + "/commits.json";
-    }
-
-    public synchronized void setEarliestSinceDate(LocalDateTime newEarliestSinceDate) {
-        if (earliestSinceDate == null || newEarliestSinceDate.compareTo(earliestSinceDate) < 0) {
-            earliestSinceDate = newEarliestSinceDate;
-        }
     }
 }
