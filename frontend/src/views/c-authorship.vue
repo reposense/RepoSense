@@ -465,7 +465,8 @@ export default {
     },
 
     getAuthors(file) {
-      return new Set(file.segments.map((segment) => segment.knownAuthor).filter(Boolean));
+      return Array.from(new Set(file.segments.map((segment) => segment.knownAuthor)
+        .filter(Boolean))).sort().slice(0, 50);
     },
 
     toggleAllFileActiveProperty(isActive) {

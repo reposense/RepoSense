@@ -1,7 +1,8 @@
 <template lang="pug">
 .segment(
   v-bind:class="{ untouched: !segment.knownAuthor, active: isOpen }",
-  v-bind:style="{ 'border-left': `0.25rem solid ${authorColors[segment.knownAuthor]}`}"
+  v-bind:style="{ 'border-left': `0.25rem solid ${authorColors[segment.knownAuthor]}` }",
+  v-bind:title="`Author: ${segment.knownAuthor || \"Unknown author\"}`"
 )
   .closer(v-if="canOpen",
     v-on:click="toggleCode", ref="topButton")
@@ -18,7 +19,7 @@
   div(v-if="isOpen", v-hljs="path")
     .code(
       v-for="(line, index) in segment.lines", v-bind:key="index",
-      v-bind:style="{ 'background-color': `${authorColors[segment.knownAuthor]}${transparencyValue}`}"
+      v-bind:style="{ 'background-color': `${authorColors[segment.knownAuthor]}${transparencyValue}` }"
     )
       .line-number {{ `${segment.lineNumbers[index]}\n` }}
       .line-content {{ `${line}\n` }}
