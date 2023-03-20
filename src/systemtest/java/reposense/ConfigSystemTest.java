@@ -180,29 +180,6 @@ public class ConfigSystemTest {
         deleteReportDirectory(THIRTY_DAYS_FROM_UNTIL_DATE_WITH_SHALLOW_CLONING_REPORT_DIRECTORY);
     }
 
-//    /**
-//     * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
-//     * since date to capture from the first commit, using find previous authors.
-//     */
-//    @Test
-//    public void testSinceBeginningDateRangeWithFindPreviousAuthors() throws Exception {
-//        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
-//                GIT_VERSION_INSUFFICIENT_MESSAGE);
-//
-//        InputBuilder inputBuilder = initInputBuilder()
-//                .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
-//                .addUntilDate("2/3/2019")
-//                .addFindPreviousAuthors()
-//                .addOutput(SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY)
-//                .addClonedRepoParentFolder("test6");
-//
-//        runTest(inputBuilder, true,
-//                "ConfigSystemTest/sinceBeginningDateRangeFindPreviousAuthors/expected",
-//                SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY_PATH);
-//
-//        deleteReportDirectory(SINCE_BEGINNING_DATE_RANGE_WITH_FIND_PREVIOUS_AUTHOR_REPORT_DIRECTORY);
-//    }
-
     @Test
     public void test30DaysFromUntilDateWithFindPreviousAuthors() throws Exception {
         Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
