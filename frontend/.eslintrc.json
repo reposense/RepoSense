@@ -77,7 +77,8 @@
             "SwitchCase": 0
           }
         ],
-        "@typescript-eslint/member-delimiter-style": "error"
+        "@typescript-eslint/member-delimiter-style": "error",
+        "@typescript-eslint/type-annotation-spacing": "error"
       }
     }
   ]
