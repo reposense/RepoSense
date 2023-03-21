@@ -52,10 +52,6 @@ sourceSets {
     }
 }
 
-wrapper {
-    gradleVersion = '7.6.1'
-}
-
 def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/'
     args = ['ci']
