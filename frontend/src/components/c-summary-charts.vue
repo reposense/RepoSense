@@ -1,6 +1,6 @@
 <template lang="pug">
 #summary-charts
-  .summary-charts(v-for="(repo, i) in filteredRepos" v-bind:ref="'summary-charts-' + i")
+  .summary-charts(v-for="(repo, i) in filteredRepos", v-bind:ref="'summary-charts-' + i")
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone' && !isChartWidgetMode",
       v-bind:class="{ 'active-background': \
@@ -65,7 +65,7 @@
             )
             span.tooltip-text Click to view group's code
         a(
-          v-if="!isChartGroupWidgetMode"
+          v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
@@ -108,8 +108,8 @@
           )
           span &nbsp; {{ fileType }} &nbsp;
     .summary-chart(
-      v-for="(user, j) in getRepo(repo)"
-      v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}"
+      v-for="(user, j) in getRepo(repo)",
+      v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
       v-bind:ref="'summary-chart-' + j"
       )
       .summary-chart__title(

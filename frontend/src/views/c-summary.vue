@@ -1,7 +1,7 @@
 <template lang="pug">
 #summary
   form.summary-picker.mui-form--inline(
-    v-if="!isWidgetMode"
+    v-if="!isWidgetMode",
     onsubmit="return false;"
   )
     .summary-picker__section
@@ -126,8 +126,8 @@
     v-bind:filter-search="filterSearch",
     v-bind:min-date="minDate",
     v-bind:max-date="maxDate",
-    v-bind:sort-group-selection="sortGroupSelection"
-    v-bind:chart-group-index="chartGroupIndex"
+    v-bind:sort-group-selection="sortGroupSelection",
+    v-bind:chart-group-index="chartGroupIndex",
     v-bind:chart-index="chartIndex"
   )
 </template>

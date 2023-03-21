@@ -13,12 +13,12 @@ router-view(
   v-bind:update-report-zip="updateReportZip",
   v-bind:repos="repos",
   v-bind:users="users",
-  v-bind:userUpdated="userUpdated",
-  v-bind:loadingOverlayOpacity="loadingOverlayOpacity",
-  v-bind:tabType="tabType",
-  v-bind:creationDate="creationDate",
-  v-bind:reportGenerationTime="reportGenerationTime",
-  v-bind:errorMessages="errorMessages",
+  v-bind:user-updated="userUpdated",
+  v-bind:loading-overlay-opacity="loadingOverlayOpacity",
+  v-bind:tab-type="tabType",
+  v-bind:creation-date="creationDate",
+  v-bind:report-generation-time="reportGenerationTime",
+  v-bind:error-messages="errorMessages"
   )
 </template>
 

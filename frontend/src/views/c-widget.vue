@@ -4,7 +4,7 @@ template(v-if="userUpdated")
     c-summary.widget-padding(
       ref="summary",
       v-bind:repos="users",
-      v-bind:error-messages="errorMessages"
+      v-bind:error-messages="errorMessages",
       v-bind:is-widget-mode="true"
     )
 template(v-else)
