@@ -2,7 +2,7 @@
 .segment(
   v-bind:class="{ untouched: !segment.knownAuthor, active: isOpen }",
   v-bind:style="{ 'border-left': `0.25rem solid ${authorColors[segment.knownAuthor]}` }",
-  v-bind:title="`Author: ${segment.knownAuthor || \"Unknown author\"}`"
+  v-bind:title="`Author: ${segment.knownAuthor || \"Unknown\"}`"
 )
   .closer(v-if="canOpen",
     v-on:click="toggleCode", ref="topButton")
