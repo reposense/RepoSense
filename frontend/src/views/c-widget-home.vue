@@ -1,16 +1,7 @@
 <template lang="pug">
-loading-overlay.overlay-loader(
-  v-bind:active='loadingOverlayCount > 0',
-  v-bind:opacity='loadingOverlayOpacity'
-)
-  template(v-slot:default)
-    i.overlay-loading-icon.fa.fa-spinner.fa-spin()
-  template(v-slot:after)
-    h3 {{ loadingOverlayMessage }}
-
 template(v-if="userUpdated")
   #summary-wrapper
-    c-summary.widget-padding(
+    c-widget-summary.widget-padding(
       ref="summary",
       v-bind:repos="users",
       v-bind:error-messages="errorMessages"
@@ -20,195 +11,51 @@ template(v-else)
 </template>
 
 <script>
-import LoadingOverlay from 'vue-loading-overlay';
-import { mapState } from 'vuex';
-
-import cSummary from './c-widget-summary.vue';
-
-const loadingResourcesMessage = 'Loading resources...';
+import cWidgetSummary from './c-widget-summary.vue';
 
 export default {
   name: 'c-widget',
   components: {
-    LoadingOverlay,
-    cSummary,
+    cWidgetSummary,
   },
-  data() {
-    return {
-      repos: {},
-      users: [],
-      userUpdated: false,
-
-      loadingOverlayOpacity: 1,
-
-      tabType: 'empty',
-      creationDate: '',
-      reportGenerationTime: '',
-      errorMessages: {},
-    };
-  },
-  computed: {
-    ...mapState(['loadingOverlayCount', 'loadingOverlayMessage', 'isTabActive']),
-  },
-  watch: {
-    '$store.state.tabZoomInfo': function () {
-      if (this.$store.state.tabZoomInfo.isRefreshing) {
-        return;
-      }
-      this.activateTab('zoom');
+  props: {
+    updateReportZip: {
+      type: Function,
+      required: true,
     },
-    '$store.state.tabAuthorshipInfo': function () {
-      this.activateTab('authorship');
+    repos: {
+      type: Object,
+      required: true,
     },
-  },
-  created() {
-    try {
-      window.decodeHash();
-    } catch (error) {
-      this.userUpdated = false;
-    }
-    this.updateReportDir();
-  },
-  methods: {
-    updateReportDir() {
-      window.REPORT_ZIP = null;
-
-      this.users = [];
-      this.updateReportView();
+    users: {
+      type: Array,
+      required: true,
     },
-
-    async updateReportView() {
-      this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
-      this.userUpdated = false;
-      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
-      try {
-        const {
-          creationDate,
-          reportGenerationTime,
-          errorMessages,
-          names,
-        } = await window.api.loadSummary();
-        if (names === null) {
-          return;
-        }
-        this.creationDate = creationDate;
-        this.reportGenerationTime = reportGenerationTime;
-        this.errorMessages = errorMessages;
-        this.repos = window.REPOS;
-        await Promise.all(names.map((name) => (
-          window.api.loadCommits(name)
-        )));
-        this.loadingOverlayOpacity = 0.5;
-        this.getUsers();
-        this.renderTabHash();
-        this.userUpdated = true;
-      } catch (error) {
-        window.alert(error);
-      } finally {
-        this.$store.commit('incrementLoadingOverlayCount', -1);
-      }
+    userUpdated: {
+      type: Boolean,
+      required: true,
     },
-    getUsers() {
-      const full = [];
-      Object.keys(this.repos).forEach((repo) => {
-        if (this.repos[repo].users) {
-          full.push(this.repos[repo]);
-        }
-      });
-      this.users = full;
+    loadingOverlayOpacity: {
+      type: Number,
+      required: true,
     },
-
-    // handle opening of sidebar //
-    activateTab(tabName) {
-      if (this.$refs.tabWrapper) {
-        this.$refs.tabWrapper.scrollTop = 0;
-      }
-
-      this.tabType = tabName;
-      this.$store.commit('updateTabState', true);
-      window.addHash('tabType', this.tabType);
-      window.encodeHash();
+    tabType: {
+      type: String,
+      required: true,
     },
-
-    renderAuthorShipTabHash(minDate, maxDate) {
-      const hash = window.hashParams;
-      const info = {
-        author: hash.tabAuthor,
-        repo: hash.tabRepo,
-        isMergeGroup: hash.authorshipIsMergeGroup === 'true',
-        isRefresh: true,
-        minDate,
-        maxDate,
-        location: this.getRepoLink(),
-        files: [],
-      };
-      const tabInfoLength = Object.values(info).filter((x) => x !== null).length;
-      if (Object.keys(info).length === tabInfoLength) {
-        this.$store.commit('updateTabAuthorshipInfo', info);
-      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
-        this.$store.commit('updateTabState', false);
-      }
+    creationDate: {
+      type: String,
+      required: true,
     },
-
-    renderZoomTabHash() {
-      const hash = window.hashParams;
-      const zoomInfo = {
-        isRefreshing: true,
-        zAuthor: hash.zA,
-        zRepo: hash.zR,
-        zAvgCommitSize: hash.zACS,
-        zSince: hash.zS,
-        zUntil: hash.zU,
-        zFilterGroup: hash.zFGS,
-        zFilterSearch: hash.zFS,
-        zTimeFrame: hash.zFTF,
-        zIsMerged: hash.zMG === 'true',
-        zFromRamp: hash.zFR === 'true',
-      };
-      const tabInfoLength = Object.values(zoomInfo).filter((x) => x !== null).length;
-      if (Object.keys(zoomInfo).length === tabInfoLength) {
-        this.$store.commit('updateTabZoomInfo', zoomInfo);
-      } else if (hash.tabOpen === 'false' || tabInfoLength > 2) {
-        this.$store.commit('updateTabState', false);
-      }
+    reportGenerationTime: {
+      type: String,
+      required: true,
     },
-
-    renderTabHash() {
-      const hash = window.hashParams;
-      if (!hash.tabOpen) {
-        return;
-      }
-      this.$store.commit('updateTabState', hash.tabOpen === 'true');
-
-      if (this.isTabActive) {
-        if (hash.tabType === 'authorship') {
-          let { since, until } = hash;
-
-          // get since and until dates from window if not found in hash
-          since = since || window.sinceDate;
-          until = until || window.untilDate;
-          this.renderAuthorShipTabHash(since, until);
-        } else {
-          this.renderZoomTabHash();
-        }
-      }
-    },
-
-    getRepoLink() {
-      const { REPOS, hashParams } = window;
-      const { location, branch } = REPOS[hashParams.tabRepo];
-
-      if (Object.prototype.hasOwnProperty.call(location, 'organization')) {
-        return window.getBranchLink(hashParams.tabRepo, branch);
-      }
-      return REPOS[hashParams.tabRepo].location.location;
+    errorMessages: {
+      type: Object,
+      required: true,
     },
   },
 };
 
 </script>
-
-<style lang="scss">
-@import '../styles/style.scss';
-@import '../styles/panels.scss';
-</style>
