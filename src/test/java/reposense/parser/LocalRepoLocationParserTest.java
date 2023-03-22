@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
 public class LocalRepoLocationParserTest {
@@ -55,10 +56,9 @@ public class LocalRepoLocationParserTest {
 
     @Test
     public void parseLocalRepoLocation_pathContainsDelimiter_null() throws Exception {
-        if (isWindows()) {
-            // Windows do not allow pipe as part of directory name
-            return;
-        }
+        // Windows do not allow pipe as part of directory name
+        Assumptions.assumeFalse(isWindows());
+
         // Path contains delimiter but no intended use of delimiter
         try {
             Files.createDirectory(Paths.get("delimiter|in|directory"));
