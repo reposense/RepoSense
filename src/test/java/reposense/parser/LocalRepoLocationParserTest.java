@@ -1,6 +1,7 @@
 package reposense.parser;
 
 import static reposense.parser.LocalRepoLocationParser.parseLocalRepoLocation;
+import static reposense.util.TestUtil.loadResource;
 
 import java.io.File;
 
@@ -53,9 +54,8 @@ public class LocalRepoLocationParserTest {
     @Test
     public void parseLocalRepoLocation_pathContainsDelimiter_null() {
         // Path contains delimiter but no intended use of delimiter
-        String localLocation = new File(
-                "src/test/resources/LocalRepoLocationParserTest/delimiter|in|directory")
-                .getAbsolutePath();
+        String localLocation = loadResource(LocalRepoLocationParserTest.class,
+                "LocalRepoLocationParserTest/delimiter|in|directory").toString();
 
         String[] parsedLocationWithBranch = parseLocalRepoLocation(localLocation);
         Assertions.assertNull(parsedLocationWithBranch);
