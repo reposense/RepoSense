@@ -3,8 +3,6 @@ package reposense.parser;
 import static reposense.parser.LocalRepoLocationParser.parseLocalRepoLocation;
 import static reposense.util.TestUtil.loadResource;
 
-import java.io.File;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
