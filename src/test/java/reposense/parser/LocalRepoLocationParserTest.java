@@ -1,6 +1,7 @@
 package reposense.parser;
 
 import static reposense.parser.LocalRepoLocationParser.parseLocalRepoLocation;
+import static reposense.util.TestUtil.isWindows;
 
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -54,6 +55,10 @@ public class LocalRepoLocationParserTest {
 
     @Test
     public void parseLocalRepoLocation_pathContainsDelimiter_null() throws Exception {
+        if (isWindows()) {
+            // Windows do not allow pipe as part of directory name
+            return;
+        }
         // Path contains delimiter but no intended use of delimiter
         try {
             Files.createDirectory(Paths.get("delimiter|in|directory"));
