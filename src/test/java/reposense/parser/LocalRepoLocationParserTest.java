@@ -1,7 +1,10 @@
 package reposense.parser;
 
 import static reposense.parser.LocalRepoLocationParser.parseLocalRepoLocation;
-import static reposense.util.TestUtil.loadResource;
+
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -50,13 +53,19 @@ public class LocalRepoLocationParserTest {
     }
 
     @Test
-    public void parseLocalRepoLocation_pathContainsDelimiter_null() {
+    public void parseLocalRepoLocation_pathContainsDelimiter_null() throws Exception {
         // Path contains delimiter but no intended use of delimiter
-        String localLocation = loadResource(LocalRepoLocationParserTest.class,
-                "LocalRepoLocationParserTest/delimiter|in|directory").toString();
+        try {
+            Files.createDirectory(Paths.get("delimiter|in|directory"));
+        } catch (FileAlreadyExistsException e) {
+            // should ignore exception
+        }
+        String localLocation = Paths.get("delimiter|in|directory").toString();
 
         String[] parsedLocationWithBranch = parseLocalRepoLocation(localLocation);
         Assertions.assertNull(parsedLocationWithBranch);
+
+        Files.deleteIfExists(Paths.get("delimiter|in|directory"));
     }
 
     @Test
