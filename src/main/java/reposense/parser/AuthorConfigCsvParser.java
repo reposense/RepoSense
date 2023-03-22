@@ -15,7 +15,6 @@ import reposense.model.RepoLocation;
  * Container for the values parsed from {@code author-config.csv} file.
  */
 public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
-    public static final String LOCATION_BRANCH_DELIMITER = "#";
     public static final String AUTHOR_CONFIG_FILENAME = "author-config.csv";
 
     /**
@@ -70,9 +69,9 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_HEADER);
 
         for (String locationWithBranch : locationsWithBranch) {
-            String[] parsedLocationWithBranch = splitLocationAndBranch(locationWithBranch);
+            String[] parsedLocationWithBranch = AuthorConfigLocationParser.parseLocation(locationWithBranch, branch);
             String currLocation = parsedLocationWithBranch[0];
-            String currBranch = parsedLocationWithBranch[1] == null ? branch : parsedLocationWithBranch[1];
+            String currBranch = parsedLocationWithBranch[1];
             AuthorConfiguration config = findMatchingAuthorConfiguration(results, currLocation, currBranch);
 
             Author author = new Author(gitId);
@@ -97,7 +96,6 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         }
     }
 
-
     /**
      * Gets an existing {@link AuthorConfiguration} from {@code results} if {@code location} and {@code branch} matches.
      * Otherwise, adds a newly created {@link AuthorConfiguration} into {@code results} and returns it.
@@ -117,19 +115,5 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
         results.add(config);
         return config;
-    }
-
-    private static String[] splitLocationAndBranch(String locationWithBranch) {
-        int lastLocationBranchDelimiterIndex = locationWithBranch.lastIndexOf(LOCATION_BRANCH_DELIMITER);
-        String location;
-        String branch;
-        if (lastLocationBranchDelimiterIndex == -1) {
-            location = locationWithBranch;
-            branch = null;
-        } else {
-            location = locationWithBranch.substring(0, lastLocationBranchDelimiterIndex);
-            branch = locationWithBranch.substring(lastLocationBranchDelimiterIndex + 1);
-        }
-        return new String[] { location, branch };
     }
 }

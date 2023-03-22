@@ -377,4 +377,18 @@ public class FileUtil {
     private static boolean isFileTypeInPath(Path path, String... fileTypes) {
         return Arrays.stream(fileTypes).anyMatch(path.toString()::endsWith);
     }
+
+    /**
+     * Returns true if the {@code path} exists corresponding to the given String.
+     */
+    public static boolean pathExists(String path) {
+        boolean isValidPathLocation;
+        try {
+            Path pathLocation = Paths.get(path);
+            isValidPathLocation = Files.exists(pathLocation);
+        } catch (InvalidPathException ipe) {
+            isValidPathLocation = false;
+        }
+        return isValidPathLocation;
+    }
 }
