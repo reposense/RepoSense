@@ -11,6 +11,8 @@ const fileResult = z.object({
   fileType: z.string(),
   lines: z.array(lineSchema),
   authorContributionMap: z.record(z.number()),
+  isBinary: z.boolean().optional(),
+  isIgnored: z.boolean().optional(),
 });
 
 // Contains the zod validation schema for the authorship.json file

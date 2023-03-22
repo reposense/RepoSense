@@ -10,7 +10,7 @@ interface AuthorshipInfo {
   location: string | undefined;
   maxDate: string;
   minDate: string;
-  name: string;
+  name?: string;
   repo: string;
 }
 
@@ -18,17 +18,17 @@ interface ZoomInfo {
   isRefreshing?: boolean;
   zAuthor: string;
   zAvgCommitSize: number | string;
-  zFileTypeColors: { [key: string]: string };
+  zFileTypeColors?: { [key: string]: string };
   zFilterGroup: string;
   zFilterSearch: string;
   zFromRamp: boolean;
   zIsMerged: boolean;
-  zLocation: string | undefined;
+  zLocation?: string | undefined;
   zRepo: string;
   zSince: string;
   zTimeFrame: string;
   zUntil: string;
-  zUser: User;
+  zUser?: User;
 }
 
 interface SummaryDates {
