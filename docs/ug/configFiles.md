@@ -68,7 +68,7 @@ Optionally, you can use an `author-config.csv` (which should be in the same dire
 
 | Column Name                                      | Explanation                                                                                                                                                                                      |
 |--------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Repository's Location                            | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`                                                                                                                           |
+| Repository's Location<sup>*</sup>                | Same as `repo-config.csv`. Multiple repos can be specified in a row. Default: all the repos in `repo-config.csv`                                                                                 |
 | Branch                                           | The branch to analyze for this author, e.g., `master`. Default: the author will be bound to all the repos in `repo-config.csv` that has the same repo's location, regardless of branch.          |
 | Author's Git Host ID<sup>#</sup> {{ mandatory }} | Username of the target author's profile on GitHub, GitLab or Bitbucket, e.g.`JohnDoe`.                                                                                                           |
 | Author's Emails<sup>*</sup>                      | Associated emails of the author. For GitHub users, this can be found in your [GitHub settings](https://github.com/settings/emails).                                                              |
@@ -81,6 +81,34 @@ Optionally, you can use an `author-config.csv` (which should be in the same dire
 <sup># For backward compatibility, `Author's GitHub ID` is still accepted as the header in place of `Author's Git Host ID`.</sup>
 
 If `author-config.csv` is not given and the repo has not provided author details in a standalone config file, all the authors of the repositories within the date range specified (if any) will be analyzed.
+
+<box type="info" seamless>
+
+**Specifying multiple repositories' location in a single row:**
+
+We can specify multiple repository's location per row. This is to avoid duplicating a particular author's info with multiple rows, when this author is working in multiple repositories.
+example
+
+**Specifying branches for each repository**
+
+If we want to specify a branch for each of the repository, we can do so through the `|` delimiter.
+
+Example: `https://github.com/reposense/reposense.git|master;https://github.com/markbind/markbind.git|release`
+
+RepoSense will thus be analyzed under the master branch, and MarkBind will be analyzed under the release branch.
+
+This allows us to override the branch column with the branch specified after the delimiter for that particular repository.
+
+**Specifying branches for each repository using GitHub branch URL**
+
+We can also specify a branch per repository using GitHub branch URL. This is to allow quicker copying and paste of URL directly.
+The URL can be found on the addressbar by viewing the specified branch on GitHub.
+Example: `https://github.com/reposense/RepoSense/tree/release`
+
+All three different formats described above can be mixed in a single row. ([example](author-config-special-syntax.csv))
+
+</box>
+
 
 <!-- ==================================================================================================== -->
 
