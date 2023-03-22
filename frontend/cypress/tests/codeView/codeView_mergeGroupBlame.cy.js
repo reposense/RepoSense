@@ -91,8 +91,8 @@ describe('merge group blame in code view', () => {
       .eq(2)
       .children('.author-breakdown__legend')
       .should('have.length', expectedResult.length)
-      .each(($el, index, $list) => {
-        cy.wrap($el).should("contain", expectedResult[index]);
+      .each(($el, index) => {
+        cy.wrap($el).should('contain', expectedResult[index]);
       });
   });
 
@@ -114,11 +114,11 @@ describe('merge group blame in code view', () => {
       .click();
 
     // check first and second occurence of same author has the same color
-    cy.get('#tab-authorship .author-breakdown__legend:contains("jamessspanggg")')
+    cy.get('#tab-authorship .author-breakdown__legend:contains(\'jamessspanggg\')')
       .first()
       .then(($el) => {
         const color = $el.children().first().css('color');
-        cy.get('#tab-authorship .author-breakdown__legend:contains("jamessspanggg")')
+        cy.get('#tab-authorship .author-breakdown__legend:contains(\'jamessspanggg\')')
           .eq(1).children().first()
           .should('have.css', 'color', color);
       });
