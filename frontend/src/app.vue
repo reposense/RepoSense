@@ -75,24 +75,35 @@
       input(type="file", accept=".zip", v-on:change="updateReportZip")
 </template>
 
-<script>
+<script lang='ts'>
 import JSZip from 'jszip';
 import LoadingOverlay from 'vue-loading-overlay';
 import { mapState } from 'vuex';
+import { defineComponent } from 'vue';
 
 import cResizer from './components/c-resizer.vue';
 import cZoom from './views/c-zoom.vue';
 import cSummary from './views/c-summary.vue';
 import cAuthorship from './views/c-authorship.vue';
+import { Repo } from './types/types';
+import { ErrorMessage } from './types/zod/summary-type';
+import { ZoomInfo, AuthorshipInfo } from './types/vuex.d';
 
 const loadingResourcesMessage = 'Loading resources...';
 
-const app = {
+const app = defineComponent({
   name: 'app',
+  components: {
+    LoadingOverlay,
+    cResizer,
+    cZoom,
+    cSummary,
+    cAuthorship,
+  },
   data() {
     return {
-      repos: {},
-      users: [],
+      repos: {} as { [key: string]: Repo },
+      users: [] as Repo[],
       userUpdated: false,
 
       loadingOverlayOpacity: 1,
@@ -100,8 +111,11 @@ const app = {
       tabType: 'empty',
       creationDate: '',
       reportGenerationTime: '',
-      errorMessages: {},
+      errorMessages: {} as { [key: string]: ErrorMessage },
     };
+  },
+  computed: {
+    ...mapState(['loadingOverlayCount', 'loadingOverlayMessage', 'isTabActive']),
   },
   watch: {
     '$store.state.tabZoomInfo': function () {
@@ -114,12 +128,23 @@ const app = {
       this.activateTab('authorship');
     },
   },
+  created() {
+    try {
+      window.decodeHash();
+    } catch (error) {
+      this.userUpdated = false;
+    }
+    this.updateReportDir();
+  },
   methods: {
     // model functions //
-    updateReportZip(evt) {
+    updateReportZip(evt: Event) {
       this.users = [];
-
-      JSZip.loadAsync(evt.target.files[0])
+      const target = evt.target as HTMLInputElement;
+      if (target.files === null) {
+        return;
+      }
+      JSZip.loadAsync(target.files[0])
         .then((zip) => {
           window.REPORT_ZIP = zip;
         }, () => {
@@ -141,15 +166,16 @@ const app = {
       this.userUpdated = false;
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       try {
+        const summary = await window.api.loadSummary();
+        if (summary === null) {
+          return;
+        }
         const {
           creationDate,
           reportGenerationTime,
           errorMessages,
           names,
-        } = await window.api.loadSummary();
-        if (names === null) {
-          return;
-        }
+        } = summary;
         this.creationDate = creationDate;
         this.reportGenerationTime = reportGenerationTime;
         this.errorMessages = errorMessages;
@@ -168,7 +194,7 @@ const app = {
       }
     },
     getUsers() {
-      const full = [];
+      const full: Repo[] = [];
       Object.keys(this.repos).forEach((repo) => {
         if (this.repos[repo].users) {
           full.push(this.repos[repo]);
@@ -178,9 +204,9 @@ const app = {
     },
 
     // handle opening of sidebar //
-    activateTab(tabName) {
+    activateTab(tabName: string) {
       if (this.$refs.tabWrapper) {
-        this.$refs.tabWrapper.scrollTop = 0;
+        (this.$refs.tabWrapper as HTMLElement).scrollTop = 0;
       }
 
       this.tabType = tabName;
@@ -189,9 +215,9 @@ const app = {
       window.encodeHash();
     },
 
-    renderAuthorShipTabHash(minDate, maxDate) {
+    renderAuthorShipTabHash(minDate: string, maxDate: string) {
       const hash = window.hashParams;
-      const info = {
+      const info: AuthorshipInfo = {
         author: hash.tabAuthor,
         repo: hash.tabRepo,
         isMergeGroup: hash.authorshipIsMergeGroup === 'true',
@@ -211,7 +237,7 @@ const app = {
 
     renderZoomTabHash() {
       const hash = window.hashParams;
-      const zoomInfo = {
+      const zoomInfo: ZoomInfo = {
         isRefreshing: true,
         zAuthor: hash.zA,
         zRepo: hash.zR,
@@ -298,27 +324,7 @@ const app = {
       return REPOS[hashParams.tabRepo].location.location;
     },
   },
-
-  computed: {
-    ...mapState(['loadingOverlayCount', 'loadingOverlayMessage', 'isTabActive']),
-  },
-
-  components: {
-    LoadingOverlay,
-    cResizer,
-    cZoom,
-    cSummary,
-    cAuthorship,
-  },
-  created() {
-    try {
-      window.decodeHash();
-    } catch (error) {
-      this.userUpdated = false;
-    }
-    this.updateReportDir();
-  },
-};
+});
 
 window.app = app;
 
