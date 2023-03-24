@@ -68,5 +68,7 @@ declare global {
     isSinceDateProvided: boolean;
     isUntilDateProvided: boolean;
     DOMAIN_URL_MAP: DomainUrlMap;
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    app: any;
   }
 }
