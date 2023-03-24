@@ -364,6 +364,12 @@ public class ArgsParser {
             TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
             TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
 
+            boolean isViewModeOnly = reportFolderPath != null
+                    && !reportFolderPath.equals(EMPTY_PATH)
+                    && configFolderPath.equals(DEFAULT_CONFIG_PATH)
+                    && locations == null;
+            cliArgumentsBuilder.isViewModeOnly(isViewModeOnly);
+
             boolean isAutomaticallyLaunching = reportFolderPath != null;
 
             cliArgumentsBuilder.reportConfiguration(reportConfig)
@@ -375,8 +381,7 @@ public class ArgsParser {
                     .numCloningThreads(numCloningThreads)
                     .numAnalysisThreads(numAnalysisThreads);
 
-            if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH)
-                    && (!configFolderPath.equals(DEFAULT_CONFIG_PATH) || locations != null)) {
+            if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH) && !isViewModeOnly) {
                 logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
             }
 

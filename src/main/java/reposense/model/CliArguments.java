@@ -1,6 +1,5 @@
 package reposense.model;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -19,8 +18,6 @@ import reposense.parser.ReportConfigJsonParser;
  */
 public class CliArguments {
     private static final Path EMPTY_PATH = Paths.get("");
-    private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
-            + File.separator + "config" + File.separator);
 
     private final Path outputFilePath;
     private final Path assetsFilePath;
@@ -42,13 +39,11 @@ public class CliArguments {
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
 
 
-    // ViewCliArguments.java
     private List<String> locations;
+    private boolean isViewModeOnly;
 
-    // LocationsCliArguments.java
     private Path reportDirectoryPath;
 
-    // ConfigCliArguments.java
     private Path configFolderPath;
     private Path repoConfigFilePath;
     private Path authorConfigFilePath;
@@ -56,7 +51,7 @@ public class CliArguments {
     private Path reportConfigFilePath;
     private ReportConfiguration reportConfiguration;
 
-    public CliArguments(Builder builder) {
+    private CliArguments(Builder builder) {
         this.outputFilePath = builder.outputFilePath;
         this.assetsFilePath = builder.assetsFilePath;
         this.sinceDate = builder.sinceDate;
@@ -76,6 +71,7 @@ public class CliArguments {
         this.isTestMode = builder.isTestMode;
         this.isFreshClonePerformed = builder.isFreshClonePerformed;
         this.locations = builder.locations;
+        this.isViewModeOnly = builder.isViewModeOnly;
         this.reportDirectoryPath = builder.reportDirectoryPath;
         this.configFolderPath = builder.configFolderPath;
         this.repoConfigFilePath = builder.repoConfigFilePath;
@@ -190,8 +186,7 @@ public class CliArguments {
     }
 
     public boolean isViewModeOnly() {
-        return (reportDirectoryPath != null && !reportDirectoryPath.equals(EMPTY_PATH)
-                    && configFolderPath.equals(DEFAULT_CONFIG_PATH) && locations == null);
+        return isViewModeOnly;
     }
 
     @Override
@@ -226,6 +221,7 @@ public class CliArguments {
                 && this.isTestMode == otherCliArguments.isTestMode
                 && this.isFreshClonePerformed == otherCliArguments.isFreshClonePerformed
                 && Objects.equals(this.locations, otherCliArguments.locations)
+                && this.isViewModeOnly == otherCliArguments.isViewModeOnly
                 && Objects.equals(this.reportDirectoryPath, otherCliArguments.reportDirectoryPath)
                 && Objects.equals(this.repoConfigFilePath, otherCliArguments.repoConfigFilePath)
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
@@ -256,6 +252,7 @@ public class CliArguments {
         private boolean isTestMode;
         private boolean isFreshClonePerformed;
         private List<String> locations;
+        private boolean isViewModeOnly;
         private Path reportDirectoryPath;
         private Path configFolderPath;
         private Path repoConfigFilePath;
@@ -454,6 +451,16 @@ public class CliArguments {
          */
         public Builder locations(List<String> locations) {
             this.locations = locations;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isViewModeOnly} to CliArguments.
+         *
+         * @param isViewModeOnly Is view mode only.
+         */
+        public Builder isViewModeOnly(boolean isViewModeOnly) {
+            this.isViewModeOnly = isViewModeOnly;
             return this;
         }
 
