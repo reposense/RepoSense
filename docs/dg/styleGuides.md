@@ -16,6 +16,7 @@ Our coding standards are mostly based on those at [se-education.org/guides](http
 * [**Markdown/MarkBind** coding standard](https://se-education.org/guides/conventions/markdown.html)
 * [**Java** coding standard](https://se-education.org/guides/conventions/java/index.html)
 * [**JavaScript** coding standard](https://se-education.org/guides/conventions/javascript.html)
+* **TypeScript**: In addition to the JavaScript coding standard, follow the [**recommended ESLint rules**](https://typescript-eslint.io/rules/) and the formatting rules [described below](#typescript-specific-formatting).
 * **Vue Components**: Follow the [**Vue style guide**](https://vuejs.org/style-guide/), up to the **Recommended** section.
 * **Documentation**: Follow the [**Google developer documentation style guide**](https://developers.google.com/style).
 
@@ -122,5 +123,64 @@ public LocalDateTime parseDate(String dateString) throws NullPointerException, P
     // Code here
 }
 ```
+## TypeScript specific formatting
 
+For TypeScript specific code, such as within an `interface` or type annotations, we also stipulate the following standards:
+* Use semicolons as delimiters for TypeScript interfaces and types.
 
+Negative Examples:
+```typescript
+// missing semicolon delimiter
+interface Foo {
+    name: string
+    greet(): string
+}
+
+// using incorrect delimiter
+interface Foo {
+    name: string,
+    greet(): string,
+}
+```
+Positive Example:
+```typescript
+// semicolon delimiter
+interface Foo {
+    name: string;
+    greet(): string;
+}
+```
+* For type annotations, use a space after but not before.
+
+Negative Examples:
+```typescript
+let foo:string = "bar";
+let foo :string = "bar";
+let foo : string = "bar";
+
+function foo():string {}
+function foo() :string {}
+function foo() : string {}
+
+class Foo {
+    name:string;
+}
+
+class Foo {
+    name :string;
+}
+
+class Foo {
+    name : string;
+}
+```
+Positive Examples:
+```typescript
+let foo: string = "bar";
+
+function foo(): string {}
+
+class Foo {
+    name: string;
+}
+```
