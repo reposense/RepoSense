@@ -169,7 +169,8 @@
       "headings": {
         "appendix-style-guides": "Appendix: Style guides",
         "note-on-ternary-operators": "Note on Ternary Operators:",
-        "additional-javadoc-requirements": "Additional Javadoc requirements:"
+        "additional-javadoc-requirements": "Additional Javadoc requirements:",
+        "typescript-specific-formatting": "TypeScript specific formatting"
       },
       "headingKeywords": {}
     },
