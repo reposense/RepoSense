@@ -205,4 +205,31 @@ describe('merge group blame in code view', () => {
           .should('have.css', 'color', color);
       });
   });
+
+  it('colors in author breakdown match assigned colors', () => {
+    // group summary charts by repos
+    cy.get('div.mui-select.grouping > select:visible')
+      .select('groupByRepos');
+
+    // check merge group checkbox
+    cy.get('#summary label.merge-group > input')
+      .should('be.visible')
+      .check()
+      .should('be.checked');
+
+    // open the code panel
+    cy.get('.icon-button.fa-code')
+      .should('be.visible')
+      .first()
+      .click();
+
+    // author breakdown contains assigned colors
+    const expectedResult = ['rgb(30, 144, 255)', 'rgb(240, 128, 128)', 'rgb(0, 255, 127)', 'rgb(255, 215, 0)'];
+    cy.get('#tab-authorship .files .file .title .author-breakdown')
+      .eq(2)
+      .children('.author-breakdown__legend')
+      .each(($el, index) => {
+        cy.wrap($el).children().first().should('have.css', 'color', expectedResult[index]);
+      });
+  });
 });
