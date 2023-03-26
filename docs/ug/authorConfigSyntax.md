@@ -12,7 +12,7 @@
 Given below are the advanced syntax available and its use cases for `author-config.csv`. 
 </div>
 
-### Multiple `Repository's Location` per author
+## Multiple `Repository's Location` per author
 
 #### Motivation
 Each row in `author-config.csv` is used to provide more details about one particular author, such as the author's Git Host ID, emails, etc.
@@ -81,3 +81,27 @@ Below is an example:
 | https://github.com/reposense/RepoSense.git~master\|release\|cypress; | master   | sikai00              | --                    |
 
 We have now provided author details for three different branches in a single repo, using a single row.
+
+<br>
+
+<!-- ==================================================================================================== -->
+
+## Using GitHub branch URL as `Repository's Location`
+
+We can also use GitHub branch URL as copied from the address bar directly, to be able to quickly use the URL to specify the `Repository's Location` and a specific `Branch` at the same time.
+
+Below is an example:
+
+| Repository's Location                               | Branch   | Author's Git Host ID | ... Hidden columns    |
+|-----------------------------------------------------|----------|----------------------|-----------------------|
+| https://github.com/reposense/RepoSense/tree/release |          | sikai00              | --                    |
+
+There is no need to specify the `Branch` column now, as we have specified it through the GitHub branch URL.
+
+We can also use the GitHub branch URL with other repository location paths/URLs.
+
+| Repository's Location                                                                        | Branch   | Author's Git Host ID | ... Hidden columns    |
+|----------------------------------------------------------------------------------------------|----------|----------------------|-----------------------|
+| https://github.com/reposense/RepoSense/tree/release;https://github.com/MarkBind/markbind.git |          | sikai00              | --                    |
+
+Note: Since the `Branch` column is not stated for `https://github.com/MarkBind/markbind.git`, by default, all its branches as specified in `repo-config.csv` will be analyzed.
