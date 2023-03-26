@@ -87,7 +87,6 @@ If `author-config.csv` is not given and the repo has not provided author details
 **Specifying multiple repositories' location in a single row:**
 
 We can specify multiple repository's location per row. This is to avoid duplicating a particular author's info with multiple rows, when this author is working in multiple repositories.
-example
 
 **Specifying branches for each repository**
 

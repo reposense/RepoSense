@@ -1,6 +1,10 @@
 package reposense.parser;
 
+import static reposense.parser.AuthorConfigLocationParser.LOCATION_BRANCHES_DELIMITER;
 import static reposense.parser.AuthorConfigLocationParser.parseLocation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,77 +14,84 @@ public class AuthorConfigLocationParserTest {
     public void parseLocation_localLocationNoSpecialSyntax_success() {
         String location = "/Users/sikai/RepoSense";
         String defaultSpecifiedBranch = "master";
-        String[] parsedLocationWithBranch = parseLocation(location, defaultSpecifiedBranch);
+        List<String> parsedLocationWithBranch = parseLocation(location, defaultSpecifiedBranch);
 
-        String parsedLocation = parsedLocationWithBranch[0];
-        String parsedBranch = parsedLocationWithBranch[1];
+        List<String> expectedResults = new ArrayList<>();
+        expectedResults.add(location);
+        expectedResults.add(defaultSpecifiedBranch);
 
-        Assertions.assertEquals("/Users/sikai/RepoSense", parsedLocation);
-        Assertions.assertEquals("master", parsedBranch);
+        Assertions.assertEquals(expectedResults, parsedLocationWithBranch);
     }
 
     @Test
     public void parseLocation_remoteLocationNoSpecialSyntax_success() {
         String location = "https://github.com/reposense/RepoSense.git";
         String defaultSpecifiedBranch = "release";
-        String[] parsedLocationWithBranch = parseLocation(location, defaultSpecifiedBranch);
+        List<String> parsedLocationWithBranch = parseLocation(location, defaultSpecifiedBranch);
 
-        String parsedLocation = parsedLocationWithBranch[0];
-        String parsedBranch = parsedLocationWithBranch[1];
+        List<String> expectedResults = new ArrayList<>();
+        expectedResults.add(location);
+        expectedResults.add(defaultSpecifiedBranch);
 
-        Assertions.assertEquals("https://github.com/reposense/RepoSense.git", parsedLocation);
-        Assertions.assertEquals("release", parsedBranch);
+        Assertions.assertEquals(expectedResults, parsedLocationWithBranch);
     }
 
     @Test
     public void parseLocation_localLocationDelimiter_success() {
-        String location = "/Users/sikai/RepoSense|release";
         String defaultSpecifiedBranch = "master";
-        String[] parsedLocationWithBranch = parseLocation(location, defaultSpecifiedBranch);
+        String branch = "release";
+        String location = "/Users/sikai/RepoSense" + LOCATION_BRANCHES_DELIMITER + branch;
+        List<String> parsedLocationWithBranch = parseLocation(location, defaultSpecifiedBranch);
 
-        String parsedLocation = parsedLocationWithBranch[0];
-        String parsedBranch = parsedLocationWithBranch[1];
+        List<String> expectedResults = new ArrayList<>();
+        String expectedLocation = "/Users/sikai/RepoSense";
+        String expectedBranch = "release";
+        expectedResults.add(expectedLocation);
+        expectedResults.add(expectedBranch);
 
-        Assertions.assertEquals("/Users/sikai/RepoSense", parsedLocation);
-        Assertions.assertEquals("release", parsedBranch);
+        Assertions.assertEquals(expectedResults, parsedLocationWithBranch);
     }
 
     @Test
     public void parseLocation_remoteLocationDelimiter_success() {
-        String location = "https://github.com/reposense/RepoSense.git|release";
         String defaultSpecifiedBranch = "master";
-        String[] parsedLocationWithBranch = parseLocation(location, defaultSpecifiedBranch);
+        String branch = "release";
+        String location = "https://github.com/reposense/RepoSense.git" + LOCATION_BRANCHES_DELIMITER + branch;
+        List<String> parsedLocationWithBranch = parseLocation(location, defaultSpecifiedBranch);
 
-        String parsedLocation = parsedLocationWithBranch[0];
-        String parsedBranch = parsedLocationWithBranch[1];
+        List<String> expectedResults = new ArrayList<>();
+        String expectedLocation = "https://github.com/reposense/RepoSense.git";
+        String expectedBranch = "release";
+        expectedResults.add(expectedLocation);
+        expectedResults.add(expectedBranch);
 
-        Assertions.assertEquals("https://github.com/reposense/RepoSense.git", parsedLocation);
-        Assertions.assertEquals("release", parsedBranch);
+        Assertions.assertEquals(expectedResults, parsedLocationWithBranch);
     }
 
     @Test
     public void parseLocation_githubBranchUrl_success() {
         String githubBranchUrl = "https://github.com/reposense/RepoSense/tree/release";
         String defaultSpecifiedBranch = "master";
-        String[] parsedLocationWithBranch = parseLocation(githubBranchUrl, defaultSpecifiedBranch);
+        List<String> parsedLocationWithBranch = parseLocation(githubBranchUrl, defaultSpecifiedBranch);
 
-        String parsedLocation = parsedLocationWithBranch[0];
-        String parsedBranch = parsedLocationWithBranch[1];
+        String location = "https://github.com/reposense/RepoSense.git";
+        String branch = "release";
+        List<String> expectedResults = new ArrayList<>();
+        expectedResults.add(location);
+        expectedResults.add(branch);
 
-        Assertions.assertEquals("https://github.com/reposense/RepoSense.git", parsedLocation);
-        Assertions.assertEquals("release", parsedBranch);
-    }
+        Assertions.assertEquals(expectedResults, parsedLocationWithBranch);
 
-    @Test
-    public void parseLocation_githubBranchUrl2_success() {
-        String githubBranchUrl = "https://github.com/reposense/RepoSense/tree/master";
-        String defaultSpecifiedBranch = "release";
-        String[] parsedLocationWithBranch = parseLocation(githubBranchUrl, defaultSpecifiedBranch);
+        githubBranchUrl = "https://github.com/reposense/RepoSense/tree/master";
+        defaultSpecifiedBranch = "release";
+        parsedLocationWithBranch = parseLocation(githubBranchUrl, defaultSpecifiedBranch);
 
-        String parsedLocation = parsedLocationWithBranch[0];
-        String parsedBranch = parsedLocationWithBranch[1];
+        location = "https://github.com/reposense/RepoSense.git";
+        branch = "master";
+        expectedResults = new ArrayList<>();
+        expectedResults.add(location);
+        expectedResults.add(branch);
 
-        Assertions.assertEquals("https://github.com/reposense/RepoSense.git", parsedLocation);
-        Assertions.assertEquals("master", parsedBranch);
+        Assertions.assertEquals(expectedResults, parsedLocationWithBranch);
     }
 }

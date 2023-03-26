@@ -1,7 +1,11 @@
 package reposense.parser;
 
+import static reposense.parser.AuthorConfigLocationParser.LOCATION_BRANCHES_DELIMITER;
+import static reposense.parser.AuthorConfigLocationParser.SPLIT_SAFE_BRANCHES_DELIMITER;
 import static reposense.util.SystemUtil.isValidUrl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,23 +13,23 @@ import java.util.regex.Pattern;
  * Contains remote repository location parsing functionalities specified to {@code author-config.csv} file.
  */
 public class RemoteRepoLocationParser {
-    // It is unlikely that a URL will contain "|" as they are typically escaped in a URL.
-    private static final String LOCATION_BRANCH_DELIMITER = "|";
     private static final Pattern GITHUB_BRANCH_URL_PATTERN =
             Pattern.compile("(http|https)://github.com/(?<org>.+?)/(?<repoName>.+?)/tree/(?<branch>.+?)");
 
     /**
      * Given a string {@code locationAndBranch} representing a remote repository,
-     * extract it into a 2-element array of the form {location, branch} based on its form.
+     * extract it into a list containing location and branch information based on its form.
      * Returns null if no additional special syntax was used.
      */
-    public static String[] parseRemoteRepoLocation(String locationAndBranch) {
-        if (isGithubBranchUrl(locationAndBranch)) {
-            return parseGithubBranchUrl(locationAndBranch);
-        } else if (isUsingDelimiter(locationAndBranch)) {
-            return parseUrlWithDelimiter(locationAndBranch);
+    public static List<String> parseRemoteRepoLocation(String locationAndBranches, String defaultSpecifiedBranch) {
+        assert isValidUrl(locationAndBranches);
+
+        if (isGithubBranchUrl(locationAndBranches)) {
+            return parseGithubBranchUrl(locationAndBranches);
+        } else if (isUsingDelimiter(locationAndBranches)) {
+            return parseUrlWithDelimiter(locationAndBranches);
         } else {
-            return null;
+            return parseUrl(locationAndBranches, defaultSpecifiedBranch);
         }
     }
 
@@ -42,7 +46,7 @@ public class RemoteRepoLocationParser {
      * the location and branch delimiter syntax.
      */
     private static boolean isUsingDelimiter(String locationAndBranch) {
-        int lastLocationBranchDelimiterIndex = locationAndBranch.lastIndexOf(LOCATION_BRANCH_DELIMITER);
+        int lastLocationBranchDelimiterIndex = locationAndBranch.lastIndexOf(LOCATION_BRANCHES_DELIMITER);
         if (lastLocationBranchDelimiterIndex == -1) {
             return false;
         }
@@ -52,9 +56,9 @@ public class RemoteRepoLocationParser {
     }
 
     /**
-     * Parses a GitHub branch URL into a 2-element array of the form {location, branch}.
+     * Parses a GitHub branch URL into a 2-element list of the form {location, branch}.
      */
-    private static String[] parseGithubBranchUrl(String githubBranchUrl) {
+    private static List<String> parseGithubBranchUrl(String githubBranchUrl) {
         Matcher matcher = GITHUB_BRANCH_URL_PATTERN.matcher(githubBranchUrl);
         matcher.matches();
 
@@ -62,17 +66,48 @@ public class RemoteRepoLocationParser {
         String repoName = matcher.group("repoName");
         String branch = matcher.group("branch");
         String location = "https://github.com/" + org + "/" + repoName + ".git";
-        return new String[]{location, branch};
+
+        List<String> parsedLocation = new ArrayList<>();
+        parsedLocation.add(location);
+        parsedLocation.add(branch);
+        return parsedLocation;
     }
 
     /**
-     * Parses a URL that uses the delimiter syntax into a 2-element array of
-     * the form {location, branch}.
+     * Parses a URL that uses the delimiter syntax into a list containing
+     * location and branch information.
      */
-    private static String[] parseUrlWithDelimiter(String locationAndBranch) {
-        int lastLocationBranchDelimiterIndex = locationAndBranch.lastIndexOf(LOCATION_BRANCH_DELIMITER);
-        String location = locationAndBranch.substring(0, lastLocationBranchDelimiterIndex);
-        String branch = locationAndBranch.substring(lastLocationBranchDelimiterIndex + 1);
-        return new String[] { location, branch };
+    private static List<String> parseUrlWithDelimiter(String locationAndBranches) {
+        List<String> parsedLocationAndBranches = new ArrayList<>();
+        int lastLocationBranchesDelimiterIndex = locationAndBranches.lastIndexOf(LOCATION_BRANCHES_DELIMITER);
+
+        String location = locationAndBranches.substring(0, lastLocationBranchesDelimiterIndex);
+        parsedLocationAndBranches.add(location);
+
+        String[] branches = locationAndBranches
+                .substring(lastLocationBranchesDelimiterIndex + 1).split(SPLIT_SAFE_BRANCHES_DELIMITER);
+
+        for (String branch : branches) {
+            parsedLocationAndBranches.add(branch);
+        }
+
+        if (branches.length == 0) { // by default, an empty branch is used
+            parsedLocationAndBranches.add("");
+        }
+
+        return parsedLocationAndBranches;
+    }
+
+    /**
+     * Parses a remote repository URL that is not using any additional special syntax
+     * into a 2-element list containing location and branch information.
+     * The first item in the list is the location, while the second item is the default branch
+     * from {@code author-config.csv} branch column.
+     */
+    private static List<String> parseUrl(String location, String defaultSpecifiedBranch) {
+        List<String> parsedLocationAndBranch = new ArrayList<>();
+        parsedLocationAndBranch.add(location);
+        parsedLocationAndBranch.add(defaultSpecifiedBranch);
+        return parsedLocationAndBranch;
     }
 }

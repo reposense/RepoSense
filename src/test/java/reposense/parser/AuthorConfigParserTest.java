@@ -45,9 +45,13 @@ public class AuthorConfigParserTest {
             "AuthorConfigParserTest/authorconfig_gitHostIdHeader_test.csv");
     private static final Path AUTHOR_CONFIG_MULTIPLE_REPO_IN_ROW_FILE = loadResource(AuthorConfigParserTest.class,
             "AuthorConfigParserTest/authorconfig_multipleReposInRow_test.csv");
-    private static final Path AUTHOR_CONFIG_MULTIPLE_REPO_IN_ROW_SPECIAL_SYNTAX_FILE = loadResource(
+    private static final Path AUTHOR_CONFIG_MULTIPLE_REPO_IN_ROW_SINGLE_BRANCH_PER_REPO_FILE = loadResource(
             AuthorConfigParserTest.class,
-            "AuthorConfigParserTest/authorconfig_multipleReposInRowSpecialSyntax_test.csv");
+            "AuthorConfigParserTest/authorconfig_multipleReposInRowSingleBranchPerRepo_test.csv");
+
+    private static final Path AUTHOR_CONFIG_MULTIPLE_REPO_IN_ROW_MULTIPLE_BRANCH_PER_REPO_FILE = loadResource(
+            AuthorConfigParserTest.class,
+            "AuthorConfigParserTest/authorconfig_multipleReposInRowMultipleBranchPerRepo_test.csv");
 
     private static final String TEST_REPO_BETA_LOCATION = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_BETA_MASTER_BRANCH = "master";
@@ -255,9 +259,9 @@ public class AuthorConfigParserTest {
     }
 
     @Test
-    public void authorConfig_multipleReposInRowSpecialSyntax_success() throws Exception {
+    public void authorConfig_multipleReposInRowSingleBranchPerRepo_success() throws Exception {
         AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(
-                AUTHOR_CONFIG_MULTIPLE_REPO_IN_ROW_SPECIAL_SYNTAX_FILE);
+                AUTHOR_CONFIG_MULTIPLE_REPO_IN_ROW_SINGLE_BRANCH_PER_REPO_FILE);
         List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
 
         Assertions.assertEquals(4, configs.size());
@@ -277,5 +281,34 @@ public class AuthorConfigParserTest {
         config = configs.get(3);
         Assertions.assertEquals(new RepoLocation("/Users/sikai/RepoSense"), config.getLocation());
         Assertions.assertEquals("master", config.getBranch());
+    }
+
+    @Test
+    public void authorConfig_multipleReposInRowMultipleBranchPerRepo_success() throws Exception {
+        AuthorConfigCsvParser authorConfigCsvParser = new AuthorConfigCsvParser(
+                AUTHOR_CONFIG_MULTIPLE_REPO_IN_ROW_MULTIPLE_BRANCH_PER_REPO_FILE);
+        List<AuthorConfiguration> configs = authorConfigCsvParser.parse();
+
+        Assertions.assertEquals(5, configs.size());
+
+        AuthorConfiguration config = configs.get(0);
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals("add-config-json", config.getBranch());
+
+        config = configs.get(1);
+        Assertions.assertEquals(new RepoLocation(TEST_REPO_BETA_LOCATION), config.getLocation());
+        Assertions.assertEquals(TEST_REPO_BETA_MASTER_BRANCH, config.getBranch());
+
+        config = configs.get(2);
+        Assertions.assertEquals(new RepoLocation("/Users/sikai/RepoSense"), config.getLocation());
+        Assertions.assertEquals("master", config.getBranch());
+
+        config = configs.get(3);
+        Assertions.assertEquals(new RepoLocation("/Users/sikai/RepoSense"), config.getLocation());
+        Assertions.assertEquals("release", config.getBranch());
+
+        config = configs.get(4);
+        Assertions.assertEquals(new RepoLocation("/Users/sikai/RepoSense"), config.getLocation());
+        Assertions.assertEquals("gh-pages", config.getBranch());
     }
 }

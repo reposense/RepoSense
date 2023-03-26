@@ -60,7 +60,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      */
     @Override
     protected void processLine(List<AuthorConfiguration> results, CSVRecord record) throws ParseException {
-        List<String> locationsWithBranch = getAsListOrDefault(record, LOCATION_HEADER);
+        List<String> locationsWithBranches = getAsListOrDefault(record, LOCATION_HEADER);
         String branch = getOrDefault(record, BRANCH_HEADER, AuthorConfiguration.DEFAULT_BRANCH);
         String gitId = get(record, GIT_ID_HEADERS);
         List<String> emails = getAsList(record, EMAIL_HEADER);
@@ -68,31 +68,35 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         List<String> aliases = getAsList(record, ALIAS_HEADER);
         List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_HEADER);
 
-        for (String locationWithBranch : locationsWithBranch) {
-            String[] parsedLocationWithBranch = AuthorConfigLocationParser.parseLocation(locationWithBranch, branch);
-            String currLocation = parsedLocationWithBranch[0];
-            String currBranch = parsedLocationWithBranch[1];
-            AuthorConfiguration config = findMatchingAuthorConfiguration(results, currLocation, currBranch);
+        for (String locationWithBranches : locationsWithBranches) {
+            List<String> parsedLocationWithBranches = AuthorConfigLocationParser
+                    .parseLocation(locationWithBranches, branch);
 
-            Author author = new Author(gitId);
+            String currLocation = parsedLocationWithBranches.get(0);
+            for (int i = 1; i < parsedLocationWithBranches.size(); i++) {
+                String currBranch = parsedLocationWithBranches.get(i);
+                AuthorConfiguration config = findMatchingAuthorConfiguration(results, currLocation, currBranch);
 
-            if (config.containsAuthor(author)) {
-                logger.warning(String.format(
-                        "Skipping author as %s already in repository %s %s",
-                        author.getGitId(), config.getLocation(), config.getBranch()));
-                return;
+                Author author = new Author(gitId);
+
+                if (config.containsAuthor(author)) {
+                    logger.warning(String.format(
+                            "Skipping author as %s already in repository %s %s",
+                            author.getGitId(), config.getLocation(), config.getBranch()));
+                    return;
+                }
+
+                author.setEmails(new ArrayList<>(emails));
+                author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
+                if (!aliases.isEmpty()) {
+                    author.setAuthorAliases(aliases);
+                }
+                if (!ignoreGlobList.isEmpty()) {
+                    author.setIgnoreGlobList(ignoreGlobList);
+                }
+
+                config.addAuthor(author);
             }
-
-            author.setEmails(new ArrayList<>(emails));
-            author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
-            if (!aliases.isEmpty()) {
-                author.setAuthorAliases(aliases);
-            }
-            if (!ignoreGlobList.isEmpty()) {
-                author.setIgnoreGlobList(ignoreGlobList);
-            }
-
-            config.addAuthor(author);
         }
     }
 
