@@ -1,6 +1,6 @@
 package reposense.wizard;
 
-import static reposense.wizard.InputBuilder.translateCommandline;
+import static org.apache.tools.ant.types.Commandline.translateCommandline;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
