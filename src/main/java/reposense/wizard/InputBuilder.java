@@ -2,10 +2,6 @@ package reposense.wizard;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
-import org.apache.tools.ant.BuildException;
 
 import reposense.parser.ArgsParser;
 
