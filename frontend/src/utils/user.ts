@@ -2,7 +2,7 @@ import { Commit, DailyCommit, User as UserType } from '../types/types';
 import { AuthorFileTypeContributions } from '../types/zod/commits-type';
 
 export default class User implements UserType {
-  checkedFileTypeContribution : number;
+  checkedFileTypeContribution: number;
 
   commits: Commit[];
 
