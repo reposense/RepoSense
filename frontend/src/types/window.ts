@@ -12,7 +12,7 @@ interface ComparatorFunction<T> {
   (a: T, b: T): -1 | 0 | 1;
 }
 
-type ComparablePrimitive = string | number
+type ComparablePrimitive = string | number;
 
 interface SortingFunction<T> {
   (item: T, sortingOption?: string): ComparablePrimitive;
