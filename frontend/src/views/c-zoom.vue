@@ -311,7 +311,7 @@ export default defineComponent({
     },
 
     updateFileTypes() {
-      const commitsFileTypes = new Set();
+      const commitsFileTypes = new Set<string>();
       this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
           Object.keys(slice.fileTypesAndContributionMap).forEach((fileType) => {
