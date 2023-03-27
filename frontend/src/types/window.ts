@@ -20,10 +20,10 @@ interface SortingFunction<T> {
 interface Api {
   loadJSON: (fname: string) => Promise<unknown>;
   loadSummary: () => Promise<{
-    creationDate: string,
-    reportGenerationTime: string,
-    errorMessages: { [key: string]: ErrorMessage },
-    names: string[],
+    creationDate: string;
+    reportGenerationTime: string;
+    errorMessages: { [key: string]: ErrorMessage };
+    names: string[];
   } | null>;
   loadCommits: (repoName: string) => Promise<User[]>;
   loadAuthorship: (repoName: string) => Promise<AuthorshipSchema>;
@@ -69,5 +69,7 @@ declare global {
     isSinceDateProvided: boolean;
     isUntilDateProvided: boolean;
     DOMAIN_URL_MAP: DomainUrlMap;
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    app: any;
   }
 }
