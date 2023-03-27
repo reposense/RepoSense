@@ -177,7 +177,7 @@ export default defineComponent({
 
   computed: {
     sortingFunction() {
-      const commitSortFunction = this.commitsSortType === 'time'
+      const commitSortFunction = this.commitsSortType === CommitsSortType.Time
         ? (commit: Commit) => commit.date
         : (commit: Commit) => commit.insertions;
 
