@@ -175,14 +175,14 @@ export default defineComponent({
       fileTypes: [] as string[],
       filtered: [] as User[][],
       filterSearch: '',
-      filterGroupSelection: 'groupByRepos' as FilterGroupSelection,
-      sortGroupSelection: 'groupTitle dsc' as SortGroupSelection, // UI for sorting groups
-      sortWithinGroupSelection: 'title' as SortWithinGroupSelection, // UI for sorting within groups
+      filterGroupSelection: FilterGroupSelection.GroupByRepos,
+      sortGroupSelection: SortGroupSelection.GroupTitleDsc, // UI for sorting groups
+      sortWithinGroupSelection: SortWithinGroupSelection.Title, // UI for sorting within groups
       sortingOption: '',
       isSortingDsc: '',
       sortingWithinOption: '',
       isSortingWithinDsc: '',
-      filterTimeFrame: 'commit' as FilterTimeFrame,
+      filterTimeFrame: FilterTimeFrame.Commit,
       filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
