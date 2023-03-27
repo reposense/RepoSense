@@ -147,13 +147,14 @@ import {
   DailyCommit,
   WeeklyCommit,
 } from '../types/types';
+import CommitsSortType from '../types/zoom';
 
 const getFontColor = window.getFontColor;
 
 function zoomInitialState() {
   return {
     showAllCommitMessageBody: true,
-    commitsSortType: 'time',
+    commitsSortType: CommitsSortType.Time,
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
     selectedFileTypes: [] as string[],
@@ -330,8 +331,8 @@ export default defineComponent({
 
     retrieveSortHash() {
       const hash = window.hashParams;
-      if (hash.zCST) {
-        this.commitsSortType = hash.zCST;
+      if (hash.zCST && Object.values(CommitsSortType).includes(hash.zCST as CommitsSortType)) {
+        this.commitsSortType = hash.zCST as CommitsSortType;
       }
       if (hash.zRSC) {
         this.toReverseSortedCommits = (hash.zRSC === 'true');
