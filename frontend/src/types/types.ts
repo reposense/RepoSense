@@ -20,8 +20,14 @@ export interface DailyCommit {
   date: string;
 }
 
+export interface WeeklyCommit {
+  commitResults: CommitResult[];
+  date: string;
+  endDate: string;
+}
+
 // Similar to DailyCommit, but contains the total insertions and deletions for all CommitResults
-export interface Commit extends DailyCommit {
+export interface Commit extends DailyCommit, WeeklyCommit {
   deletions: number;
   insertions: number;
 }
