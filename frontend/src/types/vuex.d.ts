@@ -1,5 +1,6 @@
 import { Store } from 'vuex';
-import { AuthorshipFile, User } from './types';
+import { AuthorshipFile } from './types';
+import User from '../utils/user';
 
 interface AuthorshipInfo {
   author: string;

@@ -148,6 +148,7 @@ import {
   WeeklyCommit,
 } from '../types/types';
 import CommitsSortType from '../types/zoom';
+import { StoreState } from '../types/vuex.d';
 
 const getFontColor = window.getFontColor;
 
@@ -188,6 +189,11 @@ export default defineComponent({
       const {
         zUser, zSince, zUntil, zTimeFrame,
       } = this.info;
+
+      if (!zUser) {
+        throw new Error('zUser is not defined');
+      }
+
       const filteredUser: User = Object.assign({}, zUser);
 
       if (zTimeFrame === 'week') {
@@ -257,8 +263,8 @@ export default defineComponent({
     },
 
     ...mapState({
-      fileTypeColors: 'fileTypeColors',
-      info: 'tabZoomInfo',
+      fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,
+      info: (state: unknown) => (state as StoreState).tabZoomInfo,
     }),
   },
 
@@ -300,7 +306,7 @@ export default defineComponent({
       if (this.info.zIsMerged) {
         return window.getCommitLink(slice.repoId, slice.hash);
       }
-      return window.getCommitLink(this.info.zUser.repoId, slice.hash);
+      return window.getCommitLink(this.info.zUser!.repoId, slice.hash);
     },
 
     scrollToCommit(tag: string, commit: string) {
@@ -366,14 +372,14 @@ export default defineComponent({
       } = this.info;
       addHash('zA', zAuthor);
       addHash('zR', zRepo);
-      addHash('zACS', zAvgCommitSize);
+      addHash('zACS', zAvgCommitSize.toString());
       addHash('zS', zSince);
       addHash('zFS', zFilterSearch);
       addHash('zU', zUntil);
-      addHash('zMG', zIsMerged);
+      addHash('zMG', zIsMerged.toString());
       addHash('zFTF', zTimeFrame);
       addHash('zFGS', zFilterGroup);
-      addHash('zFR', zFromRamp);
+      addHash('zFR', zFromRamp.toString());
       encodeHash();
     },
 
