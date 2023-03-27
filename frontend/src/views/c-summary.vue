@@ -145,6 +145,9 @@ import {
 import { ErrorMessage } from '../types/zod/summary-type';
 import { AuthorFileTypeContributions, FileTypeAndContribution } from '../types/zod/commits-type';
 import { ZoomInfo } from '../types/vuex.d';
+import {
+  FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection,
+} from '../types/summary';
 
 const getFontColor = window.getFontColor;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
@@ -172,14 +175,14 @@ export default defineComponent({
       fileTypes: [] as string[],
       filtered: [] as User[][],
       filterSearch: '',
-      filterGroupSelection: 'groupByRepos',
-      sortGroupSelection: 'groupTitle', // UI for sorting groups
-      sortWithinGroupSelection: 'title', // UI for sorting within groups
+      filterGroupSelection: 'groupByRepos' as FilterGroupSelection,
+      sortGroupSelection: 'groupTitle dsc' as SortGroupSelection, // UI for sorting groups
+      sortWithinGroupSelection: 'title' as SortWithinGroupSelection, // UI for sorting within groups
       sortingOption: '',
       isSortingDsc: '',
       sortingWithinOption: '',
       isSortingWithinDsc: '',
-      filterTimeFrame: 'commit',
+      filterTimeFrame: 'commit' as FilterTimeFrame,
       filterBreakdown: false,
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
@@ -396,14 +399,16 @@ export default defineComponent({
       const hash = Object.assign({}, window.hashParams);
 
       if (hash.search) { this.filterSearch = hash.search; }
-      if (hash.sort) {
-        this.sortGroupSelection = hash.sort;
+      if (hash.sort && Object.values(SortGroupSelection).includes(hash.sort as SortGroupSelection)) {
+        this.sortGroupSelection = hash.sort as SortGroupSelection;
       }
-      if (hash.sortWithin) {
-        this.sortWithinGroupSelection = hash.sortWithin;
+      if (hash.sortWithin && Object.values(SortWithinGroupSelection).includes(hash.sort as SortWithinGroupSelection)) {
+        this.sortWithinGroupSelection = hash.sortWithin as SortWithinGroupSelection;
       }
 
-      if (hash.timeframe) { this.filterTimeFrame = hash.timeframe; }
+      if (hash.timeframe && Object.values(FilterTimeFrame).includes(hash.timeframe as FilterTimeFrame)) {
+        this.filterTimeFrame = hash.timeframe as FilterTimeFrame;
+      }
       if (hash.mergegroup) {
         this.$store.commit(
           'updateMergedGroup',
@@ -417,8 +422,8 @@ export default defineComponent({
         this.tmpFilterUntilDate = hash.until;
       }
 
-      if (hash.groupSelect) {
-        this.filterGroupSelection = hash.groupSelect;
+      if (hash.groupSelect && Object.values(FilterGroupSelection).includes(hash.groupSelect as FilterGroupSelection)) {
+        this.filterGroupSelection = hash.groupSelect as FilterGroupSelection;
       }
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
