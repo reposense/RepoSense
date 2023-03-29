@@ -2,7 +2,7 @@ import { Commit, DailyCommit, User as UserType } from '../types/types';
 import { AuthorFileTypeContributions } from '../types/zod/commits-type';
 
 export default class User implements UserType {
-  checkedFileTypeContribution: number;
+  checkedFileTypeContribution: number | undefined;
 
   commits: Commit[];
 
@@ -25,7 +25,7 @@ export default class User implements UserType {
   variance: number;
 
   constructor(userObj: User) {
-    this.checkedFileTypeContribution = userObj.checkedFileTypeContribution || 0;
+    this.checkedFileTypeContribution = userObj.checkedFileTypeContribution;
     this.commits = userObj.commits || [];
     this.dailyCommits = userObj.dailyCommits || [];
     this.displayName = userObj.displayName || '';

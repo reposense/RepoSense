@@ -322,7 +322,7 @@ export default {
               contributionBars.push(fullBarWidth);
             }
             const remainingBarWidth = barWidth % fullBarWidth;
-            if (remainingBarWidth >= 0) {
+            if (remainingBarWidth > 0) {
               contributionBars.push(remainingBarWidth);
             }
             currentBarWidth = remainingBarWidth;

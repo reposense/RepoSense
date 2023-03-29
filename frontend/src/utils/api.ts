@@ -269,7 +269,7 @@ window.api = {
           searchPath: searchParams.join('_').toLowerCase(),
           repoName: `${repo.displayName}`,
           location: `${repo.location.location}`,
-          checkedFileTypeContribution: -1,
+          checkedFileTypeContribution: undefined,
         });
 
         res.push(user);

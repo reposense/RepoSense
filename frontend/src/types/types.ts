@@ -27,7 +27,7 @@ export interface Commit extends DailyCommit {
 }
 
 export interface User {
-  checkedFileTypeContribution: number;
+  checkedFileTypeContribution: number | undefined;
   commits?: Commit[];
   dailyCommits: DailyCommit[];
   displayName: string;
