@@ -12,9 +12,10 @@ interface ComparatorFunction<T> {
   (a: T, b: T): -1 | 0 | 1;
 }
 
+type ComparablePrimitive = string | number;
+
 interface SortingFunction<T> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (item: T, sortingOption?: string): any;
+  (item: T, sortingOption?: string): ComparablePrimitive;
 }
 
 interface Api {
