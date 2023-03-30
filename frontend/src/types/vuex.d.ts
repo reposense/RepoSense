@@ -42,6 +42,7 @@ interface StoreState {
   summaryDates: SummaryDates;
   mergedGroups: string[];
   fileTypeColors: { [key: string]: string };
+  tabAuthorColors: { [key: string]: string };
   loadingOverlayCount: number;
   loadingOverlayMessage: string;
   isTabActive: boolean;
