@@ -14,7 +14,7 @@
 ## Parser(ConfigParser)
 
 [`Parser`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser) contains three components:
- * [`ArgsParser`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/ArgsParser.java): Parses the user-supplied command line arguments into a `CliArguments` object. `RunConfigurationDecider` then gets the appropriate `CliRunConfiguration` or `ConfigRunConfiguration` from `CliArguments`.
+ * [`ArgsParser`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/ArgsParser.java): Parses the user-supplied command line arguments into a `CliArguments` object. `RunConfigurationDecider` then gets the appropriate `RunConfiguration` for the `CliArguments` which generates the appropriate `Config` files.
  * [`CsvParser`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/CsvParser.java): Abstract generic class for CSV parsing functionality. The following three classes extend `CsvParser`.
    * [`AuthorConfigCsvParser`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/AuthorConfigCsvParser.java): Parses the `author-config.csv` config file into a list of `AuthorConfiguration` for each repository to analyze.
    * [`GroupConfigCsvParser`](https://github.com/reposense/RepoSense/blob/master/src/main/java/reposense/parser/GroupConfigCsvParser.java): Parses the `group-config.csv` config file into a list of `GroupConfiguration` for each repository to analyze.
