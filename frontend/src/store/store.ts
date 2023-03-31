@@ -14,6 +14,7 @@ export default createStore<StoreState>({
     summaryDates: {} as SummaryDates,
     mergedGroups: [],
     fileTypeColors: {},
+    tabAuthorColors: {},
     loadingOverlayCount: 0,
     loadingOverlayMessage: '',
     isTabActive: true,
@@ -30,6 +31,9 @@ export default createStore<StoreState>({
     },
     updateFileTypeColors(state: StoreState, info: { [key: string]: string }) {
       state.fileTypeColors = info;
+    },
+    updateAuthorColors(state: StoreState, info: { [key: string]: string }) {
+      state.tabAuthorColors = info;
     },
     updateMergedGroup(state: StoreState, info: string[]) {
       state.mergedGroups = info;
