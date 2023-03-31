@@ -1,21 +1,25 @@
 package reposense.model;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import reposense.parser.ArgsParser;
-import reposense.parser.ArgsParserTest;
-import reposense.util.FileUtil;
-import reposense.util.InputBuilder;
+import static org.apache.tools.ant.types.Commandline.translateCommandline;
+import static reposense.model.RunConfigurationDecider.getRunConfiguration;
+import static reposense.util.TestUtil.loadResource;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static org.apache.tools.ant.types.Commandline.translateCommandline;
-import static reposense.model.RunConfigurationDecider.getRunConfiguration;
-import static reposense.util.TestUtil.loadResource;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import reposense.parser.ArgsParser;
+import reposense.parser.ArgsParserTest;
+import reposense.util.FileUtil;
+import reposense.util.InputBuilder;
+
+
+
 
 public class RunConfigurationDeciderTest {
     private static final Path PROJECT_DIRECTORY = Paths.get(System.getProperty("user.dir"));
