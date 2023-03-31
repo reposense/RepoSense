@@ -2,6 +2,7 @@ package reposense.model;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,6 +11,8 @@ import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.InvalidCsvException;
 import reposense.parser.InvalidHeaderException;
+import reposense.parser.InvalidLocationException;
+import reposense.parser.ParseException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.system.LogsManager;
 
@@ -28,41 +31,23 @@ public class CliRunConfiguration implements RunConfiguration {
     /**
      * Constructs a list of {@link RepoConfiguration}.
      *
-     * @throws IOException if user-supplied csv file does not exist or is not readable.
-     * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
-     * @throws InvalidHeaderException if user-supplied csv file has header that cannot be parsed.
+     * @throws ParseException if all repo locations are invalid.
      */
     @Override
-    public List<RepoConfiguration> getRepoConfigurations()
-            throws IOException, InvalidCsvException, InvalidHeaderException {
-        List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
-        List<AuthorConfiguration> authorConfigs;
-        List<GroupConfiguration> groupConfigs;
-
-        try {
-            authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
-            RepoConfiguration.merge(repoConfigs, authorConfigs);
-            RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true);
-        } catch (FileNotFoundException fnfe) {
-            // FileNotFoundException thrown as author-config.csv is not found.
-            // Ignore exception as the file is optional.
-        } catch (IOException | InvalidCsvException e) {
-            // for all IO and invalid csv exceptions, log the error and continue
-            logger.log(Level.WARNING, e.getMessage(), e);
+    public List<RepoConfiguration> getRepoConfigurations() throws ParseException {
+        List<RepoConfiguration> configs = new ArrayList<>();
+        for (String locationString : cliArguments.getLocations()) {
+            try {
+                configs.add(new RepoConfiguration(new RepoLocation(locationString)));
+            } catch (InvalidLocationException ile) {
+                logger.log(Level.WARNING, ile.getMessage(), ile);
+            }
         }
 
-        try {
-            groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
-            RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
-        } catch (FileNotFoundException fnfe) {
-            // FileNotFoundException thrown as groups-config.csv is not found.
-            // Ignore exception as the file is optional.
-        } catch (IOException | InvalidCsvException e) {
-            // for all other IO and invalid csv exceptions, log the error and continue
-            logger.log(Level.WARNING, e.getMessage(), e);
+        if (configs.isEmpty()) {
+            throw new ParseException("All repository locations are invalid.");
         }
 
-        return repoConfigs;
+        return configs;
     }
-
 }
