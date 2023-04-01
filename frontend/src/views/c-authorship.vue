@@ -160,6 +160,16 @@
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
                 span.tooltip-text {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
+          .author-breakdown(v-if="info.isMergeGroup")
+            .author-breakdown__legend(
+              v-for="author in getAuthors(file)",
+              v-bind:key="author"
+            )
+              font-awesome-icon(
+                icon="circle",
+                v-bind:style="{ 'color': authorColors[author] }"
+              )
+              span &nbsp; {{ author }} &nbsp;
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
@@ -177,6 +187,7 @@ import minimatch from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 import Segment from '../utils/segment';
+import getNonRepeatingColor from '../utils/random-color-generator';
 
 const getFontColor = window.getFontColor;
 
@@ -202,6 +213,9 @@ function authorshipInitialState() {
     isIgnoredFilesChecked: false,
     searchBarValue: '',
     authorDisplayName: '',
+    authors: new Set(),
+    selectedColors: ['#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3', '#adff2f', '#808000', '#800000',
+      '#ff8c00', '#c71585'],
   };
 }
 
@@ -306,6 +320,7 @@ export default {
     ...mapState({
       fileTypeColors: 'fileTypeColors',
       info: 'tabAuthorshipInfo',
+      authorColors: 'tabAuthorColors',
     }),
   },
 
@@ -449,6 +464,11 @@ export default {
       this.setInfoHash();
     },
 
+    getAuthors(file) {
+      return Array.from(new Set(file.segments.map((segment) => segment.knownAuthor)
+        .filter(Boolean))).sort().slice(0, 50);
+    },
+
     toggleAllFileActiveProperty(isActive) {
       this.$store.commit('setAllAuthorshipFileActiveProperty', { isActive, files: this.selectedFiles });
     },
@@ -499,7 +519,7 @@ export default {
     },
 
     splitSegments(lines) {
-      // split into segments separated by authored
+      // split into segments separated by knownAuthor
       let lastState;
       let lastId = -1;
       const segments = [];
@@ -509,17 +529,17 @@ export default {
         const isAuthorMatched = this.info.isMergeGroup
             ? !this.isUnknownAuthor(line.author.gitId)
             : line.author.gitId === this.info.author;
-        const authored = (line.author && isAuthorMatched);
+        const knownAuthor = (line.author && isAuthorMatched) ? line.author.gitId : null;
 
-        if (authored !== lastState || lastId === -1) {
+        if (knownAuthor !== lastState || lastId === -1) {
           segments.push(new Segment(
-            authored,
+            knownAuthor,
             [],
             [],
           ));
 
           lastId += 1;
-          lastState = authored;
+          lastState = knownAuthor;
         }
 
         const content = line.content || ' ';
@@ -527,8 +547,12 @@ export default {
 
         segments[lastId].lineNumbers.push(lineCount + 1);
 
-        if (line.content === '' && authored) {
+        if (line.content === '' && knownAuthor) {
           blankLineCount += 1;
+        }
+
+        if (knownAuthor) {
+          this.authors.add(knownAuthor);
         }
       });
 
@@ -536,6 +560,22 @@ export default {
         segments,
         blankLineCount,
       };
+    },
+
+    assignAuthorColors() {
+      let authorColorIndex = 0;
+      const authorColors = {};
+      if (this.info.isMergeGroup) {
+        this.authors.forEach((author) => {
+          if (authorColorIndex < this.selectedColors.length) {
+            authorColors[author] = this.selectedColors[authorColorIndex];
+            authorColorIndex += 1;
+          } else {
+            authorColors[author] = getNonRepeatingColor(Object.values(authorColors));
+          }
+        });
+      }
+      this.$store.commit('updateAuthorColors', authorColors);
     },
 
     processFiles(files) {
@@ -599,6 +639,7 @@ export default {
         }
       });
 
+      this.assignAuthorColors();
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
       this.$store.commit('updateTabAuthorshipFiles', res);
       this.updateSelectedFiles(true);
@@ -893,6 +934,17 @@ export default {
       .selected-label {
         order: -1;
       }
+
+      .author-breakdown {
+        overflow-y: hidden;
+
+        &__legend {
+          display: inline;
+          float: left;
+          font-size: 14px;
+          padding-right: 8px;
+        }
+      }
     }
 
     .binary-segment {
@@ -936,7 +988,7 @@ export default {
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
         width: 2rem;
-        // overwrite all hljs colours
+        // overwrite all hljs colors
         [class^='hljs'] {
           color: mui-color('grey');
         }

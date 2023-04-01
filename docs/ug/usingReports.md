@@ -143,8 +143,9 @@ The `Code panel` allows users to see the code attributed to a specific author. C
 * Clicking the file title toggles the file content.
 * Clicking the first icon beside the file title opens the history view of the file on the remote repository.
 * Clicking the second icon beside the file title opens the blame view of the file on the remote repository.
-* Code attributed to the author is highlighted in green.
-* Non-trivial code segments that the selected author does not write are hidden by default, but you can toggle them by clicking on the %%:fas-plus-circle:%% icon.
+* When using the code panel for a specific author, code attributed to the author is highlighted in green. 
+  * When using the `merge group` option with `group by repos`, the code panel will consist of multiple authors' contributions. Code attributed to these authors can be differentiated by the highlight colors of the code. The color legend is shown at the top of each file and consists only those authors that edited a particular file.
+* Non-trivial code segments that the selected author has not written are hidden by default, but you can toggle them by clicking on the %%:fas-plus-circle:%% icon.
 
 <box type="info" seamless>
 
