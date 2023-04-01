@@ -132,7 +132,7 @@ import { mapState } from 'vuex';
 import { PropType, defineComponent } from 'vue';
 
 import cSummaryCharts from '../components/c-summary-charts.vue';
-import getNonRepeatingColor from '../utils/ramp-colour-generator';
+import getNonRepeatingColor from '../utils/random-color-generator';
 import sortFiltered from '../utils/repo-sorter';
 import {
   Commit,
