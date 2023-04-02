@@ -52,10 +52,6 @@ sourceSets {
     }
 }
 
-wrapper {
-    gradleVersion = '7.4.2'
-}
-
 def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     workingDir 'frontend/'
     args = ['ci']
@@ -74,8 +70,20 @@ def zipReport = tasks.register('zipReport', Zip) {
     destinationDirectory = file('src/main/resources')
 }
 
+def copyCypressConfig = tasks.register('copyCypressConfig', Copy) {
+    description 'Copies the config files used by the backend to generate the test report for Cypress testing into an isolated working directory'
+    from 'frontend/cypress/config'
+    into 'build/serveTestReport/exampleconfig'
+}
+
+def copyMainClasses = tasks.register('copyMainClasses', Copy) {
+    description 'Copies the backend classes used to generate the test report for Cypress testing into an isolated working directory'
+    dependsOn classes
+    from 'build/classes/java/main'
+    into 'build/serveTestReport/java/main'
+}
+
 def compileJava = tasks.compileJava
-def classes = tasks.classes
 
 tasks.named("processSystemtestResources").configure {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
@@ -182,12 +190,14 @@ tasks.register('systemtest', Test) {
 }
 
 def serveTestReportInBackground = tasks.register('serveTestReportInBackground', com.github.psxpaul.task.JavaExecFork) {
-    dependsOn zipReport, compileJava, processResources, classes
+    description 'Creates a background server process for the test report that is to be used by Cypress'
+    dependsOn zipReport, compileJava, processResources, copyCypressConfig, copyMainClasses
     tasks.compileJava.mustRunAfter(zipReport)
     tasks.processResources.mustRunAfter(zipReport)
+    workingDir = 'build/serveTestReport'
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    args = ['--config', './frontend/cypress/config', '--since', 'd1', '--view']
+    args = ['--config', './exampleconfig', '--since', 'd1', '--view']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
     killDescendants = false // Kills descendants of started process using methods only found in Java 9 and beyond.

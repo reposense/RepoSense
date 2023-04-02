@@ -11,6 +11,7 @@ export interface CommitResult extends CommitResultRaw {
   repoId: string;
   insertions: number;
   deletions: number;
+  isOpen?: boolean;
 }
 
 // Similar to AuthorDailyContributions, but uses the updated CommitResult with the three new fields
@@ -44,4 +45,24 @@ export interface Repo extends RepoRaw {
   commits?: Commits;
   files?: FileResult[];
   users?: User[];
+}
+
+interface AuthorshipFileSegment {
+  authored: boolean;
+  lineNumbers: number[];
+  lines: string[];
+}
+
+export interface AuthorshipFile {
+  active: boolean;
+  blankLineCount: number;
+  charCount: number;
+  fileSize: number | undefined; // not actually in schema - to verify relevancy when migrating c-authorship.vue
+  fileType: string;
+  isBinary: boolean;
+  isIgnored: boolean;
+  lineCount: number;
+  path: string;
+  segments: AuthorshipFileSegment[];
+  wasCodeLoaded: boolean;
 }
