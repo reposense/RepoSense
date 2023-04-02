@@ -21,10 +21,10 @@ public class WizardRunnerTest {
     public void buildInput_repoOnly_success() {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         String input = new WizardInputBuilder()
-                .addNoFlag()
-                .addNoFlag()
-                .addNoFlag()
                 .add(REPO_LINK)
+                .addNoFlag()
+                .addNoFlag()
+                .addNoFlag()
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
@@ -39,19 +39,19 @@ public class WizardRunnerTest {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         // Yes only for sinceDate flag
         String input = new WizardInputBuilder()
+                .add(REPO_LINK)
                 .addYesFlag()
                 .add(SINCE_DATE)
                 .addNoFlag()
                 .addNoFlag()
-                .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
         wizardRunner.buildInput(sc);
 
         String expectedInput = new InputBuilder()
-                .addSinceDate(SINCE_DATE)
                 .addRepos(REPO_LINK)
+                .addSinceDate(SINCE_DATE)
                 .build();
         assertEquals(expectedInput, wizardRunner.getBuiltInput());
     }
@@ -60,19 +60,19 @@ public class WizardRunnerTest {
     public void buildInput_untilDateAndRepo_success() {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         String input = new WizardInputBuilder()
+                .add(REPO_LINK)
                 .addNoFlag()
                 .addYesFlag()
                 .add(UNTIL_DATE)
                 .addNoFlag()
-                .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
         wizardRunner.buildInput(sc);
 
         String expectedInput = new InputBuilder()
-                .addUntilDate(UNTIL_DATE)
                 .addRepos(REPO_LINK)
+                .addUntilDate(UNTIL_DATE)
                 .build();
         assertEquals(expectedInput, wizardRunner.getBuiltInput());
     }
@@ -81,21 +81,21 @@ public class WizardRunnerTest {
     public void buildInput_sinceDateAndUntilDateAndRepo_success() {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         String input = new WizardInputBuilder()
+                .add(REPO_LINK)
                 .addYesFlag()
                 .add(SINCE_DATE)
                 .addYesFlag()
                 .add(UNTIL_DATE)
                 .addNoFlag()
-                .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
         wizardRunner.buildInput(sc);
 
         String expectedInput = new InputBuilder()
+                .addRepos(REPO_LINK)
                 .addSinceDate(SINCE_DATE)
                 .addUntilDate(UNTIL_DATE)
-                .addRepos(REPO_LINK)
                 .build();
         assertEquals(expectedInput, wizardRunner.getBuiltInput());
     }
@@ -105,19 +105,19 @@ public class WizardRunnerTest {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         // Yes only for view flag
         String input = new WizardInputBuilder()
+                .add(REPO_LINK)
                 .addNoFlag()
                 .addNoFlag()
                 .addYesFlag()
                 .add(REPORT_PATH)
-                .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
         wizardRunner.buildInput(sc);
 
         String expectedInput = new InputBuilder()
-                .addView(Paths.get(REPORT_PATH))
                 .addRepos(REPO_LINK)
+                .addView(Paths.get(REPORT_PATH))
                 .build();
         assertEquals(expectedInput, wizardRunner.getBuiltInput());
     }
@@ -127,23 +127,23 @@ public class WizardRunnerTest {
         WizardRunner wizardRunner = new WizardRunner(new BasicWizard());
         // Yes for all flags
         String input = new WizardInputBuilder()
+                .add(REPO_LINK)
                 .addYesFlag()
                 .add(SINCE_DATE)
                 .addYesFlag()
                 .add(UNTIL_DATE)
                 .addYesFlag()
                 .add(REPORT_PATH)
-                .add(REPO_LINK)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
         wizardRunner.buildInput(sc);
 
         String expectedInput = new InputBuilder()
+                .addRepos(REPO_LINK)
                 .addSinceDate(SINCE_DATE)
                 .addUntilDate(UNTIL_DATE)
                 .addView(Paths.get(REPORT_PATH))
-                .addRepos(REPO_LINK)
                 .build();
         assertEquals(expectedInput, wizardRunner.getBuiltInput());
     }
