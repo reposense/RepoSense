@@ -12,8 +12,10 @@ interface ComparatorFunction<T> {
   (a: T, b: T): -1 | 0 | 1;
 }
 
+type ComparablePrimitive = string | number;
+
 interface SortingFunction<T> {
-  (item: T, sortingOption?: string): T;
+  (item: T, sortingOption?: string): ComparablePrimitive;
 }
 
 interface Api {
@@ -46,11 +48,11 @@ declare global {
     getDateStr: (date: Date) => string;
     getHexToRGB: (color: string) => number[];
     getFontColor: (color: string) => string;
-    addHash: (newKey: string, newVal: string) => void;
+    addHash: (newKey: string, newVal: string | boolean) => void;
     removeHash: (key: string) => void;
     encodeHash: () => void;
     decodeHash: () => void;
-    comparator: <T> (fn: SortingFunction<T>, sortingOption: string) => ComparatorFunction<T>;
+    comparator: <T> (fn: SortingFunction<T>, sortingOption?: string) => ComparatorFunction<T>;
     filterUnsupported: (string: string) => string | undefined;
     getAuthorLink: (repoId: string, author: string) => string | undefined;
     getRepoLinkUnfiltered: (repoId: string) => string;
