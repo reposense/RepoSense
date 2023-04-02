@@ -55,7 +55,7 @@ describe('merge group', () => {
       .should('be.disabled');
   });
 
-  it('merge group contribution bars have correct number and width after reload', () => {
+  it('merge group contribution bars should have correct width after reload', () => {
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
       .check()
