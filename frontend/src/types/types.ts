@@ -47,8 +47,8 @@ export interface Repo extends RepoRaw {
   users?: User[];
 }
 
-interface AuthorshipFileSegment {
-  authored: boolean;
+export interface AuthorshipFileSegment {
+  knownAuthor: string | null;
   lineNumbers: number[];
   lines: string[];
 }
