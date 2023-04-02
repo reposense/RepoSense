@@ -11,10 +11,10 @@ import reposense.wizard.prompt.RepoPrompt;
  */
 public class BasicWizard extends Wizard {
     private static final Prompt[] INITIAL_PROMPTS = new Prompt[] {
+            new RepoPrompt(),
             new OptionalSincePrompt(),
             new OptionalUntilPrompt(),
-            new OptionalViewPrompt(),
-            new RepoPrompt()
+            new OptionalViewPrompt()
     };
     public BasicWizard() {
         super(INITIAL_PROMPTS);
