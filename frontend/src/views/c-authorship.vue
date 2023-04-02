@@ -181,47 +181,52 @@
           c-segment-collection(v-bind:segments="file.segments", v-bind:path="file.path")
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 import Segment from '../utils/segment';
 import getNonRepeatingColor from '../utils/random-color-generator';
+import { StoreState } from '../types/vuex.d';
+import { FileResult, Line } from '../types/zod/authorship-type';
+import { AuthorshipFile } from '../types/types';
+import { FilesSortType, FilterType } from '../types/authorship';
 
 const getFontColor = window.getFontColor;
 
 const filesSortDict = {
-  lineOfCode: (file) => file.lineCount,
-  path: (file) => file.path,
-  fileName: (file) => file.path.split(/[/]+/).pop(),
-  fileType: (file) => file.fileType,
+  lineOfCode: (file: AuthorshipFile) => file.lineCount,
+  path: (file: AuthorshipFile) => file.path,
+  fileName: (file: AuthorshipFile) => file.path.split(/[/]+/).pop() || '',
+  fileType: (file: AuthorshipFile) => file.fileType,
 };
 
 function authorshipInitialState() {
   return {
     isLoaded: false,
-    selectedFiles: [],
-    filterType: 'checkboxes',
-    selectedFileTypes: [],
-    fileTypes: [],
-    filesLinesObj: {},
-    fileTypeBlankLinesObj: {},
-    filesSortType: 'lineOfCode',
+    selectedFiles: [] as AuthorshipFile[],
+    filterType: FilterType.Checkboxes,
+    selectedFileTypes: [] as string[],
+    fileTypes: [] as string[],
+    filesLinesObj: {} as { [key: string]: number },
+    fileTypeBlankLinesObj: {} as { [key: string]: number },
+    filesSortType: FilesSortType.LineOfCode,
     toReverseSortFiles: true,
     isBinaryFilesChecked: false,
     isIgnoredFilesChecked: false,
     searchBarValue: '',
     authorDisplayName: '',
-    authors: new Set(),
+    authors: new Set<string>(),
     selectedColors: ['#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3', '#adff2f', '#808000', '#800000',
       '#ff8c00', '#c71585'],
   };
 }
 
-const repoCache = [];
+const repoCache: string[] = [];
 
-export default {
+export default defineComponent({
   name: 'c-authorship',
   components: {
     cSegmentCollection,
@@ -236,7 +241,7 @@ export default {
 
   computed: {
     sortingFunction() {
-      return (a, b) => (this.toReverseSortFiles ? -1 : 1)
+      return (a: AuthorshipFile, b: AuthorshipFile) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
@@ -244,7 +249,7 @@ export default {
       get() {
         return this.selectedFileTypes.length === this.fileTypes.length;
       },
-      set(value) {
+      set(value: boolean) {
         if (value) {
           this.selectedFileTypes = this.fileTypes.slice();
         } else {
@@ -259,7 +264,7 @@ export default {
       get() {
         return this.isBinaryFilesChecked;
       },
-      set(value) {
+      set(value: boolean) {
         if (value) {
           this.isBinaryFilesChecked = true;
         } else {
@@ -275,7 +280,7 @@ export default {
       get() {
         return this.isIgnoredFilesChecked;
       },
-      set(value) {
+      set(value: boolean) {
         if (value) {
           this.isIgnoredFilesChecked = true;
         } else {
@@ -300,7 +305,7 @@ export default {
     },
 
     fileTypeLinesObj() {
-      const numLinesModified = {};
+      const numLinesModified: { [key: string]: number } = {};
       Object.entries(this.filesLinesObj)
         .filter(([, value]) => value > 0)
         .forEach(([langType, value]) => {
@@ -318,9 +323,9 @@ export default {
     },
 
     ...mapState({
-      fileTypeColors: 'fileTypeColors',
-      info: 'tabAuthorshipInfo',
-      authorColors: 'tabAuthorColors',
+      fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,
+      info: (state: unknown) => (state as StoreState).tabAuthorshipInfo,
+      authorColors: (state: unknown) => (state as StoreState).tabAuthorColors,
     }),
   },
 
@@ -367,9 +372,9 @@ export default {
       const hash = window.hashParams;
 
       switch (hash.authorshipSortBy) {
-      case 'path':
-      case 'fileName':
-      case 'fileType':
+      case FilesSortType.Path:
+      case FilesSortType.FileName:
+      case FilesSortType.FileType:
         this.filesSortType = hash.authorshipSortBy;
         break;
       default:
@@ -437,7 +442,7 @@ export default {
       }
       if (repoCache.length === 2) {
         const toRemove = repoCache.shift();
-        if (toRemove !== this.info.repo) {
+        if (toRemove !== this.info.repo && toRemove !== undefined) {
           delete window.REPOS[toRemove].files;
         }
       }
@@ -448,7 +453,7 @@ export default {
         files = await window.api.loadAuthorship(this.info.repo);
       }
 
-      const author = repo.users.find((user) => user.name === this.info.author);
+      const author = repo.users?.find((user) => user.name === this.info.author);
       if (author) {
         this.authorDisplayName = author.displayName;
       }
@@ -464,65 +469,52 @@ export default {
       this.setInfoHash();
     },
 
-    getAuthors(file) {
-      return Array.from(new Set(file.segments.map((segment) => segment.knownAuthor)
+    getAuthors(file: AuthorshipFile) {
+      return Array.from(new Set(file.segments?.map((segment) => segment.knownAuthor)
         .filter(Boolean))).sort().slice(0, 50);
     },
 
-    toggleAllFileActiveProperty(isActive) {
+    toggleAllFileActiveProperty(isActive: boolean) {
       this.$store.commit('setAllAuthorshipFileActiveProperty', { isActive, files: this.selectedFiles });
     },
 
-    toggleFileActiveProperty(file) {
+    toggleFileActiveProperty(file: AuthorshipFile) {
       this.scrollFileIntoView(file);
       this.$store.commit('toggleAuthorshipFileActiveProperty', file);
     },
 
-    scrollFileIntoView(file) {
-      const fileElement = this.$refs[file.path][0];
+    scrollFileIntoView(file: AuthorshipFile) {
+      const fileElement = (this.$refs[file.path] as HTMLElement[])[0];
       if (this.isElementAboveViewport(fileElement)) {
         fileElement.scrollIntoView(true);
       }
     },
 
-    onTooltipHover(refName) {
-      const tooltipTextElement = this.$refs[refName][0];
+    onTooltipHover(refName: string) {
+      const tooltipTextElement = (this.$refs[refName] as HTMLElement[])[0];
       if (this.isElementAboveViewport(tooltipTextElement)) {
         tooltipTextElement.classList.add('bottom-aligned');
       }
     },
 
-    resetTooltip(refName) {
-      const tooltipTextElement = this.$refs[refName][0];
+    resetTooltip(refName: string) {
+      const tooltipTextElement = (this.$refs[refName] as HTMLElement[])[0];
       tooltipTextElement.classList.remove('bottom-aligned');
     },
 
-    isElementAboveViewport(el) {
+    isElementAboveViewport(el: Element) {
       return el.getBoundingClientRect().top <= 0;
     },
 
-    isUnknownAuthor(name) {
+    isUnknownAuthor(name: string) {
       return name === '-';
     },
 
-    hasCommits(info) {
-      const { isMergeGroup, author } = info;
-      const repo = window.REPOS[info.repo];
-      if (repo) {
-        return isMergeGroup
-            ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => (
-              !this.isUnknownAuthor(name) && cnt > 0
-            ))
-            : repo.commits.authorFinalContributionMap[author] > 0;
-      }
-      return false;
-    },
-
-    splitSegments(lines) {
+    splitSegments(lines: Line[]) {
       // split into segments separated by knownAuthor
-      let lastState;
+      let lastState: string | null;
       let lastId = -1;
-      const segments = [];
+      const segments: Segment[] = [];
       let blankLineCount = 0;
 
       lines.forEach((line, lineCount) => {
@@ -564,7 +556,7 @@ export default {
 
     assignAuthorColors() {
       let authorColorIndex = 0;
-      const authorColors = {};
+      const authorColors: { [key: string]: string } = {};
       if (this.info.isMergeGroup) {
         this.authors.forEach((author) => {
           if (authorColorIndex < this.selectedColors.length) {
@@ -578,11 +570,11 @@ export default {
       this.$store.commit('updateAuthorColors', authorColors);
     },
 
-    processFiles(files) {
+    processFiles(files: FileResult[]) {
       const SINGLE_FILE_LINE_COUNT_THRESHOLD = 2000;
       const SINGLE_FILE_CHAR_COUNT_THRESHOLD = 1000000;
-      const res = [];
-      const fileTypeBlanksInfoObj = {};
+      const res: AuthorshipFile[] = [];
+      const fileTypeBlanksInfoObj: { [key: string]: number } = {};
 
       files.filter((file) => this.isValidFile(file)).forEach((file) => {
         const contributionMap = file.authorContributionMap;
@@ -591,15 +583,16 @@ export default {
             ? this.getContributionFromAllAuthors(contributionMap)
             : contributionMap[this.info.author];
 
-        const out = {};
-        out.path = file.path;
-        out.lineCount = lineCnt;
-        out.active = lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD && !file.isBinary;
-        out.wasCodeLoaded = lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD;
-        out.fileType = file.fileType;
-        out.fileSize = file.fileSize;
-        out.isIgnored = !!file.isIgnored;
-        out.isBinary = !!file.isBinary;
+        const out: AuthorshipFile = {
+          path: file.path,
+          lineCount: lineCnt,
+          active: lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD && !file.isBinary,
+          wasCodeLoaded: lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD,
+          fileType: file.fileType,
+          fileSize: undefined, // is always undefined, to potentially remove
+          isIgnored: !!file.isIgnored,
+          isBinary: !!file.isBinary,
+        };
 
         if (this.filesLinesObj[out.fileType]) {
           this.filesLinesObj[out.fileType] += lineCnt;
@@ -627,7 +620,7 @@ export default {
 
       res.sort((a, b) => b.lineCount - a.lineCount).forEach((file) => {
         // hide files over total char count limit
-        if (!file.isIgnored && !file.isBinary && file.active) {
+        if (!file.isIgnored && !file.isBinary && file.active && file.charCount) {
           file.active = file.charCount <= SINGLE_FILE_CHAR_COUNT_THRESHOLD;
           file.wasCodeLoaded = file.active;
         }
@@ -645,20 +638,20 @@ export default {
       this.updateSelectedFiles(true);
     },
 
-    isValidFile(file) {
+    isValidFile(file: FileResult) {
       return this.info.isMergeGroup
           ? Object.entries(file.authorContributionMap)
             .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
           : this.info.author in file.authorContributionMap;
     },
 
-    getContributionFromAllAuthors(contributionMap) {
+    getContributionFromAllAuthors(contributionMap: Record<string, number>) {
       return Object.entries(contributionMap).reduce((acc, [author, cnt]) => (
         (!this.isUnknownAuthor(author) ? acc + cnt : acc)
       ), 0);
     },
 
-    addBlankLineCount(fileType, lineCount, filesInfoObj) {
+    addBlankLineCount(fileType: string, lineCount: number, filesInfoObj: { [key: string]: number }) {
       if (!filesInfoObj[fileType]) {
         filesInfoObj[fileType] = 0;
       }
@@ -667,7 +660,7 @@ export default {
     },
 
     updateSearchBarValue() {
-      this.searchBarValue = this.$refs.searchBar.value;
+      this.searchBarValue = (this.$refs.searchBar as HTMLInputElement).value;
 
       window.addHash('authorshipFilesGlob', this.searchBarValue);
       window.removeHash('authorshipFileTypes');
@@ -706,26 +699,26 @@ export default {
       this.selectedFileTypes = this.fileTypes.slice();
       this.isBinaryFilesChecked = true;
       this.isIgnoredFilesChecked = true;
-      this.filterType = 'search';
+      this.filterType = FilterType.Search;
     },
 
     indicateCheckBoxes() {
       this.searchBarValue = '';
-      this.filterType = 'checkboxes';
+      this.filterType = FilterType.Checkboxes;
       this.updateFileTypeHash();
     },
 
-    getHistoryLink(file) {
+    getHistoryLink(file: AuthorshipFile) {
       const repo = window.REPOS[this.info.repo];
       return window.getHistoryLink(this.info.repo, repo.branch, file.path);
     },
 
-    getBlameLink(file) {
+    getBlameLink(file: AuthorshipFile) {
       const repo = window.REPOS[this.info.repo];
       return window.getBlameLink(this.info.repo, repo.branch, file.path);
     },
 
-    getFileTypeBlankLineInfo(fileType) {
+    getFileTypeBlankLineInfo(fileType: string) {
       return `${fileType}: Blank: ${
         this.fileTypeBlankLinesObj[fileType]}, Non-Blank: ${
         this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
@@ -736,7 +729,7 @@ export default {
         this.totalLineCount - this.totalBlankLineCount}`;
     },
 
-    getFirstPartOfPath(file) {
+    getFirstPartOfPath(file: AuthorshipFile) {
       const fileSplitIndex = file.path.lastIndexOf('/');
       const fileNameOnly = file.path.slice(fileSplitIndex + 1);
 
@@ -746,7 +739,7 @@ export default {
       return file.path;
     },
 
-    getSecondPartOfPath(file) {
+    getSecondPartOfPath(file: AuthorshipFile) {
       const fileSplitIndex = file.path.lastIndexOf('/');
       const filePathOnly = file.path.slice(0, fileSplitIndex + 1);
 
@@ -756,23 +749,23 @@ export default {
       return filePathOnly;
     },
 
-    getFirstPartOfLabel(file) {
+    getFirstPartOfLabel(file: AuthorshipFile) {
       if (this.filesSortType === 'lineOfCode') {
-        return `${file.lineCount} (${file.lineCount - file.blankLineCount})`;
+        return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
       }
       return `${file.fileType}`;
     },
 
-    getSecondPartOfLabel(file) {
+    getSecondPartOfLabel(file: AuthorshipFile) {
       if (this.filesSortType === 'lineOfCode') {
         return `${file.fileType}`;
       }
-      return `${file.lineCount} (${file.lineCount - file.blankLineCount})`;
+      return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
     },
 
     getFontColor,
   },
-};
+});
 </script>
 
 <style lang="scss">
