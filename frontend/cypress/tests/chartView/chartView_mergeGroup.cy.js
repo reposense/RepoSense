@@ -55,7 +55,7 @@ describe('merge group', () => {
       .should('be.disabled');
   });
 
-  it('merge group contribution bars should have correct width after reload', () => {
+  it('should have the correct number of merge group contribution bars and correct length', () => {
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
       .check()
@@ -76,23 +76,37 @@ describe('merge group', () => {
         expect(width2).to.be.closeTo(100, 1);
         expect(width3).to.be.closeTo(50, 1);
       });
+  });
 
+  it('merge group contribution bars should have correct width after reload', () => {
+    cy.get('#summary label.merge-group > input:visible')
+      .should('be.visible')
+      .check()
+      .should('be.checked');
+
+    // get the width of contribution bars
+    const initialWidths = [];
+    cy.get('.summary-chart__contrib--bar')
+      .then(($bars) => {
+        $bars.each((_, bar) => {
+          const width = window.getComputedStyle(bar).width;
+          initialWidths.push(width);
+        });
+      });
+
+    // reload the page
     cy.reload();
 
-    // assert that the chart bars still have the correct widths
+    // get the contribution bars again and assert there are the same number and of the same width
     cy.get('.summary-chart__contrib--bar')
-      .should('have.length', 3)
+      .should('have.length', initialWidths.length)
       .then(($bars) => {
-        // calculate the percentage of the width relative to the parent container
-        const parentWidth = $bars.eq(0).parent().width();
-        const width1 = (parseFloat(window.getComputedStyle($bars[0]).width) / parentWidth) * 100;
-        const width2 = (parseFloat(window.getComputedStyle($bars[1]).width) / parentWidth) * 100;
-        const width3 = (parseFloat(window.getComputedStyle($bars[2]).width) / parentWidth) * 100;
-
-        // assert that the widths are close enough to 100% and 50%
-        expect(width1).to.be.closeTo(100, 1);
-        expect(width2).to.be.closeTo(100, 1);
-        expect(width3).to.be.closeTo(50, 1);
+        const widths = [];
+        $bars.each((_, bar) => {
+          const width = window.getComputedStyle(bar).width;
+          widths.push(width);
+        });
+        expect(widths).to.deep.equal(initialWidths);
       });
   });
 });
