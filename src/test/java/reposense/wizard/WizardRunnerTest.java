@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import reposense.util.WizardInputBuilder;
 public class WizardRunnerTest {
     private static final String SINCE_DATE = "30/09/2022";
     private static final String UNTIL_DATE = "15/03/2023";
-    private static final String REPORT_PATH = "C:\\User\\RepoSense";
     private static final String REPO_LINK = "https://github.com/reposense/RepoSense.git";
 
     @Test
@@ -109,7 +107,6 @@ public class WizardRunnerTest {
                 .addNoFlag()
                 .addNoFlag()
                 .addYesFlag()
-                .add(REPORT_PATH)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
@@ -117,7 +114,7 @@ public class WizardRunnerTest {
 
         String expectedInput = new InputBuilder()
                 .addRepos(REPO_LINK)
-                .addView(Paths.get(REPORT_PATH))
+                .addView()
                 .build();
         assertEquals(expectedInput, wizardRunner.getBuiltInput());
     }
@@ -133,7 +130,6 @@ public class WizardRunnerTest {
                 .addYesFlag()
                 .add(UNTIL_DATE)
                 .addYesFlag()
-                .add(REPORT_PATH)
                 .build();
         InputStream targetStream = new ByteArrayInputStream(input.getBytes());
         Scanner sc = new Scanner(targetStream);
@@ -143,7 +139,7 @@ public class WizardRunnerTest {
                 .addRepos(REPO_LINK)
                 .addSinceDate(SINCE_DATE)
                 .addUntilDate(UNTIL_DATE)
-                .addView(Paths.get(REPORT_PATH))
+                .addView()
                 .build();
         assertEquals(expectedInput, wizardRunner.getBuiltInput());
     }
