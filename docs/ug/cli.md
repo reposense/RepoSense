@@ -146,6 +146,7 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 
 * The wizard will run through the basic config flags in this order: `--since`, `--until`, `--view`, `--repos`.
 * This flag overrides all other flags and thus should be used on its own.
+* A guide of the steps performed by the wizard is located at [Appendix: Using --init flag](./usingInit.html).
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -190,6 +191,8 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+<div id="section-repos">
+
 ### `--repo`, `--repos`, `-r`
 
 **`--repo REPO_LOCATION`**: Specifies which repositories to analyze.
@@ -203,6 +206,8 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 
 Cannot be used with `--config`. This flag takes precedence over `--config`.
 </box>
+</div>
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--shallow-cloning`, `-S`
@@ -219,6 +224,8 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+<div id="section-since">
+
 ### `--since`, `-s`
 
 **`--since START_DATE`**: Specifies the start date for the period to be analyzed.
@@ -233,6 +240,7 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 * If `d1` is specified as the start date (`--since d1` or `-s d1`), then the program will search for the earliest commit date of all repositories and use that as the start date.
 * If `d1` is specified together with `--period`, then the program will warn that the date range being analyzed may be incorrect.
 </box>
+</div>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--timezone`, `-t`
@@ -244,6 +252,8 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 * Example:`--timezone UTC+08` or `-t UTC-1030`
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
+
+<div id="section-until">
 
 ### `--until`, `-u`
 
@@ -257,6 +267,7 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 
 Note: If the end date is not specified, the date of generating the report will be taken as the end date.
 </box>
+</div>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -271,6 +282,8 @@ Cannot be used with any other flags. This flag takes precedence over all other f
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+<div id="section-view">
+
 ### `--view`, `-v`
 
 **`--view [REPORT_FOLDER]`**: Specifies that the report should be opened in the default browser.
@@ -278,3 +291,4 @@ Cannot be used with any other flags. This flag takes precedence over all other f
   Default: `./reposense-report`
 * Alias: `-v`
 * Example:`--view` or `-v`
+</div>

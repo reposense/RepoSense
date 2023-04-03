@@ -8,6 +8,7 @@
   {level: 2, name: "CLI syntax reference", link: "ug/cli.html"},
   {level: 2, name: "Config files format", link: "ug/configFiles.html"},
   {level: 2, name: "Using `@@author` tags", link: "ug/usingAuthorTags.html"},
+  {level: 2, name: "Using `--init` flag", link: "ug/usingInit.html"},
   {level: 2, name: "RepoSense with Netlify", link: "ug/withNetlify.html"},
   {level: 2, name: "RepoSense with GitHub Actions", link: "ug/withGithubActions.html"},
   {level: 2, name: "RepoSense with Travis", link: "ug/withTravis.html"},

@@ -26,6 +26,8 @@ For other types of repositories, external links are disabled.
 
 <!-- ==================================================================================================== -->
 
+<div id="section-generating-reports-locally">
+
 ## Generating reports locally
 
 1. **Ensure you have the prerequisites**:
@@ -46,6 +48,9 @@ For other types of repositories, external links are disabled.
 
 **Alternatively**, you may also use the RepoSense CLI set-up wizard, which will take you through a basic configuration of RepoSense through the following command:
   * `java -jar RepoSense.jar --init`
+
+A guide to explaining each step of the set-up wizard can also be found at [Appendix: Using --init flag](./usingInit.html), if you would like to follow along to better understand how to use RepoSense in the future.
+</div>
 
 <!-- ==================================================================================================== -->
 
