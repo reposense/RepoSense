@@ -25,7 +25,7 @@
       .sorting.mui-form--inline
         .mui-select.sort-by
           select(v-model="filesSortType")
-            option(value="lineOfCode") LoC
+            option(value="linesOfCode") LoC
             option(value="path") Path
             option(value="fileName") File Name
             option(value="fileType") File Type
@@ -132,11 +132,11 @@
               'color': getFontColor(fileTypeColors[file.fileType])\
               }",
             v-bind:class="{'selected-label':\
-                this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType'}"
+                this.filesSortType === 'linesOfCode' || this.filesSortType === 'fileType'}"
           )
             span(
               v-bind:class="{'selected-parameter':\
-                  this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType'}"
+                  this.filesSortType === 'linesOfCode' || this.filesSortType === 'fileType'}"
             ) {{ getFirstPartOfLabel(file) }}&nbsp;
             span {{ getSecondPartOfLabel(file) }}
           span.fileTypeLabel.binary(v-if='file.isBinary') binary &nbsp;
@@ -197,7 +197,7 @@ import { FilesSortType, FilterType } from '../types/authorship';
 const getFontColor = window.getFontColor;
 
 const filesSortDict = {
-  lineOfCode: (file: AuthorshipFile) => file.lineCount,
+  linesOfCode: (file: AuthorshipFile) => file.lineCount,
   path: (file: AuthorshipFile) => file.path,
   fileName: (file: AuthorshipFile) => file.path.split(/[/]+/).pop() || '',
   fileType: (file: AuthorshipFile) => file.fileType,
@@ -212,7 +212,7 @@ function authorshipInitialState() {
     fileTypes: [] as string[],
     filesLinesObj: {} as { [key: string]: number },
     fileTypeBlankLinesObj: {} as { [key: string]: number },
-    filesSortType: FilesSortType.LineOfCode,
+    filesSortType: FilesSortType.LinesOfCode,
     toReverseSortFiles: true,
     isBinaryFilesChecked: false,
     isIgnoredFilesChecked: false,
@@ -378,7 +378,7 @@ export default defineComponent({
         this.filesSortType = hash.authorshipSortBy;
         break;
       default:
-        // Invalid value, use the default value of 'lineOfCode'
+        // Invalid value, use the default value of 'linesOfCode'
       }
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
@@ -733,7 +733,7 @@ export default defineComponent({
       const fileSplitIndex = file.path.lastIndexOf('/');
       const fileNameOnly = file.path.slice(fileSplitIndex + 1);
 
-      if (this.filesSortType === 'fileName') {
+      if (this.filesSortType === FilesSortType.FileName) {
         return `${fileNameOnly}`;
       }
       return file.path;
@@ -750,14 +750,14 @@ export default defineComponent({
     },
 
     getFirstPartOfLabel(file: AuthorshipFile) {
-      if (this.filesSortType === 'lineOfCode') {
+      if (this.filesSortType === FilesSortType.LinesOfCode) {
         return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
       }
       return `${file.fileType}`;
     },
 
     getSecondPartOfLabel(file: AuthorshipFile) {
-      if (this.filesSortType === 'lineOfCode') {
+      if (this.filesSortType === FilesSortType.LinesOfCode) {
         return `${file.fileType}`;
       }
       return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;

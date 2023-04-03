@@ -1,5 +1,5 @@
 export enum FilesSortType {
-  LineOfCode = 'lineOfCode',
+  LinesOfCode = 'linesOfCode',
   Path = 'path',
   FileName = 'fileName',
   FileType = 'fileType',
