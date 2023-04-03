@@ -589,7 +589,6 @@ export default defineComponent({
           active: lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD && !file.isBinary,
           wasCodeLoaded: lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD,
           fileType: file.fileType,
-          fileSize: undefined, // is always undefined, to potentially remove
           isIgnored: !!file.isIgnored,
           isBinary: !!file.isBinary,
         };
