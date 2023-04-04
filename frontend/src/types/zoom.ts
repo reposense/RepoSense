@@ -1,6 +1,6 @@
 enum CommitsSortType {
   Time = 'time',
-  Loc = 'lineOfCode',
+  Loc = 'linesOfCode',
 }
 
 export default CommitsSortType;
