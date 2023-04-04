@@ -91,8 +91,8 @@ import { ZoomInfo, AuthorshipInfo } from '../types/vuex.d';
 
 const loadingResourcesMessage = 'Loading resources...';
 
-const app = defineComponent({
-  name: 'app',
+const home = defineComponent({
+  name: 'c-home',
   components: {
     LoadingOverlay,
     cResizer,
@@ -326,9 +326,7 @@ const app = defineComponent({
   },
 });
 
-window.app = app;
-
-export default app;
+export default home;
 </script>
 
 <style lang="scss">

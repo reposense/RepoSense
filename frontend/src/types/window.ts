@@ -45,7 +45,6 @@ declare global {
     deactivateAllOverlays: () => void;
     getDateStr: (date: Date) => string;
     getHexToRGB: (color: string) => number[];
-    getFontColor: (color: string) => string;
     addHash: (newKey: string, newVal: string) => void;
     removeHash: (key: string) => void;
     encodeHash: () => void;
