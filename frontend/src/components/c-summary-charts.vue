@@ -599,7 +599,7 @@ export default {
       }
 
       this.activeTabType = tabType;
-      window.encodeHash();
+      window.encodeHash(this.$router);
     },
 
     removeSelectedTab() {
@@ -608,7 +608,7 @@ export default {
       this.activeTabType = null;
 
       window.removeHash('isTabOnMergedGroup');
-      window.encodeHash();
+      window.encodeHash(this.$router);
     },
 
     isSelectedTab(userName, repo, tabType, isMerged) {

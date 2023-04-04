@@ -1,4 +1,5 @@
 import JSZip from 'jszip';
+import { Router } from 'vue-router';
 import User from '../utils/user';
 import { Repo, User as UserType } from './types';
 import { AuthorshipSchema } from './zod/authorship-type';
@@ -50,7 +51,7 @@ declare global {
     getFontColor: (color: string) => string;
     addHash: (newKey: string, newVal: string | boolean) => void;
     removeHash: (key: string) => void;
-    encodeHash: () => void;
+    encodeHash: (router: Router) => void;
     decodeHash: () => void;
     comparator: <T> (fn: SortingFunction<T>, sortingOption?: string) => ComparatorFunction<T>;
     filterUnsupported: (string: string) => string | undefined;

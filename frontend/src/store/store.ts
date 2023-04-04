@@ -6,6 +6,7 @@ import {
   SummaryDates,
   ZoomInfo,
 } from '../types/vuex.d';
+import router from '../router';
 
 export default createStore<StoreState>({
   state: {
@@ -53,7 +54,7 @@ export default createStore<StoreState>({
       if (!isTabOpen) {
         window.removeHash('tabType');
       }
-      window.encodeHash();
+      window.encodeHash(router);
     },
     toggleZoomCommitMessageBody(_, slice: CommitResult) {
       if (slice.isOpen !== undefined) {

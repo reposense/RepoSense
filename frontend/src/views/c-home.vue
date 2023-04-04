@@ -212,7 +212,7 @@ const home = defineComponent({
       this.tabType = tabName;
       this.$store.commit('updateTabState', true);
       window.addHash('tabType', this.tabType);
-      window.encodeHash();
+      window.encodeHash(this.$router);
     },
 
     renderAuthorShipTabHash(minDate: string, maxDate: string) {

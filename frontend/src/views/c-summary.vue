@@ -393,7 +393,7 @@ export default defineComponent({
         window.removeHash('checkedFileTypes');
       }
 
-      encodeHash();
+      encodeHash(this.$router);
     },
 
     renderFilterHash() {
@@ -414,9 +414,12 @@ export default defineComponent({
       if (hash.mergegroup) {
         this.$store.commit(
           'updateMergedGroup',
-          hash.mergegroup.split(window.HASH_DELIMITER),
+          decodeURI(hash.mergegroup).replace(/%2F/g, '/').split(window.HASH_DELIMITER),
         );
+      } else {
+        this.$store.commit('updateMergedGroup', []);
       }
+
       if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
       }

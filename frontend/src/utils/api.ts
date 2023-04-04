@@ -56,15 +56,15 @@ window.removeHash = function removeHash(key) {
   delete window.hashParams[key];
 };
 
-window.encodeHash = function encodeHash() {
+window.encodeHash = function encodeHash(router) {
   const { hashParams } = window;
 
   const hash = Object.keys(hashParams)
     .map((key) => `${key}=${encodeURIComponent(hashParams[key])}`)
     .join('&');
 
-  const newUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}${HASH_ANCHOR}${hash}`;
-  window.history.replaceState(null, '', newUrl);
+  const newUrl = `#${HASH_ANCHOR}${hash}`;
+  router.push({ path: '/', hash: newUrl });
 };
 
 window.decodeHash = function decodeHash() {

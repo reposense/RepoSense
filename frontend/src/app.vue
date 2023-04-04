@@ -1,6 +1,6 @@
 <template lang="pug">
 #app
-  router-view
+  router-view(:key="$route.fullPath")
 </template>
 
 <script lang='ts'>
