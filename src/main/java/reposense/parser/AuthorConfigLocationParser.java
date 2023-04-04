@@ -73,6 +73,9 @@ public class AuthorConfigLocationParser {
      * be used as the separator between the actual path and the specified branches.
      * <br><br>
      * Example: home~Desktop~RepoSense~master|cypress is parsed to give [home~Desktop~RepoSense, master, cypress]
+     * <br><br>
+     * There exist an obscure case where the delimiter syntax will not work due to conflicts in directory names.
+     * See: <a href="https://github.com/reposense/RepoSense/pull/1961#discussion_r1155475445">PR #1961 Discussion</a>
      */
     private static List<String> parseDelimiter(String locationAndBranches) {
         List<String> parsedLocationAndBranches = new ArrayList<>();
