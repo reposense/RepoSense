@@ -49,7 +49,7 @@ export function getFontColor(color: string) {
 }
 
 window.addHash = function addHash(newKey, newVal) {
-  window.hashParams[newKey] = newVal;
+  window.hashParams[newKey] = newVal.toString();
 };
 
 window.removeHash = function removeHash(key) {
