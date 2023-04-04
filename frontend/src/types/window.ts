@@ -45,10 +45,10 @@ declare global {
     isMacintosh: boolean;
     REPORT_ZIP: JSZip | null;
     deactivateAllOverlays: () => void;
-    getDateStr: (date: Date) => string;
+    getDateStr: (date: number) => string;
     getHexToRGB: (color: string) => number[];
     getFontColor: (color: string) => string;
-    addHash: (newKey: string, newVal: string) => void;
+    addHash: (newKey: string, newVal: string | boolean) => void;
     removeHash: (key: string) => void;
     encodeHash: () => void;
     decodeHash: () => void;
