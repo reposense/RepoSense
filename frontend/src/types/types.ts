@@ -30,7 +30,6 @@ export interface WeeklyCommit {
 export interface Commit extends DailyCommit, WeeklyCommit {
   deletions: number;
   insertions: number;
-  endDate?: string;
 }
 
 // This type predicate distinguishes between Commit and DailyCommit
@@ -41,7 +40,7 @@ export function isCommit(commit: Commit | DailyCommit): commit is Commit {
 
 export interface User {
   checkedFileTypeContribution: number;
-  commits?: Commit[];
+  commits: Commit[];
   dailyCommits: DailyCommit[];
   displayName: string;
   fileTypeContribution: AuthorFileTypeContributions;
