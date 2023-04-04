@@ -58,7 +58,7 @@
     .mui-select.sort-by
       select(v-model="commitsSortType")
         option(value="time") Time
-        option(value="lineOfCode") LoC
+        option(value="linesOfCode") LoC
       label sort by
     .mui-select.sort-order
       select(v-model="toReverseSortedCommits")
