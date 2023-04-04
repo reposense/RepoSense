@@ -219,7 +219,8 @@ export default defineComponent({
           if (user.checkedFileTypeContribution === undefined) {
             this.updateCheckedFileTypeContribution(user);
           }
-          if (user.checkedFileTypeContribution > 0) {
+
+          if (user.checkedFileTypeContribution && user.checkedFileTypeContribution > 0) {
             totalCount += 1;
             totalLines += user.checkedFileTypeContribution;
           }
@@ -546,7 +547,7 @@ export default defineComponent({
 
         this.mergeFileTypeContribution(user, mergedFileTypeContribution);
 
-        totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution;
+        totalMergedCheckedFileTypeCommits += user.checkedFileTypeContribution || 0;
         mergedVariance += user.variance;
       });
       mergedCommits.sort(window.comparator((ele) => ele.date));
