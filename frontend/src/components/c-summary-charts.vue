@@ -303,7 +303,11 @@ export default defineComponent({
       let currentBarWidth = 0;
       const fullBarWidth = 100;
       const contributionPerFullBar = (this.avgContributionSize * 2);
+
       const allFileTypesContributionBars: { [key: string]: number[] } = {};
+      if (contributionPerFullBar === 0) {
+        return allFileTypesContributionBars;
+      }
 
       Object.keys(fileTypeContribution)
         .filter((fileType) => this.checkedFileTypes.includes(fileType))
@@ -326,7 +330,7 @@ export default defineComponent({
               contributionBars.push(fullBarWidth);
             }
             const remainingBarWidth = barWidth % fullBarWidth;
-            if (remainingBarWidth !== 0) {
+            if (remainingBarWidth > 0) {
               contributionBars.push(remainingBarWidth);
             }
             currentBarWidth = remainingBarWidth;
@@ -351,13 +355,15 @@ export default defineComponent({
     },
 
     getGroupTotalContribution(group: User[]): number {
-      return group.reduce((acc, ele) => acc + ele.checkedFileTypeContribution, 0);
+      return group.reduce((acc, ele) => acc + (ele.checkedFileTypeContribution ?? 0), 0);
     },
 
     getContributionBars(totalContribution: number): number[] {
-      const res = [];
+      const res: number[] = [];
       const contributionLimit = (this.avgContributionSize * 2);
-
+      if (contributionLimit === 0) {
+        return res;
+      }
       const cnt = Math.floor(totalContribution / contributionLimit);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
         res.push(100);
