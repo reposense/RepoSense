@@ -24,10 +24,17 @@ export interface DailyCommit {
 export interface Commit extends DailyCommit {
   deletions: number;
   insertions: number;
+  endDate?: string;
+}
+
+// This type predicate distinguishes between Commit and DailyCommit
+// https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates
+export function isCommit(commit: Commit | DailyCommit): commit is Commit {
+  return (commit as Commit).deletions !== undefined;
 }
 
 export interface User {
-  checkedFileTypeContribution: number;
+  checkedFileTypeContribution: number | undefined;
   commits?: Commit[];
   dailyCommits: DailyCommit[];
   displayName: string;
