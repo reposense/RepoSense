@@ -40,8 +40,6 @@ Below is an example:
 
 We have now provided author details for three different branches in a single repo, using a single row.
 
-<br>
-
 <!-- ==================================================================================================== -->
 
 ## Using GitHub branch URL as `Repository's Location`
@@ -56,7 +54,10 @@ Below is an example:
 
 There is no need to specify the `Branch` column now, as we have specified it through the GitHub branch URL.
 
-<br>
+<box type="warning" seamless>
+
+GitLab and BitBucket branch URL are not supported at the moment.
+</box>
 
 <!-- ==================================================================================================== -->
 
