@@ -85,29 +85,26 @@ describe('merge group', () => {
       .check()
       .should('be.checked');
 
-    // get the width of contribution bars
     const initialWidths = [];
-    cy.get('.summary-chart__contrib--bar')
-      .then(($bars) => {
-        $bars.each((_, bar) => {
-          const width = window.getComputedStyle(bar).width;
-          initialWidths.push(width);
-        });
-      });
 
-    // reload the page
-    cy.reload();
-
-    // get the contribution bars again and assert there are the same number and of the same width
+    // Store the initial widths of the contribution bars
     cy.get('.summary-chart__contrib--bar')
-      .should('have.length', initialWidths.length)
-      .then(($bars) => {
-        const widths = [];
-        $bars.each((_, bar) => {
-          const width = window.getComputedStyle(bar).width;
-          widths.push(width);
-        });
-        expect(widths).to.deep.equal(initialWidths);
+      .each(($bar) => {
+        const width = window.getComputedStyle($bar[0]).width;
+        initialWidths.push(width);
+      })
+      .then(() => {
+        // Reload the page and wait for the loading div to disappear
+        cy.reload();
+        cy.get('.overlay-loader').should('not.be.visible');
+
+        // Get the contribution bars again and compare their widths with the initial widths
+        cy.get('.summary-chart__contrib--bar')
+          .should('have.length', initialWidths.length)
+          .each(($bar, index) => {
+            const width = window.getComputedStyle($bar[0]).width;
+            expect(width).to.equal(initialWidths[index]);
+          });
       });
   });
 });
