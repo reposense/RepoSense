@@ -295,7 +295,11 @@ export default {
       let currentBarWidth = 0;
       const fullBarWidth = 100;
       const contributionPerFullBar = (this.avgContributionSize * 2);
+
       const allFileTypesContributionBars = {};
+      if (contributionPerFullBar === 0) {
+        return allFileTypesContributionBars;
+      }
 
       Object.keys(fileTypeContribution)
         .filter((fileType) => this.checkedFileTypes.includes(fileType))
@@ -318,7 +322,7 @@ export default {
               contributionBars.push(fullBarWidth);
             }
             const remainingBarWidth = barWidth % fullBarWidth;
-            if (remainingBarWidth !== 0) {
+            if (remainingBarWidth > 0) {
               contributionBars.push(remainingBarWidth);
             }
             currentBarWidth = remainingBarWidth;
@@ -349,7 +353,9 @@ export default {
     getContributionBars(totalContribution) {
       const res = [];
       const contributionLimit = (this.avgContributionSize * 2);
-
+      if (contributionLimit === 0) {
+        return res;
+      }
       const cnt = Math.floor(totalContribution / contributionLimit);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
         res.push(100);

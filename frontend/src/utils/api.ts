@@ -49,7 +49,7 @@ window.getFontColor = function getFontColor(color) {
 };
 
 window.addHash = function addHash(newKey, newVal) {
-  window.hashParams[newKey] = newVal;
+  window.hashParams[newKey] = newVal.toString();
 };
 
 window.removeHash = function removeHash(key) {
@@ -269,7 +269,7 @@ window.api = {
           searchPath: searchParams.join('_').toLowerCase(),
           repoName: `${repo.displayName}`,
           location: `${repo.location.location}`,
-          checkedFileTypeContribution: 0,
+          checkedFileTypeContribution: undefined,
         });
 
         res.push(user);
