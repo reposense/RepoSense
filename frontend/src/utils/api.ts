@@ -37,7 +37,7 @@ window.getHexToRGB = function getHexToRGB(color) {
   return arr ? arr.slice(1).map((val) => parseInt(val, 16)) : [];
 };
 
-export function getFontColor(color: string) {
+window.getFontColor = function getFontColor(color) {
   const result = window.getHexToRGB(color);
   const red = result[0];
   const green = result[1];
@@ -46,7 +46,7 @@ export function getFontColor(color: string) {
   const luminosity = 0.2126 * red + 0.7152 * green + 0.0722 * blue; // per ITU-R BT.709
 
   return luminosity < 120 ? '#ffffff' : '#000000';
-}
+};
 
 window.addHash = function addHash(newKey, newVal) {
   window.hashParams[newKey] = newVal.toString();

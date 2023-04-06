@@ -188,7 +188,6 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 import Segment from '../utils/segment';
 import getNonRepeatingColor from '../utils/random-color-generator';
-import { getFontColor } from '../utils/api';
 
 const filesSortDict = {
   lineOfCode: (file) => file.lineCount,
@@ -769,7 +768,9 @@ export default {
       return `${file.lineCount} (${file.lineCount - file.blankLineCount})`;
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
 };
 </script>

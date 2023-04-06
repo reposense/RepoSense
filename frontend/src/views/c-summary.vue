@@ -134,7 +134,6 @@ import { PropType, defineComponent } from 'vue';
 import cSummaryCharts from '../components/c-summary-charts.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import sortFiltered from '../utils/repo-sorter';
-import { getFontColor } from '../utils/api';
 import {
   Commit,
   DailyCommit,
@@ -913,7 +912,9 @@ export default defineComponent({
       return window.getDateStr(datems);
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
 });
 </script>

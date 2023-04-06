@@ -140,7 +140,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from '../components/c-ramp.vue';
 import User from '../utils/user';
-import { getFontColor } from '../utils/api';
 
 function zoomInitialState() {
   return {
@@ -399,7 +398,9 @@ export default {
       return false;
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
 };
 
