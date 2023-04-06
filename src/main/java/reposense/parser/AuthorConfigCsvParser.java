@@ -68,19 +68,6 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         List<String> aliases = getAsList(record, ALIAS_HEADER);
         List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_HEADER);
 
-        registerLocationAndBranch(results, locationsWithBranches, branch,
-                gitId, emails, displayName, aliases, ignoreGlobList);
-    }
-
-    /**
-     * Registers an author with the information provided by each line.
-     *
-     * @throws InvalidLocationException if {@code location} is invalid.
-     */
-    private void registerLocationAndBranch(List<AuthorConfiguration> results, List<String> locationsWithBranches,
-                                           String branch, String gitId, List<String> emails,
-                                           String displayName, List<String> aliases,
-                                           List<String> ignoreGlobList) throws InvalidLocationException {
         for (String locationWithBranches : locationsWithBranches) {
             List<String> parsedLocationWithBranches = AuthorConfigLocationParser
                     .parseLocation(locationWithBranches, branch);
@@ -88,29 +75,42 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
             String currLocation = parsedLocationWithBranches.get(0);
             for (int i = 1; i < parsedLocationWithBranches.size(); i++) {
                 String currBranch = parsedLocationWithBranches.get(i);
-                AuthorConfiguration config = findMatchingAuthorConfiguration(results, currLocation, currBranch);
-
-                Author author = new Author(gitId);
-
-                if (config.containsAuthor(author)) {
-                    logger.warning(String.format(
-                            "Skipping author as %s already in repository %s %s",
-                            author.getGitId(), config.getLocation(), config.getBranch()));
-                    return;
-                }
-
-                author.setEmails(new ArrayList<>(emails));
-                author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
-                if (!aliases.isEmpty()) {
-                    author.setAuthorAliases(aliases);
-                }
-                if (!ignoreGlobList.isEmpty()) {
-                    author.setIgnoreGlobList(ignoreGlobList);
-                }
-
-                config.addAuthor(author);
+                registerLocationAndBranch(results, gitId, emails, displayName, aliases,
+                        ignoreGlobList, currLocation, currBranch);
             }
         }
+    }
+
+    /**
+     * Registers an author for a single location and branch with the information
+     * provided by each line.
+     *
+     * @throws InvalidLocationException if {@code location} is invalid.
+     */
+    private void registerLocationAndBranch(List<AuthorConfiguration> results, String gitId,
+                                              List<String> emails, String displayName,
+                                              List<String> aliases, List<String> ignoreGlobList,
+                                              String currLocation, String currBranch) throws InvalidLocationException {
+        AuthorConfiguration config = findMatchingAuthorConfiguration(results, currLocation, currBranch);
+
+        Author author = new Author(gitId);
+
+        if (config.containsAuthor(author)) {
+            logger.warning(String.format(
+                    "Skipping author as %s already in repository %s %s",
+                    author.getGitId(), config.getLocation(), config.getBranch()));
+        }
+
+        author.setEmails(new ArrayList<>(emails));
+        author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
+        if (!aliases.isEmpty()) {
+            author.setAuthorAliases(aliases);
+        }
+        if (!ignoreGlobList.isEmpty()) {
+            author.setIgnoreGlobList(ignoreGlobList);
+        }
+
+        config.addAuthor(author);
     }
 
     /**
