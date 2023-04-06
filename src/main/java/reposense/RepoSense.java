@@ -124,6 +124,7 @@ public class RepoSense {
             // help message was printed by the ArgumentParser; it is safe to exit.
         }
 
+        LogsManager.moveLogFileToOutputFolder();
         LogManager.getLogManager().reset();
     }
 
