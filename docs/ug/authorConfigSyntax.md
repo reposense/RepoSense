@@ -40,6 +40,11 @@ Below is an example:
 
 We have now provided author details for three different branches in a single repo, using a single row.
 
+<box type="info" seamless>
+
+The branch specified through the delimiter syntax will take precedence over the `Branch` column.
+</box>
+
 <!-- ==================================================================================================== -->
 
 ## Using GitHub branch URL as `Repository's Location`
