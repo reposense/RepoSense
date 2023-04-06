@@ -91,13 +91,6 @@ public class AuthorConfigLocationParser {
             parsedLocationAndBranches.add(branch);
         }
 
-        if (branches.length == 0) {
-            // by default, if no branches are specified, an empty branch is returned since
-            // the only case where branches.length is 0 is when delimiter is used but no
-            // branch is specified.
-            parsedLocationAndBranches.add("");
-        }
-
         return parsedLocationAndBranches;
     }
 
