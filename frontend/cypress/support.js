@@ -7,4 +7,5 @@ Cypress.Screenshot.defaults({
 
 beforeEach(() => {
   cy.visit('/');
+  cy.wait(100);
 });

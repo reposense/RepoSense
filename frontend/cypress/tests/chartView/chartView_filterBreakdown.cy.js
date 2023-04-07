@@ -2,7 +2,9 @@ describe('filter breakdown', () => {
   it('check breakdown by file type should show file types', () => {
     cy.get('#summary label.filter-breakdown input:visible')
       .should('be.visible')
-      .check()
+      .check();
+
+    cy.get('#summary label.filter-breakdown input:visible')
       .should('be.checked');
 
     // should show file type checkboxes
@@ -17,12 +19,15 @@ describe('filter breakdown', () => {
   it('check, uncheck and recheck breakdown by file type should check all file types', () => {
     cy.get('#summary label.filter-breakdown input:visible')
       .should('be.visible')
-      .check()
+      .check();
+
+    cy.get('#summary label.filter-breakdown input:visible')
       .should('be.checked');
 
     // uncheck all file types
     cy.get('#summary div.fileTypes input:visible[id="all"]')
-      .uncheck()
+      .uncheck();
+    cy.get('#summary div.fileTypes input:visible[id="all"]')
       .should('not.be.checked');
 
     cy.contains('breakdown by file type').scrollIntoView();
@@ -30,9 +35,12 @@ describe('filter breakdown', () => {
     // uncheck and recheck breakdown by file type
     cy.get('#summary label.filter-breakdown input:visible')
       .should('be.visible')
-      .uncheck()
-      .should('not.be.checked')
-      .check()
+      .uncheck();
+    cy.get('#summary label.filter-breakdown input:visible')
+      .should('not.be.checked');
+    cy.get('#summary label.filter-breakdown input:visible')
+      .check();
+    cy.get('#summary label.filter-breakdown input:visible')
       .should('be.checked');
 
     cy.get('#summary div.fileTypes input:visible[id="all"]')
@@ -42,12 +50,15 @@ describe('filter breakdown', () => {
   it('uncheck all file types should show no file types', () => {
     cy.get('#summary label.filter-breakdown input:visible')
       .should('be.visible')
-      .check()
+      .check();
+
+    cy.get('#summary label.filter-breakdown input:visible')
       .should('be.checked');
 
     // uncheck all file types
     cy.get('#summary div.fileTypes input:visible[id="all"]')
-      .uncheck()
+      .uncheck();
+    cy.get('#summary div.fileTypes input:visible[id="all"]')
       .should('not.be.checked');
 
     // should not show file type legends
@@ -58,12 +69,14 @@ describe('filter breakdown', () => {
   it('uncheck file type should uncheck all option and not show legend', () => {
     cy.get('#summary label.filter-breakdown input:visible')
       .should('be.visible')
-      .check()
+      .check();
+    cy.get('#summary label.filter-breakdown input:visible')
       .should('be.checked');
 
     // uncheck gradle file type
     cy.get('#summary div.fileTypes input[id="gradle"]')
-      .uncheck()
+      .uncheck();
+    cy.get('#summary div.fileTypes input[id="gradle"]')
       .should('not.be.checked');
 
     // should not show gradle file type legend

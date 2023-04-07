@@ -5,7 +5,8 @@ describe('merge group', () => {
 
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
-      .check()
+      .check();
+    cy.get('#summary label.merge-group > input:visible')
       .should('be.checked');
 
     // after checking merge group, only one merged repo group will show
@@ -14,7 +15,8 @@ describe('merge group', () => {
 
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
-      .uncheck()
+      .uncheck();
+    cy.get('#summary label.merge-group > input:visible')
       .should('not.be.checked');
 
     // after un-checking merge group, all 5 summary charts will show
@@ -26,9 +28,12 @@ describe('merge group', () => {
     cy.get('div.mui-select.grouping > select:visible')
       .select('groupByAuthors');
 
+    cy.wait(100);
+
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
-      .check()
+      .check();
+    cy.get('#summary label.merge-group > input:visible')
       .should('be.checked');
 
     // after checking merge group, 5 merged author groups will show
@@ -38,7 +43,9 @@ describe('merge group', () => {
     cy.get('#summary label.merge-group > input:visible')
       .first()
       .should('be.visible')
-      .uncheck()
+      .uncheck();
+    cy.get('#summary label.merge-group > input:visible')
+      .first()
       .should('not.be.checked');
 
     // after un-checking merge group, all 5 summary charts will show
