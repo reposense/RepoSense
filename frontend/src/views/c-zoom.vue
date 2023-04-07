@@ -432,6 +432,12 @@ export default {
 
     &__day,
     &__title {
+      @include small-font;
+
+      h3 {
+        @include large-font;
+      }
+
       /* Tags in commits */
       .tag {
         @include mini-font;
@@ -470,6 +476,7 @@ export default {
         resize: none;
 
         pre {
+          @include mono-font;
           position: relative;
 
           .dashed-border {
@@ -523,8 +530,8 @@ export default {
     }
 
     .message-title {
+      @include mono-font;
       display: inline;
-      font-family: monospace;
 
       .within-border {
         display: inline;

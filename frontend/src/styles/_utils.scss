@@ -11,12 +11,23 @@
   font-weight: normal;
 }
 
+@mixin small-font {
+  font-size: .8rem;
+  font-weight: normal;
+}
+
 @mixin medium-font {
-  font-size: .875rem;
+  font-size: .9rem;
   font-weight: normal;
 }
 
 @mixin large-font {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: bold;
+}
+
+// GitHub's font family and font size
+@mixin mono-font {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 12px;
 }
