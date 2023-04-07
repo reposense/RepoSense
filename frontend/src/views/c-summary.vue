@@ -15,11 +15,11 @@
       .mui-select.sort-group
         select(v-model="sortGroupSelection", v-on:change="getFiltered")
           option(value="groupTitle") &uarr; group title
-          option(value="groupTitle dsc") &darr; group title
+          option(value="groupTitle-dsc") &darr; group title
           option(value="totalCommits") &uarr; contribution
-          option(value="totalCommits dsc") &darr; contribution
+          option(value="totalCommits-dsc") &darr; contribution
           option(value="variance") &uarr; variance
-          option(value="variance dsc") &darr; variance
+          option(value="variance-dsc") &darr; variance
         label sort groups by
       .mui-select.sort-within-group
         select(
@@ -28,11 +28,11 @@
           v-on:change="getFiltered"
         )
           option(value="title") &uarr; title
-          option(value="title dsc") &darr; title
+          option(value="title-dsc") &darr; title
           option(value="totalCommits") &uarr; contribution
-          option(value="totalCommits dsc") &darr; contribution
+          option(value="totalCommits-dsc") &darr; contribution
           option(value="variance") &uarr; variance
-          option(value="variance dsc") &darr; variance
+          option(value="variance-dsc") &darr; variance
         label sort within groups by
       .mui-select.granularity
         select(v-model="filterTimeFrame", v-on:change="getFiltered")
@@ -201,13 +201,11 @@ export default defineComponent({
         return this.checkedFileTypes.length === this.fileTypes.length;
       },
       async set(value: boolean) {
-        console.log('Set value', value);
         if (value) {
           this.checkedFileTypes = this.fileTypes.slice();
         } else {
           this.checkedFileTypes = [];
         }
-        console.log('checkAllFileTypes');
         await this.getFiltered();
       },
     },
@@ -293,14 +291,12 @@ export default defineComponent({
       this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
       this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
       window.deactivateAllOverlays();
-      console.log('$store.state.summaryDates');
       this.getFiltered();
     },
 
     mergedGroups: {
       deep: true,
       handler() {
-        console.log('mergedGroups changed');
         this.getFiltered();
       },
     },
@@ -308,7 +304,6 @@ export default defineComponent({
   created() {
     this.processFileTypes();
     this.renderFilterHash();
-    console.log('created');
     this.getFiltered(false);
     if (this.$store.state.tabZoomInfo.isRefreshing) {
       const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
@@ -355,13 +350,11 @@ export default defineComponent({
     // model functions //
     resetFilterSearch() {
       this.filterSearch = '';
-      console.log('resetFilterSearch');
       this.getFiltered();
     },
     updateFilterSearch(evt: Event) {
       // Only called from an input onchange event, target guaranteed to be input element
       this.filterSearch = (evt.target as HTMLInputElement).value;
-      console.log('updateFilterSearch');
       this.getFiltered();
     },
 
@@ -391,8 +384,6 @@ export default defineComponent({
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
-      console.log('this.filterBreakdown', this.filterBreakdown);
-      console.log('this.checkedFileTypes', this.checkedFileTypes);
       if (this.filterBreakdown) {
         const checkedFileTypesHash = this.checkedFileTypes.length > 0
           ? this.checkedFileTypes.join(window.HASH_DELIMITER)
@@ -406,7 +397,6 @@ export default defineComponent({
     },
 
     renderFilterHash() {
-      console.log('renderFilterHash');
       const convertBool = (txt: string) => (txt === 'true');
       const hash = Object.assign({}, window.hashParams);
 
@@ -414,7 +404,8 @@ export default defineComponent({
       if (hash.sort && Object.values(SortGroupSelection).includes(hash.sort as SortGroupSelection)) {
         this.sortGroupSelection = hash.sort as SortGroupSelection;
       }
-      if (hash.sortWithin && Object.values(SortWithinGroupSelection).includes(hash.sort as SortWithinGroupSelection)) {
+      if (hash.sortWithin
+        && Object.values(SortWithinGroupSelection).includes(hash.sortWithin as SortWithinGroupSelection)) {
         this.sortWithinGroupSelection = hash.sortWithin as SortWithinGroupSelection;
       }
 
@@ -443,12 +434,9 @@ export default defineComponent({
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
-      console.log(hash);
       if (hash.checkedFileTypes || hash.checkedFileTypes === '') {
         const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
-        console.log('parsedFileTypes', parsedFileTypes);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
-        console.log('this.checkedFileTypes 22', this.checkedFileTypes);
       }
     },
 
@@ -468,7 +456,6 @@ export default defineComponent({
       if (this.checkedFileTypes.length !== this.fileTypes.length) {
         this.checkedFileTypes = this.fileTypes.slice();
       }
-      console.log('toggleBreakdown');
       this.getFiltered();
     },
 
@@ -819,7 +806,6 @@ export default defineComponent({
       this.tmpFilterUntilDate = '';
       window.removeHash('since');
       window.removeHash('until');
-      console.log('resetDateRange');
       this.getFiltered();
     },
 
@@ -831,12 +817,10 @@ export default defineComponent({
       if (!this.isSafariBrowser) {
         this.tmpFilterSinceDate = since;
         (event.target as HTMLInputElement).value = this.filterSinceDate;
-        console.log('updateTmpFilterSinceDate !this.isSafariBrowser');
         this.getFiltered();
       } else if (dateFormatRegex.test(since) && since >= this.minDate) {
         this.tmpFilterSinceDate = since;
         (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        console.log('updateTmpFilterSinceDate dateFormatRegex.test(since) && since >= this.minDate');
         this.getFiltered();
       } else {
         // invalid since date detected
@@ -852,14 +836,10 @@ export default defineComponent({
       if (!this.isSafariBrowser) {
         this.tmpFilterUntilDate = until;
         (event.target as HTMLInputElement).value = this.filterUntilDate;
-        console.log('updateTmpFilterUntilDate !this.isSafariBrowser');
-
         this.getFiltered();
       } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
         this.tmpFilterUntilDate = until;
         (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        console.log('updateTmpFilterUntilDate dateFormatRegex.test(since) && since >= this.minDate');
-
         this.getFiltered();
       } else {
         // invalid until date detected

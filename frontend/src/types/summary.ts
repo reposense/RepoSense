@@ -6,20 +6,20 @@ export enum FilterGroupSelection {
 
 export enum SortGroupSelection {
   GroupTitle = 'groupTitle',
-  GroupTitleDsc = 'groupTitle dsc',
+  GroupTitleDsc = 'groupTitle-dsc',
   TotalCommits = 'totalCommits',
-  TotalCommitsDsc = 'totalCommits dsc',
+  TotalCommitsDsc = 'totalCommits-dsc',
   Variance = 'variance',
-  VarianceDsc = 'variance dsc',
+  VarianceDsc = 'variance-dsc',
 }
 
 export enum SortWithinGroupSelection {
   Title = 'title',
-  TitleDsc = 'title dsc',
+  TitleDsc = 'title-dsc',
   TotalCommits = 'totalCommits',
-  TotalCommitsDsc = 'totalCommits dsc',
+  TotalCommitsDsc = 'totalCommits-dsc',
   Variance = 'variance',
-  VarianceDsc = 'variance dsc',
+  VarianceDsc = 'variance-dsc',
 }
 
 export enum FilterTimeFrame {
