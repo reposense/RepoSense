@@ -28,7 +28,7 @@ describe('merge group', () => {
     cy.get('div.mui-select.grouping > select:visible')
       .select('groupByAuthors');
 
-    cy.wait(100);
+    cy.wait(200);
 
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')

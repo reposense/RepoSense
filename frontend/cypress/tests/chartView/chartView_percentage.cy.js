@@ -38,6 +38,8 @@ describe('sort by contribution', () => {
     cy.get('div.mui-select.grouping > select:visible')
       .select('None');
 
+    cy.wait(200);
+
     cy.get('#summary .summary-chart__title--percentile')
       .should('not.exist');
 
