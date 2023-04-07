@@ -200,13 +200,15 @@ export default defineComponent({
       get() {
         return this.checkedFileTypes.length === this.fileTypes.length;
       },
-      set(value: boolean) {
+      async set(value: boolean) {
+        console.log('Set value', value);
         if (value) {
           this.checkedFileTypes = this.fileTypes.slice();
         } else {
           this.checkedFileTypes = [];
         }
-        this.getFiltered();
+        console.log('checkAllFileTypes');
+        await this.getFiltered();
       },
     },
 
@@ -291,12 +293,14 @@ export default defineComponent({
       this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
       this.tmpFilterUntilDate = this.$store.state.summaryDates.until;
       window.deactivateAllOverlays();
+      console.log('$store.state.summaryDates');
       this.getFiltered();
     },
 
     mergedGroups: {
       deep: true,
       handler() {
+        console.log('mergedGroups changed');
         this.getFiltered();
       },
     },
@@ -304,7 +308,8 @@ export default defineComponent({
   created() {
     this.processFileTypes();
     this.renderFilterHash();
-    this.getFiltered();
+    console.log('created');
+    this.getFiltered(false);
     if (this.$store.state.tabZoomInfo.isRefreshing) {
       const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
       this.restoreZoomFiltered(zoomInfo);
@@ -350,16 +355,18 @@ export default defineComponent({
     // model functions //
     resetFilterSearch() {
       this.filterSearch = '';
+      console.log('resetFilterSearch');
       this.getFiltered();
     },
     updateFilterSearch(evt: Event) {
       // Only called from an input onchange event, target guaranteed to be input element
       this.filterSearch = (evt.target as HTMLInputElement).value;
+      console.log('updateFilterSearch');
       this.getFiltered();
     },
 
-    setSummaryHash() {
-      const { addHash, encodeHash } = window;
+    async setSummaryHash() {
+      const { addHash, removeHash, encodeHash } = window;
 
       addHash('search', this.filterSearch);
       addHash('sort', this.sortGroupSelection);
@@ -384,19 +391,22 @@ export default defineComponent({
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
+      console.log('this.filterBreakdown', this.filterBreakdown);
+      console.log('this.checkedFileTypes', this.checkedFileTypes);
       if (this.filterBreakdown) {
         const checkedFileTypesHash = this.checkedFileTypes.length > 0
           ? this.checkedFileTypes.join(window.HASH_DELIMITER)
           : '';
         addHash('checkedFileTypes', checkedFileTypesHash);
       } else {
-        window.removeHash('checkedFileTypes');
+        removeHash('checkedFileTypes');
       }
 
-      encodeHash(this.$router);
+      await encodeHash(this.$router);
     },
 
     renderFilterHash() {
+      console.log('renderFilterHash');
       const convertBool = (txt: string) => (txt === 'true');
       const hash = Object.assign({}, window.hashParams);
 
@@ -433,9 +443,12 @@ export default defineComponent({
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
-      if (hash.checkedFileTypes) {
+      console.log(hash);
+      if (hash.checkedFileTypes || hash.checkedFileTypes === '') {
         const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
+        console.log('parsedFileTypes', parsedFileTypes);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
+        console.log('this.checkedFileTypes 22', this.checkedFileTypes);
       }
     },
 
@@ -455,17 +468,19 @@ export default defineComponent({
       if (this.checkedFileTypes.length !== this.fileTypes.length) {
         this.checkedFileTypes = this.fileTypes.slice();
       }
+      console.log('toggleBreakdown');
       this.getFiltered();
     },
 
-    async getFiltered() {
-      this.setSummaryHash();
+    async getFiltered(isUpdateUrl = true) {
       window.deactivateAllOverlays();
-
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       this.getFilteredRepos();
       this.getMergedRepos();
       this.$store.commit('incrementLoadingOverlayCount', -1);
+      if (isUpdateUrl) {
+        await this.setSummaryHash();
+      }
     },
 
     getFilteredRepos() {
@@ -804,6 +819,7 @@ export default defineComponent({
       this.tmpFilterUntilDate = '';
       window.removeHash('since');
       window.removeHash('until');
+      console.log('resetDateRange');
       this.getFiltered();
     },
 
@@ -815,10 +831,12 @@ export default defineComponent({
       if (!this.isSafariBrowser) {
         this.tmpFilterSinceDate = since;
         (event.target as HTMLInputElement).value = this.filterSinceDate;
+        console.log('updateTmpFilterSinceDate !this.isSafariBrowser');
         this.getFiltered();
       } else if (dateFormatRegex.test(since) && since >= this.minDate) {
         this.tmpFilterSinceDate = since;
         (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
+        console.log('updateTmpFilterSinceDate dateFormatRegex.test(since) && since >= this.minDate');
         this.getFiltered();
       } else {
         // invalid since date detected
@@ -834,10 +852,14 @@ export default defineComponent({
       if (!this.isSafariBrowser) {
         this.tmpFilterUntilDate = until;
         (event.target as HTMLInputElement).value = this.filterUntilDate;
+        console.log('updateTmpFilterUntilDate !this.isSafariBrowser');
+
         this.getFiltered();
       } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
         this.tmpFilterUntilDate = until;
         (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
+        console.log('updateTmpFilterUntilDate dateFormatRegex.test(since) && since >= this.minDate');
+
         this.getFiltered();
       } else {
         // invalid until date detected

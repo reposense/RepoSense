@@ -56,7 +56,7 @@ window.removeHash = function removeHash(key) {
   delete window.hashParams[key];
 };
 
-window.encodeHash = function encodeHash(router) {
+window.encodeHash = async function encodeHash(router) {
   const { hashParams } = window;
 
   const hash = Object.keys(hashParams)
@@ -64,7 +64,7 @@ window.encodeHash = function encodeHash(router) {
     .join('&');
 
   const newUrl = `#${HASH_ANCHOR}${hash}`;
-  router.push({ path: '/', hash: newUrl });
+  await router.push({ path: '/', hash: newUrl });
 };
 
 window.decodeHash = function decodeHash() {
