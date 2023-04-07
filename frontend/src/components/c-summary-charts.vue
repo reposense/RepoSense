@@ -489,7 +489,9 @@ export default defineComponent({
 
     getBaseTarget(target: HTMLElement | null): HTMLElement | null {
       if (!target) {
-        // Should never reach here
+        // Should never reach here - function assumes that target is a child of the div with class 'summary-chart__ramp'
+        console.error('Error: The getBaseTarget function in c-summary-charts.vue has been called on an element that is '
+        + 'not a child of the div with class summary-chart__ramp. This might affect the drag view functionality.');
         return null;
       }
       return target.className === 'summary-chart__ramp'
