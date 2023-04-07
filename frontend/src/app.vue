@@ -12,3 +12,8 @@ const app = defineComponent({
 
 export default app;
 </script>
+
+<style lang="scss">
+@import './styles/style.scss';
+@import './styles/panels.scss';
+</style>
