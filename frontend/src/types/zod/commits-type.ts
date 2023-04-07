@@ -35,3 +35,4 @@ export type Commits = z.infer<typeof commitsSchema>;
 export type CommitResultRaw = z.infer<typeof commitResult>;
 export type AuthorDailyContributions = z.infer<typeof authorDailyContributionsSchema>;
 export type AuthorFileTypeContributions = z.infer<typeof authorFileTypeContributionsSchema>;
+export type FileTypeAndContribution = z.infer<typeof fileTypesAndContributionSchema>;
