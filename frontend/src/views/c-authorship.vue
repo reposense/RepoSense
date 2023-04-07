@@ -619,7 +619,7 @@ export default defineComponent({
 
       res.sort((a, b) => b.lineCount - a.lineCount).forEach((file) => {
         // hide files over total char count limit
-        if (!file.isIgnored && !file.isBinary && file.active && file.charCount) {
+        if (!file.isIgnored && !file.isBinary && file.active && file.charCount !== undefined) {
           file.active = file.charCount <= SINGLE_FILE_CHAR_COUNT_THRESHOLD;
           file.wasCodeLoaded = file.active;
         }
