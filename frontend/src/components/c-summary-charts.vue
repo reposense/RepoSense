@@ -200,7 +200,7 @@ export default defineComponent({
   mixins: [brokenLinkDisabler],
   props: {
     checkedFileTypes: {
-      type: Array<String>,
+      type: Array<string>,
       required: true,
     },
     filtered: {
