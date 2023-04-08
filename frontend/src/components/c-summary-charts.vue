@@ -1,12 +1,16 @@
 <template lang="pug">
 #summary-charts
-  .summary-charts(v-for="(repo, i) in filteredRepos")
+  .summary-charts(
+    v-for="(repo, i) in filteredRepos",
+    v-bind:ref="'summary-charts-' + i",
+    v-bind:style="isChartGroupWidgetMode ? {'marginBottom': 0} : {}",
+    )
     .summary-charts__title(
-      v-if="filterGroupSelection !== 'groupByNone'",
+      v-if="filterGroupSelection !== 'groupByNone' && !isChartWidgetMode",
       v-bind:class="{ 'active-background': \
         isSelectedGroup(repo[0].name, repo[0].repoName) }"
     )
-      .summary-charts__title--index {{ i+1 }}
+      .summary-charts__title--index(v-if="!isChartGroupWidgetMode") {{ i+1 }}
       .summary-charts__title--groupname
         template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
         template(
@@ -23,14 +27,14 @@
             v-else-if="filterGroupSelection === 'groupByAuthors'"
           ) Total contribution of author
       a(
-        v-if="!isGroupMerged(getGroupName(repo))",
+        v-if="!isGroupMerged(getGroupName(repo)) && !isChartGroupWidgetMode",
         v-on:click="handleMergeGroup(getGroupName(repo))"
       )
         .tooltip
           font-awesome-icon.icon-button(:icon="['fas', 'chevron-up']")
           span.tooltip-text Click to merge group
       a(
-        v-if="isGroupMerged(getGroupName(repo))",
+        v-if="isGroupMerged(getGroupName(repo)) && !isChartGroupWidgetMode",
         v-on:click="handleExpandGroup(getGroupName(repo))"
       )
         .tooltip
@@ -54,7 +58,7 @@
           span.tooltip-text {{getAuthorProfileLinkMessage(repo[0])}}
       template(v-if="isGroupMerged(getGroupName(repo))")
         a(
-          v-if="filterGroupSelection !== 'groupByAuthors'",
+          v-if="filterGroupSelection !== 'groupByAuthors' && !isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(repo[0], repo, 0, isGroupMerged(getGroupName(repo)))"
         )
@@ -65,6 +69,7 @@
             )
             span.tooltip-text Click to view group's code
         a(
+          v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
@@ -74,6 +79,23 @@
               v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
             )
             span.tooltip-text Click to view breakdown of commits
+      a(
+        v-if="isChartGroupWidgetMode",
+        v-bind:href="getReportLink()", target="_blank"
+      )
+        .tooltip
+          font-awesome-icon.icon-button(
+            icon="list-ul",
+          )
+          span.tooltip-text Click to view breakdown of commits on RepoSense
+      a(
+        v-if="!isChartGroupWidgetMode",
+        v-on:click="getEmbeddedIframe(i)"
+      )
+        .tooltip
+          font-awesome-icon.icon-button(icon="clipboard")
+          span.tooltip-text Click to copy iframe link for group
+
       .tooltip.summary-chart__title--percentile(
           v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
@@ -89,12 +111,16 @@
             v-bind:style="{ 'color': fileTypeColors[fileType] }"
           )
           span &nbsp; {{ fileType }} &nbsp;
-    .summary-chart(v-for="(user, j) in repo")
+    .summary-chart(
+      v-for="(user, j) in getRepo(repo)",
+      v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
+      v-bind:ref="'summary-chart-' + j"
+      )
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
         v-bind:class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo }"
       )
-        .summary-chart__title--index {{ j+1 }}
+        .summary-chart__title--index(v-if="!isChartWidgetMode") {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
@@ -119,6 +145,7 @@
             font-awesome-icon.icon-button(icon="user")
             span.tooltip-text {{getAuthorProfileLinkMessage(repo[j])}}
         a(
+          v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
         )
@@ -129,6 +156,7 @@
             )
             span.tooltip-text Click to view author's contribution.
         a(
+          v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
@@ -138,6 +166,22 @@
               v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'zoom', false) }"
             )
             span.tooltip-text Click to view breakdown of commits
+        a(
+          v-if="isChartGroupWidgetMode",
+          v-bind:href="getReportLink()", target="_blank"
+        )
+          .tooltip
+            font-awesome-icon.icon-button(
+              icon="list-ul",
+            )
+            span.tooltip-text Click to view breakdown of commits on RepoSense
+        a(
+          v-if="!isChartGroupWidgetMode",
+          v-on:click="getEmbeddedIframe(i , j)"
+        )
+          .tooltip
+            font-awesome-icon.icon-button(icon="clipboard")
+            span.tooltip-text Click to copy iframe link
         .tooltip.summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
@@ -246,6 +290,14 @@ export default {
       type: String,
       default: 'groupTitle',
     },
+    chartGroupIndex: {
+      type: [Number, undefined],
+      default: undefined,
+    },
+    chartIndex: {
+      type: [Number, undefined],
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -273,11 +325,15 @@ export default {
       });
       return totalCommits / totalCount;
     },
-
     filteredRepos() {
       return this.filtered.filter((repo) => repo.length > 0);
     },
-
+    isChartGroupWidgetMode() {
+      return this.chartGroupIndex !== undefined && this.chartGroupIndex >= 0;
+    },
+    isChartWidgetMode() {
+      return this.chartIndex !== undefined && this.chartIndex >= 0 && this.isChartGroupWidgetMode;
+    },
     ...mapState(['mergedGroups', 'fileTypeColors']),
   },
   watch: {
@@ -477,6 +533,30 @@ export default {
       };
       this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
+    },
+
+    async getEmbeddedIframe(chartGroupIndex, chartIndex = -1) {
+      const isChartIndexProvided = chartIndex !== -1;
+      // Set height of iframe according to number of charts to avoid scrolling
+      const totalChartHeight = isChartIndexProvided
+        ? this.$refs[`summary-chart-${chartIndex}`][0].clientHeight
+        : this.$refs[`summary-charts-${chartGroupIndex}`][0].clientHeight;
+      const margins = 30;
+      const iframeStart = '<iframe src="';
+      const iframeEnd = `" frameBorder="0" width="800px" height="${totalChartHeight + margins}px"></iframe>`;
+      const [baseUrl, ...params] = window.location.href.split('?');
+      const groupIndexParam = isChartIndexProvided ? `&chartIndex=${chartIndex}` : '';
+      const url = `${baseUrl}#/widget/?${params.join('?')}&chartGroupIndex=${chartGroupIndex}${groupIndexParam}`;
+      await navigator.clipboard.writeText(iframeStart + url + iframeEnd);
+    },
+    getReportLink() {
+      return window.location.href;
+    },
+    getRepo(repo) {
+      if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
+        return [repo[this.chartIndex]];
+      }
+      return repo;
     },
 
     getBaseTarget(target) {

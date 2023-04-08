@@ -1,6 +1,9 @@
 <template lang="pug">
 #summary
-  form.summary-picker.mui-form--inline(onsubmit="return false;")
+  form.summary-picker.mui-form--inline(
+      v-if="!isWidgetMode",
+      onsubmit="return false;"
+    )
     .summary-picker__section
       .mui-textfield.search_box
         input(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
@@ -123,7 +126,9 @@
     v-bind:filter-search="filterSearch",
     v-bind:min-date="minDate",
     v-bind:max-date="maxDate",
-    v-bind:sort-group-selection="sortGroupSelection"
+    v-bind:sort-group-selection="sortGroupSelection",
+    v-bind:chart-group-index="chartGroupIndex",
+    v-bind:chart-index="chartIndex"
   )
 </template>
 
@@ -167,6 +172,10 @@ export default defineComponent({
         return {};
       },
     },
+    isWidgetMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -193,6 +202,8 @@ export default defineComponent({
       fileTypeColors: {} as { [key: string]: string },
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
+      chartGroupIndex: undefined as number | undefined,
+      chartIndex: undefined as number | undefined,
     };
   },
   computed: {
@@ -434,6 +445,12 @@ export default defineComponent({
         const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
+      if (hash.chartGroupIndex) {
+        this.chartGroupIndex = parseInt(hash.chartGroupIndex, 10);
+      }
+      if (hash.chartIndex) {
+        this.chartIndex = parseInt(hash.chartIndex, 10);
+      }
     },
 
     getGroupName(group: User[]) {
@@ -504,6 +521,9 @@ export default defineComponent({
       };
       this.getOptionWithOrder();
       this.filtered = sortFiltered(this.filtered, filterControl);
+      if (this.chartGroupIndex && this.chartGroupIndex < this.filtered.length) {
+        this.filtered = [this.filtered[this.chartGroupIndex]];
+      }
     },
 
     updateMergedGroup(allGroupsMerged: boolean) {
