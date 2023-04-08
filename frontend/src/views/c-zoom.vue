@@ -265,9 +265,13 @@ export default {
     },
   },
   created() {
-    this.initiate();
-    this.retrieveHashes();
-    this.setInfoHash();
+    try {
+      this.initiate();
+      this.retrieveHashes();
+      this.setInfoHash();
+    } catch (error) {
+      console.error('Error during c-zoom created hook:', error);
+    }
   },
   beforeUnmount() {
     this.removeZoomHashes();
@@ -314,7 +318,11 @@ export default {
     },
 
     retrieveSortHash() {
-      const hash = window.hashParams;
+      const hash = Object.assign({}, window.hashParams);
+      Object.keys(hash).forEach((key) => {
+        hash[key] = decodeURIComponent(hash[key]);
+      });
+      console.log('retrieveSortHash', hash);
       if (hash.zCST) {
         this.commitsSortType = hash.zCST;
       }
@@ -324,7 +332,11 @@ export default {
     },
 
     retrieveSelectedFileTypesHash() {
-      const hash = window.hashParams;
+      const hash = Object.assign({}, window.hashParams);
+      Object.keys(hash).forEach((key) => {
+        hash[key] = decodeURIComponent(hash[key]);
+      });
+      console.log('retrieveSelectedFileTypesHash', hash);
 
       if (hash.zFT) {
         this.selectedFileTypes = hash.zFT

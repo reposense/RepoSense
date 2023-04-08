@@ -302,12 +302,16 @@ export default defineComponent({
     },
   },
   created() {
-    this.processFileTypes();
-    this.renderFilterHash();
-    this.getFiltered(false);
-    if (this.$store.state.tabZoomInfo.isRefreshing) {
-      const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
-      this.restoreZoomFiltered(zoomInfo);
+    try {
+      this.processFileTypes();
+      this.renderFilterHash();
+      this.getFiltered(false);
+      if (this.$store.state.tabZoomInfo.isRefreshing) {
+        const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
+        this.restoreZoomFiltered(zoomInfo);
+      }
+    } catch (error) {
+      console.error('Error during c-summary created hook:', error);
     }
   },
   mounted() {
@@ -402,6 +406,7 @@ export default defineComponent({
       Object.keys(hash).forEach((key) => {
         hash[key] = decodeURIComponent(hash[key]);
       });
+      console.log('hash', hash);
 
       if (hash.search) {
         this.filterSearch = hash.search;
@@ -894,7 +899,9 @@ export default defineComponent({
       if (zIsMerged) {
         this.mergeGroupByIndex(filtered, 0);
       }
-      [[info.zUser]] = filtered;
+      // [[info.zUser]] = filtered;
+      info.zUser = filtered[0] && filtered[0][0];
+
       info.zFileTypeColors = this.fileTypeColors;
       info.isRefreshing = false;
       this.$store.commit('updateTabZoomInfo', info);

@@ -413,6 +413,7 @@ export default {
 
     // triggering opening of tabs //
     openTabAuthorship(user, repo, index, isMerged) {
+      console.log('openTabAuthorship: hey im not broken yet');
       const {
         minDate, maxDate, checkedFileTypes,
       } = this;
@@ -428,6 +429,7 @@ export default {
         location: this.getRepoLink(repo[index]),
         files: [],
       };
+
       this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
     },

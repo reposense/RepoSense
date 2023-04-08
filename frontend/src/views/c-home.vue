@@ -216,7 +216,11 @@ const home = defineComponent({
     },
 
     renderAuthorShipTabHash(minDate: string, maxDate: string) {
-      const hash = window.hashParams;
+      const hash = Object.assign({}, window.hashParams);
+      Object.keys(hash).forEach((key) => {
+        hash[key] = decodeURIComponent(hash[key]);
+      });
+      console.log('renderAuthorShipTabHash', hash);
       const info: AuthorshipInfo = {
         author: hash.tabAuthor,
         repo: hash.tabRepo,
@@ -236,7 +240,14 @@ const home = defineComponent({
     },
 
     renderZoomTabHash() {
-      const hash = window.hashParams;
+      const hash = Object.assign({}, window.hashParams);
+      Object.keys(hash).forEach((key) => {
+        hash[key] = decodeURIComponent(hash[key]);
+      });
+      console.log('renderZoomTabHash', hash);
+      Object.keys(hash).forEach((key) => {
+        hash[key] = decodeURIComponent(hash[key]);
+      });
       const zoomInfo: ZoomInfo = {
         isRefreshing: true,
         zAuthor: hash.zA,
