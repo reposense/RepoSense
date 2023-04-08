@@ -550,7 +550,9 @@ export default {
       await navigator.clipboard.writeText(iframeStart + url + iframeEnd);
     },
     getReportLink() {
-      return window.location.href;
+      const url = window.location.href;
+      const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
+      return url.replace(regexToRemoveWidget, '');
     },
     getRepo(repo) {
       if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
