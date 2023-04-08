@@ -51,7 +51,7 @@ declare global {
     getFontColor: (color: string) => string;
     addHash: (newKey: string, newVal: string | boolean) => void;
     removeHash: (key: string) => void;
-    encodeHash: (router: Router) => void;
+    encodeHash: () => void;
     decodeHash: () => void;
     comparator: <T> (fn: SortingFunction<T>, sortingOption?: string) => ComparatorFunction<T>;
     filterUnsupported: (string: string) => string | undefined;

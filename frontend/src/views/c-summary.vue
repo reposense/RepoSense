@@ -393,7 +393,7 @@ export default defineComponent({
         removeHash('checkedFileTypes');
       }
 
-      await encodeHash(this.$router);
+      await encodeHash();
     },
 
     renderFilterHash() {

@@ -54,7 +54,7 @@ export default createStore<StoreState>({
       if (!isTabOpen) {
         window.removeHash('tabType');
       }
-      window.encodeHash(router);
+      window.encodeHash();
     },
     toggleZoomCommitMessageBody(_, slice: CommitResult) {
       if (slice.isOpen !== undefined) {

@@ -257,11 +257,11 @@ export default {
     },
     commitsSortType() {
       window.addHash('zCST', this.commitsSortType);
-      window.encodeHash(this.$router);
+      window.encodeHash();
     },
     toReverseSortedCommits() {
       window.addHash('zRSC', this.toReverseSortedCommits);
-      window.encodeHash(this.$router);
+      window.encodeHash();
     },
   },
   created() {
@@ -339,7 +339,7 @@ export default {
           : '';
 
       window.addHash('zFT', fileTypeHash);
-      window.encodeHash(this.$router);
+      window.encodeHash();
     },
 
     setInfoHash() {
@@ -358,7 +358,7 @@ export default {
       addHash('zFTF', zTimeFrame);
       addHash('zFGS', zFilterGroup);
       addHash('zFR', zFromRamp);
-      encodeHash(this.$router);
+      encodeHash();
     },
 
     toggleSelectedCommitMessageBody(slice) {
@@ -386,7 +386,7 @@ export default {
       window.removeHash('zFT');
       window.removeHash('zCST');
       window.removeHash('zRSC');
-      window.encodeHash(this.$router);
+      window.encodeHash();
     },
 
     containsAtLeastOneSelected(fileTypes) {

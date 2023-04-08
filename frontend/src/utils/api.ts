@@ -3,6 +3,7 @@ import { authorshipSchema } from '../types/zod/authorship-type';
 import { commitsSchema } from '../types/zod/commits-type';
 import { ErrorMessage, summarySchema } from '../types/zod/summary-type';
 import User from './user';
+import router from '../router';
 
 // utility functions //
 window.$ = (id) => document.getElementById(id);
@@ -56,7 +57,7 @@ window.removeHash = function removeHash(key) {
   delete window.hashParams[key];
 };
 
-window.encodeHash = async function encodeHash(router) {
+window.encodeHash = async function encodeHash() {
   const { hashParams } = window;
 
   const hash = Object.keys(hashParams)

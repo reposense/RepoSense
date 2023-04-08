@@ -325,7 +325,7 @@ export default {
   watch: {
     filesSortType() {
       window.addHash('authorshipSortBy', this.filesSortType);
-      window.encodeHash(this.$router);
+      window.encodeHash();
       this.updateSelectedFiles();
     },
 
@@ -342,7 +342,7 @@ export default {
 
     toReverseSortFiles() {
       window.addHash('reverseAuthorshipOrder', this.toReverseSortFiles);
-      window.encodeHash(this.$router);
+      window.encodeHash();
       this.updateSelectedFiles();
     },
 
@@ -423,7 +423,7 @@ export default {
       window.removeHash('tabAuthor');
       window.removeHash('tabRepo');
       window.removeHash('authorshipIsMergeGroup');
-      window.encodeHash(this.$router);
+      window.encodeHash();
     },
 
     async initiate() {
@@ -671,7 +671,7 @@ export default {
       window.removeHash('authorshipFileTypes');
       window.removeHash('authorshipIsBinaryFileTypeChecked');
       window.removeHash('authorshipIsIgnoredFilesChecked');
-      window.encodeHash(this.$router);
+      window.encodeHash();
     },
 
     updateFileTypeHash() {
@@ -683,7 +683,7 @@ export default {
       window.addHash('authorshipIsBinaryFileTypeChecked', this.isBinaryFilesChecked);
       window.addHash('authorshipIsIgnoredFilesChecked', this.isIgnoredFilesChecked);
       window.removeHash('authorshipFilesGlob');
-      window.encodeHash(this.$router);
+      window.encodeHash();
     },
 
     async updateSelectedFiles(setIsLoaded = false) {
