@@ -399,8 +399,13 @@ export default defineComponent({
     renderFilterHash() {
       const convertBool = (txt: string) => (txt === 'true');
       const hash = Object.assign({}, window.hashParams);
+      Object.keys(hash).forEach((key) => {
+        hash[key] = decodeURIComponent(hash[key]);
+      });
 
-      if (hash.search) { this.filterSearch = hash.search; }
+      if (hash.search) {
+        this.filterSearch = hash.search;
+      }
       if (hash.sort && Object.values(SortGroupSelection).includes(hash.sort as SortGroupSelection)) {
         this.sortGroupSelection = hash.sort as SortGroupSelection;
       }
@@ -415,7 +420,7 @@ export default defineComponent({
       if (hash.mergegroup) {
         this.$store.commit(
           'updateMergedGroup',
-          decodeURI(hash.mergegroup).replace(/%2F/g, '/').split(window.HASH_DELIMITER),
+          hash.mergegroup,
         );
       } else {
         this.$store.commit('updateMergedGroup', []);
