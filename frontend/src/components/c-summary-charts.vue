@@ -3,7 +3,7 @@
   .summary-charts(
     v-for="(repo, i) in filteredRepos",
     v-bind:ref="'summary-charts-' + i",
-    v-bind:style="isChartGroupWidgetMode ? {'marginBottom': 0} : {}",
+    v-bind:style="isChartGroupWidgetMode ? {'marginBottom': 0} : {}"
     )
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone' && !isChartWidgetMode",

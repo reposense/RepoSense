@@ -7,7 +7,7 @@
   }
 
   @mixin icon-button-config {
-    color: mui-color("grey");
+    color: mui-color('grey');
     padding: 0 1.2px 0 1.2px;
     text-decoration: none;
   }
@@ -40,25 +40,25 @@
 
     &__checkboxes {
       label {
-        margin-left: 0.5rem;
+        margin-left: .5rem;
       }
 
       span {
-        margin-left: 0.25rem;
+        margin-left: .25rem;
       }
     }
 
     .mui-textfield,
     .mui-select {
-      margin: 0.5rem;
+      margin: .5rem;
       padding-right: 10px;
     }
 
     .mui-btn {
       background: transparent;
       box-shadow: none;
-      color: mui-color("grey");
-      font-size: 0.75rem;
+      color: mui-color('grey');
+      font-size: .75rem;
       font-weight: bold;
       left: -8px;
       margin: 0;
@@ -72,12 +72,12 @@
     }
 
     input {
-      font-size: 0.75rem;
+      font-size: .75rem;
       padding-right: 10px;
     }
 
     label {
-      font-size: 0.75rem;
+      font-size: .75rem;
       overflow-y: hidden;
       text-align: left;
       width: fit-content;
@@ -85,7 +85,7 @@
 
     input,
     select {
-      font-size: 0.75rem;
+      font-size: .75rem;
     }
   }
 
@@ -99,26 +99,26 @@
       text-align: left;
 
       & > * {
-        padding-right: 0.5rem;
+        padding-right: .5rem;
       }
 
       &--index {
-        background: mui-color("black");
-        color: mui-color("white");
+        background: mui-color('black');
+        color: mui-color('white');
         font-size: medium;
         overflow: hidden;
-        padding: 0.1em 0.25em;
+        padding: .1em .25em;
         vertical-align: middle;
       }
 
       &--groupname {
         font-size: medium;
-        padding: 0.5rem;
+        padding: .5rem;
       }
 
       &--percentile {
         @include mini-font;
-        color: mui-color("grey");
+        color: mui-color('grey');
         margin-left: auto;
       }
 
@@ -151,7 +151,7 @@
       display: flex;
 
       & > * {
-        padding-right: 0.5rem;
+        padding-right: .5rem;
       }
 
       &--index {
@@ -163,11 +163,11 @@
       }
 
       &--index::after {
-        content: ".";
+        content: '.';
       }
 
       &--repo {
-        padding-right: 0.25rem;
+        padding-right: .25rem;
       }
 
       &--contribution {
@@ -176,7 +176,7 @@
 
       &--percentile {
         @include mini-font;
-        color: mui-color("grey");
+        color: mui-color('grey');
         margin-left: auto;
         padding-right: 0;
       }
@@ -191,12 +191,12 @@
         top: 0;
 
         &.show {
-          background-color: rgba(mui-color("white"), 0.5);
-          border: 1px dashed mui-color("black");
+          background-color: rgba(mui-color('white'), .5);
+          border: 1px dashed mui-color('black');
         }
 
         &.edge {
-          border-right: 1px dashed mui-color("black");
+          border-right: 1px dashed mui-color('black');
         }
       }
     }
@@ -205,7 +205,7 @@
       text-align: left;
 
       &--bar {
-        background-color: mui-color("red");
+        background-color: mui-color('red');
         float: left;
         height: 4px;
         margin-top: 2px;
@@ -214,12 +214,12 @@
   }
 
   .active-icon {
-    background-color: mui-color("green");
+    background-color: mui-color('green');
     border-radius: 2px;
-    color: mui-color("white");
+    color: mui-color('white');
   }
 
   .active-background {
-    background-color: mui-color("yellow", "200");
+    background-color: mui-color('yellow', '200');
   }
 }

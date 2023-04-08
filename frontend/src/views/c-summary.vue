@@ -1,9 +1,6 @@
 <template lang="pug">
 #summary
-  form.summary-picker.mui-form--inline(
-      v-if="!isWidgetMode",
-      onsubmit="return false;"
-    )
+  form.summary-picker.mui-form--inline(v-if="!isWidgetMode", onsubmit="return false;")
     .summary-picker__section
       .mui-textfield.search_box
         input(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
