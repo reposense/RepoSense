@@ -216,7 +216,7 @@ export default defineComponent({
       let totalCount = 0;
       this.repos.forEach((repo) => {
         repo.users?.forEach((user) => {
-          if (user.checkedFileTypeContribution === undefined) {
+          if (user.checkedFileTypeContribution === undefined || user.checkedFileTypeContribution === 0) {
             this.updateCheckedFileTypeContribution(user);
           }
 
