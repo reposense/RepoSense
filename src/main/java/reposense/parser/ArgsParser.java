@@ -259,20 +259,14 @@ public class ArgsParser {
      */
     public static CliArguments parse(String[] args) throws HelpScreenException, ParseException {
         try {
-            ReportConfiguration reportConfig = new ReportConfiguration();
             ArgumentParser parser = getArgumentParser();
             Namespace results = parser.parseArgs(args);
-            LocalDateTime sinceDate;
-            LocalDateTime untilDate;
 
             Path configFolderPath = results.get(CONFIG_FLAGS[0]);
             Path reportFolderPath = results.get(VIEW_FLAGS[0]);
             Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
             ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
             Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
-            Optional<LocalDateTime> cliSinceDate = results.get(SINCE_FLAGS[0]);
-            Optional<LocalDateTime> cliUntilDate = results.get(UNTIL_FLAGS[0]);
-            Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
             List<String> locations = results.get(REPO_FLAGS[0]);
             List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
             boolean isStandaloneConfigIgnored = results.get(IGNORE_CONFIG_FLAGS[0]);
@@ -280,6 +274,9 @@ public class ArgsParser {
             boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
             boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
             boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
+            boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
+            int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
+            int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
 
             CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
                     .configFolderPath(configFolderPath)
@@ -293,76 +290,19 @@ public class ArgsParser {
                     .isFileSizeLimitIgnored(isFileSizeLimitIgnored)
                     .isLastModifiedDateIncluded(shouldIncludeLastModifiedDate)
                     .isShallowCloningPerformed(shouldPerformShallowCloning)
-                    .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors);
-
-            // Report config is ignored if --repos is provided
-            if (locations == null) {
-                Path reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
-
-                try {
-                    reportConfig = new ReportConfigJsonParser().parse(reportConfigFilePath);
-                } catch (JsonSyntaxException jse) {
-                    logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
-                } catch (IllegalArgumentException iae) {
-                    logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
-                } catch (IOException ioe) {
-                    // IOException thrown as report-config.json is not found.
-                    // Ignore exception as the file is optional.
-                }
-            }
-
-            boolean isSinceDateProvided = cliSinceDate.isPresent();
-            boolean isUntilDateProvided = cliUntilDate.isPresent();
-            boolean isPeriodProvided = cliPeriod.isPresent();
-            boolean isUsingArbitraryDate = false;
-            if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
-                throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
-            }
-            int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
-            int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
-
-            LocalDateTime currentDate = TimeUtil.getCurrentDate(zoneId);
-
-            if (isSinceDateProvided) {
-                sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
-                // For --since d1, need to adjust the arbitrary date based on timezone
-                if (TimeUtil.isEqualToArbitraryFirstDateUtc(sinceDate)) {
-                    isUsingArbitraryDate = true;
-                    sinceDate = TimeUtil.getArbitraryFirstCommitDateConverted(zoneId);
-                }
-            } else {
-                if (isUntilDateProvided) {
-                    sinceDate = isPeriodProvided
-                            ? TimeUtil.getDateMinusNDays(cliUntilDate.get(), cliPeriod.get())
-                            : TimeUtil.getDateMinusAMonth(cliUntilDate.get());
-                } else {
-                    sinceDate = isPeriodProvided
-                            ? TimeUtil.getDateMinusNDays(currentDate, cliPeriod.get())
-                            : TimeUtil.getDateMinusAMonth(currentDate);
-                }
-
-            }
-
-            if (isPeriodProvided && isUsingArbitraryDate) {
-                logger.warning(MESSAGE_SINCE_D1_WITH_PERIOD);
-            }
-
-            if (isUntilDateProvided) {
-                untilDate = TimeUtil.getUntilDate(cliUntilDate.get());
-            } else {
-                untilDate = (isSinceDateProvided && isPeriodProvided)
-                        ? TimeUtil.getDatePlusNDays(cliSinceDate.get(), cliPeriod.get())
-                        : currentDate;
-            }
-
-            untilDate = untilDate.compareTo(currentDate) < 0
-                    ? untilDate
-                    : currentDate;
+                    .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors)
+                    .numCloningThreads(numCloningThreads)
+                    .numAnalysisThreads(numAnalysisThreads)
+                    .isTestMode(isTestMode);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
-            TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
-            TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
+            if (locations == null && configFolderPath.equals(DEFAULT_CONFIG_PATH)) {
+                logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
+            }
+
+            addReportConfigToBuilder(cliArgumentsBuilder, results);
+            addAnalysisDatesToBuilder(cliArgumentsBuilder, results);
 
             boolean isViewModeOnly = reportFolderPath != null
                     && !reportFolderPath.equals(EMPTY_PATH)
@@ -371,30 +311,16 @@ public class ArgsParser {
             cliArgumentsBuilder.isViewModeOnly(isViewModeOnly);
 
             boolean isAutomaticallyLaunching = reportFolderPath != null;
-
-            cliArgumentsBuilder.reportConfiguration(reportConfig)
-                    .sinceDate(sinceDate)
-                    .isSinceDateProvided(isSinceDateProvided)
-                    .untilDate(untilDate)
-                    .isUntilDateProvided(isUntilDateProvided)
-                    .isAutomaticallyLaunching(isAutomaticallyLaunching)
-                    .numCloningThreads(numCloningThreads)
-                    .numAnalysisThreads(numAnalysisThreads);
-
             if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH) && !isViewModeOnly) {
                 logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
             }
+            cliArgumentsBuilder.isAutomaticallyLaunching(isAutomaticallyLaunching);
 
-            if (locations == null && configFolderPath.equals(EMPTY_PATH)) {
-                logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
-            }
 
-            boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
             boolean shouldPerformFreshCloning = isTestMode
                     ? results.get(FRESH_CLONING_FLAG[0])
                     : DEFAULT_SHOULD_FRESH_CLONE;
-
-            cliArgumentsBuilder.isTestMode(isTestMode).isFreshClonePerformed(shouldPerformFreshCloning);
+            cliArgumentsBuilder.isFreshClonePerformed(shouldPerformFreshCloning);
 
             return cliArgumentsBuilder.build();
         } catch (HelpScreenException hse) {
@@ -402,5 +328,90 @@ public class ArgsParser {
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
+    }
+
+    private static void addReportConfigToBuilder(CliArguments.Builder builder, Namespace results) {
+        ReportConfiguration reportConfig = new ReportConfiguration();
+        List<String> locations = results.get(REPO_FLAGS[0]);
+        Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+
+        // Report config is ignored if --repos is provided
+        if (locations == null) {
+            Path reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+
+            try {
+                reportConfig = new ReportConfigJsonParser().parse(reportConfigFilePath);
+            } catch (JsonSyntaxException jse) {
+                logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
+            } catch (IllegalArgumentException iae) {
+                logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
+            } catch (IOException ioe) {
+                // IOException thrown as report-config.json is not found.
+                // Ignore exception as the file is optional.
+            }
+        }
+        builder.reportConfiguration(reportConfig);
+    }
+
+    private static void addAnalysisDatesToBuilder(CliArguments.Builder builder, Namespace results)
+            throws ParseException {
+        ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
+        Optional<LocalDateTime> cliSinceDate = results.get(SINCE_FLAGS[0]);
+        Optional<LocalDateTime> cliUntilDate = results.get(UNTIL_FLAGS[0]);
+        Optional<Integer> cliPeriod = results.get(PERIOD_FLAGS[0]);
+
+        boolean isSinceDateProvided = cliSinceDate.isPresent();
+        boolean isUntilDateProvided = cliUntilDate.isPresent();
+        boolean isPeriodProvided = cliPeriod.isPresent();
+        if (isSinceDateProvided && isUntilDateProvided && isPeriodProvided) {
+            throw new ParseException(MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD);
+        }
+
+        LocalDateTime sinceDate;
+        LocalDateTime untilDate;
+        boolean isUsingArbitraryDate = false;
+
+        LocalDateTime currentDate = TimeUtil.getCurrentDate(zoneId);
+
+        if (isSinceDateProvided) {
+            sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
+            // For --since d1, need to adjust the arbitrary date based on timezone
+            if (TimeUtil.isEqualToArbitraryFirstDateUtc(sinceDate)) {
+                isUsingArbitraryDate = true;
+                sinceDate = TimeUtil.getArbitraryFirstCommitDateConverted(zoneId);
+            }
+        } else if (isUntilDateProvided) {
+                sinceDate = isPeriodProvided
+                        ? TimeUtil.getDateMinusNDays(cliUntilDate.get(), cliPeriod.get())
+                        : TimeUtil.getDateMinusAMonth(cliUntilDate.get());
+        } else {
+                sinceDate = isPeriodProvided
+                        ? TimeUtil.getDateMinusNDays(currentDate, cliPeriod.get())
+                        : TimeUtil.getDateMinusAMonth(currentDate);
+        }
+
+        if (isPeriodProvided && isUsingArbitraryDate) {
+            logger.warning(MESSAGE_SINCE_D1_WITH_PERIOD);
+        }
+
+        if (isUntilDateProvided) {
+            untilDate = TimeUtil.getUntilDate(cliUntilDate.get());
+        } else {
+            untilDate = (isSinceDateProvided && isPeriodProvided)
+                    ? TimeUtil.getDatePlusNDays(cliSinceDate.get(), cliPeriod.get())
+                    : currentDate;
+        }
+
+        untilDate = untilDate.compareTo(currentDate) < 0
+                ? untilDate
+                : currentDate;
+
+        TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
+        TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
+
+        builder.sinceDate(sinceDate)
+                .isSinceDateProvided(isSinceDateProvided)
+                .untilDate(untilDate)
+                .isUntilDateProvided(isUntilDateProvided);
     }
 }
