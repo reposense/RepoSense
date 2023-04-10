@@ -59,22 +59,21 @@ export interface Repo extends RepoRaw {
   users?: User[];
 }
 
-interface AuthorshipFileSegment {
-  authored: boolean;
+export interface AuthorshipFileSegment {
+  knownAuthor: string | null;
   lineNumbers: number[];
   lines: string[];
 }
 
 export interface AuthorshipFile {
   active: boolean;
-  blankLineCount: number;
-  charCount: number;
-  fileSize: number | undefined; // not actually in schema - to verify relevancy when migrating c-authorship.vue
+  blankLineCount?: number;
+  charCount?: number;
   fileType: string;
   isBinary: boolean;
   isIgnored: boolean;
   lineCount: number;
   path: string;
-  segments: AuthorshipFileSegment[];
+  segments?: AuthorshipFileSegment[];
   wasCodeLoaded: boolean;
 }
