@@ -395,13 +395,13 @@ public class ArgsParser {
                 sinceDate = TimeUtil.getArbitraryFirstCommitDateConverted(zoneId);
             }
         } else if (isUntilDateProvided) {
-                sinceDate = isPeriodProvided
-                        ? TimeUtil.getDateMinusNDays(cliUntilDate.get(), cliPeriod.get())
-                        : TimeUtil.getDateMinusAMonth(cliUntilDate.get());
+            sinceDate = isPeriodProvided
+                    ? TimeUtil.getDateMinusNDays(cliUntilDate.get(), cliPeriod.get())
+                    : TimeUtil.getDateMinusAMonth(cliUntilDate.get());
         } else {
-                sinceDate = isPeriodProvided
-                        ? TimeUtil.getDateMinusNDays(currentDate, cliPeriod.get())
-                        : TimeUtil.getDateMinusAMonth(currentDate);
+            sinceDate = isPeriodProvided
+                    ? TimeUtil.getDateMinusNDays(currentDate, cliPeriod.get())
+                    : TimeUtil.getDateMinusAMonth(currentDate);
         }
 
         if (isPeriodProvided && isUsingArbitraryDate) {
