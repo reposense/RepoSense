@@ -330,6 +330,12 @@ public class ArgsParser {
         }
     }
 
+    /**
+     * Adds the reportConfig field to the given {@code builder}.
+     *
+     * @param builder Builder to be supplied with the reportConfig field.
+     * @param results Parsed results of the user-supplied CLI arguments.
+     */
     private static void addReportConfigToBuilder(CliArguments.Builder builder, Namespace results) {
         ReportConfiguration reportConfig = new ReportConfiguration();
         List<String> locations = results.get(REPO_FLAGS[0]);
@@ -353,6 +359,14 @@ public class ArgsParser {
         builder.reportConfiguration(reportConfig);
     }
 
+    /**
+     * Adds the sinceDate and untilDate fields for analysis to the given {@code builder}.
+     *
+     * @param builder Builder to be supplied with the sinceDate and untilDate fields
+     * @param results Parsed results of the user-supplied CLI arguments.
+     * @throws ParseException if all of sinceDate, untilDate and (analysis) period is provided
+     * or if the sinceDate is invalid.
+     */
     private static void addAnalysisDatesToBuilder(CliArguments.Builder builder, Namespace results)
             throws ParseException {
         ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
