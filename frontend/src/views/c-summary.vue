@@ -404,7 +404,8 @@ export default defineComponent({
       if (hash.sort && Object.values(SortGroupSelection).includes(hash.sort as SortGroupSelection)) {
         this.sortGroupSelection = hash.sort as SortGroupSelection;
       }
-      if (hash.sortWithin && Object.values(SortWithinGroupSelection).includes(hash.sort as SortWithinGroupSelection)) {
+      if (hash.sortWithin
+        && Object.values(SortWithinGroupSelection).includes(hash.sortWithin as SortWithinGroupSelection)) {
         this.sortWithinGroupSelection = hash.sortWithin as SortWithinGroupSelection;
       }
 
