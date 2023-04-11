@@ -212,6 +212,17 @@
       "headingKeywords": {}
     },
     {
+      "src": "ug/authorConfigSyntax.md",
+      "title": "Appendix: `author-config.csv` advanced syntax",
+      "headings": {
+        "appendix-author-config-csv-advanced-syntax": "Appendix: author-config.csv advanced syntax",
+        "multiple-repository-s-location-per-author": "Multiple Repository's Location per author",
+        "using-github-branch-url-as-repository-s-location": "Using GitHub branch URL as Repository's Location",
+        "combining-the-advanced-syntax": "Combining the advanced syntax"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "ug/cli.md",
       "title": "Appendix: CLI syntax reference",
       "headings": {
