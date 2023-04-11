@@ -30,7 +30,7 @@ describe('switch authorship', () => {
     // check default controls
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-by > select')
       .should('not.have.value', 'path')
-      .should('have.value', 'lineOfCode');
+      .should('have.value', 'linesOfCode');
 
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')
       .should('have.value', 'true');

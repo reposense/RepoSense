@@ -25,7 +25,7 @@ describe('reload page', () => {
     cy.reload();
 
     cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
-      .should('have.value', 'lineOfCode');
+      .should('have.value', 'linesOfCode');
 
     cy.get('#tab-zoom > .sorting > .sort-order > select:visible')
       .should('have.value', 'false');
