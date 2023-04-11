@@ -60,7 +60,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      */
     @Override
     protected void processLine(List<AuthorConfiguration> results, CSVRecord record) throws ParseException {
-        String location = get(record, LOCATION_HEADER);
+        List<String> locationsWithBranches = getAsListOrDefault(record, LOCATION_HEADER);
         String branch = getOrDefault(record, BRANCH_HEADER, AuthorConfiguration.DEFAULT_BRANCH);
         String gitId = get(record, GIT_ID_HEADERS);
         List<String> emails = getAsList(record, EMAIL_HEADER);
@@ -68,7 +68,30 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
         List<String> aliases = getAsList(record, ALIAS_HEADER);
         List<String> ignoreGlobList = getAsList(record, IGNORE_GLOB_LIST_HEADER);
 
-        AuthorConfiguration config = findMatchingAuthorConfiguration(results, location, branch);
+        for (String locationWithBranches : locationsWithBranches) {
+            List<String> parsedLocationWithBranches = AuthorConfigLocationParser
+                    .parseLocation(locationWithBranches, branch);
+
+            String currLocation = parsedLocationWithBranches.get(0);
+            for (int i = 1; i < parsedLocationWithBranches.size(); i++) {
+                String currBranch = parsedLocationWithBranches.get(i);
+                registerLocationAndBranch(results, gitId, emails, displayName, aliases,
+                        ignoreGlobList, currLocation, currBranch);
+            }
+        }
+    }
+
+    /**
+     * Registers an author for a single location and branch with the information
+     * provided by each line.
+     *
+     * @throws InvalidLocationException if {@code location} is invalid.
+     */
+    private void registerLocationAndBranch(List<AuthorConfiguration> results, String gitId,
+                                              List<String> emails, String displayName,
+                                              List<String> aliases, List<String> ignoreGlobList,
+                                              String currLocation, String currBranch) throws InvalidLocationException {
+        AuthorConfiguration config = findMatchingAuthorConfiguration(results, currLocation, currBranch);
 
         Author author = new Author(gitId);
 
@@ -76,7 +99,6 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
             logger.warning(String.format(
                     "Skipping author as %s already in repository %s %s",
                     author.getGitId(), config.getLocation(), config.getBranch()));
-            return;
         }
 
         author.setEmails(new ArrayList<>(emails));
@@ -90,7 +112,6 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
 
         config.addAuthor(author);
     }
-
 
     /**
      * Gets an existing {@link AuthorConfiguration} from {@code results} if {@code location} and {@code branch} matches.
