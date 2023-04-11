@@ -194,8 +194,6 @@ import { FileResult, Line } from '../types/zod/authorship-type';
 import { AuthorshipFile } from '../types/types';
 import { FilesSortType, FilterType } from '../types/authorship';
 
-const getFontColor = window.getFontColor;
-
 const filesSortDict = {
   linesOfCode: (file: AuthorshipFile) => file.lineCount,
   path: (file: AuthorshipFile) => file.path,
@@ -762,7 +760,9 @@ export default defineComponent({
       return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
 });
 </script>
