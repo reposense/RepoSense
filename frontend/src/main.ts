@@ -3,6 +3,7 @@ import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ObserveVisibility } from 'vue-observe-visibility';
 import hljs from 'highlight.js';
+import router from './router/index';
 import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
 import 'vue-loading-overlay/dist/vue-loading.css';
@@ -42,5 +43,7 @@ app.directive('observe-visibility', {
 
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(store);
+
+app.use(router);
 
 app.mount('#app');

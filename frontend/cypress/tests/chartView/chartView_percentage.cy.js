@@ -67,6 +67,8 @@ describe('sort by contribution', () => {
     cy.get('#summary .summary-chart__title--percentile')
       .should('exist');
 
+    cy.get('#summary-wrapper').scrollTo('top');
+
     cy.get('div.mui-select.grouping > select:visible')
       .select('None');
 

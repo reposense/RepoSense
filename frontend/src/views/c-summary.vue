@@ -149,7 +149,6 @@ import {
   FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection,
 } from '../types/summary';
 
-const getFontColor = window.getFontColor;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 export default defineComponent({
@@ -917,7 +916,9 @@ export default defineComponent({
       return window.getDateStr(datems);
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
 });
 </script>
