@@ -37,7 +37,7 @@ jobs:
 
     - name: Extract PR number
       id: pr-number
-      run: echo '::set-output name=ACTIONS_PR_NUMBER::'$(cat ./pr/NUMBER)
+      run: echo 'ACTIONS_PR_NUMBER=$(cat ./pr/NUMBER)' >> $GITHUB_OUTPUT
 
     - name: Download deployment status artifacts
       uses: dawidd6/action-download-artifact@v2
