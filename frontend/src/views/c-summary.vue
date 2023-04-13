@@ -518,9 +518,6 @@ export default defineComponent({
       };
       this.getOptionWithOrder();
       this.filtered = sortFiltered(this.filtered, filterControl);
-      if (this.chartGroupIndex && this.chartGroupIndex < this.filtered.length) {
-        this.filtered = [this.filtered[this.chartGroupIndex]];
-      }
     },
 
     updateMergedGroup(allGroupsMerged: boolean) {

@@ -327,7 +327,11 @@ export default {
       return totalCommits / totalCount;
     },
     filteredRepos() {
-      return this.filtered.filter((repo) => repo.length > 0);
+      const repos = this.filtered.filter((repo) => repo.length > 0);
+      if (this.isChartGroupWidgetMode && this.chartGroupIndex < repos.length) {
+        return [repos[this.chartGroupIndex]];
+      }
+      return repos;
     },
     isChartGroupWidgetMode() {
       return this.chartGroupIndex !== undefined && this.chartGroupIndex >= 0;
