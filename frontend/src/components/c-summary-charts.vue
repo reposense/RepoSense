@@ -198,7 +198,8 @@
           v-bind:udate="filterUntilDate",
           v-bind:avgsize="avgCommitSize",
           v-bind:mergegroup="isGroupMerged(getGroupName(repo))",
-          v-bind:filtersearch="filterSearch")
+          v-bind:filtersearch="filterSearch",
+          v-bind:isWidgetMode="isChartGroupWidgetMode")
         .overlay
 
       .summary-chart__contribution
@@ -567,11 +568,12 @@ export default {
     },
     updateCopyTooltip(tooltipId, text) {
       const tooltipElement = document.getElementById(tooltipId);
-      if (tooltipElement && tooltipElement.querySelector('.tooltip-text').textContent) {
-        const originalText = tooltipElement.querySelector('.tooltip-text').textContent;
+      if (tooltipElement && tooltipElement.querySelector('.tooltip-text')) {
+        const tooltipTextElement = tooltipElement.querySelector('.tooltip-text');
+        const originalText = tooltipTextElement.textContent;
         tooltipElement.querySelector('.tooltip-text').textContent = text;
         setTimeout(() => {
-          tooltipElement.querySelector('.tooltip-text').textContent = originalText;
+          tooltipTextElement.textContent = originalText;
         }, 2000);
       }
     },

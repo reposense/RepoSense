@@ -19,7 +19,7 @@
         )
 
   template(v-else)
-    a.ramp__slice(
+    a(v-bind:href="getReportLink()", target="_blank").ramp__slice(
       draggable="false",
       v-for="(slice, j) in user.commits",
       v-bind:title="getContributionMessage(slice)",
@@ -76,6 +76,10 @@ export default {
     filtersearch: {
       type: String,
       default: '',
+    },
+    isWidgetMode: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -187,6 +191,14 @@ export default {
       if (isKeyPressed) {
         evt.preventDefault();
       }
+    },
+    getReportLink() {
+      if (this.isWidgetMode) {
+        const url = window.location.href;
+        const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
+        return url.replace(regexToRemoveWidget, '');
+      }
+      return undefined;
     },
   },
 };
