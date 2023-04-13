@@ -73,7 +73,7 @@
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
           )
           span merge all groups
-  .error-message-box(v-if="Object.entries(errorMessages).length")
+  .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
@@ -93,7 +93,7 @@
         )
           span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
-  .fileTypes(v-if="filterBreakdown")
+  .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
       label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
