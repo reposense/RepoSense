@@ -92,7 +92,7 @@
         v-if="!isChartGroupWidgetMode",
         v-on:click="getEmbeddedIframe(i)"
       )
-        .tooltip
+        .tooltip(v-bind:id="'tooltip-' + i")
           font-awesome-icon.icon-button(icon="clipboard")
           span.tooltip-text Click to copy iframe link for group
 
@@ -179,7 +179,7 @@
           v-if="!isChartGroupWidgetMode",
           v-on:click="getEmbeddedIframe(i , j)"
         )
-          .tooltip
+          .tooltip(v-bind:id="'tooltip-' + i + '-' + j")
             font-awesome-icon.icon-button(icon="clipboard")
             span.tooltip-text Click to copy iframe link
         .tooltip.summary-chart__title--percentile(
@@ -547,19 +547,11 @@ export default {
       const [baseUrl, ...params] = window.location.href.split('?');
       const groupIndexParam = isChartIndexProvided ? `&chartIndex=${chartIndex}` : '';
       const url = `${baseUrl}#/widget/?${params.join('?')}&chartGroupIndex=${chartGroupIndex}${groupIndexParam}`;
-      // const clipboard = new Clipboard('.btn', {
-      //   text: () => (iframeStart + url + iframeEnd),
-      // });
       const iframe = iframeStart + url + iframeEnd;
       if (navigator.clipboard) {
-        // Clipboard API is supported
-        navigator.clipboard.writeText(iframe).then(() => {
-          console.log('Text copied to clipboard');
-        }).catch((err) => {
-          console.error('Could not copy text to clipboard', err);
-        });
+        navigator.clipboard.writeText(iframe);
       } else {
-        // Clipboard API is not supported
+        // Clipboard API is not supported (non-secure origin of neither HTTPS nor localhost)
         const textarea = document.createElement('textarea');
         textarea.value = iframe;
         textarea.setAttribute('readonly', '');
@@ -567,22 +559,20 @@ export default {
         textarea.style.left = '-9999px';
         document.body.appendChild(textarea);
         textarea.select();
-        try {
-          document.execCommand('copy');
-          console.log('Text copied to clipboard (backup)');
-        } catch (err) {
-          console.error('Could not copy text to clipboard (backup)', err);
-        } finally {
-          document.body.removeChild(textarea);
-        }
-
-        const tooltipElement = document.getElementById(tooltipId);
-        if (tooltipElement) {
-          tooltipElement.innerText = 'Copied';
-          setTimeout(() => {
-            tooltipElement.innerText = 'Click to copy iframe link';
-          }, 2000);
-        }
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
+      const tooltipId = `tooltip-${chartGroupIndex}${isChartIndexProvided ? `-${chartIndex}` : ''}`;
+      this.updateCopyTooltip(tooltipId, 'Copied iframe');
+    },
+    updateCopyTooltip(tooltipId, text) {
+      const tooltipElement = document.getElementById(tooltipId);
+      if (tooltipElement && tooltipElement.querySelector('.tooltip-text').textContent) {
+        const originalText = tooltipElement.querySelector('.tooltip-text').textContent;
+        tooltipElement.querySelector('.tooltip-text').textContent = text;
+        setTimeout(() => {
+          tooltipElement.querySelector('.tooltip-text').textContent = originalText;
+        }, 2000);
       }
     },
     getReportLink() {
