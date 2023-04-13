@@ -547,7 +547,43 @@ export default {
       const [baseUrl, ...params] = window.location.href.split('?');
       const groupIndexParam = isChartIndexProvided ? `&chartIndex=${chartIndex}` : '';
       const url = `${baseUrl}#/widget/?${params.join('?')}&chartGroupIndex=${chartGroupIndex}${groupIndexParam}`;
-      await navigator.clipboard.writeText(iframeStart + url + iframeEnd);
+      // const clipboard = new Clipboard('.btn', {
+      //   text: () => (iframeStart + url + iframeEnd),
+      // });
+      const iframe = iframeStart + url + iframeEnd;
+      if (navigator.clipboard) {
+        // Clipboard API is supported
+        navigator.clipboard.writeText(iframe).then(() => {
+          console.log('Text copied to clipboard');
+        }).catch((err) => {
+          console.error('Could not copy text to clipboard', err);
+        });
+      } else {
+        // Clipboard API is not supported
+        const textarea = document.createElement('textarea');
+        textarea.value = iframe;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'absolute';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          console.log('Text copied to clipboard (backup)');
+        } catch (err) {
+          console.error('Could not copy text to clipboard (backup)', err);
+        } finally {
+          document.body.removeChild(textarea);
+        }
+
+        const tooltipElement = document.getElementById(tooltipId);
+        if (tooltipElement) {
+          tooltipElement.innerText = 'Copied';
+          setTimeout(() => {
+            tooltipElement.innerText = 'Click to copy iframe link';
+          }, 2000);
+        }
+      }
     },
     getReportLink() {
       const url = window.location.href;
