@@ -232,7 +232,7 @@ import { mapState } from 'vuex';
 
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from './c-ramp.vue';
-import { User } from '../types/types';
+import { Repo, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
 import { AuthorFileTypeContributions } from '../types/zod/commits-type';
@@ -297,11 +297,11 @@ export default defineComponent({
       default: SortGroupSelection.GroupTitle,
     },
     chartGroupIndex: {
-      type: [Number, undefined],
+      type: Number,
       default: undefined,
     },
     chartIndex: {
-      type: [Number, undefined],
+      type: Number,
       default: undefined,
     },
   },
@@ -320,7 +320,7 @@ export default defineComponent({
       let totalCommits = 0;
       let totalCount = 0;
       this.filteredRepos.forEach((repo) => {
-        repo.forEach((user) => {
+        repo.forEach((user: User) => {
           user.commits?.forEach((slice) => {
             if (slice.insertions > 0) {
               totalCount += 1;
@@ -333,8 +333,8 @@ export default defineComponent({
     },
     filteredRepos() {
       const repos = this.filtered.filter((repo) => repo.length > 0);
-      if (this.isChartGroupWidgetMode && this.chartGroupIndex < repos.length) {
-        return [repos[this.chartGroupIndex]];
+      if (this.isChartGroupWidgetMode && this.chartGroupIndex! < repos.length) {
+        return [repos[this.chartGroupIndex!]];
       }
       return repos;
     },
@@ -344,7 +344,6 @@ export default defineComponent({
     isChartWidgetMode() {
       return this.chartIndex !== undefined && this.chartIndex >= 0 && this.isChartGroupWidgetMode;
     },
-    
     ...mapState({
       mergedGroups: (state: unknown) => (state as StoreState).mergedGroups,
       fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,
@@ -549,12 +548,12 @@ export default defineComponent({
       this.$store.commit('updateTabZoomInfo', info);
     },
 
-    async getEmbeddedIframe(chartGroupIndex, chartIndex = -1) {
+    async getEmbeddedIframe(chartGroupIndex: number, chartIndex: number = -1) {
       const isChartIndexProvided = chartIndex !== -1;
       // Set height of iframe according to number of charts to avoid scrolling
       const totalChartHeight = isChartIndexProvided
-        ? this.$refs[`summary-chart-${chartIndex}`][0].clientHeight
-        : this.$refs[`summary-charts-${chartGroupIndex}`][0].clientHeight;
+        ? (this.$refs[`summary-chart-${chartIndex}`] as HTMLElement[])[0].clientHeight
+        : (this.$refs[`summary-charts-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight;
       const margins = 30;
       const iframeStart = '<iframe src="';
       const iframeEnd = `" frameBorder="0" width="800px" height="${totalChartHeight + margins}px"></iframe>`;
@@ -579,14 +578,14 @@ export default defineComponent({
       const tooltipId = `tooltip-${chartGroupIndex}${isChartIndexProvided ? `-${chartIndex}` : ''}`;
       this.updateCopyTooltip(tooltipId, 'Copied iframe');
     },
-    updateCopyTooltip(tooltipId, text) {
+    updateCopyTooltip(tooltipId: string, text: string) {
       const tooltipElement = document.getElementById(tooltipId);
       if (tooltipElement && tooltipElement.querySelector('.tooltip-text')) {
         const tooltipTextElement = tooltipElement.querySelector('.tooltip-text');
-        const originalText = tooltipTextElement.textContent;
-        tooltipElement.querySelector('.tooltip-text').textContent = text;
+        const originalText = tooltipTextElement!.textContent;
+        tooltipElement.querySelector('.tooltip-text')!.textContent = text;
         setTimeout(() => {
-          tooltipTextElement.textContent = originalText;
+          tooltipTextElement!.textContent = originalText;
         }, 2000);
       }
     },
@@ -595,9 +594,9 @@ export default defineComponent({
       const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
       return url.replace(regexToRemoveWidget, '');
     },
-    getRepo(repo) {
+    getRepo(repo: Repo[]) {
       if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
-        return [repo[this.chartIndex]];
+        return [repo[this.chartIndex!]];
       }
       return repo;
     },

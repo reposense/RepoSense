@@ -24,6 +24,9 @@
 
 <script lang='ts'>
 import { defineComponent } from 'vue';
+import JSZip from 'jszip';
+import LoadingOverlay from 'vue-loading-overlay';
+import { mapState } from 'vuex';
 import { Repo } from './types/types';
 import { ErrorMessage } from './types/zod/summary-type';
 import { ZoomInfo, AuthorshipInfo } from './types/vuex.d';
