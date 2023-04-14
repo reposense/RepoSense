@@ -23,11 +23,7 @@
 </template>
 
 <script lang='ts'>
-import JSZip from 'jszip';
-import LoadingOverlay from 'vue-loading-overlay';
-import { mapState } from 'vuex';
 import { defineComponent } from 'vue';
-
 import { Repo } from './types/types';
 import { ErrorMessage } from './types/zod/summary-type';
 import { ZoomInfo, AuthorshipInfo } from './types/vuex.d';

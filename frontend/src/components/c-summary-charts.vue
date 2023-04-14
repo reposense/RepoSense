@@ -226,13 +226,18 @@
             )
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from './c-ramp.vue';
+import { User } from '../types/types';
+import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
+import { StoreState, ZoomInfo } from '../types/vuex.d';
+import { AuthorFileTypeContributions } from '../types/zod/commits-type';
 
-export default {
+export default defineComponent({
   name: 'c-summary-charts',
   components: {
     cRamp,
@@ -240,11 +245,11 @@ export default {
   mixins: [brokenLinkDisabler],
   props: {
     checkedFileTypes: {
-      type: Array,
+      type: Array<string>,
       required: true,
     },
     filtered: {
-      type: Array,
+      type: Array<Array<User>>,
       required: true,
     },
     avgContributionSize: {
@@ -257,11 +262,11 @@ export default {
     },
     filterGroupSelection: {
       type: String,
-      default: 'groupByRepos',
+      default: FilterGroupSelection.GroupByRepos,
     },
     filterTimeFrame: {
       type: String,
-      default: 'commit',
+      default: FilterTimeFrame.Commit,
     },
     filterSinceDate: {
       type: String,
@@ -289,7 +294,7 @@ export default {
     },
     sortGroupSelection: {
       type: String,
-      default: 'groupTitle',
+      default: SortGroupSelection.GroupTitle,
     },
     chartGroupIndex: {
       type: [Number, undefined],
@@ -302,21 +307,21 @@ export default {
   },
   data() {
     return {
-      drags: [],
-      activeRepo: null,
-      activeUser: null,
-      activeTabType: null,
+      drags: [] as number[],
+      activeRepo: null as string | null,
+      activeUser: null as string | null,
+      activeTabType: null as string | null,
       isTabOnMergedGroup: false,
     };
   },
 
   computed: {
-    avgCommitSize() {
+    avgCommitSize(): number {
       let totalCommits = 0;
       let totalCount = 0;
       this.filteredRepos.forEach((repo) => {
         repo.forEach((user) => {
-          user.commits.forEach((slice) => {
+          user.commits?.forEach((slice) => {
             if (slice.insertions > 0) {
               totalCount += 1;
               totalCommits += slice.insertions;
@@ -339,7 +344,11 @@ export default {
     isChartWidgetMode() {
       return this.chartIndex !== undefined && this.chartIndex >= 0 && this.isChartGroupWidgetMode;
     },
-    ...mapState(['mergedGroups', 'fileTypeColors']),
+    
+    ...mapState({
+      mergedGroups: (state: unknown) => (state as StoreState).mergedGroups,
+      fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,
+    }),
   },
   watch: {
     '$store.state.isTabActive': function () {
@@ -352,12 +361,12 @@ export default {
     this.retrieveSelectedTabHash();
   },
   methods: {
-    getFileTypeContributionBars(fileTypeContribution) {
+    getFileTypeContributionBars(fileTypeContribution: AuthorFileTypeContributions): { [key: string]: number[] } {
       let currentBarWidth = 0;
       const fullBarWidth = 100;
       const contributionPerFullBar = (this.avgContributionSize * 2);
 
-      const allFileTypesContributionBars = {};
+      const allFileTypesContributionBars: { [key: string]: number[] } = {};
       if (contributionPerFullBar === 0) {
         return allFileTypesContributionBars;
       }
@@ -395,8 +404,8 @@ export default {
       return allFileTypesContributionBars;
     },
 
-    getFileTypes(repo) {
-      const fileTypes = [];
+    getFileTypes(repo: User[]): string[] {
+      const fileTypes: string[] = [];
       repo.forEach((user) => {
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
           if (this.checkedFileTypes.includes(fileType) && !fileTypes.includes(fileType)) {
@@ -407,12 +416,12 @@ export default {
       return fileTypes;
     },
 
-    getGroupTotalContribution(group) {
-      return group.reduce((acc, ele) => acc + ele.checkedFileTypeContribution, 0);
+    getGroupTotalContribution(group: User[]): number {
+      return group.reduce((acc, ele) => acc + (ele.checkedFileTypeContribution ?? 0), 0);
     },
 
-    getContributionBars(totalContribution) {
-      const res = [];
+    getContributionBars(totalContribution: number): number[] {
+      const res: number[] = [];
       const contributionLimit = (this.avgContributionSize * 2);
       if (contributionLimit === 0) {
         return res;
@@ -430,23 +439,23 @@ export default {
       return res;
     },
 
-    getAuthorProfileLink(repo, userName) {
+    getAuthorProfileLink(repo: User, userName: string): string | undefined {
       return window.getAuthorLink(repo.repoId, userName);
     },
 
-    getGroupRepoLinkMessage(repo) {
+    getGroupRepoLinkMessage(repo: User): string {
       return this.getLinkMessage(this.getRepoLink(repo), 'Click to view group\'s repo');
     },
 
-    getAuthorProfileLinkMessage(repo) {
+    getAuthorProfileLinkMessage(repo: User): string {
       return this.getLinkMessage(this.getAuthorProfileLink(repo, repo.name), 'Click to view author\'s profile');
     },
 
-    getRepoLinkMessage(repo) {
+    getRepoLinkMessage(repo: User): string {
       return this.getLinkMessage(this.getRepoLink(repo), 'Click to view repo');
     },
 
-    getRepoLink(repo) {
+    getRepoLink(repo: User): string | undefined {
       const { REPOS } = window;
       const { location, branch } = REPOS[repo.repoId];
 
@@ -457,7 +466,7 @@ export default {
       return repo.location;
     },
 
-    getRepoIcon(repo) {
+    getRepoIcon(repo: User): string[] {
       const domainName = window.REPOS[repo.repoId].location.domainName;
 
       switch (domainName) {
@@ -473,7 +482,7 @@ export default {
     },
 
     // triggering opening of tabs //
-    openTabAuthorship(user, repo, index, isMerged) {
+    openTabAuthorship(user: User, repo: User[], index: number, isMerged: boolean): void {
       const {
         minDate, maxDate, checkedFileTypes,
       } = this;
@@ -493,7 +502,7 @@ export default {
       this.$store.commit('updateTabAuthorshipInfo', info);
     },
 
-    openTabZoomSubrange(user, evt, isMerged) {
+    openTabZoomSubrange(user: User, evt: MouseEvent, isMerged: boolean): void {
       const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
 
       if (isKeyPressed) {
@@ -506,7 +515,7 @@ export default {
 
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
-        const tdiff = new Date(this.filterUntilDate) - new Date(this.filterSinceDate);
+        const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf();
         const idxs = this.drags.map((x) => (x * tdiff) / 100);
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
@@ -515,13 +524,13 @@ export default {
       }
     },
 
-    openTabZoom(user, since, until, isMerged) {
+    openTabZoom(user: User, since: string, until: string, isMerged: boolean): void {
       const {
         avgCommitSize, filterGroupSelection, filterTimeFrame, filterSearch,
       } = this;
       // Deep copy to ensure changes in zoom (e.g. toggle state) won't affect summary, and vice versa
       const clonedUser = JSON.parse(JSON.stringify(user));
-      const info = {
+      const info: ZoomInfo = {
         zRepo: user.repoName,
         zAuthor: user.name,
         zFilterGroup: filterGroupSelection,
@@ -593,31 +602,43 @@ export default {
       return repo;
     },
 
-    getBaseTarget(target) {
+    getBaseTarget(target: HTMLElement | null): HTMLElement | null {
+      if (!target) {
+        // Should never reach here - function assumes that target is a child of the div with class 'summary-chart__ramp'
+        console.error('Error: The getBaseTarget function in c-summary-charts.vue has been called on an element that is '
+        + 'not a child of the div with class summary-chart__ramp. This might affect the drag view functionality.');
+        return null;
+      }
       return target.className === 'summary-chart__ramp'
           ? target
           : this.getBaseTarget(target.parentElement);
     },
 
-    dragViewDown(evt) {
+    dragViewDown(evt: MouseEvent): void {
       window.deactivateAllOverlays();
 
       const pos = evt.clientX;
-      const ramp = this.getBaseTarget(evt.target);
+      const ramp = this.getBaseTarget(evt.target as HTMLElement);
+      if (!ramp || !ramp.parentElement) {
+        return;
+      }
       this.drags = [pos];
 
       const base = ramp.offsetWidth;
       const offset = ramp.parentElement.offsetLeft;
 
-      const overlay = ramp.getElementsByClassName('overlay')[0];
+      const overlay = ramp.getElementsByClassName('overlay')[0] as HTMLElement;
       overlay.style.marginLeft = '0';
       overlay.style.width = `${((pos - offset) * 100) / base}%`;
       overlay.className += ' edge';
     },
 
-    dragViewUp(evt) {
+    dragViewUp(evt: MouseEvent): void {
       window.deactivateAllOverlays();
-      const ramp = this.getBaseTarget(evt.target);
+      const ramp = this.getBaseTarget(evt.target as HTMLElement);
+      if (!ramp || !ramp.parentElement) {
+        return;
+      }
 
       const base = ramp.offsetWidth;
       this.drags.push(evt.clientX);
@@ -626,43 +647,43 @@ export default {
       const offset = ramp.parentElement.offsetLeft;
       this.drags = this.drags.map((x) => ((x - offset) * 100) / base);
 
-      const overlay = ramp.getElementsByClassName('overlay')[0];
+      const overlay = ramp.getElementsByClassName('overlay')[0] as HTMLElement;
       overlay.style.marginLeft = `${this.drags[0]}%`;
       overlay.style.width = `${this.drags[1] - this.drags[0]}%`;
       overlay.className += ' show';
     },
 
-    getPercentile(index) {
-      if (this.filterGroupSelection === 'groupByNone') {
+    getPercentile(index: number): string {
+      if (this.filterGroupSelection === FilterGroupSelection.GroupByNone) {
         return (Math.round(((index + 1) * 1000) / this.filtered[0].length) / 10).toFixed(1);
       }
       return (Math.round(((index + 1) * 1000) / this.filtered.length) / 10).toFixed(1);
     },
 
-    getGroupName(group) {
+    getGroupName(group: User[]): string {
       return window.getGroupName(group, this.filterGroupSelection);
     },
 
-    isGroupMerged(groupName) {
+    isGroupMerged(groupName: string): boolean {
       return this.mergedGroups.includes(groupName);
     },
 
-    handleMergeGroup(groupName) {
+    handleMergeGroup(groupName: string): void {
       const info = this.mergedGroups;
       info.push(groupName);
       this.$store.commit('updateMergedGroup', info);
     },
 
-    handleExpandGroup(groupName) {
+    handleExpandGroup(groupName: string): void {
       const info = this.mergedGroups.filter((x) => x !== groupName);
       this.$store.commit('updateMergedGroup', info);
     },
 
-    getAuthorDisplayName(repo) {
+    getAuthorDisplayName(repo: User[]): string {
       return window.getAuthorDisplayName(repo);
     },
 
-    retrieveSelectedTabHash() {
+    retrieveSelectedTabHash(): void {
       const hash = window.hashParams;
 
       if (hash.tabAuthor) {
@@ -678,9 +699,9 @@ export default {
       }
 
       if (hash.isTabOnMergedGroup) {
-        if (this.filterGroupSelection === 'groupByAuthors') {
+        if (this.filterGroupSelection === FilterGroupSelection.GroupByAuthors) {
           this.activeRepo = null;
-        } else if (this.filterGroupSelection === 'groupByRepos') {
+        } else if (this.filterGroupSelection === FilterGroupSelection.GroupByRepos) {
           this.activeUser = null;
         }
         this.isTabOnMergedGroup = true;
@@ -691,14 +712,14 @@ export default {
       }
     },
 
-    addSelectedTab(userName, repo, tabType, isMerged) {
-      if (!isMerged || this.filterGroupSelection === 'groupByAuthors') {
+    addSelectedTab(userName: string, repo: string, tabType: string, isMerged: boolean): void {
+      if (!isMerged || this.filterGroupSelection === FilterGroupSelection.GroupByAuthors) {
         this.activeUser = userName;
       } else {
         this.activeUser = null;
       }
 
-      if (isMerged && this.filterGroupSelection === 'groupByAuthors') {
+      if (isMerged && this.filterGroupSelection === FilterGroupSelection.GroupByAuthors) {
         this.activeRepo = null;
       } else {
         this.activeRepo = repo;
@@ -716,7 +737,7 @@ export default {
       window.encodeHash();
     },
 
-    removeSelectedTab() {
+    removeSelectedTab(): void {
       this.activeUser = null;
       this.activeRepo = null;
       this.activeTabType = null;
@@ -725,13 +746,13 @@ export default {
       window.encodeHash();
     },
 
-    isSelectedTab(userName, repo, tabType, isMerged) {
+    isSelectedTab(userName: string, repo: string, tabType: string, isMerged: boolean): boolean {
       if (!isMerged) {
         return this.activeUser === userName && this.activeRepo === repo
             && this.activeTabType === tabType;
       }
 
-      if (this.filterGroupSelection === 'groupByAuthors') {
+      if (this.filterGroupSelection === FilterGroupSelection.GroupByAuthors) {
         return this.isTabOnMergedGroup && this.activeUser === userName
             && this.activeTabType === tabType;
       }
@@ -740,17 +761,17 @@ export default {
           && this.activeTabType === tabType;
     },
 
-    isSelectedGroup(userName, repo) {
+    isSelectedGroup(userName: string, repo: string): boolean {
       return this.isTabOnMergedGroup
-          && ((this.filterGroupSelection === 'groupByRepos' && this.activeRepo === repo)
-          || (this.filterGroupSelection === 'groupByAuthors' && this.activeUser === userName));
+          && ((this.filterGroupSelection === FilterGroupSelection.GroupByRepos && this.activeRepo === repo)
+          || (this.filterGroupSelection === FilterGroupSelection.GroupByAuthors && this.activeUser === userName));
     },
 
-    getPercentileExplanation(j) {
+    getPercentileExplanation(j: number): string {
       const explanation = `Based on the current sorting order, this item is in the top ${this.getPercentile(j)}%`;
       return explanation;
     },
 
   },
-};
+});
 </script>

@@ -20,11 +20,16 @@ export interface DailyCommit {
   date: string;
 }
 
+export interface WeeklyCommit {
+  commitResults: CommitResult[];
+  date: string;
+  endDate: string;
+}
+
 // Similar to DailyCommit, but contains the total insertions and deletions for all CommitResults
-export interface Commit extends DailyCommit {
+export interface Commit extends DailyCommit, WeeklyCommit {
   deletions: number;
   insertions: number;
-  endDate?: string;
 }
 
 // This type predicate distinguishes between Commit and DailyCommit
@@ -35,7 +40,7 @@ export function isCommit(commit: Commit | DailyCommit): commit is Commit {
 
 export interface User {
   checkedFileTypeContribution: number | undefined;
-  commits?: Commit[];
+  commits: Commit[];
   dailyCommits: DailyCommit[];
   displayName: string;
   fileTypeContribution: AuthorFileTypeContributions;
@@ -54,22 +59,21 @@ export interface Repo extends RepoRaw {
   users?: User[];
 }
 
-interface AuthorshipFileSegment {
-  authored: boolean;
+export interface AuthorshipFileSegment {
+  knownAuthor: string | null;
   lineNumbers: number[];
   lines: string[];
 }
 
 export interface AuthorshipFile {
   active: boolean;
-  blankLineCount: number;
-  charCount: number;
-  fileSize: number | undefined; // not actually in schema - to verify relevancy when migrating c-authorship.vue
+  blankLineCount?: number;
+  charCount?: number;
   fileType: string;
   isBinary: boolean;
   isIgnored: boolean;
   lineCount: number;
   path: string;
-  segments: AuthorshipFileSegment[];
+  segments?: AuthorshipFileSegment[];
   wasCodeLoaded: boolean;
 }

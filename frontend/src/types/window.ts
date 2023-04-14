@@ -62,7 +62,7 @@ declare global {
     getBlameLink: (repoId: string, branch: string, filepath: string) => string | undefined;
     getHistoryLink: (repoId: string, branch: string, filepath: string) => string | undefined;
     getGroupName: (group: UserType[], filterGroupSelection: string) => string;
-    getAuthorDisplayName: (authorRepos: Repo[]) => string;
+    getAuthorDisplayName: (authorRepos: UserType[]) => string;
     api: Api;
     sinceDate: string;
     untilDate: string;

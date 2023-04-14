@@ -9,7 +9,7 @@ describe('switch zoom', () => {
     // change sort by
     cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
       .select('LoC')
-      .should('have.value', 'lineOfCode');
+      .should('have.value', 'linesOfCode');
 
     // change sort order
     cy.get('#tab-zoom > .sorting > .sort-order > select:visible')
@@ -31,7 +31,7 @@ describe('switch zoom', () => {
 
     // check default controls
     cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
-      .should('not.have.value', 'lineOfCode')
+      .should('not.have.value', 'linesOfCode')
       .should('have.value', 'time');
 
     cy.get('#tab-zoom > .sorting > .sort-order > select:visible')

@@ -73,9 +73,6 @@ import cResizer from '../components/c-resizer.vue';
 import cZoom from './c-zoom.vue';
 import cSummary from './c-summary.vue';
 import cAuthorship from './c-authorship.vue';
-// import { Repo } from '../types/types';
-// import { ErrorMessage } from '../types/zod/summary-type';
-// import { ZoomInfo, AuthorshipInfo } from '../types/vuex.d';
 
 const home = defineComponent({
   name: 'c-home',
@@ -123,20 +120,6 @@ const home = defineComponent({
       required: true,
     },
   },
-  // data() {
-  //   return {
-  //     repos: {} as { [key: string]: Repo },
-  //     users: [] as Repo[],
-  //     userUpdated: false,
-
-  //     loadingOverlayOpacity: 1,
-
-  //     tabType: 'empty',
-  //     creationDate: '',
-  //     reportGenerationTime: '',
-  //     errorMessages: {} as { [key: string]: ErrorMessage },
-  //   };
-  // },
   methods: {
     getRepoSenseHomeLink() {
       const version = window.repoSenseVersion;
@@ -172,7 +155,6 @@ const home = defineComponent({
       }
       return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
     },
-
   },
 });
 
