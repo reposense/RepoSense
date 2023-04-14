@@ -94,15 +94,20 @@ public class LogsManager {
         Path path = TEMP_LOG_DIR.resolve(LOG_FOLDER_NAME);
 
         try {
-            if (!Files.exists(path)) {
+            boolean isFileExist = Files.exists(path);
+            if (!isFileExist) {
                 Files.createDirectories(path);
-                logger.info("Log folder has been successfully created");
             }
 
             if (fileHandler == null) {
                 fileHandler = createFileHandler();
             }
             logger.addHandler(fileHandler);
+
+            if (!isFileExist) {
+                logger.info("Log temp folder has been successfully created");
+            }
+
         } catch (IOException e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
@@ -131,6 +136,8 @@ public class LogsManager {
 
             if (!Files.exists(outputLogDir)) {
                 Files.createDirectories(outputLogDir);
+                getLogger(LogsManager.class.getName())
+                        .info("Log output folder has been successfully created");
             }
             List<Path> logFiles = Files.list(tempLogDir).collect(Collectors.toList());
 
