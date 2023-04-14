@@ -149,7 +149,6 @@ import {
   FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection,
 } from '../types/summary';
 
-const getFontColor = window.getFontColor;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 export default defineComponent({
@@ -405,7 +404,8 @@ export default defineComponent({
       if (hash.sort && Object.values(SortGroupSelection).includes(hash.sort as SortGroupSelection)) {
         this.sortGroupSelection = hash.sort as SortGroupSelection;
       }
-      if (hash.sortWithin && Object.values(SortWithinGroupSelection).includes(hash.sort as SortWithinGroupSelection)) {
+      if (hash.sortWithin
+        && Object.values(SortWithinGroupSelection).includes(hash.sortWithin as SortWithinGroupSelection)) {
         this.sortWithinGroupSelection = hash.sortWithin as SortWithinGroupSelection;
       }
 
@@ -916,7 +916,9 @@ export default defineComponent({
       return window.getDateStr(datems);
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
 });
 </script>

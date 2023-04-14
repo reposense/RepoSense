@@ -212,6 +212,16 @@ public abstract class CsvParser<T> {
     }
 
     /**
+     * Returns the value of {@code record} at {@code colNum} as a {@code List},
+     * delimited by {@code COLUMN_VALUES_SEPARATOR} if it is in {@code record} and not empty, or
+     * returns a single element List containing the empty string otherwise.
+     */
+    protected List<String> getAsListOrDefault(final CSVRecord record, String[] equivalentHeaders) {
+        List<String> list = getAsList(record, equivalentHeaders);
+        return list.isEmpty() ? Collections.singletonList("") : list;
+    }
+
+    /**
      * Returns the values in {@code record} as a list with the {@link CsvParser#OVERRIDE_KEYWORD} prefix removed.
      * Returns an empty list if {@code record} at the column that match any of the equivalent headers in
      * {@code equivalentHeaders} is empty.

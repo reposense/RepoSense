@@ -216,7 +216,7 @@ describe('hide all commit messages ', () => {
         // change sort by
         cy.get('#tab-zoom > .sorting > .sort-by > select')
           .select('LoC')
-          .should('have.value', 'lineOfCode');
+          .should('have.value', 'linesOfCode');
 
         // message body should still be hidden
         cy.contains('#tab-zoom .commit-message', hash)

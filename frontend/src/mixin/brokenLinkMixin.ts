@@ -7,10 +7,10 @@ export default defineComponent({
     };
   },
   methods: {
-    isBrokenLink(link: string) {
+    isBrokenLink(link: string | undefined) {
       return link === undefined;
     },
-    getLinkMessage(link: string, linkMessage: string): string {
+    getLinkMessage(link: string | undefined, linkMessage: string): string {
       if (this.isBrokenLink(link)) {
         return this.disabledLinkMessage;
       }
