@@ -199,7 +199,7 @@
           v-bind:avgsize="avgCommitSize",
           v-bind:mergegroup="isGroupMerged(getGroupName(repo))",
           v-bind:filtersearch="filterSearch",
-          v-bind:isWidgetMode="isChartGroupWidgetMode")
+          v-bind:is-widget-mode="isChartGroupWidgetMode")
         .overlay
 
       .summary-chart__contribution

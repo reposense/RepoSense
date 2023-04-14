@@ -19,18 +19,19 @@
         )
 
   template(v-else)
-    a(v-bind:href="getReportLink()", target="_blank").ramp__slice(
-      draggable="false",
-      v-for="(slice, j) in user.commits",
-      v-bind:title="getContributionMessage(slice)",
-      v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
-      v-bind:style="{\
-        zIndex: user.commits.length - j,\
-        borderLeftWidth: `${getWidth(slice)}em`,\
-        right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
-        }"
-    )
+    a(v-bind:href="getReportLink()", target="_blank")
+      .ramp__slice(
+        draggable="false",
+        v-for="(slice, j) in user.commits",
+        v-bind:title="getContributionMessage(slice)",
+        v-on:click="openTabZoom(user, slice, $event)",
+        v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
+        v-bind:style="{\
+          zIndex: user.commits.length - j,\
+          borderLeftWidth: `${getWidth(slice)}em`,\
+          right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
+          }"
+      )
 </template>
 
 <script>
