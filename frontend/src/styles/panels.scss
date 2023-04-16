@@ -71,6 +71,14 @@
       .tab-pane {
         text-align: left;
         width: 100%;
+
+        #tab-empty .title {
+          @include small-font;
+
+          h2 {
+            @include large-font;
+          }
+        }
       }
     }
   }
@@ -96,6 +104,7 @@
 
   .checkboxes {
     label {
+      @include small-font;
       align-items: center;
       border-radius: 5px;
       display: inline-flex;
@@ -127,6 +136,7 @@
   float: right;
 
   &--multiline {
+    @include small-font;
     float: right;
 
     > a {
@@ -148,11 +158,11 @@
   }
 
   select {
-    @include medium-font;
+    @include small-font;
   }
 
   label {
-    @include medium-font;
+    @include small-font;
     overflow-y: hidden;
   }
 
