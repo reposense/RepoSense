@@ -149,7 +149,6 @@ import {
   FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection,
 } from '../types/summary';
 
-const getFontColor = window.getFontColor;
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 export default defineComponent({
@@ -405,7 +404,8 @@ export default defineComponent({
       if (hash.sort && Object.values(SortGroupSelection).includes(hash.sort as SortGroupSelection)) {
         this.sortGroupSelection = hash.sort as SortGroupSelection;
       }
-      if (hash.sortWithin && Object.values(SortWithinGroupSelection).includes(hash.sort as SortWithinGroupSelection)) {
+      if (hash.sortWithin
+        && Object.values(SortWithinGroupSelection).includes(hash.sortWithin as SortWithinGroupSelection)) {
         this.sortWithinGroupSelection = hash.sortWithin as SortWithinGroupSelection;
       }
 
@@ -916,7 +916,9 @@ export default defineComponent({
       return window.getDateStr(datems);
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
 });
 </script>
@@ -975,15 +977,16 @@ export default defineComponent({
 
     .mui-textfield,
     .mui-select {
+      @include small-font;
       margin: .5rem;
       padding-right: 10px;
     }
 
     .mui-btn {
+      @include small-font;
       background: transparent;
       box-shadow: none;
       color: mui-color('grey');
-      font-size: .75rem;
       font-weight: bold;
       left: -8px;
       margin: 0;
@@ -997,12 +1000,12 @@ export default defineComponent({
     }
 
     input {
-      font-size: .75rem;
+      @include small-font;
       padding-right: 10px;
     }
 
     label {
-      font-size: .75rem;
+      @include small-font;
       overflow-y: hidden;
       text-align: left;
       width: fit-content;
@@ -1010,7 +1013,7 @@ export default defineComponent({
 
     input,
     select {
-      font-size: .75rem;
+      @include small-font;
     }
   }
 
@@ -1030,14 +1033,14 @@ export default defineComponent({
       &--index {
         background: mui-color('black');
         color: mui-color('white');
-        font-size: medium;
+        @include medium-font;
         overflow: hidden;
         padding: .1em .25em;
         vertical-align: middle;
       }
 
       &--groupname {
-        font-size: medium;
+        @include medium-font;
         padding: .5rem;
       }
 
@@ -1057,6 +1060,7 @@ export default defineComponent({
       overflow-y: hidden;
 
       &__legend {
+        @include small-font;
         display: inline;
         float: left;
       }

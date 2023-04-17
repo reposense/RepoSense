@@ -194,8 +194,6 @@ import { FileResult, Line } from '../types/zod/authorship-type';
 import { AuthorshipFile } from '../types/types';
 import { FilesSortType, FilterType } from '../types/authorship';
 
-const getFontColor = window.getFontColor;
-
 const filesSortDict = {
   linesOfCode: (file: AuthorshipFile) => file.lineCount,
   path: (file: AuthorshipFile) => file.path,
@@ -762,7 +760,9 @@ export default defineComponent({
       return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
 });
 </script>
@@ -795,12 +795,13 @@ export default defineComponent({
       }
 
       .mui-form--inline {
+        @include small-font;
         align-items: flex-end;
         display: flex;
         flex-wrap: wrap;
 
         #search {
-          @include medium-font;
+          @include small-font;
           margin-top: 1.25rem;
           min-width: 130px;
           padding: .5rem 1.0rem .25rem 1.0rem;
@@ -808,7 +809,7 @@ export default defineComponent({
         }
 
         #submit-button {
-          @include medium-font;
+          @include small-font;
           background-color: mui-color('blue');
           color: mui-color('white');
           margin: 1.0rem 0 0 .25rem;
@@ -849,10 +850,8 @@ export default defineComponent({
 
     .file {
       pre {
+        @include mono-font;
         display: grid;
-        // GitHub's font family and font size
-        font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-        font-size: 12px;
         margin-top: 0;
 
         .hljs {
@@ -870,12 +869,12 @@ export default defineComponent({
     }
 
     .title {
+      @include medium-font;
       background-color: mui-color('github', 'title-background');
       border: 1px solid mui-color('github', 'border');
       border-radius: 4px 4px 0 0;
       display: flex;
       flex-wrap: wrap;
-      font-size: medium;
       margin-top: 1rem;
       padding: .3em .5em;
       position: unset;
@@ -924,6 +923,7 @@ export default defineComponent({
       }
 
       .selected-label {
+        @include small-font;
         order: -1;
       }
 
@@ -931,9 +931,9 @@ export default defineComponent({
         overflow-y: hidden;
 
         &__legend {
+          @include small-font;
           display: inline;
           float: left;
-          font-size: 14px;
           padding-right: 8px;
         }
       }

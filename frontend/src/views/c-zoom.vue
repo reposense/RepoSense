@@ -150,8 +150,6 @@ import {
 import CommitsSortType from '../types/zoom';
 import { StoreState } from '../types/vuex.d';
 
-const getFontColor = window.getFontColor;
-
 function zoomInitialState() {
   return {
     showAllCommitMessageBody: true,
@@ -420,7 +418,9 @@ export default defineComponent({
       return false;
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
 });
 
@@ -452,6 +452,12 @@ export default defineComponent({
 
     &__day,
     &__title {
+      @include small-font;
+
+      h3 {
+        @include large-font;
+      }
+
       /* Tags in commits */
       .tag {
         @include mini-font;
@@ -490,6 +496,7 @@ export default defineComponent({
         resize: none;
 
         pre {
+          @include mono-font;
           position: relative;
 
           .dashed-border {
@@ -543,8 +550,8 @@ export default defineComponent({
     }
 
     .message-title {
+      @include mono-font;
       display: inline;
-      font-family: monospace;
 
       .within-border {
         display: inline;
