@@ -22,3 +22,4 @@ export const authorshipSchema = z.array(fileResult);
 // Export typescript types
 export type AuthorshipSchema = z.infer<typeof authorshipSchema>;
 export type FileResult = z.infer<typeof fileResult>;
+export type Line = z.infer<typeof lineSchema>;
