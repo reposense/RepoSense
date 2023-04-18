@@ -29,7 +29,7 @@ public class LogsManager {
 
     // All the log files will be store with a .log extension
     // eg. reposense.log.0, in the logs/ folder of the working directory
-    private static final String LOG_FOLDER_NAME = "logs";
+    private static final String LOG_FOLDER_NAME = "reposense-logs";
     private static final String LOG_FILE_NAME = "reposense.log";
     private static final Path TEMP_LOG_DIR = Paths.get(System.getProperty("user.dir"));
 

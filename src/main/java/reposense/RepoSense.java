@@ -109,7 +109,6 @@ public class RepoSense {
         }
 
         LogsManager.moveLogFileToOutputFolder();
-        LogManager.getLogManager().reset();
     }
 
     public static String getVersion() {
