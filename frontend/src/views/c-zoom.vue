@@ -346,7 +346,7 @@ export default defineComponent({
     retrieveSelectedFileTypesHash() {
       const hash = window.hashParams;
 
-      if (hash.zFT) {
+      if (hash.zFT || hash.zFT === '') {
         this.selectedFileTypes = hash.zFT
           .split(window.HASH_DELIMITER)
           .filter((fileType) => this.fileTypes.includes(fileType));
