@@ -87,7 +87,7 @@
       )
         .tooltip
           font-awesome-icon.icon-button(
-            icon="list-ul",
+            icon="arrow-up-right-from-square",
           )
           span.tooltip-text(
             v-if="!isChartGroupWidgetMode",
@@ -178,7 +178,7 @@
         )
           .tooltip
             font-awesome-icon.icon-button(
-              icon="list-ul",
+              icon="arrow-up-right-from-square",
             )
             span.tooltip-text(
               v-if="!isChartGroupWidgetMode",
