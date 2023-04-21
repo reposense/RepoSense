@@ -47,7 +47,9 @@
       )
         .tooltip
           font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
-          span.tooltip-text {{getGroupRepoLinkMessage(repo[0])}}
+          span.tooltip-text(
+            v-if="!isChartGroupWidgetMode",
+          ) {{getGroupRepoLinkMessage(repo[0])}}
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
         v-bind:class="!isBrokenLink(getAuthorProfileLink(repo[0], repo[0].name)) ? '' : 'broken-link'",
@@ -87,7 +89,9 @@
           font-awesome-icon.icon-button(
             icon="list-ul",
           )
-          span.tooltip-text Click to view breakdown of commits on RepoSense
+          span.tooltip-text(
+            v-if="!isChartGroupWidgetMode",
+          ) Click to view breakdown of commits on RepoSense
       a(
         v-if="!isChartGroupWidgetMode",
         v-on:click="getEmbeddedIframe(i)"
@@ -143,7 +147,9 @@
         )
           .tooltip
             font-awesome-icon.icon-button(icon="user")
-            span.tooltip-text {{getAuthorProfileLinkMessage(repo[j])}}
+            span.tooltip-text(
+              v-if="!isChartGroupWidgetMode",
+            ) {{getAuthorProfileLinkMessage(repo[j])}}
         a(
           v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
@@ -174,7 +180,9 @@
             font-awesome-icon.icon-button(
               icon="list-ul",
             )
-            span.tooltip-text Click to view breakdown of commits on RepoSense
+            span.tooltip-text(
+              v-if="!isChartGroupWidgetMode",
+            ) Click to view breakdown of commits on RepoSense
         a(
           v-if="!isChartGroupWidgetMode",
           v-on:click="getEmbeddedIframe(i , j)"
