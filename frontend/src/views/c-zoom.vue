@@ -346,7 +346,7 @@ export default defineComponent({
     retrieveSelectedFileTypesHash() {
       const hash = window.hashParams;
 
-      if (hash.zFT) {
+      if (hash.zFT || hash.zFT === '') {
         this.selectedFileTypes = hash.zFT
           .split(window.HASH_DELIMITER)
           .filter((fileType) => this.fileTypes.includes(fileType));
@@ -452,6 +452,12 @@ export default defineComponent({
 
     &__day,
     &__title {
+      @include small-font;
+
+      h3 {
+        @include large-font;
+      }
+
       /* Tags in commits */
       .tag {
         @include mini-font;
@@ -490,6 +496,7 @@ export default defineComponent({
         resize: none;
 
         pre {
+          @include mono-font;
           position: relative;
 
           .dashed-border {
@@ -543,8 +550,8 @@ export default defineComponent({
     }
 
     .message-title {
+      @include mono-font;
       display: inline;
-      font-family: monospace;
 
       .within-border {
         display: inline;

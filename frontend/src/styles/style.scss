@@ -4,6 +4,7 @@
 /** global **/
 body {
   font-family: 'Titillium Web', sans-serif;
+  @include medium-font;
 }
 
 vuetemplate {
@@ -77,7 +78,7 @@ a.broken-link {
   }
 
   .tooltip-text {
-    @include medium-font;
+    @include small-font;
     background-color: mui-color('black');
     border-radius: .25rem;
     bottom: 125%;
@@ -173,25 +174,26 @@ header {
     text-align: center;
 
     .timestamp-footer {
+      @include small-font;
       color: mui-color('grey', '700');
       margin-bottom: 1em;
       margin-left: 1em;
     }
 
     .error-message-box {
+      @include small-font;
       background-color: mui-color('red', '100');
       border: .1rem solid mui-color('red', '900');
       border-radius: .25rem;
       color: mui-color('red', '900');
-      font-size: .75rem;
       margin-bottom: .9rem;
       padding: .9rem;
       text-align: left;
 
       &__close-button {
+        @include large-font;
         cursor: pointer;
         float: right;
-        font-size: 1.4rem;
         font-weight: bold;
         line-height: .625rem;
 
