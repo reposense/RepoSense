@@ -215,7 +215,7 @@ export default defineComponent({
       let totalCount = 0;
       this.repos.forEach((repo) => {
         repo.users?.forEach((user) => {
-          if (user.checkedFileTypeContribution === undefined) {
+          if (user.checkedFileTypeContribution === undefined || user.checkedFileTypeContribution === 0) {
             this.updateCheckedFileTypeContribution(user);
           }
 
@@ -431,7 +431,7 @@ export default defineComponent({
       if (hash.breakdown) {
         this.filterBreakdown = convertBool(hash.breakdown);
       }
-      if (hash.checkedFileTypes) {
+      if (hash.checkedFileTypes || hash.checkedFileTypes === '') {
         const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
       }
