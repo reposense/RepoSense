@@ -1,7 +1,7 @@
 {% set title = "Sharing reports" %}
 <frontmatter>
-  title: "{{ title | safe }}"
-  pageNav: 3
+title: "{{ title | safe }}"
+pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed with context %}
@@ -29,10 +29,10 @@ You can point the recipients to the [_**Using reports**_](usingReports.html) sec
 
 As RepoSense reports are in a web page format, you can publish a report by simply uploading it onto any web hosting service. Given below are several options that not only allow to publish reports, but **also enable various levels of automating** the entire process (e.g., automatically update the report daily).
 
+Published reports can additionally be embedded in other websites through `iframes`. Simply click the clipboard icon to generate and copy the iframe for your desired section of the report. Paste the iframe in any HTML supported document to render it.
+
 {{ embed("Appendix: **Using RepoSense with GitHub Actions**", "withGithubActions.md") }}
 
 {{ embed("Appendix: **Using RepoSense with Travis**", "withTravis.md") }}
 
 {{ embed("Appendix: **Using RepoSense with Netlify**", "withNetlify.md") }}
-
-
