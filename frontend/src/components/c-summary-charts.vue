@@ -6,12 +6,15 @@
     v-bind:style="isChartGroupWidgetMode ? {'marginBottom': 0} : {}"
     )
     .summary-charts__title(
-      v-if="filterGroupSelection !== 'groupByNone' && !isChartWidgetMode",
+      v-if="filterGroupSelection !== 'groupByNone'",
+      v-bind:ref="'summary-charts-title-' + i",
       v-bind:class="{ 'active-background': \
         isSelectedGroup(repo[0].name, repo[0].repoName) && !isChartGroupWidgetMode}"
     )
       .summary-charts__title--index(v-if="!isChartGroupWidgetMode") {{ i+1 }}
-      .summary-charts__title--groupname
+      .summary-charts__title--groupname(
+        v-bind:style="isChartGroupWidgetMode ? {'paddingLeft': 0} : {}"
+        )
         template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
         template(
           v-else-if="filterGroupSelection === 'groupByAuthors'",
@@ -82,7 +85,7 @@
             )
             span.tooltip-text Click to view breakdown of commits
       a(
-        v-if="isChartGroupWidgetMode",
+        v-if="isChartGroupWidgetMode && !isChartWidgetMode",
         v-bind:href="getReportLink()", target="_blank"
       )
         .tooltip
@@ -560,9 +563,11 @@ export default defineComponent({
     async getEmbeddedIframe(chartGroupIndex: number, chartIndex: number = -1) {
       const isChartIndexProvided = chartIndex !== -1;
       // Set height of iframe according to number of charts to avoid scrolling
-      const totalChartHeight = isChartIndexProvided
-        ? (this.$refs[`summary-chart-${chartIndex}`] as HTMLElement[])[0].clientHeight
-        : (this.$refs[`summary-charts-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight;
+      const totalChartHeight = !isChartIndexProvided
+        ? (this.$refs[`summary-charts-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight
+        : (this.$refs[`summary-chart-${chartIndex}`] as HTMLElement[])[0].clientHeight
+          + (this.$refs[`summary-charts-title-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight;
+
       const margins = 30;
       const iframeStart = '<iframe src="';
       const iframeEnd = `" frameBorder="0" width="800px" height="${totalChartHeight + margins}px"></iframe>`;
