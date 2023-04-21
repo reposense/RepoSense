@@ -134,22 +134,22 @@
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
-          v-bind:class="!isBrokenLink(getRepoLink(repo[j])) ? '' : 'broken-link'",
-          v-bind:href="getRepoLink(repo[j])", target="_blank"
+          v-bind:class="!isBrokenLink(getRepoLink(user)) ? '' : 'broken-link'",
+          v-bind:href="getRepoLink(user)", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
-            span.tooltip-text {{getRepoLinkMessage(repo[j])}}
+            span.tooltip-text {{getRepoLinkMessage(user)}}
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
-          v-bind:class="!isBrokenLink(getAuthorProfileLink(repo[j], repo[j].name)) ? '' : 'broken-link'",
-          v-bind:href="getAuthorProfileLink(repo[j], repo[j].name)", target="_blank"
+          v-bind:class="!isBrokenLink(getAuthorProfileLink(user, user.name)) ? '' : 'broken-link'",
+          v-bind:href="getAuthorProfileLink(user, user.name)", target="_blank"
         )
           .tooltip
             font-awesome-icon.icon-button(icon="user")
             span.tooltip-text(
               v-if="!isChartGroupWidgetMode",
-            ) {{getAuthorProfileLinkMessage(repo[j])}}
+            ) {{getAuthorProfileLinkMessage(user)}}
         a(
           v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
