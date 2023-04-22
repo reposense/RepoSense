@@ -24,10 +24,10 @@
         .tooltip
           | [{{ getGroupTotalContribution(repo) }} lines]
           span.tooltip-text(
-            v-if="filterGroupSelection === 'groupByRepos'"
+            v-if="filterGroupSelection === 'groupByRepos' && !isChartGroupWidgetMode"
           ) Total contribution of group
           span.tooltip-text(
-            v-else-if="filterGroupSelection === 'groupByAuthors'"
+            v-else-if="filterGroupSelection === 'groupByAuthors' && !isChartGroupWidgetMode"
           ) Total contribution of author
       a(
         v-if="!isGroupMerged(getGroupName(repo)) && !isChartGroupWidgetMode",
