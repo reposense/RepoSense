@@ -563,10 +563,15 @@ export default defineComponent({
     async getEmbeddedIframe(chartGroupIndex: number, chartIndex: number = -1) {
       const isChartIndexProvided = chartIndex !== -1;
       // Set height of iframe according to number of charts to avoid scrolling
-      const totalChartHeight = !isChartIndexProvided
-        ? (this.$refs[`summary-charts-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight
-        : (this.$refs[`summary-chart-${chartIndex}`] as HTMLElement[])[0].clientHeight
-          + (this.$refs[`summary-charts-title-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight;
+      let totalChartHeight = 0;
+      if (!isChartIndexProvided) {
+        totalChartHeight += (this.$refs[`summary-charts-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight;
+      } else {
+        totalChartHeight += (this.$refs[`summary-chart-${chartIndex}`] as HTMLElement[])[0].clientHeight;
+        totalChartHeight += this.filterGroupSelection === 'groupByNone'
+          ? 0
+          : (this.$refs[`summary-charts-title-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight;
+      }
 
       const margins = 30;
       const iframeStart = '<iframe src="';
