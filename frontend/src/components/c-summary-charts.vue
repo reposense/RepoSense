@@ -60,7 +60,9 @@
       )
         .tooltip
           font-awesome-icon.icon-button(icon="user")
-          span.tooltip-text {{getAuthorProfileLinkMessage(repo[0])}}
+          span.tooltip-text(
+            v-if="!isChartGroupWidgetMode",
+          ) {{getAuthorProfileLinkMessage(repo[0])}}
       template(v-if="isGroupMerged(getGroupName(repo))")
         a(
           v-if="filterGroupSelection !== 'groupByAuthors' && !isChartGroupWidgetMode",
@@ -143,7 +145,9 @@
         )
           .tooltip
             font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
-            span.tooltip-text {{getRepoLinkMessage(user)}}
+            span.tooltip-text(
+              v-if="!isChartGroupWidgetMode",
+            ) {{getRepoLinkMessage(user)}}
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
           v-bind:class="!isBrokenLink(getAuthorProfileLink(user, user.name)) ? '' : 'broken-link'",
