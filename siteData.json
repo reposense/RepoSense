@@ -139,6 +139,8 @@
         "data-loader-api-js": "Data loader (api.js)",
         "loading-from-zip-file": "Loading from ZIP file",
         "retrieving-and-parsing-information": "Retrieving and parsing information",
+        "home-view-c-home-vue": "Home view (c-home.vue)",
+        "widget-view-c-widget-vue": "Widget view (c-widget.vue)",
         "summary-view-c-summary-vue": "Summary view (c-summary.vue)",
         "initializing-the-data-for-the-ramp-charts": "Initializing the data for the ramp charts",
         "filtering-users-and-repositories": "Filtering users and repositories",
@@ -320,7 +322,8 @@
       "headings": {
         "sharing-reports": "Sharing reports",
         "share-privately": "Share privately",
-        "publish-on-the-web": "Publish on the web"
+        "publish-on-the-web": "Publish on the web",
+        "embeddable-widgets": "Embeddable Widgets"
       },
       "headingKeywords": {}
     },
