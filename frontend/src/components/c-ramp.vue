@@ -19,18 +19,19 @@
         )
 
   template(v-else)
-    a.ramp__slice(
-      draggable="false",
-      v-for="(slice, j) in user.commits",
-      v-bind:title="getContributionMessage(slice)",
-      v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
-      v-bind:style="{\
-        zIndex: user.commits.length - j,\
-        borderLeftWidth: `${getWidth(slice)}em`,\
-        right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
-        }"
-    )
+    a(v-bind:href="getReportLink()", target="_blank")
+      .ramp__slice(
+        draggable="false",
+        v-for="(slice, j) in user.commits",
+        v-bind:title="getContributionMessage(slice)",
+        v-on:click="openTabZoom(user, slice, $event)",
+        v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
+        v-bind:style="{\
+          zIndex: user.commits.length - j,\
+          borderLeftWidth: `${getWidth(slice)}em`,\
+          right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
+          }"
+      )
 </template>
 
 <script>
@@ -76,6 +77,10 @@ export default {
     filtersearch: {
       type: String,
       default: '',
+    },
+    isWidgetMode: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -187,6 +192,14 @@ export default {
       if (isKeyPressed) {
         evt.preventDefault();
       }
+    },
+    getReportLink() {
+      if (this.isWidgetMode) {
+        const url = window.location.href;
+        const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
+        return url.replace(regexToRemoveWidget, '');
+      }
+      return undefined;
     },
   },
 };

@@ -1,6 +1,6 @@
 <template lang="pug">
 #summary
-  form.summary-picker.mui-form--inline(onsubmit="return false;")
+  form.summary-picker.mui-form--inline(v-if="!isWidgetMode", onsubmit="return false;")
     .summary-picker__section
       .mui-textfield.search_box
         input(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
@@ -73,7 +73,7 @@
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
           )
           span merge all groups
-  .error-message-box(v-if="Object.entries(errorMessages).length")
+  .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
@@ -93,7 +93,7 @@
         )
           span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
-  .fileTypes(v-if="filterBreakdown")
+  .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
       label(style='background-color: #000000; color: #ffffff')
         input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
@@ -123,7 +123,9 @@
     v-bind:filter-search="filterSearch",
     v-bind:min-date="minDate",
     v-bind:max-date="maxDate",
-    v-bind:sort-group-selection="sortGroupSelection"
+    v-bind:sort-group-selection="sortGroupSelection",
+    v-bind:chart-group-index="chartGroupIndex",
+    v-bind:chart-index="chartIndex"
   )
 </template>
 
@@ -167,6 +169,10 @@ export default defineComponent({
         return {};
       },
     },
+    isWidgetMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -193,6 +199,8 @@ export default defineComponent({
       fileTypeColors: {} as { [key: string]: string },
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
+      chartGroupIndex: undefined as number | undefined,
+      chartIndex: undefined as number | undefined,
     };
   },
   computed: {
@@ -434,6 +442,12 @@ export default defineComponent({
       if (hash.checkedFileTypes || hash.checkedFileTypes === '') {
         const parsedFileTypes = hash.checkedFileTypes.split(window.HASH_DELIMITER);
         this.checkedFileTypes = parsedFileTypes.filter((type) => this.fileTypes.includes(type));
+      }
+      if (hash.chartGroupIndex) {
+        this.chartGroupIndex = parseInt(hash.chartGroupIndex, 10);
+      }
+      if (hash.chartIndex) {
+        this.chartIndex = parseInt(hash.chartIndex, 10);
       }
     },
 
@@ -926,230 +940,5 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 @import '../styles/_colors.scss';
-
-/* Summary */
-#summary {
-  .summary-status {
-    text-align: center;
-  }
-
-  @mixin icon-button-config {
-    color: mui-color('grey');
-    padding: 0 1.2px 0 1.2px;
-    text-decoration: none;
-  }
-
-  .icon-button {
-    @include icon-button-config;
-    cursor: pointer;
-  }
-
-  .broken-link {
-    .icon-button {
-      cursor: default;
-    }
-  }
-
-  .summary-picker {
-    align-items: center;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    margin-bottom: 2rem;
-
-    &__section {
-      align-items: inherit;
-      display: flex;
-      flex: 0 1 auto;
-      flex-flow: inherit;
-      justify-content: inherit;
-    }
-
-    &__checkboxes {
-      label {
-        margin-left: .5rem;
-      }
-
-      span {
-        margin-left: .25rem;
-      }
-    }
-
-    .mui-textfield,
-    .mui-select {
-      @include small-font;
-      margin: .5rem;
-      padding-right: 10px;
-    }
-
-    .mui-btn {
-      @include small-font;
-      background: transparent;
-      box-shadow: none;
-      color: mui-color('grey');
-      font-weight: bold;
-      left: -8px;
-      margin: 0;
-      padding: 0;
-      vertical-align: middle;
-    }
-
-    .search_box {
-      align-items: center;
-      display: flex;
-    }
-
-    input {
-      @include small-font;
-      padding-right: 10px;
-    }
-
-    label {
-      @include small-font;
-      overflow-y: hidden;
-      text-align: left;
-      width: fit-content;
-    }
-
-    input,
-    select {
-      @include small-font;
-    }
-  }
-
-  .summary-charts {
-    margin-bottom: 1.4rem;
-
-    &__title {
-      align-items: center;
-      display: flex;
-      font-weight: bold;
-      text-align: left;
-
-      & > * {
-        padding-right: .5rem;
-      }
-
-      &--index {
-        background: mui-color('black');
-        color: mui-color('white');
-        @include medium-font;
-        overflow: hidden;
-        padding: .1em .25em;
-        vertical-align: middle;
-      }
-
-      &--groupname {
-        @include medium-font;
-        padding: .5rem;
-      }
-
-      &--percentile {
-        @include mini-font;
-        color: mui-color('grey');
-        margin-left: auto;
-      }
-
-      &--contribution {
-        @include mini-font;
-        display: inline;
-      }
-    }
-
-    &__fileType--breakdown {
-      overflow-y: hidden;
-
-      &__legend {
-        @include small-font;
-        display: inline;
-        float: left;
-      }
-    }
-  }
-
-  .summary-chart {
-    display: inline-block;
-    margin-bottom: 1rem;
-    position: relative;
-    text-align: left;
-    width: 100%;
-
-    &__title {
-      align-items: center;
-      clear: left;
-      display: flex;
-
-      & > * {
-        padding-right: .5rem;
-      }
-
-      &--index {
-        margin-left: 3px;
-      }
-
-      &--repo {
-        font-weight: bold;
-      }
-
-      &--index::after {
-        content: '.';
-      }
-
-      &--repo {
-        padding-right: .25rem;
-      }
-
-      &--contribution {
-        @include mini-font;
-      }
-
-      &--percentile {
-        @include mini-font;
-        color: mui-color('grey');
-        margin-left: auto;
-        padding-right: 0;
-      }
-    }
-
-    &__ramp {
-      position: relative;
-
-      .overlay {
-        height: 100%;
-        position: absolute;
-        top: 0;
-
-        &.show {
-          background-color: rgba(mui-color('white'), .5);
-          border: 1px dashed mui-color('black');
-        }
-
-        &.edge {
-          border-right: 1px dashed mui-color('black');
-        }
-      }
-    }
-
-    &__contrib {
-      text-align: left;
-
-      &--bar {
-        background-color: mui-color('red');
-        float: left;
-        height: 4px;
-        margin-top: 2px;
-      }
-    }
-  }
-
-  .active-icon {
-    background-color: mui-color('green');
-    border-radius: 2px;
-    color: mui-color('white');
-  }
-
-  .active-background {
-    background-color: mui-color('yellow', '200');
-  }
-}
+@import '../styles/summary-chart.scss';
 </style>
