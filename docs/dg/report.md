@@ -18,7 +18,7 @@ The following is a snapshot of the report:
 
 ## Report architecture
 
-![report architecture](../images/report-architecture.png)
+<puml src="../diagrams/ReportArchitecture.puml"/>
 
 The main Vue object (`app.vue`) is responsible for loading the report via an async call to `api.ts`, which parses `summary.json`. Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
 

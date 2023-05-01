@@ -4,9 +4,9 @@ skinparam monochrome true
 skinparam Shadowing false
 
 Participant ":Main\n(window.app)" as main
-Participant ":Summary\n(c_summary.vue)" as summary
-Participant ":API\n(api.js)" as api
-Participant ":Ramp\n(c_ramp.vue)" as ramp
+Participant ":Summary\n(c-summary.vue)" as summary
+Participant ":API\n(api.ts)" as api
+Participant ":Ramp\n(c-ramp.vue)" as ramp
 
 -> main : page load
 activate main
