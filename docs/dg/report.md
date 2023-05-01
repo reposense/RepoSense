@@ -31,7 +31,7 @@ The tabbed interface is responsible for loading various modules such as authorsh
 
 <!-- ==================================================================================================== -->
 
-## Javascript and Vue files
+## Typescript and Vue files
 
 - **main.ts** - sets up plugins and 3rd party components used in the report
 - [**app.vue**](#app-app-vue) - module that renders the `router-view`
