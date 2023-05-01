@@ -36,8 +36,8 @@ The tabbed interface is responsible for loading various modules such as authorsh
 - **main.ts** - sets up plugins and 3rd party components used in the report
 - [**app.vue**](#app-app-vue) - module that renders the `router-view`
 - [**api.ts**](#data-loader-api-ts) - loading and parsing of the report content
-- [**c_home.vue**](#home-view-c-home-vue) - module that supports the report interface
-- [**c_widget.vue**](#widget-view-c-widget-vue) - module that supports the widget interface
+- [**c-home.vue**](#home-view-c-home-vue) - module that supports the report interface
+- [**c-widget.vue**](#widget-view-c-widget-vue) - module that supports the widget interface
 - [**c-summary.vue**](#summary-view-c-summary-vue) - module that supports the summary view
 - [**c-authorship.vue**](#authorship-view-c-authorship-vue) - module that supports the authorship tab view
 - [**c-zoom.vue**](#zoom-view-c-zoom-vue) - module that supports the zoom tab view
@@ -92,13 +92,13 @@ For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` 
 
 ## Home view ([c-home.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-home.vue))
 
-The `c_home` module is in charge of rendering the main report, and renders `c_resizer`, `c_summary`, `c_authorship` and `c_zoom`.
+The `c-home` module is in charge of rendering the main report, and renders `c-resizer`, `c-summary`, `c-authorship` and `c-zoom`.
 
 <!-- ==================================================================================================== -->
 
 ## Widget view ([c-widget.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-widget.vue))
 
-The `c_widget` module is in charge of rendering the widget from the `iframe` and only renders `c_summary`. An additional prop, `isWidgetMode`, is passed to `c_summary` so it knows to render as a widget and omit unnecessary elements.
+The `c-widget` module is in charge of rendering the widget from the `iframe` and only renders `c-summary`. An additional prop, `isWidgetMode`, is passed to `c-summary` so it knows to render as a widget and omit unnecessary elements.
 
 
 
