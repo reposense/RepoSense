@@ -20,9 +20,9 @@ To specify multiple `Repository's Location` in a single row, we can use a semico
 
 Below is an example:
 
-| Repository's Location                                                               | Branch  | Author's Git Host ID | ... Hidden columns    |
-|-------------------------------------------------------------------------------------|---------|----------------------|-----------------------|
-| https://github.com/reposense/RepoSense.git;https://github.com/MarkBind/markbind.git | master  | sikai00              | --                    |
+| Repository's Location                                                                 | Branch  | Author's Git Host ID | ... Hidden columns    |
+|---------------------------------------------------------------------------------------|---------|----------------------|-----------------------|
+| `https://github.com/reposense/RepoSense.git;https://github.com/MarkBind/markbind.git` | master  | sikai00              | --                    |
 
 We have now furnished author details for both repositories in a single row, instead of having two individual rows per `Repository's Location`.
 
@@ -34,9 +34,9 @@ To list out one or more branches for a particular `Repository's Location`, we ca
 
 Below is an example:
 
-| Repository's Location                                                | Branch   | Author's Git Host ID | ... Hidden columns    |
-|----------------------------------------------------------------------|----------|----------------------|-----------------------|
-| https://github.com/reposense/RepoSense.git~master\|release\|cypress  | master   | sikai00              | --                    |
+| Repository's Location                                                  | Branch   | Author's Git Host ID | ... Hidden columns    |
+|------------------------------------------------------------------------|----------|----------------------|-----------------------|
+| `https://github.com/reposense/RepoSense.git~master\|release\|cypress`  | master   | sikai00              | --                    |
 
 We have now provided author details for three different branches in a single repo, using a single row.
 
@@ -53,9 +53,9 @@ We can also use GitHub branch URL as copied from the address bar directly, to be
 
 Below is an example:
 
-| Repository's Location                               | Branch   | Author's Git Host ID | ... Hidden columns    |
-|-----------------------------------------------------|----------|----------------------|-----------------------|
-| https://github.com/reposense/RepoSense/tree/release |          | sikai00              | --                    |
+| Repository's Location                                 | Branch   | Author's Git Host ID | ... Hidden columns    |
+|-------------------------------------------------------|----------|----------------------|-----------------------|
+| `https://github.com/reposense/RepoSense/tree/release` |          | sikai00              | --                    |
 
 There is no need to specify the `Branch` column now, as we have specified it through the GitHub branch URL.
 
@@ -70,16 +70,16 @@ GitLab and BitBucket branch URL are not supported at the moment.
 
 It is possible to combine the above-mentioned advanced syntax. By doing so, we can go from:
 
-| Repository's Location                                    | Branch   | Author's Git Host ID | ... Hidden columns    |
-|----------------------------------------------------------|----------|----------------------|-----------------------|
-| https://github.com/MarkBind/markbind/tree/vue3-migration |          | sikai00              | --                    |
-| https://github.com/reposense/RepoSense.git               | master   | sikai00              | --                    |
-| https://github.com/reposense/RepoSense.git               | cypress  | sikai00              | --                    |
+| Repository's Location                                      | Branch   | Author's Git Host ID | ... Hidden columns    |
+|------------------------------------------------------------|----------|----------------------|-----------------------|
+| `https://github.com/MarkBind/markbind/tree/vue3-migration` |          | sikai00              | --                    |
+| `https://github.com/reposense/RepoSense.git`               | master   | sikai00              | --                    |
+| `https://github.com/reposense/RepoSense.git`               | cypress  | sikai00              | --                    |
 
 to:
 
-| Repository's Location                                                                                               | Branch   | Author's Git Host ID | ... Hidden columns    |
-|---------------------------------------------------------------------------------------------------------------------|----------|----------------------|-----------------------|
-| https://github.com/MarkBind/markbind/tree/vue3-migration;https://github.com/reposense/RepoSense.git~master\|cypress |          | sikai00              | --                    |
+| Repository's Location                                                                                                 | Branch   | Author's Git Host ID | ... Hidden columns               |
+|-----------------------------------------------------------------------------------------------------------------------|----------|----------------------|----------------------|
+| `https://github.com/MarkBind/markbind/tree/vue3-migration;https://github.com/reposense/RepoSense.git~master\|cypress` |          | sikai00              | --                    |
 
 <br>
