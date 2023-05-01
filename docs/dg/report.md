@@ -34,8 +34,10 @@ The tabbed interface is responsible for loading various modules such as authorsh
 ## Javascript and Vue files
 
 - **main.ts** - sets up plugins and 3rd party components used in the report
-- [**app.vue**](#app-app-vue) - module that supports the report interface
+- [**app.vue**](#app-app-vue) - module that renders the `router-view`
 - [**api.ts**](#data-loader-api-ts) - loading and parsing of the report content
+- [**c_home.vue**](#home-view-c-home-vue) - module that supports the report interface
+- [**c_widget.vue**](#widget-view-c-widget-vue) - module that supports the widget interface
 - [**c-summary.vue**](#summary-view-c-summary-vue) - module that supports the summary view
 - [**c-authorship.vue**](#authorship-view-c-authorship-vue) - module that supports the authorship tab view
 - [**c-zoom.vue**](#zoom-view-c-zoom-vue) - module that supports the zoom tab view
@@ -58,7 +60,7 @@ This contains the logic for the main VueJS object, `app.vue`, which is the entry
 
 Vuex in `store.ts` is used to pass the necessary data into the relevant modules.
 
-`c-summary`, `c-authorship`, `c-zoom`, `c-segment`, and `c-ramp` are components embedded into the report and will render the corresponding content based on the data passed into it from Vuex.
+`c-home`, `c-widget`, `c-summary`, `c-authorship`, `c-zoom`, `c-segment`, and `c-ramp` are components embedded into the report and will render the corresponding content based on the data passed into it from Vuex.
 
 ### Loading of report information
 The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.ts`, which loads the relevant file information from the network files if available; otherwise, a report archive, `archive.zip`, has to be used.
@@ -85,6 +87,20 @@ The API module will be handling all requests for all the JSON data files. If the
 After the JSON files are loaded from their respective sources, the data will be parsed as objects and included inside the global storage object, `window.REPOS`,  in the right format.
 
 For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` file in the report for more details.
+
+<!-- ==================================================================================================== -->
+
+## Home view ([c-home.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-home.vue))
+
+The `c_home` module is in charge of rendering the main report, and renders `c_resizer`, `c_summary`, `c_authorship` and `c_zoom`.
+
+<!-- ==================================================================================================== -->
+
+## Widget view ([c-widget.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-widget.vue))
+
+The `c_widget` module is in charge of rendering the widget from the `iframe` and only renders `c_summary`. An additional prop, `isWidgetMode`, is passed to `c_summary` so it knows to render as a widget and omit unnecessary elements.
+
+
 
 <!-- ==================================================================================================== -->
 

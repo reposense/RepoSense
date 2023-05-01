@@ -27,6 +27,8 @@ describe('switch zoom', () => {
       .last()
       .click();
 
+    cy.get('#tabs-wrapper').scrollTo('top');
+
     // check default controls
     cy.get('#tab-zoom > .sorting > .sort-by > select:visible')
       .should('not.have.value', 'linesOfCode')
