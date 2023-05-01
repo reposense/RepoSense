@@ -78,8 +78,8 @@ It is possible to combine the above-mentioned advanced syntax. By doing so, we c
 
 to:
 
-| Repository's Location                                                                                                 | Branch   | Author's Git Host ID | ... Hidden columns               |
+| Repository's Location                                                                                                 | Branch   | Author's Git Host ID | ... Hidden columns   |
 |-----------------------------------------------------------------------------------------------------------------------|----------|----------------------|----------------------|
-| `https://github.com/MarkBind/markbind/tree/vue3-migration;https://github.com/reposense/RepoSense.git~master\|cypress` |          | sikai00              | --                    |
+| `https://github.com/MarkBind/markbind/tree/vue3-migration;https://github.com/reposense/RepoSense.git~master\|cypress` |          | sikai00              | --                   |
 
 <br>
