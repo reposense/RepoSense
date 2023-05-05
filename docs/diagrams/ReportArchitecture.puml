@@ -3,20 +3,25 @@ hide footbox
 skinparam monochrome true
 skinparam Shadowing false
 
-rectangle "main.js\n(window.app)" as main
-rectangle "c_zoom.vue" as c_zoom
-rectangle "c_ramp.vue" as c_ramp
-rectangle "c_summary.vue" as c_summary
-rectangle "c_authorship.vue" as c_authorship
-rectangle "c_segment.vue" as c_segment
-database "api.js\n" as api
+rectangle "main.ts\n(window.app)" as main
+rectangle "c-zoom.vue" as c_zoom
+rectangle "c-ramp.vue" as c_ramp
+rectangle "c-summary.vue" as c_summary
+rectangle "c-authorship.vue" as c_authorship
+rectangle "c-segment.vue" as c_segment
+rectangle "c-home.vue" as c_home
+rectangle "c-widget.vue" as c_widget
+database "api.ts\n" as api
 
-main -down-> c_summary
+main -down-> c_home
+main -down-> c_widget
+c_home -down-> c_summary
+c_widget -down-> c_summary
 c_summary -down-> c_zoom
 c_summary -> c_ramp
 c_zoom -> c_ramp
 
-main -down-> c_authorship
+c_home -down-> c_authorship
 c_authorship -down-> c_segment
 
 api -down--> main : summary.json

@@ -18,9 +18,10 @@ The following is a snapshot of the report:
 
 ## Report architecture
 
+<!-- Use image instead of puml diagram for this as auto-render may not work -->
 ![report architecture](../images/report-architecture.png)
 
-The main Vue object (`app.vue`) is responsible for loading the report via an async call to `api.js`, which parses `summary.json`. Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
+The main Vue object (`app.vue`) is responsible for loading the report via an async call to `api.ts`, which parses `summary.json`. Its `repos` attribute is tied to the global `window.REPOS`, and is passed into the various other modules when the information is needed.
 
 The report interface is broken down into two main parts
 - the summary view
@@ -31,18 +32,18 @@ The tabbed interface is responsible for loading various modules such as authorsh
 
 <!-- ==================================================================================================== -->
 
-## Javascript and Vue files
+## Typescript and Vue files
 
-- **main.js** - sets up plugins and 3rd party components used in the report
+- **main.ts** - sets up plugins and 3rd party components used in the report
 - [**app.vue**](#app-app-vue) - module that renders the `router-view`
-- [**api.js**](#data-loader-api-js) - loading and parsing of the report content
-- [**c_home.vue**](#home-view-c-home-vue) - module that supports the report interface
-- [**c_widget.vue**](#widget-view-c-widget-vue) - module that supports the widget interface
-- [**c_summary.vue**](#summary-view-c-summary-vue) - module that supports the summary view
-- [**c_authorship.vue**](#authorship-view-c-authorship-vue) - module that supports the authorship tab view
-- [**c_zoom.vue**](#zoom-view-c-zoom-vue) - module that supports the zoom tab view
-- [**c_ramp.vue**](#ramp-view-c-ramp-vue) - module that supports the ramp chart view
-- [**c_segment.vue**](#segment-view-c-segment-vue) - module that supports the code segment view
+- [**api.ts**](#data-loader-api-ts) - loading and parsing of the report content
+- [**c-home.vue**](#home-view-c-home-vue) - module that supports the report interface
+- [**c-widget.vue**](#widget-view-c-widget-vue) - module that supports the widget interface
+- [**c-summary.vue**](#summary-view-c-summary-vue) - module that supports the summary view
+- [**c-authorship.vue**](#authorship-view-c-authorship-vue) - module that supports the authorship tab view
+- [**c-zoom.vue**](#zoom-view-c-zoom-vue) - module that supports the zoom tab view
+- [**c-ramp.vue**](#ramp-view-c-ramp-vue) - module that supports the ramp chart view
+- [**c-segment.vue**](#segment-view-c-segment-vue) - module that supports the code segment view
 
 <!-- ==================================================================================================== -->
 
@@ -58,14 +59,14 @@ The tabbed interface is responsible for loading various modules such as authorsh
 
 This contains the logic for the main VueJS object, `app.vue`, which is the entry point for the web application.
 
-Vuex in `store.js` is used to pass the necessary data into the relevant modules.
+Vuex in `store.ts` is used to pass the necessary data into the relevant modules.
 
-`c_home`, `c_widget`, `c_summary`, `c_authorship`, `c_zoom`, `c_segment`, and `c_ramp` are components embedded into the report and will render the corresponding content based on the data passed into it from Vuex.
+`c-home`, `c-widget`, `c-summary`, `c-authorship`, `c-zoom`, `c-segment`, and `c-ramp` are components embedded into the report and will render the corresponding content based on the data passed into it from Vuex.
 
 ### Loading of report information
-The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.js`, which loads the relevant file information from the network files if available; otherwise, a report archive, `archive.zip`, has to be used.
+The main Vue object depends on the `summary.json` data to determine the right `commits.json` files to load into memory. This is handled by `api.ts`, which loads the relevant file information from the network files if available; otherwise, a report archive, `archive.zip`, has to be used.
 
-Once the relevant `commit.json` files are loaded, all the repo information will be passed into `c_summary` to be loaded in the summary view as the relevant ramp charts.
+Once the relevant `commit.json` files are loaded, all the repo information will be passed into `c-summary` to be loaded in the summary view as the relevant ramp charts.
 
 ### Activating additional view modules
 Most activity or actions should happen within the module itself, but in the case where there is a need to spawn or alter the view of another module, an event is emitted from the first module to the Vuex store, which then handles the data received and passes it along to the relevant modules.
@@ -73,7 +74,7 @@ Most activity or actions should happen within the module itself, but in the case
 ### Hash link
 Other than the global main Vue object, another global variable we have is the `window.hashParams`. This object is responsible for generating the relevant permalink for a specific view of the report's summary module.
 
-## Data loader ([api.js](https://github.com/reposense/RepoSense/blob/master/frontend/src/utils/api.js))
+## Data loader ([api.ts](https://github.com/reposense/RepoSense/blob/master/frontend/src/utils/api.ts))
 This is the module that is in charge of loading and parsing the data files generated as part of the report.
 
 ### Loading from ZIP file
@@ -92,13 +93,13 @@ For the basic skeleton of `window.REPOS`, refer to the generated `summary.json` 
 
 ## Home view ([c-home.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-home.vue))
 
-The `c_home` module is in charge of rendering the main report, and renders `c_resizer`, `c_summary`, `c_authorship` and `c_zoom`.
+The `c-home` module is in charge of rendering the main report, and renders `c-resizer`, `c-summary`, `c-authorship` and `c-zoom`.
 
 <!-- ==================================================================================================== -->
 
 ## Widget view ([c-widget.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-widget.vue))
 
-The `c_widget` module is in charge of rendering the widget from the `iframe` and only renders `c_summary`. An additional prop, `isWidgetMode`, is passed to `c_summary` so it knows to render as a widget and omit unnecessary elements.
+The `c-widget` module is in charge of rendering the widget from the `iframe` and only renders `c-summary`. An additional prop, `isWidgetMode`, is passed to `c-summary` so it knows to render as a widget and omit unnecessary elements.
 
 
 
@@ -106,7 +107,7 @@ The `c_widget` module is in charge of rendering the widget from the `iframe` and
 
 ## Summary view ([c-summary.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-summary.vue))
 
-The `c_summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
+The `c-summary` module is in charge of loading the ramp charts from the corresponding `commits.json`.
 
 <puml src="../diagrams/ReportArchitectureSummary.puml"/>
 
@@ -131,13 +132,13 @@ The files will be filtered, picking only files the selected author has written i
 
 ## Zoom view ([c-zoom.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-zoom.vue))
 
-The `c_zoom` module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.
+The `c-zoom` module is in charge of filtering and displaying the commits from the ramp chart's selected sub-range.
 
 <!-- ==================================================================================================== -->
 
 ## Ramp view ([c-ramp.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-ramp.vue))
 
-The `c_ramp` module is responsible for receiving the relevant information from `c_summary` and generating ramp charts that contain ramp slices.
+The `c-ramp` module is responsible for receiving the relevant information from `c-summary` and generating ramp charts that contain ramp slices.
 
 ### Padding for dates
 For ramps between the date ranges, the slices will be selected and it will be pre and post padded with empty slices to align the ramp slice between the `sinceDate` and `untilDate`. The ramps will then be rendered with the slices in the right position.
@@ -146,4 +147,4 @@ For ramps between the date ranges, the slices will be selected and it will be pr
 
 ## Segment view ([c-segment.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/components/c-segment.vue))
 
-The `c-segment` module is used as a component in `c_authorship`. It separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled.
+The `c-segment` module is used as a component in `c-authorship`. It separates the code in terms of "touched" and "untouched" segments and only loads each "untouched" segment when it is toggled.
