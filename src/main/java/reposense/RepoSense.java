@@ -1,36 +1,24 @@
 package reposense;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
 import reposense.git.GitVersion;
-import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
-import reposense.model.ConfigCliArguments;
-import reposense.model.GroupConfiguration;
-import reposense.model.LocationsCliArguments;
 import reposense.model.RepoConfiguration;
-import reposense.model.RepoLocation;
 import reposense.model.ReportConfiguration;
-import reposense.model.ViewCliArguments;
+import reposense.model.RunConfigurationDecider;
 import reposense.parser.ArgsParser;
-import reposense.parser.AuthorConfigCsvParser;
-import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.InvalidCsvException;
 import reposense.parser.InvalidHeaderException;
-import reposense.parser.InvalidLocationException;
 import reposense.parser.ParseException;
-import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
@@ -59,18 +47,13 @@ public class RepoSense {
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
 
-            if (cliArguments instanceof ViewCliArguments) {
-                ReportServer.startServer(SERVER_PORT_NUMBER, ((
-                        ViewCliArguments) cliArguments).getReportDirectoryPath().toAbsolutePath());
+            if (cliArguments.isViewModeOnly()) {
+                ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
                 return;
-            } else if (cliArguments instanceof ConfigCliArguments) {
-                configs = getRepoConfigurations((ConfigCliArguments) cliArguments);
-                reportConfig = ((ConfigCliArguments) cliArguments).getReportConfiguration();
-            } else if (cliArguments instanceof LocationsCliArguments) {
-                configs = getRepoConfigurations((LocationsCliArguments) cliArguments);
-            } else {
-                throw new AssertionError("CliArguments's subclass type is unhandled.");
             }
+
+            configs = RunConfigurationDecider.getRunConfiguration(cliArguments).getRepoConfigurations();
+            reportConfig = cliArguments.getReportConfiguration();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
@@ -97,13 +80,8 @@ public class RepoSense {
                 GitConfig.setGlobalGitLfsConfig(GitConfig.SKIP_SMUDGE_CONFIG_SETTINGS);
             }
 
-            boolean isTestMode = cliArguments.isTestMode();
-            if (isTestMode) {
-                // Required by ConfigSystemTest to pass
-                AuthorConfiguration.setHasAuthorConfigFile(false);
-            }
-
-            List<Path> reportFoldersAndFiles = ReportGenerator.generateReposReport(configs,
+            ReportGenerator reportGenerator = new ReportGenerator();
+            List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
                     cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
@@ -129,69 +107,7 @@ public class RepoSense {
             // help message was printed by the ArgumentParser; it is safe to exit.
         }
 
-        LogManager.getLogManager().reset();
-    }
-
-    /**
-     * Constructs a list of {@link RepoConfiguration} if {@code cliArguments} is a {@link ConfigCliArguments}.
-     *
-     * @throws IOException if user-supplied csv file does not exist or is not readable.
-     * @throws InvalidCsvException if user-supplied repo-config csv is malformed.
-     * @throws InvalidHeaderException if user-supplied csv file has header that cannot be parsed.
-     */
-    public static List<RepoConfiguration> getRepoConfigurations(ConfigCliArguments cliArguments)
-            throws IOException, InvalidCsvException, InvalidHeaderException {
-        List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
-        List<AuthorConfiguration> authorConfigs;
-        List<GroupConfiguration> groupConfigs;
-
-        try {
-            authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
-            RepoConfiguration.merge(repoConfigs, authorConfigs);
-            AuthorConfiguration.setHasAuthorConfigFile(true);
-        } catch (FileNotFoundException fnfe) {
-            // FileNotFoundException thrown as author-config.csv is not found.
-            // Ignore exception as the file is optional.
-        } catch (IOException | InvalidCsvException e) {
-            // for all IO and invalid csv exceptions, log the error and continue
-            logger.log(Level.WARNING, e.getMessage(), e);
-        }
-
-        try {
-            groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
-            RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
-        } catch (FileNotFoundException fnfe) {
-            // FileNotFoundException thrown as groups-config.csv is not found.
-            // Ignore exception as the file is optional.
-        } catch (IOException | InvalidCsvException e) {
-            // for all other IO and invalid csv exceptions, log the error and continue
-            logger.log(Level.WARNING, e.getMessage(), e);
-        }
-
-        return repoConfigs;
-    }
-
-    /**
-     * Constructs a list of {@link RepoConfiguration} if {@code cliArguments} is a {@link LocationsCliArguments}.
-     *
-     * @throws ParseException if all repo locations are invalid.
-     */
-    public static List<RepoConfiguration> getRepoConfigurations(LocationsCliArguments cliArguments)
-            throws ParseException {
-        List<RepoConfiguration> configs = new ArrayList<>();
-        for (String locationString : cliArguments.getLocations()) {
-            try {
-                configs.add(new RepoConfiguration(new RepoLocation(locationString)));
-            } catch (InvalidLocationException ile) {
-                logger.log(Level.WARNING, ile.getMessage(), ile);
-            }
-        }
-
-        if (configs.isEmpty()) {
-            throw new ParseException("All repository locations are invalid.");
-        }
-
-        return configs;
+        LogsManager.moveLogFileToOutputFolder();
     }
 
     public static String getVersion() {

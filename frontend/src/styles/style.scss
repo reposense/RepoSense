@@ -4,6 +4,7 @@
 /** global **/
 body {
   font-family: 'Titillium Web', sans-serif;
+  @include medium-font;
 }
 
 vuetemplate {
@@ -50,6 +51,10 @@ a.broken-link {
   padding: 2rem 1.5rem;
 }
 
+.widget-padding {
+  padding: .5rem 1rem;
+}
+
 .warn {
   color: mui-color('red');
 
@@ -62,8 +67,18 @@ a.broken-link {
   display: inline-block;
   position: relative;
 
+  %tooltip-tail {
+    border-color: mui-color('black') transparent transparent transparent;
+    border-style: solid;
+    border-width: .4rem;
+    content: '';
+    left: 50%;
+    margin-left: -.4rem;
+    position: absolute;
+  }
+
   .tooltip-text {
-    @include medium-font;
+    @include small-font;
     background-color: mui-color('black');
     border-radius: .25rem;
     bottom: 125%;
@@ -74,20 +89,38 @@ a.broken-link {
     padding: .25rem .5rem;
     position: absolute;
     text-align: center;
+    top: auto;
     transition: opacity .3s;
     visibility: hidden;
     width: 6rem;
+    word-break: normal;
     z-index: z-index('tooltip');
 
+    &::before {
+      border: none;
+    }
+
     &::after {
-      border-color: mui-color('black') transparent transparent transparent;
-      border-style: solid;
-      border-width: .4rem;
-      content: '';
-      left: 50%;
-      margin-left: -.4rem;
-      position: absolute;
+      @extend %tooltip-tail;
+      bottom: auto;
       top: 100%;
+    }
+
+    &.bottom-aligned {
+      @include medium-font;
+      bottom: auto;
+      top: 125%;
+    }
+
+    &.bottom-aligned::before {
+      @extend %tooltip-tail;
+      bottom: 100%;
+      top: auto;
+      transform: rotate(180deg);
+    }
+
+    &.bottom-aligned::after {
+      border-style: none;
     }
 
     &.right-aligned {
@@ -141,25 +174,26 @@ header {
     text-align: center;
 
     .timestamp-footer {
+      @include small-font;
       color: mui-color('grey', '700');
       margin-bottom: 1em;
       margin-left: 1em;
     }
 
     .error-message-box {
+      @include small-font;
       background-color: mui-color('red', '100');
       border: .1rem solid mui-color('red', '900');
       border-radius: .25rem;
       color: mui-color('red', '900');
-      font-size: .75rem;
       margin-bottom: .9rem;
       padding: .9rem;
       text-align: left;
 
       &__close-button {
+        @include large-font;
         cursor: pointer;
         float: right;
-        font-size: 1.4rem;
         font-weight: bold;
         line-height: .625rem;
 

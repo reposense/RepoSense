@@ -22,7 +22,7 @@
         v-bind:title="'Click to open the repo'"
       )
         span {{ filteredUser.repoName }}
-    .author(v-if="!info.zIsMerge")
+    .author(v-if="!info.zIsMerged")
       span &#8627; &nbsp;
       span(v-if="info.zFilterGroup === 'groupByAuthors'") {{ filteredUser.repoName }}
       span(v-else) {{ filteredUser.displayName }} ({{ filteredUser.name }})
@@ -58,7 +58,7 @@
     .mui-select.sort-by
       select(v-model="commitsSortType")
         option(value="time") Time
-        option(value="lineOfCode") LoC
+        option(value="linesOfCode") LoC
       label sort by
     .mui-select.sort-order
       select(v-model="toReverseSortedCommits")
@@ -93,12 +93,15 @@
       v-bind:key="slice.hash",
       v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
     )
+      span.code-merge-icon(v-if="slice.isMergeCommit")
+        font-awesome-icon(icon="code-merge")
+        span &nbsp;
       a.message-title(v-bind:href="getSliceLink(slice)",
         v-bind:class="!isBrokenLink(getSliceLink(slice)) ? '' : 'broken-link'", target="_blank")
         .within-border {{ slice.messageTitle.substr(0, 50) }}
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
-      span &nbsp; ({{ slice.insertions }} lines) &nbsp;
+      span &nbsp; (+{{ slice.insertions }} -{{ slice.deletions }} lines) &nbsp;
       .hash
         span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
@@ -121,81 +124,101 @@
           span &nbsp;{{ tag }}
       a(
         v-if="slice.messageBody !== ''",
-        v-on:click="updateExpandedCommitMessagesCount",
-        onclick="toggleNext(this)"
+        v-on:click="toggleSelectedCommitMessageBody(slice)"
       )
         .tooltip
           font-awesome-icon.commit-message--button(icon="ellipsis-h")
           span.tooltip-text Click to show/hide the commit message body
-      .body(v-if="slice.messageBody !== ''")
+      .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
         pre {{ slice.messageBody }}
           .dashed-border
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from '../components/c-ramp.vue';
-import User from '../utils/user.ts';
-
-const getFontColor = window.getFontColor;
+import User from '../utils/user';
+import {
+  Commit,
+  CommitResult,
+  DailyCommit,
+  WeeklyCommit,
+} from '../types/types';
+import CommitsSortType from '../types/zoom';
+import { StoreState } from '../types/vuex.d';
 
 function zoomInitialState() {
   return {
     showAllCommitMessageBody: true,
-    commitsSortType: 'time',
+    commitsSortType: CommitsSortType.Time,
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
-    selectedFileTypes: [],
-    fileTypes: [],
+    selectedFileTypes: [] as string[],
+    fileTypes: [] as string[],
   };
 }
 
-export default {
+export default defineComponent({
   name: 'c-zoom',
-  mixins: [brokenLinkDisabler],
   components: {
     FontAwesomeIcon,
     cRamp,
   },
+  mixins: [brokenLinkDisabler],
   data() {
     return {
-      expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
       ...zoomInitialState(),
     };
   },
 
   computed: {
     sortingFunction() {
-      const commitSortFunction = this.commitsSortType === 'time'
-        ? (commit) => commit.date
-        : (commit) => commit.insertions;
+      const commitSortFunction = this.commitsSortType === CommitsSortType.Time
+        ? (commit: Commit) => commit.date
+        : (commit: Commit) => commit.insertions;
 
-      return (a, b) => (this.toReverseSortedCommits ? -1 : 1)
+      return (a: Commit, b: Commit) => (this.toReverseSortedCommits ? -1 : 1)
         * window.comparator(commitSortFunction)(a, b);
     },
-    filteredUser() {
+    filteredUser(): User {
       const {
         zUser, zSince, zUntil, zTimeFrame,
       } = this.info;
-      const filteredUser = Object.assign({}, zUser);
 
-      const date = zTimeFrame === 'week' ? 'endDate' : 'date';
-      filteredUser.commits = zUser.commits.filter(
-          (commit) => commit[date] >= zSince && commit[date] <= zUntil,
-      ).sort(this.sortingFunction);
+      if (!zUser) {
+        throw new Error('zUser is not defined');
+      }
+
+      const filteredUser: User = Object.assign({}, zUser);
+
+      if (zTimeFrame === 'week') {
+        filteredUser.commits = zUser.commits.filter(
+          (commit: WeeklyCommit) => commit.endDate >= zSince && commit.endDate <= zUntil,
+        ).sort(this.sortingFunction);
+      } else {
+        filteredUser.commits = zUser.commits.filter(
+          (commit: DailyCommit) => commit.date >= zSince && commit.date <= zUntil,
+        ).sort(this.sortingFunction);
+      }
 
       return new User(filteredUser);
     },
-    selectedCommits() {
-      const commits = [];
+
+    selectedCommits(): Commit[] {
+      if (this.isSelectAllChecked) {
+        return this.filteredUser.commits;
+      }
+
+      const commits = [] as Commit[];
       this.filteredUser.commits.forEach((commit) => {
         const filteredCommit = { ...commit };
         filteredCommit.commitResults = [];
         commit.commitResults.forEach((slice) => {
           if (Object.keys(slice.fileTypesAndContributionMap).some(
-              (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
+            (fileType) => this.selectedFileTypes.indexOf(fileType) !== -1,
           )) {
             filteredCommit.commitResults.push(slice);
           }
@@ -206,7 +229,7 @@ export default {
       });
       return commits;
     },
-    totalCommitMessageBodyCount() {
+    totalCommitMessageBodyCount(): number {
       let nonEmptyCommitMessageCount = 0;
       this.selectedCommits.forEach((commit) => {
         commit.commitResults.forEach((commitResult) => {
@@ -218,11 +241,16 @@ export default {
 
       return nonEmptyCommitMessageCount;
     },
+    expandedCommitMessagesCount(): number {
+      return this.selectedCommits.reduce((prev, commit) => (
+        prev + commit.commitResults.filter((slice) => slice.isOpen).length
+      ), 0);
+    },
     isSelectAllChecked: {
       get() {
         return this.selectedFileTypes.length === this.fileTypes.length;
       },
-      set(value) {
+      set(value: boolean) {
         if (value) {
           this.selectedFileTypes = this.fileTypes.slice();
         } else {
@@ -233,37 +261,36 @@ export default {
     },
 
     ...mapState({
-      fileTypeColors: 'fileTypeColors',
-      info: 'tabZoomInfo',
+      fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,
+      info: (state: unknown) => (state as StoreState).tabZoomInfo,
     }),
   },
 
   watch: {
     info() {
       const newData = {
-        expandedCommitMessagesCount: this.totalCommitMessageBodyCount,
         ...zoomInitialState(),
       };
       Object.assign(this.$data, newData);
       this.initiate();
       this.setInfoHash();
     },
-    selectedFileTypes: {
-      deep: true,
-      handler() {
-        this.$nextTick(() => {
-          this.updateExpandedCommitMessagesCount();
-        });
-      },
-    },
     commitsSortType() {
       window.addHash('zCST', this.commitsSortType);
       window.encodeHash();
     },
     toReverseSortedCommits() {
-      window.addHash('zRSC', this.toReverseSortedCommits);
+      window.addHash('zRSC', this.toReverseSortedCommits.toString());
       window.encodeHash();
     },
+  },
+  created() {
+    this.initiate();
+    this.retrieveHashes();
+    this.setInfoHash();
+  },
+  beforeUnmount() {
+    this.removeZoomHashes();
   },
 
   methods: {
@@ -273,14 +300,14 @@ export default {
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
-    getSliceLink(slice) {
+    getSliceLink(slice: CommitResult): string | undefined {
       if (this.info.zIsMerged) {
         return window.getCommitLink(slice.repoId, slice.hash);
       }
-      return window.getCommitLink(this.info.zUser.repoId, slice.hash);
+      return window.getCommitLink(this.info.zUser!.repoId, slice.hash);
     },
 
-    scrollToCommit(tag, commit) {
+    scrollToCommit(tag: string, commit: string) {
       const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
         el.focus();
@@ -288,7 +315,7 @@ export default {
     },
 
     updateFileTypes() {
-      const commitsFileTypes = new Set();
+      const commitsFileTypes = new Set<string>();
       this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
           Object.keys(slice.fileTypesAndContributionMap).forEach((fileType) => {
@@ -297,7 +324,7 @@ export default {
         });
       });
       this.fileTypes = Object.keys(this.filteredUser.fileTypeContribution).filter(
-          (fileType) => commitsFileTypes.has(fileType),
+        (fileType) => commitsFileTypes.has(fileType),
       );
     },
 
@@ -308,8 +335,8 @@ export default {
 
     retrieveSortHash() {
       const hash = window.hashParams;
-      if (hash.zCST) {
-        this.commitsSortType = hash.zCST;
+      if (hash.zCST && Object.values(CommitsSortType).includes(hash.zCST as CommitsSortType)) {
+        this.commitsSortType = hash.zCST as CommitsSortType;
       }
       if (hash.zRSC) {
         this.toReverseSortedCommits = (hash.zRSC === 'true');
@@ -319,10 +346,10 @@ export default {
     retrieveSelectedFileTypesHash() {
       const hash = window.hashParams;
 
-      if (hash.zFT) {
+      if (hash.zFT || hash.zFT === '') {
         this.selectedFileTypes = hash.zFT
-            .split(window.HASH_DELIMITER)
-            .filter((fileType) => this.fileTypes.includes(fileType));
+          .split(window.HASH_DELIMITER)
+          .filter((fileType) => this.fileTypes.includes(fileType));
       }
     },
 
@@ -343,35 +370,27 @@ export default {
       } = this.info;
       addHash('zA', zAuthor);
       addHash('zR', zRepo);
-      addHash('zACS', zAvgCommitSize);
+      addHash('zACS', zAvgCommitSize.toString());
       addHash('zS', zSince);
       addHash('zFS', zFilterSearch);
       addHash('zU', zUntil);
-      addHash('zMG', zIsMerged);
+      addHash('zMG', zIsMerged.toString());
       addHash('zFTF', zTimeFrame);
       addHash('zFGS', zFilterGroup);
-      addHash('zFR', zFromRamp);
+      addHash('zFR', zFromRamp.toString());
       encodeHash();
     },
 
-    toggleAllCommitMessagesBody(isActive) {
-      this.showAllCommitMessageBody = isActive;
-
-      const toRename = this.showAllCommitMessageBody
-        ? 'commit-message message-body active'
-        : 'commit-message message-body';
-
-      const commitMessageClasses = document.getElementsByClassName('commit-message message-body');
-      Array.from(commitMessageClasses).forEach((commitMessageClass) => {
-        commitMessageClass.className = toRename;
-      });
-
-      this.expandedCommitMessagesCount = isActive ? this.totalCommitMessageBodyCount : 0;
+    toggleSelectedCommitMessageBody(slice: CommitResult) {
+      this.$store.commit('toggleZoomCommitMessageBody', slice);
     },
 
-    updateExpandedCommitMessagesCount() {
-      this.expandedCommitMessagesCount = document.getElementsByClassName('commit-message message-body active')
-          .length;
+    toggleAllCommitMessagesBody(isOpen: boolean) {
+      this.showAllCommitMessageBody = isOpen;
+      this.$store.commit('setAllZoomCommitMessageBody', {
+        isOpen,
+        commits: this.selectedCommits,
+      });
     },
 
     removeZoomHashes() {
@@ -390,7 +409,7 @@ export default {
       window.encodeHash();
     },
 
-    containsAtLeastOneSelected(fileTypes) {
+    containsAtLeastOneSelected(fileTypes: string[]): boolean {
       for (let i = 0; i < fileTypes.length; i += 1) {
         if (this.selectedFileTypes.includes(fileTypes[i])) {
           return true;
@@ -399,17 +418,11 @@ export default {
       return false;
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
-  created() {
-    this.initiate();
-    this.retrieveHashes();
-    this.setInfoHash();
-  },
-  beforeUnmount() {
-    this.removeZoomHashes();
-  },
-};
+});
 
 </script>
 
@@ -439,6 +452,12 @@ export default {
 
     &__day,
     &__title {
+      @include small-font;
+
+      h3 {
+        @include large-font;
+      }
+
       /* Tags in commits */
       .tag {
         @include mini-font;
@@ -477,6 +496,7 @@ export default {
         resize: none;
 
         pre {
+          @include mono-font;
           position: relative;
 
           .dashed-border {
@@ -488,6 +508,14 @@ export default {
             width: 72ch;
           }
         }
+      }
+    }
+
+    .code-merge-icon {
+      color: mui-color('grey');
+
+      .fa-code-merge {
+        width: .65rem;
       }
     }
 
@@ -522,8 +550,8 @@ export default {
     }
 
     .message-title {
+      @include mono-font;
       display: inline;
-      font-family: monospace;
 
       .within-border {
         display: inline;

@@ -1,10 +1,10 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faCaretDown, faCaretRight, faChevronCircleDown, faChevronCircleUp,
-  faChevronDown, faChevronUp, faCircle, faCode,
+  faChevronDown, faChevronUp, faCircle, faCode, faCodeMerge,
   faEllipsisH, faExclamation, faHistory, faListUl,
   faPlusCircle, faSpinner, faTags, faUser, faUserEdit,
-  faDatabase,
+  faDatabase, faClipboard, faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -22,20 +22,22 @@ library.add(faExclamation);
 
 // c-summary-charts
 library.add(
-    faChevronUp,
-    faChevronDown,
-    faDatabase,
-    faUser,
-    faCode,
-    faListUl,
-    faCircle,
-    faGithub,
-    faGitlab,
-    faBitbucket,
+  faChevronUp,
+  faChevronDown,
+  faDatabase,
+  faUser,
+  faCode,
+  faListUl,
+  faCircle,
+  faGithub,
+  faGitlab,
+  faBitbucket,
+  faClipboard,
+  faArrowUpRightFromSquare,
 );
 
 // c-zoom
-library.add(faTags, faEllipsisH);
+library.add(faCodeMerge, faEllipsisH, faTags);
 
 // c-authorship
 library.add(faCaretDown, faCaretRight, faHistory, faUserEdit);

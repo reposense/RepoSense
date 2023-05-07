@@ -27,11 +27,13 @@ public class GitShortlogTest extends GitTestTemplate {
         List<Author> expectedAuthorList = new ArrayList<>();
         expectedAuthorList.add(new Author("Eugene Peh"));
         expectedAuthorList.add(new Author("FH-30"));
+        expectedAuthorList.add(new Author("HCY123902"));
         expectedAuthorList.add(new Author("WANG CHAO"));
         expectedAuthorList.add(new Author("chan-j-d"));
         expectedAuthorList.add(new Author("eugenepeh"));
         expectedAuthorList.add(new Author("fakeAuthor"));
         expectedAuthorList.add(new Author("harryggg"));
+        expectedAuthorList.add(new Author("sikai00"));
 
         List<Author> actualAuthorList = GitShortlog.getAuthors(config);
 

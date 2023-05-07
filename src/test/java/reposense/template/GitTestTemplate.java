@@ -46,8 +46,8 @@ public class GitTestTemplate {
     protected static final String TEST_COMMIT_HASH_PARENT = "c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151";
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
-    protected static final String UNCONVENTIONAL_AUTHOR_NAME = "-invalidGitUsername_TreatedAsUnknownUser";
-    protected static final String AUTHOR_NAME_WITH_WHITESPACES = "harryggg invalidAuthorLineFormat";
+    protected static final String UNCONVENTIONAL_AUTHOR_NAME = "-unconventional_author-";
+    protected static final String WHITESPACE_AUTHOR_NAME = "whitespace author";
     protected static final String IGNORED_AUTHOR_NAME = "FH-30";
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
     protected static final String YONG_AUTHOR_NAME = "Yong Hao TENG";
@@ -55,8 +55,9 @@ public class GitTestTemplate {
     protected static final String JAMES_AUTHOR_NAME = "jamessspanggg";
     protected static final String JAMES_ALTERNATIVE_AUTHOR_NAME = "James Pang";
     protected static final String JINYAO_AUTHOR_NAME = "jylee-git";
-    protected static final String LATEST_COMMIT_HASH = "af6087ebc0c689a9dcf3de0c3b2eb13ff47775d5";
-    protected static final String LATEST_COMMIT_HASH_PARENT = "5fdb7b10c2107fdeaff7fcc512fcec41eacc381e";
+    protected static final String CHENGYU_AUTHOR_NAME = "HCY123902";
+    protected static final String LATEST_COMMIT_HASH = "abbd5888d5cd4e411c6a8e58e661b0eafdae1335";
+    protected static final String LATEST_COMMIT_HASH_PARENT = "f768b9b1d9d1478f8ac8cf3b4c7f868479edc07a";
     protected static final String EMPTY_TREE_HASH = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
     protected static final String EUGENE_AUTHOR_README_FILE_COMMIT_07052018_STRING =
             "2d87a431fcbb8f73a731b6df0fcbee962c85c250";
@@ -96,7 +97,7 @@ public class GitTestTemplate {
     protected static final Author MAIN_AUTHOR = new Author(MAIN_AUTHOR_NAME);
     protected static final Author FAKE_AUTHOR = new Author(FAKE_AUTHOR_NAME);
     protected static final Author UNCONVENTIONAL_AUTHOR = new Author(UNCONVENTIONAL_AUTHOR_NAME);
-    protected static final Author WHITESPACE_AUTHOR = new Author(AUTHOR_NAME_WITH_WHITESPACES);
+    protected static final Author WHITESPACE_AUTHOR = new Author(WHITESPACE_AUTHOR_NAME);
 
     protected static ThreadLocal<RepoConfiguration> configs = ThreadLocal.withInitial(() -> {
         try {
@@ -108,6 +109,8 @@ public class GitTestTemplate {
 
     private static final Supplier<String> EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER = () ->
             String.valueOf(Thread.currentThread().getId());
+    private FileInfoExtractor fileInfoExtractor = new FileInfoExtractor();
+    private FileInfoAnalyzer fileInfoAnalyzer = new FileInfoAnalyzer();
 
     @BeforeEach
     public void before() throws Exception {
@@ -183,8 +186,8 @@ public class GitTestTemplate {
     }
 
     public FileResult getFileResult(String relativePath) {
-        FileInfo fileInfo = FileInfoExtractor.generateFileInfo(configs.get(), relativePath);
-        return FileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
+        FileInfo fileInfo = fileInfoExtractor.generateFileInfo(configs.get(), relativePath);
+        return fileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
     }
 
     /**

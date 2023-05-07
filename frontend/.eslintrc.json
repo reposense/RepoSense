@@ -5,14 +5,14 @@
   "extends": [
     "airbnb-base",
     "plugin:vue/recommended",
-    "@vue/typescript"
+    "@vue/typescript",
+    "plugin:import/typescript"
   ],
   "rules": {
     "vue/component-definition-name-casing": [
       "error",
       "kebab-case"
     ],
-    "vue/order-in-components": 0,
     "vue/require-prop-types": 0,
     "no-param-reassign": 0,
     "arrow-parens": [
@@ -23,11 +23,6 @@
       "error",
       2,
       {
-        "MemberExpression": 2,
-        "CallExpression": {
-          "arguments": 2
-        },
-        "ArrayExpression": 2,
         "ignoredNodes": [
           "ConditionalExpression"
         ]
@@ -48,9 +43,43 @@
     ],
     "prefer-object-spread": 0,
     "function-call-argument-newline": 0,
-    "vue/no-computed-properties-in-data": 0
+    "vue/no-computed-properties-in-data": 0,
+    "import/extensions": [
+      "error",
+      {
+        "js": "never",
+        "ts": "never"
+      }
+    ]
   },
   "parserOptions": {
     "parser": "@typescript-eslint/parser"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "airbnb-typescript/base",
+        "plugin:@typescript-eslint/recommended"
+      ],
+      "parserOptions": {
+        "project": ["./tsconfig.json"]
+      },
+      "rules": {
+        "indent": "off",
+        "@typescript-eslint/indent": [
+          "error",
+          2,
+          {
+            "ignoredNodes": [
+              "ConditionalExpression"
+            ],
+            "SwitchCase": 0
+          }
+        ],
+        "@typescript-eslint/member-delimiter-style": "error",
+        "@typescript-eslint/type-annotation-spacing": "error"
+      }
+    }
+  ]
 }

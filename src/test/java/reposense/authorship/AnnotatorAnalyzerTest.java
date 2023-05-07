@@ -22,7 +22,7 @@ import reposense.util.TestUtil;
 
 public class AnnotatorAnalyzerTest extends GitTestTemplate {
     private static final LocalDateTime SINCE_DATE = TestUtil.getSinceDate(2018, Month.FEBRUARY.getValue(), 8);
-    private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2021, Month.AUGUST.getValue(), 3);
+    private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2023, Month.JANUARY.getValue(), 31);
     private static final Author[] EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST = {
             FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR, FAKE_AUTHOR,
             MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR, MAIN_AUTHOR,
@@ -54,13 +54,13 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
         config.setUntilDate(UNTIL_DATE);
         config.setZoneId(TIME_ZONE_ID);
 
-        AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
+        config.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
     @AfterEach
     public void after() {
         super.after();
-        AuthorConfiguration.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
+        config.setHasAuthorConfigFile(AuthorConfiguration.DEFAULT_HAS_AUTHOR_CONFIG_FILE);
     }
 
     @Test
@@ -80,7 +80,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeAnnotation_authorNameNotInConfigAndHaveAuthorConfigFile_disownCode() {
         config.setAuthorList(new ArrayList<>(Arrays.asList(FAKE_AUTHOR)));
-        AuthorConfiguration.setHasAuthorConfigFile(true);
+        config.setHasAuthorConfigFile(true);
         FileResult fileResult = getFileResult("annotationTest.java");
         assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_DISOWN_CODE_TEST));
     }

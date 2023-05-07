@@ -25,7 +25,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '14.x'
+        node-version: '16.x'
 
     - name: Download deployment artifacts
       uses: dawidd6/action-download-artifact@v2
@@ -37,7 +37,7 @@ jobs:
 
     - name: Extract PR number
       id: pr-number
-      run: echo '::set-output name=ACTIONS_PR_NUMBER::'$(cat ./pr/NUMBER)
+      run: echo 'ACTIONS_PR_NUMBER='$(cat ./pr/NUMBER) >> $GITHUB_OUTPUT
 
     - name: Download deployment status artifacts
       uses: dawidd6/action-download-artifact@v2

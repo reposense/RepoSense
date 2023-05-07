@@ -3,6 +3,7 @@ import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ObserveVisibility } from 'vue-observe-visibility';
 import hljs from 'highlight.js';
+import router from './router/index';
 import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
 import 'vue-loading-overlay/dist/vue-loading.css';
@@ -21,7 +22,7 @@ dom.watch();
 const app = createApp(App);
 
 app.directive('hljs', {
-  mounted: (ele: any, binding: DirectiveBinding) => {
+  mounted: (ele: HTMLElement, binding: DirectiveBinding) => {
     const element = ele;
     element.className = binding.value.split('.').pop();
 
@@ -30,14 +31,19 @@ app.directive('hljs', {
 });
 
 app.directive('observe-visibility', {
-  beforeMount: (el, binding, vnode) => {
+  beforeMount: (el: HTMLElement, binding: DirectiveBinding, vnode) => {
+    // From https://github.com/Akryum/vue-observe-visibility/issues/219
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     (vnode as any).context = binding.instance;
     ObserveVisibility.bind(el, binding, vnode);
   },
   updated: ObserveVisibility.update,
   unmounted: ObserveVisibility.unbind,
 });
+
 app.component('font-awesome-icon', FontAwesomeIcon);
 app.use(store);
+
+app.use(router);
 
 app.mount('#app');

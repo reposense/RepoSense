@@ -2,13 +2,13 @@
 .ramp
   template(v-if="tframe === 'commit'")
     template(v-for="(slice, j) in user.commits")
-      template(v-for="(commit, k) in slice.commitResults.filter(commitResult => commitResult.insertions > 0)")
+      template(v-for="(commit, k) in slice.commitResults")
         a.ramp__slice(
           draggable="false",
           v-on:click="rampClick",
           v-bind:href="getLink(commit)", target="_blank",
           v-bind:title="getContributionMessage(slice, commit)",
-          v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`,\
+          v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
           v-bind:style="{\
             zIndex: user.commits.length - j,\
@@ -19,27 +19,28 @@
         )
 
   template(v-else)
-    a.ramp__slice(
-      draggable="false",
-      v-for="(slice, j) in user.commits.filter(commit => commit.insertions > 0)",
-      v-bind:title="getContributionMessage(slice)",
-      v-on:click="openTabZoom(user, slice, $event)",
-      v-bind:class="`ramp__slice--color${getSliceColor(slice.date)}`",
-      v-bind:style="{\
-        zIndex: user.commits.length - j,\
-        borderLeftWidth: `${getWidth(slice)}em`,\
-        right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
-        }"
-    )
+    a(v-bind:href="getReportLink()", target="_blank")
+      .ramp__slice(
+        draggable="false",
+        v-for="(slice, j) in user.commits",
+        v-bind:title="getContributionMessage(slice)",
+        v-on:click="openTabZoom(user, slice, $event)",
+        v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
+        v-bind:style="{\
+          zIndex: user.commits.length - j,\
+          borderLeftWidth: `${getWidth(slice)}em`,\
+          right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
+          }"
+      )
 </template>
 
 <script>
-import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
-import User from '../utils/user.ts';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
+import User from '../utils/user';
 
 export default {
-  mixins: [brokenLinkDisabler],
   name: 'c-ramp',
+  mixins: [brokenLinkDisabler],
   props: {
     groupby: {
       type: String,
@@ -77,10 +78,16 @@ export default {
       type: String,
       default: '',
     },
+    isWidgetMode: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       rampSize: 0.01,
+      mergeCommitRampSize: this.rampSize * 20,
+      deletesContributionRampSize: this.rampSize * 20,
     };
   },
 
@@ -88,25 +95,35 @@ export default {
     getLink(commit) {
       return window.getCommitLink(commit.repoId, commit.hash);
     },
-
+    getContributions(commit) {
+      return commit.insertions + commit.deletions;
+    },
+    isDeletesContribution(commit) {
+      return commit.insertions === 0 && commit.deletions > 0;
+    },
     getWidth(slice) {
-      if (slice.insertions === 0) {
+      if (slice.isMergeCommit) {
+        return this.mergeCommitRampSize;
+      }
+      if (this.getContributions(slice) === 0) {
         return 0;
       }
-
+      if (this.isDeletesContribution(slice)) {
+        return this.deletesContributionRampSize;
+      }
       const newSize = 100 * (slice.insertions / this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
     getContributionMessage(slice, commit) {
       let title = '';
       if (this.tframe === 'commit') {
-        return `[${slice.date}] ${commit.messageTitle}: ${commit.insertions} lines`;
+        return `[${slice.date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
       }
 
       title = this.tframe === 'day'
             ? `[${slice.date}] Daily `
             : `[${slice.date} till ${slice.endDate}] Weekly `;
-      title += `contribution: ${slice.insertions} lines`;
+      title += `contribution: +${slice.insertions} -${slice.deletions} lines`;
       return title;
     },
     openTabZoom(user, slice, evt) {
@@ -152,10 +169,19 @@ export default {
     getTotalForPos(sinceDate, untilDate) {
       return new Date(untilDate) - new Date(sinceDate);
     },
-    getSliceColor(date) {
+    getRampColor(commit, slice) {
+      if (this.isDeletesContribution(commit)) {
+        return '-deletes';
+      }
+      return this.getSliceColor(slice);
+    },
+    getSliceColor(slice) {
+      if (this.isDeletesContribution(slice)) {
+        return '-deletes';
+      }
       const timeMs = this.fromramp
           ? (new Date(this.sdate)).getTime()
-          : (new Date(date)).getTime();
+          : (new Date(slice.date)).getTime();
 
       return (timeMs / window.DAY_IN_MS) % 5;
     },
@@ -166,6 +192,14 @@ export default {
       if (isKeyPressed) {
         evt.preventDefault();
       }
+    },
+    getReportLink() {
+      if (this.isWidgetMode) {
+        const url = window.location.href;
+        const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
+        return url.replace(regexToRemoveWidget, '');
+      }
+      return undefined;
     },
   },
 };
@@ -210,6 +244,10 @@ export default {
 
     &--color4 {
       border-bottom: $height rgba(mui-color('pink'), .5) solid;
+    }
+
+    &--color-deletes {
+      border-bottom: $height rgba(mui-color('red'), .7) solid;
     }
   }
 }

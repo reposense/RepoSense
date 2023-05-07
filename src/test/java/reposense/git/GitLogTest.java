@@ -41,7 +41,7 @@ public class GitLogTest extends GitTestTemplate {
     public void gitLog_includeAllJavaFiles_success() {
         config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         String content = GitLog.get(config, getAlphaAllAliasAuthor());
-        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(10, content));
+        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(12, content));
     }
 
     @Test
@@ -49,7 +49,7 @@ public class GitLogTest extends GitTestTemplate {
         Author fakeAuthorName = new Author(FAKE_AUTHOR_NAME);
 
         String content = GitLog.get(config, fakeAuthorName);
-        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
+        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class GitLogTest extends GitTestTemplate {
         Author fakeAuthorName = new Author(FAKE_AUTHOR_NAME.toUpperCase());
 
         String content = GitLog.get(config, fakeAuthorName);
-        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
+        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class GitLogTest extends GitTestTemplate {
         Author fakeAuthorWithSpecialCharacter = new Author(FAKE_AUTHOR_NAME.replace("fake", "#()!"));
 
         String content = GitLog.get(config, fakeAuthorWithSpecialCharacter);
-        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(6, content));
+        Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(8, content));
     }
 
     @Test

@@ -5,9 +5,9 @@
   .toolbar--multiline
     a(
       v-if="activeFilesCount < selectedFiles.length",
-      v-on:click="expandAll()"
+      v-on:click="toggleAllFileActiveProperty(true)"
     ) show all file details
-    a(v-if="activeFilesCount > 0", v-on:click="collapseAll()") hide all file details
+    a(v-if="activeFilesCount > 0", v-on:click="toggleAllFileActiveProperty(false)") hide all file details
   .panel-heading
     a.group-name(
       v-bind:href="info.location", target="_blank",
@@ -21,11 +21,11 @@
       span {{ info.minDate }} to {{ info.maxDate }}
         |&nbsp;&nbsp; ({{ selectedFiles.length }} files changed)
   .title
-    .contribution(v-if="isLoaded && files.length!=0")
+    .contribution(v-if="isLoaded && info.files.length!=0")
       .sorting.mui-form--inline
         .mui-select.sort-by
           select(v-model="filesSortType")
-            option(value="lineOfCode") LoC
+            option(value="linesOfCode") LoC
             option(value="path") Path
             option(value="fileName") File Name
             option(value="fileType") File Type
@@ -61,7 +61,7 @@
           v-model="filterType",
           v-on:change="indicateCheckBoxes"
         )
-        .checkboxes.mui-form--inline(v-if="files.length > 0")
+        .checkboxes.mui-form--inline(v-if="info.files.length > 0")
           label(style='background-color: #000000; color: #ffffff')
             input.mui-checkbox--fileType#all(type="checkbox", v-model="isSelectAllChecked")
             span(v-bind:title="getTotalFileBlankLineInfo()")
@@ -98,17 +98,25 @@
               span {{ ignoredFilesCount }} ignored file(s)
 
   .files(v-if="isLoaded")
-    .empty(v-if="files.length === 0") nothing to see here :(
+    .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
-      .file
-        .title
+      .file(v-bind:ref="file.path")
+        .title(v-bind:class="{'sticky':\ file.active}")
           span.caret(v-on:click="toggleFileActiveProperty(file)")
-            .tooltip(v-show="file.active")
+            .tooltip(
+              v-show="file.active",
+              v-on:mouseover="onTooltipHover(`${file.path}-hide-file-tooltip`)",
+              v-on:mouseout="resetTooltip(`${file.path}-hide-file-tooltip`)"
+            )
               font-awesome-icon(icon="caret-down", fixed-width)
-              span.tooltip-text Click to hide file details
-            .tooltip(v-show="!file.active")
+              span.tooltip-text(v-bind:ref="`${file.path}-hide-file-tooltip`") Click to hide file details
+            .tooltip(
+              v-show="!file.active",
+              v-on:mouseover="onTooltipHover(`${file.path}-show-file-tooltip`)",
+              v-on:mouseout="resetTooltip(`${file.path}-show-file-tooltip`)"
+            )
               font-awesome-icon(icon="caret-right", fixed-width)
-              span.tooltip-text Click to show file details
+              span.tooltip-text(v-bind:ref="`${file.path}-show-file-tooltip`") Click to show file details
           span.index {{ i + 1 }}. &nbsp;
           span.path
             span(
@@ -124,11 +132,11 @@
               'color': getFontColor(fileTypeColors[file.fileType])\
               }",
             v-bind:class="{'selected-label':\
-                this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType'}"
+                this.filesSortType === 'linesOfCode' || this.filesSortType === 'fileType'}"
           )
             span(
               v-bind:class="{'selected-parameter':\
-                  this.filesSortType === 'lineOfCode' || this.filesSortType === 'fileType'}"
+                  this.filesSortType === 'linesOfCode' || this.filesSortType === 'fileType'}"
             ) {{ getFirstPartOfLabel(file) }}&nbsp;
             span {{ getSecondPartOfLabel(file) }}
           span.fileTypeLabel.binary(v-if='file.isBinary') binary &nbsp;
@@ -152,6 +160,16 @@
               .tooltip
                 font-awesome-icon.button(icon="user-edit")
                 span.tooltip-text {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
+          .author-breakdown(v-if="info.isMergeGroup")
+            .author-breakdown__legend(
+              v-for="author in getAuthors(file)",
+              v-bind:key="author"
+            )
+              font-awesome-icon(
+                icon="circle",
+                v-bind:style="{ 'color': authorColors[author] }"
+              )
+              span &nbsp; {{ author }} &nbsp;
         pre.file-content(v-if="file.isBinary", v-show="file.active")
           .binary-segment
             .indicator BIN
@@ -163,54 +181,150 @@
           c-segment-collection(v-bind:segments="file.segments", v-bind:path="file.path")
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
-import brokenLinkDisabler from '../mixin/brokenLinkMixin.ts';
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cSegmentCollection from '../components/c-segment-collection.vue';
-import Segment from '../utils/segment.ts';
-
-const getFontColor = window.getFontColor;
+import Segment from '../utils/segment';
+import getNonRepeatingColor from '../utils/random-color-generator';
+import { StoreState } from '../types/vuex.d';
+import { FileResult, Line } from '../types/zod/authorship-type';
+import { AuthorshipFile } from '../types/types';
+import { FilesSortType, FilterType } from '../types/authorship';
 
 const filesSortDict = {
-  lineOfCode: (file) => file.lineCount,
-  path: (file) => file.path,
-  fileName: (file) => file.path.split(/[/]+/).pop(),
-  fileType: (file) => file.fileType,
+  linesOfCode: (file: AuthorshipFile) => file.lineCount,
+  path: (file: AuthorshipFile) => file.path,
+  fileName: (file: AuthorshipFile) => file.path.split(/[/]+/).pop() || '',
+  fileType: (file: AuthorshipFile) => file.fileType,
 };
 
 function authorshipInitialState() {
   return {
     isLoaded: false,
-    files: [],
-    selectedFiles: [],
-    filterType: 'checkboxes',
-    selectedFileTypes: [],
-    fileTypes: [],
-    filesLinesObj: {},
-    fileTypeBlankLinesObj: {},
-    filesSortType: 'lineOfCode',
+    selectedFiles: [] as AuthorshipFile[],
+    filterType: FilterType.Checkboxes,
+    selectedFileTypes: [] as string[],
+    fileTypes: [] as string[],
+    filesLinesObj: {} as { [key: string]: number },
+    fileTypeBlankLinesObj: {} as { [key: string]: number },
+    filesSortType: FilesSortType.LinesOfCode,
     toReverseSortFiles: true,
     isBinaryFilesChecked: false,
     isIgnoredFilesChecked: false,
     searchBarValue: '',
     authorDisplayName: '',
+    authors: new Set<string>(),
+    selectedColors: ['#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3', '#adff2f', '#808000', '#800000',
+      '#ff8c00', '#c71585'],
   };
 }
 
-const repoCache = [];
+const repoCache: string[] = [];
 
-export default {
+export default defineComponent({
   name: 'c-authorship',
-  mixins: [brokenLinkDisabler],
   components: {
     cSegmentCollection,
   },
+  mixins: [brokenLinkDisabler],
   emits: [
-      'deactivate-tab',
+    'deactivate-tab',
   ],
   data() {
     return authorshipInitialState();
+  },
+
+  computed: {
+    sortingFunction() {
+      return (a: AuthorshipFile, b: AuthorshipFile) => (this.toReverseSortFiles ? -1 : 1)
+        * window.comparator(filesSortDict[this.filesSortType])(a, b);
+    },
+
+    isSelectAllChecked: {
+      get(): boolean {
+        return this.selectedFileTypes.length === this.fileTypes.length;
+      },
+      set(value: boolean) {
+        if (value) {
+          this.selectedFileTypes = this.fileTypes.slice();
+        } else {
+          this.selectedFileTypes = [];
+        }
+
+        this.indicateCheckBoxes();
+      },
+    },
+
+    isBinaryChecked: {
+      get(): boolean {
+        return this.isBinaryFilesChecked;
+      },
+      set(value: boolean) {
+        if (value) {
+          this.isBinaryFilesChecked = true;
+        } else {
+          this.isBinaryFilesChecked = false;
+        }
+
+        this.updateSelectedFiles();
+        this.indicateCheckBoxes();
+      },
+    },
+
+    isIgnoredChecked: {
+      get(): boolean {
+        return this.isIgnoredFilesChecked;
+      },
+      set(value: boolean) {
+        if (value) {
+          this.isIgnoredFilesChecked = true;
+        } else {
+          this.isIgnoredFilesChecked = false;
+        }
+
+        this.updateSelectedFiles();
+        this.indicateCheckBoxes();
+      },
+    },
+
+    activeFilesCount(): number {
+      return this.selectedFiles.filter((file) => file.active).length;
+    },
+
+    totalLineCount(): number {
+      return Object.values(this.fileTypeLinesObj).reduce((acc, val) => acc + val, 0);
+    },
+
+    totalBlankLineCount(): number {
+      return Object.values(this.fileTypeBlankLinesObj).reduce((acc, val) => acc + val, 0);
+    },
+
+    fileTypeLinesObj(): { [key: string]: number } {
+      const numLinesModified: { [key: string]: number } = {};
+      Object.entries(this.filesLinesObj)
+        .filter(([, value]) => value > 0)
+        .forEach(([langType, value]) => {
+          numLinesModified[langType] = value;
+        });
+      return numLinesModified;
+    },
+
+    binaryFilesCount(): number {
+      return this.info.files.filter((file) => file.isBinary).length;
+    },
+
+    ignoredFilesCount(): number {
+      return this.info.files.filter((file) => file.isIgnored).length;
+    },
+
+    ...mapState({
+      fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,
+      info: (state: unknown) => (state as StoreState).tabAuthorshipInfo,
+      authorColors: (state: unknown) => (state as StoreState).tabAuthorColors,
+    }),
   },
 
   watch: {
@@ -243,26 +357,34 @@ export default {
     },
   },
 
+  created() {
+    this.initiate();
+  },
+
+  beforeUnmount() {
+    this.removeAuthorshipHashes();
+  },
+
   methods: {
-    retrieveHashes() {
+    retrieveHashes(): void {
       const hash = window.hashParams;
 
       switch (hash.authorshipSortBy) {
-      case 'path':
-      case 'fileName':
-      case 'fileType':
+      case FilesSortType.Path:
+      case FilesSortType.FileName:
+      case FilesSortType.FileType:
         this.filesSortType = hash.authorshipSortBy;
         break;
       default:
-        // Invalid value, use the default value of 'lineOfCode'
+        // Invalid value, use the default value of 'linesOfCode'
       }
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
 
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
-            .split(window.HASH_DELIMITER)
-            .filter((fileType) => this.fileTypes.includes(fileType));
+          .split(window.HASH_DELIMITER)
+          .filter((fileType) => this.fileTypes.includes(fileType));
       } else {
         this.resetSelectedFileTypes();
       }
@@ -281,13 +403,13 @@ export default {
       }
     },
 
-    resetSelectedFileTypes() {
+    resetSelectedFileTypes(): void {
       this.selectedFileTypes = this.info.checkedFileTypes
         ? this.info.checkedFileTypes.filter((fileType) => this.fileTypes.includes(fileType))
         : [];
     },
 
-    setInfoHash() {
+    setInfoHash(): void {
       const { addHash } = window;
       // We only set these hashes as they are propagated from summary_charts
       addHash('tabAuthor', this.info.author);
@@ -296,7 +418,7 @@ export default {
       this.updateFileTypeHash();
     },
 
-    removeAuthorshipHashes() {
+    removeAuthorshipHashes(): void {
       window.removeHash('authorshipFileTypes');
       window.removeHash('authorshipIsBinaryFileTypeChecked');
       window.removeHash('authorshipIsIgnoredFilesChecked');
@@ -309,7 +431,7 @@ export default {
       window.encodeHash();
     },
 
-    async initiate() {
+    async initiate(): Promise<void> {
       const repo = window.REPOS[this.info.repo];
 
       if (!repo || !this.info.author) {
@@ -318,7 +440,7 @@ export default {
       }
       if (repoCache.length === 2) {
         const toRemove = repoCache.shift();
-        if (toRemove !== this.info.repo) {
+        if (toRemove && toRemove !== this.info.repo) {
           delete window.REPOS[toRemove].files;
         }
       }
@@ -329,7 +451,7 @@ export default {
         files = await window.api.loadAuthorship(this.info.repo);
       }
 
-      const author = repo.users.find((user) => user.name === this.info.author);
+      const author = repo.users?.find((user) => user.name === this.info.author);
       if (author) {
         this.authorDisplayName = author.displayName;
       }
@@ -345,63 +467,69 @@ export default {
       this.setInfoHash();
     },
 
-    expandAll() {
-      this.selectedFiles.forEach((file) => {
-        file.active = true;
-        file.wasCodeLoaded = true;
-      });
+    getAuthors(file: AuthorshipFile): (string | null)[] {
+      return Array.from(new Set(file.segments?.map((segment) => segment.knownAuthor)
+        .filter(Boolean))).sort().slice(0, 50);
     },
 
-    collapseAll() {
-      this.selectedFiles.forEach((file) => {
-        file.active = false;
-      });
+    toggleAllFileActiveProperty(isActive: boolean): void {
+      this.$store.commit('setAllAuthorshipFileActiveProperty', { isActive, files: this.selectedFiles });
     },
 
-    toggleFileActiveProperty(file) {
-      file.active = !file.active;
-      file.wasCodeLoaded = file.wasCodeLoaded || file.active;
+    toggleFileActiveProperty(file: AuthorshipFile): void {
+      this.scrollFileIntoView(file);
+      this.$store.commit('toggleAuthorshipFileActiveProperty', file);
     },
 
-    isUnknownAuthor(name) {
+    scrollFileIntoView(file: AuthorshipFile): void {
+      const fileElement = (this.$refs[file.path] as HTMLElement[])[0];
+      if (this.isElementAboveViewport(fileElement)) {
+        fileElement.scrollIntoView(true);
+      }
+    },
+
+    onTooltipHover(refName: string): void {
+      const tooltipTextElement = (this.$refs[refName] as HTMLElement[])[0];
+      if (this.isElementAboveViewport(tooltipTextElement)) {
+        tooltipTextElement.classList.add('bottom-aligned');
+      }
+    },
+
+    resetTooltip(refName: string): void {
+      const tooltipTextElement = (this.$refs[refName] as HTMLElement[])[0];
+      tooltipTextElement.classList.remove('bottom-aligned');
+    },
+
+    isElementAboveViewport(el: Element): boolean {
+      return el.getBoundingClientRect().top <= 0;
+    },
+
+    isUnknownAuthor(name: string): boolean {
       return name === '-';
     },
 
-    hasCommits(info) {
-      const { isMergeGroup, author } = info;
-      const repo = window.REPOS[info.repo];
-      if (repo) {
-        return isMergeGroup
-            ? Object.entries(repo.commits.authorFinalContributionMap).some(([name, cnt]) => (
-              !this.isUnknownAuthor(name) && cnt > 0
-            ))
-            : repo.commits.authorFinalContributionMap[author] > 0;
-      }
-      return false;
-    },
-
-    splitSegments(lines) {
-      // split into segments separated by authored
-      let lastState;
+    splitSegments(lines: Line[]): { segments: Segment[]; blankLineCount: number; } {
+      // split into segments separated by knownAuthor
+      let lastState: string | null;
       let lastId = -1;
-      const segments = [];
+      const segments: Segment[] = [];
       let blankLineCount = 0;
 
       lines.forEach((line, lineCount) => {
         const isAuthorMatched = this.info.isMergeGroup
             ? !this.isUnknownAuthor(line.author.gitId)
             : line.author.gitId === this.info.author;
-        const authored = (line.author && isAuthorMatched);
+        const knownAuthor = (line.author && isAuthorMatched) ? line.author.gitId : null;
 
-        if (authored !== lastState || lastId === -1) {
+        if (knownAuthor !== lastState || lastId === -1) {
           segments.push(new Segment(
-              authored,
-              [],
-              [],
+            knownAuthor,
+            [],
+            [],
           ));
 
           lastId += 1;
-          lastState = authored;
+          lastState = knownAuthor;
         }
 
         const content = line.content || ' ';
@@ -409,8 +537,12 @@ export default {
 
         segments[lastId].lineNumbers.push(lineCount + 1);
 
-        if (line.content === '' && authored) {
+        if (line.content === '' && knownAuthor) {
           blankLineCount += 1;
+        }
+
+        if (knownAuthor) {
+          this.authors.add(knownAuthor);
         }
       });
 
@@ -420,11 +552,27 @@ export default {
       };
     },
 
-    processFiles(files) {
+    assignAuthorColors(): void {
+      let authorColorIndex = 0;
+      const authorColors: { [key: string]: string } = {};
+      if (this.info.isMergeGroup) {
+        this.authors.forEach((author) => {
+          if (authorColorIndex < this.selectedColors.length) {
+            authorColors[author] = this.selectedColors[authorColorIndex];
+            authorColorIndex += 1;
+          } else {
+            authorColors[author] = getNonRepeatingColor(Object.values(authorColors));
+          }
+        });
+      }
+      this.$store.commit('updateAuthorColors', authorColors);
+    },
+
+    processFiles(files: FileResult[]): void {
       const SINGLE_FILE_LINE_COUNT_THRESHOLD = 2000;
       const SINGLE_FILE_CHAR_COUNT_THRESHOLD = 1000000;
-      const res = [];
-      const fileTypeBlanksInfoObj = {};
+      const res: AuthorshipFile[] = [];
+      const fileTypeBlanksInfoObj: { [key: string]: number } = {};
 
       files.filter((file) => this.isValidFile(file)).forEach((file) => {
         const contributionMap = file.authorContributionMap;
@@ -433,15 +581,15 @@ export default {
             ? this.getContributionFromAllAuthors(contributionMap)
             : contributionMap[this.info.author];
 
-        const out = {};
-        out.path = file.path;
-        out.lineCount = lineCnt;
-        out.active = lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD && !file.isBinary;
-        out.wasCodeLoaded = lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD;
-        out.fileType = file.fileType;
-        out.fileSize = file.fileSize;
-        out.isIgnored = !!file.isIgnored;
-        out.isBinary = !!file.isBinary;
+        const out: AuthorshipFile = {
+          path: file.path,
+          lineCount: lineCnt,
+          active: lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD && !file.isBinary,
+          wasCodeLoaded: lineCnt <= SINGLE_FILE_LINE_COUNT_THRESHOLD,
+          fileType: file.fileType,
+          isIgnored: !!file.isIgnored,
+          isBinary: !!file.isBinary,
+        };
 
         if (this.filesLinesObj[out.fileType]) {
           this.filesLinesObj[out.fileType] += lineCnt;
@@ -451,8 +599,8 @@ export default {
 
         if (!out.isBinary && !out.isIgnored) {
           out.charCount = file.lines.reduce(
-              (count, line) => count + (line ? line.content.length : 0),
-              0,
+            (count, line) => count + (line ? line.content.length : 0),
+            0,
           );
         }
 
@@ -469,7 +617,7 @@ export default {
 
       res.sort((a, b) => b.lineCount - a.lineCount).forEach((file) => {
         // hide files over total char count limit
-        if (!file.isIgnored && !file.isBinary && file.active) {
+        if (!file.isIgnored && !file.isBinary && file.active && file.charCount !== undefined) {
           file.active = file.charCount <= SINGLE_FILE_CHAR_COUNT_THRESHOLD;
           file.wasCodeLoaded = file.active;
         }
@@ -481,25 +629,26 @@ export default {
         }
       });
 
+      this.assignAuthorColors();
       this.fileTypeBlankLinesObj = fileTypeBlanksInfoObj;
-      this.files = res;
+      this.$store.commit('updateTabAuthorshipFiles', res);
       this.updateSelectedFiles(true);
     },
 
-    isValidFile(file) {
+    isValidFile(file: FileResult): boolean {
       return this.info.isMergeGroup
           ? Object.entries(file.authorContributionMap)
-              .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
+            .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
           : this.info.author in file.authorContributionMap;
     },
 
-    getContributionFromAllAuthors(contributionMap) {
+    getContributionFromAllAuthors(contributionMap: Record<string, number>): number {
       return Object.entries(contributionMap).reduce((acc, [author, cnt]) => (
         (!this.isUnknownAuthor(author) ? acc + cnt : acc)
       ), 0);
     },
 
-    addBlankLineCount(fileType, lineCount, filesInfoObj) {
+    addBlankLineCount(fileType: string, lineCount: number, filesInfoObj: { [key: string]: number }): void {
       if (!filesInfoObj[fileType]) {
         filesInfoObj[fileType] = 0;
       }
@@ -507,8 +656,8 @@ export default {
       filesInfoObj[fileType] += lineCount;
     },
 
-    updateSearchBarValue() {
-      this.searchBarValue = this.$refs.searchBar.value;
+    updateSearchBarValue(): void {
+      this.searchBarValue = (this.$refs.searchBar as HTMLInputElement).value;
 
       window.addHash('authorshipFilesGlob', this.searchBarValue);
       window.removeHash('authorshipFileTypes');
@@ -517,7 +666,7 @@ export default {
       window.encodeHash();
     },
 
-    updateFileTypeHash() {
+    updateFileTypeHash(): void {
       const fileTypeHash = this.selectedFileTypes.length > 0
           ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
           : '';
@@ -529,65 +678,65 @@ export default {
       window.encodeHash();
     },
 
-    async updateSelectedFiles(setIsLoaded = false) {
+    async updateSelectedFiles(setIsLoaded = false): Promise<void> {
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
-      this.selectedFiles = this.files.filter(
-          (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
+      this.selectedFiles = this.info.files.filter(
+        (file) => ((this.selectedFileTypes.includes(file.fileType) && !file.isBinary && !file.isIgnored)
           || (file.isBinary && this.isBinaryFilesChecked) || (file.isIgnored && this.isIgnoredFilesChecked))
           && minimatch(file.path, this.searchBarValue || '*', { matchBase: true, dot: true }),
       )
-          .sort(this.sortingFunction);
+        .sort(this.sortingFunction);
       if (setIsLoaded) {
         this.isLoaded = true;
       }
       this.$store.commit('incrementLoadingOverlayCount', -1);
     },
 
-    indicateSearchBar() {
+    indicateSearchBar(): void {
       this.selectedFileTypes = this.fileTypes.slice();
       this.isBinaryFilesChecked = true;
       this.isIgnoredFilesChecked = true;
-      this.filterType = 'search';
+      this.filterType = FilterType.Search;
     },
 
-    indicateCheckBoxes() {
+    indicateCheckBoxes(): void {
       this.searchBarValue = '';
-      this.filterType = 'checkboxes';
+      this.filterType = FilterType.Checkboxes;
       this.updateFileTypeHash();
     },
 
-    getHistoryLink(file) {
+    getHistoryLink(file: AuthorshipFile): string | undefined {
       const repo = window.REPOS[this.info.repo];
       return window.getHistoryLink(this.info.repo, repo.branch, file.path);
     },
 
-    getBlameLink(file) {
+    getBlameLink(file: AuthorshipFile): string | undefined {
       const repo = window.REPOS[this.info.repo];
       return window.getBlameLink(this.info.repo, repo.branch, file.path);
     },
 
-    getFileTypeBlankLineInfo(fileType) {
+    getFileTypeBlankLineInfo(fileType: string): string {
       return `${fileType}: Blank: ${
         this.fileTypeBlankLinesObj[fileType]}, Non-Blank: ${
         this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
     },
 
-    getTotalFileBlankLineInfo() {
+    getTotalFileBlankLineInfo(): string {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
         this.totalLineCount - this.totalBlankLineCount}`;
     },
 
-    getFirstPartOfPath(file) {
+    getFirstPartOfPath(file: AuthorshipFile): string {
       const fileSplitIndex = file.path.lastIndexOf('/');
       const fileNameOnly = file.path.slice(fileSplitIndex + 1);
 
-      if (this.filesSortType === 'fileName') {
+      if (this.filesSortType === FilesSortType.FileName) {
         return `${fileNameOnly}`;
       }
       return file.path;
     },
 
-    getSecondPartOfPath(file) {
+    getSecondPartOfPath(file: AuthorshipFile): string {
       const fileSplitIndex = file.path.lastIndexOf('/');
       const filePathOnly = file.path.slice(0, fileSplitIndex + 1);
 
@@ -597,124 +746,30 @@ export default {
       return filePathOnly;
     },
 
-    getFirstPartOfLabel(file) {
-      if (this.filesSortType === 'lineOfCode') {
-        return `${file.lineCount} (${file.lineCount - file.blankLineCount})`;
+    getFirstPartOfLabel(file: AuthorshipFile): string {
+      if (this.filesSortType === FilesSortType.LinesOfCode) {
+        return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
       }
       return `${file.fileType}`;
     },
 
-    getSecondPartOfLabel(file) {
-      if (this.filesSortType === 'lineOfCode') {
+    getSecondPartOfLabel(file: AuthorshipFile): string {
+      if (this.filesSortType === FilesSortType.LinesOfCode) {
         return `${file.fileType}`;
       }
-      return `${file.lineCount} (${file.lineCount - file.blankLineCount})`;
+      return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
     },
 
-    getFontColor,
+    getFontColor() {
+      return window.getFontColor;
+    },
   },
-
-  computed: {
-    sortingFunction() {
-      return (a, b) => (this.toReverseSortFiles ? -1 : 1)
-        * window.comparator(filesSortDict[this.filesSortType])(a, b);
-    },
-
-    isSelectAllChecked: {
-      get() {
-        return this.selectedFileTypes.length === this.fileTypes.length;
-      },
-      set(value) {
-        if (value) {
-          this.selectedFileTypes = this.fileTypes.slice();
-        } else {
-          this.selectedFileTypes = [];
-        }
-
-        this.indicateCheckBoxes();
-      },
-    },
-
-    isBinaryChecked: {
-      get() {
-        return this.isBinaryFilesChecked;
-      },
-      set(value) {
-        if (value) {
-          this.isBinaryFilesChecked = true;
-        } else {
-          this.isBinaryFilesChecked = false;
-        }
-
-        this.updateSelectedFiles();
-        this.indicateCheckBoxes();
-      },
-    },
-
-    isIgnoredChecked: {
-      get() {
-        return this.isIgnoredFilesChecked;
-      },
-      set(value) {
-        if (value) {
-          this.isIgnoredFilesChecked = true;
-        } else {
-          this.isIgnoredFilesChecked = false;
-        }
-
-        this.updateSelectedFiles();
-        this.indicateCheckBoxes();
-      },
-    },
-
-    activeFilesCount() {
-      return this.selectedFiles.filter((file) => file.active).length;
-    },
-
-    totalLineCount() {
-      return Object.values(this.fileTypeLinesObj).reduce((acc, val) => acc + val, 0);
-    },
-
-    totalBlankLineCount() {
-      return Object.values(this.fileTypeBlankLinesObj).reduce((acc, val) => acc + val, 0);
-    },
-
-    fileTypeLinesObj() {
-      const numLinesModified = {};
-      Object.entries(this.filesLinesObj)
-          .filter(([, value]) => value > 0)
-          .forEach(([langType, value]) => {
-            numLinesModified[langType] = value;
-          });
-      return numLinesModified;
-    },
-
-    binaryFilesCount() {
-      return this.files.filter((file) => file.isBinary).length;
-    },
-
-    ignoredFilesCount() {
-      return this.files.filter((file) => file.isIgnored).length;
-    },
-
-    ...mapState({
-      fileTypeColors: 'fileTypeColors',
-      info: 'tabAuthorshipInfo',
-    }),
-  },
-
-  created() {
-    this.initiate();
-  },
-
-  beforeUnmount() {
-    this.removeAuthorshipHashes();
-  },
-};
+});
 </script>
 
 <style lang="scss">
 @import '../styles/_colors.scss';
+@import '../styles/z-indices.scss';
 
 /* Authorship */
 #tab-authorship {
@@ -740,12 +795,13 @@ export default {
       }
 
       .mui-form--inline {
+        @include small-font;
         align-items: flex-end;
         display: flex;
         flex-wrap: wrap;
 
         #search {
-          @include medium-font;
+          @include small-font;
           margin-top: 1.25rem;
           min-width: 130px;
           padding: .5rem 1.0rem .25rem 1.0rem;
@@ -753,7 +809,7 @@ export default {
         }
 
         #submit-button {
-          @include medium-font;
+          @include small-font;
           background-color: mui-color('blue');
           color: mui-color('white');
           margin: 1.0rem 0 0 .25rem;
@@ -794,10 +850,8 @@ export default {
 
     .file {
       pre {
+        @include mono-font;
         display: grid;
-        // GitHub's font family and font size
-        font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-        font-size: 12px;
         margin-top: 0;
 
         .hljs {
@@ -815,16 +869,23 @@ export default {
     }
 
     .title {
+      @include medium-font;
       background-color: mui-color('github', 'title-background');
       border: 1px solid mui-color('github', 'border');
       border-radius: 4px 4px 0 0;
       display: flex;
       flex-wrap: wrap;
-      font-size: medium;
       margin-top: 1rem;
       padding: .3em .5em;
+      position: unset;
+      top: 0;
       white-space: pre-wrap;
       word-break: break-all;
+      z-index: z-index('file-title');
+
+      &.sticky {
+        position: sticky;
+      }
 
       .caret {
         cursor: pointer;
@@ -862,7 +923,19 @@ export default {
       }
 
       .selected-label {
+        @include small-font;
         order: -1;
+      }
+
+      .author-breakdown {
+        overflow-y: hidden;
+
+        &__legend {
+          @include small-font;
+          display: inline;
+          float: left;
+          padding-right: 8px;
+        }
       }
     }
 
@@ -907,7 +980,7 @@ export default {
         -ms-user-select: none; /* Internet Explorer/Edge */
         user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
         width: 2rem;
-        // overwrite all hljs colours
+        // overwrite all hljs colors
         [class^='hljs'] {
           color: mui-color('grey');
         }
