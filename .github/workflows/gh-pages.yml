@@ -2,12 +2,6 @@
 
 name: GitHub Pages
 
-on:
-  workflow_run:
-    workflows: ["Continuous Integration"]
-    types:
-      - completed
-
 jobs:
   deploy-gh-pages:
     name: Deploy MarkBind to GitHub Pages
