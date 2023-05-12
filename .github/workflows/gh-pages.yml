@@ -2,11 +2,6 @@
 
 name: GitHub Pages
 
-on:
-  push:
-    branches:
-      - master
-
 jobs:
   deploy-gh-pages:
     name: Deploy MarkBind to GitHub Pages
