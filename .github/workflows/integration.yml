@@ -89,6 +89,7 @@ jobs:
       if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
       run: |
         git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
+        sudo apt-get -y install graphviz
         npm install -g markbind-cli
         (cd docs && markbind build)
 

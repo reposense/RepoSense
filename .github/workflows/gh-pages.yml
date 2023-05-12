@@ -31,6 +31,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-node-
 
+    - name: Install Graphviz
+      run: sudo apt-get -y install graphviz
+
     - name: Install MarkBind CLI
       run: npm i -g markbind-cli
 
