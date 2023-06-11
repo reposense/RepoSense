@@ -80,6 +80,10 @@ public class ArgsParser {
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
     private static final String MESSAGE_SINCE_D1_WITH_PERIOD = "You may be using --since d1 with the --period flag. "
             + "This may result in an incorrect date range being analysed.";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
+            "\"Since Date\" cannot be later than \"Until Date\".";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
+            "\"Since Date\" must not be later than today's date.";
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
@@ -420,8 +424,13 @@ public class ArgsParser {
                 ? untilDate
                 : currentDate;
 
-        TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
-        TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
+        if (sinceDate.compareTo(untilDate) > 0) {
+            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
+        }
+
+        if (sinceDate.compareTo(currentDate) > 0) {
+            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
+        }
 
         builder.sinceDate(sinceDate)
                 .isSinceDateProvided(isSinceDateProvided)
