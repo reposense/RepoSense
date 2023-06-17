@@ -21,8 +21,15 @@ public class TimeUtil {
     private static final String DATE_FORMAT_REGEX =
             "^((0?[1-9]|[12][0-9]|3[01])\\/(0?[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
 
+
+    private static final String EXPERIMENTAL_DATE_FORMAT_REGEX =
+            "^((19|2[0-9])[0-9]{2}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01]))";
+
     // "uuuu" is used for year since "yyyy" does not work with ResolverStyle.STRICT
-    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss");
+    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT =
+            DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss");
+    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT_EXPERIMENTAL = DateTimeFormatter
+            .ofPattern("uuuu-M-d HH:mm:ss");
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" cannot be later than \"Until Date\".";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
@@ -38,6 +45,8 @@ public class TimeUtil {
             + String.format("%s, resetting it to latest valid date", LATEST_VALID_DATE);
 
     private static final Logger logger = LogsManager.getLogger(TimeUtil.class);
+
+    private static boolean isDateExperimental;
 
     /**
      * Sets the {@code startTime} to be the current time.
@@ -193,26 +202,42 @@ public class TimeUtil {
     }
 
     /**
-     * Extracts the first substring of {@code date} string that matches the {@code DATE_FORMAT_REGEX}.
+     * Extracts the first substring of {@code date} string that matches the
+     * {@code DATE_FORMAT_REGEX}.
      */
     public static String extractDate(String date) {
         Matcher matcher = Pattern.compile(DATE_FORMAT_REGEX).matcher(date);
         String extractedDate = date;
         if (matcher.find()) {
             extractedDate = matcher.group(1);
+            isDateExperimental = false;
         }
+        // second try if date format doesn't match
+        Matcher experimentalMatcher = Pattern.compile(EXPERIMENTAL_DATE_FORMAT_REGEX).matcher(date);
+        if (experimentalMatcher.find()) {
+            extractedDate = experimentalMatcher.group(1);
+            isDateExperimental = true;
+        }
+
         return extractedDate;
     }
 
     /**
-     * Parses the given {@code date} string as a {@link LocalDateTime} based on the {@code CLI_ARGS_DATE_FORMAT}.
+     * Parses the given {@code date} string as a {@link LocalDateTime} based on the
+     * {@code CLI_ARGS_DATE_FORMAT}.
      * Uses {@link ResolverStyle#STRICT} to avoid unexpected dates like 31/02/2020.
      *
-     * @throws java.text.ParseException if date cannot be parsed by the required format.
+     * @throws java.text.ParseException if date cannot be parsed by the required
+     *                                  format.
      */
     public static LocalDateTime parseDate(String date) throws java.text.ParseException {
         try {
-            return LocalDateTime.parse(date, CLI_ARGS_DATE_FORMAT.withResolverStyle(ResolverStyle.STRICT));
+            if (isDateExperimental) {
+                return LocalDateTime.parse(date,
+                        CLI_ARGS_DATE_FORMAT_EXPERIMENTAL.withResolverStyle(ResolverStyle.STRICT));
+            } else {
+                return LocalDateTime.parse(date, CLI_ARGS_DATE_FORMAT.withResolverStyle(ResolverStyle.STRICT));
+            }
         } catch (DateTimeParseException e) {
             throw new java.text.ParseException(String.format(
                     "Exception message: %s\n", e.getMessage()), e.getErrorIndex());
