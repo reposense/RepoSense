@@ -1,4 +1,6 @@
-import org.gradle.api.tasks.compile.JavaCompile
+import com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     application
@@ -12,7 +14,13 @@ plugins {
     id("com.palantir.git-version") version "0.13.0"
 }
 
-val os : OperatingSystem = org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem();
+// allprojects {
+//     plugins.withId("com.liferay.node") {
+//         node.download = false
+//     }
+// }
+
+val os : OperatingSystem = DefaultNativePlatform.getCurrentOperatingSystem();
 
 application {
     mainClass.set("reposense.Reposense")
@@ -23,6 +31,15 @@ java.targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
+}
+
+configurations {
+    create("systemtestImplementation") {
+        extendsFrom(configurations.getByName("testImplementation"))
+    }
+    create("systemtestRuntime") {
+        extendsFrom(configurations.getByName("runtimeClasspath"))
+    }
 }
 
 dependencies {
@@ -37,12 +54,6 @@ dependencies {
     testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-engine", version = jUnitVersion)
 }
 
-configurations {
-    create("systemtestImplementation") {
-        extendsFrom(configurations.getByName("testImplementation"))
-    }
-}
-
 sourceSets {
     create("systemtest") {
         compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
@@ -52,15 +63,16 @@ sourceSets {
     }
 }
 
-val installFrontend = tasks.register("installFrontend", com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask::class) {
-    val workingDir = "frontend/"
-    val args = listOf("ci")
+val installFrontend = tasks.register("installFrontend", ExecutePackageManagerTask::class) {
+    setWorkingDir("frontend/")
+    setCacheDir("frontend/")
+    setArgs(listOf("ci"))
 }
 
-val buildFrontend = tasks.register("buildFrontend", com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask::class) {
+val buildFrontend = tasks.register("buildFrontend", ExecutePackageManagerTask::class) {
     dependsOn(installFrontend)
-    val workingDir = "frontend/"
-    val args = listOf("run", "devbuild")
+    setWorkingDir("frontend/")
+    setArgs(listOf("run", "devbuild"))
 }
 
 val zipReport = tasks.register("zipReport", Zip::class) {
@@ -85,13 +97,19 @@ val copyMainClasses = tasks.register("copyMainClasses", Copy::class) {
 
 val compileJava = tasks.named("compileJava")
 
+val processResources = tasks.named<ProcessResources>("processResources") 
+
+tasks.withType<ProcessResources>() {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 tasks.named("run") {
-    dependsOn("zipReport")
-    dependsOn(tasks.compileJava)
-    doFirst {
-        val args = System.getProperty("args", "").split(" ")
-        System.setProperty("version", getRepoSenseVersion())
+    dependsOn(zipReport)
+    tasks.named("compileJava") {
+        mustRunAfter("zipReport")
     }
+    val args = System.getProperty("args", "").split(" ")
+    System.setProperty("version", getRepoSenseVersion())
 }
 
 checkstyle {
@@ -124,20 +142,21 @@ tasks.register("systemtest", Test::class) {
     }
 }
 
-tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+tasks.named<ShadowJar>("shadowJar") {
+    dependsOn(zipReport)
     dependsOn(tasks.named("compileJava"), tasks.named("processResources"))
     archiveFileName.set("RepoSense.jar")
     destinationDirectory.set(file("${buildDir}/jar/"))
 
-     manifest {
-         attributes("Implementation-Version" to getRepoSenseVersion())
-     }
+    manifest {
+        attributes("Implementation-Version" to getRepoSenseVersion())
+    }
 }
 
-tasks.register("lintFrontend", com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask::class) {
+tasks.register("lintFrontend", ExecutePackageManagerTask::class) {
     dependsOn(installFrontend)
-    val workingDir = "frontend/"
-    val args = listOf("run", "lint")
+    setWorkingDir("frontend/")
+    setArgs(listOf("run", "lint"))
 }
 
 val checkstyleMain = tasks.named("checkstyleMain")
@@ -159,16 +178,9 @@ tasks.register("environmentalChecks", Exec::class) {
     }
 }
 
-val processResources = tasks.named<ProcessResources>("processResources") {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-tasks.withType<ProcessResources>() {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
 val serveTestReportInBackground = tasks.register("serveTestReportInBackground", JavaExec::class) {
     description = "Creates a background server process for the test report that is to be used by Cypress"
+
     dependsOn(zipReport, compileJava, processResources, copyCypressConfig, copyMainClasses)
     tasks.named("compileJava").configure { mustRunAfter(zipReport) }
     tasks.named("processResources").configure { mustRunAfter(zipReport) }
@@ -182,25 +194,60 @@ val serveTestReportInBackground = tasks.register("serveTestReportInBackground", 
 //    waitForPort = 9000
 }
 
-val installCypress = tasks.register("installCypress", com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask::class) {
-    val workingDir = "frontend/cypress/"
-    val args = listOf("ci")
+val installCypress = tasks.register("installCypress", ExecutePackageManagerTask::class) {
+    setWorkingDir("frontend/cypress/")
+    setArgs(listOf("ci"))
 }
 
 tasks.withType(Copy::class) {
     includeEmptyDirs = true
 }
 
-tasks.register("cypress", com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask::class) {
+tasks.register("cypress", ExecutePackageManagerTask::class) {
     dependsOn(installCypress, serveTestReportInBackground)
 
-    val workingDir = file("frontend/cypress/")
-    val args = listOf("run-script", "debug")
+    setWorkingDir(file("frontend/cypress/"))
+    setArgs(listOf("run-script", "debug"))
 }
 
 tasks.named("serveTestReportInBackground").configure { mustRunAfter(installCypress) }
 
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+val jacocoTestReport = tasks.named<JacocoReport>("jacocoTestReport") {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(false)
+        html.destination = file("${buildDir}/jacocoHtml")
+    }
+    executionData("systemtest", "frontendTest")
+}
+
+val coverage = tasks.register<JacocoReport>("coverage").configure {
+    sourceDirectories.setFrom(files(sourceSets.main.get().allSource.srcDirs))
+    classDirectories.setFrom(files(sourceSets.main.get().output))
+    executionData.setFrom(jacocoTestReport.get().executionData)
+
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+}
+
+afterEvaluate {
+    tasks.named<JacocoReport>("coverage").configure {
+        classDirectories.setFrom(classDirectories.files.map {
+            fileTree(it) {
+                exclude("**/*.jar")
+            }
+        })
+    }
+}
 
 fun getRepoSenseVersion(): String {
     var repoSenseVersion = project.property("version") as String
@@ -213,19 +260,6 @@ fun getRepoSenseVersion(): String {
         }
     }
     return repoSenseVersion
-}
-
-
-
-tasks.named<JacocoReport>("jacocoTestReport") {
-    reports {
-        html.required.set(true)
-        xml.required.set(true)
-        csv.required.set(false)
-        html.destination = file("${buildDir}/jacocoHtml")
-    }
-
-    executionData("systemtest", "frontendTest")
 }
 
 val syncFrontendPublic = tasks.register("syncFrontendPublic", Sync::class) {
@@ -249,14 +283,14 @@ val macHotReloadFrontend = tasks.register("macHotReloadFrontend", Exec::class) {
 val windowsHotReloadFrontend = tasks.register("windowsHotReloadFrontend", Exec::class) {
     dependsOn(installFrontend)
     onlyIf {os.isWindows()}
-    workingDir = file("frontend/")
+    setWorkingDir(file("frontend/"))
     commandLine("cmd","/c", "START", "\"hotreload RepoSense frontend\"", "npm", "run", "serveOpen")
 }
 
 val linuxHotReloadFrontend = tasks.register("linuxHotReloadFrontend", Exec::class) {
     dependsOn(installFrontend)
     onlyIf {os.isLinux()}
-    workingDir = file("frontend/")
+    setWorkingDir(file("frontend/"))
     commandLine("npm", "run", "serveOpen")
 }
 
