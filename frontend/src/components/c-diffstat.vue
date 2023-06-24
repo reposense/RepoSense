@@ -38,7 +38,7 @@ export default {
     updateCells() {
       const commitDiff = this.insertions - this.deletions;
       const commitSum = this.insertions + this.deletions;
-      const threshold = 0.2;
+      const threshold = 0.1;
       let cells = [];
 
       const isDiffBelowThreshold = Math.abs(commitDiff) < threshold * commitSum;
