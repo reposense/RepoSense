@@ -1,14 +1,14 @@
 <template lang="pug">
 #diffstat
-  span(:id="cell0")
-  span(:id="cell1")
-  span(:id="cell2")
-  span(:id="cell3")
-  span(:id="cell4")
-  span &ensp;
+  span(style="display: inline-block")
+    span(id="green" :style="{'width': scaledInsertions + 'px'}")
+    span(id="red" :style="{'width': scaledDeletions + 'px'}")
+    span &nbsp;
 </template>
 
 <script>
+const MAX_LINES = 600;
+const MULTIPLIER = 1.0;
 
 export default {
   name: 'c-diffstat',
@@ -24,52 +24,20 @@ export default {
   },
   data() {
     return {
-      cell0: 'grey-cell',
-      cell1: 'grey-cell',
-      cell2: 'grey-cell',
-      cell3: 'grey-cell',
-      cell4: 'grey-cell',
+      scaledInsertions: this.insertions * MULTIPLIER,
+      scaledDeletions: this.deletions * MULTIPLIER,
     };
   },
   beforeMount() {
-    this.updateCells();
+    this.scaleLinesChanged();
   },
   methods: {
-    updateCells() {
-      const commitDiff = this.insertions - this.deletions;
-      const commitSum = this.insertions + this.deletions;
-      const threshold = 0.1;
-      let cells = [];
+    scaleLinesChanged() {
+      const totalChanges = this.insertions + this.deletions;
 
-      const isDiffBelowThreshold = Math.abs(commitDiff) < threshold * commitSum;
-      const isDiffLessThanTen = Math.abs(commitDiff) < 10;
-
-      if (this.insertions === 0 && this.deletions > 0) {
-        cells = ['red-cell', 'red-cell', 'red-cell', 'red-cell', 'red-cell'];
-      } else if (this.insertions > 0 && this.deletions === 0) {
-        cells = ['green-cell', 'green-cell', 'green-cell', 'green-cell', 'green-cell'];
-      } else if (this.insertions === 0 && this.deletions === 0) {
-        cells = ['grey-cell', 'grey-cell', 'grey-cell', 'grey-cell', 'grey-cell'];
-      } else if (this.insertions === 1 && this.deletions === 0) {
-        cells = ['green-cell', 'grey-cell', 'grey-cell', 'grey-cell', 'grey-cell'];
-      } else if (this.insertions === 0 && this.deletions === 1) {
-        cells = ['red-cell', 'grey-cell', 'grey-cell', 'grey-cell', 'grey-cell'];
-      } else if (this.insertions === 1 && this.deletions === 1) {
-        cells = ['green-cell', 'red-cell', 'grey-cell', 'grey-cell', 'grey-cell'];
-      } else if (isDiffBelowThreshold || isDiffLessThanTen) {
-        cells = ['green-cell', 'green-cell', 'red-cell', 'red-cell', 'grey-cell'];
-      } else if (commitDiff > 0) {
-        cells = ['green-cell', 'green-cell', 'green-cell', 'green-cell', 'grey-cell'];
-      } else if (commitDiff < 0) {
-        cells = ['red-cell', 'red-cell', 'red-cell', 'red-cell', 'grey-cell'];
-      }
-
-      if (cells.length > 0) {
-        this.cell0 = cells[0];
-        this.cell1 = cells[1];
-        this.cell2 = cells[2];
-        this.cell3 = cells[3];
-        this.cell4 = cells[4];
+      if (totalChanges > MAX_LINES) {
+        this.scaledInsertions = (this.insertions / totalChanges) * MAX_LINES;
+        this.scaledDeletions = (this.deletions / totalChanges) * MAX_LINES;
       }
     },
   },
@@ -77,23 +45,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-#green-cell,
-#red-cell,
-#grey-cell {
+#red,
+#green {
   display: inline-block;
-  margin-left: 1px;
-  margin-right: 1px;
-  min-height: 10px;
-  min-width: 10px;
+  min-height: 7px;
 }
-#green-cell {
-  background-color: limegreen;
-}
-#red-cell {
+#red {
   background-color: red;
 }
-#grey-cell {
-  background-color: lightgrey;
+#green {
+  background-color: limegreen;
 }
 </style>
