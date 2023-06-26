@@ -56,7 +56,7 @@ The section below provides explanations for each of the flags.
 
 * Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
-* Config files must follow [this](./#configFiles.html) format.
+* Config files must follow [this](../#configFiles.html) format.
 </box>
 </div>
 
