@@ -102,9 +102,6 @@
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
       span &nbsp; (+{{ slice.insertions }} -{{ slice.deletions }} lines) &nbsp;
-      c-diffstat(
-        :insertions="slice.insertions"
-        :deletions="slice.deletions")
       .hash
         span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
@@ -143,8 +140,6 @@ import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from '../components/c-ramp.vue';
-import cDiffstat from '../components/c-diffstat.vue';
-import cHistogram from '../components/c-histogram.vue';
 import User from '../utils/user';
 import {
   Commit,
@@ -171,8 +166,6 @@ export default defineComponent({
   components: {
     FontAwesomeIcon,
     cRamp,
-    cHistogram,
-    cDiffstat,
   },
   mixins: [brokenLinkDisabler],
   data() {
