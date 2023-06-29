@@ -1,7 +1,16 @@
 <template lang="pug">
 #summary
   .summary-chart__contribution
-    template(v-if="filterBreakdown")
+    template(v-if="showDiffstat")
+      .summary-chart__contrib(
+        v-for="(barWidths, barColor) in widthMappings"
+        )
+        .summary-chart__contrib--bar(
+          v-for="width in barWidths",
+          v-bind:style="{ width: `${width}%`,\
+          'background-color': barColor }"
+          )
+    template(v-else-if="filterBreakdown")
       .summary-chart__contrib(
         v-for="(barWidths, fileType) in widthMappings"
         )
@@ -29,6 +38,10 @@ import { PropType, defineComponent } from 'vue';
 
 export default defineComponent({
   props: {
+    showDiffstat: {
+      type: Boolean,
+      default: false,
+    },
     filterBreakdown: {
       type: Boolean,
       default: false,
