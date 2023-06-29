@@ -785,22 +785,6 @@ export default defineComponent({
     },
 
     getAvgContributionSize(repoId: string): number {
-      // Object.values(this.filteredRepos)
-      //   .forEach((repo) => {
-      //     Object.values(repo)
-      //       .forEach((author) => {
-      //         if (user.repoId === author.repoId) {
-      //           Object.values(author.commits)
-      //             .forEach((commit) => {
-      //               totalCommits += 1;
-      //               totalContribution += commit.insertions + commit.deletions;
-      //             });
-      //         }
-      //       });
-      //   });
-
-      // return totalContribution / totalCommits;
-
       let totalContribution = 0;
       let totalCommits = 0;
 
