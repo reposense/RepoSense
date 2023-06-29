@@ -310,14 +310,20 @@ export default defineComponent({
     getContributionBars(slice: CommitResult): { [key: string]: number[] } {
       let currentBarWidth = 0;
       const fullBarWidth = 100;
-      const contributionPerFullBar = 1000;
+
+      let avgContributionSize = this.info.zAvgContributionSize;
+      if (avgContributionSize === undefined || avgContributionSize > 1000) {
+        avgContributionSize = 1000;
+      }
+
+      const contributionPerFullBar = avgContributionSize;
 
       const diffstatMappings: { [key: string]: number } = { limegreen: slice.insertions, red: slice.deletions };
       const allContributionBars: { [key: string]: number[] } = {};
 
-      // if (contributionPerFullBar === 0) {
-      //   return allFileTypesContributionBars;
-      // }
+      if (contributionPerFullBar === 0) {
+        return allContributionBars;
+      }
 
       Object.keys(diffstatMappings)
         .forEach((color) => {
