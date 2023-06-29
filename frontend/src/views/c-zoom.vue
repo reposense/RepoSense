@@ -5,12 +5,12 @@
   .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
     a(
       v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
-      v-on:click="toggleAllCommitMessagesBody(true)"
-    ) show all commit messages
+      v-on:click="toggleAllCommitMessagesBody(true); toggleDiffstatView(true);"
+    ) show all commit details
     a(
       v-if="expandedCommitMessagesCount > 0",
-      v-on:click="toggleAllCommitMessagesBody(false)"
-    ) hide all commit messages
+      v-on:click="toggleAllCommitMessagesBody(false); toggleDiffstatView(false);"
+    ) hide all commit details
   .panel-heading
     .group-name
       span(
@@ -132,11 +132,12 @@
       .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
         pre {{ slice.messageBody }}
           .dashed-border
-      c-stacked-bar-chart(
-        v-bind:show-diffstat="true",
-        v-bind:width-mappings="getContributionBars(slice)"
-      )
-      br
+      template(v-if="showDiffstat")
+        c-stacked-bar-chart(
+          v-bind:show-diffstat="showDiffstat",
+          v-bind:width-mappings="getContributionBars(slice)"
+        )
+        br
 </template>
 
 <script lang="ts">
@@ -159,6 +160,7 @@ import { StoreState } from '../types/vuex.d';
 function zoomInitialState() {
   return {
     showAllCommitMessageBody: true,
+    showDiffstat: true,
     commitsSortType: CommitsSortType.Time,
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
@@ -448,6 +450,10 @@ export default defineComponent({
         isOpen,
         commits: this.selectedCommits,
       });
+    },
+
+    toggleDiffstatView(isVisible: boolean) {
+      this.showDiffstat = isVisible;
     },
 
     removeZoomHashes() {
