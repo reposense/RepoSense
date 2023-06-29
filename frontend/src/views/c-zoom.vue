@@ -132,6 +132,11 @@
       .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
         pre {{ slice.messageBody }}
           .dashed-border
+      c-stacked-bar-chart(
+        v-bind:show-diffstat="true",
+        v-bind:width-mappings="getContributionBars(slice)"
+      )
+      br
 </template>
 
 <script lang="ts">
@@ -140,6 +145,7 @@ import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from '../components/c-ramp.vue';
+import cStackedBarChart from '../components/c-stacked-bar-chart.vue';
 import User from '../utils/user';
 import {
   Commit,
@@ -166,6 +172,7 @@ export default defineComponent({
   components: {
     FontAwesomeIcon,
     cRamp,
+    cStackedBarChart,
   },
   mixins: [brokenLinkDisabler],
   data() {
@@ -298,6 +305,50 @@ export default defineComponent({
       // This code crashes if info.zUser is not defined
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
+    },
+
+    getContributionBars(slice: CommitResult): { [key: string]: number[] } {
+      let currentBarWidth = 0;
+      const fullBarWidth = 100;
+      const contributionPerFullBar = 1000;
+
+      const diffstatMappings: { [key: string]: number } = { limegreen: slice.insertions, red: slice.deletions };
+      const allContributionBars: { [key: string]: number[] } = {};
+
+      // if (contributionPerFullBar === 0) {
+      //   return allFileTypesContributionBars;
+      // }
+
+      Object.keys(diffstatMappings)
+        .forEach((color) => {
+          const contribution = diffstatMappings[color];
+          let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
+          const contributionBars = [];
+
+          // if contribution bar for file type is able to fit on the current line
+          if (currentBarWidth + barWidth < fullBarWidth) {
+            contributionBars.push(barWidth);
+            currentBarWidth += barWidth;
+          } else {
+            // take up all the space left on the current line
+            contributionBars.push(fullBarWidth - currentBarWidth);
+            barWidth -= fullBarWidth - currentBarWidth;
+            // additional bar width will start on a new line
+            const numOfFullBars = Math.floor(barWidth / fullBarWidth);
+            for (let i = 0; i < numOfFullBars; i += 1) {
+              contributionBars.push(fullBarWidth);
+            }
+            const remainingBarWidth = barWidth % fullBarWidth;
+            if (remainingBarWidth > 0) {
+              contributionBars.push(remainingBarWidth);
+            }
+            currentBarWidth = remainingBarWidth;
+          }
+
+          allContributionBars[color] = contributionBars;
+        });
+
+      return allContributionBars;
     },
 
     getSliceLink(slice: CommitResult): string | undefined {
@@ -478,6 +529,7 @@ export default defineComponent({
   /* Commit Message Body in Zoom Tab */
   .commit-message {
     border: 1px solid transparent;
+    overflow: hidden;
     padding: 5px;
 
     &:focus,
