@@ -198,8 +198,8 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(350, 20)
-      .click(400, 20);
+      .click(120, 20)
+      .click(250, 20);
 
     cy.get('#tab-zoom')
       .should('be.visible');
@@ -211,7 +211,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2019-05-31] [#699] Report: standardize the author\'s name display (#701): +1 -1 lines ');
+      .should('eq', '[2019-12-20] [#46] Show total time after batch processing (#758): +43 -0 lines ');
   });
 
   it('changing the righthand boundary', () => {
@@ -221,8 +221,8 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(350, 20)
-      .click(360, 20);
+      .click(120, 20)
+      .click(200, 20);
 
     cy.get('#tab-zoom')
       .should('be.visible');
@@ -230,11 +230,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2019-08-09] [#851] Fix url directing to wrong repository when merge group (#854): +17 -4 lines ');
+      .should('eq', '[2020-05-23] [#1259] Add index number and files changed count (#1262): +3 -3 lines ');
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2019-05-31] [#699] Report: standardize the author\'s name display (#701): +1 -1 lines ');
+      .should('eq', '[2019-12-20] [#46] Show total time after batch processing (#758): +43 -0 lines ');
   });
 
   it('changing the lefthand boundary', () => {
@@ -244,8 +244,8 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(370, 20)
-      .click(400, 20);
+      .click(200, 20)
+      .click(250, 20);
 
     cy.get('#tab-zoom')
       .should('be.visible');
@@ -257,7 +257,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-02-22] [#999] Remove empty zoom__day divs (#1000): +27 -26 lines ');
+      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
 
   it('changing the righthand and lefthand boundary', () => {
@@ -268,8 +268,8 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(380, 20)
-      .click(385, 20);
+      .click(200, 20)
+      .click(225, 20);
 
     cy.get('#tab-zoom')
       .should('be.visible');
@@ -277,7 +277,10 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2020-10-01]  [#1312] Conditional run for markbind to gh pages deployment (#1337): +1 -0 lines ');
+      .should(
+        'eq',
+        '[2020-12-18] [#1374] Travis: utilise latest node version for PR docs deployment (#1381): +4 -0 lines ',
+      );
 
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
