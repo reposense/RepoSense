@@ -76,10 +76,10 @@ sourceSets {
 }
 
 val installFrontend = tasks.register<Exec>("installFrontend") {
-    setCommandLine("npm.cmd")
+    setCommandLine("cmd")
 
     setWorkingDir("frontend/")
-    setArgs(listOf("ci"))
+    setArgs(listOf("/c", "npm", "ci", "--production", "false", "--loglevel", "info", "--progress", "true"))
 }
 
 val buildFrontend = tasks.register<Exec>("buildFrontend") {
@@ -87,7 +87,7 @@ val buildFrontend = tasks.register<Exec>("buildFrontend") {
     setCommandLine("cmd")
 
     setWorkingDir("frontend/")
-    setArgs(listOf("run", "devBuild"))
+    setArgs(listOf("/c", "npm", "run", "devbuild", "--production", "false", "--loglevel", "info", "--progress", "true"))
 }
 
 val zipReport = tasks.register<Zip>("zipReport") {
@@ -289,7 +289,7 @@ tasks.register<Exec>("cypress") {
     setCommandLine("cmd")
 
     setWorkingDir("frontend/cypress")
-    setArgs(listOf("run-script", "debug"))
+    setArgs(listOf("/c", "npm", "run-script", "debug", "--production", "false", "--loglevel", "info", "--progress", "true"))
 }
 
 val frontendTest = tasks.register<Exec>("frontendTest") {
@@ -297,9 +297,9 @@ val frontendTest = tasks.register<Exec>("frontendTest") {
     setCommandLine("cmd")
 
     setWorkingDir("frontend/cypress/")
-    setArgs(listOf("run-script", "tests"))
+    setArgs(listOf("/c", "npm", "run-script", "tests", "--production", "false", "--loglevel", "info", "--progress", "true"))
     if (project.hasProperty("ci")) {
-        setArgs(listOf("run-script", "ci"))
+        setArgs(listOf("/c", "npm", "run-script", "ci", "--production", "false", "--loglevel", "info", "--progress", "true"))
     }
 }
 
