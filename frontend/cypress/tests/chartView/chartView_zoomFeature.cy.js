@@ -191,7 +191,7 @@ describe('date changes in chart view should reflect in zoom', () => {
 });
 
 describe('range changes in chartview should reflect in zoom', () => {
-  it('some shit', () => {
+  it('selecting the righthand and lefthand boundary', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
       .type('james');
