@@ -223,22 +223,25 @@
           .summary-chart__contrib(
             v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
           )
-            .summary-chart__contrib--bar(
-              v-for="width in widths",
-              v-bind:style="{ width: `${width}%`,\
-                'background-color': fileTypeColors[fileType] }",
-              v-bind:title="`${fileType}: ${user.fileTypeContribution[fileType]} lines, \
-                total: ${user.checkedFileTypeContribution} lines (contribution from ${minDate} to \
-                ${maxDate})`"
+            c-stacked-bar-chart(
+              v-bind:bars="widths.map((width) => {\
+                return {width: width,\
+                        color: fileTypeColors[fileType],\
+                        tooltipText: `${fileType}: ${user.fileTypeContribution[fileType]} lines, \
+                            total: ${user.checkedFileTypeContribution} lines (contribution from ${minDate} to \
+                            ${maxDate})`}\
+              })"
             )
         template(v-else)
           .summary-chart__contrib(
             v-bind:title="`Total contribution from ${minDate} to ${maxDate}: \
               ${user.checkedFileTypeContribution} lines`"
           )
-            .summary-chart__contrib--bar(
-              v-for="width in getContributionBars(user.checkedFileTypeContribution)",
-              v-bind:style="{ width: `${width}%` }"
+            c-stacked-bar-chart(
+              v-bind:bars="getContributionBars(user.checkedFileTypeContribution)\
+                .map((width) => {\
+                  return {width: width};\
+                })"
             )
 </template>
 
@@ -248,6 +251,7 @@ import { mapState } from 'vuex';
 
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from './c-ramp.vue';
+import cStackedBarChart from './c-stacked-bar-chart.vue';
 import { Repo, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
@@ -257,6 +261,7 @@ export default defineComponent({
   name: 'c-summary-charts',
   components: {
     cRamp,
+    cStackedBarChart,
   },
   mixins: [brokenLinkDisabler],
   props: {
