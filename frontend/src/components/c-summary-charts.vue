@@ -564,6 +564,7 @@ export default defineComponent({
         zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
         zFilterSearch: filterSearch,
+        zAvgContributionSize: this.getAvgContributionSize(user.repoId),
       };
       this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
@@ -799,6 +800,23 @@ export default defineComponent({
       return explanation;
     },
 
+    getAvgContributionSize(repoId: string): number {
+      let totalContribution = 0;
+      let totalCommits = 0;
+
+      this.filteredRepos.forEach((repo) => {
+        repo.forEach((user) => {
+          if (user.repoId === repoId) {
+            user.commits?.forEach((commit) => {
+              totalCommits += 1;
+              totalContribution += (commit.insertions + commit.deletions);
+            });
+          }
+        });
+      });
+
+      return totalContribution / totalCommits;
+    },
   },
 });
 </script>

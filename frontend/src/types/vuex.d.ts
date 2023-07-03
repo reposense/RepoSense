@@ -30,6 +30,7 @@ interface ZoomInfo {
   zTimeFrame: string;
   zUntil: string;
   zUser?: User;
+  zAvgContributionSize?: number;
 }
 
 interface SummaryDates {
