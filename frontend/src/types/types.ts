@@ -77,3 +77,9 @@ export interface AuthorshipFile {
   segments?: AuthorshipFileSegment[];
   wasCodeLoaded: boolean;
 }
+
+export interface Bar {
+  width: number;
+  color?: string;
+  tooltipText?: string;
+}

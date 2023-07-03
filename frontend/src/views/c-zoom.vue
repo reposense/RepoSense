@@ -132,12 +132,16 @@
       .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
         pre {{ slice.messageBody }}
           .dashed-border
-      template(v-if="showDiffstat")
+      template(
+        v-if="showDiffstat"
+        v-for="(widths, color) in getContributionBars(slice)"
+      )
         c-stacked-bar-chart(
-          v-bind:show-diffstat="showDiffstat",
-          v-bind:width-mappings="getContributionBars(slice)"
+          v-bind:bars="widths.map((width) => {\
+            return {width: width,\
+                    color: color}\
+          })"
         )
-        br
 </template>
 
 <script lang="ts">

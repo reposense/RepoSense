@@ -218,15 +218,31 @@
           v-bind:is-widget-mode="isChartGroupWidgetMode")
         .overlay
 
-      c-stacked-bar-chart(
-        v-bind:filter-breakdown="filterBreakdown",
-        v-bind:width-mappings="getFileTypeContributionBars(user.fileTypeContribution)",
-        v-bind:widths="getContributionBars(user.checkedFileTypeContribution)",
-        v-bind:file-type-colors="fileTypeColors",
-        v-bind:file-type-lines-changed="user.fileTypeContribution[fileType]",
-        v-bind:total-lines-changed="user.checkedFileTypeContribution",
-        v-bind:min-date="minDate",
-        v-bind:max-date="maxDate")
+      .summary-chart__contribution
+        template(v-if="filterBreakdown")
+          .summary-chart__contrib(
+            v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
+          )
+            c-stacked-bar-chart(
+              v-bind:bars="widths.map((width) => {\
+                return {width: width,\
+                        color: fileTypeColors[fileType],\
+                        tooltipText: `${fileType}: ${user.fileTypeContribution[fileType]} lines, \
+                            total: ${user.checkedFileTypeContribution} lines (contribution from ${minDate} to \
+                            ${maxDate})`}\
+              })"
+            )
+        template(v-else)
+          .summary-chart__contrib(
+            v-bind:title="`Total contribution from ${minDate} to ${maxDate}: \
+              ${user.checkedFileTypeContribution} lines`"
+          )
+            c-stacked-bar-chart(
+              v-bind:bars="getContributionBars(user.checkedFileTypeContribution)\
+                .map((width) => {\
+                  return {width: width};\
+                })"
+            )
 </template>
 
 <script lang="ts">
