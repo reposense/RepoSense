@@ -360,6 +360,15 @@ export default defineComponent({
           allContributionBars[color] = contributionBars;
         });
 
+      // Pad with transparent bars to prevent overflowing bars
+      // from sticking to message title of subsequent commits
+      const transparentBars = [];
+      transparentBars.push(100 - currentBarWidth);
+      for (let i = 0; i < 3; i += 1) {
+        transparentBars.push(100);
+      }
+      allContributionBars.transparent = transparentBars;
+
       return allContributionBars;
     },
 
@@ -545,7 +554,6 @@ export default defineComponent({
   /* Commit Message Body in Zoom Tab */
   .commit-message {
     border: 1px solid transparent;
-    overflow: hidden;
     padding: 5px;
 
     &:focus,
