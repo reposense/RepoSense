@@ -119,18 +119,13 @@ tasks.named<ProcessResources>("processSystemtestResources").configure {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-tasks.compileJava {
+tasks.named("compileJava").configure {
     mustRunAfter(zipReport)
 }
 
-tasks.named("run") {
-    dependsOn(zipReport)
-
-    /* The second arguments indicate the default value associated with the property. */
-    doFirst {
-        val args = System.getProperty("args", "").split("")
-        System.setProperty("version", getRepoSenseVersion())
-    }
+tasks.named<JavaExec>("run").configure {
+    args(System.getProperty("args", "").split(" "))
+    jvmArgs("-Dversion=${getRepoSenseVersion()}")
 }
 
 checkstyle {
@@ -169,19 +164,19 @@ tasks.test {
     }
 }
 
-tasks.shadowJar {
+tasks.named("shadowJar").configure {
     dependsOn(zipReport)
 }
 
-tasks.compileJava {
+tasks.named("compileJava").configure {
     mustRunAfter("zipReport")
 }
 
-tasks.processResources {
+tasks.named("processResources").configure {
     mustRunAfter("zipReport")
 }
 
-tasks.named<ShadowJar>("shadowJar") {
+tasks.named<ShadowJar>("shadowJar").configure {
     archiveFileName.set("RepoSense.jar")
     destinationDirectory.set(file("${buildDir}/jar/"))
 
@@ -200,11 +195,11 @@ val checkstyleMain = tasks.named("checkstyleMain")
 val checkstyleTest = tasks.named("checkstyleTest")
 val checkstyleSystemtest = tasks.named("checkstyleSystemtest")
 
-tasks.named("checkstyleTest") {
+tasks.named("checkstyleTest").configure {
     mustRunAfter(checkstyleMain)
 }
 
-tasks.named("checkstyleSystemtest") {
+tasks.named("checkstyleSystemtest").configure {
     mustRunAfter(checkstyleTest)
 }
 
@@ -242,11 +237,11 @@ val systemtest = tasks.register<Test>("systemtest") {
     }
 }
 
-tasks.compileJava {
+tasks.named("compileJava").configure {
     mustRunAfter(zipReport)
 }
 
-tasks.processResources {
+tasks.named("processResources").configure {
     mustRunAfter(zipReport)
 }
 
@@ -280,7 +275,7 @@ val installCypress = tasks.register<Exec>("installCypress") {
     setArgs(listOf("/c", "npm", "ci", "--production", "false", "--loglevel", "info", "--progress", "true"))
 }
 
-tasks.named("serveTestReportInBackground") {
+tasks.named("serveTestReportInBackground").configure {
     mustRunAfter(installCypress)
 }
 
