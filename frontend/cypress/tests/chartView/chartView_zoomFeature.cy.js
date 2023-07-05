@@ -1,5 +1,5 @@
-const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
 describe('zoom features in code view', () => {
+  const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
   it('click on view commits button', () => {
     cy.get('.icon-button.fa-list-ul')
       .should('be.visible')
@@ -195,6 +195,8 @@ describe('date changes in chart view should reflect in zoom', () => {
 });
 
 describe('range changes in chartview should reflect in zoom', () => {
+  const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
+
   it('selecting the righthand and lefthand boundary', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
