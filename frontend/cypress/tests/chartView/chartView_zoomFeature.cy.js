@@ -188,8 +188,8 @@ describe('date changes in chart view should reflect in zoom', () => {
       .invoke('attr', 'title')
       .should(
         'eq',
-        // eslint-disable-next-line max-len
-        '[2019-07-24] [#828] Revert "v_summary.js: remove redundant calls to getFiltered() (#800)" (#832): +0 -9 lines ',
+        '[2019-07-24] [#828] Revert "v_summary.js: remove redundant '
+        + 'calls to getFiltered() (#800)" (#832): +0 -9 lines ',
       );
   });
 });
@@ -261,8 +261,8 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      // eslint-disable-next-line max-len
-      .should('eq', '[2020-11-21] [#1345] Authorship: Add last modified date to each LoC if specified (#1348): +165 -76 lines ');
+      .should('eq', '[2020-11-21] [#1345] Authorship: Add last modified '
+      + 'date to each LoC if specified (#1348): +165 -76 lines ');
   });
 
   it('changing the righthand and lefthand boundary', () => {
