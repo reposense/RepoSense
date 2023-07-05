@@ -290,6 +290,6 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
+      .should('eq', '[2020-11-21] [#1345] Authorship: Add last modified date to each LoC if specified (#1348): +165 -76 lines ');
   });
 });
