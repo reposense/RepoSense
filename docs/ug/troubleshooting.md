@@ -10,10 +10,10 @@
 
 ### Contributions missing in the ramp chart (but appear in the contribution bar and code panel)
 
-This is probably a case of giving an incorrect author name alias (or GitHub ID) in your [author-config file](#author-config-csv).<br>
-Please refer to [A Note About Git Author Name](#a-note-about-git-author-name) above on how to find out the correct author name you are using and how to change it.<br>
+This is probably a case of giving an incorrect author name alias (or GitHub ID) in your [author-config file](./configFiles.md#author-config-csv).<br>
+Please refer to [A Note About Git Author Name](./configFiles.md#a-note-about-git-author-name) above on how to find out the correct author name you are using and how to change it.<br>
 Also, ensure that you have added all author name aliases you may be using (if you are using multiple computers or have previously changed your author name).<br>
-Alternatively, you may choose to configure *RepoSense* to track using your GitHub email instead of in your [standalone config file](#provide-data-using-a-json-config-file) or [author-config file](#author-config-csv), which is more accurate compared to author name aliases. The associated GitHub email you are using can be found in your [GitHub settings](https://github.com/settings/emails).
+Alternatively, you may choose to configure *RepoSense* to track using your GitHub email instead of in your [standalone config file](./configFiles.md#config-json-standalone-config-file) or [author-config file](./configFiles.md#author-config-csv), which is more accurate compared to author name aliases. The associated GitHub email you are using can be found in your [GitHub settings](https://github.com/settings/emails).
 
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -21,7 +21,7 @@ Alternatively, you may choose to configure *RepoSense* to track using your GitHu
 ### Contribution bar and code panel is empty (despite a non-empty ramp chart)
 
 The contribution bar and code panel records the lines you have authored to the **latest** commit of the repository and branch you are analyzing.  As such, it is possible that while you have lots of committed contributions, your final authorship contribution is low. This happens if you have only deleted lines or someone else has overwritten your code and taken authorship for it (currently, RepoSense does not have the functionality to track overwritten lines).<br>
-It is also possible that another user has overridden the authorship of your lines using the [@@author tags](#provide-data-using-author-tags).
+It is also possible that another user has overridden the authorship of your lines using the [@@author tags](./usingAuthorTags.md#appendix-using-author-tags).
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
