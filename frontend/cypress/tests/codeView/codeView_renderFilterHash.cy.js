@@ -277,7 +277,7 @@ describe('render filter hash', () => {
       .should('not.be.checked');
 
     cy.url()
-      .should('include', 'breakdown=false');
+      .should('contain', 'breakdown=false');
 
     cy.get('#summary label.filter-breakdown input:visible')
       .check();
@@ -285,7 +285,7 @@ describe('render filter hash', () => {
     cy.reload();
 
     cy.url()
-      .should('include', 'breakdown=true');
+      .should('contain', 'breakdown=true');
   });
 
   it('merge all groups: url params should persist after change and reload', () => {
