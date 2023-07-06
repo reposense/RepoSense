@@ -38,10 +38,6 @@ describe('render filter hash', () => {
 
     cy.reload();
 
-    // cy.get('div.mui-select.grouping > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'groupByNone');
-
     cy.url()
       .should('contain', 'groupSelect=groupByNone');
 
@@ -53,10 +49,6 @@ describe('render filter hash', () => {
       .should('contain', 'groupSelect=groupByAuthors');
 
     cy.reload();
-
-    // cy.get('div.mui-select.grouping > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'groupByAuthors');
 
     cy.url()
       .should('contain', 'groupSelect=groupByAuthors');
@@ -75,10 +67,6 @@ describe('render filter hash', () => {
     cy.get('div.mui-select.sort-group > select:visible')
       .select('groupTitle');
 
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'groupTitle');
-
     cy.url()
       .should('contain', 'sort=groupTitle');
 
@@ -90,10 +78,6 @@ describe('render filter hash', () => {
     /* Select sort by contribution descending and test URL before and after reload */
     cy.get('div.mui-select.sort-group > select:visible')
       .select('totalCommits dsc');
-
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'totalCommits dsc');
 
     cy.url()
       .should('contain', 'sort=totalCommits%20dsc');
@@ -107,10 +91,6 @@ describe('render filter hash', () => {
     cy.get('div.mui-select.sort-group > select:visible')
       .select('totalCommits');
 
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'totalCommits');
-
     cy.url()
       .should('contain', 'sort=totalCommits');
 
@@ -123,10 +103,6 @@ describe('render filter hash', () => {
     cy.get('div.mui-select.sort-group > select:visible')
       .select('variance dsc');
 
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'variance dsc');
-
     cy.url()
       .should('contain', 'sort=variance%20dsc');
 
@@ -138,10 +114,6 @@ describe('render filter hash', () => {
     /* Select sort by variance ascending and test URL before and after reload */
     cy.get('div.mui-select.sort-group > select:visible')
       .select('variance');
-
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'variance');
 
     cy.url()
       .should('contain', 'sort=variance');
@@ -165,10 +137,6 @@ describe('render filter hash', () => {
     cy.get('div.mui-select.sort-within-group > select:visible')
       .select('title dsc');
 
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'groupTitle');
-
     cy.url()
       .should('contain', 'sortWithin=title');
 
@@ -180,10 +148,6 @@ describe('render filter hash', () => {
     /* Select sort by contribution descending and test URL before and after reload */
     cy.get('div.mui-select.sort-within-group > select:visible')
       .select('totalCommits dsc');
-
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'totalCommits dsc');
 
     cy.url()
       .should('contain', 'sortWithin=totalCommits%20dsc');
@@ -197,10 +161,6 @@ describe('render filter hash', () => {
     cy.get('div.mui-select.sort-within-group > select:visible')
       .select('totalCommits');
 
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'totalCommits');
-
     cy.url()
       .should('contain', 'sortWithin=totalCommits');
 
@@ -213,10 +173,6 @@ describe('render filter hash', () => {
     cy.get('div.mui-select.sort-within-group > select:visible')
       .select('variance dsc');
 
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'variance dsc');
-
     cy.url()
       .should('contain', 'sortWithin=variance%20dsc');
 
@@ -228,10 +184,6 @@ describe('render filter hash', () => {
     /* Select sort by variance ascending and test URL before and after reload */
     cy.get('div.mui-select.sort-within-group > select:visible')
       .select('variance');
-
-    // cy.get('div.mui-select.sort-group > select:visible')
-    //   .invoke('val')
-    //   .should('eq', 'variance');
 
     cy.url()
       .should('contain', 'sortWithin=variance');
