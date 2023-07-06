@@ -1,5 +1,5 @@
 describe('render filter hash', () => {
-  it('search', () => {
+  it('search: url params should persist after change and reload', () => {
     /* Check initial state */
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
@@ -20,7 +20,7 @@ describe('render filter hash', () => {
       .should('contain', 'search=eugene');
   });
 
-  it('group by', () => {
+  it('group by: url params should persist after change and reload', () => {
     /* Check initial state */
     cy.get('div.mui-select.grouping > select:visible')
       .invoke('val')
@@ -62,7 +62,7 @@ describe('render filter hash', () => {
       .should('contain', 'groupSelect=groupByAuthors');
   });
 
-  it('sort groups by', () => {
+  it('sort groups by: url params should persist after change and reload', () => {
     /* Check initial state */
     cy.get('div.mui-select.sort-group > select:visible')
       .invoke('val')
@@ -152,7 +152,7 @@ describe('render filter hash', () => {
       .should('contain', 'sort=variance');
   });
 
-  it('sort within groups by', () => {
+  it('sort within groups by: url params should persist after change and reload', () => {
     /* Check initial state */
     cy.get('div.mui-select.sort-within-group > select:visible')
       .invoke('val')
@@ -242,7 +242,7 @@ describe('render filter hash', () => {
       .should('contain', 'sortWithin=variance');
   });
 
-  it('granularity', () => {
+  it('granularity: url params should persist after change and reload', () => {
     /* Check initial state */
     cy.get('div.mui-select.granularity > select:visible')
       .invoke('val')
@@ -276,7 +276,7 @@ describe('render filter hash', () => {
       .should('contain', 'timeframe=week');
   });
 
-  it('since', () => {
+  it('since: url params should persist after change and reload', () => {
     /* Check initial state */
     cy.get('input[name="since"]:visible')
       .invoke('val')
@@ -298,7 +298,7 @@ describe('render filter hash', () => {
       .should('contain', 'since=2019-06-04');
   });
 
-  it('until', () => {
+  it('until: url params should persist after change and reload', () => {
     /* Check initial state (will require dayjs for getting current date) */
     // cy.get('input[name="until"]:visible')
     //   .invoke('val')
@@ -320,7 +320,7 @@ describe('render filter hash', () => {
       .should('contain', 'until=2019-06-04');
   });
 
-  it('breakdown by file type', () => {
+  it('breakdown by file type: url params should persist after change and reload', () => {
     cy.get('#summary label.filter-breakdown input:visible')
       .should('not.be.checked');
 
@@ -336,7 +336,7 @@ describe('render filter hash', () => {
       .should('include', 'breakdown=true');
   });
 
-  it('merge all groups', () => {
+  it('merge all groups: url params should persist after change and reload', () => {
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
       .check();
@@ -350,7 +350,7 @@ describe('render filter hash', () => {
       .should('contain', 'mergegroup=reposense%2FRepoSense%5Bcypress%5D');
   });
 
-  it('checked file types', () => {
+  it('checked file types: url params should persist after change and reload', () => {
     cy.get('#summary label.filter-breakdown input:visible')
       .should('not.be.checked');
 
