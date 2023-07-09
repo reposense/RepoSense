@@ -4,7 +4,7 @@ module.exports = defineConfig({
   fixturesFolder: false,
   video: false,
   defaultCommandTimeout: 30000,
-  pageLoadTimeout: 180000,
+  pageLoadTimeout: 200000,
   e2e: {
     setupNodeEvents(on, config) {},
     baseUrl: 'http://localhost:9000',
