@@ -1,6 +1,6 @@
 <template lang="pug">
-#summary
-  .summary-chart__contrib--bar(
+.stacked-bar-container
+  .stacked-bar__contrib--bar(
     v-for="bar in bars"
     v-bind:title="bar.tooltipText",
     v-bind:style="{ width: `${bar.width}%`,\
@@ -21,3 +21,19 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped lang="scss">
+@import '../styles/_colors.scss';
+
+.stacked-bar-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stacked-bar__contrib--bar {
+  background-color: mui-color('blue');
+  height: 4px;
+  margin-top: 2px;
+}
+
+</style>
