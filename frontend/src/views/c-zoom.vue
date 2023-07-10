@@ -134,13 +134,9 @@
           .dashed-border
       template(
         v-if="showDiffstat"
-        v-for="(widths, color) in getContributionBars(slice)"
       )
         c-stacked-bar-chart(
-          v-bind:bars="widths.map((width) => {\
-            return {width: width,\
-                    color: color}\
-          })"
+          v-bind:bars="getContributionBars(slice)"
         )
 </template>
 
@@ -153,6 +149,7 @@ import cRamp from '../components/c-ramp.vue';
 import cStackedBarChart from '../components/c-stacked-bar-chart.vue';
 import User from '../utils/user';
 import {
+  Bar,
   Commit,
   CommitResult,
   DailyCommit,
@@ -313,7 +310,7 @@ export default defineComponent({
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
-    getContributionBars(slice: CommitResult): { [key: string]: number[] } {
+    getContributionBars(slice: CommitResult): Bar[] {
       let currentBarWidth = 0;
       const fullBarWidth = 100;
 
@@ -325,7 +322,7 @@ export default defineComponent({
       const contributionPerFullBar = avgContributionSize;
 
       const diffstatMappings: { [key: string]: number } = { limegreen: slice.insertions, red: slice.deletions };
-      const allContributionBars: { [key: string]: number[] } = {};
+      const allContributionBars: Bar[] = [];
 
       if (contributionPerFullBar === 0) {
         return allContributionBars;
@@ -357,18 +354,25 @@ export default defineComponent({
             currentBarWidth = remainingBarWidth;
           }
 
-          allContributionBars[color] = contributionBars;
+          contributionBars.forEach((width) => {
+            const bar = {
+              color,
+              width,
+            };
+            allContributionBars.push(bar);
+          });
         });
 
       // Pad with transparent bars to prevent overflowing bars
       // from sticking to message title of subsequent commits
-      const transparentBars = [];
-      transparentBars.push(100 - currentBarWidth);
-      for (let i = 0; i < 3; i += 1) {
-        transparentBars.push(100);
-      }
-      allContributionBars.transparent = transparentBars;
-
+      /*
+        const transparentBars = [];
+        transparentBars.push(100 - currentBarWidth);
+        for (let i = 0; i < 3; i += 1) {
+          transparentBars.push(100);
+        }
+        allContributionBars.transparent = transparentBars;
+      */
       return allContributionBars;
     },
 

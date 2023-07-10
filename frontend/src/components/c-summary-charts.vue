@@ -220,17 +220,9 @@
 
       .summary-chart__contribution
         template(v-if="filterBreakdown")
-          .summary-chart__contrib(
-            v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
-          )
+          .summary-chart__contrib
             c-stacked-bar-chart(
-              v-bind:bars="widths.map((width) => {\
-                return {width: width,\
-                        color: fileTypeColors[fileType],\
-                        tooltipText: `${fileType}: ${user.fileTypeContribution[fileType]} lines, \
-                            total: ${user.checkedFileTypeContribution} lines (contribution from ${minDate} to \
-                            ${maxDate})`}\
-              })"
+              v-bind:bars="getFileTypeContributionBars(user.fileTypeContribution, user.checkedFileTypeContribution)"
             )
         template(v-else)
           .summary-chart__contrib(
@@ -238,10 +230,7 @@
               ${user.checkedFileTypeContribution} lines`"
           )
             c-stacked-bar-chart(
-              v-bind:bars="getContributionBars(user.checkedFileTypeContribution)\
-                .map((width) => {\
-                  return {width: width};\
-                })"
+              v-bind:bars="getContributionBars(user.checkedFileTypeContribution)"
             )
 </template>
 
@@ -252,7 +241,7 @@ import { mapState } from 'vuex';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
-import { Repo, User } from '../types/types';
+import { Bar, Repo, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
 import { AuthorFileTypeContributions } from '../types/zod/commits-type';
@@ -381,12 +370,15 @@ export default defineComponent({
     this.retrieveSelectedTabHash();
   },
   methods: {
-    getFileTypeContributionBars(fileTypeContribution: AuthorFileTypeContributions): { [key: string]: number[] } {
+    getFileTypeContributionBars(
+      fileTypeContribution: AuthorFileTypeContributions,
+      checkedFileTypeContribution: number | undefined,
+    ): Bar[] {
       let currentBarWidth = 0;
       const fullBarWidth = 100;
       const contributionPerFullBar = (this.avgContributionSize * 2);
 
-      const allFileTypesContributionBars: { [key: string]: number[] } = {};
+      const allFileTypesContributionBars: Bar[] = [];
       if (contributionPerFullBar === 0) {
         return allFileTypesContributionBars;
       }
@@ -418,7 +410,15 @@ export default defineComponent({
             currentBarWidth = remainingBarWidth;
           }
 
-          allFileTypesContributionBars[fileType] = contributionBars;
+          contributionBars.forEach((width) => {
+            allFileTypesContributionBars.push({
+              width,
+              color: this.fileTypeColors[fileType],
+              tooltipText: `${fileType}: ${fileTypeContribution[fileType]} lines, \
+                total: ${checkedFileTypeContribution} lines (contribution from ${this.minDate} to 
+                  ${this.maxDate})`,
+            });
+          });
         });
 
       return allFileTypesContributionBars;
@@ -440,20 +440,20 @@ export default defineComponent({
       return group.reduce((acc, ele) => acc + (ele.checkedFileTypeContribution ?? 0), 0);
     },
 
-    getContributionBars(totalContribution: number): number[] {
-      const res: number[] = [];
+    getContributionBars(totalContribution: number): Bar[] {
+      const res: Bar[] = [];
       const contributionLimit = (this.avgContributionSize * 2);
       if (contributionLimit === 0) {
         return res;
       }
       const cnt = Math.floor(totalContribution / contributionLimit);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
-        res.push(100);
+        res.push({ color: 'red', width: 100 });
       }
 
       const last = (totalContribution % contributionLimit) / contributionLimit;
       if (last !== 0) {
-        res.push(last * 100);
+        res.push({ width: last * 100 });
       }
 
       return res;
@@ -564,7 +564,7 @@ export default defineComponent({
         zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
         zFilterSearch: filterSearch,
-        zAvgContributionSize: this.getAvgContributionSize(user.repoId),
+        zAvgContributionSize: this.getAvgContributionSize(),
       };
       this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
@@ -800,18 +800,16 @@ export default defineComponent({
       return explanation;
     },
 
-    getAvgContributionSize(repoId: string): number {
+    getAvgContributionSize(): number {
       let totalContribution = 0;
       let totalCommits = 0;
 
       this.filteredRepos.forEach((repo) => {
         repo.forEach((user) => {
-          if (user.repoId === repoId) {
-            user.commits?.forEach((commit) => {
-              totalCommits += 1;
-              totalContribution += (commit.insertions + commit.deletions);
-            });
-          }
+          user.commits?.forEach((commit) => {
+            totalCommits += 1;
+            totalContribution += (commit.insertions + commit.deletions);
+          });
         });
       });
 
