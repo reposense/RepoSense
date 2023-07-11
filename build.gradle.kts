@@ -1,5 +1,6 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.Exec
+import com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask
 import org.gradle.api.file.DuplicatesStrategy
 import org.gradle.api.plugins.quality.Checkstyle
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
@@ -75,19 +76,16 @@ sourceSets {
     }
 }
 
-val installFrontend = tasks.register<Exec>("installFrontend") {
-    setCommandLine("cmd")
-
+val installFrontend = tasks.register<ExecutePackageManagerTask>("installFrontend") {
     setWorkingDir("frontend/")
-    setArgs(listOf("/c", "npm", "ci", "--production", "false", "--loglevel", "info", "--progress", "true"))
+    setArgs(listOf("ci"))
 }
 
-val buildFrontend = tasks.register<Exec>("buildFrontend") {
+val buildFrontend = tasks.register<ExecutePackageManagerTask>("buildFrontend") {
     setDependsOn(listOf(installFrontend))
-    setCommandLine("cmd")
 
     setWorkingDir("frontend/")
-    setArgs(listOf("/c", "npm", "run", "devbuild", "--production", "false", "--loglevel", "info", "--progress", "true"))
+    setArgs(listOf("run", "devbuild"))
 }
 
 val zipReport = tasks.register<Zip>("zipReport") {
@@ -183,9 +181,8 @@ tasks.named<ShadowJar>("shadowJar").configure {
     manifest.attributes["Implementation-Version"] = getRepoSenseVersion()
 }
 
-tasks.register<Exec>("lintFrontend") {
+tasks.register<ExecutePackageManagerTask>("lintFrontend") {
     setDependsOn(listOf(installFrontend))
-    setCommandLine("npm.cmd")
 
     setWorkingDir("frontend/")
     setArgs(listOf("run", "lint"))
@@ -268,33 +265,29 @@ val serveTestReportInBackground = tasks.register<JavaExecFork>("serveTestReportI
     waitForPort = 9000
 }
 
-val installCypress = tasks.register<Exec>("installCypress") {
-    setCommandLine("cmd")
-
+val installCypress = tasks.register<ExecutePackageManagerTask>("installCypress") {
     setWorkingDir("frontend/cypress/")
-    setArgs(listOf("/c", "npm", "ci", "--production", "false", "--loglevel", "info", "--progress", "true"))
+    setArgs(listOf("ci"))
 }
 
 tasks.named("serveTestReportInBackground").configure {
     mustRunAfter(installCypress)
 }
 
-tasks.register<Exec>("cypress") {
+tasks.register<ExecutePackageManagerTask>("cypress") {
     dependsOn(listOf(installCypress, serveTestReportInBackground))
-    setCommandLine("cmd")
 
     setWorkingDir("frontend/cypress")
-    setArgs(listOf("/c", "npm", "run-script", "debug", "--production", "false", "--loglevel", "info", "--progress", "true"))
+    setArgs(listOf("run-script", "debug"))
 }
 
-val frontendTest = tasks.register<Exec>("frontendTest") {
+val frontendTest = tasks.register<ExecutePackageManagerTask>("frontendTest") {
     setDependsOn(listOf(installCypress, serveTestReportInBackground))
-    setCommandLine("cmd")
 
     setWorkingDir("frontend/cypress/")
-    setArgs(listOf("/c", "npm", "run-script", "tests", "--production", "false", "--loglevel", "info", "--progress", "true"))
+    setArgs(listOf("run-script", "tests"))
     if (project.hasProperty("ci")) {
-        setArgs(listOf("/c", "npm", "run-script", "ci", "--production", "false", "--loglevel", "info", "--progress", "true"))
+        setArgs(listOf("run-script", "ci"))
     }
 }
 
