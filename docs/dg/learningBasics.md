@@ -226,7 +226,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   Add this to the catch block of `spawnCloneProcess` and `waitForCloneProcess`, so that the message will be captured in `summary.json`.
 
   ```
-  ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), e.getMessage());
+  new ErrorSummary().addErrorMessage(config.getDisplayName(), e.getMessage());
   ```
   </panel>
 

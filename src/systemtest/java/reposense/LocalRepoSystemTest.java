@@ -18,7 +18,6 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.SupportedDomainUrlMap;
 import reposense.parser.SinceDateArgumentType;
-import reposense.report.ErrorSummary;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
@@ -49,7 +48,6 @@ public class LocalRepoSystemTest {
     public void setupLocalTest() throws Exception {
         SupportedDomainUrlMap.clearAccessedSet();
         FileUtil.deleteDirectory(OUTPUT_DIRECTORY);
-        ErrorSummary.getInstance().clearErrorSet();
     }
 
     @AfterEach

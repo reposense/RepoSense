@@ -55,6 +55,8 @@ public class RepoLocation {
     private final transient String outputFolderRepoName;
     private final transient String outputFolderOrganization;
 
+    private final ErrorSummary errorSummary = new ErrorSummary();
+
     /**
      * Creates {@link RepoLocation} based on the {@code location}, which is represented by a {@code URL}
      * or {@link Path}.
@@ -110,6 +112,10 @@ public class RepoLocation {
         return domainName;
     }
 
+    public ErrorSummary getErrorSummary() {
+        return errorSummary;
+    }
+
     /**
      * Returns true if {@code repoArgument} is a valid local repository argument.
      * This implementation follows directly from the {@code git clone}
@@ -159,7 +165,7 @@ public class RepoLocation {
         Matcher localRepoMatcher = localRepoPattern.matcher(location);
 
         if (!localRepoMatcher.matches()) {
-            ErrorSummary.getInstance().addErrorMessage(location,
+            errorSummary.addErrorMessage(location,
                     String.format(MESSAGE_INVALID_LOCATION, location));
             throw new InvalidLocationException(String.format(MESSAGE_INVALID_LOCATION, location));
         }
@@ -185,14 +191,14 @@ public class RepoLocation {
             try {
                 new URI(location);
             } catch (URISyntaxException e) {
-                ErrorSummary.getInstance().addErrorMessage(location,
+                errorSummary.addErrorMessage(location,
                         String.format(MESSAGE_INVALID_REMOTE_URL, location));
                 throw new InvalidLocationException(String.format(MESSAGE_INVALID_REMOTE_URL, location));
             }
         }
         boolean isValidRemoteRepoUrl = remoteRepoMatcher.matches() || sshRepoMatcher.matches();
         if (!isValidRemoteRepoUrl) {
-            ErrorSummary.getInstance().addErrorMessage(location,
+            errorSummary.addErrorMessage(location,
                     String.format(MESSAGE_INVALID_REMOTE_URL, location));
             throw new InvalidLocationException(String.format(MESSAGE_INVALID_REMOTE_URL, location));
         }
