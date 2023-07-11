@@ -448,7 +448,7 @@ export default defineComponent({
       }
       const cnt = Math.floor(totalContribution / contributionLimit);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
-        res.push({ color: 'red', width: 100 });
+        res.push({ width: 100 });
       }
 
       const last = (totalContribution % contributionLimit) / contributionLimit;
