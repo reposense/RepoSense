@@ -296,6 +296,16 @@
       "headingKeywords": {}
     },
     {
+      "src": "ug/grantingWriteAccess.md",
+      "title": "",
+      "headings": {
+        "granting-write-access-to-a-repository": "Granting write-access to a repository",
+        "if-you-wish-to-use-personal-access-token": "If you wish to use personal access token:",
+        "if-you-wish-to-use-deploy-key": "If you wish to use deploy key:"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "ug/index.md",
       "title": "User guide",
       "headings": {
