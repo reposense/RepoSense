@@ -314,17 +314,17 @@ tasks.register<JacocoReport>("coverage").configure {
     classDirectories.from(files(sourceSets.getByName("main").output))
     executionData(systemtest, frontendTest)
 
-    afterEvaluate {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+
+    doLast {
         classDirectories.setFrom(classDirectories.files.forEach { dir: File ->
             fileTree(dir) {
                 exclude("**/*.jar")
             }
         })
-    }
-
-    reports {
-        html.required.set(true)
-        xml.required.set(true)
     }
 }
 
