@@ -308,9 +308,10 @@ tasks.named<JacocoReport>("jacocoTestReport").configure {
 }
 
 tasks.register<JacocoReport>("coverage").configure {
+    val jacocoTestReport = tasks.named<JacocoReport>("jacocoTestReport").get()
     sourceDirectories.from(files(sourceSets.getByName("main").allSource.srcDirs))
     classDirectories.from(files(sourceSets.getByName("main").output))
-    executionData(systemtest, frontendTest)
+    executionData.from(files(jacocoTestReport.executionData))
 
     reports {
         html.required.set(true)
