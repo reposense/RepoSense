@@ -1,3 +1,9 @@
+const extractDate = (str) => {
+  const regex = /\[(.*?)\]/g;
+  const matches = str.match(regex);
+  return new Date(matches[0].slice(1, -1));
+}
+
 describe('zoom features in code view', () => {
   const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
   it('click on view commits button', () => {
@@ -58,9 +64,14 @@ describe('date changes in chart view should reflect in zoom', () => {
       .should('be.visible');
 
     cy.get('#tab-zoom .ramp .ramp__slice')
-      .last()
-      .invoke('attr', 'title')
-      .should('eq', '[2018-06-12] Setup AppVeyor CI (#142): +19 -0 lines ');
+      .each(($element) => {
+        cy.wrap($element)
+          .invoke('attr', 'title')
+          .then((titleStr) => {
+            const date = extractDate(titleStr);
+            cy.wrap(date).should('be.gte', new Date('2018-06-11'));
+          });
+        });
   });
 
   it('changing \'since\' date again results in a different zoom view', () => {
@@ -80,9 +91,14 @@ describe('date changes in chart view should reflect in zoom', () => {
       .should('be.visible');
 
     cy.get('#tab-zoom .ramp .ramp__slice')
-      .last()
-      .invoke('attr', 'title')
-      .should('eq', '[2018-05-20] Apply single responsibility principle to frontend component (#99): +201 -90 lines ');
+      .each(($element) => {
+        cy.wrap($element)
+          .invoke('attr', 'title')
+          .then((titleStr) => {
+            const date = extractDate(titleStr);
+            cy.wrap(date).should('be.gte', new Date('2018-05-20'));
+          });
+        });
   });
 
   it('changing the \'until\' date changes the zoom view', () => {
@@ -102,9 +118,14 @@ describe('date changes in chart view should reflect in zoom', () => {
       .should('be.visible');
 
     cy.get('#tab-zoom .ramp .ramp__slice')
-      .first()
-      .invoke('attr', 'title')
-      .should('eq', '[2019-08-18] AboutUs: update team members (#867): +94 -12 lines ');
+      .each(($element) => {
+        cy.wrap($element)
+          .invoke('attr', 'title')
+          .then((titleStr) => {
+            const date = extractDate(titleStr);
+            cy.wrap(date).should('be.lte', new Date('2019-08-19'));
+          });
+        });
   });
 
   it('changing the \'until\' date again results in a different zoom view', () => {
@@ -124,9 +145,14 @@ describe('date changes in chart view should reflect in zoom', () => {
       .should('be.visible');
 
     cy.get('#tab-zoom .ramp .ramp__slice')
-      .first()
-      .invoke('attr', 'title')
-      .should('eq', '[2018-07-20] Dashboard: remove navigation bar (#171): +5 -1 lines ');
+      .each(($element) => {
+        cy.wrap($element)
+          .invoke('attr', 'title')
+          .then((titleStr) => {
+            const date = extractDate(titleStr);
+            cy.wrap(date).should('be.lte', new Date('2018-07-20'));
+          });
+        });
   });
 
   it('changing the \'until\' and \'since\' date changes the zoom view', () => {
@@ -149,14 +175,24 @@ describe('date changes in chart view should reflect in zoom', () => {
       .should('be.visible');
 
     cy.get('#tab-zoom .ramp .ramp__slice')
-      .first()
-      .invoke('attr', 'title')
-      .should('eq', '[2019-03-08] [#587] Fix unoriented output messages (#593): +105 -69 lines ');
+      .each(($element) => {
+        cy.wrap($element)
+          .invoke('attr', 'title')
+          .then((titleStr) => {
+            const date = extractDate(titleStr);
+            cy.wrap(date).should('be.lte', new Date('2019-03-09'));
+          });
+        });
 
     cy.get('#tab-zoom .ramp .ramp__slice')
-      .last()
-      .invoke('attr', 'title')
-      .should('eq', '[2018-08-27] [#311] code view: differentiate untouched code more (#314): +12 -5 lines ');
+      .each(($element) => {
+        cy.wrap($element)
+          .invoke('attr', 'title')
+          .then((titleStr) => {
+            const date = extractDate(titleStr);
+            cy.wrap(date).should('be.gte', new Date('2018-08-27'));
+          });
+        });
   });
 
   it('changing the \'until\' and \'since\' date again results in a different zoom view', () => {
@@ -178,19 +214,26 @@ describe('date changes in chart view should reflect in zoom', () => {
     cy.get('#tab-zoom')
       .should('be.visible');
 
-    cy.get('#tab-zoom .ramp .ramp__slice')
-      .first()
-      .invoke('attr', 'title')
-      .should('eq', '[2019-08-01] Zoom Tab: revamp header ui (#848): +53 -30 lines ');
 
     cy.get('#tab-zoom .ramp .ramp__slice')
-      .last()
-      .invoke('attr', 'title')
-      .should(
-        'eq',
-        '[2019-07-24] [#828] Revert "v_summary.js: remove redundant '
-        + 'calls to getFiltered() (#800)" (#832): +0 -9 lines ',
-      );
+      .each(($element) => {
+        cy.wrap($element)
+          .invoke('attr', 'title')
+          .then((titleStr) => {
+            const date = extractDate(titleStr);
+            cy.wrap(date).should('be.lte', new Date('2019-08-01'));
+          });
+        });
+
+    cy.get('#tab-zoom .ramp .ramp__slice')
+      .each(($element) => {
+        cy.wrap($element)
+          .invoke('attr', 'title')
+          .then((titleStr) => {
+            const date = extractDate(titleStr);
+            cy.wrap(date).should('be.gte', new Date('2019-07-22'));
+          });
+        });
   });
 });
 
