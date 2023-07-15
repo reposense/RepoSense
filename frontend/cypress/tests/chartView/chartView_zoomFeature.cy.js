@@ -46,11 +46,12 @@ describe('zoom features in code view', () => {
   });
 });
 
+// Assumptions: Contributer 'eugenepeh' is the first result.
 describe('date changes in chart view should reflect in zoom', () => {
   it('changing \'since\' date range changes the zoom view', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('eugene');
+      .type('eugenepeh');
 
     cy.get('input[name="since"]:visible')
       .type('2018-06-11');
@@ -73,11 +74,11 @@ describe('date changes in chart view should reflect in zoom', () => {
           });
         });
   });
-
+  // Assumptions: Contributer 'yong24s' is the first result.
   it('changing \'since\' date again results in a different zoom view', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('yong hao');
+      .type('yong24s');
 
     cy.get('input[name="since"]:visible')
       .type('2018-05-20');
@@ -101,10 +102,11 @@ describe('date changes in chart view should reflect in zoom', () => {
         });
   });
 
+  // Assumptions: Contributer 'eugenepeh' is the first result.
   it('changing the \'until\' date changes the zoom view', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('eugene');
+      .type('eugenepeh');
 
     cy.get('input[name="until"]:visible')
       .type('2019-08-19');
@@ -128,10 +130,11 @@ describe('date changes in chart view should reflect in zoom', () => {
         });
   });
 
+  // Assumptions: Contributer 'ongspxm' is the first result.
   it('changing the \'until\' date again results in a different zoom view', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('metta');
+      .type('ongspxm');
 
     cy.get('input[name="until"]:visible')
       .type('2018-07-20');
@@ -154,11 +157,12 @@ describe('date changes in chart view should reflect in zoom', () => {
           });
         });
   });
-
+  
+  // Assumptions: Contributer 'eugenepeh' is the first result.
   it('changing the \'until\' and \'since\' date changes the zoom view', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('eugene');
+      .type('eugenepeh');
 
     cy.get('input[name="since"]:visible')
       .type('2018-08-27');
@@ -195,10 +199,11 @@ describe('date changes in chart view should reflect in zoom', () => {
         });
   });
 
+  // Assumptions: Contributer 'jamessspanggg' is the first result.
   it('changing the \'until\' and \'since\' date again results in a different zoom view', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('james');
+      .type('jamessspanggg');
 
     cy.get('input[name="since"]:visible')
       .type('2019-07-22');
@@ -240,10 +245,12 @@ describe('date changes in chart view should reflect in zoom', () => {
 describe('range changes in chartview should reflect in zoom', () => {
   const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
 
+  // Assumptions: Contributer 'jamessspanggg' is the first result
+  // and does not add more commits in the future. 
   it('selecting the initial righthand and lefthand boundary', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('james');
+      .type('jamessspanggg');
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
@@ -263,10 +270,12 @@ describe('range changes in chartview should reflect in zoom', () => {
       .should('eq', '[2019-12-20] [#46] Show total time after batch processing (#758): +43 -0 lines ');
   });
 
+  // Assumptions: Contributer 'jamessspanggg' is the first result
+  // and does not add more commits in the future.   
   it('changing the righthand boundary', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('james');
+      .type('jamessspanggg');
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
@@ -286,10 +295,12 @@ describe('range changes in chartview should reflect in zoom', () => {
       .should('eq', '[2019-12-20] [#46] Show total time after batch processing (#758): +43 -0 lines ');
   });
 
+  // Assumptions: Contributer 'jamessspanggg' is the first result
+  // and does not add more commits in the future.   
   it('changing the lefthand boundary', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('james');
+      .type('jamessspanggg');
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
@@ -310,10 +321,12 @@ describe('range changes in chartview should reflect in zoom', () => {
       + 'date to each LoC if specified (#1348): +165 -76 lines ');
   });
 
+  // Assumptions: Contributer 'jamessspanggg' is the first result
+  // and does not add more commits in the future.   
   it('changing the righthand and lefthand boundary', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
-      .type('james');
+      .type('jamessspanggg');
 
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
