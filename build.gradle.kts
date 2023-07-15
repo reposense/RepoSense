@@ -215,7 +215,7 @@ val systemtest = tasks.register<Test>("systemtest") {
     testClassesDirs = sourceSets["systemtest"].output.classesDirs
     classpath = sourceSets["systemtest"].runtimeClasspath
 
-    systemProperty("REPOSENSE_ENVIRONMENT", "TEST")
+    environment("REPOSENSE_ENVIRONMENT", "TEST")
 
     testLogging {
         events("passed", "skipped", "failed")
