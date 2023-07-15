@@ -363,16 +363,6 @@ export default defineComponent({
           });
         });
 
-      // Pad with transparent bars to prevent overflowing bars
-      // from sticking to message title of subsequent commits
-      /*
-        const transparentBars = [];
-        transparentBars.push(100 - currentBarWidth);
-        for (let i = 0; i < 3; i += 1) {
-          transparentBars.push(100);
-        }
-        allContributionBars.transparent = transparentBars;
-      */
       return allContributionBars;
     },
 
