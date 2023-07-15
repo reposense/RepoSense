@@ -28,7 +28,7 @@ The section below provides explanations for each of the flags.
 
 ### `--assets`, `-a`
 
-<div id="section-config">
+<div id="section-assets">
 
 **`--assets ASSETS_DIRECTORY`**: Specifies where to place assets for report generation.
 * Parameter: `ASSETS_DIRECTORY` The directory containing the assets files. A `favicon.ico` file can be placed here to customize the favicon of the dashboard.
@@ -56,6 +56,7 @@ The section below provides explanations for each of the flags.
 
 * Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
+* Config files must follow [this](./configFiles.html) format.
 </box>
 </div>
 
