@@ -245,8 +245,8 @@ describe('range changes in chartview should reflect in zoom', () => {
   const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
-  // he does not add more commits in the future, and the sort feature iworking
-  // as expected.
+  // he does not add more commits in the future,
+  // and the sort feature is working as expected.
   it('selecting the initial righthand and lefthand boundary', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
