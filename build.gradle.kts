@@ -41,8 +41,6 @@ repositories {
     mavenCentral()
 }
 
-val testRuntime = configurations.create("testRuntime")
-
 val systemtestImplementation = configurations.create("systemtestImplementation")
 val systemtestRuntime = configurations.create("systemtestRuntime")
 
@@ -51,7 +49,7 @@ configurations {
         extendsFrom(configurations.getByName("testImplementation"))
     }
     named("systemtestRuntime") {
-        extendsFrom(configurations.getByName("testRuntime"))
+        extendsFrom(configurations.getByName("testRuntimeClasspath"))
     }
 }
 
