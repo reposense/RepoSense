@@ -67,8 +67,8 @@ dependencies {
 
 sourceSets {
     val systemtest by creating {
-        compileClasspath += sourceSets.getByName("main").output + sourceSets.getByName("test").output
-        runtimeClasspath += sourceSets.getByName("main").output + sourceSets.getByName("test").output
+        compileClasspath += sourceSets["main"].output + sourceSets["test"].output
+        runtimeClasspath += sourceSets["main"].output + sourceSets["test"].output
         java.srcDir("src/systemtest/java")
         resources.srcDir("src/systemtest/resources")
     }
@@ -111,7 +111,7 @@ val copyMainClasses = tasks.register<Copy>("copyMainClasses") {
 
 val compileJava = tasks.compileJava
 
-tasks.named<ProcessResources>("processSystemtestResources").configure {
+tasks.named<ProcessResources>("processSystemtestResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
@@ -131,7 +131,7 @@ checkstyle {
 
 idea {
     module {
-        sourceSets {
+        sourceSets{
             named("systemtest") {
                 allSource.srcDirs.forEach { srcDir ->
                     testSourceDirs = testSourceDirs.plus(srcDir)
@@ -141,8 +141,8 @@ idea {
     }
 }
 
-tasks.test {
-    systemProperty("REPOSENSE_ENVIRONMENT", "TEST")
+tasks.named<Test>("test") {
+    environment("REPOSENSE_ENVIRONMENT", "TEST")
 
     testLogging {
         events("passed", "skipped", "failed")
@@ -190,11 +190,11 @@ val checkstyleMain = tasks.named("checkstyleMain")
 val checkstyleTest = tasks.named("checkstyleTest")
 val checkstyleSystemtest = tasks.named("checkstyleSystemtest")
 
-tasks.named("checkstyleTest").configure {
+tasks.named<Checkstyle>("checkstyleTest").configure {
     mustRunAfter(checkstyleMain)
 }
 
-tasks.named("checkstyleSystemtest").configure {
+tasks.named<Checkstyle>("checkstyleSystemtest").configure {
     mustRunAfter(checkstyleTest)
 }
 
@@ -212,8 +212,8 @@ tasks.register<Exec>("environmentalChecks") {
 }
 
 val systemtest = tasks.register<Test>("systemtest") {
-    testClassesDirs = sourceSets.getByName("systemtest").output.classesDirs
-    classpath = sourceSets.getByName("systemtest").runtimeClasspath
+    testClassesDirs = sourceSets["systemtest"].output.classesDirs
+    classpath = sourceSets["systemtest"].runtimeClasspath
 
     systemProperty("REPOSENSE_ENVIRONMENT", "TEST")
 
@@ -387,4 +387,4 @@ fun deleteReposAddressDirectory() {
     reposDirectory.deleteRecursively()
 }
 
-defaultTasks("clean", "build", "systemTest", "frontendTest", "coverage")
+defaultTasks("clean", "build", "systemtest", "frontendTest", "coverage")
