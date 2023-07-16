@@ -310,7 +310,7 @@ tasks.named<JacocoReport>("jacocoTestReport").configure {
 tasks.register<JacocoReport>("coverage")
 
 tasks.named<JacocoReport>("coverage").configure {
-    dependsOn(tasks.named<JacocoReport>("jacocoTestReport"))
+    dependsOn(systemtest, frontendTest)
 
     val jacocoTestReport = tasks.named<JacocoReport>("jacocoTestReport").get()
     sourceDirectories.from(files(sourceSets.getByName("main").allSource.srcDirs))
