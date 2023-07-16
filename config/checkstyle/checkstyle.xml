@@ -15,8 +15,6 @@
     <!-- Checks that there are no tab characters in the file. -->
   </module>
 
-
-
   <module name="NewlineAtEndOfFile">
     <!-- Accept LF, CR or CRLF to accomodate devs who prefer different line endings -->
     <property name="lineSeparator" value="lf_cr_crlf"/>
@@ -39,19 +37,6 @@
 
   <!-- All Java AST specific tests live under TreeWalker module. -->
   <module name="TreeWalker">
-
-    <!-- Checks that the default is after all the cases in a switch statement. -->
-    <module name="DefaultComesLast"/>
-
-    <!-- Checks that the default is after all the cases in a switch statement. -->
-    <module name="JavadocTagContinuationIndentation">
-      <property name="offset" value="0"/>
-      <property name="violateExecutionOnNonTightHtml" value="true"/>
-    </module>
-
-    <!-- Checks that there is no whitespace before the colon in a switch block. -->
-    <module name="NoWhitespaceBeforeCaseDefaultColon"/>
-
     <!-- Required to allow exceptions in code style -->
     <module name="SuppressionCommentFilter">
       <property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)"/>
@@ -232,6 +217,9 @@
     ORDER CHECKS
     -->
 
+    <!-- Checks that the default is after all the cases in a switch statement. -->
+    <module name="DefaultComesLast"/>
+
     <!-- Checks that the order of at-clauses follows the tagOrder default property value order.
          @author, @version, @param, @return, @throws, @exception, @see, @since, @serial, @serialField, @serialData, @deprecated
     -->
@@ -258,6 +246,9 @@
     <!--
     WHITESPACE CHECKS
     -->
+
+    <!-- Checks that there is no whitespace before the colon in a switch block. -->
+    <module name="NoWhitespaceBeforeCaseDefaultColon"/>
 
     <!-- Checks that comments are indented relative to their position in the code -->
     <module name="CommentsIndentation"/>
@@ -371,6 +362,12 @@
 
     <!-- Checks that all Javadoc comments start from the second line. -->
     <module name="JavadocContentLocationCheck" />
+
+    <!-- Checks the indentation of the continuation lines in block tags. -->
+    <module name="JavadocTagContinuationIndentation">
+      <property name="offset" value="0"/>
+      <property name="violateExecutionOnNonTightHtml" value="true"/>
+    </module>
 
     <!-- Checks the Javadoc's format for every method (excluding getters, setters and constructors). -->
     <module name="JavadocMethod">
