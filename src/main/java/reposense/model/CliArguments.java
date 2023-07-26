@@ -490,8 +490,8 @@ public class CliArguments {
          */
         public Builder configFolderPath(Path configFolderPath) {
             this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
-                ? configFolderPath.toAbsolutePath()
-                : configFolderPath;
+                    ? configFolderPath.toAbsolutePath()
+                    : configFolderPath;
             this.repoConfigFilePath = configFolderPath.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
             this.authorConfigFilePath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
             this.groupConfigFilePath = configFolderPath.resolve(GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
