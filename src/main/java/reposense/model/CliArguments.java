@@ -35,9 +35,10 @@ public class CliArguments {
     private final int numAnalysisThreads;
     private final ZoneId zoneId;
     private final boolean isFindingPreviousAuthorsPerformed;
+    private final boolean isAuthorshipAnalyzed;
+
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
-
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -79,6 +80,7 @@ public class CliArguments {
         this.groupConfigFilePath = builder.groupConfigFilePath;
         this.reportConfigFilePath = builder.reportConfigFilePath;
         this.reportConfiguration = builder.reportConfiguration;
+        this.isAuthorshipAnalyzed = builder.isAuthorshipAnalyzed;
     }
 
     public ZoneId getZoneId() {
@@ -189,6 +191,10 @@ public class CliArguments {
         return isViewModeOnly;
     }
 
+    public boolean isAuthorshipAnalyzed() {
+        return isAuthorshipAnalyzed;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -260,6 +266,7 @@ public class CliArguments {
         private Path groupConfigFilePath;
         private Path reportConfigFilePath;
         private ReportConfiguration reportConfiguration;
+        private boolean isAuthorshipAnalyzed;
 
         public Builder() {
         }
@@ -499,6 +506,16 @@ public class CliArguments {
          */
         public Builder reportConfiguration(ReportConfiguration reportConfiguration) {
             this.reportConfiguration = reportConfiguration;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isAuthorshipAnalyzed} to CliArguments.
+         *
+         * @param isAuthorshipAnalyzed Is authorship analyzed.
+         */
+        public Builder isAuthorshipAnalyzed(boolean isAuthorshipAnalyzed) {
+            this.isAuthorshipAnalyzed = isAuthorshipAnalyzed;
             return this;
         }
 

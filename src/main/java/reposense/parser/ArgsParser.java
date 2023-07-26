@@ -298,7 +298,8 @@ public class ArgsParser {
                     .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors)
                     .numCloningThreads(numCloningThreads)
                     .numAnalysisThreads(numAnalysisThreads)
-                    .isTestMode(isTestMode);
+                    .isTestMode(isTestMode)
+                    .isAuthorshipAnalyzed(isAuthorshipAnalyzed);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
