@@ -526,7 +526,7 @@ public class ArgsParserTest {
 
     @Test
     public void emptyArgs_defaultConfigFolderPath() throws Exception {
-        CliArguments cliArguments = ArgsParser.parse(new String[]{});
+        CliArguments cliArguments = ArgsParser.parse(new String[] {});
 
         Assertions.assertEquals(CONFIG_DIRECTORY.toString(), cliArguments.getConfigFolderPath().toString());
     }
@@ -671,7 +671,7 @@ public class ArgsParserTest {
     @Test
     public void parse_incorrectTimezone_throwsParseException() {
         String input = DEFAULT_INPUT_BUILDER.addTimezone("UTC+").build();
-        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));;
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
     }
 
     @Test

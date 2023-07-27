@@ -8,7 +8,7 @@ import reposense.parser.ArgsParser;
 /**
  * A utility class to help with building command line input.
  * Example usage: <br>
- *     {@code String input = new InputBuilder().addSinceDate("27/01/2017").build();}
+ * {@code String input = new InputBuilder().addSinceDate("27/01/2017").build();}
  */
 public class InputBuilder {
     private static final String WHITESPACE = " ";
