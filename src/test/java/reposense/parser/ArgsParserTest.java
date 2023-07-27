@@ -696,6 +696,32 @@ public class ArgsParserTest {
         Assertions.assertEquals(true, cliArgumentsShallow.isShallowCloningPerformed());
     }
 
+    @Test
+    public void parse_withAnalyzeAuthorship_success() throws Exception {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .addAnalyzeAuthorship()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        String inputWithAlias = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .add("-A")
+                .build();
+        CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
+
+        Assertions.assertTrue(cliArguments.isAuthorshipAnalyzed());
+        Assertions.assertTrue(cliArgumentsWithAlias.isAuthorshipAnalyzed());
+
+        Assertions.assertEquals(cliArguments, cliArgumentsWithAlias);
+    }
+
+    @Test
+    public void parse_withoutAnalyzeAuthorship_success() throws Exception {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_BETA).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assertions.assertFalse(cliArguments.isAuthorshipAnalyzed());
+    }
+
     /**
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
      *

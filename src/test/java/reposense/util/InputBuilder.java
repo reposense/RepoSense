@@ -251,6 +251,15 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the flag to enable authorship analysis.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addAnalyzeAuthorship() {
+        input.append(ArgsParser.ANALYZE_AUTHORSHIP_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {
