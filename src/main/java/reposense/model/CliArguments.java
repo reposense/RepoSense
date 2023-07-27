@@ -232,7 +232,8 @@ public class CliArguments {
                 && Objects.equals(this.repoConfigFilePath, otherCliArguments.repoConfigFilePath)
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
                 && Objects.equals(this.groupConfigFilePath, otherCliArguments.groupConfigFilePath)
-                && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath);
+                && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
+                && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed;
     }
 
     /**
