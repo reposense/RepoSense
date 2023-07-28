@@ -297,7 +297,6 @@
     },
     {
       "src": "ug/grantingWriteAccess.md",
-      "title": "",
       "headings": {
         "granting-write-access-to-a-repository": "Granting write-access to a repository",
         "if-you-wish-to-use-personal-access-token": "If you wish to use personal access token:",
@@ -318,7 +317,6 @@
     },
     {
       "src": "ug/runSh.md",
-      "title": "",
       "headings": {
         "appendix-run-sh-format": "Appendix: run.sh format",
         "customizing-the-reposense-command": "Customizing the RepoSense command",
