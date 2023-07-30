@@ -117,7 +117,7 @@ public class ReportGenerator {
             ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
-            boolean shouldFreshClone) throws IOException {
+            boolean shouldFreshClone, boolean shouldAnalyzeAuthorship) throws IOException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
@@ -127,7 +127,7 @@ public class ReportGenerator {
         progressTracker = new ProgressTracker(configs.size());
 
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath,
-                numCloningThreads, numAnalysisThreads, shouldFreshClone);
+                numCloningThreads, numAnalysisThreads, shouldFreshClone, shouldAnalyzeAuthorship);
 
         LocalDateTime reportSinceDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId))
                 ? earliestSinceDate : cliSinceDate;
@@ -188,8 +188,8 @@ public class ReportGenerator {
      *
      * @return A list of paths to the JSON report files generated for each repository.
      */
-    private List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath,
-            int numCloningThreads, int numAnalysisThreads, boolean shouldFreshClone) {
+    private List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath, int numCloningThreads,
+            int numAnalysisThreads, boolean shouldFreshClone, boolean shouldAnalyzeAuthorship) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
 
@@ -212,7 +212,9 @@ public class ReportGenerator {
             // Note that the `analyzeExecutor` is passed as a parameter to ensure that the number of threads used
             // for analysis is no more than `numAnalysisThreads`.
             CompletableFuture<AnalyzeJobOutput> analyzeFuture = cloneFuture.thenApplyAsync(
-                    cloneJobOutput -> analyzeRepos(outputPath, configsToAnalyze, cloneJobOutput), analyzeExecutor);
+                    cloneJobOutput -> analyzeRepos(outputPath, configsToAnalyze, cloneJobOutput,
+                            shouldAnalyzeAuthorship),
+                    analyzeExecutor);
 
             analyzeJobFutures.add(analyzeFuture);
         }
@@ -277,7 +279,7 @@ public class ReportGenerator {
      * successful, the list of {@code generatedFiles} by the analysis and a list of {@code analysisErrors} encountered.
      */
     private AnalyzeJobOutput analyzeRepos(String outputPath, List<RepoConfiguration> configsToAnalyze,
-            CloneJobOutput cloneJobOutput) {
+            CloneJobOutput cloneJobOutput, boolean shouldAnalyzeAuthorship) {
         RepoLocation location = cloneJobOutput.getLocation();
         boolean cloneSuccessful = cloneJobOutput.isCloneSuccessful();
 
@@ -303,7 +305,8 @@ public class ReportGenerator {
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get("."), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
-                generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
+                generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString(),
+                        shouldAnalyzeAuthorship));
             } catch (IOException ioe) {
                 String logMessage = String.format(MESSAGE_ERROR_CREATING_DIRECTORY,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch());
@@ -339,8 +342,8 @@ public class ReportGenerator {
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      * @throws NoAuthorsWithCommitsFoundException if there are no authors with commits found for the repo.
      */
-    private List<Path> analyzeRepo(RepoConfiguration config, String repoReportDirectory)
-            throws NoAuthorsWithCommitsFoundException {
+    private List<Path> analyzeRepo(RepoConfiguration config, String repoReportDirectory,
+            boolean shouldAnalyzeAuthorship) throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
@@ -351,7 +354,8 @@ public class ReportGenerator {
         }
 
         AuthorshipReporter authorshipReporter = new AuthorshipReporter();
-        AuthorshipSummary authorshipSummary = authorshipReporter.generateAuthorshipSummary(config);
+        AuthorshipSummary authorshipSummary = authorshipReporter.generateAuthorshipSummary(config,
+                shouldAnalyzeAuthorship);
 
         CommitsReporter commitsReporter = new CommitsReporter();
         CommitContributionSummary commitSummary = commitsReporter.generateCommitSummary(config);

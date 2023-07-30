@@ -33,7 +33,7 @@ public class AuthorshipReporter {
     /**
      * Generates and returns the authorship summary for each repo in {@code config}.
      */
-    public AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config) {
+    public AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config, boolean shouldAnalyzeAuthorship) {
         List<FileInfo> textFileInfos = fileInfoExtractor.extractTextFileInfos(config);
 
         int numFiles = textFileInfos.size();
