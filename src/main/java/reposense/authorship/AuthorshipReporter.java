@@ -32,6 +32,7 @@ public class AuthorshipReporter {
 
     /**
      * Generates and returns the authorship summary for each repo in {@code config}.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
      */
     public AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config, boolean shouldAnalyzeAuthorship) {
         List<FileInfo> textFileInfos = fileInfoExtractor.extractTextFileInfos(config);

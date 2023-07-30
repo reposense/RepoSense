@@ -110,8 +110,9 @@ public class ReportGenerator {
      * @param reportGenerationTimeProvider Supplier for time taken to generate the report.
      * @param zoneId The timezone to adjust all date-times to.
      * @param shouldFreshClone The boolean variable for whether to clone a repo again during tests.
+     * @param shouldAnalyzeAuthorship The boolean variable for whether to further analyze authorship.
      * @return the list of file paths that were generated.
-     * @throws IOException if templateZip.zip does not exists in jar file.
+     * @throws IOException if templateZip.zip does not exist in jar file.
      */
     public List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
             ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
@@ -185,6 +186,7 @@ public class ReportGenerator {
      * To turn off multi-threading, run the program with the flags
      * {@code --cloning-threads 1 --analysis-threads 1}.
      * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
      *
      * @return A list of paths to the JSON report files generated for each repository.
      */
@@ -274,6 +276,7 @@ public class ReportGenerator {
     /**
      * Analyzes all repos in {@code configsToAnalyze} and generates their report at {@code outputPath}.
      * Uses {@code cloneJobOutput} to find repo location, default branch and whether cloning was successful.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
      *
      * @return An {@link AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, the list of {@code generatedFiles} by the analysis and a list of {@code analysisErrors} encountered.
@@ -338,6 +341,7 @@ public class ReportGenerator {
 
     /**
      * Analyzes repo specified by {@code config} and generates the report at {@code repoReportDirectory}.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
      *
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      * @throws NoAuthorsWithCommitsFoundException if there are no authors with commits found for the repo.
