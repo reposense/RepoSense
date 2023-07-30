@@ -238,7 +238,7 @@ public class ReportGenerator {
         List<RepoLocation> cloneFailLocations = jobOutputs
                 .stream()
                 .filter(jobOutput -> !jobOutput.isCloneSuccessful())
-                .map(jobOutput -> jobOutput.getLocation())
+                .map(AnalyzeJobOutput::getLocation)
                 .collect(Collectors.toList());
         cloneFailLocations.forEach(location -> handleCloningFailed(configs, location));
 
@@ -285,24 +285,23 @@ public class ReportGenerator {
             CloneJobOutput cloneJobOutput, boolean shouldAnalyzeAuthorship) {
         RepoLocation location = cloneJobOutput.getLocation();
         boolean cloneSuccessful = cloneJobOutput.isCloneSuccessful();
-
         List<Path> generatedFiles = new ArrayList<>();
         List<AnalysisErrorInfo> analysisErrors = new ArrayList<>();
         RepoCloner repoCloner = new RepoCloner();
+
         if (!cloneSuccessful) {
             repoCloner.cleanupRepo(configsToAnalyze.get(0));
             return new AnalyzeJobOutput(location, cloneSuccessful, generatedFiles, analysisErrors);
         }
-        Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
-        while (itr.hasNext()) {
+
+        for (RepoConfiguration configToAnalyze : configsToAnalyze) {
             progressTracker.incrementProgress();
-            RepoConfiguration configToAnalyze = itr.next();
             configToAnalyze.updateBranch(cloneJobOutput.getDefaultBranch());
 
             Path repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
-            logger.info(
-                    String.format(progressTracker.getProgress() + " "
-                            + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
+            logger.info(String.format(progressTracker.getProgress() + " " + MESSAGE_START_ANALYSIS,
+                    configToAnalyze.getLocation(), configToAnalyze.getBranch()));
+
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get("."), configToAnalyze);
@@ -335,6 +334,7 @@ public class ReportGenerator {
                         String.format(LOG_UNEXPECTED_ERROR, configToAnalyze.getLocation(), sw.toString())));
             }
         }
+
         repoCloner.cleanupRepo(configsToAnalyze.get(0));
         return new AnalyzeJobOutput(location, cloneSuccessful, generatedFiles, analysisErrors);
     }

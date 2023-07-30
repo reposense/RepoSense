@@ -11,7 +11,6 @@ import reposense.authorship.model.FileResult;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
-
 /**
  * Generates the authorship summary data for each repository.
  */
@@ -29,7 +28,6 @@ public class AuthorshipReporter {
     private final FileInfoAnalyzer fileInfoAnalyzer = new FileInfoAnalyzer();
     private final FileResultAggregator fileResultAggregator = new FileResultAggregator();
 
-
     /**
      * Generates and returns the authorship summary for each repo in {@code config}.
      * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
@@ -39,7 +37,7 @@ public class AuthorshipReporter {
 
         int numFiles = textFileInfos.size();
         int totalNumLines = textFileInfos.stream()
-                .mapToInt(fileInfo -> fileInfo.getNumOfLines())
+                .mapToInt(FileInfo::getNumOfLines)
                 .sum();
 
         if (totalNumLines > HIGH_NUMBER_LINES_THRESHOLD) {
