@@ -73,6 +73,19 @@ public class FileInfoAnalyzer {
     }
 
     /**
+     * Overloading method for test cases.
+     * <br>
+     * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
+     * by {@code config}, without further analyzing the authorship of each line in the commit.
+     * Does not further analyze the authorship of each line in the commit.
+     * Returns null if the file is missing from the local system, or none of the
+     * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     */
+    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
+        return analyzeTextFile(config, fileInfo, false);
+    }
+
+    /**
      * Analyzes the binary file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
      * Returns null if the file is missing from the local system, or none of the
