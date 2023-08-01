@@ -47,7 +47,7 @@ public class FileInfoAnalyzer {
      * Returns null if the file is missing from the local system, or none of the
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
+    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo, boolean shouldAnalyzeAuthorship) {
         String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
@@ -59,7 +59,7 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo);
+        aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo, shouldAnalyzeAuthorship);
         fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
         AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorConfig());
@@ -100,9 +100,8 @@ public class FileInfoAnalyzer {
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
 
-        return FileResult.createTextFileResult(
-            fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap,
-            fileInfo.exceedsFileLimit());
+        return FileResult.createTextFileResult(fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(),
+                authorContributionMap, fileInfo.exceedsFileLimit());
     }
 
     /**
@@ -140,7 +139,8 @@ public class FileInfoAnalyzer {
      * in determining which author to assign to each line and whether to set the last modified date for a
      * {@code lineInfo}.
      */
-    private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo) {
+    private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo,
+            boolean shouldAnalyzeAuthorship) {
         String blameResults;
 
         if (!config.isFindingPreviousAuthorsPerformed()) {

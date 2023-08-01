@@ -45,7 +45,7 @@ public class AuthorshipReporter {
         }
 
         List<FileResult> fileResults = textFileInfos.stream()
-                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo))
+                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo, shouldAnalyzeAuthorship))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
