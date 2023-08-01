@@ -44,6 +44,7 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
      * Returns null if the file is missing from the local system, or none of the
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
@@ -138,6 +139,7 @@ public class FileInfoAnalyzer {
      * The {@code config} is used to obtain the root directory for running git blame as well as other parameters used
      * in determining which author to assign to each line and whether to set the last modified date for a
      * {@code lineInfo}.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
      */
     private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo,
             boolean shouldAnalyzeAuthorship) {
