@@ -5,12 +5,12 @@
   .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
     a(
       v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
-      v-on:click="toggleAllCommitMessagesBody(true)"
-    ) show all commit messages
+      v-on:click="toggleAllCommitMessagesBody(true); toggleDiffstatView(true);"
+    ) show all commit details
     a(
       v-if="expandedCommitMessagesCount > 0",
-      v-on:click="toggleAllCommitMessagesBody(false)"
-    ) hide all commit messages
+      v-on:click="toggleAllCommitMessagesBody(false); toggleDiffstatView(false);"
+    ) hide all commit details
   .panel-heading
     .group-name
       span(
@@ -101,7 +101,7 @@
         .within-border {{ slice.messageTitle.substr(0, 50) }}
         .not-within-border(v-if="slice.messageTitle.length > 50")
           |{{ slice.messageTitle.substr(50) }}
-      span &nbsp; (+{{ slice.insertions }} -{{ slice.deletions }} lines) &nbsp;
+      span(data-cy="changes") &nbsp; (+{{ slice.insertions }} -{{ slice.deletions }} lines) &nbsp;
       .hash
         span {{ slice.hash.substr(0, 7) }}
       span.fileTypeLabel(
@@ -132,6 +132,12 @@
       .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
         pre {{ slice.messageBody }}
           .dashed-border
+      template(
+        v-if="showDiffstat"
+      )
+        c-stacked-bar-chart(
+          v-bind:bars="getContributionBars(slice)"
+        )
 </template>
 
 <script lang="ts">
@@ -140,8 +146,10 @@ import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from '../components/c-ramp.vue';
+import cStackedBarChart from '../components/c-stacked-bar-chart.vue';
 import User from '../utils/user';
 import {
+  Bar,
   Commit,
   CommitResult,
   DailyCommit,
@@ -153,6 +161,7 @@ import { StoreState } from '../types/vuex.d';
 function zoomInitialState() {
   return {
     showAllCommitMessageBody: true,
+    showDiffstat: true,
     commitsSortType: CommitsSortType.Time,
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
@@ -166,6 +175,7 @@ export default defineComponent({
   components: {
     FontAwesomeIcon,
     cRamp,
+    cStackedBarChart,
   },
   mixins: [brokenLinkDisabler],
   data() {
@@ -300,6 +310,62 @@ export default defineComponent({
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
+    getContributionBars(slice: CommitResult): Bar[] {
+      let currentBarWidth = 0;
+      const fullBarWidth = 100;
+
+      let avgContributionSize = this.info.zAvgContributionSize;
+      if (avgContributionSize === undefined || avgContributionSize > 1000) {
+        avgContributionSize = 1000;
+      }
+
+      const contributionPerFullBar = avgContributionSize;
+
+      const diffstatMappings: { [key: string]: number } = { limegreen: slice.insertions, red: slice.deletions };
+      const allContributionBars: Bar[] = [];
+
+      if (contributionPerFullBar === 0) {
+        return allContributionBars;
+      }
+
+      Object.keys(diffstatMappings)
+        .forEach((color) => {
+          const contribution = diffstatMappings[color];
+          let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
+          const contributionBars = [];
+
+          // if contribution bar for file type is able to fit on the current line
+          if (currentBarWidth + barWidth < fullBarWidth) {
+            contributionBars.push(barWidth);
+            currentBarWidth += barWidth;
+          } else {
+            // take up all the space left on the current line
+            contributionBars.push(fullBarWidth - currentBarWidth);
+            barWidth -= fullBarWidth - currentBarWidth;
+            // additional bar width will start on a new line
+            const numOfFullBars = Math.floor(barWidth / fullBarWidth);
+            for (let i = 0; i < numOfFullBars; i += 1) {
+              contributionBars.push(fullBarWidth);
+            }
+            const remainingBarWidth = barWidth % fullBarWidth;
+            if (remainingBarWidth > 0) {
+              contributionBars.push(remainingBarWidth);
+            }
+            currentBarWidth = remainingBarWidth;
+          }
+
+          contributionBars.forEach((width) => {
+            const bar = {
+              color,
+              width,
+            };
+            allContributionBars.push(bar);
+          });
+        });
+
+      return allContributionBars;
+    },
+
     getSliceLink(slice: CommitResult): string | undefined {
       if (this.info.zIsMerged) {
         return window.getCommitLink(slice.repoId, slice.hash);
@@ -391,6 +457,10 @@ export default defineComponent({
         isOpen,
         commits: this.selectedCommits,
       });
+    },
+
+    toggleDiffstatView(isVisible: boolean) {
+      this.showDiffstat = isVisible;
     },
 
     removeZoomHashes() {
