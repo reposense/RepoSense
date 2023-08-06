@@ -41,10 +41,6 @@ public class LineInfo {
         return content;
     }
 
-    public void setTracked(boolean isTracked) {
-        this.isTracked = isTracked;
-    }
-
     public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
@@ -55,6 +51,10 @@ public class LineInfo {
 
     public boolean isTracked() {
         return isTracked;
+    }
+
+    public void setTracked(boolean isTracked) {
+        this.isTracked = isTracked;
     }
 
     public boolean isFullCredit() {
@@ -81,8 +81,8 @@ public class LineInfo {
                 && content.equals(otherLineInfo.content)
                 && isTracked == otherLineInfo.isTracked
                 && ((lastModifiedDate == null && otherLineInfo.lastModifiedDate == null)
-                || lastModifiedDate.equals(otherLineInfo.lastModifiedDate))
+                || (lastModifiedDate != null && otherLineInfo.lastModifiedDate != null
+                && lastModifiedDate.equals(otherLineInfo.lastModifiedDate)))
                 && isFullCredit == otherLineInfo.isFullCredit;
     }
 }
-

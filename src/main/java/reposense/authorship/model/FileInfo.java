@@ -73,12 +73,12 @@ public class FileInfo {
         this.fileSize = fileSize;
     }
 
-    public void setFileAnalyzed(boolean isFileAnalyzed) {
-        this.isFileAnalyzed = isFileAnalyzed;
-    }
-
     public boolean isFileAnalyzed() {
         return isFileAnalyzed;
+    }
+
+    public void setFileAnalyzed(boolean isFileAnalyzed) {
+        this.isFileAnalyzed = isFileAnalyzed;
     }
 
     public boolean exceedsFileLimit() {

@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
+import reposense.authorship.analyzer.AuthorshipAnalyzer;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
@@ -174,14 +175,14 @@ public class FileInfoAnalyzer {
             String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
-            Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
+            long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
             LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(commitDateInMs),
                     config.getZoneId());
             Author author = config.getAuthor(authorName, authorEmail);
 
             if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
-                    || commitDate.compareTo(sinceDate) < 0 || commitDate.compareTo(untilDate) > 0) {
+                    || commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
                 author = Author.UNKNOWN_AUTHOR;
             }
 
