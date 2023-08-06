@@ -13,6 +13,7 @@ public class LineInfo {
     private Author author;
     private String content;
     private LocalDateTime lastModifiedDate;
+    private boolean isFullCredit;
 
     private transient boolean isTracked;
 
@@ -21,6 +22,7 @@ public class LineInfo {
         this.content = content;
 
         isTracked = true;
+        isFullCredit = false;
     }
 
     public Author getAuthor() {
@@ -55,6 +57,14 @@ public class LineInfo {
         return isTracked;
     }
 
+    public boolean isFullCredit() {
+        return isFullCredit;
+    }
+
+    public void setIsFullCredit(boolean isFullCredit) {
+        this.isFullCredit = isFullCredit;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -71,7 +81,8 @@ public class LineInfo {
                 && content.equals(otherLineInfo.content)
                 && isTracked == otherLineInfo.isTracked
                 && ((lastModifiedDate == null && otherLineInfo.lastModifiedDate == null)
-                    || (lastModifiedDate.equals(otherLineInfo.lastModifiedDate)));
+                || lastModifiedDate.equals(otherLineInfo.lastModifiedDate))
+                && isFullCredit == otherLineInfo.isFullCredit;
     }
 }
 

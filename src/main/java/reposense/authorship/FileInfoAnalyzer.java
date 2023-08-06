@@ -194,6 +194,13 @@ public class FileInfoAnalyzer {
                 fileInfo.setLineLastModifiedDate(lineCount / 5, commitDate);
             }
             fileInfo.setLineAuthor(lineCount / 5, author);
+
+            if (shouldAnalyzeAuthorship && !author.equals(Author.UNKNOWN_AUTHOR)) {
+                String lineContent = fileInfo.getLine(lineCount / 5 + 1).getContent();
+                boolean isFullCredit = AuthorshipAnalyzer.analyzeAuthorship(config, fileInfo.getPath(), lineContent,
+                        commitHash, author);
+                fileInfo.setIsFullCredit(lineCount / 5, isFullCredit);
+            }
         }
     }
 

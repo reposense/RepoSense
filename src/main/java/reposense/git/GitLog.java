@@ -76,4 +76,16 @@ public class GitLog {
                         : authorAndEmailArray)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * Returns the git log result containing the parents of {@code commitHash}.
+     */
+    public static String getParentCommits(String root, String commitHash) {
+        Path rootPath = Paths.get(root);
+
+        String command = "git log --pretty=%P -1 ";
+        command += commitHash;
+
+        return runCommand(rootPath, command).trim();
+    }
 }

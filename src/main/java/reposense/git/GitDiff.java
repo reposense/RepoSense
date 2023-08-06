@@ -34,4 +34,12 @@ public class GitDiff {
         String diffResult = runCommand(repoRoot.toAbsolutePath(), diffCommand);
         return Arrays.asList(diffResult.split("\n"));
     }
+
+    /**
+     * Returns the git diff result of {@code currentCommitHash} compared to {@code baseCommitHash}.
+     */
+    public static String diffCommits(String root, String baseCommitHash, String currentCommitHash) {
+        Path rootPath = Paths.get(root);
+        return runCommand(rootPath, String.format("git diff %s...%s", baseCommitHash, currentCommitHash));
+    }
 }

@@ -110,6 +110,13 @@ public class FileInfo {
         return getLines().get(lineNumber).isTracked();
     }
 
+    /**
+     * Sets whether {@code lineNumber} is fully credited to its {@code author}.
+     */
+    public void setIsFullCredit(int lineNumber, boolean isFullCredit) {
+        lines.get(lineNumber).setIsFullCredit(isFullCredit);
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) {
