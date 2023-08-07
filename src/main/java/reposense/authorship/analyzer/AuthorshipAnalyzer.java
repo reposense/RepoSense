@@ -78,7 +78,7 @@ public class AuthorshipAnalyzer {
             return false;
         }
 
-        // Continue with next iteration
+        // Check the previous version as currentAuthor is the same as author of the previous version
         return analyzeAuthorship(config, deletedLine.getFilePath(), deletedLine.getLineContent(),
                 deletedLineInfo.getCommitHash(), deletedLineInfo.getAuthor());
     }
