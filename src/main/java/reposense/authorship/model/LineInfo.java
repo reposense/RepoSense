@@ -22,7 +22,7 @@ public class LineInfo {
         this.content = content;
 
         isTracked = true;
-        isFullCredit = false;
+        isFullCredit = true;
     }
 
     public Author getAuthor() {
