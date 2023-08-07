@@ -214,7 +214,24 @@ export default defineComponent({
         ).sort(this.sortingFunction);
       }
 
-      return new User(filteredUser);
+      const tempUser: User = { ...filteredUser };
+      tempUser.commits = [];
+      filteredUser.commits.forEach((commit) => {
+        const newCommit = { ...commit };
+        newCommit.commitResults = [];
+
+        if (this.commitsSortType === CommitsSortType.Time) {
+          newCommit.commitResults = this.toReverseSortedCommits
+            ? commit.commitResults.slice().reverse()
+            : commit.commitResults.slice();
+        } else {
+          const cResultsSortingFunction = (a: CommitResult, b: CommitResult) => (this.toReverseSortedCommits ? -1 : 1)
+            * window.comparator((cResult: CommitResult) => cResult.insertions)(a, b);
+          newCommit.commitResults = commit.commitResults.slice().sort(cResultsSortingFunction);
+        }
+        tempUser.commits.push(newCommit);
+      });
+      return new User(tempUser);
     },
 
     selectedCommits(): Commit[] {

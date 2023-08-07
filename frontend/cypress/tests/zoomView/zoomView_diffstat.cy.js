@@ -18,7 +18,7 @@ describe('diffstat', () => {
       .click();
 
     cy.get('#tab-zoom .commit-message')
-      .first()
+      .eq(1)
       .within(() => {
         cy.get('.stacked-bar__contrib--bar')
           .then((element) => {
@@ -40,7 +40,7 @@ describe('diffstat', () => {
       .click();
 
     cy.get('#tab-zoom .commit-message')
-      .eq(1)
+      .first()
       .within(() => {
         cy.get('.stacked-bar__contrib--bar')
           .then((element) => {

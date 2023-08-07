@@ -161,12 +161,12 @@ describe('hide all commit messages ', () => {
 
     // commit body of the merge commit should be visible
     cy.get('#tab-zoom .commit-message .body')
-      .eq(1)
+      .eq(0)
       .should('be.visible');
 
     // commit body of the md commit should not be visible
     cy.get('#tab-zoom .commit-message .body')
-      .eq(0)
+      .eq(1)
       .should('not.be.visible');
 
     // commit body of the java commit should be visible
