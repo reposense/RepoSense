@@ -44,6 +44,10 @@ public class GitTestTemplate {
     protected static final String TEST_COMMIT_HASH = "2fb6b9b";
     protected static final String TEST_COMMIT_HASH_LONG = "2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7";
     protected static final String TEST_COMMIT_HASH_PARENT = "c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151";
+    protected static final String SECOND_COMMIT_HASH = "05310e79fe8e54c5096bacc97b886ab24304d12b";
+    protected static final String MERGE_COMMIT_HASH = "7937ff5334ee45cb51e8cfd83a2237d33568a20c";
+    protected static final List<String> MERGE_COMMIT_PARENTS_HASHES = List.of(
+            "22aec0be218b0c71065e65460ab48a2d95c8c681", "271bfbb0f0624481825abd812ff1d27768f9aba0");
     protected static final String MAIN_AUTHOR_NAME = "harryggg";
     protected static final String FAKE_AUTHOR_NAME = "fakeAuthor";
     protected static final String UNCONVENTIONAL_AUTHOR_NAME = "-unconventional_author-";

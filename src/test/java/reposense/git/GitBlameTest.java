@@ -52,4 +52,29 @@ public class GitBlameTest extends GitTestTemplate {
         Assertions.assertThrows(RuntimeException.class, () ->
                 GitBlame.blameWithPreviousAuthors(config.getRepoRoot(), "nonExistentFile"));
     }
+
+    @Test
+    public void blameLine_allValidArguments_success() {
+        String content = GitBlame.blameLine(config.getRepoRoot(), FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING,
+                "blameTest.java", 1);
+        Assertions.assertFalse(content.isEmpty());
+    }
+
+    @Test
+    public void blameLine_nonExistentCommit_throwsRunTimeException() {
+        Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameLine(config.getRepoRoot(),
+                NONEXISTENT_COMMIT_HASH, "blameTest.java", 1));
+    }
+
+    @Test
+    public void blameLine_nonExistentFile_throwsRunTimeException() {
+        Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameLine(config.getRepoRoot(),
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, "nonExistentFile", 1));
+    }
+
+    @Test
+    public void blameLine_nonExistentLine_throwsRunTimeException() {
+        Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameLine(config.getRepoRoot(),
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, "blameTest.java", 5));
+    }
 }
