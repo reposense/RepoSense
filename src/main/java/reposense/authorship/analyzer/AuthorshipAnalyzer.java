@@ -237,9 +237,8 @@ public class AuthorshipAnalyzer {
 
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
         String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
-        String authorEmail = blameResultLines[2]
-                .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
-        long timestampMilliseconds = Long.parseLong(blameResultLines[3].substring(COMMIT_TIME_OFFSET)) * 1000;
+        String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
+        long timestampMilliseconds = Long.parseLong(blameResultLines[5].substring(COMMIT_TIME_OFFSET));
         Author author = config.getAuthor(authorName, authorEmail);
 
         return new GitBlameLineInfo(commitHash, author, timestampMilliseconds);
