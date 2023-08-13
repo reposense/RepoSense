@@ -1,7 +1,6 @@
 package reposense.authorship.analyzer;
 
 import java.nio.file.Paths;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -63,7 +62,7 @@ public class AuthorshipAnalyzer {
         }
 
         GitBlameLineInfo deletedLineInfo = getGitBlameLineInfo(config, deletedLine);
-        long sinceDateInMilliseconds = ZonedDateTime.of(config.getSinceDate(), ZoneId.systemDefault()).toEpochSecond();
+        long sinceDateInMilliseconds = ZonedDateTime.of(config.getSinceDate(), config.getZoneId()).toEpochSecond();
 
         // Give full credit if author is unknown, is before since date, is in ignored list, or is an ignored file
         if (deletedLineInfo.getAuthor().equals(Author.UNKNOWN_AUTHOR)
