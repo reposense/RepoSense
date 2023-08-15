@@ -47,6 +47,10 @@ Given below are the details of the various config files used by RepoSense.
 | Skip Ignored File Analysis | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is skipped, all information about the file will be omitted from the generated report. This option can significantly improve report generation time. |
 
 <box type="info" seamless>
+The Find Previous Authors option only works on **git `2.23`** or later.
+</box>
+
+<box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
 </box>
 
