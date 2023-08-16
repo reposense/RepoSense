@@ -51,7 +51,7 @@ public class AuthorshipAnalyzer {
     public static boolean analyzeAuthorship(RepoConfiguration config, String filePath, String lineContent,
             String commitHash, Author currentAuthor) {
         // Empty lines are ignored and given full credit
-        if (lineContent.length() == 0) {
+        if (lineContent.isEmpty()) {
             return true;
         }
 
@@ -204,7 +204,7 @@ public class AuthorshipAnalyzer {
 
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
         String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
-        String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
+        String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("[<>]", "");
         long timestampMilliseconds = Long.parseLong(blameResultLines[5].substring(COMMIT_TIME_OFFSET));
         Author author = config.getAuthor(authorName, authorEmail);
 
