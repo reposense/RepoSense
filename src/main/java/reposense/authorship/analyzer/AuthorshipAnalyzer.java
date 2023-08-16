@@ -15,6 +15,7 @@ import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.StringsUtil;
 
 /**
  * Analyzes a line to find out if the author should be assigned partial or full credit.
@@ -189,42 +190,8 @@ public class AuthorshipAnalyzer {
      * Calculates the similarity score of {@code s} with {@code baseString}.
      */
     private static double similarityScore(String s, String baseString) {
-        double levenshteinDistance = getLevenshteinDistance(s, baseString);
+        double levenshteinDistance = StringsUtil.getLevenshteinDistance(s, baseString);
         return 1 - (levenshteinDistance / baseString.length());
-    }
-
-    /**
-     * Calculates the Levenshtein Distance between two strings using Dynamic Programming.
-     */
-    private static int getLevenshteinDistance(String s, String t) {
-        // dp[i][j] stores the distance between s.substring(0, i) and t.substring(0, j) -> distance(s[:i], t[:j])
-        int[][] dp = new int[s.length() + 1][t.length() + 1];
-
-        // Distance between a string and an empty string is the length of the string
-        for (int i = 0; i <= s.length(); i++) {
-            dp[i][0] = i;
-        }
-
-        for (int i = 0; i <= t.length(); i++) {
-            dp[0][i] = i;
-        }
-
-        for (int i = 1; i <= s.length(); i++) {
-            for (int j = 1; j <= t.length(); j++) {
-                // If s[i-1] and t[j-1] are equal, distance(s[:i], t[:j]) equals to distance(s[:i-1], t[:j-1])
-                if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    dp[i][j] = dp[i - 1][j - 1];
-                } else {
-                    // distance(s[:i], t[:j]) is the minimum of:
-                    // 1) distance(s[:i-1], t[:j]) + 1 -> add s[i]
-                    // 2) distance(s[:i], t[:j-1]) + 1 -> add t[j]
-                    // 3) distance(s[:i-1], t[:j-1]) + 1 -> substitute s[i] with t[j]
-                    dp[i][j] = Math.min(dp[i - 1][j], Math.min(dp[i][j - 1], dp[i - 1][j - 1])) + 1;
-                }
-            }
-        }
-
-        return dp[s.length()][t.length()];
     }
 
     /**

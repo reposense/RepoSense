@@ -88,4 +88,39 @@ public class StringsUtilTest {
 
         Assertions.assertEquals(specialBashSymbols, result);
     }
+
+    @Test
+    public void getLevenshteinDistance_success() {
+        Assertions.assertEquals(4, StringsUtil.getLevenshteinDistance("potato", "tomatoes"));
+    }
+
+    @Test
+    public void getLevenshteinDistance_insertion_success() {
+        Assertions.assertEquals(2, StringsUtil.getLevenshteinDistance("abcd", "abcdef"));
+    }
+
+    @Test
+    public void getLevenshteinDistance_deletion_success() {
+        Assertions.assertEquals(3, StringsUtil.getLevenshteinDistance("abcde", "ab"));
+    }
+
+    @Test
+    public void getLevenshteinDistance_substitution_success() {
+        Assertions.assertEquals(4, StringsUtil.getLevenshteinDistance("xxxxefg", "abcdefg"));
+    }
+
+    @Test
+    public void getLevenshteinDistance_identicalStrings_success() {
+        Assertions.assertEquals(0, StringsUtil.getLevenshteinDistance("abcdefg", "abcdefg"));
+    }
+
+    @Test
+    public void getLevenshteinDistance_emptyStrings_success() {
+        Assertions.assertEquals(0, StringsUtil.getLevenshteinDistance("", ""));
+    }
+
+    @Test
+    public void getLevenshteinDistance_emptyString_success() {
+        Assertions.assertEquals(6, StringsUtil.getLevenshteinDistance("abcdef", ""));
+    }
 }

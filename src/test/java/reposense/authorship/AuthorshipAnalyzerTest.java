@@ -1,7 +1,5 @@
 package reposense.authorship;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
@@ -10,7 +8,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import reposense.authorship.analyzer.AuthorshipAnalyzer;
 import reposense.authorship.model.FileInfo;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
@@ -158,61 +155,5 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         fileInfoAnalyzer.analyzeTextFile(config, fileInfo, true);
 
         return fileInfo;
-    }
-
-    @Test
-    public void getLevenshteinDistance_success()
-            throws NoSuchMethodException, SecurityException, InvocationTargetException, IllegalAccessException {
-        Method getLevenshteinDistance = getLevenshteinDistanceMethod();
-        Assertions.assertEquals(4, getLevenshteinDistance.invoke(null, "potato", "tomatoes"));
-    }
-
-    @Test
-    public void getLevenshteinDistance_insertion_success()
-            throws NoSuchMethodException, SecurityException, InvocationTargetException, IllegalAccessException {
-        Method getLevenshteinDistance = getLevenshteinDistanceMethod();
-        Assertions.assertEquals(2, getLevenshteinDistance.invoke(null, "abcd", "abcdef"));
-    }
-
-    @Test
-    public void getLevenshteinDistance_deletion_success()
-            throws NoSuchMethodException, SecurityException, InvocationTargetException, IllegalAccessException {
-        Method getLevenshteinDistance = getLevenshteinDistanceMethod();
-        Assertions.assertEquals(3, getLevenshteinDistance.invoke(null, "abcde", "ab"));
-    }
-
-    @Test
-    public void getLevenshteinDistance_substitution_success()
-            throws NoSuchMethodException, SecurityException, InvocationTargetException, IllegalAccessException {
-        Method getLevenshteinDistance = getLevenshteinDistanceMethod();
-        Assertions.assertEquals(4, getLevenshteinDistance.invoke(null, "xxxxefg", "abcdefg"));
-    }
-
-    @Test
-    public void getLevenshteinDistance_identicalStrings_success()
-            throws NoSuchMethodException, SecurityException, InvocationTargetException, IllegalAccessException {
-        Method getLevenshteinDistance = getLevenshteinDistanceMethod();
-        Assertions.assertEquals(0, getLevenshteinDistance.invoke(null, "abcdefg", "abcdefg"));
-    }
-
-    @Test
-    public void getLevenshteinDistance_emptyStrings_success()
-            throws NoSuchMethodException, SecurityException, InvocationTargetException, IllegalAccessException {
-        Method getLevenshteinDistance = getLevenshteinDistanceMethod();
-        Assertions.assertEquals(0, getLevenshteinDistance.invoke(null, "", ""));
-    }
-
-    @Test
-    public void getLevenshteinDistance_emptyString_success()
-            throws NoSuchMethodException, SecurityException, InvocationTargetException, IllegalAccessException {
-        Method getLevenshteinDistance = getLevenshteinDistanceMethod();
-        Assertions.assertEquals(6, getLevenshteinDistance.invoke(null, "abcdef", ""));
-    }
-
-    private Method getLevenshteinDistanceMethod() throws NoSuchMethodException, SecurityException {
-        Method getLevenshteinDistance =
-                AuthorshipAnalyzer.class.getDeclaredMethod("getLevenshteinDistance", String.class, String.class);
-        getLevenshteinDistance.setAccessible(true);
-        return getLevenshteinDistance;
     }
 }
