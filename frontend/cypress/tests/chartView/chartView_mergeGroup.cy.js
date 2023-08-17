@@ -63,7 +63,7 @@ describe('merge group', () => {
       .should('be.checked');
 
     // get the three chart bars and assert they have the correct initial widths
-    cy.get('.summary-chart__contrib--bar')
+    cy.get('.stacked-bar__contrib--bar')
       .should('have.length', 3)
       .then(($bars) => {
         // calculate the percentage of the width relative to the parent container
@@ -88,7 +88,7 @@ describe('merge group', () => {
     const initialWidths = [];
 
     // Store the initial widths of the contribution bars
-    cy.get('.summary-chart__contrib--bar')
+    cy.get('.stacked-bar__contrib--bar')
       .each(($bar) => {
         const width = window.getComputedStyle($bar[0]).width;
         initialWidths.push(width);
@@ -99,7 +99,7 @@ describe('merge group', () => {
         cy.get('.overlay-loader').should('not.be.visible');
 
         // Get the contribution bars again and compare their widths with the initial widths
-        cy.get('.summary-chart__contrib--bar')
+        cy.get('.stacked-bar__contrib--bar')
           .should('have.length', initialWidths.length)
           .each(($bar, index) => {
             const width = window.getComputedStyle($bar[0]).width;
