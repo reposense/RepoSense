@@ -29,8 +29,6 @@ public class ConfigSystemTest {
     private static final String OUTPUT_DIRECTORY = "ft_temp";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
 
-    private static final String GIT_VERSION_INSUFFICIENT_MESSAGE = "Git version 2.23.0 and above necessary to run test";
-
     private static boolean didNotCloneRepoNormally = true;
 
     @BeforeEach
