@@ -1,6 +1,6 @@
 <template lang="pug">
 .segment(
-  v-bind:class="{ untouched: !segment.knownAuthor, active: isOpen }",
+  v-bind:class="{ untouched: !segment.knownAuthor, active: isOpen, isNotFullCredit: !segment.isFullCredit }",
   v-bind:style="{ 'border-left': `0.25rem solid ${authorColors[segment.knownAuthor]}` }",
   v-bind:title="`Author: ${segment.knownAuthor || \"Unknown\"}`"
 )

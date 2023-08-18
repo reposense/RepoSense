@@ -993,6 +993,11 @@ export default defineComponent({
         padding-left: 2rem;
         word-break: break-word;
       }
+      &.isNotFullCredit {
+        .code {
+          background-color: mui-color('green', '100');
+        }
+      }
       &.untouched {
         $grey: mui-color('grey', '400');
         border-left: .25rem solid $grey;
