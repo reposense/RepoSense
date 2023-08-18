@@ -511,6 +511,7 @@ export default defineComponent({
     splitSegments(lines: Line[]): { segments: Segment[]; blankLineCount: number; } {
       // split into segments separated by knownAuthor
       let lastState: string | null;
+      let lastCreditState: boolean;
       let lastId = -1;
       const segments: Segment[] = [];
       let blankLineCount = 0;
@@ -520,24 +521,25 @@ export default defineComponent({
             ? !this.isUnknownAuthor(line.author.gitId)
             : line.author.gitId === this.info.author;
         const knownAuthor = (line.author && isAuthorMatched) ? line.author.gitId : null;
+        const isFullCredit = line.isFullCredit;
 
-        if (knownAuthor !== lastState || lastId === -1) {
+        if (knownAuthor !== lastState || lastId === -1 || (knownAuthor && isFullCredit !== lastCreditState)) {
           segments.push(new Segment(
             knownAuthor,
-            [],
+            isFullCredit,
             [],
             [],
           ));
 
           lastId += 1;
           lastState = knownAuthor;
+          lastCreditState = isFullCredit;
         }
 
         const content = line.content || ' ';
         segments[lastId].lines.push(content);
 
         segments[lastId].lineNumbers.push(lineCount + 1);
-        segments[lastId].isFullCredits.push(line.isFullCredit);
 
         if (line.content === '' && knownAuthor) {
           blankLineCount += 1;

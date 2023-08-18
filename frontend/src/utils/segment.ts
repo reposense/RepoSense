@@ -1,21 +1,21 @@
 export default class Segment {
   knownAuthor: string | null;
 
+  isFullCredits: boolean;
+
   lineNumbers: Array<number>;
 
   lines: Array<string>;
 
-  isFullCredits: Array<boolean>;
-
   constructor(
     knownAuthor: string | null,
+    isFullCredits: boolean,
     lineNumbers: Array<number>,
     lines: Array<string>,
-    isFullCredits: Array<boolean>,
   ) {
     this.knownAuthor = knownAuthor;
+    this.isFullCredits = isFullCredits;
     this.lineNumbers = lineNumbers;
     this.lines = lines;
-    this.isFullCredits = isFullCredits;
   }
 }
