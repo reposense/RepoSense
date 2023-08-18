@@ -61,7 +61,7 @@ export interface Repo extends RepoRaw {
 
 export interface AuthorshipFileSegment {
   knownAuthor: string | null;
-  isFullCredits: boolean;
+  isFullCredit: boolean;
   lineNumbers: number[];
   lines: string[];
 }

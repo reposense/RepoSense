@@ -1,7 +1,7 @@
 export default class Segment {
   knownAuthor: string | null;
 
-  isFullCredits: boolean;
+  isFullCredit: boolean;
 
   lineNumbers: Array<number>;
 
@@ -9,12 +9,12 @@ export default class Segment {
 
   constructor(
     knownAuthor: string | null,
-    isFullCredits: boolean,
+    isFullCredit: boolean,
     lineNumbers: Array<number>,
     lines: Array<string>,
   ) {
     this.knownAuthor = knownAuthor;
-    this.isFullCredits = isFullCredits;
+    this.isFullCredit = isFullCredit;
     this.lineNumbers = lineNumbers;
     this.lines = lines;
   }
