@@ -4,6 +4,7 @@ const lineSchema = z.object({
   lineNumber: z.number(),
   author: z.object({ gitId: z.string() }),
   content: z.string(),
+  isFullCredit: z.boolean(),
 });
 
 const fileResult = z.object({

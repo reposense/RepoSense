@@ -63,6 +63,7 @@ export interface AuthorshipFileSegment {
   knownAuthor: string | null;
   lineNumbers: number[];
   lines: string[];
+  isFullCredits: boolean[];
 }
 
 export interface AuthorshipFile {

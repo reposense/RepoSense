@@ -526,6 +526,7 @@ export default defineComponent({
             knownAuthor,
             [],
             [],
+            [],
           ));
 
           lastId += 1;
@@ -536,6 +537,7 @@ export default defineComponent({
         segments[lastId].lines.push(content);
 
         segments[lastId].lineNumbers.push(lineCount + 1);
+        segments[lastId].isFullCredits.push(line.isFullCredit);
 
         if (line.content === '' && knownAuthor) {
           blankLineCount += 1;
