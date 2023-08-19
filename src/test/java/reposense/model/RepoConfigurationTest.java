@@ -574,9 +574,6 @@ public class RepoConfigurationTest {
         RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs,
                 cliArguments.isFindingPreviousAuthorsPerformed());
 
-        // Assume by default that the environment does not support Find Previous Authors feature
-        RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(actualConfigs);
-
         RepoConfiguration repoBetaActualConfig = actualConfigs.get(0);
         RepoConfiguration repoDeltaActualConfig = actualConfigs.get(1);
         TestRepoCloner.cloneAndBranch(repoBetaActualConfig);
