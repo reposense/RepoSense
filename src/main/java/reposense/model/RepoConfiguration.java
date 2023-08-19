@@ -153,10 +153,6 @@ public class RepoConfiguration {
         }
     }
 
-    public static void setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(List<RepoConfiguration> configs) {
-        configs.stream().forEach(config -> config.setIsFindingPreviousAuthorsPerformed(false));
-    }
-
     public static void setHasAuthorConfigFileToRepoConfigs(List<RepoConfiguration> configs,
                                                            boolean setHasAuthorConfigFile) {
         configs.stream().forEach(config -> config.setHasAuthorConfigFile(setHasAuthorConfigFile));
