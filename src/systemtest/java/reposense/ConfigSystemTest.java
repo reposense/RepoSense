@@ -9,13 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
-import reposense.git.GitVersion;
 import reposense.model.SupportedDomainUrlMap;
 import reposense.parser.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
@@ -30,8 +28,6 @@ public class ConfigSystemTest {
 
     private static final String OUTPUT_DIRECTORY = "ft_temp";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
-
-    private static final String GIT_VERSION_INSUFFICIENT_MESSAGE = "Git version 2.23.0 and above necessary to run test";
 
     private static boolean didNotCloneRepoNormally = true;
 
@@ -115,9 +111,6 @@ public class ConfigSystemTest {
      */
     @Test
     public void testSinceBeginningDateRangeWithFindPreviousAuthors() {
-        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
-                GIT_VERSION_INSUFFICIENT_MESSAGE);
-
         InputBuilder inputBuilder = initInputBuilder()
                 .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
                 .addUntilDate("2/3/2019")
@@ -129,9 +122,6 @@ public class ConfigSystemTest {
 
     @Test
     public void test30DaysFromUntilDateWithFindPreviousAuthors() {
-        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors(),
-                GIT_VERSION_INSUFFICIENT_MESSAGE);
-
         InputBuilder inputBuilder = initInputBuilder()
                 .addUntilDate("1/11/2017")
                 .addFindPreviousAuthors();

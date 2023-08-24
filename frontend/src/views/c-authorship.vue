@@ -764,8 +764,8 @@ export default defineComponent({
       return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
     },
 
-    getFontColor() {
-      return window.getFontColor;
+    getFontColor(color: string) {
+      return window.getFontColor(color);
     },
   },
 });
