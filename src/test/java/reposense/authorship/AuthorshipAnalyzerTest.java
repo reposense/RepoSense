@@ -2,6 +2,8 @@ package reposense.authorship;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -99,7 +101,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeAuthorship_insideIgnoreCommitList_success() {
-        config.setIgnoreCommitList(List.of(IGNORE_HASH));
+        config.setIgnoreCommitList(Arrays.asList(IGNORE_HASH));
 
         FileInfo fileInfo = analyzeTextFile(TEST_FILENAME);
 
@@ -129,7 +131,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         Author fakeAuthor = config.getAuthor("fakeAuthor", "");
 
         // File was renamed analyzeAuthorshipTest2.java -> analyzeAuthorshipTest1.java, ignore previous file name
-        fakeAuthor.importIgnoreGlobList(List.of(TEST2_FILENAME));
+        fakeAuthor.importIgnoreGlobList(Arrays.asList(TEST2_FILENAME));
 
         FileInfo fileInfo = analyzeTextFile(TEST1_FILENAME);
 
