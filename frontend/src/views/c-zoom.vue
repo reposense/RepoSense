@@ -505,8 +505,8 @@ export default defineComponent({
       return false;
     },
 
-    getFontColor() {
-      return window.getFontColor;
+    getFontColor(color: string) {
+      return window.getFontColor(color);
     },
   },
 });

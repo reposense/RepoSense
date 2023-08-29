@@ -30,7 +30,7 @@ For other types of repositories, external links are disabled.
 
 1. **Ensure you have the prerequisites**:
    * **Java 8** (JRE `1.8.0_60`) or later ([download :fas-download:](https://www.java.com/en/)).
-   * **git `2.14`** or later on the command line. ([download :fas-download:](https://git-scm.com/downloads)).<br> run `git --version` in your OS terminal to confirm the version.
+   * **git `2.23`** or later on the command line. ([download :fas-download:](https://git-scm.com/downloads)).<br> run `git --version` in your OS terminal to confirm the version.
 
 1. **Download the latest JAR file** from our [releases](https://github.com/reposense/RepoSense/releases/latest).
 
