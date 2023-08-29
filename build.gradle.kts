@@ -307,7 +307,9 @@ tasks.named<JacocoReport>("jacocoTestReport").configure {
     executionData(systemtest, frontendTest)
 }
 
-tasks.register<JacocoReport>("coverage")
+tasks.register<JacocoReport>("coverage") {
+    dependsOn("test")
+}
 
 tasks.named<JacocoReport>("coverage").configure {
     val jacocoTestReport = tasks.named<JacocoReport>("jacocoTestReport").get()
