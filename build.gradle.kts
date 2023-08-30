@@ -304,7 +304,7 @@ tasks.named<JacocoReport>("jacocoTestReport").configure {
         csv.required.set(true)
         html.destination = file("${buildDir}/jacocoHtml")
     }
-    executionData(systemtest, frontendTest)
+    getExecutionData().setFrom(systemtest, frontendTest)
 }
 
 tasks.register<JacocoReport>("coverage") {
@@ -315,7 +315,7 @@ tasks.named<JacocoReport>("coverage").configure {
     val jacocoTestReport = tasks.named<JacocoReport>("jacocoTestReport").get()
     sourceDirectories.from(files(sourceSets.getByName("main").allSource.srcDirs))
     classDirectories.from(files(sourceSets.getByName("main").output))
-    executionData.from(files(jacocoTestReport.executionData))
+    getExecutionData().setFrom(files(jacocoTestReport.getExecutionData()))
 
     reports {
         html.required.set(true)
