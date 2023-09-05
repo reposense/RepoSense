@@ -114,6 +114,10 @@ public class AuthorshipAnalyzer {
 
                 CandidateLine candidateLine = getDeletedLineWithHighestSimilarityInDiff(
                         fileDiffResult, lineContent, parentCommit, preImageFilePath);
+                if (candidateLine == null) {
+                    continue;
+                }
+
                 if (highestSimilarityLine == null
                         || candidateLine.getSimilarityScore() > highestSimilarityLine.getSimilarityScore()) {
                     highestSimilarityLine = candidateLine;
