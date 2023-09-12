@@ -38,4 +38,23 @@ public class CandidateLine {
     public double getSimilarityScore() {
         return similarityScore;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof CandidateLine)) {
+            return false;
+        }
+
+        CandidateLine candidateLine = (CandidateLine) o;
+
+        return lineNumber == candidateLine.lineNumber
+                && lineContent.equals(candidateLine.lineContent)
+                && filePath.equals(candidateLine.filePath)
+                && gitBlameCommitHash.equals(candidateLine.gitBlameCommitHash)
+                && Double.compare(similarityScore, candidateLine.similarityScore) == 0;
+    }
 }
