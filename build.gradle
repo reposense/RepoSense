@@ -58,13 +58,13 @@ def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugi
 }
 
 def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-//    dependsOn installFrontend
+    dependsOn installFrontend
     workingDir 'frontend/'
     args = ['run', 'devbuild']
 }
 
 def zipReport = tasks.register('zipReport', Zip) {
-    dependsOn buildFrontend
+//    dependsOn buildFrontend
     from 'frontend/build/'
     archiveBaseName = 'templateZip'
     destinationDirectory = file('src/main/resources')
