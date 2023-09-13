@@ -31,7 +31,9 @@ export default defineComponent({
   },
   methods: {
     visibilityChanged(isVisible: boolean) {
-      this.isRendered = isVisible;
+      if (isVisible) {
+        this.isRendered = true;
+      }
     },
   },
 });
