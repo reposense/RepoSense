@@ -51,8 +51,8 @@ export default defineComponent({
   },
   data() {
     return {
-      isOpen: (this.segment.knownAuthor === null) || this.segment.lines.length < 5 as boolean,
-      canOpen: (this.segment.knownAuthor !== null) && this.segment.lines.length > 4 as boolean,
+      isOpen: (this.segment.knownAuthor !== null) || this.segment.lines.length < 5 as boolean,
+      canOpen: (this.segment.knownAuthor === null) && this.segment.lines.length > 4 as boolean,
       transparencyValue: '30' as string,
     };
   },
