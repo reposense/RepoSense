@@ -173,12 +173,12 @@ export default defineComponent({
     // position for day granularity
     getSlicePos(date: string) {
       const total = this.getTotalForPos(this.sdate, this.udate);
-      return (new Date(this.udate).getMilliseconds() - new Date(date).getMilliseconds()) / (total + window.DAY_IN_MS);
+      return (new Date(this.udate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
     },
 
     // get duration in miliseconds between 2 date
     getTotalForPos(sinceDate: string, untilDate: string) {
-      return new Date(untilDate).getMilliseconds() - new Date(sinceDate).getMilliseconds();
+      return new Date(untilDate).valueOf() - new Date(sinceDate).valueOf();
     },
     getRampColor(commit: CommitResult, slice: Commit) {
       if (this.isDeletesContribution(commit)) {
