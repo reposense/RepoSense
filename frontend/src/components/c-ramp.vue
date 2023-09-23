@@ -1,37 +1,37 @@
 <template lang="pug">
 .ramp
-    template(v-if="tframe === 'commit'")
-      template(v-for="(slice, j) in user.commits")
-        template(v-for="(commit, k) in slice.commitResults")
-          a.ramp__slice(
-            draggable="false",
-            v-on:click="rampClick",
-            v-bind:href="getLink(commit)", target="_blank",
-            v-bind:title="getContributionMessage(slice, commit)",
-            v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
+  template(v-if="tframe === 'commit'")
+    template(v-for="(slice, j) in user.commits")
+      template(v-for="(commit, k) in slice.commitResults")
+        a.ramp__slice(
+          draggable="false",
+          v-on:click="rampClick",
+          v-bind:href="getLink(commit)", target="_blank",
+          v-bind:title="getContributionMessage(slice, commit)",
+          v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
-            v-bind:style="{\
+          v-bind:style="{\
             zIndex: user.commits.length - j,\
             borderLeftWidth: `${getWidth(commit)}em`,\
             right: `${((getSlicePos(slice.date)\
               + (getCommitPos(k, slice.commitResults.length))) * 100)}%`\
             }"
-          )
+        )
 
-    template(v-else)
-      a(v-bind:href="getReportLink()", target="_blank")
-        .ramp__slice(
-          draggable="false",
-          v-for="(slice, j) in user.commits",
-          v-bind:title="getContributionMessage(slice, null)",
-          v-on:click="openTabZoom(user, slice, $event)",
-          v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
-          v-bind:style="{\
+  template(v-else)
+    a(v-bind:href="getReportLink()", target="_blank")
+      .ramp__slice(
+        draggable="false",
+        v-for="(slice, j) in user.commits",
+        v-bind:title="getContributionMessage(slice, null)",
+        v-on:click="openTabZoom(user, slice, $event)",
+        v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
+        v-bind:style="{\
           zIndex: user.commits.length - j,\
           borderLeftWidth: `${getWidth(slice)}em`,\
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
           }"
-        )
+      )
 </template>
 
 <script lang='ts'>
