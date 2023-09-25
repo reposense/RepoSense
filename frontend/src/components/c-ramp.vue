@@ -135,7 +135,6 @@ export default defineComponent({
       title += `contribution: +${slice.insertions} -${slice.deletions} lines`;
       return title;
     },
-    // Only to be used when this.tframe !== 'Commit'
     openTabZoom(user: User, slice: Commit, evt: MouseEvent) {
       // prevent opening of zoom tab when cmd/ctrl click
       if (window.isMacintosh ? evt.metaKey : evt.ctrlKey) {
