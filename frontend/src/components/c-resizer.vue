@@ -29,6 +29,11 @@ const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
 
+/** The following eslint suppression suppresses a rare false positive case where event cannot be accessed due to
+ *  handler being a lambda function parameter. The explicit lambda function here allows us to easily discern handler's
+ *  parameters, i.e. an event of type MouseEvent.
+ */
+// eslint-disable-next-line no-unused-vars
 const throttledEvent = (delay: number, handler: (event: MouseEvent) => unknown) => {
   let lastCalled = 0;
   return (event: MouseEvent) => {
