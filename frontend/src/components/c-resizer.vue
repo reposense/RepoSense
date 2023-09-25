@@ -29,7 +29,7 @@ const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
 
-const throttledEvent = (delay: number, handler: Function) => {
+const throttledEvent = (delay: number, handler: (event: MouseEvent) => unknown) => {
   let lastCalled = 0;
   return (event: MouseEvent) => {
     if (Date.now() - lastCalled > delay) {
