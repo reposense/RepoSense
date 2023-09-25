@@ -125,7 +125,7 @@ export default defineComponent({
       const newSize = 100 * (slice.insertions / +this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    // commit of type CommitResult must be provided if tframe === 'commit', only pass null if tframe !== 'commit
+    // commit of type CommitResult must be provided if tframe === 'commit', only pass null if tframe !== 'commit'
     getContributionMessage(slice: Commit, commit: CommitResult | null) {
       if (this.tframe === 'commit' && commit !== null) {
         return `[${slice.date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
