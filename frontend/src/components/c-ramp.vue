@@ -7,7 +7,7 @@
           draggable="false",
           v-on:click="rampClick",
           v-bind:href="getLink(commit)", target="_blank",
-          v-bind:title="getContributionMessage(slice, commit)",
+          v-bind:title="getContributionMessageByCommit(slice, commit)",
           v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
           v-bind:style="{\
@@ -23,7 +23,7 @@
       .ramp__slice(
         draggable="false",
         v-for="(slice, j) in user.commits",
-        v-bind:title="getContributionMessage(slice, null)",
+        v-bind:title="getContributionMessage(slice)",
         v-on:click="openTabZoom(user, slice, $event)",
         v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
         v-bind:style="{\
@@ -125,12 +125,10 @@ export default defineComponent({
       const newSize = 100 * (slice.insertions / +this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    // commit of type CommitResult must be provided if tframe === 'commit', only pass null if tframe !== 'commit
-    getContributionMessage(slice: Commit, commit: CommitResult | null) {
-      if (this.tframe === 'commit' && commit !== null) {
-        return `[${slice.date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
-      }
-
+    getContributionMessageByCommit(slice: Commit, commit: CommitResult) {
+      return `[${slice.date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
+    },
+    getContributionMessage(slice: Commit) {
       let title = this.tframe === 'day'
           ? `[${slice.date}] Daily `
           : `[${slice.date} till ${slice.endDate}] Weekly `;
