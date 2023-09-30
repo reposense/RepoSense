@@ -41,6 +41,6 @@ with(this){return _c('p',[_v("2. To have more precise control over which code se
 with(this){return _c('p',[_v("3. Add a git "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v(".mailmap")]),_v(" file at the top-level of the repository, specifying mapped authors/commiters and/or e-mail addresses as per "),_c('a',{attrs:{"href":"https://git-scm.com/docs/gitmailmap"}},[_v("gitmailmap documentation")]),_v(". Any mappings specified here will be applied by git before all other RepoSense configurations. Configuration via "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v(".mailmap")]),_v(" is particularly useful if you want the mapping to apply for all git commands as well instead of just for RepoSense.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.1.0")]),_v(", generated on Sun, 24 Sept 2023, 17:38:25 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.1.0")]),_v(", generated on Sat, 30 Sept 2023, 12:08:23 UTC]")])])])}
 }];
   
