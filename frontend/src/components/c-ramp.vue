@@ -142,7 +142,14 @@ export default defineComponent({
       }
 
       const zoomUser = { ...user };
-      zoomUser.commits = user.dailyCommits as Commit[];
+      // Calculate total commit result insertion and deletion for the daily/weekly commit selected
+      zoomUser.commits = user.dailyCommits.map(
+        (dailyCommit) => ({
+          insertions: dailyCommit.commitResults.reduce((acc, currCommitResult) => acc + currCommitResult.insertions, 0),
+          deletions: dailyCommit.commitResults.reduce((acc, currCommitResult) => acc + currCommitResult.deletions, 0),
+          ...dailyCommit,
+        }),
+      ) as Commit[];
 
       const info = {
         zRepo: user.repoName,
