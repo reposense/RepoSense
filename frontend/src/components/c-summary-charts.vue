@@ -220,25 +220,17 @@
 
       .summary-chart__contribution
         template(v-if="filterBreakdown")
-          .summary-chart__contrib(
-            v-for="(widths, fileType) in getFileTypeContributionBars(user.fileTypeContribution)"
-          )
-            .summary-chart__contrib--bar(
-              v-for="width in widths",
-              v-bind:style="{ width: `${width}%`,\
-                'background-color': fileTypeColors[fileType] }",
-              v-bind:title="`${fileType}: ${user.fileTypeContribution[fileType]} lines, \
-                total: ${user.checkedFileTypeContribution} lines (contribution from ${minDate} to \
-                ${maxDate})`"
+          .summary-chart__contrib
+            c-stacked-bar-chart(
+              v-bind:bars="getFileTypeContributionBars(user.fileTypeContribution, user.checkedFileTypeContribution)"
             )
         template(v-else)
           .summary-chart__contrib(
             v-bind:title="`Total contribution from ${minDate} to ${maxDate}: \
               ${user.checkedFileTypeContribution} lines`"
           )
-            .summary-chart__contrib--bar(
-              v-for="width in getContributionBars(user.checkedFileTypeContribution)",
-              v-bind:style="{ width: `${width}%` }"
+            c-stacked-bar-chart(
+              v-bind:bars="getContributionBars(user.checkedFileTypeContribution)"
             )
 </template>
 
@@ -248,7 +240,8 @@ import { mapState } from 'vuex';
 
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cRamp from './c-ramp.vue';
-import { Repo, User } from '../types/types';
+import cStackedBarChart from './c-stacked-bar-chart.vue';
+import { Bar, Repo, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
 import { AuthorFileTypeContributions } from '../types/zod/commits-type';
@@ -257,6 +250,7 @@ export default defineComponent({
   name: 'c-summary-charts',
   components: {
     cRamp,
+    cStackedBarChart,
   },
   mixins: [brokenLinkDisabler],
   props: {
@@ -376,12 +370,15 @@ export default defineComponent({
     this.retrieveSelectedTabHash();
   },
   methods: {
-    getFileTypeContributionBars(fileTypeContribution: AuthorFileTypeContributions): { [key: string]: number[] } {
+    getFileTypeContributionBars(
+      fileTypeContribution: AuthorFileTypeContributions,
+      checkedFileTypeContribution: number | undefined,
+    ): Bar[] {
       let currentBarWidth = 0;
       const fullBarWidth = 100;
       const contributionPerFullBar = (this.avgContributionSize * 2);
 
-      const allFileTypesContributionBars: { [key: string]: number[] } = {};
+      const allFileTypesContributionBars: Bar[] = [];
       if (contributionPerFullBar === 0) {
         return allFileTypesContributionBars;
       }
@@ -413,7 +410,15 @@ export default defineComponent({
             currentBarWidth = remainingBarWidth;
           }
 
-          allFileTypesContributionBars[fileType] = contributionBars;
+          contributionBars.forEach((width) => {
+            allFileTypesContributionBars.push({
+              width,
+              color: this.fileTypeColors[fileType],
+              tooltipText: `${fileType}: ${fileTypeContribution[fileType]} lines, \
+                total: ${checkedFileTypeContribution} lines (contribution from ${this.minDate} to
+                  ${this.maxDate})`,
+            });
+          });
         });
 
       return allFileTypesContributionBars;
@@ -435,20 +440,20 @@ export default defineComponent({
       return group.reduce((acc, ele) => acc + (ele.checkedFileTypeContribution ?? 0), 0);
     },
 
-    getContributionBars(totalContribution: number): number[] {
-      const res: number[] = [];
+    getContributionBars(totalContribution: number): Bar[] {
+      const res: Bar[] = [];
       const contributionLimit = (this.avgContributionSize * 2);
       if (contributionLimit === 0) {
         return res;
       }
       const cnt = Math.floor(totalContribution / contributionLimit);
       for (let cntId = 0; cntId < cnt; cntId += 1) {
-        res.push(100);
+        res.push({ width: 100 });
       }
 
       const last = (totalContribution % contributionLimit) / contributionLimit;
       if (last !== 0) {
-        res.push(last * 100);
+        res.push({ width: last * 100 });
       }
 
       return res;
@@ -530,7 +535,9 @@ export default defineComponent({
 
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
-        const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf();
+        // additional day was added to include the date represented by filterUntilDate
+        const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf()
+            + window.DAY_IN_MS;
         const idxs = this.drags.map((x) => (x * tdiff) / 100);
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
@@ -559,6 +566,7 @@ export default defineComponent({
         zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
         zFilterSearch: filterSearch,
+        zAvgContributionSize: this.getAvgContributionSize(),
       };
       this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
@@ -794,6 +802,21 @@ export default defineComponent({
       return explanation;
     },
 
+    getAvgContributionSize(): number {
+      let totalContribution = 0;
+      let totalCommits = 0;
+
+      this.filteredRepos.forEach((repo) => {
+        repo.forEach((user) => {
+          user.commits?.forEach((commit) => {
+            totalCommits += 1;
+            totalContribution += (commit.insertions + commit.deletions);
+          });
+        });
+      });
+
+      return totalContribution / totalCommits;
+    },
   },
 });
 </script>

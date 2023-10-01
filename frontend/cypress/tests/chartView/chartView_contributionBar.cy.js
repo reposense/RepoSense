@@ -1,7 +1,7 @@
 describe('contribution bar', () => {
   it('same length when breakdown selected', () => {
     let expectedWidthSum = 0;
-    cy.get('.summary-chart__contrib--bar').then((ele) => {
+    cy.get('.stacked-bar__contrib--bar').then((ele) => {
       let i;
       for (i = 0; i < ele.length; i += 1) {
         expectedWidthSum += parseFloat(ele[i].style.width.split('%')[0]);
@@ -12,7 +12,7 @@ describe('contribution bar', () => {
       .check();
 
     let actualWidthSum = 0;
-    cy.get('.summary-chart__contrib--bar').then((ele) => {
+    cy.get('.stacked-bar__contrib--bar').then((ele) => {
       let i;
       for (i = 0; i < ele.length; i += 1) {
         actualWidthSum += parseFloat(ele[i].style.width.split('%')[0]);
@@ -35,7 +35,7 @@ describe('contribution bar', () => {
     let expectedWidthSum = 0;
     cy.get('#summary-wrapper label').contains('breakdown by file type').siblings().filter('input')
       .check();
-    cy.get('.summary-chart__contrib--bar').then((ele) => {
+    cy.get('.stacked-bar__contrib--bar').then((ele) => {
       expectedWidthSum += parseFloat(ele[0].style.width.split('%')[0]);
     });
 
@@ -46,7 +46,7 @@ describe('contribution bar', () => {
       .check();
 
     let actualWidthSum = 0;
-    cy.get('.summary-chart__contrib--bar').then((ele) => {
+    cy.get('.stacked-bar__contrib--bar').then((ele) => {
       let i;
       for (i = 0; i < ele.length; i += 1) {
         actualWidthSum += parseFloat(ele[i].style.width.split('%')[0]);
