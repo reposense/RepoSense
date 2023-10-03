@@ -930,8 +930,8 @@ export default defineComponent({
       return window.getDateStr(datems);
     },
 
-    getFontColor() {
-      return window.getFontColor;
+    getFontColor(color: string) {
+      return window.getFontColor(color);
     },
   },
 });
