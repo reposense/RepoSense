@@ -281,7 +281,7 @@ describe('range changes in chartview should reflect in zoom', () => {
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
       .click(120, 20)
-      .click(200, 20);
+      .click(185, 20);
 
     cy.get('#tab-zoom')
       .should('be.visible');
@@ -289,8 +289,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2020-11-21] [#1345] Authorship: Add last modified date to each LoC if specified '
-      + '(#1348): +165 -76 lines ');
+      .should('eq', '[2020-05-23] [#1241] Restore checked file types (#1256): +14 -1 lines ');
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
@@ -307,7 +306,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(200, 20)
+      .click(185, 20)
       .click(250, 20);
 
     cy.get('#tab-zoom')
@@ -320,8 +319,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-12-18] [#1374] Travis: utilise latest node version for PR docs deployment '
-      + '(#1381): +4 -0 lines ');
+      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
@@ -335,7 +333,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(200, 20)
+      .click(185, 20)
       .click(225, 20);
 
     cy.get('#tab-zoom')
@@ -352,7 +350,6 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-12-18] [#1374] Travis: utilise latest node version for PR docs deployment '
-        + '(#1381): +4 -0 lines ');
+      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
 });
