@@ -2,6 +2,7 @@ package reposense.authorship.analyzer;
 
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +44,8 @@ public class AuthorshipAnalyzer {
     private static final int COMMIT_TIME_OFFSET = "committer-time ".length();
     private static final String ADDED_LINE_SYMBOL = "+";
     private static final String DELETED_LINE_SYMBOL = "-";
+
+    private static ConcurrentHashMap<String, String[]> GIT_DIFF_CACHE = new ConcurrentHashMap<>();
 
     /**
      * Analyzes the authorship of {@code lineContent} in {@code filePath}.
@@ -94,9 +97,17 @@ public class AuthorshipAnalyzer {
         CandidateLine highestSimilarityLine = null;
 
         for (String parentCommit : parentCommits) {
-            // Generate diff between commit and parent commit
-            String gitDiffResult = GitDiff.diffCommits(config.getRepoRoot(), parentCommit, commitHash);
-            String[] fileDiffResultList = gitDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
+            String key = config.getRepoRoot() + parentCommit + commitHash;
+            String[] fileDiffResultList;
+
+            if (GIT_DIFF_CACHE.containsKey(key)) {
+                fileDiffResultList = GIT_DIFF_CACHE.get(key);
+            } else {
+                // Generate diff between commit and parent commit
+                String gitDiffResult = GitDiff.diffCommits(config.getRepoRoot(), parentCommit, commitHash);
+                fileDiffResultList = gitDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
+                GIT_DIFF_CACHE.put(key, fileDiffResultList);
+            }
 
             for (String fileDiffResult : fileDiffResultList) {
                 Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
