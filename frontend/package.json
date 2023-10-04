@@ -34,7 +34,7 @@
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2",
-    "zod": "^3.20.6"
+    "zod": "^3.22.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
