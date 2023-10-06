@@ -20,8 +20,8 @@ public class AuthorTest {
 
         author.setEmails(Arrays.asList(emails));
 
-        // The additional 1 email comes from the Standard GitHub Email.
-        Assertions.assertEquals(emails.length + 1, author.getEmails().size());
+        // The additional 2 emails comes from the Standard GitHub & Gitlab Emails.
+        Assertions.assertEquals(emails.length + 2, author.getEmails().size());
 
         Assertions.assertTrue(author.getEmails().containsAll(Arrays.asList(emails)));
     }
