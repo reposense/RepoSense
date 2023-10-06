@@ -135,14 +135,14 @@ To use this feature, add a `_reposense/config.json` to the root of your repo usi
   "authors":
   [
     {
-      "githubId": "alice",
+      "gitId": "alice",
       "emails": ["alice@example.com", "alicet@example.com"],
       "displayName": "Alice T.",
       "authorNames": ["AT", "A"],
       "ignoreGlobList": ["**.css"]
     },
     {
-      "githubId": "bob"
+      "gitId": "bob"
     }
   ]
 }
@@ -159,10 +159,10 @@ Note: all fields are optional unless specified otherwise.
 
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
-* `githubId`: Username of the author. {{ mandatory }} field.
+* `gitId`: Username of the author. {{ mandatory }} field.
 * `emails`: Associated git emails of the author. For GitHub, this can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
-* `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
+* `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use their remote Git Host username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author. The path glob syntax is specified by the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob). In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`.
 
 To verify your standalone configuration is as intended, add the `_reposense/config.json` to your local copy of repo and run RepoSense against it as follows:<br>

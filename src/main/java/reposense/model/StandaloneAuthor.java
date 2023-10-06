@@ -7,14 +7,14 @@ import java.util.List;
  * Represents an author in {@link StandaloneConfig}.
  */
 public class StandaloneAuthor {
-    private String githubId;
+    private String gitId;
     private List<String> emails;
     private String displayName;
     private List<String> authorNames;
     private List<String> ignoreGlobList;
 
-    public String getGithubId() {
-        return githubId;
+    public String getGitId() {
+        return gitId;
     }
 
     public List<String> getEmails() {
@@ -44,7 +44,7 @@ public class StandaloneAuthor {
         }
 
         StandaloneAuthor otherStandaloneAuthor = (StandaloneAuthor) other;
-        return githubId.equals(otherStandaloneAuthor.githubId)
+        return gitId.equals(otherStandaloneAuthor.gitId)
                 && getEmails().equals(otherStandaloneAuthor.getEmails())
                 && getDisplayName().equals(otherStandaloneAuthor.getDisplayName())
                 && getAuthorNames().equals(otherStandaloneAuthor.getAuthorNames())
