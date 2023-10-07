@@ -10,13 +10,17 @@ function getGroupCommitsVariance(total: number, group: User) {
   return total + group.variance;
 }
 
-function checkKeyAndGetValue(element: any, key: string | undefined) {
-  if (key === undefined || element === undefined || !(key in element)) {
+function checkKeyAndGetValue(element: object, key: string | undefined) {
+  if (key === undefined || !(key in element)) {
     return undefined;
   }
-  return element[key];
+  /** Casting here is safe as guard clause above ensures that element has an attribute with the same name as the string
+   *  represented by key. */
+  return (element as any)[key];
 }
 
+/** Array is not sorted when sortingOption is not provided. sortingOption is optional to allow it to fit the
+ *  SortingFunction<T> interface. */
 function sortingHelper(element: User[], sortingOption?: string): string | number {
   if (sortingOption === 'totalCommits') {
     return element.reduce(getTotalCommits, 0);
