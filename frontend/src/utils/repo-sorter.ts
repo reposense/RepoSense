@@ -1,12 +1,23 @@
-function getTotalCommits(total, group) {
-  return total + group.checkedFileTypeContribution;
+import { User } from '../types/types';
+import { FilterGroupSelection } from '../types/summary';
+
+function getTotalCommits(total: number, group: User) {
+  // If group.checkedFileTypeContribution === undefined, then we treat it as 0 contribution
+  return total + (group.checkedFileTypeContribution ?? 0);
 }
 
-function getGroupCommitsVariance(total, group) {
+function getGroupCommitsVariance(total: number, group: User) {
   return total + group.variance;
 }
 
-function sortingHelper(element, sortingOption) {
+function checkKeyAndGetValue(element: any, key: string | undefined) {
+  if (key === undefined || element === undefined || !(key in element)) {
+    return undefined;
+  }
+  return element[key];
+}
+
+function sortingHelper(element: User[], sortingOption?: string): string | number {
   if (sortingOption === 'totalCommits') {
     return element.reduce(getTotalCommits, 0);
   }
@@ -16,11 +27,18 @@ function sortingHelper(element, sortingOption) {
   if (sortingOption === 'displayName') {
     return window.getAuthorDisplayName(element);
   }
-  return element[0][sortingOption];
+  return checkKeyAndGetValue(element[0], sortingOption);
 }
 
-function groupByRepos(repos, sortingControl) {
-  const sortedRepos = [];
+function groupByRepos(
+  repos: User[][],
+  sortingControl: {
+    sortingOption: string;
+    sortingWithinOption: string;
+    isSortingDsc: string;
+    isSortingWithinDsc: string; },
+) {
+  const sortedRepos: User[][] = [];
   const {
     sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
   } = sortingControl;
@@ -28,9 +46,9 @@ function groupByRepos(repos, sortingControl) {
   const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
   repos.forEach((users) => {
     if (sortWithinOption === 'totalCommits') {
-      users.sort(window.comparator((ele) => ele.checkedFileTypeContribution));
+      users.sort(window.comparator((ele) => ele.checkedFileTypeContribution ?? 0));
     } else {
-      users.sort(window.comparator((ele) => ele[sortWithinOption]));
+      users.sort(window.comparator((ele) => checkKeyAndGetValue(ele, sortWithinOption)));
     }
 
     if (isSortingWithinDsc) {
@@ -45,8 +63,13 @@ function groupByRepos(repos, sortingControl) {
   return sortedRepos;
 }
 
-function groupByNone(repos, sortingControl) {
-  const sortedRepos = [];
+function groupByNone(
+  repos: User[][],
+  sortingControl: {
+    sortingOption: string;
+    isSortingDsc: string; },
+) {
+  const sortedRepos: User[] = [];
   const { sortingOption, isSortingDsc } = sortingControl;
   const isSortingGroupTitle = sortingOption === 'groupTitle';
   repos.forEach((users) => {
@@ -61,7 +84,7 @@ function groupByNone(repos, sortingControl) {
     if (sortingOption === 'totalCommits') {
       return repo.checkedFileTypeContribution;
     }
-    return repo[sortingOption];
+    return checkKeyAndGetValue(repo, sortingOption);
   }));
   if (isSortingDsc) {
     sortedRepos.reverse();
@@ -70,9 +93,16 @@ function groupByNone(repos, sortingControl) {
   return sortedRepos;
 }
 
-function groupByAuthors(repos, sortingControl) {
-  const authorMap = {};
-  const filtered = [];
+function groupByAuthors(
+  repos: User[][],
+  sortingControl: {
+    sortingOption: string;
+    sortingWithinOption: string;
+    isSortingDsc: string;
+    isSortingWithinDsc: string; },
+) {
+  const authorMap: { [userName: string]: User[] } = {};
+  const filtered: User[][] = [];
   const {
     sortingWithinOption, sortingOption, isSortingDsc, isSortingWithinDsc,
   } = sortingControl;
@@ -89,9 +119,9 @@ function groupByAuthors(repos, sortingControl) {
   });
   Object.keys(authorMap).forEach((author) => {
     if (sortWithinOption === 'totalCommits') {
-      authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution));
+      authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution ?? 0));
     } else {
-      authorMap[author].sort(window.comparator((repo) => repo[sortWithinOption]));
+      authorMap[author].sort(window.comparator((repo) => checkKeyAndGetValue(repo, sortingWithinOption)));
     }
     if (isSortingWithinDsc) {
       authorMap[author].reverse();
@@ -106,7 +136,15 @@ function groupByAuthors(repos, sortingControl) {
   return filtered;
 }
 
-function sortFiltered(filtered, filterControl) {
+function sortFiltered(
+  filtered: User[][],
+  filterControl: {
+    filterGroupSelection: FilterGroupSelection;
+    sortingOption: string;
+    sortingWithinOption: string;
+    isSortingDsc: string;
+    isSortingWithinDsc: string; },
+) {
   const { filterGroupSelection } = filterControl;
   let full = [];
 
