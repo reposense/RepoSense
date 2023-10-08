@@ -131,7 +131,9 @@
           v-on:mouseout="resetTooltip(`${slice.hash}-show-hide-message-body`)"
         )
           font-awesome-icon.commit-message--button(icon="ellipsis-h")
-          span.tooltip-text(v-bind:ref="`${slice.hash}-show-hide-message-body`") Click to show/hide the commit message body
+          span.tooltip-text(
+            v-bind:ref="`${slice.hash}-show-hide-message-body`"
+            ) Click to show/hide the commit message body
       .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
         pre {{ slice.messageBody }}
           .dashed-border
