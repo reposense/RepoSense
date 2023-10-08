@@ -8,8 +8,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.sun.tools.javac.util.Pair;
-
 import reposense.authorship.model.CandidateLine;
 import reposense.authorship.model.GitBlameLineInfo;
 import reposense.git.GitBlame;
@@ -48,8 +46,7 @@ public class AuthorshipAnalyzer {
     private static final String ADDED_LINE_SYMBOL = "+";
     private static final String DELETED_LINE_SYMBOL = "-";
 
-    private static ConcurrentHashMap<String, Pair<ArrayList<String>, ArrayList<String>>> GIT_DIFF_CACHE =
-            new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, ArrayList<String>[]> GIT_DIFF_CACHE = new ConcurrentHashMap<>();
 
     /**
      * Analyzes the authorship of {@code lineContent} in {@code filePath}.
@@ -102,48 +99,54 @@ public class AuthorshipAnalyzer {
 
         for (String parentCommit : parentCommits) {
             String key = config.getRepoRoot() + parentCommit + commitHash;
-            ArrayList<String> filteredFileDiffResultList;
-            ArrayList<String> filteredPreImageFilePathList;
+            ArrayList<String> fileDiffResultList;
+            ArrayList<String> preImageFilePathList;
+            ArrayList<String> postImageFilePathList;
 
             if (GIT_DIFF_CACHE.containsKey(key)) {
-                Pair<ArrayList<String>, ArrayList<String>> value = GIT_DIFF_CACHE.get(key);
-                filteredFileDiffResultList = value.fst;
-                filteredPreImageFilePathList = value.snd;
+                ArrayList<String>[] cache = GIT_DIFF_CACHE.get(key);
+                fileDiffResultList = cache[0];
+                preImageFilePathList = cache[1];
+                postImageFilePathList = cache[2];
             } else {
-                filteredFileDiffResultList = new ArrayList<>();
-                filteredPreImageFilePathList = new ArrayList<>();
+                fileDiffResultList = new ArrayList<>();
+                preImageFilePathList = new ArrayList<>();
+                postImageFilePathList = new ArrayList<>();
 
                 // Generate diff between commit and parent commit
                 String gitDiffResult = GitDiff.diffCommits(config.getRepoRoot(), parentCommit, commitHash);
-                String[] fileDiffResultList = gitDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
+                String[] fileDiffResults = gitDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
 
-                for (String fileDiffResult : fileDiffResultList) {
+                for (String fileDiffResult : fileDiffResults) {
                     Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
                     if (!filePathMatcher.find()) {
                         continue;
                     }
 
+                    // If file was added in the commit
                     String preImageFilePath = filePathMatcher.group(PRE_IMAGE_FILE_PATH_GROUP_NAME);
-                    String postImageFilePath = filePathMatcher.group(POST_IMAGE_FILE_PATH_GROUP_NAME);
-
-                    // If file was added in the commit or file name does not match
-                    if (preImageFilePath.equals(FILE_ADDED_SYMBOL) || !postImageFilePath.equals(filePath)) {
+                    if (preImageFilePath.equals(FILE_ADDED_SYMBOL)) {
                         continue;
                     }
 
-                    filteredFileDiffResultList.add(fileDiffResult);
-                    filteredPreImageFilePathList.add(preImageFilePath);
+                    String postImageFilePath = filePathMatcher.group(POST_IMAGE_FILE_PATH_GROUP_NAME);
+
+                    fileDiffResultList.add(fileDiffResult);
+                    preImageFilePathList.add(preImageFilePath);
+                    postImageFilePathList.add(postImageFilePath);
                 }
 
-                GIT_DIFF_CACHE.put(key, Pair.of(filteredFileDiffResultList, filteredPreImageFilePathList));
+                GIT_DIFF_CACHE.put(key, new ArrayList[] {fileDiffResultList, preImageFilePathList, postImageFilePathList});
             }
 
-            for (int i = 0; i < filteredFileDiffResultList.size(); i++) {
-                String fileDiffResult = filteredFileDiffResultList.get(i);
-                String preImageFilePath = filteredPreImageFilePathList.get(i);
+            for (int i = 0; i < fileDiffResultList.size(); i++) {
+                // If file name does not match
+                if (!postImageFilePathList.get(i).equals(filePath)) {
+                    continue;
+                }
 
                 CandidateLine candidateLine = getDeletedLineWithHighestSimilarityInDiff(
-                        fileDiffResult, lineContent, parentCommit, preImageFilePath);
+                        fileDiffResultList.get(i), lineContent, parentCommit, preImageFilePathList.get(i));
                 if (candidateLine == null) {
                     continue;
                 }
