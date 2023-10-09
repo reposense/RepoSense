@@ -101,19 +101,22 @@
     .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
       .file(v-bind:ref="file.path")
-        .title(v-bind:class="{'sticky':\ file.active}")
+        .title(
+          v-bind:class="{'sticky':\ file.active}",
+          v-bind:ref="`${file.path}-title`"
+          )
           span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(
               v-show="file.active",
-              v-on:mouseover="onTooltipHover(`${file.path}-hide-file-tooltip`)",
-              v-on:mouseout="resetTooltip(`${file.path}-hide-file-tooltip`)"
+              v-on:mouseover="onTitleTooltipHover(`${file.path}-hide-file-tooltip`, `${file.path}-title`)",
+              v-on:mouseout="resetTitleTooltip(`${file.path}-hide-file-tooltip`, `${file.path}-title`)"
             )
               font-awesome-icon(icon="caret-down", fixed-width)
               span.tooltip-text(v-bind:ref="`${file.path}-hide-file-tooltip`") Click to hide file details
             .tooltip(
               v-show="!file.active",
-              v-on:mouseover="onTooltipHover(`${file.path}-show-file-tooltip`)",
-              v-on:mouseout="resetTooltip(`${file.path}-show-file-tooltip`)"
+              v-on:mouseover="onTitleTooltipHover(`${file.path}-show-file-tooltip`, `${file.path}-title`)",
+              v-on:mouseout="resetTitleTooltip(`${file.path}-show-file-tooltip`, `${file.path}-title`)"
             )
               font-awesome-icon(icon="caret-right", fixed-width)
               span.tooltip-text(v-bind:ref="`${file.path}-show-file-tooltip`") Click to show file details
@@ -149,8 +152,8 @@
               v-bind:href="getHistoryLink(file)", target="_blank"
             )
               .tooltip(
-                v-on:mouseover="onTooltipHover(`${file.path}-view-history-tooltip`)",
-                v-on:mouseout="resetTooltip(`${file.path}-view-history-tooltip`)"
+                v-on:mouseover="onTitleTooltipHover(`${file.path}-view-history-tooltip`, `${file.path}-title`)",
+                v-on:mouseout="resetTitleTooltip(`${file.path}-view-history-tooltip`, `${file.path}-title`)"
               )
                 font-awesome-icon.button(icon="history")
                 span.tooltip-text(
@@ -163,8 +166,8 @@
               title="click to view the blame view of file"
             )
               .tooltip(
-                v-on:mouseover="onTooltipHover(`${file.path}-view-blame-tooltip`)",
-                v-on:mouseout="resetTooltip(`${file.path}-view-blame-tooltip`)"
+                v-on:mouseover="onTitleTooltipHover(`${file.path}-view-blame-tooltip`, `${file.path}-title`)",
+                v-on:mouseout="resetTitleTooltip(`${file.path}-view-blame-tooltip`, `${file.path}-title`)"
               )
                 font-awesome-icon.button(icon="user-edit")
                 span.tooltip-text(
@@ -497,6 +500,18 @@ export default defineComponent({
       if (this.isElementAboveViewport(fileElement)) {
         fileElement.scrollIntoView(true);
       }
+    },
+
+    onTitleTooltipHover(tooltipTextElement: string, titleTextElement: string): void {
+      this.onTooltipHover(tooltipTextElement);
+      const titleElement = (this.$refs[titleTextElement] as HTMLElement[])[0];
+      titleElement.classList.add('max-zIndex');
+    },
+
+    resetTitleTooltip(tooltipTextElement: string, titleTextElement: string): void {
+      this.resetTooltip(tooltipTextElement);
+      const titleElement = (this.$refs[titleTextElement] as HTMLElement[])[0];
+      titleElement.classList.remove('max-zIndex');
     },
 
     isUnknownAuthor(name: string): boolean {
@@ -880,6 +895,10 @@ export default defineComponent({
 
       &.sticky {
         position: sticky;
+      }
+
+      &.max-zIndex {
+        z-index: z-index('max-value');
       }
 
       .caret {
