@@ -47,6 +47,7 @@ public class AuthorshipAnalyzer {
     private static final String DELETED_LINE_SYMBOL = "-";
 
     private static ConcurrentHashMap<String, ArrayList<String>[]> GIT_DIFF_CACHE = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, String[]> GIT_LOG_CACHE = new ConcurrentHashMap<>();
 
     /**
      * Analyzes the authorship of {@code lineContent} in {@code filePath}.
@@ -92,10 +93,17 @@ public class AuthorshipAnalyzer {
      */
     private static CandidateLine getDeletedLineWithHighestSimilarity(RepoConfiguration config, String filePath,
             String lineContent, String commitHash) {
-        String gitLogResults = GitLog.getParentCommits(config.getRepoRoot(), commitHash);
-        String[] parentCommits = gitLogResults.split(" ");
-
         CandidateLine highestSimilarityLine = null;
+
+        String gitLogCacheKey = config.getRepoRoot() + commitHash;
+        String[] parentCommits;
+        if (GIT_LOG_CACHE.containsKey(gitLogCacheKey)) {
+            parentCommits = GIT_LOG_CACHE.get(gitLogCacheKey);
+        } else {
+            String gitLogResults = GitLog.getParentCommits(config.getRepoRoot(), commitHash);
+            parentCommits = gitLogResults.split(" ");
+            GIT_LOG_CACHE.put(gitLogCacheKey, parentCommits);
+        }
 
         for (String parentCommit : parentCommits) {
             String gitDiffCacheKey = config.getRepoRoot() + parentCommit + commitHash;
