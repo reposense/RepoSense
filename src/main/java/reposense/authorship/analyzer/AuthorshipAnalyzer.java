@@ -98,13 +98,13 @@ public class AuthorshipAnalyzer {
         CandidateLine highestSimilarityLine = null;
 
         for (String parentCommit : parentCommits) {
-            String key = config.getRepoRoot() + parentCommit + commitHash;
+            String gitDiffCacheKey = config.getRepoRoot() + parentCommit + commitHash;
             ArrayList<String> fileDiffResultList;
             ArrayList<String> preImageFilePathList;
             ArrayList<String> postImageFilePathList;
 
-            if (GIT_DIFF_CACHE.containsKey(key)) {
-                ArrayList<String>[] cache = GIT_DIFF_CACHE.get(key);
+            if (GIT_DIFF_CACHE.containsKey(gitDiffCacheKey)) {
+                ArrayList<String>[] cache = GIT_DIFF_CACHE.get(gitDiffCacheKey);
                 fileDiffResultList = cache[0];
                 preImageFilePathList = cache[1];
                 postImageFilePathList = cache[2];
@@ -136,7 +136,7 @@ public class AuthorshipAnalyzer {
                     postImageFilePathList.add(postImageFilePath);
                 }
 
-                GIT_DIFF_CACHE.put(key, new ArrayList[] {fileDiffResultList, preImageFilePathList, postImageFilePathList});
+                GIT_DIFF_CACHE.put(gitDiffCacheKey, new ArrayList[] {fileDiffResultList, preImageFilePathList, postImageFilePathList});
             }
 
             for (int i = 0; i < fileDiffResultList.size(); i++) {
