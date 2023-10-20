@@ -20,6 +20,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.0.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@types/minimatch": "^5.1.2",
+    "@types/seedrandom": "^3.0.5",
     "core-js": "^3.6.5",
     "highlight.js": "^10.5.0",
     "jszip": "^3.5.0",
@@ -33,7 +34,7 @@
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2",
-    "zod": "^3.20.6"
+    "zod": "^3.22.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
