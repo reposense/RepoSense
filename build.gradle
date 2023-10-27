@@ -1,15 +1,15 @@
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
-    id 'application'
-    id 'checkstyle'
-    id 'idea'
-    id 'jacoco'
-    id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
-    id 'com.liferay.node' version '7.2.18'
-    id 'com.github.psxpaul.execfork' version '0.2.0'
-    id 'com.palantir.git-version' version '0.13.0'
+    id("application")
+    id("checkstyle")
+    id("idea")
+    id("jacoco")
+    id("java")
+    id("com.github.johnrengelman.shadow") version("7.1.2")
+    id("com.liferay.node") version("7.2.18")
+    id("com.github.psxpaul.execfork") version("0.2.0")
+    id("com.palantir.git-version") version("0.13.0")
 }
 
 OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
