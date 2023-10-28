@@ -15,6 +15,10 @@ RepoSense is a contribution analysis tool for Git repositories. It is particular
   - [User Guide for the latest `master` (not yet released to users)](https://reposense.github.io/RepoSense)
 
 ---
+### Our Contributors :
+<a href="https://github.com/ckcherry23/RepoSense/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ckcherry23/RepoSense" />
+</a>
 
 **Acknowledgements**: The web previews of RepoSense is powered by Netlify and Surge.
 
