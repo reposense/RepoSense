@@ -23,10 +23,8 @@ import reposense.util.StringsUtil;
  * Analyzes a line to find out if the author should be assigned partial or full credit.
  */
 public class AuthorshipAnalyzer {
+    public static final double DEFAULT_SIMILARITY_THRESHOLD = 0.8;
     private static final Logger logger = LogsManager.getLogger(AuthorshipAnalyzer.class);
-
-    private static final double SIMILARITY_THRESHOLD = 0.8;
-
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
     private static final Pattern FILE_CHANGED_PATTERN =
             Pattern.compile("\n(-){3} a?/(?<preImageFilePath>.*)\n(\\+){3} b?/(?<postImageFilePath>.*)\n");
@@ -51,10 +49,12 @@ public class AuthorshipAnalyzer {
 
     /**
      * Analyzes the authorship of {@code lineContent} in {@code filePath}.
+     * A line is considered to be similar to the line that is compared to if the similarity score computed is more than
+     * or equal to the {@code similarityThreshold}.
      * Returns {@code true} if {@code currentAuthor} should be assigned full credit, {@code false} otherwise.
      */
     public static boolean analyzeAuthorship(RepoConfiguration config, String filePath, String lineContent,
-            String commitHash, Author currentAuthor) {
+            String commitHash, Author currentAuthor, double similarityThreshold) {
         // Empty lines are ignored and given full credit
         if (lineContent.isEmpty()) {
             return true;
@@ -63,7 +63,7 @@ public class AuthorshipAnalyzer {
         CandidateLine deletedLine = getDeletedLineWithHighestSimilarity(config, filePath, lineContent, commitHash);
 
         // Give full credit if there are no deleted lines found or deleted line is less than similarity threshold
-        if (deletedLine == null || deletedLine.getSimilarityScore() < SIMILARITY_THRESHOLD) {
+        if (deletedLine == null || deletedLine.getSimilarityScore() < similarityThreshold) {
             return true;
         }
 
@@ -85,7 +85,7 @@ public class AuthorshipAnalyzer {
 
         // Check the previous version as currentAuthor is the same as author of the previous version
         return analyzeAuthorship(config, deletedLine.getFilePath(), deletedLine.getLineContent(),
-                deletedLineInfo.getCommitHash(), deletedLineInfo.getAuthor());
+                deletedLineInfo.getCommitHash(), deletedLineInfo.getAuthor(), similarityThreshold);
     }
 
     /**

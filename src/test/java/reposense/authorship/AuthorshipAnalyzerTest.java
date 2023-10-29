@@ -1,5 +1,7 @@
 package reposense.authorship;
 
+import static reposense.authorship.analyzer.AuthorshipAnalyzer.DEFAULT_SIMILARITY_THRESHOLD;
+
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
@@ -152,7 +154,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         FileInfo fileInfo = fileInfoExtractor.generateFileInfo(config, relativePath);
 
         FileInfoAnalyzer fileInfoAnalyzer = new FileInfoAnalyzer();
-        fileInfoAnalyzer.analyzeTextFile(config, fileInfo, true);
+        fileInfoAnalyzer.analyzeTextFile(config, fileInfo, true, DEFAULT_SIMILARITY_THRESHOLD);
 
         return fileInfo;
     }
