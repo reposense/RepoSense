@@ -1,5 +1,7 @@
 package reposense.parser;
 
+import static reposense.authorship.analyzer.AuthorshipAnalyzer.DEFAULT_SIMILARITY_THRESHOLD;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -206,7 +208,7 @@ public class ArgsParser {
                 .dest(SIMILARITY_THRESHOLD_FLAGS[0])
                 .metavar("(0.0 ~ 1.0)")
                 .type(new SimilarityThresholdArgumentType())
-                .setDefault(0.8)
+                .setDefault(DEFAULT_SIMILARITY_THRESHOLD)
                 .help("The similarity threshold for analysis of code authorship.");
 
         // Mutex flags - these will always be the last parameters in help message.
