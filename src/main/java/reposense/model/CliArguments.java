@@ -36,6 +36,7 @@ public class CliArguments {
     private final ZoneId zoneId;
     private final boolean isFindingPreviousAuthorsPerformed;
     private final boolean isAuthorshipAnalyzed;
+    private final double similarityThreshold;
 
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
@@ -81,6 +82,7 @@ public class CliArguments {
         this.reportConfigFilePath = builder.reportConfigFilePath;
         this.reportConfiguration = builder.reportConfiguration;
         this.isAuthorshipAnalyzed = builder.isAuthorshipAnalyzed;
+        this.similarityThreshold = builder.similarityThreshold;
     }
 
     public ZoneId getZoneId() {
@@ -195,6 +197,10 @@ public class CliArguments {
         return isAuthorshipAnalyzed;
     }
 
+    public double getSimilarityThreshold() {
+        return similarityThreshold;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -233,7 +239,8 @@ public class CliArguments {
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
                 && Objects.equals(this.groupConfigFilePath, otherCliArguments.groupConfigFilePath)
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
-                && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed;
+                && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
+                && Objects.equals(this.similarityThreshold, otherCliArguments.similarityThreshold);
     }
 
     /**
@@ -268,6 +275,7 @@ public class CliArguments {
         private Path reportConfigFilePath;
         private ReportConfiguration reportConfiguration;
         private boolean isAuthorshipAnalyzed;
+        private double similarityThreshold;
 
         public Builder() {
         }
@@ -517,6 +525,16 @@ public class CliArguments {
          */
         public Builder isAuthorshipAnalyzed(boolean isAuthorshipAnalyzed) {
             this.isAuthorshipAnalyzed = isAuthorshipAnalyzed;
+            return this;
+        }
+
+        /**
+         * Adds the {@code similarityThreshold} to CliArguments.
+         *
+         * @param similarityThreshold the similarity threshold.
+         */
+        public Builder similarityThreshold(double similarityThreshold) {
+            this.similarityThreshold = similarityThreshold;
             return this;
         }
 
