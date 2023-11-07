@@ -148,18 +148,28 @@
               v-bind:class="!isBrokenLink(getHistoryLink(file)) ? '' : 'broken-link'",
               v-bind:href="getHistoryLink(file)", target="_blank"
             )
-              .tooltip
+              .tooltip(
+                v-on:mouseover="onTooltipHover(`${file.path}-view-history-tooltip`)",
+                v-on:mouseout="resetTooltip(`${file.path}-view-history-tooltip`)"
+              )
                 font-awesome-icon.button(icon="history")
-                span.tooltip-text {{getLinkMessage(getHistoryLink(file), 'Click to view the history view of file')}}
+                span.tooltip-text(
+                  v-bind:ref="`${file.path}-view-history-tooltip`"
+                ) {{getLinkMessage(getHistoryLink(file), 'Click to view the history view of file')}}
             a(
               v-if='!file.isBinary',
               v-bind:class="!isBrokenLink(getBlameLink(file)) ? '' : 'broken-link'",
               v-bind:href="getBlameLink(file)", target="_blank",
               title="click to view the blame view of file"
             )
-              .tooltip
+              .tooltip(
+                v-on:mouseover="onTooltipHover(`${file.path}-view-blame-tooltip`)",
+                v-on:mouseout="resetTooltip(`${file.path}-view-blame-tooltip`)"
+              )
                 font-awesome-icon.button(icon="user-edit")
-                span.tooltip-text {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
+                span.tooltip-text(
+                  v-bind:ref="`${file.path}-view-blame-tooltip`"
+                ) {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
           .author-breakdown(v-if="info.isMergeGroup")
             .author-breakdown__legend(
               v-for="author in getAuthors(file)",
@@ -186,6 +196,7 @@ import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
+import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 import Segment from '../utils/segment';
 import getNonRepeatingColor from '../utils/random-color-generator';
@@ -229,7 +240,7 @@ export default defineComponent({
   components: {
     cSegmentCollection,
   },
-  mixins: [brokenLinkDisabler],
+  mixins: [brokenLinkDisabler, tooltipPositioner],
   emits: [
     'deactivate-tab',
   ],
@@ -486,22 +497,6 @@ export default defineComponent({
       if (this.isElementAboveViewport(fileElement)) {
         fileElement.scrollIntoView(true);
       }
-    },
-
-    onTooltipHover(refName: string): void {
-      const tooltipTextElement = (this.$refs[refName] as HTMLElement[])[0];
-      if (this.isElementAboveViewport(tooltipTextElement)) {
-        tooltipTextElement.classList.add('bottom-aligned');
-      }
-    },
-
-    resetTooltip(refName: string): void {
-      const tooltipTextElement = (this.$refs[refName] as HTMLElement[])[0];
-      tooltipTextElement.classList.remove('bottom-aligned');
-    },
-
-    isElementAboveViewport(el: Element): boolean {
-      return el.getBoundingClientRect().top <= 0;
     },
 
     isUnknownAuthor(name: string): boolean {
