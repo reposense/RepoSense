@@ -31,13 +31,11 @@
     )
 </template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue';
+<script>
 import { mapState } from 'vuex';
 import Segment from '../utils/segment';
-import { StoreState } from '../types/vuex.d';
 
-export default defineComponent({
+export default {
   name: 'c-segment',
   props: {
     segment: {
@@ -51,14 +49,14 @@ export default defineComponent({
   },
   data() {
     return {
-      isOpen: (this.segment.knownAuthor !== null) || this.segment.lines.length < 5 as boolean,
-      canOpen: (this.segment.knownAuthor === null) && this.segment.lines.length > 4 as boolean,
-      transparencyValue: '30' as string,
+      isOpen: this.segment.knownAuthor || this.segment.lines.length < 5,
+      canOpen: !this.segment.knownAuthor && this.segment.lines.length > 4,
+      transparencyValue: '30',
     };
   },
   computed: {
     ...mapState({
-      authorColors: (state: unknown) => (state as StoreState).tabAuthorColors,
+      authorColors: ['tabAuthorColors'],
     }),
   },
   methods: {
@@ -66,7 +64,7 @@ export default defineComponent({
       this.isOpen = !this.isOpen;
     },
   },
-});
+};
 </script>
 
 <style lang="css">

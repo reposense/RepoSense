@@ -8,7 +8,7 @@ function getRandomHex() {
   return `#${Math.round(randomGenerator() * maxHexColorValue + 1).toString(16).padStart(6, '0')}`;
 }
 
-function rgb2lab(rgb: number[]) {
+function rgb2lab(rgb) {
   let r = rgb[0] / 255;
   let g = rgb[1] / 255;
   let b = rgb[2] / 255;
@@ -29,7 +29,7 @@ function rgb2lab(rgb: number[]) {
 
 // this delta E (perceptual color distance) implementation taken from @antimatter15 from
 // github: https://github.com/antimatter15/rgb-lab
-function deltaE(rgbA: number[], rgbB: number[]) {
+function deltaE(rgbA, rgbB) {
   const labA = rgb2lab(rgbA);
   const labB = rgb2lab(rgbB);
   const deltaL = labA[0] - labB[0];
@@ -49,7 +49,7 @@ function deltaE(rgbA: number[], rgbB: number[]) {
   return distance < 0 ? 0 : Math.sqrt(distance);
 }
 
-function hasSimilarExistingColors(existingColors: string[], newHex: string) {
+function hasSimilarExistingColors(existingColors, newHex) {
   const deltaEThreshold = 11;
   // the lower limit of delta E to be similar, more info at http://zschuessler.github.io/DeltaE/learn/
   return existingColors.some((existingHex) => {
@@ -59,7 +59,7 @@ function hasSimilarExistingColors(existingColors: string[], newHex: string) {
   });
 }
 
-function getNonRepeatingColor(existingColors: string[]) {
+function getNonRepeatingColor(existingColors) {
   let generatedHex = getRandomHex();
   while (hasSimilarExistingColors(existingColors, generatedHex)) {
     generatedHex = getRandomHex();

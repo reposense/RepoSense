@@ -592,9 +592,7 @@ export default defineComponent({
 
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
-        // additional day was added to include the date represented by filterUntilDate
-        const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf()
-            + window.DAY_IN_MS;
+        const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf();
         const idxs = this.drags.map((x) => (x * tdiff) / 100);
         const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
         const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);

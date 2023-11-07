@@ -7,7 +7,7 @@
           draggable="false",
           v-on:click="rampClick",
           v-bind:href="getLink(commit)", target="_blank",
-          v-bind:title="getContributionMessageByCommit(slice, commit)",
+          v-bind:title="getContributionMessage(slice, commit)",
           v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
             !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
           v-bind:style="{\
@@ -34,13 +34,11 @@
       )
 </template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue';
+<script>
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import User from '../utils/user';
-import { Commit, CommitResult } from '../types/types';
 
-export default defineComponent({
+export default {
   name: 'c-ramp',
   mixins: [brokenLinkDisabler],
   props: {
@@ -87,32 +85,24 @@ export default defineComponent({
   },
   data() {
     return {
-      rampSize: 0.01 as number,
+      rampSize: 0.01,
+      mergeCommitRampSize: this.rampSize * 20,
+      deletesContributionRampSize: this.rampSize * 20,
     };
   },
 
-  computed: {
-    mergeCommitRampSize(): number {
-      return this.rampSize * 20;
-    },
-    deletesContributionRampSize(): number {
-      return this.rampSize * 20;
-    },
-  },
-
   methods: {
-    getLink(commit: CommitResult) {
+    getLink(commit) {
       return window.getCommitLink(commit.repoId, commit.hash);
     },
-    getContributions(commit: CommitResult | Commit) {
+    getContributions(commit) {
       return commit.insertions + commit.deletions;
     },
-    isDeletesContribution(commit: CommitResult | Commit) {
+    isDeletesContribution(commit) {
       return commit.insertions === 0 && commit.deletions > 0;
     },
-    getWidth(slice: CommitResult | Commit) {
-      // Check if slice contains 'isMergeCommit' attribute
-      if ('isMergeCommit' in slice && slice.isMergeCommit) {
+    getWidth(slice) {
+      if (slice.isMergeCommit) {
         return this.mergeCommitRampSize;
       }
       if (this.getContributions(slice) === 0) {
@@ -121,36 +111,29 @@ export default defineComponent({
       if (this.isDeletesContribution(slice)) {
         return this.deletesContributionRampSize;
       }
-      // '+' unary operator here attempts to convert this.avgsize to number, if it is not already one
-      const newSize = 100 * (slice.insertions / +this.avgsize);
+      const newSize = 100 * (slice.insertions / this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    getContributionMessageByCommit(slice: Commit, commit: CommitResult) {
-      return `[${slice.date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
-    },
-    getContributionMessage(slice: Commit) {
-      let title = this.tframe === 'day'
-          ? `[${slice.date}] Daily `
-          : `[${slice.date} till ${slice.endDate}] Weekly `;
+    getContributionMessage(slice, commit) {
+      let title = '';
+      if (this.tframe === 'commit') {
+        return `[${slice.date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
+      }
+
+      title = this.tframe === 'day'
+            ? `[${slice.date}] Daily `
+            : `[${slice.date} till ${slice.endDate}] Weekly `;
       title += `contribution: +${slice.insertions} -${slice.deletions} lines`;
       return title;
     },
-    openTabZoom(user: User, slice: Commit, evt: MouseEvent) {
+    openTabZoom(user, slice, evt) {
       // prevent opening of zoom tab when cmd/ctrl click
       if (window.isMacintosh ? evt.metaKey : evt.ctrlKey) {
         return;
       }
 
       const zoomUser = { ...user };
-      // Calculate total commit result insertion and deletion for the daily/weekly commit selected
-      zoomUser.commits = user.dailyCommits.map(
-        (dailyCommit) => ({
-          insertions: dailyCommit.commitResults.reduce((acc, currCommitResult) => acc + currCommitResult.insertions, 0),
-          deletions: dailyCommit.commitResults.reduce((acc, currCommitResult) => acc + currCommitResult.deletions, 0),
-          ...dailyCommit,
-          commitResults: dailyCommit.commitResults.map((commitResult) => ({ ...commitResult, isOpen: true })),
-        }),
-      ) as Commit[];
+      zoomUser.commits = user.dailyCommits;
 
       const info = {
         zRepo: user.repoName,
@@ -172,27 +155,27 @@ export default defineComponent({
     },
 
     // position for commit granularity
-    getCommitPos(i: number, total: number) {
+    getCommitPos(i, total) {
       return (((total - i - 1) * window.DAY_IN_MS) / total)
           / (this.getTotalForPos(this.sdate, this.udate) + window.DAY_IN_MS);
     },
     // position for day granularity
-    getSlicePos(date: string) {
+    getSlicePos(date) {
       const total = this.getTotalForPos(this.sdate, this.udate);
-      return (new Date(this.udate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
+      return (new Date(this.udate) - new Date(date)) / (total + window.DAY_IN_MS);
     },
 
     // get duration in miliseconds between 2 date
-    getTotalForPos(sinceDate: string, untilDate: string) {
-      return new Date(untilDate).valueOf() - new Date(sinceDate).valueOf();
+    getTotalForPos(sinceDate, untilDate) {
+      return new Date(untilDate) - new Date(sinceDate);
     },
-    getRampColor(commit: CommitResult, slice: Commit) {
+    getRampColor(commit, slice) {
       if (this.isDeletesContribution(commit)) {
         return '-deletes';
       }
       return this.getSliceColor(slice);
     },
-    getSliceColor(slice: Commit) {
+    getSliceColor(slice) {
       if (this.isDeletesContribution(slice)) {
         return '-deletes';
       }
@@ -204,7 +187,7 @@ export default defineComponent({
     },
 
     // Prevent browser from switching to new tab when clicking ramp
-    rampClick(evt: MouseEvent) {
+    rampClick(evt) {
       const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
       if (isKeyPressed) {
         evt.preventDefault();
@@ -219,11 +202,11 @@ export default defineComponent({
       return undefined;
     },
   },
-});
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '../styles/_colors.scss';
 
 /* Ramp */
