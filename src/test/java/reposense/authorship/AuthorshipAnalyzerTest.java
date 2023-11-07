@@ -18,13 +18,15 @@ import reposense.util.TestUtil;
 
 public class AuthorshipAnalyzerTest extends GitTestTemplate {
     private static final LocalDateTime SINCE_DATE = TestUtil.getSinceDate(2018, Month.JANUARY.getValue(), 1);
-    private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2019, Month.DECEMBER.getValue(), 1);
+    private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2023, Month.DECEMBER.getValue(), 1);
     private static final String TEST_FILENAME = "analyzeAuthorshipTest.java";
     private static final String TEST1_FILENAME = "analyzeAuthorshipTest1.java";
     private static final String TEST2_FILENAME = "analyzeAuthorshipTest2.java";
+    private static final String TEST3_FILENAME = "analyzeAuthorshipTest3.java";
     private static final String BRANCH_NAME = "945-FileAnalyzerTest-analyzeAuthorship";
     private static final CommitHash IGNORE_HASH = new CommitHash("f874c0992645bed626de2113659ce48d7a2233dd");
     private static final Author MINGYI_AUTHOR = new Author(MINGYI_AUTHOR_NAME);
+    private static final Author SHICHEN_AUTHOR = new Author(SHICHEN_AUTHOR_NAME);
 
     private RepoConfiguration config;
 
@@ -43,6 +45,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
 
         config.addAuthorNamesToAuthorMapEntry(FAKE_AUTHOR, FAKE_AUTHOR_NAME);
         config.addAuthorNamesToAuthorMapEntry(MINGYI_AUTHOR, MINGYI_AUTHOR_NAME);
+        config.addAuthorNamesToAuthorMapEntry(SHICHEN_AUTHOR, SHICHEN_AUTHOR_NAME);
     }
 
     @Test
@@ -145,6 +148,25 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         // Full credit given since current author is also the author of the previous version
         Assertions.assertEquals(FAKE_AUTHOR, fileInfo.getLine(3).getAuthor());
         Assertions.assertTrue(fileInfo.getLine(3).isFullCredit());
+    }
+
+    @Test
+    public void analyzeAuthorship_annotatedAuthorOverride_success() {
+        FileInfo fileInfo = analyzeTextFile(TEST3_FILENAME);
+
+        // Line 1 - 4 is annotated to ming yi (myteo)
+        // Partial credit given since the blamed author is not the same as the annotated author
+        for (int i = 1; i <= 4; i++) {
+            Assertions.assertEquals(MINGYI_AUTHOR, fileInfo.getLine(i).getAuthor());
+            Assertions.assertFalse(fileInfo.getLine(i).isFullCredit());
+        }
+
+        // Line 5 - 8 is annotated to shi chen (SkyBlaise)
+        // Full credit is inherited since the blamed author is the same as the annotated author
+        for (int i = 5; i <= 8; i++) {
+            Assertions.assertEquals(SHICHEN_AUTHOR, fileInfo.getLine(i).getAuthor());
+            Assertions.assertTrue(fileInfo.getLine(i).isFullCredit());
+        }
     }
 
     private FileInfo analyzeTextFile(String relativePath) {
