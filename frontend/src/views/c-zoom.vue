@@ -126,14 +126,9 @@
         v-if="slice.messageBody !== ''",
         v-on:click="toggleSelectedCommitMessageBody(slice)"
       )
-        .tooltip(
-          v-on:mouseover="onTooltipHover(`${slice.hash}-show-hide-message-body`)",
-          v-on:mouseout="resetTooltip(`${slice.hash}-show-hide-message-body`)"
-        )
+        .tooltip
           font-awesome-icon.commit-message--button(icon="ellipsis-h")
-          span.tooltip-text(
-            v-bind:ref="`${slice.hash}-show-hide-message-body`"
-            ) Click to show/hide the commit message body
+          span.tooltip-text Click to show/hide the commit message body
       .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
         pre {{ slice.messageBody }}
           .dashed-border
@@ -150,7 +145,6 @@ import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
-import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from '../components/c-ramp.vue';
 import cStackedBarChart from '../components/c-stacked-bar-chart.vue';
 import User from '../utils/user';
@@ -183,7 +177,7 @@ export default defineComponent({
     cRamp,
     cStackedBarChart,
   },
-  mixins: [brokenLinkDisabler, tooltipPositioner],
+  mixins: [brokenLinkDisabler],
   data() {
     return {
       ...zoomInitialState(),
