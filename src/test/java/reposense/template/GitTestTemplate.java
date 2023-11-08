@@ -56,6 +56,7 @@ public class GitTestTemplate {
     protected static final String EUGENE_AUTHOR_NAME = "eugenepeh";
     protected static final String YONG_AUTHOR_NAME = "Yong Hao TENG";
     protected static final String MINGYI_AUTHOR_NAME = "myteo";
+    protected static final String SHICHEN_AUTHOR_NAME = "SkyBlaise";
     protected static final String JAMES_AUTHOR_NAME = "jamessspanggg";
     protected static final String JAMES_ALTERNATIVE_AUTHOR_NAME = "James Pang";
     protected static final String JINYAO_AUTHOR_NAME = "jylee-git";
