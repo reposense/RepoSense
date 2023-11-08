@@ -6,9 +6,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "eslint src/**/*.{ts,js,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss} && npm run puglint",
+    "lint": "eslint src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss} && npm run puglint",
     "devbuild": "vue-cli-service build --mode development",
-    "lintfix": "eslint --fix src/**/*.{ts,js,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss}",
+    "lintfix": "eslint --fix src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss}",
     "puglint": "pug-lint-vue src",
     "serveOpen": "vue-cli-service serve --open"
   },
@@ -20,6 +20,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.0.0",
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@types/minimatch": "^5.1.2",
+    "@types/seedrandom": "^3.0.5",
     "core-js": "^3.6.5",
     "highlight.js": "^10.5.0",
     "jszip": "^3.5.0",
@@ -33,7 +34,7 @@
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^4.1.6",
     "vuex": "^4.0.2",
-    "zod": "^3.20.6"
+    "zod": "^3.22.3"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",

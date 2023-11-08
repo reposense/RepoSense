@@ -21,24 +21,30 @@
     slot(name="right")
 </template>
 
-<script>
+<script lang='ts'>
 import { mapState } from 'vuex';
+import { defineComponent } from 'vue';
 
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
 
-const throttledEvent = (delay, handler) => {
+/** The following eslint suppression suppresses a rare false positive case where event cannot be accessed due to
+ *  handler being a lambda function parameter. The explicit lambda function here allows us to easily discern handler's
+ *  parameters, i.e. an event of type MouseEvent.
+ */
+// eslint-disable-next-line no-unused-vars
+const throttledEvent = (delay: number, handler: (event: MouseEvent) => unknown) => {
   let lastCalled = 0;
-  return (...args) => {
+  return (event: MouseEvent) => {
     if (Date.now() - lastCalled > delay) {
       lastCalled = Date.now();
-      handler(...args);
+      handler(event);
     }
   };
 };
 
-export default {
+export default defineComponent({
   name: 'c-resizer',
 
   data() {
@@ -68,7 +74,7 @@ export default {
 
     mouseMove() {
       if (this.isResizing) {
-        return throttledEvent(25, (event) => {
+        return throttledEvent(25, (event: MouseEvent) => {
           this.guideWidth = (
             Math.min(
               Math.max(
@@ -102,5 +108,5 @@ export default {
       this.$store.commit('updateTabState', false);
     },
   },
-};
+});
 </script>
