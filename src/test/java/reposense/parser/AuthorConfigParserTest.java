@@ -92,7 +92,8 @@ public class AuthorConfigParserTest {
                     .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
 
     private static final List<String> FIRST_AUTHOR_EMAIL_LIST =
-            Arrays.asList("nbr@example.com", "nbriannl@test.net", "nbriannl@users.noreply.github.com");
+            Arrays.asList("nbr@example.com", "nbriannl@test.net", "nbriannl@users.noreply.github.com",
+                    "nbriannl@users.noreply.gitlab.com");
 
     @Test
     public void authorConfig_noSpecialCharacter_success() throws Exception {
