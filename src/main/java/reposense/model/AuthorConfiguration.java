@@ -127,7 +127,7 @@ public class AuthorConfiguration {
      * and display name.
      */
     private void setAuthorDetails(Author author) {
-        // Set Git Id and its corresponding email as default
+        // Set GitHub Id and its corresponding email as default
         addAuthorNamesToAuthorMapEntry(author, author.getGitId());
         addAuthorNamesToAuthorMapEntry(author, author.getAuthorAliases());
 

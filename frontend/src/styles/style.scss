@@ -107,6 +107,7 @@ a.broken-link {
     }
 
     &.bottom-aligned {
+      @include medium-font;
       bottom: auto;
       top: 125%;
     }

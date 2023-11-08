@@ -15,26 +15,15 @@ public class AuthorTest {
 
     @Test
     public void setEmail_validEmails_success() {
-        List<String> emails = new ArrayList<>();
-        emails.add("tester@test.net");
-        emails.add("developer@example.com");
-
         Author author = new Author("Tester");
-        author.setEmails(emails);
-        // The additional 2 emails comes from the Standard GitHub & Gitlab Emails.
-        Assertions.assertEquals(emails.size() + 2, author.getEmails().size());
-        Assertions.assertTrue(author.getEmails().containsAll(emails));
+        String[] emails = new String[] {"tester@test.net", "developer@example.com"};
 
-        emails.add("Tester@users.noreply.github.com");
-        author.setEmails(emails);
-        // The additional 1 email comes from the Gitlab email as the standard GitHub has already been included.
-        Assertions.assertEquals(emails.size() + 1, author.getEmails().size());
-        Assertions.assertTrue(author.getEmails().containsAll(emails));
+        author.setEmails(Arrays.asList(emails));
 
-        emails.add("Tester@users.noreply.gitlab.com");
-        author.setEmails(emails);
-        Assertions.assertEquals(emails.size(), author.getEmails().size());
-        Assertions.assertTrue(author.getEmails().containsAll(emails));
+        // The additional 1 email comes from the Standard GitHub Email.
+        Assertions.assertEquals(emails.length + 1, author.getEmails().size());
+
+        Assertions.assertTrue(author.getEmails().containsAll(Arrays.asList(emails)));
     }
 
     @Test

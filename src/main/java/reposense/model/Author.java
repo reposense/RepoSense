@@ -13,10 +13,7 @@ public class Author {
     public static final String NAME_NO_AUTHOR_WITH_COMMITS_FOUND =
             "NO AUTHOR WITH COMMITS FOUND WITHIN THIS PERIOD OF TIME";
     private static final String UNKNOWN_AUTHOR_GIT_ID = "-";
-
     private static final String STANDARD_GITHUB_EMAIL_DOMAIN = "@users.noreply.github.com";
-    private static final String STANDARD_GITLAB_EMAIL_DOMAIN = "@users.noreply.gitlab.com";
-
     private static final String MESSAGE_UNCOMMON_EMAIL_PATTERN = "The provided email, %s, uses uncommon pattern.";
     private static final String MESSAGE_UNCOMMON_GLOB_PATTERN = "The provided ignore glob, %s, uses uncommon pattern.";
     private static final String COMMON_EMAIL_REGEX =
@@ -40,14 +37,14 @@ public class Author {
         this.authorAliases = new ArrayList<>();
         this.ignoreGlobList = new ArrayList<>();
 
-        addStandardGitHostEmails(this.emails);
+        addStandardGitHubEmail(this.emails);
         updateIgnoreGlobMatcher();
     }
 
     public Author(StandaloneAuthor sa) {
-        String gitId = sa.getGitId();
+        String gitId = sa.getGithubId();
         List<String> emails = new ArrayList<>(sa.getEmails());
-        String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGitId();
+        String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGithubId();
         List<String> authorAliases = sa.getAuthorNames();
         List<String> ignoreGlobList = sa.getIgnoreGlobList();
 
@@ -105,7 +102,7 @@ public class Author {
     public void setEmails(List<String> emails) {
         validateEmails(emails);
         this.emails = new ArrayList<>(emails);
-        addStandardGitHostEmails(this.emails);
+        addStandardGitHubEmail(this.emails);
     }
 
     public String getDisplayName() {
@@ -191,16 +188,12 @@ public class Author {
     }
 
     /**
-     * Adds the standard github and gitlab emails to {@code emails} if not present.
+     * Adds the standard github email to {@code emails} if doesn't exist.
      */
-    private void addStandardGitHostEmails(List<String> emails) {
+    private void addStandardGitHubEmail(List<String> emails) {
         String standardGitHubEmail = getGitId() + STANDARD_GITHUB_EMAIL_DOMAIN;
-        String standardGitLabEmail = getGitId() + STANDARD_GITLAB_EMAIL_DOMAIN;
         if (!emails.contains(standardGitHubEmail)) {
             emails.add(standardGitHubEmail);
-        }
-        if (!emails.contains(standardGitLabEmail)) {
-            emails.add(standardGitLabEmail);
         }
     }
 }

@@ -281,7 +281,7 @@ describe('range changes in chartview should reflect in zoom', () => {
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
       .click(120, 20)
-      .click(170, 20);
+      .click(200, 20);
 
     cy.get('#tab-zoom')
       .should('be.visible');
@@ -306,7 +306,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(170, 20)
+      .click(200, 20)
       .click(250, 20);
 
     cy.get('#tab-zoom')
@@ -334,7 +334,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(170, 20)
+      .click(200, 20)
       .click(225, 20);
 
     cy.get('#tab-zoom')

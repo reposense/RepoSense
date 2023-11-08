@@ -214,7 +214,7 @@ public class ArgsParser {
                 .nargs("+")
                 .dest(REPO_FLAGS[0])
                 .metavar("LOCATION")
-                .help("The remote Git host URLs or local directories to clone the repositories from.");
+                .help("The GitHub URL or disk locations to clone repository.");
 
         mutexParser2.addArgument(LAST_MODIFIED_DATE_FLAGS)
                 .dest(LAST_MODIFIED_DATE_FLAGS[0])

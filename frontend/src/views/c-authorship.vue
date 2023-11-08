@@ -101,22 +101,19 @@
     .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, i) in selectedFiles", v-bind:key="file.path")
       .file(v-bind:ref="file.path")
-        .title(
-          v-bind:class="{'sticky':\ file.active}",
-          v-bind:ref="`${file.path}-title`"
-          )
+        .title(v-bind:class="{'sticky':\ file.active}")
           span.caret(v-on:click="toggleFileActiveProperty(file)")
             .tooltip(
               v-show="file.active",
-              v-on:mouseover="onTitleTooltipHover(`${file.path}-hide-file-tooltip`, `${file.path}-title`)",
-              v-on:mouseout="resetTitleTooltip(`${file.path}-hide-file-tooltip`, `${file.path}-title`)"
+              v-on:mouseover="onTooltipHover(`${file.path}-hide-file-tooltip`)",
+              v-on:mouseout="resetTooltip(`${file.path}-hide-file-tooltip`)"
             )
               font-awesome-icon(icon="caret-down", fixed-width)
               span.tooltip-text(v-bind:ref="`${file.path}-hide-file-tooltip`") Click to hide file details
             .tooltip(
               v-show="!file.active",
-              v-on:mouseover="onTitleTooltipHover(`${file.path}-show-file-tooltip`, `${file.path}-title`)",
-              v-on:mouseout="resetTitleTooltip(`${file.path}-show-file-tooltip`, `${file.path}-title`)"
+              v-on:mouseover="onTooltipHover(`${file.path}-show-file-tooltip`)",
+              v-on:mouseout="resetTooltip(`${file.path}-show-file-tooltip`)"
             )
               font-awesome-icon(icon="caret-right", fixed-width)
               span.tooltip-text(v-bind:ref="`${file.path}-show-file-tooltip`") Click to show file details
@@ -151,28 +148,18 @@
               v-bind:class="!isBrokenLink(getHistoryLink(file)) ? '' : 'broken-link'",
               v-bind:href="getHistoryLink(file)", target="_blank"
             )
-              .tooltip(
-                v-on:mouseover="onTitleTooltipHover(`${file.path}-view-history-tooltip`, `${file.path}-title`)",
-                v-on:mouseout="resetTitleTooltip(`${file.path}-view-history-tooltip`, `${file.path}-title`)"
-              )
+              .tooltip
                 font-awesome-icon.button(icon="history")
-                span.tooltip-text(
-                  v-bind:ref="`${file.path}-view-history-tooltip`"
-                ) {{getLinkMessage(getHistoryLink(file), 'Click to view the history view of file')}}
+                span.tooltip-text {{getLinkMessage(getHistoryLink(file), 'Click to view the history view of file')}}
             a(
               v-if='!file.isBinary',
               v-bind:class="!isBrokenLink(getBlameLink(file)) ? '' : 'broken-link'",
               v-bind:href="getBlameLink(file)", target="_blank",
               title="click to view the blame view of file"
             )
-              .tooltip(
-                v-on:mouseover="onTitleTooltipHover(`${file.path}-view-blame-tooltip`, `${file.path}-title`)",
-                v-on:mouseout="resetTitleTooltip(`${file.path}-view-blame-tooltip`, `${file.path}-title`)"
-              )
+              .tooltip
                 font-awesome-icon.button(icon="user-edit")
-                span.tooltip-text(
-                  v-bind:ref="`${file.path}-view-blame-tooltip`"
-                ) {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
+                span.tooltip-text {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
           .author-breakdown(v-if="info.isMergeGroup")
             .author-breakdown__legend(
               v-for="author in getAuthors(file)",
@@ -199,7 +186,6 @@ import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 import minimatch from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
-import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 import Segment from '../utils/segment';
 import getNonRepeatingColor from '../utils/random-color-generator';
@@ -243,7 +229,7 @@ export default defineComponent({
   components: {
     cSegmentCollection,
   },
-  mixins: [brokenLinkDisabler, tooltipPositioner],
+  mixins: [brokenLinkDisabler],
   emits: [
     'deactivate-tab',
   ],
@@ -502,16 +488,20 @@ export default defineComponent({
       }
     },
 
-    onTitleTooltipHover(tooltipTextElement: string, titleTextElement: string): void {
-      this.onTooltipHover(tooltipTextElement);
-      const titleElement = (this.$refs[titleTextElement] as HTMLElement[])[0];
-      titleElement.classList.add('max-zIndex');
+    onTooltipHover(refName: string): void {
+      const tooltipTextElement = (this.$refs[refName] as HTMLElement[])[0];
+      if (this.isElementAboveViewport(tooltipTextElement)) {
+        tooltipTextElement.classList.add('bottom-aligned');
+      }
     },
 
-    resetTitleTooltip(tooltipTextElement: string, titleTextElement: string): void {
-      this.resetTooltip(tooltipTextElement);
-      const titleElement = (this.$refs[titleTextElement] as HTMLElement[])[0];
-      titleElement.classList.remove('max-zIndex');
+    resetTooltip(refName: string): void {
+      const tooltipTextElement = (this.$refs[refName] as HTMLElement[])[0];
+      tooltipTextElement.classList.remove('bottom-aligned');
+    },
+
+    isElementAboveViewport(el: Element): boolean {
+      return el.getBoundingClientRect().top <= 0;
     },
 
     isUnknownAuthor(name: string): boolean {
@@ -521,6 +511,7 @@ export default defineComponent({
     splitSegments(lines: Line[]): { segments: Segment[]; blankLineCount: number; } {
       // split into segments separated by knownAuthor
       let lastState: string | null;
+      let lastCreditState: boolean;
       let lastId = -1;
       const segments: Segment[] = [];
       let blankLineCount = 0;
@@ -530,16 +521,19 @@ export default defineComponent({
             ? !this.isUnknownAuthor(line.author.gitId)
             : line.author.gitId === this.info.author;
         const knownAuthor = (line.author && isAuthorMatched) ? line.author.gitId : null;
+        const isFullCredit = line.isFullCredit;
 
-        if (knownAuthor !== lastState || lastId === -1) {
+        if (knownAuthor !== lastState || lastId === -1 || (knownAuthor && isFullCredit !== lastCreditState)) {
           segments.push(new Segment(
             knownAuthor,
+            isFullCredit,
             [],
             [],
           ));
 
           lastId += 1;
           lastState = knownAuthor;
+          lastCreditState = isFullCredit;
         }
 
         const content = line.content || ' ';
@@ -897,10 +891,6 @@ export default defineComponent({
         position: sticky;
       }
 
-      &.max-zIndex {
-        z-index: z-index('max-value');
-      }
-
       .caret {
         cursor: pointer;
         order: -2;
@@ -1002,6 +992,11 @@ export default defineComponent({
       .line-content {
         padding-left: 2rem;
         word-break: break-word;
+      }
+      &.isNotFullCredit {
+        .code {
+          background-color: mui-color('green', '100');
+        }
       }
       &.untouched {
         $grey: mui-color('grey', '400');

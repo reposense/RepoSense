@@ -6,7 +6,7 @@
 	"authors":
 	[
 		{
-			"gitId": "yong24s",
+			"githubId": "yong24s",
 			"displayName": "Yong Hao",
 			"authorNames": ["Yong Hao TENG"],
 			"ignoreGlobList": ["**.css", "**.html", "**.jade", "**.js"]
