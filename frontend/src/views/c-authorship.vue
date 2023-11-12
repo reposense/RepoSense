@@ -984,7 +984,7 @@ export default defineComponent({
     .segment {
       border-left: .25rem solid mui-color('green');
       .code {
-        background-color: mui-color('github', 'authored-code-background');
+        background-color: mui-color('github', 'full-authored-code-background');
         padding-left: 1rem;
       }
       .line-number {
@@ -1009,7 +1009,7 @@ export default defineComponent({
       }
       &.isNotFullCredit {
         .code {
-          background-color: mui-color('green', '100');
+          background-color: mui-color('github', 'partial-authored-code-background');
         }
       }
       &.untouched {
