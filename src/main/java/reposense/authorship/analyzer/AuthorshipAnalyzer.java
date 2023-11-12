@@ -23,7 +23,7 @@ import reposense.util.StringsUtil;
 public class AuthorshipAnalyzer {
     private static final Logger logger = LogsManager.getLogger(AuthorshipAnalyzer.class);
 
-    private static final double ORIGINALITY_THRESHOLD = 0.2;
+    private static final double ORIGINALITY_THRESHOLD = 0.51;
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
     private static final Pattern FILE_CHANGED_PATTERN =
