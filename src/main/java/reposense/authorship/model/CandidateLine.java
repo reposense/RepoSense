@@ -8,15 +8,15 @@ public class CandidateLine {
     private final String lineContent;
     private final String filePath;
     private final String gitBlameCommitHash;
-    private final double similarityScore;
+    private final double originalityScore;
 
     public CandidateLine(int lineNumber, String lineContent, String filePath, String gitBlameCommitHash,
-            double similarityScore) {
+            double originalityScore) {
         this.lineNumber = lineNumber;
         this.lineContent = lineContent;
         this.filePath = filePath;
         this.gitBlameCommitHash = gitBlameCommitHash;
-        this.similarityScore = similarityScore;
+        this.originalityScore = originalityScore;
     }
 
     public int getLineNumber() {
@@ -35,7 +35,7 @@ public class CandidateLine {
         return gitBlameCommitHash;
     }
 
-    public double getSimilarityScore() {
-        return similarityScore;
+    public double getOriginalityScore() {
+        return originalityScore;
     }
 }
