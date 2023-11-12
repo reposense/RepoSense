@@ -157,8 +157,8 @@ public class AuthorshipAnalyzer {
                     String deletedLineContent = lineChanged.substring(DELETED_LINE_SYMBOL.length());
                     double originalityScore = computeOriginalityScore(lineContent, deletedLineContent);
 
-                    if (lowestOriginalityLine == null ||
-                            originalityScore < lowestOriginalityLine.getOriginalityScore()) {
+                    if (lowestOriginalityLine == null
+                            || originalityScore < lowestOriginalityLine.getOriginalityScore()) {
                         lowestOriginalityLine = new CandidateLine(
                                 currentPreImageLineNumber, deletedLineContent, filePath, commitHash,
                                 originalityScore);
