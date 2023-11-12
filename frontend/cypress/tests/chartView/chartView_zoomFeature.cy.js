@@ -289,7 +289,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2020-10-01]  [#1312] Conditional run for markbind to gh pages deployment (#1337): +1 -0 lines ');
+      .should('eq', '[2020-05-23] [#1241] Restore checked file types (#1256): +14 -1 lines ');
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
@@ -319,8 +319,7 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-11-21] [#1345] Authorship: Add last modified '
-      + 'date to each LoC if specified (#1348): +165 -76 lines ');
+      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
@@ -351,7 +350,6 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-11-21] [#1345] Authorship: Add last modified date '
-      + 'to each LoC if specified (#1348): +165 -76 lines ');
+      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
 });
