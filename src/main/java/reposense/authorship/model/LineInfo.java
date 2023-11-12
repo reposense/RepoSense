@@ -65,6 +65,21 @@ public class LineInfo {
         this.isFullCredit = isFullCredit;
     }
 
+    /**
+     * If {@code newAuthor} is not the same as current author, then {@code newAuthor} will get partial credit.
+     * Else nothing happens since the 2 authors are the same, the credit info is retained.
+     * {@code isFullCredit} is only updated if {@code shouldAnalyzeAuthorship} is set to True.
+     */
+    public void updateAuthorAndCredit(Author newAuthor, boolean shouldAnalyzeAuthorship) {
+        if (!author.equals(newAuthor)) {
+            author = newAuthor;
+
+            if (shouldAnalyzeAuthorship) {
+                isFullCredit = false;
+            }
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (this == other) {
