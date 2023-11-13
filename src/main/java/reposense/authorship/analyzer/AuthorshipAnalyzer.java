@@ -23,7 +23,7 @@ import reposense.util.StringsUtil;
 public class AuthorshipAnalyzer {
     private static final Logger logger = LogsManager.getLogger(AuthorshipAnalyzer.class);
 
-    private static final double SIMILARITY_THRESHOLD = 0.8;
+    private static final double ORIGINALITY_THRESHOLD = 0.2;
 
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
     private static final Pattern FILE_CHANGED_PATTERN =
@@ -55,10 +55,10 @@ public class AuthorshipAnalyzer {
             return true;
         }
 
-        CandidateLine deletedLine = getDeletedLineWithHighestSimilarity(config, filePath, lineContent, commitHash);
+        CandidateLine deletedLine = getDeletedLineWithLowestOriginality(config, filePath, lineContent, commitHash);
 
-        // Give full credit if there are no deleted lines found or deleted line is less than similarity threshold
-        if (deletedLine == null || deletedLine.getSimilarityScore() < SIMILARITY_THRESHOLD) {
+        // Give full credit if there are no deleted lines found or deleted line is more than originality threshold
+        if (deletedLine == null || deletedLine.getOriginalityScore() > ORIGINALITY_THRESHOLD) {
             return true;
         }
 
@@ -84,14 +84,14 @@ public class AuthorshipAnalyzer {
     }
 
     /**
-     * Returns the deleted line in {@code commitHash} that has the highest similarity with {@code lineContent}.
+     * Returns the deleted line in {@code commitHash} that has the lowest originality with {@code lineContent}.
      */
-    private static CandidateLine getDeletedLineWithHighestSimilarity(RepoConfiguration config, String filePath,
+    private static CandidateLine getDeletedLineWithLowestOriginality(RepoConfiguration config, String filePath,
             String lineContent, String commitHash) {
         String gitLogResults = GitLog.getParentCommits(config.getRepoRoot(), commitHash);
         String[] parentCommits = gitLogResults.split(" ");
 
-        CandidateLine highestSimilarityLine = null;
+        CandidateLine lowestOriginalityLine = null;
 
         for (String parentCommit : parentCommits) {
             // Generate diff between commit and parent commit
@@ -112,28 +112,28 @@ public class AuthorshipAnalyzer {
                     continue;
                 }
 
-                CandidateLine candidateLine = getDeletedLineWithHighestSimilarityInDiff(
+                CandidateLine candidateLine = getDeletedLineWithLowestOriginalityInDiff(
                         fileDiffResult, lineContent, parentCommit, preImageFilePath);
                 if (candidateLine == null) {
                     continue;
                 }
 
-                if (highestSimilarityLine == null
-                        || candidateLine.getSimilarityScore() > highestSimilarityLine.getSimilarityScore()) {
-                    highestSimilarityLine = candidateLine;
+                if (lowestOriginalityLine == null
+                        || candidateLine.getOriginalityScore() < lowestOriginalityLine.getOriginalityScore()) {
+                    lowestOriginalityLine = candidateLine;
                 }
             }
         }
 
-        return highestSimilarityLine;
+        return lowestOriginalityLine;
     }
 
     /**
-     * Returns the deleted line in {@code fileDiffResult} that has the highest similarity with {@code lineContent}.
+     * Returns the deleted line in {@code fileDiffResult} that has the lowest originality with {@code lineContent}.
      */
-    private static CandidateLine getDeletedLineWithHighestSimilarityInDiff(String fileDiffResult, String lineContent,
+    private static CandidateLine getDeletedLineWithLowestOriginalityInDiff(String fileDiffResult, String lineContent,
             String commitHash, String filePath) {
-        CandidateLine highestSimilarityLine = null;
+        CandidateLine lowestOriginalityLine = null;
 
         String[] hunks = fileDiffResult.split(HUNK_SEPARATOR);
 
@@ -155,11 +155,13 @@ public class AuthorshipAnalyzer {
 
                 if (lineChanged.startsWith(DELETED_LINE_SYMBOL)) {
                     String deletedLineContent = lineChanged.substring(DELETED_LINE_SYMBOL.length());
-                    double similarityScore = similarityScore(lineContent, deletedLineContent);
+                    double originalityScore = computeOriginalityScore(lineContent, deletedLineContent);
 
-                    if (highestSimilarityLine == null || similarityScore > highestSimilarityLine.getSimilarityScore()) {
-                        highestSimilarityLine = new CandidateLine(
-                                currentPreImageLineNumber, deletedLineContent, filePath, commitHash, similarityScore);
+                    if (lowestOriginalityLine == null
+                            || originalityScore < lowestOriginalityLine.getOriginalityScore()) {
+                        lowestOriginalityLine = new CandidateLine(
+                                currentPreImageLineNumber, deletedLineContent, filePath, commitHash,
+                                originalityScore);
                     }
                 }
 
@@ -169,7 +171,7 @@ public class AuthorshipAnalyzer {
             }
         }
 
-        return highestSimilarityLine;
+        return lowestOriginalityLine;
     }
 
     /**
@@ -191,11 +193,11 @@ public class AuthorshipAnalyzer {
     }
 
     /**
-     * Calculates the similarity score of {@code s} with {@code baseString}.
+     * Calculates the originality score of {@code s} with {@code baseString}.
      */
-    private static double similarityScore(String s, String baseString) {
+    private static double computeOriginalityScore(String s, String baseString) {
         double levenshteinDistance = StringsUtil.getLevenshteinDistance(s, baseString);
-        return 1 - (levenshteinDistance / baseString.length());
+        return levenshteinDistance / baseString.length();
     }
 
     /**
