@@ -4,25 +4,25 @@
 	"authors":
 	[
 		{
-			"githubId": "lithiumlkid",
+			"gitId": "lithiumlkid",
 			"displayName": "Ahm",
 			"authorNames": ["Ahmad Syafiq"],
 			"ignoreGlobList": ["*.aa1", "**.aa2", "**.java"]
 		},
 		{
-			"githubId": "codeeong",
+			"gitId": "codeeong",
 			"displayName": "Cod",
 			"authorNames": ["Codee"],
 			"ignoreGlobList": ["**[!(.md)]"]
 		},
 		{
-			"githubId": "jordancjq",
+			"gitId": "jordancjq",
 			"displayName": "Jor",
 			"authorNames": ["Jordan Chong"],
 			"ignoreGlobList": [""]
 		},
 		{
-			"githubId": "lohtianwei",
+			"gitId": "lohtianwei",
 			"displayName": "Loh",
 			"authorNames": ["Tianwei"]
 		}
