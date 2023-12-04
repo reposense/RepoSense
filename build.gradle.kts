@@ -1,4 +1,6 @@
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+import com.palantir.gradle.gitversion.VersionDetails
+import groovy.lang.Closure
 
 plugins {
     id("application")
@@ -12,22 +14,28 @@ plugins {
     id("com.palantir.git-version") version("0.13.0")
 }
 
-OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
+val os = DefaultNativePlatform.getCurrentOperatingSystem()
 
-mainClassName = 'reposense.RepoSense'
+application {
+    mainClassName = "reposense.RepoSense"
+}
 
-node.download = false // The Liferay Node Gradle Plugin will use the system PATH to find the Node/npm executable.
+node {
+    setDownload(false) // The Liferay Node Gradle Plugin will use the system PATH to find the Node/npm executable.
+}
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 repositories {
     mavenCentral()
 }
 
+// Use either "getByName" or "create"
 configurations {
-    systemtestImplementation.extendsFrom testImplementation
-    systemtestRuntime.extendsFrom testRuntime
+    create("systemtestImplementation").extendsFrom(getByName("testImplementation"))
+    create("systemtestRuntime").extendsFrom(getByName("testRuntimeClasspath"))
 }
 
 dependencies {
@@ -44,76 +52,78 @@ dependencies {
 }
 
 sourceSets {
-    systemtest {
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-        java.srcDir file('src/systemtest/java')
-        resources.srcDir file('src/systemtest/resources')
+    create("systemtest") {
+        compileClasspath += main.get().output + test.get().output
+        runtimeClasspath += main.get().output + test.get().output
+        java.srcDir(file("src/systemtest/java"))
+        resources.srcDir(file("src/systemtest/resources"))
     }
 }
 
-def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    workingDir 'frontend/'
-    args = ['ci']
+val installFrontend = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("installFrontend") {
+    setWorkingDir(file("frontend/"))
+    setArgs(listOf("ci"))
 }
 
-def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    dependsOn installFrontend
-    workingDir 'frontend/'
-    args = ['run', 'devbuild']
+val buildFrontend = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("buildFrontend") {
+    dependsOn(installFrontend)
+    setWorkingDir(file("frontend/"))
+    setArgs(listOf("run", "devbuild"))
 }
 
-def zipReport = tasks.register('zipReport', Zip) {
-    dependsOn buildFrontend
-    from 'frontend/build/'
-    archiveBaseName = 'templateZip'
-    destinationDirectory = file('src/main/resources')
+val zipReport = tasks.register<Zip>("zipReport") {
+    dependsOn(buildFrontend)
+    from("frontend/build/")
+    archiveBaseName.set("templateZip")
+    destinationDirectory.set(file("src/main/resources"))
 }
 
-def copyCypressConfig = tasks.register('copyCypressConfig', Copy) {
-    description 'Copies the config files used by the backend to generate the test report for Cypress testing into an isolated working directory'
-    from 'frontend/cypress/config'
-    into 'build/serveTestReport/exampleconfig'
+val copyCypressConfig = tasks.register<Copy>("copyCypressConfig") {
+    description = "Copies the config files used by the backend to generate the test report for Cypress testing into an isolated working directory"
+    from("frontend/cypress/config")
+    into("build/serveTestReport/exampleconfig")
 }
 
-def copyMainClasses = tasks.register('copyMainClasses', Copy) {
-    description 'Copies the backend classes used to generate the test report for Cypress testing into an isolated working directory'
-    dependsOn classes
-    from 'build/classes/java/main'
-    into 'build/serveTestReport/java/main'
+val copyMainClasses = tasks.register<Copy>("copyMainClasses") {
+    description = "Copies the backend classes used to generate the test report for Cypress testing into an isolated working directory"
+    dependsOn(tasks.named("classes"))
+    from("build/classes/java/main")
+    into("build/serveTestReport/java/main")
 }
 
-def compileJava = tasks.compileJava
+val compileJava = tasks.getByName("compileJava")
 
-tasks.named("processSystemtestResources").configure {
+tasks.named<Copy>("processSystemtestResources") { // removed the .configure from here
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-tasks.run.dependsOn(zipReport);
+tasks.getByName("run").dependsOn(zipReport);
 
-run {
+tasks.named<JavaExec>("run") {
     //the second arguments indicates the default value associated with the property.
-    tasks.compileJava.mustRunAfter(zipReport)
-    args System.getProperty('args', '').split()
-    systemProperty "version", getRepoSenseVersion()
+    tasks.getByName("compileJava").mustRunAfter(zipReport)
+    args = System.getProperty("args", "").split(" ")
+    systemProperty("version", getRepoSenseVersion())
 }
 
 checkstyle {
-    toolVersion = '9.3'
-    getConfigDirectory().set(file("$rootProject.projectDir/config/checkstyle"))
+    toolVersion = "9.3"
+    configDirectory.set(file("${rootProject.projectDir}/config/checkstyle"))
 }
 
 idea {
     module {
-        sourceSets.systemtest.allSource.srcDirs.each { srcDir -> module.testSourceDirs += srcDir }
+        sourceSets.getByName("systemtest").allSource.srcDirs.forEach {
+            srcDir: File -> testSourceDirs.add(srcDir)
+        }
     }
 }
 
-test {
+tasks.named<Test>("test") {
     environment("REPOSENSE_ENVIRONMENT", "TEST")
 
     testLogging {
-        events 'passed', 'skipped', 'failed'
+        events("passed", "skipped", "failed")
         showStandardStreams = true
     }
 
@@ -128,52 +138,52 @@ test {
     }
 }
 
-tasks.shadowJar.dependsOn(zipReport);
+tasks.getByName("shadowJar").dependsOn(zipReport);
 
-shadowJar {
-    tasks.compileJava.mustRunAfter(zipReport)
-    tasks.processResources.mustRunAfter(zipReport)
-    archiveFileName = 'RepoSense.jar'
-    destinationDirectory = file("${buildDir}/jar/")
+tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+    tasks.getByName("compileJava").mustRunAfter(zipReport)
+    tasks.getByName("processResources").mustRunAfter(zipReport)
+    archiveFileName.set("RepoSense.jar")
+    destinationDirectory.set(file("${buildDir}/jar/"))
 
     manifest {
-        attributes 'Implementation-Version': getRepoSenseVersion()
+        attributes("Implementation-Version" to getRepoSenseVersion())
     }
 }
 
-tasks.register('lintFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    dependsOn installFrontend
-    workingDir 'frontend/'
-    args = ['run', 'lint']
+tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("lintFrontend") {
+    dependsOn(installFrontend)
+    setWorkingDir("frontend/")
+    setArgs(listOf("run", "lint"))
 }
 
-def checkstyleMain = tasks.checkstyleMain
-def checkstyleTest = tasks.checkstyleTest
-def checkstyleSystemtest = tasks.checkstyleSystemtest
+val checkstyleMain = tasks.getByName("checkstyleMain")
+val checkstyleTest = tasks.getByName("checkstyleTest")
+val checkstyleSystemtest = tasks.getByName("checkstyleSystemtest")
 
-tasks.register('checkstyleAll', Checkstyle) {
-    dependsOn checkstyleMain, checkstyleTest, checkstyleSystemtest
-    tasks.checkstyleTest.mustRunAfter('checkstyleMain')
-    tasks.checkstyleSystemtest.mustRunAfter('checkstyleTest')
+tasks.register<Checkstyle>("checkstyleAll") {
+    dependsOn(checkstyleMain, checkstyleTest, checkstyleSystemtest)
+    tasks.getByName("checkstyleTest").mustRunAfter("checkstyleMain")
+    tasks.getByName("checkstyleSystemtest").mustRunAfter("checkstyleTest")
 }
 
-tasks.register('environmentalChecks', Exec) {
-    workingDir 'config/checks/'
+tasks.register<Exec>("environmentalChecks") {
+    setWorkingDir("config/checks/")
     if (os.isWindows()){
-        commandLine 'cmd', '/c', 'run-checks.bat'
+        commandLine("cmd", "/c", "run-checks.bat")
     } else {
-        commandLine 'sh', './run-checks.sh'
+        commandLine("sh", "./run-checks.sh")
     }
 }
 
 
-tasks.register('systemtest', Test) {
-    testClassesDirs = sourceSets.systemtest.output.classesDirs
-    classpath = sourceSets.systemtest.runtimeClasspath
+val systemtest = tasks.register<Test>("systemtest") {
+    testClassesDirs = sourceSets.getByName("systemtest").output.classesDirs
+    classpath = sourceSets.getByName("systemtest").runtimeClasspath
     environment("REPOSENSE_ENVIRONMENT", "TEST")
 
     testLogging {
-        events 'passed', 'skipped', 'failed'
+        events("passed", "skipped", "failed")
         showStandardStreams = true
     }
 
@@ -188,49 +198,51 @@ tasks.register('systemtest', Test) {
     }
 }
 
-def serveTestReportInBackground = tasks.register('serveTestReportInBackground', com.github.psxpaul.task.JavaExecFork) {
-    description 'Creates a background server process for the test report that is to be used by Cypress'
-    dependsOn zipReport, compileJava, processResources, copyCypressConfig, copyMainClasses
-    tasks.compileJava.mustRunAfter(zipReport)
-    tasks.processResources.mustRunAfter(zipReport)
-    workingDir = 'build/serveTestReport'
-    main = mainClassName
-    classpath = sourceSets.main.runtimeClasspath
-    args = ['--config', './exampleconfig', '--since', 'd1', '--view']
-    String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
-    jvmArgs = [ versionJvmArgs ]
+val processResources = tasks.getByName("processResources")
+
+val serveTestReportInBackground = tasks.register<com.github.psxpaul.task.JavaExecFork>("serveTestReportInBackground") {
+    description = "Creates a background server process for the test report that is to be used by Cypress"
+    dependsOn(zipReport, compileJava, processResources, copyCypressConfig, copyMainClasses)
+    compileJava.mustRunAfter(zipReport)
+    processResources.mustRunAfter(zipReport)
+    workingDir = file("build/serveTestReport")
+    main = application.mainClassName
+    classpath = sourceSets.getByName("main").runtimeClasspath
+    args = listOf("--config", "./exampleconfig", "--since", "d1", "--view").toMutableList()
+    val versionJvmArgs = "-Dversion=" + getRepoSenseVersion()
+    jvmArgs = listOf(versionJvmArgs)
     killDescendants = false // Kills descendants of started process using methods only found in Java 9 and beyond.
     // Above flag is set to true by default but is incompatible with Java 8. It should be removed from this file if we fully migrate to Java 11.
     waitForPort = 9000
 }
 
-def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    workingDir 'frontend/cypress/'
-    args = ['ci']
+val installCypress = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("installCypress") {
+    setWorkingDir("frontend/cypress/")
+    setArgs(listOf("ci"))
 }
 
-tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("cypress") {
+    dependsOn(installCypress, serveTestReportInBackground)
+    tasks.getByName("serveTestReportInBackground").mustRunAfter(installCypress)
 
-    workingDir = file('frontend/cypress/')
-    args = ["run-script", "debug"]
+    setWorkingDir(file("frontend/cypress/"))
+    setArgs(listOf("run-script", "debug"))
 }
 
-tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+val frontendTest = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("frontendTest") {
+    dependsOn(installCypress, serveTestReportInBackground)
+    tasks.getByName("serveTestReportInBackground").mustRunAfter(installCypress)
 
-    workingDir = file('frontend/cypress/')
-    args = ["run-script", "tests"]
+    setWorkingDir(file("frontend/cypress/"))
+    setArgs(listOf("run-script", "tests"))
 
     // Run tests in CI without slow motion
-    if (project.hasProperty('ci')) {
-        args = ["run-script", "ci"]
+    if (project.hasProperty("ci")) {
+        setArgs(listOf("run-script", "ci"))
     }
 }
 
-tasks.withType(Copy) {
+tasks.withType<Copy> {
     includeEmptyDirs = true
 }
 
@@ -238,88 +250,95 @@ jacoco {
     toolVersion = "0.8.7"
 }
 
-jacocoTestReport {
+tasks.named<JacocoReport>("jacocoTestReport") {
     reports {
-        html.required = true
-        xml.required = true
-        csv.required = false
-        html.destination file("${buildDir}/jacocoHtml")
+        html.required.set(true)
+        xml.required.set(true)
+        csv.required.set(false)
+        html.destination = file("${buildDir}/jacocoHtml")
     }
 
-    executionData systemtest, frontendTest
+    executionData(systemtest, frontendTest)
 }
 
-tasks.register('coverage', JacocoReport)
+tasks.register<JacocoReport>("coverage")
 
-coverage.configure {
-    sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
-    classDirectories.from files(sourceSets.main.output)
-    executionData.from files(jacocoTestReport.executionData)
+tasks.getByName<JacocoReport>("coverage") {
+    sourceDirectories.from(files(sourceSets.getByName("main").allSource.srcDirs))
+    classDirectories.from(files(sourceSets.getByName("main").output))
+    executionData.from(files(tasks.getByName("jacocoTestReport").outputs.files))
 
     afterEvaluate {
-        classDirectories.from files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['**/*.jar'])
+        classDirectories.from(classDirectories.files.map {
+            fileTree(it) {
+                exclude("**/*.jar")
+            }
         })
     }
 
     reports {
-        html.required = true
-        xml.required = true
+        html.required.set(true)
+        xml.required.set(true)
     }
 }
 
-String getRepoSenseVersion() {
-    String repoSenseVersion = project.property("version")
-    if (repoSenseVersion.equals("unspecified")) {
-        repoSenseVersion = versionDetails().commitDistance == 0 ? versionDetails().lastTag : versionDetails().gitHash
+fun getRepoSenseVersion(): String {
+    val repoSenseVersion: String = project.findProperty("version")?.toString() ?: ""
+    if (repoSenseVersion == "unspecified") {
+        val versionDetails: Closure<VersionDetails> by extra
+        if (versionDetails().commitDistance == 0) {
+            return versionDetails().lastTag
+        } else {
+            return versionDetails().gitHash
+        }
     }
     return repoSenseVersion
 }
 
-def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
-    from 'reposense-report'
-    into 'frontend/public/'
-    include '**/*.json'
+val syncFrontendPublic = tasks.register<Sync>("syncFrontendPublic") {
+    from("reposense-report")
+    into("frontend/public/")
+    include("**/*.json")
     includeEmptyDirs = false
     preserve {
-        include 'index.html'
-        include 'favicon.ico'
+        include("index.html")
+        include("favicon.ico")
     }
 }
 
-def macHotReloadFrontend = tasks.register('macHotReloadFrontend', Exec) {
-    dependsOn installFrontend
+val macHotReloadFrontend = tasks.register<Exec>("macHotReloadFrontend") {
+    dependsOn(installFrontend)
     onlyIf {os.isMacOsX()}
-    workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
+    setWorkingDir("frontend/")
+    commandLine("npm", "run", "serveOpen")
 }
 
-def windowsHotReloadFrontend = tasks.register('windowsHotReloadFrontend', Exec) {
-    dependsOn installFrontend
+val windowsHotReloadFrontend = tasks.register<Exec>("windowsHotReloadFrontend") {
+    dependsOn(installFrontend)
     onlyIf {os.isWindows()}
-    workingDir 'frontend/'
-    commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
+    workingDir("frontend/")
+    commandLine("cmd", "/c", "START", "'hotreload RepoSense frontend'", "npm", "run", "serveOpen")
 }
 
-def linuxHotReloadFrontend = tasks.register('linuxHotReloadFrontend', Exec) {
-    dependsOn installFrontend
+val linuxHotReloadFrontend = tasks.register<Exec>("linuxHotReloadFrontend") {
+    dependsOn(installFrontend)
     onlyIf {os.isLinux()}
-    workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
+    setWorkingDir("frontend/")
+    commandLine("npm", "run", "serveOpen")
 }
 
-tasks.register('hotReloadFrontend') {
-    dependsOn syncFrontendPublic
-    finalizedBy windowsHotReloadFrontend
-    finalizedBy macHotReloadFrontend
-    finalizedBy linuxHotReloadFrontend
+tasks.register("hotReloadFrontend") {
+    dependsOn(syncFrontendPublic)
+    finalizedBy(windowsHotReloadFrontend)
+    finalizedBy(macHotReloadFrontend)
+    finalizedBy(linuxHotReloadFrontend)
 }
 // End of hot reload Tasks
 
-void deleteReposAddressDirectory() {
-    final String REPOS_ADDRESS = "repos"
-    def reposDirectory = new File(REPOS_ADDRESS)
-    reposDirectory.deleteDir()
+fun deleteReposAddressDirectory() {
+    val REPOS_ADDRESS : String = "repos"
+    val reposDirectory = File(REPOS_ADDRESS)
+    reposDirectory.deleteRecursively()
 }
 
-defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
+defaultTasks("clean", "build", "systemtest", "frontendTest", "coverage")
