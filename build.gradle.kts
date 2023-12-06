@@ -61,13 +61,13 @@ sourceSets {
 }
 
 val installFrontend = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("installFrontend") {
-    setWorkingDir(file("frontend/"))
+    setWorkingDir("frontend/")
     setArgs(listOf("ci"))
 }
 
 val buildFrontend = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("buildFrontend") {
     dependsOn(installFrontend)
-    setWorkingDir(file("frontend/"))
+    setWorkingDir("frontend/")
     setArgs(listOf("run", "devbuild"))
 }
 
@@ -226,7 +226,7 @@ tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>(
     dependsOn(installCypress, serveTestReportInBackground)
     tasks.getByName("serveTestReportInBackground").mustRunAfter(installCypress)
 
-    setWorkingDir(file("frontend/cypress/"))
+    setWorkingDir("frontend/cypress/")
     setArgs(listOf("run-script", "debug"))
 }
 
@@ -234,7 +234,7 @@ val frontendTest = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecuteP
     dependsOn(installCypress, serveTestReportInBackground)
     tasks.getByName("serveTestReportInBackground").mustRunAfter(installCypress)
 
-    setWorkingDir(file("frontend/cypress/"))
+    setWorkingDir("frontend/cypress/")
     setArgs(listOf("run-script", "tests"))
 
     // Run tests in CI without slow motion
