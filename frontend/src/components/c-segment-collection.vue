@@ -4,17 +4,19 @@
     c-segment(v-bind:segment="segment", v-bind:path="path")
 </template>
 
-<script>
+<script lang='ts'>
+import { defineComponent } from 'vue';
 import cSegment from './c-segment.vue';
+import Segment from '../utils/segment';
 
-export default {
+export default defineComponent({
   name: 'c-segment-collection',
   components: {
     cSegment,
   },
   props: {
     segments: {
-      type: Array,
+      type: Array<Segment>,
       required: true,
     },
     path: {
@@ -28,11 +30,11 @@ export default {
     };
   },
   methods: {
-    visibilityChanged(isVisible) {
+    visibilityChanged(isVisible: boolean) {
       if (isVisible) {
         this.isRendered = true;
       }
     },
   },
-};
+});
 </script>
