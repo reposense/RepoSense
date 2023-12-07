@@ -1,5 +1,8 @@
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+import com.github.psxpaul.task.JavaExecFork
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask
 import com.palantir.gradle.gitversion.VersionDetails
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 import groovy.lang.Closure
 
 plugins {
@@ -32,7 +35,6 @@ repositories {
     mavenCentral()
 }
 
-// Use either "getByName" or "create"
 configurations {
     create("systemtestImplementation").extendsFrom(getByName("testImplementation"))
     create("systemtestRuntime").extendsFrom(getByName("testRuntimeClasspath"))
@@ -60,12 +62,12 @@ sourceSets {
     }
 }
 
-val installFrontend = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("installFrontend") {
+val installFrontend = tasks.register<ExecutePackageManagerTask>("installFrontend") {
     setWorkingDir("frontend/")
     setArgs(listOf("ci"))
 }
 
-val buildFrontend = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("buildFrontend") {
+val buildFrontend = tasks.register<ExecutePackageManagerTask>("buildFrontend") {
     dependsOn(installFrontend)
     setWorkingDir("frontend/")
     setArgs(listOf("run", "devbuild"))
@@ -100,8 +102,8 @@ tasks.named<Copy>("processSystemtestResources") { // removed the .configure from
 tasks.getByName("run").dependsOn(zipReport);
 
 tasks.named<JavaExec>("run") {
-    //the second arguments indicates the default value associated with the property.
-    tasks.getByName("compileJava").mustRunAfter(zipReport)
+    // The second arguments indicates the default value associated with the property.
+    compileJava.mustRunAfter(zipReport)
     args = System.getProperty("args", "").split(" ")
     systemProperty("version", getRepoSenseVersion())
 }
@@ -138,11 +140,13 @@ tasks.named<Test>("test") {
     }
 }
 
+val processResources = tasks.getByName("processResources")
+
 tasks.getByName("shadowJar").dependsOn(zipReport);
 
-tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
-    tasks.getByName("compileJava").mustRunAfter(zipReport)
-    tasks.getByName("processResources").mustRunAfter(zipReport)
+tasks.named<ShadowJar>("shadowJar") {
+    compileJava.mustRunAfter(zipReport)
+    processResources.mustRunAfter(zipReport)
     archiveFileName.set("RepoSense.jar")
     destinationDirectory.set(file("${buildDir}/jar/"))
 
@@ -151,7 +155,7 @@ tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJ
     }
 }
 
-tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("lintFrontend") {
+tasks.register<ExecutePackageManagerTask>("lintFrontend") {
     dependsOn(installFrontend)
     setWorkingDir("frontend/")
     setArgs(listOf("run", "lint"))
@@ -163,8 +167,8 @@ val checkstyleSystemtest = tasks.getByName("checkstyleSystemtest")
 
 tasks.register<Checkstyle>("checkstyleAll") {
     dependsOn(checkstyleMain, checkstyleTest, checkstyleSystemtest)
-    tasks.getByName("checkstyleTest").mustRunAfter("checkstyleMain")
-    tasks.getByName("checkstyleSystemtest").mustRunAfter("checkstyleTest")
+    checkstyleTest.mustRunAfter("checkstyleMain")
+    checkstyleSystemtest.mustRunAfter("checkstyleTest")
 }
 
 tasks.register<Exec>("environmentalChecks") {
@@ -200,9 +204,7 @@ val systemtest = tasks.register<Test>("systemtest") {
     finalizedBy(tasks.getByName("jacocoTestReport"))
 }
 
-val processResources = tasks.getByName("processResources")
-
-val serveTestReportInBackground = tasks.register<com.github.psxpaul.task.JavaExecFork>("serveTestReportInBackground") {
+val serveTestReportInBackground = tasks.register<JavaExecFork>("serveTestReportInBackground") {
     description = "Creates a background server process for the test report that is to be used by Cypress"
     dependsOn(zipReport, compileJava, processResources, copyCypressConfig, copyMainClasses)
     compileJava.mustRunAfter(zipReport)
@@ -219,12 +221,12 @@ val serveTestReportInBackground = tasks.register<com.github.psxpaul.task.JavaExe
     timeout = 120
 }
 
-val installCypress = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("installCypress") {
+val installCypress = tasks.register<ExecutePackageManagerTask>("installCypress") {
     setWorkingDir("frontend/cypress/")
     setArgs(listOf("ci"))
 }
 
-tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("cypress") {
+tasks.register<ExecutePackageManagerTask>("cypress") {
     dependsOn(installCypress, serveTestReportInBackground)
     tasks.getByName("serveTestReportInBackground").mustRunAfter(installCypress)
 
@@ -232,7 +234,7 @@ tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>(
     setArgs(listOf("run-script", "debug"))
 }
 
-val frontendTest = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask>("frontendTest") {
+val frontendTest = tasks.register<ExecutePackageManagerTask>("frontendTest") {
     dependsOn(installCypress, serveTestReportInBackground)
     tasks.getByName("serveTestReportInBackground").mustRunAfter(installCypress)
 
@@ -274,7 +276,6 @@ tasks.register<JacocoReport>("coverage")
 tasks.getByName<JacocoReport>("coverage") {
     sourceDirectories.from(files(sourceSets.getByName("main").allSource.srcDirs))
     classDirectories.from(files(sourceSets.getByName("main").output))
-//    executionData.from(files(tasks.getByName("jacocoTestReport").outputs.files))
     executionData(fileTree("${buildDir}/jacoco").include("*.exec"))
 
     afterEvaluate {
