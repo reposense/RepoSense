@@ -3,11 +3,11 @@ import com.palantir.gradle.gitversion.VersionDetails
 import groovy.lang.Closure
 
 plugins {
-    id("application")
-    id("checkstyle")
-    id("idea")
-    id("jacoco")
-    id("java")
+    application
+    checkstyle
+    idea
+    jacoco
+    java
     id("com.github.johnrengelman.shadow") version("7.1.2")
     id("com.liferay.node") version("7.2.18")
     id("com.github.psxpaul.execfork") version("0.2.0")
@@ -196,6 +196,8 @@ val systemtest = tasks.register<Test>("systemtest") {
     doLast {
         deleteReposAddressDirectory()
     }
+
+    finalizedBy(tasks.getByName("jacocoTestReport"))
 }
 
 val processResources = tasks.getByName("processResources")
@@ -241,6 +243,8 @@ val frontendTest = tasks.register<com.liferay.gradle.plugins.node.tasks.ExecuteP
     if (project.hasProperty("ci")) {
         setArgs(listOf("run-script", "ci"))
     }
+
+    finalizedBy(tasks.getByName("jacocoTestReport"))
 }
 
 tasks.withType<Copy> {
@@ -252,6 +256,8 @@ jacoco {
 }
 
 tasks.named<JacocoReport>("jacocoTestReport") {
+    dependsOn(systemtest, frontendTest)
+
     reports {
         html.required.set(true)
         xml.required.set(true)
@@ -259,7 +265,7 @@ tasks.named<JacocoReport>("jacocoTestReport") {
         html.destination = file("${buildDir}/jacocoHtml")
     }
 
-    executionData(systemtest, frontendTest)
+    executionData(tasks.run.get())
 }
 
 tasks.register<JacocoReport>("coverage")
