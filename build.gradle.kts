@@ -274,7 +274,8 @@ tasks.register<JacocoReport>("coverage")
 tasks.getByName<JacocoReport>("coverage") {
     sourceDirectories.from(files(sourceSets.getByName("main").allSource.srcDirs))
     classDirectories.from(files(sourceSets.getByName("main").output))
-    executionData.from(files(tasks.getByName("jacocoTestReport").outputs.files))
+//    executionData.from(files(tasks.getByName("jacocoTestReport").outputs.files))
+    executionData(fileTree("${buildDir}/jacoco").include("*.exec"))
 
     afterEvaluate {
         classDirectories.from(classDirectories.files.map {
