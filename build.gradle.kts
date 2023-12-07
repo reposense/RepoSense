@@ -213,7 +213,7 @@ val serveTestReportInBackground = tasks.register<com.github.psxpaul.task.JavaExe
     args = listOf("--config", "./exampleconfig", "--since", "d1", "--view").toMutableList()
     val versionJvmArgs = "-Dversion=" + getRepoSenseVersion()
     jvmArgs = listOf(versionJvmArgs)
-    // killDescendants = false // Kills descendants of started process using methods only found in Java 9 and beyond.
+     killDescendants = false // Kills descendants of started process using methods only found in Java 9 and beyond.
     // Above flag is set to true by default but is incompatible with Java 8. It should be removed from this file if we fully migrate to Java 11.
     waitForPort = 9000
     timeout = 120
@@ -262,7 +262,8 @@ tasks.named<JacocoReport>("jacocoTestReport") {
         html.required.set(true)
         xml.required.set(true)
         csv.required.set(false)
-        html.destination = file("${buildDir}/jacocoHtml")
+        html.outputLocation.set(file("${buildDir}/jacocoHtml"))
+
     }
 
     executionData(tasks.run.get())
