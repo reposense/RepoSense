@@ -262,77 +262,76 @@ public class ArgsParser {
      * @throws ParseException if the given string arguments fails to parse to a {@link CliArguments} object.
      */
     public static CliArguments parse(String[] args) throws HelpScreenException, ParseException {
-        ArgumentParser parser = getArgumentParser();
-        Namespace results;
-
         try {
-            results = parser.parseArgs(args); 
+            ArgumentParser parser = getArgumentParser();
+            Namespace results = parser.parseArgs(args);
+
+            Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+            Path reportFolderPath = results.get(VIEW_FLAGS[0]);
+            Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
+            ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
+            Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
+            List<String> locations = results.get(REPO_FLAGS[0]);
+            List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
+            boolean isStandaloneConfigIgnored = results.get(IGNORE_CONFIG_FLAGS[0]);
+            boolean isFileSizeLimitIgnored = results.get(IGNORE_SIZELIMIT_FLAGS[0]);
+            boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
+            boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
+            boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
+            boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
+            int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
+            int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
+
+            CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
+                    .configFolderPath(configFolderPath)
+                    .reportDirectoryPath(reportFolderPath)
+                    .outputFilePath(outputFolderPath)
+                    .zoneId(zoneId)
+                    .assetsFilePath(assetsFolderPath)
+                    .locations(locations)
+                    .formats(formats)
+                    .isStandaloneConfigIgnored(isStandaloneConfigIgnored)
+                    .isFileSizeLimitIgnored(isFileSizeLimitIgnored)
+                    .isLastModifiedDateIncluded(shouldIncludeLastModifiedDate)
+                    .isShallowCloningPerformed(shouldPerformShallowCloning)
+                    .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors)
+                    .numCloningThreads(numCloningThreads)
+                    .numAnalysisThreads(numAnalysisThreads)
+                    .isTestMode(isTestMode);
+
+            LogsManager.setLogFolderLocation(outputFolderPath);
+
+            if (locations == null && configFolderPath.equals(DEFAULT_CONFIG_PATH)) {
+                logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
+            }
+
+            addReportConfigToBuilder(cliArgumentsBuilder, results);
+            addAnalysisDatesToBuilder(cliArgumentsBuilder, results);
+
+            boolean isViewModeOnly = reportFolderPath != null
+                    && !reportFolderPath.equals(EMPTY_PATH)
+                    && configFolderPath.equals(DEFAULT_CONFIG_PATH)
+                    && locations == null;
+            cliArgumentsBuilder.isViewModeOnly(isViewModeOnly);
+
+            boolean isAutomaticallyLaunching = reportFolderPath != null;
+            if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH) && !isViewModeOnly) {
+                logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
+            }
+            cliArgumentsBuilder.isAutomaticallyLaunching(isAutomaticallyLaunching);
+
+
+            boolean shouldPerformFreshCloning = isTestMode
+                    ? results.get(FRESH_CLONING_FLAG[0])
+                    : DEFAULT_SHOULD_FRESH_CLONE;
+            cliArgumentsBuilder.isFreshClonePerformed(shouldPerformFreshCloning);
+
+            return cliArgumentsBuilder.build();
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
-
-		Path configFolderPath = results.get(CONFIG_FLAGS[0]);
-		Path reportFolderPath = results.get(VIEW_FLAGS[0]);
-		Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
-		ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
-		Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
-		List<String> locations = results.get(REPO_FLAGS[0]);
-		List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0])); 
-		boolean isStandaloneConfigIgnored = results.get(IGNORE_CONFIG_FLAGS[0]);
-		boolean isFileSizeLimitIgnored = results.get(IGNORE_SIZELIMIT_FLAGS[0]);
-		boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
-		boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
-		boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
-		boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
-		int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
-		int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
-
-		CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
-				.configFolderPath(configFolderPath)
-				.reportDirectoryPath(reportFolderPath)
-				.outputFilePath(outputFolderPath)
-				.zoneId(zoneId)
-				.assetsFilePath(assetsFolderPath)
-				.locations(locations)
-				.formats(formats)
-				.isStandaloneConfigIgnored(isStandaloneConfigIgnored)
-				.isFileSizeLimitIgnored(isFileSizeLimitIgnored)
-				.isLastModifiedDateIncluded(shouldIncludeLastModifiedDate)
-				.isShallowCloningPerformed(shouldPerformShallowCloning)
-				.isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors)
-				.numCloningThreads(numCloningThreads)
-				.numAnalysisThreads(numAnalysisThreads)
-				.isTestMode(isTestMode);
-
-		LogsManager.setLogFolderLocation(outputFolderPath);
-
-		if (locations == null && configFolderPath.equals(DEFAULT_CONFIG_PATH)) {
-			logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
-		}
-
-		addReportConfigToBuilder(cliArgumentsBuilder, results);
-		addAnalysisDatesToBuilder(cliArgumentsBuilder, results); 
-
-		boolean isViewModeOnly = reportFolderPath != null
-				&& !reportFolderPath.equals(EMPTY_PATH)
-				&& configFolderPath.equals(DEFAULT_CONFIG_PATH)
-				&& locations == null;
-		cliArgumentsBuilder.isViewModeOnly(isViewModeOnly);
-
-		boolean isAutomaticallyLaunching = reportFolderPath != null;
-		if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH) && !isViewModeOnly) {
-			logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
-		}
-		cliArgumentsBuilder.isAutomaticallyLaunching(isAutomaticallyLaunching);
-
-		boolean shouldPerformFreshCloning = isTestMode
-				? results.get(FRESH_CLONING_FLAG[0])
-				: DEFAULT_SHOULD_FRESH_CLONE;
-		cliArgumentsBuilder.isFreshClonePerformed(shouldPerformFreshCloning);
-
-		return cliArgumentsBuilder.build();
     }
 
     /**
