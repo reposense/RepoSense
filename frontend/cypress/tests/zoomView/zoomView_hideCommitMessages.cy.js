@@ -70,7 +70,7 @@ describe('hide all commit messages ', () => {
       .should('have.length', 1);
 
     cy.get('#tab-zoom .toolbar--multiline > a')
-      .should('have.text', 'hide all commit messages');
+      .should('have.text', 'hide all commit details');
   });
 
   it('should only display show all commit messages when all are hidden', () => {
@@ -93,7 +93,7 @@ describe('hide all commit messages ', () => {
       .should('have.length', 1);
 
     cy.get('#tab-zoom .toolbar--multiline > a')
-      .should('have.text', 'show all commit messages');
+      .should('have.text', 'show all commit details');
   });
 
   it('should display both show and hide all commit messages when some are hidden', () => {
@@ -119,11 +119,11 @@ describe('hide all commit messages ', () => {
 
     cy.get('#tab-zoom .toolbar--multiline > a')
       .eq(0)
-      .should('have.text', 'show all commit messages');
+      .should('have.text', 'show all commit details');
 
     cy.get('#tab-zoom .toolbar--multiline > a')
       .eq(1)
-      .should('have.text', 'hide all commit messages');
+      .should('have.text', 'hide all commit details');
   });
 
   it('check show all and hide all commit messages only toggle current commits', () => {
@@ -152,7 +152,7 @@ describe('hide all commit messages ', () => {
       .should('have.length', 1);
 
     cy.get('#tab-zoom .toolbar--multiline > a')
-      .should('have.text', 'show all commit messages');
+      .should('have.text', 'show all commit details');
 
     // check java file type
     cy.get('#tab-zoom .fileTypes input[value="java"]')
@@ -161,12 +161,12 @@ describe('hide all commit messages ', () => {
 
     // commit body of the merge commit should be visible
     cy.get('#tab-zoom .commit-message .body')
-      .eq(1)
+      .eq(0)
       .should('be.visible');
 
     // commit body of the md commit should not be visible
     cy.get('#tab-zoom .commit-message .body')
-      .eq(0)
+      .eq(1)
       .should('not.be.visible');
 
     // commit body of the java commit should be visible
@@ -182,11 +182,11 @@ describe('hide all commit messages ', () => {
 
     cy.get('#tab-zoom .toolbar--multiline > a')
       .eq(0)
-      .should('have.text', 'show all commit messages');
+      .should('have.text', 'show all commit details');
 
     cy.get('#tab-zoom .toolbar--multiline > a')
       .eq(1)
-      .should('have.text', 'hide all commit messages');
+      .should('have.text', 'hide all commit details');
   });
 
   it('check hidden commit message persists after sort', () => {

@@ -8,14 +8,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.git.GitCheckout;
-import reposense.git.GitVersion;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
@@ -96,7 +94,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameWithPreviousAuthorsTest() {
-        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
         config.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
         config.setIsFindingPreviousAuthorsPerformed(true);
@@ -131,7 +128,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void blameWithPreviousAuthorsTestDateRange() throws Exception {
-        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
         config.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
         config.setIsFindingPreviousAuthorsPerformed(true);
@@ -184,7 +180,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeFile_blameWithPreviousAuthorsIgnoreFirstCommitThatChangedLine_assignLineToUnknownAuthor() {
-        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
         config.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
         config.setIsFindingPreviousAuthorsPerformed(true);
@@ -237,7 +232,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
 
     @Test
     public void analyzeFile_blameWithPreviousAuthorTestFileIgnoreAllCommit_success() {
-        Assumptions.assumeTrue(GitVersion.isGitVersionSufficientForFindingPreviousAuthors());
         config.setSinceDate(PREVIOUS_AUTHOR_BLAME_TEST_SINCE_DATE);
         config.setUntilDate(PREVIOUS_AUTHOR_BLAME_TEST_UNTIL_DATE);
         config.setIsFindingPreviousAuthorsPerformed(true);
