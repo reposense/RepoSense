@@ -611,10 +611,15 @@ public class ArgsParserTest {
     public void sinceDate_laterThanCurrentDate_throwsParseException() {
         LocalDateTime tomorrowDateTime = LocalDateTime.now()
                 .plusDays(1L);
+        LocalDateTime dayAfterDateTime = LocalDateTime.now()
+                .plusDays(2L);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String tomorrow = tomorrowDateTime.format(formatter);
+        String dayAfter = dayAfterDateTime.format(formatter);
 
         String input = DEFAULT_INPUT_BUILDER.addSinceDate(tomorrow)
+                .addUntilDate(dayAfter)
                 .build();
         Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
     }
