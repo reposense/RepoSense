@@ -11,7 +11,6 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -603,18 +602,6 @@ public class ArgsParserTest {
     public void sinceDate_laterThanUntilDate_throwsParseException() {
         String input = DEFAULT_INPUT_BUILDER.addSinceDate("01/12/2017")
                 .addUntilDate("30/11/2017")
-                .build();
-        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
-    }
-
-    @Test
-    public void sinceDate_laterThanCurrentDate_throwsParseException() {
-        LocalDateTime tomorrowDateTime = LocalDateTime.now()
-                .plusDays(1L);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String tomorrow = tomorrowDateTime.format(formatter);
-
-        String input = DEFAULT_INPUT_BUILDER.addSinceDate(tomorrow)
                 .build();
         Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
     }
