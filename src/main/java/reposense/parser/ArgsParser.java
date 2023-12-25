@@ -424,12 +424,12 @@ public class ArgsParser {
                 ? untilDate
                 : currentDate;
 
-        if (sinceDate.compareTo(untilDate) > 0) {
-            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
-        }
-
         if (sinceDate.compareTo(currentDate) > 0) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
+        }
+
+        if (sinceDate.compareTo(untilDate) > 0) {
+            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
         }
 
         builder.sinceDate(sinceDate)
