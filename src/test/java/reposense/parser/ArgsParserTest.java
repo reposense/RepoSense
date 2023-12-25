@@ -611,6 +611,19 @@ public class ArgsParserTest {
     public void sinceDate_laterThanCurrentDate_throwsParseException() {
         LocalDateTime tomorrowDateTime = LocalDateTime.now()
                 .plusDays(1L);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String tomorrow = tomorrowDateTime.format(formatter);
+
+
+        String input = DEFAULT_INPUT_BUILDER.addSinceDate(tomorrow)
+                .build();
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
+    }
+
+    @Test
+    public void sinceDate_beforeUntilDateAndLaterThanCurrentDate_throwsParseException() {
+        LocalDateTime tomorrowDateTime = LocalDateTime.now()
+                .plusDays(1L);
         LocalDateTime dayAfterDateTime = LocalDateTime.now()
                 .plusDays(2L);
 
