@@ -52,69 +52,415 @@ public class RepoConfiguration {
     private transient boolean isFileSizeLimitOverriding;
     private transient boolean isIgnoredFileAnalysisSkipped;
 
-    public RepoConfiguration(RepoLocation location) {
-        this(location, DEFAULT_BRANCH);
+    /**
+     * Constructs a {@code RepoConfiguration} with the configuration values
+     * from {@code repoBuilder}.
+     *
+     * @param repoBuilder The {@code RepoBuilder} object containing the configuration values.
+     */
+    private RepoConfiguration(RepoBuilder repoBuilder) {
+        this.location = repoBuilder.location;
+        this.branch = repoBuilder.branch;
+        this.displayName = repoBuilder.displayName;
+        this.outputFolderName = repoBuilder.outputFolderName;
+        this.extraOutputFolderName = repoBuilder.extraOutputFolderName;
+        this.zoneId = repoBuilder.zoneId;
+        this.sinceDate = repoBuilder.sinceDate;
+        this.untilDate = repoBuilder.untilDate;
+        this.repoFolderName = repoBuilder.repoFolderName;
+        this.fileTypeManager = repoBuilder.fileTypeManager;
+        this.ignoreGlobList = repoBuilder.ignoreGlobList;
+        this.ignoredAuthorsList = repoBuilder.ignoredAuthorsList;
+        this.authorConfig = repoBuilder.authorConfig;
+        this.isStandaloneConfigIgnored = repoBuilder.isStandaloneConfigIgnored;
+        this.isFileSizeLimitIgnored = repoBuilder.isFileSizeLimitIgnored;
+        this.ignoreCommitList = repoBuilder.ignoreCommitList;
+        this.isLastModifiedDateIncluded = repoBuilder.isLastModifiedDateIncluded;
+        this.isShallowCloningPerformed = repoBuilder.isShallowCloningPerformed;
+        this.isFindingPreviousAuthorsPerformed = repoBuilder.isFindingPreviousAuthorsPerformed;
+        this.isFormatsOverriding = repoBuilder.isFormatsOverriding;
+        this.isIgnoreGlobListOverriding = repoBuilder.isIgnoreGlobListOverriding;
+        this.isIgnoreCommitListOverriding = repoBuilder.isIgnoreCommitListOverriding;
+        this.isIgnoredAuthorsListOverriding = repoBuilder.isIgnoredAuthorsListOverriding;
+        this.fileSizeLimit = repoBuilder.fileSizeLimit;
+        this.isFileSizeLimitOverriding = repoBuilder.isFileSizeLimitOverriding;
+        this.isIgnoredFileAnalysisSkipped = repoBuilder.isIgnoredFileAnalysisSkipped;
+
+        processAuthor();
+        processBranch();
+        processNames();
+        processOrganization();
     }
 
-    public RepoConfiguration(RepoLocation location, String branch) {
-        this(location, branch, DEFAULT_EXTRA_OUTPUT_FOLDER_NAME);
-    }
-
-    public RepoConfiguration(RepoLocation location, String branch, String extraOutputFolderName) {
-        this(location, branch, Collections.emptyList(), Collections.emptyList(),
-                RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT, false, false, Collections.emptyList(), false, false, false,
-                false, false, false, false, Collections.emptyList(), false, extraOutputFolderName);
-    }
-
-    public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
-            long fileSizeLimit, boolean isStandaloneConfigIgnored, boolean isFileSizeLimitIgnored,
-            List<CommitHash> ignoreCommitList, boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding,
-            boolean isIgnoreCommitListOverriding, boolean isFileSizeLimitOverriding, boolean isShallowCloningPerformed,
-            boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped,
-            List<String> ignoredAuthorsList, boolean isIgnoredAuthorsListOverriding) {
-        this(location, branch, formats, ignoreGlobList, fileSizeLimit, isStandaloneConfigIgnored,
-                isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding, isIgnoreGlobListOverriding,
-                isIgnoreCommitListOverriding, isFileSizeLimitOverriding, isShallowCloningPerformed,
-                isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped, ignoredAuthorsList,
-                isIgnoredAuthorsListOverriding, DEFAULT_EXTRA_OUTPUT_FOLDER_NAME);
-    }
-
-    public RepoConfiguration(RepoLocation location, String branch, List<FileType> formats, List<String> ignoreGlobList,
-            long fileSizeLimit, boolean isStandaloneConfigIgnored, boolean isFileSizeLimitIgnored,
-            List<CommitHash> ignoreCommitList, boolean isFormatsOverriding, boolean isIgnoreGlobListOverriding,
-            boolean isIgnoreCommitListOverriding, boolean isFileSizeLimitOverriding, boolean isShallowCloningPerformed,
-            boolean isFindingPreviousAuthorsPerformed, boolean isIgnoredFileAnalysisSkipped,
-            List<String> ignoredAuthorsList, boolean isIgnoredAuthorsListOverriding, String extraOutputFolderName) {
+    /**
+     * Processes the author configuration of the repository.
+     */
+    private void processAuthor() {
         this.authorConfig = new AuthorConfiguration(location, branch);
-        this.location = location;
-        this.branch = location.isEmpty() ? DEFAULT_BRANCH : branch;
-        this.ignoreGlobList = ignoreGlobList;
-        this.fileSizeLimit = fileSizeLimit;
-        this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
-        this.isFileSizeLimitIgnored = isFileSizeLimitIgnored;
-        this.fileTypeManager = new FileTypeManager(formats);
-        this.ignoreCommitList = ignoreCommitList;
-        this.isFormatsOverriding = isFormatsOverriding;
-        this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
-        this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
-        this.isFileSizeLimitOverriding = isFileSizeLimitOverriding;
-        this.isShallowCloningPerformed = isShallowCloningPerformed;
-        this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
-        this.isIgnoredFileAnalysisSkipped = isIgnoredFileAnalysisSkipped;
-        this.ignoredAuthorsList = ignoredAuthorsList;
-        this.isIgnoredAuthorsListOverriding = isIgnoredAuthorsListOverriding;
-        this.extraOutputFolderName = extraOutputFolderName;
+    }
 
-        String organization = location.getOrganization();
-        String repoName = location.getRepoName();
-        displayName = repoName + "[" + branch + "]";
-        outputFolderName = repoName + "_" + branch;
-        repoFolderName = repoName;
+    /**
+     * Processes the branch of the repository.
+     */
+    private void processBranch() {
+        this.branch = this.location.isEmpty() ? DEFAULT_BRANCH : this.branch;
+    }
 
-        if (!organization.isEmpty()) {
-            repoFolderName = organization + "_" + repoFolderName;
-            displayName = organization + "/" + displayName;
-            outputFolderName = organization + "_" + outputFolderName;
+    /**
+     * Processes the relevant names of the repository configs.
+     */
+    private void processNames() {
+        String repoName = this.location.getRepoName();
+        this.displayName = repoName + "[" + this.branch + "]";
+        this.outputFolderName = repoName + "_" + this.branch;
+        this.repoFolderName = repoName;
+    }
+
+    /**
+     * Processes the organization name of the repository and updates the relevant
+     * names of the repository configs.
+     */
+    private void processOrganization() {
+        String org = location.getOrganization();
+
+        if (!org.isEmpty()) {
+            this.repoFolderName = org + "_" + this.repoFolderName;
+            this.displayName = org + "/" + this.displayName;
+            this.outputFolderName = org + "_" + this.outputFolderName;
+        }
+    }
+
+    /**
+     * Builds the necessary configurations for RepoConfiguration.
+     * Obeys the Builder pattern as described in {@link CliArguments}.
+     */
+    public static class RepoBuilder {
+        private RepoLocation location;
+        private String branch = DEFAULT_BRANCH;
+        private String displayName;
+        private String outputFolderName;
+        private transient String extraOutputFolderName = DEFAULT_EXTRA_OUTPUT_FOLDER_NAME;
+        private transient ZoneId zoneId;
+        private transient LocalDateTime sinceDate;
+        private transient LocalDateTime untilDate;
+        private transient String repoFolderName;
+
+        private transient FileTypeManager fileTypeManager = new FileTypeManager(Collections.emptyList());
+        private transient List<String> ignoreGlobList = new ArrayList<>();
+        private transient List<String> ignoredAuthorsList = new ArrayList<>();
+        private transient AuthorConfiguration authorConfig;
+        private transient boolean isStandaloneConfigIgnored = false;
+        private transient boolean isFileSizeLimitIgnored = false;
+        private transient List<CommitHash> ignoreCommitList = Collections.emptyList();
+        private transient boolean isLastModifiedDateIncluded;
+        private transient boolean isShallowCloningPerformed = false;
+        private transient boolean isFindingPreviousAuthorsPerformed = false;
+        private transient boolean isFormatsOverriding = false;
+        private transient boolean isIgnoreGlobListOverriding;
+        private transient boolean isIgnoreCommitListOverriding = false;
+        private transient boolean isIgnoredAuthorsListOverriding;
+        private transient long fileSizeLimit = DEFAULT_FILE_SIZE_LIMIT;
+        private transient boolean isFileSizeLimitOverriding = false;
+        private transient boolean isIgnoredFileAnalysisSkipped = false;
+
+        /**
+         * Returns an empty instance of the RepoConfiguration Builder.
+         */
+        public RepoBuilder() {}
+
+        /**
+         * Updates the {@code location} for {@code RepoConfiguration}.
+         *
+         * @param location A repository location.
+         * @return This builder object
+         */
+        public RepoBuilder location(RepoLocation location) {
+            this.location = location;
+            return this;
+        }
+
+        /**
+         * Updates the {@code branch} for {@code RepoConfiguration}.
+         *
+         * @param branch Branch of the repository of interest.
+         * @return This builder object.
+         */
+        public RepoBuilder branch(String branch) {
+            this.branch = branch;
+            return this;
+        }
+
+        /**
+         * Updates the {@code displayName} for {@code RepoConfiguration}.
+         *
+         * @param displayName Display name of the repository.
+         * @return This builder object.
+         */
+        public RepoBuilder displayName(String displayName) {
+            this.displayName = displayName;
+            return this;
+        }
+
+        /**
+         * Updates the {@code outputFolderName} for {@code RepoConfiguration}.
+         *
+         * @param outputFolderName Output folder name of the repository.
+         * @return This builder object.
+         */
+        public RepoBuilder outputFolderName(String outputFolderName) {
+            this.outputFolderName = outputFolderName;
+            return this;
+        }
+
+        /**
+         * Updates the {@code extraOutputFolderName} for {@code RepoConfiguration}.
+         *
+         * @param extraOutputFolderName Extra output folder name of the repository.
+         * @return This builder object.
+         */
+        public RepoBuilder extraOutputFolderName(String extraOutputFolderName) {
+            this.extraOutputFolderName = extraOutputFolderName;
+            return this;
+        }
+
+        /**
+         * Updates the {@code zoneId} for {@code RepoConfiguration}.
+         *
+         * @param zoneId Time-zone of the repository.
+         * @return This builder object.
+         */
+        public RepoBuilder zoneId(ZoneId zoneId) {
+            this.zoneId = zoneId;
+            return this;
+        }
+
+        /**
+         * Updates the {@code sinceDate} for {@code RepoConfiguration}.
+         *
+         * @param sinceDate Starting date of analysis.
+         * @return This builder object.
+         */
+        public RepoBuilder sinceDate(LocalDateTime sinceDate) {
+            this.sinceDate = sinceDate;
+            return this;
+        }
+
+        /**
+         * Updates the {@code untilDate} for {@code RepoConfiguration}.
+         *
+         * @param untilDate Ending date of analysis.
+         * @return This builder object.
+         */
+        public RepoBuilder untilDate(LocalDateTime untilDate) {
+            this.untilDate = untilDate;
+            return this;
+        }
+
+        /**
+         * Updates the {@code repoFolderName} for {@code RepoConfiguration}.
+         *
+         * @param repoFolderName Folder name of the repository.
+         * @return This builder object.
+         */
+        public RepoBuilder repoFolderName(String repoFolderName) {
+            this.repoFolderName = repoFolderName;
+            return this;
+        }
+
+        /**
+         * Updates the {@code fileTypeManager} for {@code RepoConfiguration}.
+         *
+         * @param fileTypeManager List of file types and groupings permitted.
+         * @return This builder object.
+         */
+        public RepoBuilder fileTypeManager(FileTypeManager fileTypeManager) {
+            this.fileTypeManager = fileTypeManager;
+            return this;
+        }
+
+        /**
+         * Updates the {@code ignoreGlobList} for {@code RepoConfiguration}.
+         *
+         * @param ignoredGlobList List of glob patterns to ignore.
+         * @return This builder object.
+         */
+        public RepoBuilder ignoreGlobList(List<String> ignoredGlobList) {
+            this.ignoreGlobList = ignoredGlobList;
+            return this;
+        }
+
+        /**
+         * Updates the {@code ignoredAuthorsList} for {@code RepoConfiguration}.
+         *
+         * @param ignoredAuthorsList List of authors to ignore.
+         * @return This builder object.
+         */
+        public RepoBuilder ignoredAuthorsList(List<String> ignoredAuthorsList) {
+            this.ignoredAuthorsList = ignoredAuthorsList;
+            return this;
+        }
+
+        /**
+         * Updates the {@code authorConfig} for {@code RepoConfiguration}.
+         *
+         * @param authorConfig Author configuration information of the repository.
+         * @return This builder object.
+         */
+        public RepoBuilder authorConfig(AuthorConfiguration authorConfig) {
+            this.authorConfig = authorConfig;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isStandaloneConfigIgnored} for {@code RepoConfiguration}.
+         *
+         * @param isStandaloneConfigIgnored Checks if standalone config is ignored.
+         * @return This builder object.
+         */
+        public RepoBuilder isStandaloneConfigIgnored(boolean isStandaloneConfigIgnored) {
+            this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isFileSizeLimitIgnored} for {@code RepoConfiguration}.
+         *
+         * @param isFileSizeLimitIgnored Checks if file size limit is ignored.
+         * @return This builder object.
+         */
+        public RepoBuilder isFileSizeLimitIgnored(boolean isFileSizeLimitIgnored) {
+            this.isFileSizeLimitIgnored = isFileSizeLimitIgnored;
+            return this;
+        }
+
+        /**
+         * Updates the {@code ignoreCommitList} for {@code RepoConfiguration}.
+         *
+         * @param ignoreCommitList List of commits to ignore.
+         * @return This builder object.
+         */
+        public RepoBuilder ignoreCommitList(List<CommitHash> ignoreCommitList) {
+            this.ignoreCommitList = ignoreCommitList;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isLastModifiedDateIncluded} for {@code RepoConfiguration}.
+         *
+         * @param isLastModifiedDateIncluded Checks if last modified date is included.
+         * @return This builder object.
+         */
+        public RepoBuilder isLastModifiedDateIncluded(boolean isLastModifiedDateIncluded) {
+            this.isLastModifiedDateIncluded = isLastModifiedDateIncluded;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isShallowCloningPerformed} for {@code RepoConfiguration}.
+         *
+         * @param isShallowCloningPerformed Checks if shallow cloning is performed.
+         * @return This builder object.
+         */
+        public RepoBuilder isShallowCloningPerformed(boolean isShallowCloningPerformed) {
+            this.isShallowCloningPerformed = isShallowCloningPerformed;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isFindingPreviousAuthorsPerformed} for {@code RepoConfiguration}.
+         *
+         * @param isFindingPreviousAuthorsPerformed Checks if finding previous authors is performed.
+         * @return This builder object.
+         */
+        public RepoBuilder isFindingPreviousAuthorsPerformed(boolean isFindingPreviousAuthorsPerformed) {
+            this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isFormatsOverriding} for {@code RepoConfiguration}.
+         *
+         * @param isFormatsOverriding Checks if file formats are overridden.
+         * @return This builder object.
+         */
+        public RepoBuilder isFormatsOverriding(boolean isFormatsOverriding) {
+            this.isFormatsOverriding = isFormatsOverriding;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isIgnoreGlobListOverriding} for {@code RepoConfiguration}.
+         *
+         * @param isIgnoreGlobListOverriding Checks if the list of ignored glob is overridden.
+         * @return This builder object.
+         */
+        public RepoBuilder isIgnoreGlobListOverriding(boolean isIgnoreGlobListOverriding) {
+            this.isIgnoreGlobListOverriding = isIgnoreGlobListOverriding;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isIgnoreCommitListOverriding} for {@code RepoConfiguration}.
+         *
+         * @param isIgnoreCommitListOverriding Checks if the list of ignored commits is overridden.
+         * @return This builder object.
+         */
+        public RepoBuilder isIgnoreCommitListOverriding(boolean isIgnoreCommitListOverriding) {
+            this.isIgnoreCommitListOverriding = isIgnoreCommitListOverriding;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isFileSizeLimitOverriding} for {@code RepoConfiguration}.
+         *
+         * @param isIgnoredAuthorsListOverriding Checks if the list of ignored authors is overridden.
+         * @return This builder object.
+         */
+        public RepoBuilder isIgnoredAuthorsListOverriding(boolean isIgnoredAuthorsListOverriding) {
+            this.isIgnoredAuthorsListOverriding = isIgnoredAuthorsListOverriding;
+            return this;
+        }
+
+        /**
+         * Updates the {@code fileSizeLimit} for {@code RepoConfiguration}.
+         *
+         * @param fileSizeLimit File size limit of the repository.
+         * @return This builder object.
+         */
+        public RepoBuilder fileSizeLimit(long fileSizeLimit) {
+            this.fileSizeLimit = fileSizeLimit;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isFileSizeLimitOverriding} for {@code RepoConfiguration}.
+         *
+         * @param isFileSizeLimitOverriding Checks if the file size limit is overridden.
+         * @return This builder object.
+         */
+        public RepoBuilder isFileSizeLimitOverriding(boolean isFileSizeLimitOverriding) {
+            this.isFileSizeLimitOverriding = isFileSizeLimitOverriding;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isIgnoredFileAnalysisSkipped} for {@code RepoConfiguration}.
+         *
+         * @param isIgnoredFileAnalysisSkipped Checks if the analysis of ignored files is skipped.
+         * @return This builder object.
+         */
+        public RepoBuilder isIgnoredFileAnalysisSkipped(boolean isIgnoredFileAnalysisSkipped) {
+            this.isIgnoredFileAnalysisSkipped = isIgnoredFileAnalysisSkipped;
+            return this;
+        }
+
+        /**
+         * Builds the {@code RepoConfiguration} object with the necessary configurations.
+         *
+         * @return {@code RepoConfiguration}.
+         */
+        public RepoConfiguration build() {
+            return new RepoConfiguration(this);
         }
     }
 
