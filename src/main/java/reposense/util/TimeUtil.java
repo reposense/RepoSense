@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.parser.ParseException;
 import reposense.parser.SinceDateArgumentType;
 import reposense.system.LogsManager;
 
@@ -23,10 +22,6 @@ public class TimeUtil {
 
     // "uuuu" is used for year since "yyyy" does not work with ResolverStyle.STRICT
     private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss");
-    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
-            "\"Since Date\" cannot be later than \"Until Date\".";
-    private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
-            "\"Since Date\" must not be later than today's date.";
 
     private static final String EARLIEST_VALID_DATE = "1970-01-01T00:00:00";
     private static final String LATEST_VALID_DATE = "2099-12-31T23:59:59";
@@ -166,30 +161,6 @@ public class TimeUtil {
      */
     public static boolean isEqualToArbitraryFirstDateConverted(LocalDateTime dateTime, ZoneId zoneId) {
         return dateTime.equals(getArbitraryFirstCommitDateConverted(zoneId));
-    }
-
-    /**
-     * Verifies that {@code sinceDate} is earlier than {@code untilDate}.
-     *
-     * @throws ParseException if {@code sinceDate} supplied is later than {@code untilDate}.
-     */
-    public static void verifyDatesRangeIsCorrect(LocalDateTime sinceDate, LocalDateTime untilDate)
-            throws ParseException {
-        if (sinceDate.compareTo(untilDate) > 0) {
-            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
-        }
-    }
-
-    /**
-     * Verifies that {@code sinceDate} is no later than the date of report generation, given by {@code currentDate}.
-     *
-     * @throws ParseException if {@code sinceDate} supplied is later than date of report generation.
-     */
-    public static void verifySinceDateIsValid(LocalDateTime sinceDate, LocalDateTime currentDate)
-            throws ParseException {
-        if (sinceDate.compareTo(currentDate) > 0) {
-            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
-        }
     }
 
     /**
