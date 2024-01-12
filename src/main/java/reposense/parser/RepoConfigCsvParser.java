@@ -145,9 +145,6 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed);
     }
 
-    private void process() {
-    }
-
     /**
      * Returns true if value from {@code record}, that matches any of the equivalent headers in
      * {@code equivalentHeaders}, is the same as the given {@code keyword}, else false.
