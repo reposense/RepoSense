@@ -167,6 +167,6 @@ with(this){return _c('p',[_c('strong',[_c('code',{pre:true,attrs:{"class":"hljs 
 with(this){return _c('ul',[_c('li',[_v("Parameter: "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("REPORT_FOLDER")]),_v(" Optional. If specified, no analysis will be performed and the report specified by the argument will be opened."),_c('br'),_v("\nDefault: "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("./reposense-report")])]),_v(" "),_c('li',[_v("Alias: "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("-v")])]),_v(" "),_c('li',[_v("Example:"),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("--view")]),_v(" or "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("-v")])])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.2.0")]),_v(", generated on Wed, 17 Jan 2024, 9:01:46 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.2.0")]),_v(", generated on Thu, 18 Jan 2024, 8:39:39 UTC]")])])])}
 }];
   
