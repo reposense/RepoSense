@@ -115,20 +115,19 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
         // If file diff limit is specified
         if (fileSizeLimitStringList.size() > 0) {
+            String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
+            int parseValue;
+
             if (isFileSizeLimitIgnored) {
                 logger.warning("Ignoring file size limit column since file size limit is ignored");
                 isFileSizeLimitOverriding = false;
+            } else if (!StringsUtil.isNumeric(fileSizeLimitString)
+                    || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
+                logger.warning(String.format("Values in \"%s\" column should be positive integers.",
+                        FILESIZE_LIMIT_HEADER[0]));
+                isFileSizeLimitOverriding = false;
             } else {
-                String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
-                int parseValue;
-                if (!StringsUtil.isNumeric(fileSizeLimitString)
-                        || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
-                    logger.warning(String.format("Values in \"%s\" column should be positive integers.",
-                            FILESIZE_LIMIT_HEADER[0]));
-                    isFileSizeLimitOverriding = false;
-                } else {
-                    fileSizeLimit = parseValue;
-                }
+                fileSizeLimit = parseValue;
             }
         }
 
