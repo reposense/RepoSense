@@ -71,7 +71,7 @@ window.decodeHash = function decodeHash() {
   const hashParams: { [key: string]: string } = {};
 
   const hashIndex = window.location.href.indexOf(HASH_ANCHOR);
-  const parameterString = hashIndex === -1 ? '' : window.location.href.slice(hashIndex + 1);
+  const parameterString = hashIndex === -1 ? '' : window.location.href.slice(hashIndex + 1).split('#')[0];
 
   parameterString.split('&')
     .forEach((param) => {
