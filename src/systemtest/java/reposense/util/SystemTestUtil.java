@@ -7,10 +7,9 @@ import java.nio.file.Path;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import org.junit.jupiter.api.Assertions;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
