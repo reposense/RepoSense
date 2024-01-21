@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import org.junit.jupiter.api.Assertions;
 
 import com.google.gson.JsonObject;
@@ -63,10 +65,16 @@ public class SystemTestUtil {
      */
     public static void assertJson(Path expectedJsonPath, Path actualJsonPath) {
         Assertions.assertTrue(Files.exists(actualJsonPath));
-        try {
-            Assertions.assertTrue(TestUtil.compareFileContents(expectedJsonPath, actualJsonPath));
-        } catch (Exception e) {
-            Assertions.fail(e.getMessage());
+
+        try (FileReader fileReaderExpected = new FileReader(expectedJsonPath.toFile());
+                FileReader fileReaderActual = new FileReader(actualJsonPath.toFile())) {
+
+            JsonElement jsonExpected = JsonParser.parseReader(fileReaderExpected);
+            JsonElement jsonActual = JsonParser.parseReader(fileReaderActual);
+
+            Assertions.assertEquals(jsonExpected, jsonActual);
+        } catch (IOException ex) {
+            Assertions.fail(ex.getMessage());
         }
     }
 }
