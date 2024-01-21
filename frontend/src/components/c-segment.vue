@@ -19,7 +19,8 @@
   div(v-if="isOpen", v-hljs="path")
     .code(
       v-for="(line, index) in segment.lines", v-bind:key="index",
-      v-bind:style="{ 'background-color': `${authorColors[segment.knownAuthor]}${transparencyValue}` }"
+      v-bind:style="{ 'background-color': `${authorColors[segment.knownAuthor]}" +
+      "${segment.isFullCredit ? fullCreditTransparencyValue : partialCreditTransparencyValue}` }"
     )
       .line-number {{ `${segment.lineNumbers[index]}\n` }}
       .line-content {{ `${line}\n` }}
@@ -53,7 +54,8 @@ export default defineComponent({
     return {
       isOpen: (this.segment.knownAuthor !== null) || this.segment.lines.length < 5 as boolean,
       canOpen: (this.segment.knownAuthor === null) && this.segment.lines.length > 4 as boolean,
-      transparencyValue: '30' as string,
+      fullCreditTransparencyValue: '75' as string,
+      partialCreditTransparencyValue: '30' as string,
     };
   },
   computed: {
