@@ -160,7 +160,7 @@ export default defineComponent({
   },
   props: {
     repos: {
-      type: Array as PropType<Array<Repo>>,
+      type: Array<Repo>,
       required: true,
     },
     errorMessages: {

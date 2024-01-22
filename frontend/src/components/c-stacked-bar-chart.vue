@@ -9,13 +9,13 @@
 </template>
 
 <script lang="ts">
-import { PropType, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 import { Bar } from '../types/types';
 
 export default defineComponent({
   props: {
     bars: {
-      type: Array as PropType<Array<Bar>>,
+      type: Array<Bar>,
       required: true,
     },
   },
