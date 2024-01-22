@@ -374,7 +374,7 @@ export default defineComponent({
   },
   data() {
     return {
-      drags: [] as number[],
+      drags: [] as Array<number>,
       activeRepo: null as string | null,
       activeUser: null as string | null,
       activeTabType: null as string | null,
@@ -430,12 +430,12 @@ export default defineComponent({
     getFileTypeContributionBars(
       fileTypeContribution: AuthorFileTypeContributions,
       checkedFileTypeContribution: number | undefined,
-    ): Bar[] {
+    ): Array<Bar> {
       let currentBarWidth = 0;
       const fullBarWidth = 100;
       const contributionPerFullBar = (this.avgContributionSize * 2);
 
-      const allFileTypesContributionBars: Bar[] = [];
+      const allFileTypesContributionBars: Array<Bar> = [];
       if (contributionPerFullBar === 0) {
         return allFileTypesContributionBars;
       }
@@ -481,8 +481,8 @@ export default defineComponent({
       return allFileTypesContributionBars;
     },
 
-    getFileTypes(repo: User[]): string[] {
-      const fileTypes: string[] = [];
+    getFileTypes(repo: Array<User>): Array<string> {
+      const fileTypes: Array<string> = [];
       repo.forEach((user) => {
         Object.keys(user.fileTypeContribution).forEach((fileType) => {
           if (this.checkedFileTypes.includes(fileType) && !fileTypes.includes(fileType)) {
@@ -493,12 +493,12 @@ export default defineComponent({
       return fileTypes;
     },
 
-    getGroupTotalContribution(group: User[]): number {
+    getGroupTotalContribution(group: Array<User>): number {
       return group.reduce((acc, ele) => acc + (ele.checkedFileTypeContribution ?? 0), 0);
     },
 
-    getContributionBars(totalContribution: number): Bar[] {
-      const res: Bar[] = [];
+    getContributionBars(totalContribution: number): Array<Bar> {
+      const res: Array<Bar> = [];
       const contributionLimit = (this.avgContributionSize * 2);
       if (contributionLimit === 0) {
         return res;
@@ -543,7 +543,7 @@ export default defineComponent({
       return repo.location;
     },
 
-    getRepoIcon(repo: User): string[] {
+    getRepoIcon(repo: User): Array<string> {
       const domainName = window.REPOS[repo.repoId].location.domainName;
 
       switch (domainName) {
@@ -559,7 +559,7 @@ export default defineComponent({
     },
 
     // triggering opening of tabs //
-    openTabAuthorship(user: User, repo: User[], index: number, isMerged: boolean): void {
+    openTabAuthorship(user: User, repo: Array<User>, index: number, isMerged: boolean): void {
       const {
         minDate, maxDate, checkedFileTypes,
       } = this;
@@ -634,12 +634,12 @@ export default defineComponent({
       // Set height of iframe according to number of charts to avoid scrolling
       let totalChartHeight = 0;
       if (!isChartIndexProvided) {
-        totalChartHeight += (this.$refs[`summary-charts-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight;
+        totalChartHeight += (this.$refs[`summary-charts-${chartGroupIndex}`] as Array<HTMLElement>)[0].clientHeight;
       } else {
-        totalChartHeight += (this.$refs[`summary-chart-${chartIndex}`] as HTMLElement[])[0].clientHeight;
+        totalChartHeight += (this.$refs[`summary-chart-${chartIndex}`] as Array<HTMLElement>)[0].clientHeight;
         totalChartHeight += this.filterGroupSelection === 'groupByNone'
           ? 0
-          : (this.$refs[`summary-charts-title-${chartGroupIndex}`] as HTMLElement[])[0].clientHeight;
+          : (this.$refs[`summary-charts-title-${chartGroupIndex}`] as Array<HTMLElement>)[0].clientHeight;
       }
 
       const margins = 30;
@@ -682,7 +682,7 @@ export default defineComponent({
       const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
       return url.replace(regexToRemoveWidget, '');
     },
-    getRepo(repo: Repo[]) {
+    getRepo(repo: Array<Repo>) {
       if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
         return [repo[this.chartIndex!]];
       }
@@ -747,7 +747,7 @@ export default defineComponent({
       return (Math.round(((index + 1) * 1000) / this.filtered.length) / 10).toFixed(1);
     },
 
-    getGroupName(group: User[]): string {
+    getGroupName(group: Array<User>): string {
       return window.getGroupName(group, this.filterGroupSelection);
     },
 
@@ -766,7 +766,7 @@ export default defineComponent({
       this.$store.commit('updateMergedGroup', info);
     },
 
-    getAuthorDisplayName(repo: User[]): string {
+    getAuthorDisplayName(repo: Array<User>): string {
       return window.getAuthorDisplayName(repo);
     },
 

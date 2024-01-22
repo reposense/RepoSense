@@ -87,6 +87,18 @@
           }
         ]
       }
+    },
+    {
+      "files": ["*.vue"],
+      "rules": {
+        "@typescript-eslint/array-type": [
+          "error",
+          {
+            "default": "generic",
+            "readonly": "generic"
+          }
+        ]
+      }
     }
   ]
 }

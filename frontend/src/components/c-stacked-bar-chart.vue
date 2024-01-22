@@ -15,7 +15,7 @@ import { Bar } from '../types/types';
 export default defineComponent({
   props: {
     bars: {
-      type: Array as PropType<Bar[]>,
+      type: Array as PropType<Array<Bar>>,
       required: true,
     },
   },
