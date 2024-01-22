@@ -171,7 +171,7 @@ function zoomInitialState() {
     commitsSortType: CommitsSortType.Time,
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
-    selectedFileTypes: Array<string>,
+    selectedFileTypes: [] as Array<string>,
     fileTypes: [] as Array<string>,
   };
 }
