@@ -526,8 +526,8 @@ export default defineComponent({
 
       lines.forEach((line, lineCount) => {
         const isAuthorMatched = this.info.isMergeGroup
-          ? !this.isUnknownAuthor(line.author.gitId)
-          : line.author.gitId === this.info.author;
+            ? !this.isUnknownAuthor(line.author.gitId)
+            : line.author.gitId === this.info.author;
         const knownAuthor = (line.author && isAuthorMatched) ? line.author.gitId : null;
 
         if (knownAuthor !== lastState || lastId === -1) {
