@@ -152,13 +152,13 @@ export default defineComponent({
 
     onTitleTooltipHover(tooltipTextElement: string, titleTextElement: string): void {
       this.onTooltipHover(tooltipTextElement);
-      const titleElement = (this.$refs[titleTextElement] as HTMLElement[])[0];
+      const titleElement = this.getElementByRef(titleTextElement);
       titleElement.classList.add('max-zIndex');
     },
 
     resetTitleTooltip(tooltipTextElement: string, titleTextElement: string): void {
       this.resetTooltip(tooltipTextElement);
-      const titleElement = (this.$refs[titleTextElement] as HTMLElement[])[0];
+      const titleElement = this.getElementByRef(titleTextElement);
       titleElement.classList.remove('max-zIndex');
     },
 
@@ -168,7 +168,7 @@ export default defineComponent({
     },
 
     scrollFileIntoView(file: AuthorshipFile): void {
-      const fileElement = (this.$refs[file.path] as HTMLElement[])[0];
+      const fileElement = this.getElementByRef(file.path);
       if (this.isElementAboveViewport(fileElement)) {
         fileElement.scrollIntoView(true);
       }

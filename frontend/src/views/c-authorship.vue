@@ -605,16 +605,6 @@ export default defineComponent({
       this.updateFileTypeHash();
     },
 
-    getHistoryLink(file: AuthorshipFile): string | undefined {
-      const repo = window.REPOS[this.info.repo];
-      return window.getHistoryLink(this.info.repo, repo.branch, file.path);
-    },
-
-    getBlameLink(file: AuthorshipFile): string | undefined {
-      const repo = window.REPOS[this.info.repo];
-      return window.getBlameLink(this.info.repo, repo.branch, file.path);
-    },
-
     getFileTypeBlankLineInfo(fileType: string): string {
       return `${fileType}: Blank: ${this.fileTypeBlankLinesObj[fileType]},
         Non-Blank: ${this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
@@ -622,40 +612,6 @@ export default defineComponent({
 
     getTotalFileBlankLineInfo(): string {
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${this.totalLineCount - this.totalBlankLineCount}`;
-    },
-
-    getFirstPartOfPath(file: AuthorshipFile): string {
-      const fileSplitIndex = file.path.lastIndexOf('/');
-      const fileNameOnly = file.path.slice(fileSplitIndex + 1);
-
-      if (this.filesSortType === FilesSortType.FileName) {
-        return `${fileNameOnly}`;
-      }
-      return file.path;
-    },
-
-    getSecondPartOfPath(file: AuthorshipFile): string {
-      const fileSplitIndex = file.path.lastIndexOf('/');
-      const filePathOnly = file.path.slice(0, fileSplitIndex + 1);
-
-      if (!filePathOnly) {
-        return '/';
-      }
-      return filePathOnly;
-    },
-
-    getFirstPartOfLabel(file: AuthorshipFile): string {
-      if (this.filesSortType === FilesSortType.LinesOfCode) {
-        return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
-      }
-      return `${file.fileType}`;
-    },
-
-    getSecondPartOfLabel(file: AuthorshipFile): string {
-      if (this.filesSortType === FilesSortType.LinesOfCode) {
-        return `${file.fileType}`;
-      }
-      return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
     },
 
     getFontColor(color: string) {
