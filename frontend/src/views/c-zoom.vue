@@ -153,13 +153,13 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from '../components/c-ramp.vue';
 import cStackedBarChart from '../components/c-stacked-bar-chart.vue';
-import User from '../utils/user';
 import {
   Bar,
   Commit,
   CommitResult,
   DailyCommit,
   WeeklyCommit,
+  User,
 } from '../types/types';
 import CommitsSortType from '../types/zoom';
 import { StoreState } from '../types/vuex.d';
@@ -237,7 +237,7 @@ export default defineComponent({
         }
         tempUser.commits.push(newCommit);
       });
-      return new User(tempUser);
+      return tempUser;
     },
 
     selectedCommits(): Commit[] {
