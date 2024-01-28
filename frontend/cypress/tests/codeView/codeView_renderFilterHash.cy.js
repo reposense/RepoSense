@@ -306,6 +306,7 @@ describe('render filter hash', () => {
     cy.get('#summary label.filter-breakdown input:visible')
       .should('not.be.checked');
 
+    // Assumption: gradle is the first file type and yml is the last file type to appear in the list
     cy.url()
       .should('not.contain', 'gradle');
 
@@ -388,6 +389,8 @@ describe('render filter hash', () => {
     cy.url()
       .should('contain', 'authorshipSortBy=fileName');
 
+    // Some bugs appear after two reloads, so reload twice here
+    cy.reload();
     cy.reload();
 
     cy.url()
@@ -403,6 +406,7 @@ describe('render filter hash', () => {
     cy.url()
       .should('contain', 'authorshipSortBy=fileType');
 
+    cy.reload();
     cy.reload();
 
     cy.url()
