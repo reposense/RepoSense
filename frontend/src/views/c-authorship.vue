@@ -124,7 +124,7 @@
           span.path
             span(
               v-bind:class="{'selected-parameter':\
-                this.filesSortType === 'path' || this.filesSortType === 'fileName'}"
+                  this.filesSortType === 'path' || this.filesSortType === 'fileName'}"
             ) {{ getFirstPartOfPath(file) }}&nbsp;
             span.in(v-if="this.filesSortType === 'fileName'") in&nbsp;
             span(v-if="this.filesSortType === 'fileName'") {{ getSecondPartOfPath(file) }}&nbsp;
@@ -135,11 +135,11 @@
               'color': getFontColor(fileTypeColors[file.fileType])\
               }",
             v-bind:class="{'selected-label':\
-              this.filesSortType === 'linesOfCode' || this.filesSortType === 'fileType'}"
+                this.filesSortType === 'linesOfCode' || this.filesSortType === 'fileType'}"
           )
             span(
               v-bind:class="{'selected-parameter':\
-                this.filesSortType === 'linesOfCode' || this.filesSortType === 'fileType'}"
+                  this.filesSortType === 'linesOfCode' || this.filesSortType === 'fileType'}"
             ) {{ getFirstPartOfLabel(file) }}&nbsp;
             span {{ getSecondPartOfLabel(file) }}
           span.fileTypeLabel.binary(v-if='file.isBinary') binary &nbsp;
@@ -389,7 +389,7 @@ export default defineComponent({
         this.filesSortType = hash.authorshipSortBy;
         break;
       default:
-      // Invalid value, use the default value of 'linesOfCode'
+        // Invalid value, use the default value of 'linesOfCode'
       }
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
@@ -587,8 +587,8 @@ export default defineComponent({
         const contributionMap = file.authorContributionMap;
 
         const lineCnt = this.info.isMergeGroup
-          ? this.getContributionFromAllAuthors(contributionMap)
-          : contributionMap[this.info.author];
+            ? this.getContributionFromAllAuthors(contributionMap)
+            : contributionMap[this.info.author];
 
         const out: AuthorshipFile = {
           path: file.path,
@@ -646,9 +646,9 @@ export default defineComponent({
 
     isValidFile(file: FileResult): boolean {
       return this.info.isMergeGroup
-        ? Object.entries(file.authorContributionMap)
-          .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
-        : this.info.author in file.authorContributionMap;
+          ? Object.entries(file.authorContributionMap)
+            .some((authorCount) => !this.isUnknownAuthor(authorCount[0]))
+          : this.info.author in file.authorContributionMap;
     },
 
     getContributionFromAllAuthors(contributionMap: Record<string, number>): number {
@@ -677,8 +677,8 @@ export default defineComponent({
 
     updateFileTypeHash(): void {
       const fileTypeHash = this.selectedFileTypes.length > 0
-        ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
-        : '';
+          ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
+          : '';
 
       window.addHash('authorshipFileTypes', fileTypeHash);
       window.addHash('authorshipIsBinaryFileTypeChecked', this.isBinaryFilesChecked);
@@ -725,11 +725,14 @@ export default defineComponent({
     },
 
     getFileTypeBlankLineInfo(fileType: string): string {
-      return `${fileType}: Blank: ${this.fileTypeBlankLinesObj[fileType]}, Non-Blank: ${this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
+      return `${fileType}: Blank: ${
+        this.fileTypeBlankLinesObj[fileType]}, Non-Blank: ${
+        this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
     },
 
     getTotalFileBlankLineInfo(): string {
-      return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${this.totalLineCount - this.totalBlankLineCount}`;
+      return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${
+        this.totalLineCount - this.totalBlankLineCount}`;
     },
 
     getFirstPartOfPath(file: AuthorshipFile): string {
@@ -975,67 +978,50 @@ export default defineComponent({
 
     .segment {
       border-left: .25rem solid mui-color('green');
-
       .code {
         background-color: mui-color('github', 'authored-code-background');
         padding-left: 1rem;
       }
-
       .line-number {
         color: mui-color('grey');
         float: left;
         // Not allowing user to select text
-        -webkit-touch-callout: none;
-        /* iOS Safari */
-        -webkit-user-select: none;
-        /* Safari */
-        -khtml-user-select: none;
-        /* Konqueror HTML */
-        -moz-user-select: none;
-        /* Firefox */
-        -ms-user-select: none;
-        /* Internet Explorer/Edge */
-        user-select: none;
-        /* Non-prefixed version, currently supported by Chrome and Opera */
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
         width: 2rem;
-
         // overwrite all hljs colors
         [class^='hljs'] {
           color: mui-color('grey');
         }
       }
-
       .line-content {
         padding-left: 2rem;
         word-break: break-word;
       }
-
       &.untouched {
         $grey: mui-color('grey', '400');
         border-left: .25rem solid $grey;
-        height: 20px;
-        /* height of a single line of code */
+        height: 20px; /* height of a single line of code */
         position: relative;
-
         &.active {
           height: auto;
-
           .code {
             background-color: mui-color('white');
           }
         }
-
         .closer {
           cursor: pointer;
           // custom margin for position of toggle icon
           margin: .2rem 0 0 -.45rem;
           position: absolute;
-
           &.bottom {
             //custom margin for position of toggle icon at the bottom of segment
             margin: -1.05rem 0 0 -.45rem;
           }
-
           .icon {
             background-color: mui-color('white');
             color: mui-color('grey');
