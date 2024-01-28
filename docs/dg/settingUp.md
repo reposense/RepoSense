@@ -15,7 +15,7 @@
 
   <box type="info" seamless>
 
-  Type `java -version`, `npm -v` and `git --version` respectively on your OS terminal and ensure that you have the correct version of each prerequisite installed.
+  Type `java -version`, `node -v` and `git --version` respectively on your OS terminal and ensure that you have the correct version of each prerequisite installed.
   </box>
 
 <!-- ==================================================================================================== -->

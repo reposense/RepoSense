@@ -35,10 +35,9 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
-import User from '../utils/user';
-import { Commit, CommitResult } from '../types/types';
+import { Commit, CommitResult, User } from '../types/types';
 
 export default defineComponent({
   name: 'c-ramp',
@@ -49,7 +48,7 @@ export default defineComponent({
       default: 'groupByRepos',
     },
     user: {
-      type: User,
+      type: Object as PropType<User>,
       required: true,
     },
     tframe: {

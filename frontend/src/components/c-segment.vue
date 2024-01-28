@@ -32,16 +32,16 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { mapState } from 'vuex';
-import Segment from '../utils/segment';
 import { StoreState } from '../types/vuex.d';
+import { AuthorshipFileSegment } from '../types/types';
 
 export default defineComponent({
   name: 'c-segment',
   props: {
     segment: {
-      type: Segment,
+      type: Object as PropType<AuthorshipFileSegment>,
       required: true,
     },
     path: {
