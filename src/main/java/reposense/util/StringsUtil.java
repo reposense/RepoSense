@@ -15,9 +15,11 @@ public class StringsUtil {
     public static String filterText(String text, String regex) {
         String[] split = text.split("\n");
         StringBuilder sb = new StringBuilder();
+        Pattern regexPattern = Pattern.compile(regex);
+
         for (String line: split) {
-            if (line.matches(regex)) {
-                sb.append(line + "\n");
+            if (regexPattern.matcher(line).matches()) {
+                sb.append(line).append("\n");
             }
         }
 
