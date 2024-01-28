@@ -389,8 +389,6 @@ describe('render filter hash', () => {
     cy.url()
       .should('contain', 'authorshipSortBy=fileName');
 
-    // Some bugs appear after two reloads, so reload twice here
-    cy.reload();
     cy.reload();
 
     cy.url()
@@ -406,7 +404,6 @@ describe('render filter hash', () => {
     cy.url()
       .should('contain', 'authorshipSortBy=fileType');
 
-    cy.reload();
     cy.reload();
 
     cy.url()
@@ -485,6 +482,8 @@ describe('render filter hash', () => {
     cy.url()
       .should('contain', 'authorshipFilesGlob=README.md');
 
+    // Some bugs appear after two reloads, so reload twice here
+    cy.reload();
     cy.reload();
 
     cy.url()
