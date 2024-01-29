@@ -366,7 +366,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   In `c-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
 
-  ```vue
+  ```
   'active-text': user.name === activeUser && user.repoName === activeRepo
   ```
   </panel>
@@ -416,7 +416,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   3. Try to locate the `span` tag that renders `file.path`, and wraps it inside a new `tooptip`.
   4. In the `tooltip`, use the following instructions to handle the switch of tooltip message.
 
-  ```vue
+  ```
   span.tooltip-text(v-show="file.active") This is the file path. Click to hide file details
   span.tooltip-text(v-show="!file.active") This is the file path. Click to show file details
   ```
@@ -465,7 +465,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   3. Wrap the `a` tag in a new `tooltip`.
   4. In the `tooltip`, add the following content to show the tooltip message.
 
-  ```vue
+  ```
   span.tooltip-text Click to view the detailed file changes in the commit
   ```
   </panel>

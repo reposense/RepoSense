@@ -49,7 +49,7 @@ In addition to what has been mentioned in the [**Java** coding standard (SE-EDU)
 
 Negative Examples:
 ```java
-//Not okay (Only mentions zoneId parameter):
+// Not okay (Only mentions zoneId parameter):
 /**
  * Returns a {@link LocalDateTime} object adjusted for timezone given by {@code zoneId}.
  */
@@ -57,7 +57,7 @@ public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
     //Code here
 }
 
-//Not okay (@param tag used only for zoneId)
+// Not okay (@param tag used only for zoneId)
 /**
  * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
  * to the timezone given by {@code zoneId}.
