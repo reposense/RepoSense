@@ -4,9 +4,6 @@ div(v-html="markdownText")
 
 <script lang="ts">
 import MarkdownIt from 'markdown-it';
-import MarkdownItAnchor from 'markdown-it-anchor';
-import MarkdownItHighlightjs from 'markdown-it-highlightjs';
-import MarkdownItTOC from 'markdown-it-toc-done-right';
 import { defineComponent } from 'vue';
 import titleText from '../markdown/title.md';
 
@@ -23,9 +20,6 @@ export default defineComponent({
       let output = emptyHtml;
       try {
         output = new MarkdownIt()
-          .use(MarkdownItAnchor)
-          .use(MarkdownItHighlightjs)
-          .use(MarkdownItTOC)
           .render(titleText);
       } catch (e) {
         // We don't want to crash the app if the markdown is invalid,
