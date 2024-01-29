@@ -10,6 +10,8 @@ import MarkdownItTOC from 'markdown-it-toc-done-right';
 import { defineComponent } from 'vue';
 import titleText from '../markdown/title.md';
 
+const emptyHtml = '<div />';
+
 export default defineComponent({
   data() {
     return {
@@ -18,13 +20,13 @@ export default defineComponent({
   },
   methods: {
     getMarkDownText() {
-      let output = '';
+      let output = emptyHtml;
       try {
         output = new MarkdownIt()
           .use(MarkdownItAnchor)
           .use(MarkdownItHighlightjs)
           .use(MarkdownItTOC)
-          .render(titleText)
+          .render(titleText);
       } catch (e) {
         // We don't want to crash the app if the markdown is invalid,
         // so we just log the error and return an empty string.
@@ -32,6 +34,6 @@ export default defineComponent({
       }
       return output;
     },
-  }
+  },
 });
 </script>
