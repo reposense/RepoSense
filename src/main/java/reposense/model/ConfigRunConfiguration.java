@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
-import reposense.parser.InvalidCsvException;
-import reposense.parser.InvalidHeaderException;
+import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.system.LogsManager;
 
