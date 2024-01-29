@@ -20,7 +20,7 @@ export default defineComponent({
      * if the ref is on a v-for loop, else it will be a single HTMLElement.
      */
     getElementByRef(refName: string): HTMLElement {
-      return Array.isArray((this.$refs[refName]))
+      return Array.isArray(this.$refs[refName])
        ? (this.$refs[refName] as HTMLElement[])[0]
        : this.$refs[refName] as HTMLElement;
     },
