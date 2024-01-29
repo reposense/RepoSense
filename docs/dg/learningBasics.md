@@ -191,7 +191,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   1. Open a [report](https://dashboard-1507-pr-reposense-reposense.surge.sh/).
   2. You should see that there is a red panel in the summary view containing the following message, indicating that there is an issue in the cloning process of the repository `reposense/testrepo-Empty`.
 
-  ```java
+  ```
   reposense/testrepo-Empty[master]
           Failed to clone from https://github.com/reposense/testrepo-Empty.git
   ```
