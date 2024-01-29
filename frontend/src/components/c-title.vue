@@ -29,8 +29,7 @@ export default defineComponent({
           .render(titleText);
       } catch (e) {
         // We don't want to crash the app if the markdown is invalid,
-        // so we just log the error and return an empty string.
-        console.error(e);
+        // so we just return an empty div
       }
       return output;
     },
