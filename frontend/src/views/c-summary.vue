@@ -76,7 +76,9 @@
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
-    .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+    .error-message-box__failed-repo(
+        v-for="errorBlock in errorIsShowingMore ? errorMessages : Object.values(errorMessages).slice(0, 4)"
+      )
       font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
@@ -92,7 +94,10 @@
           v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
         )
           span {{ getReportIssueEmailAddress() }}
-      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
+      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}\
+    .error-message-box__show-more-container(v-if="Object.keys(errorMessages).length >= 4")
+      a.error-message-box__show-more(v-if="!errorIsShowingMore" v-on:click="toggleErrorShowMore()") SHOW MORE...
+      a.error-message-box__show-more(v-else v-on:click="toggleErrorShowMore()") SHOW LESS...
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
       label(style='background-color: #000000; color: #ffffff')
@@ -201,6 +206,7 @@ export default defineComponent({
       filterGroupSelectionWatcherFlag: false,
       chartGroupIndex: undefined as number | undefined,
       chartIndex: undefined as number | undefined,
+      errorIsShowingMore: false,
     };
   },
   computed: {
@@ -932,6 +938,10 @@ export default defineComponent({
 
     getFontColor(color: string) {
       return window.getFontColor(color);
+    },
+
+    toggleErrorShowMore() {
+      this.errorIsShowingMore = !this.errorIsShowingMore;
     },
   },
 });

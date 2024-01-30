@@ -201,6 +201,20 @@ header {
         }
       }
 
+      &__show-more-container {
+        display: flex;
+        justify-content: center;
+        margin: .5rem 0 .3rem 0;
+      }
+
+      &__show-more {
+        border: 1.5px solid mui-color('red', '900');
+        border-radius: 8px;
+        color: mui-color('red', '900');
+        font-weight: bold;
+        padding: .4rem .5rem;
+      }
+
       &__message {
         border-bottom: .1rem solid;
         font-weight: bolder;
