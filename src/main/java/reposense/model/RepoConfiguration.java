@@ -35,8 +35,8 @@ public class RepoConfiguration {
     private transient String repoFolderName;
 
     private transient FileTypeManager fileTypeManager;
-    private transient List<String> ignoreGlobList = new ArrayList<>();
-    private transient List<String> ignoredAuthorsList = new ArrayList<>();
+    private transient List<String> ignoreGlobList;
+    private transient List<String> ignoredAuthorsList;
     private transient AuthorConfiguration authorConfig;
     private transient boolean isStandaloneConfigIgnored;
     private transient boolean isFileSizeLimitIgnored;
@@ -88,8 +88,8 @@ public class RepoConfiguration {
 
         processAuthor();
         processBranch();
-        processNames();
-        processOrganization();
+        processNames(repoBuilder);
+        processOrganization(repoBuilder);
     }
 
     /**
@@ -109,24 +109,36 @@ public class RepoConfiguration {
     /**
      * Processes the relevant names of the repository configs.
      */
-    private void processNames() {
+    private void processNames(RepoBuilder repoBuilder) {
         String repoName = this.location.getRepoName();
-        this.displayName = repoName + "[" + this.branch + "]";
-        this.outputFolderName = repoName + "_" + this.branch;
-        this.repoFolderName = repoName;
+        this.displayName = repoBuilder.displayName == null
+                ? repoName + "[" + this.branch + "]"
+                : repoBuilder.displayName;
+        this.outputFolderName = repoBuilder.outputFolderName == null
+                ? repoName + "_" + this.branch
+                : repoBuilder.outputFolderName;
+        this.repoFolderName = repoBuilder.repoFolderName == null
+                ? repoName
+                : repoBuilder.repoFolderName;
     }
 
     /**
      * Processes the organization name of the repository and updates the relevant
      * names of the repository configs.
      */
-    private void processOrganization() {
+    private void processOrganization(RepoBuilder repoBuilder) {
         String org = location.getOrganization();
 
         if (!org.isEmpty()) {
-            this.repoFolderName = org + "_" + this.repoFolderName;
-            this.displayName = org + "/" + this.displayName;
-            this.outputFolderName = org + "_" + this.outputFolderName;
+            this.repoFolderName = repoBuilder.repoFolderName == null
+                    ? org + "_" + this.repoFolderName
+                    : repoBuilder.repoFolderName;
+            this.displayName = repoBuilder.displayName == null
+                    ? org + "/" + this.displayName
+                    : repoBuilder.displayName;
+            this.outputFolderName = repoBuilder.outputFolderName == null
+                    ? org + "_" + this.outputFolderName
+                    : repoBuilder.outputFolderName;
         }
     }
 
@@ -270,11 +282,11 @@ public class RepoConfiguration {
         /**
          * Updates the {@code fileTypeManager} for {@code RepoConfiguration}.
          *
-         * @param fileTypeManager List of file types and groupings permitted.
+         * @param fileTypes List of file types and groupings permitted.
          * @return This builder object.
          */
-        public RepoBuilder fileTypeManager(FileTypeManager fileTypeManager) {
-            this.fileTypeManager = fileTypeManager;
+        public RepoBuilder fileTypeManager(List<FileType> fileTypes) {
+            this.fileTypeManager = new FileTypeManager(fileTypes);
             return this;
         }
 

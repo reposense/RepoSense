@@ -8,7 +8,6 @@ import org.apache.commons.csv.CSVRecord;
 
 import reposense.model.CommitHash;
 import reposense.model.FileType;
-import reposense.model.FileTypeManager;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.FileUtil;
@@ -175,7 +174,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         RepoConfiguration config = new RepoConfiguration.RepoBuilder()
                 .location(location)
                 .branch(branch)
-                .fileTypeManager(new FileTypeManager(formats))
+                .fileTypeManager(formats)
                 .ignoreGlobList(ignoreGlobList)
                 .fileSizeLimit(fileSizeLimit)
                 .isStandaloneConfigIgnored(isStandaloneConfigIgnored)

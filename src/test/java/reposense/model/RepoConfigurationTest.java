@@ -5,6 +5,8 @@ import static reposense.util.TestUtil.loadResource;
 
 import java.lang.reflect.Method;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -741,7 +743,7 @@ public class RepoConfigurationTest {
         RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
-                .fileTypeManager(new FileTypeManager(Collections.emptyList()))
+                .fileTypeManager(Collections.emptyList())
                 .ignoreGlobList(Collections.emptyList())
                 .fileSizeLimit(RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT)
                 .isStandaloneConfigIgnored(false)
@@ -857,5 +859,99 @@ public class RepoConfigurationTest {
         updateAuthorList.invoke(reportGenerator, actualConfig);
 
         TestUtil.compareRepoConfig(expectedConfig, actualConfig);
+    }
+
+    @Test
+    public void repoBuilder_displayName_success() throws Exception {
+        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+                .displayName("CS3281")
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master")
+                .build();
+
+        Assertions.assertEquals(actualConfig.getDisplayName(), "CS3281");
+    }
+
+    @Test
+    public void repoBuilder_outputFolderName_success() throws Exception {
+        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+                .outputFolderName("CS3281 Folder")
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master")
+                .build();
+
+        Assertions.assertEquals(actualConfig.getOutputFolderName(), "CS3281 Folder");
+    }
+
+    @Test
+    public void repoBuilder_repoFolderName_success() throws Exception {
+        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+                .repoFolderName("CS3281 Folder")
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master")
+                .build();
+
+        Assertions.assertEquals(actualConfig.getRepoFolderName(), "CS3281 Folder");
+    }
+
+    @Test
+    public void repoBuilder_zoneID_success() throws Exception {
+        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+                .zoneId(ZoneId.systemDefault())
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master")
+                .build();
+
+        Assertions.assertEquals(actualConfig.getZoneId(), ZoneId.systemDefault());
+    }
+
+    @Test
+    public void repoBuilder_sinceDate_success() throws Exception {
+        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+                .sinceDate(LocalDateTime.of(2024, 1, 1, 12, 0, 0))
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master")
+                .build();
+
+        Assertions.assertEquals(actualConfig.getSinceDate(),
+                LocalDateTime.of(2024, 1, 1, 12, 0, 0));
+    }
+
+    @Test
+    public void repoBuilder_untilDate_success() throws Exception {
+        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+                .untilDate(LocalDateTime.of(2024, 1, 1, 12, 0, 0))
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master")
+                .build();
+
+        Assertions.assertEquals(actualConfig.getUntilDate(),
+                LocalDateTime.of(2024, 1, 1, 12, 0, 0));
+    }
+
+    @Test
+    public void repoBuilder_authorConfig_success() throws Exception {
+        RepoLocation loc = new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG);
+        String branch = "master";
+
+        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+                .authorConfig(new AuthorConfiguration(loc, branch))
+                .location(loc)
+                .branch(branch)
+                .build();
+
+        Assertions.assertEquals(actualConfig.getAuthorConfig(),
+                new AuthorConfiguration(loc, branch));
+    }
+
+    @Test
+    public void repoBuilder_isLastModifiedDateIncluded_success() throws Exception {
+        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+                .isLastModifiedDateIncluded(true)
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master")
+                .build();
+
+        Assertions.assertTrue(actualConfig.isLastModifiedDateIncluded());
     }
 }
