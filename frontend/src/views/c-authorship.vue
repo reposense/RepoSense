@@ -217,10 +217,10 @@ const filesSortDict = {
 function authorshipInitialState() {
   return {
     isLoaded: false,
-    selectedFiles: [] as AuthorshipFile[],
+    selectedFiles: [] as Array<AuthorshipFile>,
     filterType: FilterType.Checkboxes,
-    selectedFileTypes: [] as string[],
-    fileTypes: [] as string[],
+    selectedFileTypes: [] as Array<string>,
+    fileTypes: [] as Array<string>,
     filesLinesObj: {} as { [key: string]: number },
     fileTypeBlankLinesObj: {} as { [key: string]: number },
     filesSortType: FilesSortType.LinesOfCode,
@@ -235,7 +235,7 @@ function authorshipInitialState() {
   };
 }
 
-const repoCache: string[] = [];
+const repoCache: Array<string> = [];
 
 export default defineComponent({
   name: 'c-authorship',
@@ -480,7 +480,7 @@ export default defineComponent({
       this.setInfoHash();
     },
 
-    getAuthors(file: AuthorshipFile): (string | null)[] {
+    getAuthors(file: AuthorshipFile): Array<string | null> {
       return Array.from(new Set(file.segments?.map((segment) => segment.knownAuthor)
         .filter(Boolean))).sort().slice(0, 50);
     },
@@ -495,7 +495,7 @@ export default defineComponent({
     },
 
     scrollFileIntoView(file: AuthorshipFile): void {
-      const fileElement = (this.$refs[file.path] as HTMLElement[])[0];
+      const fileElement = (this.$refs[file.path] as Array<HTMLElement>)[0];
       if (this.isElementAboveViewport(fileElement)) {
         fileElement.scrollIntoView(true);
       }
@@ -503,13 +503,13 @@ export default defineComponent({
 
     onTitleTooltipHover(tooltipTextElement: string, titleTextElement: string): void {
       this.onTooltipHover(tooltipTextElement);
-      const titleElement = (this.$refs[titleTextElement] as HTMLElement[])[0];
+      const titleElement = (this.$refs[titleTextElement] as Array<HTMLElement>)[0];
       titleElement.classList.add('max-zIndex');
     },
 
     resetTitleTooltip(tooltipTextElement: string, titleTextElement: string): void {
       this.resetTooltip(tooltipTextElement);
-      const titleElement = (this.$refs[titleTextElement] as HTMLElement[])[0];
+      const titleElement = (this.$refs[titleTextElement] as Array<HTMLElement>)[0];
       titleElement.classList.remove('max-zIndex');
     },
 
@@ -517,11 +517,11 @@ export default defineComponent({
       return name === '-';
     },
 
-    splitSegments(lines: Line[]): { segments: AuthorshipFileSegment[]; blankLineCount: number; } {
+    splitSegments(lines: Array<Line>): { segments: Array<AuthorshipFileSegment>; blankLineCount: number; } {
       // split into segments separated by knownAuthor
       let lastState: string | null;
       let lastId = -1;
-      const segments: AuthorshipFileSegment[] = [];
+      const segments: Array<AuthorshipFileSegment> = [];
       let blankLineCount = 0;
 
       lines.forEach((line, lineCount) => {
@@ -577,10 +577,10 @@ export default defineComponent({
       this.$store.commit('updateAuthorColors', authorColors);
     },
 
-    processFiles(files: FileResult[]): void {
+    processFiles(files: Array<FileResult>): void {
       const SINGLE_FILE_LINE_COUNT_THRESHOLD = 2000;
       const SINGLE_FILE_CHAR_COUNT_THRESHOLD = 1000000;
-      const res: AuthorshipFile[] = [];
+      const res: Array<AuthorshipFile> = [];
       const fileTypeBlanksInfoObj: { [key: string]: number } = {};
 
       files.filter((file) => this.isValidFile(file)).forEach((file) => {
