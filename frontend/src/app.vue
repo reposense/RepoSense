@@ -41,7 +41,7 @@ const app = defineComponent({
   data() {
     return {
       repos: {} as { [key: string]: Repo },
-      users: [] as Repo[],
+      users: [] as Array<Repo>,
       userUpdated: false,
 
       loadingOverlayOpacity: 1,
@@ -132,7 +132,7 @@ const app = defineComponent({
       }
     },
     getUsers() {
-      const full: Repo[] = [];
+      const full: Array<Repo> = [];
       Object.keys(this.repos).forEach((repo) => {
         if (this.repos[repo].users) {
           full.push(this.repos[repo]);
