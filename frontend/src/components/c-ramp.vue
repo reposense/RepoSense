@@ -149,7 +149,7 @@ export default defineComponent({
           ...dailyCommit,
           commitResults: dailyCommit.commitResults.map((commitResult) => ({ ...commitResult, isOpen: true })),
         }),
-      ) as Commit[];
+      ) as Array<Commit>;
 
       const info = {
         zRepo: user.repoName,

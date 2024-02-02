@@ -165,7 +165,7 @@ export default defineComponent({
   },
   props: {
     repos: {
-      type: Array as PropType<Repo[]>,
+      type: Array<Repo>,
       required: true,
     },
     errorMessages: {
@@ -181,9 +181,9 @@ export default defineComponent({
   },
   data() {
     return {
-      checkedFileTypes: [] as string[],
-      fileTypes: [] as string[],
-      filtered: [] as User[][],
+      checkedFileTypes: [] as Array<string>,
+      fileTypes: [] as Array<string>,
+      filtered: [] as Array<Array<User>>,
       filterSearch: '',
       filterGroupSelection: FilterGroupSelection.GroupByRepos,
       sortGroupSelection: SortGroupSelection.GroupTitleDsc, // UI for sorting groups
@@ -254,7 +254,7 @@ export default defineComponent({
       },
       set(value: boolean) {
         if (value) {
-          const mergedGroups: string[] = [];
+          const mergedGroups: Array<string> = [];
           this.filtered.forEach((group) => {
             mergedGroups.push(this.getGroupName(group));
           });
@@ -457,7 +457,7 @@ export default defineComponent({
       }
     },
 
-    getGroupName(group: User[]) {
+    getGroupName(group: Array<User>) {
       return window.getGroupName(group, this.filterGroupSelection);
     },
 
@@ -488,13 +488,13 @@ export default defineComponent({
 
     getFilteredRepos() {
       // array of array, sorted by repo
-      const full: User[][] = [];
+      const full: Array<Array<User>> = [];
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
-      const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) as Repo[] : this.repos;
+      const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) as Array<Repo> : this.repos;
       groups.forEach((repo) => {
-        const res: User[] = [];
+        const res: Array<User> = [];
 
         // filtering
         repo.users?.forEach((user) => {
@@ -533,7 +533,7 @@ export default defineComponent({
       if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
         this.$store.commit('updateMergedGroup', []);
       } else {
-        const mergedGroups: string[] = [];
+        const mergedGroups: Array<string> = [];
         this.filtered.forEach((group) => {
           mergedGroups.push(this.getGroupName(group));
         });
@@ -549,11 +549,11 @@ export default defineComponent({
       });
     },
 
-    mergeGroupByIndex(filtered: User[][], groupIndex: number) {
+    mergeGroupByIndex(filtered: Array<Array<User>>, groupIndex: number) {
       const dateToIndexMap: { [key: string]: number } = {};
       const dailyIndexMap: { [key: string]: number } = {};
-      const mergedCommits: Commit[] = [];
-      const mergedDailyCommits: DailyCommit[] = [];
+      const mergedCommits: Array<Commit> = [];
+      const mergedDailyCommits: Array<DailyCommit> = [];
       const mergedFileTypeContribution: AuthorFileTypeContributions = {};
       let mergedVariance = 0;
       let totalMergedCheckedFileTypeCommits = 0;
@@ -589,7 +589,7 @@ export default defineComponent({
       commit: Commit | DailyCommit,
       user: User,
       dateToIndexMap: { [key: string]: number },
-      merged: Commit[] | DailyCommit[],
+      merged: Array<Commit> | Array<DailyCommit>,
     ) {
       const {
         commitResults, date,
@@ -665,7 +665,7 @@ export default defineComponent({
         return;
       }
 
-      const res: Commit[] = [];
+      const res: Array<Commit> = [];
 
       const nextMondayDate = this.dateRounding(sinceDate, 0); // round up for the next monday
 
@@ -682,7 +682,7 @@ export default defineComponent({
       user.commits = res;
     },
 
-    pushCommitsWeek(sinceMs: number, untilMs: number, res: Commit[], commits: Commit[]) {
+    pushCommitsWeek(sinceMs: number, untilMs: number, res: Array<Commit>, commits: Array<Commit>) {
       const diff = Math.round(Math.abs((untilMs - sinceMs) / window.DAY_IN_MS));
       const weekInMS = window.DAY_IN_MS * 7;
 
@@ -706,7 +706,7 @@ export default defineComponent({
       }
     },
 
-    addLineContributionWeek(endOfWeekMs: number, week: Commit, commits: Commit[]) {
+    addLineContributionWeek(endOfWeekMs: number, week: Commit, commits: Array<Commit>) {
       // commits are not contiguous, meaning there are gaps of days without
       // commits, so we are going to check each commit's date and make sure
       // it is within the duration of a week
@@ -879,11 +879,11 @@ export default defineComponent({
       const {
         zSince, zUntil, zTimeFrame, zIsMerged, zFilterSearch,
       } = info;
-      const filtered: User[][] = [];
+      const filtered: Array<Array<User>> = [];
 
-      const groups: Repo[] = JSON.parse(JSON.stringify(this.repos));
+      const groups: Array<Repo> = JSON.parse(JSON.stringify(this.repos));
 
-      const res: User[] = [];
+      const res: Array<User> = [];
       groups.forEach((repo) => {
         repo.users?.forEach((user) => {
           // only filter users that match with zoom user and previous searched user
