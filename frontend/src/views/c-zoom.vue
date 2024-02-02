@@ -171,8 +171,8 @@ function zoomInitialState() {
     commitsSortType: CommitsSortType.Time,
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
-    selectedFileTypes: [] as string[],
-    fileTypes: [] as string[],
+    selectedFileTypes: [] as Array<string>,
+    fileTypes: [] as Array<string>,
   };
 }
 
@@ -240,12 +240,12 @@ export default defineComponent({
       return tempUser;
     },
 
-    selectedCommits(): Commit[] {
+    selectedCommits(): Array<Commit> {
       if (this.isSelectAllChecked) {
         return this.filteredUser.commits;
       }
 
-      const commits = [] as Commit[];
+      const commits = [] as Array<Commit>;
       this.filteredUser.commits.forEach((commit) => {
         const filteredCommit = { ...commit };
         filteredCommit.commitResults = [];
@@ -333,7 +333,7 @@ export default defineComponent({
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
-    getContributionBars(slice: CommitResult): Bar[] {
+    getContributionBars(slice: CommitResult): Array<Bar> {
       let currentBarWidth = 0;
       const fullBarWidth = 100;
 
@@ -345,7 +345,7 @@ export default defineComponent({
       const contributionPerFullBar = avgContributionSize;
 
       const diffstatMappings: { [key: string]: number } = { limegreen: slice.insertions, red: slice.deletions };
-      const allContributionBars: Bar[] = [];
+      const allContributionBars: Array<Bar> = [];
 
       if (contributionPerFullBar === 0) {
         return allContributionBars;
@@ -502,7 +502,7 @@ export default defineComponent({
       window.encodeHash();
     },
 
-    containsAtLeastOneSelected(fileTypes: string[]): boolean {
+    containsAtLeastOneSelected(fileTypes: Array<string>): boolean {
       for (let i = 0; i < fileTypes.length; i += 1) {
         if (this.selectedFileTypes.includes(fileTypes[i])) {
           return true;
