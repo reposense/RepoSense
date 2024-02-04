@@ -32,7 +32,7 @@ public class CliRunConfiguration implements RunConfiguration {
         for (String locationString : cliArguments.getLocations()) {
             try {
                 configs.add(
-                        new RepoConfiguration.RepoBuilder()
+                        new RepoConfiguration.Builder()
                                 .location(new RepoLocation(locationString))
                                 .build()
                 );

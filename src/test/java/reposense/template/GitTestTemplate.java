@@ -138,7 +138,7 @@ public class GitTestTemplate {
     }
 
     private static RepoConfiguration newRepoConfiguration() throws Exception {
-        return new RepoConfiguration.RepoBuilder()
+        return new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_GIT_LOCATION))
                 .branch("master")
                 .extraOutputFolderName(EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get())

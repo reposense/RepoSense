@@ -171,7 +171,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
             boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
             boolean isFindingPreviousAuthorsPerformed) {
-        RepoConfiguration config = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration config = new RepoConfiguration.Builder()
                 .location(location)
                 .branch(branch)
                 .fileTypeManager(formats)

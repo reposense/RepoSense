@@ -22,7 +22,7 @@ public class RepoClonerTest {
     @Test
     public void repoCloner_emptyRepo_failsGracefully() throws Exception {
         RepoConfiguration emptyRepositoryRepoConfig =
-                new RepoConfiguration.RepoBuilder()
+                new RepoConfiguration.Builder()
                         .location(new RepoLocation(TEST_REPO_EMPTY_GIT_LOCATION)).build();
 
         RepoCloner repoCloner = new RepoCloner();
@@ -35,12 +35,12 @@ public class RepoClonerTest {
     @Test
     public void repoCloner_validRepoLocationWithRelativePathingAndSpaces_success() throws Exception {
         // Clones a test repository into the test directory for testing of relative pathing
-        RepoConfiguration tempRemoteConfiguration = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration tempRemoteConfiguration = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_GIT_LOCATION)).build();
         TestRepoCloner.cloneBare(tempRemoteConfiguration, Paths.get("."), REPOCLONE_LOCAL_TEST_PATH.toString());
 
         RepoConfiguration repoWithRelativePathingAndSpacesAndEndingBackslash =
-                new RepoConfiguration.RepoBuilder()
+                new RepoConfiguration.Builder()
                         .location(new RepoLocation(REPOCLONE_LOCAL_TEST_PATH.toString())).build();
         RepoCloner repoCloner = new RepoCloner();
         repoCloner.cloneBare(repoWithRelativePathingAndSpacesAndEndingBackslash);

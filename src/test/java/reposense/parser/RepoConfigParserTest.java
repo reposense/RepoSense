@@ -125,7 +125,7 @@ public class RepoConfigParserTest {
         expectedAuthors.add(FIRST_AUTHOR);
         expectedAuthors.add(SECOND_AUTHOR);
 
-        RepoConfiguration firstRepo = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration firstRepo = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA_LOCATION))
                 .branch(TEST_REPO_BETA_MASTER_BRANCH)
                 .build();
@@ -135,7 +135,7 @@ public class RepoConfigParserTest {
         firstRepo.addAuthorNamesToAuthorMapEntry(SECOND_AUTHOR, Arrays.asList("Zachary Tang"));
         firstRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
-        RepoConfiguration secondRepo = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration secondRepo = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA_LOCATION))
                 .branch(TEST_REPO_BETA_ADD_CONFIG_JSON_BRANCH)
                 .build();
@@ -172,7 +172,7 @@ public class RepoConfigParserTest {
         expectedDeltaAuthors.add(FIRST_AUTHOR);
 
         RepoConfiguration expectedBetaConfig =
-                new RepoConfiguration.RepoBuilder()
+                new RepoConfiguration.Builder()
                         .location(new RepoLocation(TEST_REPO_BETA_LOCATION))
                         .branch(TEST_REPO_BETA_MASTER_BRANCH)
                         .build();
@@ -184,7 +184,7 @@ public class RepoConfigParserTest {
         expectedBetaConfig.setIsShallowCloningPerformed(true);
 
         RepoConfiguration expectedDeltaConfig =
-                new RepoConfiguration.RepoBuilder()
+                new RepoConfiguration.Builder()
                         .location(new RepoLocation(TEST_REPO_DELTA_LOCATION))
                         .branch(TEST_REPO_DELTA_BRANCH)
                         .build();
@@ -215,7 +215,7 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoConfig_defaultBranch_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA_LOCATION))
                 .branch(RepoConfiguration.DEFAULT_BRANCH)
                 .build();

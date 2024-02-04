@@ -31,7 +31,7 @@ public class GitBranchTest extends GitTestTemplate {
 
     @Test
     public void getCurrentBranch_uncommonDefaultBranch_success() throws Exception {
-        RepoConfiguration uncommonDefaultConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration uncommonDefaultConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION))
                 .branch(RepoConfiguration.DEFAULT_BRANCH)
                 .build();

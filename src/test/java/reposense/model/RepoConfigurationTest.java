@@ -112,7 +112,7 @@ public class RepoConfigurationTest {
         expectedAuthors.add(THIRD_AUTHOR);
         expectedAuthors.add(FOURTH_AUTHOR);
 
-        repoDeltaStandaloneConfig = new RepoConfiguration.RepoBuilder()
+        repoDeltaStandaloneConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -135,7 +135,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_usesStandaloneConfig_success() throws Exception {
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -152,7 +152,7 @@ public class RepoConfigurationTest {
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedAuthors.add(author);
 
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -185,7 +185,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_ignoresStandaloneConfigInCli_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -215,13 +215,13 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_ignoreStandaloneConfigInCli_overrideCsv() throws Exception {
 
-        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA))
                 .branch("master")
                 .build();
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
-        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -248,7 +248,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_ignoreFileSizeLimit_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -276,14 +276,14 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_ignoreFileSizeLimitInCli_overrideCsv() throws Exception {
-        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA))
                 .branch("master")
                 .build();
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
         repoBetaExpectedConfig.setFileSizeLimitIgnored(true);
-        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -312,7 +312,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_withoutIgnoreStandaloneConfigInCli_useCsv() throws Exception {
-        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA))
                 .branch("master")
                 .build();
@@ -356,7 +356,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_shallowCloning_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -384,7 +384,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_shallowCloningInCli_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -415,14 +415,14 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_shallowCloningInCli_overrideCsv() throws Exception {
-        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA))
                 .branch("master")
                 .build();
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
         repoBetaExpectedConfig.setIsShallowCloningPerformed(true);
-        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -451,14 +451,14 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_withoutShallowCloningInInCli_useCsv() throws Exception {
-        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA))
                 .branch("master")
                 .build();
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
         repoBetaExpectedConfig.setIsShallowCloningPerformed(true);
-        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -484,7 +484,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_findPreviousAuthors_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -512,7 +512,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_findPreviousAuthorsInCli_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -543,14 +543,14 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_findPreviousAuthorsInCli_overrideCsv() throws Exception {
-        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA))
                 .branch("master")
                 .build();
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
         repoBetaExpectedConfig.setIsFindingPreviousAuthorsPerformed(true);
-        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -579,14 +579,14 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_withoutFindPreviousAuthorsInCli_useCsv() throws Exception {
-        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA))
                 .branch("master")
                 .build();
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
         repoBetaExpectedConfig.setIsFindingPreviousAuthorsPerformed(true);
-        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -613,13 +613,13 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_userEnvironmentCannotRunFindPreviousAuthors_setFindPreviousAuthorsToFalseInAllRepoConfigs()
             throws Exception {
-        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoBetaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_BETA))
                 .branch("master")
                 .build();
         repoBetaExpectedConfig.setFormats(FileType.convertFormatStringsToFileTypes(CLI_FORMATS));
         repoBetaExpectedConfig.setStandaloneConfigIgnored(true);
-        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration repoDeltaExpectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -710,13 +710,13 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_emptyLocationDifferentBranch_equal() throws Exception {
-        RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration emptyLocationEmptyBranchRepoConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(""))
                 .branch("")
                 .build();
-        RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration emptyLocationDefaultBranchRepoConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation("")).build();
-        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration emptyLocationWithBranchRepoConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(""))
                 .branch("master")
                 .build();
@@ -728,19 +728,19 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_sameLocationDifferentBranch_notEqual() throws Exception {
         RepoConfiguration validLocationValidBranchRepoConfig =
-                new RepoConfiguration.RepoBuilder()
+                new RepoConfiguration.Builder()
                         .location(new RepoLocation(TEST_REPO_DELTA))
                         .branch("master")
                         .build();
         RepoConfiguration validLocationDefaultBranchRepoConfig =
-                new RepoConfiguration.RepoBuilder().location(new RepoLocation(TEST_REPO_DELTA)).build();
+                new RepoConfiguration.Builder().location(new RepoLocation(TEST_REPO_DELTA)).build();
 
         Assertions.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
     }
 
     @Test
     public void repoConfig_overrideStandaloneConfig_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .fileTypeManager(Collections.emptyList())
@@ -795,7 +795,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoConfig_minimalStandaloneConfig_fieldsAssignedDefaultValues() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
                 .branch("master")
                 .build();
@@ -809,7 +809,7 @@ public class RepoConfigurationTest {
         expectedConfig.setFormats(Collections.emptyList());
         expectedConfig.setIgnoreCommitList(Collections.emptyList());
 
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
                 .branch("master")
                 .build();
@@ -826,7 +826,7 @@ public class RepoConfigurationTest {
         author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         expectedAuthors.add(author);
 
-        RepoConfiguration expectedConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
                 .branch("master")
                 .build();
@@ -863,7 +863,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoBuilder_displayName_success() throws Exception {
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .displayName("CS3281")
                 .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
                 .branch("master")
@@ -874,7 +874,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoBuilder_outputFolderName_success() throws Exception {
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .outputFolderName("CS3281 Folder")
                 .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
                 .branch("master")
@@ -885,7 +885,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoBuilder_repoFolderName_success() throws Exception {
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .repoFolderName("CS3281 Folder")
                 .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
                 .branch("master")
@@ -896,7 +896,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoBuilder_zoneID_success() throws Exception {
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .zoneId(ZoneId.systemDefault())
                 .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
                 .branch("master")
@@ -907,7 +907,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoBuilder_sinceDate_success() throws Exception {
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .sinceDate(LocalDateTime.of(2024, 1, 1, 12, 0, 0))
                 .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
                 .branch("master")
@@ -919,7 +919,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoBuilder_untilDate_success() throws Exception {
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .untilDate(LocalDateTime.of(2024, 1, 1, 12, 0, 0))
                 .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
                 .branch("master")
@@ -934,7 +934,7 @@ public class RepoConfigurationTest {
         RepoLocation loc = new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG);
         String branch = "master";
 
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .authorConfig(new AuthorConfiguration(loc, branch))
                 .location(loc)
                 .branch(branch)
@@ -946,7 +946,7 @@ public class RepoConfigurationTest {
 
     @Test
     public void repoBuilder_isLastModifiedDateIncluded_success() throws Exception {
-        RepoConfiguration actualConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .isLastModifiedDateIncluded(true)
                 .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
                 .branch("master")

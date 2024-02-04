@@ -56,13 +56,13 @@ public class StandaloneConfigJsonParserTest {
         author.setAuthorAliases(Arrays.asList("Yong Hao TENG"));
         author.setIgnoreGlobList(Arrays.asList("**.css", "**.html", "**.jade", "**.js"));
 
-        expectedGithubIdOnlyRepoconfig = new RepoConfiguration.RepoBuilder()
+        expectedGithubIdOnlyRepoconfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_DUMMY_LOCATION)).build();
         expectedGithubIdOnlyRepoconfig.setFormats(FileTypeTest.NO_SPECIFIED_FORMATS);
         expectedGithubIdOnlyRepoconfig.setAuthorList(Arrays.asList(new Author("yong24s")));
         expectedGithubIdOnlyRepoconfig.addAuthorEmailsToAuthorMapEntry(author, author.getEmails());
 
-        expectedFullRepoConfig = new RepoConfiguration.RepoBuilder()
+        expectedFullRepoConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_DUMMY_LOCATION)).build();
         expectedFullRepoConfig.setFormats(FileType.convertFormatStringsToFileTypes(
                 Arrays.asList("gradle", "jade", "java", "js", "md", "scss", "yml")));
@@ -112,7 +112,7 @@ public class StandaloneConfigJsonParserTest {
 
     private void assertSameConfig(RepoConfiguration expectedRepoConfig, StandaloneConfig actualStandaloneConfig)
             throws Exception {
-        RepoConfiguration actualRepoConfig = new RepoConfiguration.RepoBuilder()
+        RepoConfiguration actualRepoConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_DUMMY_LOCATION)).build();
         actualRepoConfig.update(actualStandaloneConfig);
         TestUtil.compareRepoConfig(expectedRepoConfig, actualRepoConfig);
