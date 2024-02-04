@@ -174,18 +174,6 @@ export default defineComponent({
       }
     },
 
-    isUnknownAuthor(name: string): boolean {
-      return name === '-';
-    },
-
-    addBlankLineCount(fileType: string, lineCount: number, filesInfoObj: { [key: string]: number }): void {
-      if (!filesInfoObj[fileType]) {
-        filesInfoObj[fileType] = 0;
-      }
-
-      filesInfoObj[fileType] += lineCount;
-    },
-
     getFirstPartOfPath(file: AuthorshipFile): string {
       const fileSplitIndex = file.path.lastIndexOf('/');
       const fileNameOnly = file.path.slice(fileSplitIndex + 1);

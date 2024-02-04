@@ -103,7 +103,7 @@
       c-authorship-file(v-bind:file="file", v-bind:index="index",
         v-bind:files-sort-type="this.filesSortType", v-bind:info="this.info",
         v-bind:author-colors="this.authorColors", v-bind:file-type-colors="this.fileTypeColors",
-        @toggle-file-active-property="(file) => toggleFileActiveProperty(file)")
+        @toggle-file-active-property="toggleFileActiveProperty")
 </template>
 
 <script lang="ts">
