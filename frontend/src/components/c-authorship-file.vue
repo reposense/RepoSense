@@ -145,7 +145,7 @@ export default defineComponent({
       return window.getBlameLink(this.$props.info.repo, repo.branch, file.path);
     },
 
-    getAuthors(file: AuthorshipFile): (string | null)[] {
+    getAuthors(file: AuthorshipFile): Array<string | null> {
       return Array.from(new Set(file.segments?.map((segment) => segment.knownAuthor)
         .filter(Boolean))).sort().slice(0, 50);
     },
