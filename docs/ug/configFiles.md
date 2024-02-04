@@ -190,15 +190,15 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
 ```
 `ActualGitHostId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.<br>
 To find the author name that you are currently using for your current git repository, run the following command within your git repository:
-``` {.no-line-numbers}
+``` shell {.no-line-numbers}
 git config user.name
 ```
 To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
-``` {.no-line-numbers}
+``` shell {.no-line-numbers}
 git config user.name "YOUR_AUTHOR_NAME”
 ```
 To set the author name to use a default value you want for future git repositories, you can use the following command:
-``` {.no-line-numbers}
+``` shell {.no-line-numbers}
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
 RepoSense expects the Git Author Name to be the same as author's username on the Git hosting platform (GitHub, GitLab, BitBucket). If an author's `Git Author Name` is different from their username on the Git hosting platform, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.
