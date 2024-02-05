@@ -131,30 +131,24 @@ public class RepoConfiguration {
          */
         private void processNames() {
             String repoName = this.repoConfiguration.location.getRepoName();
-
-            this.repoConfiguration.displayName = Optional.ofNullable(this.displayName)
-                    .orElse(repoName + "[" + this.repoConfiguration.branch + "]");
-            this.repoConfiguration.outputFolderName = Optional.ofNullable(this.outputFolderName)
-                    .orElse(repoName + "_" + this.repoConfiguration.branch);
-            this.repoConfiguration.repoFolderName = Optional.ofNullable(this.repoFolderName)
-                    .orElse(repoName);
-        }
-
-        /**
-         * Processes the organization name of the repository and updates the relevant
-         * names of the repository configs.
-         */
-        private void processOrganization() {
             String org = this.repoConfiguration.location.getOrganization();
 
+            String defaultDisplayName = repoName + "[" + this.repoConfiguration.branch + "]";
+            String defaultOutputFolderName = repoName + "_" + this.repoConfiguration.branch;
+            String defaultRepoFolderName = repoName;
+
             if (!org.isEmpty()) {
-                this.repoConfiguration.repoFolderName = Optional.ofNullable(this.repoFolderName)
-                        .orElse(org + "_" + this.repoConfiguration.repoFolderName);
-                this.repoConfiguration.displayName = Optional.ofNullable(this.displayName)
-                        .orElse(org + "/" + this.repoConfiguration.displayName);
-                this.repoConfiguration.outputFolderName = Optional.ofNullable(this.outputFolderName)
-                        .orElse(org + "_" + this.repoConfiguration.outputFolderName);
+                defaultDisplayName = org + "/" + defaultDisplayName;
+                defaultRepoFolderName = org + "_" + defaultRepoFolderName;
+                defaultOutputFolderName = org + "_" + defaultOutputFolderName;
             }
+
+            this.repoConfiguration.displayName = Optional.ofNullable(this.displayName)
+                    .orElse(defaultDisplayName);
+            this.repoConfiguration.outputFolderName = Optional.ofNullable(this.outputFolderName)
+                    .orElse(defaultOutputFolderName);
+            this.repoConfiguration.repoFolderName = Optional.ofNullable(this.repoFolderName)
+                    .orElse(defaultRepoFolderName);
         }
 
         /**
@@ -461,7 +455,6 @@ public class RepoConfiguration {
             this.processAuthor();
             this.processBranch();
             this.processNames();
-            this.processOrganization();
 
             // save a reference to the current built object
             RepoConfiguration toReturn = this.repoConfiguration;
