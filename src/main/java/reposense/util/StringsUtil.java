@@ -1,5 +1,6 @@
 package reposense.util;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 /**
@@ -95,9 +96,11 @@ public class StringsUtil {
     /**
      * Calculates the Levenshtein Distance between two strings using Dynamic Programming.
      * Insertion, deletion, and substitution are all of cost 1.
-     * This version improves the space complexity down to O(min(s, t))
+     * This version improves the space complexity down to O(min(s, t)).
+     * The dp will stop if the limit is reached, this means that if the final distance is 7 and the limit is set to 3,
+     * the algorithm ends early once it reaches 3.
      */
-    public static int getLevenshteinDistance(String s, String t) {
+    public static int getLevenshteinDistance(String s, String t, double limit) {
         if (s.length() < t.length()) {
             // Swap s and t to ensure s is always the longer string
             String temp = s;
@@ -125,6 +128,14 @@ public class StringsUtil {
                 }
 
                 prev = temp;
+            }
+
+            // Since levenshtein distance is non-decreasing, if every value in the row is more than or equal to the
+            // limit, then the final result will also be more than or equal to the limit.
+            if (Arrays.stream(dp).noneMatch(v -> v < limit)) {
+                // Return limit to ensure that the calculated originality score will always be more than the lowest
+                // originality score.
+                return (int) Math.ceil(limit);
             }
         }
 
