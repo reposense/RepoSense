@@ -123,4 +123,18 @@ public class StringsUtilTest {
     public void getLevenshteinDistance_emptyString_success() {
         Assertions.assertEquals(6, StringsUtil.getLevenshteinDistance("abcdef", "", Integer.MAX_VALUE));
     }
+
+    @Test
+    public void getLevenshteinDistance_belowLimit_success() {
+        Assertions.assertEquals(4, StringsUtil.getLevenshteinDistance("xxxxefg", "abcdefg", 4.0001));
+        Assertions.assertEquals(4, StringsUtil.getLevenshteinDistance("xxxxefg", "abcdefg", 123.456));
+        Assertions.assertEquals(4, StringsUtil.getLevenshteinDistance("xxxxefg", "abcdefg", Integer.MAX_VALUE));
+    }
+
+    @Test
+    public void getLevenshteinDistance_exceedLimit_success() {
+        Assertions.assertEquals(Integer.MAX_VALUE, StringsUtil.getLevenshteinDistance("xxxxefg", "abcdefg", 4.000));
+        Assertions.assertEquals(Integer.MAX_VALUE, StringsUtil.getLevenshteinDistance("xxxxefg", "abcdefg", 3.99999));
+        Assertions.assertEquals(Integer.MAX_VALUE, StringsUtil.getLevenshteinDistance("xxxxefg", "abcdefg", 0.89014));
+    }
 }

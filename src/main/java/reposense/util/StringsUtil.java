@@ -96,10 +96,16 @@ public class StringsUtil {
      * Calculates the Levenshtein Distance between two strings using Dynamic Programming.
      * Insertion, deletion, and substitution are all of cost 1.
      * This version improves the space complexity down to O(min(s, t))
+     * The dp will stop if the limit is reached, this means that if the final distance is 7 and the limit is set to 3,
+     * the algorithm ends early once it reaches 3.
      */
     public static int getLevenshteinDistance(String s, String t, double limit) {
         if (s.isEmpty()) return t.length();
         if (t.isEmpty()) return s.length();
+
+        if (Math.abs(s.length() - t.length()) >= limit) {
+            return Integer.MAX_VALUE;
+        }
 
         if (s.length() < t.length()) {
             // Swap s and t to ensure s is always the longer string
@@ -118,6 +124,7 @@ public class StringsUtil {
 
             dp[0] = i;
 
+            boolean hasLower = false;
             for (int j = 1; j <= t.length(); j++) {
                 int temp = dp[j];
 
@@ -128,6 +135,14 @@ public class StringsUtil {
                 }
 
                 prev = temp;
+
+                if (dp[j] < limit) {
+                    hasLower = true;
+                }
+            }
+
+            if (!hasLower) {
+                return Integer.MAX_VALUE;
             }
         }
 
