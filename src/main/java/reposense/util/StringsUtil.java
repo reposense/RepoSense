@@ -97,7 +97,7 @@ public class StringsUtil {
      * Insertion, deletion, and substitution are all of cost 1.
      * This version improves the space complexity down to O(min(s, t))
      */
-    public static int getLevenshteinDistance(String s, String t) {
+    public static int getLevenshteinDistance(String s, String t, double limit) {
         if (s.isEmpty()) return t.length();
         if (t.isEmpty()) return s.length();
 

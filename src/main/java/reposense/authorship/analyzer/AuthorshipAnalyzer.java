@@ -49,7 +49,7 @@ public class AuthorshipAnalyzer {
      * Returns {@code true} if {@code currentAuthor} should be assigned full credit, {@code false} otherwise.
      */
     public static boolean analyzeAuthorship(RepoConfiguration config, String filePath, String lineContent,
-            String commitHash, Author currentAuthor) {
+                                            String commitHash, Author currentAuthor) {
         // Empty lines are ignored and given full credit
         if (lineContent.isEmpty()) {
             return true;
@@ -87,7 +87,7 @@ public class AuthorshipAnalyzer {
      * Returns the deleted line in {@code commitHash} that has the lowest originality with {@code lineContent}.
      */
     private static CandidateLine getDeletedLineWithLowestOriginality(RepoConfiguration config, String filePath,
-            String lineContent, String commitHash) {
+                                                                     String lineContent, String commitHash) {
         String gitLogResults = GitLog.getParentCommits(config.getRepoRoot(), commitHash);
         String[] parentCommits = gitLogResults.split(" ");
 
@@ -132,7 +132,7 @@ public class AuthorshipAnalyzer {
      * Returns the deleted line in {@code fileDiffResult} that has the lowest originality with {@code lineContent}.
      */
     private static CandidateLine getDeletedLineWithLowestOriginalityInDiff(String fileDiffResult, String lineContent,
-            String commitHash, String filePath) {
+                                                                           String commitHash, String filePath) {
         CandidateLine lowestOriginalityLine = null;
 
         String[] hunks = fileDiffResult.split(HUNK_SEPARATOR);
@@ -155,7 +155,8 @@ public class AuthorshipAnalyzer {
 
                 if (lineChanged.startsWith(DELETED_LINE_SYMBOL)) {
                     String deletedLineContent = lineChanged.substring(DELETED_LINE_SYMBOL.length());
-                    double originalityScore = computeOriginalityScore(lineContent, deletedLineContent);
+                    double originalityScore = computeOriginalityScore(lineContent, deletedLineContent,
+                            lowestOriginalityLine == null ? Integer.MAX_VALUE : lowestOriginalityLine.getOriginalityScore());
 
                     if (lowestOriginalityLine == null
                             || originalityScore < lowestOriginalityLine.getOriginalityScore()) {
@@ -195,8 +196,8 @@ public class AuthorshipAnalyzer {
     /**
      * Calculates the originality score of {@code s} with {@code baseString}.
      */
-    private static double computeOriginalityScore(String s, String baseString) {
-        double levenshteinDistance = StringsUtil.getLevenshteinDistance(s, baseString);
+    private static double computeOriginalityScore(String s, String baseString, double limit) {
+        double levenshteinDistance = StringsUtil.getLevenshteinDistance(s, baseString, limit * baseString.length());
         return levenshteinDistance / baseString.length();
     }
 

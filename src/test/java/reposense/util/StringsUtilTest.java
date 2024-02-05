@@ -91,36 +91,36 @@ public class StringsUtilTest {
 
     @Test
     public void getLevenshteinDistance_success() {
-        Assertions.assertEquals(4, StringsUtil.getLevenshteinDistance("potato", "tomatoes"));
+        Assertions.assertEquals(4, StringsUtil.getLevenshteinDistance("potato", "tomatoes", Integer.MAX_VALUE));
     }
 
     @Test
     public void getLevenshteinDistance_insertion_success() {
-        Assertions.assertEquals(2, StringsUtil.getLevenshteinDistance("abcd", "abcdef"));
+        Assertions.assertEquals(2, StringsUtil.getLevenshteinDistance("abcd", "abcdef", Integer.MAX_VALUE));
     }
 
     @Test
     public void getLevenshteinDistance_deletion_success() {
-        Assertions.assertEquals(3, StringsUtil.getLevenshteinDistance("abcde", "ab"));
+        Assertions.assertEquals(3, StringsUtil.getLevenshteinDistance("abcde", "ab", Integer.MAX_VALUE));
     }
 
     @Test
     public void getLevenshteinDistance_substitution_success() {
-        Assertions.assertEquals(4, StringsUtil.getLevenshteinDistance("xxxxefg", "abcdefg"));
+        Assertions.assertEquals(4, StringsUtil.getLevenshteinDistance("xxxxefg", "abcdefg", Integer.MAX_VALUE));
     }
 
     @Test
     public void getLevenshteinDistance_identicalStrings_success() {
-        Assertions.assertEquals(0, StringsUtil.getLevenshteinDistance("abcdefg", "abcdefg"));
+        Assertions.assertEquals(0, StringsUtil.getLevenshteinDistance("abcdefg", "abcdefg", Integer.MAX_VALUE));
     }
 
     @Test
     public void getLevenshteinDistance_emptyStrings_success() {
-        Assertions.assertEquals(0, StringsUtil.getLevenshteinDistance("", ""));
+        Assertions.assertEquals(0, StringsUtil.getLevenshteinDistance("", "", Integer.MAX_VALUE));
     }
 
     @Test
     public void getLevenshteinDistance_emptyString_success() {
-        Assertions.assertEquals(6, StringsUtil.getLevenshteinDistance("abcdef", ""));
+        Assertions.assertEquals(6, StringsUtil.getLevenshteinDistance("abcdef", "", Integer.MAX_VALUE));
     }
 }
