@@ -95,9 +95,10 @@
         )
           span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}\
-    .error-message-box__show-more-container(v-if="Object.keys(errorMessages).length >= 4")
-      a.error-message-box__show-more(v-if="!errorIsShowingMore", v-on:click="toggleErrorShowMore()") SHOW MORE...
-      a.error-message-box__show-more(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
+    .error-message-box__show-more-container(v-if="Object.keys(errorMessages).length > 4")
+      span(v-if="!errorIsShowingMore") Remaining error messages omitted to save space.&nbsp;
+      a(v-if="!errorIsShowingMore", v-on:click="toggleErrorShowMore()") SHOW ALL...
+      a(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
       label(style='background-color: #000000; color: #ffffff')
@@ -951,4 +952,10 @@ export default defineComponent({
 <style lang="scss">
 @import '../styles/_colors.scss';
 @import '../styles/summary-chart.scss';
+
+.error-message-box__show-more-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: .3rem;
+}
 </style>
