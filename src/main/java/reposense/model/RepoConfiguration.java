@@ -55,40 +55,9 @@ public class RepoConfiguration {
     private transient boolean isIgnoredFileAnalysisSkipped = false;
 
     /**
-     * Constructs a new instance of {@code RepoConfiguration} using an existing instance of
-     * {@code RepoConfiguration}.
-     *
-     * @param repoConfiguration {@code RepoConfiguation} to copy
+     * Constructs an empty instance of {@code RepoConfiguration}, which is used by the {@code Builder}
+     * to construct new {@code RepoConfiguration} instances.
      */
-    private RepoConfiguration(RepoConfiguration repoConfiguration) {
-        this.location = repoConfiguration.location;
-        this.branch = repoConfiguration.branch;
-        this.displayName = repoConfiguration.displayName;
-        this.outputFolderName = repoConfiguration.outputFolderName;
-        this.extraOutputFolderName = repoConfiguration.extraOutputFolderName;
-        this.zoneId = repoConfiguration.zoneId;
-        this.sinceDate = repoConfiguration.sinceDate;
-        this.untilDate = repoConfiguration.untilDate;
-        this.repoFolderName = repoConfiguration.repoFolderName;
-        this.fileTypeManager = repoConfiguration.fileTypeManager;
-        this.ignoreGlobList = repoConfiguration.ignoreGlobList;
-        this.ignoredAuthorsList = repoConfiguration.ignoredAuthorsList;
-        this.authorConfig = repoConfiguration.authorConfig;
-        this.isStandaloneConfigIgnored = repoConfiguration.isStandaloneConfigIgnored;
-        this.isFileSizeLimitIgnored = repoConfiguration.isFileSizeLimitIgnored;
-        this.ignoreCommitList = repoConfiguration.ignoreCommitList;
-        this.isLastModifiedDateIncluded = repoConfiguration.isLastModifiedDateIncluded;
-        this.isShallowCloningPerformed = repoConfiguration.isShallowCloningPerformed;
-        this.isFindingPreviousAuthorsPerformed = repoConfiguration.isFindingPreviousAuthorsPerformed;
-        this.isFormatsOverriding = repoConfiguration.isFormatsOverriding;
-        this.isIgnoreGlobListOverriding = repoConfiguration.isIgnoreGlobListOverriding;
-        this.isIgnoreCommitListOverriding = repoConfiguration.isIgnoreCommitListOverriding;
-        this.isIgnoredAuthorsListOverriding = repoConfiguration.isIgnoredAuthorsListOverriding;
-        this.fileSizeLimit = repoConfiguration.fileSizeLimit;
-        this.isFileSizeLimitOverriding = repoConfiguration.isFileSizeLimitOverriding;
-        this.isIgnoredFileAnalysisSkipped = repoConfiguration.isIgnoredFileAnalysisSkipped;
-    }
-
     private RepoConfiguration() {}
 
     /**
@@ -462,8 +431,8 @@ public class RepoConfiguration {
             // reset the internal reference to avoid aliasing
             this.repoConfiguration = new RepoConfiguration();
 
-            // return a new reference to the built RepoConfiguration object
-            return new RepoConfiguration(toReturn);
+            // return the reference to the built RepoConfiguration object
+            return toReturn;
         }
 
         /**
