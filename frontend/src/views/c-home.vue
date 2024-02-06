@@ -180,7 +180,8 @@ const home = defineComponent({
     setTitleVisibility() {
       const titleBox = (this.$refs.cTitle as DefineComponent).$el.getBoundingClientRect();
       const isInView = titleBox.bottom >= 0 && titleBox.top <= window.innerHeight;
-      this.isTitleVisible = isInView && titleBox.bottom !== titleBox.top; // title is not visible if the bottom and top are the same
+      // title is not visible if the bottom and top are the same
+      this.isTitleVisible = isInView && titleBox.bottom !== titleBox.top;
     },
   },
 });
