@@ -7,7 +7,7 @@ import MarkdownIt from 'markdown-it';
 import { defineComponent } from 'vue';
 import titleText from '../markdown/title.md';
 
-const emptyHtml = '<div />';
+const emptyHtml = '';
 
 export default defineComponent({
   data() {
