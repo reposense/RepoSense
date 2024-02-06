@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.RepoLocation;
+import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidHeaderException;
 
 public class AuthorConfigParserTest {
     private static final Path AUTHOR_CONFIG_EMPTY_LOCATION_FILE = loadResource(AuthorConfigParserTest.class,

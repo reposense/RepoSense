@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.types;
 
 import java.time.DateTimeException;
 import java.time.ZoneId;

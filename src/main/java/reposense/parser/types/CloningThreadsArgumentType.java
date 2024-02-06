@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.types;
 
 import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -8,7 +8,7 @@ import net.sourceforge.argparse4j.inf.ArgumentType;
 /**
  * Verifies and parses a string-formatted integer to an {@link Integer} object.
  */
-public class AnalysisThreadsArgumentType implements ArgumentType<Integer> {
+public class CloningThreadsArgumentType implements ArgumentType<Integer> {
     public Integer convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
         return Integer.parseInt(value);
     }

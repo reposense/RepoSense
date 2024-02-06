@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.types;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
