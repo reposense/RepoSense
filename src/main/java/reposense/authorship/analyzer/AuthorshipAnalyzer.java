@@ -155,7 +155,11 @@ public class AuthorshipAnalyzer {
 
                 if (lineChanged.startsWith(DELETED_LINE_SYMBOL)) {
                     String deletedLineContent = lineChanged.substring(DELETED_LINE_SYMBOL.length());
-                    double originalityScore = computeOriginalityScore(lineContent, deletedLineContent);
+                    double lowestOriginalityScore = lowestOriginalityLine == null
+                            ? Integer.MAX_VALUE
+                            : lowestOriginalityLine.getOriginalityScore();
+                    double originalityScore = computeOriginalityScore(lineContent, deletedLineContent,
+                            lowestOriginalityScore);
 
                     if (lowestOriginalityLine == null
                             || originalityScore < lowestOriginalityLine.getOriginalityScore()) {
@@ -195,8 +199,8 @@ public class AuthorshipAnalyzer {
     /**
      * Calculates the originality score of {@code s} with {@code baseString}.
      */
-    private static double computeOriginalityScore(String s, String baseString) {
-        double levenshteinDistance = StringsUtil.getLevenshteinDistance(s, baseString);
+    private static double computeOriginalityScore(String s, String baseString, double limit) {
+        double levenshteinDistance = StringsUtil.getLevenshteinDistance(s, baseString, limit * baseString.length());
         return levenshteinDistance / baseString.length();
     }
 
