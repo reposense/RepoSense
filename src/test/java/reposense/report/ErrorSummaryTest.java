@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import reposense.model.RepoLocation;
-import reposense.parser.InvalidLocationException;
+import reposense.parser.exceptions.InvalidLocationException;
 
 public class ErrorSummaryTest {
     @Test

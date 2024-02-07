@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.Test;
 
-import reposense.parser.InvalidLocationException;
+import reposense.parser.exceptions.InvalidLocationException;
 import reposense.util.AssertUtil;
 import reposense.util.SystemUtil;
 
