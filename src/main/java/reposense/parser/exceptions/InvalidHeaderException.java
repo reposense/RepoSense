@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.exceptions;
 
 /**
  * Signals that there is a problem in the header of csv config file.

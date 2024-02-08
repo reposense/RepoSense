@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.exceptions;
 
 /**
  * Signals that there is a major error in a CSV file (e.g. wrong number of columns, zero valid records).

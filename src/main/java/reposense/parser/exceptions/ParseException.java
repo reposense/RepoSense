@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.exceptions;
 
 /**
  * Signals that there is an exception when parsing a string.

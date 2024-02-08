@@ -10,6 +10,7 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.parser.exceptions.InvalidLocationException;
 import reposense.util.FileUtil;
 import reposense.util.StringsUtil;
 
