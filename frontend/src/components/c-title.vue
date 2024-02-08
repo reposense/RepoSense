@@ -13,13 +13,19 @@ export default defineComponent({
     };
   },
   beforeMount() {
-    fetch('/RepoSense/reposense-report/title.md').then((response) => response.text(), (error) => {
-      console.error(error);
-      return '';
-    }).then((text) => {
-      const md = new MarkdownIt();
-      this.markdownText = md.render(text);
-    });
+    try {
+      fetch('title.md').then((response) => {
+        if (!response.ok) { // file not found
+          return '';
+        }
+        return response.text();
+      }).then((text) => {
+        const md = new MarkdownIt();
+        this.markdownText = md.render(text);
+      });
+    } catch (error) {
+      // do nothing
+    }
   },
 });
 </script>
