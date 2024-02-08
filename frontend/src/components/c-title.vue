@@ -5,28 +5,21 @@ div(v-html="markdownText")
 <script lang="ts">
 import MarkdownIt from 'markdown-it';
 import { defineComponent } from 'vue';
-import titleText from '../markdown/title.md';
-
-const emptyHtml = '';
 
 export default defineComponent({
   data() {
     return {
-      markdownText: this.getMarkDownText(),
+      markdownText: '',
     };
   },
-  methods: {
-    getMarkDownText() {
-      let output = emptyHtml;
-      try {
-        output = new MarkdownIt()
-          .render(titleText);
-      } catch (e) {
-        // We don't want to crash the app if the markdown is invalid,
-        // so we just return an empty div
-      }
-      return output;
-    },
+  beforeMount() {
+    fetch('/RepoSense/reposense-report/title.md').then((response) => response.text(), (error) => {
+      console.error(error);
+      return '';
+    }).then((text) => {
+      const md = new MarkdownIt();
+      this.markdownText = md.render(text);
+    });
   },
 });
 </script>
