@@ -85,11 +85,6 @@ const home = defineComponent({
     cSummary,
     cAuthorship,
   },
-  data() {
-    return {
-      isTitleVisible: false,
-    };
-  },
   props: {
     updateReportZip: {
       type: Function,
@@ -128,12 +123,10 @@ const home = defineComponent({
       required: true,
     },
   },
-  mounted() {
-    window.addEventListener('scroll', this.setTitleVisibility);
-    this.setTitleVisibility();
-  },
-  beforeUnmount() {
-    window.removeEventListener('scroll', this.setTitleVisibility);
+  data() {
+    return {
+      isTitleVisible: false,
+    };
   },
   computed: {
     setScroll() {
@@ -141,6 +134,13 @@ const home = defineComponent({
         overflowY: this.isTitleVisible ? 'hidden' : 'auto',
       };
     },
+  },
+  mounted() {
+    window.addEventListener('scroll', this.setTitleVisibility);
+    this.setTitleVisibility();
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.setTitleVisibility);
   },
   methods: {
     getRepoSenseHomeLink() {
