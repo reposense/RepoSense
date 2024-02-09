@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.ConfigurationBuildException;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
@@ -953,5 +954,10 @@ public class RepoConfigurationTest {
                 .build();
 
         Assertions.assertTrue(actualConfig.isLastModifiedDateIncluded());
+    }
+
+    @Test
+    public void repoBuilder_buildWithInvalid_failure() {
+        Assertions.assertThrows(ConfigurationBuildException.class, () -> new RepoConfiguration.Builder().build());
     }
 }

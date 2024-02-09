@@ -522,8 +522,6 @@ public class ArgsParserTest {
                 .getRunConfiguration(locationCliArguments)
                 .getRepoConfigurations();
 
-        System.out.println(actualRepoConfigs.get(0));
-        System.out.println(expectedRepoConfigs.get(0));
         Assertions.assertEquals(actualRepoConfigs, expectedRepoConfigs);
     }
 
