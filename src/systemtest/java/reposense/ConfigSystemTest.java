@@ -15,7 +15,7 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import reposense.model.SupportedDomainUrlMap;
-import reposense.parser.SinceDateArgumentType;
+import reposense.parser.types.SinceDateArgumentType;
 import reposense.report.ErrorSummary;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
