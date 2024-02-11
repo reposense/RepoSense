@@ -485,4 +485,4 @@ You can now proceed to learn the [contributing workflow](workflow.html).
 
 ## DevOps
 
-If you want to understand and contribute to the DevOps aspect of RepoSense, you can refer to the [DevOps guide](https://github.com/reposense/RepoSense/wiki/DevOps-guide) for more information.
+If you want to understand and contribute to the DevOps aspect of RepoSense, you can refer to the [DevOps guide](devOpsGuide.html) for more information.
