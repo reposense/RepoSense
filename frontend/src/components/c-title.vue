@@ -32,6 +32,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .title {
-  padding: 1rem 1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 }
 </style>
