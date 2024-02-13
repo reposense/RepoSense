@@ -1,5 +1,5 @@
 <template lang="pug">
-div(v-html="markdownText")
+.title(v-html="markdownText")
 </template>
 
 <script lang="ts">
@@ -29,3 +29,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.title {
+  padding: 1rem 1.5rem;
+}
+</style>
