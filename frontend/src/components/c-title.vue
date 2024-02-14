@@ -1,5 +1,5 @@
 <template lang="pug">
-.title(v-html="markdownText" v-if="markdownText != ''")
+.title(v-html="markdownText", v-if="markdownText != ''")
 </template>
 
 <script lang="ts">
