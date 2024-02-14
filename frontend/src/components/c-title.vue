@@ -24,7 +24,7 @@ export default defineComponent({
         this.markdownText = md.render(text);
       });
     } catch (error) {
-      // do nothing
+      this.markdownText = (error as Error).toString();
     }
   },
 });
