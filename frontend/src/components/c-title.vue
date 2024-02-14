@@ -1,5 +1,5 @@
 <template lang="pug">
-.title(v-html="markdownText")
+.title(v-html="markdownText" v-if="markdownText != ''")
 </template>
 
 <script lang="ts">
@@ -32,7 +32,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .title {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding: 2rem 1.5rem;
+  // This is needed because the parent summary-wrapper center aligns everything
+  text-align: initial;
 }
 </style>

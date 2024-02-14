@@ -1,10 +1,10 @@
 <template lang="pug">
 #home
-  c-title(ref="cTitle")
   template(v-if="userUpdated")
     c-resizer
       template(v-slot:left)
-        #summary-wrapper(:style="setScroll")
+        #summary-wrapper
+          c-title(ref="cTitle")
           c-summary.tab-padding(
             ref="summary",
             v-bind:repos="users",
@@ -31,7 +31,7 @@
             span {{ reportGenerationTime }}
 
       template(v-slot:right)
-        #tabs-wrapper(ref="tabWrapper")(:style="setScroll")
+        #tabs-wrapper(ref="tabWrapper")
           .tab-content.panel-padding
             .tab-pane
               c-authorship#tab-authorship(v-if="tabType === 'authorship'")
@@ -68,7 +68,7 @@
 </template>
 
 <script lang='ts'>
-import { DefineComponent, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
 import cTitle from '../components/c-title.vue';
 import cResizer from '../components/c-resizer.vue';
@@ -123,25 +123,6 @@ const home = defineComponent({
       required: true,
     },
   },
-  data() {
-    return {
-      isTitleVisible: false,
-    };
-  },
-  computed: {
-    setScroll() {
-      return {
-        overflowY: this.isTitleVisible ? 'hidden' : 'auto',
-      };
-    },
-  },
-  mounted() {
-    window.addEventListener('scroll', this.setTitleVisibility);
-    this.setTitleVisibility();
-  },
-  beforeUnmount() {
-    window.removeEventListener('scroll', this.setTitleVisibility);
-  },
   methods: {
     getRepoSenseHomeLink() {
       const version = window.repoSenseVersion;
@@ -176,12 +157,6 @@ const home = defineComponent({
         return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;
       }
       return `${window.HOME_PAGE_URL}/ug/usingReports.html`;
-    },
-    setTitleVisibility() {
-      const titleBox = (this.$refs.cTitle as DefineComponent).$el.getBoundingClientRect();
-      const isInView = titleBox.bottom >= 0 && titleBox.top <= window.innerHeight;
-      // title is not visible if the bottom and top are the same
-      this.isTitleVisible = isInView && titleBox.bottom !== titleBox.top;
     },
   },
 });
