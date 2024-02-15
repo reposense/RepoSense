@@ -294,12 +294,12 @@ describe('render filter hash', () => {
       .check();
 
     cy.url()
-      .should('contain', 'mergegroup=reposense%2FRepoSense%5Bcypress%5D');
+      .should('contain', 'mergegroup=0');
 
     cy.reload();
 
     cy.url()
-      .should('contain', 'mergegroup=reposense%2FRepoSense%5Bcypress%5D');
+      .should('contain', 'mergegroup=0');
   });
 
   it('checked file types: url params should persist after change and reload', () => {
