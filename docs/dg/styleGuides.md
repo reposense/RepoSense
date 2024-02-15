@@ -22,7 +22,7 @@ Our coding standards are mostly based on those at [se-education.org/guides](http
 
 ## Note on Ternary Operators:
 Ternary operators can be used to shorten if-else blocks such as this:
-```
+```java
 LocalDateTime min = ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime();
 if (!commitInfos.isEmpty()) {
     min = commitInfos.get(0).getTime();
@@ -31,7 +31,7 @@ return min;
 ```
 
 The result would look something like this:
-```
+```java
 return (commitInfos.isEmpty())
         ? ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(zoneId).toLocalDateTime()
         : commitInfos.get(0).getTime();
@@ -48,8 +48,8 @@ In addition to what has been mentioned in the [**Java** coding standard (SE-EDU)
   * This is not necessary (although still recommended) for methods with `@Override` annotations if Javadoc is used. However, if the method that is being overriden is part of your code and has Javadoc, all parameters must be described.
 
 Negative Examples:
-```
-Not okay (Only mentions zoneId parameter):
+```java
+// Not okay (Only mentions zoneId parameter):
 /**
  * Returns a {@link LocalDateTime} object adjusted for timezone given by {@code zoneId}.
  */
@@ -57,7 +57,7 @@ public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
     //Code here
 }
 
-Not okay (@param tag used only for zoneId)
+// Not okay (@param tag used only for zoneId)
 /**
  * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
  * to the timezone given by {@code zoneId}.
@@ -69,8 +69,8 @@ public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
 }
 ```
 Positive Example #1:
-```
-Okay (No @param tags):
+```java
+// Okay (No @param tags):
 /**
  * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
  * to the timezone given by {@code zoneId}.
@@ -80,8 +80,8 @@ public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
 }
 ```
 Positive Example #2:
-```
-Okay (@param tags used for all inputs):
+```java
+// Okay (@param tags used for all inputs):
 /**
  * Returns a {@link LocalDateTime} object by adjusting {@code sinceDate}
  * to the timezone given by {@code zoneId}.
@@ -98,8 +98,8 @@ public LocalDateTime adjustTimeZone(LocalDateTime sinceDate, ZoneId zoneId) {
   * This requirement does not apply to test code.
   * One `@throws` tag per unique exception.
   * The order of exceptions in the `@throws` tag block should match that of the method's `throws` statement.
-```
-Not okay (order of exceptions in tag block and method signature do not match):
+```java
+// Not okay (order of exceptions in tag block and method signature do not match):
 /**
  * Returns a {@link LocalDateTime} object from {@code dateString}.
  *
@@ -111,7 +111,7 @@ public LocalDateTime parseDate(String dateString) throws NullPointerException, P
     // Code here
 }
 
-Should be:
+// Should be:
 /**
  * Returns a {@link LocalDateTime} object from {@code dateString}.
  *
