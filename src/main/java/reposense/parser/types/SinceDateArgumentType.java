@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.types;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

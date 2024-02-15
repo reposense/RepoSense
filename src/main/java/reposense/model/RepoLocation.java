@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import reposense.git.GitRemote;
-import reposense.parser.InvalidLocationException;
+import reposense.parser.exceptions.InvalidLocationException;
 import reposense.report.ErrorSummary;
 import reposense.util.StringsUtil;
 import reposense.util.SystemUtil;

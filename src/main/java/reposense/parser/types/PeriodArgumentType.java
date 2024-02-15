@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.types;
 
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -7,6 +7,7 @@ import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.ArgumentType;
+import reposense.parser.exceptions.ParseException;
 
 /**
  * Verifies and parses a string-formatted period to an integer.
