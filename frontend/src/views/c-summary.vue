@@ -512,7 +512,10 @@ export default defineComponent({
 
             if (tags.some((tag) => tag && this.isMatchSearchedTag(tagSearch, tag))) {
               const user = repo.users?.find((u) => u.name === author);
-              if (user) res.push(user);
+              if (user) {
+                this.updateCheckedFileTypeContribution(user);
+                res.push(user);
+              }
             }
           });
 
