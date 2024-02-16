@@ -142,13 +142,14 @@ public class FileInfoExtractor {
      */
     public Set<Path> getFiles(RepoConfiguration repoConfig, boolean isBinaryFile) {
         List<String> modifiedFileList = GitDiff.getModifiedFilesList(Paths.get(repoConfig.getRepoRoot()));
+        Pattern tabSplitter = Pattern.compile("\t");
 
         // Gets rid of files with invalid directory name and filters by the {@code isBinaryFile} flag
         return modifiedFileList.stream()
                 .filter(file -> isBinaryFile == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
-                .map(file -> file.split("\t")[2])
+                .map(file -> tabSplitter.split(file)[2])
                 .filter(FileUtil::isValidPathWithLogging)
-                .map(filteredFile -> Paths.get(filteredFile))
+                .map(Paths::get)
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
@@ -160,11 +161,12 @@ public class FileInfoExtractor {
         String[] linesChangedChunk = fileDiffResult.split(LINE_CHUNKS_SEPARATOR);
         List<LineInfo> lineInfos = fileInfo.getLines();
         int fileLinePointer = 0;
+        Pattern newlineSplitter = Pattern.compile("\n");
 
         // skips the header, index starts from 1
         for (int sectionIndex = 1; sectionIndex < linesChangedChunk.length; sectionIndex++) {
             String linesChangedInSection = linesChangedChunk[sectionIndex];
-            String[] linesChanged = linesChangedInSection.split("\n");
+            String[] linesChanged = newlineSplitter.split(linesChangedInSection);
             int startingLineNumber = getStartingLineNumber(linesChanged[LINE_CHANGED_HEADER_INDEX]);
 
             // mark all untouched lines between sections as untracked
