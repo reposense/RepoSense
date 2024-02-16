@@ -251,6 +251,9 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
       .type('jamessspanggg');
+    cy.get('input[name="until"]:visible')
+      .type('2023-12-31');
+
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
@@ -277,6 +280,9 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
       .type('jamessspanggg');
+    cy.get('input[name="until"]:visible')
+      .type('2023-12-31');
+
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
@@ -303,6 +309,9 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
       .type('jamessspanggg');
+    cy.get('input[name="until"]:visible')
+      .type('2023-12-31');
+
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
@@ -329,6 +338,8 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('div.mui-textfield.search_box > input:visible')
       .should('be.visible')
       .type('jamessspanggg');
+    cy.get('input[name="until"]:visible')
+      .type('2023-12-31');
 
     cy.get('body').type(zoomKey, { release: false })
       .get('#summary-charts .summary-chart__ramp .ramp')
