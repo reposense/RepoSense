@@ -31,7 +31,11 @@ public class CliRunConfiguration implements RunConfiguration {
         List<RepoConfiguration> configs = new ArrayList<>();
         for (String locationString : cliArguments.getLocations()) {
             try {
-                configs.add(new RepoConfiguration(new RepoLocation(locationString)));
+                configs.add(
+                        new RepoConfiguration.Builder()
+                                .location(new RepoLocation(locationString))
+                                .build()
+                );
             } catch (InvalidLocationException ile) {
                 logger.log(Level.WARNING, ile.getMessage(), ile);
             }
