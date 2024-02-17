@@ -13,19 +13,17 @@ export default defineComponent({
     };
   },
   beforeMount() {
-    try {
-      await fetch('title.md').then((response) => {
-        if (!response.ok) { // file not found
-          return '';
-        }
-        return response.text();
-      }).then((text) => {
-        const md = new MarkdownIt();
-        this.markdownText = md.render(text);
-      });
-    } catch (error) {
+    fetch('title.md').then((response) => {
+      if (!response.ok) { // file not found
+        return '';
+      }
+      return response.text();
+    }).then((text) => {
+      const md = new MarkdownIt();
+      this.markdownText = md.render(text);
+    }).catch((error) => {
       this.markdownText = (error as Error).toString();
-    }
+    });
   },
 });
 </script>
