@@ -107,4 +107,39 @@ describe('merge group', () => {
           });
       });
   });
+
+  it('merged groups should remain unchanged after sorting', () => {
+    // Since only one repo, we group by author instead
+    cy.get('div.mui-select.grouping > select:visible')
+      .select('groupByAuthors');
+
+    const mergedGroupNames = [];
+    cy.get('#summary-charts .summary-charts').should('have.length', 5).each(($grp, index) => {
+      if (index === 0 || index === 2) {
+        cy.wrap($grp).find('a').first().click();
+        cy.wrap($grp)
+          .find('.summary-charts__title--groupname')
+          .invoke('text')
+          .then((text) => mergedGroupNames.push(text));
+      }
+    });
+
+    // Sort groups by contributions
+    cy.get('div.mui-select.sort-group > select')
+      .select('totalCommits dsc');
+    cy.wait(500);
+
+    // Check if the merged groups remain unchanged (and after reload)
+    cy.reload();
+
+    cy.get('#summary-charts .summary-charts')
+      .each((group) => {
+        // If the group is merged
+        if (group.find('a').first().find('.fa-chevron-down').length > 0) {
+          expect(mergedGroupNames).to.include(group.find('.summary-charts__title--groupname').text());
+        } else {
+          expect(mergedGroupNames).to.not.include(group.find('.summary-charts__title--groupname').text());
+        }
+      });
+  });
 });
