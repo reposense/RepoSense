@@ -172,11 +172,25 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
             boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
             boolean isFindingPreviousAuthorsPerformed) {
-        RepoConfiguration config = new RepoConfiguration(location, branch, formats, ignoreGlobList, fileSizeLimit,
-                isStandaloneConfigIgnored, isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding,
-                isIgnoreGlobListOverriding, isIgnoreCommitListOverriding, isFileSizeLimitOverriding,
-                isShallowCloningPerformed, isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped,
-                ignoredAuthorsList, isIgnoredAuthorsListOverriding);
+        RepoConfiguration config = new RepoConfiguration.Builder()
+                .location(location)
+                .branch(branch)
+                .fileTypeManager(formats)
+                .ignoreGlobList(ignoreGlobList)
+                .fileSizeLimit(fileSizeLimit)
+                .isStandaloneConfigIgnored(isStandaloneConfigIgnored)
+                .isFileSizeLimitIgnored(isFileSizeLimitIgnored)
+                .ignoreCommitList(ignoreCommitList)
+                .isFormatsOverriding(isFormatsOverriding)
+                .isIgnoreGlobListOverriding(isIgnoreGlobListOverriding)
+                .isIgnoreCommitListOverriding(isIgnoreCommitListOverriding)
+                .isFileSizeLimitOverriding(isFileSizeLimitOverriding)
+                .isShallowCloningPerformed(isShallowCloningPerformed)
+                .isFindingPreviousAuthorsPerformed(isFindingPreviousAuthorsPerformed)
+                .isIgnoredFileAnalysisSkipped(isIgnoredFileAnalysisSkipped)
+                .ignoredAuthorsList(ignoredAuthorsList)
+                .isIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding)
+                .build();
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);
