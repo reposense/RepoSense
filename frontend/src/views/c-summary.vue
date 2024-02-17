@@ -77,7 +77,9 @@
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(
-        v-for="errorBlock in errorIsShowingMore ? errorMessages : Object.values(errorMessages).slice(0, 4)"
+        v-for="errorBlock in errorIsShowingMore\
+          ? errorMessages\
+          : Object.values(errorMessages).slice(0, numberOfErrorMessagesToShow)"
       )
       font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
@@ -95,7 +97,7 @@
         )
           span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}\
-    .error-message-box__show-more-container(v-if="Object.keys(errorMessages).length > 4")
+    .error-message-box__show-more-container(v-if="Object.keys(errorMessages).length > numberOfErrorMessagesToShow")
       span(v-if="!errorIsShowingMore") Remaining error messages omitted to save space.&nbsp;
       a(v-if="!errorIsShowingMore", v-on:click="toggleErrorShowMore()") SHOW ALL...
       a(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
@@ -208,6 +210,7 @@ export default defineComponent({
       chartGroupIndex: undefined as number | undefined,
       chartIndex: undefined as number | undefined,
       errorIsShowingMore: false,
+      numberOfErrorMessagesToShow: 4,
     };
   },
   computed: {
