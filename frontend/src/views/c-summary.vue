@@ -399,7 +399,8 @@ export default defineComponent({
     },
 
     setMergeGroupsHash(fromCreated: boolean) {
-      if (fromCreated) {
+      // explicit check for true to prevent Event from v-on:change registering as true
+      if (fromCreated === true) {
         this.renderMergeGroupsHash();
         return;
       }
