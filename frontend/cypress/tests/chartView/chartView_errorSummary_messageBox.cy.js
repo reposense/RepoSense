@@ -28,7 +28,7 @@ describe('error summary', () => {
       .should('not.be.visible');
   });
 
-  it('number of error messages', () => {
+  it('can be expanded and collapsed if count > 4', () => {
     cy.get('.error-message-box')
       .find('.error-message-box__failed-repo')
       .should('have.length', 4);
