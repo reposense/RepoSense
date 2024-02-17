@@ -14,7 +14,7 @@ export default defineComponent({
   },
   beforeMount() {
     try {
-      fetch('title.md').then((response) => {
+      await fetch('title.md').then((response) => {
         if (!response.ok) { // file not found
           return '';
         }
