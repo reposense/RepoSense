@@ -39,10 +39,18 @@ public class LocalRepoSystemTest {
 
     @BeforeAll
     public static void setupLocalRepos() throws Exception {
-        TestRepoCloner.clone(new RepoConfiguration(new RepoLocation("https://github.com/reposense/testrepo-Alpha")),
-                Paths.get("."), LOCAL_DIRECTORY_ONE);
-        TestRepoCloner.clone(new RepoConfiguration(new RepoLocation("https://github.com/reposense/testrepo-Alpha")),
-                Paths.get("."), LOCAL_DIRECTORY_TWO);
+        TestRepoCloner.clone(
+                new RepoConfiguration.Builder()
+                        .location(new RepoLocation("https://github.com/reposense/testrepo-Alpha"))
+                        .build(),
+                Paths.get("."), LOCAL_DIRECTORY_ONE
+        );
+        TestRepoCloner.clone(
+                new RepoConfiguration.Builder()
+                        .location(new RepoLocation("https://github.com/reposense/testrepo-Alpha"))
+                        .build(),
+                Paths.get("."), LOCAL_DIRECTORY_TWO
+        );
     }
 
     @BeforeEach
