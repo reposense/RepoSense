@@ -30,6 +30,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .title {
+  overflow-x: auto;
   padding: 0 1.5rem;
   // This is needed because the parent summary-wrapper center aligns everything
   text-align: initial;

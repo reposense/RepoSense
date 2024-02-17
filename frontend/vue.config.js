@@ -15,15 +15,6 @@ module.exports = {
         files: ['src/**/*.{vue,scss}'],
       }),
     ],
-    module: {
-      rules: [
-        // Markdown Loader
-        {
-          test: /\.md$/,
-          loader: "raw-loader",
-        },
-      ],
-    }
   },
   chainWebpack: (config) => {
     // Pug Loader
