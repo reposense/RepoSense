@@ -7,7 +7,7 @@
 <script lang='ts'>
 import { defineComponent } from 'vue';
 import cSegment from './c-segment.vue';
-import Segment from '../utils/segment';
+import { AuthorshipFileSegment } from '../types/types';
 
 export default defineComponent({
   name: 'c-segment-collection',
@@ -16,7 +16,7 @@ export default defineComponent({
   },
   props: {
     segments: {
-      type: Array<Segment>,
+      type: Array<AuthorshipFileSegment>,
       required: true,
     },
     path: {
