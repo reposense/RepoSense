@@ -1,5 +1,7 @@
 package reposense.authorship;
 
+import static reposense.parser.ArgsParser.DEFAULT_ORIGINALITY_THRESHOLD;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,11 +47,13 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
+     * {@code originalityThreshold}.
      * Returns null if the file is missing from the local system, or none of the
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo, boolean shouldAnalyzeAuthorship) {
+    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo, boolean shouldAnalyzeAuthorship,
+            double originalityThreshold) {
         String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
@@ -61,7 +65,7 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo, shouldAnalyzeAuthorship);
+        aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo, shouldAnalyzeAuthorship, originalityThreshold);
         fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
         AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorConfig(), shouldAnalyzeAuthorship);
@@ -83,7 +87,7 @@ public class FileInfoAnalyzer {
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
-        return analyzeTextFile(config, fileInfo, false);
+        return analyzeTextFile(config, fileInfo, false, DEFAULT_ORIGINALITY_THRESHOLD);
     }
 
     /**
@@ -153,10 +157,11 @@ public class FileInfoAnalyzer {
      * The {@code config} is used to obtain the root directory for running git blame as well as other parameters used
      * in determining which author to assign to each line and whether to set the last modified date for a
      * {@code lineInfo}.
-     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
+     * {@code originalityThreshold}.
      */
     private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo,
-            boolean shouldAnalyzeAuthorship) {
+            boolean shouldAnalyzeAuthorship, double originalityThreshold) {
         String blameResults;
 
         if (!config.isFindingPreviousAuthorsPerformed()) {

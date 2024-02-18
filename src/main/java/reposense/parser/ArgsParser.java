@@ -40,6 +40,7 @@ public class ArgsParser {
     public static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
     public static final boolean DEFAULT_IS_TEST_MODE = false;
     public static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
+    public static final double DEFAULT_ORIGINALITY_THRESHOLD = 0.51;
 
     public static final String[] HELP_FLAGS = new String[] {"--help", "-h"};
     public static final String[] CONFIG_FLAGS = new String[] {"--config", "-c"};
@@ -85,7 +86,6 @@ public class ArgsParser {
             + File.separator + "config" + File.separator);
     private static final Path DEFAULT_ASSETS_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "assets" + File.separator);
-    private static final double DEFAULT_ORIGINALITY_THRESHOLD = 0.51;
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
