@@ -63,6 +63,7 @@ public class ArgsParser {
     public static final String[] TEST_MODE_FLAG = new String[] {"--test-mode"};
     public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
     public static final String[] ANALYZE_AUTHORSHIP_FLAGS = new String[] {"--analyze-authorship", "-A"};
+    public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -84,6 +85,7 @@ public class ArgsParser {
             + File.separator + "config" + File.separator);
     private static final Path DEFAULT_ASSETS_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "assets" + File.separator);
+    private static final double DEFAULT_ORIGINALITY_THRESHOLD = 0.51;
 
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
@@ -201,6 +203,13 @@ public class ArgsParser {
                 .action(Arguments.storeTrue())
                 .help("A flag to perform analysis of code authorship.");
 
+        parser.addArgument(ORIGINALITY_THRESHOLD_FLAGS)
+                .dest(ORIGINALITY_THRESHOLD_FLAGS[0])
+                .metavar("(0.0 ~ 1.0)")
+                .type(new OriginalityThresholdArgumentType())
+                .setDefault(DEFAULT_ORIGINALITY_THRESHOLD)
+                .help("The originality threshold for analysis of code authorship.");
+
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)
                 .dest(CONFIG_FLAGS[0])
@@ -280,6 +289,7 @@ public class ArgsParser {
             boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
             boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
             boolean isAuthorshipAnalyzed = results.get(ANALYZE_AUTHORSHIP_FLAGS[0]);
+            double originalityThreshold = results.get(ORIGINALITY_THRESHOLD_FLAGS[0]);
             int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
             int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
 
@@ -299,7 +309,8 @@ public class ArgsParser {
                     .numCloningThreads(numCloningThreads)
                     .numAnalysisThreads(numAnalysisThreads)
                     .isTestMode(isTestMode)
-                    .isAuthorshipAnalyzed(isAuthorshipAnalyzed);
+                    .isAuthorshipAnalyzed(isAuthorshipAnalyzed)
+                    .originalityThreshold(originalityThreshold);
 
             LogsManager.setLogFolderLocation(outputFolderPath);
 
