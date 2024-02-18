@@ -204,7 +204,7 @@ public class FileInfoAnalyzer {
             if (shouldAnalyzeAuthorship && !author.equals(Author.UNKNOWN_AUTHOR)) {
                 String lineContent = fileInfo.getLine(lineCount / 5 + 1).getContent();
                 boolean isFullCredit = AuthorshipAnalyzer.analyzeAuthorship(config, fileInfo.getPath(), lineContent,
-                        commitHash, author);
+                        commitHash, author, originalityThreshold);
                 fileInfo.setIsFullCredit(lineCount / 5, isFullCredit);
             }
         }
