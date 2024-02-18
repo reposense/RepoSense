@@ -10,7 +10,7 @@
 
 **Prerequisites:**
 * **JDK `1.8.0_60`** up to **`17`** ([download :fas-download:](https://www.oracle.com/technetwork/java/javase/downloads/index.html)).
-* **Node.js** `16.19.1` to the latest minor version for `18` ([download :fas-download:](https://www.npmjs.com/get-npm)).
+* **Node.js** **`18`** ([download :fas-download:](https://www.npmjs.com/get-npm)).
 * **git `2.23`** or later ([download :fas-download:](https://git-scm.com/downloads)).
 
   <box type="info" seamless>
