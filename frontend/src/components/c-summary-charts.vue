@@ -228,7 +228,7 @@ v-if="!isChartGroupWidgetMode",
             span.tooltip-text(
               v-bind:ref="`repo-${i}-author-${j}-commit-breakdown`"
             ) Click to view breakdown of commits
-a(
+        a(
           v-if="isChartGroupWidgetMode",
           v-bind:href="getReportLink()", target="_blank"
         )
