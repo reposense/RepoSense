@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Represents a Git Author.
  */
-public class Author {
+public class Author implements Cloneable {
     public static final String NAME_NO_AUTHOR_WITH_COMMITS_FOUND =
             "NO AUTHOR WITH COMMITS FOUND WITHIN THIS PERIOD OF TIME";
     private static final String UNKNOWN_AUTHOR_GIT_ID = "-";
@@ -207,6 +207,15 @@ public class Author {
         if (!emails.contains(standardGitLabEmail)) {
             emails.add(standardGitLabEmail);
         }
+    }
+
+    @Override
+    public Author clone() throws CloneNotSupportedException {
+        Author clone = (Author) super.clone();
+        clone.emails = new ArrayList<>(this.emails);
+        clone.authorAliases = new ArrayList<>(this.authorAliases);
+        clone.ignoreGlobList = new ArrayList<>(this.ignoreGlobList);
+        return clone;
     }
 }
 

@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.nio.file.FileSystems;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -17,7 +18,7 @@ import com.google.gson.JsonSerializer;
 /**
  * Represents a file type for use in {@link FileTypeManager}.
  */
-public class FileType {
+public class FileType implements Cloneable {
     private static final Pattern FILE_FORMAT_VALIDATION_PATTERN = Pattern.compile("^\\w+$");
     private static final String MESSAGE_ILLEGAL_FILE_FORMAT = "The provided file format, %s, contains illegal "
             + "characters.";
@@ -108,6 +109,22 @@ public class FileType {
         }
         FileType otherFileType = (FileType) other;
         return this.label.equals(otherFileType.label) && this.paths.equals(otherFileType.paths);
+    }
+
+    /**
+     * Clones this instance of {@code FileType}.
+     *
+     * @return New instance of {@code FileType} that is semantically similar to this instance
+     *     of {@code FileType}.
+     * @throws CloneNotSupportedException if there are any objects that cannot be cloned.
+     */
+    @Override
+    public FileType clone() throws CloneNotSupportedException {
+        // it suffices to do a shallow clone since strings are immutable
+        FileType clone = (FileType) super.clone();
+        clone.paths = new ArrayList<>(this.paths);
+
+        return clone;
     }
 
     /**

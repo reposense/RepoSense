@@ -20,7 +20,7 @@ import reposense.util.SystemUtil;
 /**
  * Represents a repository location.
  */
-public class RepoLocation {
+public class RepoLocation implements Cloneable {
     protected static final String UNSUPPORTED_DOMAIN_NAME = "NOT_RECOGNIZED";
 
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
@@ -268,5 +268,19 @@ public class RepoLocation {
     @Override
     public int hashCode() {
         return location.hashCode();
+    }
+
+    /**
+     * Clones this {@code RepoLocation} instance.
+     *
+     * @return A new instance of {@code RepoLocation} that is sematically identical to this
+     *     {@code RepoLocation} instance.
+     * @throws CloneNotSupportedException if there is a problem when cloning this
+     *     {@code RepoLocation} object.
+     */
+    @Override
+    public RepoLocation clone() throws CloneNotSupportedException {
+        // regular shallow clone will suffice since strings are immutable
+        return (RepoLocation) super.clone();
     }
 }

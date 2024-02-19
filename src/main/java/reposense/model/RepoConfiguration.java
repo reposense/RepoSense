@@ -20,7 +20,7 @@ import reposense.util.FileUtil;
 /**
  * Represents configuration information from CSV config file for a single repository.
  */
-public class RepoConfiguration {
+public class RepoConfiguration implements Cloneable {
     public static final String DEFAULT_BRANCH = "HEAD";
     public static final String DEFAULT_EXTRA_OUTPUT_FOLDER_NAME = "";
     public static final long DEFAULT_FILE_SIZE_LIMIT = 500000;
@@ -59,6 +59,29 @@ public class RepoConfiguration {
      * to construct new {@code RepoConfiguration} instances.
      */
     private RepoConfiguration() {}
+
+    /**
+     * Creates a deep copy of this {@code RepoConfiguration} object.
+     *
+     * @return Deep copy of this {@code RepoConfiguration} object.
+     * @throws CloneNotSupportedException if the cloning operation fails.
+     */
+    @Override
+    public RepoConfiguration clone() throws CloneNotSupportedException {
+        RepoConfiguration clone = (RepoConfiguration) super.clone();
+        clone.location = this.location == null ? clone.location : this.location.clone();
+        clone.fileTypeManager = this.fileTypeManager == null ? clone.fileTypeManager : this.fileTypeManager.clone();
+        clone.ignoreGlobList = new ArrayList<>(this.ignoreGlobList);
+        clone.ignoredAuthorsList = new ArrayList<>(this.ignoredAuthorsList);
+        clone.authorConfig = this.authorConfig == null ? clone.authorConfig : this.authorConfig.clone();
+        clone.ignoreCommitList = new ArrayList<>();
+
+        for (CommitHash hash : this.ignoreCommitList) {
+            clone.ignoreCommitList.add(hash.clone());
+        }
+
+        return clone;
+    }
 
     /**
      * Builds the necessary configurations for RepoConfiguration.
@@ -426,13 +449,11 @@ public class RepoConfiguration {
             this.processNames();
 
             // save a reference to the current built object
-            RepoConfiguration toReturn = this.repoConfiguration;
-
-            // reset the internal reference to avoid aliasing
-            this.repoConfiguration = new RepoConfiguration();
-
-            // return the reference to the built RepoConfiguration object
-            return toReturn;
+            try {
+                return this.repoConfiguration.clone();
+            } catch (CloneNotSupportedException ex) {
+                throw new ConfigurationBuildException();
+            }
         }
 
         /**
