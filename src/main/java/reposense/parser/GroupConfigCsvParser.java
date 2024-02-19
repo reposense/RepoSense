@@ -9,6 +9,7 @@ import org.apache.commons.csv.CSVRecord;
 import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
+import reposense.parser.exceptions.InvalidLocationException;
 
 /**
  * Container for the values parsed from {@code group-config.csv} file.

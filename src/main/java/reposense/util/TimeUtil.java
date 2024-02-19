@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.parser.SinceDateArgumentType;
+import reposense.parser.types.SinceDateArgumentType;
 import reposense.system.LogsManager;
 
 /**
