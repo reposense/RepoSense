@@ -190,6 +190,12 @@ public class RepoLocationTest {
         AssertUtil.assertThrows(InvalidLocationException.class, () -> getDomainNameFromDomain("github."));
     }
 
+    @Test
+    public void repoLocation_cloneRepoLocation_success() throws Exception {
+        RepoLocation location = new RepoLocation(LOCAL_REPO_VALID_WITH_DOT_GIT_TWO);
+        Assertions.assertNotSame(location.clone(), location.clone());
+    }
+
     /**
      * Compares the information of {@code rawLocation} parsed by the RepoLocation model with {@code expectedRepoName}
      * and {@code expectedOrganization}.

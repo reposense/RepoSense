@@ -108,4 +108,10 @@ public class AuthorTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> author.importIgnoreGlobList(
                 Arrays.asList(ignoreGlobs)));
     }
+
+    @Test
+    public void author_cloneAuthor_success() throws Exception {
+        Author author = new Author("Try");
+        Assertions.assertNotSame(author.clone(), author.clone());
+    }
 }

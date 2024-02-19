@@ -49,4 +49,11 @@ public class FileTypeManagerTest {
         fileTypeManager.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         Assertions.assertFalse(fileTypeManager.isInsideWhitelistedFormats("test.cpp"));
     }
+
+    @Test
+    public void fileTypeManager_cloneFileTypeManager_success() throws Exception {
+        Assertions.assertNotSame(
+                this.fileTypeManager.clone(), this.fileTypeManager.clone()
+        );
+    }
 }

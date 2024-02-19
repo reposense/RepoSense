@@ -960,4 +960,14 @@ public class RepoConfigurationTest {
     public void repoBuilder_buildWithInvalid_failure() {
         Assertions.assertThrows(ConfigurationBuildException.class, () -> new RepoConfiguration.Builder().build());
     }
+
+    @Test
+    public void repoBuilder_cloneRepoConfiguration_success() throws Exception {
+        RepoConfiguration.Builder actualConfig = new RepoConfiguration.Builder()
+                .isLastModifiedDateIncluded(true)
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master");
+
+        Assertions.assertNotSame(actualConfig.build(), actualConfig.build());
+    }
 }

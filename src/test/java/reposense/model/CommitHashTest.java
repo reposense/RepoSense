@@ -23,4 +23,10 @@ public class CommitHashTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> CommitHash.validateCommits(
                 Arrays.asList("!d0ac2ee20f04dce8df0591caed460gffacb65a4")));
     }
+
+    @Test
+    public void commitHash_cloneCommitHash_success() throws Exception {
+        CommitHash hash = new CommitHash("8d0ac2ee20f04dce8df0591caed460bffacb65a4");
+        Assertions.assertNotSame(hash.clone(), hash.clone());
+    }
 }
