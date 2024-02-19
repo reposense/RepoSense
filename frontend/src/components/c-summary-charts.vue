@@ -213,7 +213,7 @@
               v-bind:ref="`repo-${i}-author-${j}-author-contribution`"
               ) Click to view author's contribution.
         a(
-v-if="!isChartGroupWidgetMode",
+          v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
