@@ -75,9 +75,9 @@
         v-for="fileType in fileTypes",
         v-bind:key="fileType",
         v-bind:style="{\
-                'background-color': fileTypeColors[fileType],\
-                'color': getFontColor(fileTypeColors[fileType])\
-                }"
+          'background-color': fileTypeColors[fileType],\
+          'color': getFontColor(fileTypeColors[fileType])\
+          }"
       )
         input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
           v-on:change="updateSelectedFileTypesHash", v-model="selectedFileTypes")
@@ -86,6 +86,11 @@
   .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
     h3(v-else) {{ day.date }}
+    .c-zoom-commit-message(v-for="slice in day.commitResults", tabindex="-1",
+      v-bind:key="slice.hash", v-bind:day="day", v-bind:slice="slice",
+      v-bind:selectedFileTypes="selectedFileTypes", v-bind:fileTypeColors="fileTypeColors",
+      v-bind:class="{ 'message-body active': slice.messageBody !== '' }")
+
     //- use tabindex to enable focus property on div
     .commit-message(
       tabindex="-1",
@@ -153,6 +158,7 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from '../components/c-ramp.vue';
 import cStackedBarChart from '../components/c-stacked-bar-chart.vue';
+import cZoomCommitMessage from '../components/c-zoom-commit-message.vue';
 import {
   Bar,
   Commit,
@@ -182,6 +188,7 @@ export default defineComponent({
     FontAwesomeIcon,
     cRamp,
     cStackedBarChart,
+    cZoomCommitMessage,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
   data() {
@@ -444,8 +451,8 @@ export default defineComponent({
 
     updateSelectedFileTypesHash() {
       const fileTypeHash = this.selectedFileTypes.length > 0
-          ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
-          : '';
+        ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
+        : '';
 
       window.addHash('zFT', fileTypeHash);
       window.encodeHash();
@@ -657,5 +664,4 @@ export default defineComponent({
     }
   }
 }
-
 </style>
