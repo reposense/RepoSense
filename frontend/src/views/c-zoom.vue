@@ -164,7 +164,15 @@ import {
 import CommitsSortType from '../types/zoom';
 import { StoreState } from '../types/vuex.d';
 
-function zoomInitialState() {
+function zoomInitialState(): {
+  showAllCommitMessageBody: boolean,
+  showDiffstat: boolean,
+  commitsSortType: CommitsSortType,
+  toReverseSortedCommits: boolean,
+  isCommitsFinalized: boolean,
+  selectedFileTypes: Array<string>,
+  fileTypes: Array<string>,
+  } {
   return {
     showAllCommitMessageBody: true,
     showDiffstat: true,
@@ -184,7 +192,15 @@ export default defineComponent({
     cStackedBarChart,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
-  data() {
+  data(): {
+    showAllCommitMessageBody: boolean,
+    showDiffstat: boolean,
+    commitsSortType: CommitsSortType,
+    toReverseSortedCommits: boolean,
+    isCommitsFinalized: boolean,
+    selectedFileTypes: Array<string>,
+    fileTypes: Array<string>,
+    } {
     return {
       ...zoomInitialState(),
     };
@@ -280,10 +296,10 @@ export default defineComponent({
       ), 0);
     },
     isSelectAllChecked: {
-      get() {
+      get(): boolean {
         return this.selectedFileTypes.length === this.fileTypes.length;
       },
-      set(value: boolean) {
+      set(value: boolean): void {
         if (value) {
           this.selectedFileTypes = this.fileTypes.slice();
         } else {
@@ -300,7 +316,7 @@ export default defineComponent({
   },
 
   watch: {
-    info() {
+    info(): void {
       const newData = {
         ...zoomInitialState(),
       };
@@ -308,26 +324,26 @@ export default defineComponent({
       this.initiate();
       this.setInfoHash();
     },
-    commitsSortType() {
+    commitsSortType(): void {
       window.addHash('zCST', this.commitsSortType);
       window.encodeHash();
     },
-    toReverseSortedCommits() {
+    toReverseSortedCommits(): void {
       window.addHash('zRSC', this.toReverseSortedCommits.toString());
       window.encodeHash();
     },
   },
-  created() {
+  created(): void {
     this.initiate();
     this.retrieveHashes();
     this.setInfoHash();
   },
-  beforeUnmount() {
+  beforeUnmount(): void {
     this.removeZoomHashes();
   },
 
   methods: {
-    initiate() {
+    initiate(): void {
       // This code crashes if info.zUser is not defined
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
@@ -396,14 +412,14 @@ export default defineComponent({
       return window.getCommitLink(this.info.zUser!.repoId, slice.hash);
     },
 
-    scrollToCommit(tag: string, commit: string) {
+    scrollToCommit(tag: string, commit: string): void {
       const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
         el.focus();
       }
     },
 
-    updateFileTypes() {
+    updateFileTypes(): void {
       const commitsFileTypes = new Set<string>();
       this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
@@ -417,12 +433,12 @@ export default defineComponent({
       );
     },
 
-    retrieveHashes() {
+    retrieveHashes(): void {
       this.retrieveSortHash();
       this.retrieveSelectedFileTypesHash();
     },
 
-    retrieveSortHash() {
+    retrieveSortHash(): void {
       const hash = window.hashParams;
       if (hash.zCST && Object.values(CommitsSortType).includes(hash.zCST as CommitsSortType)) {
         this.commitsSortType = hash.zCST as CommitsSortType;
@@ -432,7 +448,7 @@ export default defineComponent({
       }
     },
 
-    retrieveSelectedFileTypesHash() {
+    retrieveSelectedFileTypesHash(): void {
       const hash = window.hashParams;
 
       if (hash.zFT || hash.zFT === '') {
@@ -442,7 +458,7 @@ export default defineComponent({
       }
     },
 
-    updateSelectedFileTypesHash() {
+    updateSelectedFileTypesHash(): void {
       const fileTypeHash = this.selectedFileTypes.length > 0
           ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
           : '';
@@ -451,7 +467,7 @@ export default defineComponent({
       window.encodeHash();
     },
 
-    setInfoHash() {
+    setInfoHash(): void {
       const { addHash, encodeHash } = window;
       const {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
@@ -470,11 +486,11 @@ export default defineComponent({
       encodeHash();
     },
 
-    toggleSelectedCommitMessageBody(slice: CommitResult) {
+    toggleSelectedCommitMessageBody(slice: CommitResult): void {
       this.$store.commit('toggleZoomCommitMessageBody', slice);
     },
 
-    toggleAllCommitMessagesBody(isOpen: boolean) {
+    toggleAllCommitMessagesBody(isOpen: boolean): void {
       this.showAllCommitMessageBody = isOpen;
       this.$store.commit('setAllZoomCommitMessageBody', {
         isOpen,
@@ -482,11 +498,11 @@ export default defineComponent({
       });
     },
 
-    toggleDiffstatView(isVisible: boolean) {
+    toggleDiffstatView(isVisible: boolean): void {
       this.showDiffstat = isVisible;
     },
 
-    removeZoomHashes() {
+    removeZoomHashes(): void {
       window.removeHash('zA');
       window.removeHash('zR');
       window.removeHash('zFS');
@@ -511,7 +527,7 @@ export default defineComponent({
       return false;
     },
 
-    getFontColor(color: string) {
+    getFontColor(color: string): string {
       return window.getFontColor(color);
     },
   },

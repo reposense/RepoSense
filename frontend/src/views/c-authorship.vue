@@ -214,7 +214,23 @@ const filesSortDict = {
   fileType: (file: AuthorshipFile) => file.fileType,
 };
 
-function authorshipInitialState() {
+function authorshipInitialState(): {
+    isLoaded: boolean,
+    selectedFiles: Array<AuthorshipFile>,
+    filterType: FilterType,
+    selectedFileTypes: Array<string>,
+    fileTypes: Array<string>
+    filesLinesObj: {[key: string]: number}
+    fileTypeBlankLinesObj: { [key: string]: number },
+    filesSortType: FilesSortType,
+    toReverseSortFiles: boolean,
+    isBinaryFilesChecked: boolean,
+    isIgnoredFilesChecked: boolean,
+    searchBarValue: string,
+    authorDisplayName: string,
+    authors: Set<string>,
+    selectedColors: Array<string>
+    } {
   return {
     isLoaded: false,
     selectedFiles: [] as Array<AuthorshipFile>,
@@ -246,7 +262,23 @@ export default defineComponent({
   emits: [
     'deactivate-tab',
   ],
-  data() {
+  data(): {
+    isLoaded: boolean,
+    selectedFiles: Array<AuthorshipFile>,
+    filterType: FilterType,
+    selectedFileTypes: Array<string>,
+    fileTypes: Array<string>
+    filesLinesObj: {[key: string]: number}
+    fileTypeBlankLinesObj: { [key: string]: number },
+    filesSortType: FilesSortType,
+    toReverseSortFiles: boolean,
+    isBinaryFilesChecked: boolean,
+    isIgnoredFilesChecked: boolean,
+    searchBarValue: string,
+    authorDisplayName: string,
+    authors: Set<string>,
+    selectedColors: Array<string>
+    } {
     return authorshipInitialState();
   },
 
@@ -260,7 +292,7 @@ export default defineComponent({
       get(): boolean {
         return this.selectedFileTypes.length === this.fileTypes.length;
       },
-      set(value: boolean) {
+      set(value: boolean): void {
         if (value) {
           this.selectedFileTypes = this.fileTypes.slice();
         } else {
@@ -275,7 +307,7 @@ export default defineComponent({
       get(): boolean {
         return this.isBinaryFilesChecked;
       },
-      set(value: boolean) {
+      set(value: boolean): void {
         if (value) {
           this.isBinaryFilesChecked = true;
         } else {
@@ -291,7 +323,7 @@ export default defineComponent({
       get(): boolean {
         return this.isIgnoredFilesChecked;
       },
-      set(value: boolean) {
+      set(value: boolean): void {
         if (value) {
           this.isIgnoredFilesChecked = true;
         } else {
@@ -341,13 +373,13 @@ export default defineComponent({
   },
 
   watch: {
-    filesSortType() {
+    filesSortType(): void {
       window.addHash('authorshipSortBy', this.filesSortType);
       window.encodeHash();
       this.updateSelectedFiles();
     },
 
-    searchBarValue() {
+    searchBarValue(): void {
       this.updateSelectedFiles();
     },
 
@@ -358,23 +390,23 @@ export default defineComponent({
       },
     },
 
-    toReverseSortFiles() {
+    toReverseSortFiles(): void {
       window.addHash('reverseAuthorshipOrder', this.toReverseSortFiles);
       window.encodeHash();
       this.updateSelectedFiles();
     },
 
-    info() {
+    info(): void {
       Object.assign(this.$data, authorshipInitialState());
       this.initiate();
     },
   },
 
-  created() {
+  created(): void {
     this.initiate();
   },
 
-  beforeUnmount() {
+  beforeUnmount(): void {
     this.removeAuthorshipHashes();
   },
 
@@ -769,7 +801,7 @@ export default defineComponent({
       return `${file.lineCount} (${file.lineCount - (file.blankLineCount ?? 0)})`;
     },
 
-    getFontColor(color: string) {
+    getFontColor(color: string): string {
       return window.getFontColor(color);
     },
   },
