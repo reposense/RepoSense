@@ -86,68 +86,10 @@
   .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
     h3(v-else) {{ day.date }}
-    .c-zoom-commit-message(v-for="slice in day.commitResults", tabindex="-1",
+    .c-zoom-commit-message(v-for="slice in day.commitResults",
       v-bind:key="slice.hash", v-bind:day="day", v-bind:slice="slice",
       v-bind:selectedFileTypes="selectedFileTypes", v-bind:fileTypeColors="fileTypeColors",
       v-bind:class="{ 'message-body active': slice.messageBody !== '' }")
-
-    //- use tabindex to enable focus property on div
-    .commit-message(
-      tabindex="-1",
-      v-for="slice in day.commitResults",
-      v-bind:key="slice.hash",
-      v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
-    )
-      span.code-merge-icon(v-if="slice.isMergeCommit")
-        font-awesome-icon(icon="code-merge")
-        span &nbsp;
-      a.message-title(v-bind:href="getSliceLink(slice)",
-        v-bind:class="!isBrokenLink(getSliceLink(slice)) ? '' : 'broken-link'", target="_blank")
-        .within-border {{ slice.messageTitle.substr(0, 50) }}
-        .not-within-border(v-if="slice.messageTitle.length > 50")
-          |{{ slice.messageTitle.substr(50) }}
-      span(data-cy="changes") &nbsp; (+{{ slice.insertions }} -{{ slice.deletions }} lines) &nbsp;
-      .hash
-        span {{ slice.hash.substr(0, 7) }}
-      span.fileTypeLabel(
-        v-if="containsAtLeastOneSelected(Object.keys(slice.fileTypesAndContributionMap))",
-        v-for="fileType in\
-          Object.keys(slice.fileTypesAndContributionMap)",
-        vbind:key="fileType",
-        v-bind:style="{\
-          'background-color': fileTypeColors[fileType],\
-          'color': getFontColor(fileTypeColors[fileType])\
-          }"
-      ) {{ fileType }}
-      template(v-if="slice.tags")
-        .tag(
-          v-for="tag in slice.tags",
-          vbind:key="tag",
-          tabindex="-1", v-bind:class="[`${slice.hash}`, tag]"
-        )
-          font-awesome-icon(icon="tags")
-          span &nbsp;{{ tag }}
-      a(
-        v-if="slice.messageBody !== ''",
-        v-on:click="toggleSelectedCommitMessageBody(slice)"
-      )
-        .tooltip(
-          v-on:mouseover="onTooltipHover(`${slice.hash}-show-hide-message-body`)",
-          v-on:mouseout="resetTooltip(`${slice.hash}-show-hide-message-body`)"
-        )
-          font-awesome-icon.commit-message--button(icon="ellipsis-h")
-          span.tooltip-text(
-            v-bind:ref="`${slice.hash}-show-hide-message-body`"
-            ) Click to show/hide the commit message body
-      .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
-        pre {{ slice.messageBody }}
-          .dashed-border
-      template(
-        v-if="showDiffstat"
-      )
-        c-stacked-bar-chart(
-          v-bind:bars="getContributionBars(slice)"
-        )
 </template>
 
 <script lang="ts">
@@ -571,95 +513,6 @@ export default defineComponent({
         .fa-tags {
           width: .65rem;
         }
-      }
-    }
-  }
-
-  /* Commit Message Body in Zoom Tab */
-  .commit-message {
-    border: 1px solid transparent;
-    padding: 5px;
-
-    &:focus,
-    &:focus-within {
-      border: 1px solid mui-color('blue', '500');
-    }
-
-    &.active {
-      .body {
-        background-color: mui-color('white');
-        border: 1px solid mui-color('grey', '700');
-        display: grid;
-        margin: .25rem 0 .25rem 0;
-        overflow-x: auto;
-        padding: .4rem;
-        resize: none;
-
-        pre {
-          @include mono-font;
-          position: relative;
-
-          .dashed-border {
-            border-right: 1px dashed mui-color('grey', '500'); // 72nd character line
-            height: 100%;
-            pointer-events: none;
-            position: absolute;
-            top: 0;
-            width: 72ch;
-          }
-        }
-      }
-    }
-
-    .code-merge-icon {
-      color: mui-color('grey');
-
-      .fa-code-merge {
-        width: .65rem;
-      }
-    }
-
-    .body {
-      display: none;
-    }
-
-    .tag {
-      cursor: pointer;
-
-      &:focus {
-        border: 1px solid mui-color('blue', '500');
-        outline: none;
-      }
-    }
-
-    &--button {
-      color: mui-color('grey');
-      padding-left: .5rem;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
-
-    pre {
-      margin: 0;
-    }
-
-    span.loc {
-      color: mui-color('grey');
-    }
-
-    .message-title {
-      @include mono-font;
-      display: inline;
-
-      .within-border {
-        display: inline;
-      }
-
-      .not-within-border {
-        border-left: 1px dashed mui-color('grey', '500'); // 50th character line
-        display: inline;
       }
     }
   }

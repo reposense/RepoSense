@@ -188,3 +188,95 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/_colors.scss';
+
+.commit-message {
+  border: 1px solid transparent;
+  padding: 5px;
+
+  &:focus,
+  &:focus-within {
+    border: 1px solid mui-color('blue', '500');
+  }
+
+  &.active {
+    .body {
+      background-color: mui-color('white');
+      border: 1px solid mui-color('grey', '700');
+      display: grid;
+      margin: .25rem 0 .25rem 0;
+      overflow-x: auto;
+      padding: .4rem;
+      resize: none;
+
+      pre {
+        @include mono-font;
+        position: relative;
+
+        .dashed-border {
+          border-right: 1px dashed mui-color('grey', '500'); // 72nd character line
+          height: 100%;
+          pointer-events: none;
+          position: absolute;
+          top: 0;
+          width: 72ch;
+        }
+      }
+    }
+  }
+
+  .code-merge-icon {
+    color: mui-color('grey');
+
+    .fa-code-merge {
+      width: .65rem;
+    }
+  }
+
+  .body {
+    display: none;
+  }
+
+  .tag {
+    cursor: pointer;
+
+    &:focus {
+      border: 1px solid mui-color('blue', '500');
+      outline: none;
+    }
+  }
+
+  &--button {
+    color: mui-color('grey');
+    padding-left: .5rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  pre {
+    margin: 0;
+  }
+
+  span.loc {
+    color: mui-color('grey');
+  }
+
+  .message-title {
+    @include mono-font;
+    display: inline;
+
+    .within-border {
+      display: inline;
+    }
+
+    .not-within-border {
+      border-left: 1px dashed mui-color('grey', '500'); // 50th character line
+      display: inline;
+    }
+  }
+}
+</style>
