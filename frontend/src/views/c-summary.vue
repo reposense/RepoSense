@@ -899,7 +899,9 @@ export default defineComponent({
       if (zIsMerged) {
         this.mergeGroupByIndex(filtered, 0);
       }
-      [[info.zUser]] = filtered;
+
+      if (filtered.length) [[info.zUser]] = filtered;
+
       info.zFileTypeColors = this.fileTypeColors;
       info.isRefreshing = false;
       this.$store.commit('updateTabZoomInfo', info);
