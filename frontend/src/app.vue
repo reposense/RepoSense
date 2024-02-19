@@ -47,7 +47,7 @@ const app = defineComponent({
       creationDate: string,
       reportGenerationTime: string,
       errorMessages: {[key: string]: ErrorMessage }
-  } {
+      } {
     return {
       repos: {} as { [key: string]: Repo },
       users: [] as Array<Repo>,
