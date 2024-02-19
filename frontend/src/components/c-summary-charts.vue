@@ -213,7 +213,7 @@
               v-bind:ref="`repo-${i}-author-${j}-author-contribution`"
               ) Click to view author's contribution.
         a(
-          v-if="!isChartGroupWidgetMode",
+v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
           v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
         )
@@ -228,7 +228,7 @@
             span.tooltip-text(
               v-bind:ref="`repo-${i}-author-${j}-commit-breakdown`"
             ) Click to view breakdown of commits
-        a(
+a(
           v-if="isChartGroupWidgetMode",
           v-bind:href="getReportLink()", target="_blank"
         )
@@ -258,6 +258,21 @@
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
           span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
+        a(
+          v-if="!isChartGroupWidgetMode",
+          onclick="deactivateAllOverlays()",
+          v-on:click="setHighlighted(i , j)"
+        )
+          .tooltip(
+            v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-highlight`)",
+            v-on:mouseout="resetTooltip(`repo-${i}-author-${j}-highlight`)"
+          )
+            font-awesome-icon.icon-button(
+              icon="highlighter",
+            )
+            span.tooltip-text(
+              v-bind:ref="`repo-${i}-author-${j}-highlight`"
+            ) Click to highlight this repo
 
       .summary-chart__ramp(
         v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
@@ -379,6 +394,8 @@ export default defineComponent({
       activeUser: null as string | null,
       activeTabType: null as string | null,
       isTabOnMergedGroup: false,
+      highlightedRepo: null as number | null,
+      highlightedUser: null as number | null,
     };
   },
 
@@ -422,9 +439,19 @@ export default defineComponent({
         this.removeSelectedTab();
       }
     },
+
+    // watching so highlighted only when summary charts are rendered
+    filteredRepos() {
+      this.$nextTick(() => {
+        if (this.highlightedRepo !== null && this.highlightedUser !== null) {
+          this.highlightRepo(this.highlightedRepo, this.highlightedUser);
+        }
+      });
+    },
   },
   created() {
     this.retrieveSelectedTabHash();
+    this.retrieveHighlightedUser();
   },
   methods: {
     getFileTypeContributionBars(
@@ -799,6 +826,17 @@ export default defineComponent({
         this.activeTabType = hash.tabType;
       }
     },
+    retrieveHighlightedUser(): void {
+      const { highlightedRepo, highlightedUser } = window.hashParams;
+
+      if (highlightedRepo && highlightedUser) {
+        const highlightedRepoInt = parseInt(highlightedRepo, 10);
+        const highlightedUserInt = parseInt(highlightedUser, 10);
+
+        this.highlightedRepo = Number.isNaN(highlightedRepoInt) ? null : highlightedRepoInt;
+        this.highlightedUser = Number.isNaN(highlightedUserInt) ? null : highlightedUserInt;
+      }
+    },
 
     addSelectedTab(userName: string, repo: string, tabType: string, isMerged: boolean): void {
       if (!isMerged || this.filterGroupSelection === FilterGroupSelection.GroupByAuthors) {
@@ -874,6 +912,38 @@ export default defineComponent({
       });
 
       return totalContribution / totalCommits;
+    },
+
+    setHighlighted(groupIndex: number, index: number): void {
+      this.highlightedRepo = groupIndex;
+      this.highlightedUser = index;
+
+      window.addHash('highlightedRepo', groupIndex.toString());
+      window.addHash('highlightedUser', index.toString());
+      window.encodeHash();
+
+      this.highlightRepo(groupIndex, index);
+    },
+
+    highlightRepo(groupIndex: number, index: number): void {
+      const offset = this.filteredRepos
+        .slice(0, groupIndex)
+        .reduce((acc, repo) => (acc + (index > repo.length - 1 ? 1 : 0)), 0);
+      const chart = (this.$refs[`summary-chart-${index}`] as Array<HTMLDivElement>)[groupIndex - offset];
+
+      // If the chart is not found, view may have reset - remove the hash
+      if (!chart) {
+        window.removeHash('highlightedRepo');
+        window.removeHash('highlightedUser');
+        window.encodeHash();
+        return;
+      }
+
+      chart.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      Object.entries(this.$refs).filter(([key]) => key.startsWith('summary-chart-')).forEach(([, value]) => {
+        (value as Array<HTMLDivElement>).forEach((div) => div.classList.remove('active-background'));
+      });
+      chart.classList.add('active-background');
     },
   },
 });
