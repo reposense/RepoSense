@@ -75,9 +75,9 @@
         v-for="fileType in fileTypes",
         v-bind:key="fileType",
         v-bind:style="{\
-          'background-color': fileTypeColors[fileType],\
-          'color': getFontColor(fileTypeColors[fileType])\
-          }"
+                'background-color': fileTypeColors[fileType],\
+                'color': getFontColor(fileTypeColors[fileType])\
+                }"
       )
         input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
           v-on:change="updateSelectedFileTypesHash", v-model="selectedFileTypes")
@@ -327,8 +327,8 @@ export default defineComponent({
 
     updateSelectedFileTypesHash() {
       const fileTypeHash = this.selectedFileTypes.length > 0
-        ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
-        : '';
+          ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
+          : '';
 
       window.addHash('zFT', fileTypeHash);
       window.encodeHash();
