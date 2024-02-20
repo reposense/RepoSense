@@ -86,10 +86,10 @@
   .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
     h3(v-else) {{ day.date }}
-    .c-zoom-commit-message(v-for="slice in day.commitResults",
-      v-bind:key="slice.hash", v-bind:day="day", v-bind:slice="slice",
-      v-bind:selectedFileTypes="selectedFileTypes", v-bind:fileTypeColors="fileTypeColors",
-      v-bind:class="{ 'message-body active': slice.messageBody !== '' }")
+    template(v-for="slice in day.commitResults", v-bind:key="slice.hash")
+      c-zoom-commit-message(v-bind:day="day", v-bind:slice="slice",
+        v-bind:selectedFileTypes="selectedFileTypes", v-bind:fileTypeColors="fileTypeColors",
+        v-bind:info="info", v-bind:showDiffstat="showDiffstat")
 </template>
 
 <script lang="ts">
@@ -99,10 +99,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from '../components/c-ramp.vue';
-import cStackedBarChart from '../components/c-stacked-bar-chart.vue';
 import cZoomCommitMessage from '../components/c-zoom-commit-message.vue';
 import {
-  Bar,
   Commit,
   CommitResult,
   DailyCommit,
@@ -129,7 +127,6 @@ export default defineComponent({
   components: {
     FontAwesomeIcon,
     cRamp,
-    cStackedBarChart,
     cZoomCommitMessage,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
@@ -282,69 +279,6 @@ export default defineComponent({
       this.selectedFileTypes = this.fileTypes.slice();
     },
 
-    getContributionBars(slice: CommitResult): Array<Bar> {
-      let currentBarWidth = 0;
-      const fullBarWidth = 100;
-
-      let avgContributionSize = this.info.zAvgContributionSize;
-      if (avgContributionSize === undefined || avgContributionSize > 1000) {
-        avgContributionSize = 1000;
-      }
-
-      const contributionPerFullBar = avgContributionSize;
-
-      const diffstatMappings: { [key: string]: number } = { limegreen: slice.insertions, red: slice.deletions };
-      const allContributionBars: Array<Bar> = [];
-
-      if (contributionPerFullBar === 0) {
-        return allContributionBars;
-      }
-
-      Object.keys(diffstatMappings)
-        .forEach((color) => {
-          const contribution = diffstatMappings[color];
-          let barWidth = (contribution / contributionPerFullBar) * fullBarWidth;
-          const contributionBars = [];
-
-          // if contribution bar for file type is able to fit on the current line
-          if (currentBarWidth + barWidth < fullBarWidth) {
-            contributionBars.push(barWidth);
-            currentBarWidth += barWidth;
-          } else {
-            // take up all the space left on the current line
-            contributionBars.push(fullBarWidth - currentBarWidth);
-            barWidth -= fullBarWidth - currentBarWidth;
-            // additional bar width will start on a new line
-            const numOfFullBars = Math.floor(barWidth / fullBarWidth);
-            for (let i = 0; i < numOfFullBars; i += 1) {
-              contributionBars.push(fullBarWidth);
-            }
-            const remainingBarWidth = barWidth % fullBarWidth;
-            if (remainingBarWidth > 0) {
-              contributionBars.push(remainingBarWidth);
-            }
-            currentBarWidth = remainingBarWidth;
-          }
-
-          contributionBars.forEach((width) => {
-            const bar = {
-              color,
-              width,
-            };
-            allContributionBars.push(bar);
-          });
-        });
-
-      return allContributionBars;
-    },
-
-    getSliceLink(slice: CommitResult): string | undefined {
-      if (this.info.zIsMerged) {
-        return window.getCommitLink(slice.repoId, slice.hash);
-      }
-      return window.getCommitLink(this.info.zUser!.repoId, slice.hash);
-    },
-
     scrollToCommit(tag: string, commit: string) {
       const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
@@ -419,10 +353,6 @@ export default defineComponent({
       encodeHash();
     },
 
-    toggleSelectedCommitMessageBody(slice: CommitResult) {
-      this.$store.commit('toggleZoomCommitMessageBody', slice);
-    },
-
     toggleAllCommitMessagesBody(isOpen: boolean) {
       this.showAllCommitMessageBody = isOpen;
       this.$store.commit('setAllZoomCommitMessageBody', {
@@ -449,15 +379,6 @@ export default defineComponent({
       window.removeHash('zCST');
       window.removeHash('zRSC');
       window.encodeHash();
-    },
-
-    containsAtLeastOneSelected(fileTypes: Array<string>): boolean {
-      for (let i = 0; i < fileTypes.length; i += 1) {
-        if (this.selectedFileTypes.includes(fileTypes[i])) {
-          return true;
-        }
-      }
-      return false;
     },
 
     getFontColor(color: string) {

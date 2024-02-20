@@ -55,23 +55,21 @@
     c-stacked-bar-chart(
       v-bind:bars="getContributionBars(slice)"
     )
-
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { mapState } from 'vuex';
+import { defineComponent, PropType } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
-
 import {
   Bar,
+  Commit,
   CommitResult,
+  User,
 } from '../types/types';
-import { StoreState } from '../types/vuex.d';
 
 export default defineComponent({
   name: 'c-zoom-commit-message',
@@ -82,8 +80,16 @@ export default defineComponent({
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
   props: {
+    slice: {
+      type: Object as PropType<CommitResult>,
+      required: true,
+    },
+    info: {
+      type: Object as PropType<{ zUser: User | undefined, zAvgContributionSize: number, zIsMerged: Boolean }>,
+      required: true,
+    },
     day: {
-      type: Object,
+      type: Object as PropType<Commit>,
       required: true,
     },
     showDiffstat: {
@@ -91,21 +97,14 @@ export default defineComponent({
       required: true,
     },
     selectedFileTypes: {
-      type: Array,
+      type: Array<String>,
       required: true,
     },
     fileTypeColors: {
-      type: Object,
+      type: Object as PropType<{ [key: string]: string }>,
       required: true,
     },
   },
-  computed: {
-    ...mapState({
-      fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,
-      info: (state: unknown) => (state as StoreState).tabZoomInfo,
-    }),
-  },
-
   methods: {
     getContributionBars(slice: CommitResult): Array<Bar> {
       let currentBarWidth = 0;
