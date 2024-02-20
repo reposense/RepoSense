@@ -88,8 +88,8 @@
     h3(v-else) {{ day.date }}
     template(v-for="slice in day.commitResults", v-bind:key="slice.hash")
       c-zoom-commit-message(v-bind:day="day", v-bind:slice="slice",
-        v-bind:selectedFileTypes="selectedFileTypes", v-bind:fileTypeColors="fileTypeColors",
-        v-bind:info="info", v-bind:showDiffstat="showDiffstat")
+        v-bind:selected-file-types="selectedFileTypes", v-bind:file-type-colors="fileTypeColors",
+        v-bind:info="info", v-bind:show-diffstat="showDiffstat")
 </template>
 
 <script lang="ts">
