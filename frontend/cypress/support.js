@@ -7,4 +7,8 @@ Cypress.Screenshot.defaults({
 
 beforeEach(() => {
   cy.visit('/');
+  cy.intercept({
+    method: 'GET',
+    url: '/title.md',
+  }, '# RepoSense Intro').as('getTitleMd');
 });
