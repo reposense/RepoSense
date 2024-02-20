@@ -24,9 +24,6 @@ import reposense.util.StringsUtil;
  */
 public class AuthorshipAnalyzer {
     private static final Logger logger = LogsManager.getLogger(AuthorshipAnalyzer.class);
-
-    private static final double ORIGINALITY_THRESHOLD = 0.51;
-
     private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
     private static final Pattern FILE_CHANGED_PATTERN =
             Pattern.compile("\n(-){3} a?/(?<preImageFilePath>.*)\n(\\+){3} b?/(?<postImageFilePath>.*)\n");
@@ -51,11 +48,11 @@ public class AuthorshipAnalyzer {
             new ConcurrentHashMap<>();
 
     /**
-     * Analyzes the authorship of {@code lineContent} in {@code filePath}.
+     * Analyzes the authorship of {@code lineContent} in {@code filePath} based on {@code originalityThreshold}.
      * Returns {@code true} if {@code currentAuthor} should be assigned full credit, {@code false} otherwise.
      */
     public static boolean analyzeAuthorship(RepoConfiguration config, String filePath, String lineContent,
-            String commitHash, Author currentAuthor) {
+            String commitHash, Author currentAuthor, double originalityThreshold) {
         // Empty lines are ignored and given full credit
         if (lineContent.isEmpty()) {
             return true;
@@ -64,7 +61,7 @@ public class AuthorshipAnalyzer {
         CandidateLine deletedLine = getDeletedLineWithLowestOriginality(config, filePath, lineContent, commitHash);
 
         // Give full credit if there are no deleted lines found or deleted line is more than originality threshold
-        if (deletedLine == null || deletedLine.getOriginalityScore() > ORIGINALITY_THRESHOLD) {
+        if (deletedLine == null || deletedLine.getOriginalityScore() > originalityThreshold) {
             return true;
         }
 
@@ -86,7 +83,7 @@ public class AuthorshipAnalyzer {
 
         // Check the previous version as currentAuthor is the same as author of the previous version
         return analyzeAuthorship(config, deletedLine.getFilePath(), deletedLine.getLineContent(),
-                deletedLineInfo.getCommitHash(), deletedLineInfo.getAuthor());
+                deletedLineInfo.getCommitHash(), deletedLineInfo.getAuthor(), originalityThreshold);
     }
 
     /**
