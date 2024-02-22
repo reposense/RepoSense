@@ -9,7 +9,7 @@ describe('code highlighting works properly', () => {
 
     cy.get('#tab-authorship .files', { timeout: 90000 })
       .should('be.visible');
-    
+
     cy.get('.hljs-comment').contains('* Represents a Git Author.')
       .parent() // .line-content
       .parent() // .code
@@ -57,7 +57,7 @@ describe('code highlighting works properly', () => {
 
     cy.get('#tab-authorship .files', { timeout: 90000 })
       .should('be.visible');
-    
+
     cy.get('.hljs-title').contains('Author')
       .parent() // .hljs-class
       .parent() // .line-content
