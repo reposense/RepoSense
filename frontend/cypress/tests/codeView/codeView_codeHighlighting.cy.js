@@ -40,11 +40,12 @@ describe('code highlighting works properly', () => {
       .should('have.css', 'background-color')
       .and('not.eq', 'rgb(255, 255, 255)') // #ffffff
       .then((color) => {
-        cy.get('.line-content').contains(`'red': (`) // jamessspanggg
+        // eslint-disable-next-line quotes
+        cy.get('.line-content').contains("'red': (") // jamessspanggg
           .parent() // .code
           .should('have.css', 'background-color')
           .and('not.eq', color)
-          .and('not.eq', 'rgb(255, 255, 255)')
+          .and('not.eq', 'rgb(255, 255, 255)');
       });
   });
 
