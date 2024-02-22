@@ -1,6 +1,10 @@
-// Assumes: RepoSense repo from 03/05/2018 to current date
+// Assumes: RepoSense repo from 03/05/2018 to 01/01/2021 is used
 describe('code highlighting works properly', () => {
   it('should highlight code when there is a single author', () => {
+    // change until date
+    cy.get('input[name="until"]:visible')
+      .type('2021-01-01');
+
     // open the code panel
     cy.get('.icon-button.fa-code')
       .should('be.visible')
@@ -17,6 +21,10 @@ describe('code highlighting works properly', () => {
   });
 
   it('should highlight code when multiple authors are merged in a repo group', () => {
+    // change until date
+    cy.get('input[name="until"]:visible')
+      .type('2021-01-01');
+
     cy.get('div.mui-select.grouping > select:visible')
       .select('groupByRepos');
 
@@ -50,6 +58,10 @@ describe('code highlighting works properly', () => {
   });
 
   it('should not highlight non-attributed lines', () => {
+    // change until date
+    cy.get('input[name="until"]:visible')
+      .type('2021-01-01');
+
     // open the code panel
     cy.get('.icon-button.fa-code')
       .should('be.visible')
