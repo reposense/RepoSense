@@ -112,6 +112,6 @@ public class AuthorTest {
     @Test
     public void author_cloneAuthor_success() throws Exception {
         Author author = new Author("Try");
-        Assertions.assertNotSame(author.clone(), author.clone());
+        Assertions.assertNotSame(author, author.clone());
     }
 }

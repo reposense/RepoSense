@@ -91,7 +91,7 @@ public class RepoConfiguration implements Cloneable {
         private String displayName;
         private String outputFolderName;
         private String repoFolderName;
-        private RepoConfiguration repoConfiguration;
+        private final RepoConfiguration repoConfiguration;
 
         /**
          * Returns an empty instance of the RepoConfiguration Builder.

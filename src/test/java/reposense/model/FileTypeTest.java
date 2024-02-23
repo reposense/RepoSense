@@ -64,6 +64,6 @@ public class FileTypeTest {
     @Test
     public void fileType_cloneFileType_success() throws Exception {
         FileType fileType = new FileType("test", Collections.singletonList("**/test/*"));
-        Assertions.assertNotSame(fileType.clone(), fileType.clone());
+        Assertions.assertNotSame(fileType, fileType.clone());
     }
 }

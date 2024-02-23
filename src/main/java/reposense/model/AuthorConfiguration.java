@@ -347,10 +347,14 @@ public class AuthorConfiguration implements Cloneable {
     public AuthorConfiguration clone() throws CloneNotSupportedException {
         AuthorConfiguration clone = (AuthorConfiguration) super.clone();
         clone.location = this.location.clone();
-        clone.authorList = new ArrayList<>(this.authorList);
         clone.authorNamesToAuthorMap = new HashMap<>();
         clone.authorEmailsToAuthorMap = new HashMap<>();
         clone.authorDisplayNameMap = new HashMap<>();
+        clone.authorList = new ArrayList<>();
+
+        for (Author a : this.authorList) {
+            clone.authorList.add(a.clone());
+        }
 
         for (Map.Entry<String, Author> entry : this.authorNamesToAuthorMap.entrySet()) {
             clone.authorNamesToAuthorMap.put(entry.getKey(), entry.getValue().clone());
