@@ -31,7 +31,8 @@ The section below provides explanations for each of the flags.
 <div id="section-assets">
 
 **`--assets ASSETS_DIRECTORY`**: Specifies where to place assets for report generation.
-* Parameter: `ASSETS_DIRECTORY` The directory containing the assets files. A `favicon.ico` file can be placed here to customize the favicon of the dashboard.
+* Parameter: `ASSETS_DIRECTORY` The directory containing the assets files. A `favicon.ico` file can be placed here to customize the favicon of the dashboard,
+while a `title.md` file can be placed to customize the header of the report using [Markdown syntax](https://www.markdownguide.org/basic-syntax/).
 * Alias: `-a`
 * Example: `--assets ./assets` or `-a ./assets`
 
