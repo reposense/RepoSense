@@ -55,13 +55,28 @@ Contributor [2021 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### [Zhou Jiahao](https://github.com/zhoukerrr)
+**Role**: Contributor [2022 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Charisma Kausar](https://www.github.com/ckcherry23)
+**Role**: Contributor [2024 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [David Gareth Ong](https://www.github.com/vvidday)
+**Role**: Contributor [2024 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### [Gokul Rajiv](https://github.com/gok99)
 **Role**: Contributor [2022 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Zhou Jiahao](https://github.com/zhoukerrr)
-**Role**: Contributor [2022 January - ]<br/>
+### [Marcus Tang Xin Kye](https://www.github.com/MarcusTXK)
+**Role**: Contributor [2024 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
