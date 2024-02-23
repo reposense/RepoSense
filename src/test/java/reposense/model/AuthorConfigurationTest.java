@@ -1,19 +1,22 @@
 package reposense.model;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import reposense.parser.exceptions.InvalidLocationException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import reposense.parser.exceptions.InvalidLocationException;
+
+
 public class AuthorConfigurationTest {
     private static final List<String> authorNames = Arrays.asList("fake", "fake2", "fake3");
     private static final List<String> aliases = Arrays.asList("hello", "world", "!!!");
-    private static final List<String> emails = Arrays.asList("author1@email.com", "author2@email.com", "author3@email.com");
+    private static final List<String> emails = Arrays.asList("author1@email.com", "author2@email.com",
+            "author3@email.com");
     private static final List<String> displayNames = Arrays.asList("author1", "author2", "author3");
 
     @Test
