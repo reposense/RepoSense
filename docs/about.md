@@ -61,22 +61,24 @@ Contributor [2021 January - ]<br/>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Charisma Kausar](https://www.github.com/ckcherry23)
-**Role**: Contributor [2024 January - ]<br/>
+**Role**: Committer [2024 January - ]<br/>
+Contributor [2022 December - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [David Gareth Ong](https://www.github.com/vvidday)
-**Role**: Contributor [2024 January - ]<br/>
+**Role**: Committer [2024 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Gokul Rajiv](https://github.com/gok99)
-**Role**: Contributor [2022 January - ]<br/>
+**Role**: Committer [2024 January - ]<br/> 
+Contributor [2021 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Marcus Tang Xin Kye](https://www.github.com/MarcusTXK)
-**Role**: Contributor [2024 January - ]<br/>
+**Role**: Comitter [2024 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
