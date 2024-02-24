@@ -81,22 +81,22 @@ Contributor [2021 January - ]<br/>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Alvis Ng](https://www.github.com/supermii2)
-**Role**: Developer [2024 January - ]<br/>
+**Role**: Contributor [2024 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [George Tay Quan Yao](https://www.github.com/jonasongg)
-**Role**: Developer [2024 January - ]<br/>
+**Role**: Contributor [2024 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Jonas Ong Si Wei](https://www.github.com/jonasongg)
-**Role**: Developer [2024 January - ]<br/>
+**Role**: Contributor [2024 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Poon Yip Hang, Ryan](https://www.github.com/sopa301)
-**Role**: Developer [2024 January - ]<br/>
+**Role**: Contributor [2024 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
