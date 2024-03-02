@@ -46,17 +46,20 @@ Contributor [2021 January - ]<br/>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Chan Jun Da](https://github.com/chan-j-d)
-**Role**: Contributor [2021 July - ]<br/>
+**Role**: Committer [2023 January - ]<br/> 
+Contributor [2021 July - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Tay Yi Hsuen](https://github.com/yhtMinceraft1010X)
-**Role**: Contributor [2021 July - ]<br/>
+**Role**: Committer [2023 January - ]<br/> 
+Contributor [2021 July - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Zhou Jiahao](https://github.com/zhoukerrr)
-**Role**: Contributor [2022 January - ]<br/>
+**Role**: Committer [2023 January - ]<br/> 
+Contributor [2022 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -68,6 +71,7 @@ Contributor [2022 December - ]<br/>
 
 ### [David Gareth Ong](https://www.github.com/vvidday)
 **Role**: Committer [2024 January - ]<br/>
+Contributor [2023 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -78,7 +82,8 @@ Contributor [2021 January - ]<br/>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Marcus Tang Xin Kye](https://www.github.com/MarcusTXK)
-**Role**: Comitter [2024 January - ]<br/>
+**Role**: Committer [2024 January - ]<br/>
+Contributor [2023 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
