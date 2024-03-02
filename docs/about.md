@@ -77,7 +77,7 @@ Contributor [2023 January - ]<br/>
 
 ### [Gokul Rajiv](https://github.com/gok99)
 **Role**: Committer [2024 January - ]<br/> 
-Contributor [2021 January - ]<br/>
+Contributor [2022 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
