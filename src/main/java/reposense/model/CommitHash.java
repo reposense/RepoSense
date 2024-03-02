@@ -10,7 +10,7 @@ import reposense.git.GitRevList;
 /**
  * Represents a git commit hash in {@code RepoConfiguration}.
  */
-public class CommitHash {
+public class CommitHash implements Cloneable {
     private static final String COMMIT_HASH_REGEX = "^[0-9a-f]+$";
     private static final String COMMIT_RANGED_HASH_REGEX = "^[0-9a-f]+\\.\\.[0-9a-f]+$";
     private static final String INVALID_COMMIT_HASH_MESSAGE =
@@ -108,6 +108,17 @@ public class CommitHash {
         if (!commitHash.matches(COMMIT_HASH_REGEX) && !commitHash.matches(COMMIT_RANGED_HASH_REGEX)) {
             throw new IllegalArgumentException(String.format(INVALID_COMMIT_HASH_MESSAGE, commitHash));
         }
+    }
+
+    /**
+     * Creates a deep copy of this {@code CommitHash} object.
+     *
+     * @return Deep copy of this {@code CommitHash} object.
+     * @throws CloneNotSupportedException if the cloning operation fails.
+     */
+    @Override
+    public CommitHash clone() throws CloneNotSupportedException {
+        return (CommitHash) super.clone();
     }
 }
 

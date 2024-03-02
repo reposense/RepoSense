@@ -960,4 +960,58 @@ public class RepoConfigurationTest {
     public void repoBuilder_buildWithInvalid_failure() {
         Assertions.assertThrows(ConfigurationBuildException.class, () -> new RepoConfiguration.Builder().build());
     }
+
+    @Test
+    public void repoBuilder_cloneRepoConfigurationBuild_success() throws Exception {
+        RepoConfiguration.Builder actualConfig = new RepoConfiguration.Builder()
+                .isLastModifiedDateIncluded(true)
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master");
+
+        Assertions.assertNotSame(actualConfig.build(), actualConfig.build());
+    }
+
+    @Test
+    public void repoBuilder_cloneRepoConfigurationDirectly_success() throws Exception {
+        RepoConfiguration config = new RepoConfiguration.Builder()
+                .isLastModifiedDateIncluded(true)
+                .location(new RepoLocation(TEST_REPO_MINIMAL_STANDALONE_CONFIG))
+                .branch("master")
+                .build();
+
+        Assertions.assertNotSame(config, config.clone());
+    }
+
+    @Test
+    public void repoBuilder_cloneRepoConfigurationDeeply_success() throws Exception {
+        List<String> ignoreGlobList = Arrays.asList("test");
+        List<String> ignoredAuthorsList = Arrays.asList("test_author");
+        List<CommitHash> ignoreCommitList = Arrays.asList(
+                new CommitHash("8d0ac2ee20f04dce8df0591caed460bffacb65a4"),
+                new CommitHash("8d0ac2ee20f04dce8df0591caed460bffacb65a4")
+        );
+        RepoLocation location = new RepoLocation("location");
+        List<FileType> fileTypeManager = Arrays.asList(new FileType("docx", Arrays.asList("path")));
+        AuthorConfiguration authorConfiguration = new AuthorConfiguration(
+                location
+        );
+
+        RepoConfiguration config = new RepoConfiguration.Builder()
+                .location(location)
+                .ignoreGlobList(ignoreGlobList)
+                .ignoredAuthorsList(ignoredAuthorsList)
+                .ignoreCommitList(ignoreCommitList)
+                .fileTypeManager(fileTypeManager)
+                .authorConfig(authorConfiguration)
+                .build();
+
+        RepoConfiguration clonedConfig = config.clone();
+
+        Assertions.assertNotSame(config.getLocation(), clonedConfig.getLocation());
+        Assertions.assertNotSame(config.getIgnoreGlobList(), clonedConfig.getIgnoreGlobList());
+        Assertions.assertNotSame(config.getIgnoredAuthorsList(), clonedConfig.getIgnoredAuthorsList());
+        Assertions.assertNotSame(config.getIgnoreCommitList(), clonedConfig.getIgnoreCommitList());
+        Assertions.assertNotSame(config.getFileTypeManager(), clonedConfig.getFileTypeManager());
+        Assertions.assertNotSame(config.getAuthorConfig(), clonedConfig.getAuthorConfig());
+    }
 }

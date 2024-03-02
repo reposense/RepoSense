@@ -8,7 +8,7 @@ import java.util.List;
  * Holds a list of whitelisted formats and user-specified custom
  * groupings.
  */
-public class FileTypeManager {
+public class FileTypeManager implements Cloneable {
     private static final String DEFAULT_GROUP = "other";
     private static final FileType DEFAULT_GROUP_TYPE = new FileType(DEFAULT_GROUP, Collections.singletonList("**"));
 
@@ -125,5 +125,16 @@ public class FileTypeManager {
 
         FileTypeManager otherFileType = (FileTypeManager) other;
         return this.groups.equals(otherFileType.groups) && this.formats.equals(otherFileType.formats);
+    }
+
+    @Override
+    public FileTypeManager clone() throws CloneNotSupportedException {
+        FileTypeManager clone = (FileTypeManager) super.clone();
+
+        // do a shallow copy since strings are immutable
+        clone.formats = new ArrayList<>(this.formats);
+        clone.groups = new ArrayList<>(this.groups);
+
+        return clone;
     }
 }

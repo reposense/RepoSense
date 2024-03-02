@@ -13,7 +13,7 @@ import reposense.system.LogsManager;
 /**
  * Represents author configuration information from CSV config file for a single repository.
  */
-public class AuthorConfiguration {
+public class AuthorConfiguration implements Cloneable {
     public static final String DEFAULT_BRANCH = "HEAD";
     public static final boolean DEFAULT_HAS_AUTHOR_CONFIG_FILE = false;
     private static final Logger logger = LogsManager.getLogger(AuthorConfiguration.class);
@@ -335,5 +335,39 @@ public class AuthorConfiguration {
 
     public boolean hasAuthorConfigFile() {
         return hasAuthorConfigFile;
+    }
+
+    /**
+     * Creates an identical deep copy of this {@code AuthorConfiguration} object.
+     *
+     * @return Deep copy of this {@code AuthorConfiguration} object.
+     * @throws CloneNotSupportedException if the cloning operation fails.
+     */
+    @Override
+    public AuthorConfiguration clone() throws CloneNotSupportedException {
+        AuthorConfiguration clone = (AuthorConfiguration) super.clone();
+        clone.location = this.location.clone();
+        clone.authorNamesToAuthorMap = new HashMap<>();
+        clone.authorEmailsToAuthorMap = new HashMap<>();
+        clone.authorDisplayNameMap = new HashMap<>();
+        clone.authorList = new ArrayList<>();
+
+        for (Author a : this.authorList) {
+            clone.authorList.add(a.clone());
+        }
+
+        for (Map.Entry<String, Author> entry : this.authorNamesToAuthorMap.entrySet()) {
+            clone.authorNamesToAuthorMap.put(entry.getKey(), entry.getValue().clone());
+        }
+
+        for (Map.Entry<String, Author> entry : this.authorEmailsToAuthorMap.entrySet()) {
+            clone.authorEmailsToAuthorMap.put(entry.getKey(), entry.getValue().clone());
+        }
+
+        for (Map.Entry<Author, String> entry : this.authorDisplayNameMap.entrySet()) {
+            clone.authorDisplayNameMap.put(entry.getKey().clone(), entry.getValue());
+        }
+
+        return clone;
     }
 }

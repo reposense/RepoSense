@@ -4,11 +4,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
+import reposense.parser.ConfigurationBuildException;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.parser.ReportConfigJsonParser;
@@ -16,7 +18,7 @@ import reposense.parser.ReportConfigJsonParser;
 /**
  * Represents command line arguments user supplied when running the program.
  */
-public class CliArguments {
+public class CliArguments implements Cloneable {
     private static final Path EMPTY_PATH = Paths.get("");
 
     private final Path outputFilePath;
@@ -25,7 +27,7 @@ public class CliArguments {
     private final LocalDateTime untilDate;
     private final boolean isSinceDateProvided;
     private final boolean isUntilDateProvided;
-    private final List<FileType> formats;
+    private List<FileType> formats;
     private final boolean isLastModifiedDateIncluded;
     private final boolean isShallowCloningPerformed;
     private final boolean isAutomaticallyLaunching;
@@ -227,6 +229,36 @@ public class CliArguments {
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
                 && Objects.equals(this.groupConfigFilePath, otherCliArguments.groupConfigFilePath)
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath);
+    }
+
+    /**
+     * Clones the current instance of {@code CliArguments}. This method will only explicitly clone
+     * objects that are not immutable (e.g. List, Lists of mutable objects, other ordinary mutable
+     * objects).
+     *
+     * @return {@code CliArguments} instance that is semantically identical to this instance of
+     *     {@code CliArguments}.
+     * @throws CloneNotSupportedException if cloning for certain objects is not permitted.
+     */
+    @Override
+    public CliArguments clone() throws CloneNotSupportedException {
+        CliArguments clone = (CliArguments) super.clone();
+
+        // clone the formats, each FileType object needs to be individually cloned
+        clone.formats = new ArrayList<>();
+        for (FileType ft : this.formats) {
+            clone.formats.add(ft.clone());
+        }
+
+        // clone the string list; its ok to do a shallow copy since strings are mutable
+        clone.locations = this.locations == null ? clone.locations : new ArrayList<>(this.locations);
+
+        // clone the report config; use the clone method to clone the object for us
+        clone.reportConfiguration = this.reportConfiguration == null
+                ? clone.reportConfiguration
+                : this.reportConfiguration.clone();
+
+        return clone;
     }
 
     /**
@@ -506,6 +538,7 @@ public class CliArguments {
          * Builds CliArguments.
          *
          * @return CliArguments
+         * @throws ConfigurationBuildException if the object cannot be cloned
          */
         public CliArguments build() {
             return new CliArguments(this);

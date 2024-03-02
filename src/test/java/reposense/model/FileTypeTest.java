@@ -60,4 +60,10 @@ public class FileTypeTest {
         FileType fileType = new FileType("test", Collections.singletonList("**/test/*"));
         Assertions.assertFalse(fileType.isFileGlobMatching("test/main.java"));
     }
+
+    @Test
+    public void fileType_cloneFileType_success() throws Exception {
+        FileType fileType = new FileType("test", Collections.singletonList("**/test/*"));
+        Assertions.assertNotSame(fileType, fileType.clone());
+    }
 }
