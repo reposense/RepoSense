@@ -38,14 +38,14 @@ describe('code highlighting works properly', () => {
       .parent() // .line-content
       .parent() // .code
       .should('have.css', 'background-color')
-      .and('not.eq', 'rgb(255, 255, 255)') // #ffffff
+      .and('eq', 'rgb(30, 144, 255)') // #1e90ff
       .then((color) => {
         // eslint-disable-next-line quotes
         cy.get('.line-content').contains("'red': (") // jamessspanggg
           .parent() // .code
           .should('have.css', 'background-color')
           .and('not.eq', color)
-          .and('not.eq', 'rgb(255, 255, 255)');
+          .and('eq', 'rgb(240, 128, 128)'); // #f08080
       });
   });
 
