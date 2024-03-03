@@ -30,9 +30,11 @@ public class AuthorshipReporter {
 
     /**
      * Generates and returns the authorship summary for each repo in {@code config}.
-     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
+     * {code originalityThreshold}.
      */
-    public AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config, boolean shouldAnalyzeAuthorship) {
+    public AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config, boolean shouldAnalyzeAuthorship,
+            double originalityThreshold) {
         List<FileInfo> textFileInfos = fileInfoExtractor.extractTextFileInfos(config);
 
         int numFiles = textFileInfos.size();
@@ -45,7 +47,8 @@ public class AuthorshipReporter {
         }
 
         List<FileResult> fileResults = textFileInfos.stream()
-                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo, shouldAnalyzeAuthorship))
+                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo, shouldAnalyzeAuthorship,
+                        originalityThreshold))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
