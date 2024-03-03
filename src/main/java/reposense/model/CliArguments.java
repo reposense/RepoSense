@@ -37,7 +37,6 @@ public class CliArguments {
     private boolean isFindingPreviousAuthorsPerformed;
     private boolean isAuthorshipAnalyzed;
     private double originalityThreshold;
-
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
 

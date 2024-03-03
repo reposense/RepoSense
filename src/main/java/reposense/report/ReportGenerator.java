@@ -289,6 +289,7 @@ public class ReportGenerator {
             CloneJobOutput cloneJobOutput, boolean shouldAnalyzeAuthorship, double originalityThreshold) {
         RepoLocation location = cloneJobOutput.getLocation();
         boolean cloneSuccessful = cloneJobOutput.isCloneSuccessful();
+
         List<Path> generatedFiles = new ArrayList<>();
         List<AnalysisErrorInfo> analysisErrors = new ArrayList<>();
         RepoCloner repoCloner = new RepoCloner();
