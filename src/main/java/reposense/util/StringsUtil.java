@@ -94,35 +94,72 @@ public class StringsUtil {
 
     /**
      * Calculates the Levenshtein Distance between two strings using Dynamic Programming.
+     * Insertion, deletion, and substitution are all of cost 1.
+     * This version improves the space complexity down to O(min(s, t))
+     * <p></p>
+     * The dp will stop if the {@code limit} is reached, this means that if the final distance is 7 and the limit is set
+     * to 3, the algorithm ends early once it reaches 3. This is possible as we are using this method to find the string
+     * with the lowest Levenshtein distance.
+     * <p></p>
+     * Returns {@code Integer.MAX_VALUE} if limit is reached, else returns the computed Levenshtein distance.
      */
-    public static int getLevenshteinDistance(String s, String t) {
-        // dp[i][j] stores the distance between s.substring(0, i) and t.substring(0, j) -> distance(s[:i], t[:j])
-        int[][] dp = new int[s.length() + 1][t.length() + 1];
-
-        // Distance between a string and an empty string is the length of the string
-        for (int i = 0; i <= s.length(); i++) {
-            dp[i][0] = i;
+    public static int getLevenshteinDistance(String s, String t, double limit) {
+        // Early termination if either string is empty, lev dist is just the length of the other string.
+        if (s.isEmpty()) {
+            return t.length();
         }
 
+        if (t.isEmpty()) {
+            return s.length();
+        }
+
+        // The final lev dist is at least k where k = difference in length = number of insert/delete.
+        if (Math.abs(s.length() - t.length()) >= limit) {
+            return Integer.MAX_VALUE;
+        }
+
+        if (s.length() < t.length()) {
+            // Swap s and t to ensure s is always the longer string
+            String temp = s;
+            s = t;
+            t = temp;
+        }
+
+        int[] dp = new int[t.length() + 1];
         for (int i = 0; i <= t.length(); i++) {
-            dp[0][i] = i;
+            dp[i] = i;
         }
 
         for (int i = 1; i <= s.length(); i++) {
+            // Store the value of the previous row's column
+            int prev = dp[0];
+            dp[0] = i;
+
+            // If for this row, all the values are at least k, then the final lev dist computed will also be at least k.
+            // hasLower will check for values smaller than the limit, and terminate early if limit is reached.
+            boolean hasLower = false;
+
             for (int j = 1; j <= t.length(); j++) {
-                // If s[i-1] and t[j-1] are equal, distance(s[:i], t[:j]) equals to distance(s[:i-1], t[:j-1])
+                int temp = dp[j];
+
                 if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                    dp[i][j] = dp[i - 1][j - 1];
+                    dp[j] = prev;
                 } else {
-                    // distance(s[:i], t[:j]) is the minimum of:
-                    // 1) distance(s[:i-1], t[:j]) + 1 -> add s[i]
-                    // 2) distance(s[:i], t[:j-1]) + 1 -> add t[j]
-                    // 3) distance(s[:i-1], t[:j-1]) + 1 -> substitute s[i] with t[j]
-                    dp[i][j] = Math.min(dp[i - 1][j], Math.min(dp[i][j - 1], dp[i - 1][j - 1])) + 1;
+                    dp[j] = Math.min(prev, Math.min(dp[j - 1], dp[j])) + 1;
                 }
+
+                prev = temp;
+
+                if (dp[j] < limit) {
+                    hasLower = true;
+                }
+            }
+
+            if (!hasLower) {
+                return Integer.MAX_VALUE;
             }
         }
 
-        return dp[s.length()][t.length()];
+        return dp[t.length()];
     }
 }
