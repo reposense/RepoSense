@@ -56,8 +56,7 @@ public class CliArguments {
     /**
      * Constructs a {@code CliArguments} object without any parameters.
      */
-    private CliArguments() {
-    }
+    private CliArguments() {}
 
     public ZoneId getZoneId() {
         return zoneId;
@@ -456,7 +455,6 @@ public class CliArguments {
                     GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
             this.cliArguments.reportConfigFilePath = configFolderPath.resolve(
                     ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
-
             return this;
         }
 
