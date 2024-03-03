@@ -37,15 +37,14 @@ describe('code highlighting works properly', () => {
     cy.get('.hljs-comment').contains('* MUI Colors module') // eugenepeh
       .parent() // .line-content
       .parent() // .code
-      .should('have.css', 'background-color')
-      .and('eq', 'rgb(30, 144, 255)') // #1e90ff
+      .should('have.css', 'background-color', 'rgba(30, 144, 255, 0.19)') // #1e90ff, transparencyValue 30
       .then((color) => {
         // eslint-disable-next-line quotes
         cy.get('.line-content').contains("'red': (") // jamessspanggg
           .parent() // .code
-          .should('have.css', 'background-color')
-          .and('not.eq', color)
-          .and('eq', 'rgb(240, 128, 128)'); // #f08080
+          // #f08080, transparencyValue 30
+          .should('have.css', 'background-color', 'rgba(240, 128, 128, 0.19)')
+          .and('not.eq', color);
       });
   });
 
