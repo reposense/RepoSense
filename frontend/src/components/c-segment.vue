@@ -71,6 +71,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '../styles/hightlight-js-style.css';
+@import '../styles/_colors.scss';
 
 .segment {
   border-left: .25rem solid mui-color('green');
