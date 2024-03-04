@@ -501,7 +501,7 @@ export default defineComponent({
       const res: Array<User> = [];
 
       if (this.filterSearch.startsWith('tag:')) {
-        const tagSearch = this.filterSearch.split('tag:')[1];
+        const searchedTags = this.filterSearch.split('tag:')[1];
         groups.forEach((repo) => {
           const commits = repo.commits;
           if (!commits) return;
@@ -510,7 +510,7 @@ export default defineComponent({
             contributions = contributions as Array<AuthorDailyContributions>;
             const tags = contributions.flatMap((c) => c.commitResults).flatMap((r) => r.tags);
 
-            if (tags.some((tag) => tag && this.isMatchSearchedTag(tagSearch, tag))) {
+            if (tags.some((tag) => tag && this.isMatchSearchedTag(searchedTags, tag))) {
               const user = repo.users?.find((u) => u.name === author);
               if (user) {
                 this.updateCheckedFileTypeContribution(user);
@@ -518,10 +518,6 @@ export default defineComponent({
               }
             }
           });
-
-          if (res.length) {
-            full.push(res);
-          }
         });
       } else {
         groups.forEach((repo) => {
@@ -536,13 +532,12 @@ export default defineComponent({
               res.push(user);
             }
           });
-
-          if (res.length) {
-            full.push(res);
-          }
         });
       }
 
+      if (res.length) {
+        full.push(res);
+      }
       this.filtered = full;
 
       this.getOptionWithOrder();
