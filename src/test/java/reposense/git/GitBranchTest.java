@@ -31,8 +31,10 @@ public class GitBranchTest extends GitTestTemplate {
 
     @Test
     public void getCurrentBranch_uncommonDefaultBranch_success() throws Exception {
-        RepoConfiguration uncommonDefaultConfig = new RepoConfiguration(
-                new RepoLocation(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION), RepoConfiguration.DEFAULT_BRANCH);
+        RepoConfiguration uncommonDefaultConfig = new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_UNCOMMON_DEFAULT_GIT_LOCATION))
+                .branch(RepoConfiguration.DEFAULT_BRANCH)
+                .build();
         uncommonDefaultConfig.setFormats(FileTypeTest.DEFAULT_TEST_FORMATS);
         TestRepoCloner.cloneAndBranch(uncommonDefaultConfig);
         String currentBranch = GitBranch.getCurrentBranch(uncommonDefaultConfig.getRepoRoot());
