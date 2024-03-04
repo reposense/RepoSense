@@ -936,6 +936,8 @@ export default defineComponent({
         window.removeHash('highlightedRepo');
         window.removeHash('highlightedUser');
         window.encodeHash();
+        this.highlightedRepo = null;
+        this.highlightedUser = null;
         return;
       }
 
