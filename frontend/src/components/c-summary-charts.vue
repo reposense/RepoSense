@@ -373,7 +373,7 @@ export default defineComponent({
     },
   },
   data(): {
-    drags: Array<number>,
+      drags: Array<number>,
       activeRepo: string | null,
       activeUser: string | null,
       activeTabType: string | null,

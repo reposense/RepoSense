@@ -191,7 +191,7 @@ export default defineComponent({
       }
       return this.getSliceColor(slice);
     },
-    getSliceColor(slice: Commit) {
+    getSliceColor(slice: Commit): number | '-deletes' {
       if (this.isDeletesContribution(slice)) {
         return '-deletes';
       }
