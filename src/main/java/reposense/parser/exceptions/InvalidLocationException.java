@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.exceptions;
 
 /**
  * Signals that location cannot be represented by {@code URL} or {@code Path}.

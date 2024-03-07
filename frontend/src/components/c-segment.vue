@@ -32,16 +32,16 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { mapState } from 'vuex';
-import Segment from '../utils/segment';
 import { StoreState } from '../types/vuex.d';
+import { AuthorshipFileSegment } from '../types/types';
 
 export default defineComponent({
   name: 'c-segment',
   props: {
     segment: {
-      type: Segment,
+      type: Object as PropType<AuthorshipFileSegment>,
       required: true,
     },
     path: {
@@ -69,6 +69,85 @@ export default defineComponent({
 });
 </script>
 
-<style lang="css">
+<style lang="scss" scoped>
 @import '../styles/hightlight-js-style.css';
+@import '../styles/_colors.scss';
+
+.segment {
+  border-left: .25rem solid mui-color('green');
+
+  .code {
+    background-color: mui-color('github', 'full-authored-code-background');
+    padding-left: 1rem;
+  }
+
+  .line-number {
+    color: mui-color('grey');
+    float: left;
+    // Not allowing user to select text
+    -webkit-touch-callout: none;
+    /* iOS Safari */
+    -webkit-user-select: none;
+    /* Safari */
+    -khtml-user-select: none;
+    /* Konqueror HTML */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently supported by Chrome and Opera */
+    width: 2rem;
+
+    // overwrite all hljs colors
+    [class^='hljs'] {
+      color: mui-color('grey');
+    }
+  }
+
+  .line-content {
+    padding-left: 2rem;
+    word-break: break-word;
+  }
+
+  &.isNotFullCredit {
+    .code {
+      background-color: mui-color('github', 'partial-authored-code-background');
+    }
+  }
+
+  &.untouched {
+    $grey: mui-color('grey', '400');
+    border-left: .25rem solid $grey;
+    height: 20px;
+    /* height of a single line of code */
+    position: relative;
+
+    &.active {
+      height: auto;
+
+      .code {
+        background-color: mui-color('white');
+      }
+    }
+
+    .closer {
+      cursor: pointer;
+      // custom margin for position of toggle icon
+      margin: .2rem 0 0 -.45rem;
+      position: absolute;
+
+      &.bottom {
+        //custom margin for position of toggle icon at the bottom of segment
+        margin: -1.05rem 0 0 -.45rem;
+      }
+
+      .icon {
+        background-color: mui-color('white');
+        color: mui-color('grey');
+        width: .75em;
+      }
+    }
+  }
+}
 </style>

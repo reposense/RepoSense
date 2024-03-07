@@ -87,7 +87,7 @@ public class ReportGenerator {
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
     private static final String LOG_UNEXPECTED_ERROR = "Unexpected error stack trace for %s:\n>%s";
     private static final List<String> assetsFilesWhiteList =
-            Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico"}));
+            Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico", "title.md"}));
 
     private LocalDateTime earliestSinceDate = null;
     private ProgressTracker progressTracker = null;
@@ -289,6 +289,7 @@ public class ReportGenerator {
             CloneJobOutput cloneJobOutput, boolean shouldAnalyzeAuthorship, double originalityThreshold) {
         RepoLocation location = cloneJobOutput.getLocation();
         boolean cloneSuccessful = cloneJobOutput.isCloneSuccessful();
+
         List<Path> generatedFiles = new ArrayList<>();
         List<AnalysisErrorInfo> analysisErrors = new ArrayList<>();
         RepoCloner repoCloner = new RepoCloner();

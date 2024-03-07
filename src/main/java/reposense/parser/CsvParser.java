@@ -24,6 +24,9 @@ import java.util.stream.Stream;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
+import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidHeaderException;
+import reposense.parser.exceptions.ParseException;
 import reposense.system.LogsManager;
 
 /**

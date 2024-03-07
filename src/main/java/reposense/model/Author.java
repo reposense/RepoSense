@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Represents a Git Author.
@@ -74,8 +75,10 @@ public class Author {
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
     private static void validateEmails(List<String> emails) throws IllegalArgumentException {
+        Pattern emailPattern = Pattern.compile(COMMON_EMAIL_REGEX);
+
         for (String email : emails) {
-            if (!email.matches(COMMON_EMAIL_REGEX)) {
+            if (!emailPattern.matcher(email).matches()) {
                 throw new IllegalArgumentException(String.format(MESSAGE_UNCOMMON_EMAIL_PATTERN, email));
             }
         }
@@ -87,8 +90,10 @@ public class Author {
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
     private static void validateIgnoreGlobs(List<String> ignoreGlobList) throws IllegalArgumentException {
+        Pattern globPattern = Pattern.compile(COMMON_GLOB_REGEX);
+
         for (String glob : ignoreGlobList) {
-            if (!glob.matches(COMMON_GLOB_REGEX)) {
+            if (!globPattern.matcher(glob).matches()) {
                 throw new IllegalArgumentException(String.format(MESSAGE_UNCOMMON_GLOB_PATTERN, glob));
             }
         }

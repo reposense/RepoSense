@@ -10,6 +10,8 @@ import org.apache.commons.csv.CSVRecord;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.RepoLocation;
+import reposense.parser.exceptions.InvalidLocationException;
+import reposense.parser.exceptions.ParseException;
 
 /**
  * Container for the values parsed from {@code author-config.csv} file.

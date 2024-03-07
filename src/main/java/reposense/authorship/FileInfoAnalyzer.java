@@ -1,7 +1,5 @@
 package reposense.authorship;
 
-import static reposense.parser.ArgsParser.DEFAULT_ORIGINALITY_THRESHOLD;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -75,19 +73,6 @@ public class FileInfoAnalyzer {
         }
 
         return generateTextFileResult(fileInfo);
-    }
-
-    /**
-     * Overloading method for test cases.
-     * <br>
-     * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
-     * by {@code config}, without further analyzing the authorship of each line in the commit.
-     * Does not further analyze the authorship of each line in the commit.
-     * Returns null if the file is missing from the local system, or none of the
-     * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
-     */
-    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
-        return analyzeTextFile(config, fileInfo, false, DEFAULT_ORIGINALITY_THRESHOLD);
     }
 
     /**
@@ -185,7 +170,8 @@ public class FileInfoAnalyzer {
                     config.getZoneId());
             Author author = config.getAuthor(authorName, authorEmail);
 
-            if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
+            int lineNumber = lineCount / 5;
+            if (!fileInfo.isFileLineTracked(lineNumber) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
                 author = Author.UNKNOWN_AUTHOR;
@@ -197,15 +183,15 @@ public class FileInfoAnalyzer {
                             MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT, config.getRepoName()));
                 }
 
-                fileInfo.setLineLastModifiedDate(lineCount / 5, commitDate);
+                fileInfo.setLineLastModifiedDate(lineNumber, commitDate);
             }
-            fileInfo.setLineAuthor(lineCount / 5, author);
+            fileInfo.setLineAuthor(lineNumber, author);
 
             if (shouldAnalyzeAuthorship && !author.equals(Author.UNKNOWN_AUTHOR)) {
-                String lineContent = fileInfo.getLine(lineCount / 5 + 1).getContent();
+                String lineContent = fileInfo.getLine(lineNumber + 1).getContent();
                 boolean isFullCredit = AuthorshipAnalyzer.analyzeAuthorship(config, fileInfo.getPath(), lineContent,
                         commitHash, author, originalityThreshold);
-                fileInfo.setIsFullCredit(lineCount / 5, isFullCredit);
+                fileInfo.setIsFullCredit(lineNumber, isFullCredit);
             }
         }
     }
