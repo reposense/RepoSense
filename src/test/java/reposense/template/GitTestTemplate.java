@@ -1,6 +1,7 @@
 package reposense.template;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static reposense.parser.ArgsParser.DEFAULT_ORIGINALITY_THRESHOLD;
 
 import java.io.File;
 import java.time.ZoneId;
@@ -143,8 +144,11 @@ public class GitTestTemplate {
     }
 
     private static RepoConfiguration newRepoConfiguration() throws Exception {
-        return new RepoConfiguration(new RepoLocation(TEST_REPO_GIT_LOCATION), "master",
-                EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get());
+        return new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_GIT_LOCATION))
+                .branch("master")
+                .extraOutputFolderName(EXTRA_OUTPUT_FOLDER_NAME_SUPPLIER.get())
+                .build();
     }
 
     /**
@@ -192,7 +196,7 @@ public class GitTestTemplate {
 
     public FileResult getFileResult(String relativePath) {
         FileInfo fileInfo = fileInfoExtractor.generateFileInfo(configs.get(), relativePath);
-        return fileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
+        return fileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo, false, DEFAULT_ORIGINALITY_THRESHOLD);
     }
 
     /**

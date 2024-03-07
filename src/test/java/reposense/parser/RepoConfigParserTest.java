@@ -19,6 +19,8 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
 
@@ -125,16 +127,20 @@ public class RepoConfigParserTest {
         expectedAuthors.add(FIRST_AUTHOR);
         expectedAuthors.add(SECOND_AUTHOR);
 
-        RepoConfiguration firstRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
-                TEST_REPO_BETA_MASTER_BRANCH);
+        RepoConfiguration firstRepo = new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_BETA_LOCATION))
+                .branch(TEST_REPO_BETA_MASTER_BRANCH)
+                .build();
         firstRepo.setAuthorList(expectedAuthors);
         firstRepo.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         firstRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
         firstRepo.addAuthorNamesToAuthorMapEntry(SECOND_AUTHOR, Arrays.asList("Zachary Tang"));
         firstRepo.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
 
-        RepoConfiguration secondRepo = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
-                TEST_REPO_BETA_ADD_CONFIG_JSON_BRANCH);
+        RepoConfiguration secondRepo = new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_BETA_LOCATION))
+                .branch(TEST_REPO_BETA_ADD_CONFIG_JSON_BRANCH)
+                .build();
         secondRepo.setAuthorList(Arrays.asList(SECOND_AUTHOR));
         secondRepo.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
         secondRepo.addAuthorNamesToAuthorMapEntry(SECOND_AUTHOR, Arrays.asList("Zachary Tang"));
@@ -168,7 +174,10 @@ public class RepoConfigParserTest {
         expectedDeltaAuthors.add(FIRST_AUTHOR);
 
         RepoConfiguration expectedBetaConfig =
-                new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION), TEST_REPO_BETA_MASTER_BRANCH);
+                new RepoConfiguration.Builder()
+                        .location(new RepoLocation(TEST_REPO_BETA_LOCATION))
+                        .branch(TEST_REPO_BETA_MASTER_BRANCH)
+                        .build();
         expectedBetaConfig.setAuthorList(expectedBetaAuthors);
         expectedBetaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedBetaConfig.setAuthorDisplayName(SECOND_AUTHOR, "Zac");
@@ -177,7 +186,10 @@ public class RepoConfigParserTest {
         expectedBetaConfig.setIsShallowCloningPerformed(true);
 
         RepoConfiguration expectedDeltaConfig =
-                new RepoConfiguration(new RepoLocation(TEST_REPO_DELTA_LOCATION), TEST_REPO_DELTA_BRANCH);
+                new RepoConfiguration.Builder()
+                        .location(new RepoLocation(TEST_REPO_DELTA_LOCATION))
+                        .branch(TEST_REPO_DELTA_BRANCH)
+                        .build();
         expectedDeltaConfig.setAuthorList(expectedDeltaAuthors);
         expectedDeltaConfig.setAuthorDisplayName(FIRST_AUTHOR, "Nbr");
         expectedDeltaConfig.setStandaloneConfigIgnored(true);
@@ -205,8 +217,10 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoConfig_defaultBranch_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration(new RepoLocation(TEST_REPO_BETA_LOCATION),
-                RepoConfiguration.DEFAULT_BRANCH);
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_BETA_LOCATION))
+                .branch(RepoConfiguration.DEFAULT_BRANCH)
+                .build();
 
         String input = new InputBuilder().addConfig(TEST_EMPTY_BRANCH_CONFIG_FOLDER).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
