@@ -59,13 +59,14 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
         List<String> globList = getAsList(record, FILES_GLOB_HEADER);
 
         FileType group = new FileType(groupName, globList);
+        GroupConfiguration groupConfig = findMatchingGroupConfiguration(results, location);
 
-        FailableOptional.of(findMatchingGroupConfiguration(results, location))
+        FailableOptional.of(groupConfig)
                 .filter(x -> !x.containsGroup(group))
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     logger.warning(String.format(
                             "Skipping group as %s has already been specified for the repository %s",
-                            group, x.getLocation()));
+                            group, groupConfig.getLocation()));
                 })
                 .ifPresent(x -> x.addGroup(group));
     }

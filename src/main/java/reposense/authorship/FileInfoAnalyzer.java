@@ -48,10 +48,12 @@ public class FileInfoAnalyzer {
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public FailableOptional<FileResult> analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
+        String relativePath = fileInfo.getPath();
+
         // note that the predicates in filter() test for the negation of the previous failure conditions
-        return FailableOptional.ofNullable(fileInfo.getPath())
+        return FailableOptional.ofNullable(relativePath)
                 .filter(x -> Files.exists(Paths.get(config.getRepoRoot(), x)))
-                .ifAbsent(x -> logger.severe(String.format(MESSAGE_FILE_MISSING, x)))
+                .ifAbsent(() -> logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath)))
                 .filter(x -> !FileUtil.isEmptyFile(config.getRepoRoot(), x))
                 .ifPresent(x -> {
                     aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo);
@@ -70,9 +72,11 @@ public class FileInfoAnalyzer {
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
     public FailableOptional<FileResult> analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
-        return FailableOptional.ofNullable(fileInfo.getPath())
-                .filter(x -> Files.exists(Paths.get(config.getRepoRoot(), x)))
-                .ifAbsent(x -> logger.severe(String.format(MESSAGE_FILE_MISSING, x)))
+        String relativePath = fileInfo.getPath();
+
+        return FailableOptional.ofNullable(relativePath)
+                .filter(x -> Files.exists(Paths.get(config.getRepoRoot(), relativePath)))
+                .ifAbsent(() -> logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath)))
                 .ifPresent(x -> fileInfo.setFileType(config.getFileType(fileInfo.getPath())))
                 .flatMap(x -> generateBinaryFileResult(config, fileInfo));
     }

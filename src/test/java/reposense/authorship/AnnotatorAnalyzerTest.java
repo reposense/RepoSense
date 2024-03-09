@@ -72,7 +72,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
                 .ifFail(x -> {
                     throw x;
                 })
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     throw new AssertionError();
                 });
     }
@@ -87,7 +87,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
                 .ifFail(x -> {
                     throw x;
                 })
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     throw new AssertionError();
                 });
     }
@@ -103,7 +103,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
                 .ifFail(x -> {
                     throw x;
                 })
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     throw new AssertionError();
                 });
 

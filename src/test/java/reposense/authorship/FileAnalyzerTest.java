@@ -94,7 +94,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifFail(x -> {
                     throw x;
                 })
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     throw new AssertionError();
                 });
     }
@@ -117,7 +117,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifFail(x -> {
                     throw x;
                 })
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     throw new AssertionError();
                 });
     }
@@ -133,7 +133,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifFail(x -> {
                     throw x;
                 })
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     throw new AssertionError();
                 });
     }
@@ -150,7 +150,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifFail(x -> {
                     throw x;
                 })
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     throw new AssertionError();
                 });
     }
@@ -175,7 +175,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifFail(x -> {
                     throw x;
                 })
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     throw new AssertionError();
                 });
     }
@@ -192,7 +192,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifFail(x -> {
                     throw x;
                 })
-                .ifAbsent(x -> {
+                .ifAbsent(() -> {
                     throw new AssertionError();
                 });
     }

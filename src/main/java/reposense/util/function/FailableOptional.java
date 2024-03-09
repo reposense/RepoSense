@@ -2,6 +2,7 @@ package reposense.util.function;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
@@ -131,17 +132,6 @@ public abstract class FailableOptional<T> {
     public abstract FailableOptional<T> ifAbsent(Runnable runner);
 
     /**
-     * Executes the provided {@code ThrowableConsumer<T, E>} if this current instance of
-     * {@code FailableOptional<T>} does not contains a value.
-     *
-     * @param consumer {@code ThrowableConsumer<T, E>} instance that attempts to consume
-     *                                                an object of type {@code T}.
-     * @param <E> Generic Type {@code E} bounded by Exception.
-     * @return This {@code ThrowableConsumer<T, E>} instance.
-     */
-    public abstract <E extends Exception> FailableOptional<T> ifAbsent(ThrowableConsumer<T, E> consumer);
-
-    /**
      * Executes the provided {@code Runner} if this current instance of
      * {@code FailableOptional<T>} has failed.
      *
@@ -162,7 +152,6 @@ public abstract class FailableOptional<T> {
      */
     public abstract <E extends Exception, F extends Exception> FailableOptional<T> ifFail(
             ThrowableConsumer<? super E, ? extends F> consumer);
-
 
     /**
      * Recovers from a failed instance of {@code FailableOptional<T>} with another object of type {@code T}.
@@ -190,6 +179,21 @@ public abstract class FailableOptional<T> {
     public abstract <U, E extends Exception> FailableOptional<U> map(ThrowableFunction<? super T,
             ? extends U, E> function);
 
+    /**
+     * Maps the stored value in this {@code FailableOptional<T>} into another
+     * {@code FailableOptional<U>} containing items of Type {@code U}. Note that this method
+     * convert nulls into empty {@code FailableOptional<T>}.
+     * If this {@code FailableOptional<T>} contains nothing or has failed,
+     * this instance is returned as is.
+     *
+     * @param function {@code ThrowableFunction<T, U, E>} that takes an object of Type {@code T}
+     *                                                   and returns Type {@code U} and might throw
+     *                                                   Exception of Type {@code E}.
+     * @param <U> Generic Type {@code U}, representing the return type of the new {@code FailableOptional<U>}.
+     * @param <E> Generic Type {@code E}, representing the Type of the Exception that might be thrown.
+     * @return This instance, if this instance is empty or has failed, otherwise, a new mapped instance
+     *     of {@code FailableOptional<U>}.
+     */
     public abstract <U, E extends Exception> FailableOptional<U> nullableMap(
             ThrowableFunction<? super T, ? extends U, E> function);
 
@@ -342,11 +346,6 @@ public abstract class FailableOptional<T> {
         }
 
         @Override
-        public <E extends Exception> FailableOptional<T> ifAbsent(ThrowableConsumer<T, E> consumer) {
-            return this;
-        }
-
-        @Override
         public FailableOptional<T> ifFail(Runnable runner) {
             return this;
         }
@@ -452,7 +451,7 @@ public abstract class FailableOptional<T> {
     }
 
     /**
-     * Represents a {@code ThrowableSupplier} that does not contain any value.
+     * Represents a {@code FailableOptional} that does not contain any value.
      *
      * @param <T> Generic Type {@code T}.
      */
@@ -471,11 +470,6 @@ public abstract class FailableOptional<T> {
         @Override
         public FailableOptional<T> ifAbsent(Runnable runner) {
             runner.run();
-            return this;
-        }
-
-        @Override
-        public <E extends Exception> FailableOptional<T> ifAbsent(ThrowableConsumer<T, E> consumer) {
             return this;
         }
 
@@ -551,10 +545,15 @@ public abstract class FailableOptional<T> {
         public FailableOptional<T> ifFailOfType(List<Class<? extends Exception>> exList) {
             return this;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            return this == obj;
+        }
     }
 
     /**
-     * Represents a {@code ThrowableSupplier} that has failed.
+     * Represents a {@code FailableOptional} that has failed.
      *
      * @param <T> Generic Type {@code T}.
      */
@@ -562,6 +561,7 @@ public abstract class FailableOptional<T> {
         private final Exception exception;
 
         private Fail(Exception e) {
+            Objects.requireNonNull(e);
             this.exception = e;
         }
 
@@ -577,11 +577,6 @@ public abstract class FailableOptional<T> {
 
         @Override
         public FailableOptional<T> ifAbsent(Runnable runner) {
-            return this;
-        }
-
-        @Override
-        public <E extends Exception> FailableOptional<T> ifAbsent(ThrowableConsumer<T, E> consumer) {
             return this;
         }
 
