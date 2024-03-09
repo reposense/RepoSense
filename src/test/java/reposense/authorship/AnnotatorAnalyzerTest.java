@@ -13,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
-import reposense.authorship.model.FileResult;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.RepoConfiguration;
@@ -66,23 +65,48 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeAnnotation_authorNamePresentInConfig_overrideAuthorship() {
         config.setAuthorList(new ArrayList<>(Arrays.asList(FAKE_AUTHOR)));
-        FileResult fileResult = getFileResult("annotationTest.java");
-        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST));
+        getFileResult("annotationTest.java")
+                .ifPresent(x -> {
+                    assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST));
+                })
+                .ifFail(x -> {
+                    throw x;
+                })
+                .ifAbsent(x -> {
+                    throw new AssertionError();
+                });
     }
 
     @Test
     public void analyzeAnnotation_authorNameNotInConfigAndNoAuthorConfigFile_acceptTaggedAuthor() {
         config.setAuthorList(new ArrayList<>(Arrays.asList(FAKE_AUTHOR)));
-        FileResult fileResult = getFileResult("annotationTest.java");
-        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST));
+        getFileResult("annotationTest.java")
+                .ifPresent(x -> {
+                    assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST));
+                })
+                .ifFail(x -> {
+                    throw x;
+                })
+                .ifAbsent(x -> {
+                    throw new AssertionError();
+                });
     }
 
     @Test
     public void analyzeAnnotation_authorNameNotInConfigAndHaveAuthorConfigFile_disownCode() {
         config.setAuthorList(new ArrayList<>(Arrays.asList(FAKE_AUTHOR)));
         config.setHasAuthorConfigFile(true);
-        FileResult fileResult = getFileResult("annotationTest.java");
-        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_DISOWN_CODE_TEST));
+        getFileResult("annotationTest.java")
+                .ifPresent(x -> {
+                    assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_DISOWN_CODE_TEST));
+                })
+                .ifFail(x -> {
+                    throw x;
+                })
+                .ifAbsent(x -> {
+                    throw new AssertionError();
+                });
+
     }
 
     @Test

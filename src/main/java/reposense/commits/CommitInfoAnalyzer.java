@@ -5,7 +5,6 @@ import static reposense.util.StringsUtil.removeQuote;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.function.FailableOptional;
 
 /**
  * Analyzes commit information found in the git log.
@@ -89,15 +89,13 @@ public class CommitInfoAnalyzer {
         Boolean isMergeCommit = elements[PARENT_HASHES_INDEX].split(HASH_SPLITTER).length > 1;
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
-        ZonedDateTime date = null;
-        try {
-            date = ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT);
-        } catch (DateTimeParseException pe) {
-            logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
-        }
-
-        // Commit date may be in a timezone different from the one given in the config.
-        LocalDateTime adjustedDate = date.withZoneSameInstant(config.getZoneId()).toLocalDateTime();
+        // safe map since ZonedDateTime::now returns non-null
+        FailableOptional<LocalDateTime> date = FailableOptional
+                .ofNullable(() -> ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT))
+                .ifFail(x ->
+                        logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", x))
+                .recover(ZonedDateTime::now)
+                .map(x -> x.withZoneSameInstant(config.getZoneId()).toLocalDateTime());
 
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";
         String messageBody = (elements.length > MESSAGE_BODY_INDEX)
@@ -114,7 +112,7 @@ public class CommitInfoAnalyzer {
         }
 
         if (statLine.isEmpty()) { // empty commit, no files changed
-            return new CommitResult(author, hash, isMergeCommit, adjustedDate, messageTitle, messageBody, tags);
+            return new CommitResult(author, hash, isMergeCommit, date.get(), messageTitle, messageBody, tags);
         }
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
@@ -122,7 +120,7 @@ public class CommitInfoAnalyzer {
         Map<FileType, ContributionPair> fileTypeAndContributionMap =
                 getFileTypesAndContribution(fileTypeContributions, config);
 
-        return new CommitResult(author, hash, isMergeCommit, adjustedDate, messageTitle, messageBody, tags,
+        return new CommitResult(author, hash, isMergeCommit, date.get(), messageTitle, messageBody, tags,
                 fileTypeAndContributionMap);
     }
 

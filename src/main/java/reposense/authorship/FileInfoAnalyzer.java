@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -22,6 +21,7 @@ import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
+import reposense.util.function.FailableOptional;
 
 /**
  * Analyzes the target and information given in the {@link FileInfo}.
@@ -44,50 +44,37 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Returns null if the file is missing from the local system, or none of the
+     * Returns empty {@code FailableOptional<FileResult>} if the file is missing from the local system, or none of the
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
-        String relativePath = fileInfo.getPath();
+    public FailableOptional<FileResult> analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
+        // note that the predicates in filter() test for the negation of the previous failure conditions
+        return FailableOptional.ofNullable(fileInfo.getPath())
+                .filter(x -> Files.exists(Paths.get(config.getRepoRoot(), x)))
+                .ifAbsent(x -> logger.severe(String.format(MESSAGE_FILE_MISSING, x)))
+                .filter(x -> !FileUtil.isEmptyFile(config.getRepoRoot(), x))
+                .ifPresent(x -> {
+                    aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo);
+                    fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
-        if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
-            logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
-            return null;
-        }
-
-        if (FileUtil.isEmptyFile(config.getRepoRoot(), relativePath)) {
-            return null;
-        }
-
-        aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo);
-        fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
-
-        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorConfig());
-
-        if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())) {
-            return null;
-        }
-
-        return generateTextFileResult(fileInfo);
+                    AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorConfig());
+                })
+                .filter(x -> config.getAuthorList().isEmpty() || !fileInfo.isAllAuthorsIgnored(config.getAuthorList()))
+                .map(x -> generateTextFileResult(fileInfo));
     }
 
     /**
      * Analyzes the binary file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Returns null if the file is missing from the local system, or none of the
+     * Returns empty {@code FailableOptional<FileResult>} if the file is missing from the local system, or none of the
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public FileResult analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
-        String relativePath = fileInfo.getPath();
-
-        if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
-            logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath));
-            return null;
-        }
-
-        fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
-
-        return generateBinaryFileResult(config, fileInfo);
+    public FailableOptional<FileResult> analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
+        return FailableOptional.ofNullable(fileInfo.getPath())
+                .filter(x -> Files.exists(Paths.get(config.getRepoRoot(), x)))
+                .ifAbsent(x -> logger.severe(String.format(MESSAGE_FILE_MISSING, x)))
+                .ifPresent(x -> fileInfo.setFileType(config.getFileType(fileInfo.getPath())))
+                .flatMap(x -> generateBinaryFileResult(config, fileInfo));
     }
 
     /**
@@ -108,29 +95,28 @@ public class FileInfoAnalyzer {
     /**
      * Generates and returns a {@link FileResult} with the authorship results from binary {@code fileInfo} consolidated.
      * Authorship results are indicated in the {@code authorContributionMap} as contributions with zero line counts.
-     * Returns {@code null} if none of the {@link Author} specified in {@code config} contributed to the file in
-     * {@code fileInfo}.
+     * Returns an empty {@code FailableOptional<FileResult>} if none of the {@link Author} specified in
+     * {@code config} contributed to the file in {@code fileInfo}.
      */
-    private FileResult generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
-        List<String[]> authorsString = GitLog.getFileAuthors(config, fileInfo.getPath());
-        if (authorsString.size() == 0) {
-            return null;
-        }
-
+    private FailableOptional<FileResult> generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
         Set<Author> authors = new HashSet<>();
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
 
-        for (String[] lineDetails : authorsString) {
-            String authorName = lineDetails[0];
-            String authorEmail = lineDetails[1];
-            authors.add(config.getAuthor(authorName, authorEmail));
-        }
+        return FailableOptional.ofNullable(GitLog.getFileAuthors(config, fileInfo.getPath()))
+                .filter(x -> !x.isEmpty())
+                .ifPresent(x -> {
+                    for (String[] lineDetails : x) {
+                        String authorName = lineDetails[0];
+                        String authorEmail = lineDetails[1];
+                        authors.add(config.getAuthor(authorName, authorEmail));
+                    }
 
-        for (Author author : authors) {
-            authorContributionMap.put(author, 0);
-        }
-
-        return FileResult.createBinaryFileResult(fileInfo.getPath(), fileInfo.getFileType(), authorContributionMap);
+                    for (Author author : authors) {
+                        authorContributionMap.put(author, 0);
+                    }
+                })
+                .map(x -> FileResult
+                        .createBinaryFileResult(fileInfo.getPath(), fileInfo.getFileType(), authorContributionMap));
     }
 
     /**

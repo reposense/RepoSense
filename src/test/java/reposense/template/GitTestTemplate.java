@@ -30,6 +30,7 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.FileUtil;
 import reposense.util.TestRepoCloner;
+import reposense.util.function.FailableOptional;
 
 /**
  * Contains templates for git testing.
@@ -188,7 +189,7 @@ public class GitTestTemplate {
         }
     }
 
-    public FileResult getFileResult(String relativePath) {
+    public FailableOptional<FileResult> getFileResult(String relativePath) {
         FileInfo fileInfo = fileInfoExtractor.generateFileInfo(configs.get(), relativePath);
         return fileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
     }

@@ -1,7 +1,6 @@
 package reposense.authorship;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -10,6 +9,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.function.FailableOptional;
 
 
 /**
@@ -47,14 +47,16 @@ public class AuthorshipReporter {
 
         List<FileResult> fileResults = textFileInfos.stream()
                 .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo))
-                .filter(Objects::nonNull)
+                .filter(FailableOptional::isPresent)
+                .map(FailableOptional::get)
                 .collect(Collectors.toList());
 
         List<FileInfo> binaryFileInfos = fileInfoExtractor.extractBinaryFileInfos(config);
 
         List<FileResult> binaryFileResults = binaryFileInfos.stream()
                 .map(fileInfo -> fileInfoAnalyzer.analyzeBinaryFile(config, fileInfo))
-                .filter(Objects::nonNull)
+                .filter(FailableOptional::isPresent)
+                .map(FailableOptional::get)
                 .collect(Collectors.toList());
 
         fileResults.addAll(binaryFileResults);

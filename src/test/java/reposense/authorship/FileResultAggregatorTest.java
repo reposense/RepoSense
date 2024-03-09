@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,6 +17,7 @@ import reposense.git.GitCheckout;
 import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
+import reposense.util.function.FailableOptional;
 
 public class FileResultAggregatorTest extends GitTestTemplate {
 
@@ -50,9 +50,9 @@ public class FileResultAggregatorTest extends GitTestTemplate {
         List<FileResult> fileResults = textFileInfos.stream()
                 .filter(f -> !f.getPath().equals("annotationTest.java"))
                 .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo))
-                .filter(Objects::nonNull)
+                .filter(FailableOptional::isPresent)
+                .map(FailableOptional::get)
                 .collect(Collectors.toList());
-        //
 
         FileResultAggregator fileResultAggregator = new FileResultAggregator();
         fileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(), config.getAllFileTypes());

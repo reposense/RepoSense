@@ -12,7 +12,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.authorship.model.FileInfo;
-import reposense.authorship.model.FileResult;
 import reposense.git.GitCheckout;
 import reposense.model.Author;
 import reposense.model.CommitHash;
@@ -88,8 +87,16 @@ public class FileAnalyzerTest extends GitTestTemplate {
     public void blameTest() {
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
-        FileResult fileResult = getFileResult("blameTest.java");
-        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
+        getFileResult("blameTest.java")
+                .ifPresent(x -> {
+                    assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
+                })
+                .ifFail(x -> {
+                    throw x;
+                })
+                .ifAbsent(x -> {
+                    throw new AssertionError();
+                });
     }
 
     @Test
@@ -102,18 +109,33 @@ public class FileAnalyzerTest extends GitTestTemplate {
         GitCheckout.checkout(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
 
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);
-        FileResult fileResult = getFileResult("blameTest.java");
-        removeTestIgnoreRevsFile();
-
-        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
+        getFileResult("blameTest.java")
+                .ifPresent(x -> {
+                    removeTestIgnoreRevsFile();
+                    assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
+                })
+                .ifFail(x -> {
+                    throw x;
+                })
+                .ifAbsent(x -> {
+                    throw new AssertionError();
+                });
     }
 
     @Test
     public void movedFileBlameTest() {
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
-        FileResult fileResult = getFileResult("newPos/movedFile.java");
-        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
+        getFileResult("newPos/movedFile.java")
+                .ifPresent(x -> {
+                    assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
+                })
+                .ifFail(x -> {
+                    throw x;
+                })
+                .ifAbsent(x -> {
+                    throw new AssertionError();
+                });
     }
 
     @Test
@@ -121,9 +143,16 @@ public class FileAnalyzerTest extends GitTestTemplate {
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), BLAME_TEST_UNTIL_DATE, config.getZoneId());
         config.setSinceDate(BLAME_TEST_SINCE_DATE);
         config.setUntilDate(BLAME_TEST_UNTIL_DATE);
-
-        FileResult fileResult = getFileResult("blameTest.java");
-        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
+        getFileResult("blameTest.java")
+                .ifPresent(x -> {
+                    assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
+                })
+                .ifFail(x -> {
+                    throw x;
+                })
+                .ifAbsent(x -> {
+                    throw new AssertionError();
+                });
     }
 
     @Test
@@ -138,10 +167,17 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 config.getZoneId());
 
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);
-        FileResult fileResult = getFileResult("blameTest.java");
-        removeTestIgnoreRevsFile();
-
-        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
+        getFileResult("blameTest.java")
+                .ifPresent(x -> {
+                    removeTestIgnoreRevsFile();
+                    assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
+                })
+                .ifFail(x -> {
+                    throw x;
+                })
+                .ifAbsent(x -> {
+                    throw new AssertionError();
+                });
     }
 
     @Test
@@ -149,9 +185,16 @@ public class FileAnalyzerTest extends GitTestTemplate {
         GitCheckout.checkoutDate(config.getRepoRoot(), config.getBranch(), MOVED_FILE_UNTIL_DATE, config.getZoneId());
         config.setSinceDate(MOVED_FILE_SINCE_DATE);
         config.setUntilDate(MOVED_FILE_UNTIL_DATE);
-
-        FileResult fileResult = getFileResult("newPos/movedFile.java");
-        assertFileAnalysisCorrectness(fileResult, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
+        getFileResult("newPos/movedFile.java")
+                .ifPresent(x -> {
+                    assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
+                })
+                .ifFail(x -> {
+                    throw x;
+                })
+                .ifAbsent(x -> {
+                    throw new AssertionError();
+                });
     }
 
     @Test
@@ -372,7 +415,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 new FileInfo("/nonExistingPngPicture.png"));
 
         for (FileInfo binaryFileInfo: binaryFileInfos) {
-            Assertions.assertNull(fileInfoAnalyzer.analyzeBinaryFile(config, binaryFileInfo));
+            Assertions.assertTrue(fileInfoAnalyzer.analyzeBinaryFile(config, binaryFileInfo).isAbsent());
         }
     }
 

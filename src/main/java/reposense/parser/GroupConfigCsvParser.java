@@ -10,6 +10,7 @@ import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
 import reposense.parser.exceptions.InvalidLocationException;
+import reposense.util.function.FailableOptional;
 
 /**
  * Container for the values parsed from {@code group-config.csv} file.
@@ -57,18 +58,16 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
         String groupName = get(record, GROUP_NAME_HEADER);
         List<String> globList = getAsList(record, FILES_GLOB_HEADER);
 
-        GroupConfiguration groupConfig = null;
-        groupConfig = findMatchingGroupConfiguration(results, location);
-
         FileType group = new FileType(groupName, globList);
-        if (groupConfig.containsGroup(group)) {
-            logger.warning(String.format(
-                    "Skipping group as %s has already been specified for the repository %s",
-                    group.toString(), groupConfig.getLocation()));
-            return;
-        }
 
-        groupConfig.addGroup(group);
+        FailableOptional.of(findMatchingGroupConfiguration(results, location))
+                .filter(x -> !x.containsGroup(group))
+                .ifAbsent(x -> {
+                    logger.warning(String.format(
+                            "Skipping group as %s has already been specified for the repository %s",
+                            group, x.getLocation()));
+                })
+                .ifPresent(x -> x.addGroup(group));
     }
 
     /**
