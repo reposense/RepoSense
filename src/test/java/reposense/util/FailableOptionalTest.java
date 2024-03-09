@@ -1,11 +1,12 @@
 package reposense.util;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import reposense.util.function.FailableOptional;
-
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import reposense.util.function.FailableOptional;
 
 public class FailableOptionalTest {
     private static final FailableOptional<Integer> PRESENT = FailableOptional.of(123);
