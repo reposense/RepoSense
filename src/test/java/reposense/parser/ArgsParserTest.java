@@ -755,6 +755,33 @@ public class ArgsParserTest {
         Assertions.assertFalse(cliArguments.isAuthorshipAnalyzed());
     }
 
+    @Test
+    public void parse_withOriginalityThreshold_success() throws Exception {
+        String input = new InputBuilder().addOriginalityThreshold(0.1234).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        String inputWithAlias = new InputBuilder().add("-ot 0.9876").build();
+        CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
+
+        Assertions.assertEquals(0.1234, cliArguments.getOriginalityThreshold());
+        Assertions.assertEquals(0.9876, cliArgumentsWithAlias.getOriginalityThreshold());
+    }
+
+    @Test
+    public void parse_originalityThresholdWithoutArgument_throwsParseException() {
+        String input = new InputBuilder().add("-ot").build();
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
+    }
+
+    @Test
+    public void parse_originalityThresholdOutOfBound_throwsParseException() {
+        String inputBelowBound = new InputBuilder().addOriginalityThreshold(-0.001).build();
+        String inputAboveBound = new InputBuilder().addOriginalityThreshold(1.0001).build();
+
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(inputBelowBound)));
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(inputAboveBound)));
+    }
+
     /**
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
      *

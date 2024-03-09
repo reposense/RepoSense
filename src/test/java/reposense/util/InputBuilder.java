@@ -260,6 +260,15 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the flag to enable originality threshold.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addOriginalityThreshold(double threshold) {
+        input.append(ArgsParser.ORIGINALITY_THRESHOLD_FLAGS[0] + WHITESPACE + threshold + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {
