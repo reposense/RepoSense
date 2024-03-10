@@ -1,6 +1,6 @@
 <template lang="pug">
 #app
-  loading-overlay.overlay-loader(
+  loading.overlay-loader(
     v-bind:active='loadingOverlayCount > 0',
     v-bind:opacity='loadingOverlayOpacity'
   )
@@ -25,7 +25,7 @@
 <script lang='ts'>
 import { defineComponent } from 'vue';
 import JSZip from 'jszip';
-import LoadingOverlay from 'vue-loading-overlay';
+import Loading from 'vue-loading-overlay';
 import { mapState } from 'vuex';
 import { Repo } from './types/types';
 import { ErrorMessage } from './types/zod/summary-type';
@@ -36,7 +36,7 @@ const loadingResourcesMessage = 'Loading resources...';
 const app = defineComponent({
   name: 'app',
   components: {
-    LoadingOverlay,
+    Loading,
   },
   data() {
     return {
@@ -87,7 +87,7 @@ const app = defineComponent({
           window.REPORT_ZIP = zip;
         }, () => {
           window.alert('Either the .zip file is corrupted, or you uploaded a .zip file that is not generated '
-              + 'by RepoSense.');
+            + 'by RepoSense.');
         })
         .then(() => this.updateReportView());
     },
