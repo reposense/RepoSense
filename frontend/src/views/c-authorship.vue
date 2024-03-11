@@ -131,7 +131,7 @@ function authorshipInitialState(): {
     filterType: FilterType,
     selectedFileTypes: Array<string>,
     fileTypes: Array<string>
-    filesLinesObj: {[key: string]: number}
+    filesLinesObj: { [key: string]: number}
     fileTypeBlankLinesObj: { [key: string]: number },
     filesSortType: FilesSortType,
     toReverseSortFiles: boolean,
@@ -179,7 +179,7 @@ export default defineComponent({
     filterType: FilterType,
     selectedFileTypes: Array<string>,
     fileTypes: Array<string>
-    filesLinesObj: {[key: string]: number}
+    filesLinesObj: { [key: string]: number}
     fileTypeBlankLinesObj: { [key: string]: number },
     filesSortType: FilesSortType,
     toReverseSortFiles: boolean,

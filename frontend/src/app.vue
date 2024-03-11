@@ -46,7 +46,7 @@ const app = defineComponent({
       tabType: string,
       creationDate: string,
       reportGenerationTime: string,
-      errorMessages: {[key: string]: ErrorMessage }
+      errorMessages: { [key: string]: ErrorMessage }
       } {
     return {
       repos: {} as { [key: string]: Repo },
