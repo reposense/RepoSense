@@ -380,8 +380,6 @@ export default defineComponent({
       activeUser: null as string | null,
       activeTabType: null as string | null,
       isTabOnMergedGroup: false,
-      highlightedRepo: null as number | null,
-      highlightedUser: null as number | null,
     };
   },
 
@@ -437,7 +435,6 @@ export default defineComponent({
   },
   created() {
     this.retrieveSelectedTabHash();
-    this.retrieveHighlightedUser();
   },
   methods: {
     getFileTypeContributionBars(
@@ -810,17 +807,6 @@ export default defineComponent({
 
       if (hash.tabType) {
         this.activeTabType = hash.tabType;
-      }
-    },
-    retrieveHighlightedUser(): void {
-      const { highlightedRepo, highlightedUser } = window.hashParams;
-
-      if (highlightedRepo && highlightedUser) {
-        const highlightedRepoInt = parseInt(highlightedRepo, 10);
-        const highlightedUserInt = parseInt(highlightedUser, 10);
-
-        this.highlightedRepo = Number.isNaN(highlightedRepoInt) ? null : highlightedRepoInt;
-        this.highlightedUser = Number.isNaN(highlightedUserInt) ? null : highlightedUserInt;
       }
     },
 
