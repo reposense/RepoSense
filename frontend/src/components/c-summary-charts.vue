@@ -154,6 +154,7 @@
       v-for="(user, j) in getRepo(repo)",
       v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
       v-bind:ref="'summary-chart-' + j"
+      v-bind:id="user.name === activeUser && user.repoName === activeRepo ? 'selected' : null"
       )
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
@@ -258,21 +259,6 @@
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
           span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
-        a(
-          v-if="!isChartGroupWidgetMode",
-          onclick="deactivateAllOverlays()",
-          v-on:click="setHighlighted(i , j)"
-        )
-          .tooltip(
-            v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-highlight`)",
-            v-on:mouseout="resetTooltip(`repo-${i}-author-${j}-highlight`)"
-          )
-            font-awesome-icon.icon-button(
-              icon="highlighter",
-            )
-            span.tooltip-text(
-              v-bind:ref="`repo-${i}-author-${j}-highlight`"
-            ) Click to highlight this repo
 
       .summary-chart__ramp(
         v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
@@ -443,8 +429,8 @@ export default defineComponent({
     // watching so highlighted only when summary charts are rendered
     filteredRepos() {
       this.$nextTick(() => {
-        if (this.highlightedRepo !== null && this.highlightedUser !== null) {
-          this.highlightRepo(this.highlightedRepo, this.highlightedUser);
+        if (this.activeRepo !== null && this.activeUser !== null) {
+          this.scrollToActiveRepo();
         }
       });
     },
@@ -861,6 +847,8 @@ export default defineComponent({
 
       this.activeTabType = tabType;
       window.encodeHash();
+
+      this.$nextTick(() => this.scrollToActiveRepo());
     },
 
     removeSelectedTab(): void {
@@ -914,39 +902,11 @@ export default defineComponent({
       return totalContribution / totalCommits;
     },
 
-    setHighlighted(groupIndex: number, index: number): void {
-      this.highlightedRepo = groupIndex;
-      this.highlightedUser = index;
-
-      window.addHash('highlightedRepo', groupIndex.toString());
-      window.addHash('highlightedUser', index.toString());
-      window.encodeHash();
-
-      this.highlightRepo(groupIndex, index);
-    },
-
-    highlightRepo(groupIndex: number, index: number): void {
-      const offset = this.filteredRepos
-        .slice(0, groupIndex)
-        .reduce((acc, repo) => (acc + (index > repo.length - 1 ? 1 : 0)), 0);
-      const chart = (this.$refs[`summary-chart-${index}`] as Array<HTMLDivElement>)[groupIndex - offset];
-
-      // If the chart is not found, view may have reset - remove the hash
-      if (!chart) {
-        window.removeHash('highlightedRepo');
-        window.removeHash('highlightedUser');
-        window.encodeHash();
-        this.highlightedRepo = null;
-        this.highlightedUser = null;
-        return;
+    scrollToActiveRepo(): void {
+      const chart = document.getElementById('selected');
+      if (chart) {
+        chart.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-
-      chart.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      Object.entries(this.$refs)
-        .filter(([key]) => key.startsWith('summary-chart-'))
-        .forEach(([, value]) => (value as Array<HTMLDivElement>)
-          .forEach((div) => div.classList.remove('highlighted-background')));
-      chart.classList.add('highlighted-background');
     },
   },
 });
