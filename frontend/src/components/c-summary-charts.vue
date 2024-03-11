@@ -153,7 +153,7 @@
     .summary-chart(
       v-for="(user, j) in getRepo(repo)",
       v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
-      v-bind:ref="'summary-chart-' + j"
+      v-bind:ref="'summary-chart-' + j",
       v-bind:id="user.name === activeUser && user.repoName === activeRepo ? 'selected' : null"
       )
       .summary-chart__title(
