@@ -82,4 +82,51 @@ describe('search bar', () => {
       .its('length')
       .should('eq', 2);
   });
+
+  it("search field doesn't start with 'tag:' prefix but still contains it shows no results", () => {
+    cy.get('#app #tab-resize .tab-close').click();
+    cy.get('#summary-wrapper input[type=text]')
+      .type('v1.10 tag: v1.10')
+      .type('{enter}');
+
+    // Enter does not work. Related issue:
+    // Let's manually submit form
+    cy.get('#summary-wrapper form.summary-picker')
+      .submit();
+
+    cy.get('#summary-wrapper #summary-charts')
+      .should('be.empty');
+  });
+
+  it("search field doesn't contain 'tag:' at all shows no results", () => {
+    cy.get('#app #tab-resize .tab-close').click();
+    cy.get('#summary-wrapper input[type=text]')
+      .type('v1.10')
+      .type('{enter}');
+
+    // Enter does not work. Related issue:
+    // Let's manually submit form
+    cy.get('#summary-wrapper form.summary-picker')
+      .submit();
+
+    cy.get('#summary-wrapper #summary-charts')
+      .should('be.empty');
+  });
+
+  it('searching for multiple tags shows results containing all the tags searched', () => {
+    cy.get('#app #tab-resize .tab-close').click();
+    cy.get('#summary-wrapper input[type=text]')
+      .type('tag: bb v1.10')
+      .type('{enter}');
+
+    // Enter does not work. Related issue:
+    // Let's manually submit form
+    cy.get('#summary-wrapper form.summary-picker')
+      .submit();
+
+    cy.get('#summary-wrapper #summary-charts')
+      .find('.summary-chart')
+      .its('length')
+      .should('eq', 2);
+  });
 });
