@@ -942,10 +942,11 @@ export default defineComponent({
       }
 
       chart.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      Object.entries(this.$refs).filter(([key]) => key.startsWith('summary-chart-')).forEach(([, value]) => {
-        (value as Array<HTMLDivElement>).forEach((div) => div.classList.remove('active-background'));
-      });
-      chart.classList.add('active-background');
+      Object.entries(this.$refs)
+        .filter(([key]) => key.startsWith('summary-chart-'))
+        .forEach(([, value]) => (value as Array<HTMLDivElement>)
+          .forEach((div) => div.classList.remove('highlighted-background')));
+      chart.classList.add('highlighted-background');
     },
   },
 });
