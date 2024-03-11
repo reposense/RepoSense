@@ -47,7 +47,11 @@ const throttledEvent = (delay: number, handler: (event: MouseEvent) => unknown) 
 export default defineComponent({
   name: 'c-resizer',
 
-  data() {
+  data(): {
+    guideWidth: number,
+    flexWidth: number,
+    isResizing: boolean
+    } {
     return {
       guideWidth: (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2)) / window.innerWidth,
       flexWidth: 0.5,
@@ -56,23 +60,23 @@ export default defineComponent({
   },
 
   computed: {
-    appStyles() {
+    appStyles(): string {
       return this.isResizing
         ? 'user-select: none; cursor: col-resize;'
         : '';
     },
 
-    guideStyles() {
+    guideStyles(): string {
       return this.isResizing
         ? `display: block; right: ${this.guideWidth * 100}%;`
         : '';
     },
 
-    rightContainerStyles() {
+    rightContainerStyles(): string {
       return `flex: 0 0 ${this.flexWidth * 100}%;`;
     },
 
-    mouseMove() {
+    mouseMove(): Function {
       if (this.isResizing) {
         return throttledEvent(25, (event: MouseEvent) => {
           this.guideWidth = (
@@ -94,17 +98,17 @@ export default defineComponent({
   },
 
   methods: {
-    registerMouseMove() {
+    registerMouseMove(): void {
       this.isResizing = true;
     },
 
-    deregisterMouseMove() {
+    deregisterMouseMove(): void {
       this.isResizing = false;
       this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
         / window.innerWidth;
     },
 
-    closeTab() {
+    closeTab(): void {
       this.$store.commit('updateTabState', false);
     },
   },
