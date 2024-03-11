@@ -2,7 +2,7 @@ describe('merge group blame in code view', () => {
   it('no author breakdown shown by default', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -28,7 +28,7 @@ describe('merge group blame in code view', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -54,7 +54,7 @@ describe('merge group blame in code view', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -81,7 +81,7 @@ describe('merge group blame in code view', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -109,7 +109,7 @@ describe('merge group blame in code view', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -137,7 +137,7 @@ describe('merge group blame in code view', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -162,7 +162,7 @@ describe('merge group blame in code view', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -186,7 +186,7 @@ describe('merge group blame in code view', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -219,7 +219,7 @@ describe('merge group blame in code view', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 

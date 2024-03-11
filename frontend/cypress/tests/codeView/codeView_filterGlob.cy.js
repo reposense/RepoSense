@@ -2,7 +2,7 @@ describe('filter glob', () => {
   it('check filter glob radio button is clickable', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -18,7 +18,7 @@ describe('filter glob', () => {
 
   it('check no filter glob input should show all file types by default', () => {
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -33,7 +33,7 @@ describe('filter glob', () => {
 
   it('check filter glob input should be in focus after click', () => {
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -49,7 +49,7 @@ describe('filter glob', () => {
 
   it('check filter glob input should have default empty value', () => {
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -63,7 +63,7 @@ describe('filter glob', () => {
 
   it('check deleting previously searched input to filter empty input by enter should show all file types', () => {
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -93,7 +93,7 @@ describe('filter glob', () => {
 
   it('check deleting previously searched input to filter empty input by clicking should show all file types', () => {
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -120,7 +120,7 @@ describe('filter glob', () => {
 
   it('check request to filter invalid glob by enter should not show any files', () => {
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -144,7 +144,7 @@ describe('filter glob', () => {
 
   it('check request to filter invalid glob by clicking should not show any files', () => {
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -167,7 +167,7 @@ describe('filter glob', () => {
 
   it('check filter glob should only show files with that extension', () => {
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 

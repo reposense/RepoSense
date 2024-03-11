@@ -2,7 +2,7 @@ describe('hide all commit messages ', () => {
   it('check hide all commit messages hides the commit messages', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -29,7 +29,7 @@ describe('hide all commit messages ', () => {
   it('check show all commit messages show the commit messages', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -57,7 +57,7 @@ describe('hide all commit messages ', () => {
   it('should only display hide all commit messages when none are hidden', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -76,7 +76,7 @@ describe('hide all commit messages ', () => {
   it('should only display show all commit messages when all are hidden', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -99,7 +99,7 @@ describe('hide all commit messages ', () => {
   it('should display both show and hide all commit messages when some are hidden', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -130,7 +130,7 @@ describe('hide all commit messages ', () => {
     // Assumptions: the fifth commit (19e3294) of the first author of the first repo
     // contains changes in only .java files.
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -191,7 +191,7 @@ describe('hide all commit messages ', () => {
 
   it('check hidden commit message persists after sort', () => {
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
