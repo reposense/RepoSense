@@ -247,8 +247,9 @@ export default defineComponent({
             ? commit.commitResults.slice().reverse()
             : commit.commitResults.slice();
         } else {
-          const cResultsSortingFunction = (a: CommitResult, b: CommitResult): number => (this.toReverseSortedCommits ? -1 : 1)
-            * window.comparator((cResult: CommitResult) => cResult.insertions)(a, b);
+          const cResultsSortingFunction = (a: CommitResult, b: CommitResult): number => (
+            this.toReverseSortedCommits ? -1 : 1
+          ) * window.comparator((cResult: CommitResult) => cResult.insertions)(a, b);
           newCommit.commitResults = commit.commitResults.slice().sort(cResultsSortingFunction);
         }
         tempUser.commits.push(newCommit);

@@ -195,7 +195,7 @@ export default defineComponent({
 
   computed: {
     sortingFunction() {
-      return (a: AuthorshipFile, b: AuthorshipFile) => (this.toReverseSortFiles ? -1 : 1)
+      return (a: AuthorshipFile, b: AuthorshipFile): number => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
