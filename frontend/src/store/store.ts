@@ -20,34 +20,34 @@ export default createStore<StoreState>({
     isTabActive: true,
   } as StoreState,
   mutations: {
-    updateTabZoomInfo(state: StoreState, info: ZoomInfo): void {
+    updateTabZoomInfo(state: StoreState, info: ZoomInfo) {
       state.tabZoomInfo = info;
     },
-    updateTabAuthorshipInfo(state: StoreState, info: AuthorshipInfo): void {
+    updateTabAuthorshipInfo(state: StoreState, info: AuthorshipInfo) {
       state.tabAuthorshipInfo = info;
     },
-    updateSummaryDates(state: StoreState, info: SummaryDates): void {
+    updateSummaryDates(state: StoreState, info: SummaryDates) {
       state.summaryDates = info;
     },
-    updateFileTypeColors(state: StoreState, info: { [key: string]: string }): void {
+    updateFileTypeColors(state: StoreState, info: { [key: string]: string }) {
       state.fileTypeColors = info;
     },
-    updateAuthorColors(state: StoreState, info: { [key: string]: string }): void {
+    updateAuthorColors(state: StoreState, info: { [key: string]: string }) {
       state.tabAuthorColors = info;
     },
-    updateMergedGroup(state: StoreState, info: string[]): void {
+    updateMergedGroup(state: StoreState, info: string[]) {
       state.mergedGroups = info;
     },
-    incrementLoadingOverlayCount(state: StoreState, increment: number): void {
+    incrementLoadingOverlayCount(state: StoreState, increment: number) {
       state.loadingOverlayCount += increment;
       if (state.loadingOverlayCount === 0) {
         state.loadingOverlayMessage = 'Loading. Please wait...';
       }
     },
-    updateLoadingOverlayMessage(state: StoreState, message: string): void {
+    updateLoadingOverlayMessage(state: StoreState, message: string) {
       state.loadingOverlayMessage = message;
     },
-    updateTabState(state: StoreState, isTabOpen: boolean): void {
+    updateTabState(state: StoreState, isTabOpen: boolean) {
       state.isTabActive = isTabOpen;
       window.addHash('tabOpen', isTabOpen.toString());
       if (!isTabOpen) {
@@ -55,12 +55,12 @@ export default createStore<StoreState>({
       }
       window.encodeHash();
     },
-    toggleZoomCommitMessageBody(_, slice: CommitResult): void {
+    toggleZoomCommitMessageBody(_, slice: CommitResult) {
       if (slice.isOpen !== undefined) {
         slice.isOpen = !slice.isOpen;
       }
     },
-    setAllZoomCommitMessageBody(_, { isOpen, commits }: { isOpen: boolean; commits: DailyCommit[] }): void {
+    setAllZoomCommitMessageBody(_, { isOpen, commits }: { isOpen: boolean; commits: DailyCommit[] }) {
       commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
           if (slice.isOpen !== undefined) {
@@ -69,14 +69,14 @@ export default createStore<StoreState>({
         });
       });
     },
-    updateTabAuthorshipFiles(state: StoreState, files: AuthorshipFile[]): void {
+    updateTabAuthorshipFiles(state: StoreState, files: AuthorshipFile[]) {
       state.tabAuthorshipInfo.files.splice(0, state.tabAuthorshipInfo.files.length, ...files);
     },
-    toggleAuthorshipFileActiveProperty(_, file: AuthorshipFile): void {
+    toggleAuthorshipFileActiveProperty(_, file: AuthorshipFile) {
       file.active = !file.active;
       file.wasCodeLoaded = file.wasCodeLoaded || file.active;
     },
-    setAllAuthorshipFileActiveProperty(_, { isActive, files }: { isActive: boolean; files: AuthorshipFile[] }): void {
+    setAllAuthorshipFileActiveProperty(_, { isActive, files }: { isActive: boolean; files: AuthorshipFile[] }) {
       files.forEach((file) => {
         file.active = isActive;
         file.wasCodeLoaded = file.wasCodeLoaded || file.active;
@@ -86,7 +86,7 @@ export default createStore<StoreState>({
   actions: {
     // Actions are called with dispatch
 
-    async incrementLoadingOverlayCountForceReload({ commit }, increment: number): Promise<void> {
+    async incrementLoadingOverlayCountForceReload({ commit }, increment: number) {
       commit('incrementLoadingOverlayCount', increment);
       await new Promise(window.requestAnimationFrame);
       await new Promise(window.requestAnimationFrame);

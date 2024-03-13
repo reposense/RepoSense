@@ -1,13 +1,13 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  data(): { disabledLinkMessage: string } {
+  data() {
     return {
       disabledLinkMessage: 'This remote link is unsupported',
     };
   },
   methods: {
-    isBrokenLink(link: string | undefined): boolean {
+    isBrokenLink(link: string | undefined) {
       return link === undefined;
     },
     getLinkMessage(link: string | undefined, linkMessage: string): string {
