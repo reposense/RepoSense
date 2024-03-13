@@ -209,10 +209,10 @@ export default defineComponent({
   computed: {
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === CommitsSortType.Time
-        ? (commit: Commit) => commit.date
-        : (commit: Commit) => commit.insertions;
+        ? (commit: Commit): string => commit.date
+        : (commit: Commit): number => commit.insertions;
 
-      return (a: Commit, b: Commit) => (this.toReverseSortedCommits ? -1 : 1)
+      return (a: Commit, b: Commit): number => (this.toReverseSortedCommits ? -1 : 1)
         * window.comparator(commitSortFunction)(a, b);
     },
     filteredUser(): User {
@@ -247,7 +247,7 @@ export default defineComponent({
             ? commit.commitResults.slice().reverse()
             : commit.commitResults.slice();
         } else {
-          const cResultsSortingFunction = (a: CommitResult, b: CommitResult) => (this.toReverseSortedCommits ? -1 : 1)
+          const cResultsSortingFunction = (a: CommitResult, b: CommitResult): number => (this.toReverseSortedCommits ? -1 : 1)
             * window.comparator((cResult: CommitResult) => cResult.insertions)(a, b);
           newCommit.commitResults = commit.commitResults.slice().sort(cResultsSortingFunction);
         }

@@ -119,10 +119,10 @@ import { AuthorshipFile, AuthorshipFileSegment } from '../types/types';
 import { FilesSortType, FilterType } from '../types/authorship';
 
 const filesSortDict = {
-  linesOfCode: (file: AuthorshipFile) => file.lineCount,
-  path: (file: AuthorshipFile) => file.path,
-  fileName: (file: AuthorshipFile) => file.path.split(/[/]+/).pop() || '',
-  fileType: (file: AuthorshipFile) => file.fileType,
+  linesOfCode: (file: AuthorshipFile): number => file.lineCount,
+  path: (file: AuthorshipFile): string => file.path,
+  fileName: (file: AuthorshipFile): string => file.path.split(/[/]+/).pop() || '',
+  fileType: (file: AuthorshipFile): string => file.fileType,
 };
 
 function authorshipInitialState(): {

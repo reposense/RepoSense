@@ -34,9 +34,9 @@ const GUIDE_BAR_WIDTH = 2;
  *  parameters, i.e. an event of type MouseEvent.
  */
 // eslint-disable-next-line no-unused-vars
-const throttledEvent = (delay: number, handler: (event: MouseEvent) => unknown) => {
+const throttledEvent = (delay: number, handler: (event: MouseEvent) => unknown): ((event: MouseEvent) => void) => {
   let lastCalled = 0;
-  return (event: MouseEvent) => {
+  return (event: MouseEvent): void => {
     if (Date.now() - lastCalled > delay) {
       lastCalled = Date.now();
       handler(event);
