@@ -334,7 +334,6 @@ export default defineComponent({
 
   methods: {
     initiate() {
-      // This code crashes if info.zUser is not defined
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
     },
@@ -410,16 +409,17 @@ export default defineComponent({
     },
 
     updateFileTypes() {
-      // Assert that this.filteredUser is not undefined since this method is called in the created hook
+      if (!this.filteredUser) return;
+
       const commitsFileTypes = new Set<string>();
-      this.filteredUser!.commits.forEach((commit) => {
+      this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
           Object.keys(slice.fileTypesAndContributionMap).forEach((fileType) => {
             commitsFileTypes.add(fileType);
           });
         });
       });
-      this.fileTypes = Object.keys(this.filteredUser!.fileTypeContribution).filter(
+      this.fileTypes = Object.keys(this.filteredUser.fileTypeContribution).filter(
         (fileType) => commitsFileTypes.has(fileType),
       );
     },
