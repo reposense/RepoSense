@@ -76,7 +76,11 @@
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
-    .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+    .error-message-box__failed-repo(
+        v-for="errorBlock in errorIsShowingMore\
+          ? errorMessages\
+          : Object.values(errorMessages).slice(0, numberOfErrorMessagesToShow)"
+      )
       font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
@@ -92,7 +96,11 @@
           v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
         )
           span {{ getReportIssueEmailAddress() }}
-      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
+      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}\
+    .error-message-box__show-more-container(v-if="Object.keys(errorMessages).length > numberOfErrorMessagesToShow")
+      span(v-if="!errorIsShowingMore") Remaining error messages omitted to save space.&nbsp;
+      a(v-if="!errorIsShowingMore", v-on:click="toggleErrorShowMore()") SHOW ALL...
+      a(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
       label(style='background-color: #000000; color: #ffffff')
@@ -201,6 +209,8 @@ export default defineComponent({
       filterGroupSelectionWatcherFlag: false,
       chartGroupIndex: undefined as number | undefined,
       chartIndex: undefined as number | undefined,
+      errorIsShowingMore: false,
+      numberOfErrorMessagesToShow: 4,
     };
   },
   computed: {
@@ -933,6 +943,10 @@ export default defineComponent({
     getFontColor(color: string) {
       return window.getFontColor(color);
     },
+
+    toggleErrorShowMore() {
+      this.errorIsShowingMore = !this.errorIsShowingMore;
+    },
   },
 });
 </script>
@@ -941,4 +955,10 @@ export default defineComponent({
 <style lang="scss">
 @import '../styles/_colors.scss';
 @import '../styles/summary-chart.scss';
+
+.error-message-box__show-more-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: .3rem;
+}
 </style>

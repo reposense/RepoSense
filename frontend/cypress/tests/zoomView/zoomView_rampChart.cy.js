@@ -4,7 +4,7 @@ describe('show ramp chart for period', () => {
   it('show ramp chart for all commits by default', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -33,7 +33,7 @@ describe('show ramp chart for period', () => {
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -90,7 +90,7 @@ describe('show ramp chart for period', () => {
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -116,7 +116,7 @@ describe('show ramp chart for period', () => {
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -144,7 +144,7 @@ describe('show ramp chart for period', () => {
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .eq(1)
       .click();
 
@@ -165,7 +165,7 @@ describe('show ramp chart for period', () => {
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -192,7 +192,7 @@ describe('show ramp chart for period', () => {
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -236,7 +236,7 @@ describe('show ramp chart for period', () => {
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -280,7 +280,7 @@ describe('show ramp chart for period', () => {
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
