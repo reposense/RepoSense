@@ -154,7 +154,7 @@
       v-for="(user, j) in getRepo(repo)",
       v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
       v-bind:ref="'summary-chart-' + j",
-      v-bind:id="user.name === activeUser && user.repoName === activeRepo ? 'selected' : null"
+      v-bind:id="user.name === activeUser && user.repoName === activeRepo ? 'selectedChart' : null"
       )
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
@@ -889,9 +889,9 @@ export default defineComponent({
     },
 
     scrollToActiveRepo(): void {
-      const chart = document.getElementById('selected');
+      const chart = document.getElementById('selectedChart');
       if (chart) {
-        chart.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        chart.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     },
   },
