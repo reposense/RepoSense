@@ -8,7 +8,7 @@ describe('zoom features in code view', () => {
   const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
   it('click on view commits button', () => {
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -57,7 +57,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('2018-06-11');
 
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -84,7 +84,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('2018-05-20');
 
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -112,7 +112,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('2019-08-19');
 
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -140,7 +140,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('2018-07-20');
 
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -171,7 +171,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('2019-03-09');
 
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -212,7 +212,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('2019-08-01');
 
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 

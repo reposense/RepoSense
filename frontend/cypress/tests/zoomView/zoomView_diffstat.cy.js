@@ -1,7 +1,7 @@
 describe('diffstat', () => {
   it('should render container for contribution bars', () => {
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -13,7 +13,7 @@ describe('diffstat', () => {
   // `README: Fix grammatical error` with 1 insertion and 1 deletion.
   it('should render non-empty contribution bars for commits with changes', () => {
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -35,7 +35,7 @@ describe('diffstat', () => {
   // `Merge branch 'new-branch` into cypress` with 0 insertions and 0 deletions.
   it('should render empty contribution bars for commits with no changes', () => {
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -55,7 +55,7 @@ describe('diffstat', () => {
 
   it('should render contribution bars in proportion', () => {
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 

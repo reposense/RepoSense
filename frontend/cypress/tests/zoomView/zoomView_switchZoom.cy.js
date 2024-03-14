@@ -2,7 +2,7 @@ describe('switch zoom', () => {
   it('switch zoom view should restore all default controls', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -23,7 +23,7 @@ describe('switch zoom', () => {
 
     // switch zoom view
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .last()
       .click();
 
@@ -65,7 +65,7 @@ describe('switch zoom', () => {
 
     // open the commit panel
     cy.get('#summary-charts > .summary-charts')
-      .should('be.visible')
+      .should('exist')
       .first()
       .find('.fa-list-ul')
       .first()

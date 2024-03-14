@@ -27,4 +27,24 @@ describe('error summary', () => {
     cy.get('.error-message-box')
       .should('not.be.visible');
   });
+
+  it('can be expanded and collapsed if count > 4', () => {
+    cy.get('.error-message-box')
+      .find('.error-message-box__failed-repo')
+      .should('have.length', 4);
+
+    cy.get('.error-message-box__show-more-container > a')
+      .click();
+
+    cy.get('.error-message-box')
+      .find('.error-message-box__failed-repo')
+      .should('have.length', 5);
+
+    cy.get('.error-message-box__show-more-container > a')
+      .click();
+
+    cy.get('.error-message-box')
+      .find('.error-message-box__failed-repo')
+      .should('have.length', 4);
+  });
 });
