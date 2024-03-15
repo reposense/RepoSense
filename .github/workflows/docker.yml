@@ -1,0 +1,49 @@
+name: Builds Docker Images
+
+on:
+  push:
+    branches-ignore:
+      - gh-pages
+  pull_request:
+    branches-ignore:
+      - gh-pages
+
+env:
+  OUTDIR: "out"
+
+jobs:
+  build-test-containers:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dockerfile: ./docker/Dockerfile.ubuntu2004
+            tag: asdfghjklxd/reposense-docker-test:ubuntu-20-04
+            os: Ubuntu 20.04
+          - dockerfile: ./docker/Dockerfile.ubuntu2204
+            tag: asdfghjklxd/reposense-docker-test:ubuntu-22-04
+            os: Ubuntu 22.04
+    name: ${{ matrix.os }} (Java 8, 11)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout V4
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ matrix.tag }} -f ${{ matrix.dockerfile }} -o ${{ env.OUTDIR }} .
+      # - name: Upload Code Coverage (Java 8)
+      #   if: ${{ success() }}
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     directory: ${{ github.workspace }}/${{ env.OUTDIR }}/reports/java8
+      #     files: coverage.xml
+      #     fail_ci_if_error: true
+      # - name: Upload Code Coverage (Java 11)
+      #   if: ${{ success() }}
+      #   uses: codecov/codecov-action@v3
+      #   with:
+      #     directory: ${{ github.workspace }}/${{ env.OUTDIR }}/reports/java11
+      #     files: coverage.xml
+      #     fail_ci_if_error: true

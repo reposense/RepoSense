@@ -57,6 +57,7 @@ RUN mv -f reports/coverage reports/java8
 # test java 11
 RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 && \
     update-java-alternatives --set /usr/lib/jvm/java-1.11.0-openjdk-amd64;
+RUN ./gradlew clean
 RUN ./gradlew environmentalChecks
 RUN ./gradlew lintFrontend
 RUN ./gradlew clean
