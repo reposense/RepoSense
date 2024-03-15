@@ -20,60 +20,55 @@
 # - Installation of NodeJS via Node Version Manager (NVM)
 #     - https://stackoverflow.com/questions/36399848/install-node-in-dockerfile
 
-FROM ubuntu:20.04 as Ubuntu20_04
+FROM asdfghjklxd/reposense-images:ubuntu-20-04 AS setup-env
 
 LABEL os=ubuntu
 LABEL "os.version"="20.04"
-LABEL java="8, 11, 17"
+LABEL java="8, 11"
 LABEL node="16.20.2"
+LABEL maintainer="George Tay"
 
-# specify the working directory where project files will be saved into
-WORKDIR ./RepoSense
-
-# define environment params
-ENV NODE_VERSION=16.20.2
-ENV NVM_DIR=/root/.nvm
-
-# install all dependencies
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
-RUN apt-get update -y && apt-get -y install software-properties-common curl openjdk-8-jdk openjdk-11-jdk \
-    openjdk-17-jdk ant ca-certificates-java git build-essential
-RUN apt-get clean
-RUN rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/cache/oracle-jdk8-installer && \
-    rm -rf /var/cache/oracle-jdk11-installer && \
-    rm -rf /var/cache/oracle-jdk8-installer
-
-# install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
-RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
-ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+WORKDIR /RepoSense
 
 # copy over all files
 COPY . .
 
-# install java 8
-RUN export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-arm64
-RUN update-java-alternatives --set /usr/lib/jvm/java-1.8.0-openjdk-arm64
-RUN java -version
+# allow gradlew to be executable
+RUN chmod +x gradlew
+
+# make the report directory
+RUN mkdir reports
 
 # test java 8
-RUN ./gradlew build
-
-# install java 11
-RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-arm64
-RUN update-java-alternatives --set /usr/lib/jvm/java-1.11.0-openjdk-arm64
-RUN java -version
+RUN export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 && \
+    update-java-alternatives --set /usr/lib/jvm/java-1.8.0-openjdk-amd64;
+RUN ./gradlew environmentalChecks
+RUN ./gradlew lintFrontend
+RUN ./gradlew clean
+RUN ./gradlew test
+RUN ./gradlew systemTest
+RUN ./gradlew checkstyleAll
+# RUN ./gradlew clean
+# RUN ./gradlew frontendTest -Pci
+RUN ./gradlew coverage
+RUN cp -rf ./build/reports/jacoco/coverage reports/
+RUN mv -f reports/coverage reports/java8
 
 # test java 11
-RUN ./gradlew build
+RUN export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 && \
+    update-java-alternatives --set /usr/lib/jvm/java-1.11.0-openjdk-amd64;
+RUN ./gradlew environmentalChecks
+RUN ./gradlew lintFrontend
+RUN ./gradlew clean
+RUN ./gradlew test
+RUN ./gradlew systemTest
+RUN ./gradlew checkstyleAll
+# RUN ./gradlew clean
+# RUN ./gradlew frontendTest -Pci
+RUN ./gradlew coverage
+RUN cp -rf ./build/reports/jacoco/coverage reports/
+RUN mv -f reports/coverage reports/java11
 
-# install java 17
-RUN export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-arm64
-RUN update-java-alternatives --set /usr/lib/jvm/java-1.17.0-openjdk-arm64
-RUN java -version
-
-# test java 17
-RUN ./gradlew build
+# export reports
+FROM scratch AS report-exporter
+COPY --from=setup-env RepoSense/reports /reports

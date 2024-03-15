@@ -1,7 +1,0 @@
-version: "3"
-services:
-  RepoSense:
-    container_name: RepoSense
-    build:
-      dockerfile: ./Dockerfile
-    image: reposense:latest

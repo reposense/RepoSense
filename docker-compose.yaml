@@ -1,0 +1,32 @@
+version: "3"
+services:
+  RepoSense-Ubuntu-20.04:
+    container_name: RepoSense-Ubuntu-20.04
+    build:
+      dockerfile: docker/Dockerfile.ubuntu2004
+    image: reposense-ubuntu-20.04:latest
+  RepoSense-Ubuntu-22.04:
+    container_name: RepoSense-Ubuntu-22.04
+    build:
+      dockerfile: docker/Dockerfile.ubuntu2204
+    image: reposense-ubuntu-22.04:latest
+#  RepoSense-Windows-Server-2019:
+#    container_name: RepoSense-Windows-Server-2019
+#    build:
+#      dockerfile: docker/Dockerfile.windows2019
+#    image: reposense-windows-server-2019:latest
+#  RepoSense-Windows-Server-2022:
+#    container_name: RepoSense-Windows-Server-2022
+#    build:
+#      dockerfile: docker/Dockerfile.windows2022
+#    image: reposense-windows-server-2022:latest
+#  RepoSense-MacOS-Big-Sur:
+#    container_name: RepoSense-MacOS-Big-Sur
+#    build:
+#      dockerfile: docker/Dockerfile.macos-big-sur
+#    image: reposense-macos:latest
+#  RepoSense-MacOS-Monterey:
+#    container_name: RepoSense-MacOS-Monterey
+#    build:
+#      dockerfile: docker/Dockerfile.macos-monterey
+#    image: reposense-macos:latest
