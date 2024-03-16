@@ -66,7 +66,6 @@ import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
 import {
   Bar,
-  Commit,
   CommitResult,
   User,
 } from '../types/types';
@@ -86,10 +85,6 @@ export default defineComponent({
     },
     info: {
       type: Object as PropType<{ zUser: User | undefined, zAvgContributionSize: number, zIsMerged: Boolean }>,
-      required: true,
-    },
-    day: {
-      type: Object as PropType<Commit>,
       required: true,
     },
     showDiffstat: {

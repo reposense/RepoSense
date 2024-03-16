@@ -75,9 +75,9 @@
         v-for="fileType in fileTypes",
         v-bind:key="fileType",
         v-bind:style="{\
-                'background-color': fileTypeColors[fileType],\
-                'color': getFontColor(fileTypeColors[fileType])\
-                }"
+          'background-color': fileTypeColors[fileType],\
+          'color': getFontColor(fileTypeColors[fileType])\
+          }"
       )
         input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
           v-on:change="updateSelectedFileTypesHash", v-model="selectedFileTypes")
@@ -87,7 +87,7 @@
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
     h3(v-else) {{ day.date }}
     template(v-for="slice in day.commitResults", v-bind:key="slice.hash")
-      c-zoom-commit-message(v-bind:day="day", v-bind:slice="slice",
+      c-zoom-commit-message(v-bind:slice="slice",
         v-bind:selected-file-types="selectedFileTypes", v-bind:file-type-colors="fileTypeColors",
         v-bind:info="info", v-bind:show-diffstat="showDiffstat")
 </template>
@@ -334,8 +334,8 @@ export default defineComponent({
 
     updateSelectedFileTypesHash() {
       const fileTypeHash = this.selectedFileTypes.length > 0
-          ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
-          : '';
+        ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
+        : '';
 
       window.addHash('zFT', fileTypeHash);
       window.encodeHash();
