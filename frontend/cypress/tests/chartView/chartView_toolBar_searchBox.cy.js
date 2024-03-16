@@ -60,10 +60,17 @@ describe('search bar', () => {
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
-    cy.get('#summary-wrapper .summary-charts')
-      .find('.summary-chart')
-      .its('length')
-      .should('eq', 1);
+    cy.get('.summary-chart__title--name')
+      .should('have.length', 1)
+      .and('contain', 'Eugene (eugenepeh)');
+
+    cy.get('.icon-button.fa-list-ul')
+      .should('exist')
+      .first()
+      .click();
+
+    cy.get('.zoom__title--tags > .tag span')
+      .should('contain', 'v1.8');
   });
 
   it("searching tag that only exists in two authors' commits shows two results", () => {
@@ -77,10 +84,18 @@ describe('search bar', () => {
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
-    cy.get('#summary-wrapper .summary-charts')
-      .find('.summary-chart')
-      .its('length')
-      .should('eq', 2);
+    cy.get('.summary-chart__title--name')
+      .should('have.length', 2)
+      .and('contain', 'Eugene (eugenepeh)')
+      .and('contain', 'James (jamessspanggg)');
+
+    cy.get('.icon-button.fa-list-ul')
+      .should('exist')
+      .each(($ele) => {
+        cy.wrap($ele).click();
+        cy.get('.zoom__title--tags > .tag span')
+          .should('contain', 'v1.10');
+      });
   });
 
   it("search field doesn't start with 'tag:' prefix but still contains it shows no results", () => {
@@ -124,9 +139,25 @@ describe('search bar', () => {
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
-    cy.get('#summary-wrapper #summary-charts')
-      .find('.summary-chart')
-      .its('length')
-      .should('eq', 2);
+    cy.get('.summary-chart__title--name')
+      .should('have.length', 2)
+      .and('contain', 'Eugene (eugenepeh)')
+      .and('contain', 'James (jamessspanggg)');
+
+    cy.get('.icon-button.fa-list-ul')
+      .should('exist')
+      .first()
+      .click();
+
+    cy.get('.zoom__title--tags > .tag span')
+      .should('contain', 'bb');
+
+    cy.get('.icon-button.fa-list-ul')
+      .should('exist')
+      .eq(1)
+      .click();
+
+    cy.get('.zoom__title--tags > .tag span')
+      .should('contain', 'v1.10');
   });
 });
