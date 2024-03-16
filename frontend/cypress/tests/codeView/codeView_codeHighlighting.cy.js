@@ -38,13 +38,13 @@ describe('code highlighting works properly', () => {
       .parent() // .line-content
       .parent() // .code
       .should('have.css', 'background-color', 'rgba(30, 144, 255, 0.19)') // #1e90ff, transparencyValue 30
-      .then((color) => {
+      .then((firstAuthorColor) => {
         // eslint-disable-next-line quotes
         cy.get('.line-content').contains("'red': (") // jamessspanggg
           .parent() // .code
           // #f08080, transparencyValue 30
           .should('have.css', 'background-color', 'rgba(240, 128, 128, 0.19)')
-          .and('not.eq', color);
+          .and('not.eq', firstAuthorColor);
       });
   });
 
