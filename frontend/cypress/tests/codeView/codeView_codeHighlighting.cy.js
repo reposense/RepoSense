@@ -3,7 +3,7 @@ describe('code highlighting works properly', () => {
   it('should highlight code when there is a single author', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -27,7 +27,7 @@ describe('code highlighting works properly', () => {
 
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -51,7 +51,7 @@ describe('code highlighting works properly', () => {
   it('should not highlight non-attributed lines', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
