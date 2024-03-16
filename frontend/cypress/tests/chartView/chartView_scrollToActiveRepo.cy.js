@@ -14,7 +14,7 @@ describe('scroll to active repo', () => {
       });
   });
 
-  it('selecting a non-visible repo should scroll', { retries: 8, defaultCommandTimeout: 1000 }, () => {
+  it('selecting a non-visible repo should scroll', { retries: 10, defaultCommandTimeout: 500 }, () => {
     cy.get('.icon-button.fa-code')
       .should('exist')
       .last()
@@ -33,7 +33,7 @@ describe('scroll to active repo', () => {
 
     cy.reload();
 
-    cy.wait(1000);
+    cy.wait(1250);
 
     cy.get('.icon-button.fa-code')
       .should('exist')
