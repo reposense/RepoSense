@@ -1,5 +1,5 @@
 <template lang="pug">
-#zoom
+#zoom(v-if="filteredUser")
   .panel-title
     span Commits Panel
   .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
@@ -145,13 +145,13 @@ export default defineComponent({
       return (a: Commit, b: Commit) => (this.toReverseSortedCommits ? -1 : 1)
         * window.comparator(commitSortFunction)(a, b);
     },
-    filteredUser(): User {
+    filteredUser(): User | undefined {
       const {
         zUser, zSince, zUntil, zTimeFrame,
       } = this.info;
 
       if (!zUser) {
-        throw new Error('zUser is not defined');
+        return undefined;
       }
 
       const filteredUser: User = Object.assign({}, zUser);
@@ -188,11 +188,11 @@ export default defineComponent({
 
     selectedCommits(): Array<Commit> {
       if (this.isSelectAllChecked) {
-        return this.filteredUser.commits;
+        return this.filteredUser?.commits ?? [];
       }
 
       const commits = [] as Array<Commit>;
-      this.filteredUser.commits.forEach((commit) => {
+      this.filteredUser?.commits.forEach((commit) => {
         const filteredCommit = { ...commit };
         filteredCommit.commitResults = [];
         commit.commitResults.forEach((slice) => {
@@ -264,6 +264,12 @@ export default defineComponent({
     },
   },
   created() {
+    // return if filteredUser is undefined since it won't make sense to render zoom tab
+    // #zoom-tab is also rendered only if filteredUser is defined
+    if (!this.filteredUser) {
+      this.removeZoomHashes();
+      return;
+    }
     this.initiate();
     this.retrieveHashes();
     this.setInfoHash();
@@ -274,7 +280,6 @@ export default defineComponent({
 
   methods: {
     initiate() {
-      // This code crashes if info.zUser is not defined
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
     },
@@ -287,6 +292,8 @@ export default defineComponent({
     },
 
     updateFileTypes() {
+      if (!this.filteredUser) return;
+
       const commitsFileTypes = new Set<string>();
       this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
@@ -378,6 +385,7 @@ export default defineComponent({
       window.removeHash('zFT');
       window.removeHash('zCST');
       window.removeHash('zRSC');
+      window.removeHash('zFR');
       window.encodeHash();
     },
 
