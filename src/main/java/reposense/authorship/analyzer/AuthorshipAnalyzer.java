@@ -98,8 +98,8 @@ public class AuthorshipAnalyzer {
     /**
      * Returns the deleted line in {@code commitHash} that has the lowest originality with {@code lineContent}.
      */
-    private static Optional<CandidateLine> getDeletedLineWithLowestOriginality(RepoConfiguration config, String filePath,
-            String lineContent, String commitHash) {
+    private static Optional<CandidateLine> getDeletedLineWithLowestOriginality(RepoConfiguration config,
+            String filePath, String lineContent, String commitHash) {
         CandidateLine lowestOriginalityLine = null;
 
         String gitLogCacheKey = config.getRepoRoot() + commitHash;

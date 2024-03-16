@@ -1,5 +1,8 @@
 package reposense.authorship.model;
 
+/**
+ * Stores the information of processed file diff used in {@code AuthorshipAnalyzer}.
+ */
 public class FileDiffInfo {
     private final String fileDiffResult;
     private final String preImageFilePath;
