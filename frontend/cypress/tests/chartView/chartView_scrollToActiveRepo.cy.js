@@ -18,6 +18,7 @@ describe('scroll to active repo', () => {
     cy.get('.icon-button.fa-code')
       .should('exist')
       .last()
+      .scrollIntoView()
       .click();
 
     cy.get('#summary-wrapper')
