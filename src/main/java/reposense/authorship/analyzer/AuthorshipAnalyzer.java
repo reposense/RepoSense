@@ -63,7 +63,7 @@ public class AuthorshipAnalyzer {
                 commitHash);
 
         // Give full credit if there are no deleted lines found
-        if (deletedLineOptional.isEmpty()) {
+        if (!deletedLineOptional.isPresent()) {
             return true;
         }
 
