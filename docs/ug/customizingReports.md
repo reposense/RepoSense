@@ -72,4 +72,4 @@ The title can render a combination of HTML and plaintext ([example](title.md)), 
 
 Do note that the width of the title is bound by the width of the left panel.
 
-For more information on how to create a title, see the [Markdown Guide](https://www.markdownguide.org/).
+For more information on how to create a Markdown file, see the [Markdown Guide](https://www.markdownguide.org/).
