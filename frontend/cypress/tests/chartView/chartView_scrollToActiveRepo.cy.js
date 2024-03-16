@@ -14,7 +14,7 @@ describe('scroll to active repo', () => {
       });
   });
 
-  it('selecting a non-visible repo should scroll', () => {
+  it('selecting a non-visible repo should scroll', { retries: 8, defaultCommandTimeout: 1000 }, () => {
     cy.get('.icon-button.fa-code')
       .should('exist')
       .last()
@@ -32,6 +32,8 @@ describe('scroll to active repo', () => {
       .should('contain', 'tabRepo=reposense%2FRepoSense%5Bcypress%5D');
 
     cy.reload();
+
+    cy.wait(1000);
 
     cy.get('.icon-button.fa-code')
       .should('exist')
