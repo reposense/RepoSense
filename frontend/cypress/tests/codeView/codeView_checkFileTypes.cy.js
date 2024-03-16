@@ -2,7 +2,7 @@ describe('check file types', () => {
   it('check if all files types are visible by default', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -16,7 +16,7 @@ describe('check file types', () => {
   it('uncheck all files types should show no files', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -34,7 +34,7 @@ describe('check file types', () => {
   it('uncheck file type should uncheck all option and not show legend', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 

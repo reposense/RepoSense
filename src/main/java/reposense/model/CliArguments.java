@@ -19,25 +19,24 @@ import reposense.parser.ReportConfigJsonParser;
 public class CliArguments {
     private static final Path EMPTY_PATH = Paths.get("");
 
-    private final Path outputFilePath;
-    private final Path assetsFilePath;
-    private final LocalDateTime sinceDate;
-    private final LocalDateTime untilDate;
-    private final boolean isSinceDateProvided;
-    private final boolean isUntilDateProvided;
-    private final List<FileType> formats;
-    private final boolean isLastModifiedDateIncluded;
-    private final boolean isShallowCloningPerformed;
-    private final boolean isAutomaticallyLaunching;
-    private final boolean isStandaloneConfigIgnored;
-    private final boolean isFileSizeLimitIgnored;
-    private final int numCloningThreads;
-    private final int numAnalysisThreads;
-    private final ZoneId zoneId;
-    private final boolean isFindingPreviousAuthorsPerformed;
+    private Path outputFilePath;
+    private Path assetsFilePath;
+    private LocalDateTime sinceDate;
+    private LocalDateTime untilDate;
+    private boolean isSinceDateProvided;
+    private boolean isUntilDateProvided;
+    private List<FileType> formats;
+    private boolean isLastModifiedDateIncluded;
+    private boolean isShallowCloningPerformed;
+    private boolean isAutomaticallyLaunching;
+    private boolean isStandaloneConfigIgnored;
+    private boolean isFileSizeLimitIgnored;
+    private int numCloningThreads;
+    private int numAnalysisThreads;
+    private ZoneId zoneId;
+    private boolean isFindingPreviousAuthorsPerformed;
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
-
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -51,35 +50,10 @@ public class CliArguments {
     private Path reportConfigFilePath;
     private ReportConfiguration reportConfiguration;
 
-    private CliArguments(Builder builder) {
-        this.outputFilePath = builder.outputFilePath;
-        this.assetsFilePath = builder.assetsFilePath;
-        this.sinceDate = builder.sinceDate;
-        this.untilDate = builder.untilDate;
-        this.isSinceDateProvided = builder.isSinceDateProvided;
-        this.isUntilDateProvided = builder.isUntilDateProvided;
-        this.formats = builder.formats;
-        this.isLastModifiedDateIncluded = builder.isLastModifiedDateIncluded;
-        this.isShallowCloningPerformed = builder.isShallowCloningPerformed;
-        this.isAutomaticallyLaunching = builder.isAutomaticallyLaunching;
-        this.isStandaloneConfigIgnored = builder.isStandaloneConfigIgnored;
-        this.isFileSizeLimitIgnored = builder.isFileSizeLimitIgnored;
-        this.numCloningThreads = builder.numCloningThreads;
-        this.numAnalysisThreads = builder.numAnalysisThreads;
-        this.zoneId = builder.zoneId;
-        this.isFindingPreviousAuthorsPerformed = builder.isFindingPreviousAuthorsPerformed;
-        this.isTestMode = builder.isTestMode;
-        this.isFreshClonePerformed = builder.isFreshClonePerformed;
-        this.locations = builder.locations;
-        this.isViewModeOnly = builder.isViewModeOnly;
-        this.reportDirectoryPath = builder.reportDirectoryPath;
-        this.configFolderPath = builder.configFolderPath;
-        this.repoConfigFilePath = builder.repoConfigFilePath;
-        this.authorConfigFilePath = builder.authorConfigFilePath;
-        this.groupConfigFilePath = builder.groupConfigFilePath;
-        this.reportConfigFilePath = builder.reportConfigFilePath;
-        this.reportConfiguration = builder.reportConfiguration;
-    }
+    /**
+     * Constructs a {@code CliArguments} object without any parameters.
+     */
+    private CliArguments() {}
 
     public ZoneId getZoneId() {
         return zoneId;
@@ -233,35 +207,10 @@ public class CliArguments {
      * Builder used to build CliArguments.
      */
     public static final class Builder {
-        private Path outputFilePath;
-        private Path assetsFilePath;
-        private LocalDateTime sinceDate;
-        private LocalDateTime untilDate;
-        private boolean isSinceDateProvided;
-        private boolean isUntilDateProvided;
-        private List<FileType> formats;
-        private boolean isLastModifiedDateIncluded;
-        private boolean isShallowCloningPerformed;
-        private boolean isAutomaticallyLaunching;
-        private boolean isStandaloneConfigIgnored;
-        private boolean isFileSizeLimitIgnored;
-        private int numCloningThreads;
-        private int numAnalysisThreads;
-        private ZoneId zoneId;
-        private boolean isFindingPreviousAuthorsPerformed;
-        private boolean isTestMode;
-        private boolean isFreshClonePerformed;
-        private List<String> locations;
-        private boolean isViewModeOnly;
-        private Path reportDirectoryPath;
-        private Path configFolderPath;
-        private Path repoConfigFilePath;
-        private Path authorConfigFilePath;
-        private Path groupConfigFilePath;
-        private Path reportConfigFilePath;
-        private ReportConfiguration reportConfiguration;
+        private CliArguments cliArguments;
 
         public Builder() {
+            this.cliArguments = new CliArguments();
         }
 
         /**
@@ -270,7 +219,7 @@ public class CliArguments {
          * @param outputFilePath The output file path.
          */
         public Builder outputFilePath(Path outputFilePath) {
-            this.outputFilePath = outputFilePath;
+            this.cliArguments.outputFilePath = outputFilePath;
             return this;
         }
 
@@ -280,7 +229,7 @@ public class CliArguments {
          * @param assetsFilePath The assets file path.
          */
         public Builder assetsFilePath(Path assetsFilePath) {
-            this.assetsFilePath = assetsFilePath;
+            this.cliArguments.assetsFilePath = assetsFilePath;
             return this;
         }
 
@@ -290,7 +239,7 @@ public class CliArguments {
          * @param sinceDate The since date.
          */
         public Builder sinceDate(LocalDateTime sinceDate) {
-            this.sinceDate = sinceDate;
+            this.cliArguments.sinceDate = sinceDate;
             return this;
         }
 
@@ -300,7 +249,7 @@ public class CliArguments {
          * @param untilDate The until date.
          */
         public Builder untilDate(LocalDateTime untilDate) {
-            this.untilDate = untilDate;
+            this.cliArguments.untilDate = untilDate;
             return this;
         }
 
@@ -310,7 +259,7 @@ public class CliArguments {
          * @param isSinceDateProvided Is the since date provided.
          */
         public Builder isSinceDateProvided(boolean isSinceDateProvided) {
-            this.isSinceDateProvided = isSinceDateProvided;
+            this.cliArguments.isSinceDateProvided = isSinceDateProvided;
             return this;
         }
 
@@ -320,7 +269,7 @@ public class CliArguments {
          * @param isUntilDateProvided Is the until date provided.
          */
         public Builder isUntilDateProvided(boolean isUntilDateProvided) {
-            this.isUntilDateProvided = isUntilDateProvided;
+            this.cliArguments.isUntilDateProvided = isUntilDateProvided;
             return this;
         }
 
@@ -330,7 +279,7 @@ public class CliArguments {
          * @param formats The list of {@link FileType}.
          */
         public Builder formats(List<FileType> formats) {
-            this.formats = formats;
+            this.cliArguments.formats = formats;
             return this;
         }
 
@@ -340,7 +289,7 @@ public class CliArguments {
          * @param isLastModifiedDateIncluded Is the last modified date included.
          */
         public Builder isLastModifiedDateIncluded(boolean isLastModifiedDateIncluded) {
-            this.isLastModifiedDateIncluded = isLastModifiedDateIncluded;
+            this.cliArguments.isLastModifiedDateIncluded = isLastModifiedDateIncluded;
             return this;
         }
 
@@ -350,7 +299,7 @@ public class CliArguments {
          * @param isShallowCloningPerformed Is shallow cloning performed.
          */
         public Builder isShallowCloningPerformed(boolean isShallowCloningPerformed) {
-            this.isShallowCloningPerformed = isShallowCloningPerformed;
+            this.cliArguments.isShallowCloningPerformed = isShallowCloningPerformed;
             return this;
         }
 
@@ -360,7 +309,7 @@ public class CliArguments {
          * @param isAutomaticallyLaunching Is automatically launching.
          */
         public Builder isAutomaticallyLaunching(boolean isAutomaticallyLaunching) {
-            this.isAutomaticallyLaunching = isAutomaticallyLaunching;
+            this.cliArguments.isAutomaticallyLaunching = isAutomaticallyLaunching;
             return this;
         }
 
@@ -370,7 +319,7 @@ public class CliArguments {
          * @param isStandaloneConfigIgnored Is standalone config ignored.
          */
         public Builder isStandaloneConfigIgnored(boolean isStandaloneConfigIgnored) {
-            this.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
+            this.cliArguments.isStandaloneConfigIgnored = isStandaloneConfigIgnored;
             return this;
         }
 
@@ -380,7 +329,7 @@ public class CliArguments {
          * @param isFileSizeLimitIgnored Is file size limit ignored.
          */
         public Builder isFileSizeLimitIgnored(boolean isFileSizeLimitIgnored) {
-            this.isFileSizeLimitIgnored = isFileSizeLimitIgnored;
+            this.cliArguments.isFileSizeLimitIgnored = isFileSizeLimitIgnored;
             return this;
         }
 
@@ -390,7 +339,7 @@ public class CliArguments {
          * @param numCloningThreads The number of cloning threads.
          */
         public Builder numCloningThreads(int numCloningThreads) {
-            this.numCloningThreads = numCloningThreads;
+            this.cliArguments.numCloningThreads = numCloningThreads;
             return this;
         }
 
@@ -400,7 +349,7 @@ public class CliArguments {
          * @param numAnalysisThreads The number of analysis threads.
          */
         public Builder numAnalysisThreads(int numAnalysisThreads) {
-            this.numAnalysisThreads = numAnalysisThreads;
+            this.cliArguments.numAnalysisThreads = numAnalysisThreads;
             return this;
         }
 
@@ -410,7 +359,7 @@ public class CliArguments {
          * @param zoneId The timezone Id.
          */
         public Builder zoneId(ZoneId zoneId) {
-            this.zoneId = zoneId;
+            this.cliArguments.zoneId = zoneId;
             return this;
         }
 
@@ -420,7 +369,7 @@ public class CliArguments {
          * @param isFindingPreviousAuthorsPerformed Is finding previous authors performed.
          */
         public Builder isFindingPreviousAuthorsPerformed(boolean isFindingPreviousAuthorsPerformed) {
-            this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
+            this.cliArguments.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
             return this;
         }
 
@@ -430,7 +379,7 @@ public class CliArguments {
          * @param isTestMode Is test mode.
          */
         public Builder isTestMode(boolean isTestMode) {
-            this.isTestMode = isTestMode;
+            this.cliArguments.isTestMode = isTestMode;
             return this;
         }
 
@@ -440,7 +389,7 @@ public class CliArguments {
          * @param isFreshClonePerformed Is fresh clone performed.
          */
         public Builder isFreshClonePerformed(boolean isFreshClonePerformed) {
-            this.isFreshClonePerformed = isFreshClonePerformed;
+            this.cliArguments.isFreshClonePerformed = isFreshClonePerformed;
             return this;
         }
 
@@ -450,7 +399,7 @@ public class CliArguments {
          * @param locations The list of locations.
          */
         public Builder locations(List<String> locations) {
-            this.locations = locations;
+            this.cliArguments.locations = locations;
             return this;
         }
 
@@ -460,7 +409,7 @@ public class CliArguments {
          * @param isViewModeOnly Is view mode only.
          */
         public Builder isViewModeOnly(boolean isViewModeOnly) {
-            this.isViewModeOnly = isViewModeOnly;
+            this.cliArguments.isViewModeOnly = isViewModeOnly;
             return this;
         }
 
@@ -470,7 +419,7 @@ public class CliArguments {
          * @param reportDirectoryPath The report directory path.
          */
         public Builder reportDirectoryPath(Path reportDirectoryPath) {
-            this.reportDirectoryPath = reportDirectoryPath;
+            this.cliArguments.reportDirectoryPath = reportDirectoryPath;
             return this;
         }
 
@@ -482,13 +431,17 @@ public class CliArguments {
          * @param configFolderPath The config folder path.
          */
         public Builder configFolderPath(Path configFolderPath) {
-            this.configFolderPath = configFolderPath.equals(EMPTY_PATH)
+            this.cliArguments.configFolderPath = configFolderPath.equals(EMPTY_PATH)
                 ? configFolderPath.toAbsolutePath()
                 : configFolderPath;
-            this.repoConfigFilePath = configFolderPath.resolve(RepoConfigCsvParser.REPO_CONFIG_FILENAME);
-            this.authorConfigFilePath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
-            this.groupConfigFilePath = configFolderPath.resolve(GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
-            this.reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+            this.cliArguments.repoConfigFilePath = configFolderPath.resolve(
+                    RepoConfigCsvParser.REPO_CONFIG_FILENAME);
+            this.cliArguments.authorConfigFilePath = configFolderPath.resolve(
+                    AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
+            this.cliArguments.groupConfigFilePath = configFolderPath.resolve(
+                    GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
+            this.cliArguments.reportConfigFilePath = configFolderPath.resolve(
+                    ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
             return this;
         }
 
@@ -498,7 +451,7 @@ public class CliArguments {
          * @param reportConfiguration The report configuration.
          */
         public Builder reportConfiguration(ReportConfiguration reportConfiguration) {
-            this.reportConfiguration = reportConfiguration;
+            this.cliArguments.reportConfiguration = reportConfiguration;
             return this;
         }
 
@@ -508,7 +461,9 @@ public class CliArguments {
          * @return CliArguments
          */
         public CliArguments build() {
-            return new CliArguments(this);
+            CliArguments built = this.cliArguments;
+            this.cliArguments = new CliArguments();
+            return built;
         }
     }
 }
