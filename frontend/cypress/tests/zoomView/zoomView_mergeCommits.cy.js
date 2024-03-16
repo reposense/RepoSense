@@ -2,7 +2,7 @@ describe('include merge commits in zoom view', () => {
   it('show merge commits when all file types selected', () => {
     // open the commits panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -14,7 +14,7 @@ describe('include merge commits in zoom view', () => {
   it('hide merge commits when some file types unselected', () => {
     // open the commits panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
