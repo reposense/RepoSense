@@ -1,6 +1,18 @@
 describe('scroll to active repo', () => {
   // need to set scrollBehavior to false because the default behavior is to scroll the element into view
-  it('selecting a visible repo should not scroll', { scrollBehavior: false }, () => {
+  it('selecting a visible repo should not scroll', () => {
+    cy.get('.icon-button.fa-code')
+      .should('exist')
+      .first()
+      .scrollIntoView();
+
+    let scrollTopOriginal = 0;
+    cy.get('#summary-wrapper')
+      .first()
+      .then(($el) => {
+        scrollTopOriginal = $el.prop('scrollTop');
+      });
+
     cy.get('.icon-button.fa-code')
       .should('exist')
       .first()
@@ -10,7 +22,7 @@ describe('scroll to active repo', () => {
       .first()
       .then(($el) => {
         const scrollTop = $el.prop('scrollTop');
-        expect(scrollTop).to.equal(0);
+        expect(scrollTop).to.equal(scrollTopOriginal);
       });
   });
 
@@ -18,7 +30,6 @@ describe('scroll to active repo', () => {
     cy.get('.icon-button.fa-code')
       .should('exist')
       .last()
-      .scrollIntoView()
       .click();
 
     cy.get('#summary-wrapper')
