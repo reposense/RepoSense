@@ -3,6 +3,7 @@ package reposense.authorship.analyzer;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -58,10 +59,18 @@ public class AuthorshipAnalyzer {
             return true;
         }
 
-        CandidateLine deletedLine = getDeletedLineWithLowestOriginality(config, filePath, lineContent, commitHash);
+        Optional<CandidateLine> deletedLineOptional = getDeletedLineWithLowestOriginality(config, filePath, lineContent,
+                commitHash);
 
-        // Give full credit if there are no deleted lines found or deleted line is more than originality threshold
-        if (deletedLine == null || deletedLine.getOriginalityScore() > originalityThreshold) {
+        // Give full credit if there are no deleted lines found
+        if (deletedLineOptional.isEmpty()) {
+            return true;
+        }
+
+        CandidateLine deletedLine = deletedLineOptional.get();
+
+        // Give full credit if deleted line's originality score exceeds the originality threshold
+        if (deletedLine.getOriginalityScore() > originalityThreshold) {
             return true;
         }
 
@@ -89,7 +98,7 @@ public class AuthorshipAnalyzer {
     /**
      * Returns the deleted line in {@code commitHash} that has the lowest originality with {@code lineContent}.
      */
-    private static CandidateLine getDeletedLineWithLowestOriginality(RepoConfiguration config, String filePath,
+    private static Optional<CandidateLine> getDeletedLineWithLowestOriginality(RepoConfiguration config, String filePath,
             String lineContent, String commitHash) {
         CandidateLine lowestOriginalityLine = null;
 
@@ -169,7 +178,7 @@ public class AuthorshipAnalyzer {
             }
         }
 
-        return lowestOriginalityLine;
+        return Optional.ofNullable(lowestOriginalityLine);
     }
 
     /**
