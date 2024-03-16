@@ -494,14 +494,15 @@ export default defineComponent({
     getFilteredRepos() {
       // array of array, sorted by repo
       const full: Array<Array<User>> = [];
+      const tagSearchPrefix = 'tag:';
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
       const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) as Array<Repo> : this.repos;
       const res: Array<User> = [];
 
-      if (this.filterSearch.startsWith('tag:')) {
-        const searchedTags = this.filterSearch.split('tag:')[1];
+      if (this.filterSearch.startsWith(tagSearchPrefix)) {
+        const searchedTags = this.filterSearch.split(tagSearchPrefix)[1];
         groups.forEach((repo) => {
           const commits = repo.commits;
           if (!commits) return;
