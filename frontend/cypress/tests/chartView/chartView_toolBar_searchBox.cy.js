@@ -5,8 +5,6 @@ describe('search bar', () => {
       .type('abcdef')
       .type('{enter}');
 
-    // Enter does not work. Related issue: https://github.com/cypress-io/cypress/issues/3405
-    // Let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
@@ -23,8 +21,6 @@ describe('search bar', () => {
       .type('Yong Hao TENG')
       .type('{enter}');
 
-    // Enter does not work. Related issue: https://github.com/cypress-io/cypress/issues/3405
-    // Let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
@@ -40,8 +36,6 @@ describe('search bar', () => {
       .type('tag: asdfghjkl')
       .type('{enter}');
 
-    // Enter does not work. Related issue: https://github.com/cypress-io/cypress/issues/3405
-    // Let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
@@ -55,8 +49,6 @@ describe('search bar', () => {
       .type('tag: v1.8')
       .type('{enter}');
 
-    // Enter does not work. Related issue: https://github.com/cypress-io/cypress/issues/3405
-    // Let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
@@ -79,8 +71,6 @@ describe('search bar', () => {
       .type('tag: v1.10')
       .type('{enter}');
 
-    // Enter does not work. Related issue: https://github.com/cypress-io/cypress/issues/3405
-    // Let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
@@ -104,8 +94,6 @@ describe('search bar', () => {
       .type('v1.10 tag: v1.10')
       .type('{enter}');
 
-    // Enter does not work. Related issue:
-    // Let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
@@ -119,8 +107,6 @@ describe('search bar', () => {
       .type('v1.10')
       .type('{enter}');
 
-    // Enter does not work. Related issue:
-    // Let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
@@ -134,8 +120,6 @@ describe('search bar', () => {
       .type('tag: bb v1.10')
       .type('{enter}');
 
-    // Enter does not work. Related issue:
-    // Let's manually submit form
     cy.get('#summary-wrapper form.summary-picker')
       .submit();
 
