@@ -76,7 +76,7 @@
         label.view-tags
           input.mui-checkbox(
             type="checkbox",
-            v-model="viewRepoTags",
+            v-model="viewRepoTags"
           )
           span view repo tags
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
@@ -139,7 +139,7 @@
     v-bind:max-date="maxDate",
     v-bind:sort-group-selection="sortGroupSelection",
     v-bind:chart-group-index="chartGroupIndex",
-    v-bind:chart-index="chartIndex"
+    v-bind:chart-index="chartIndex",
     v-bind:view-repo-tags="viewRepoTags"
   )
 </template>

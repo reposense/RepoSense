@@ -143,7 +143,7 @@
         .tag(
           v-for="tag in getTags(repo)",
           vbind:key="tag",
-          tabindex="-1",
+          tabindex="-1"
         )
           font-awesome-icon(icon="tags")
           span &nbsp;{{ tag }}
