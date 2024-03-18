@@ -139,7 +139,7 @@
           v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
-      .summary-charts__title--tags(v-if="getTags(repo).length > 0")
+      .summary-charts__title--tags(v-if="viewRepoTags && getTags(repo).length > 0")
         .tag(
           v-for="tag in getTags(repo)",
           vbind:key="tag",
@@ -378,6 +378,10 @@ export default defineComponent({
     chartIndex: {
       type: Number,
       default: undefined,
+    },
+    viewRepoTags: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
