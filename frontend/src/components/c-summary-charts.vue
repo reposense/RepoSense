@@ -139,6 +139,14 @@
           v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
+      .summary-charts__title--tags(v-if="getTags(repo).length > 0")
+        .tag(
+          v-for="tag in getTags(repo)",
+          vbind:key="tag",
+          tabindex="-1",
+        )
+          font-awesome-icon(icon="tags")
+          span &nbsp;{{ tag }}
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -875,6 +883,15 @@ export default defineComponent({
 
       return totalContribution / totalCommits;
     },
+
+    getTags(repo: Array<User>): Array<string> {
+      return [...new Set(repo.flatMap((r) => r.commits).flatMap((c) => c.commitResults).flatMap((r) => r.tags))]
+        .filter(Boolean) as Array<string>;
+    },
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/tags.scss';
+</style>
