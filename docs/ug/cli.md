@@ -16,10 +16,10 @@ The command `java -jar RepoSense.jar` takes several flags.
 **Examples**:
 
 An example of a command using most parameters:<br>
-`java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08 --find-previous-authors`
+`java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08 --find-previous-authors --analyze-authorship --originality-threshold 0.66`
 
 Same command as above but using most parameters in alias format:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08 -F`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08 -F -A -ot 0.66`
 </box>
 
 The section below provides explanations for each of the flags.
@@ -261,3 +261,38 @@ Cannot be used with any other flags. This flag takes precedence over all other f
   Default: `./reposense-report`
 * Alias: `-v`
 * Example:`--view` or `-v`
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--analyze-authorship`, `-A`
+
+**`--analyze-authorship`**: Performs further analysis to distinguish between partial and full credit attribution for
+lines of code assigned to the author.
+
+* Default: this feature is turned ***off*** by default and the author will receive full credit for all lines of code.
+* Alias: `-A` (upper case)
+* Example: `--analyze-authorship` or `-A`
+
+<box type="info" seamless>
+
+If the code is attributed to a different author by the user via `@@author` tag, then the new author will be given
+partial credit.
+</box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--originality-threshold`, `-ot`
+
+**`--originality-threshold [VALUE]`**: Specifies the cut-off point for partial and full credit
+in `--analyze-authorship`. Author will be given full credit if their contribution exceeds this threshold, else partial
+credit is given.
+
+* Parameter: `VALUE` Optional. Acceptable range: [0.0, 1.0].<br>
+  Default: `0.51`
+* Alias: `-ot`
+* Example: `--originality-threshold 0.66` or `-ot 0.66`
+
+<box type="info" seamless>
+
+Requires `--analyze-authorship` flag.
+</box>
