@@ -153,11 +153,7 @@ import {
   CommitResult,
 } from '../types/types';
 import { ErrorMessage } from '../types/zod/summary-type';
-import {
-  AuthorDailyContributions,
-  AuthorFileTypeContributions,
-  FileTypeAndContribution,
-} from '../types/zod/commits-type';
+import { AuthorFileTypeContributions, FileTypeAndContribution } from '../types/zod/commits-type';
 import { ZoomInfo } from '../types/vuex.d';
 import {
   FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection,
@@ -476,13 +472,6 @@ export default defineComponent({
         .some((param) => user.searchPath.includes(param));
     },
 
-    isMatchSearchedTag(filterSearch: string, tag: string) {
-      return !filterSearch || filterSearch.toLowerCase()
-        .split(' ')
-        .filter(Boolean)
-        .some((param) => tag.includes(param));
-    },
-
     toggleBreakdown() {
       // Reset the file type filter
       if (this.checkedFileTypes.length !== this.fileTypes.length) {
@@ -504,51 +493,29 @@ export default defineComponent({
     getFilteredRepos() {
       // array of array, sorted by repo
       const full: Array<Array<User>> = [];
-      const tagSearchPrefix = 'tag:';
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
       const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) as Array<Repo> : this.repos;
-      const res: Array<User> = [];
+      groups.forEach((repo) => {
+        const res: Array<User> = [];
 
-      if (this.filterSearch.startsWith(tagSearchPrefix)) {
-        const searchedTags = this.filterSearch.split(tagSearchPrefix)[1];
-        groups.forEach((repo) => {
-          const commits = repo.commits;
-          if (!commits) return;
-
-          Object.entries(commits.authorDailyContributionsMap).forEach(([author, contributions]) => {
-            contributions = contributions as Array<AuthorDailyContributions>;
-            const tags = contributions.flatMap((c) => c.commitResults).flatMap((r) => r.tags);
-
-            if (tags.some((tag) => tag && this.isMatchSearchedTag(searchedTags, tag))) {
-              const user = repo.users?.find((u) => u.name === author);
-              if (user) {
-                this.updateCheckedFileTypeContribution(user);
-                res.push(user);
-              }
+        // filtering
+        repo.users?.forEach((user) => {
+          if (this.isMatchSearchedUser(this.filterSearch, user)) {
+            this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
+            if (this.filterTimeFrame === 'week') {
+              this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
             }
-          });
+            this.updateCheckedFileTypeContribution(user);
+            res.push(user);
+          }
         });
-      } else {
-        groups.forEach((repo) => {
-          // filtering
-          repo.users?.forEach((user) => {
-            if (this.isMatchSearchedUser(this.filterSearch, user)) {
-              this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
-              if (this.filterTimeFrame === 'week') {
-                this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
-              }
-              this.updateCheckedFileTypeContribution(user);
-              res.push(user);
-            }
-          });
-        });
-      }
 
-      if (res.length) {
-        full.push(res);
-      }
+        if (res.length) {
+          full.push(res);
+        }
+      });
       this.filtered = full;
 
       this.getOptionWithOrder();
