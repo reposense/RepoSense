@@ -13,7 +13,7 @@
   ],
   "rules": {
     "@stylistic/lines-between-class-members": [
-      "error", 
+      "error",
       "never"
     ],
     "vue/component-definition-name-casing": [
