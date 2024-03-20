@@ -49,7 +49,6 @@
       }
     ],
     "prefer-object-spread": 0,
-    "@stylistic/function-call-argument-newline": 0,
     "vue/no-computed-properties-in-data": 0,
     "import/extensions": [
       "error",
