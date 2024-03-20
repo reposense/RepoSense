@@ -6,7 +6,8 @@
     "airbnb-base",
     "plugin:vue/recommended",
     "@vue/typescript",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:@stylistic/disable-legacy"
   ],
   "plugins": [
     "@stylistic"
@@ -41,8 +42,6 @@
       "as-needed"
     ],
     "no-alert": 0,
-    "linebreak-style": 0,
-    "max-len": 0,
     "@stylistic/max-len": [
       "error",
       {
@@ -68,14 +67,13 @@
       "files": ["*.ts"],
       "extends": [
         "airbnb-typescript/base",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@stylistic/disable-legacy"
       ],
       "parserOptions": {
         "project": ["./tsconfig.json"]
       },
       "rules": {
-        "indent": 0,
-        "@typescript-eslint/indent": [
+        "@stylistic/indent": [
           "error",
           2,
           {
