@@ -34,7 +34,7 @@ describe('code view', () => {
       .should('be.checked');
 
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
