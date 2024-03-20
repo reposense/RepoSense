@@ -8,14 +8,21 @@
     "@vue/typescript",
     "plugin:import/typescript"
   ],
+  "plugins": [
+    "@stylistic"
+  ],
   "rules": {
+    "@stylistic/lines-between-class-members": [
+      "error", 
+      "never"
+    ],
     "vue/component-definition-name-casing": [
       "error",
       "kebab-case"
     ],
     "vue/require-prop-types": 0,
     "no-param-reassign": 0,
-    "arrow-parens": [
+    "@stylistic/arrow-parens": [
       "error",
       "always"
     ],
@@ -34,15 +41,16 @@
       "as-needed"
     ],
     "no-alert": 0,
-    "linebreak-style": 0,
-    "max-len": [
+    "@stylistic/linebreak-style": 0,
+    "max-len": "off",
+    "@stylistic/max-len": [
       "error",
       {
         "code": 120
       }
     ],
     "prefer-object-spread": 0,
-    "function-call-argument-newline": 0,
+    "@stylistic/function-call-argument-newline": 0,
     "vue/no-computed-properties-in-data": 0,
     "import/extensions": [
       "error",
@@ -77,8 +85,8 @@
             "SwitchCase": 0
           }
         ],
-        "@typescript-eslint/member-delimiter-style": "error",
-        "@typescript-eslint/type-annotation-spacing": "error",
+        "@stylistic/member-delimiter-style": "error",
+        "@stylistic/type-annotation-spacing": "error",
         "@typescript-eslint/array-type": [
           "error",
           {
