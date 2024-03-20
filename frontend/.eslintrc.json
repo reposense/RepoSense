@@ -13,10 +13,6 @@
     "@stylistic"
   ],
   "rules": {
-    "@stylistic/lines-between-class-members": [
-      "error",
-      "never"
-    ],
     "vue/component-definition-name-casing": [
       "error",
       "kebab-case"
