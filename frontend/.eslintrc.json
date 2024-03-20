@@ -41,8 +41,8 @@
       "as-needed"
     ],
     "no-alert": 0,
-    "@stylistic/linebreak-style": 0,
-    "max-len": "off",
+    "linebreak-style": 0,
+    "max-len": 0,
     "@stylistic/max-len": [
       "error",
       {
@@ -74,7 +74,7 @@
         "project": ["./tsconfig.json"]
       },
       "rules": {
-        "indent": "off",
+        "indent": 0,
         "@typescript-eslint/indent": [
           "error",
           2,
