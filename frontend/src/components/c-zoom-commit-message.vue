@@ -156,14 +156,12 @@ export default defineComponent({
 
       return allContributionBars;
     },
-
     getSliceLink(slice: CommitResult): string | undefined {
       if (this.info.zIsMerged) {
         return window.getCommitLink(slice.repoId, slice.hash);
       }
       return window.getCommitLink(this.info.zUser!.repoId, slice.hash);
     },
-
     toggleSelectedCommitMessageBody(slice: CommitResult) {
       this.$store.commit('toggleZoomCommitMessageBody', slice);
     },
@@ -175,7 +173,6 @@ export default defineComponent({
       }
       return false;
     },
-
     getFontColor(color: string) {
       return window.getFontColor(color);
     },

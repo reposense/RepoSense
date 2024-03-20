@@ -283,14 +283,12 @@ export default defineComponent({
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
     },
-
     scrollToCommit(tag: string, commit: string) {
       const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
         el.focus();
       }
     },
-
     updateFileTypes() {
       if (!this.filteredUser) return;
 
@@ -306,12 +304,10 @@ export default defineComponent({
         (fileType) => commitsFileTypes.has(fileType),
       );
     },
-
     retrieveHashes() {
       this.retrieveSortHash();
       this.retrieveSelectedFileTypesHash();
     },
-
     retrieveSortHash() {
       const hash = window.hashParams;
       if (hash.zCST && Object.values(CommitsSortType).includes(hash.zCST as CommitsSortType)) {
@@ -321,7 +317,6 @@ export default defineComponent({
         this.toReverseSortedCommits = (hash.zRSC === 'true');
       }
     },
-
     retrieveSelectedFileTypesHash() {
       const hash = window.hashParams;
 
@@ -331,7 +326,6 @@ export default defineComponent({
           .filter((fileType) => this.fileTypes.includes(fileType));
       }
     },
-
     updateSelectedFileTypesHash() {
       const fileTypeHash = this.selectedFileTypes.length > 0
         ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
@@ -340,7 +334,6 @@ export default defineComponent({
       window.addHash('zFT', fileTypeHash);
       window.encodeHash();
     },
-
     setInfoHash() {
       const { addHash, encodeHash } = window;
       const {
@@ -359,7 +352,6 @@ export default defineComponent({
       addHash('zFR', zFromRamp.toString());
       encodeHash();
     },
-
     toggleAllCommitMessagesBody(isOpen: boolean) {
       this.showAllCommitMessageBody = isOpen;
       this.$store.commit('setAllZoomCommitMessageBody', {
@@ -367,11 +359,9 @@ export default defineComponent({
         commits: this.selectedCommits,
       });
     },
-
     toggleDiffstatView(isVisible: boolean) {
       this.showDiffstat = isVisible;
     },
-
     removeZoomHashes() {
       window.removeHash('zA');
       window.removeHash('zR');
@@ -388,7 +378,6 @@ export default defineComponent({
       window.removeHash('zFR');
       window.encodeHash();
     },
-
     getFontColor(color: string) {
       return window.getFontColor(color);
     },
