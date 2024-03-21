@@ -217,14 +217,18 @@ public class ArgsParser {
         parser.addArgument(ANALYZE_AUTHORSHIP_FLAGS)
                 .dest(ANALYZE_AUTHORSHIP_FLAGS[0])
                 .action(Arguments.storeTrue())
-                .help("A flag to perform analysis of code authorship.");
+                .help("Performs further analysis to distinguish between partial and full credit attribution for "
+                        + "lines of code assigned to the author. A darker background colour represents full credit, "
+                        + "while a lighter background colour represents partial credit.");
 
         parser.addArgument(ORIGINALITY_THRESHOLD_FLAGS)
                 .dest(ORIGINALITY_THRESHOLD_FLAGS[0])
                 .metavar("(0.0 ~ 1.0)")
                 .type(new OriginalityThresholdArgumentType())
                 .setDefault(DEFAULT_ORIGINALITY_THRESHOLD)
-                .help("The originality threshold for analysis of code authorship.");
+                .help("Specifies the cut-off point for partial and full credit when further analysis of authorship "
+                        + "is performed. Author will be given full credit if their contribution exceeds this "
+                        + "threshold, else partial credit is given.");
 
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)

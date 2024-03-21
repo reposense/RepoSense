@@ -275,6 +275,8 @@ lines of code assigned to the author.
 
 <box type="info" seamless>
 
+A darker background colour represents full credit, while a lighter background colour represents partial credit.
+
 If the code is attributed to a different author by the user via `@@author` tag, then the new author will be given
 partial credit.
 </box>
