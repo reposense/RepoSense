@@ -10,6 +10,6 @@ package reposense.util.function;
  *           can throw.
  */
 @FunctionalInterface
-public interface ThrowableFunction<T, U, E extends Exception> {
+public interface ThrowableFunction<T, U, E extends Throwable> {
     U apply(T t) throws E;
 }

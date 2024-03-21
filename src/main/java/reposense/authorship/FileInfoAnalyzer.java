@@ -21,7 +21,8 @@ import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
-import reposense.util.function.FailableOptional;
+import reposense.util.function.CannotFailException;
+import reposense.util.function.Failable;
 
 /**
  * Analyzes the target and information given in the {@link FileInfo}.
@@ -44,14 +45,14 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Returns empty {@code FailableOptional<FileResult>} if the file is missing from the local system, or none of the
-     * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     * Returns empty {@code Failable<FileResult, CannotFailException>} if the file is missing from the local system,
+     * or none of the {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public FailableOptional<FileResult> analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
+    public Failable<FileResult, CannotFailException> analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
         // note that the predicates in filter() test for the negation of the previous failure conditions
-        return FailableOptional.ofNullable(relativePath)
+        return Failable.ofNullable(() -> relativePath)
                 .filter(x -> Files.exists(Paths.get(config.getRepoRoot(), x)))
                 .ifAbsent(() -> logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath)))
                 .filter(x -> !FileUtil.isEmptyFile(config.getRepoRoot(), x))
@@ -68,13 +69,13 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the binary file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
-     * Returns empty {@code FailableOptional<FileResult>} if the file is missing from the local system, or none of the
-     * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
+     * Returns empty {@code Failable<FileResult, CannotFailException>} if the file is missing from the local system,
+     * or none of the {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public FailableOptional<FileResult> analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
+    public Failable<FileResult, CannotFailException> analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
-        return FailableOptional.ofNullable(relativePath)
+        return Failable.ofNullable(() -> relativePath)
                 .filter(x -> Files.exists(Paths.get(config.getRepoRoot(), relativePath)))
                 .ifAbsent(() -> logger.severe(String.format(MESSAGE_FILE_MISSING, relativePath)))
                 .ifPresent(x -> fileInfo.setFileType(config.getFileType(fileInfo.getPath())))
@@ -99,14 +100,15 @@ public class FileInfoAnalyzer {
     /**
      * Generates and returns a {@link FileResult} with the authorship results from binary {@code fileInfo} consolidated.
      * Authorship results are indicated in the {@code authorContributionMap} as contributions with zero line counts.
-     * Returns an empty {@code FailableOptional<FileResult>} if none of the {@link Author} specified in
+     * Returns an empty {@code Failable<FileResult, CannotFailException>} if none of the {@link Author} specified in
      * {@code config} contributed to the file in {@code fileInfo}.
      */
-    private FailableOptional<FileResult> generateBinaryFileResult(RepoConfiguration config, FileInfo fileInfo) {
+    private Failable<FileResult, CannotFailException> generateBinaryFileResult(
+            RepoConfiguration config, FileInfo fileInfo) {
         Set<Author> authors = new HashSet<>();
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();
 
-        return FailableOptional.ofNullable(GitLog.getFileAuthors(config, fileInfo.getPath()))
+        return Failable.ofNullable(() -> GitLog.getFileAuthors(config, fileInfo.getPath()))
                 .filter(x -> !x.isEmpty())
                 .ifPresent(x -> {
                     for (String[] lineDetails : x) {
@@ -149,14 +151,14 @@ public class FileInfoAnalyzer {
             String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
-            Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
+            long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
             LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(commitDateInMs),
                     config.getZoneId());
             Author author = config.getAuthor(authorName, authorEmail);
 
             if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
-                    || commitDate.compareTo(sinceDate) < 0 || commitDate.compareTo(untilDate) > 0) {
+                    || commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
                 author = Author.UNKNOWN_AUTHOR;
             }
 

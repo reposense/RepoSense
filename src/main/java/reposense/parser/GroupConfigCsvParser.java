@@ -10,7 +10,7 @@ import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
 import reposense.parser.exceptions.InvalidLocationException;
-import reposense.util.function.FailableOptional;
+import reposense.util.function.Failable;
 
 /**
  * Container for the values parsed from {@code group-config.csv} file.
@@ -61,7 +61,7 @@ public class GroupConfigCsvParser extends CsvParser<GroupConfiguration> {
         FileType group = new FileType(groupName, globList);
         GroupConfiguration groupConfig = findMatchingGroupConfiguration(results, location);
 
-        FailableOptional.of(groupConfig)
+        Failable.success(groupConfig)
                 .filter(x -> !x.containsGroup(group))
                 .ifAbsent(() -> {
                     logger.warning(String.format(

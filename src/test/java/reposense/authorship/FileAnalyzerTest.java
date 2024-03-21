@@ -91,7 +91,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
                 })
-                .ifFail(x -> {
+                .ifFailed(x -> {
                     throw x;
                 })
                 .ifAbsent(() -> {
@@ -114,7 +114,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                     removeTestIgnoreRevsFile();
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
                 })
-                .ifFail(x -> {
+                .ifFailed(x -> {
                     throw x;
                 })
                 .ifAbsent(() -> {
@@ -130,7 +130,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
                 })
-                .ifFail(x -> {
+                .ifFailed(x -> {
                     throw x;
                 })
                 .ifAbsent(() -> {
@@ -147,7 +147,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
                 })
-                .ifFail(x -> {
+                .ifFailed(x -> {
                     throw x;
                 })
                 .ifAbsent(() -> {
@@ -172,7 +172,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                     removeTestIgnoreRevsFile();
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
                 })
-                .ifFail(x -> {
+                .ifFailed(x -> {
                     throw x;
                 })
                 .ifAbsent(() -> {
@@ -189,7 +189,7 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
                 })
-                .ifFail(x -> {
+                .ifFailed(x -> {
                     throw x;
                 })
                 .ifAbsent(() -> {

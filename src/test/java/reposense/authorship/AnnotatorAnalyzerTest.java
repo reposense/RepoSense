@@ -69,7 +69,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST));
                 })
-                .ifFail(x -> {
+                .ifFailed(x -> {
                     throw x;
                 })
                 .ifAbsent(() -> {
@@ -84,7 +84,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_OVERRIDE_AUTHORSHIP_TEST));
                 })
-                .ifFail(x -> {
+                .ifFailed(x -> {
                     throw x;
                 })
                 .ifAbsent(() -> {
@@ -100,7 +100,7 @@ public class AnnotatorAnalyzerTest extends GitTestTemplate {
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_DISOWN_CODE_TEST));
                 })
-                .ifFail(x -> {
+                .ifFailed(x -> {
                     throw x;
                 })
                 .ifAbsent(() -> {

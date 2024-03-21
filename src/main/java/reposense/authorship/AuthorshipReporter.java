@@ -9,7 +9,7 @@ import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
-import reposense.util.function.FailableOptional;
+import reposense.util.function.Failable;
 
 
 /**
@@ -47,16 +47,16 @@ public class AuthorshipReporter {
 
         List<FileResult> fileResults = textFileInfos.stream()
                 .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo))
-                .filter(FailableOptional::isPresent)
-                .map(FailableOptional::get)
+                .filter(Failable::isPresent)
+                .map(Failable::get)
                 .collect(Collectors.toList());
 
         List<FileInfo> binaryFileInfos = fileInfoExtractor.extractBinaryFileInfos(config);
 
         List<FileResult> binaryFileResults = binaryFileInfos.stream()
                 .map(fileInfo -> fileInfoAnalyzer.analyzeBinaryFile(config, fileInfo))
-                .filter(FailableOptional::isPresent)
-                .map(FailableOptional::get)
+                .filter(Failable::isPresent)
+                .map(Failable::get)
                 .collect(Collectors.toList());
 
         fileResults.addAll(binaryFileResults);

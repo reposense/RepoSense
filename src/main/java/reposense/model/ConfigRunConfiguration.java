@@ -2,7 +2,6 @@ package reposense.model;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,7 +13,7 @@ import reposense.parser.RepoConfigCsvParser;
 import reposense.parser.exceptions.InvalidCsvException;
 import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.system.LogsManager;
-import reposense.util.function.FailableOptional;
+import reposense.util.function.Failable;
 
 /**
  * Represents RepoSense run configured by config files.
@@ -42,22 +41,20 @@ public class ConfigRunConfiguration implements RunConfiguration {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
 
         // parse the author config file path
-        FailableOptional.of(cliArguments.getAuthorConfigFilePath())
+        Failable.of(cliArguments::getAuthorConfigFilePath)
                 .filter(Files::exists)
                 .map(x -> new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse())
                 .ifPresent(x -> RepoConfiguration.merge(repoConfigs, x))
                 .ifPresent(() -> RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true))
-                .ifFailOfType(Arrays.asList(IOException.class, InvalidCsvException.class))
-                .ifFail(x -> logger.log(Level.WARNING, x.getMessage(), x))
+                .ifFailed(x -> logger.log(Level.WARNING, x.getMessage(), x))
                 .orElse(Collections.emptyList());
 
         // parse the group config file path
-        FailableOptional.of(cliArguments.getGroupConfigFilePath())
+        Failable.of(cliArguments::getGroupConfigFilePath)
                 .filter(Files::exists)
                 .map(x -> new GroupConfigCsvParser(x).parse())
                 .ifPresent(x -> RepoConfiguration.setGroupConfigsToRepos(repoConfigs, x))
-                .ifFailOfType(Arrays.asList(IOException.class, InvalidCsvException.class))
-                .ifFail(x -> logger.log(Level.WARNING, x.getMessage(), x))
+                .ifFailed(x -> logger.log(Level.WARNING, x.getMessage(), x))
                 .orElse(Collections.emptyList());
 
         return repoConfigs;

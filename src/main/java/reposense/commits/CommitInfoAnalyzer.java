@@ -5,6 +5,7 @@ import static reposense.util.StringsUtil.removeQuote;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -24,7 +25,7 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
-import reposense.util.function.FailableOptional;
+import reposense.util.function.Failable;
 
 /**
  * Analyzes commit information found in the git log.
@@ -90,11 +91,13 @@ public class CommitInfoAnalyzer {
         Author author = config.getAuthor(elements[AUTHOR_INDEX], elements[EMAIL_INDEX]);
 
         // safe map since ZonedDateTime::now returns non-null
-        FailableOptional<LocalDateTime> date = FailableOptional
+        Failable<LocalDateTime, DateTimeParseException> date = Failable
                 .ofNullable(() -> ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT))
-                .ifFail(x ->
+                .ifFailed(x ->
                         logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", x))
-                .recover(ZonedDateTime::now)
+                .resolve(x -> {
+                    assert x instanceof DateTimeParseException;
+                }, ZonedDateTime.now())
                 .map(x -> x.withZoneSameInstant(config.getZoneId()).toLocalDateTime());
 
         String messageTitle = (elements.length > MESSAGE_TITLE_INDEX) ? elements[MESSAGE_TITLE_INDEX] : "";

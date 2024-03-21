@@ -17,7 +17,7 @@ import reposense.git.GitCheckout;
 import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 import reposense.util.TestUtil;
-import reposense.util.function.FailableOptional;
+import reposense.util.function.Failable;
 
 public class FileResultAggregatorTest extends GitTestTemplate {
 
@@ -50,8 +50,8 @@ public class FileResultAggregatorTest extends GitTestTemplate {
         List<FileResult> fileResults = textFileInfos.stream()
                 .filter(f -> !f.getPath().equals("annotationTest.java"))
                 .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo))
-                .filter(FailableOptional::isPresent)
-                .map(FailableOptional::get)
+                .filter(Failable::isPresent)
+                .map(Failable::get)
                 .collect(Collectors.toList());
 
         FileResultAggregator fileResultAggregator = new FileResultAggregator();

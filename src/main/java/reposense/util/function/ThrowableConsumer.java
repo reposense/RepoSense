@@ -10,6 +10,6 @@ package reposense.util.function;
  *           can throw.
  */
 @FunctionalInterface
-public interface ThrowableConsumer<T, E extends Exception> {
+public interface ThrowableConsumer<T, E extends Throwable> {
     void consume(T t) throws E;
 }
