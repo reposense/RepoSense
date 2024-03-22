@@ -509,7 +509,6 @@ export default defineComponent({
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
       const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) as Array<Repo> : this.repos;
-      const res: Array<User> = [];
 
       if (this.filterSearch.startsWith(tagSearchPrefix)) {
         const searchedTags = this.filterSearch.split(tagSearchPrefix)[1];
@@ -517,6 +516,7 @@ export default defineComponent({
           const commits = repo.commits;
           if (!commits) return;
 
+          const res: Array<User> = [];
           Object.entries(commits.authorDailyContributionsMap).forEach(([author, contributions]) => {
             contributions = contributions as Array<AuthorDailyContributions>;
             const tags = contributions.flatMap((c) => c.commitResults).flatMap((r) => r.tags);
@@ -529,9 +529,15 @@ export default defineComponent({
               }
             }
           });
+
+          if (res.length) {
+            full.push(res);
+          }
         });
       } else {
         groups.forEach((repo) => {
+          const res: Array<User> = [];
+
           // filtering
           repo.users?.forEach((user) => {
             if (this.isMatchSearchedUser(this.filterSearch, user)) {
@@ -543,14 +549,14 @@ export default defineComponent({
               res.push(user);
             }
           });
+
+          if (res.length) {
+            full.push(res);
+          }
         });
       }
 
-      if (res.length) {
-        full.push(res);
-      }
       this.filtered = full;
-
       this.getOptionWithOrder();
 
       const filterControl = {
