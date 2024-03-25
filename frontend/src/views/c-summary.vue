@@ -322,7 +322,7 @@ export default defineComponent({
   created() {
     this.processFileTypes();
     this.renderFilterHash();
-    this.getFiltered();
+    this.getFiltered(true);
     if (this.$store.state.tabZoomInfo.isRefreshing) {
       const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
       this.restoreZoomFiltered(zoomInfo);
@@ -393,12 +393,6 @@ export default defineComponent({
 
       addHash('timeframe', this.filterTimeFrame);
 
-      let mergedGroupsHash = this.mergedGroups.join(window.HASH_DELIMITER);
-      if (mergedGroupsHash.length === 0) {
-        mergedGroupsHash = '';
-      }
-      addHash('mergegroup', mergedGroupsHash);
-
       addHash('groupSelect', this.filterGroupSelection);
       addHash('breakdown', this.filterBreakdown);
 
@@ -410,6 +404,25 @@ export default defineComponent({
       } else {
         window.removeHash('checkedFileTypes');
       }
+
+      encodeHash();
+    },
+
+    setMergeGroupsHash(fromCreated: boolean) {
+      // explicit check for true to prevent Event from v-on:change registering as true
+      if (fromCreated === true) {
+        this.renderMergeGroupsHash();
+        return;
+      }
+
+      const { addHash, encodeHash } = window;
+
+      const mergedGroupsHash = this.mergedGroups
+        .map((groupName: string) => this.filtered.findIndex((group) => this.getGroupName(group) === groupName))
+        .filter((index: number) => index >= 0)
+        .join(window.HASH_DELIMITER);
+
+      addHash('mergegroup', mergedGroupsHash);
 
       encodeHash();
     },
@@ -429,12 +442,6 @@ export default defineComponent({
 
       if (hash.timeframe && Object.values(FilterTimeFrame).includes(hash.timeframe as FilterTimeFrame)) {
         this.filterTimeFrame = hash.timeframe as FilterTimeFrame;
-      }
-      if (hash.mergegroup) {
-        this.$store.commit(
-          'updateMergedGroup',
-          hash.mergegroup.split(window.HASH_DELIMITER),
-        );
       }
       if (hash.since && dateFormatRegex.test(hash.since)) {
         this.tmpFilterSinceDate = hash.since;
@@ -461,6 +468,21 @@ export default defineComponent({
       }
     },
 
+    renderMergeGroupsHash() {
+      const hash = Object.assign({}, window.hashParams);
+
+      if (hash.mergegroup) {
+        this.$store.commit(
+          'updateMergedGroup',
+          hash.mergegroup
+            .split(window.HASH_DELIMITER)
+            .map((index) => this.filtered[parseInt(index, 10)])
+            .filter(Boolean)
+            .map((group) => this.getGroupName(group)),
+        );
+      }
+    },
+
     getGroupName(group: Array<User>) {
       return window.getGroupName(group, this.filterGroupSelection);
     },
@@ -480,7 +502,7 @@ export default defineComponent({
       this.getFiltered();
     },
 
-    async getFiltered() {
+    async getFiltered(fromCreated = false) {
       this.setSummaryHash();
       window.deactivateAllOverlays();
 
@@ -488,6 +510,8 @@ export default defineComponent({
       this.getFilteredRepos();
       this.getMergedRepos();
       this.$store.commit('incrementLoadingOverlayCount', -1);
+
+      this.setMergeGroupsHash(fromCreated);
     },
 
     getFilteredRepos() {
