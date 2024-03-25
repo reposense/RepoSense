@@ -18,9 +18,9 @@ import org.junit.jupiter.api.Test;
 
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
-import reposense.parser.ConfigurationBuildException;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.parser.exceptions.ConfigurationBuildException;
 import reposense.report.ReportGenerator;
 import reposense.util.InputBuilder;
 import reposense.util.TestRepoCloner;

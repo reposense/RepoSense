@@ -2,7 +2,7 @@ package reposense.model;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,6 +13,7 @@ import reposense.parser.RepoConfigCsvParser;
 import reposense.parser.exceptions.InvalidCsvException;
 import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.system.LogsManager;
+import reposense.util.function.Failable;
 
 /**
  * Represents RepoSense run configured by config files.
@@ -38,33 +39,29 @@ public class ConfigRunConfiguration implements RunConfiguration {
     public List<RepoConfiguration> getRepoConfigurations()
             throws IOException, InvalidCsvException, InvalidHeaderException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath()).parse();
-        List<AuthorConfiguration> authorConfigs;
-        List<GroupConfiguration> groupConfigs;
 
-        Path authorConfigFilePath = cliArguments.getAuthorConfigFilePath();
-        Path groupConfigFilePath = cliArguments.getGroupConfigFilePath();
+        // parse the author config file path
+        Failable.of(cliArguments::getAuthorConfigFilePath)
+                .filter(Files::exists)
+                .map(x -> new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse(),
+                        exception -> {
+                            logger.log(Level.WARNING, exception.getMessage(), exception);
+                            return Collections.<AuthorConfiguration>emptyList();
+                        })
+                .ifPresent(x -> RepoConfiguration.merge(repoConfigs, x))
+                .ifPresent(() -> RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true))
+                .orElse(Collections.emptyList());
 
-
-        if (authorConfigFilePath != null && Files.exists(authorConfigFilePath)) {
-            try {
-                authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
-                RepoConfiguration.merge(repoConfigs, authorConfigs);
-                RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true);
-            } catch (IOException | InvalidCsvException e) {
-                // for all IO and invalid csv exceptions, log the error and continue
-                logger.log(Level.WARNING, e.getMessage(), e);
-            }
-        }
-
-        if (groupConfigFilePath != null && Files.exists(groupConfigFilePath)) {
-            try {
-                groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
-                RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
-            } catch (IOException | InvalidCsvException e) {
-                // for all IO and invalid csv exceptions, log the error and continue
-                logger.log(Level.WARNING, e.getMessage(), e);
-            }
-        }
+        // parse the group config file path
+        Failable.of(cliArguments::getGroupConfigFilePath)
+                .filter(Files::exists)
+                .map(x -> new GroupConfigCsvParser(x).parse(),
+                        exception -> {
+                            logger.log(Level.WARNING, exception.getMessage(), exception);
+                            return Collections.<GroupConfiguration>emptyList();
+                        })
+                .ifPresent(x -> RepoConfiguration.setGroupConfigsToRepos(repoConfigs, x))
+                .orElse(Collections.emptyList());
 
         return repoConfigs;
     }
