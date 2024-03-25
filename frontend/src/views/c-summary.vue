@@ -73,7 +73,7 @@
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
           )
           span merge all groups
-        label.view-tags
+        label.show-tags
           input.mui-checkbox(
             type="checkbox",
             v-model="viewRepoTags"
