@@ -67,8 +67,8 @@
       label order
 
   c-file-type-checkbox(
-    v-bind:fileTypes="fileTypes",
-    v-bind:fileTypeColors="fileTypeColors",
+    v-bind:file-types="fileTypes",
+    v-bind:file-type-colors="fileTypeColors",
     v-model="selectedFileTypes",
     @update-selected-file-types-hash="updateSelectedFileTypesHash"
   )
