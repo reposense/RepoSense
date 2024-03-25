@@ -361,10 +361,10 @@ public class ArgsParser {
 
         // Report config is ignored if --repos is provided
         if (locations == null) {
-            Path reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+            Path reportConfigFilePath = configFolderPath.resolve(ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
 
             try {
-                reportConfig = new ReportConfigJsonParser().parse(reportConfigFilePath);
+                reportConfig = new ReportConfigYamlParser().parse(reportConfigFilePath);
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
             } catch (IllegalArgumentException iae) {
