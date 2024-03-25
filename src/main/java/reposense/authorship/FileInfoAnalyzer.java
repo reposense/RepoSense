@@ -21,7 +21,6 @@ import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
-import reposense.util.function.CannotFailException;
 import reposense.util.function.Failable;
 
 /**
@@ -48,7 +47,7 @@ public class FileInfoAnalyzer {
      * Returns empty {@code Failable<FileResult, CannotFailException>} if the file is missing from the local system,
      * or none of the {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public Failable<FileResult, CannotFailException> analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
+    public Failable<FileResult> analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
         // note that the predicates in filter() test for the negation of the previous failure conditions
@@ -72,7 +71,7 @@ public class FileInfoAnalyzer {
      * Returns empty {@code Failable<FileResult, CannotFailException>} if the file is missing from the local system,
      * or none of the {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public Failable<FileResult, CannotFailException> analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
+    public Failable<FileResult> analyzeBinaryFile(RepoConfiguration config, FileInfo fileInfo) {
         String relativePath = fileInfo.getPath();
 
         return Failable.ofNullable(() -> relativePath)
@@ -103,7 +102,7 @@ public class FileInfoAnalyzer {
      * Returns an empty {@code Failable<FileResult, CannotFailException>} if none of the {@link Author} specified in
      * {@code config} contributed to the file in {@code fileInfo}.
      */
-    private Failable<FileResult, CannotFailException> generateBinaryFileResult(
+    private Failable<FileResult> generateBinaryFileResult(
             RepoConfiguration config, FileInfo fileInfo) {
         Set<Author> authors = new HashSet<>();
         HashMap<Author, Integer> authorContributionMap = new HashMap<>();

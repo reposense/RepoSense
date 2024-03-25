@@ -43,18 +43,24 @@ public class ConfigRunConfiguration implements RunConfiguration {
         // parse the author config file path
         Failable.of(cliArguments::getAuthorConfigFilePath)
                 .filter(Files::exists)
-                .map(x -> new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse())
+                .map(x -> new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse(),
+                        exception -> {
+                            logger.log(Level.WARNING, exception.getMessage(), exception);
+                            return Collections.<AuthorConfiguration>emptyList();
+                        })
                 .ifPresent(x -> RepoConfiguration.merge(repoConfigs, x))
                 .ifPresent(() -> RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true))
-                .ifFailed(x -> logger.log(Level.WARNING, x.getMessage(), x))
                 .orElse(Collections.emptyList());
 
         // parse the group config file path
         Failable.of(cliArguments::getGroupConfigFilePath)
                 .filter(Files::exists)
-                .map(x -> new GroupConfigCsvParser(x).parse())
+                .map(x -> new GroupConfigCsvParser(x).parse(),
+                        exception -> {
+                            logger.log(Level.WARNING, exception.getMessage(), exception);
+                            return Collections.<GroupConfiguration>emptyList();
+                        })
                 .ifPresent(x -> RepoConfiguration.setGroupConfigsToRepos(repoConfigs, x))
-                .ifFailed(x -> logger.log(Level.WARNING, x.getMessage(), x))
                 .orElse(Collections.emptyList());
 
         return repoConfigs;

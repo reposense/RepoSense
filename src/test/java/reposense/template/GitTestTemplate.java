@@ -30,7 +30,6 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.util.FileUtil;
 import reposense.util.TestRepoCloner;
-import reposense.util.function.CannotFailException;
 import reposense.util.function.Failable;
 
 /**
@@ -190,7 +189,7 @@ public class GitTestTemplate {
         }
     }
 
-    public Failable<FileResult, CannotFailException> getFileResult(String relativePath) {
+    public Failable<FileResult> getFileResult(String relativePath) {
         FileInfo fileInfo = fileInfoExtractor.generateFileInfo(configs.get(), relativePath);
         return fileInfoAnalyzer.analyzeTextFile(configs.get(), fileInfo);
     }

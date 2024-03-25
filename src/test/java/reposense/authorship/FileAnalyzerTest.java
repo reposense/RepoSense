@@ -91,9 +91,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
                 })
-                .ifFailed(x -> {
-                    throw x;
-                })
                 .ifAbsent(() -> {
                     throw new AssertionError();
                 });
@@ -114,9 +111,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
                     removeTestIgnoreRevsFile();
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
                 })
-                .ifFailed(x -> {
-                    throw x;
-                })
                 .ifAbsent(() -> {
                     throw new AssertionError();
                 });
@@ -129,9 +123,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
         getFileResult("newPos/movedFile.java")
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
-                })
-                .ifFailed(x -> {
-                    throw x;
                 })
                 .ifAbsent(() -> {
                     throw new AssertionError();
@@ -146,9 +137,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
         getFileResult("blameTest.java")
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_BLAME_TEST));
-                })
-                .ifFailed(x -> {
-                    throw x;
                 })
                 .ifAbsent(() -> {
                     throw new AssertionError();
@@ -172,9 +160,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
                     removeTestIgnoreRevsFile();
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_PREVIOUS_AUTHORS_BLAME_TEST));
                 })
-                .ifFailed(x -> {
-                    throw x;
-                })
                 .ifAbsent(() -> {
                     throw new AssertionError();
                 });
@@ -188,9 +173,6 @@ public class FileAnalyzerTest extends GitTestTemplate {
         getFileResult("newPos/movedFile.java")
                 .ifPresent(x -> {
                     assertFileAnalysisCorrectness(x, Arrays.asList(EXPECTED_LINE_AUTHORS_MOVED_FILE));
-                })
-                .ifFailed(x -> {
-                    throw x;
                 })
                 .ifAbsent(() -> {
                     throw new AssertionError();
