@@ -15,7 +15,7 @@ describe('reload page', () => {
       .select('Descending');
 
     // select radio-button
-    cy.get('#tab-authorship > .title > .contribution > .fileTypes > .radio-button--checkbox')
+    cy.get('#tab-authorship > .title > .contribution > .radio-button--checkbox')
       .should('be.visible')
       .check()
       .should('be.checked');

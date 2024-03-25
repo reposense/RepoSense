@@ -54,13 +54,13 @@
             type="button",
             v-on:click="indicateSearchBar(); updateSearchBarValue();"
           ) Filter
+      input.radio-button--checkbox(
+        type="radio",
+        value="checkboxes",
+        v-model="filterType",
+        v-on:change="indicateCheckBoxes"
+      )
       .fileTypes
-        input.radio-button--checkbox(
-          type="radio",
-          value="checkboxes",
-          v-model="filterType",
-          v-on:change="indicateCheckBoxes"
-        )
         .checkboxes.mui-form--inline(v-if="info.files.length > 0")
           label(style='background-color: #000000; color: #ffffff')
             input.mui-checkbox--fileType#all(type="checkbox", v-model="isSelectAllChecked")
@@ -81,21 +81,21 @@
               span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
                 span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
                 span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
-          br
-          label.binary-fileType(v-if="binaryFilesCount > 0")
-            input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
-            span(
-              v-bind:title="`${binaryFilesCount} \
-              binary files (not included in total line count)`"
-            )
-              span {{ binaryFilesCount }} binary file(s)
-          label.ignored-fileType(v-if="ignoredFilesCount > 0")
-            input.mui-checkbox--fileType(type="checkbox", v-model="isIgnoredChecked")
-            span(
-              v-bind:title="`${ignoredFilesCount} \
-              ignored files (included in total line count)`"
-            )
-              span {{ ignoredFilesCount }} ignored file(s)
+      br
+      label.binary-fileType(v-if="binaryFilesCount > 0")
+        input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
+        span(
+          v-bind:title="`${binaryFilesCount} \
+          binary files (not included in total line count)`"
+        )
+          span {{ binaryFilesCount }} binary file(s)
+      label.ignored-fileType(v-if="ignoredFilesCount > 0")
+        input.mui-checkbox--fileType(type="checkbox", v-model="isIgnoredChecked")
+        span(
+          v-bind:title="`${ignoredFilesCount} \
+          ignored files (included in total line count)`"
+        )
+          span {{ ignoredFilesCount }} ignored file(s)
 
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
