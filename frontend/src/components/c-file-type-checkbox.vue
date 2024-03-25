@@ -2,8 +2,7 @@
 .fileTypes(v-if="fileTypes.length > 0")
   .checkboxes.mui-form--inline
     label.all-checkbox
-      input.mui-checkbox--fileType(type="checkbox", v-model="isAllChecked",
-      value="all")
+      input.mui-checkbox--fileType(type="checkbox", v-model="isAllChecked", value="all")
       span All&nbsp;
     label(
       v-for="fileType in fileTypes",
