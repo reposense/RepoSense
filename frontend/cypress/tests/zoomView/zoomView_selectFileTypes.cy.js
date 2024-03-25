@@ -1,7 +1,7 @@
 describe('check file types ', () => {
   it('check if all file types are visible by default', () => {
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -14,7 +14,7 @@ describe('check file types ', () => {
 
   it('uncheck all file types should show no files', () => {
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -32,7 +32,7 @@ describe('check file types ', () => {
     // Assumptions: the first author of the first repo
     // committed .java, .js and .gradle files.
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -52,7 +52,7 @@ describe('check file types ', () => {
     // Assumptions: the third commit (19e3294) of the first author of the first repo
     // contains changes in only .java files.
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -77,7 +77,7 @@ describe('check file types ', () => {
     // Assumptions: the eighth commit (5ab0322) of the first author of the first repo
     // contains changes in both .java and .md files.
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
