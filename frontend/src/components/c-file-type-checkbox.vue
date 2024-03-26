@@ -1,7 +1,7 @@
 <template lang="pug">
 .checkboxes.mui-form--inline(v-if="fileTypes.length > 0")
   label.all-checkbox
-    input.mui-checkbox--fileType(type="checkbox", v-model="isAllChecked", value="all", id="all")
+    input.mui-checkbox--fileType#all(type="checkbox", v-model="isAllChecked", value="all")
     span(v-html="allCheckboxLabel")
   label(
     v-for="fileType, index in fileTypes",
