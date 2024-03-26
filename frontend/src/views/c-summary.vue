@@ -934,10 +934,6 @@ export default defineComponent({
       return window.getDateStr(datems);
     },
 
-    getFontColor(color: string) {
-      return window.getFontColor(color);
-    },
-
     toggleErrorShowMore() {
       this.errorIsShowingMore = !this.errorIsShowingMore;
     },
