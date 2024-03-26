@@ -103,8 +103,8 @@
       a(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     c-file-type-checkbox(
-      v-bind:fileTypes="fileTypes",
-      v-bind:fileTypeColors="fileTypeColors",
+      v-bind:file-types="fileTypes",
+      v-bind:file-type-colors="fileTypeColors",
       v-model:selected-file-types="checkedFileTypes",
       @update-selected-file-types-hash="getFiltered"
     )
