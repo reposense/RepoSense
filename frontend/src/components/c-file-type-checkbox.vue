@@ -1,20 +1,19 @@
 <template lang="pug">
-.fileTypes(v-if="fileTypes.length > 0")
-  .checkboxes.mui-form--inline
-    label.all-checkbox
-      input.mui-checkbox--fileType(type="checkbox", v-model="isAllChecked", value="all")
-      span All&nbsp;
-    label(
-      v-for="fileType in fileTypes",
-      v-bind:key="fileType",
-      v-bind:style="{\
-        'background-color': fileTypeColors[fileType],\
-        'color': getFontColor(fileTypeColors[fileType])\
-        }"
-    )
-      input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
-        v-model="selectedFileTypes")
-      span {{ fileType }} &nbsp;
+.checkboxes.mui-form--inline(v-if="fileTypes.length > 0")
+  label.all-checkbox
+    input.mui-checkbox--fileType(type="checkbox", v-model="isAllChecked", value="all", id="all")
+    span(v-html="allCheckboxLabel")
+  label(
+    v-for="fileType, index in fileTypes",
+    v-bind:key="fileType",
+    v-bind:style="{\
+      'background-color': fileTypeColors[fileType],\
+      'color': getFontColor(fileTypeColors[fileType])\
+      }"
+  )
+    input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
+      v-model="localSelectedFileTypes", v-bind:id="fileType")
+    span(v-html="fileTypeLabels[index]")
 </template>
 
 <script lang="ts">
@@ -24,38 +23,52 @@ export default defineComponent({
   name: 'c-file-type-checkbox',
   props: {
     fileTypes: {
-      type: Array as PropType<Array<String>>,
+      type: Array as PropType<Array<string>>,
       required: true,
     },
     fileTypeColors: {
       type: Object as PropType<Record<string, string>>,
       required: true,
     },
-    modelValue: {
-      type: Array as PropType<Array<String>>,
+    selectedFileTypes: {
+      type: Array as PropType<Array<string>>,
       required: true,
     },
+    allCheckboxLabel: {
+      type: String,
+      default: 'All\xA0',
+    },
+    fileTypeCheckboxLabels: {
+      type: Array as PropType<Array<string>>,
+      default: undefined,
+    },
   },
-  emits: ['update-selected-file-types-hash', 'update:modelValue'],
+  emits: ['update-selected-file-types-hash', 'update:selectedFileTypes', 'select-all-checked'],
   computed: {
+    fileTypeLabels() {
+      return this.fileTypeCheckboxLabels
+        ? this.fileTypeCheckboxLabels
+        : this.fileTypes.map((str) => `${str}\xA0`);
+    },
     isAllChecked: {
       get(): boolean {
         return this.selectedFileTypes.length === this.fileTypes.length;
       },
       set(value: boolean) {
         if (value) {
-          this.selectedFileTypes = this.fileTypes.slice();
+          this.localSelectedFileTypes = this.fileTypes.slice();
         } else {
-          this.selectedFileTypes = [];
+          this.localSelectedFileTypes = [];
         }
+        this.$emit('select-all-checked', value);
       },
     },
-    selectedFileTypes: {
-      get(): Array<String> {
-        return this.modelValue;
+    localSelectedFileTypes: {
+      get(): Array<string> {
+        return this.selectedFileTypes;
       },
-      set(value: Array<String>) {
-        this.$emit('update:modelValue', value);
+      set(value: Array<string>) {
+        this.$emit('update:selectedFileTypes', value);
         this.updateSelectedFileTypesHash();
       },
     },
@@ -75,5 +88,9 @@ export default defineComponent({
 .all-checkbox {
   background-color: #000000;
   color: #ffffff;
+}
+
+.mui-checkbox--fileType {
+  vertical-align: middle;
 }
 </style>

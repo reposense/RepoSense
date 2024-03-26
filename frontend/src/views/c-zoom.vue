@@ -65,13 +65,13 @@
         option(v-bind:value='true') Descending
         option(v-bind:value='false') Ascending
       label order
-
-  c-file-type-checkbox(
-    v-bind:file-types="fileTypes",
-    v-bind:file-type-colors="fileTypeColors",
-    v-model="selectedFileTypes",
-    @update-selected-file-types-hash="updateSelectedFileTypesHash"
-  )
+  .fileTypes
+    c-file-type-checkbox(
+      v-bind:file-types="fileTypes",
+      v-bind:file-type-colors="fileTypeColors",
+      v-model:selected-file-types="selectedFileTypes",
+      @update-selected-file-types-hash="updateSelectedFileTypesHash"
+    )
 
   .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
@@ -271,19 +271,6 @@ export default defineComponent({
         prev + commit.commitResults.filter((slice) => slice.isOpen).length
       ), 0);
     },
-    // isSelectAllChecked: {
-    //   get() {
-    //     return this.selectedFileTypes.length === this.fileTypes.length;
-    //   },
-    //   set(value: boolean) {
-    //     if (value) {
-    //       this.selectedFileTypes = this.fileTypes.slice();
-    //     } else {
-    //       this.selectedFileTypes = [];
-    //     }
-    //     this.updateSelectedFileTypesHash();
-    //   },
-    // },
 
     ...mapState({
       fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,

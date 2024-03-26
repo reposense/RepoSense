@@ -15,7 +15,7 @@ describe('reload page', () => {
       .select('Descending');
 
     // select radio-button
-    cy.get('#tab-authorship > .title > .contribution > .radio-button--checkbox')
+    cy.get('#tab-authorship > .title > .contribution > .fileTypes > .radio-button--checkbox')
       .should('be.visible')
       .check()
       .should('be.checked');
@@ -38,7 +38,7 @@ describe('reload page', () => {
     cy.get('#tab-authorship > .title > .contribution > .sorting > .sort-order > select')
       .should('have.value', 'true');
 
-    cy.get('#tab-authorship > .title > .contribution > .radio-button--checkbox')
+    cy.get('#tab-authorship > .title > .contribution > .fileTypes > .radio-button--checkbox')
       .should('be.checked');
 
     cy.get('#tab-authorship > .title > .contribution > .fileTypes input[id="all"]')
