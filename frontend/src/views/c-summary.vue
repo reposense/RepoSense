@@ -77,9 +77,9 @@
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(
-        v-for="errorBlock in errorIsShowingMore\
-          ? errorMessages\
-          : Object.values(errorMessages).slice(0, numberOfErrorMessagesToShow)"
+      v-for="errorBlock in errorIsShowingMore\
+        ? errorMessages\
+        : Object.values(errorMessages).slice(0, numberOfErrorMessagesToShow)"
       )
       font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
@@ -102,23 +102,13 @@
       a(v-if="!errorIsShowingMore", v-on:click="toggleErrorShowMore()") SHOW ALL...
       a(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
-    .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
-      label(style='background-color: #000000; color: #ffffff')
-        input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
-        span All:&nbsp;
-      template(v-for="fileType in Object.keys(fileTypeColors)", v-bind:key="fileType")
-        label(
-          v-bind:style="{ 'background-color': fileTypeColors[fileType], \
-            'color': getFontColor(fileTypeColors[fileType])}"
-        )
-          input.mui-checkbox--fileType(
-            type="checkbox",
-            v-bind:id="fileType",
-            v-bind:value="fileType",
-            v-model="checkedFileTypes",
-            v-on:change="getFiltered"
-          )
-          span {{ fileType }}
+    c-file-type-checkbox(
+      v-bind:fileTypes="fileTypes",
+      v-bind:fileTypeColors="fileTypeColors",
+      v-model:selected-file-types="checkedFileTypes",
+      @update-selected-file-types-hash="getFiltered"
+    )
+
   c-summary-charts(
     v-bind:filtered="filtered",
     v-bind:checked-file-types="checkedFileTypes",
@@ -142,6 +132,7 @@ import { mapState } from 'vuex';
 import { PropType, defineComponent } from 'vue';
 
 import cSummaryCharts from '../components/c-summary-charts.vue';
+import cFileTypeCheckbox from '../components/c-file-type-checkbox.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import sortFiltered from '../utils/repo-sorter';
 import {
@@ -165,6 +156,7 @@ export default defineComponent({
   name: 'c-summary',
   components: {
     cSummaryCharts,
+    cFileTypeCheckbox,
   },
   props: {
     repos: {
