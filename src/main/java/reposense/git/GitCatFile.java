@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import reposense.git.exception.CommitNotFoundException;
 import reposense.system.LogsManager;
+import reposense.util.StringsUtil;
 
 /**
  * Contains git cat file related functionalities.
@@ -31,7 +32,7 @@ public class GitCatFile {
         try {
             String output = runCommand(rootPath, catFileCommand);
             List<String> parentCommits = new ArrayList<>();
-            for (String line : output.split("\n")) {
+            for (String line : StringsUtil.NEWLINE.split(output)) {
                 if (line.startsWith("parent")) {
                     parentCommits.add(line.substring(7).trim());
                 }

@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import reposense.git.exception.CommitNotFoundException;
 import reposense.model.CommitHash;
 import reposense.system.LogsManager;
+import reposense.util.StringsUtil;
 
 /**
  * Contains git show related functionalities.
@@ -36,7 +37,7 @@ public class GitShow {
 
         try {
             String output = runCommand(rootPath, showCommand);
-            List<CommitHash> commitHashes = Arrays.stream(output.split("\n"))
+            List<CommitHash> commitHashes = Arrays.stream(StringsUtil.NEWLINE.split(output))
                     .map(CommitHash::new).collect(Collectors.toList());
             if (commitHashes.size() > 1) {
                 logger.warning(String.format("%s can be expanded to %d different commits, "
