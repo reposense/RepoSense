@@ -69,7 +69,6 @@
           v-bind:all-checkbox-label="allCheckboxLabel",
           v-bind:file-type-checkbox-labels="checkboxLabels",
         )
-        br
         .checkboxes.mui-form--inline
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
