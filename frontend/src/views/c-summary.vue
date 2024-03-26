@@ -206,20 +206,6 @@ export default defineComponent({
     };
   },
   computed: {
-    checkAllFileTypes: {
-      get() {
-        return this.checkedFileTypes.length === this.fileTypes.length;
-      },
-      set(value: boolean) {
-        if (value) {
-          this.checkedFileTypes = this.fileTypes.slice();
-        } else {
-          this.checkedFileTypes = [];
-        }
-        this.getFiltered();
-      },
-    },
-
     avgContributionSize() {
       let totalLines = 0;
       let totalCount = 0;
@@ -766,7 +752,7 @@ export default defineComponent({
         return result;
       });
 
-      if (!this.checkAllFileTypes) {
+      if (!this.isAllFileTypesChecked()) {
         commitResults = commitResults.filter(
           (result) => Object.values(result.fileTypesAndContributionMap).length > 0,
         );
@@ -936,6 +922,10 @@ export default defineComponent({
 
     toggleErrorShowMore() {
       this.errorIsShowingMore = !this.errorIsShowingMore;
+    },
+
+    isAllFileTypesChecked() {
+      return this.checkedFileTypes.length === this.fileTypes.length;
     },
   },
 });
