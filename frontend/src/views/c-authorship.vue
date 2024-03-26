@@ -67,7 +67,7 @@
           v-model:selected-file-types="selectedFileTypes",
           @update-selected-file-types-hash="indicateCheckBoxes",
           v-bind:all-checkbox-label="allCheckboxLabel",
-          v-bind:file-type-checkbox-labels="checkboxLabels",
+          v-bind:file-type-checkbox-labels="checkboxLabels"
         )
         .checkboxes.mui-form--inline
           label.binary-fileType(v-if="binaryFilesCount > 0")
