@@ -7,6 +7,9 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+import reposense.util.StringsUtil;
+
+
 /**
  * Contains git diff related functionalities.
  * Git diff is responsible for obtaining the changes between commits, commit and working tree, etc.
@@ -32,6 +35,6 @@ public class GitDiff {
         String diffCommand = String.format("git diff --ignore-submodules=all --numstat %s %s",
                 EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
         String diffResult = runCommand(repoRoot.toAbsolutePath(), diffCommand);
-        return Arrays.asList(diffResult.split("\n"));
+        return Arrays.asList(StringsUtil.NEWLINE.split(diffResult));
     }
 }
