@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.util.StringsUtil;
 
 /**
  * Contains git log related functionalities.
@@ -69,8 +70,8 @@ public class GitLog {
         command += " " + addQuotesForFilePath(filePath);
 
         String result = runCommand(rootPath, command);
-        return Arrays.stream(result.split("\n"))
-                .map(authorAndEmailLine -> authorAndEmailLine.split("\t"))
+        return Arrays.stream(StringsUtil.NEWLINE.split(result))
+                .map(StringsUtil.TAB::split)
                 .map(authorAndEmailArray -> authorAndEmailArray.length == 1
                         ? new String[] {authorAndEmailArray[0], DEFAULT_EMAIL_IF_MISSING}
                         : authorAndEmailArray)
