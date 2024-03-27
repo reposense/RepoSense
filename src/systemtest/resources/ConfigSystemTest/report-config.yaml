@@ -2,5 +2,10 @@ repoUrl: github.com/user/repo
 reportTitle: RepoSense Report Test Title
 authorDisplayName: Sample Author
 authorGithubId: Sample Author Github ID
+branches:
+  - name: Branch 1
+    blurb: Blurb 1
+  - name: Branch 2
+    blurb: Blurb 2
 startDate: 2020-01-01
 endDate: 9999-12-31

@@ -27,6 +27,7 @@ public class ReportConfigYamlParserTest {
         Assertions.assertEquals(reportConfig.getAuthorGithubId(), ReportConfiguration.DEFAULT_AUTHOR_GITHUB_ID);
         Assertions.assertEquals(reportConfig.getStartDate(), ReportConfiguration.DEFAULT_START_DATE);
         Assertions.assertEquals(reportConfig.getEndDate(), ReportConfiguration.DEFAULT_END_DATE);
+        Assertions.assertEquals(reportConfig.getBranchesWithBlurbs(), ReportConfiguration.DEFAULT_BRANCHES_WITH_BLURBS);
     }
 
     @Test
@@ -38,6 +39,7 @@ public class ReportConfigYamlParserTest {
         Assertions.assertEquals(reportConfig.getAuthorGithubId(), ReportConfiguration.DEFAULT_AUTHOR_GITHUB_ID);
         Assertions.assertEquals(reportConfig.getStartDate(), ReportConfiguration.DEFAULT_START_DATE);
         Assertions.assertEquals(reportConfig.getEndDate(), ReportConfiguration.DEFAULT_END_DATE);
+        Assertions.assertEquals(reportConfig.getBranchesWithBlurbs(), ReportConfiguration.DEFAULT_BRANCHES_WITH_BLURBS);
     }
 
     @Test
@@ -50,5 +52,7 @@ public class ReportConfigYamlParserTest {
         Assertions.assertNotEquals(reportConfig.getAuthorGithubId(), ReportConfiguration.DEFAULT_AUTHOR_GITHUB_ID);
         Assertions.assertNotEquals(reportConfig.getStartDate(), ReportConfiguration.DEFAULT_START_DATE);
         Assertions.assertNotEquals(reportConfig.getEndDate(), ReportConfiguration.DEFAULT_END_DATE);
+        Assertions.assertNotEquals(reportConfig.getBranchesWithBlurbs(),
+                ReportConfiguration.DEFAULT_BRANCHES_WITH_BLURBS);
     }
 }

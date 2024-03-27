@@ -43,12 +43,14 @@ public class ReportConfigYamlParser extends JsonParser<ReportConfiguration> {
         ReportConfiguration reportConfigation;
 
         try {
+            logger.log(Level.INFO, "Parsing report-config.yaml file...");
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
             mapper.findAndRegisterModules();
             reportConfigation = mapper.readValue(new File(path.toString()), ReportConfiguration.class);
+            logger.log(Level.INFO, "report-config.yaml file parsed successfully!");
         } catch (IOException ioe) {
             // if the parse fails for any reason, the default config file is used instead
-            logger.log(Level.WARNING, ioe.getMessage(), ioe);
+            logger.log(Level.WARNING, "Error parsing report-config.yaml: " + ioe.getMessage(), ioe);
             reportConfigation = new ReportConfiguration();
         }
 

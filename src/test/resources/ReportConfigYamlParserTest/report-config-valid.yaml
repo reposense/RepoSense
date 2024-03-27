@@ -2,5 +2,10 @@ repoUrl: github.com/reposense/RepoSense
 reportTitle: RepoSense
 authorDisplayName: Author 1
 authorGithubId: author1
+branches:
+  - name: upstream
+    blurb: Blurb1
+  - name: main
+    blurb: Blurb2
 startDate: 2024-01-31
 endDate: 2024-12-31
