@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 public class StringsUtil {
     public static final Pattern NEWLINE = Pattern.compile("\n");
     public static final Pattern TAB = Pattern.compile("\t");
+    public static final Pattern SPACE = Pattern.compile(" ");
+
     public static final Pattern NUMERIC = Pattern.compile("^\\d+$");
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
 

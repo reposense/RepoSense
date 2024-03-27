@@ -26,13 +26,13 @@ import reposense.util.StringsUtil;
  */
 public class AuthorshipAnalyzer {
     private static final Logger logger = LogsManager.getLogger(AuthorshipAnalyzer.class);
-    private static final String DIFF_FILE_CHUNK_SEPARATOR = "\ndiff --git a/.*\n";
+    private static final Pattern DIFF_FILE_CHUNK_PATTERN = Pattern.compile("\ndiff --git a/.*\n");
     private static final Pattern FILE_CHANGED_PATTERN =
             Pattern.compile("\n(-){3} a?/(?<preImageFilePath>.*)\n(\\+){3} b?/(?<postImageFilePath>.*)\n");
     private static final String PRE_IMAGE_FILE_PATH_GROUP_NAME = "preImageFilePath";
     private static final String POST_IMAGE_FILE_PATH_GROUP_NAME = "postImageFilePath";
     private static final String FILE_ADDED_SYMBOL = "dev/null";
-    private static final String HUNK_SEPARATOR = "\n@@ ";
+    private static final Pattern HUNK_PATTERN = Pattern.compile("\n@@ ");
     private static final int LINES_CHANGED_HEADER_INDEX = 0;
     private static final Pattern STARTING_LINE_NUMBER_PATTERN =
             Pattern.compile("-(?<preImageStartLine>\\d+),?\\d* \\+\\d+,?\\d* @@");
@@ -108,7 +108,7 @@ public class AuthorshipAnalyzer {
             parentCommits = GIT_LOG_CACHE.get(gitLogCacheKey);
         } else {
             String gitLogResults = GitLog.getParentCommits(config.getRepoRoot(), commitHash);
-            parentCommits = gitLogResults.split(" ");
+            parentCommits = StringsUtil.SPACE.split(gitLogResults);
             GIT_LOG_CACHE.put(gitLogCacheKey, parentCommits);
         }
 
@@ -152,7 +152,7 @@ public class AuthorshipAnalyzer {
 
         // Generate diff between commit and parent commit
         String gitDiffResult = GitDiff.diffCommits(config.getRepoRoot(), parentCommit, commitHash);
-        String[] fileDiffResults = gitDiffResult.split(DIFF_FILE_CHUNK_SEPARATOR);
+        String[] fileDiffResults = DIFF_FILE_CHUNK_PATTERN.split(gitDiffResult);
 
         for (String fileDiffResult : fileDiffResults) {
             Matcher filePathMatcher = FILE_CHANGED_PATTERN.matcher(fileDiffResult);
@@ -181,7 +181,7 @@ public class AuthorshipAnalyzer {
             String commitHash, String filePath) {
         CandidateLine lowestOriginalityLine = null;
 
-        String[] hunks = fileDiffResult.split(HUNK_SEPARATOR);
+        String[] hunks = HUNK_PATTERN.split(fileDiffResult);
 
         // skip the diff header, index starts from 1
         for (int index = 1; index < hunks.length; index++) {
@@ -192,7 +192,7 @@ public class AuthorshipAnalyzer {
                 continue;
             }
 
-            String[] linesChanged = hunk.split("\n");
+            String[] linesChanged = StringsUtil.NEWLINE.split(hunk);
             int currentPreImageLineNumber = getPreImageStartingLineNumber(linesChanged[LINES_CHANGED_HEADER_INDEX]);
 
             // skip the lines changed header, index starts from 1
@@ -256,7 +256,7 @@ public class AuthorshipAnalyzer {
     private static GitBlameLineInfo getGitBlameLineInfo(RepoConfiguration config, CandidateLine line) {
         String blameResults = GitBlame.blameLine(
                 config.getRepoRoot(), line.getGitBlameCommitHash(), line.getFilePath(), line.getLineNumber());
-        String[] blameResultLines = blameResults.split("\n");
+        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResults);
 
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
         String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
