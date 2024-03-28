@@ -299,7 +299,8 @@ export default defineComponent({
       this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1).then(() => {
         this.getFilteredRepos();
         this.updateMergedGroup(allGroupsMerged);
-        this.$store.commit('incrementLoadingOverlayCount', -1);
+      }).then(async () => {
+        await this.$store.dispatch('incrementLoadingOverlayCountForceReload', -1);
       });
     },
 
@@ -487,7 +488,7 @@ export default defineComponent({
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       this.getFilteredRepos();
       this.getMergedRepos();
-      this.$store.commit('incrementLoadingOverlayCount', -1);
+      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', -1);
     },
 
     getFilteredRepos() {

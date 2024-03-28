@@ -6,7 +6,7 @@ import hljs from 'highlight.js';
 import router from './router/index';
 import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
-import 'vue-loading-overlay/dist/vue-loading.css';
+import 'vue-loading-overlay/dist/css/index.css';
 import '@fontsource/titillium-web';
 
 // Need to import for side effects
