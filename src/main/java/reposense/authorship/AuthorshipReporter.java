@@ -11,7 +11,6 @@ import reposense.authorship.model.FileResult;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 
-
 /**
  * Generates the authorship summary data for each repository.
  */
@@ -29,16 +28,18 @@ public class AuthorshipReporter {
     private final FileInfoAnalyzer fileInfoAnalyzer = new FileInfoAnalyzer();
     private final FileResultAggregator fileResultAggregator = new FileResultAggregator();
 
-
     /**
      * Generates and returns the authorship summary for each repo in {@code config}.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
+     * {code originalityThreshold}.
      */
-    public AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config) {
+    public AuthorshipSummary generateAuthorshipSummary(RepoConfiguration config, boolean shouldAnalyzeAuthorship,
+            double originalityThreshold) {
         List<FileInfo> textFileInfos = fileInfoExtractor.extractTextFileInfos(config);
 
         int numFiles = textFileInfos.size();
         int totalNumLines = textFileInfos.stream()
-                .mapToInt(fileInfo -> fileInfo.getNumOfLines())
+                .mapToInt(FileInfo::getNumOfLines)
                 .sum();
 
         if (totalNumLines > HIGH_NUMBER_LINES_THRESHOLD) {
@@ -46,7 +47,8 @@ public class AuthorshipReporter {
         }
 
         List<FileResult> fileResults = textFileInfos.stream()
-                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo))
+                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo, shouldAnalyzeAuthorship,
+                        originalityThreshold))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 

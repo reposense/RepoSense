@@ -2,6 +2,7 @@ package reposense.git;
 
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.jupiter.api.Assertions;
@@ -190,5 +191,32 @@ public class GitLogTest extends GitTestTemplate {
 
         String content = GitLog.get(config, author);
         Assertions.assertTrue(TestUtil.compareNumberExpectedCommitsToGitLogLines(1, content));
+    }
+
+    @Test
+    public void gitLog_getParentOfInitialCommit_noContent() {
+        String content = GitLog.getParentCommits(config.getRepoRoot(), ROOT_COMMIT_HASH);
+        Assertions.assertTrue(content.isEmpty());
+    }
+
+    @Test
+    public void gitLog_getParentOfSecondCommit_initialCommit() {
+        String content = GitLog.getParentCommits(config.getRepoRoot(), SECOND_COMMIT_HASH);
+        Assertions.assertEquals(ROOT_COMMIT_HASH, content);
+    }
+
+    @Test
+    public void gitLog_getParentOfMergeCommit_success() {
+        config.setBranch("945-GitLogTest-getParentCommit_mergeCommit_success");
+        GitCheckout.checkoutBranch(config.getRepoRoot(), config.getBranch());
+
+        String content = GitLog.getParentCommits(config.getRepoRoot(), MERGE_COMMIT_HASH);
+        Assertions.assertEquals(MERGE_COMMIT_PARENTS_HASHES, Arrays.asList(content.split(" ")));
+    }
+
+    @Test
+    public void gitLog_getParentOfNonExistentCommit_throwsRunTimeException() {
+        Assertions.assertThrows(RuntimeException.class, () -> GitLog.getParentCommits(config.getRepoRoot(),
+                NONEXISTENT_COMMIT_HASH));
     }
 }

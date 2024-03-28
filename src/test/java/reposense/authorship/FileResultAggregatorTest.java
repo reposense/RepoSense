@@ -1,5 +1,7 @@
 package reposense.authorship;
 
+import static reposense.parser.ArgsParser.DEFAULT_ORIGINALITY_THRESHOLD;
+
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
@@ -49,10 +51,10 @@ public class FileResultAggregatorTest extends GitTestTemplate {
 
         List<FileResult> fileResults = textFileInfos.stream()
                 .filter(f -> !f.getPath().equals("annotationTest.java"))
-                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo))
+                .map(fileInfo -> fileInfoAnalyzer.analyzeTextFile(config, fileInfo, false,
+                        DEFAULT_ORIGINALITY_THRESHOLD))
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-        //
 
         FileResultAggregator fileResultAggregator = new FileResultAggregator();
         fileResultAggregator.aggregateFileResult(fileResults, config.getAuthorList(), config.getAllFileTypes());

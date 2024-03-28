@@ -73,12 +73,12 @@ public class FileInfo {
         this.fileSize = fileSize;
     }
 
-    public void setFileAnalyzed(boolean isFileAnalyzed) {
-        this.isFileAnalyzed = isFileAnalyzed;
-    }
-
     public boolean isFileAnalyzed() {
         return isFileAnalyzed;
+    }
+
+    public void setFileAnalyzed(boolean isFileAnalyzed) {
+        this.isFileAnalyzed = isFileAnalyzed;
     }
 
     public boolean exceedsFileLimit() {
@@ -108,6 +108,13 @@ public class FileInfo {
      */
     public boolean isFileLineTracked(int lineNumber) {
         return getLines().get(lineNumber).isTracked();
+    }
+
+    /**
+     * Sets whether {@code lineNumber} is fully credited to its {@code author}.
+     */
+    public void setIsFullCredit(int lineNumber, boolean isFullCredit) {
+        lines.get(lineNumber).setIsFullCredit(isFullCredit);
     }
 
     @Override

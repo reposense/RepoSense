@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import reposense.authorship.analyzer.AnnotatorAnalyzer;
+import reposense.authorship.analyzer.AuthorshipAnalyzer;
 import reposense.authorship.model.FileInfo;
 import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
@@ -45,10 +46,13 @@ public class FileInfoAnalyzer {
     /**
      * Analyzes the lines of the file, given in the {@code fileInfo}, that has changed in the time period provided
      * by {@code config}.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
+     * {@code originalityThreshold}.
      * Returns null if the file is missing from the local system, or none of the
      * {@link Author} specified in {@code config} contributed to the file in {@code fileInfo}.
      */
-    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo) {
+    public FileResult analyzeTextFile(RepoConfiguration config, FileInfo fileInfo, boolean shouldAnalyzeAuthorship,
+            double originalityThreshold) {
         String relativePath = fileInfo.getPath();
 
         if (Files.notExists(Paths.get(config.getRepoRoot(), relativePath))) {
@@ -60,10 +64,10 @@ public class FileInfoAnalyzer {
             return null;
         }
 
-        aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo);
+        aggregateBlameAuthorModifiedAndDateInfo(config, fileInfo, shouldAnalyzeAuthorship, originalityThreshold);
         fileInfo.setFileType(config.getFileType(fileInfo.getPath()));
 
-        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorConfig());
+        AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorConfig(), shouldAnalyzeAuthorship);
 
         if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())) {
             return null;
@@ -101,9 +105,8 @@ public class FileInfoAnalyzer {
             authorContributionMap.put(author, authorContributionMap.getOrDefault(author, 0) + 1);
         }
 
-        return FileResult.createTextFileResult(
-            fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(), authorContributionMap,
-            fileInfo.exceedsFileLimit());
+        return FileResult.createTextFileResult(fileInfo.getPath(), fileInfo.getFileType(), fileInfo.getLines(),
+                authorContributionMap, fileInfo.exceedsFileLimit());
     }
 
     /**
@@ -140,8 +143,11 @@ public class FileInfoAnalyzer {
      * The {@code config} is used to obtain the root directory for running git blame as well as other parameters used
      * in determining which author to assign to each line and whether to set the last modified date for a
      * {@code lineInfo}.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
+     * {@code originalityThreshold}.
      */
-    private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo) {
+    private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo,
+            boolean shouldAnalyzeAuthorship, double originalityThreshold) {
         String blameResults;
 
         if (!config.isFindingPreviousAuthorsPerformed()) {
@@ -160,14 +166,15 @@ public class FileInfoAnalyzer {
             String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
             String authorEmail = blameResultLines[lineCount + 2]
                     .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
-            Long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
+            long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
             LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(commitDateInMs),
                     config.getZoneId());
             Author author = config.getAuthor(authorName, authorEmail);
 
-            if (!fileInfo.isFileLineTracked(lineCount / 5) || author.isIgnoringFile(filePath)
+            int lineNumber = lineCount / 5;
+            if (!fileInfo.isFileLineTracked(lineNumber) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
-                    || commitDate.compareTo(sinceDate) < 0 || commitDate.compareTo(untilDate) > 0) {
+                    || commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
                 author = Author.UNKNOWN_AUTHOR;
             }
 
@@ -177,9 +184,16 @@ public class FileInfoAnalyzer {
                             MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT, config.getRepoName()));
                 }
 
-                fileInfo.setLineLastModifiedDate(lineCount / 5, commitDate);
+                fileInfo.setLineLastModifiedDate(lineNumber, commitDate);
             }
-            fileInfo.setLineAuthor(lineCount / 5, author);
+            fileInfo.setLineAuthor(lineNumber, author);
+
+            if (shouldAnalyzeAuthorship && !author.equals(Author.UNKNOWN_AUTHOR)) {
+                String lineContent = fileInfo.getLine(lineNumber + 1).getContent();
+                boolean isFullCredit = AuthorshipAnalyzer.analyzeAuthorship(config, fileInfo.getPath(), lineContent,
+                        commitHash, author, originalityThreshold);
+                fileInfo.setIsFullCredit(lineNumber, isFullCredit);
+            }
         }
     }
 

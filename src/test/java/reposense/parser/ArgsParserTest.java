@@ -529,7 +529,7 @@ public class ArgsParserTest {
 
     @Test
     public void emptyArgs_defaultConfigFolderPath() throws Exception {
-        CliArguments cliArguments = ArgsParser.parse(new String[]{});
+        CliArguments cliArguments = ArgsParser.parse(new String[] {});
 
         Assertions.assertEquals(CONFIG_DIRECTORY.toString(), cliArguments.getConfigFolderPath().toString());
     }
@@ -704,7 +704,7 @@ public class ArgsParserTest {
     @Test
     public void parse_incorrectTimezone_throwsParseException() {
         String input = DEFAULT_INPUT_BUILDER.addTimezone("UTC+").build();
-        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));;
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
     }
 
     @Test
@@ -727,6 +727,59 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArgumentsShallow = ArgsParser.parse(translateCommandline(inputShallow));
         Assertions.assertEquals(true, cliArgumentsShallow.isShallowCloningPerformed());
+    }
+
+    @Test
+    public void parse_withAnalyzeAuthorship_success() throws Exception {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .addAnalyzeAuthorship()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        String inputWithAlias = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_DELTA)
+                .add("-A")
+                .build();
+        CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
+
+        Assertions.assertTrue(cliArguments.isAuthorshipAnalyzed());
+        Assertions.assertTrue(cliArgumentsWithAlias.isAuthorshipAnalyzed());
+
+        Assertions.assertEquals(cliArguments, cliArgumentsWithAlias);
+    }
+
+    @Test
+    public void parse_withoutAnalyzeAuthorship_success() throws Exception {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_BETA).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assertions.assertFalse(cliArguments.isAuthorshipAnalyzed());
+    }
+
+    @Test
+    public void parse_withOriginalityThreshold_success() throws Exception {
+        String input = new InputBuilder().addOriginalityThreshold(0.1234).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        String inputWithAlias = new InputBuilder().add("-ot 0.9876").build();
+        CliArguments cliArgumentsWithAlias = ArgsParser.parse(translateCommandline(inputWithAlias));
+
+        Assertions.assertEquals(0.1234, cliArguments.getOriginalityThreshold());
+        Assertions.assertEquals(0.9876, cliArgumentsWithAlias.getOriginalityThreshold());
+    }
+
+    @Test
+    public void parse_originalityThresholdWithoutArgument_throwsParseException() {
+        String input = new InputBuilder().add("-ot").build();
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
+    }
+
+    @Test
+    public void parse_originalityThresholdOutOfBound_throwsParseException() {
+        String inputBelowBound = new InputBuilder().addOriginalityThreshold(-0.001).build();
+        String inputAboveBound = new InputBuilder().addOriginalityThreshold(1.0001).build();
+
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(inputBelowBound)));
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(inputAboveBound)));
     }
 
     /**

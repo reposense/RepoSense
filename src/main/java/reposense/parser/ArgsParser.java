@@ -52,6 +52,7 @@ public class ArgsParser {
     public static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
     public static final boolean DEFAULT_IS_TEST_MODE = false;
     public static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
+    public static final double DEFAULT_ORIGINALITY_THRESHOLD = 0.51;
 
     public static final String[] HELP_FLAGS = new String[] {"--help", "-h"};
     public static final String[] CONFIG_FLAGS = new String[] {"--config", "-c"};
@@ -70,12 +71,12 @@ public class ArgsParser {
     public static final String[] VERSION_FLAGS = new String[] {"--version", "-V"};
     public static final String[] LAST_MODIFIED_DATE_FLAGS = new String[] {"--last-modified-date", "-l"};
     public static final String[] FIND_PREVIOUS_AUTHORS_FLAGS = new String[] {"--find-previous-authors", "-F"};
-
     public static final String[] CLONING_THREADS_FLAG = new String[] {"--cloning-threads"};
     public static final String[] ANALYSIS_THREADS_FLAG = new String[] {"--analysis-threads"};
-
     public static final String[] TEST_MODE_FLAG = new String[] {"--test-mode"};
     public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
+    public static final String[] ANALYZE_AUTHORSHIP_FLAGS = new String[] {"--analyze-authorship", "-A"};
+    public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -213,6 +214,22 @@ public class ArgsParser {
                         + "will attempt to blame the line changes caused by commits in the ignore commit list to the "
                         + "previous authors who altered those lines (if available)");
 
+        parser.addArgument(ANALYZE_AUTHORSHIP_FLAGS)
+                .dest(ANALYZE_AUTHORSHIP_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("Performs further analysis to distinguish between partial and full credit attribution for "
+                        + "lines of code assigned to the author. A darker background colour represents full credit, "
+                        + "while a lighter background colour represents partial credit.");
+
+        parser.addArgument(ORIGINALITY_THRESHOLD_FLAGS)
+                .dest(ORIGINALITY_THRESHOLD_FLAGS[0])
+                .metavar("(0.0 ~ 1.0)")
+                .type(new OriginalityThresholdArgumentType())
+                .setDefault(DEFAULT_ORIGINALITY_THRESHOLD)
+                .help("Specifies the cut-off point for partial and full credit when further analysis of authorship "
+                        + "is performed. Author will be given full credit if their contribution exceeds this "
+                        + "threshold, else partial credit is given.");
+
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)
                 .dest(CONFIG_FLAGS[0])
@@ -298,6 +315,8 @@ public class ArgsParser {
         boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
         boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
         boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
+        boolean isAuthorshipAnalyzed = results.get(ANALYZE_AUTHORSHIP_FLAGS[0]);
+        double originalityThreshold = results.get(ORIGINALITY_THRESHOLD_FLAGS[0]);
         int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
         int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
 
@@ -316,7 +335,9 @@ public class ArgsParser {
                 .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors)
                 .numCloningThreads(numCloningThreads)
                 .numAnalysisThreads(numAnalysisThreads)
-                .isTestMode(isTestMode);
+                .isTestMode(isTestMode)
+                .isAuthorshipAnalyzed(isAuthorshipAnalyzed)
+                .originalityThreshold(originalityThreshold);
 
         LogsManager.setLogFolderLocation(outputFolderPath);
 
@@ -338,7 +359,6 @@ public class ArgsParser {
             logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
         }
         cliArgumentsBuilder.isAutomaticallyLaunching(isAutomaticallyLaunching);
-
 
         boolean shouldPerformFreshCloning = isTestMode
                 ? results.get(FRESH_CLONING_FLAG[0])

@@ -48,8 +48,10 @@ public class AnnotatorAnalyzer {
      *
      * @param fileInfo FileInfo to be further analyzed with author annotations.
      * @param authorConfig AuthorConfiguration for current analysis.
+     * @param shouldAnalyzeAuthorship whether credit info needs to be overwritten.
      */
-    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig) {
+    public static void aggregateAnnotationAuthorInfo(FileInfo fileInfo, AuthorConfiguration authorConfig,
+            boolean shouldAnalyzeAuthorship) {
         Optional<Author> currentAnnotatedAuthor = Optional.empty();
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
@@ -60,7 +62,7 @@ public class AnnotatorAnalyzer {
                 boolean isUnknownAuthorSegment = !currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
 
                 if (isEndOfAnnotatedSegment) {
-                    lineInfo.setAuthor(currentAnnotatedAuthor.get());
+                    lineInfo.updateAuthorAndCredit(currentAnnotatedAuthor.get(), shouldAnalyzeAuthorship);
                     currentAnnotatedAuthor = Optional.empty();
                 } else if (isUnknownAuthorSegment) {
                     currentAnnotatedAuthor = Optional.of(Author.UNKNOWN_AUTHOR);
@@ -68,7 +70,7 @@ public class AnnotatorAnalyzer {
                     currentAnnotatedAuthor = newAnnotatedAuthor.filter(author -> !author.isIgnoringFile(filePath));
                 }
             }
-            currentAnnotatedAuthor.ifPresent(lineInfo::setAuthor);
+            currentAnnotatedAuthor.ifPresent(author -> lineInfo.updateAuthorAndCredit(author, shouldAnalyzeAuthorship));
         }
     }
 
