@@ -115,7 +115,7 @@ import cAuthorshipFile from '../components/c-authorship-file.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import { StoreState } from '../types/vuex.d';
 import { FileResult, Line } from '../types/zod/authorship-type';
-import { AuthorshipFile, AuthorshipFileSegment, State } from '../types/types';
+import { AuthorshipFile, AuthorshipFileSegment, SegmentState } from '../types/types';
 import { FilesSortType, FilterType } from '../types/authorship';
 
 const filesSortDict = {
@@ -410,7 +410,7 @@ export default defineComponent({
 
     splitSegments(lines: Array<Line>): { segments: Array<AuthorshipFileSegment>; blankLineCount: number; } {
       // split into segments separated by knownAuthor
-      const lastState : State = { id: -1, author: null, isFullCredit: true };
+      const lastState : SegmentState = { id: -1, author: null, isFullCredit: true };
       const segments: Array<AuthorshipFileSegment> = [];
       let blankLineCount = 0;
 

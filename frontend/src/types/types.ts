@@ -85,7 +85,7 @@ export interface Bar {
   tooltipText?: string;
 }
 
-export interface State {
+export interface SegmentState {
   id: number;
   author: string | null;
   isFullCredit: boolean;
