@@ -6,10 +6,10 @@ describe('credit background colour', () => {
       .first()
       .click();
 
-    // full credit - #C8E6C9
+    // full credit - #BFF6CF
     cy.get(':nth-child(1) > .file-content > .segment-collection > :nth-child(2) > .java > .code')
       .should('have.css', 'background-color')
-      .and('eq', 'rgb(200, 230, 201)');
+      .and('eq', 'rgb(191, 246, 207)');
 
     // partial credit - #E6FFED
     cy.get(':nth-child(1) > .file-content > .segment-collection > :nth-child(4) > .java > .code')
