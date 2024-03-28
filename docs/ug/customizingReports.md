@@ -65,11 +65,11 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 ### Add a Title
 
 A title component can be added by creating a file titled `title.md` in the assets directory. You can specify the assets directory according to the reference below:
-  {{ embed("Appendix: **CLI syntax reference**", "cli.md") }}
+{{ embed("Appendix: **CLI syntax reference → `assets` flag**", "cli.md#section-assets") }}
 
-The title can render a combination of HTML and plaintext ([example](title.md)), and will appear on the top of the left panel as shown below:
+The title can render a combination of Markdown/HTML and plaintext ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/title.md)), and will appear on the top of the left panel as shown below:
 ![Title Component Example](../images/title-example.png)
 
 Do note that the width of the title is bound by the width of the left panel.
 
-For more information on how to create a Markdown file, see the [Markdown Guide](https://www.markdownguide.org/).
+For more information on how to use Markdown, see the [Markdown Guide](https://www.markdownguide.org/).
