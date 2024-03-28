@@ -17,6 +17,7 @@
       v-bind:title="'Click to hide code'"
     )
   div(v-if="isOpen", v-hljs="path")
+    //- author color is applied only when the author color exists, else it takes the default mui color value
     .code(
       v-for="(line, index) in segment.lines", v-bind:key="index",
       v-bind:style="{ 'background-color': `${authorColors[segment.knownAuthor]}${transparencyValue}` }"
