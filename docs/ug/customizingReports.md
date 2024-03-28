@@ -62,7 +62,7 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### Add a Title
+### Add a title
 
 A title component can be added by creating a file titled `title.md` in the assets directory. You can specify the assets directory according to the reference below:
 {{ embed("Appendix: **CLI syntax reference → `assets` flag**", "cli.md#section-assets") }}
