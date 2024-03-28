@@ -115,7 +115,7 @@ import cAuthorshipFile from '../components/c-authorship-file.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import { StoreState } from '../types/vuex.d';
 import { FileResult, Line } from '../types/zod/authorship-type';
-import { AuthorshipFile, AuthorshipFileSegment } from '../types/types';
+import { AuthorshipFile, AuthorshipFileSegment, State } from '../types/types';
 import { FilesSortType, FilterType } from '../types/authorship';
 
 const filesSortDict = {
@@ -410,9 +410,7 @@ export default defineComponent({
 
     splitSegments(lines: Array<Line>): { segments: Array<AuthorshipFileSegment>; blankLineCount: number; } {
       // split into segments separated by knownAuthor
-      let lastState: string | null;
-      let lastCreditState: boolean;
-      let lastId = -1;
+      const lastState : State = { id: -1, author: null, isFullCredit: true };
       const segments: Array<AuthorshipFileSegment> = [];
       let blankLineCount = 0;
 
@@ -423,7 +421,8 @@ export default defineComponent({
         const knownAuthor = (line.author && isAuthorMatched) ? line.author.gitId : null;
         const isFullCredit = line.isFullCredit;
 
-        if (knownAuthor !== lastState || lastId === -1 || (knownAuthor && isFullCredit !== lastCreditState)) {
+        if (lastState.id === -1 || lastState.author !== knownAuthor
+            || (knownAuthor && lastState.isFullCredit !== isFullCredit)) {
           segments.push({
             knownAuthor,
             isFullCredit,
@@ -431,15 +430,14 @@ export default defineComponent({
             lines: [],
           });
 
-          lastId += 1;
-          lastState = knownAuthor;
-          lastCreditState = isFullCredit;
+          lastState.id += 1;
+          lastState.author = knownAuthor;
+          lastState.isFullCredit = isFullCredit;
         }
 
         const content = line.content || ' ';
-        segments[lastId].lines.push(content);
-
-        segments[lastId].lineNumbers.push(lineCount + 1);
+        segments[lastState.id].lines.push(content);
+        segments[lastState.id].lineNumbers.push(lineCount + 1);
 
         if (line.content === '' && knownAuthor) {
           blankLineCount += 1;

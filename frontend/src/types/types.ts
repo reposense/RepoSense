@@ -84,3 +84,9 @@ export interface Bar {
   color?: string;
   tooltipText?: string;
 }
+
+export interface State {
+  id: number;
+  author: string | null;
+  isFullCredit: boolean;
+}
