@@ -97,6 +97,16 @@
             )
               span {{ ignoredFilesCount }} ignored file(s)
 
+  .background-color-legend
+    .header
+      span Legend of Background Colors
+    .info
+      .color-circle.full-credit-color
+      span current version is mostly by author abc.
+    .info
+      .color-circle.partial-credit-color
+      span current version is contributed by author abc, but with non-trivial contribution from others.
+
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, index) in selectedFiles", v-bind:key="file.path")
@@ -699,6 +709,35 @@ export default defineComponent({
 
   .empty {
     text-align: center;
+  }
+
+  .background-color-legend {
+    .header {
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .info {
+      align-items: center;
+      display: flex;
+    }
+
+    .color-circle {
+      border: 1px solid lightgrey;
+      border-radius: 50%;
+      display: inline-block;
+      height: 15px;
+      margin-right: 5px;
+      width: 15px;
+    }
+
+    .full-credit-color {
+      background-color: mui-color('github', 'full-authored-code-background');
+    }
+
+    .partial-credit-color {
+      background-color: mui-color('github', 'partial-authored-code-background');
+    }
   }
 }
 </style>
