@@ -21,38 +21,24 @@ public class ReportConfigYamlParserTest {
     @Test
     public void reportConfig_parseEmptyYamlFile_getDefaultTitle() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigYamlParser().parse(EMPTY_REPORT_CONFIG);
-        Assertions.assertEquals(reportConfig.getRepoUrl(), ReportConfiguration.DEFAULT_REPO_URL);
-        Assertions.assertEquals(reportConfig.getReportTitle(), ReportConfiguration.DEFAULT_TITLE);
-        Assertions.assertEquals(reportConfig.getAuthorDisplayName(), ReportConfiguration.DEFAULT_AUTHOR_DISPLAY_NAME);
-        Assertions.assertEquals(reportConfig.getAuthorGithubId(), ReportConfiguration.DEFAULT_AUTHOR_GITHUB_ID);
-        Assertions.assertEquals(reportConfig.getStartDate(), ReportConfiguration.DEFAULT_START_DATE);
-        Assertions.assertEquals(reportConfig.getEndDate(), ReportConfiguration.DEFAULT_END_DATE);
-        Assertions.assertEquals(reportConfig.getBranchesWithBlurbs(), ReportConfiguration.DEFAULT_BRANCHES_WITH_BLURBS);
+        Assertions.assertEquals(reportConfig.getTitle(), ReportConfiguration.DEFAULT_TITLE);
+        Assertions.assertEquals(reportConfig.getReportRepoConfigurations(),
+                ReportConfiguration.DEFAULT_REPORT_REPO_CONFIGS);
     }
 
     @Test
     public void reportConfig_parseInvalidYamlFile_getDefaultTitle() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigYamlParser().parse(INVALID_REPORT_CONFIG);
-        Assertions.assertEquals(reportConfig.getRepoUrl(), ReportConfiguration.DEFAULT_REPO_URL);
-        Assertions.assertEquals(reportConfig.getReportTitle(), ReportConfiguration.DEFAULT_TITLE);
-        Assertions.assertEquals(reportConfig.getAuthorDisplayName(), ReportConfiguration.DEFAULT_AUTHOR_DISPLAY_NAME);
-        Assertions.assertEquals(reportConfig.getAuthorGithubId(), ReportConfiguration.DEFAULT_AUTHOR_GITHUB_ID);
-        Assertions.assertEquals(reportConfig.getStartDate(), ReportConfiguration.DEFAULT_START_DATE);
-        Assertions.assertEquals(reportConfig.getEndDate(), ReportConfiguration.DEFAULT_END_DATE);
-        Assertions.assertEquals(reportConfig.getBranchesWithBlurbs(), ReportConfiguration.DEFAULT_BRANCHES_WITH_BLURBS);
+        Assertions.assertEquals(reportConfig.getTitle(), ReportConfiguration.DEFAULT_TITLE);
+        Assertions.assertEquals(reportConfig.getReportRepoConfigurations(),
+                ReportConfiguration.DEFAULT_REPORT_REPO_CONFIGS);
     }
 
     @Test
     public void reportConfig_parseValidYamlFile_getCustomTitle() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigYamlParser().parse(VALID_REPORT_CONFIG);
-        Assertions.assertNotEquals(reportConfig.getRepoUrl(), ReportConfiguration.DEFAULT_REPO_URL);
-        Assertions.assertNotEquals(reportConfig.getReportTitle(), ReportConfiguration.DEFAULT_TITLE);
-        Assertions.assertNotEquals(reportConfig.getAuthorDisplayName(),
-                ReportConfiguration.DEFAULT_AUTHOR_DISPLAY_NAME);
-        Assertions.assertNotEquals(reportConfig.getAuthorGithubId(), ReportConfiguration.DEFAULT_AUTHOR_GITHUB_ID);
-        Assertions.assertNotEquals(reportConfig.getStartDate(), ReportConfiguration.DEFAULT_START_DATE);
-        Assertions.assertNotEquals(reportConfig.getEndDate(), ReportConfiguration.DEFAULT_END_DATE);
-        Assertions.assertNotEquals(reportConfig.getBranchesWithBlurbs(),
-                ReportConfiguration.DEFAULT_BRANCHES_WITH_BLURBS);
+        Assertions.assertNotEquals(reportConfig.getTitle(), ReportConfiguration.DEFAULT_TITLE);
+        Assertions.assertNotEquals(reportConfig.getReportRepoConfigurations(),
+                ReportConfiguration.DEFAULT_REPORT_REPO_CONFIGS);
     }
 }

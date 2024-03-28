@@ -35,7 +35,7 @@ public class SummaryJson {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;
-        this.reportTitle = reportConfig.getReportTitle();
+        this.reportTitle = reportConfig.getTitle();
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.isSinceDateProvided = isSinceDateProvided;

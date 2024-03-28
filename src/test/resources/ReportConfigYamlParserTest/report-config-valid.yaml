@@ -1,11 +1,18 @@
-repoUrl: github.com/reposense/RepoSense
-reportTitle: RepoSense
-authorDisplayName: Author 1
-authorGithubId: author1
-branches:
-  - name: upstream
-    blurb: Blurb1
-  - name: main
-    blurb: Blurb2
-startDate: 2024-01-31
-endDate: 2024-12-31
+title: "Doe's Report"
+repos:
+  - repo: https://github.com/user/repo1
+    branch: master
+    authorNames:
+      - janeDoe
+      - Jane Doe
+      - jdoe PC
+    blurb: |
+      jdoe's awesome repo!
+  - repo: https://github.com/user2/repo22
+    branch: master
+    authorNames:
+      - jannet doe
+      - jannetdoe
+      - jadoe PC
+    blurb:
+      "very long blurb"
