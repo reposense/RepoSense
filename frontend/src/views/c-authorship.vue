@@ -98,14 +98,11 @@
               span {{ ignoredFilesCount }} ignored file(s)
 
   .background-color-legend
-    .header
-      span Legend of Background Colors
-    .info
-      .color-circle.full-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
-      span current version is mostly by author abc.
-    .info
-      .color-circle.partial-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
-      span current version is contributed by author abc, but with non-trivial contribution from others.
+    span Legend:
+    .color-circle.full-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
+    span [darker shades] Mostly contributed by author abc.
+    .color-circle.partial-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
+    span [lighter shades] Contributed by author abc, with non-trivial contribution from others.
 
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
@@ -712,21 +709,12 @@ export default defineComponent({
   }
 
   .background-color-legend {
-    .header {
-      font-weight: bold;
-      text-decoration: underline;
-    }
-
-    .info {
-      align-items: center;
-      display: -moz-flex;
-    }
-
     .color-circle {
       border: 1px solid lightgrey;
       border-radius: 50%;
       display: inline-block;
       height: 15px;
+      margin-left: 5px;
       margin-right: 5px;
       width: 15px;
     }
