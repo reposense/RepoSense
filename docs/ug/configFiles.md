@@ -107,12 +107,22 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 
 <!-- ==================================================================================================== -->
 
-## `report-config.json`
+## `report-config.yaml`
 
-You can optionally use `report-config.json` to customize report generation by providing the following information. ([example](report-config.json))
+You can also optionally use a `report-config.json` file to quickly define the repository information for the repositories you are interested in tracking and generate your very own code portfolio.
+
+View this [example](report-config.yaml) for a better understanding of what repository information is required.
 
 **Fields to provide**:
-* `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report"
+* `repoUrl`: The URL to your repository of interest
+* `reportTitle`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report"
+* `authorDisplayName`: Name of the author to track in the repository.
+* `authorGithubId`: The GitHub username of the author to track in the repository.
+* `branches`: A list of branches with their associated blurbs.
+  * `name`: Name of the branch to track
+  * `blurb`: Blurb to include with the branch
+* `startDate`: The start date of analysis for RepoSense. Default: "2020-01-01"
+* `endDate`: The end date of analysis for RepoSense. Default: "9999-12-32"
 
 <!-- ==================================================================================================== -->
 
