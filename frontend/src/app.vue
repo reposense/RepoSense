@@ -1,6 +1,6 @@
 <template lang="pug">
 #app
-  loading.overlay-loader(
+  loading-overlay.overlay-loader(
     v-bind:active='loadingOverlayCount > 0',
     v-bind:opacity='loadingOverlayOpacity'
   )
@@ -25,7 +25,7 @@
 <script lang='ts'>
 import { defineComponent } from 'vue';
 import JSZip from 'jszip';
-import Loading from 'vue-loading-overlay';
+import LoadingOverlay from 'vue-loading-overlay';
 import { mapState } from 'vuex';
 import { Repo } from './types/types';
 import { ErrorMessage } from './types/zod/summary-type';
@@ -36,7 +36,7 @@ const loadingResourcesMessage = 'Loading resources...';
 const app = defineComponent({
   name: 'app',
   components: {
-    Loading,
+    LoadingOverlay,
   },
   data() {
     return {
