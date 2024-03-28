@@ -101,10 +101,12 @@
     .header
       span Legend of Background Colors
     .info
-      .color-circle.full-credit-color
+      .color-circle.full-credit-color(v-if="!info.isMergeGroup")
+      .color-circle.merged-full-credit-color(v-if="info.isMergeGroup")
       span current version is mostly by author abc.
     .info
-      .color-circle.partial-credit-color
+      .color-circle.partial-credit-color(v-if="!info.isMergeGroup")
+      .color-circle.merged-partial-credit-color(v-if="info.isMergeGroup")
       span current version is contributed by author abc, but with non-trivial contribution from others.
 
   .files(v-if="isLoaded")
@@ -737,6 +739,14 @@ export default defineComponent({
 
     .partial-credit-color {
       background-color: mui-color('github', 'partial-authored-code-background');
+    }
+
+    .merged-full-credit-color {
+      background-color: mui-color('grey', '400');
+    }
+
+    .merged-partial-credit-color {
+      background-color: mui-color('grey', '200');
     }
   }
 }
