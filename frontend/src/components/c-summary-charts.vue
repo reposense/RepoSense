@@ -153,7 +153,8 @@
     .summary-chart(
       v-for="(user, j) in getRepo(repo)",
       v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
-      v-bind:ref="'summary-chart-' + j"
+      v-bind:ref="'summary-chart-' + j",
+      v-bind:id="user.name === activeUser && user.repoName === activeRepo ? 'selectedChart' : null"
       )
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
@@ -421,6 +422,15 @@ export default defineComponent({
       if (!this.$store.state.isTabActive) {
         this.removeSelectedTab();
       }
+    },
+
+    // watching so highlighted only when summary charts are rendered
+    filteredRepos() {
+      this.$nextTick(() => {
+        if (this.activeRepo !== null && this.activeUser !== null) {
+          this.scrollToActiveRepo();
+        }
+      });
     },
   },
   created() {
@@ -823,6 +833,8 @@ export default defineComponent({
 
       this.activeTabType = tabType;
       window.encodeHash();
+
+      this.$nextTick(() => this.scrollToActiveRepo());
     },
 
     removeSelectedTab(): void {
@@ -874,6 +886,13 @@ export default defineComponent({
       });
 
       return totalContribution / totalCommits;
+    },
+
+    scrollToActiveRepo(): void {
+      const chart = document.getElementById('selectedChart');
+      if (chart) {
+        chart.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
     },
   },
 });
