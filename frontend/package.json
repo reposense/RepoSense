@@ -4,13 +4,13 @@
   "description": "[![Build Status](https://travis-ci.org/reposense/RepoSense.svg?branch=master)](https://travis-ci.org/reposense/RepoSense) [![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)",
   "author": "",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "vite preview",
+    "build": "vite build",
     "lint": "eslint src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss} && npm run puglint",
-    "devbuild": "vue-cli-service build --mode development",
+    "devbuild": "vite build --mode development",
     "lintfix": "eslint --fix src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss}",
     "puglint": "pug-lint-vue src",
-    "serveOpen": "vue-cli-service serve --open"
+    "serveOpen": "vite preview --open"
   },
   "main": "index.js",
   "dependencies": {
@@ -22,7 +22,7 @@
     "@types/markdown-it": "^13.0.7",
     "@types/minimatch": "^5.1.2",
     "@types/seedrandom": "^3.0.5",
-    "core-js": "^3.6.5",
+    "@vitejs/plugin-vue": "^1.6.1",
     "highlight.js": "^10.5.0",
     "jszip": "^3.5.0",
     "markdown-it": "^14.0.0",
@@ -32,8 +32,8 @@
     "postcss": "^8.4.35",
     "pug-lint-vue": "^0.4.0",
     "seedrandom": "^3.0.5",
+    "vite": "^2.5.4",
     "vue": "^3.2.47",
-    "vue-loader": "^17.4.2",
     "vue-loading-overlay": "^5.0.3",
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^4.1.6",
@@ -41,14 +41,8 @@
     "zod": "^3.22.3"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.17.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
-    "@vue/cli-plugin-babel": "^5.0.4",
-    "@vue/cli-plugin-eslint": "^5.0.4",
-    "@vue/cli-plugin-typescript": "^5.0.4",
-    "@vue/cli-service": "^5.0.8",
-    "@vue/compiler-sfc": "^3.2.47",
     "@vue/eslint-config-typescript": "^10.0.0",
     "eslint": "^8.33.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -57,16 +51,15 @@
     "eslint-plugin-vue": "^8.4.1",
     "postcss-html": "^1.6.0",
     "pug": "^3.0.2",
-    "pug-plain-loader": "^1.1.0",
     "sass": "^1.58.0",
-    "sass-loader": "^13.3.3",
     "stylelint": "^14.7.1",
     "stylelint-config-recommended-scss": "^6.0.0",
     "stylelint-config-recommended-vue": "^1.4.0",
     "stylelint-order": "^5.0.0",
     "stylelint-scss": "^4.2.0",
-    "stylelint-webpack-plugin": "^3.2.0",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "vite-plugin-eslint2": "^4.4.0",
+    "vite-plugin-stylelint": "^5.3.1"
   },
   "bugs": {
     "url": "https://github.com/reposense/RepoSense/issues"
