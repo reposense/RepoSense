@@ -140,8 +140,10 @@
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
       .summary-charts__title--tags(v-if="viewRepoTags && getTags(repo).length > 0")
-        .tag(
+        a.tag(
           v-for="tag in getTags(repo)",
+          v-bind:href="getTagLink(repo[0], tag)",
+          target="_blank"
           vbind:key="tag",
           tabindex="-1"
         )
@@ -568,6 +570,10 @@ export default defineComponent({
       default:
         return ['fas', 'database'];
       }
+    },
+
+    getTagLink(repo: User, tag: string): string | undefined {
+      return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repo.repoId)}releases/tag/${tag}`);
     },
 
     // triggering opening of tabs //
