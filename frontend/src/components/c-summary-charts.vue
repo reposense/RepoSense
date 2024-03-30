@@ -143,7 +143,7 @@
         a.tag(
           v-for="tag in getTags(repo)",
           v-bind:href="getTagLink(repo[0], tag)",
-          target="_blank"
+          target="_blank",
           vbind:key="tag",
           tabindex="-1"
         )
