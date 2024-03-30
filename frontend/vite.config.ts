@@ -14,7 +14,8 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: '../build',
+    outDir: './build',
+    emptyOurDir: true,
   },
   server: {
     port: 9000,
