@@ -5,10 +5,8 @@ import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.function.BiFunction;
 
 import reposense.git.model.GitBlameLineInfo;
-import reposense.model.Author;
 import reposense.util.StringsUtil;
 
 /**
@@ -62,8 +60,7 @@ public class GitBlame {
     /**
      * Returns the git blame result for {@code lineNumber} of {@code fileDirectory} at {@code commitHash}.
      */
-    public static GitBlameLineInfo blameLine(String root, String commitHash, String fileDirectory, int lineNumber,
-            BiFunction<String, String, Author> getAuthor) {
+    public static GitBlameLineInfo blameLine(String root, String commitHash, String fileDirectory, int lineNumber) {
         Path rootPath = Paths.get(root);
 
         String blameCommand = String.format("git blame -w --line-porcelain %s -L %d,+1 -- %s",
@@ -72,22 +69,20 @@ public class GitBlame {
         String blameResult = StringsUtil.filterText(runCommand(rootPath, blameCommand),
                 COMBINATION_WITH_COMMIT_TIME_REGEX);
 
-        return processGitBlameResultLine(blameResult, getAuthor);
+        return processGitBlameResultLine(blameResult);
     }
 
     /**
      * Returns the processed result of {@code blameResult}.
      */
-    private static GitBlameLineInfo processGitBlameResultLine(String blameResult,
-            BiFunction<String, String, Author> getAuthor) {
+    private static GitBlameLineInfo processGitBlameResultLine(String blameResult) {
         String[] blameResultLines = StringsUtil.NEWLINE.split(blameResult);
 
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
         String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
         String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("[<>]", "");
         long timestampMilliseconds = Long.parseLong(blameResultLines[5].substring(COMMIT_TIME_OFFSET));
-        Author author = getAuthor.apply(authorName, authorEmail);
 
-        return new GitBlameLineInfo(commitHash, author, timestampMilliseconds);
+        return new GitBlameLineInfo(commitHash, authorName, authorEmail, timestampMilliseconds);
     }
 }

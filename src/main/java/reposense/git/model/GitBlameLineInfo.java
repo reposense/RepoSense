@@ -1,18 +1,18 @@
 package reposense.git.model;
 
-import reposense.model.Author;
-
 /**
  * Stores the git blame info of a single line.
  */
 public class GitBlameLineInfo {
     private final String commitHash;
-    private final Author author;
+    private final String authorName;
+    private final String authorEmail;
     private final long timestampMilliseconds;
 
-    public GitBlameLineInfo(String commitHash, Author author, long timestampMilliseconds) {
+    public GitBlameLineInfo(String commitHash, String authorName, String authorEmail, long timestampMilliseconds) {
         this.commitHash = commitHash;
-        this.author = author;
+        this.authorName = authorName;
+        this.authorEmail = authorEmail;
         this.timestampMilliseconds = timestampMilliseconds;
     }
 
@@ -20,8 +20,12 @@ public class GitBlameLineInfo {
         return commitHash;
     }
 
-    public Author getAuthor() {
-        return author;
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public String getAuthorEmail() {
+        return authorEmail;
     }
 
     public long getTimestampMilliseconds() {
@@ -40,7 +44,8 @@ public class GitBlameLineInfo {
 
         GitBlameLineInfo otherLineInfo = (GitBlameLineInfo) other;
         return commitHash.equals(otherLineInfo.commitHash)
-                && author.equals(otherLineInfo.author)
+                && authorName.equals(otherLineInfo.authorName)
+                && authorEmail.equals(otherLineInfo.authorEmail)
                 && timestampMilliseconds == otherLineInfo.timestampMilliseconds;
     }
 }

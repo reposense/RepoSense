@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import reposense.git.model.GitBlameLineInfo;
-import reposense.model.Author;
 import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 
@@ -56,30 +55,27 @@ public class GitBlameTest extends GitTestTemplate {
     @Test
     public void blameLine_allValidArguments_success() {
         GitBlameLineInfo expectedLineInfo = new GitBlameLineInfo("8d0ac2ee20f04dce8df0591caed460bffacb65a4",
-                new Author(MAIN_AUTHOR_NAME), 1517863105);
+                MAIN_AUTHOR_NAME, "ma.tanghao@dhs.sg", 1517863105);
         GitBlameLineInfo actualLineInfo = GitBlame.blameLine(config.getRepoRoot(),
-                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, "blameTest.java", 1,
-                config::getAuthor);
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, "blameTest.java", 1);
         Assertions.assertEquals(expectedLineInfo, actualLineInfo);
     }
 
     @Test
     public void blameLine_nonExistentCommit_throwsRunTimeException() {
         Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameLine(config.getRepoRoot(),
-                NONEXISTENT_COMMIT_HASH, "blameTest.java", 1, config::getAuthor));
+                NONEXISTENT_COMMIT_HASH, "blameTest.java", 1));
     }
 
     @Test
     public void blameLine_nonExistentFile_throwsRunTimeException() {
         Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameLine(config.getRepoRoot(),
-                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, "nonExistentFile", 1,
-                config::getAuthor));
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, "nonExistentFile", 1));
     }
 
     @Test
     public void blameLine_nonExistentLine_throwsRunTimeException() {
         Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameLine(config.getRepoRoot(),
-                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, "blameTest.java", 5,
-                config::getAuthor));
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, "blameTest.java", 5));
     }
 }

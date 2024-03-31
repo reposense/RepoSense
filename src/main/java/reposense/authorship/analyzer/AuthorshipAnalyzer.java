@@ -71,25 +71,26 @@ public class AuthorshipAnalyzer {
         }
 
         GitBlameLineInfo deletedLineInfo = GitBlame.blameLine(config.getRepoRoot(), deletedLine.getGitBlameCommitHash(),
-                deletedLine.getFilePath(), deletedLine.getLineNumber(), config::getAuthor);
+                deletedLine.getFilePath(), deletedLine.getLineNumber());
+        Author previousAuthor = config.getAuthor(deletedLineInfo.getAuthorName(), deletedLineInfo.getAuthorEmail());
         long sinceDateInMilliseconds = ZonedDateTime.of(config.getSinceDate(), config.getZoneId()).toEpochSecond();
 
         // Give full credit if author is unknown, is before since date, is in ignored list, or is an ignored file
-        if (deletedLineInfo.getAuthor().equals(Author.UNKNOWN_AUTHOR)
+        if (previousAuthor.equals(Author.UNKNOWN_AUTHOR)
                 || deletedLineInfo.getTimestampMilliseconds() < sinceDateInMilliseconds
                 || CommitHash.isInsideCommitList(deletedLineInfo.getCommitHash(), config.getIgnoreCommitList())
-                || deletedLineInfo.getAuthor().isIgnoringFile(Paths.get(deletedLine.getFilePath()))) {
+                || previousAuthor.isIgnoringFile(Paths.get(deletedLine.getFilePath()))) {
             return true;
         }
 
         // Give partial credit if currentAuthor is not the author of the previous version
-        if (!currentAuthor.equals(deletedLineInfo.getAuthor())) {
+        if (!currentAuthor.equals(previousAuthor)) {
             return false;
         }
 
         // Check the previous version as currentAuthor is the same as author of the previous version
         return analyzeAuthorship(config, deletedLine.getFilePath(), deletedLine.getLineContent(),
-                deletedLineInfo.getCommitHash(), deletedLineInfo.getAuthor(), originalityThreshold);
+                deletedLineInfo.getCommitHash(), previousAuthor, originalityThreshold);
     }
 
     /**
