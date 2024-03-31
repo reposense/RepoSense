@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import reposense.git.model.GitBlameLineInfo;
 import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 
@@ -53,9 +54,11 @@ public class GitBlameTest extends GitTestTemplate {
 
     @Test
     public void blameLine_allValidArguments_success() {
-        String content = GitBlame.blameLine(config.getRepoRoot(), FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING,
-                "blameTest.java", 1);
-        Assertions.assertFalse(content.isEmpty());
+        GitBlameLineInfo expectedLineInfo = new GitBlameLineInfo("8d0ac2ee20f04dce8df0591caed460bffacb65a4",
+                MAIN_AUTHOR_NAME, "ma.tanghao@dhs.sg", 1517863105);
+        GitBlameLineInfo actualLineInfo = GitBlame.blameLine(config.getRepoRoot(),
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, "blameTest.java", 1);
+        Assertions.assertEquals(expectedLineInfo, actualLineInfo);
     }
 
     @Test
