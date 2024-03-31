@@ -5,7 +5,10 @@ import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.function.BiFunction;
 
+import reposense.git.model.GitBlameLineInfo;
+import reposense.model.Author;
 import reposense.util.StringsUtil;
 
 /**
@@ -24,6 +27,11 @@ public class GitBlame {
     private static final String COMBINATION_REGEX = COMMIT_HASH_REGEX + "|" + AUTHOR_NAME_REGEX + "|"
             + AUTHOR_EMAIL_REGEX + "|" + AUTHOR_TIME_REGEX + "|" + AUTHOR_TIMEZONE_REGEX;
     private static final String COMBINATION_WITH_COMMIT_TIME_REGEX = COMBINATION_REGEX + "|" + COMMIT_TIME_REGEX;
+
+    private static final int AUTHOR_NAME_OFFSET = "author ".length();
+    private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
+    private static final int FULL_COMMIT_HASH_LENGTH = 40;
+    private static final int COMMIT_TIME_OFFSET = "committer-time ".length();
 
     /**
      * Returns the raw git blame result for the {@code fileDirectory}, performed at the {@code root} directory.
@@ -52,14 +60,34 @@ public class GitBlame {
     }
 
     /**
-     * Returns the raw git blame result for {@code lineNumber} of {@code fileDirectory} at {@code commitHash}.
+     * Returns the git blame result for {@code lineNumber} of {@code fileDirectory} at {@code commitHash}.
      */
-    public static String blameLine(String root, String commitHash, String fileDirectory, int lineNumber) {
+    public static GitBlameLineInfo blameLine(String root, String commitHash, String fileDirectory, int lineNumber,
+            BiFunction<String, String, Author> getAuthor) {
         Path rootPath = Paths.get(root);
 
         String blameCommand = String.format("git blame -w --line-porcelain %s -L %d,+1 -- %s",
                 commitHash, lineNumber, fileDirectory);
 
-        return StringsUtil.filterText(runCommand(rootPath, blameCommand), COMBINATION_WITH_COMMIT_TIME_REGEX);
+        String blameResult = StringsUtil.filterText(runCommand(rootPath, blameCommand),
+                COMBINATION_WITH_COMMIT_TIME_REGEX);
+
+        return processGitBlameResultLine(blameResult, getAuthor);
+    }
+
+    /**
+     * Returns the processed result of {@code blameResult}.
+     */
+    private static GitBlameLineInfo processGitBlameResultLine(String blameResult,
+            BiFunction<String, String, Author> getAuthor) {
+        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResult);
+
+        String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
+        String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
+        String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("[<>]", "");
+        long timestampMilliseconds = Long.parseLong(blameResultLines[5].substring(COMMIT_TIME_OFFSET));
+        Author author = getAuthor.apply(authorName, authorEmail);
+
+        return new GitBlameLineInfo(commitHash, author, timestampMilliseconds);
     }
 }

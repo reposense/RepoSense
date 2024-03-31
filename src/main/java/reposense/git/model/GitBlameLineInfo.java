@@ -1,4 +1,4 @@
-package reposense.authorship.model;
+package reposense.git.model;
 
 import reposense.model.Author;
 
@@ -26,5 +26,21 @@ public class GitBlameLineInfo {
 
     public long getTimestampMilliseconds() {
         return timestampMilliseconds;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (!(other instanceof GitBlameLineInfo)) {
+            return false;
+        }
+
+        GitBlameLineInfo otherLineInfo = (GitBlameLineInfo) other;
+        return commitHash.equals(otherLineInfo.commitHash)
+                && author.equals(otherLineInfo.author)
+                && timestampMilliseconds == otherLineInfo.timestampMilliseconds;
     }
 }

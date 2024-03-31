@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 
 import reposense.authorship.model.CandidateLine;
 import reposense.authorship.model.FileDiffInfo;
-import reposense.authorship.model.GitBlameLineInfo;
 import reposense.git.GitBlame;
 import reposense.git.GitDiff;
 import reposense.git.GitLog;
+import reposense.git.model.GitBlameLineInfo;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
@@ -38,10 +38,6 @@ public class AuthorshipAnalyzer {
             Pattern.compile("-(?<preImageStartLine>\\d+),?\\d* \\+\\d+,?\\d* @@");
     private static final String PREIMAGE_START_LINE_GROUP_NAME = "preImageStartLine";
     private static final String MATCH_GROUP_FAIL_MESSAGE_FORMAT = "Failed to match the %s group for:\n%s";
-    private static final int AUTHOR_NAME_OFFSET = "author ".length();
-    private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
-    private static final int FULL_COMMIT_HASH_LENGTH = 40;
-    private static final int COMMIT_TIME_OFFSET = "committer-time ".length();
     private static final String ADDED_LINE_SYMBOL = "+";
     private static final String DELETED_LINE_SYMBOL = "-";
 
@@ -74,7 +70,8 @@ public class AuthorshipAnalyzer {
             return true;
         }
 
-        GitBlameLineInfo deletedLineInfo = getGitBlameLineInfo(config, deletedLine);
+        GitBlameLineInfo deletedLineInfo = GitBlame.blameLine(config.getRepoRoot(), deletedLine.getGitBlameCommitHash(),
+                deletedLine.getFilePath(), deletedLine.getLineNumber(), config::getAuthor);
         long sinceDateInMilliseconds = ZonedDateTime.of(config.getSinceDate(), config.getZoneId()).toEpochSecond();
 
         // Give full credit if author is unknown, is before since date, is in ignored list, or is an ignored file
@@ -248,22 +245,5 @@ public class AuthorshipAnalyzer {
     private static double computeOriginalityScore(String s, String baseString, double limit) {
         double levenshteinDistance = StringsUtil.getLevenshteinDistance(s, baseString, limit * baseString.length());
         return levenshteinDistance / baseString.length();
-    }
-
-    /**
-     * Returns the git blame line info for {@code line}.
-     */
-    private static GitBlameLineInfo getGitBlameLineInfo(RepoConfiguration config, CandidateLine line) {
-        String blameResults = GitBlame.blameLine(
-                config.getRepoRoot(), line.getGitBlameCommitHash(), line.getFilePath(), line.getLineNumber());
-        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResults);
-
-        String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
-        String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
-        String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("[<>]", "");
-        long timestampMilliseconds = Long.parseLong(blameResultLines[5].substring(COMMIT_TIME_OFFSET));
-        Author author = config.getAuthor(authorName, authorEmail);
-
-        return new GitBlameLineInfo(commitHash, author, timestampMilliseconds);
     }
 }
