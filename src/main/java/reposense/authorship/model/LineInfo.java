@@ -95,9 +95,7 @@ public class LineInfo {
                 && Objects.equals(author, otherLineInfo.author)
                 && content.equals(otherLineInfo.content)
                 && isTracked == otherLineInfo.isTracked
-                && ((lastModifiedDate == null && otherLineInfo.lastModifiedDate == null)
-                || (lastModifiedDate != null && otherLineInfo.lastModifiedDate != null
-                && lastModifiedDate.equals(otherLineInfo.lastModifiedDate)))
+                && Objects.equals(lastModifiedDate, otherLineInfo.lastModifiedDate)
                 && isFullCredit == otherLineInfo.isFullCredit;
     }
 }
