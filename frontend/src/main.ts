@@ -8,7 +8,7 @@ import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
 import 'vue-loading-overlay/dist/vue-loading.css';
 import '@fontsource/titillium-web';
-//
+
 // Need to import for side effects
 import './utils/api';
 import './utils/safari_date';
