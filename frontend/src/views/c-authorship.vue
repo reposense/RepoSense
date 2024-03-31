@@ -97,14 +97,6 @@
             )
               span {{ ignoredFilesCount }} ignored file(s)
 
-  .background-color-legend
-    .bold Legend:
-    .color-circle.full-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
-    span [darker shades] Mostly contributed by author.
-    .bold &nbsp|
-    .color-circle.partial-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
-    span [lighter shades] Contributed by author, with non-trivial contribution from others.
-
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, index) in selectedFiles", v-bind:key="file.path")
@@ -707,39 +699,6 @@ export default defineComponent({
 
   .empty {
     text-align: center;
-  }
-
-  .background-color-legend {
-    .bold {
-      display: inline-block;
-      font-weight: bold;
-    }
-
-    .color-circle {
-      border: 1px solid lightgrey;
-      border-radius: 50%;
-      display: inline-block;
-      height: 15px;
-      margin-left: 5px;
-      margin-right: 5px;
-      width: 15px;
-    }
-
-    .full-credit-color {
-      background-color: mui-color('github', 'full-authored-code-background');
-
-      &.isMergeGroup {
-        background-color: mui-color('grey', '400');
-      }
-    }
-
-    .partial-credit-color {
-      background-color: mui-color('github', 'partial-authored-code-background');
-
-      &.isMergeGroup {
-        background-color: mui-color('grey', '200');
-      }
-    }
   }
 }
 </style>
