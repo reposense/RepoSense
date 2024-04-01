@@ -18,8 +18,8 @@ mainClassName = 'reposense.RepoSense'
 
 node.download = false // The Liferay Node Gradle Plugin will use the system PATH to find the Node/npm executable.
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
     mavenCentral()
