@@ -20,7 +20,7 @@ import reposense.util.TestUtil;
 
 public class AuthorshipAnalyzerTest extends GitTestTemplate {
     private static final LocalDateTime SINCE_DATE = TestUtil.getSinceDate(2018, Month.JANUARY.getValue(), 1);
-    private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2024, Month.APRIL.getValue(), 31);
+    private static final LocalDateTime UNTIL_DATE = TestUtil.getUntilDate(2024, Month.APRIL.getValue(), 30);
     private static final String TEST_FILENAME = "analyzeAuthorshipTest.java";
     private static final String TEST1_FILENAME = "analyzeAuthorshipTest1.java";
     private static final String TEST2_FILENAME = "analyzeAuthorshipTest2.java";
