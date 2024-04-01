@@ -13,11 +13,11 @@ on:
 env:
   NODE_VER: '16.x'
   JAVA_DISTRIBUTION: 'zulu'
-  JAVA_VER: 8
+  JAVA_VER: 11
 
 jobs:
   mainbuild:
-    name: ${{ matrix.os }} JDK 8
+    name: ${{ matrix.os }} JDK 11
     strategy:
       fail-fast: false
       matrix:
@@ -32,7 +32,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Set up JDK 1.8
+    - name: Set up JDK 1.11
       uses: actions/setup-java@v3
       with:
         distribution: ${{ env.JAVA_DISTRIBUTION }}
@@ -120,7 +120,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Set up JDK 1.8
+    - name: Set up JDK 1.11
       uses: actions/setup-java@v3
       with:
         distribution: ${{ env.JAVA_DISTRIBUTION }}
