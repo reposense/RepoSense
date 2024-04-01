@@ -1,10 +1,19 @@
 describe('scroll to active repo', () => {
   // need to set scrollBehavior to false because the default behavior is to scroll the element into view
-  it('selecting a visible repo should not scroll', () => {
+  it('selecting a visible repo should not scroll', { scrollBehavior: false }, () => {
+    // close the error message box
+    cy.get('.error-message-box')
+      .should('be.visible');
+
+    cy.get('#summary-wrapper > #summary > .error-message-box > .error-message-box__close-button')
+      .click();
+
+    cy.get('.error-message-box')
+      .should('not.be.visible');
+
     cy.get('.icon-button.fa-code')
       .should('exist')
-      .first()
-      .scrollIntoView();
+      .first();
 
     let scrollTopOriginal = 0;
     cy.get('#summary-wrapper')
@@ -26,7 +35,7 @@ describe('scroll to active repo', () => {
       });
   });
 
-  it('selecting a non-visible repo should scroll', { retries: 10, defaultCommandTimeout: 500 }, () => {
+  it('selecting a non-visible repo should scroll', () => {
     cy.get('.icon-button.fa-code')
       .should('exist')
       .last()
@@ -44,8 +53,6 @@ describe('scroll to active repo', () => {
       .should('contain', 'tabRepo=reposense%2FRepoSense%5Bcypress%5D');
 
     cy.reload();
-
-    cy.wait(1250);
 
     cy.get('.icon-button.fa-code')
       .should('exist')

@@ -891,7 +891,7 @@ export default defineComponent({
     scrollToActiveRepo(): void {
       const chart = document.getElementById('selectedChart');
       if (chart) {
-        chart.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        chart.scrollIntoView({ block: 'nearest' });
       }
     },
   },
