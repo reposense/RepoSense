@@ -73,6 +73,12 @@
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
           )
           span merge all groups
+        label.trim-timeline
+          input.mui-checkbox(
+            type="checkbox",
+            v-model="optimiseTimeline"
+          )
+          span optimise timeline
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
@@ -133,7 +139,8 @@
     v-bind:max-date="maxDate",
     v-bind:sort-group-selection="sortGroupSelection",
     v-bind:chart-group-index="chartGroupIndex",
-    v-bind:chart-index="chartIndex"
+    v-bind:chart-index="chartIndex",
+    v-bind:optimise-timeline="optimiseTimeline"
   )
 </template>
 
@@ -211,6 +218,7 @@ export default defineComponent({
       chartIndex: undefined as number | undefined,
       errorIsShowingMore: false,
       numberOfErrorMessagesToShow: 4,
+      optimiseTimeline: false,
     };
   },
   computed: {

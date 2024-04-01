@@ -1,22 +1,25 @@
 <template lang="pug">
 .ramp
   template(v-if="tframe === 'commit'")
-    template(v-for="(slice, j) in user.commits")
-      template(v-for="(commit, k) in slice.commitResults")
-        a.ramp__slice(
-          draggable="false",
-          v-on:click="rampClick",
-          v-bind:href="getLink(commit)", target="_blank",
-          v-bind:title="getContributionMessageByCommit(slice, commit)",
-          v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
-            !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
-          v-bind:style="{\
-            zIndex: user.commits.length - j,\
-            borderLeftWidth: `${getWidth(commit)}em`,\
-            right: `${((getSlicePos(slice.date)\
-              + (getCommitPos(k, slice.commitResults.length))) * 100)}%`\
-            }"
-        )
+    .ramp-padding(
+        v-bind:style="optimiseTimeline ? {width: `${100 - optimisedPadding * 2}%`, left: `${optimisedPadding}%`} : ''"
+      )
+      template(v-for="(slice, j) in user.commits")
+        template(v-for="(commit, k) in slice.commitResults")
+          a.ramp__slice(
+            draggable="false",
+            v-on:click="rampClick",
+            v-bind:href="getLink(commit)", target="_blank",
+            v-bind:title="getContributionMessageByCommit(slice, commit)",
+            v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
+              !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
+            v-bind:style="{\
+              zIndex: user.commits.length - j,\
+              borderLeftWidth: `${getWidth(commit)}em`,\
+              right: `${((getSlicePos(slice.date)\
+                + (getCommitPos(k, slice.commitResults.length))) * 100)}%`\
+              }"
+          )
 
   template(v-else)
     a(v-bind:href="getReportLink()", target="_blank")
@@ -30,8 +33,11 @@
           zIndex: user.commits.length - j,\
           borderLeftWidth: `${getWidth(slice)}em`,\
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
-          }"
+        }"
       )
+.date-indicators
+  span(v-if="optimiseTimeline") {{new Date(optimisedMinimumDate).toLocaleDateString()}}
+  span(v-if="optimiseTimeline") {{new Date(optimisedMaximumDate).toLocaleDateString()}}
 </template>
 
 <script lang='ts'>
@@ -83,10 +89,15 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    optimiseTimeline: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       rampSize: 0.01 as number,
+      optimisedPadding: 3, // as % of total timeline,
     };
   },
 
@@ -96,6 +107,12 @@ export default defineComponent({
     },
     deletesContributionRampSize(): number {
       return this.rampSize * 20;
+    },
+    optimisedMinimumDate(): number {
+      return Math.min(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
+    },
+    optimisedMaximumDate(): number {
+      return Math.max(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
     },
   },
 
@@ -177,13 +194,18 @@ export default defineComponent({
     },
     // position for day granularity
     getSlicePos(date: string) {
+      if (this.optimiseTimeline) {
+        const total = this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate);
+        return (new Date(this.optimisedMaximumDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
+      }
       const total = this.getTotalForPos(this.sdate, this.udate);
       return (new Date(this.udate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
     },
 
     // get duration in miliseconds between 2 date
-    getTotalForPos(sinceDate: string, untilDate: string) {
-      return new Date(untilDate).valueOf() - new Date(sinceDate).valueOf();
+    getTotalForPos(sinceDate: string | number, untilDate: string | number) {
+      return (typeof untilDate === 'string' ? new Date(untilDate).valueOf() : untilDate)
+      - (typeof sinceDate === 'string' ? new Date(sinceDate).valueOf() : sinceDate);
     },
     getRampColor(commit: CommitResult, slice: Commit) {
       if (this.isDeletesContribution(commit)) {
@@ -266,5 +288,17 @@ export default defineComponent({
       border-bottom: $height rgba(mui-color('red'), .7) solid;
     }
   }
+}
+
+.ramp-padding {
+  height: 100%;
+  position: relative;
+}
+
+.date-indicators {
+  @include mono-font;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1px;
 }
 </style>

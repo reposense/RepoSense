@@ -271,7 +271,9 @@
           v-bind:avgsize="avgCommitSize",
           v-bind:mergegroup="isGroupMerged(getGroupName(repo))",
           v-bind:filtersearch="filterSearch",
-          v-bind:is-widget-mode="isChartGroupWidgetMode")
+          v-bind:is-widget-mode="isChartGroupWidgetMode",
+          v-bind:optimise-timeline="optimiseTimeline"
+        )
         .overlay
 
       .summary-chart__contribution
@@ -370,6 +372,10 @@ export default defineComponent({
     chartIndex: {
       type: Number,
       default: undefined,
+    },
+    optimiseTimeline: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
