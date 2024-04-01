@@ -35,7 +35,7 @@
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
         }"
       )
-.date-indicators(v-if="optimiseTimeline")
+.date-indicators(v-if="optimiseTimeline && optimisedMinimumDate != null && optimisedMaximumDate != null")
   span {{new Date(optimisedMinimumDate).toLocaleDateString()}}
   span {{new Date(optimisedMaximumDate).toLocaleDateString()}}
 </template>
@@ -108,11 +108,15 @@ export default defineComponent({
     deletesContributionRampSize(): number {
       return this.rampSize * 20;
     },
-    optimisedMinimumDate(): number {
-      return Math.min(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
+    optimisedMinimumDate(): number | null {
+      return this.user.commits.length === 0
+        ? null
+        : Math.min(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
     },
-    optimisedMaximumDate(): number {
-      return Math.max(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
+    optimisedMaximumDate(): number | null {
+      return this.user.commits.length === 0
+        ? null
+        : Math.max(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
     },
   },
 
@@ -195,6 +199,9 @@ export default defineComponent({
     // position for day granularity
     getSlicePos(date: string) {
       if (this.optimiseTimeline) {
+        if (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null) {
+          return 0;
+        }
         const total = this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate);
         return (new Date(this.optimisedMaximumDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
       }
