@@ -27,6 +27,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
     private static final String TEST3_FILENAME = "analyzeAuthorshipTest3.java";
     private static final String TEST_EXCEED_THRESHOLD_FILENAME = "exceedThresholdTest.txt";
     private static final String TEST_NO_CANDIDATE_LINE_FILENAME = "noCandidateLineTest.txt";
+    private static final String TEST_MULTIPLE_PARENT_FILENAME = "multipleParentTest.txt";
     private static final String BRANCH_NAME = "945-FileAnalyzerTest-analyzeAuthorship";
     private static final CommitHash IGNORE_HASH = new CommitHash("f874c0992645bed626de2113659ce48d7a2233dd");
     private static final Author MINGYI_AUTHOR = new Author(MINGYI_AUTHOR_NAME);
@@ -184,6 +185,14 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
     @Test
     public void analyzeAuthorship_noCandidateLine_success() {
         FileInfo fileInfo = analyzeTextFile(TEST_NO_CANDIDATE_LINE_FILENAME);
+
+        Assertions.assertEquals(SHICHEN_AUTHOR, fileInfo.getLine(1).getAuthor());
+        Assertions.assertTrue(fileInfo.getLine(1).isFullCredit());
+    }
+
+    @Test
+    public void analyzeAuthorship_multipleParent_success() {
+        FileInfo fileInfo = analyzeTextFile(TEST_MULTIPLE_PARENT_FILENAME);
 
         Assertions.assertEquals(SHICHEN_AUTHOR, fileInfo.getLine(1).getAuthor());
         Assertions.assertTrue(fileInfo.getLine(1).isFullCredit());
