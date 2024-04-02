@@ -69,7 +69,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../styles/hightlight-js-style.css';
 @import '../styles/_colors.scss';
 
