@@ -1,4 +1,4 @@
-package reposense.model;
+package reposense.model.reportconfig;
 
 import java.util.ArrayList;
 import java.util.List;

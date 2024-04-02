@@ -1,4 +1,4 @@
-package reposense.model;
+package reposense.model.reportconfig;
 
 import java.util.List;
 
@@ -10,52 +10,40 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ReportRepoConfiguration {
     public static final String DEFAULT_REPO = "https://github.com/user/repo";
-    public static final String DEFAULT_BRANCH = "main";
     public static final List<String> DEFAULT_AUTHOR_NAMES = List.of(
             "johnDoe", "John Doe", "my home PC"
     );
-    public static final String DEFAULT_BLURB = "This is a very long multiline blurb that spans multiple\n"
-            + "lines. This would be interpreted literally (with whitespaces\n"
-            + "and everything) and can be parsed as such.\n"
-            + "\n"
-            + "See https://yaml-multiline.info/ for more information on how you can\n"
-            + "incorporate multiline strings into your config file!";
+    public static final List<ReportBranchData> DEFAULT_BRANCHES = List.of(
+            new ReportBranchData()
+    );
 
     public static final ReportRepoConfiguration DEFAULT_INSTANCE = new ReportRepoConfiguration();
 
     static {
         DEFAULT_INSTANCE.repo = DEFAULT_REPO;
-        DEFAULT_INSTANCE.branch = DEFAULT_BRANCH;
-        DEFAULT_INSTANCE.blurb = DEFAULT_BLURB;
         DEFAULT_INSTANCE.authorNames = DEFAULT_AUTHOR_NAMES;
+        DEFAULT_INSTANCE.branches = DEFAULT_BRANCHES;
     }
 
     @JsonProperty("repo")
     private String repo;
 
-    @JsonProperty("branch")
-    private String branch;
+    @JsonProperty("branches")
+    private List<ReportBranchData> branches;
 
     @JsonProperty("authorNames")
     private List<String> authorNames;
-
-    @JsonProperty("blurb")
-    private String blurb;
 
     public String getRepo() {
         return repo == null ? DEFAULT_REPO : repo;
     }
 
-    public String getBranch() {
-        return branch == null ? DEFAULT_BRANCH : branch;
+    public List<ReportBranchData> getBranches() {
+        return branches == null ? DEFAULT_BRANCHES : branches;
     }
 
     public List<String> getAuthorNames() {
         return authorNames == null ? DEFAULT_AUTHOR_NAMES : authorNames;
-    }
-
-    public String getBlurb() {
-        return blurb == null ? DEFAULT_BLURB : blurb;
     }
 
     @Override
@@ -67,9 +55,8 @@ public class ReportRepoConfiguration {
         if (obj instanceof ReportRepoConfiguration) {
             ReportRepoConfiguration rrc = (ReportRepoConfiguration) obj;
             return rrc.getRepo().equals(this.getRepo())
-                    && rrc.getBranch().equals(this.getBranch())
-                    && rrc.getAuthorNames().equals(this.getAuthorNames())
-                    && rrc.getBlurb().equals(this.getBlurb());
+                    && rrc.getBranches().equals(this.getBranches())
+                    && rrc.getAuthorNames().equals(this.getAuthorNames());
         }
 
         return false;

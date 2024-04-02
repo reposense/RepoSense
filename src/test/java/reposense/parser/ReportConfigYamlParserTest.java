@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import reposense.model.ReportConfiguration;
+import reposense.model.reportconfig.ReportConfiguration;
 
 public class ReportConfigYamlParserTest {
 

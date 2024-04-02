@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;

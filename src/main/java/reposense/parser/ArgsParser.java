@@ -27,7 +27,7 @@ import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.FileType;
-import reposense.model.ReportConfiguration;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.exceptions.ParseException;
 import reposense.parser.types.AlphanumericArgumentType;
 import reposense.parser.types.AnalysisThreadsArgumentType;
@@ -363,6 +363,7 @@ public class ArgsParser {
         if (locations == null) {
             Path reportConfigFilePath = configFolderPath.resolve(ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
 
+            // TODO: ADD BLURB MARKDOWN PARSER HERE
             try {
                 reportConfig = new ReportConfigYamlParser().parse(reportConfigFilePath);
             } catch (JsonSyntaxException jse) {

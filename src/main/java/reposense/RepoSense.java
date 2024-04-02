@@ -12,11 +12,12 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
 import reposense.model.CliArguments;
 import reposense.model.RepoConfiguration;
-import reposense.model.ReportConfiguration;
 import reposense.model.RunConfigurationDecider;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.exceptions.InvalidCsvException;
 import reposense.parser.exceptions.InvalidHeaderException;
+import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.parser.exceptions.ParseException;
 import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
@@ -79,7 +80,8 @@ public class RepoSense {
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed());
+                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed()
+                    );
 
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
@@ -96,6 +98,9 @@ public class RepoSense {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
+        } catch (InvalidMarkdownException ex) {
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
+            System.exit(1);
         }
 
         LogsManager.moveLogFileToOutputFolder();

@@ -1,40 +1,74 @@
 title: RepoSense Report
 repos:
   - repo: https://github.com/user/repo
-    branch: main
     authorNames:
       - johnDoe
       - John Doe
       - my home PC
-    blurb: |
-      This is a very long multiline blurb that spans multiple
-      lines. This would be interpreted literally (with whitespaces
-      and everything) and can be parsed as such.
-      
-      See https://yaml-multiline.info/ for more information on how you can
-      incorporate multiline strings into your config file!
-  - repo: https://github.com/user2/repo2
-    branch: main
+    branches:
+      - branch: main
+        blurb:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique dui sit amet felis interdum, 
+          id feugiat justo fermentum. Aliquam vitae tempus justo. In fringilla metus in leo dignissim iaculis.
+          Vivamus et quam eu justo pharetra iaculis. Aliquam erat volutpat. Pellentesque vitae nulla velit. Nullam
+          venenatis mollis tempor. Sed ut sollicitudin odio, imperdiet luctus mi. Nunc auctor, nulla vel dictum
+          dignissim, nulla felis ultricies erat, ut eleifend nibh justo eu ligula. Nunc condimentum tellus eu augue
+          vulputate rutrum. Suspendisse quis molestie massa. In non dignissim lectus. Curabitur a lobortis dolor.
+          Donec consequat augue sem. Nullam placerat lorem eu diam venenatis, in rhoncus massa mattis.
+    
+          Aliquam nec ipsum vel tortor pulvinar blandit eu vitae mi. Mauris pretium pellentesque aliquam.
+          Integer in ornare erat, ut sagittis sem. Mauris fringilla porta lorem, ac egestas metus aliquam vel.
+          Quisque eu lorem a eros tempor dapibus non ac dolor. Ut tincidunt neque non ante semper egestas.
+          Integer tincidunt in augue in dictum. Nunc finibus tortor at quam tempor, in luctus tellus ultricies.
+    
+          Donec pharetra dui eget ante facilisis imperdiet. Cras porta, neque id lacinia suscipit, eros tortor porttitor
+          metus, et vehicula risus purus sed metus. Maecenas iaculis condimentum arcu et tempus. Nullam volutpat aliquam
+          tincidunt. Aenean libero tellus, venenatis eu metus nec, accumsan placerat libero. Sed mi nisi, consequat
+          eu placerat non, imperdiet sed urna. Maecenas tristique quam ac elit efficitur, eu malesuada massa ultricies.
+          Nam efficitur neque a dapibus iaculis."
+      - branch: master
+        blurb:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique dui sit amet felis interdum, 
+          id feugiat justo fermentum. Aliquam vitae tempus justo. In fringilla metus in leo dignissim iaculis. 
+          Vivamus et quam eu justo pharetra iaculis. Aliquam erat volutpat. Pellentesque vitae nulla velit. Nullam 
+          venenatis mollis tempor. Sed ut sollicitudin odio, imperdiet luctus mi. Nunc auctor, nulla vel dictum 
+          dignissim, nulla felis ultricies erat, ut eleifend nibh justo eu ligula. Nunc condimentum tellus eu augue 
+          vulputate rutrum. Suspendisse quis molestie massa. In non dignissim lectus. Curabitur a lobortis dolor.
+          Donec consequat augue sem. Nullam placerat lorem eu diam venenatis, in rhoncus massa mattis.
+    
+          Aliquam nec ipsum vel tortor pulvinar blandit eu vitae mi. Mauris pretium pellentesque aliquam. 
+          Integer in ornare erat, ut sagittis sem. Mauris fringilla porta lorem, ac egestas metus aliquam vel. 
+          Quisque eu lorem a eros tempor dapibus non ac dolor. Ut tincidunt neque non ante semper egestas. 
+          Integer tincidunt in augue in dictum. Nunc finibus tortor at quam tempor, in luctus tellus ultricies.
+    
+          Donec pharetra dui eget ante facilisis imperdiet. Cras porta, neque id lacinia suscipit, eros tortor porttitor 
+          metus, et vehicula risus purus sed metus. Maecenas iaculis condimentum arcu et tempus. Nullam volutpat aliquam 
+          tincidunt. Aenean libero tellus, venenatis eu metus nec, accumsan placerat libero. Sed mi nisi, consequat 
+          eu placerat non, imperdiet sed urna. Maecenas tristique quam ac elit efficitur, eu malesuada massa ultricies.
+          Nam efficitur neque a dapibus iaculis."
+  - repo: https://github.com/user/repo2
     authorNames:
-      - johnDoe2
-      - John Doe 2
-      - my home PC 2
-    blurb:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique dui sit amet felis interdum, 
-      id feugiat justo fermentum. Aliquam vitae tempus justo. In fringilla metus in leo dignissim iaculis. 
-      Vivamus et quam eu justo pharetra iaculis. Aliquam erat volutpat. Pellentesque vitae nulla velit. Nullam 
-      venenatis mollis tempor. Sed ut sollicitudin odio, imperdiet luctus mi. Nunc auctor, nulla vel dictum 
-      dignissim, nulla felis ultricies erat, ut eleifend nibh justo eu ligula. Nunc condimentum tellus eu augue 
-      vulputate rutrum. Suspendisse quis molestie massa. In non dignissim lectus. Curabitur a lobortis dolor.
-      Donec consequat augue sem. Nullam placerat lorem eu diam venenatis, in rhoncus massa mattis.
-
-      Aliquam nec ipsum vel tortor pulvinar blandit eu vitae mi. Mauris pretium pellentesque aliquam. 
-      Integer in ornare erat, ut sagittis sem. Mauris fringilla porta lorem, ac egestas metus aliquam vel. 
-      Quisque eu lorem a eros tempor dapibus non ac dolor. Ut tincidunt neque non ante semper egestas. 
-      Integer tincidunt in augue in dictum. Nunc finibus tortor at quam tempor, in luctus tellus ultricies.
-
-      Donec pharetra dui eget ante facilisis imperdiet. Cras porta, neque id lacinia suscipit, eros tortor porttitor 
-      metus, et vehicula risus purus sed metus. Maecenas iaculis condimentum arcu et tempus. Nullam volutpat aliquam 
-      tincidunt. Aenean libero tellus, venenatis eu metus nec, accumsan placerat libero. Sed mi nisi, consequat 
-      eu placerat non, imperdiet sed urna. Maecenas tristique quam ac elit efficitur, eu malesuada massa ultricies.
-      Nam efficitur neque a dapibus iaculis."
+      - author1
+      - author One
+      - my author PC
+    branches:
+      - branch: main
+        blurb:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tristique dui sit amet felis interdum, 
+          id feugiat justo fermentum. Aliquam vitae tempus justo. In fringilla metus in leo dignissim iaculis.
+          Vivamus et quam eu justo pharetra iaculis. Aliquam erat volutpat. Pellentesque vitae nulla velit. Nullam
+          venenatis mollis tempor. Sed ut sollicitudin odio, imperdiet luctus mi. Nunc auctor, nulla vel dictum
+          dignissim, nulla felis ultricies erat, ut eleifend nibh justo eu ligula. Nunc condimentum tellus eu augue
+          vulputate rutrum. Suspendisse quis molestie massa. In non dignissim lectus. Curabitur a lobortis dolor.
+          Donec consequat augue sem. Nullam placerat lorem eu diam venenatis, in rhoncus massa mattis.
+          
+          Aliquam nec ipsum vel tortor pulvinar blandit eu vitae mi. Mauris pretium pellentesque aliquam.
+          Integer in ornare erat, ut sagittis sem. Mauris fringilla porta lorem, ac egestas metus aliquam vel.
+          Quisque eu lorem a eros tempor dapibus non ac dolor. Ut tincidunt neque non ante semper egestas.
+          Integer tincidunt in augue in dictum. Nunc finibus tortor at quam tempor, in luctus tellus ultricies.
+          
+          Donec pharetra dui eget ante facilisis imperdiet. Cras porta, neque id lacinia suscipit, eros tortor porttitor
+          metus, et vehicula risus purus sed metus. Maecenas iaculis condimentum arcu et tempus. Nullam volutpat aliquam
+          tincidunt. Aenean libero tellus, venenatis eu metus nec, accumsan placerat libero. Sed mi nisi, consequat
+          eu placerat non, imperdiet sed urna. Maecenas tristique quam ac elit efficitur, eu malesuada massa ultricies.
+          Nam efficitur neque a dapibus iaculis."
