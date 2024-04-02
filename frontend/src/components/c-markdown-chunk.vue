@@ -1,9 +1,8 @@
 <template lang="pug">
-.markdown(v-html="markdownProcessed", v-if="markdownText != ''")
+.markdown(v-html="markdownText", v-if="markdownText != ''")
 </template>
 
 <script lang="ts">
-import MarkdownIt from 'markdown-it';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -13,17 +12,12 @@ export default defineComponent({
       required: true,
     },
   },
-  computed: {
-    markdownProcessed() {
-      const md = new MarkdownIt({ html: true });
-      return md.render(this.markdownText);
-    },
-  },
 });
 </script>
 
 <style lang="scss" scoped>
 .markdown {
+  padding: 0 1.5rem;
   overflow-x: auto;
 }
 </style>
