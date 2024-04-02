@@ -17,5 +17,5 @@ describe('code highlighting works properly', () => {
             expect($el.css('color')).to.equal(firstColor);
           });
       });
-  })
+  });
 });
