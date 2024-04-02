@@ -99,6 +99,11 @@
 
   .background-color-legend(v-if="isAuthorshipAnalyzed")
     .bold Legend:
+    .color-circle.full-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
+    span [darker shades] Mostly contributed by author.
+    .bold(style='margin-left : 5px;') |
+    .color-circle.partial-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
+    span [lighter shades] Contributed by author, with non-trivial contribution from others.
 
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
@@ -709,8 +714,35 @@ export default defineComponent({
   }
 
   .background-color-legend {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
     .bold {
       font-weight: bold;
+    }
+
+    .color-circle {
+      border: 1px solid lightgrey;
+      border-radius: 50%;
+      margin-left: 5px;
+      margin-right: 5px;
+      min-height: 15px;
+      min-width: 15px;
+    }
+
+    .full-credit-color {
+      background-color: mui-color('github', 'full-authored-code-background');
+      &.isMergeGroup {
+        background-color: mui-color('grey', '400');
+      }
+    }
+
+    .partial-credit-color {
+      background-color: mui-color('github', 'partial-authored-code-background');
+      &.isMergeGroup {
+        background-color: mui-color('grey', '200');
+      }
     }
   }
 }
