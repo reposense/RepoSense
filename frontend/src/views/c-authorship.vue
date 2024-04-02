@@ -97,6 +97,9 @@
             )
               span {{ ignoredFilesCount }} ignored file(s)
 
+  .background-color-legend(v-if="isAuthorshipAnalyzed")
+    .bold Legend:
+
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, index) in selectedFiles", v-bind:key="file.path")
@@ -249,6 +252,10 @@ export default defineComponent({
       info: (state: unknown) => (state as StoreState).tabAuthorshipInfo,
       authorColors: (state: unknown) => (state as StoreState).tabAuthorColors,
     }),
+
+    isAuthorshipAnalyzed(): boolean {
+      return window.isAuthorshipAnalyzed;
+    },
   },
 
   watch: {
@@ -699,6 +706,12 @@ export default defineComponent({
 
   .empty {
     text-align: center;
+  }
+
+  .background-color-legend {
+    .bold {
+      font-weight: bold;
+    }
   }
 }
 </style>
