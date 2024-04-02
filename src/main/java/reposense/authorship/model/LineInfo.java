@@ -22,7 +22,9 @@ public class LineInfo {
         this.content = content;
 
         isTracked = true;
-        isFullCredit = true;
+
+        // The code is at least partial credit but may not be full credit if authorship analysis is not performed.
+        isFullCredit = false;
     }
 
     public Author getAuthor() {

@@ -80,8 +80,8 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         Assertions.assertEquals(MINGYI_AUTHOR, fileInfo.getLine(2).getAuthor());
         Assertions.assertEquals(MINGYI_AUTHOR, fileInfo.getLine(3).getAuthor());
 
-        // Full credit given since analysis is not performed on unknown author
-        Assertions.assertTrue(fileInfo.getLine(1).isFullCredit());
+        // Partial credit given since analysis is not performed on unknown author
+        Assertions.assertFalse(fileInfo.getLine(1).isFullCredit());
 
         // Full credit given since previous author (fakeAuthor) is not recognized
         Assertions.assertTrue(fileInfo.getLine(2).isFullCredit());
@@ -116,7 +116,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         Assertions.assertEquals(MINGYI_AUTHOR, fileInfo.getLine(2).getAuthor());
         Assertions.assertEquals(MINGYI_AUTHOR, fileInfo.getLine(3).getAuthor());
 
-        Assertions.assertTrue(fileInfo.getLine(1).isFullCredit());
+        Assertions.assertFalse(fileInfo.getLine(1).isFullCredit());
 
         // Full credit given since previous version was made in commit that is ignored
         Assertions.assertTrue(fileInfo.getLine(2).isFullCredit());
