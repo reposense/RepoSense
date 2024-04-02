@@ -183,7 +183,7 @@ credit is given.
 
 * Requires `--analyze-authorship` flag.
 * An author's contribution, or `originality score`, is calculated using Levenshtein Distance (Edit Distance) algorithm.
-  We compare the difference between current code line and its previous versions, obtained via various git commands.
+  We compare the difference between current code line and its previous versions.
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
