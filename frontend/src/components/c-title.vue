@@ -5,7 +5,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import MarkdownIt from 'markdown-it';
 import cMarkdownChunk from './c-markdown-chunk.vue';
 
 export default defineComponent({
