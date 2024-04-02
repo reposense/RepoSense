@@ -1,6 +1,6 @@
 <template lang="pug">
 .title
-  c-markdown-chunk(v-bind:markdownText="markdownText")
+  c-markdown-chunk(v-bind:markdown-text="markdownText")
 </template>
 
 <script lang="ts">

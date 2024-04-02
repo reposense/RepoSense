@@ -141,7 +141,7 @@
 
     c-markdown-chunk.blurb(
       v-if="true",
-      v-bind:markdownText="getBlurb(repo[0])"
+      v-bind:markdown-text="getBlurb(repo[0])"
     )
 
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
