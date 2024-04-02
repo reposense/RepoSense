@@ -31,7 +31,8 @@ The section below provides explanations for each of the flags.
 **`--analyze-authorship`**: Performs further analysis to distinguish between partial and full credit attribution for
 lines of code assigned to the author.
 
-* Default: this feature is turned ***off*** by default and the author will receive full credit for all lines of code.
+* Default: this feature is turned ***off*** by default and the author will receive partial credits for all lines of
+  code, as the code lines are at least partial credit but may not qualify for full credit.
 * Alias: `-A` (upper case)
 * Example: `--analyze-authorship` or `-A`
 
