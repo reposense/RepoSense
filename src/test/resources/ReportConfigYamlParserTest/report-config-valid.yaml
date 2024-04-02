@@ -1,0 +1,20 @@
+title: RepoSense Report Repo Test
+repos:
+  - repo: https://github.com/user/repo
+    authorNames:
+      - johnDoe
+      - John Doe
+      - my home PC
+    branches:
+      - branch: main
+        blurb: very long blurb
+      - branch: master
+        blurb: very very long blurb
+  - repo: https://github.com/user/repo2
+    authorNames:
+      - author1
+      - author One
+      - my author PC
+    branches:
+      - branch: main
+        blurb: very very very long blurb

@@ -7,11 +7,12 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
 
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
-import reposense.parser.ReportConfigJsonParser;
+import reposense.parser.ReportConfigYamlParser;
 
 /**
  * Represents command line arguments user supplied when running the program.
@@ -153,6 +154,10 @@ public class CliArguments {
 
     public Path getReportConfigFilePath() {
         return reportConfigFilePath;
+    }
+
+    public ReportConfiguration getReportYamlConfiguration() {
+        return reportConfiguration;
     }
 
     public ReportConfiguration getReportConfiguration() {
@@ -441,7 +446,8 @@ public class CliArguments {
             this.cliArguments.groupConfigFilePath = configFolderPath.resolve(
                     GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
             this.cliArguments.reportConfigFilePath = configFolderPath.resolve(
-                    ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+                    ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
+
             return this;
         }
 
