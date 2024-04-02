@@ -101,7 +101,6 @@
     .bold Legend:
     .color-circle.full-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
     span [darker shades] Mostly contributed by author.
-    .bold(style='margin-left : 5px;') |
     .color-circle.partial-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
     span [lighter shades] Contributed by author, with non-trivial contribution from others.
 
