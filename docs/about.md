@@ -17,55 +17,105 @@ RepoSense is a project based in the [National University of Singapore, School of
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### [Charisma Kausar](https://www.github.com/ckcherry23)
+**Role**: Senior Developer [2024 January - ]<br/>
+Contributor [2022 December - 2024 January]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [David Gareth Ong](https://www.github.com/vvidday)
+**Role**: Senior Developer [2024 January - ]<br/>
+Contributor [2023 January - 2024 January]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Gokul Rajiv](https://github.com/gok99)
+**Role**: Senior Developer [2024 January - ]<br/> 
+Contributor [2022 January - 2024 January]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Marcus Tang Xin Kye](https://www.github.com/MarcusTXK)
+**Role**: Senior Developer [2024 January - ]<br/>
+Contributor [2023 January - 2024 January]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+## [Chang Si Kai](https://github.com/sikai00)
+**Role**: Contributor [2023 Jan - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Alvis Ng](https://www.github.com/supermii2)
+**Role**: Contributor [2024 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [George Tay Quan Yao](https://www.github.com/jonasongg)
+**Role**: Contributor [2024 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Jonas Ong Si Wei](https://www.github.com/jonasongg)
+**Role**: Contributor [2024 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Poon Yip Hang, Ryan](https://www.github.com/sopa301)
+**Role**: Contributor [2024 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+## Past Members
+
 ### [Wang Chao](https://github.com/fzdy1914)
 ![](https://avatars3.githubusercontent.com/u/35621726?s=150&v=4)<br/>
-**Role**: Project Lead [2021 Jan - ]<br/>
+**Role**: Project Lead [2021 Jan - 2021 Dec]<br/>
 Maintainer [2020 May - 2021 Jan]<br/>
-Committer [2019 May - 2020 May]<br/>
-Contributor [2018 Dec - 2019 May]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Hsu Zhong Jun](https://github.com/dcshzj)
 ![](https://avatars.githubusercontent.com/u/27919917?s=150&v=4)<br/>
-**Role**: Committer [2021 June - ]<br/>
-Contributor [2020 August - 2021 May]<br/>
+**Role**: Project Lead [2022 Jan - 2022 Dec]<br/>
+Committer [2021 June - 2021 Dec]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Chan Ger Hean](https://github.com/gerhean)
-**Role**: Committer [2022 January - ]<br/>
-Contributor [2021 January - 2021 December]<br/>
+**Role**: Committer [2022 Jan - 2022 Dec]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Huang Chengyu](https://github.com/HCY123902)
-**Role**: Committer [2022 January - ]<br/>
-Contributor [2021 January - ]<br/>
+**Role**: Project Co-Lead [2023 Jan - 2023 Apr]<br/>
+Senior Dev [2023 Jan - 2023 Apr]<br/>
+Committer [2022 Jan - 2022 Dec]<br/>
+Contributor [2021 July - 2021 Dec]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Chan Jun Da](https://github.com/chan-j-d)
-**Role**: Contributor [2021 July - ]<br/>
+**Role**: Project Co-Lead [2023 Apr- 2023 Dec]<br/>
+Senior Dev [2023 Jan - 2023 Apr]<br/>
+Committer [2022 Jan - 2022 Dec]<br/>
+Contributor [2021 July - 2021 Dec]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Tay Yi Hsuen](https://github.com/yhtMinceraft1010X)
-**Role**: Contributor [2021 July - ]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### [Gokul Rajiv](https://github.com/gok99)
-**Role**: Contributor [2022 January - ]<br/>
+**Role**: Senior Dev [2023 Jan - 2023 Apr]<br/>
+Committer [2022 Jan - 2022 Dec]<br/>
+Contributor [2021 July - 2021 Dec]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Zhou Jiahao](https://github.com/zhoukerrr)
-**Role**: Contributor [2022 January - ]<br/>
+**Role**: Senior Dev [2023 Jan - 2023 Apr]<br/>
+Committer [2022 Jan - 2022 Dec]<br/>
+Contributor [2021 July - 2021 Dec]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
-
-## Past Members
 
 ### [Ma Tanghao](https://github.com/harryggg)
 Main developer for the initial version [2017 May - 2018 May]

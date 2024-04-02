@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
+import reposense.util.StringsUtil;
 
 /**
  * Contains git remote related functionality.
@@ -27,6 +29,7 @@ public class GitRemote {
      * @return Map of keys of the form REMOTE_NAME(fetch) or REMOTE_NAME(push) to their corresponding remote URLs.
      */
     public static Map<String, String> getRemotes(String repoRoot) {
+        Pattern anyTabPattern = Pattern.compile("[ \\t]+");
         Map<String, String> remotes = new HashMap<>();
         String result;
         try {
@@ -36,8 +39,8 @@ public class GitRemote {
             return remotes;
         }
 
-        Arrays.stream(result.split("\n"))
-                .map(s -> s.split("[ \\t]+"))
+        Arrays.stream(StringsUtil.NEWLINE.split(result))
+                .map(anyTabPattern::split)
                 .forEach(l -> {
                     if (l.length == 3) {
                         // l[0]: remote name
