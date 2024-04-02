@@ -26,6 +26,25 @@ The section below provides explanations for each of the flags.
 
 <!-- --------------------------◘---------------------------------------------------------------------------- -->
 
+### `--analyze-authorship`, `-A`
+
+**`--analyze-authorship`**: Performs further analysis to distinguish between partial and full credit attribution for
+lines of code assigned to the author.
+
+* Default: this feature is turned ***off*** by default and the author will receive full credit for all lines of code.
+* Alias: `-A` (upper case)
+* Example: `--analyze-authorship` or `-A`
+
+<box type="info" seamless>
+
+A darker background colour represents full credit, while a lighter background colour represents partial credit.
+
+If the code is attributed to a different author by the user via `@@author` tag, then the new author will be given
+partial credit.
+</box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### `--assets`, `-a`
 
 <div id="section-assets">
@@ -148,6 +167,24 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### `--originality-threshold`, `-ot`
+
+**`--originality-threshold [VALUE]`**: Specifies the cut-off point for partial and full credit
+in `--analyze-authorship`. Author will be given full credit if their contribution exceeds this threshold, else partial
+credit is given.
+
+* Parameter: `VALUE` Optional. Acceptable range: [0.0, 1.0].<br>
+  Default: `0.51`
+* Alias: `-ot`
+* Example: `--originality-threshold 0.66` or `-ot 0.66`
+
+<box type="info" seamless>
+
+Requires `--analyze-authorship` flag.
+</box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### `--output`, `-o`
 
 **`--output OUTPUT_DIRECTORY`**: Indicates where to save the report generated.
@@ -261,40 +298,3 @@ Cannot be used with any other flags. This flag takes precedence over all other f
   Default: `./reposense-report`
 * Alias: `-v`
 * Example:`--view` or `-v`
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### `--analyze-authorship`, `-A`
-
-**`--analyze-authorship`**: Performs further analysis to distinguish between partial and full credit attribution for
-lines of code assigned to the author.
-
-* Default: this feature is turned ***off*** by default and the author will receive full credit for all lines of code.
-* Alias: `-A` (upper case)
-* Example: `--analyze-authorship` or `-A`
-
-<box type="info" seamless>
-
-A darker background colour represents full credit, while a lighter background colour represents partial credit.
-
-If the code is attributed to a different author by the user via `@@author` tag, then the new author will be given
-partial credit.
-</box>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### `--originality-threshold`, `-ot`
-
-**`--originality-threshold [VALUE]`**: Specifies the cut-off point for partial and full credit
-in `--analyze-authorship`. Author will be given full credit if their contribution exceeds this threshold, else partial
-credit is given.
-
-* Parameter: `VALUE` Optional. Acceptable range: [0.0, 1.0].<br>
-  Default: `0.51`
-* Alias: `-ot`
-* Example: `--originality-threshold 0.66` or `-ot 0.66`
-
-<box type="info" seamless>
-
-Requires `--analyze-authorship` flag.
-</box>
