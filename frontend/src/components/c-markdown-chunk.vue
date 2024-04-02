@@ -17,7 +17,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .markdown {
-  padding: 0 1.5rem;
   overflow-x: auto;
+  padding: 0 1.5rem;
 }
 </style>

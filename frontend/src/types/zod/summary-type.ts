@@ -45,6 +45,9 @@ export const summarySchema = z.object({
   isSinceDateProvided: z.boolean(),
   isUntilDateProvided: z.boolean(),
   supportedDomainUrlMap: supportedDomainUrlMapSchema,
+  blurbs: z.object({
+    urlBlurbMap: z.record(z.string(), z.string()),
+  }),
 });
 
 // Export typescript types

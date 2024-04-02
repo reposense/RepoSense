@@ -134,11 +134,16 @@
         )
           font-awesome-icon.icon-button(icon="clipboard")
           span.tooltip-text(v-bind:ref="`summary-charts-${i}-copy-iframe`") Click to copy iframe link for group
-
       .tooltip.summary-chart__title--percentile(
-          v-if="sortGroupSelection.includes('totalCommits')"
+        v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
+
+    c-markdown-chunk.blurb(
+      v-if="true",
+      v-bind:markdownText="getBlurb(repo[0])"
+    )
+
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -298,6 +303,7 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
+import cMarkdownChunk from './c-markdown-chunk.vue';
 import { Bar, Repo, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
@@ -308,6 +314,7 @@ export default defineComponent({
   components: {
     cRamp,
     cStackedBarChart,
+    cMarkdownChunk,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
   props: {
@@ -875,6 +882,25 @@ export default defineComponent({
 
       return totalContribution / totalCommits;
     },
+
+    getBlurb(repo: User): string {
+      const link = this.getRepoLink(repo);
+      if (!link) {
+        return '';
+      }
+      const blurb: string = this.$store.state.blurbMap[link];
+      return `blurb ${blurb}`;
+    },
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.blurb {
+  border: solid;
+  border-width: 1px;
+  overflow-y: hidden;
+  // This is needed because the parent summary-wrapper center aligns everything
+  text-align: initial;
+}
+</style>

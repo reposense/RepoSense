@@ -1,5 +1,5 @@
 <template lang="pug">
-.title 
+.title
   c-markdown-chunk(v-bind:markdownText="markdownText")
 </template>
 
