@@ -24,8 +24,7 @@ export default defineComponent({
       }
       return response.text();
     }).then((text) => {
-      const md = new MarkdownIt({ html: true });
-      this.markdownText = md.render(text);
+      this.markdownText = text;
     }).catch((error) => {
       this.markdownText = (error as Error).toString();
     });
