@@ -82,7 +82,7 @@
     }
   },
   "blurbs": {
-    "url2Blurbs": {
+    "urlBlurbMap": {
       "https://www.github.com/user/repo/branch": "first blurb\n",
       "https://www.github.com/user/repo/branch2": "second blurb\n",
       "https://www.github.com/user/repo/branch3": "third blurb\n"
