@@ -44,6 +44,7 @@ export const summarySchema = z.object({
   untilDate: z.string(),
   isSinceDateProvided: z.boolean(),
   isUntilDateProvided: z.boolean(),
+  isAuthorshipAnalyzed: z.boolean(),
   supportedDomainUrlMap: supportedDomainUrlMapSchema,
 });
 
