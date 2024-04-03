@@ -621,7 +621,7 @@ export default defineComponent({
       if (setIsLoaded) {
         this.isLoaded = true;
       }
-      this.$store.commit('incrementLoadingOverlayCount', -1);
+      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', -1);
     },
 
     indicateSearchBar(): void {

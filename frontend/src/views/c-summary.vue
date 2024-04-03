@@ -76,7 +76,11 @@
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
-    .error-message-box__failed-repo(v-for="errorBlock in errorMessages")
+    .error-message-box__failed-repo(
+        v-for="errorBlock in errorIsShowingMore\
+          ? errorMessages\
+          : Object.values(errorMessages).slice(0, numberOfErrorMessagesToShow)"
+      )
       font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
       .error-message-box__failed-repo--reason(
@@ -92,7 +96,11 @@
           v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
         )
           span {{ getReportIssueEmailAddress() }}
-      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}
+      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}\
+    .error-message-box__show-more-container(v-if="Object.keys(errorMessages).length > numberOfErrorMessagesToShow")
+      span(v-if="!errorIsShowingMore") Remaining error messages omitted to save space.&nbsp;
+      a(v-if="!errorIsShowingMore", v-on:click="toggleErrorShowMore()") SHOW ALL...
+      a(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
       label(style='background-color: #000000; color: #ffffff')
@@ -145,7 +153,11 @@ import {
   CommitResult,
 } from '../types/types';
 import { ErrorMessage } from '../types/zod/summary-type';
-import { AuthorFileTypeContributions, FileTypeAndContribution } from '../types/zod/commits-type';
+import {
+  AuthorDailyContributions,
+  AuthorFileTypeContributions,
+  FileTypeAndContribution,
+} from '../types/zod/commits-type';
 import { ZoomInfo } from '../types/vuex.d';
 import {
   FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection,
@@ -227,6 +239,8 @@ export default defineComponent({
       filterGroupSelectionWatcherFlag: false,
       chartGroupIndex: undefined as number | undefined,
       chartIndex: undefined as number | undefined,
+      errorIsShowingMore: false,
+      numberOfErrorMessagesToShow: 4,
     };
   },
   computed: {
@@ -315,7 +329,8 @@ export default defineComponent({
       this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1).then(() => {
         this.getFilteredRepos();
         this.updateMergedGroup(allGroupsMerged);
-        this.$store.commit('incrementLoadingOverlayCount', -1);
+      }).then(async () => {
+        await this.$store.dispatch('incrementLoadingOverlayCountForceReload', -1);
       });
     },
 
@@ -488,6 +503,13 @@ export default defineComponent({
         .some((param) => user.searchPath.includes(param));
     },
 
+    isMatchSearchedTag(filterSearch: string, tag: string) {
+      return !filterSearch || filterSearch.toLowerCase()
+        .split(' ')
+        .filter(Boolean)
+        .some((param) => tag.includes(param));
+    },
+
     toggleBreakdown(): void {
       // Reset the file type filter
       if (this.checkedFileTypes.length !== this.fileTypes.length) {
@@ -503,37 +525,65 @@ export default defineComponent({
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
       this.getFilteredRepos();
       this.getMergedRepos();
-      this.$store.commit('incrementLoadingOverlayCount', -1);
+      await this.$store.dispatch('incrementLoadingOverlayCountForceReload', -1);
     },
 
     getFilteredRepos(): void {
       // array of array, sorted by repo
       const full: Array<Array<User>> = [];
+      const tagSearchPrefix = 'tag:';
 
       // create deep clone of this.repos to not modify the original content of this.repos
       // when merging groups
       const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) as Array<Repo> : this.repos;
-      groups.forEach((repo) => {
-        const res: Array<User> = [];
 
-        // filtering
-        repo.users?.forEach((user) => {
-          if (this.isMatchSearchedUser(this.filterSearch, user)) {
-            this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
-            if (this.filterTimeFrame === 'week') {
-              this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
+      if (this.filterSearch.startsWith(tagSearchPrefix)) {
+        const searchedTags = this.filterSearch.split(tagSearchPrefix)[1];
+        groups.forEach((repo) => {
+          const commits = repo.commits;
+          if (!commits) return;
+
+          const res: Array<User> = [];
+          Object.entries(commits.authorDailyContributionsMap).forEach(([author, contributions]) => {
+            contributions = contributions as Array<AuthorDailyContributions>;
+            const tags = contributions.flatMap((c) => c.commitResults).flatMap((r) => r.tags);
+
+            if (tags.some((tag) => tag && this.isMatchSearchedTag(searchedTags, tag))) {
+              const user = repo.users?.find((u) => u.name === author);
+              if (user) {
+                this.updateCheckedFileTypeContribution(user);
+                res.push(user);
+              }
             }
-            this.updateCheckedFileTypeContribution(user);
-            res.push(user);
+          });
+
+          if (res.length) {
+            full.push(res);
           }
         });
+      } else {
+        groups.forEach((repo) => {
+          const res: Array<User> = [];
 
-        if (res.length) {
-          full.push(res);
-        }
-      });
+          // filtering
+          repo.users?.forEach((user) => {
+            if (this.isMatchSearchedUser(this.filterSearch, user)) {
+              this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
+              if (this.filterTimeFrame === 'week') {
+                this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
+              }
+              this.updateCheckedFileTypeContribution(user);
+              res.push(user);
+            }
+          });
+
+          if (res.length) {
+            full.push(res);
+          }
+        });
+      }
+
       this.filtered = full;
-
       this.getOptionWithOrder();
 
       const filterControl = {
@@ -921,11 +971,13 @@ export default defineComponent({
       if (res.length) {
         filtered.push(res);
       }
-
+natural 
       if (zIsMerged) {
         this.mergeGroupByIndex(filtered, 0);
       }
-      [[info.zUser]] = filtered;
+
+      if (filtered.length) [[info.zUser]] = filtered;
+
       info.zFileTypeColors = this.fileTypeColors;
       info.isRefreshing = false;
       this.$store.commit('updateTabZoomInfo', info);
@@ -959,6 +1011,10 @@ export default defineComponent({
     getFontColor(color: string) {
       return window.getFontColor(color);
     },
+
+    toggleErrorShowMore() {
+      this.errorIsShowingMore = !this.errorIsShowingMore;
+    },
   },
 });
 </script>
@@ -967,4 +1023,10 @@ export default defineComponent({
 <style lang="scss">
 @import '../styles/_colors.scss';
 @import '../styles/summary-chart.scss';
+
+.error-message-box__show-more-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: .3rem;
+}
 </style>

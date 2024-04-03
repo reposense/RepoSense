@@ -10,6 +10,9 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+import reposense.util.StringsUtil;
+
+
 /**
  * Contains git rev list related functionalities.
  * Git rev list is responsible for showing commit objects in reverse chronological order.
@@ -106,7 +109,7 @@ public class GitRevList {
         String revListCommand = "git rev-list --max-parents=0 HEAD";
         Path rootPath = Paths.get(root);
         String output = runCommand(rootPath, revListCommand);
-        return Arrays.asList(output.split("\n"));
+        return Arrays.asList(StringsUtil.NEWLINE.split(output));
     }
 
     /**
