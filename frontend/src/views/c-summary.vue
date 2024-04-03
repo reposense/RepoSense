@@ -971,7 +971,7 @@ export default defineComponent({
       if (res.length) {
         filtered.push(res);
       }
-natural 
+
       if (zIsMerged) {
         this.mergeGroupByIndex(filtered, 0);
       }
