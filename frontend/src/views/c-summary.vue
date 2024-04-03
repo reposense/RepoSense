@@ -212,6 +212,8 @@ export default defineComponent({
     filterGroupSelectionWatcherFlag: boolean,
     chartGroupIndex: number | undefined,
     chartIndex: number | undefined,
+    errorIsShowingMore: boolean,
+    numberOfErrorMessagesToShow: number
     } {
     return {
       checkedFileTypes: [] as Array<string>,
