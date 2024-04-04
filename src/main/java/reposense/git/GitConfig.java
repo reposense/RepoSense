@@ -6,10 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
+import reposense.util.StringsUtil;
 
 /**
  * Contains git config related functionalities.
@@ -36,10 +38,12 @@ public class GitConfig {
      * @return a list of string arrays where 0-index is key and 1-index is value.
      */
     public static List<String[]> getGlobalGitLfsConfig() {
+        Pattern equals = Pattern.compile("=");
+
         try {
             String gitConfig = getGitGlobalConfig();
-            return Arrays.stream(gitConfig.split("\n"))
-                    .map(line -> line.split("="))
+            return Arrays.stream(StringsUtil.NEWLINE.split(gitConfig))
+                    .map(equals::split)
                     .filter(line -> line[0].equals(FILTER_LFS_SMUDGE_KEY) || line[0].equals((FILTER_LFS_PROCESS_KEY)))
                     .collect(Collectors.toList());
         } catch (RuntimeException re) {

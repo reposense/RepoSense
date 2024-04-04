@@ -140,7 +140,7 @@ public class FileInfoAnalyzer {
             blameResults = getGitBlameWithPreviousAuthorsResult(config, fileInfo.getPath());
         }
 
-        String[] blameResultLines = blameResults.split("\n");
+        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResults);
         Path filePath = Paths.get(fileInfo.getPath());
         LocalDateTime sinceDate = config.getSinceDate();
         LocalDateTime untilDate = config.getUntilDate();
