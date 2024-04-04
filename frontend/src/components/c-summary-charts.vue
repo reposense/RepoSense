@@ -889,7 +889,7 @@ export default defineComponent({
         return '';
       }
       const blurb: string = this.$store.state.blurbMap[link];
-      return `blurb ${blurb}`;
+      return blurb;
     },
   },
 });
