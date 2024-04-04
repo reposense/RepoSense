@@ -16,6 +16,20 @@ public class BlurbMap {
         this.urlBlurbMap = new HashMap<>();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof BlurbMap) {
+            BlurbMap bm = (BlurbMap) obj;
+            return bm.urlBlurbMap.equals(this.urlBlurbMap);
+        }
+
+        return false;
+    }
+
     /**
      * Builder class to help in the building of a {@code BlurbMap}.
      */
