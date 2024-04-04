@@ -232,11 +232,14 @@ window.api = {
       window.REPOS[repoName] = repo;
       names.push(repoName);
     });
+
+    const blurbMap: { [key: string]: string } = data.blurbs.urlBlurbMap;
     return {
       creationDate: reportGeneratedTime,
       reportGenerationTime,
       errorMessages,
       names,
+      blurbMap,
     };
   },
 
