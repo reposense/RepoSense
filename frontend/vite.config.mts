@@ -11,12 +11,8 @@ export default defineConfig({
   // displaying the head tag of the html in case of 
   // missing 'title.md' file
   appType: 'mpa',
-  optimizeDeps: {
-    include: ['node_modules/highlight.js'],
-  },
   resolve: {
-    // We need 'js' for highlight.js
-    extensions: ['mjs', 'js', '.ts', '.vue'],
+    extensions: ['mjs', '.ts', '.vue'],
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
