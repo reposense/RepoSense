@@ -16,8 +16,7 @@ public class ReportRepoConfigurationTest {
 
     @Test
     public void getAuthorNames_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ReportRepoConfiguration().getAuthorNames(),
-                ReportRepoConfiguration.DEFAULT_AUTHOR_NAMES);
+        Assertions.assertSame(new ReportRepoConfiguration().getAuthorNames(), ReportRepoConfiguration.DEFAULT_AUTHOR_NAMES);
     }
 
     @Test
