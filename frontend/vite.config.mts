@@ -12,7 +12,7 @@ export default defineConfig({
   // missing 'title.md' file
   appType: 'mpa',
   resolve: {
-    extensions: ['mjs', '.ts', '.vue'],
+    extensions: ['.ts', '.vue'],
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
