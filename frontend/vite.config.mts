@@ -8,7 +8,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [vue(), eslint(), stylelint()],
   // This is to disable default fallback behaviour of
-  // displaying the head tag of the html in case of 
+  // displaying the head tag of the html in case of
   // missing 'title.md' file
   appType: 'mpa',
   resolve: {
