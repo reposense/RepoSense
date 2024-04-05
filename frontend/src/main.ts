@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ObserveVisibility } from 'vue-observe-visibility';
 import hljs from 'highlight.js';
 import router from './router/index';
+import './styles/highlight-js-style.css';
 import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
 import 'vue-loading-overlay/dist/css/index.css';
