@@ -99,7 +99,7 @@ run {
 }
 
 checkstyle {
-    toolVersion = '9.3'
+    toolVersion = '10.10.0'
     getConfigDirectory().set(file("$rootProject.projectDir/config/checkstyle"))
 }
 
