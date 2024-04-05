@@ -10,7 +10,7 @@
     "devbuild": "vite build --mode development",
     "lintfix": "eslint --fix src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss}",
     "puglint": "pug-lint-vue src",
-    "serveOpen": "vite preview --open"
+    "serveOpen": "vite --open"
   },
   "main": "index.js",
   "dependencies": {
@@ -22,7 +22,7 @@
     "@types/markdown-it": "^13.0.7",
     "@types/minimatch": "^5.1.2",
     "@types/seedrandom": "^3.0.8",
-    "@vitejs/plugin-vue": "^1.6.1",
+    "@vitejs/plugin-vue": "^5.0.0",
     "highlight.js": "^10.5.0",
     "jszip": "^3.5.0",
     "markdown-it": "^14.1.0",
@@ -32,7 +32,7 @@
     "postcss": "^8.4.38",
     "pug-lint-vue": "^0.4.0",
     "seedrandom": "^3.0.5",
-    "vite": "^2.5.4",
+    "vite": "^5.0.0",
     "vue": "~3.4.0",
     "vue-loading-overlay": "^6.0.4",
     "vue-observe-visibility": "^1.0.0",
@@ -41,6 +41,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/node": "^20.12.4",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "@vue/eslint-config-typescript": "^10.0.0",

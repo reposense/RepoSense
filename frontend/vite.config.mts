@@ -7,15 +7,23 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), eslint(), stylelint()],
+  // This is to disable default fallback behaviour of
+  // displaying the head tag of the html in case of 
+  // missing 'title.md' file
+  appType: 'mpa',
+  optimizeDeps: {
+    include: ['node_modules/highlight.js'],
+  },
   resolve: {
-    extensions: ['mjs', '.ts', '.vue'],
+    // We need 'js' for highlight.js
+    extensions: ['mjs', 'js', '.ts', '.vue'],
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
     outDir: './build',
-    emptyOurDir: true,
+    emptyOutDir: true,
   },
   server: {
     port: 9000,
