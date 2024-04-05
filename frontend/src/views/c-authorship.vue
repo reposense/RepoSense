@@ -109,7 +109,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
-import minimatch from 'minimatch';
+import { minimatch } from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cAuthorshipFile from '../components/c-authorship-file.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
