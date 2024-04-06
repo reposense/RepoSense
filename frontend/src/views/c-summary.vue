@@ -73,7 +73,7 @@
             v-bind:disabled="filterGroupSelection === 'groupByNone'"
           )
           span merge all groups
-        label.trim-timeline
+        label.optimise-timeline
           input.mui-checkbox(
             type="checkbox",
             v-model="optimiseTimeline"
