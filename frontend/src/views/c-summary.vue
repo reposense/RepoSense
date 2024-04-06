@@ -77,6 +77,7 @@
           input.mui-checkbox(
             type="checkbox",
             v-model="viewRepoTags"
+            v-on:change="getFiltered"
           )
           span show tags
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
@@ -385,7 +386,7 @@ export default defineComponent({
     },
 
     setSummaryHash() {
-      const { addHash, encodeHash } = window;
+      const { addHash, encodeHash, removeHash } = window;
 
       addHash('search', this.filterSearch);
       addHash('sort', this.sortGroupSelection);
@@ -416,7 +417,13 @@ export default defineComponent({
           : '';
         addHash('checkedFileTypes', checkedFileTypesHash);
       } else {
-        window.removeHash('checkedFileTypes');
+        removeHash('checkedFileTypes');
+      }
+
+      if (this.viewRepoTags) {
+        addHash('viewRepoTags', 'true');
+      } else {
+        removeHash('viewRepoTags');
       }
 
       encodeHash();
@@ -466,6 +473,9 @@ export default defineComponent({
       }
       if (hash.chartIndex) {
         this.chartIndex = parseInt(hash.chartIndex, 10);
+      }
+      if (hash.viewRepoTags) {
+        this.viewRepoTags = convertBool(hash.viewRepoTags);
       }
     },
 
