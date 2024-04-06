@@ -15,7 +15,7 @@ describe('code highlighting works properly', () => {
         cy.get('.line-number')
           .each((el) => {
             expect(el.css('color')).to.equal(firstColor);
-          }
+          },
         )
       }
     );
