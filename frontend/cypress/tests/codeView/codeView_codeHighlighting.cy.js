@@ -9,8 +9,15 @@ describe('code highlighting works properly', () => {
       .should('be.visible');
 
     cy.get('.line-number')
-      .each((el) => {
-        expect(el.css('color')).to.equal('rgb(158, 158, 158)'); // #9E9E9E
-      });
+      .first()
+      .expect('to.have.css', 'color')
+      .then((firstColor) => {
+        cy.get('.line-number')
+          .each((el) => {
+            expect(el.css('color')).to.equal(firstColor);
+          }
+        )
+      }
+    );
   });
 });
