@@ -27,11 +27,13 @@
         )
           | [{{ getGroupTotalContribution(repo) }} lines]
           span.tooltip-text(
-            v-if="filterGroupSelection === 'groupByRepos' && !isChartGroupWidgetMode"
-          )(v-bind:ref="`summary-charts-${i}-total-contribution`") Total contribution of group
+            v-if="filterGroupSelection === 'groupByRepos' && !isChartGroupWidgetMode",
+            v-bind:ref="`summary-charts-${i}-total-contribution`"
+          ) Total contribution of group
           span.tooltip-text(
-            v-else-if="filterGroupSelection === 'groupByAuthors' && !isChartGroupWidgetMode"
-          )(v-bind:ref="`summary-charts-${i}-total-contribution`") Total contribution of author
+            v-else-if="filterGroupSelection === 'groupByAuthors' && !isChartGroupWidgetMode",
+            v-bind:ref="`summary-charts-${i}-total-contribution`"
+          ) Total contribution of author
       a(
         v-if="!isGroupMerged(getGroupName(repo)) && !isChartGroupWidgetMode",
         v-on:click="handleMergeGroup(getGroupName(repo))"
