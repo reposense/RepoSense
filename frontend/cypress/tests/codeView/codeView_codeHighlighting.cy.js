@@ -10,7 +10,7 @@ describe('code highlighting works properly', () => {
 
     cy.get('.line-number')
       .first()
-      .expect('to.have.css', 'color')
+      .should('have.css', 'color')
       .then((firstColor) => {
         cy.get('.line-number')
           .each((el) => {
