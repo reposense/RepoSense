@@ -140,7 +140,7 @@
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
       .summary-charts__title--tags(
-        v-if="filterGroupSelection === 'groupByRepos' && viewRepoTags && getTags(repo).length > 0"
+        v-if="filterGroupSelection === 'groupByRepos' && viewRepoTags"
       )
         a.tag(
           v-for="tag in getTags(repo)",
@@ -271,10 +271,11 @@
         ) {{ getPercentile(j) }} %&nbsp
           span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
         .summary-chart__title--tags(
-          v-if="filterGroupSelection === 'groupByAuthors' && viewRepoTags && getTags(repo).length > 0"
+          v-if="(filterGroupSelection === 'groupByAuthors' || filterGroupSelection === 'groupByNone')\
+            && viewRepoTags"
         )
           a.tag(
-            v-for="tag in getTags(repo)",
+            v-for="tag in getTags(repo, user)",
             v-bind:href="getTagLink(repo[0], tag)",
             target="_blank",
             vbind:key="tag",
@@ -908,7 +909,8 @@ export default defineComponent({
       return totalContribution / totalCommits;
     },
 
-    getTags(repo: Array<User>): Array<string> {
+    getTags(repo: Array<User>, user?: User): Array<string> {
+      if (user) repo = repo.filter((r) => r.name === user.name);
       return [...new Set(repo.flatMap((r) => r.commits).flatMap((c) => c.commitResults).flatMap((r) => r.tags))]
         .filter(Boolean) as Array<string>;
     },
