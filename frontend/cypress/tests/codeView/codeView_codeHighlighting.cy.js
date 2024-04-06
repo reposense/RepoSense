@@ -13,11 +13,7 @@ describe('code highlighting works properly', () => {
       .should('have.css', 'color')
       .then((firstColor) => {
         cy.get('.line-number')
-          .each((el) => {
-            expect(el.css('color')).to.equal(firstColor);
-          },
-        )
-      }
-    );
+          .each((el) => expect(el.css('color')).to.equal(firstColor));
+      });
   });
 });
