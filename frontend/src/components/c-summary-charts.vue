@@ -139,7 +139,9 @@
           v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
-      .summary-charts__title--tags(v-if="viewRepoTags && getTags(repo).length > 0")
+      .summary-charts__title--tags(
+        v-if="filterGroupSelection === 'groupByRepos' && viewRepoTags && getTags(repo).length > 0"
+      )
         a.tag(
           v-for="tag in getTags(repo)",
           v-bind:href="getTagLink(repo[0], tag)",
@@ -268,6 +270,18 @@
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
           span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
+        .summary-chart__title--tags(
+          v-if="filterGroupSelection === 'groupByAuthors' && viewRepoTags && getTags(repo).length > 0"
+        )
+          a.tag(
+            v-for="tag in getTags(repo)",
+            v-bind:href="getTagLink(repo[0], tag)",
+            target="_blank",
+            vbind:key="tag",
+            tabindex="-1"
+          )
+            font-awesome-icon(icon="tags")
+            span &nbsp;{{ tag }}
 
       .summary-chart__ramp(
         v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
