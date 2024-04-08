@@ -363,7 +363,6 @@ public class ArgsParser {
         if (locations == null) {
             Path reportConfigFilePath = configFolderPath.resolve(ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
 
-            // TODO: ADD BLURB MARKDOWN PARSER HERE
             try {
                 reportConfig = new ReportConfigYamlParser().parse(reportConfigFilePath);
             } catch (JsonSyntaxException jse) {

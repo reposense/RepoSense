@@ -156,10 +156,6 @@ public class CliArguments {
         return reportConfigFilePath;
     }
 
-    public ReportConfiguration getReportYamlConfiguration() {
-        return reportConfiguration;
-    }
-
     public ReportConfiguration getReportConfiguration() {
         return reportConfiguration;
     }
@@ -201,6 +197,7 @@ public class CliArguments {
                 && this.isFreshClonePerformed == otherCliArguments.isFreshClonePerformed
                 && Objects.equals(this.locations, otherCliArguments.locations)
                 && this.isViewModeOnly == otherCliArguments.isViewModeOnly
+                && Objects.equals(this.reportConfiguration, otherCliArguments.reportConfiguration)
                 && Objects.equals(this.reportDirectoryPath, otherCliArguments.reportDirectoryPath)
                 && Objects.equals(this.repoConfigFilePath, otherCliArguments.repoConfigFilePath)
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)

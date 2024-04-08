@@ -1,20 +1,36 @@
 title: RepoSense Report
-repos:
-  - repo https://github.com/user/reposs
-    authorName:
-      - johnDoe
-      - John Doe
-      - my home PC
-    branc:
-      - branch: main
-      blurb: very long blurb
-      - branch: master
-        blurb: very very long blurb
-  - repo: https://github.com/user/repo2
-    authorNames:
-  - author1
-      - author One
-    - my author PC
+group-details:
+  - repo: https://github.com/user/repo/tree/fake-branch
+    grou
+      - group-name: code
+        globs:
+          - "**.java"
+      - group-name: tests
+        globs:
+          - "src/test**"
+      - group-name: docs
+        globs:
+          - "docs**"
+          - "**.adoc"
+          - "**.md"
+os:
+  - repo: https://github.com/user/repo/tree/fake-branch
+    author-emails:
+      - john@john.com
+      - johny@mail.com
+      - j@domain.com
+    author-git-author-name: my home PC
     branches:
       - branch: main
-  blurb: very very very long blurb
+        file-formats:
+          - override:java
+          - md
+          - fxml
+        ignore-glob-list:
+          - "docs**"
+        ignore-standalone-config: true
+        ignore-author-list:
+          - author1
+          - author2
+        is-shallow-cloning: true
+        is-find-previous-authors: false
