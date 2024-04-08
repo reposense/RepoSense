@@ -20,7 +20,7 @@ describe('search bar', () => {
   it('unique author shows one result', () => {
     cy.get('#app #tab-resize .tab-close').click();
     cy.get('#summary-wrapper input[type=text]')
-      .type('Yong Hao TENG')
+      .type('Metta')
       .type('{enter}');
 
     // Enter does not work. Related issue: https://github.com/cypress-io/cypress/issues/3405
