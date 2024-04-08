@@ -202,7 +202,7 @@ export default defineComponent({
         if (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null) {
           return 0;
         }
-        const total = this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate);
+        const total = this.optimisedMaximumDate - this.optimisedMinimumDate;
         return (new Date(this.optimisedMaximumDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
       }
       const total = this.getTotalForPos(this.sdate, this.udate);
@@ -210,9 +210,8 @@ export default defineComponent({
     },
 
     // get duration in miliseconds between 2 date
-    getTotalForPos(sinceDate: string | number, untilDate: string | number) {
-      return (typeof untilDate === 'string' ? new Date(untilDate).valueOf() : untilDate)
-      - (typeof sinceDate === 'string' ? new Date(sinceDate).valueOf() : sinceDate);
+    getTotalForPos(sinceDate: string, untilDate: string) {
+      return new Date(untilDate).valueOf() - new Date(sinceDate).valueOf();
     },
     getRampColor(commit: CommitResult, slice: Commit) {
       if (this.isDeletesContribution(commit)) {
