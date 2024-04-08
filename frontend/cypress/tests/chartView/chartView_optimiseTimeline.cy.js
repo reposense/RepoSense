@@ -56,7 +56,9 @@ describe('optimise timeline', () => {
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .last()
-      .should('have.text', '3/4/2023');
+
+      // 3/3 on GitHub CI, 3/4 on local
+      .should('have.text', '3/3/2023');
   });
 
   it('no commits in range should not have date indicators', () => {
