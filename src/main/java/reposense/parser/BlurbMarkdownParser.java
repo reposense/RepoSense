@@ -40,11 +40,6 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
         public int getNextPosition() {
             return nextPosition;
         }
-
-        @Override
-        public String toString() {
-            return "URL > " + nextPosition;
-        }
     }
 
     private static final class BlurbRecord {
@@ -62,11 +57,6 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
 
         public int getNextPosition() {
             return nextPosition;
-        }
-
-        @Override
-        public String toString() {
-            return "Blurb > " + nextPosition;
         }
     }
 
