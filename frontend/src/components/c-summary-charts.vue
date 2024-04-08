@@ -139,10 +139,12 @@
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
 
-    c-markdown-chunk.blurb(
-      v-if="true",
-      v-bind:markdown-text="getBlurb(repo[0])"
+    .blurbWrapper(
+      v-if="filterGroupSelection === 'groupByRepos'",
     )
+      c-markdown-chunk.blurb(
+        v-bind:markdown-text="getBlurb(repo[0])"
+      )
 
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
@@ -888,7 +890,10 @@ export default defineComponent({
       if (!link) {
         return '';
       }
-      const blurb: string = this.$store.state.blurbMap[link];
+      const blurb: string | undefined = this.$store.state.blurbMap[link];
+      if (!blurb) {
+        return '';
+      }
       return blurb;
     },
   },
@@ -896,11 +901,16 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.blurb {
-  border: solid;
-  border-width: 1px;
-  overflow-y: hidden;
-  // This is needed because the parent summary-wrapper center aligns everything
-  text-align: initial;
+@import '../styles/_colors.scss';
+
+.blurbWrapper {
+  padding-bottom: 5px;
+
+  .blurb {
+    background-color: #fafafa;
+    overflow-y: hidden;
+    // This is needed because the parent summary-wrapper center aligns everything
+    text-align: initial;
+  }
 }
 </style>
