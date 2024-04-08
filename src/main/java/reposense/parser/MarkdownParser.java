@@ -16,7 +16,7 @@ import reposense.system.LogsManager;
  * @param <T> Generic Type {@code T}.
  */
 public abstract class MarkdownParser<T> {
-    protected static final Pattern DELIMITER = Pattern.compile("<!--repo-->(.+)");
+    protected static final Pattern DELIMITER = Pattern.compile("<!--repo-->(.*)");
     protected static final Logger logger = LogsManager.getLogger(MarkdownParser.class);
 
     protected final Path markdownPath;
