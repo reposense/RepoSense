@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import reposense.git.GitRevList;
+import reposense.util.StringsUtil;
 
 /**
  * Represents a git commit hash in {@code RepoConfiguration}.
@@ -77,7 +78,7 @@ public class CommitHash {
 
         String[] startAndEnd = entry.toString().split("\\.\\.");
         String revList = GitRevList.getCommitHashInRange(root, branchName, startAndEnd[0], startAndEnd[1]);
-        return Arrays.stream(revList.split("\n"))
+        return Arrays.stream(StringsUtil.NEWLINE.split(revList))
                 .map(CommitHash::new);
     }
 
