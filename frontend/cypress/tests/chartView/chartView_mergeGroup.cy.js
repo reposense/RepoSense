@@ -8,9 +8,9 @@ describe('merge group', () => {
       .check()
       .should('be.checked');
 
-    // after checking merge group, only two merged repo groups will show
+    // after checking merge group, only four merged repo groups will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 2);
+      .should('have.length', 4);
 
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
