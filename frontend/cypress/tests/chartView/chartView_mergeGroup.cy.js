@@ -68,26 +68,10 @@ describe('merge group', () => {
       .then(($bars) => {
         // calculate the percentage of the width relative to the parent container
         const parentWidth = $bars.eq(0).parent().width();
-        const width1 = (parseFloat(window.getComputedStyle($bars[0]).width) / parentWidth) * 100;
-        const width2 = (parseFloat(window.getComputedStyle($bars[1]).width) / parentWidth) * 100;
-        const width3 = (parseFloat(window.getComputedStyle($bars[2]).width) / parentWidth) * 100;
-        const width4 = (parseFloat(window.getComputedStyle($bars[3]).width) / parentWidth) * 100;
-        const width5 = (parseFloat(window.getComputedStyle($bars[4]).width) / parentWidth) * 100;
-        const width6 = (parseFloat(window.getComputedStyle($bars[5]).width) / parentWidth) * 100;
-        const width7 = (parseFloat(window.getComputedStyle($bars[6]).width) / parentWidth) * 100;
-        const width8 = (parseFloat(window.getComputedStyle($bars[7]).width) / parentWidth) * 100;
-        const width9 = (parseFloat(window.getComputedStyle($bars[8]).width) / parentWidth) * 100;
-
-        // assert that the widths are close enough to 100% and 50%
-        expect(width1).to.be.closeTo(100, 1);
-        expect(width2).to.be.closeTo(100, 1);
-        expect(width3).to.be.closeTo(100, 1);
-        expect(width4).to.be.closeTo(15, 1);
-        expect(width5).to.be.closeTo(100, 1);
-        expect(width6).to.be.closeTo(100, 1);
-        expect(width7).to.be.closeTo(90, 5);
-        expect(width8).to.be.closeTo(33, 5);
-        expect(width9).to.be.closeTo(15, 1);
+        [100, 100, 100, 15, 100, 100, 90, 30, 15].forEach((expectedWidth, index) => {
+          const width = (parseFloat(window.getComputedStyle($bars[index]).width) / parentWidth) * 100;
+          expect(width).to.be.closeTo(expectedWidth, 1);
+        });
       });
   });
 
