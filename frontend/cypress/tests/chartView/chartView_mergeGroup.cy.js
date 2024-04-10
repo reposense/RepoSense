@@ -17,9 +17,9 @@ describe('merge group', () => {
       .uncheck()
       .should('not.be.checked');
 
-    // after un-checking merge group, all 11 summary charts will show
+    // after un-checking merge group, all 14 summary charts will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 11);
+      .should('have.length', 14);
   });
 
   it('check and uncheck merge group when group by authors', () => {
@@ -31,9 +31,9 @@ describe('merge group', () => {
       .check()
       .should('be.checked');
 
-    // after checking merge group, 11 merged author groups will show
+    // after checking merge group, 14 merged author groups will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 11);
+      .should('have.length', 14);
 
     cy.get('#summary label.merge-group > input:visible')
       .first()
@@ -41,9 +41,9 @@ describe('merge group', () => {
       .uncheck()
       .should('not.be.checked');
 
-    // after un-checking merge group, all 11 summary charts will show
+    // after un-checking merge group, all 14 summary charts will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 11);
+      .should('have.length', 14);
   });
 
   it('merge group option should be disabled when group by none', () => {
@@ -64,7 +64,7 @@ describe('merge group', () => {
 
     // get the three chart bars and assert they have the correct initial widths
     cy.get('.stacked-bar__contrib--bar')
-      .should('have.length', 6)
+      .should('have.length', 9)
       .then(($bars) => {
         // calculate the percentage of the width relative to the parent container
         const parentWidth = $bars.eq(0).parent().width();
@@ -74,14 +74,20 @@ describe('merge group', () => {
         const width4 = (parseFloat(window.getComputedStyle($bars[3]).width) / parentWidth) * 100;
         const width5 = (parseFloat(window.getComputedStyle($bars[4]).width) / parentWidth) * 100;
         const width6 = (parseFloat(window.getComputedStyle($bars[5]).width) / parentWidth) * 100;
+        const width7 = (parseFloat(window.getComputedStyle($bars[6]).width) / parentWidth) * 100;
+        const width8 = (parseFloat(window.getComputedStyle($bars[7]).width) / parentWidth) * 100;
+        const width9 = (parseFloat(window.getComputedStyle($bars[8]).width) / parentWidth) * 100;
 
         // assert that the widths are close enough to 100% and 50%
         expect(width1).to.be.closeTo(100, 1);
         expect(width2).to.be.closeTo(100, 1);
         expect(width3).to.be.closeTo(100, 1);
-        expect(width4).to.be.closeTo(100, 1);
-        expect(width5).to.be.closeTo(75, 5);
-        expect(width6).to.be.closeTo(25, 5);
+        expect(width4).to.be.closeTo(15, 1);
+        expect(width5).to.be.closeTo(100, 1);
+        expect(width6).to.be.closeTo(100, 1);
+        expect(width7).to.be.closeTo(90, 5);
+        expect(width8).to.be.closeTo(33, 5);
+        expect(width9).to.be.closeTo(15, 1);
       });
   });
 
