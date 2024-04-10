@@ -76,7 +76,7 @@
         label.show-tags
           input.mui-checkbox(
             type="checkbox",
-            v-model="viewRepoTags"
+            v-model="viewRepoTags",
             v-on:change="getFiltered"
           )
           span show tags
