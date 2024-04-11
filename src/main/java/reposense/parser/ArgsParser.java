@@ -393,18 +393,16 @@ public class ArgsParser {
         List<String> locations = results.get(REPO_FLAGS[0]);
         Path configFolderPath = results.get(CONFIG_FLAGS[0]);
 
-        // Report config is ignored if --repos is provided
-        if (locations == null) {
-            Path reportConfigFilePath = configFolderPath.resolve(BlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+        // Blurbs are parsed regardless
+        Path blurbConfigPath = configFolderPath.resolve(BlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
 
-            try {
-                blurbMap = new BlurbMarkdownParser(reportConfigFilePath).parse();
-            } catch (InvalidMarkdownException ex) {
-                logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
-            } catch (IOException ioe) {
-                // IOException thrown as report-config.json is not found.
-                // Ignore exception as the file is optional.
-            }
+        try {
+            blurbMap = new BlurbMarkdownParser(blurbConfigPath).parse();
+        } catch (InvalidMarkdownException ex) {
+            logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
+        } catch (IOException ioe) {
+            // IOException thrown as blurbs.md is not found.
+            // Ignore exception as the file is optional.
         }
 
         builder.blurbMap(blurbMap);

@@ -52,6 +52,9 @@
   },
   "blurbs": {
     "urlBlurbMap": {
+      "https://bitbucket.org/skyblaise/testrepo-bitbucket/src/master": "first blurb\n",
+      "https://github.com/reposense/testrepo-Delta/tree/master": "third blurb\n",
+      "https://gitlab.com/reposense/testrepo-gitlab/-/tree/main": "second blurb\n"
     }
   }
 }
