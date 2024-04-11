@@ -7,6 +7,6 @@ describe('blurbs', () => {
 
   it('has the correct number of valid blurbs', () => {
     cy.get('.markdown.blurb')
-      .should('have.length', 3);
+      .should('have.length', 1);
   });
 });
