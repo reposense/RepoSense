@@ -19,7 +19,7 @@ public abstract class MarkdownParser<T> {
     protected static final Pattern DELIMITER = Pattern.compile("<!--repo-->(.*)");
     protected static final Logger logger = LogsManager.getLogger(MarkdownParser.class);
 
-    protected final Path markdownPath;
+    protected Path markdownPath;
 
     public MarkdownParser(Path markdownPath) throws FileNotFoundException {
         if (markdownPath == null || !Files.exists(markdownPath)) {

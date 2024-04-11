@@ -1,6 +1,5 @@
 package reposense.parser;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -8,7 +7,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,8 +19,7 @@ import reposense.parser.exceptions.InvalidMarkdownException;
  * configuration file.
  */
 public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
-    private static final Path DEFAULT_BLURB_PATH = Paths.get(System.getProperty("user.dir")
-            + File.separator + "config" + File.separator + "blurbs.md");
+    public static final String DEFAULT_BLURB_FILENAME = "blurbs.md";
 
     private static final class UrlRecord {
         private final String url;
@@ -60,10 +57,6 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
         }
     }
 
-    public BlurbMarkdownParser() throws FileNotFoundException {
-        super(DEFAULT_BLURB_PATH);
-    }
-
     public BlurbMarkdownParser(Path markdownPath) throws FileNotFoundException {
         super(markdownPath);
     }
@@ -80,6 +73,11 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
         logger.log(Level.INFO, "Parsing Blurbs...");
         // read all the lines first
         List<String> mdLines = Files.readAllLines(this.markdownPath);
+
+        // if the file is empty, then we throw the exception and let the adder handle
+        if (mdLines.isEmpty()) {
+            throw new InvalidMarkdownException("Empty blurbs.md file");
+        }
 
         // prepare the blurb builder
         BlurbMap.Builder builder = new BlurbMap.Builder();

@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
+import reposense.model.BlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.RunConfigurationDecider;
@@ -44,6 +45,7 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
+            BlurbMap blurbMap = new BlurbMap();
 
             if (cliArguments.isViewModeOnly()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
@@ -52,6 +54,7 @@ public class RepoSense {
 
             configs = RunConfigurationDecider.getRunConfiguration(cliArguments).getRepoConfigurations();
             reportConfig = cliArguments.getReportConfiguration();
+            blurbMap = cliArguments.getBlurbMap();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
@@ -80,7 +83,8 @@ public class RepoSense {
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed()
+                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
+                    blurbMap
                     );
 
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),

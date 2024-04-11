@@ -12,7 +12,7 @@ public class BlurbMap {
     @JsonProperty("urlBlurbMap")
     private final Map<String, String> urlBlurbMap;
 
-    private BlurbMap() {
+    public BlurbMap() {
         this.urlBlurbMap = new HashMap<>();
     }
 

@@ -47,7 +47,6 @@ import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.StandaloneConfig;
 import reposense.model.reportconfig.ReportConfiguration;
-import reposense.parser.BlurbMarkdownParser;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
@@ -121,7 +120,7 @@ public class ReportGenerator {
             ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
-            boolean shouldFreshClone) throws IOException, InvalidMarkdownException {
+            boolean shouldFreshClone, BlurbMap blurbMap) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
@@ -135,9 +134,6 @@ public class ReportGenerator {
 
         LocalDateTime reportSinceDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId))
                 ? earliestSinceDate : cliSinceDate;
-
-        // parse the blurb map here first, so that we can pass it on to SummaryJson for use in other components
-        BlurbMap blurbMap = new BlurbMarkdownParser().parse();
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
