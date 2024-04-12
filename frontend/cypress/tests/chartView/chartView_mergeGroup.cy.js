@@ -56,7 +56,6 @@ describe('merge group', () => {
   });
 
   it('should have the correct number of merge group contribution bars and correct length', () => {
-    // Assumption: The number of merge group contribution bars is 3 and the width of the third bar is 50%.
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
       .check()
