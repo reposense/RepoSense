@@ -62,13 +62,14 @@ describe('merge group', () => {
       .check()
       .should('be.checked');
 
-    // get the three chart bars and assert they have the correct initial widths
+    // get the chart bars and assert they have the correct initial widths
+    const expectedWidths = [100, 100, 100, 15, 100, 100, 90, 30, 15];
     cy.get('.stacked-bar__contrib--bar')
-      .should('have.length', 9)
+      .should('have.length', expectedWidths.length)
       .then(($bars) => {
         // calculate the percentage of the width relative to the parent container
         const parentWidth = $bars.eq(0).parent().width();
-        [100, 100, 100, 15, 100, 100, 90, 30, 15].forEach((expectedWidth, index) => {
+        expectedWidths.forEach((expectedWidth, index) => {
           const width = (parseFloat(window.getComputedStyle($bars[index]).width) / parentWidth) * 100;
           expect(width).to.be.closeTo(expectedWidth, 1);
         });
