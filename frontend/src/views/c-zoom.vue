@@ -101,7 +101,15 @@ import {
 import CommitsSortType from '../types/zoom';
 import { StoreState } from '../types/vuex.d';
 
-function zoomInitialState() {
+function zoomInitialState(): {
+  showAllCommitMessageBody: boolean,
+  showDiffstat: boolean,
+  commitsSortType: CommitsSortType,
+  toReverseSortedCommits: boolean,
+  isCommitsFinalized: boolean,
+  selectedFileTypes: Array<string>,
+  fileTypes: Array<string>,
+} {
   return {
     showAllCommitMessageBody: true,
     showDiffstat: true,
@@ -122,7 +130,15 @@ export default defineComponent({
     cFileTypeCheckbox,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
-  data() {
+  data(): {
+    showAllCommitMessageBody: boolean,
+    showDiffstat: boolean,
+    commitsSortType: CommitsSortType,
+    toReverseSortedCommits: boolean,
+    isCommitsFinalized: boolean,
+    selectedFileTypes: Array<string>,
+    fileTypes: Array<string>,
+  } {
     return {
       ...zoomInitialState(),
     };
@@ -131,10 +147,10 @@ export default defineComponent({
   computed: {
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === CommitsSortType.Time
-        ? (commit: Commit) => commit.date
-        : (commit: Commit) => commit.insertions;
+        ? (commit: Commit): string => commit.date
+        : (commit: Commit): number => commit.insertions;
 
-      return (a: Commit, b: Commit) => (this.toReverseSortedCommits ? -1 : 1)
+      return (a: Commit, b: Commit): number => (this.toReverseSortedCommits ? -1 : 1)
         * window.comparator(commitSortFunction)(a, b);
     },
     filteredUser(): User | undefined {
@@ -169,8 +185,9 @@ export default defineComponent({
             ? commit.commitResults.slice().reverse()
             : commit.commitResults.slice();
         } else {
-          const cResultsSortingFunction = (a: CommitResult, b: CommitResult) => (this.toReverseSortedCommits ? -1 : 1)
-            * window.comparator((cResult: CommitResult) => cResult.insertions)(a, b);
+          const cResultsSortingFunction = (a: CommitResult, b: CommitResult): number => (
+            this.toReverseSortedCommits ? -1 : 1
+          ) * window.comparator((cResult: CommitResult) => cResult.insertions)(a, b);
           newCommit.commitResults = commit.commitResults.slice().sort(cResultsSortingFunction);
         }
         tempUser.commits.push(newCommit);
@@ -225,7 +242,7 @@ export default defineComponent({
   },
 
   watch: {
-    info() {
+    info(): void {
       const newData = {
         ...zoomInitialState(),
       };
@@ -233,16 +250,17 @@ export default defineComponent({
       this.initiate();
       this.setInfoHash();
     },
-    commitsSortType() {
+    commitsSortType(): void {
       window.addHash('zCST', this.commitsSortType);
       window.encodeHash();
     },
-    toReverseSortedCommits() {
+    toReverseSortedCommits(): void {
       window.addHash('zRSC', this.toReverseSortedCommits.toString());
       window.encodeHash();
     },
   },
-  created() {
+
+  created(): void {
     // return if filteredUser is undefined since it won't make sense to render zoom tab
     // #zoom-tab is also rendered only if filteredUser is defined
     if (!this.filteredUser) {
@@ -253,22 +271,22 @@ export default defineComponent({
     this.retrieveHashes();
     this.setInfoHash();
   },
-  beforeUnmount() {
+  beforeUnmount(): void {
     this.removeZoomHashes();
   },
 
   methods: {
-    initiate() {
+    initiate(): void {
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
     },
-    scrollToCommit(tag: string, commit: string) {
+    scrollToCommit(tag: string, commit: string): void {
       const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
         el.focus();
       }
     },
-    updateFileTypes() {
+    updateFileTypes(): void {
       if (!this.filteredUser) return;
 
       const commitsFileTypes = new Set<string>();
@@ -283,11 +301,11 @@ export default defineComponent({
         (fileType) => commitsFileTypes.has(fileType),
       );
     },
-    retrieveHashes() {
+    retrieveHashes(): void {
       this.retrieveSortHash();
       this.retrieveSelectedFileTypesHash();
     },
-    retrieveSortHash() {
+    retrieveSortHash(): void {
       const hash = window.hashParams;
       if (hash.zCST && Object.values(CommitsSortType).includes(hash.zCST as CommitsSortType)) {
         this.commitsSortType = hash.zCST as CommitsSortType;
@@ -296,7 +314,7 @@ export default defineComponent({
         this.toReverseSortedCommits = (hash.zRSC === 'true');
       }
     },
-    retrieveSelectedFileTypesHash() {
+    retrieveSelectedFileTypesHash(): void {
       const hash = window.hashParams;
 
       if (hash.zFT || hash.zFT === '') {
@@ -305,10 +323,10 @@ export default defineComponent({
           .filter((fileType) => this.fileTypes.includes(fileType));
       }
     },
-    isSelectAllChecked() {
+    isSelectAllChecked(): boolean {
       return this.selectedFileTypes.length === this.fileTypes.length;
     },
-    updateSelectedFileTypesHash() {
+    updateSelectedFileTypesHash(): void {
       const fileTypeHash = this.selectedFileTypes.length > 0
         ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
         : '';
@@ -316,7 +334,7 @@ export default defineComponent({
       window.addHash('zFT', fileTypeHash);
       window.encodeHash();
     },
-    setInfoHash() {
+    setInfoHash(): void {
       const { addHash, encodeHash } = window;
       const {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
@@ -334,17 +352,17 @@ export default defineComponent({
       addHash('zFR', zFromRamp.toString());
       encodeHash();
     },
-    toggleAllCommitMessagesBody(isOpen: boolean) {
+    toggleAllCommitMessagesBody(isOpen: boolean): void {
       this.showAllCommitMessageBody = isOpen;
       this.$store.commit('setAllZoomCommitMessageBody', {
         isOpen,
         commits: this.selectedCommits,
       });
     },
-    toggleDiffstatView(isVisible: boolean) {
+    toggleDiffstatView(isVisible: boolean): void {
       this.showDiffstat = isVisible;
     },
-    removeZoomHashes() {
+    removeZoomHashes(): void {
       window.removeHash('zA');
       window.removeHash('zR');
       window.removeHash('zFS');
@@ -360,7 +378,7 @@ export default defineComponent({
       window.removeHash('zFR');
       window.encodeHash();
     },
-    getFontColor(color: string) {
+    getFontColor(color: string): string {
       return window.getFontColor(color);
     },
   },
