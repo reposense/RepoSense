@@ -107,10 +107,10 @@
       &--index {
         background: mui-color('black');
         color: mui-color('white');
-        @include medium-font;
         overflow: hidden;
         padding: .1em .25em;
         vertical-align: middle;
+        @include medium-font;
       }
 
       &--groupname {

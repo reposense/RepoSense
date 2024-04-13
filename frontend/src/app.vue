@@ -41,13 +41,13 @@ const app = defineComponent({
   data(): {
     repos: { [key: string]: Repo },
     users: Array<Repo>
-      userUpdated: boolean,
-      loadingOverlayOpacity: number,
-      tabType: string,
-      creationDate: string,
-      reportGenerationTime: string,
-      errorMessages: { [key: string]: ErrorMessage }
-      } {
+    userUpdated: boolean,
+    loadingOverlayOpacity: number,
+    tabType: string,
+    creationDate: string,
+    reportGenerationTime: string,
+    errorMessages: { [key: string]: ErrorMessage }
+  } {
     return {
       repos: {} as { [key: string]: Repo },
       users: [] as Array<Repo>,

@@ -373,12 +373,12 @@ export default defineComponent({
     },
   },
   data(): {
-      drags: Array<number>,
-      activeRepo: string | null,
-      activeUser: string | null,
-      activeTabType: string | null,
-      isTabOnMergedGroup: boolean,
-      } {
+    drags: Array<number>,
+    activeRepo: string | null,
+    activeUser: string | null,
+    activeTabType: string | null,
+    isTabOnMergedGroup: boolean,
+  } {
     return {
       drags: [] as Array<number>,
       activeRepo: null as string | null,

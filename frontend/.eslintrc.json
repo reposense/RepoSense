@@ -76,8 +76,7 @@
           {
             "ignoredNodes": [
               "ConditionalExpression"
-            ],
-            "SwitchCase": 0
+            ]
           }
         ],
         "@stylistic/member-delimiter-style": "error",

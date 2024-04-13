@@ -126,22 +126,22 @@ const filesSortDict = {
 };
 
 function authorshipInitialState(): {
-    isLoaded: boolean,
-    selectedFiles: Array<AuthorshipFile>,
-    filterType: FilterType,
-    selectedFileTypes: Array<string>,
-    fileTypes: Array<string>
-    filesLinesObj: { [key: string]: number}
-    fileTypeBlankLinesObj: { [key: string]: number },
-    filesSortType: FilesSortType,
-    toReverseSortFiles: boolean,
-    isBinaryFilesChecked: boolean,
-    isIgnoredFilesChecked: boolean,
-    searchBarValue: string,
-    authorDisplayName: string,
-    authors: Set<string>,
-    selectedColors: Array<string>
-    } {
+  isLoaded: boolean,
+  selectedFiles: Array<AuthorshipFile>,
+  filterType: FilterType,
+  selectedFileTypes: Array<string>,
+  fileTypes: Array<string>
+  filesLinesObj: { [key: string]: number}
+  fileTypeBlankLinesObj: { [key: string]: number },
+  filesSortType: FilesSortType,
+  toReverseSortFiles: boolean,
+  isBinaryFilesChecked: boolean,
+  isIgnoredFilesChecked: boolean,
+  searchBarValue: string,
+  authorDisplayName: string,
+  authors: Set<string>,
+  selectedColors: Array<string>
+} {
   return {
     isLoaded: false,
     selectedFiles: [] as Array<AuthorshipFile>,
@@ -189,7 +189,7 @@ export default defineComponent({
     authorDisplayName: string,
     authors: Set<string>,
     selectedColors: Array<string>
-    } {
+  } {
     return authorshipInitialState();
   },
 

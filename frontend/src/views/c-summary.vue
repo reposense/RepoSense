@@ -214,7 +214,7 @@ export default defineComponent({
     chartIndex: number | undefined,
     errorIsShowingMore: boolean,
     numberOfErrorMessagesToShow: number
-    } {
+  } {
     return {
       checkedFileTypes: [] as Array<string>,
       fileTypes: [] as Array<string>,
