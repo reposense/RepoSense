@@ -626,20 +626,7 @@ export default defineComponent({
       this.updateFileTypeHash();
     },
 
-    getFileTypeBlankLineInfo(fileType: string): string {
-      return `${fileType}: Blank: ${this.fileTypeBlankLinesObj[fileType]},
-        Non-Blank: ${this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
-    },
-
-    getTotalFileBlankLineInfo(): string {
-      return '';
-    },
-
-    getFontColor(color: string): string {
-      return window.getFontColor(color);
-    },
-
-    getCheckboxEle(fileType: string, lineCount: number, blankLineCount: number) {
+    getCheckboxEle(fileType: string, lineCount: number, blankLineCount: number): string {
       return `<span title='Total: Blank: ${blankLineCount}, `
         + `Non-Blank: ${lineCount - blankLineCount}'>`
         + `${fileType}\xA0\xA0`

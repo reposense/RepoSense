@@ -378,9 +378,6 @@ export default defineComponent({
       window.removeHash('zFR');
       window.encodeHash();
     },
-    getFontColor(color: string): string {
-      return window.getFontColor(color);
-    },
   },
 });
 

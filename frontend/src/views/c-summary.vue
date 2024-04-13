@@ -987,11 +987,11 @@ export default defineComponent({
       return window.getDateStr(datems);
     },
 
-    toggleErrorShowMore() {
+    toggleErrorShowMore(): void {
       this.errorIsShowingMore = !this.errorIsShowingMore;
     },
 
-    isAllFileTypesChecked() {
+    isAllFileTypesChecked(): boolean {
       return this.checkedFileTypes.length === this.fileTypes.length;
     },
   },
