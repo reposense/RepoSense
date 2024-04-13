@@ -130,7 +130,7 @@ function authorshipInitialState(): {
   authorDisplayName: string,
   authors: Set<string>,
   selectedColors: Array<string>
-} {
+  } {
   return {
     isLoaded: false,
     selectedFiles: [] as Array<AuthorshipFile>,
@@ -179,7 +179,7 @@ export default defineComponent({
     authorDisplayName: string,
     authors: Set<string>,
     selectedColors: Array<string>
-  } {
+    } {
     return authorshipInitialState();
   },
 
@@ -315,13 +315,13 @@ export default defineComponent({
       const hash = window.hashParams;
 
       switch (hash.authorshipSortBy) {
-        case FilesSortType.Path:
-        case FilesSortType.FileName:
-        case FilesSortType.FileType:
-          this.filesSortType = hash.authorshipSortBy;
-          break;
-        default:
-        // Invalid value, use the default value of 'linesOfCode'
+      case FilesSortType.Path:
+      case FilesSortType.FileName:
+      case FilesSortType.FileType:
+        this.filesSortType = hash.authorshipSortBy;
+        break;
+      default:
+      // Invalid value, use the default value of 'linesOfCode'
       }
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';

@@ -206,7 +206,7 @@ export default defineComponent({
     chartIndex: number | undefined,
     errorIsShowingMore: boolean,
     numberOfErrorMessagesToShow: number
-  } {
+    } {
     return {
       checkedFileTypes: [] as Array<string>,
       fileTypes: [] as Array<string>,
@@ -298,7 +298,6 @@ export default defineComponent({
     ...mapState(['mergedGroups']),
   },
   watch: {
-
     filterGroupSelection(): void {
       // Deactivates watcher
       if (!this.filterGroupSelectionWatcherFlag) {
@@ -356,7 +355,7 @@ export default defineComponent({
     // view functions //
     getReportIssueGitHubLink(stackTrace: string): string {
       return `${window.REPOSENSE_REPO_URL}/issues/new?title=${this.getReportIssueTitle()
-        }&body=${this.getReportIssueMessage(stackTrace)}`;
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
     getReportIssueEmailAddress(): string {
@@ -365,7 +364,7 @@ export default defineComponent({
 
     getReportIssueEmailLink(stackTrace: string): string {
       return `mailto:${this.getReportIssueEmailAddress()}?subject=${this.getReportIssueTitle()
-        }&body=${this.getReportIssueMessage(stackTrace)}`;
+      }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
     getReportIssueTitle(): string {

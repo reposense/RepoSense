@@ -45,7 +45,7 @@ export default defineComponent({
   },
   emits: ['update-selected-file-types-hash', 'update:selectedFileTypes', 'select-all-checked'],
   computed: {
-    fileTypeLabels() {
+    fileTypeLabels(): Array<string> {
       return this.fileTypeCheckboxLabels
         ? this.fileTypeCheckboxLabels
         : this.fileTypes.map((str) => `${str}\xA0`);
@@ -54,7 +54,7 @@ export default defineComponent({
       get(): boolean {
         return this.selectedFileTypes.length === this.fileTypes.length;
       },
-      set(value: boolean) {
+      set(value: boolean): void {
         if (value) {
           this.localSelectedFileTypes = this.fileTypes.slice();
         } else {
@@ -67,17 +67,17 @@ export default defineComponent({
       get(): Array<string> {
         return this.selectedFileTypes;
       },
-      set(value: Array<string>) {
+      set(value: Array<string>): void {
         this.$emit('update:selectedFileTypes', value);
         this.updateSelectedFileTypesHash();
       },
     },
   },
   methods: {
-    getFontColor(color: string) {
+    getFontColor(color: string): string {
       return window.getFontColor(color);
     },
-    updateSelectedFileTypesHash() {
+    updateSelectedFileTypesHash(): void {
       this.$emit('update-selected-file-types-hash');
     },
   },
