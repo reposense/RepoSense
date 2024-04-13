@@ -24,13 +24,15 @@ export default defineComponent({
       required: true,
     },
   },
-  data() {
+  data(): {
+    isRendered: boolean,
+    } {
     return {
       isRendered: false,
     };
   },
   methods: {
-    visibilityChanged(isVisible: boolean) {
+    visibilityChanged(isVisible: boolean): void {
       if (isVisible) {
         this.isRendered = true;
       }
