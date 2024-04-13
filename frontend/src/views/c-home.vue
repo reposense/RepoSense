@@ -124,7 +124,7 @@ const home = defineComponent({
     },
   },
   methods: {
-    getRepoSenseHomeLink() {
+    getRepoSenseHomeLink(): string {
       const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/`;
@@ -132,7 +132,7 @@ const home = defineComponent({
       return `${window.HOME_PAGE_URL}`;
     },
 
-    getSpecificCommitLink() {
+    getSpecificCommitLink(): string {
       const version = window.repoSenseVersion;
       if (!version) {
         return `${window.REPOSENSE_REPO_URL}`;
@@ -143,7 +143,7 @@ const home = defineComponent({
       return `${window.REPOSENSE_REPO_URL}/commit/${version}`;
     },
 
-    getUserGuideLink() {
+    getUserGuideLink(): string {
       const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
@@ -151,7 +151,7 @@ const home = defineComponent({
       return `${window.HOME_PAGE_URL}/ug/index.html`;
     },
 
-    getUsingReportsUserGuideLink() {
+    getUsingReportsUserGuideLink(): string {
       const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;
