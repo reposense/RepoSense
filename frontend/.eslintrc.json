@@ -19,6 +19,8 @@
     ],
     "vue/require-prop-types": 0,
     "no-param-reassign": 0,
+    "@stylistic/linebreak-style": 0,
+    "@stylistic/function-call-argument-newline": 0,
     "@stylistic/arrow-parens": [
       "error",
       "always"
