@@ -8,12 +8,18 @@ describe('code highlighting works properly', () => {
     cy.get('#tab-authorship .files', { timeout: 90000 })
       .should('be.visible');
 
-    cy.get('.line-number')
+    cy.get('.line-number') // this is just a wrapper
+      .first()
+      .children()
+      // the actual line number element
       .first()
       .should('have.css', 'color')
       .then((firstColor) => {
         cy.get('.line-number')
-          .each((el) => expect(el.css('color')).to.equal(firstColor));
+          .each((el) => cy.wrap(el)
+            .children()
+            .first()
+            .should('have.css', 'color', firstColor));
       });
   });
 });
