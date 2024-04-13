@@ -252,12 +252,13 @@ export default defineComponent({
     },
 
     allCheckboxLabel(): string {
-      return this.getCheckboxEle('All', this.totalLineCount, this.totalBlankLineCount);
+      return this.getCheckboxEle('Total', 'All', this.totalLineCount, this.totalBlankLineCount);
     },
 
     checkboxLabels(): Array<string> {
       return this.fileTypes.map(
         (fileType) => this.getCheckboxEle(
+          fileType,
           fileType,
           this.fileTypeLinesObj[fileType],
           this.fileTypeBlankLinesObj[fileType],
@@ -626,8 +627,8 @@ export default defineComponent({
       this.updateFileTypeHash();
     },
 
-    getCheckboxEle(fileType: string, lineCount: number, blankLineCount: number): string {
-      return `<span title='Total: Blank: ${blankLineCount}, `
+    getCheckboxEle(fileTitle: string, fileType: string, lineCount: number, blankLineCount: number): string {
+      return `<span title='${fileTitle}: Blank: ${blankLineCount}, `
         + `Non-Blank: ${lineCount - blankLineCount}'>`
         + `${fileType}\xA0\xA0`
         + `${lineCount}\xA0\xA0`
