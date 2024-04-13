@@ -2,7 +2,7 @@
 .checkboxes.mui-form--inline(v-if="fileTypes.length > 0")
   label.all-checkbox
     input.mui-checkbox--fileType#all(type="checkbox", v-model="isAllChecked", value="all")
-    span(v-if="allCheckboxLabel" v-bind:title="getTitle(allCheckboxLabel)")
+    span(v-if="allCheckboxLabel", v-bind:title="getTitle(allCheckboxLabel)")
       span {{ getLabel(allCheckboxLabel) }}
     span(v-else) All&nbsp;
   label(
@@ -15,7 +15,7 @@
   )
     input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
       v-model="localSelectedFileTypes", v-bind:id="fileType")
-    span(v-if="fileTypeCheckboxLabels" v-bind:title="getTitle(fileTypeCheckboxLabels[index])")
+    span(v-if="fileTypeCheckboxLabels", v-bind:title="getTitle(fileTypeCheckboxLabels[index])")
       span {{ getLabel(fileTypeCheckboxLabels[index]) }}
     span(v-else) {{ this.fileTypes[index] }}&nbsp;
 </template>
