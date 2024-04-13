@@ -251,13 +251,23 @@ export default defineComponent({
       return this.info.files.filter((file) => file.isIgnored).length;
     },
 
-    allCheckboxLabel(): string {
-      return this.getCheckboxEle('Total', 'All', this.totalLineCount, this.totalBlankLineCount);
+    allCheckboxLabel(): {
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+      } {
+      return this.getCheckboxDetails('Total', 'All', this.totalLineCount, this.totalBlankLineCount);
     },
 
-    checkboxLabels(): Array<string> {
+    checkboxLabels(): Array<{
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+    }> {
       return this.fileTypes.map(
-        (fileType) => this.getCheckboxEle(
+        (fileType) => this.getCheckboxDetails(
           fileType,
           fileType,
           this.fileTypeLinesObj[fileType],
@@ -627,13 +637,18 @@ export default defineComponent({
       this.updateFileTypeHash();
     },
 
-    getCheckboxEle(fileTitle: string, fileType: string, lineCount: number, blankLineCount: number): string {
-      return `<span title='${fileTitle}: Blank: ${blankLineCount}, `
-        + `Non-Blank: ${lineCount - blankLineCount}'>`
-        + `${fileType}\xA0\xA0`
-        + `${lineCount}\xA0\xA0`
-        + `(${lineCount - blankLineCount})`
-        + '</title>';
+    getCheckboxDetails(fileTitle: string, fileType: string, lineCount: number, blankLineCount: number): {
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+    } {
+      return {
+        fileTitle,
+        fileType,
+        lineCount,
+        blankLineCount,
+      };
     },
   },
 });

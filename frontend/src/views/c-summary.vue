@@ -77,9 +77,9 @@
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(
-      v-for="errorBlock in errorIsShowingMore\
-        ? errorMessages\
-        : Object.values(errorMessages).slice(0, numberOfErrorMessagesToShow)"
+        v-for="errorBlock in errorIsShowingMore\
+          ? errorMessages\
+          : Object.values(errorMessages).slice(0, numberOfErrorMessagesToShow)"
       )
       font-awesome-icon(icon="exclamation")
       span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
@@ -298,6 +298,7 @@ export default defineComponent({
     ...mapState(['mergedGroups']),
   },
   watch: {
+
     filterGroupSelection(): void {
       // Deactivates watcher
       if (!this.filterGroupSelectionWatcherFlag) {
@@ -760,7 +761,7 @@ export default defineComponent({
       // commits, so we are going to check each commit's date and make sure
       // it is within the duration of a week
       while (commits.length > 0
-        && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
+          && (new Date(commits[0].date)).getTime() <= endOfWeekMs) {
         const commit = commits.shift();
         // shift() never returns undefined here because we check for commits.length > 0,
         // but TypeScript is unable to infer this

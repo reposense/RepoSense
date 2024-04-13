@@ -2,7 +2,9 @@
 .checkboxes.mui-form--inline(v-if="fileTypes.length > 0")
   label.all-checkbox
     input.mui-checkbox--fileType#all(type="checkbox", v-model="isAllChecked", value="all")
-    span(v-html="allCheckboxLabel")
+    span(v-if="allCheckboxLabel" v-bind:title="getTitle(allCheckboxLabel)")
+      span {{ getLabel(allCheckboxLabel) }}
+    span(v-else) All&nbsp;
   label(
     v-for="fileType, index in fileTypes",
     v-bind:key="fileType",
@@ -13,7 +15,9 @@
   )
     input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
       v-model="localSelectedFileTypes", v-bind:id="fileType")
-    span(v-html="fileTypeLabels[index]")
+    span(v-if="fileTypeCheckboxLabels" v-bind:title="getTitle(fileTypeCheckboxLabels[index])")
+      span {{ getLabel(fileTypeCheckboxLabels[index]) }}
+    span(v-else) {{ this.fileTypes[index] }}&nbsp;
 </template>
 
 <script lang="ts">
@@ -35,21 +39,26 @@ export default defineComponent({
       required: true,
     },
     allCheckboxLabel: {
-      type: String,
-      default: 'All\xA0',
+      type: Object as PropType<{
+        fileTitle: string,
+        fileType: string,
+        lineCount: number,
+        blankLineCount: number,
+      }>,
+      default: undefined,
     },
     fileTypeCheckboxLabels: {
-      type: Array as PropType<Array<string>>,
+      type: Array as PropType<Array<{
+        fileTitle: string,
+        fileType: string,
+        lineCount: number,
+        blankLineCount: number,
+      }>>,
       default: undefined,
     },
   },
   emits: ['update-selected-file-types-hash', 'update:selectedFileTypes', 'select-all-checked'],
   computed: {
-    fileTypeLabels(): Array<string> {
-      return this.fileTypeCheckboxLabels
-        ? this.fileTypeCheckboxLabels
-        : this.fileTypes.map((str) => `${str}\xA0`);
-    },
     isAllChecked: {
       get(): boolean {
         return this.selectedFileTypes.length === this.fileTypes.length;
@@ -79,6 +88,25 @@ export default defineComponent({
     },
     updateSelectedFileTypesHash(): void {
       this.$emit('update-selected-file-types-hash');
+    },
+    getTitle(label: {
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+    }): string {
+      return `${label.fileTitle}: Blank: ${label.blankLineCount}, `
+        + `Non-Blank: ${label.lineCount - label.blankLineCount}`;
+    },
+    getLabel(label: {
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+    }): string {
+      return `${label.fileType}\xA0\xA0`
+        + `${label.blankLineCount}\xA0\xA0`
+        + `(${label.lineCount - label.blankLineCount})\xA0`;
     },
   },
 });
