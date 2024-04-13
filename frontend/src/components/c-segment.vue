@@ -49,7 +49,11 @@ export default defineComponent({
       required: true,
     },
   },
-  data() {
+  data(): {
+    isOpen: boolean,
+    canOpen: boolean,
+    transparencyValue: string,
+    } {
     return {
       isOpen: (this.segment.knownAuthor !== null) || this.segment.lines.length < 5 as boolean,
       canOpen: (this.segment.knownAuthor === null) && this.segment.lines.length > 4 as boolean,
@@ -62,7 +66,7 @@ export default defineComponent({
     }),
   },
   methods: {
-    toggleCode() {
+    toggleCode(): void {
       this.isOpen = !this.isOpen;
     },
   },
