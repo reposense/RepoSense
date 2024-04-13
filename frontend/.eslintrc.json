@@ -19,8 +19,6 @@
     ],
     "vue/require-prop-types": 0,
     "no-param-reassign": 0,
-    "@stylistic/linebreak-style": 0,
-    "@stylistic/function-call-argument-newline": 0,
     "@stylistic/arrow-parens": [
       "error",
       "always"
@@ -40,6 +38,7 @@
       "as-needed"
     ],
     "no-alert": 0,
+    "@stylistic/linebreak-style": 0,
     "@stylistic/max-len": [
       "error",
       {
@@ -47,6 +46,7 @@
       }
     ],
     "prefer-object-spread": 0,
+    "@stylistic/function-call-argument-newline": 0,
     "vue/no-computed-properties-in-data": 0,
     "import/extensions": [
       "error",
