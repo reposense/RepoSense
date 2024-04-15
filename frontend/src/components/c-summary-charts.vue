@@ -374,7 +374,13 @@ export default defineComponent({
       default: undefined,
     },
   },
-  data() {
+  data(): {
+      drags: Array<number>,
+      activeRepo: string | null,
+      activeUser: string | null,
+      activeTabType: string | null,
+      isTabOnMergedGroup: boolean,
+      } {
     return {
       drags: [] as Array<number>,
       activeRepo: null as string | null,
@@ -400,17 +406,17 @@ export default defineComponent({
       });
       return totalCommits / totalCount;
     },
-    filteredRepos() {
+    filteredRepos(): Array<Array<User>> {
       const repos = this.filtered.filter((repo) => repo.length > 0);
       if (this.isChartGroupWidgetMode && this.chartGroupIndex! < repos.length) {
         return [repos[this.chartGroupIndex!]];
       }
       return repos;
     },
-    isChartGroupWidgetMode() {
+    isChartGroupWidgetMode(): boolean {
       return this.chartGroupIndex !== undefined && this.chartGroupIndex >= 0;
     },
-    isChartWidgetMode() {
+    isChartWidgetMode(): boolean {
       return this.chartIndex !== undefined && this.chartIndex >= 0 && this.isChartGroupWidgetMode;
     },
     ...mapState({
@@ -425,7 +431,7 @@ export default defineComponent({
       }
     },
   },
-  created() {
+  created(): void {
     this.retrieveSelectedTabHash();
   },
   methods: {
@@ -631,7 +637,7 @@ export default defineComponent({
       this.$store.commit('updateTabZoomInfo', info);
     },
 
-    async getEmbeddedIframe(chartGroupIndex: number, chartIndex: number = -1) {
+    async getEmbeddedIframe(chartGroupIndex: number, chartIndex: number = -1): Promise<void> {
       const isChartIndexProvided = chartIndex !== -1;
       // Set height of iframe according to number of charts to avoid scrolling
       let totalChartHeight = 0;
@@ -668,7 +674,7 @@ export default defineComponent({
       const tooltipId = `tooltip-${chartGroupIndex}${isChartIndexProvided ? `-${chartIndex}` : ''}`;
       this.updateCopyTooltip(tooltipId, 'Copied iframe');
     },
-    updateCopyTooltip(tooltipId: string, text: string) {
+    updateCopyTooltip(tooltipId: string, text: string): void {
       const tooltipElement = document.getElementById(tooltipId);
       if (tooltipElement && tooltipElement.querySelector('.tooltip-text')) {
         const tooltipTextElement = tooltipElement.querySelector('.tooltip-text');
@@ -679,12 +685,12 @@ export default defineComponent({
         }, 2000);
       }
     },
-    getReportLink() {
+    getReportLink(): string {
       const url = window.location.href;
       const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
       return url.replace(regexToRemoveWidget, '');
     },
-    getRepo(repo: Array<Repo>) {
+    getRepo(repo: Array<Repo>): Array<Repo> {
       if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
         return [repo[this.chartIndex!]];
       }
