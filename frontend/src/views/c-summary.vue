@@ -221,7 +221,8 @@ export default defineComponent({
     chartGroupIndex: number | undefined,
     chartIndex: number | undefined,
     errorIsShowingMore: boolean,
-    numberOfErrorMessagesToShow: number
+    numberOfErrorMessagesToShow: number,
+    optimiseTimeline: boolean,
     } {
     return {
       checkedFileTypes: [] as Array<string>,
