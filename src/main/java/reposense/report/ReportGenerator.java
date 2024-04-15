@@ -41,12 +41,14 @@ import reposense.git.exception.CommitNotFoundException;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
+import reposense.model.BlurbMap;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.ReportConfiguration;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
+import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -110,14 +112,16 @@ public class ReportGenerator {
      * @param reportGenerationTimeProvider Supplier for time taken to generate the report.
      * @param zoneId The timezone to adjust all date-times to.
      * @param shouldFreshClone The boolean variable for whether to clone a repo again during tests.
+     * @param blurbMap The {@code BlurbMap}.
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exists in jar file.
+     * @throws InvalidMarkdownException if the blurb markdown file cannot be parsed properly.
      */
     public List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
             ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
-            boolean shouldFreshClone) throws IOException {
+            boolean shouldFreshClone, BlurbMap blurbMap) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
@@ -136,7 +140,7 @@ public class ReportGenerator {
                 new SummaryJson(configs, reportConfig, generationDate,
                         reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
-                        reportGenerationTimeProvider.get(), zoneId),
+                        reportGenerationTimeProvider.get(), zoneId, blurbMap),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 
