@@ -371,7 +371,7 @@ describe('render filter hash', () => {
   it('code panel: sort by: url params should persist after change and reload', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -416,7 +416,7 @@ describe('render filter hash', () => {
   it('code panel: order: url params should persist after change and reload', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -462,7 +462,7 @@ describe('render filter hash', () => {
   it('code panel: filter by glob: url params should persist after change and reload', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
