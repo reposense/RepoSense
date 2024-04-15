@@ -94,7 +94,7 @@ export default defineComponent({
       default: false,
     },
   },
-  data() {
+  data(): {rampSize: number} {
     return {
       rampSize: 0.01 as number,
       optimisedPadding: 3, // as % of total timeline,
@@ -121,16 +121,16 @@ export default defineComponent({
   },
 
   methods: {
-    getLink(commit: CommitResult) {
+    getLink(commit: CommitResult): string | undefined {
       return window.getCommitLink(commit.repoId, commit.hash);
     },
-    getContributions(commit: CommitResult | Commit) {
+    getContributions(commit: CommitResult | Commit): number {
       return commit.insertions + commit.deletions;
     },
-    isDeletesContribution(commit: CommitResult | Commit) {
+    isDeletesContribution(commit: CommitResult | Commit): boolean {
       return commit.insertions === 0 && commit.deletions > 0;
     },
-    getWidth(slice: CommitResult | Commit) {
+    getWidth(slice: CommitResult | Commit): number {
       // Check if slice contains 'isMergeCommit' attribute
       if ('isMergeCommit' in slice && slice.isMergeCommit) {
         return this.mergeCommitRampSize;
@@ -145,17 +145,17 @@ export default defineComponent({
       const newSize = 100 * (slice.insertions / +this.avgsize);
       return Math.max(newSize * this.rampSize, 0.5);
     },
-    getContributionMessageByCommit(slice: Commit, commit: CommitResult) {
+    getContributionMessageByCommit(slice: Commit, commit: CommitResult): string {
       return `[${slice.date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
     },
-    getContributionMessage(slice: Commit) {
+    getContributionMessage(slice: Commit): string {
       let title = this.tframe === 'day'
           ? `[${slice.date}] Daily `
           : `[${slice.date} till ${slice.endDate}] Weekly `;
       title += `contribution: +${slice.insertions} -${slice.deletions} lines`;
       return title;
     },
-    openTabZoom(user: User, slice: Commit, evt: MouseEvent) {
+    openTabZoom(user: User, slice: Commit, evt: MouseEvent): void {
       // prevent opening of zoom tab when cmd/ctrl click
       if (window.isMacintosh ? evt.metaKey : evt.ctrlKey) {
         return;
@@ -192,12 +192,12 @@ export default defineComponent({
     },
 
     // position for commit granularity
-    getCommitPos(i: number, total: number) {
+    getCommitPos(i: number, total: number): number {
       return (((total - i - 1) * window.DAY_IN_MS) / total)
           / (this.getTotalForPos(this.sdate, this.udate) + window.DAY_IN_MS);
     },
     // position for day granularity
-    getSlicePos(date: string) {
+    getSlicePos(date: string): number {
       if (this.optimiseTimeline) {
         if (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null) {
           return 0;
@@ -210,16 +210,16 @@ export default defineComponent({
     },
 
     // get duration in miliseconds between 2 date
-    getTotalForPos(sinceDate: string, untilDate: string) {
+    getTotalForPos(sinceDate: string, untilDate: string): number {
       return new Date(untilDate).valueOf() - new Date(sinceDate).valueOf();
     },
-    getRampColor(commit: CommitResult, slice: Commit) {
+    getRampColor(commit: CommitResult, slice: Commit): number | '-deletes' {
       if (this.isDeletesContribution(commit)) {
         return '-deletes';
       }
       return this.getSliceColor(slice);
     },
-    getSliceColor(slice: Commit) {
+    getSliceColor(slice: Commit): number | '-deletes' {
       if (this.isDeletesContribution(slice)) {
         return '-deletes';
       }
@@ -231,13 +231,13 @@ export default defineComponent({
     },
 
     // Prevent browser from switching to new tab when clicking ramp
-    rampClick(evt: MouseEvent) {
+    rampClick(evt: MouseEvent): void {
       const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
       if (isKeyPressed) {
         evt.preventDefault();
       }
     },
-    getReportLink() {
+    getReportLink(): string | undefined {
       if (this.isWidgetMode) {
         const url = window.location.href;
         const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
