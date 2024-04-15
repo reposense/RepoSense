@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.Set;
 
 import reposense.model.RepoConfiguration;
-import reposense.model.ReportConfiguration;
 import reposense.model.SupportedDomainUrlMap;
+import reposense.model.reportconfig.ReportConfiguration;
 
 /**
  * Represents the structure of summary.json file in reposense-report folder.
@@ -30,8 +30,9 @@ public class SummaryJson {
     private final Map<String, Map<String, String>> supportedDomainUrlMap;
 
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
-            LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided,
-            String repoSenseVersion, Set<Map<String, String>> errorSet, String reportGenerationTime, ZoneId zoneId) {
+                       LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided,
+                       boolean isUntilDateProvided, String repoSenseVersion, Set<Map<String, String>> errorSet,
+                       String reportGenerationTime, ZoneId zoneId) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;

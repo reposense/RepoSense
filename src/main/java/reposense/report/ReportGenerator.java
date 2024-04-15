@@ -44,8 +44,8 @@ import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.model.ReportConfiguration;
 import reposense.model.StandaloneConfig;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
@@ -114,10 +114,10 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exists in jar file.
      */
     public List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
-            ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
-            LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
-            int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
-            boolean shouldFreshClone) throws IOException {
+              ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
+              LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
+              int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
+              boolean shouldFreshClone) throws IOException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
