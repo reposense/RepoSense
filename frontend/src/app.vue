@@ -40,7 +40,7 @@ const app = defineComponent({
   },
   data(): {
     repos: { [key: string]: Repo },
-    users: Array<Repo>
+    users: Array<Repo>,
     userUpdated: boolean,
     loadingOverlayOpacity: number,
     tabType: string,
