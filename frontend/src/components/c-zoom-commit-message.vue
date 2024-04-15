@@ -162,7 +162,7 @@ export default defineComponent({
       }
       return window.getCommitLink(this.info.zUser!.repoId, slice.hash);
     },
-    toggleSelectedCommitMessageBody(slice: CommitResult): void {
+    toggleSelectedCommitMessageBody(slice: CommitResult) {
       this.$store.commit('toggleZoomCommitMessageBody', slice);
     },
     containsAtLeastOneSelected(fileTypes: Array<string>): boolean {
@@ -173,7 +173,7 @@ export default defineComponent({
       }
       return false;
     },
-    getFontColor(color: string): string {
+    getFontColor(color: string) {
       return window.getFontColor(color);
     },
   },

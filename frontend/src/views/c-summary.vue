@@ -186,35 +186,7 @@ export default defineComponent({
       default: false,
     },
   },
-  data(): {
-    checkedFileTypes: Array<string>,
-    fileTypes: Array<string>,
-    filtered: Array<Array<User>>,
-    filterSearch: string,
-    filterGroupSelection: FilterGroupSelection,
-    sortGroupSelection: SortGroupSelection,
-    sortWithinGroupSelection: SortWithinGroupSelection,
-    sortingOption: string,
-    isSortingDsc: string,
-    sortingWithinOption: string,
-    isSortingWithinDsc: string,
-    filterTimeFrame: FilterTimeFrame,
-    filterBreakdown: boolean,
-    tmpFilterSinceDate: string,
-    tmpFilterUntilDate: string,
-    hasModifiedSinceDate: boolean,
-    hasModifiedUntilDate: boolean,
-    filterHash: string,
-    minDate: string,
-    maxDate: string,
-    fileTypeColors: { [key: string]: string },
-    isSafariBrowser: boolean,
-    filterGroupSelectionWatcherFlag: boolean,
-    chartGroupIndex: number | undefined,
-    chartIndex: number | undefined,
-    errorIsShowingMore: boolean,
-    numberOfErrorMessagesToShow: number
-    } {
+  data() {
     return {
       checkedFileTypes: [] as Array<string>,
       fileTypes: [] as Array<string>,
@@ -247,10 +219,10 @@ export default defineComponent({
   },
   computed: {
     checkAllFileTypes: {
-      get(): boolean {
+      get() {
         return this.checkedFileTypes.length === this.fileTypes.length;
       },
-      set(value: boolean): void {
+      set(value: boolean) {
         if (value) {
           this.checkedFileTypes = this.fileTypes.slice();
         } else {
@@ -260,7 +232,7 @@ export default defineComponent({
       },
     },
 
-    avgContributionSize(): number {
+    avgContributionSize() {
       let totalLines = 0;
       let totalCount = 0;
       this.repos.forEach((repo) => {
@@ -282,13 +254,13 @@ export default defineComponent({
     },
 
     allGroupsMerged: {
-      get(): boolean {
+      get() {
         if (this.mergedGroups.length === 0) {
           return false;
         }
         return this.mergedGroups.length === this.filtered.length;
       },
-      set(value: boolean): void {
+      set(value: boolean) {
         if (value) {
           const mergedGroups: Array<string> = [];
           this.filtered.forEach((group) => {
@@ -302,7 +274,7 @@ export default defineComponent({
       },
     },
 
-    filterSinceDate(): string {
+    filterSinceDate() {
       if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
         return this.tmpFilterSinceDate;
       }
@@ -310,7 +282,7 @@ export default defineComponent({
       return this.minDate;
     },
 
-    filterUntilDate(): string {
+    filterUntilDate() {
       if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
         return this.tmpFilterUntilDate;
       }
@@ -321,7 +293,7 @@ export default defineComponent({
   },
   watch: {
 
-    filterGroupSelection(): void {
+    filterGroupSelection() {
       // Deactivates watcher
       if (!this.filterGroupSelectionWatcherFlag) {
         return;
@@ -336,7 +308,7 @@ export default defineComponent({
       });
     },
 
-    '$store.state.summaryDates': function (): void {
+    '$store.state.summaryDates': function () {
       this.hasModifiedSinceDate = true;
       this.hasModifiedUntilDate = true;
       this.tmpFilterSinceDate = this.$store.state.summaryDates.since;
@@ -347,12 +319,12 @@ export default defineComponent({
 
     mergedGroups: {
       deep: true,
-      handler(): void {
+      handler() {
         this.getFiltered();
       },
     },
   },
-  created(): void {
+  created() {
     this.processFileTypes();
     this.renderFilterHash();
     this.getFiltered();
@@ -361,7 +333,7 @@ export default defineComponent({
       this.restoreZoomFiltered(zoomInfo);
     }
   },
-  mounted(): void {
+  mounted() {
     // Delay execution of filterGroupSelection watcher
     // to prevent clearing of merged groups
     setTimeout(() => {
@@ -369,47 +341,47 @@ export default defineComponent({
     }, 0);
   },
   methods: {
-    dismissTab(event: Event): void {
+    dismissTab(event: Event) {
       if (event.target instanceof Element && event.target.parentNode instanceof HTMLElement) {
         event.target.parentNode.style.display = 'none';
       }
     },
 
     // view functions //
-    getReportIssueGitHubLink(stackTrace: string): string {
+    getReportIssueGitHubLink(stackTrace: string) {
       return `${window.REPOSENSE_REPO_URL}/issues/new?title=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
-    getReportIssueEmailAddress(): string {
+    getReportIssueEmailAddress() {
       return 'seer@comp.nus.edu.sg';
     },
 
-    getReportIssueEmailLink(stackTrace: string): string {
+    getReportIssueEmailLink(stackTrace: string) {
       return `mailto:${this.getReportIssueEmailAddress()}?subject=${this.getReportIssueTitle()
       }&body=${this.getReportIssueMessage(stackTrace)}`;
     },
 
-    getReportIssueTitle(): string {
+    getReportIssueTitle() {
       return `${encodeURI('Unexpected error with RepoSense version ')}${window.repoSenseVersion}`;
     },
 
-    getReportIssueMessage(message: string): string {
+    getReportIssueMessage(message: string) {
       return encodeURI(message);
     },
 
     // model functions //
-    resetFilterSearch(): void {
+    resetFilterSearch() {
       this.filterSearch = '';
       this.getFiltered();
     },
-    updateFilterSearch(evt: Event): void {
+    updateFilterSearch(evt: Event) {
       // Only called from an input onchange event, target guaranteed to be input element
       this.filterSearch = (evt.target as HTMLInputElement).value;
       this.getFiltered();
     },
 
-    setSummaryHash(): void {
+    setSummaryHash() {
       const { addHash, encodeHash } = window;
 
       addHash('search', this.filterSearch);
@@ -447,8 +419,8 @@ export default defineComponent({
       encodeHash();
     },
 
-    renderFilterHash(): void {
-      const convertBool = (txt: string): boolean => (txt === 'true');
+    renderFilterHash() {
+      const convertBool = (txt: string) => (txt === 'true');
       const hash = Object.assign({}, window.hashParams);
 
       if (hash.search) { this.filterSearch = hash.search; }
@@ -494,11 +466,11 @@ export default defineComponent({
       }
     },
 
-    getGroupName(group: Array<User>): string {
+    getGroupName(group: Array<User>) {
       return window.getGroupName(group, this.filterGroupSelection);
     },
 
-    isMatchSearchedUser(filterSearch: string, user: User): boolean {
+    isMatchSearchedUser(filterSearch: string, user: User) {
       return !filterSearch || filterSearch.toLowerCase()
         .split(' ')
         .filter(Boolean)
@@ -512,7 +484,7 @@ export default defineComponent({
         .some((param) => tag.includes(param));
     },
 
-    toggleBreakdown(): void {
+    toggleBreakdown() {
       // Reset the file type filter
       if (this.checkedFileTypes.length !== this.fileTypes.length) {
         this.checkedFileTypes = this.fileTypes.slice();
@@ -520,7 +492,7 @@ export default defineComponent({
       this.getFiltered();
     },
 
-    async getFiltered(): Promise<void> {
+    async getFiltered() {
       this.setSummaryHash();
       window.deactivateAllOverlays();
 
@@ -530,7 +502,7 @@ export default defineComponent({
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', -1);
     },
 
-    getFilteredRepos(): void {
+    getFilteredRepos() {
       // array of array, sorted by repo
       const full: Array<Array<User>> = [];
       const tagSearchPrefix = 'tag:';
@@ -599,7 +571,7 @@ export default defineComponent({
       this.filtered = sortFiltered(this.filtered, filterControl);
     },
 
-    updateMergedGroup(allGroupsMerged: boolean): void {
+    updateMergedGroup(allGroupsMerged: boolean) {
       // merge group is not allowed when group by none
       // also reset merged groups
       if (this.filterGroupSelection === 'groupByNone' || !allGroupsMerged) {
@@ -613,7 +585,7 @@ export default defineComponent({
       }
     },
 
-    getMergedRepos(): void {
+    getMergedRepos() {
       this.filtered.forEach((group, groupIndex) => {
         if (this.mergedGroups.includes(this.getGroupName(group))) {
           this.mergeGroupByIndex(this.filtered, groupIndex);
@@ -621,7 +593,7 @@ export default defineComponent({
       });
     },
 
-    mergeGroupByIndex(filtered: Array<Array<User>>, groupIndex: number): void {
+    mergeGroupByIndex(filtered: Array<Array<User>>, groupIndex: number) {
       const dateToIndexMap: { [key: string]: number } = {};
       const dailyIndexMap: { [key: string]: number } = {};
       const mergedCommits: Array<Commit> = [];
@@ -653,7 +625,7 @@ export default defineComponent({
       filtered[groupIndex] = filtered[groupIndex].slice(0, 1);
     },
 
-    hasMergedGroups(): boolean {
+    hasMergedGroups() {
       return this.mergedGroups.length > 0;
     },
 
@@ -662,7 +634,7 @@ export default defineComponent({
       user: User,
       dateToIndexMap: { [key: string]: number },
       merged: Array<Commit> | Array<DailyCommit>,
-    ): void {
+    ) {
       const {
         commitResults, date,
       } = commit;
@@ -689,7 +661,7 @@ export default defineComponent({
       }
     },
 
-    mergeFileTypeContribution(user: User, merged: AuthorFileTypeContributions): void {
+    mergeFileTypeContribution(user: User, merged: AuthorFileTypeContributions) {
       Object.entries(user.fileTypeContribution).forEach((fileType) => {
         const key = fileType[0];
         const value = fileType[1];
@@ -701,7 +673,7 @@ export default defineComponent({
       });
     },
 
-    processFileTypes(): void {
+    processFileTypes() {
       const selectedColors = ['#ffe119', '#4363d8', '#3cb44b', '#f58231', '#911eb4', '#46f0f0', '#f032e6',
         '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1',
         '#000075', '#808080'];
@@ -731,7 +703,7 @@ export default defineComponent({
       this.$store.commit('updateFileTypeColors', this.fileTypeColors);
     },
 
-    splitCommitsWeek(user: User, sinceDate: string, untilDate: string): void {
+    splitCommitsWeek(user: User, sinceDate: string, untilDate: string) {
       const { commits } = user;
       if (commits === undefined) {
         return;
@@ -754,7 +726,7 @@ export default defineComponent({
       user.commits = res;
     },
 
-    pushCommitsWeek(sinceMs: number, untilMs: number, res: Array<Commit>, commits: Array<Commit>): void {
+    pushCommitsWeek(sinceMs: number, untilMs: number, res: Array<Commit>, commits: Array<Commit>) {
       const diff = Math.round(Math.abs((untilMs - sinceMs) / window.DAY_IN_MS));
       const weekInMS = window.DAY_IN_MS * 7;
 
@@ -778,7 +750,7 @@ export default defineComponent({
       }
     },
 
-    addLineContributionWeek(endOfWeekMs: number, week: Commit, commits: Array<Commit>): void {
+    addLineContributionWeek(endOfWeekMs: number, week: Commit, commits: Array<Commit>) {
       // commits are not contiguous, meaning there are gaps of days without
       // commits, so we are going to check each commit's date and make sure
       // it is within the duration of a week
@@ -796,7 +768,7 @@ export default defineComponent({
       }
     },
 
-    getUserCommits(user: User, sinceDate: string, untilDate: string): null {
+    getUserCommits(user: User, sinceDate: string, untilDate: string) {
       user.commits = [];
       const userFirst = user.dailyCommits[0];
       const userLast = user.dailyCommits[user.dailyCommits.length - 1];
@@ -835,7 +807,7 @@ export default defineComponent({
       return null;
     },
 
-    filterCommitByCheckedFileTypes(commit: DailyCommit): void {
+    filterCommitByCheckedFileTypes(commit: DailyCommit) {
       let commitResults = commit.commitResults.map((result) => {
         const filteredFileTypes = this.getFilteredFileTypes(result);
         this.updateCommitResultWithFileTypes(result, filteredFileTypes);
@@ -854,7 +826,7 @@ export default defineComponent({
       commit.commitResults = commitResults;
     },
 
-    getFilteredFileTypes(commitResult: CommitResult): { [key: string]: { insertions: number; deletions: number; }; } {
+    getFilteredFileTypes(commitResult: CommitResult) {
       return Object.keys(commitResult.fileTypesAndContributionMap)
         .filter(this.isFileTypeChecked)
         .reduce((obj: { [key: string]: FileTypeAndContribution }, fileType) => {
@@ -863,7 +835,7 @@ export default defineComponent({
         }, {});
     },
 
-    isFileTypeChecked(fileType: string): boolean {
+    isFileTypeChecked(fileType: string) {
       if (this.filterBreakdown) {
         return this.checkedFileTypes.includes(fileType);
       }
@@ -873,7 +845,7 @@ export default defineComponent({
     updateCommitResultWithFileTypes(
       commitResult: CommitResult,
       filteredFileTypes: { [key: string]: FileTypeAndContribution },
-    ): void {
+    ) {
       commitResult.insertions = Object.values(filteredFileTypes)
         .reduce((acc, fileType) => acc + fileType.insertions, 0);
       commitResult.deletions = Object.values(filteredFileTypes)
@@ -881,13 +853,13 @@ export default defineComponent({
       commitResult.fileTypesAndContributionMap = filteredFileTypes;
     },
 
-    getOptionWithOrder(): void {
+    getOptionWithOrder() {
       [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
       [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
     },
 
     // updating filters programically //
-    resetDateRange(): void {
+    resetDateRange() {
       this.hasModifiedSinceDate = false;
       this.hasModifiedUntilDate = false;
       this.tmpFilterSinceDate = '';
@@ -897,7 +869,7 @@ export default defineComponent({
       this.getFiltered();
     },
 
-    updateTmpFilterSinceDate(event: Event): void {
+    updateTmpFilterSinceDate(event: Event) {
       // Only called from an input onchange event, target guaranteed to be input element
       const since = (event.target as HTMLInputElement).value;
       this.hasModifiedSinceDate = true;
@@ -916,7 +888,7 @@ export default defineComponent({
       }
     },
 
-    updateTmpFilterUntilDate(event: Event): void {
+    updateTmpFilterUntilDate(event: Event) {
       // Only called from an input onchange event, target guaranteed to be input element
       const until = (event.target as HTMLInputElement).value;
       this.hasModifiedUntilDate = true;
@@ -935,7 +907,7 @@ export default defineComponent({
       }
     },
 
-    updateCheckedFileTypeContribution(ele: User): void {
+    updateCheckedFileTypeContribution(ele: User) {
       let validCommits = 0;
       Object.keys(ele.fileTypeContribution).forEach((fileType) => {
         if (!this.filterBreakdown) {
@@ -947,7 +919,7 @@ export default defineComponent({
       ele.checkedFileTypeContribution = validCommits;
     },
 
-    restoreZoomFiltered(info: ZoomInfo): void {
+    restoreZoomFiltered(info: ZoomInfo) {
       const {
         zSince, zUntil, zTimeFrame, zIsMerged, zFilterSearch,
       } = info;
@@ -984,7 +956,7 @@ export default defineComponent({
       info.isRefreshing = false;
       this.$store.commit('updateTabZoomInfo', info);
     },
-    matchZoomUser(info: ZoomInfo, user: User): boolean {
+    matchZoomUser(info: ZoomInfo, user: User) {
       const {
         zIsMerged, zFilterGroup, zRepo, zAuthor,
       } = info;
@@ -996,7 +968,7 @@ export default defineComponent({
       return user.repoName === zRepo && user.name === zAuthor;
     },
 
-    dateRounding(datestr: string, roundDown: number): string {
+    dateRounding(datestr: string, roundDown: number) {
       // rounding up to nearest monday
       const date = new Date(datestr);
       const day = date.getUTCDay();

@@ -119,29 +119,13 @@ import { AuthorshipFile, AuthorshipFileSegment } from '../types/types';
 import { FilesSortType, FilterType } from '../types/authorship';
 
 const filesSortDict = {
-  linesOfCode: (file: AuthorshipFile): number => file.lineCount,
-  path: (file: AuthorshipFile): string => file.path,
-  fileName: (file: AuthorshipFile): string => file.path.split(/[/]+/).pop() || '',
-  fileType: (file: AuthorshipFile): string => file.fileType,
+  linesOfCode: (file: AuthorshipFile) => file.lineCount,
+  path: (file: AuthorshipFile) => file.path,
+  fileName: (file: AuthorshipFile) => file.path.split(/[/]+/).pop() || '',
+  fileType: (file: AuthorshipFile) => file.fileType,
 };
 
-function authorshipInitialState(): {
-    isLoaded: boolean,
-    selectedFiles: Array<AuthorshipFile>,
-    filterType: FilterType,
-    selectedFileTypes: Array<string>,
-    fileTypes: Array<string>
-    filesLinesObj: { [key: string]: number}
-    fileTypeBlankLinesObj: { [key: string]: number },
-    filesSortType: FilesSortType,
-    toReverseSortFiles: boolean,
-    isBinaryFilesChecked: boolean,
-    isIgnoredFilesChecked: boolean,
-    searchBarValue: string,
-    authorDisplayName: string,
-    authors: Set<string>,
-    selectedColors: Array<string>
-    } {
+function authorshipInitialState() {
   return {
     isLoaded: false,
     selectedFiles: [] as Array<AuthorshipFile>,
@@ -173,29 +157,13 @@ export default defineComponent({
   emits: [
     'deactivate-tab',
   ],
-  data(): {
-    isLoaded: boolean,
-    selectedFiles: Array<AuthorshipFile>,
-    filterType: FilterType,
-    selectedFileTypes: Array<string>,
-    fileTypes: Array<string>
-    filesLinesObj: { [key: string]: number}
-    fileTypeBlankLinesObj: { [key: string]: number },
-    filesSortType: FilesSortType,
-    toReverseSortFiles: boolean,
-    isBinaryFilesChecked: boolean,
-    isIgnoredFilesChecked: boolean,
-    searchBarValue: string,
-    authorDisplayName: string,
-    authors: Set<string>,
-    selectedColors: Array<string>
-    } {
+  data() {
     return authorshipInitialState();
   },
 
   computed: {
     sortingFunction() {
-      return (a: AuthorshipFile, b: AuthorshipFile): number => (this.toReverseSortFiles ? -1 : 1)
+      return (a: AuthorshipFile, b: AuthorshipFile) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
@@ -203,7 +171,7 @@ export default defineComponent({
       get(): boolean {
         return this.selectedFileTypes.length === this.fileTypes.length;
       },
-      set(value: boolean): void {
+      set(value: boolean) {
         if (value) {
           this.selectedFileTypes = this.fileTypes.slice();
         } else {
@@ -218,7 +186,7 @@ export default defineComponent({
       get(): boolean {
         return this.isBinaryFilesChecked;
       },
-      set(value: boolean): void {
+      set(value: boolean) {
         if (value) {
           this.isBinaryFilesChecked = true;
         } else {
@@ -234,7 +202,7 @@ export default defineComponent({
       get(): boolean {
         return this.isIgnoredFilesChecked;
       },
-      set(value: boolean): void {
+      set(value: boolean) {
         if (value) {
           this.isIgnoredFilesChecked = true;
         } else {
@@ -284,13 +252,13 @@ export default defineComponent({
   },
 
   watch: {
-    filesSortType(): void {
+    filesSortType() {
       window.addHash('authorshipSortBy', this.filesSortType);
       window.encodeHash();
       this.updateSelectedFiles();
     },
 
-    searchBarValue(): void {
+    searchBarValue() {
       this.updateSelectedFiles();
     },
 
@@ -301,23 +269,23 @@ export default defineComponent({
       },
     },
 
-    toReverseSortFiles(): void {
+    toReverseSortFiles() {
       window.addHash('reverseAuthorshipOrder', this.toReverseSortFiles);
       window.encodeHash();
       this.updateSelectedFiles();
     },
 
-    info(): void {
+    info() {
       Object.assign(this.$data, authorshipInitialState());
       this.initiate();
     },
   },
 
-  created(): void {
+  created() {
     this.initiate();
   },
 
-  beforeUnmount(): void {
+  beforeUnmount() {
     this.removeAuthorshipHashes();
   },
 
@@ -646,7 +614,7 @@ export default defineComponent({
       return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${this.totalLineCount - this.totalBlankLineCount}`;
     },
 
-    getFontColor(color: string): string {
+    getFontColor(color: string) {
       return window.getFontColor(color);
     },
   },

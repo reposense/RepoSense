@@ -18,6 +18,7 @@ export default createStore<StoreState>({
     loadingOverlayCount: 0,
     loadingOverlayMessage: '',
     isTabActive: true,
+    blurbMap: {},
   } as StoreState,
   mutations: {
     updateTabZoomInfo(state: StoreState, info: ZoomInfo) {
@@ -81,6 +82,9 @@ export default createStore<StoreState>({
         file.active = isActive;
         file.wasCodeLoaded = file.wasCodeLoaded || file.active;
       });
+    },
+    setBlurbMap(state: StoreState, blurbMap: { [key: string]: string }) {
+      state.blurbMap = blurbMap;
     },
   },
   actions: {

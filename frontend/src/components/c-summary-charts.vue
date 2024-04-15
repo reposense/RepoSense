@@ -134,11 +134,18 @@
         )
           font-awesome-icon.icon-button(icon="clipboard")
           span.tooltip-text(v-bind:ref="`summary-charts-${i}-copy-iframe`") Click to copy iframe link for group
-
       .tooltip.summary-chart__title--percentile(
-          v-if="sortGroupSelection.includes('totalCommits')"
+        v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
+
+    .blurbWrapper(
+      v-if="filterGroupSelection === 'groupByRepos'",
+    )
+      c-markdown-chunk.blurb(
+        v-bind:markdown-text="getBlurb(repo[0])"
+      )
+
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -298,6 +305,7 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
+import cMarkdownChunk from './c-markdown-chunk.vue';
 import { Bar, Repo, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
@@ -308,6 +316,7 @@ export default defineComponent({
   components: {
     cRamp,
     cStackedBarChart,
+    cMarkdownChunk,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
   props: {
@@ -372,13 +381,7 @@ export default defineComponent({
       default: undefined,
     },
   },
-  data(): {
-      drags: Array<number>,
-      activeRepo: string | null,
-      activeUser: string | null,
-      activeTabType: string | null,
-      isTabOnMergedGroup: boolean,
-      } {
+  data() {
     return {
       drags: [] as Array<number>,
       activeRepo: null as string | null,
@@ -404,17 +407,17 @@ export default defineComponent({
       });
       return totalCommits / totalCount;
     },
-    filteredRepos(): Array<Array<User>> {
+    filteredRepos() {
       const repos = this.filtered.filter((repo) => repo.length > 0);
       if (this.isChartGroupWidgetMode && this.chartGroupIndex! < repos.length) {
         return [repos[this.chartGroupIndex!]];
       }
       return repos;
     },
-    isChartGroupWidgetMode(): boolean {
+    isChartGroupWidgetMode() {
       return this.chartGroupIndex !== undefined && this.chartGroupIndex >= 0;
     },
-    isChartWidgetMode(): boolean {
+    isChartWidgetMode() {
       return this.chartIndex !== undefined && this.chartIndex >= 0 && this.isChartGroupWidgetMode;
     },
     ...mapState({
@@ -429,7 +432,7 @@ export default defineComponent({
       }
     },
   },
-  created(): void {
+  created() {
     this.retrieveSelectedTabHash();
   },
   methods: {
@@ -635,7 +638,7 @@ export default defineComponent({
       this.$store.commit('updateTabZoomInfo', info);
     },
 
-    async getEmbeddedIframe(chartGroupIndex: number, chartIndex: number = -1): Promise<void> {
+    async getEmbeddedIframe(chartGroupIndex: number, chartIndex: number = -1) {
       const isChartIndexProvided = chartIndex !== -1;
       // Set height of iframe according to number of charts to avoid scrolling
       let totalChartHeight = 0;
@@ -672,7 +675,7 @@ export default defineComponent({
       const tooltipId = `tooltip-${chartGroupIndex}${isChartIndexProvided ? `-${chartIndex}` : ''}`;
       this.updateCopyTooltip(tooltipId, 'Copied iframe');
     },
-    updateCopyTooltip(tooltipId: string, text: string): void {
+    updateCopyTooltip(tooltipId: string, text: string) {
       const tooltipElement = document.getElementById(tooltipId);
       if (tooltipElement && tooltipElement.querySelector('.tooltip-text')) {
         const tooltipTextElement = tooltipElement.querySelector('.tooltip-text');
@@ -683,12 +686,12 @@ export default defineComponent({
         }, 2000);
       }
     },
-    getReportLink(): string {
+    getReportLink() {
       const url = window.location.href;
       const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
       return url.replace(regexToRemoveWidget, '');
     },
-    getRepo(repo: Array<Repo>): Array<Repo> {
+    getRepo(repo: Array<Repo>) {
       if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
         return [repo[this.chartIndex!]];
       }
@@ -881,6 +884,32 @@ export default defineComponent({
 
       return totalContribution / totalCommits;
     },
+
+    getBlurb(repo: User): string {
+      const link = this.getRepoLink(repo);
+      if (!link) {
+        return '';
+      }
+      const blurb: string | undefined = this.$store.state.blurbMap[link];
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    },
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/_colors.scss';
+
+.blurbWrapper {
+  padding-bottom: 5px;
+  .blurb {
+    background-color: #fafafa;
+    overflow-y: hidden;
+    // This is needed because the parent summary-wrapper center aligns everything
+    text-align: initial;
+  }
+}
+</style>
