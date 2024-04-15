@@ -76,7 +76,7 @@
         label.optimise-timeline
           input.mui-checkbox(
             type="checkbox",
-            v-model="optimiseTimeline"
+            v-model="optimiseTimeline",
             v-on:change="getFiltered"
           )
           span optimise timeline
