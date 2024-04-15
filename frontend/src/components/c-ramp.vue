@@ -94,7 +94,10 @@ export default defineComponent({
       default: false,
     },
   },
-  data(): {rampSize: number} {
+  data(): {
+    rampSize: number,
+    optimisedPadding: number,
+    } {
     return {
       rampSize: 0.01 as number,
       optimisedPadding: 3, // as % of total timeline,
