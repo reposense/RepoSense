@@ -140,7 +140,7 @@
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
       .summary-charts__title--tags(
-        v-if="filterGroupSelection === 'groupByRepos' && viewRepoTags"
+        v-if="isViewingTagsByRepo"
       )
         a.tag(
           v-for="tag in getTags(repo)",
@@ -270,10 +270,7 @@
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
           span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
-        .summary-chart__title--tags(
-          v-if="(filterGroupSelection === 'groupByAuthors' || filterGroupSelection === 'groupByNone')\
-            && viewRepoTags"
-        )
+        .summary-chart__title--tags(v-if="isViewingTagsByAuthor")
           a.tag(
             v-for="tag in getTags(repo, user)",
             v-bind:href="getTagLink(repo[0], tag)",
@@ -439,6 +436,14 @@ export default defineComponent({
     },
     isChartWidgetMode() {
       return this.chartIndex !== undefined && this.chartIndex >= 0 && this.isChartGroupWidgetMode;
+    },
+    isViewingTagsByRepo() {
+      return this.filterGroupSelection === FilterGroupSelection.GroupByRepos && this.viewRepoTags;
+    },
+    isViewingTagsByAuthor() {
+      return (this.filterGroupSelection === FilterGroupSelection.GroupByAuthors
+        || this.filterGroupSelection === FilterGroupSelection.GroupByNone)
+      && this.viewRepoTags;
     },
     ...mapState({
       mergedGroups: (state: unknown) => (state as StoreState).mergedGroups,
