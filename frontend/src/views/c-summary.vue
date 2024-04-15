@@ -77,6 +77,7 @@
           input.mui-checkbox(
             type="checkbox",
             v-model="optimiseTimeline"
+            v-on:change="getFiltered"
           )
           span optimise timeline
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
@@ -390,7 +391,7 @@ export default defineComponent({
     },
 
     setSummaryHash() {
-      const { addHash, encodeHash } = window;
+      const { addHash, encodeHash, removeHash } = window;
 
       addHash('search', this.filterSearch);
       addHash('sort', this.sortGroupSelection);
@@ -422,6 +423,12 @@ export default defineComponent({
         addHash('checkedFileTypes', checkedFileTypesHash);
       } else {
         window.removeHash('checkedFileTypes');
+      }
+
+      if (this.optimiseTimeline) {
+        addHash('optimiseTimeline', 'true');
+      } else {
+        removeHash('optimiseTimeline');
       }
 
       encodeHash();
@@ -471,6 +478,9 @@ export default defineComponent({
       }
       if (hash.chartIndex) {
         this.chartIndex = parseInt(hash.chartIndex, 10);
+      }
+      if (hash.optimiseTimeline) {
+        this.optimiseTimeline = convertBool(hash.optimiseTimeline);
       }
     },
 
