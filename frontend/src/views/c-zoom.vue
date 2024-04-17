@@ -70,7 +70,7 @@
       v-bind:file-types="fileTypes",
       v-bind:file-type-colors="fileTypeColors",
       v-model:selected-file-types="selectedFileTypes",
-      @change="updateSelectedFileTypesHash"
+      @update:selected-file-types="updateSelectedFileTypesHash"
     )
 
   .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")

@@ -106,7 +106,7 @@
       v-bind:file-types="fileTypes",
       v-bind:file-type-colors="fileTypeColors",
       v-model:selected-file-types="checkedFileTypes",
-      @change="getFiltered"
+      @update:selected-file-types="getFiltered"
     )
 
   c-summary-charts(

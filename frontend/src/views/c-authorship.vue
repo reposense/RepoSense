@@ -65,7 +65,7 @@
           v-bind:file-types="fileTypes",
           v-bind:file-type-colors="fileTypeColors",
           v-model:selected-file-types="selectedFileTypes",
-          @change="indicateCheckBoxes",
+          @update:selected-file-types="indicateCheckBoxes",
           v-bind:all-checkbox-label="allCheckboxLabel",
           v-bind:file-type-checkbox-labels="checkboxLabels"
         )
