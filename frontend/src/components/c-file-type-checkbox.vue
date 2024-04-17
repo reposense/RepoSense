@@ -57,7 +57,7 @@ export default defineComponent({
       default: undefined,
     },
   },
-  emits: ['update-selected-file-types-hash', 'update:selectedFileTypes', 'select-all-checked'],
+  emits: ['update:selectedFileTypes', 'select-all-checked'],
   computed: {
     isAllChecked: {
       get(): boolean {
@@ -78,16 +78,12 @@ export default defineComponent({
       },
       set(value: Array<string>): void {
         this.$emit('update:selectedFileTypes', value);
-        this.updateSelectedFileTypesHash();
       },
     },
   },
   methods: {
     getFontColor(color: string): string {
       return window.getFontColor(color);
-    },
-    updateSelectedFileTypesHash(): void {
-      this.$emit('update-selected-file-types-hash');
     },
     getTitle(label: {
       fileTitle: string,
