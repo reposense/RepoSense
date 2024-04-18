@@ -273,7 +273,7 @@
         .summary-chart__title--tags(v-if="isViewingTagsByAuthor")
           a.tag(
             v-for="tag in getTags(repo, user)",
-            v-bind:href="getTagLink(repo[0], tag)",
+            v-bind:href="getTagLink(user, tag)",
             target="_blank",
             vbind:key="tag",
             tabindex="-1"
