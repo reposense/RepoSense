@@ -49,8 +49,8 @@ describe('scroll to active repo', () => {
       });
 
     cy.url()
-      .should('contain', 'tabAuthor=yong24s')
-      .should('contain', 'tabRepo=reposense%2FRepoSense%5Bcypress%5D');
+      .should('contain', 'tabAuthor=Yong%20Hao%20TENG')
+      .should('contain', 'tabRepo=reposense%2Fpublish-RepoSense%5Bmaster%5D');
 
     cy.reload();
 
