@@ -278,7 +278,8 @@
         "customizing-reports": "Customizing reports",
         "customize-using-cli-flags": "Customize using CLI flags",
         "customize-using-csv-config-files": "Customize using CSV config files",
-        "get-target-repos-to-provide-more-info": "Get target repos to provide more info"
+        "get-target-repos-to-provide-more-info": "Get target repos to provide more info",
+        "add-a-title": "Add a title"
       },
       "headingKeywords": {}
     },
@@ -340,6 +341,14 @@
         "share-privately": "Share privately",
         "publish-on-the-web": "Publish on the web",
         "embeddable-widgets": "Embeddable Widgets"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "ug/title.md",
+      "headings": {
+        "reposense": "RepoSense",
+        "features": "Features"
       },
       "headingKeywords": {}
     },
