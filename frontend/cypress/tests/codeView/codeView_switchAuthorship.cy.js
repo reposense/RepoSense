@@ -24,7 +24,7 @@ describe('switch authorship', () => {
     // switch authorship view
     cy.get('.icon-button.fa-code')
       .should('exist')
-      .last()
+      .eq(4)
       .click();
 
     // check default controls
