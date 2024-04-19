@@ -66,7 +66,7 @@
         option(v-bind:value='false') Ascending
       label order
   .fileTypes
-    c-file-type-checkbox(
+    c-file-type-checkboxes(
       v-bind:file-types="fileTypes",
       v-bind:file-type-colors="fileTypeColors",
       v-model:selected-file-types="selectedFileTypes",
@@ -90,7 +90,7 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from '../components/c-ramp.vue';
 import cZoomCommitMessage from '../components/c-zoom-commit-message.vue';
-import cFileTypeCheckbox from '../components/c-file-type-checkbox.vue';
+import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import {
   Commit,
   CommitResult,
@@ -127,7 +127,7 @@ export default defineComponent({
     FontAwesomeIcon,
     cRamp,
     cZoomCommitMessage,
-    cFileTypeCheckbox,
+    cFileTypeCheckboxes,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
   data(): {

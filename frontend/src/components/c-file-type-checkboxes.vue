@@ -24,7 +24,7 @@
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
-  name: 'c-file-type-checkbox',
+  name: 'c-file-type-checkboxes',
   props: {
     fileTypes: {
       type: Array as PropType<Array<string>>,

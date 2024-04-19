@@ -102,7 +102,7 @@
       a(v-if="!errorIsShowingMore", v-on:click="toggleErrorShowMore()") SHOW ALL...
       a(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
-    c-file-type-checkbox(
+    c-file-type-checkboxes(
       v-bind:file-types="fileTypes",
       v-bind:file-type-colors="fileTypeColors",
       v-model:selected-file-types="checkedFileTypes",
@@ -132,7 +132,7 @@ import { mapState } from 'vuex';
 import { PropType, defineComponent } from 'vue';
 
 import cSummaryCharts from '../components/c-summary-charts.vue';
-import cFileTypeCheckbox from '../components/c-file-type-checkbox.vue';
+import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import sortFiltered from '../utils/repo-sorter';
 import {
@@ -160,7 +160,7 @@ export default defineComponent({
   name: 'c-summary',
   components: {
     cSummaryCharts,
-    cFileTypeCheckbox,
+    cFileTypeCheckboxes,
   },
   props: {
     repos: {

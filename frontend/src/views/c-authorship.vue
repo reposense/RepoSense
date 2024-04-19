@@ -61,7 +61,7 @@
           v-model="filterType",
           v-on:change="indicateCheckBoxes"
         )
-        c-file-type-checkbox(
+        c-file-type-checkboxes(
           v-bind:file-types="fileTypes",
           v-bind:file-type-colors="fileTypeColors",
           v-model:selected-file-types="selectedFileTypes",
@@ -100,7 +100,7 @@ import { mapState } from 'vuex';
 import minimatch from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cAuthorshipFile from '../components/c-authorship-file.vue';
-import cFileTypeCheckbox from '../components/c-file-type-checkbox.vue';
+import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import { StoreState } from '../types/vuex.d';
 import { FileResult, Line } from '../types/zod/authorship-type';
@@ -157,7 +157,7 @@ export default defineComponent({
   name: 'c-authorship',
   components: {
     cAuthorshipFile,
-    cFileTypeCheckbox,
+    cFileTypeCheckboxes,
   },
   mixins: [brokenLinkDisabler],
   emits: [
