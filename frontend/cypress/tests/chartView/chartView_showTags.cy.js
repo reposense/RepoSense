@@ -29,14 +29,19 @@ describe('show tags', () => {
 
     cy.get('.zoom__title--tags')
       .find('.tag')
-      .each(($tag) => correctTags.push($tag.text().trim())).then(() => {
-        cy.get('.summary-charts__title--tags')
+      .each(($tag) => correctTags.push($tag.text().trim()))
+      .then(() => {
+        cy.get('.summary-charts')
+          .first()
+          .find('.summary-charts__title--tags')
           .find('.tag')
           .each(($tag) => {
             expect(correctTags).to.include($tag.text().trim());
           });
 
-        cy.get('.summary-charts__title--tags')
+        cy.get('.summary-charts')
+          .first()
+          .find('.summary-charts__title--tags')
           .find('.tag')
           .should('have.length', correctTags.length);
       });
