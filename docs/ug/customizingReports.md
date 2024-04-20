@@ -59,3 +59,17 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 </box>
 
 3\. Add a git `.mailmap` file at the top-level of the repository, specifying mapped authors/commiters and/or e-mail addresses as per [gitmailmap documentation](https://git-scm.com/docs/gitmailmap). Any mappings specified here will be applied by git before all other RepoSense configurations. Configuration via `.mailmap` is particularly useful if you want the mapping to apply for all git commands as well instead of just for RepoSense.
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### Add a title
+
+A title component can be added by creating a file titled `title.md` in the assets directory. You can specify the assets directory according to the reference below:
+{{ embed("Appendix: **CLI syntax reference → `assets` flag**", "cli.md#section-assets") }}
+
+The title can render a combination of Markdown/HTML and plaintext ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/title.md)), and will appear on the top of the left panel as shown below:
+![Title Component Example](../images/title-example.png)
+
+Do note that the width of the title is bound by the width of the left panel.
+
+For more information on how to use Markdown, see the [Markdown Guide](https://www.markdownguide.org/).
