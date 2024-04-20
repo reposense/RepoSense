@@ -305,7 +305,6 @@ export default defineComponent({
 }
 
 .date-indicators {
-  @include mono-font;
   color: mui-color('grey', '700');
   display: flex;
   justify-content: space-between;

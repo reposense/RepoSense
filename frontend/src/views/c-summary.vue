@@ -79,7 +79,7 @@
             v-model="optimiseTimeline",
             v-on:change="getFiltered"
           )
-          span optimise timeline
+          span trim timeline
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
