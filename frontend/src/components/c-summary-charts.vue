@@ -275,7 +275,9 @@
           v-bind:mergegroup="isGroupMerged(getGroupName(repo))",
           v-bind:filtersearch="filterSearch",
           v-bind:is-widget-mode="isChartGroupWidgetMode",
-          v-bind:optimise-timeline="optimiseTimeline"
+          v-bind:optimise-timeline="optimiseTimeline",
+          v-bind:optimised-minimum-date="optimisedMinimumDate(user)",
+          v-bind:optimised-maximum-date="optimisedMaximumDate(user)"
         )
         .overlay
 
@@ -581,6 +583,16 @@ export default defineComponent({
         return ['fas', 'database'];
       }
     },
+    getOptimisedMinimumDate(user: User): number | null {
+      return user.commits.length === 0
+        ? null
+        : Math.min(...user.commits.map((commit) => new Date(commit.date).valueOf()));
+    },
+    getOptimisedMaximumDate(user: User): number | null {
+      return user.commits.length === 0
+        ? null
+        : Math.max(...user.commits.map((commit) => new Date(commit.date).valueOf()));
+    },
 
     // triggering opening of tabs //
     openTabAuthorship(user: User, repo: Array<User>, index: number, isMerged: boolean): void {
@@ -616,14 +628,25 @@ export default defineComponent({
 
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
-        // additional day was added to include the date represented by filterUntilDate
-        const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf()
-            + window.DAY_IN_MS;
-        const idxs = this.drags.map((x) => (x * tdiff) / 100);
-        const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
-        const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-        this.drags = [];
-        this.openTabZoom(user, tsince, tuntil, isMerged);
+        const optimisedMinimumDate = this.getOptimisedMinimumDate(user);
+        const optimisedMaximumDate = this.getOptimisedMaximumDate(user);
+        if (this.optimiseTimeline && optimisedMinimumDate != null && optimisedMaximumDate != null) {
+          const tdiff = optimisedMaximumDate - optimisedMinimumDate + window.DAY_IN_MS;
+          const idxs = this.drags.map((x) => (x * tdiff) / 100);
+          const tsince = window.getDateStr(optimisedMinimumDate + idxs[0]);
+          const tuntil = window.getDateStr(optimisedMinimumDate + idxs[1]);
+          this.drags = [];
+          this.openTabZoom(user, tsince, tuntil, isMerged);
+        } else {
+          // additional day was added to include the date represented by filterUntilDate
+          const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf()
+              + window.DAY_IN_MS;
+          const idxs = this.drags.map((x) => (x * tdiff) / 100);
+          const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
+          const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
+          this.drags = [];
+          this.openTabZoom(user, tsince, tuntil, isMerged);
+        }
       }
     },
 

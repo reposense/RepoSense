@@ -93,6 +93,16 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    optimisedMinimumDate: {
+      type: Number,
+      default: null,
+      validator: (prop) => typeof prop === 'number' || prop === null,
+    },
+    optimisedMaximumDate: {
+      type: Number,
+      default: null,
+      validator: (prop) => typeof prop === 'number' || prop === null,
+    },
   },
   data(): {
     rampSize: number,
@@ -110,16 +120,6 @@ export default defineComponent({
     },
     deletesContributionRampSize(): number {
       return this.rampSize * 20;
-    },
-    optimisedMinimumDate(): number | null {
-      return this.user.commits.length === 0
-        ? null
-        : Math.min(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
-    },
-    optimisedMaximumDate(): number | null {
-      return this.user.commits.length === 0
-        ? null
-        : Math.max(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
     },
   },
 
