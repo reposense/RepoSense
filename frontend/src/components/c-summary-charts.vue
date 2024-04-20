@@ -661,8 +661,10 @@ export default defineComponent({
         const optimisedMinimumDate = this.getOptimisedMinimumDate(user);
         const optimisedMaximumDate = this.getOptimisedMaximumDate(user);
 
-        since = optimisedMinimumDate == null ? since : window.getDateStr(optimisedMinimumDate);
-        until = optimisedMaximumDate == null ? until : window.getDateStr(optimisedMaximumDate);
+        if (optimisedMinimumDate != null) since = window.getDateStr(optimisedMinimumDate);
+        if (optimisedMaximumDate != null) until = window.getDateStr(optimisedMaximumDate);
+      }
+      
       const info: ZoomInfo = {
         zRepo: user.repoName,
         zAuthor: user.name,
