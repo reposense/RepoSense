@@ -276,8 +276,8 @@
           v-bind:filtersearch="filterSearch",
           v-bind:is-widget-mode="isChartGroupWidgetMode",
           v-bind:optimise-timeline="optimiseTimeline",
-          v-bind:optimised-minimum-date="optimisedMinimumDate(user)",
-          v-bind:optimised-maximum-date="optimisedMaximumDate(user)"
+          v-bind:optimised-minimum-date="getOptimisedMinimumDate(user)",
+          v-bind:optimised-maximum-date="getOptimisedMaximumDate(user)"
         )
         .overlay
 
