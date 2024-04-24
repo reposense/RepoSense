@@ -61,27 +61,15 @@
           v-model="filterType",
           v-on:change="indicateCheckBoxes"
         )
-        .checkboxes.mui-form--inline(v-if="info.files.length > 0")
-          label(style='background-color: #000000; color: #ffffff')
-            input.mui-checkbox--fileType#all(type="checkbox", v-model="isSelectAllChecked")
-            span(v-bind:title="getTotalFileBlankLineInfo()")
-              span All&nbsp;
-              span {{ totalLineCount }}&nbsp;
-              span ({{ totalLineCount - totalBlankLineCount }})&nbsp;
-          template(v-for="fileType in Object.keys(fileTypeLinesObj)", v-bind:key="fileType")
-            label(
-              v-bind:style="{\
-                'background-color': fileTypeColors[fileType],\
-                'color': getFontColor(fileTypeColors[fileType])\
-                }"
-            )
-              input.mui-checkbox--fileType(type="checkbox",
-                v-bind:id="fileType", v-bind:value="fileType",
-                v-on:change="indicateCheckBoxes", v-model="selectedFileTypes")
-              span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
-                span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
-                span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
-          br
+        c-file-type-checkboxes(
+          v-bind:file-types="fileTypes",
+          v-bind:file-type-colors="fileTypeColors",
+          v-model:selected-file-types="selectedFileTypes",
+          @update:selected-file-types="indicateCheckBoxes",
+          v-bind:all-checkbox-label="allCheckboxLabel",
+          v-bind:file-type-checkbox-labels="checkboxLabels"
+        )
+        .checkboxes.mui-form--inline
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
             span(
@@ -112,6 +100,7 @@ import { mapState } from 'vuex';
 import { minimatch } from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cAuthorshipFile from '../components/c-authorship-file.vue';
+import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import { StoreState } from '../types/vuex.d';
 import { FileResult, Line } from '../types/zod/authorship-type';
@@ -131,7 +120,7 @@ function authorshipInitialState(): {
   filterType: FilterType,
   selectedFileTypes: Array<string>,
   fileTypes: Array<string>,
-  filesLinesObj: { [key: string]: number},
+  filesLinesObj: { [key: string]: number },
   fileTypeBlankLinesObj: { [key: string]: number },
   filesSortType: FilesSortType,
   toReverseSortFiles: boolean,
@@ -168,6 +157,7 @@ export default defineComponent({
   name: 'c-authorship',
   components: {
     cAuthorshipFile,
+    cFileTypeCheckboxes,
   },
   mixins: [brokenLinkDisabler],
   emits: [
@@ -179,7 +169,7 @@ export default defineComponent({
     filterType: FilterType,
     selectedFileTypes: Array<string>,
     fileTypes: Array<string>,
-    filesLinesObj: { [key: string]: number},
+    filesLinesObj: { [key: string]: number },
     fileTypeBlankLinesObj: { [key: string]: number },
     filesSortType: FilesSortType,
     toReverseSortFiles: boolean,
@@ -197,21 +187,6 @@ export default defineComponent({
     sortingFunction() {
       return (a: AuthorshipFile, b: AuthorshipFile): number => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
-    },
-
-    isSelectAllChecked: {
-      get(): boolean {
-        return this.selectedFileTypes.length === this.fileTypes.length;
-      },
-      set(value: boolean): void {
-        if (value) {
-          this.selectedFileTypes = this.fileTypes.slice();
-        } else {
-          this.selectedFileTypes = [];
-        }
-
-        this.indicateCheckBoxes();
-      },
     },
 
     isBinaryChecked: {
@@ -274,6 +249,31 @@ export default defineComponent({
 
     ignoredFilesCount(): number {
       return this.info.files.filter((file) => file.isIgnored).length;
+    },
+
+    allCheckboxLabel(): {
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+      } {
+      return this.getCheckboxDetails('Total', 'All', this.totalLineCount, this.totalBlankLineCount);
+    },
+
+    checkboxLabels(): Array<{
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+    }> {
+      return this.fileTypes.map(
+        (fileType) => this.getCheckboxDetails(
+          fileType,
+          fileType,
+          this.fileTypeLinesObj[fileType],
+          this.fileTypeBlankLinesObj[fileType],
+        ),
+      );
     },
 
     ...mapState({
@@ -637,17 +637,18 @@ export default defineComponent({
       this.updateFileTypeHash();
     },
 
-    getFileTypeBlankLineInfo(fileType: string): string {
-      return `${fileType}: Blank: ${this.fileTypeBlankLinesObj[fileType]},
-        Non-Blank: ${this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
-    },
-
-    getTotalFileBlankLineInfo(): string {
-      return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${this.totalLineCount - this.totalBlankLineCount}`;
-    },
-
-    getFontColor(color: string): string {
-      return window.getFontColor(color);
+    getCheckboxDetails(fileTitle: string, fileType: string, lineCount: number, blankLineCount: number): {
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+    } {
+      return {
+        fileTitle,
+        fileType,
+        lineCount,
+        blankLineCount,
+      };
     },
   },
 });
