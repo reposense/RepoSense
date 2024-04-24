@@ -109,23 +109,13 @@
       a(v-if="!errorIsShowingMore", v-on:click="toggleErrorShowMore()") SHOW ALL...
       a(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
-    .checkboxes.mui-form--inline(v-if="Object.keys(fileTypeColors).length > 0")
-      label(style='background-color: #000000; color: #ffffff')
-        input.mui-checkbox--fileType#all(type="checkbox", v-model="checkAllFileTypes")
-        span All:&nbsp;
-      template(v-for="fileType in Object.keys(fileTypeColors)", v-bind:key="fileType")
-        label(
-          v-bind:style="{ 'background-color': fileTypeColors[fileType], \
-            'color': getFontColor(fileTypeColors[fileType])}"
-        )
-          input.mui-checkbox--fileType(
-            type="checkbox",
-            v-bind:id="fileType",
-            v-bind:value="fileType",
-            v-model="checkedFileTypes",
-            v-on:change="getFiltered"
-          )
-          span {{ fileType }}
+    c-file-type-checkboxes(
+      v-bind:file-types="fileTypes",
+      v-bind:file-type-colors="fileTypeColors",
+      v-model:selected-file-types="checkedFileTypes",
+      @update:selected-file-types="getFiltered"
+    )
+
   c-summary-charts(
     v-bind:filtered="filtered",
     v-bind:checked-file-types="checkedFileTypes",
@@ -150,6 +140,7 @@ import { mapState } from 'vuex';
 import { PropType, defineComponent } from 'vue';
 
 import cSummaryCharts from '../components/c-summary-charts.vue';
+import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import sortFiltered from '../utils/repo-sorter';
 import {
@@ -177,6 +168,7 @@ export default defineComponent({
   name: 'c-summary',
   components: {
     cSummaryCharts,
+    cFileTypeCheckboxes,
   },
   props: {
     repos: {
@@ -256,20 +248,6 @@ export default defineComponent({
     };
   },
   computed: {
-    checkAllFileTypes: {
-      get(): boolean {
-        return this.checkedFileTypes.length === this.fileTypes.length;
-      },
-      set(value: boolean): void {
-        if (value) {
-          this.checkedFileTypes = this.fileTypes.slice();
-        } else {
-          this.checkedFileTypes = [];
-        }
-        this.getFiltered();
-      },
-    },
-
     avgContributionSize(): number {
       let totalLines = 0;
       let totalCount = 0;
@@ -861,7 +839,7 @@ export default defineComponent({
         return result;
       });
 
-      if (!this.checkAllFileTypes) {
+      if (!this.isAllFileTypesChecked()) {
         commitResults = commitResults.filter(
           (result) => Object.values(result.fileTypesAndContributionMap).length > 0,
         );
@@ -1029,12 +1007,12 @@ export default defineComponent({
       return window.getDateStr(datems);
     },
 
-    getFontColor(color: string) {
-      return window.getFontColor(color);
+    toggleErrorShowMore(): void {
+      this.errorIsShowingMore = !this.errorIsShowingMore;
     },
 
-    toggleErrorShowMore() {
-      this.errorIsShowingMore = !this.errorIsShowingMore;
+    isAllFileTypesChecked(): boolean {
+      return this.checkedFileTypes.length === this.fileTypes.length;
     },
   },
 });
