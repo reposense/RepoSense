@@ -256,7 +256,7 @@ export default defineComponent({
       fileType: string,
       lineCount: number,
       blankLineCount: number,
-      } {
+    } {
       return this.getCheckboxDetails('Total', 'All', this.totalLineCount, this.totalBlankLineCount);
     },
 
