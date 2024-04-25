@@ -196,8 +196,9 @@ export default defineComponent({
 
     // position for commit granularity
     getCommitPos(i: number, total: number): number {
-      if (this.optimiseTimeline && (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null))
+      if (this.optimiseTimeline && (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null)) {
         return 0;
+      }
 
       const totalTime = this.optimiseTimeline
         ? this.optimisedMaximumDate - this.optimisedMinimumDate
@@ -207,8 +208,9 @@ export default defineComponent({
     },
     // position for day granularity
     getSlicePos(date: string): number {
-      if (this.optimiseTimeline && (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null))
+      if (this.optimiseTimeline && (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null)) {
         return 0;
+      }
 
       const toDate = this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
       const total = this.optimiseTimeline
