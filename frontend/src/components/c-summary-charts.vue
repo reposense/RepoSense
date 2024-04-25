@@ -630,23 +630,17 @@ export default defineComponent({
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
         const optimisedMinimumDate = this.getOptimisedMinimumDate(user);
         const optimisedMaximumDate = this.getOptimisedMaximumDate(user);
-        if (this.optimiseTimeline && optimisedMinimumDate != null && optimisedMaximumDate != null) {
-          const tdiff = optimisedMaximumDate - optimisedMinimumDate + window.DAY_IN_MS;
-          const idxs = this.drags.map((x) => (x * tdiff) / 100);
-          const tsince = window.getDateStr(optimisedMinimumDate + idxs[0]);
-          const tuntil = window.getDateStr(optimisedMinimumDate + idxs[1]);
-          this.drags = [];
-          this.openTabZoom(user, tsince, tuntil, isMerged);
-        } else {
-          // additional day was added to include the date represented by filterUntilDate
-          const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf()
-              + window.DAY_IN_MS;
-          const idxs = this.drags.map((x) => (x * tdiff) / 100);
-          const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
-          const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
-          this.drags = [];
-          this.openTabZoom(user, tsince, tuntil, isMerged);
-        }
+        const isOptimising = this.optimiseTimeline && optimisedMinimumDate != null && optimisedMaximumDate != null;
+
+        const fromDate = isOptimising ? optimisedMinimumDate : (new Date(this.filterSinceDate)).valueOf();
+        const toDate = isOptimising ? optimisedMaximumDate : (new Date(this.filterUntilDate)).valueOf();
+
+        const tdiff = toDate - fromDate + window.DAY_IN_MS;
+        const idxs = this.drags.map((x) => (x * tdiff) / 100);
+        const tsince = window.getDateStr(fromDate + idxs[0]);
+        const tuntil = window.getDateStr(fromDate + idxs[1]);
+        this.drags = [];
+        this.openTabZoom(user, tsince, tuntil, isMerged);
       }
     },
 
