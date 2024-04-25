@@ -680,6 +680,7 @@ export default defineComponent({
         zFromRamp: false,
         zFilterSearch: filterSearch,
         zAvgContributionSize: this.getAvgContributionSize(),
+        zOptimiseTimeline: this.optimiseTimeline,
       };
       this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
