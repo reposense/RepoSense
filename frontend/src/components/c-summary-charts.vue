@@ -650,15 +650,6 @@ export default defineComponent({
       } = this;
       // Deep copy to ensure changes in zoom (e.g. toggle state) won't affect summary, and vice versa
       const clonedUser = JSON.parse(JSON.stringify(user));
-
-      if (this.optimiseTimeline) {
-        const optimisedMinimumDate = this.getOptimisedMinimumDate(user);
-        const optimisedMaximumDate = this.getOptimisedMaximumDate(user);
-
-        if (optimisedMinimumDate != null) since = window.getDateStr(optimisedMinimumDate);
-        if (optimisedMaximumDate != null) until = window.getDateStr(optimisedMaximumDate);
-      }
-
       const info: ZoomInfo = {
         zRepo: user.repoName,
         zAuthor: user.name,
