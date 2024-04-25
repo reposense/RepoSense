@@ -66,23 +66,13 @@
         option(v-bind:value='true') Descending
         option(v-bind:value='false') Ascending
       label order
-
   .fileTypes
-    .checkboxes.mui-form--inline(v-if="fileTypes.length > 0")
-      label(style='background-color: #000000; color: #ffffff')
-        input.mui-checkbox--fileType(type="checkbox", v-model="isSelectAllChecked", value="all")
-        span All&nbsp;
-      label(
-        v-for="fileType in fileTypes",
-        v-bind:key="fileType",
-        v-bind:style="{\
-          'background-color': fileTypeColors[fileType],\
-          'color': getFontColor(fileTypeColors[fileType])\
-          }"
-      )
-        input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
-          v-on:change="updateSelectedFileTypesHash", v-model="selectedFileTypes")
-        span {{ fileType }} &nbsp;
+    c-file-type-checkboxes(
+      v-bind:file-types="fileTypes",
+      v-bind:file-type-colors="fileTypeColors",
+      v-model:selected-file-types="selectedFileTypes",
+      @update:selected-file-types="updateSelectedFileTypesHash"
+    )
 
   .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
@@ -101,6 +91,7 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from '../components/c-ramp.vue';
 import cZoomCommitMessage from '../components/c-zoom-commit-message.vue';
+import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import {
   Commit,
   CommitResult,
@@ -137,6 +128,7 @@ export default defineComponent({
     FontAwesomeIcon,
     cRamp,
     cZoomCommitMessage,
+    cFileTypeCheckboxes,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
   data(): {
@@ -205,7 +197,7 @@ export default defineComponent({
     },
 
     selectedCommits(): Array<Commit> {
-      if (this.isSelectAllChecked) {
+      if (this.isSelectAllChecked()) {
         return this.filteredUser?.commits ?? [];
       }
 
@@ -242,19 +234,6 @@ export default defineComponent({
       return this.selectedCommits.reduce((prev, commit) => (
         prev + commit.commitResults.filter((slice) => slice.isOpen).length
       ), 0);
-    },
-    isSelectAllChecked: {
-      get(): boolean {
-        return this.selectedFileTypes.length === this.fileTypes.length;
-      },
-      set(value: boolean): void {
-        if (value) {
-          this.selectedFileTypes = this.fileTypes.slice();
-        } else {
-          this.selectedFileTypes = [];
-        }
-        this.updateSelectedFileTypesHash();
-      },
     },
 
     ...mapState({
@@ -345,6 +324,9 @@ export default defineComponent({
           .filter((fileType) => this.fileTypes.includes(fileType));
       }
     },
+    isSelectAllChecked(): boolean {
+      return this.selectedFileTypes.length === this.fileTypes.length;
+    },
     updateSelectedFileTypesHash(): void {
       const fileTypeHash = this.selectedFileTypes.length > 0
         ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
@@ -396,9 +378,6 @@ export default defineComponent({
       window.removeHash('zRSC');
       window.removeHash('zFR');
       window.encodeHash();
-    },
-    getFontColor(color: string): string {
-      return window.getFontColor(color);
     },
   },
 });
