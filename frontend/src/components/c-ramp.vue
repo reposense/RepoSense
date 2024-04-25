@@ -196,8 +196,14 @@ export default defineComponent({
 
     // position for commit granularity
     getCommitPos(i: number, total: number): number {
+      if (this.optimiseTimeline && (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null))
+        return 0;
+
+      const totalTime = this.optimiseTimeline
+        ? this.optimisedMaximumDate - this.optimisedMinimumDate
+        : this.getTotalForPos(this.sdate, this.udate);
       return (((total - i - 1) * window.DAY_IN_MS) / total)
-          / (this.getTotalForPos(this.sdate, this.udate) + window.DAY_IN_MS);
+          / (totalTime + window.DAY_IN_MS);
     },
     // position for day granularity
     getSlicePos(date: string): number {
