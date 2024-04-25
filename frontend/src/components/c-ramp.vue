@@ -201,15 +201,15 @@ export default defineComponent({
     },
     // position for day granularity
     getSlicePos(date: string): number {
-      if (this.optimiseTimeline) {
-        if (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null) {
-          return 0;
-        }
-        const total = this.optimisedMaximumDate - this.optimisedMinimumDate;
-        return (new Date(this.optimisedMaximumDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
-      }
-      const total = this.getTotalForPos(this.sdate, this.udate);
-      return (new Date(this.udate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
+      if (this.optimiseTimeline && (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null))
+        return 0;
+
+      const toDate = this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
+      const total = this.optimiseTimeline
+        ? this.optimisedMaximumDate - this.optimisedMinimumDate
+        : this.getTotalForPos(this.sdate, this.udate);
+
+      return (new Date(toDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
     },
 
     // get duration in miliseconds between 2 date
