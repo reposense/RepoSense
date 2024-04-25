@@ -53,7 +53,7 @@
     v-bind:mergegroup="info.zIsMerge",
     v-bind:fromramp="info.zFromRamp",
     v-bind:filtersearch="info.zFilterSearch",
-    v-bind:optimiseTimeline="info.zOptimiseTimeline")
+    v-bind:optimisetimeline="info.zOptimiseTimeline")
 
   .sorting.mui-form--inline
     .mui-select.sort-by
