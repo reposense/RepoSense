@@ -100,7 +100,12 @@
         a(
           v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(\
+            repo[0],\
+            getIsOptimising(repo[0]) ? getOptimisedMinimumDate(repo[0]) : filterSinceDate,\
+            getIsOptimising(repo[0]) ? getOptimisedMaximumDate(repo[0]) : filterUntilDate,\
+            isGroupMerged(getGroupName(repo))\
+          )"
         )
           .tooltip(
             v-on:mouseover="onTooltipHover(`summary-charts-${i}-commit-breakdown`)",
@@ -218,7 +223,12 @@
         a(
           v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(\
+            user,\
+            getIsOptimising(user) ? getOptimisedMinimumDate(user) : filterSinceDate,\
+            getIsOptimising(user) ? getOptimisedMaximumDate(user) : filterUntilDate,\
+            isGroupMerged(getGroupName(repo))\
+          )"
         )
           .tooltip(
             v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-commit-breakdown`)",
@@ -275,7 +285,7 @@
           v-bind:mergegroup="isGroupMerged(getGroupName(repo))",
           v-bind:filtersearch="filterSearch",
           v-bind:is-widget-mode="isChartGroupWidgetMode",
-          v-bind:optimise-timeline="optimiseTimeline",
+          v-bind:optimise-timeline="getIsOptimising(user)",
           v-bind:optimised-minimum-date="getOptimisedMinimumDate(user)",
           v-bind:optimised-maximum-date="getOptimisedMaximumDate(user)"
         )
@@ -583,15 +593,18 @@ export default defineComponent({
         return ['fas', 'database'];
       }
     },
-    getOptimisedMinimumDate(user: User): number | null {
+    getOptimisedMinimumDate(user: User): number {
       return user.commits.length === 0
-        ? null
+        ? (new Date(this.filterSinceDate)).valueOf()
         : Math.min(...user.commits.map((commit) => new Date(commit.date).valueOf()));
     },
-    getOptimisedMaximumDate(user: User): number | null {
+    getOptimisedMaximumDate(user: User): number {
       return user.commits.length === 0
-        ? null
+        ? (new Date(this.filterUntilDate)).valueOf()
         : Math.max(...user.commits.map((commit) => new Date(commit.date).valueOf()));
+    },
+    getIsOptimising(user: User): boolean {
+      return user.commits.length !== 0 && this.optimiseTimeline;
     },
 
     // triggering opening of tabs //
@@ -628,12 +641,12 @@ export default defineComponent({
 
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
-        const optimisedMinimumDate = this.getOptimisedMinimumDate(user);
-        const optimisedMaximumDate = this.getOptimisedMaximumDate(user);
-        const isOptimising = this.optimiseTimeline && optimisedMinimumDate != null && optimisedMaximumDate != null;
-
-        const fromDate = isOptimising ? optimisedMinimumDate : (new Date(this.filterSinceDate)).valueOf();
-        const toDate = isOptimising ? optimisedMaximumDate : (new Date(this.filterUntilDate)).valueOf();
+        const fromDate = this.getIsOptimising(user)
+          ? this.getOptimisedMinimumDate(user)
+          : (new Date(this.filterSinceDate)).valueOf();
+        const toDate = this.getIsOptimising(user)
+          ? this.getOptimisedMaximumDate(user)
+          : (new Date(this.filterUntilDate)).valueOf();
 
         const tdiff = toDate - fromDate + window.DAY_IN_MS;
         const idxs = this.drags.map((x) => (x * tdiff) / 100);

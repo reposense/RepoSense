@@ -35,7 +35,7 @@
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
         }"
       )
-.date-indicators(v-if="optimiseTimeline && optimisedMinimumDate != null && optimisedMaximumDate != null")
+.date-indicators(v-if="optimiseTimeline")
   span {{new Date(optimisedMinimumDate).toLocaleDateString()}}
   span {{new Date(optimisedMaximumDate).toLocaleDateString()}}
 </template>
@@ -95,13 +95,11 @@ export default defineComponent({
     },
     optimisedMinimumDate: {
       type: Number,
-      default: null,
-      validator: (prop) => typeof prop === 'number' || prop === null,
+      default: 0,
     },
     optimisedMaximumDate: {
       type: Number,
-      default: null,
-      validator: (prop) => typeof prop === 'number' || prop === null,
+      default: 0,
     },
   },
   data(): {
@@ -196,10 +194,6 @@ export default defineComponent({
 
     // position for commit granularity
     getCommitPos(i: number, total: number): number {
-      if (this.optimiseTimeline && (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null)) {
-        return 0;
-      }
-
       const totalTime = this.optimiseTimeline
         ? this.optimisedMaximumDate - this.optimisedMinimumDate
         : this.getTotalForPos(this.sdate, this.udate);
@@ -208,10 +202,6 @@ export default defineComponent({
     },
     // position for day granularity
     getSlicePos(date: string): number {
-      if (this.optimiseTimeline && (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null)) {
-        return 0;
-      }
-
       const toDate = this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
       const total = this.optimiseTimeline
         ? this.optimisedMaximumDate - this.optimisedMinimumDate
