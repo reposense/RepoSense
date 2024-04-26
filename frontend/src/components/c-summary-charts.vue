@@ -596,13 +596,13 @@ export default defineComponent({
     getOptimisedMinimumDate(user: User): string {
       return user.commits.length === 0
         ? this.filterSinceDate
-        : user.commits.reduce((prev, curr) => new Date(prev.date) < new Date(curr.date) ? prev : curr)
+        : user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr))
           .date;
     },
     getOptimisedMaximumDate(user: User): string {
       return user.commits.length === 0
         ? this.filterUntilDate
-        : user.commits.reduce((prev, curr) => new Date(prev.date) > new Date(curr.date) ? prev : curr)
+        : user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr))
           .date;
     },
     getIsOptimising(user: User): boolean {
