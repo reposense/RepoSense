@@ -30,7 +30,7 @@ Contributor [2023 January - 2024 January]<br/>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Gokul Rajiv](https://github.com/gok99)
-**Role**: Senior Developer [2024 January - ]<br/> 
+**Role**: Senior Developer [2024 January - ]<br/>
 Contributor [2022 January - 2024 January]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
