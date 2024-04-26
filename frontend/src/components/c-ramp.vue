@@ -36,8 +36,8 @@
         }"
       )
 .date-indicators(v-if="optimiseTimeline")
-  span {{new Date(optimisedMinimumDate).toLocaleDateString()}}
-  span {{new Date(optimisedMaximumDate).toLocaleDateString()}}
+  span {optimisedMinimumDate}
+  span {optimisedMaximumDate}
 </template>
 
 <script lang='ts'>
@@ -94,12 +94,12 @@ export default defineComponent({
       default: false,
     },
     optimisedMinimumDate: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '',
     },
     optimisedMaximumDate: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '',
     },
   },
   data(): {
@@ -195,7 +195,7 @@ export default defineComponent({
     // position for commit granularity
     getCommitPos(i: number, total: number): number {
       const totalTime = this.optimiseTimeline
-        ? this.optimisedMaximumDate - this.optimisedMinimumDate
+        ? this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate)
         : this.getTotalForPos(this.sdate, this.udate);
       return (((total - i - 1) * window.DAY_IN_MS) / total)
           / (totalTime + window.DAY_IN_MS);
@@ -204,7 +204,7 @@ export default defineComponent({
     getSlicePos(date: string): number {
       const toDate = this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
       const total = this.optimiseTimeline
-        ? this.optimisedMaximumDate - this.optimisedMinimumDate
+        ? this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate)
         : this.getTotalForPos(this.sdate, this.udate);
 
       return (new Date(toDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);

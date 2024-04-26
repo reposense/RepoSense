@@ -593,15 +593,17 @@ export default defineComponent({
         return ['fas', 'database'];
       }
     },
-    getOptimisedMinimumDate(user: User): number {
+    getOptimisedMinimumDate(user: User): string {
       return user.commits.length === 0
-        ? (new Date(this.filterSinceDate)).valueOf()
-        : Math.min(...user.commits.map((commit) => new Date(commit.date).valueOf()));
+        ? this.filterSinceDate
+        : user.commits.reduce((prev, curr) => new Date(prev.date) < new Date(curr.date) ? prev : curr)
+          .date;
     },
-    getOptimisedMaximumDate(user: User): number {
+    getOptimisedMaximumDate(user: User): string {
       return user.commits.length === 0
-        ? (new Date(this.filterUntilDate)).valueOf()
-        : Math.max(...user.commits.map((commit) => new Date(commit.date).valueOf()));
+        ? this.filterUntilDate
+        : user.commits.reduce((prev, curr) => new Date(prev.date) > new Date(curr.date) ? prev : curr)
+          .date;
     },
     getIsOptimising(user: User): boolean {
       return user.commits.length !== 0 && this.optimiseTimeline;
@@ -641,12 +643,12 @@ export default defineComponent({
 
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
-        const fromDate = this.getIsOptimising(user)
+        const fromDate = (new Date(this.getIsOptimising(user)
           ? this.getOptimisedMinimumDate(user)
-          : (new Date(this.filterSinceDate)).valueOf();
-        const toDate = this.getIsOptimising(user)
+          : this.filterSinceDate)).valueOf();
+        const toDate = (new Date(this.getIsOptimising(user)
           ? this.getOptimisedMaximumDate(user)
-          : (new Date(this.filterUntilDate)).valueOf();
+          : this.filterUntilDate)).valueOf();
 
         const tdiff = toDate - fromDate + window.DAY_IN_MS;
         const idxs = this.drags.map((x) => (x * tdiff) / 100);
