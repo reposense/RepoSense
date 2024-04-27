@@ -25,7 +25,7 @@ This page contains information about project management tasks. The target audien
 
 Before making a release, please check the following prerequisites:
 
-* Ensure that you have **JDK `1.8.0`** installed (==Not other major release versions such as **JDK `9`** or **JDK `11`**==).
+* Ensure that you have **JDK `11`** installed (==Not other major release versions such as **JDK `12`** or **JDK `13`**==).
 * Ensure that the `JAVA_HOME` environment variable is correctly set to your JDK installation directory. You can refer to the [JDK Installation Guide](https://docs.oracle.com/cd/E19182-01/821-0917/inst_jdk_javahome_t/index.html).
 * Ensure that you have merged the [upstream](https://github.com/RepoSense/reposense) `master` branch into both the local and upstream `release` branch according to the following steps:
     1. In your local repository, reset your `master` branch to be exactly the same as the upstream `master` branch.
@@ -43,7 +43,7 @@ Take note of the following when making the release according to the above guide:
 * Before launching the release, generate the `RepoSense.jar` file and attach it to the release.
   1. Switch to the `release` branch.
   1. In the terminal, change the directory to the project root directory.
-  1. Run `gradlew --version` to check that the JDK version is 1.8.0.
+  1. Run `gradlew --version` to check that the JDK version is 11.
   1. Run `gradlew shadowJar`, and the Jar file will be generated at `{buildDir}/jar/`.
   1. Check that the Jar file is working. You may need to check that the report can be generated from the Jar file both locally and remotely by following the [Generating Reports Guide](../ug/generatingReports.html).
 
