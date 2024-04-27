@@ -36,8 +36,8 @@
         }"
       )
 .date-indicators(v-if="optimiseTimeline")
-  span {optimisedMinimumDate}
-  span {optimisedMaximumDate}
+  span {{optimisedMinimumDate}}
+  span {{optimisedMaximumDate}}
 </template>
 
 <script lang='ts'>
