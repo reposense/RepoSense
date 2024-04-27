@@ -141,6 +141,18 @@
           v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
+      .summary-charts__title--tags(
+        v-if="isViewingTagsByRepo"
+      )
+        a.tag(
+          v-for="tag in getTags(repo)",
+          v-bind:href="getTagLink(repo[0], tag)",
+          target="_blank",
+          vbind:key="tag",
+          tabindex="-1"
+        )
+          font-awesome-icon(icon="tags")
+          span &nbsp;{{ tag }}
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -261,6 +273,16 @@
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
           span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
+        .summary-chart__title--tags(v-if="isViewingTagsByAuthor")
+          a.tag(
+            v-for="tag in getTags(repo, user)",
+            v-bind:href="getTagLink(user, tag)",
+            target="_blank",
+            vbind:key="tag",
+            tabindex="-1"
+          )
+            font-awesome-icon(icon="tags")
+            span &nbsp;{{ tag }}
 
       .summary-chart__ramp(
         v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
@@ -374,6 +396,10 @@ export default defineComponent({
       type: Number,
       default: undefined,
     },
+    viewRepoTags: {
+      type: Boolean,
+      default: false,
+    },
   },
   data(): {
       drags: Array<number>,
@@ -419,6 +445,14 @@ export default defineComponent({
     },
     isChartWidgetMode(): boolean {
       return this.chartIndex !== undefined && this.chartIndex >= 0 && this.isChartGroupWidgetMode;
+    },
+    isViewingTagsByRepo() {
+      return this.filterGroupSelection === FilterGroupSelection.GroupByRepos && this.viewRepoTags;
+    },
+    isViewingTagsByAuthor() {
+      return (this.filterGroupSelection === FilterGroupSelection.GroupByAuthors
+        || this.filterGroupSelection === FilterGroupSelection.GroupByNone)
+      && this.viewRepoTags;
     },
     ...mapState({
       mergedGroups: (state: unknown) => (state as StoreState).mergedGroups,
@@ -574,6 +608,10 @@ export default defineComponent({
       default:
         return ['fas', 'database'];
       }
+    },
+
+    getTagLink(repo: User, tag: string): string | undefined {
+      return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repo.repoId)}releases/tag/${tag}`);
     },
 
     // triggering opening of tabs //
@@ -902,6 +940,16 @@ export default defineComponent({
         chart.scrollIntoView({ block: 'nearest' });
       }
     },
+
+    getTags(repo: Array<User>, user?: User): Array<string> {
+      if (user) repo = repo.filter((r) => r.name === user.name);
+      return [...new Set(repo.flatMap((r) => r.commits).flatMap((c) => c.commitResults).flatMap((r) => r.tags))]
+        .filter(Boolean) as Array<string>;
+    },
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/tags.scss';
+</style>

@@ -302,6 +302,20 @@ describe('render filter hash', () => {
       .should('contain', 'mergegroup=reposense%2FRepoSense%5Bcypress%5D');
   });
 
+  it('show tags: url params should persist after change and reload', () => {
+    cy.get('#summary label.show-tags input:visible')
+      .should('be.visible')
+      .check();
+
+    cy.url()
+      .should('contain', 'viewRepoTags=true');
+
+    cy.reload();
+
+    cy.url()
+      .should('contain', 'viewRepoTags=true');
+  });
+
   it('checked file types: url params should persist after change and reload', () => {
     cy.get('#summary label.filter-breakdown input:visible')
       .should('not.be.checked');
