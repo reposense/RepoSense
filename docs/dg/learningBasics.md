@@ -31,9 +31,9 @@ The backend implementation of RepoSense is located in `src/main`.
 
 {{ step(1) }} **Know Java**
 
-The RepoSense backend is mostly written in `Java 8`.
+The RepoSense backend is mostly written in `Java 11`.
 
-1. You need to have a basic knowledge of Java before getting started, including its syntax, [API](https://docs.oracle.com/javase/8/docs/api/), and certain frameworks such as [JUnit](https://se-education.org/learningresources/contents/java/JUnit.html).
+1. You need to have a basic knowledge of Java before getting started, including its syntax, [API](https://docs.oracle.com/javase/11/docs/api/), and certain frameworks such as [JUnit](https://se-education.org/learningresources/contents/java/JUnit.html).
 1. Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as [concurrency](https://se-education.org/learningresources/contents/java/JavaConcurrency.html), [synchronization](https://se-education.org/learningresources/contents/java/JavaSynchronization.html), and [streams](https://se-education.org/learningresources/contents/java/streams-an-introduction.html). These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc.). They are optional but you may find them useful when working on certain issues.
 
 {{ step(2) }} **Learn the RepoSense backend architecture**

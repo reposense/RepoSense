@@ -242,7 +242,7 @@ describe('date changes in chart view should reflect in zoom', () => {
 });
 
 describe('range changes in chartview should reflect in zoom', () => {
-  const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
+  const zoomKeyOption = Cypress.platform === 'darwin' ? { metaKey: true } : { ctrlKey: true };
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
   // he does not add more commits in the future,
@@ -254,11 +254,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('input[name="until"]:visible')
       .type('2023-12-31');
 
-    cy.get('body').type(zoomKey, { release: false })
+    cy.get('body')
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(120, 20)
-      .click(250, 20);
+      .click(120, 20, zoomKeyOption)
+      .click(250, 20, zoomKeyOption);
 
     cy.get('#tab-zoom')
       .should('be.visible');
@@ -283,11 +283,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('input[name="until"]:visible')
       .type('2023-12-31');
 
-    cy.get('body').type(zoomKey, { release: false })
+    cy.get('body')
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(120, 20)
-      .click(170, 20);
+      .click(120, 20, zoomKeyOption)
+      .click(170, 20, zoomKeyOption);
 
     cy.get('#tab-zoom')
       .should('be.visible');
@@ -312,11 +312,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('input[name="until"]:visible')
       .type('2023-12-31');
 
-    cy.get('body').type(zoomKey, { release: false })
+    cy.get('body')
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(170, 20)
-      .click(250, 20);
+      .click(170, 20, zoomKeyOption)
+      .click(250, 20, zoomKeyOption);
 
     cy.get('#tab-zoom')
       .should('be.visible');
@@ -341,11 +341,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('input[name="until"]:visible')
       .type('2023-12-31');
 
-    cy.get('body').type(zoomKey, { release: false })
+    cy.get('body')
       .get('#summary-charts .summary-chart__ramp .ramp')
       .first()
-      .click(170, 20)
-      .click(225, 20);
+      .click(170, 20, zoomKeyOption)
+      .click(225, 20, zoomKeyOption);
 
     cy.get('#tab-zoom')
       .should('be.visible');

@@ -97,6 +97,7 @@
     &__title {
       align-items: center;
       display: flex;
+      flex-wrap: wrap;
       font-weight: bold;
       text-align: left;
 
@@ -107,10 +108,10 @@
       &--index {
         background: mui-color('black');
         color: mui-color('white');
-        @include medium-font;
         overflow: hidden;
         padding: .1em .25em;
         vertical-align: middle;
+        @include medium-font;
       }
 
       &--groupname {
@@ -127,6 +128,10 @@
       &--contribution {
         @include mini-font;
         display: inline;
+      }
+
+      &--tags {
+        margin: .25rem 0;
       }
     }
 

@@ -51,7 +51,7 @@ export default defineComponent({
     guideWidth: number,
     flexWidth: number,
     isResizing: boolean
-    } {
+  } {
     return {
       guideWidth: (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2)) / window.innerWidth,
       flexWidth: 0.5,
