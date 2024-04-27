@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import reposense.git.GitBranch;
 import reposense.git.exception.GitBranchException;
-import reposense.parser.ConfigurationBuildException;
+import reposense.parser.exceptions.ConfigurationBuildException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 
