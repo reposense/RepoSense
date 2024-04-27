@@ -119,8 +119,8 @@ function authorshipInitialState(): {
   selectedFiles: Array<AuthorshipFile>,
   filterType: FilterType,
   selectedFileTypes: Array<string>,
-  fileTypes: Array<string>
-  filesLinesObj: { [key: string]: number }
+  fileTypes: Array<string>,
+  filesLinesObj: { [key: string]: number },
   fileTypeBlankLinesObj: { [key: string]: number },
   filesSortType: FilesSortType,
   toReverseSortFiles: boolean,
@@ -130,7 +130,7 @@ function authorshipInitialState(): {
   authorDisplayName: string,
   authors: Set<string>,
   selectedColors: Array<string>
-  } {
+} {
   return {
     isLoaded: false,
     selectedFiles: [] as Array<AuthorshipFile>,
@@ -168,8 +168,8 @@ export default defineComponent({
     selectedFiles: Array<AuthorshipFile>,
     filterType: FilterType,
     selectedFileTypes: Array<string>,
-    fileTypes: Array<string>
-    filesLinesObj: { [key: string]: number }
+    fileTypes: Array<string>,
+    filesLinesObj: { [key: string]: number },
     fileTypeBlankLinesObj: { [key: string]: number },
     filesSortType: FilesSortType,
     toReverseSortFiles: boolean,
@@ -179,7 +179,7 @@ export default defineComponent({
     authorDisplayName: string,
     authors: Set<string>,
     selectedColors: Array<string>
-    } {
+  } {
     return authorshipInitialState();
   },
 
@@ -256,7 +256,7 @@ export default defineComponent({
       fileType: string,
       lineCount: number,
       blankLineCount: number,
-      } {
+    } {
       return this.getCheckboxDetails('Total', 'All', this.totalLineCount, this.totalBlankLineCount);
     },
 

@@ -215,7 +215,7 @@ export default defineComponent({
     errorIsShowingMore: boolean,
     numberOfErrorMessagesToShow: number,
     viewRepoTags: boolean,
-    } {
+  } {
     return {
       checkedFileTypes: [] as Array<string>,
       fileTypes: [] as Array<string>,
