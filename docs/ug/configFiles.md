@@ -109,7 +109,7 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 
 ## `report-config.yaml`
 
-You can also optionally use a `report-config.json` file to quickly define the repository information for the repositories you are interested in tracking and generate your very own code portfolio.
+You can also optionally use a `report-config.yaml` file to quickly define the repository information for the repositories you are interested in tracking and generate your very own code portfolio.
 
 View this [example](report-config.yaml) for a better understanding of what repository information is required.
 

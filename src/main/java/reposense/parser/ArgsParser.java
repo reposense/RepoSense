@@ -89,7 +89,7 @@ public class ArgsParser {
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
     private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
-    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
+    private static final String MESSAGE_INVALID_CONFIG_YAML = "%s Ignoring the report config provided.";
     private static final String MESSAGE_SINCE_D1_WITH_PERIOD = "You may be using --since d1 with the --period flag. "
             + "This may result in an incorrect date range being analysed.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
@@ -368,9 +368,9 @@ public class ArgsParser {
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
             } catch (IllegalArgumentException iae) {
-                logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
+                logger.warning(String.format(MESSAGE_INVALID_CONFIG_YAML, iae.getMessage()));
             } catch (IOException ioe) {
-                // IOException thrown as report-config.json is not found.
+                // IOException thrown as report-config.yaml is not found.
                 // Ignore exception as the file is optional.
             }
         }
