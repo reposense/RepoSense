@@ -385,6 +385,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '../styles/_colors.scss';
+@import '../styles/tags.scss';
 
 #tab-zoom {
   .zoom {
@@ -413,21 +414,6 @@ export default defineComponent({
 
       h3 {
         @include large-font;
-      }
-
-      /* Tags in commits */
-      .tag {
-        @include mini-font;
-        background: mui-color('grey', '600');
-        border-radius: 5px;
-        color: mui-color('white');
-        display: inline-block;
-        margin: .2rem .2rem .2rem 0;
-        padding: 0 3px 0 3px;
-
-        .fa-tags {
-          width: .65rem;
-        }
       }
     }
   }

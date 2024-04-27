@@ -97,6 +97,7 @@
     &__title {
       align-items: center;
       display: flex;
+      flex-wrap: wrap;
       font-weight: bold;
       text-align: left;
 
@@ -127,6 +128,10 @@
       &--contribution {
         @include mini-font;
         display: inline;
+      }
+
+      &--tags {
+        margin: .25rem 0;
       }
     }
 
