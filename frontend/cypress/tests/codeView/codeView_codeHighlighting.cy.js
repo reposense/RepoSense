@@ -67,8 +67,8 @@ describe('code highlighting works properly', () => {
         // eslint-disable-next-line quotes
         cy.get('.line-content').contains("'red': (") // jamessspanggg
           .parent() // .code
-          // #f08080, transparencyValue 30
-          .should('have.css', 'background-color', 'rgba(240, 128, 128, 0.19)')
+          // #f08080, transparencyValue 50
+          .should('have.css', 'background-color', 'rgba(240, 128, 128, 0.314)')
           .and('not.eq', firstAuthorColor);
       });
   });
