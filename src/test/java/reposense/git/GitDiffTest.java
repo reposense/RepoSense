@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import reposense.model.RepoConfiguration;
 import reposense.template.GitTestTemplate;
 
-
 public class GitDiffTest extends GitTestTemplate {
     private RepoConfiguration config;
 
@@ -48,5 +47,18 @@ public class GitDiffTest extends GitTestTemplate {
                 "850-GitDiffTest-diffCommit_commitContainingSubmodule_ignoresSubmodule");
         String diffResult = GitDiff.diffCommit(config.getRepoRoot(), EMPTY_TREE_HASH);
         Assertions.assertFalse(diffResult.contains("Subproject commit"));
+    }
+
+    @Test
+    public void diffCommits_validCommitHashes_success() {
+        String diffResult = GitDiff.diffCommits(config.getRepoRoot(),
+                FAKE_AUTHOR_BLAME_TEST_FILE_COMMIT_08022018_STRING, LATEST_COMMIT_HASH);
+        Assertions.assertFalse(diffResult.isEmpty());
+    }
+
+    @Test
+    public void diffCommits_nonexistentCommitHash_throwsRunTimeException() {
+        Assertions.assertThrows(RuntimeException.class, () -> GitDiff.diffCommits(config.getRepoRoot(),
+                NONEXISTENT_COMMIT_HASH, LATEST_COMMIT_HASH));
     }
 }

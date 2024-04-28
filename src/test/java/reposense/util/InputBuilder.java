@@ -8,7 +8,7 @@ import reposense.parser.ArgsParser;
 /**
  * A utility class to help with building command line input.
  * Example usage: <br>
- *     {@code String input = new InputBuilder().addSinceDate("27/01/2017").build();}
+ * {@code String input = new InputBuilder().addSinceDate("27/01/2017").build();}
  */
 public class InputBuilder {
     private static final String WHITESPACE = " ";
@@ -247,6 +247,24 @@ public class InputBuilder {
      */
     public InputBuilder addFreshCloning() {
         input.append(ArgsParser.FRESH_CLONING_FLAG[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to enable authorship analysis.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addAnalyzeAuthorship() {
+        input.append(ArgsParser.ANALYZE_AUTHORSHIP_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to enable originality threshold.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addOriginalityThreshold(double threshold) {
+        input.append(ArgsParser.ORIGINALITY_THRESHOLD_FLAGS[0] + WHITESPACE + threshold + WHITESPACE);
         return this;
     }
 

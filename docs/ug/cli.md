@@ -16,15 +16,35 @@ The command `java -jar RepoSense.jar` takes several flags.
 **Examples**:
 
 An example of a command using most parameters:<br>
-`java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08 --find-previous-authors`
+`java -jar RepoSense.jar --repos https://github.com/reposense/RepoSense.git --output ./report_folder --since 31/1/2017 --until 31/12/2018 --formats java adoc xml --view --ignore-standalone-config --last-modified-date --timezone UTC+08 --find-previous-authors --analyze-authorship --originality-threshold 0.66`
 
 Same command as above but using most parameters in alias format:<br>
-`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08 -F`
+`java -jar RepoSense.jar -r https://github.com/reposense/RepoSense.git -o ./report_folder -s 31/1/2017 -u 31/12/2018 -f java adoc xml -v -i -l -t UTC+08 -F -A -ot 0.66`
 </box>
 
 The section below provides explanations for each of the flags.
 
 <!-- --------------------------◘---------------------------------------------------------------------------- -->
+
+### `--analyze-authorship`, `-A`
+
+**`--analyze-authorship`**: Performs further analysis to distinguish between partial and full credit attribution for
+lines of code assigned to the author.
+
+* Default: this feature is turned ***off*** by default and the author will receive partial credits for all lines of
+  code, as the code lines are at least partial credit but may not qualify for full credit.
+* Alias: `-A` (upper case)
+* Example: `--analyze-authorship` or `-A`
+
+<box type="info" seamless>
+
+A darker background colour represents full credit, while a lighter background colour represents partial credit.
+
+If the code is attributed to a different author by the user via `@@author` tag, then the new author will be given
+partial credit.
+</box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--assets`, `-a`
 
@@ -143,6 +163,26 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 
 * Cannot be used with `--shallow-cloning`. This may result in an incorrect last modified date.
 * The last modified dates will be in the same timezone specified with the `--timezone` flag.
+</box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--originality-threshold`, `-ot`
+
+**`--originality-threshold [VALUE]`**: Specifies the cut-off point for partial and full credit
+in `--analyze-authorship`. Author will be given full credit if their contribution exceeds this threshold, else partial
+credit is given.
+
+* Parameter: `VALUE` Optional. Acceptable range: [0.0, 1.0].<br>
+  Default: `0.51`
+* Alias: `-ot`
+* Example: `--originality-threshold 0.66` or `-ot 0.66`
+
+<box type="info" seamless>
+
+* Requires `--analyze-authorship` flag.
+* An author's contribution, or `originality score`, is calculated using Levenshtein Distance (Edit Distance) algorithm.
+  We compare the difference between current code line and its previous versions.
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->

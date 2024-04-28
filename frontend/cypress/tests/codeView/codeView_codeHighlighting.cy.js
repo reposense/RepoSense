@@ -38,7 +38,7 @@ describe('code highlighting works properly', () => {
     cy.get('.hljs-comment').contains('* Represents a Git Author.')
       .parent() // .line-content
       .parent() // .code
-      .should('have.css', 'background-color', 'rgb(230, 255, 237)'); // #e6ffed
+      .should('have.css', 'background-color', 'rgb(191, 246, 207)'); // #BFF6CF
   });
 
   it('should highlight code when multiple authors are merged in a repo group', () => {
@@ -62,13 +62,13 @@ describe('code highlighting works properly', () => {
     cy.get('.hljs-comment').contains('* MUI Colors module') // eugenepeh
       .parent() // .line-content
       .parent() // .code
-      .should('have.css', 'background-color', 'rgba(30, 144, 255, 0.19)') // #1e90ff, transparencyValue 30
+      .should('have.css', 'background-color', 'rgba(30, 144, 255, 0.314)') // #1e90ff, transparencyValue 50
       .then((firstAuthorColor) => {
         // eslint-disable-next-line quotes
         cy.get('.line-content').contains("'red': (") // jamessspanggg
           .parent() // .code
-          // #f08080, transparencyValue 30
-          .should('have.css', 'background-color', 'rgba(240, 128, 128, 0.19)')
+          // #f08080, transparencyValue 50
+          .should('have.css', 'background-color', 'rgba(240, 128, 128, 0.314)')
           .and('not.eq', firstAuthorColor);
       });
   });
