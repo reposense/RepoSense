@@ -765,6 +765,7 @@ export default defineComponent({
 
     .full-credit-color {
       background-color: mui-color('github', 'full-authored-code-background');
+
       &.isMergeGroup {
         background-color: mui-color('grey', '400');
       }
@@ -772,6 +773,7 @@ export default defineComponent({
 
     .partial-credit-color {
       background-color: mui-color('github', 'partial-authored-code-background');
+
       &.isMergeGroup {
         background-color: mui-color('grey', '200');
       }
