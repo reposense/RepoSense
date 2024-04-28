@@ -29,6 +29,7 @@ describe('credit background colour', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
       .should('exist')
+      .first()
       .click();
 
     // frontend/src/styles/_colors.scss
