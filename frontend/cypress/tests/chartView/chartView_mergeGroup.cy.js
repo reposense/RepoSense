@@ -8,18 +8,18 @@ describe('merge group', () => {
       .check()
       .should('be.checked');
 
-    // after checking merge group, only one merged repo group will show
+    // after checking merge group, only four merged repo groups will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 1);
+      .should('have.length', 4);
 
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
       .uncheck()
       .should('not.be.checked');
 
-    // after un-checking merge group, all 5 summary charts will show
+    // after un-checking merge group, all 14 summary charts will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 5);
+      .should('have.length', 14);
   });
 
   it('check and uncheck merge group when group by authors', () => {
@@ -31,9 +31,9 @@ describe('merge group', () => {
       .check()
       .should('be.checked');
 
-    // after checking merge group, 5 merged author groups will show
+    // after checking merge group, 14 merged author groups will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 5);
+      .should('have.length', 14);
 
     cy.get('#summary label.merge-group > input:visible')
       .first()
@@ -41,9 +41,9 @@ describe('merge group', () => {
       .uncheck()
       .should('not.be.checked');
 
-    // after un-checking merge group, all 5 summary charts will show
+    // after un-checking merge group, all 14 summary charts will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 5);
+      .should('have.length', 14);
   });
 
   it('merge group option should be disabled when group by none', () => {
@@ -56,26 +56,22 @@ describe('merge group', () => {
   });
 
   it('should have the correct number of merge group contribution bars and correct length', () => {
-    // Assumption: The number of merge group contribution bars is 3 and the width of the third bar is 50%.
     cy.get('#summary label.merge-group > input:visible')
       .should('be.visible')
       .check()
       .should('be.checked');
 
-    // get the three chart bars and assert they have the correct initial widths
-    cy.get('.summary-chart__contrib--bar')
-      .should('have.length', 3)
+    // get the chart bars and assert they have the correct initial widths
+    const expectedWidths = [100, 100, 100, 15, 100, 100, 90, 30, 15];
+    cy.get('.stacked-bar__contrib--bar')
+      .should('have.length', expectedWidths.length)
       .then(($bars) => {
         // calculate the percentage of the width relative to the parent container
         const parentWidth = $bars.eq(0).parent().width();
-        const width1 = (parseFloat(window.getComputedStyle($bars[0]).width) / parentWidth) * 100;
-        const width2 = (parseFloat(window.getComputedStyle($bars[1]).width) / parentWidth) * 100;
-        const width3 = (parseFloat(window.getComputedStyle($bars[2]).width) / parentWidth) * 100;
-
-        // assert that the widths are close enough to 100% and 50%
-        expect(width1).to.be.closeTo(100, 1);
-        expect(width2).to.be.closeTo(100, 1);
-        expect(width3).to.be.closeTo(50, 1);
+        expectedWidths.forEach((expectedWidth, index) => {
+          const width = (parseFloat(window.getComputedStyle($bars[index]).width) / parentWidth) * 100;
+          expect(width).to.be.closeTo(expectedWidth, 1);
+        });
       });
   });
 
@@ -88,7 +84,7 @@ describe('merge group', () => {
     const initialWidths = [];
 
     // Store the initial widths of the contribution bars
-    cy.get('.summary-chart__contrib--bar')
+    cy.get('.stacked-bar__contrib--bar')
       .each(($bar) => {
         const width = window.getComputedStyle($bar[0]).width;
         initialWidths.push(width);
@@ -99,7 +95,7 @@ describe('merge group', () => {
         cy.get('.overlay-loader').should('not.be.visible');
 
         // Get the contribution bars again and compare their widths with the initial widths
-        cy.get('.summary-chart__contrib--bar')
+        cy.get('.stacked-bar__contrib--bar')
           .should('have.length', initialWidths.length)
           .each(($bar, index) => {
             const width = window.getComputedStyle($bar[0]).width;

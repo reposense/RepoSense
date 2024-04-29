@@ -28,10 +28,10 @@ The section below provides explanations for each of the flags.
 
 ### `--assets`, `-a`
 
-<div id="section-config">
+<div id="section-assets">
 
 **`--assets ASSETS_DIRECTORY`**: Specifies where to place assets for report generation.
-* Parameter: `ASSETS_DIRECTORY` The directory containing the assets files. A `favicon.ico` file can be placed here to customize the favicon of the dashboard.
+* Parameter: `ASSETS_DIRECTORY` The directory containing the assets files. A `favicon.ico` file can be placed here to customize the favicon of the dashboard, while a `title.md` file can be placed to customize the [title](https://reposense.org/ug/customizingReports.html#add-a-title) of the report using [Markdown syntax](https://www.markdownguide.org/basic-syntax/).
 * Alias: `-a`
 * Example: `--assets ./assets` or `-a ./assets`
 
@@ -56,6 +56,7 @@ The section below provides explanations for each of the flags.
 
 * Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
+* Config files must follow [this](./configFiles.html) format.
 </box>
 </div>
 
@@ -82,12 +83,6 @@ Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`
 * Default: RepoSense will assume that no authors are responsible for the code changes in the lines altered by commits in the ignore commit list.
 * Alias: `-F` (uppercase F)
 * Example:`--find-previous-authors` or `-F`
-
-<box type="info" seamless>
-
-* This flag only works on **git `2.23`** or later.
-* If an earlier version of **git** is used, RepoSense can still run but this flag will be ignored.
-</box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 

@@ -21,27 +21,37 @@
     slot(name="right")
 </template>
 
-<script>
+<script lang='ts'>
 import { mapState } from 'vuex';
+import { defineComponent } from 'vue';
 
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
 
-const throttledEvent = (delay, handler) => {
+/** The following eslint suppression suppresses a rare false positive case where event cannot be accessed due to
+ *  handler being a lambda function parameter. The explicit lambda function here allows us to easily discern handler's
+ *  parameters, i.e. an event of type MouseEvent.
+ */
+// eslint-disable-next-line no-unused-vars
+const throttledEvent = (delay: number, handler: (event: MouseEvent) => unknown): ((event: MouseEvent) => void) => {
   let lastCalled = 0;
-  return (...args) => {
+  return (event: MouseEvent): void => {
     if (Date.now() - lastCalled > delay) {
       lastCalled = Date.now();
-      handler(...args);
+      handler(event);
     }
   };
 };
 
-export default {
+export default defineComponent({
   name: 'c-resizer',
 
-  data() {
+  data(): {
+    guideWidth: number,
+    flexWidth: number,
+    isResizing: boolean
+    } {
     return {
       guideWidth: (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2)) / window.innerWidth,
       flexWidth: 0.5,
@@ -50,25 +60,25 @@ export default {
   },
 
   computed: {
-    appStyles() {
+    appStyles(): string {
       return this.isResizing
         ? 'user-select: none; cursor: col-resize;'
         : '';
     },
 
-    guideStyles() {
+    guideStyles(): string {
       return this.isResizing
         ? `display: block; right: ${this.guideWidth * 100}%;`
         : '';
     },
 
-    rightContainerStyles() {
+    rightContainerStyles(): string {
       return `flex: 0 0 ${this.flexWidth * 100}%;`;
     },
 
-    mouseMove() {
+    mouseMove(): Function {
       if (this.isResizing) {
-        return throttledEvent(25, (event) => {
+        return throttledEvent(25, (event: MouseEvent) => {
           this.guideWidth = (
             Math.min(
               Math.max(
@@ -88,19 +98,19 @@ export default {
   },
 
   methods: {
-    registerMouseMove() {
+    registerMouseMove(): void {
       this.isResizing = true;
     },
 
-    deregisterMouseMove() {
+    deregisterMouseMove(): void {
       this.isResizing = false;
       this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
         / window.innerWidth;
     },
 
-    closeTab() {
+    closeTab(): void {
       this.$store.commit('updateTabState', false);
     },
   },
-};
+});
 </script>

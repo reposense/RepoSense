@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
+import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidHeaderException;
 
 public class GroupConfigParserTest {
     private static final Path GROUP_CONFIG_MULTI_LOCATION_FILE = loadResource(GroupConfigParserTest.class,

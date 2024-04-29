@@ -97,6 +97,7 @@
     &__title {
       align-items: center;
       display: flex;
+      flex-wrap: wrap;
       font-weight: bold;
       text-align: left;
 
@@ -127,6 +128,10 @@
       &--contribution {
         @include mini-font;
         display: inline;
+      }
+
+      &--tags {
+        margin: .25rem 0;
       }
     }
 
@@ -201,17 +206,6 @@
         &.edge {
           border-right: 1px dashed mui-color('black');
         }
-      }
-    }
-
-    &__contrib {
-      text-align: left;
-
-      &--bar {
-        background-color: mui-color('red');
-        float: left;
-        height: 4px;
-        margin-top: 2px;
       }
     }
   }

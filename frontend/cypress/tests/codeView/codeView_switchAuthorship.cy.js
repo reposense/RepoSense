@@ -2,7 +2,7 @@ describe('switch authorship', () => {
   it('switch authorship view should restore all default controls', () => {
     // open the code panel
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -23,8 +23,8 @@ describe('switch authorship', () => {
 
     // switch authorship view
     cy.get('.icon-button.fa-code')
-      .should('be.visible')
-      .last()
+      .should('exist')
+      .eq(4)
       .click();
 
     // check default controls
@@ -63,7 +63,7 @@ describe('switch authorship', () => {
 
     // open the first code panel
     cy.get('#summary-charts > .summary-charts')
-      .should('be.visible')
+      .should('exist')
       .first()
       .find('.fa-code')
       .first()

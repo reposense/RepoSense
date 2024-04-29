@@ -31,9 +31,9 @@ The backend implementation of RepoSense is located in `src/main`.
 
 {{ step(1) }} **Know Java**
 
-The RepoSense backend is mostly written in `Java 8`.
+The RepoSense backend is mostly written in `Java 11`.
 
-1. You need to have a basic knowledge of Java before getting started, including its syntax, [API](https://docs.oracle.com/javase/8/docs/api/), and certain frameworks such as [JUnit](https://se-education.org/learningresources/contents/java/JUnit.html).
+1. You need to have a basic knowledge of Java before getting started, including its syntax, [API](https://docs.oracle.com/javase/11/docs/api/), and certain frameworks such as [JUnit](https://se-education.org/learningresources/contents/java/JUnit.html).
 1. Once you are familiar with the basic syntax, you may wish to learn more advanced topics such as [concurrency](https://se-education.org/learningresources/contents/java/JavaConcurrency.html), [synchronization](https://se-education.org/learningresources/contents/java/JavaSynchronization.html), and [streams](https://se-education.org/learningresources/contents/java/streams-an-introduction.html). These topics can help you to understand certain part of the backend implementation (concurrent cloning and analysis of multiple repositories, etc.). They are optional but you may find them useful when working on certain issues.
 
 {{ step(2) }} **Learn the RepoSense backend architecture**
@@ -82,13 +82,13 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   Therefore, the first step you can take is to add the following to `ArgsParser`.
 
-  ```
+  ```java
   public static final String[] JSON_PRINT_MODE_FLAGS = new String[]{"--use-json-pretty-printing", "-j"};
   ```
 
   In `getArgumentParser` method, add the following content to make `ArgumentParser` capture the new argument.
 
-  ```
+  ```java
   parser.addArgument(JSON_PRINT_MODE_FLAGS)
       .dest(JSON_PRINT_MODE_FLAGS[0])
       .action(Arguments.storeTrue())
@@ -102,7 +102,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   1. Add the following content to `CliArguments` to include `isPrettyPrintingUsed` as a new attribute to the class.
 
-  ```
+  ```java
   protected boolean isPrettyPrintingUsed;
 
   public boolean isPrettyPrintingUsed() {
@@ -112,13 +112,13 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   2. In the constructor of `ConfigCliArguments`, add `isPrettyPrintingUsed` as a new parameter of the method, and add the following instruction to the method body.
 
-  ```
+  ```java
   this.isPrettyPrintingUsed = isPrettyPrintingUsed;
   ```
 
   3. In the `parse` method of `ArgsParser`, add the following instruction to get `isJsonPrettyPrintingUsed` from `ArgmentParser`.
 
-  ```
+  ```java
   boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
   ```
 
@@ -139,13 +139,13 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   2. Add the following content to `FileUtil`.
 
-  ```
+  ```java
   private static boolean isPrettyPrintingUsed = false;
   ```
 
   3. In the `writeJsonFile` method, Replace the creation of the `Gson` object with the following instructions.
 
-  ```
+  ```java
   GsonBuilder gsonBuilder = new GsonBuilder()
           .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
                         -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
@@ -160,7 +160,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   4. To notify `FileUtil` of the switch between different printing mode, add the following method to `FileUtil`.
 
-  ```
+  ```java
   public static void setPrettyPrintingMode(boolean isPrettyPrintingAdopted) {
       isPrettyPrintingUsed = isPrettyPrintingAdopted;
   }
@@ -168,7 +168,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   5. It is now possible to notify `FileUtil` of the printing mode switch by extracting the argument from the `CliArguments` object in the `main` method of `RepoSense.java` and passing it to the corresponding method in `FileUtil`.
 
-  ```
+  ```java
   FileUtil.setPrettyPrintingMode(cliArguments.isPrettyPrintingUsed());
   ```
 
@@ -225,7 +225,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   Add this to the catch block of `spawnCloneProcess` and `waitForCloneProcess`, so that the message will be captured in `summary.json`.
 
-  ```
+  ```java
   ErrorSummary.getInstance().addErrorMessage(config.getDisplayName(), e.getMessage());
   ```
   </panel>
@@ -358,7 +358,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   Add this to `c_summary.scss`.
 
-  ```
+  ```css
   .active-text {
     color: mui-color('green');
   }
@@ -485,4 +485,4 @@ You can now proceed to learn the [contributing workflow](workflow.html).
 
 ## DevOps
 
-If you want to understand and contribute to the DevOps aspect of RepoSense, you can refer to the [DevOps guide](https://github.com/reposense/RepoSense/wiki/DevOps-guide) for more information.
+If you want to understand and contribute to the DevOps aspect of RepoSense, you can refer to the [DevOps guide](devOpsGuide.html) for more information.

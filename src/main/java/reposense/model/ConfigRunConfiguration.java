@@ -1,16 +1,17 @@
 package reposense.model;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
-import reposense.parser.InvalidCsvException;
-import reposense.parser.InvalidHeaderException;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.system.LogsManager;
 
 /**
@@ -40,27 +41,29 @@ public class ConfigRunConfiguration implements RunConfiguration {
         List<AuthorConfiguration> authorConfigs;
         List<GroupConfiguration> groupConfigs;
 
-        try {
-            authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
-            RepoConfiguration.merge(repoConfigs, authorConfigs);
-            RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true);
-        } catch (FileNotFoundException fnfe) {
-            // FileNotFoundException thrown as author-config.csv is not found.
-            // Ignore exception as the file is optional.
-        } catch (IOException | InvalidCsvException e) {
-            // for all IO and invalid csv exceptions, log the error and continue
-            logger.log(Level.WARNING, e.getMessage(), e);
+        Path authorConfigFilePath = cliArguments.getAuthorConfigFilePath();
+        Path groupConfigFilePath = cliArguments.getGroupConfigFilePath();
+
+
+        if (authorConfigFilePath != null && Files.exists(authorConfigFilePath)) {
+            try {
+                authorConfigs = new AuthorConfigCsvParser(cliArguments.getAuthorConfigFilePath()).parse();
+                RepoConfiguration.merge(repoConfigs, authorConfigs);
+                RepoConfiguration.setHasAuthorConfigFileToRepoConfigs(repoConfigs, true);
+            } catch (IOException | InvalidCsvException e) {
+                // for all IO and invalid csv exceptions, log the error and continue
+                logger.log(Level.WARNING, e.getMessage(), e);
+            }
         }
 
-        try {
-            groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
-            RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
-        } catch (FileNotFoundException fnfe) {
-            // FileNotFoundException thrown as groups-config.csv is not found.
-            // Ignore exception as the file is optional.
-        } catch (IOException | InvalidCsvException e) {
-            // for all other IO and invalid csv exceptions, log the error and continue
-            logger.log(Level.WARNING, e.getMessage(), e);
+        if (groupConfigFilePath != null && Files.exists(groupConfigFilePath)) {
+            try {
+                groupConfigs = new GroupConfigCsvParser(cliArguments.getGroupConfigFilePath()).parse();
+                RepoConfiguration.setGroupConfigsToRepos(repoConfigs, groupConfigs);
+            } catch (IOException | InvalidCsvException e) {
+                // for all IO and invalid csv exceptions, log the error and continue
+                logger.log(Level.WARNING, e.getMessage(), e);
+            }
         }
 
         return repoConfigs;

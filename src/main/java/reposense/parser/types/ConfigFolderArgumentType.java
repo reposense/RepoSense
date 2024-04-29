@@ -1,4 +1,4 @@
-package reposense.parser;
+package reposense.parser.types;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,6 +9,7 @@ import net.sourceforge.argparse4j.inf.Argument;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.ArgumentType;
+import reposense.parser.RepoConfigCsvParser;
 
 /**
  * Checks the argument of {@code --config} flag.
