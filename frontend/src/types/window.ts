@@ -68,6 +68,7 @@ declare global {
     repoSenseVersion: string;
     isSinceDateProvided: boolean;
     isUntilDateProvided: boolean;
+    isAuthorshipAnalyzed: boolean;
     DOMAIN_URL_MAP: DomainUrlMap;
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     app: any;

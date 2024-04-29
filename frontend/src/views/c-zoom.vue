@@ -109,7 +109,7 @@ function zoomInitialState(): {
   isCommitsFinalized: boolean,
   selectedFileTypes: Array<string>,
   fileTypes: Array<string>,
-  } {
+} {
   return {
     showAllCommitMessageBody: true,
     showDiffstat: true,
@@ -138,7 +138,7 @@ export default defineComponent({
     isCommitsFinalized: boolean,
     selectedFileTypes: Array<string>,
     fileTypes: Array<string>,
-    } {
+  } {
     return {
       ...zoomInitialState(),
     };
