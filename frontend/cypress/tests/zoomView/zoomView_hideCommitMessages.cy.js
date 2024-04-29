@@ -2,7 +2,7 @@ describe('hide all commit messages ', () => {
   it('check hide all commit messages hides the commit messages', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -29,7 +29,7 @@ describe('hide all commit messages ', () => {
   it('check show all commit messages show the commit messages', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -57,7 +57,7 @@ describe('hide all commit messages ', () => {
   it('should only display hide all commit messages when none are hidden', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -70,13 +70,13 @@ describe('hide all commit messages ', () => {
       .should('have.length', 1);
 
     cy.get('#tab-zoom .toolbar--multiline > a')
-      .should('have.text', 'hide all commit messages');
+      .should('have.text', 'hide all commit details');
   });
 
   it('should only display show all commit messages when all are hidden', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -93,13 +93,13 @@ describe('hide all commit messages ', () => {
       .should('have.length', 1);
 
     cy.get('#tab-zoom .toolbar--multiline > a')
-      .should('have.text', 'show all commit messages');
+      .should('have.text', 'show all commit details');
   });
 
   it('should display both show and hide all commit messages when some are hidden', () => {
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -119,18 +119,18 @@ describe('hide all commit messages ', () => {
 
     cy.get('#tab-zoom .toolbar--multiline > a')
       .eq(0)
-      .should('have.text', 'show all commit messages');
+      .should('have.text', 'show all commit details');
 
     cy.get('#tab-zoom .toolbar--multiline > a')
       .eq(1)
-      .should('have.text', 'hide all commit messages');
+      .should('have.text', 'hide all commit details');
   });
 
   it('check show all and hide all commit messages only toggle current commits', () => {
     // Assumptions: the fifth commit (19e3294) of the first author of the first repo
     // contains changes in only .java files.
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 
@@ -152,7 +152,7 @@ describe('hide all commit messages ', () => {
       .should('have.length', 1);
 
     cy.get('#tab-zoom .toolbar--multiline > a')
-      .should('have.text', 'show all commit messages');
+      .should('have.text', 'show all commit details');
 
     // check java file type
     cy.get('#tab-zoom .fileTypes input[value="java"]')
@@ -161,12 +161,12 @@ describe('hide all commit messages ', () => {
 
     // commit body of the merge commit should be visible
     cy.get('#tab-zoom .commit-message .body')
-      .eq(1)
+      .eq(0)
       .should('be.visible');
 
     // commit body of the md commit should not be visible
     cy.get('#tab-zoom .commit-message .body')
-      .eq(0)
+      .eq(1)
       .should('not.be.visible');
 
     // commit body of the java commit should be visible
@@ -182,16 +182,16 @@ describe('hide all commit messages ', () => {
 
     cy.get('#tab-zoom .toolbar--multiline > a')
       .eq(0)
-      .should('have.text', 'show all commit messages');
+      .should('have.text', 'show all commit details');
 
     cy.get('#tab-zoom .toolbar--multiline > a')
       .eq(1)
-      .should('have.text', 'hide all commit messages');
+      .should('have.text', 'hide all commit details');
   });
 
   it('check hidden commit message persists after sort', () => {
     cy.get('.icon-button.fa-list-ul')
-      .should('be.visible')
+      .should('exist')
       .first()
       .click();
 

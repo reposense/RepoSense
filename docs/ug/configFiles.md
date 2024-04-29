@@ -135,14 +135,14 @@ To use this feature, add a `_reposense/config.json` to the root of your repo usi
   "authors":
   [
     {
-      "githubId": "alice",
+      "gitId": "alice",
       "emails": ["alice@example.com", "alicet@example.com"],
       "displayName": "Alice T.",
       "authorNames": ["AT", "A"],
       "ignoreGlobList": ["**.css"]
     },
     {
-      "githubId": "bob"
+      "gitId": "bob"
     }
   ]
 }
@@ -159,10 +159,10 @@ Note: all fields are optional unless specified otherwise.
 
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
-* `githubId`: Username of the author. {{ mandatory }} field.
+* `gitId`: Username of the author. {{ mandatory }} field.
 * `emails`: Associated git emails of the author. For GitHub, this can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
-* `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use her GitHub username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
+* `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use their remote Git Host username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author. The path glob syntax is specified by the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob). In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`.
 
 To verify your standalone configuration is as intended, add the `_reposense/config.json` to your local copy of repo and run RepoSense against it as follows:<br>
@@ -190,15 +190,15 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
 ```
 `ActualGitHostId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.<br>
 To find the author name that you are currently using for your current git repository, run the following command within your git repository:
-``` {.no-line-numbers}
+``` shell {.no-line-numbers}
 git config user.name
 ```
 To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
-``` {.no-line-numbers}
+``` shell {.no-line-numbers}
 git config user.name "YOUR_AUTHOR_NAME”
 ```
 To set the author name to use a default value you want for future git repositories, you can use the following command:
-``` {.no-line-numbers}
+``` shell {.no-line-numbers}
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
 RepoSense expects the Git Author Name to be the same as author's username on the Git hosting platform (GitHub, GitLab, BitBucket). If an author's `Git Author Name` is different from their username on the Git hosting platform, the `Git Author Name` needs to be specified in the standalone config file. If the author has more than one `Git Author Name`, multiple values can be entered too.

@@ -10,6 +10,7 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.parser.exceptions.InvalidLocationException;
 import reposense.util.FileUtil;
 import reposense.util.StringsUtil;
 
@@ -114,20 +115,19 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
         // If file diff limit is specified
         if (fileSizeLimitStringList.size() > 0) {
+            String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
+            int parseValue;
+
             if (isFileSizeLimitIgnored) {
                 logger.warning("Ignoring file size limit column since file size limit is ignored");
                 isFileSizeLimitOverriding = false;
+            } else if (!StringsUtil.isNumeric(fileSizeLimitString)
+                    || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
+                logger.warning(String.format("Values in \"%s\" column should be positive integers.",
+                        FILESIZE_LIMIT_HEADER[0]));
+                isFileSizeLimitOverriding = false;
             } else {
-                String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
-                int parseValue;
-                if (!StringsUtil.isNumeric(fileSizeLimitString)
-                        || (parseValue = Integer.parseInt(fileSizeLimitString)) <= 0) {
-                    logger.warning(String.format("Values in \"%s\" column should be positive integers.",
-                            FILESIZE_LIMIT_HEADER[0]));
-                    isFileSizeLimitOverriding = false;
-                } else {
-                    fileSizeLimit = parseValue;
-                }
+                fileSizeLimit = parseValue;
             }
         }
 
@@ -172,11 +172,25 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
             boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
             boolean isFindingPreviousAuthorsPerformed) {
-        RepoConfiguration config = new RepoConfiguration(location, branch, formats, ignoreGlobList, fileSizeLimit,
-                isStandaloneConfigIgnored, isFileSizeLimitIgnored, ignoreCommitList, isFormatsOverriding,
-                isIgnoreGlobListOverriding, isIgnoreCommitListOverriding, isFileSizeLimitOverriding,
-                isShallowCloningPerformed, isFindingPreviousAuthorsPerformed, isIgnoredFileAnalysisSkipped,
-                ignoredAuthorsList, isIgnoredAuthorsListOverriding);
+        RepoConfiguration config = new RepoConfiguration.Builder()
+                .location(location)
+                .branch(branch)
+                .fileTypeManager(formats)
+                .ignoreGlobList(ignoreGlobList)
+                .fileSizeLimit(fileSizeLimit)
+                .isStandaloneConfigIgnored(isStandaloneConfigIgnored)
+                .isFileSizeLimitIgnored(isFileSizeLimitIgnored)
+                .ignoreCommitList(ignoreCommitList)
+                .isFormatsOverriding(isFormatsOverriding)
+                .isIgnoreGlobListOverriding(isIgnoreGlobListOverriding)
+                .isIgnoreCommitListOverriding(isIgnoreCommitListOverriding)
+                .isFileSizeLimitOverriding(isFileSizeLimitOverriding)
+                .isShallowCloningPerformed(isShallowCloningPerformed)
+                .isFindingPreviousAuthorsPerformed(isFindingPreviousAuthorsPerformed)
+                .isIgnoredFileAnalysisSkipped(isIgnoredFileAnalysisSkipped)
+                .ignoredAuthorsList(ignoredAuthorsList)
+                .isIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding)
+                .build();
 
         if (results.contains(config)) {
             logger.warning("Ignoring duplicated repository " + location + " " + branch);

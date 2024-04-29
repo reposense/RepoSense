@@ -27,6 +27,7 @@ import reposense.git.exception.CommitNotFoundException;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
+import reposense.util.StringsUtil;
 
 /**
  * Extracts out all the relevant {@code FileInfo} from the repository.
@@ -146,9 +147,9 @@ public class FileInfoExtractor {
         // Gets rid of files with invalid directory name and filters by the {@code isBinaryFile} flag
         return modifiedFileList.stream()
                 .filter(file -> isBinaryFile == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
-                .map(file -> file.split("\t")[2])
+                .map(file -> StringsUtil.TAB.split(file)[2])
                 .filter(FileUtil::isValidPathWithLogging)
-                .map(filteredFile -> Paths.get(filteredFile))
+                .map(Paths::get)
                 .collect(Collectors.toCollection(HashSet::new));
     }
 
@@ -164,7 +165,7 @@ public class FileInfoExtractor {
         // skips the header, index starts from 1
         for (int sectionIndex = 1; sectionIndex < linesChangedChunk.length; sectionIndex++) {
             String linesChangedInSection = linesChangedChunk[sectionIndex];
-            String[] linesChanged = linesChangedInSection.split("\n");
+            String[] linesChanged = StringsUtil.NEWLINE.split(linesChangedInSection);
             int startingLineNumber = getStartingLineNumber(linesChanged[LINE_CHANGED_HEADER_INDEX]);
 
             // mark all untouched lines between sections as untracked

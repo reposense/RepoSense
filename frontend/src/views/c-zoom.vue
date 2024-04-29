@@ -1,16 +1,16 @@
 <template lang="pug">
-#zoom
+#zoom(v-if="filteredUser")
   .panel-title
     span Commits Panel
   .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
     a(
       v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
-      v-on:click="toggleAllCommitMessagesBody(true)"
-    ) show all commit messages
+      v-on:click="toggleAllCommitMessagesBody(true); toggleDiffstatView(true);"
+    ) show all commit details
     a(
       v-if="expandedCommitMessagesCount > 0",
-      v-on:click="toggleAllCommitMessagesBody(false)"
-    ) hide all commit messages
+      v-on:click="toggleAllCommitMessagesBody(false); toggleDiffstatView(false);"
+    ) hide all commit details
   .panel-heading
     .group-name
       span(
@@ -75,9 +75,9 @@
         v-for="fileType in fileTypes",
         v-bind:key="fileType",
         v-bind:style="{\
-                'background-color': fileTypeColors[fileType],\
-                'color': getFontColor(fileTypeColors[fileType])\
-                }"
+          'background-color': fileTypeColors[fileType],\
+          'color': getFontColor(fileTypeColors[fileType])\
+          }"
       )
         input.mui-checkbox--fileType(type="checkbox", v-bind:value="fileType",
           v-on:change="updateSelectedFileTypesHash", v-model="selectedFileTypes")
@@ -86,52 +86,10 @@
   .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
     h3(v-else) {{ day.date }}
-    //- use tabindex to enable focus property on div
-    .commit-message(
-      tabindex="-1",
-      v-for="slice in day.commitResults",
-      v-bind:key="slice.hash",
-      v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
-    )
-      span.code-merge-icon(v-if="slice.isMergeCommit")
-        font-awesome-icon(icon="code-merge")
-        span &nbsp;
-      a.message-title(v-bind:href="getSliceLink(slice)",
-        v-bind:class="!isBrokenLink(getSliceLink(slice)) ? '' : 'broken-link'", target="_blank")
-        .within-border {{ slice.messageTitle.substr(0, 50) }}
-        .not-within-border(v-if="slice.messageTitle.length > 50")
-          |{{ slice.messageTitle.substr(50) }}
-      span &nbsp; (+{{ slice.insertions }} -{{ slice.deletions }} lines) &nbsp;
-      .hash
-        span {{ slice.hash.substr(0, 7) }}
-      span.fileTypeLabel(
-        v-if="containsAtLeastOneSelected(Object.keys(slice.fileTypesAndContributionMap))",
-        v-for="fileType in\
-          Object.keys(slice.fileTypesAndContributionMap)",
-        vbind:key="fileType",
-        v-bind:style="{\
-          'background-color': fileTypeColors[fileType],\
-          'color': getFontColor(fileTypeColors[fileType])\
-          }"
-      ) {{ fileType }}
-      template(v-if="slice.tags")
-        .tag(
-          v-for="tag in slice.tags",
-          vbind:key="tag",
-          tabindex="-1", v-bind:class="[`${slice.hash}`, tag]"
-        )
-          font-awesome-icon(icon="tags")
-          span &nbsp;{{ tag }}
-      a(
-        v-if="slice.messageBody !== ''",
-        v-on:click="toggleSelectedCommitMessageBody(slice)"
-      )
-        .tooltip
-          font-awesome-icon.commit-message--button(icon="ellipsis-h")
-          span.tooltip-text Click to show/hide the commit message body
-      .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
-        pre {{ slice.messageBody }}
-          .dashed-border
+    template(v-for="slice in day.commitResults", v-bind:key="slice.hash")
+      c-zoom-commit-message(v-bind:slice="slice",
+        v-bind:selected-file-types="selectedFileTypes", v-bind:file-type-colors="fileTypeColors",
+        v-bind:info="info", v-bind:show-diffstat="showDiffstat")
 </template>
 
 <script lang="ts">
@@ -139,25 +97,36 @@ import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
+import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from '../components/c-ramp.vue';
-import User from '../utils/user';
+import cZoomCommitMessage from '../components/c-zoom-commit-message.vue';
 import {
   Commit,
   CommitResult,
   DailyCommit,
   WeeklyCommit,
+  User,
 } from '../types/types';
 import CommitsSortType from '../types/zoom';
 import { StoreState } from '../types/vuex.d';
 
-function zoomInitialState() {
+function zoomInitialState(): {
+  showAllCommitMessageBody: boolean,
+  showDiffstat: boolean,
+  commitsSortType: CommitsSortType,
+  toReverseSortedCommits: boolean,
+  isCommitsFinalized: boolean,
+  selectedFileTypes: Array<string>,
+  fileTypes: Array<string>,
+  } {
   return {
     showAllCommitMessageBody: true,
+    showDiffstat: true,
     commitsSortType: CommitsSortType.Time,
     toReverseSortedCommits: true,
     isCommitsFinalized: false,
-    selectedFileTypes: [] as string[],
-    fileTypes: [] as string[],
+    selectedFileTypes: [] as Array<string>,
+    fileTypes: [] as Array<string>,
   };
 }
 
@@ -166,9 +135,18 @@ export default defineComponent({
   components: {
     FontAwesomeIcon,
     cRamp,
+    cZoomCommitMessage,
   },
-  mixins: [brokenLinkDisabler],
-  data() {
+  mixins: [brokenLinkDisabler, tooltipPositioner],
+  data(): {
+    showAllCommitMessageBody: boolean,
+    showDiffstat: boolean,
+    commitsSortType: CommitsSortType,
+    toReverseSortedCommits: boolean,
+    isCommitsFinalized: boolean,
+    selectedFileTypes: Array<string>,
+    fileTypes: Array<string>,
+    } {
     return {
       ...zoomInitialState(),
     };
@@ -177,19 +155,19 @@ export default defineComponent({
   computed: {
     sortingFunction() {
       const commitSortFunction = this.commitsSortType === CommitsSortType.Time
-        ? (commit: Commit) => commit.date
-        : (commit: Commit) => commit.insertions;
+        ? (commit: Commit): string => commit.date
+        : (commit: Commit): number => commit.insertions;
 
-      return (a: Commit, b: Commit) => (this.toReverseSortedCommits ? -1 : 1)
+      return (a: Commit, b: Commit): number => (this.toReverseSortedCommits ? -1 : 1)
         * window.comparator(commitSortFunction)(a, b);
     },
-    filteredUser(): User {
+    filteredUser(): User | undefined {
       const {
         zUser, zSince, zUntil, zTimeFrame,
       } = this.info;
 
       if (!zUser) {
-        throw new Error('zUser is not defined');
+        return undefined;
       }
 
       const filteredUser: User = Object.assign({}, zUser);
@@ -204,16 +182,34 @@ export default defineComponent({
         ).sort(this.sortingFunction);
       }
 
-      return new User(filteredUser);
+      const tempUser: User = { ...filteredUser };
+      tempUser.commits = [];
+      filteredUser.commits.forEach((commit) => {
+        const newCommit = { ...commit };
+        newCommit.commitResults = [];
+
+        if (this.commitsSortType === CommitsSortType.Time) {
+          newCommit.commitResults = this.toReverseSortedCommits
+            ? commit.commitResults.slice().reverse()
+            : commit.commitResults.slice();
+        } else {
+          const cResultsSortingFunction = (a: CommitResult, b: CommitResult): number => (
+            this.toReverseSortedCommits ? -1 : 1
+          ) * window.comparator((cResult: CommitResult) => cResult.insertions)(a, b);
+          newCommit.commitResults = commit.commitResults.slice().sort(cResultsSortingFunction);
+        }
+        tempUser.commits.push(newCommit);
+      });
+      return tempUser;
     },
 
-    selectedCommits(): Commit[] {
+    selectedCommits(): Array<Commit> {
       if (this.isSelectAllChecked) {
-        return this.filteredUser.commits;
+        return this.filteredUser?.commits ?? [];
       }
 
-      const commits = [] as Commit[];
-      this.filteredUser.commits.forEach((commit) => {
+      const commits = [] as Array<Commit>;
+      this.filteredUser?.commits.forEach((commit) => {
         const filteredCommit = { ...commit };
         filteredCommit.commitResults = [];
         commit.commitResults.forEach((slice) => {
@@ -247,10 +243,10 @@ export default defineComponent({
       ), 0);
     },
     isSelectAllChecked: {
-      get() {
+      get(): boolean {
         return this.selectedFileTypes.length === this.fileTypes.length;
       },
-      set(value: boolean) {
+      set(value: boolean): void {
         if (value) {
           this.selectedFileTypes = this.fileTypes.slice();
         } else {
@@ -267,7 +263,7 @@ export default defineComponent({
   },
 
   watch: {
-    info() {
+    info(): void {
       const newData = {
         ...zoomInitialState(),
       };
@@ -275,46 +271,45 @@ export default defineComponent({
       this.initiate();
       this.setInfoHash();
     },
-    commitsSortType() {
+    commitsSortType(): void {
       window.addHash('zCST', this.commitsSortType);
       window.encodeHash();
     },
-    toReverseSortedCommits() {
+    toReverseSortedCommits(): void {
       window.addHash('zRSC', this.toReverseSortedCommits.toString());
       window.encodeHash();
     },
   },
-  created() {
+
+  created(): void {
+    // return if filteredUser is undefined since it won't make sense to render zoom tab
+    // #zoom-tab is also rendered only if filteredUser is defined
+    if (!this.filteredUser) {
+      this.removeZoomHashes();
+      return;
+    }
     this.initiate();
     this.retrieveHashes();
     this.setInfoHash();
   },
-  beforeUnmount() {
+  beforeUnmount(): void {
     this.removeZoomHashes();
   },
 
   methods: {
-    initiate() {
-      // This code crashes if info.zUser is not defined
+    initiate(): void {
       this.updateFileTypes();
       this.selectedFileTypes = this.fileTypes.slice();
     },
-
-    getSliceLink(slice: CommitResult): string | undefined {
-      if (this.info.zIsMerged) {
-        return window.getCommitLink(slice.repoId, slice.hash);
-      }
-      return window.getCommitLink(this.info.zUser!.repoId, slice.hash);
-    },
-
-    scrollToCommit(tag: string, commit: string) {
+    scrollToCommit(tag: string, commit: string): void {
       const el = this.$el.getElementsByClassName(`${commit} ${tag}`)[0];
       if (el) {
         el.focus();
       }
     },
+    updateFileTypes(): void {
+      if (!this.filteredUser) return;
 
-    updateFileTypes() {
       const commitsFileTypes = new Set<string>();
       this.filteredUser.commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
@@ -327,13 +322,11 @@ export default defineComponent({
         (fileType) => commitsFileTypes.has(fileType),
       );
     },
-
-    retrieveHashes() {
+    retrieveHashes(): void {
       this.retrieveSortHash();
       this.retrieveSelectedFileTypesHash();
     },
-
-    retrieveSortHash() {
+    retrieveSortHash(): void {
       const hash = window.hashParams;
       if (hash.zCST && Object.values(CommitsSortType).includes(hash.zCST as CommitsSortType)) {
         this.commitsSortType = hash.zCST as CommitsSortType;
@@ -342,8 +335,7 @@ export default defineComponent({
         this.toReverseSortedCommits = (hash.zRSC === 'true');
       }
     },
-
-    retrieveSelectedFileTypesHash() {
+    retrieveSelectedFileTypesHash(): void {
       const hash = window.hashParams;
 
       if (hash.zFT || hash.zFT === '') {
@@ -352,17 +344,15 @@ export default defineComponent({
           .filter((fileType) => this.fileTypes.includes(fileType));
       }
     },
-
-    updateSelectedFileTypesHash() {
+    updateSelectedFileTypesHash(): void {
       const fileTypeHash = this.selectedFileTypes.length > 0
-          ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
-          : '';
+        ? this.selectedFileTypes.reduce((a, b) => `${a}~${b}`)
+        : '';
 
       window.addHash('zFT', fileTypeHash);
       window.encodeHash();
     },
-
-    setInfoHash() {
+    setInfoHash(): void {
       const { addHash, encodeHash } = window;
       const {
         zAvgCommitSize, zSince, zUntil, zFilterGroup,
@@ -380,20 +370,17 @@ export default defineComponent({
       addHash('zFR', zFromRamp.toString());
       encodeHash();
     },
-
-    toggleSelectedCommitMessageBody(slice: CommitResult) {
-      this.$store.commit('toggleZoomCommitMessageBody', slice);
-    },
-
-    toggleAllCommitMessagesBody(isOpen: boolean) {
+    toggleAllCommitMessagesBody(isOpen: boolean): void {
       this.showAllCommitMessageBody = isOpen;
       this.$store.commit('setAllZoomCommitMessageBody', {
         isOpen,
         commits: this.selectedCommits,
       });
     },
-
-    removeZoomHashes() {
+    toggleDiffstatView(isVisible: boolean): void {
+      this.showDiffstat = isVisible;
+    },
+    removeZoomHashes(): void {
       window.removeHash('zA');
       window.removeHash('zR');
       window.removeHash('zFS');
@@ -406,20 +393,11 @@ export default defineComponent({
       window.removeHash('zFT');
       window.removeHash('zCST');
       window.removeHash('zRSC');
+      window.removeHash('zFR');
       window.encodeHash();
     },
-
-    containsAtLeastOneSelected(fileTypes: string[]): boolean {
-      for (let i = 0; i < fileTypes.length; i += 1) {
-        if (this.selectedFileTypes.includes(fileTypes[i])) {
-          return true;
-        }
-      }
-      return false;
-    },
-
-    getFontColor() {
-      return window.getFontColor;
+    getFontColor(color: string): string {
+      return window.getFontColor(color);
     },
   },
 });
@@ -474,95 +452,5 @@ export default defineComponent({
       }
     }
   }
-
-  /* Commit Message Body in Zoom Tab */
-  .commit-message {
-    border: 1px solid transparent;
-    padding: 5px;
-
-    &:focus,
-    &:focus-within {
-      border: 1px solid mui-color('blue', '500');
-    }
-
-    &.active {
-      .body {
-        background-color: mui-color('white');
-        border: 1px solid mui-color('grey', '700');
-        display: grid;
-        margin: .25rem 0 .25rem 0;
-        overflow-x: auto;
-        padding: .4rem;
-        resize: none;
-
-        pre {
-          @include mono-font;
-          position: relative;
-
-          .dashed-border {
-            border-right: 1px dashed mui-color('grey', '500'); // 72nd character line
-            height: 100%;
-            pointer-events: none;
-            position: absolute;
-            top: 0;
-            width: 72ch;
-          }
-        }
-      }
-    }
-
-    .code-merge-icon {
-      color: mui-color('grey');
-
-      .fa-code-merge {
-        width: .65rem;
-      }
-    }
-
-    .body {
-      display: none;
-    }
-
-    .tag {
-      cursor: pointer;
-
-      &:focus {
-        border: 1px solid mui-color('blue', '500');
-        outline: none;
-      }
-    }
-
-    &--button {
-      color: mui-color('grey');
-      padding-left: .5rem;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
-
-    pre {
-      margin: 0;
-    }
-
-    span.loc {
-      color: mui-color('grey');
-    }
-
-    .message-title {
-      @include mono-font;
-      display: inline;
-
-      .within-border {
-        display: inline;
-      }
-
-      .not-within-border {
-        border-left: 1px dashed mui-color('grey', '500'); // 50th character line
-        display: inline;
-      }
-    }
-  }
 }
-
 </style>

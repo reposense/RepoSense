@@ -6,18 +6,21 @@ import java.util.regex.Pattern;
  * Contains strings related utilities.
  */
 public class StringsUtil {
-
+    public static final Pattern NEWLINE = Pattern.compile("\n");
+    public static final Pattern TAB = Pattern.compile("\t");
+    public static final Pattern NUMERIC = Pattern.compile("^\\d+$");
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
 
     /**
      * Filters the {@code text}, returning only the lines that matches the given {@code regex}.
      */
     public static String filterText(String text, String regex) {
-        String[] split = text.split("\n");
         StringBuilder sb = new StringBuilder();
-        for (String line: split) {
-            if (line.matches(regex)) {
-                sb.append(line + "\n");
+        Pattern regexPattern = Pattern.compile(regex);
+
+        for (String line: NEWLINE.split(text)) {
+            if (regexPattern.matcher(line).matches()) {
+                sb.append(line).append("\n");
             }
         }
 
@@ -89,6 +92,6 @@ public class StringsUtil {
      * Returns true iff {@code string} is purely numeric.
      */
     public static boolean isNumeric(String string) {
-        return Pattern.compile("^\\d+$").matcher(string).matches();
+        return NUMERIC.matcher(string).matches();
     }
 }

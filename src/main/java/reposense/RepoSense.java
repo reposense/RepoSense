@@ -10,15 +10,14 @@ import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
-import reposense.git.GitVersion;
 import reposense.model.CliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.ReportConfiguration;
 import reposense.model.RunConfigurationDecider;
 import reposense.parser.ArgsParser;
-import reposense.parser.InvalidCsvException;
-import reposense.parser.InvalidHeaderException;
-import reposense.parser.ParseException;
+import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidHeaderException;
+import reposense.parser.exceptions.ParseException;
 import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
 import reposense.system.ReportServer;
@@ -33,8 +32,6 @@ public class RepoSense {
     private static final int SERVER_PORT_NUMBER = 9000;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E MMM d HH:mm:ss yyyy z");
     private static final String VERSION_UNSPECIFIED = "unspecified";
-    private static final String FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE =
-            "--find-previous-authors/-F requires git version 2.23 and above. Feature will be disabled for this run";
 
     /**
      * The entry point of the program.
@@ -68,12 +65,6 @@ public class RepoSense {
                     cliArguments.isShallowCloningPerformed());
             RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
                     cliArguments.isFindingPreviousAuthorsPerformed());
-
-            if (RepoConfiguration.isAnyRepoFindingPreviousAuthors(configs)
-                    && !GitVersion.isGitVersionSufficientForFindingPreviousAuthors()) {
-                logger.warning(FINDING_PREVIOUS_AUTHORS_INVALID_VERSION_WARNING_MESSAGE);
-                RepoConfiguration.setToFalseIsFindingPreviousAuthorsPerformedToRepoConfigs(configs);
-            }
 
             List<String[]> globalGitConfig = GitConfig.getGlobalGitLfsConfig();
             if (globalGitConfig.size() != 0) {

@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import reposense.model.Author;
 import reposense.model.RepoConfiguration;
+import reposense.util.StringsUtil;
 
 /**
  * Contains git shortlog related functionalities.
@@ -32,9 +33,9 @@ public class GitShortlog {
             return Collections.emptyList();
         }
 
-        String[] lines = summary.split("\n");
+        String[] lines = StringsUtil.NEWLINE.split(summary);
         return Arrays.stream(lines)
-                .map(line -> new Author(line.split("\t")[1]))
+                .map(line -> new Author(StringsUtil.TAB.split(line)[1]))
                 .collect(Collectors.toList());
     }
 

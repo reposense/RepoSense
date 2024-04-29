@@ -4,6 +4,7 @@
     c-resizer
       template(v-slot:left)
         #summary-wrapper
+          c-title(ref="cTitle")
           c-summary.tab-padding(
             ref="summary",
             v-bind:repos="users",
@@ -69,6 +70,7 @@
 <script lang='ts'>
 import { defineComponent } from 'vue';
 
+import cTitle from '../components/c-title.vue';
 import cResizer from '../components/c-resizer.vue';
 import cZoom from './c-zoom.vue';
 import cSummary from './c-summary.vue';
@@ -77,6 +79,7 @@ import cAuthorship from './c-authorship.vue';
 const home = defineComponent({
   name: 'c-home',
   components: {
+    cTitle,
     cResizer,
     cZoom,
     cSummary,
@@ -121,7 +124,7 @@ const home = defineComponent({
     },
   },
   methods: {
-    getRepoSenseHomeLink() {
+    getRepoSenseHomeLink(): string {
       const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/`;
@@ -129,7 +132,7 @@ const home = defineComponent({
       return `${window.HOME_PAGE_URL}`;
     },
 
-    getSpecificCommitLink() {
+    getSpecificCommitLink(): string {
       const version = window.repoSenseVersion;
       if (!version) {
         return `${window.REPOSENSE_REPO_URL}`;
@@ -140,7 +143,7 @@ const home = defineComponent({
       return `${window.REPOSENSE_REPO_URL}/commit/${version}`;
     },
 
-    getUserGuideLink() {
+    getUserGuideLink(): string {
       const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/ug/index.html`;
@@ -148,7 +151,7 @@ const home = defineComponent({
       return `${window.HOME_PAGE_URL}/ug/index.html`;
     },
 
-    getUsingReportsUserGuideLink() {
+    getUsingReportsUserGuideLink(): string {
       const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/ug/usingReports.html`;

@@ -28,6 +28,18 @@ import reposense.RepoSense;
 import reposense.model.CliArguments;
 import reposense.model.FileType;
 import reposense.model.ReportConfiguration;
+import reposense.parser.exceptions.ParseException;
+import reposense.parser.types.AlphanumericArgumentType;
+import reposense.parser.types.AnalysisThreadsArgumentType;
+import reposense.parser.types.AssetsFolderArgumentType;
+import reposense.parser.types.CloningThreadsArgumentType;
+import reposense.parser.types.ConfigFolderArgumentType;
+import reposense.parser.types.OutputFolderArgumentType;
+import reposense.parser.types.PeriodArgumentType;
+import reposense.parser.types.ReportFolderArgumentType;
+import reposense.parser.types.SinceDateArgumentType;
+import reposense.parser.types.UntilDateArgumentType;
+import reposense.parser.types.ZoneIdArgumentType;
 import reposense.system.LogsManager;
 import reposense.util.TimeUtil;
 
@@ -80,6 +92,10 @@ public class ArgsParser {
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
     private static final String MESSAGE_SINCE_D1_WITH_PERIOD = "You may be using --since d1 with the --period flag. "
             + "This may result in an incorrect date range being analysed.";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
+            "\"Since Date\" cannot be later than \"Until Date\".";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
+            "\"Since Date\" must not be later than today's date.";
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
@@ -210,7 +226,7 @@ public class ArgsParser {
                 .nargs("+")
                 .dest(REPO_FLAGS[0])
                 .metavar("LOCATION")
-                .help("The GitHub URL or disk locations to clone repository.");
+                .help("The remote Git host URLs or local directories to clone the repositories from.");
 
         mutexParser2.addArgument(LAST_MODIFIED_DATE_FLAGS)
                 .dest(LAST_MODIFIED_DATE_FLAGS[0])
@@ -258,76 +274,78 @@ public class ArgsParser {
      * @throws ParseException if the given string arguments fails to parse to a {@link CliArguments} object.
      */
     public static CliArguments parse(String[] args) throws HelpScreenException, ParseException {
+        ArgumentParser parser = getArgumentParser();
+        Namespace results;
+
         try {
-            ArgumentParser parser = getArgumentParser();
-            Namespace results = parser.parseArgs(args);
-
-            Path configFolderPath = results.get(CONFIG_FLAGS[0]);
-            Path reportFolderPath = results.get(VIEW_FLAGS[0]);
-            Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
-            ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
-            Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
-            List<String> locations = results.get(REPO_FLAGS[0]);
-            List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
-            boolean isStandaloneConfigIgnored = results.get(IGNORE_CONFIG_FLAGS[0]);
-            boolean isFileSizeLimitIgnored = results.get(IGNORE_SIZELIMIT_FLAGS[0]);
-            boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
-            boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
-            boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
-            boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
-            int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
-            int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
-
-            CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
-                    .configFolderPath(configFolderPath)
-                    .reportDirectoryPath(reportFolderPath)
-                    .outputFilePath(outputFolderPath)
-                    .zoneId(zoneId)
-                    .assetsFilePath(assetsFolderPath)
-                    .locations(locations)
-                    .formats(formats)
-                    .isStandaloneConfigIgnored(isStandaloneConfigIgnored)
-                    .isFileSizeLimitIgnored(isFileSizeLimitIgnored)
-                    .isLastModifiedDateIncluded(shouldIncludeLastModifiedDate)
-                    .isShallowCloningPerformed(shouldPerformShallowCloning)
-                    .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors)
-                    .numCloningThreads(numCloningThreads)
-                    .numAnalysisThreads(numAnalysisThreads)
-                    .isTestMode(isTestMode);
-
-            LogsManager.setLogFolderLocation(outputFolderPath);
-
-            if (locations == null && configFolderPath.equals(DEFAULT_CONFIG_PATH)) {
-                logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
-            }
-
-            addReportConfigToBuilder(cliArgumentsBuilder, results);
-            addAnalysisDatesToBuilder(cliArgumentsBuilder, results);
-
-            boolean isViewModeOnly = reportFolderPath != null
-                    && !reportFolderPath.equals(EMPTY_PATH)
-                    && configFolderPath.equals(DEFAULT_CONFIG_PATH)
-                    && locations == null;
-            cliArgumentsBuilder.isViewModeOnly(isViewModeOnly);
-
-            boolean isAutomaticallyLaunching = reportFolderPath != null;
-            if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH) && !isViewModeOnly) {
-                logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
-            }
-            cliArgumentsBuilder.isAutomaticallyLaunching(isAutomaticallyLaunching);
-
-
-            boolean shouldPerformFreshCloning = isTestMode
-                    ? results.get(FRESH_CLONING_FLAG[0])
-                    : DEFAULT_SHOULD_FRESH_CLONE;
-            cliArgumentsBuilder.isFreshClonePerformed(shouldPerformFreshCloning);
-
-            return cliArgumentsBuilder.build();
+            results = parser.parseArgs(args);
         } catch (HelpScreenException hse) {
             throw hse;
         } catch (ArgumentParserException ape) {
             throw new ParseException(getArgumentParser().formatUsage() + ape.getMessage() + "\n");
         }
+
+        Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+        Path reportFolderPath = results.get(VIEW_FLAGS[0]);
+        Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
+        ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
+        Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
+        List<String> locations = results.get(REPO_FLAGS[0]);
+        List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
+        boolean isStandaloneConfigIgnored = results.get(IGNORE_CONFIG_FLAGS[0]);
+        boolean isFileSizeLimitIgnored = results.get(IGNORE_SIZELIMIT_FLAGS[0]);
+        boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
+        boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
+        boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
+        boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
+        int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
+        int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
+
+        CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
+                .configFolderPath(configFolderPath)
+                .reportDirectoryPath(reportFolderPath)
+                .outputFilePath(outputFolderPath)
+                .zoneId(zoneId)
+                .assetsFilePath(assetsFolderPath)
+                .locations(locations)
+                .formats(formats)
+                .isStandaloneConfigIgnored(isStandaloneConfigIgnored)
+                .isFileSizeLimitIgnored(isFileSizeLimitIgnored)
+                .isLastModifiedDateIncluded(shouldIncludeLastModifiedDate)
+                .isShallowCloningPerformed(shouldPerformShallowCloning)
+                .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors)
+                .numCloningThreads(numCloningThreads)
+                .numAnalysisThreads(numAnalysisThreads)
+                .isTestMode(isTestMode);
+
+        LogsManager.setLogFolderLocation(outputFolderPath);
+
+        if (locations == null && configFolderPath.equals(DEFAULT_CONFIG_PATH)) {
+            logger.info(MESSAGE_USING_DEFAULT_CONFIG_PATH);
+        }
+
+        addReportConfigToBuilder(cliArgumentsBuilder, results);
+        addAnalysisDatesToBuilder(cliArgumentsBuilder, results);
+
+        boolean isViewModeOnly = reportFolderPath != null
+                && !reportFolderPath.equals(EMPTY_PATH)
+                && configFolderPath.equals(DEFAULT_CONFIG_PATH)
+                && locations == null;
+        cliArgumentsBuilder.isViewModeOnly(isViewModeOnly);
+
+        boolean isAutomaticallyLaunching = reportFolderPath != null;
+        if (isAutomaticallyLaunching && !reportFolderPath.equals(EMPTY_PATH) && !isViewModeOnly) {
+            logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
+        }
+        cliArgumentsBuilder.isAutomaticallyLaunching(isAutomaticallyLaunching);
+
+
+        boolean shouldPerformFreshCloning = isTestMode
+                ? results.get(FRESH_CLONING_FLAG[0])
+                : DEFAULT_SHOULD_FRESH_CLONE;
+        cliArgumentsBuilder.isFreshClonePerformed(shouldPerformFreshCloning);
+
+        return cliArgumentsBuilder.build();
     }
 
     /**
@@ -420,8 +438,13 @@ public class ArgsParser {
                 ? untilDate
                 : currentDate;
 
-        TimeUtil.verifySinceDateIsValid(sinceDate, currentDate);
-        TimeUtil.verifyDatesRangeIsCorrect(sinceDate, untilDate);
+        if (sinceDate.compareTo(currentDate) > 0) {
+            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
+        }
+
+        if (sinceDate.compareTo(untilDate) > 0) {
+            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
+        }
 
         builder.sinceDate(sinceDate)
                 .isSinceDateProvided(isSinceDateProvided)

@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +26,8 @@ import reposense.model.FileType;
 import reposense.model.FileTypeTest;
 import reposense.model.RepoConfiguration;
 import reposense.model.RunConfigurationDecider;
+import reposense.parser.exceptions.ParseException;
+import reposense.parser.types.SinceDateArgumentType;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.TestUtil;
@@ -602,6 +605,36 @@ public class ArgsParserTest {
     public void sinceDate_laterThanUntilDate_throwsParseException() {
         String input = DEFAULT_INPUT_BUILDER.addSinceDate("01/12/2017")
                 .addUntilDate("30/11/2017")
+                .build();
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
+    }
+
+    @Test
+    public void sinceDate_laterThanCurrentDate_throwsParseException() {
+        LocalDateTime tomorrowDateTime = LocalDateTime.now()
+                .plusDays(1L);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String tomorrow = tomorrowDateTime.format(formatter);
+
+
+        String input = DEFAULT_INPUT_BUILDER.addSinceDate(tomorrow)
+                .build();
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
+    }
+
+    @Test
+    public void sinceDate_beforeUntilDateAndLaterThanCurrentDate_throwsParseException() {
+        LocalDateTime tomorrowDateTime = LocalDateTime.now()
+                .plusDays(1L);
+        LocalDateTime dayAfterDateTime = LocalDateTime.now()
+                .plusDays(2L);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String tomorrow = tomorrowDateTime.format(formatter);
+        String dayAfter = dayAfterDateTime.format(formatter);
+
+        String input = DEFAULT_INPUT_BUILDER.addSinceDate(tomorrow)
+                .addUntilDate(dayAfter)
                 .build();
         Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
     }

@@ -4,17 +4,19 @@
     c-segment(v-bind:segment="segment", v-bind:path="path")
 </template>
 
-<script>
+<script lang='ts'>
+import { defineComponent } from 'vue';
 import cSegment from './c-segment.vue';
+import { AuthorshipFileSegment } from '../types/types';
 
-export default {
+export default defineComponent({
   name: 'c-segment-collection',
   components: {
     cSegment,
   },
   props: {
     segments: {
-      type: Array,
+      type: Array<AuthorshipFileSegment>,
       required: true,
     },
     path: {
@@ -22,17 +24,19 @@ export default {
       required: true,
     },
   },
-  data() {
+  data(): {
+    isRendered: boolean,
+    } {
     return {
       isRendered: false,
     };
   },
   methods: {
-    visibilityChanged(isVisible) {
+    visibilityChanged(isVisible: boolean): void {
       if (isVisible) {
         this.isRendered = true;
       }
     },
   },
-};
+});
 </script>
