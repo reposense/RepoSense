@@ -203,13 +203,13 @@ export default defineComponent({
     },
 
     // Prevent browser from switching to new tab when clicking ramp
-    rampClick(evt: MouseEvent) {
+    rampClick(evt: MouseEvent): void {
       const isKeyPressed = window.isMacintosh ? evt.metaKey : evt.ctrlKey;
       if (isKeyPressed) {
         evt.preventDefault();
       }
     },
-    getReportLink() {
+    getReportLink(): string | undefined {
       if (this.isWidgetMode) {
         const url = window.location.href;
         const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;

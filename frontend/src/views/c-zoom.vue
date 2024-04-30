@@ -259,6 +259,7 @@ export default defineComponent({
       window.encodeHash();
     },
   },
+
   created(): void {
     // return if filteredUser is undefined since it won't make sense to render zoom tab
     // #zoom-tab is also rendered only if filteredUser is defined
@@ -351,17 +352,17 @@ export default defineComponent({
       addHash('zFR', zFromRamp.toString());
       encodeHash();
     },
-    toggleAllCommitMessagesBody(isOpen: boolean) {
+    toggleAllCommitMessagesBody(isOpen: boolean): void {
       this.showAllCommitMessageBody = isOpen;
       this.$store.commit('setAllZoomCommitMessageBody', {
         isOpen,
         commits: this.selectedCommits,
       });
     },
-    toggleDiffstatView(isVisible: boolean) {
+    toggleDiffstatView(isVisible: boolean): void {
       this.showDiffstat = isVisible;
     },
-    removeZoomHashes() {
+    removeZoomHashes(): void {
       window.removeHash('zA');
       window.removeHash('zR');
       window.removeHash('zFS');
