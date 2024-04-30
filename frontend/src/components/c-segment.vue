@@ -74,7 +74,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../styles/highlight-js-style.css';
 @import '../styles/_colors.scss';
 
