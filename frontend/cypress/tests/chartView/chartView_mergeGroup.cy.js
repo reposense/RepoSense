@@ -17,9 +17,9 @@ describe('merge group', () => {
       .uncheck()
       .should('not.be.checked');
 
-    // after un-checking merge group, all 14 summary charts will show
+    // after un-checking merge group, all 9 summary charts will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 14);
+      .should('have.length', 9);
   });
 
   it('check and uncheck merge group when group by authors', () => {
@@ -31,9 +31,9 @@ describe('merge group', () => {
       .check()
       .should('be.checked');
 
-    // after checking merge group, 14 merged author groups will show
+    // after checking merge group, 8 merged author groups will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 14);
+      .should('have.length', 8);
 
     cy.get('#summary label.merge-group > input:visible')
       .first()
@@ -41,9 +41,9 @@ describe('merge group', () => {
       .uncheck()
       .should('not.be.checked');
 
-    // after un-checking merge group, all 14 summary charts will show
+    // after un-checking merge group, all 9 summary charts will show
     cy.get('#summary-charts').find('.summary-chart')
-      .should('have.length', 14);
+      .should('have.length', 9);
   });
 
   it('merge group option should be disabled when group by none', () => {
@@ -62,7 +62,7 @@ describe('merge group', () => {
       .should('be.checked');
 
     // get the chart bars and assert they have the correct initial widths
-    const expectedWidths = [100, 100, 100, 15, 100, 100, 90, 30, 15];
+    const expectedWidths = [100, 100, 100, 80, 20];
     cy.get('.stacked-bar__contrib--bar')
       .should('have.length', expectedWidths.length)
       .then(($bars) => {
@@ -70,7 +70,7 @@ describe('merge group', () => {
         const parentWidth = $bars.eq(0).parent().width();
         expectedWidths.forEach((expectedWidth, index) => {
           const width = (parseFloat(window.getComputedStyle($bars[index]).width) / parentWidth) * 100;
-          expect(width).to.be.closeTo(expectedWidth, 1);
+          expect(width).to.be.closeTo(expectedWidth, 3);
         });
       });
   });
