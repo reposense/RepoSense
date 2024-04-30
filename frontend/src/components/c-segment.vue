@@ -67,7 +67,7 @@ export default defineComponent({
     }),
   },
   methods: {
-    toggleCode() {
+    toggleCode(): void {
       this.isOpen = !this.isOpen;
     },
   },
