@@ -80,7 +80,7 @@ describe('optimise timeline', () => {
       .find('.summary-chart__ramp .date-indicators')
       .should('not.exist');
   });
-  
+
   it('zoom panel range should work correctly when timeline is optimised', () => {
     cy.get('.icon-button.fa-list-ul')
       .should('exist')
@@ -89,7 +89,7 @@ describe('optimise timeline', () => {
 
     cy.get('#tab-zoom')
       .should('be.visible');
-      
+
     cy.get('#tab-zoom .ramp a')
       .first()
       .invoke('css', 'right')
@@ -135,7 +135,7 @@ describe('optimise timeline', () => {
 
     cy.get('#tab-zoom')
       .should('be.visible');
-      
+
     cy.get('#tab-zoom .ramp .ramp__slice')
       .should('have.length', 1);
 
