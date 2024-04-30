@@ -977,6 +977,7 @@ export default defineComponent({
 
 .blurbWrapper {
   padding-bottom: 5px;
+  
   .blurb {
     background-color: #fafafa;
     overflow-y: hidden;
