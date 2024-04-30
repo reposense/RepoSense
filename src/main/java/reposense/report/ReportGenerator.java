@@ -110,14 +110,16 @@ public class ReportGenerator {
      * @param reportGenerationTimeProvider Supplier for time taken to generate the report.
      * @param zoneId The timezone to adjust all date-times to.
      * @param shouldFreshClone The boolean variable for whether to clone a repo again during tests.
+     * @param shouldAnalyzeAuthorship The boolean variable for whether to further analyze authorship.
+     * @param originalityThreshold The double variable for originality threshold in analyze authorship.
      * @return the list of file paths that were generated.
-     * @throws IOException if templateZip.zip does not exists in jar file.
+     * @throws IOException if templateZip.zip does not exist in jar file.
      */
     public List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
             ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
-            boolean shouldFreshClone) throws IOException {
+            boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold) throws IOException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
@@ -126,8 +128,8 @@ public class ReportGenerator {
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
 
-        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath,
-                numCloningThreads, numAnalysisThreads, shouldFreshClone);
+        List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath, numCloningThreads,
+                numAnalysisThreads, shouldFreshClone, shouldAnalyzeAuthorship, originalityThreshold);
 
         LocalDateTime reportSinceDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId))
                 ? earliestSinceDate : cliSinceDate;
@@ -136,7 +138,7 @@ public class ReportGenerator {
                 new SummaryJson(configs, reportConfig, generationDate,
                         reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
-                        reportGenerationTimeProvider.get(), zoneId),
+                        reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 
@@ -185,11 +187,14 @@ public class ReportGenerator {
      * To turn off multi-threading, run the program with the flags
      * {@code --cloning-threads 1 --analysis-threads 1}.
      * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
+     * {@code originalityThreshold}.
      *
      * @return A list of paths to the JSON report files generated for each repository.
      */
-    private List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath,
-            int numCloningThreads, int numAnalysisThreads, boolean shouldFreshClone) {
+    private List<Path> cloneAndAnalyzeRepos(List<RepoConfiguration> configs, String outputPath, int numCloningThreads,
+            int numAnalysisThreads, boolean shouldFreshClone, boolean shouldAnalyzeAuthorship,
+            double originalityThreshold) {
         Map<RepoLocation, List<RepoConfiguration>> repoLocationMap = groupConfigsByRepoLocation(configs);
         List<RepoLocation> repoLocationList = new ArrayList<>(repoLocationMap.keySet());
 
@@ -212,7 +217,9 @@ public class ReportGenerator {
             // Note that the `analyzeExecutor` is passed as a parameter to ensure that the number of threads used
             // for analysis is no more than `numAnalysisThreads`.
             CompletableFuture<AnalyzeJobOutput> analyzeFuture = cloneFuture.thenApplyAsync(
-                    cloneJobOutput -> analyzeRepos(outputPath, configsToAnalyze, cloneJobOutput), analyzeExecutor);
+                    cloneJobOutput -> analyzeRepos(outputPath, configsToAnalyze, cloneJobOutput,
+                            shouldAnalyzeAuthorship, originalityThreshold),
+                    analyzeExecutor);
 
             analyzeJobFutures.add(analyzeFuture);
         }
@@ -234,7 +241,7 @@ public class ReportGenerator {
         List<RepoLocation> cloneFailLocations = jobOutputs
                 .stream()
                 .filter(jobOutput -> !jobOutput.isCloneSuccessful())
-                .map(jobOutput -> jobOutput.getLocation())
+                .map(AnalyzeJobOutput::getLocation)
                 .collect(Collectors.toList());
         cloneFailLocations.forEach(location -> handleCloningFailed(configs, location));
 
@@ -272,38 +279,41 @@ public class ReportGenerator {
     /**
      * Analyzes all repos in {@code configsToAnalyze} and generates their report at {@code outputPath}.
      * Uses {@code cloneJobOutput} to find repo location, default branch and whether cloning was successful.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
+     * {@code originalityThreshold}.
      *
      * @return An {@link AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, the list of {@code generatedFiles} by the analysis and a list of {@code analysisErrors} encountered.
      */
     private AnalyzeJobOutput analyzeRepos(String outputPath, List<RepoConfiguration> configsToAnalyze,
-            CloneJobOutput cloneJobOutput) {
+            CloneJobOutput cloneJobOutput, boolean shouldAnalyzeAuthorship, double originalityThreshold) {
         RepoLocation location = cloneJobOutput.getLocation();
         boolean cloneSuccessful = cloneJobOutput.isCloneSuccessful();
 
         List<Path> generatedFiles = new ArrayList<>();
         List<AnalysisErrorInfo> analysisErrors = new ArrayList<>();
         RepoCloner repoCloner = new RepoCloner();
+
         if (!cloneSuccessful) {
             repoCloner.cleanupRepo(configsToAnalyze.get(0));
             return new AnalyzeJobOutput(location, cloneSuccessful, generatedFiles, analysisErrors);
         }
-        Iterator<RepoConfiguration> itr = configsToAnalyze.iterator();
-        while (itr.hasNext()) {
+
+        for (RepoConfiguration configToAnalyze : configsToAnalyze) {
             progressTracker.incrementProgress();
-            RepoConfiguration configToAnalyze = itr.next();
             configToAnalyze.updateBranch(cloneJobOutput.getDefaultBranch());
 
             Path repoReportDirectory = Paths.get(outputPath, configToAnalyze.getOutputFolderName());
-            logger.info(
-                    String.format(progressTracker.getProgress() + " "
-                            + MESSAGE_START_ANALYSIS, configToAnalyze.getLocation(), configToAnalyze.getBranch()));
+            logger.info(String.format(progressTracker.getProgress() + " " + MESSAGE_START_ANALYSIS,
+                    configToAnalyze.getLocation(), configToAnalyze.getBranch()));
+
             try {
                 GitRevParse.assertBranchExists(configToAnalyze, FileUtil.getBareRepoPath(configToAnalyze));
                 GitClone.cloneFromBareAndUpdateBranch(Paths.get("."), configToAnalyze);
 
                 FileUtil.createDirectory(repoReportDirectory);
-                generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString()));
+                generatedFiles.addAll(analyzeRepo(configToAnalyze, repoReportDirectory.toString(),
+                        shouldAnalyzeAuthorship, originalityThreshold));
             } catch (IOException ioe) {
                 String logMessage = String.format(MESSAGE_ERROR_CREATING_DIRECTORY,
                         configToAnalyze.getLocation(), configToAnalyze.getBranch());
@@ -329,18 +339,21 @@ public class ReportGenerator {
                         String.format(LOG_UNEXPECTED_ERROR, configToAnalyze.getLocation(), sw.toString())));
             }
         }
+
         repoCloner.cleanupRepo(configsToAnalyze.get(0));
         return new AnalyzeJobOutput(location, cloneSuccessful, generatedFiles, analysisErrors);
     }
 
     /**
      * Analyzes repo specified by {@code config} and generates the report at {@code repoReportDirectory}.
+     * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
+     * {@code originalityThreshold}.
      *
      * @return A list of paths to the JSON report files generated for the repo specified by {@code config}.
      * @throws NoAuthorsWithCommitsFoundException if there are no authors with commits found for the repo.
      */
-    private List<Path> analyzeRepo(RepoConfiguration config, String repoReportDirectory)
-            throws NoAuthorsWithCommitsFoundException {
+    private List<Path> analyzeRepo(RepoConfiguration config, String repoReportDirectory,
+            boolean shouldAnalyzeAuthorship, double originalityThreshold) throws NoAuthorsWithCommitsFoundException {
         // preprocess the config and repo
         updateRepoConfig(config);
         updateAuthorList(config);
@@ -351,7 +364,8 @@ public class ReportGenerator {
         }
 
         AuthorshipReporter authorshipReporter = new AuthorshipReporter();
-        AuthorshipSummary authorshipSummary = authorshipReporter.generateAuthorshipSummary(config);
+        AuthorshipSummary authorshipSummary = authorshipReporter.generateAuthorshipSummary(config,
+                shouldAnalyzeAuthorship, originalityThreshold);
 
         CommitsReporter commitsReporter = new CommitsReporter();
         CommitContributionSummary commitSummary = commitsReporter.generateCommitSummary(config);

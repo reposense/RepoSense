@@ -8,7 +8,11 @@
     "airbnb-base",
     "plugin:vue/recommended",
     "@vue/typescript",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:@stylistic/disable-legacy"
+  ],
+  "plugins": [
+    "@stylistic"
   ],
   "rules": {
     "vue/component-definition-name-casing": [
@@ -17,11 +21,11 @@
     ],
     "vue/require-prop-types": 0,
     "no-param-reassign": 0,
-    "arrow-parens": [
+    "@stylistic/arrow-parens": [
       "error",
       "always"
     ],
-    "indent": [
+    "@stylistic/indent": [
       "error",
       2,
       {
@@ -36,15 +40,15 @@
       "as-needed"
     ],
     "no-alert": 0,
-    "linebreak-style": 0,
-    "max-len": [
+    "@stylistic/linebreak-style": 0,
+    "@stylistic/max-len": [
       "error",
       {
         "code": 120
       }
     ],
     "prefer-object-spread": 0,
-    "function-call-argument-newline": 0,
+    "@stylistic/function-call-argument-newline": 0,
     "vue/no-computed-properties-in-data": 0,
     "import/extensions": [
       "error",
@@ -62,25 +66,24 @@
       "files": ["*.ts"],
       "extends": [
         "airbnb-typescript/base",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@stylistic/disable-legacy"
       ],
       "parserOptions": {
         "project": ["./tsconfig.json"]
       },
       "rules": {
-        "indent": "off",
-        "@typescript-eslint/indent": [
+        "@stylistic/indent": [
           "error",
           2,
           {
             "ignoredNodes": [
               "ConditionalExpression"
-            ],
-            "SwitchCase": 0
+            ]
           }
         ],
-        "@typescript-eslint/member-delimiter-style": "error",
-        "@typescript-eslint/type-annotation-spacing": "error",
+        "@stylistic/member-delimiter-style": "error",
+        "@stylistic/type-annotation-spacing": "error",
         "@typescript-eslint/array-type": [
           "error",
           {
@@ -99,7 +102,9 @@
             "default": "generic",
             "readonly": "generic"
           }
-        ]
+        ],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error"]
       }
     }
   ]

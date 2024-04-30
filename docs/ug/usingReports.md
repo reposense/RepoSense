@@ -118,6 +118,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
     * a breakdown of the number of lines of codes added to each file type (if the checkbox is checked). More info on note [3] below.
 * `Merge group`: merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
     * viewing of authored code of the group as a whole is available when `group by repos`.
+* `Show tags`: shows the tags of all the repos under a group
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>.

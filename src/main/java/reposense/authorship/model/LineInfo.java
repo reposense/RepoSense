@@ -13,6 +13,7 @@ public class LineInfo {
     private Author author;
     private String content;
     private LocalDateTime lastModifiedDate;
+    private boolean isFullCredit;
 
     private transient boolean isTracked;
 
@@ -21,6 +22,9 @@ public class LineInfo {
         this.content = content;
 
         isTracked = true;
+
+        // The code is at least partial credit but may not be full credit if authorship analysis is not performed.
+        isFullCredit = false;
     }
 
     public Author getAuthor() {
@@ -39,10 +43,6 @@ public class LineInfo {
         return content;
     }
 
-    public void setTracked(boolean isTracked) {
-        this.isTracked = isTracked;
-    }
-
     public LocalDateTime getLastModifiedDate() {
         return lastModifiedDate;
     }
@@ -53,6 +53,33 @@ public class LineInfo {
 
     public boolean isTracked() {
         return isTracked;
+    }
+
+    public void setTracked(boolean isTracked) {
+        this.isTracked = isTracked;
+    }
+
+    public boolean isFullCredit() {
+        return isFullCredit;
+    }
+
+    public void setIsFullCredit(boolean isFullCredit) {
+        this.isFullCredit = isFullCredit;
+    }
+
+    /**
+     * If {@code newAuthor} is not the same as current author, then {@code newAuthor} will get partial credit.
+     * Else nothing happens since the 2 authors are the same, the credit info is retained.
+     * {@code isFullCredit} is only updated if {@code shouldAnalyzeAuthorship} is set to True.
+     */
+    public void updateAuthorAndCredit(Author newAuthor, boolean shouldAnalyzeAuthorship) {
+        if (!author.equals(newAuthor)) {
+            author = newAuthor;
+
+            if (shouldAnalyzeAuthorship) {
+                isFullCredit = false;
+            }
+        }
     }
 
     @Override
@@ -70,8 +97,7 @@ public class LineInfo {
                 && Objects.equals(author, otherLineInfo.author)
                 && content.equals(otherLineInfo.content)
                 && isTracked == otherLineInfo.isTracked
-                && ((lastModifiedDate == null && otherLineInfo.lastModifiedDate == null)
-                    || (lastModifiedDate.equals(otherLineInfo.lastModifiedDate)));
+                && Objects.equals(lastModifiedDate, otherLineInfo.lastModifiedDate)
+                && isFullCredit == otherLineInfo.isFullCredit;
     }
 }
-
