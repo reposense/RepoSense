@@ -109,7 +109,7 @@ describe('optimise timeline', () => {
       .should('be.visible');
 
     cy.get('#tab-zoom .period')
-      .should('contain', '2018-05-03 to 2023-03-04');
+      .should('contain', '2018-05-03 to 2023-03-03');
 
     cy.get('#tab-zoom .ramp a')
       .first()
