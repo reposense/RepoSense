@@ -442,7 +442,7 @@ export default defineComponent({
     },
 
     renderFilterHash(): void {
-      const convertBool = (txt: string) => (txt === 'true');
+      const convertBool = (txt: string): boolean => (txt === 'true');
       const hash = Object.assign({}, window.hashParams);
 
       if (hash.search) { this.filterSearch = hash.search; }
