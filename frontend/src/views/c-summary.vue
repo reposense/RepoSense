@@ -441,7 +441,7 @@ export default defineComponent({
       } else {
         removeHash('checkedFileTypes');
       }
-      
+
       if (this.viewRepoTags) {
         addHash('viewRepoTags', 'true');
       } else {
