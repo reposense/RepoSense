@@ -34,9 +34,9 @@ const GUIDE_BAR_WIDTH = 2;
  *  parameters, i.e. an event of type MouseEvent.
  */
 // eslint-disable-next-line no-unused-vars
-const throttledEvent = (delay: number, handler: (event: MouseEvent) => unknown): ((event: MouseEvent) => void) => {
+const throttledEvent = (delay: number, handler: (event: MouseEvent) => unknown) => {
   let lastCalled = 0;
-  return (event: MouseEvent): void => {
+  return (event: MouseEvent) => {
     if (Date.now() - lastCalled > delay) {
       lastCalled = Date.now();
       handler(event);
@@ -60,23 +60,23 @@ export default defineComponent({
   },
 
   computed: {
-    appStyles(): string {
+    appStyles() {
       return this.isResizing
         ? 'user-select: none; cursor: col-resize;'
         : '';
     },
 
-    guideStyles(): string {
+    guideStyles() {
       return this.isResizing
         ? `display: block; right: ${this.guideWidth * 100}%;`
         : '';
     },
 
-    rightContainerStyles(): string {
+    rightContainerStyles() {
       return `flex: 0 0 ${this.flexWidth * 100}%;`;
     },
 
-    mouseMove(): Function {
+    mouseMove() {
       if (this.isResizing) {
         return throttledEvent(25, (event: MouseEvent) => {
           this.guideWidth = (
@@ -98,17 +98,17 @@ export default defineComponent({
   },
 
   methods: {
-    registerMouseMove(): void {
+    registerMouseMove() {
       this.isResizing = true;
     },
 
-    deregisterMouseMove(): void {
+    deregisterMouseMove() {
       this.isResizing = false;
       this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
         / window.innerWidth;
     },
 
-    closeTab(): void {
+    closeTab() {
       this.$store.commit('updateTabState', false);
     },
   },

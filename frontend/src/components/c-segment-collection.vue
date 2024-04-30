@@ -32,7 +32,7 @@ export default defineComponent({
     };
   },
   methods: {
-    visibilityChanged(isVisible: boolean): void {
+    visibilityChanged(isVisible: boolean) {
       if (isVisible) {
         this.isRendered = true;
       }

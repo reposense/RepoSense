@@ -24,6 +24,7 @@ interface Api {
     reportGenerationTime: string;
     errorMessages: { [key: string]: ErrorMessage };
     names: string[];
+    blurbMap: { [key: string]: string };
   } | null>;
   loadCommits: (repoName: string) => Promise<User[]>;
   loadAuthorship: (repoName: string) => Promise<AuthorshipSchema>;

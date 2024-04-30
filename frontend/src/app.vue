@@ -65,17 +65,17 @@ const app = defineComponent({
     ...mapState(['loadingOverlayCount', 'loadingOverlayMessage', 'isTabActive']),
   },
   watch: {
-    '$store.state.tabZoomInfo': function (): void {
+    '$store.state.tabZoomInfo': function () {
       if (this.$store.state.tabZoomInfo.isRefreshing) {
         return;
       }
       this.activateTab('zoom');
     },
-    '$store.state.tabAuthorshipInfo': function (): void {
+    '$store.state.tabAuthorshipInfo': function () {
       this.activateTab('authorship');
     },
   },
-  created(): void {
+  created() {
     try {
       window.decodeHash();
     } catch (error) {
@@ -85,7 +85,7 @@ const app = defineComponent({
   },
   methods: {
     // model functions //
-    updateReportZip(evt: Event): void {
+    updateReportZip(evt: Event) {
       this.users = [];
       const target = evt.target as HTMLInputElement;
       if (target.files === null) {
@@ -101,14 +101,14 @@ const app = defineComponent({
         .then(() => this.updateReportView());
     },
 
-    updateReportDir(): void {
+    updateReportDir() {
       window.REPORT_ZIP = null;
 
       this.users = [];
       this.updateReportView();
     },
 
-    async updateReportView(): Promise<void> {
+    async updateReportView() {
       this.$store.commit('updateLoadingOverlayMessage', loadingResourcesMessage);
       this.userUpdated = false;
       await this.$store.dispatch('incrementLoadingOverlayCountForceReload', 1);
@@ -122,6 +122,7 @@ const app = defineComponent({
           reportGenerationTime,
           errorMessages,
           names,
+          blurbMap,
         } = summary;
         this.creationDate = creationDate;
         this.reportGenerationTime = reportGenerationTime;
@@ -134,13 +135,14 @@ const app = defineComponent({
         this.getUsers();
         this.renderTabHash();
         this.userUpdated = true;
+        this.$store.commit('setBlurbMap', blurbMap);
       } catch (error) {
         window.alert(error);
       } finally {
         this.$store.commit('incrementLoadingOverlayCount', -1);
       }
     },
-    getUsers(): void {
+    getUsers() {
       const full: Array<Repo> = [];
       Object.keys(this.repos).forEach((repo) => {
         if (this.repos[repo].users) {
@@ -151,7 +153,7 @@ const app = defineComponent({
     },
 
     // handle opening of sidebar //
-    activateTab(tabName: string): void {
+    activateTab(tabName: string) {
       if (this.$refs.tabWrapper) {
         (this.$refs.tabWrapper as HTMLElement).scrollTop = 0;
       }
@@ -162,7 +164,7 @@ const app = defineComponent({
       window.encodeHash();
     },
 
-    renderAuthorShipTabHash(minDate: string, maxDate: string): void {
+    renderAuthorShipTabHash(minDate: string, maxDate: string) {
       const hash = window.hashParams;
       const info: AuthorshipInfo = {
         author: hash.tabAuthor,
@@ -182,7 +184,7 @@ const app = defineComponent({
       }
     },
 
-    renderZoomTabHash(): void {
+    renderZoomTabHash() {
       const hash = window.hashParams;
       const zoomInfo: ZoomInfo = {
         isRefreshing: true,
@@ -205,7 +207,7 @@ const app = defineComponent({
       }
     },
 
-    renderTabHash(): void {
+    renderTabHash() {
       const hash = window.hashParams;
       if (!hash.tabOpen) {
         return;
@@ -226,7 +228,7 @@ const app = defineComponent({
       }
     },
 
-    getRepoSenseHomeLink(): string {
+    getRepoSenseHomeLink() {
       const version = window.repoSenseVersion;
       if (!version) {
         return `${window.HOME_PAGE_URL}/RepoSense/`;
@@ -234,7 +236,7 @@ const app = defineComponent({
       return `${window.HOME_PAGE_URL}`;
     },
 
-    getRepoLink(): string | undefined {
+    getRepoLink() {
       const { REPOS, hashParams } = window;
       const { location, branch } = REPOS[hashParams.tabRepo];
 

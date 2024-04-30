@@ -115,10 +115,10 @@ import { AuthorshipFile, AuthorshipFileSegment, SegmentState } from '../types/ty
 import { FilesSortType, FilterType } from '../types/authorship';
 
 const filesSortDict = {
-  linesOfCode: (file: AuthorshipFile): number => file.lineCount,
-  path: (file: AuthorshipFile): string => file.path,
-  fileName: (file: AuthorshipFile): string => file.path.split(/[/]+/).pop() || '',
-  fileType: (file: AuthorshipFile): string => file.fileType,
+  linesOfCode: (file: AuthorshipFile) => file.lineCount,
+  path: (file: AuthorshipFile) => file.path,
+  fileName: (file: AuthorshipFile) => file.path.split(/[/]+/).pop() || '',
+  fileType: (file: AuthorshipFile) => file.fileType,
 };
 
 function authorshipInitialState(): {
@@ -192,7 +192,7 @@ export default defineComponent({
 
   computed: {
     sortingFunction() {
-      return (a: AuthorshipFile, b: AuthorshipFile): number => (this.toReverseSortFiles ? -1 : 1)
+      return (a: AuthorshipFile, b: AuthorshipFile) => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
     },
 
@@ -200,7 +200,7 @@ export default defineComponent({
       get(): boolean {
         return this.isBinaryFilesChecked;
       },
-      set(value: boolean): void {
+      set(value: boolean) {
         if (value) {
           this.isBinaryFilesChecked = true;
         } else {
@@ -216,7 +216,7 @@ export default defineComponent({
       get(): boolean {
         return this.isIgnoredFilesChecked;
       },
-      set(value: boolean): void {
+      set(value: boolean) {
         if (value) {
           this.isIgnoredFilesChecked = true;
         } else {
@@ -295,13 +295,13 @@ export default defineComponent({
   },
 
   watch: {
-    filesSortType(): void {
+    filesSortType() {
       window.addHash('authorshipSortBy', this.filesSortType);
       window.encodeHash();
       this.updateSelectedFiles();
     },
 
-    searchBarValue(): void {
+    searchBarValue() {
       this.updateSelectedFiles();
     },
 
@@ -312,23 +312,23 @@ export default defineComponent({
       },
     },
 
-    toReverseSortFiles(): void {
+    toReverseSortFiles() {
       window.addHash('reverseAuthorshipOrder', this.toReverseSortFiles);
       window.encodeHash();
       this.updateSelectedFiles();
     },
 
-    info(): void {
+    info() {
       Object.assign(this.$data, authorshipInitialState());
       this.initiate();
     },
   },
 
-  created(): void {
+  created() {
     this.initiate();
   },
 
-  beforeUnmount(): void {
+  beforeUnmount() {
     this.removeAuthorshipHashes();
   },
 
