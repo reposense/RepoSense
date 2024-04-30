@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 public class StringsUtil {
     public static final Pattern NEWLINE = Pattern.compile("\n");
     public static final Pattern TAB = Pattern.compile("\t");
+    public static final Pattern SPACE = Pattern.compile(" ");
+
     public static final Pattern NUMERIC = Pattern.compile("^\\d+$");
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
 
@@ -18,7 +20,7 @@ public class StringsUtil {
         StringBuilder sb = new StringBuilder();
         Pattern regexPattern = Pattern.compile(regex);
 
-        for (String line: NEWLINE.split(text)) {
+        for (String line : NEWLINE.split(text)) {
             if (regexPattern.matcher(line).matches()) {
                 sb.append(line).append("\n");
             }
@@ -93,5 +95,76 @@ public class StringsUtil {
      */
     public static boolean isNumeric(String string) {
         return NUMERIC.matcher(string).matches();
+    }
+
+    /**
+     * Calculates the Levenshtein Distance between two strings using Dynamic Programming.
+     * Insertion, deletion, and substitution are all of cost 1.
+     * This version improves the space complexity down to O(min(s, t))
+     * <p></p>
+     * The dp will stop if the {@code limit} is reached, this means that if the final distance is 7 and the limit is set
+     * to 3, the algorithm ends early once it reaches 3. This is possible as we are using this method to find the string
+     * with the lowest Levenshtein distance.
+     * <p></p>
+     * Returns {@code Integer.MAX_VALUE} if limit is reached, else returns the computed Levenshtein distance.
+     */
+    public static int getLevenshteinDistance(String s, String t, double limit) {
+        // Early termination if either string is empty, lev dist is just the length of the other string.
+        if (s.isEmpty()) {
+            return t.length();
+        }
+
+        if (t.isEmpty()) {
+            return s.length();
+        }
+
+        // The final lev dist is at least k where k = difference in length = number of insert/delete.
+        if (Math.abs(s.length() - t.length()) >= limit) {
+            return Integer.MAX_VALUE;
+        }
+
+        if (s.length() < t.length()) {
+            // Swap s and t to ensure s is always the longer string
+            String temp = s;
+            s = t;
+            t = temp;
+        }
+
+        int[] dp = new int[t.length() + 1];
+        for (int i = 0; i <= t.length(); i++) {
+            dp[i] = i;
+        }
+
+        for (int i = 1; i <= s.length(); i++) {
+            // Store the value of the previous row's column
+            int prev = dp[0];
+            dp[0] = i;
+
+            // If for this row, all the values are at least k, then the final lev dist computed will also be at least k.
+            // hasLower will check for values smaller than the limit, and terminate early if limit is reached.
+            boolean hasLower = false;
+
+            for (int j = 1; j <= t.length(); j++) {
+                int temp = dp[j];
+
+                if (s.charAt(i - 1) == t.charAt(j - 1)) {
+                    dp[j] = prev;
+                } else {
+                    dp[j] = Math.min(prev, Math.min(dp[j - 1], dp[j])) + 1;
+                }
+
+                prev = temp;
+
+                if (dp[j] < limit) {
+                    hasLower = true;
+                }
+            }
+
+            if (!hasLower) {
+                return Integer.MAX_VALUE;
+            }
+        }
+
+        return dp[t.length()];
     }
 }

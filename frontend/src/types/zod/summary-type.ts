@@ -31,7 +31,6 @@ const urlSchema = z.object({
 const supportedDomainUrlMapSchema = z.record(urlSchema);
 
 // Contains the zod validation schema for the summary.json file
-
 export const summarySchema = z.object({
   repoSenseVersion: z.string(),
   reportGeneratedTime: z.string(),
@@ -44,6 +43,7 @@ export const summarySchema = z.object({
   untilDate: z.string(),
   isSinceDateProvided: z.boolean(),
   isUntilDateProvided: z.boolean(),
+  isAuthorshipAnalyzed: z.boolean().default(false), // for backwards compatability
   supportedDomainUrlMap: supportedDomainUrlMapSchema,
 });
 

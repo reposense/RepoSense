@@ -61,27 +61,15 @@
           v-model="filterType",
           v-on:change="indicateCheckBoxes"
         )
-        .checkboxes.mui-form--inline(v-if="info.files.length > 0")
-          label(style='background-color: #000000; color: #ffffff')
-            input.mui-checkbox--fileType#all(type="checkbox", v-model="isSelectAllChecked")
-            span(v-bind:title="getTotalFileBlankLineInfo()")
-              span All&nbsp;
-              span {{ totalLineCount }}&nbsp;
-              span ({{ totalLineCount - totalBlankLineCount }})&nbsp;
-          template(v-for="fileType in Object.keys(fileTypeLinesObj)", v-bind:key="fileType")
-            label(
-              v-bind:style="{\
-                'background-color': fileTypeColors[fileType],\
-                'color': getFontColor(fileTypeColors[fileType])\
-                }"
-            )
-              input.mui-checkbox--fileType(type="checkbox",
-                v-bind:id="fileType", v-bind:value="fileType",
-                v-on:change="indicateCheckBoxes", v-model="selectedFileTypes")
-              span(v-bind:title="getFileTypeBlankLineInfo(fileType)")
-                span {{ fileType }}&nbsp;{{ fileTypeLinesObj[fileType] }}&nbsp;
-                span ({{ fileTypeLinesObj[fileType] - fileTypeBlankLinesObj[fileType] }})&nbsp;
-          br
+        c-file-type-checkboxes(
+          v-bind:file-types="fileTypes",
+          v-bind:file-type-colors="fileTypeColors",
+          v-model:selected-file-types="selectedFileTypes",
+          @update:selected-file-types="indicateCheckBoxes",
+          v-bind:all-checkbox-label="allCheckboxLabel",
+          v-bind:file-type-checkbox-labels="checkboxLabels"
+        )
+        .checkboxes.mui-form--inline
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
             span(
@@ -97,6 +85,13 @@
             )
               span {{ ignoredFilesCount }} ignored file(s)
 
+  .background-color-legend(v-if="isAuthorshipAnalyzed")
+    .bold Legend:
+    .color-circle.full-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
+    span [darker shades] Mostly contributed by author.
+    .color-circle.partial-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
+    span [lighter shades] Contributed by author, with non-trivial contribution from others.
+
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
     template(v-for="(file, index) in selectedFiles", v-bind:key="file.path")
@@ -109,13 +104,14 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapState } from 'vuex';
-import minimatch from 'minimatch';
+import { minimatch } from 'minimatch';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import cAuthorshipFile from '../components/c-authorship-file.vue';
+import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import { StoreState } from '../types/vuex.d';
 import { FileResult, Line } from '../types/zod/authorship-type';
-import { AuthorshipFile, AuthorshipFileSegment } from '../types/types';
+import { AuthorshipFile, AuthorshipFileSegment, SegmentState } from '../types/types';
 import { FilesSortType, FilterType } from '../types/authorship';
 
 const filesSortDict = {
@@ -126,22 +122,22 @@ const filesSortDict = {
 };
 
 function authorshipInitialState(): {
-    isLoaded: boolean,
-    selectedFiles: Array<AuthorshipFile>,
-    filterType: FilterType,
-    selectedFileTypes: Array<string>,
-    fileTypes: Array<string>
-    filesLinesObj: { [key: string]: number}
-    fileTypeBlankLinesObj: { [key: string]: number },
-    filesSortType: FilesSortType,
-    toReverseSortFiles: boolean,
-    isBinaryFilesChecked: boolean,
-    isIgnoredFilesChecked: boolean,
-    searchBarValue: string,
-    authorDisplayName: string,
-    authors: Set<string>,
-    selectedColors: Array<string>
-    } {
+  isLoaded: boolean,
+  selectedFiles: Array<AuthorshipFile>,
+  filterType: FilterType,
+  selectedFileTypes: Array<string>,
+  fileTypes: Array<string>,
+  filesLinesObj: { [key: string]: number },
+  fileTypeBlankLinesObj: { [key: string]: number },
+  filesSortType: FilesSortType,
+  toReverseSortFiles: boolean,
+  isBinaryFilesChecked: boolean,
+  isIgnoredFilesChecked: boolean,
+  searchBarValue: string,
+  authorDisplayName: string,
+  authors: Set<string>,
+  selectedColors: Array<string>
+} {
   return {
     isLoaded: false,
     selectedFiles: [] as Array<AuthorshipFile>,
@@ -168,6 +164,7 @@ export default defineComponent({
   name: 'c-authorship',
   components: {
     cAuthorshipFile,
+    cFileTypeCheckboxes,
   },
   mixins: [brokenLinkDisabler],
   emits: [
@@ -178,8 +175,8 @@ export default defineComponent({
     selectedFiles: Array<AuthorshipFile>,
     filterType: FilterType,
     selectedFileTypes: Array<string>,
-    fileTypes: Array<string>
-    filesLinesObj: { [key: string]: number}
+    fileTypes: Array<string>,
+    filesLinesObj: { [key: string]: number },
     fileTypeBlankLinesObj: { [key: string]: number },
     filesSortType: FilesSortType,
     toReverseSortFiles: boolean,
@@ -189,7 +186,7 @@ export default defineComponent({
     authorDisplayName: string,
     authors: Set<string>,
     selectedColors: Array<string>
-    } {
+  } {
     return authorshipInitialState();
   },
 
@@ -197,21 +194,6 @@ export default defineComponent({
     sortingFunction() {
       return (a: AuthorshipFile, b: AuthorshipFile): number => (this.toReverseSortFiles ? -1 : 1)
         * window.comparator(filesSortDict[this.filesSortType])(a, b);
-    },
-
-    isSelectAllChecked: {
-      get(): boolean {
-        return this.selectedFileTypes.length === this.fileTypes.length;
-      },
-      set(value: boolean): void {
-        if (value) {
-          this.selectedFileTypes = this.fileTypes.slice();
-        } else {
-          this.selectedFileTypes = [];
-        }
-
-        this.indicateCheckBoxes();
-      },
     },
 
     isBinaryChecked: {
@@ -276,11 +258,40 @@ export default defineComponent({
       return this.info.files.filter((file) => file.isIgnored).length;
     },
 
+    allCheckboxLabel(): {
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+    } {
+      return this.getCheckboxDetails('Total', 'All', this.totalLineCount, this.totalBlankLineCount);
+    },
+
+    checkboxLabels(): Array<{
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+    }> {
+      return this.fileTypes.map(
+        (fileType) => this.getCheckboxDetails(
+          fileType,
+          fileType,
+          this.fileTypeLinesObj[fileType],
+          this.fileTypeBlankLinesObj[fileType],
+        ),
+      );
+    },
+
     ...mapState({
       fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,
       info: (state: unknown) => (state as StoreState).tabAuthorshipInfo,
       authorColors: (state: unknown) => (state as StoreState).tabAuthorColors,
     }),
+
+    isAuthorshipAnalyzed(): boolean {
+      return window.isAuthorshipAnalyzed;
+    },
   },
 
   watch: {
@@ -442,8 +453,7 @@ export default defineComponent({
 
     splitSegments(lines: Array<Line>): { segments: Array<AuthorshipFileSegment>; blankLineCount: number; } {
       // split into segments separated by knownAuthor
-      let lastState: string | null;
-      let lastId = -1;
+      const lastState : SegmentState = { id: -1, author: null, isFullCredit: true };
       const segments: Array<AuthorshipFileSegment> = [];
       let blankLineCount = 0;
 
@@ -452,22 +462,25 @@ export default defineComponent({
           ? !this.isUnknownAuthor(line.author.gitId)
           : line.author.gitId === this.info.author;
         const knownAuthor = (line.author && isAuthorMatched) ? line.author.gitId : null;
+        const isFullCredit = line.isFullCredit;
 
-        if (knownAuthor !== lastState || lastId === -1) {
+        if (lastState.id === -1 || lastState.author !== knownAuthor
+            || (knownAuthor && lastState.isFullCredit !== isFullCredit)) {
           segments.push({
             knownAuthor,
+            isFullCredit,
             lineNumbers: [],
             lines: [],
           });
 
-          lastId += 1;
-          lastState = knownAuthor;
+          lastState.id += 1;
+          lastState.author = knownAuthor;
+          lastState.isFullCredit = isFullCredit;
         }
 
         const content = line.content || ' ';
-        segments[lastId].lines.push(content);
-
-        segments[lastId].lineNumbers.push(lineCount + 1);
+        segments[lastState.id].lines.push(content);
+        segments[lastState.id].lineNumbers.push(lineCount + 1);
 
         if (line.content === '' && knownAuthor) {
           blankLineCount += 1;
@@ -637,17 +650,18 @@ export default defineComponent({
       this.updateFileTypeHash();
     },
 
-    getFileTypeBlankLineInfo(fileType: string): string {
-      return `${fileType}: Blank: ${this.fileTypeBlankLinesObj[fileType]},
-        Non-Blank: ${this.filesLinesObj[fileType] - this.fileTypeBlankLinesObj[fileType]}`;
-    },
-
-    getTotalFileBlankLineInfo(): string {
-      return `Total: Blank: ${this.totalBlankLineCount}, Non-Blank: ${this.totalLineCount - this.totalBlankLineCount}`;
-    },
-
-    getFontColor(color: string): string {
-      return window.getFontColor(color);
+    getCheckboxDetails(fileTitle: string, fileType: string, lineCount: number, blankLineCount: number): {
+      fileTitle: string,
+      fileType: string,
+      lineCount: number,
+      blankLineCount: number,
+    } {
+      return {
+        fileTitle,
+        fileType,
+        lineCount,
+        blankLineCount,
+      };
     },
   },
 });
@@ -729,6 +743,41 @@ export default defineComponent({
 
   .empty {
     text-align: center;
+  }
+
+  .background-color-legend {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+
+    .bold {
+      font-weight: bold;
+    }
+
+    .color-circle {
+      border: 1px solid lightgrey;
+      border-radius: 50%;
+      margin-left: 5px;
+      margin-right: 5px;
+      min-height: 15px;
+      min-width: 15px;
+    }
+
+    .full-credit-color {
+      background-color: mui-color('github', 'full-authored-code-background');
+
+      &.isMergeGroup {
+        background-color: mui-color('grey', '400');
+      }
+    }
+
+    .partial-credit-color {
+      background-color: mui-color('github', 'partial-authored-code-background');
+
+      &.isMergeGroup {
+        background-color: mui-color('grey', '200');
+      }
+    }
   }
 }
 </style>

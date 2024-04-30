@@ -84,6 +84,7 @@ public class RepoSense {
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
                     TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
+                    cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
                     blurbMap
             );
 

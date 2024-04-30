@@ -29,12 +29,14 @@ public class SummaryJson {
     private final boolean isSinceDateProvided;
     private final boolean isUntilDateProvided;
     private final Map<String, Map<String, String>> supportedDomainUrlMap;
+    private final boolean isAuthorshipAnalyzed;
     private final BlurbMap blurbs;
 
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
                        LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided,
                        boolean isUntilDateProvided, String repoSenseVersion, Set<Map<String, String>> errorSet,
-                       String reportGenerationTime, ZoneId zoneId, BlurbMap blurbs) {
+                       String reportGenerationTime, ZoneId zoneId,
+                       boolean isAuthorshipAnalyzed, BlurbMap blurbs) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;
@@ -47,6 +49,7 @@ public class SummaryJson {
         this.errorSet = errorSet;
         this.zoneId = zoneId;
         this.supportedDomainUrlMap = SupportedDomainUrlMap.getDefaultDomainUrlMap();
+        this.isAuthorshipAnalyzed = isAuthorshipAnalyzed;
         this.blurbs = blurbs;
     }
 }

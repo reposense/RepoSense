@@ -26,7 +26,7 @@ export default defineComponent({
   },
   data(): {
     isRendered: boolean,
-    } {
+  } {
     return {
       isRendered: false,
     };
