@@ -27,11 +27,13 @@
         )
           | [{{ getGroupTotalContribution(repo) }} lines]
           span.tooltip-text(
-            v-if="filterGroupSelection === 'groupByRepos' && !isChartGroupWidgetMode"
-          )(v-bind:ref="`summary-charts-${i}-total-contribution`") Total contribution of group
+            v-if="filterGroupSelection === 'groupByRepos' && !isChartGroupWidgetMode",
+            v-bind:ref="`summary-charts-${i}-total-contribution`"
+          ) Total contribution of group
           span.tooltip-text(
-            v-else-if="filterGroupSelection === 'groupByAuthors' && !isChartGroupWidgetMode"
-          )(v-bind:ref="`summary-charts-${i}-total-contribution`") Total contribution of author
+            v-else-if="filterGroupSelection === 'groupByAuthors' && !isChartGroupWidgetMode",
+            v-bind:ref="`summary-charts-${i}-total-contribution`"
+          ) Total contribution of author
       a(
         v-if="!isGroupMerged(getGroupName(repo)) && !isChartGroupWidgetMode",
         v-on:click="handleMergeGroup(getGroupName(repo))"
@@ -139,6 +141,18 @@
           v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
+      .summary-charts__title--tags(
+        v-if="isViewingTagsByRepo"
+      )
+        a.tag(
+          v-for="tag in getTags(repo)",
+          v-bind:href="getTagLink(repo[0], tag)",
+          target="_blank",
+          vbind:key="tag",
+          tabindex="-1"
+        )
+          font-awesome-icon(icon="tags")
+          span &nbsp;{{ tag }}
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -153,7 +167,8 @@
     .summary-chart(
       v-for="(user, j) in getRepo(repo)",
       v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
-      v-bind:ref="'summary-chart-' + j"
+      v-bind:ref="'summary-chart-' + j",
+      v-bind:id="user.name === activeUser && user.repoName === activeRepo ? 'selectedChart' : null"
       )
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
@@ -258,6 +273,16 @@
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
           span.tooltip-text.right-aligned {{ getPercentileExplanation(j) }}
+        .summary-chart__title--tags(v-if="isViewingTagsByAuthor")
+          a.tag(
+            v-for="tag in getTags(repo, user)",
+            v-bind:href="getTagLink(user, tag)",
+            target="_blank",
+            vbind:key="tag",
+            tabindex="-1"
+          )
+            font-awesome-icon(icon="tags")
+            span &nbsp;{{ tag }}
 
       .summary-chart__ramp(
         v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
@@ -373,18 +398,22 @@ export default defineComponent({
       type: Number,
       default: undefined,
     },
+    viewRepoTags: {
+      type: Boolean,
+      default: false,
+    },
     optimiseTimeline: {
       type: Boolean,
       default: false,
     },
   },
   data(): {
-      drags: Array<number>,
-      activeRepo: string | null,
-      activeUser: string | null,
-      activeTabType: string | null,
-      isTabOnMergedGroup: boolean,
-      } {
+    drags: Array<number>,
+    activeRepo: string | null,
+    activeUser: string | null,
+    activeTabType: string | null,
+    isTabOnMergedGroup: boolean,
+  } {
     return {
       drags: [] as Array<number>,
       activeRepo: null as string | null,
@@ -423,6 +452,14 @@ export default defineComponent({
     isChartWidgetMode(): boolean {
       return this.chartIndex !== undefined && this.chartIndex >= 0 && this.isChartGroupWidgetMode;
     },
+    isViewingTagsByRepo() {
+      return this.filterGroupSelection === FilterGroupSelection.GroupByRepos && this.viewRepoTags;
+    },
+    isViewingTagsByAuthor() {
+      return (this.filterGroupSelection === FilterGroupSelection.GroupByAuthors
+        || this.filterGroupSelection === FilterGroupSelection.GroupByNone)
+      && this.viewRepoTags;
+    },
     ...mapState({
       mergedGroups: (state: unknown) => (state as StoreState).mergedGroups,
       fileTypeColors: (state: unknown) => (state as StoreState).fileTypeColors,
@@ -433,6 +470,15 @@ export default defineComponent({
       if (!this.$store.state.isTabActive) {
         this.removeSelectedTab();
       }
+    },
+
+    // watching so highlighted only when summary charts are rendered
+    filteredRepos() {
+      this.$nextTick(() => {
+        if (this.activeRepo !== null && this.activeUser !== null) {
+          this.scrollToActiveRepo();
+        }
+      });
     },
   },
   created(): void {
@@ -568,6 +614,10 @@ export default defineComponent({
       default:
         return ['fas', 'database'];
       }
+    },
+
+    getTagLink(repo: User, tag: string): string | undefined {
+      return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repo.repoId)}releases/tag/${tag}`);
     },
 
     // triggering opening of tabs //
@@ -835,6 +885,8 @@ export default defineComponent({
 
       this.activeTabType = tabType;
       window.encodeHash();
+
+      this.$nextTick(() => this.scrollToActiveRepo());
     },
 
     removeSelectedTab(): void {
@@ -887,6 +939,23 @@ export default defineComponent({
 
       return totalContribution / totalCommits;
     },
+
+    scrollToActiveRepo(): void {
+      const chart = document.getElementById('selectedChart');
+      if (chart) {
+        chart.scrollIntoView({ block: 'nearest' });
+      }
+    },
+
+    getTags(repo: Array<User>, user?: User): Array<string> {
+      if (user) repo = repo.filter((r) => r.name === user.name);
+      return [...new Set(repo.flatMap((r) => r.commits).flatMap((c) => c.commitResults).flatMap((r) => r.tags))]
+        .filter(Boolean) as Array<string>;
+    },
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@import '../styles/tags.scss';
+</style>

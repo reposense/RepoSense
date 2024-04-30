@@ -118,6 +118,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
     * a breakdown of the number of lines of codes added to each file type (if the checkbox is checked). More info on note [3] below.
 * `Merge group`: merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
     * viewing of authored code of the group as a whole is available when `group by repos`.
+* `Show tags`: shows the tags of all the repos under a group
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>.
@@ -144,7 +145,7 @@ The `Code panel` allows users to see the code attributed to a specific author. C
 * Clicking the file title toggles the file content.
 * Clicking the first icon beside the file title opens the history view of the file on the remote repository.
 * Clicking the second icon beside the file title opens the blame view of the file on the remote repository.
-* When using the code panel for a specific author, code attributed to the author is highlighted in green. 
+* When using the code panel for a specific author, code attributed to the author is highlighted in green.
   * When using the `merge group` option with `group by repos`, the code panel will consist of multiple authors' contributions. Code attributed to these authors can be differentiated by the highlight colors of the code. The color legend is shown at the top of each file and consists only those authors that edited a particular file.
 * Non-trivial code segments that the selected author has not written are hidden by default, but you can toggle them by clicking on the %%:fas-plus-circle:%% icon.
 

@@ -9,7 +9,7 @@
 
 <div class="lead">
 
-Given below are the advanced syntax available for `author-config.csv`. 
+Given below are the advanced syntax available for `author-config.csv`.
 </div>
 
 ## Multiple `Repository's Location` per author

@@ -24,7 +24,7 @@ describe('switch zoom', () => {
     // switch zoom view
     cy.get('.icon-button.fa-list-ul')
       .should('exist')
-      .last()
+      .eq(4)
       .click();
 
     cy.get('#tabs-wrapper').scrollTo('top');

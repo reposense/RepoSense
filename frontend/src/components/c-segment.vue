@@ -1,8 +1,8 @@
 <template lang="pug">
 .segment(
-  v-bind:class="{ untouched: !segment.knownAuthor, active: isOpen }",
+  v-bind:class="{ untouched: !segment.knownAuthor, active: isOpen, isNotFullCredit: !segment.isFullCredit }",
   v-bind:style="{ 'border-left': `0.25rem solid ${authorColors[segment.knownAuthor]}` }",
-  v-bind:title="`Author: ${segment.knownAuthor || \"Unknown\"}`"
+  v-bind:title="`${segment.isFullCredit ? 'Author' : 'Co-author'}: ${segment.knownAuthor || \"Unknown\"}`"
 )
   .closer(v-if="canOpen",
     v-on:click="toggleCode", ref="topButton")
@@ -17,6 +17,7 @@
       v-bind:title="'Click to hide code'"
     )
   div(v-if="isOpen", v-hljs="path")
+    //- author color is applied only when the author color exists, else it takes the default mui color value
     .code(
       v-for="(line, index) in segment.lines", v-bind:key="index",
       v-bind:style="{ 'background-color': `${authorColors[segment.knownAuthor]}${transparencyValue}` }"
@@ -53,11 +54,11 @@ export default defineComponent({
     isOpen: boolean,
     canOpen: boolean,
     transparencyValue: string,
-    } {
+  } {
     return {
       isOpen: (this.segment.knownAuthor !== null) || this.segment.lines.length < 5 as boolean,
       canOpen: (this.segment.knownAuthor === null) && this.segment.lines.length > 4 as boolean,
-      transparencyValue: '30' as string,
+      transparencyValue: (this.segment.isFullCredit ? '50' : '20') as string,
     };
   },
   computed: {
@@ -73,7 +74,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '../styles/hightlight-js-style.css';
 @import '../styles/_colors.scss';
 
@@ -81,7 +82,7 @@ export default defineComponent({
   border-left: .25rem solid mui-color('green');
 
   .code {
-    background-color: mui-color('github', 'authored-code-background');
+    background-color: mui-color('github', 'full-authored-code-background');
     padding-left: 1rem;
   }
 
@@ -112,6 +113,12 @@ export default defineComponent({
   .line-content {
     padding-left: 2rem;
     word-break: break-word;
+  }
+
+  &.isNotFullCredit {
+    .code {
+      background-color: mui-color('github', 'partial-authored-code-background');
+    }
   }
 
   &.untouched {

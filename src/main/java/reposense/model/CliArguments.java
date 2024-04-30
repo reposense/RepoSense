@@ -35,6 +35,8 @@ public class CliArguments {
     private int numAnalysisThreads;
     private ZoneId zoneId;
     private boolean isFindingPreviousAuthorsPerformed;
+    private boolean isAuthorshipAnalyzed;
+    private double originalityThreshold;
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
 
@@ -163,6 +165,14 @@ public class CliArguments {
         return isViewModeOnly;
     }
 
+    public boolean isAuthorshipAnalyzed() {
+        return isAuthorshipAnalyzed;
+    }
+
+    public double getOriginalityThreshold() {
+        return originalityThreshold;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -200,7 +210,9 @@ public class CliArguments {
                 && Objects.equals(this.repoConfigFilePath, otherCliArguments.repoConfigFilePath)
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
                 && Objects.equals(this.groupConfigFilePath, otherCliArguments.groupConfigFilePath)
-                && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath);
+                && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
+                && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
+                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold);
     }
 
     /**
@@ -432,8 +444,8 @@ public class CliArguments {
          */
         public Builder configFolderPath(Path configFolderPath) {
             this.cliArguments.configFolderPath = configFolderPath.equals(EMPTY_PATH)
-                ? configFolderPath.toAbsolutePath()
-                : configFolderPath;
+                    ? configFolderPath.toAbsolutePath()
+                    : configFolderPath;
             this.cliArguments.repoConfigFilePath = configFolderPath.resolve(
                     RepoConfigCsvParser.REPO_CONFIG_FILENAME);
             this.cliArguments.authorConfigFilePath = configFolderPath.resolve(
@@ -452,6 +464,26 @@ public class CliArguments {
          */
         public Builder reportConfiguration(ReportConfiguration reportConfiguration) {
             this.cliArguments.reportConfiguration = reportConfiguration;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isAuthorshipAnalyzed} to CliArguments.
+         *
+         * @param isAuthorshipAnalyzed Is authorship analyzed.
+         */
+        public Builder isAuthorshipAnalyzed(boolean isAuthorshipAnalyzed) {
+            this.cliArguments.isAuthorshipAnalyzed = isAuthorshipAnalyzed;
+            return this;
+        }
+
+        /**
+         * Adds the {@code originalityThreshold} to CliArguments.
+         *
+         * @param originalityThreshold the originality threshold.
+         */
+        public Builder originalityThreshold(double originalityThreshold) {
+            this.cliArguments.originalityThreshold = originalityThreshold;
             return this;
         }
 
