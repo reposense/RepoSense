@@ -50,7 +50,7 @@ describe('optimise timeline', () => {
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .first()
-      .should('have.text', '5/3/2018');
+      .should('have.text', '2018-05-03');
 
     cy.get('#summary-charts .summary-chart')
       .first()
@@ -58,7 +58,7 @@ describe('optimise timeline', () => {
       .last()
 
       // 3/3 on GitHub CI, 3/4 on local
-      .should('have.text', '3/3/2023');
+      .should('have.text', '2023-03-03');
   });
 
   it('no commits in range should not have date indicators', () => {

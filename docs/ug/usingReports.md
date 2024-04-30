@@ -118,6 +118,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
     * a breakdown of the number of lines of codes added to each file type (if the checkbox is checked). More info on note [3] below.
 * `Merge group`: merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
     * viewing of authored code of the group as a whole is available when `group by repos`.
+* `Trim timeline`: trims the starting and ending portion of each ramp where no commits were made; only the part of each ramp where commits were made will be shown.
 * `Show tags`: shows the tags of all the repos under a group
 
 Notes:<br>

@@ -35,9 +35,9 @@
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
         }"
       )
-.date-indicators(v-if="optimiseTimeline && optimisedMinimumDate != null && optimisedMaximumDate != null")
-  span {{new Date(optimisedMinimumDate).toLocaleDateString()}}
-  span {{new Date(optimisedMaximumDate).toLocaleDateString()}}
+.date-indicators(v-if="optimiseTimeline")
+  span {{optimisedMinimumDate}}
+  span {{optimisedMaximumDate}}
 </template>
 
 <script lang='ts'>
@@ -93,6 +93,14 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    optimisedMinimumDate: {
+      type: String,
+      default: '',
+    },
+    optimisedMaximumDate: {
+      type: String,
+      default: '',
+    },
   },
   data(): {
     rampSize: number,
@@ -110,16 +118,6 @@ export default defineComponent({
     },
     deletesContributionRampSize(): number {
       return this.rampSize * 20;
-    },
-    optimisedMinimumDate(): number | null {
-      return this.user.commits.length === 0
-        ? null
-        : Math.min(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
-    },
-    optimisedMaximumDate(): number | null {
-      return this.user.commits.length === 0
-        ? null
-        : Math.max(...this.user.commits.map((commit) => new Date(commit.date).valueOf()));
     },
   },
 
@@ -196,20 +194,20 @@ export default defineComponent({
 
     // position for commit granularity
     getCommitPos(i: number, total: number): number {
+      const totalTime = this.optimiseTimeline
+        ? this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate)
+        : this.getTotalForPos(this.sdate, this.udate);
       return (((total - i - 1) * window.DAY_IN_MS) / total)
-          / (this.getTotalForPos(this.sdate, this.udate) + window.DAY_IN_MS);
+          / (totalTime + window.DAY_IN_MS);
     },
     // position for day granularity
     getSlicePos(date: string): number {
-      if (this.optimiseTimeline) {
-        if (this.optimisedMinimumDate === null || this.optimisedMaximumDate === null) {
-          return 0;
-        }
-        const total = this.optimisedMaximumDate - this.optimisedMinimumDate;
-        return (new Date(this.optimisedMaximumDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
-      }
-      const total = this.getTotalForPos(this.sdate, this.udate);
-      return (new Date(this.udate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
+      const toDate = this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
+      const total = this.optimiseTimeline
+        ? this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate)
+        : this.getTotalForPos(this.sdate, this.udate);
+
+      return (new Date(toDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
     },
 
     // get duration in miliseconds between 2 date
@@ -305,7 +303,6 @@ export default defineComponent({
 }
 
 .date-indicators {
-  @include mono-font;
   color: mui-color('grey', '700');
   display: flex;
   justify-content: space-between;
