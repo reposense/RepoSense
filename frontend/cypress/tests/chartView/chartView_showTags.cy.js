@@ -64,4 +64,23 @@ describe('show tags', () => {
         .should('equal', 'https://github.com/reposense/RepoSense/releases/tag/v1.0');
     });
   });
+
+  it('group by authors works with show tags', () => {
+    cy.get('div.mui-select.grouping > select:visible')
+      .select('groupByAuthors');
+      
+    cy.get('div.mui-select.sort-within-group > select:visible')
+      .select('title dsc');
+    
+    cy.get('#summary label.show-tags > input:visible')
+      .should('be.visible')
+      .check()
+      .should('be.checked');
+      
+    cy.get('.summary-chart:first summary-chart__title--tags')
+      .should('not.exist');
+      
+    cy.get('.summary-chart:nth-child(2) summary-chart__title--tags')
+      .should('not.exist');
+  });
 });
