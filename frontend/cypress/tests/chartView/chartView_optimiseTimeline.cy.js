@@ -90,6 +90,7 @@ describe('optimise timeline', () => {
     cy.get('#tab-zoom')
       .should('be.visible');
 
+    // verifies the ramp chart is not optimised and has empty space on the right
     cy.get('#tab-zoom .ramp a')
       .first()
       .invoke('css', 'right')
@@ -111,6 +112,7 @@ describe('optimise timeline', () => {
     cy.get('#tab-zoom .period')
       .should('contain', '2018-05-03 to 2023-03-03');
 
+    // verifies the ramp chart is optimised and has no empty space on the right
     cy.get('#tab-zoom .ramp a')
       .first()
       .invoke('css', 'right')
