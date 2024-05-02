@@ -5,6 +5,7 @@
 <script lang="ts">
 import MarkdownIt from 'markdown-it';
 import { defineComponent } from 'vue';
+
 export default defineComponent({
   data() {
     return {
