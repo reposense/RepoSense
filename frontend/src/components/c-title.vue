@@ -1,16 +1,11 @@
 <template lang="pug">
-.title
-  c-markdown-chunk(v-bind:markdown-text="markdownText")
+.title(v-html="markdownText", v-if="markdownText != ''")
 </template>
 
 <script lang="ts">
+import MarkdownIt from 'markdown-it';
 import { defineComponent } from 'vue';
-import cMarkdownChunk from './c-markdown-chunk.vue';
-
 export default defineComponent({
-  components: {
-    cMarkdownChunk,
-  },
   data() {
     return {
       markdownText: '',
@@ -23,7 +18,8 @@ export default defineComponent({
       }
       return response.text();
     }).then((text) => {
-      this.markdownText = text;
+      const md = new MarkdownIt({ html: true });
+      this.markdownText = md.render(text);
     }).catch((error) => {
       this.markdownText = (error as Error).toString();
     });
@@ -33,6 +29,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .title {
+  overflow-x: auto;
+  padding: 0 1.5rem;
   // This is needed because the parent summary-wrapper center aligns everything
   text-align: initial;
 }
