@@ -77,10 +77,10 @@ describe('show tags', () => {
       .check()
       .should('be.checked');
 
-    cy.get('.summary-chart:first summary-chart__title--tags')
+    cy.get('.summary-chart:first .summary-chart__title--tags')
       .should('not.exist');
 
-    cy.get('.summary-chart:nth-child(2) summary-chart__title--tags')
-      .should('not.exist');
+    cy.get('.summary-chart:nth-child(2) .summary-chart__title--tags')
+      .should('exist');
   });
 });
