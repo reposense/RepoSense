@@ -78,9 +78,10 @@ describe('show tags', () => {
       .should('be.checked');
 
     cy.get('.summary-chart:first .summary-chart__title--tags')
-      .should('not.exist');
+      .find('a')
+      .should('have.length', 0);
 
     cy.get('.summary-chart:nth-child(2) .summary-chart__title--tags')
-      .should('exist');
+      .should('have.length.gt', 0);
   });
 });
