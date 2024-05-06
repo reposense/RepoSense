@@ -131,7 +131,7 @@ describe('show tags', () => {
       .click();
 
     const correctTags = [];
-  
+
     cy.get('.zoom__title--tags')
       .find('.tag')
       .each(($tag) => correctTags.push($tag.text().trim()))
@@ -143,7 +143,7 @@ describe('show tags', () => {
           .each(($tag) => {
             expect(correctTags).to.include($tag.text().trim());
           });
-  
+
         cy.get('.summary-chart')
           .first()
           .find('.summary-chart__title--tags')
