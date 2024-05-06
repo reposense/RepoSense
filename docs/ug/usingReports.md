@@ -119,6 +119,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
 * `Merge group`: merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
     * viewing of authored code of the group as a whole is available when `group by repos`.
 * `Show tags`: shows the tags of all the repos under a group
+* `Trim timeline`: trims the starting and ending portion of each ramp where no commits were made; only the part of each ramp where commits were made will be shown.
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>.

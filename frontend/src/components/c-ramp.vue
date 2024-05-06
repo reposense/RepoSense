@@ -1,22 +1,25 @@
 <template lang="pug">
 .ramp
   template(v-if="tframe === 'commit'")
-    template(v-for="(slice, j) in user.commits")
-      template(v-for="(commit, k) in slice.commitResults")
-        a.ramp__slice(
-          draggable="false",
-          v-on:click="rampClick",
-          v-bind:href="getLink(commit)", target="_blank",
-          v-bind:title="getContributionMessageByCommit(slice, commit)",
-          v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
-            !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
-          v-bind:style="{\
-            zIndex: user.commits.length - j,\
-            borderLeftWidth: `${getWidth(commit)}em`,\
-            right: `${((getSlicePos(slice.date)\
-              + (getCommitPos(k, slice.commitResults.length))) * 100)}%`\
-            }"
-        )
+    .ramp-padding(
+        v-bind:style="optimiseTimeline ? {width: `${100 - optimisedPadding * 2}%`, left: `${optimisedPadding}%`} : ''"
+      )
+      template(v-for="(slice, j) in user.commits")
+        template(v-for="(commit, k) in slice.commitResults")
+          a.ramp__slice(
+            draggable="false",
+            v-on:click="rampClick",
+            v-bind:href="getLink(commit)", target="_blank",
+            v-bind:title="getContributionMessageByCommit(slice, commit)",
+            v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
+              !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
+            v-bind:style="{\
+              zIndex: user.commits.length - j,\
+              borderLeftWidth: `${getWidth(commit)}em`,\
+              right: `${((getSlicePos(slice.date)\
+                + (getCommitPos(k, slice.commitResults.length))) * 100)}%`\
+              }"
+          )
 
   template(v-else)
     a(v-bind:href="getReportLink()", target="_blank")
@@ -30,8 +33,11 @@
           zIndex: user.commits.length - j,\
           borderLeftWidth: `${getWidth(slice)}em`,\
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
-          }"
+        }"
       )
+.date-indicators(v-if="optimiseTimeline")
+  span {{optimisedMinimumDate}}
+  span {{optimisedMaximumDate}}
 </template>
 
 <script lang='ts'>
@@ -83,10 +89,26 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    optimiseTimeline: {
+      type: Boolean,
+      default: false,
+    },
+    optimisedMinimumDate: {
+      type: String,
+      default: '',
+    },
+    optimisedMaximumDate: {
+      type: String,
+      default: '',
+    },
   },
-  data(): {rampSize: number} {
+  data(): {
+    rampSize: number,
+    optimisedPadding: number,
+  } {
     return {
       rampSize: 0.01 as number,
+      optimisedPadding: 3, // as % of total timeline,
     };
   },
 
@@ -172,13 +194,20 @@ export default defineComponent({
 
     // position for commit granularity
     getCommitPos(i: number, total: number): number {
+      const totalTime = this.optimiseTimeline
+        ? this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate)
+        : this.getTotalForPos(this.sdate, this.udate);
       return (((total - i - 1) * window.DAY_IN_MS) / total)
-          / (this.getTotalForPos(this.sdate, this.udate) + window.DAY_IN_MS);
+          / (totalTime + window.DAY_IN_MS);
     },
     // position for day granularity
     getSlicePos(date: string): number {
-      const total = this.getTotalForPos(this.sdate, this.udate);
-      return (new Date(this.udate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
+      const toDate = this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
+      const total = this.optimiseTimeline
+        ? this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate)
+        : this.getTotalForPos(this.sdate, this.udate);
+
+      return (new Date(toDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
     },
 
     // get duration in miliseconds between 2 date
@@ -266,5 +295,17 @@ export default defineComponent({
       border-bottom: $height rgba(mui-color('red'), .7) solid;
     }
   }
+}
+
+.ramp-padding {
+  height: 100%;
+  position: relative;
+}
+
+.date-indicators {
+  color: mui-color('grey', '700');
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1px;
 }
 </style>
