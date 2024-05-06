@@ -109,6 +109,7 @@ describe('optimise timeline', () => {
     cy.get('#tab-zoom')
       .should('be.visible');
 
+    // verifies the date range is correctly optimised
     cy.get('#tab-zoom .period')
       .should('contain', '2018-05-03 to 2023-03-03');
 
