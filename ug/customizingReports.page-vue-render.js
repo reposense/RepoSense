@@ -53,6 +53,6 @@ with(this){return _c('p',[_v("The title can render a combination of Markdown/HTM
 with(this){return _c('p',[_v("For more information on how to use Markdown, see the "),_c('a',{attrs:{"href":"https://www.markdownguide.org/"}},[_v("Markdown Guide")]),_v(".")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.4.0")]),_v(", generated on Sun, 28 Apr 2024, 14:27:57 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.2")]),_v(", generated on Mon, 6 May 2024, 19:24:20 UTC]")])])])}
 }];
   
