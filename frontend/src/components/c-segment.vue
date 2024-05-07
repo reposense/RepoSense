@@ -75,7 +75,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import '../styles/highlight-js-style.css';
+@import '../styles/hightlight-js-style.css';
 @import '../styles/_colors.scss';
 
 .segment {
