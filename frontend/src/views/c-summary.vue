@@ -80,6 +80,13 @@
             v-on:change="getFiltered"
           )
           span show tags
+        label.optimise-timeline
+          input.mui-checkbox(
+            type="checkbox",
+            v-model="optimiseTimeline",
+            v-on:change="getFiltered"
+          )
+          span trim timeline
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
     .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
@@ -131,7 +138,8 @@
     v-bind:sort-group-selection="sortGroupSelection",
     v-bind:chart-group-index="chartGroupIndex",
     v-bind:chart-index="chartIndex",
-    v-bind:view-repo-tags="viewRepoTags"
+    v-bind:view-repo-tags="viewRepoTags",
+    v-bind:optimise-timeline="optimiseTimeline"
   )
 </template>
 
@@ -215,6 +223,7 @@ export default defineComponent({
     errorIsShowingMore: boolean,
     numberOfErrorMessagesToShow: number,
     viewRepoTags: boolean,
+    optimiseTimeline: boolean,
   } {
     return {
       checkedFileTypes: [] as Array<string>,
@@ -245,6 +254,7 @@ export default defineComponent({
       errorIsShowingMore: false,
       numberOfErrorMessagesToShow: 4,
       viewRepoTags: false,
+      optimiseTimeline: false,
     };
   },
   computed: {
@@ -437,6 +447,11 @@ export default defineComponent({
       } else {
         removeHash('viewRepoTags');
       }
+      if (this.optimiseTimeline) {
+        addHash('optimiseTimeline', 'true');
+      } else {
+        removeHash('optimiseTimeline');
+      }
 
       encodeHash();
     },
@@ -488,6 +503,9 @@ export default defineComponent({
       }
       if (hash.viewRepoTags) {
         this.viewRepoTags = convertBool(hash.viewRepoTags);
+      }
+      if (hash.optimiseTimeline) {
+        this.optimiseTimeline = convertBool(hash.optimiseTimeline);
       }
     },
 

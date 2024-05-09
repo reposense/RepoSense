@@ -100,7 +100,12 @@
         a(
           v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(\
+            repo[0],\
+            getIsOptimising(repo[0]) ? getOptimisedMinimumDate(repo[0]) : filterSinceDate,\
+            getIsOptimising(repo[0]) ? getOptimisedMaximumDate(repo[0]) : filterUntilDate,\
+            isGroupMerged(getGroupName(repo))\
+          )"
         )
           .tooltip(
             v-on:mouseover="onTooltipHover(`summary-charts-${i}-commit-breakdown`)",
@@ -230,7 +235,12 @@
         a(
           v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
+          v-on:click="openTabZoom(\
+            user,\
+            getIsOptimising(user) ? getOptimisedMinimumDate(user) : filterSinceDate,\
+            getIsOptimising(user) ? getOptimisedMaximumDate(user) : filterUntilDate,\
+            isGroupMerged(getGroupName(repo))\
+          )"
         )
           .tooltip(
             v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-commit-breakdown`)",
@@ -296,7 +306,11 @@
           v-bind:avgsize="avgCommitSize",
           v-bind:mergegroup="isGroupMerged(getGroupName(repo))",
           v-bind:filtersearch="filterSearch",
-          v-bind:is-widget-mode="isChartGroupWidgetMode")
+          v-bind:is-widget-mode="isChartGroupWidgetMode",
+          v-bind:optimise-timeline="getIsOptimising(user)",
+          v-bind:optimised-minimum-date="getOptimisedMinimumDate(user)",
+          v-bind:optimised-maximum-date="getOptimisedMaximumDate(user)"
+        )
         .overlay
 
       .summary-chart__contribution
@@ -397,6 +411,10 @@ export default defineComponent({
       default: undefined,
     },
     viewRepoTags: {
+      type: Boolean,
+      default: false,
+    },
+    optimiseTimeline: {
       type: Boolean,
       default: false,
     },
@@ -609,6 +627,21 @@ export default defineComponent({
         return ['fas', 'database'];
       }
     },
+    getOptimisedMinimumDate(user: User): string {
+      return user.commits.length === 0
+        ? this.filterSinceDate
+        : user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr))
+          .date;
+    },
+    getOptimisedMaximumDate(user: User): string {
+      return user.commits.length === 0
+        ? this.filterUntilDate
+        : user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr))
+          .date;
+    },
+    getIsOptimising(user: User): boolean {
+      return user.commits.length !== 0 && this.optimiseTimeline;
+    },
 
     getTagLink(repo: User, tag: string): string | undefined {
       return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repo.repoId)}releases/tag/${tag}`);
@@ -648,12 +681,17 @@ export default defineComponent({
 
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
-        // additional day was added to include the date represented by filterUntilDate
-        const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf()
-            + window.DAY_IN_MS;
+        const fromDate = (new Date(this.getIsOptimising(user)
+          ? this.getOptimisedMinimumDate(user)
+          : this.filterSinceDate)).valueOf();
+        const toDate = (new Date(this.getIsOptimising(user)
+          ? this.getOptimisedMaximumDate(user)
+          : this.filterUntilDate)).valueOf();
+
+        const tdiff = toDate - fromDate + window.DAY_IN_MS;
         const idxs = this.drags.map((x) => (x * tdiff) / 100);
-        const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
-        const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
+        const tsince = window.getDateStr(fromDate + idxs[0]);
+        const tuntil = window.getDateStr(fromDate + idxs[1]);
         this.drags = [];
         this.openTabZoom(user, tsince, tuntil, isMerged);
       }
