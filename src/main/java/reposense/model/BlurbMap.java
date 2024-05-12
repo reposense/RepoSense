@@ -16,6 +16,10 @@ public class BlurbMap {
         this.urlBlurbMap = new HashMap<>();
     }
 
+    public Map<String, String> getAllMappings() {
+        return new HashMap<>(this.urlBlurbMap);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
