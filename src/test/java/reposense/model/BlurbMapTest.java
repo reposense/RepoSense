@@ -6,28 +6,28 @@ import org.junit.jupiter.api.Test;
 public class BlurbMapTest {
     @Test
     public void blurbBuilder_testIfBuildsSuccessfully_success() {
-        BlurbMap.Builder builder = new BlurbMap.Builder();
+        BlurbMap builder = new BlurbMap();
         builder.withRecord("hello", "world");
-        BlurbMap.Builder newBuilder = new BlurbMap.Builder();
+        BlurbMap newBuilder = new BlurbMap();
         newBuilder.withRecord("hello", "world");
 
-        Assertions.assertEquals(builder.build(), newBuilder.build());
+        Assertions.assertEquals(builder, newBuilder);
     }
 
     @Test
     public void blurbBuilder_testIfBuildsEmpty_success() {
-        BlurbMap map1 = new BlurbMap.Builder().build();
-        BlurbMap map2 = new BlurbMap.Builder().build();
+        BlurbMap map1 = new BlurbMap();
+        BlurbMap map2 = new BlurbMap();
         Assertions.assertEquals(map1, map2);
     }
 
     @Test
     public void blurbBuilder_testIfUnequal_success() {
-        BlurbMap.Builder builder1 = new BlurbMap.Builder();
-        BlurbMap.Builder builder2 = new BlurbMap.Builder();
+        BlurbMap builder1 = new BlurbMap();
+        BlurbMap builder2 = new BlurbMap();
 
         builder1.withRecord("this", "builder");
         builder2.withRecord("other", "builder");
-        Assertions.assertNotEquals(builder1.build(), builder2.build());
+        Assertions.assertNotEquals(builder1, builder2);
     }
 }

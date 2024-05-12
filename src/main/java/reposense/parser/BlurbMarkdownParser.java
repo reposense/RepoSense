@@ -81,8 +81,8 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
             throw new InvalidMarkdownException("Empty blurbs.md file");
         }
 
-        // prepare the blurb builder
-        BlurbMap.Builder builder = new BlurbMap.Builder();
+        // prepare the blurb map
+        BlurbMap blurbMap = new BlurbMap();
 
         // define temporary local variables to track blurbs
         String url = "";
@@ -107,13 +107,13 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
 
             // add the recorded entry into the BlurbMap
             // strip the trailing /n
-            builder = builder.withRecord(url, blurb.toString().stripTrailing());
+            blurbMap.withRecord(url, blurb.toString().stripTrailing());
             blurb.setLength(0);
         }
 
         // return the built BlurbMap instance
         logger.log(Level.INFO, "Blurbs parsed successfully!");
-        return builder.build();
+        return blurbMap;
     }
 
     private UrlRecord getUrlRecord(List<String> lines, int position) throws InvalidMarkdownException {

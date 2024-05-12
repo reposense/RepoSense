@@ -20,6 +20,16 @@ public class BlurbMap {
         return new HashMap<>(this.urlBlurbMap);
     }
 
+    /**
+     * Adds a key-value record into the {@code BlurbMap}.
+     *
+     * @param key Key value.
+     * @param value Blurb value.
+     */
+    public void withRecord(String key, String value) {
+        this.urlBlurbMap.put(key, value);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -32,40 +42,5 @@ public class BlurbMap {
         }
 
         return false;
-    }
-
-    /**
-     * Builder class to help in the building of a {@code BlurbMap}.
-     */
-    public static final class Builder {
-        private BlurbMap blurbMap;
-
-        public Builder() {
-            blurbMap = new BlurbMap();
-        }
-
-
-        /**
-         * Adds a key-value record into the {@code BlurbMap}.
-         *
-         * @param key Key value.
-         * @param value Blurb value.
-         * @return This {@code Builder}.
-         */
-        public Builder withRecord(String key, String value) {
-            blurbMap.urlBlurbMap.put(key, value);
-            return this;
-        }
-
-        /**
-         * Returns a built instance of {@code BlurbMap}.
-         *
-         * @return Built {@code BlurbMap}.
-         */
-        public BlurbMap build() {
-            BlurbMap built = this.blurbMap;
-            this.blurbMap = new BlurbMap();
-            return built;
-        }
     }
 }
