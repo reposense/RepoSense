@@ -104,7 +104,8 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
             counter = blurbRecord.getNextPosition();
 
             // add the recorded entry into the BlurbMap
-            builder = builder.withRecord(url, blurb.toString());
+            // strip the trailing /n
+            builder = builder.withRecord(url, blurb.toString().stripTrailing());
             blurb.setLength(0);
         }
 
