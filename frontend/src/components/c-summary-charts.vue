@@ -1017,8 +1017,15 @@ export default defineComponent({
   padding-bottom: 5px;
 
   .blurb {
-    background-color: #fafafa;
+    background-color: #F6F8FA;
+    border-color: #E9EBEF;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
     overflow-y: hidden;
+    // This is needed because the inline style of normalize.css adds bottom margins to all p tags, including the
+    // ones in the blurb.
+    padding-top: 10px;
     // This is needed because the parent summary-wrapper center aligns everything
     text-align: initial;
   }
