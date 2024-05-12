@@ -17,4 +17,18 @@ describe('blurbs', () => {
     cy.get('.markdown.blurb')
       .should('have.length', 3);
   });
+
+  it('processes markdown in blurbs', () => {
+    cy.get('.markdown.blurb')
+      .eq(1)
+      .find('h1')
+      .contains('second blurb in h1 tag');
+  });
+
+  it('processes html in blurbs', () => {
+    cy.get('.markdown.blurb')
+      .eq(2)
+      .find('h2')
+      .contains('third blurb in h2 markdown tag');
+  });
 });
