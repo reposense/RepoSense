@@ -989,7 +989,7 @@ export default defineComponent({
     },
 
     getTags(repo: Array<User>, user?: User): Array<string> {
-      if (user) repo = repo.filter((r) => r.name === user.name);
+      if (user) repo = repo.filter((r) => r.name === user.name && r.repoId === user.repoId);
       return [...new Set(repo.flatMap((r) => r.commits).flatMap((c) => c.commitResults).flatMap((r) => r.tags))]
         .filter(Boolean) as Array<string>;
     },
