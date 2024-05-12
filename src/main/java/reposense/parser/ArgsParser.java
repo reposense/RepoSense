@@ -409,7 +409,6 @@ public class ArgsParser {
      */
     private static void addBlurbMapToBuilder(CliArguments.Builder builder, Namespace results) {
         BlurbMap blurbMap = new BlurbMap();
-        List<String> locations = results.get(REPO_FLAGS[0]);
         Path configFolderPath = results.get(CONFIG_FLAGS[0]);
 
         // Blurbs are parsed regardless
