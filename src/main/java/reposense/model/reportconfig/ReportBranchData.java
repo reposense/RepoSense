@@ -1,5 +1,6 @@
 package reposense.model.reportconfig;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,6 +10,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ReportBranchData {
     public static final String DEFAULT_BRANCH = "main";
+    public static final List<ReportAuthorDetails> DEFAULT_REPORT_AUTHOR_DETAILS = new ArrayList<>(
+            ReportAuthorDetails.DEFAULT_INSTANCES
+    );
     public static final List<String> DEFAULT_FILE_FORMATS = List.of(
             "override:java", "md", "fxml"
     );
@@ -40,10 +44,14 @@ public class ReportBranchData {
         DEFAULT_INSTANCE.isFindPreviousAuthor = ReportBranchData.DEFAULT_IS_FIND_PREVIOUS_AUTHOR;
         DEFAULT_INSTANCE.isShallowCloning = ReportBranchData.DEFAULT_IS_SHALLOW_CLONING;
         DEFAULT_INSTANCE.isIgnoreStandaloneConfig = ReportBranchData.DEFAULT_IS_IGNORE_STANDALONE_CONFIG;
+        DEFAULT_INSTANCE.reportAuthorDetails = ReportAuthorDetails.DEFAULT_INSTANCES;
     }
 
     @JsonProperty("branch")
     private String branch;
+
+    @JsonProperty("authors")
+    private List<ReportAuthorDetails> reportAuthorDetails;
 
     @JsonProperty("file-formats")
     private List<String> fileFormats;
@@ -68,6 +76,10 @@ public class ReportBranchData {
 
     public String getBranch() {
         return branch == null ? DEFAULT_BRANCH : branch;
+    }
+
+    public List<ReportAuthorDetails> getReportAuthorDetails() {
+        return reportAuthorDetails == null ? DEFAULT_REPORT_AUTHOR_DETAILS : reportAuthorDetails;
     }
 
     public List<String> getFileFormats() {
@@ -107,6 +119,7 @@ public class ReportBranchData {
         if (obj instanceof ReportBranchData) {
             ReportBranchData rbd = (ReportBranchData) obj;
             return this.getBranch().equals(rbd.getBranch())
+                    && this.getReportAuthorDetails().equals(rbd.getReportAuthorDetails())
                     && this.getFileFormats().equals(rbd.getFileFormats())
                     && this.getIgnoreGlobList().equals(rbd.getIgnoreGlobList())
                     && this.getIsIgnoreStandaloneConfig() == rbd.getIsIgnoreStandaloneConfig()

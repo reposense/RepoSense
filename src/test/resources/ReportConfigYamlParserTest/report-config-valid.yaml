@@ -15,15 +15,16 @@ group-details:
           - "**.md"
 repos:
   - repo: https://github.com/user/repo/tree/fake-branch
-    author-emails:
-      - john@john.com
-      - johny@mail.com
-      - j@domain.com
-    author-git-host-id: johnDoe
-    author-display-name: John Doe
-    author-git-author-name: my home PC
     branches:
       - branch: main
+        authors:
+          - author-git-host-id: johnDoe
+            author-display-name: John Doe
+            author-git-author-name: my home PC
+            author-emails:
+              - john@john.com
+              - johny@mail.com
+              - j@domain.com
         file-formats:
           - override:java
           - md
