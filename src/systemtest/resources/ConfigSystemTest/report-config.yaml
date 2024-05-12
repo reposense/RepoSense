@@ -1,6 +1,6 @@
 title: RepoSense Report Test Title
 group-details:
-  - repo: https://github.com/user/repo/tree/fake-branch
+  - repo: https://github.com/user/repo.git
     groups:
       - group-name: code
         globs:
@@ -14,7 +14,7 @@ group-details:
           - "**.adoc"
           - "**.md"
 repos:
-  - repo: https://github.com/user/repo/tree/fake-branch
+  - repo: https://github.com/user/repo.git
     branches:
       - branch: main
         authors:
