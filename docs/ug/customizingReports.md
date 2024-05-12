@@ -62,8 +62,9 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### Add a title
+### Personalizing Reports
 
+#### Add a title
 A title component can be added by creating a file titled `title.md` in the assets directory. You can specify the assets directory according to the reference below:
 {{ embed("Appendix: **CLI syntax reference → `assets` flag**", "cli.md#section-assets") }}
 
@@ -73,3 +74,10 @@ The title can render a combination of Markdown/HTML and plaintext ([example](htt
 Do note that the width of the title is bound by the width of the left panel.
 
 For more information on how to use Markdown, see the [Markdown Guide](https://www.markdownguide.org/).
+
+#### Add blurbs for branches
+A blurb can be added for a repository branch by creating a file titled `blurbs.md` in the config directory. The blurbs will be visible when grouping by `Repo/Branch`. The format of the file is given below:
+{{ embed("Appendix: **Config files format**", "configFiles.md#section-blurbs") }}
+
+Specifying the config directory can be done as follows:
+{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}

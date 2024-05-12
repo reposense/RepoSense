@@ -25,9 +25,11 @@ import net.sourceforge.argparse4j.inf.FeatureControl;
 import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
+import reposense.model.BlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.FileType;
 import reposense.model.ReportConfiguration;
+import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.parser.exceptions.ParseException;
 import reposense.parser.types.AlphanumericArgumentType;
 import reposense.parser.types.AnalysisThreadsArgumentType;
@@ -91,6 +93,7 @@ public class ArgsParser {
             "Config path not provided, using the config folder as default.";
     private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
+    private static final String MESSAGE_INVALID_MARKDOWN_BLURBS = "%s Ignoring the blurb file provided.";
     private static final String MESSAGE_SINCE_D1_WITH_PERIOD = "You may be using --since d1 with the --period flag. "
             + "This may result in an incorrect date range being analysed.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
@@ -346,6 +349,7 @@ public class ArgsParser {
         }
 
         addReportConfigToBuilder(cliArgumentsBuilder, results);
+        addBlurbMapToBuilder(cliArgumentsBuilder, results);
         addAnalysisDatesToBuilder(cliArgumentsBuilder, results);
 
         boolean isViewModeOnly = reportFolderPath != null
@@ -395,6 +399,31 @@ public class ArgsParser {
             }
         }
         builder.reportConfiguration(reportConfig);
+    }
+
+    /**
+     * Adds the blurbMap field to the given {@code builder}.
+     *
+     * @param builder Builder to be supplied with the reportConfig field.
+     * @param results Parsed results of the user-supplied CLI arguments.
+     */
+    private static void addBlurbMapToBuilder(CliArguments.Builder builder, Namespace results) {
+        BlurbMap blurbMap = new BlurbMap();
+        Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+
+        // Blurbs are parsed regardless
+        Path blurbConfigPath = configFolderPath.resolve(BlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+
+        try {
+            blurbMap = new BlurbMarkdownParser(blurbConfigPath).parse();
+        } catch (InvalidMarkdownException ex) {
+            logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
+        } catch (IOException ioe) {
+            // IOException thrown as blurbs.md is not found.
+            // Ignore exception as the file is optional.
+        }
+
+        builder.blurbMap(blurbMap);
     }
 
     /**
