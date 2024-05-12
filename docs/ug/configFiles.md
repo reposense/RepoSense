@@ -209,3 +209,17 @@ Note: Symbols such as `"`, `!`, `/` etc. in your author name will be omitted, wh
 </box>
 
 </div>
+
+<!-- ==================================================================================================== -->
+
+<div id="section-blurbs">
+
+## `blurbs.md`
+
+You can optionally use `blurbs.md` to add blurbs in Markdown syntax for repository branches. These blurbs will be seen when grouping by `Repo/Branch`. ([example](blurbs.md))
+
+**Format**:
+* First line in section: Link to the repository branch.
+* Second line onwards: Blurb content.
+* Delimiter: `<!--repo-->`. Everything on the line after the delimiter will be ignored.
+</div>
