@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.regex.Pattern;
 
 import reposense.model.BlurbMap;
 import reposense.parser.exceptions.InvalidMarkdownException;
@@ -19,6 +20,7 @@ import reposense.parser.exceptions.InvalidMarkdownException;
  * configuration file.
  */
 public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
+    public static final Pattern DELIMITER = Pattern.compile("<!--repo-->(.*)");
     public static final String DEFAULT_BLURB_FILENAME = "blurbs.md";
 
     private static final class UrlRecord {
@@ -134,7 +136,7 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
         while (posCounter < lineSize) {
             String currLine = lines.get(posCounter);
 
-            if (MarkdownParser.DELIMITER.matcher(currLine).matches()) {
+            if (BlurbMarkdownParser.DELIMITER.matcher(currLine).matches()) {
                 break;
             } else {
                 currLine += "\n";

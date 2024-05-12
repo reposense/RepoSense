@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 
 import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.system.LogsManager;
@@ -16,7 +15,6 @@ import reposense.system.LogsManager;
  * @param <T> Generic Type {@code T}.
  */
 public abstract class MarkdownParser<T> {
-    protected static final Pattern DELIMITER = Pattern.compile("<!--repo-->(.*)");
     protected static final Logger logger = LogsManager.getLogger(MarkdownParser.class);
 
     protected Path markdownPath;
