@@ -216,7 +216,7 @@ Note: Symbols such as `"`, `!`, `/` etc. in your author name will be omitted, wh
 
 ## `blurbs.md`
 
-You can optionally use `blurbs.md` to add blurbs in Markdown syntax for repository branches. These blurbs will be seen when grouping by `Repo/Branch`. ([example](blurbs.md))
+You can optionally use `blurbs.md` to add blurbs in Markdown syntax for repository branches. These blurbs will be seen when grouping by `Repo/Branch`. ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/blurbs.md))
 
 **Format**:
 * First line in section: Link to the repository branch.
