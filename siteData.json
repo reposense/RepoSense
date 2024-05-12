@@ -233,6 +233,11 @@
       "headingKeywords": {}
     },
     {
+      "src": "ug/blurbs.md",
+      "headings": {},
+      "headingKeywords": {}
+    },
+    {
       "src": "ug/cli.md",
       "title": "Appendix: CLI syntax reference",
       "headings": {
@@ -269,7 +274,8 @@
         "group-config-csv": "group-config.csv",
         "report-config-json": "report-config.json",
         "config-json-standalone-config-file": "config.json (standalone config file)",
-        "a-note-about-git-author-name": "A note about git author name"
+        "a-note-about-git-author-name": "A note about git author name",
+        "blurbs-md": "blurbs.md"
       },
       "headingKeywords": {}
     },
@@ -281,7 +287,7 @@
         "customize-using-cli-flags": "Customize using CLI flags",
         "customize-using-csv-config-files": "Customize using CSV config files",
         "get-target-repos-to-provide-more-info": "Get target repos to provide more info",
-        "add-a-title": "Add a title"
+        "personalizing-reports": "Personalizing Reports"
       },
       "headingKeywords": {}
     },
