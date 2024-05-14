@@ -40,9 +40,3 @@ Possibly, you may have some file names with [special characters](https://docs.mi
 ### Some file types are not shown in the file type filter even if I have included them in the file formats when generating the report
 
 The files of these types may be [binary files](https://en.wikipedia.org/wiki/Binary_file). *RepoSense* will group binary files under one single file type `binary`. Common binary files include images (`.jpg`, `.png`), applications (`.exe`), zip files (`.zip`, `.rar`) and certain document types (`.docx`, `.pptx`).
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### RepoSense doesn't work on the browser
-
-RepoSense uses ES6, a version of JavaScript widely supported by [most browsers](https://caniuse.com/?search=es6). Please use RepoSense with a browser that supports ES6.

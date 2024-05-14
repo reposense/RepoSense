@@ -19,8 +19,6 @@ node_modules
 /frontend/public/
 !/frontend/public/favicon.ico
 !/frontend/public/index.html
-/frontend/.eslintcache
-/frontend/.stylelintcache
 
 reposense-report/
 docs/_site/
