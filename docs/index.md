@@ -11,7 +11,7 @@
   <h1 class="display-3">RepoSense</h1>
   <div class="lead">
 
-Visualize programmer activities across git repositories...
+Visualize programmer activities across Git repositories...
 <br><br>
 <img src="images/reposenseOverview.png" width="909" alt="RepoSense overview"/>
 <br><br>

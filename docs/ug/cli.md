@@ -215,7 +215,7 @@ credit is given.
 ### `--repo`, `--repos`, `-r`
 
 **`--repo REPO_LOCATION`**: Specifies which repositories to analyze.
-* Parameter: `REPO_LOCATION` A list of URLs or the disk location of the git repositories to analyze, separated by spaces.
+* Parameter: `REPO_LOCATION` A list of URLs or the disk location of the Git repositories to analyze, separated by spaces.
 * Alias: `-r`
 * Examples:
   * `--repos https://github.com/reposense/RepoSense.git`

@@ -94,7 +94,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
   * The keywords used to filter the author and repository are case-insensitive.
-  * Starting a search with `tag:` will filter author and repository by git tags. Similar search rules as above (like separating multiple tag names by space) apply.
+  * Starting a search with `tag:` will filter author and repository by Git tags. Similar search rules as above (like separating multiple tag names by space) apply.
 * `Group by`: grouping criteria for the rows of results.
   * `None`: results will not be grouped in any particular way.
   * `Repo/Branch`: results will be grouped by repositories and its' associating branches.
