@@ -12,7 +12,7 @@
 <div id="content-wrapper" class="fixed-header-padding">
 {{ content }}
 </div>
-{% if pagnav %}
+{% if pagenav %}
 <nav id="page-nav" class="fixed-header-padding">
 <div class="nav-component slim-scroll">
 <page-nav />
