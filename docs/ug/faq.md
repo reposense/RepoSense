@@ -9,8 +9,8 @@
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### Q: Does RepoSense work on private repositories?
-**A:** *RepoSense* will first clone the git repository to be analyzed; thus, if you do not have access to the repository, we cannot run the analysis.<br>
-To enable *RepoSense* to work on private repositories, ensure that you have enabled access to your private repository in your git terminal first before running the analysis.
+**A:** *RepoSense* will first clone the Git repository to be analyzed; thus, if you do not have access to the repository, we cannot run the analysis.<br>
+To enable *RepoSense* to work on private repositories, ensure that you have enabled access to your private repository in your Git terminal first before running the analysis.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 

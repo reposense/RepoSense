@@ -31,7 +31,7 @@ The report can be customized using several ways, as explained below.
 
 <box type="tip" seamless>
 
-**Managing config files collaboratively**: If you use RepoSense to monitor a large number of programmers, it may be more practical to get the programmers to submit PRs to update the config files as necessary (<tooltip content="a coder realizes some of her code is missing from the report because she used multiple git usernames, and wants to add the additional usernames to the config file">example use case</tooltip>).
+**Managing config files collaboratively**: If you use RepoSense to monitor a large number of programmers, it may be more practical to get the programmers to submit PRs to update the config files as necessary (<tooltip content="a coder realizes some of her code is missing from the report because she used multiple Git usernames, and wants to add the additional usernames to the config file">example use case</tooltip>).
 
 To ensure that their PRs are correct, you can use [Netlify _deploy previews_](https://www.netlify.com/blog/2016/07/20/introducing-deploy-previews-in-netlify/) to preview how the report would look like after the PR has been merged. More details are in the panels below.
 
@@ -58,7 +58,7 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 
 </box>
 
-3\. Add a git `.mailmap` file at the top-level of the repository, specifying mapped authors/commiters and/or e-mail addresses as per [gitmailmap documentation](https://git-scm.com/docs/gitmailmap). Any mappings specified here will be applied by git before all other RepoSense configurations. Configuration via `.mailmap` is particularly useful if you want the mapping to apply for all git commands as well instead of just for RepoSense.
+3\. Add a Git `.mailmap` file at the top-level of the repository, specifying mapped authors/commiters and/or e-mail addresses as per [gitmailmap documentation](https://git-scm.com/docs/gitmailmap). Any mappings specified here will be applied by Git before all other RepoSense configurations. Configuration via `.mailmap` is particularly useful if you want the mapping to apply for all Git commands as well instead of just for RepoSense.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
