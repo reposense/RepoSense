@@ -38,5 +38,3 @@
 <variable name="icon_x_red"><span style="color:red">{{ icon_x | safe }}</span></variable>
 <variable name="bad"><font color="red"><md>**{{ icon_dislike | safe }} Bad**</md></font></variable>
 <variable name="good"><font color="green"><md>**{{ icon_like | safe }} Good**</md></font></variable>
-
-<variable from="variables.json" />
