@@ -274,7 +274,7 @@
         "group-config-csv": "group-config.csv",
         "report-config-json": "report-config.json",
         "config-json-standalone-config-file": "config.json (standalone config file)",
-        "a-note-about-git-author-name": "A note about git author name",
+        "a-note-about-git-author-name": "A note about Git author name",
         "blurbs-md": "blurbs.md"
       },
       "headingKeywords": {}

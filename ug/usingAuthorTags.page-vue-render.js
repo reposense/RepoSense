@@ -14,7 +14,7 @@ with(this){return _c('h1',{staticClass:"display-4",attrs:{"id":"appendix-using-a
 with(this){return _c('div',{staticClass:"lead"},[_c('p',[_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("@@author")]),_v(" tags is a rather invasive but sometimes necessary way to provide more information to RepoSense, by annotating the code being analyzed.")])])}
 },function anonymous(
 ) {
-with(this){return _c('p',[_v("If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("@@author")]),_v(" tags to specify certain code segments that should be credited to a certain author irrespective of git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case, RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.")])}
+with(this){return _c('p',[_v("If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("@@author")]),_v(" tags to specify certain code segments that should be credited to a certain author irrespective of Git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case, RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.")])}
 },function anonymous(
 ) {
 with(this){return _c('p',[_v("There are 2 types of "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("@@author")]),_v(" tags:")])}
@@ -38,6 +38,6 @@ with(this){return _c('p',[_v("Note: Remember to "),_c('strong',[_v("commit")]),_
 with(this){return _c('p',[_v("Special thanks to "),_c('a',{attrs:{"href":"https://github.com/se-edu/collate"}},[_v("Collate project")]),_v(" for providing the inspiration for this functionality.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.2")]),_v(", generated on Thu, 16 May 2024, 22:31:25 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.2")]),_v(", generated on Fri, 17 May 2024, 13:01:17 UTC]")])])])}
 }];
   

@@ -38,7 +38,7 @@ with(this){return _c('ul',[_c('li',[_c('strong',[_v("main.ts")]),_v(" - sets up 
 with(this){return _c('h2',{attrs:{"id":"json-report-files"}},[_v("JSON report files"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#json-report-files","onclick":"event.stopPropagation()"}})])}
 },function anonymous(
 ) {
-with(this){return _c('ul',[_c('li',[_c('strong',[_v("summary.json")]),_v(" - a list of all the repositories and their respective details")]),_v(" "),_c('li',[_c('strong',[_v("projName/commits.json")]),_v(" - contains information of the users' commits information (e.g., line deletion, insertion, etc.), grouped by date")]),_v(" "),_c('li',[_c('strong',[_v("projName/authorship.json")]),_v(" - contains information from git blame, detailing the author of each line for all the processed files")])])}
+with(this){return _c('ul',[_c('li',[_c('strong',[_v("summary.json")]),_v(" - a list of all the repositories and their respective details")]),_v(" "),_c('li',[_c('strong',[_v("projName/commits.json")]),_v(" - contains information of the users' commits information (e.g., line deletion, insertion, etc.), grouped by date")]),_v(" "),_c('li',[_c('strong',[_v("projName/authorship.json")]),_v(" - contains information from "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("git blame")]),_v(", detailing the author of each line for all the processed files")])])}
 },function anonymous(
 ) {
 with(this){return _c('h2',{attrs:{"id":"app-app-vue"}},[_v("App ("),_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/blob/master/frontend/src/app.vue"}},[_v("app.vue")]),_v(")"),_c('a',{staticClass:"fa fa-anchor",attrs:{"href":"#app-app-vue","onclick":"event.stopPropagation()"}})])}
@@ -146,6 +146,6 @@ with(this){return _c('h2',{attrs:{"id":"segment-view-c-segment-vue"}},[_v("Segme
 with(this){return _c('p',[_v("The "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("c-segment")]),_v(" module is used as a component in "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("c-authorship")]),_v(". It separates the code in terms of \"touched\" and \"untouched\" segments and only loads each \"untouched\" segment when it is toggled.")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.2")]),_v(", generated on Thu, 16 May 2024, 22:31:25 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.2")]),_v(", generated on Fri, 17 May 2024, 13:01:17 UTC]")])])])}
 }];
   
