@@ -101,7 +101,7 @@ export default defineComponent({
       blankLineCount: number,
     }): string {
       return `${label.fileType}\xA0\xA0`
-        + `${label.blankLineCount}\xA0\xA0`
+        + `${label.lineCount}\xA0\xA0`
         + `(${label.lineCount - label.blankLineCount})\xA0`;
     },
   },
