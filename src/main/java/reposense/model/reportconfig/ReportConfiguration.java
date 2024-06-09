@@ -11,29 +11,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ReportConfiguration {
     public static final String DEFAULT_TITLE = "RepoSense Report";
-    public static final List<ReportGroupDetails> DEFAULT_REPORT_GROUP_DETAILS = new ArrayList<>();
     public static final List<ReportRepoConfiguration> DEFAULT_REPORT_REPO_CONFIGS = new ArrayList<>();
 
     static {
         DEFAULT_REPORT_REPO_CONFIGS.add(ReportRepoConfiguration.DEFAULT_INSTANCE);
-        DEFAULT_REPORT_GROUP_DETAILS.add(ReportGroupDetails.DEFAULT_INSTANCE);
     }
 
     @JsonProperty("title")
     private String title;
-
-    @JsonProperty("group-details")
-    private List<ReportGroupDetails> groupDetails;
 
     @JsonProperty("repos")
     private List<ReportRepoConfiguration> reportRepoConfigurations;
 
     public String getTitle() {
         return title == null ? DEFAULT_TITLE : title;
-    }
-
-    public List<ReportGroupDetails> getGroupDetails() {
-        return groupDetails == null ? DEFAULT_REPORT_GROUP_DETAILS : groupDetails;
     }
 
     public List<ReportRepoConfiguration> getReportRepoConfigurations() {
@@ -53,5 +44,10 @@ public class ReportConfiguration {
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return title + "\n" + reportRepoConfigurations;
     }
 }

@@ -1,36 +1,30 @@
-title: RepoSense Report
-group-details:
-  - repo: https://github.com/user/repo/tree/fake-branch
-    grou
-      - group-name: code
+titles: RepoSense Report
+repo:
+  - repos: https://github.com/reposense/testrepo-Delta.git
+    group:
+      - grame: code
         globs:
           - "**.java"
       - group-name: tests
         globs:
           - "src/test**"
       - group-name: docs
-        globs:
+        gl:
           - "docs**"
           - "**.adoc"
           - "**.md"
-os:
-  - repo: https://github.com/user/repo/tree/fake-branch
-    author-emails:
-      - john@john.com
-      - johny@mail.com
-      - j@domain.com
-    author-git-author-name: my home PC
-    branches:
-      - branch: main
+    bhes:
+      - branch: master
+        autho:thor-name: WANG CHAO
+            author-emails:
+              - 1229983126@qq.com
+          - author-git-host-id: FH-30
+            author-display-name: Francis Hodianto
+            author-git-author-name: Francis Hodianto
+            author-emails:
+              -
         file-formats:
           - override:java
           - md
-          - fxml
-        ignore-glob-list:
-          - "docs**"
-        ignore-standalone-config: true
-        ignore-author-list:
-          - author1
-          - author2
-        is-shallow-cloning: true
+        is-shallow-cloning: false
         is-find-previous-authors: false

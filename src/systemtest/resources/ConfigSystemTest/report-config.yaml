@@ -1,5 +1,5 @@
-title: RepoSense Report Test Title
-group-details:
+title: RepoSense Report
+repos:
   - repo: https://github.com/user/repo.git
     groups:
       - group-name: code
@@ -13,8 +13,6 @@ group-details:
           - "docs**"
           - "**.adoc"
           - "**.md"
-repos:
-  - repo: https://github.com/user/repo.git
     branches:
       - branch: main
         authors:

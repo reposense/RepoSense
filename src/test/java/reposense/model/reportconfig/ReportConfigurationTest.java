@@ -16,12 +16,6 @@ public class ReportConfigurationTest {
     }
 
     @Test
-    public void getGroupDetails_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ReportConfiguration().getGroupDetails(),
-                ReportConfiguration.DEFAULT_REPORT_GROUP_DETAILS);
-    }
-
-    @Test
     public void equals_defaultInstancesAreEqual_success() {
         Assertions.assertEquals(new ReportConfiguration(), new ReportConfiguration());
     }

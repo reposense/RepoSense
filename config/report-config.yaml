@@ -1,5 +1,5 @@
 title: RepoSense Report
-group-details:
+repos:
   - repo: https://github.com/reposense/testrepo-Delta.git
     groups:
       - group-name: code
@@ -13,8 +13,6 @@ group-details:
           - "docs**"
           - "**.adoc"
           - "**.md"
-repos:
-  - repo: https://github.com/reposense/testrepo-Delta.git
     branches:
       - branch: master
         authors:
