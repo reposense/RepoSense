@@ -141,9 +141,8 @@
         )
           font-awesome-icon.icon-button(icon="clipboard")
           span.tooltip-text(v-bind:ref="`summary-charts-${i}-copy-iframe`") Click to copy iframe link for group
-
       .tooltip.summary-chart__title--percentile(
-          v-if="sortGroupSelection.includes('totalCommits')"
+        v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
       .summary-charts__title--tags(
@@ -158,6 +157,14 @@
         )
           font-awesome-icon(icon="tags")
           span &nbsp;{{ tag }}
+
+    .blurbWrapper(
+      v-if="filterGroupSelection === 'groupByRepos'",
+    )
+      c-markdown-chunk.blurb(
+        v-bind:markdown-text="getBlurb(repo[0])"
+      )
+
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -337,6 +344,7 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
+import cMarkdownChunk from './c-markdown-chunk.vue';
 import { Bar, Repo, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
@@ -347,6 +355,7 @@ export default defineComponent({
   components: {
     cRamp,
     cStackedBarChart,
+    cMarkdownChunk,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
   props: {
@@ -984,10 +993,41 @@ export default defineComponent({
       return [...new Set(repo.flatMap((r) => r.commits).flatMap((c) => c.commitResults).flatMap((r) => r.tags))]
         .filter(Boolean) as Array<string>;
     },
+
+    getBlurb(repo: User): string {
+      const link = this.getRepoLink(repo);
+      if (!link) {
+        return '';
+      }
+      const blurb: string | undefined = this.$store.state.blurbMap[link];
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    },
   },
 });
 </script>
 
 <style lang="scss" scoped>
 @import '../styles/tags.scss';
+@import '../styles/_colors.scss';
+
+.blurbWrapper {
+  padding-bottom: 5px;
+
+  .blurb {
+    background-color: #F6F8FA;
+    border-color: #E9EBEF;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    overflow-y: hidden;
+    // This is needed because the inline style of normalize.css adds bottom margins to all p tags, including the
+    // ones in the blurb.
+    padding-top: 10px;
+    // This is needed because the parent summary-wrapper center aligns everything
+    text-align: initial;
+  }
+}
 </style>

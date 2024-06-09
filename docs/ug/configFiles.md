@@ -75,7 +75,7 @@ Optionally, you can use an `author-config.csv` (which should be in the same dire
 | Author's Git Host ID<sup>#</sup> {{ mandatory }} | Username of the target author's profile on GitHub, GitLab or Bitbucket, e.g.`JohnDoe`.                                                                                                           |
 | Author's Emails<sup>*</sup>                      | Associated emails of the author. For GitHub users, this can be found in your [GitHub settings](https://github.com/settings/emails).                                                              |
 | Author's Display Name                            | The name to display for the author. Default: author's username.                                                                                                                                  |
-| Author's Git Author Name<sup>*</sup>             | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).                                                                                |
+| Author's Git Author Name<sup>*</sup>             | The meaning of _Git Author Name_ is explained in [_A note about Git author name_](#a-note-about-git-author-name).                                                                                |
 | Ignore Glob List<sup>*</sup>                     | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
@@ -117,13 +117,11 @@ Note: All fields should be defined, and left blank if not used.
 
 **Fields to provide**:
 * `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report".
-* `group-details`: Details regarding the different custom groupings of files in your repository (refer to the section on `group-config.csv` for more information).
-  * `repo`: The `Remote Repo URL` or `Disk Path` to the git repository.
-  * `groups`: A list of the different custom groupings.
-    * `group-name`: Name of the group.
-    * `globs`: The list of file path globs to include for specified group.
 * `repos`: A list of repositories to include for analysis.
   * `repo`: The URL to your repository of interest.
+  * `groups`: A list of the different custom groupings.
+      * `group-name`: Name of the group.
+      * `globs`: The list of file path globs to include for specified group.
   * `branches`: A list of branches to analyse for each repository.
     * `branch`: The name of the branch.
     * `authors`: A list of authors to analyse on the branch.
@@ -147,7 +145,7 @@ Note: All fields should be defined, and left blank if not used.
 
 Repo owners can provide the following additional information to RepoSense using a config file that we call the **_standalone config file_**:
 * which files/authors/commits to analyze/omit
-* which git and git host usernames belong to which authors
+* which Git and Git host usernames belong to which authors
 * the display of an author
 
 To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](https://github.com/reposense/RepoSense/blob/master/_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
@@ -185,9 +183,9 @@ Note: all fields are optional unless specified otherwise.
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
 * `gitId`: Username of the author. {{ mandatory }} field.
-* `emails`: Associated git emails of the author. For GitHub, this can be found in your [GitHub settings](https://github.com/settings/emails).
+* `emails`: Associated Git emails of the author. For GitHub, this can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
-* `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use their remote Git Host username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
+* `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use their remote Git Host username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about Git author name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author. The path glob syntax is specified by the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob). In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`.
 
 To verify your standalone configuration is as intended, add the `_reposense/config.json` to your local copy of repo and run RepoSense against it as follows:<br>
@@ -195,7 +193,7 @@ To verify your standalone configuration is as intended, add the `_reposense/conf
 * Example: `java -jar RepoSense.jar --repo c:/myRepose/foo/bar`<br>
 After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.
 
-## A note about git author name
+## A note about Git author name
 
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file. For example, in the Git Log's display:
 ``` {.no-line-numbers}
@@ -214,15 +212,15 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
  ...
 ```
 `ActualGitHostId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.<br>
-To find the author name that you are currently using for your current git repository, run the following command within your git repository:
+To find the author name that you are currently using for your current Git repository, run the following command within your Git repository:
 ``` shell {.no-line-numbers}
 git config user.name
 ```
-To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
+To set the author name to the value you want (e.g., to set it to your GitHub username) for your current Git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
 ``` shell {.no-line-numbers}
 git config user.name "YOUR_AUTHOR_NAME”
 ```
-To set the author name to use a default value you want for future git repositories, you can use the following command:
+To set the author name to use a default value you want for future Git repositories, you can use the following command:
 ``` shell {.no-line-numbers}
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
@@ -233,4 +231,18 @@ RepoSense expects the Git Author Name to be the same as author's username on the
 Note: Symbols such as `"`, `!`, `/` etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.
 </box>
 
+</div>
+
+<!-- ==================================================================================================== -->
+
+<div id="section-blurbs">
+
+## `blurbs.md`
+
+You can optionally use `blurbs.md` to add blurbs in Markdown syntax for repository branches. These blurbs will be seen when grouping by `Repo/Branch`. ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/blurbs.md))
+
+**Format**:
+* First line in section: Link to the repository branch.
+* Second line onwards: Blurb content.
+* Delimiter: `<!--repo-->`. Everything on the line after the delimiter will be ignored.
 </div>

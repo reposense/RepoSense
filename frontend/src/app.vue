@@ -122,6 +122,7 @@ const app = defineComponent({
           reportGenerationTime,
           errorMessages,
           names,
+          blurbMap,
         } = summary;
         this.creationDate = creationDate;
         this.reportGenerationTime = reportGenerationTime;
@@ -134,6 +135,7 @@ const app = defineComponent({
         this.getUsers();
         this.renderTabHash();
         this.userUpdated = true;
+        this.$store.commit('setBlurbMap', blurbMap);
       } catch (error) {
         window.alert(error);
       } finally {

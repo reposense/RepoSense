@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
+import reposense.model.BlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.RepoConfiguration;
 import reposense.model.RunConfigurationDecider;
@@ -17,6 +18,7 @@ import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.exceptions.InvalidCsvException;
 import reposense.parser.exceptions.InvalidHeaderException;
+import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.parser.exceptions.ParseException;
 import reposense.report.ReportGenerator;
 import reposense.system.LogsManager;
@@ -43,6 +45,7 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
+            BlurbMap blurbMap = new BlurbMap();
 
             if (cliArguments.isViewModeOnly()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
@@ -51,6 +54,7 @@ public class RepoSense {
 
             configs = RunConfigurationDecider.getRunConfiguration(cliArguments).getRepoConfigurations();
             reportConfig = cliArguments.getReportConfiguration();
+            blurbMap = cliArguments.getBlurbMap();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
@@ -80,7 +84,9 @@ public class RepoSense {
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
                     TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
-                    cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold());
+                    cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
+                    blurbMap
+            );
 
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
@@ -97,6 +103,8 @@ public class RepoSense {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
+        } catch (InvalidMarkdownException ex) {
+            logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
 
         LogsManager.moveLogFileToOutputFolder();

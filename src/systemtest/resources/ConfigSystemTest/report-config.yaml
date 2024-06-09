@@ -1,4 +1,4 @@
-title: RepoSense Report
+title: RepoSense Report Test Title
 repos:
   - repo: https://github.com/user/repo.git
     groups:
