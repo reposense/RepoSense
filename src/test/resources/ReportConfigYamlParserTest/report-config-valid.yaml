@@ -15,27 +15,8 @@ repos:
           - "**.md"
     branches:
       - branch: master
-        authors:
-          - author-git-host-id: fzdy1914
-            author-display-name: WANG CHAO
-            author-git-author-name: WANG CHAO
-            author-emails:
-              - 1229983126@qq.com
-          - author-git-host-id: FH-30
-            author-display-name: Francis Hodianto
-            author-git-author-name: Francis Hodianto
-            author-emails:
-              -
-        file-formats:
-          - override:java
-          - md
-          - fxml
+        blurb:
         ignore-glob-list:
-          -
-        ignore-standalone-config: false
-        ignore-commits-list:
           -
         ignore-authors-list:
           -
-        is-shallow-cloning: false
-        is-find-previous-authors: false
