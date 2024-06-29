@@ -1,0 +1,22 @@
+title: RepoSense Report
+repos:
+  - repo: https://github.com/reposense/testrepo-Delta.git
+    groups:
+      - group-name: code
+        globs:
+          - "**.java"
+      - group-name: tests
+        globs:
+          - "src/test**"
+      - group-name: docs
+        globs:
+          - "docs**"
+          - "**.adoc"
+          - "**.md"
+    branches:
+      - branch: master
+        blurb:
+        ignore-glob-list:
+          -
+        ignore-authors-list:
+          -
