@@ -1,7 +1,6 @@
 <template lang="pug">
 #zoom(v-if="filteredUser")
-  <br>
-  </br>
+  <br></br>
   .panel-title
     span Commits Panel
   .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
