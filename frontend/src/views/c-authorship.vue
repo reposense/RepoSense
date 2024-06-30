@@ -2,7 +2,7 @@
 #authorship
   h2
     .panel-title
-        span Code Panel
+      span Code Panel
     .toolbar--multiline
       a(
         v-if="activeFilesCount < selectedFiles.length",
