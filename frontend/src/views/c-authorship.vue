@@ -1,5 +1,7 @@
 <template lang="pug">
 #authorship
+  <br>
+  </br>
   .panel-title
     span Code Panel
   .toolbar--multiline
