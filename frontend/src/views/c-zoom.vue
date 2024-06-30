@@ -1,17 +1,17 @@
 <template lang="pug">
 #zoom(v-if="filteredUser")
-  <br></br>
-  .panel-title
-    span Commits Panel
-  .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
-    a(
-      v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
-      v-on:click="toggleAllCommitMessagesBody(true); toggleDiffstatView(true);"
-    ) show all commit details
-    a(
-      v-if="expandedCommitMessagesCount > 0",
-      v-on:click="toggleAllCommitMessagesBody(false); toggleDiffstatView(false);"
-    ) hide all commit details
+  h2
+    .panel-title
+      span Commits Panel
+    .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
+      a(
+        v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
+        v-on:click="toggleAllCommitMessagesBody(true); toggleDiffstatView(true);"
+      ) show all commit details
+      a(
+        v-if="expandedCommitMessagesCount > 0",
+        v-on:click="toggleAllCommitMessagesBody(false); toggleDiffstatView(false);"
+      ) hide all commit details
   .panel-heading
     .group-name
       span(
