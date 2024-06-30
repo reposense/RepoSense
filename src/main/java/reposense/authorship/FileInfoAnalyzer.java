@@ -18,6 +18,7 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitBlame;
 import reposense.git.GitLog;
+import reposense.git.model.GitBlameLineInfo;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
@@ -163,13 +164,10 @@ public class FileInfoAnalyzer {
 
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
-            String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
-            String authorEmail = blameResultLines[lineCount + 2]
-                    .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
-            long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
-            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(commitDateInMs),
+            GitBlameLineInfo info = GitBlame.blameLine(config.getRepoRoot(), commitHash, fileInfo.getPath(), lineCount);
+            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(info.getTimestampMilliseconds()),
                     config.getZoneId());
-            Author author = config.getAuthor(authorName, authorEmail);
+            Author author = config.getAuthor(info.getAuthorName(), info.getAuthorEmail());
 
             int lineNumber = lineCount / 5;
             if (!fileInfo.isFileLineTracked(lineNumber) || author.isIgnoringFile(filePath)
