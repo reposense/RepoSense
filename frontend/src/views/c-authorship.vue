@@ -1,13 +1,14 @@
 <template lang="pug">
 #authorship
-  .panel-title
-    span Code Panel
-  .toolbar--multiline
-    a(
-      v-if="activeFilesCount < selectedFiles.length",
-      v-on:click="toggleAllFileActiveProperty(true)"
-    ) show all file details
-    a(v-if="activeFilesCount > 0", v-on:click="toggleAllFileActiveProperty(false)") hide all file details
+  h2
+    .panel-title
+      span Code Panel
+    .toolbar--multiline
+      a(
+        v-if="activeFilesCount < selectedFiles.length",
+        v-on:click="toggleAllFileActiveProperty(true)"
+      ) show all file details
+      a(v-if="activeFilesCount > 0", v-on:click="toggleAllFileActiveProperty(false)") hide all file details
   .panel-heading
     a.group-name(
       v-bind:href="info.location", target="_blank",
