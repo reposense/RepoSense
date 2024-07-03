@@ -164,12 +164,13 @@ public class FileInfoAnalyzer {
 
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
-            GitBlameLineInfo info = GitBlame.blameLine(config.getRepoRoot(), commitHash, fileInfo.getPath(), lineCount);
-            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(info.getTimestampMilliseconds()),
+            int lineNumber = lineCount / 5;
+            GitBlameLineInfo info = GitBlame.blameLine(config.getRepoRoot(), commitHash, fileInfo.getPath(),
+                    lineNumber + 1);
+            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(info.getTimestampMilliseconds() * 1000),
                     config.getZoneId());
             Author author = config.getAuthor(info.getAuthorName(), info.getAuthorEmail());
 
-            int lineNumber = lineCount / 5;
             if (!fileInfo.isFileLineTracked(lineNumber) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
