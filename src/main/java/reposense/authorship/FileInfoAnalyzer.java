@@ -36,6 +36,7 @@ public class FileInfoAnalyzer {
     private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
     private static final int AUTHOR_TIME_OFFSET = "author-time ".length();
     private static final int AUTHOR_TIMEZONE_OFFSET = "author-tz ".length();
+    private static final int BLAME_LINE_INFO_ROW_COUNT = 5;
     private static final int FULL_COMMIT_HASH_LENGTH = 40;
 
     private static final String MESSAGE_FILE_MISSING = "Unable to analyze the file located at \"%s\" "
@@ -162,14 +163,14 @@ public class FileInfoAnalyzer {
         LocalDateTime sinceDate = config.getSinceDate();
         LocalDateTime untilDate = config.getUntilDate();
 
-        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
+        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += BLAME_LINE_INFO_ROW_COUNT) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
-            int lineNumber = lineCount / 5;
-            GitBlameLineInfo info = GitBlame.blameLine(config.getRepoRoot(), commitHash, fileInfo.getPath(),
-                    lineNumber + 1);
-            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(info.getTimestampMilliseconds() * 1000),
-                    config.getZoneId());
-            Author author = config.getAuthor(info.getAuthorName(), info.getAuthorEmail());
+            int lineNumber = lineCount / BLAME_LINE_INFO_ROW_COUNT;
+            GitBlameLineInfo blameLineInfo = GitBlame.blameLine(config.getRepoRoot(), commitHash, fileInfo.getPath(),
+                    lineNumber + 1); // line numbers in git are 1-indexed
+            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(
+                    blameLineInfo.getTimestampMilliseconds() * 1000), config.getZoneId());
+            Author author = config.getAuthor(blameLineInfo.getAuthorName(), blameLineInfo.getAuthorEmail());
 
             if (!fileInfo.isFileLineTracked(lineNumber) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
