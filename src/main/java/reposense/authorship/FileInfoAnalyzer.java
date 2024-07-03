@@ -35,7 +35,6 @@ public class FileInfoAnalyzer {
     private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
     private static final int AUTHOR_TIME_OFFSET = "author-time ".length();
     private static final int AUTHOR_TIMEZONE_OFFSET = "author-tz ".length();
-    private static final int BLAME_LINE_LENGTH = 5;
     private static final int FULL_COMMIT_HASH_LENGTH = 40;
 
     private static final String MESSAGE_FILE_MISSING = "Unable to analyze the file located at \"%s\" "
@@ -162,7 +161,7 @@ public class FileInfoAnalyzer {
         LocalDateTime sinceDate = config.getSinceDate();
         LocalDateTime untilDate = config.getUntilDate();
 
-        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += BLAME_LINE_LENGTH) {
+        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
             String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
             String authorEmail = blameResultLines[lineCount + 2]
@@ -172,7 +171,7 @@ public class FileInfoAnalyzer {
                     config.getZoneId());
             Author author = config.getAuthor(authorName, authorEmail);
 
-            int lineNumber = lineCount / BLAME_LINE_LENGTH;
+            int lineNumber = lineCount / 5;
             if (!fileInfo.isFileLineTracked(lineNumber) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
