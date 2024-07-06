@@ -166,7 +166,7 @@ public class FileInfoAnalyzer {
         for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += BLAME_LINE_INFO_ROW_COUNT) {
             String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
             int lineNumber = lineCount / BLAME_LINE_INFO_ROW_COUNT;
-            GitBlameLineInfo blameLineInfo = GitBlame.blameLine(config.getRepoRoot(), commitHash, fileInfo.getPath(),
+            GitBlameLineInfo blameLineInfo = GitBlame.blameLine(config.getRepoRoot(), "", fileInfo.getPath(),
                     lineNumber + 1); // line numbers in git are 1-indexed
             LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(
                     blameLineInfo.getTimestampMilliseconds() * 1000), config.getZoneId());
