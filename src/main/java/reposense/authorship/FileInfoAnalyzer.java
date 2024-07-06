@@ -32,12 +32,7 @@ import reposense.util.StringsUtil;
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
 
-    private static final int AUTHOR_NAME_OFFSET = "author ".length();
-    private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
-    private static final int AUTHOR_TIME_OFFSET = "author-time ".length();
-    private static final int AUTHOR_TIMEZONE_OFFSET = "author-tz ".length();
     private static final int BLAME_LINE_INFO_ROW_COUNT = 5;
-    private static final int FULL_COMMIT_HASH_LENGTH = 40;
 
     private static final String MESSAGE_FILE_MISSING = "Unable to analyze the file located at \"%s\" "
             + "as the file is missing from your system. Skipping this file.";
