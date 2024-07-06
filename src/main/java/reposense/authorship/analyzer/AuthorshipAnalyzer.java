@@ -73,11 +73,11 @@ public class AuthorshipAnalyzer {
         GitBlameLineInfo deletedLineInfo = GitBlame.blameLine(config.getRepoRoot(), deletedLine.getGitBlameCommitHash(),
                 deletedLine.getFilePath(), deletedLine.getLineNumber());
         Author previousAuthor = config.getAuthor(deletedLineInfo.getAuthorName(), deletedLineInfo.getAuthorEmail());
-        long sinceDateInMilliseconds = ZonedDateTime.of(config.getSinceDate(), config.getZoneId()).toEpochSecond();
+        long sinceDateInSeconds = ZonedDateTime.of(config.getSinceDate(), config.getZoneId()).toEpochSecond();
 
         // Give full credit if author is unknown, is before since date, is in ignored list, or is an ignored file
         if (previousAuthor.equals(Author.UNKNOWN_AUTHOR)
-                || deletedLineInfo.getTimestampInSeconds() < sinceDateInMilliseconds
+                || deletedLineInfo.getTimestampInSeconds() < sinceDateInSeconds
                 || CommitHash.isInsideCommitList(deletedLineInfo.getCommitHash(), config.getIgnoreCommitList())
                 || previousAuthor.isIgnoringFile(Paths.get(deletedLine.getFilePath()))) {
             return true;

@@ -163,9 +163,8 @@ public class FileInfoAnalyzer {
             GitBlameLineInfo blameLineInfo = GitBlame.blameLine(config.getRepoRoot(), "", fileInfo.getPath(),
                     lineNumber + 1); // line numbers in git are 1-indexed
             String commitHash = blameLineInfo.getCommitHash();
-            long commitDateInMs = blameLineInfo.getTimestampInSeconds() * 1000;
-            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(commitDateInMs),
-                    config.getZoneId());
+            LocalDateTime commitDate = LocalDateTime.ofInstant(
+                    Instant.ofEpochSecond(blameLineInfo.getTimestampInSeconds()), config.getZoneId());
             Author author = config.getAuthor(blameLineInfo.getAuthorName(), blameLineInfo.getAuthorEmail());
 
             if (!fileInfo.isFileLineTracked(lineNumber) || author.isIgnoringFile(filePath)
