@@ -28,6 +28,7 @@ public class GitBlame {
 
     private static final int AUTHOR_NAME_OFFSET = "author ".length();
     private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
+    private static final int AUTHOR_TIME_OFFSET = "author-time ".length();
     private static final int FULL_COMMIT_HASH_LENGTH = 40;
     private static final int COMMIT_TIME_OFFSET = "committer-time ".length();
 
@@ -81,7 +82,7 @@ public class GitBlame {
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
         String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
         String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("[<>]", "");
-        long timestampMilliseconds = Long.parseLong(blameResultLines[5].substring(COMMIT_TIME_OFFSET));
+        long timestampMilliseconds = Long.parseLong(blameResultLines[3].substring(AUTHOR_TIME_OFFSET));
 
         return new GitBlameLineInfo(commitHash, authorName, authorEmail, timestampMilliseconds);
     }

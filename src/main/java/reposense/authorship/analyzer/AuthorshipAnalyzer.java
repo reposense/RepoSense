@@ -77,7 +77,7 @@ public class AuthorshipAnalyzer {
 
         // Give full credit if author is unknown, is before since date, is in ignored list, or is an ignored file
         if (previousAuthor.equals(Author.UNKNOWN_AUTHOR)
-                || deletedLineInfo.getTimestampMilliseconds() < sinceDateInMilliseconds
+                || deletedLineInfo.getTimestampInSeconds() < sinceDateInMilliseconds
                 || CommitHash.isInsideCommitList(deletedLineInfo.getCommitHash(), config.getIgnoreCommitList())
                 || previousAuthor.isIgnoringFile(Paths.get(deletedLine.getFilePath()))) {
             return true;
