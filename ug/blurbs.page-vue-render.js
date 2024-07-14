@@ -11,6 +11,6 @@ with(this){return _c('div',{staticClass:"text-center bg-warning p-2",attrs:{"tag
 with(this){return _c('div',{staticClass:"fixed-header-padding",attrs:{"id":"content-wrapper"}},[_c('p',[_c('a',{attrs:{"href":"https://github.com/reposense/RepoSense/tree/cypress"}},[_v("https://github.com/reposense/RepoSense/tree/cypress")]),_v("\nCypress branch of RepoSense")]),_v("\n------------------------------------\n"),_c('p',[_c('a',{attrs:{"href":"https://github.com/reposense/publish-RepoSense/tree/master"}},[_v("https://github.com/reposense/publish-RepoSense/tree/master")]),_v("\nPublishing branch of RepoSense")])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.2")]),_v(", generated on Sat, 18 May 2024, 14:34:27 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.2")]),_v(", generated on Sun, 14 Jul 2024, 15:29:16 UTC]")])])])}
 }];
   
