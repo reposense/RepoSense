@@ -1,6 +1,7 @@
 titles: RepoSense Report
 repo:
   - repos: https://github.com/reposense/testrepo-Delta.git
+    blurbs: "The main branch"
     group:
       - grame: code
         globs:

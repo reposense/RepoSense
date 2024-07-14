@@ -1,6 +1,7 @@
 title: RepoSense Report
 repos:
   - repo: https://github.com/reposense/testrepo-Delta.git
+    blurb: "My project"
     groups:
       - group-name: code
         globs:
@@ -26,16 +27,7 @@ repos:
             author-git-author-name: Francis Hodianto
             author-emails:
               -
-        file-formats:
-          - override:java
-          - md
-          - fxml
         ignore-glob-list:
-          -
-        ignore-standalone-config: false
-        ignore-commits-list:
           -
         ignore-authors-list:
           -
-        is-shallow-cloning: false
-        is-find-previous-authors: false

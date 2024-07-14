@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ReportRepoConfiguration {
     public static final String DEFAULT_REPO = "https://github.com/user/repo";
+    public static final String DEFAULT_BLURB = "My project";
     public static final List<ReportGroupNameAndGlobs> DEFAULT_GROUP_DETAILS = ReportGroupNameAndGlobs.DEFAULT_INSTANCES;
     public static final List<ReportBranchData> DEFAULT_BRANCHES = List.of(
             ReportBranchData.DEFAULT_INSTANCE
@@ -18,12 +19,16 @@ public class ReportRepoConfiguration {
 
     static {
         DEFAULT_INSTANCE.repo = DEFAULT_REPO;
+        DEFAULT_INSTANCE.blurb = DEFAULT_BLURB;
         DEFAULT_INSTANCE.groups = DEFAULT_GROUP_DETAILS;
         DEFAULT_INSTANCE.branches = DEFAULT_BRANCHES;
     }
 
     @JsonProperty("repo")
     private String repo;
+
+    @JsonProperty("blurb")
+    private String blurb;
 
     @JsonProperty("groups")
     private List<ReportGroupNameAndGlobs> groups;
@@ -33,6 +38,10 @@ public class ReportRepoConfiguration {
 
     public String getRepo() {
         return repo == null ? DEFAULT_REPO : repo;
+    }
+
+    public String getBlurb() {
+        return blurb == null ? DEFAULT_BLURB : blurb;
     }
 
     public List<ReportGroupNameAndGlobs> getGroupDetails() {
@@ -52,6 +61,7 @@ public class ReportRepoConfiguration {
         if (obj instanceof ReportRepoConfiguration) {
             ReportRepoConfiguration rrc = (ReportRepoConfiguration) obj;
             return rrc.getRepo().equals(this.getRepo())
+                    && rrc.getBlurb().equals(this.getBlurb())
                     && rrc.getGroupDetails().equals(this.getGroupDetails())
                     && rrc.getBranches().equals(this.getBranches());
         }
