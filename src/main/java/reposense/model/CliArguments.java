@@ -40,6 +40,8 @@ public class CliArguments {
     private double originalityThreshold;
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
+    private boolean isBlurbMapOverriding;
+    private boolean isOneStopConfigSpecified;
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -167,6 +169,14 @@ public class CliArguments {
         return blurbMap;
     }
 
+    public boolean isBlurbMapOverriding() {
+        return isBlurbMapOverriding;
+    }
+
+    public boolean isOneStopConfigSpecified() {
+        return isOneStopConfigSpecified;
+    }
+
     public boolean isViewModeOnly() {
         return isViewModeOnly;
     }
@@ -219,7 +229,8 @@ public class CliArguments {
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
                 && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
-                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold);
+                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
+                && this.isBlurbMapOverriding == otherCliArguments.isBlurbMapOverriding;
     }
 
     /**
@@ -501,6 +512,38 @@ public class CliArguments {
          */
         public Builder blurbMap(BlurbMap blurbMap) {
             this.cliArguments.blurbMap = blurbMap;
+            return this;
+        }
+
+        /**
+         * Mark the {@code blurbMap} as overriding.
+         */
+        public Builder markAsBlurbMapOverriding() {
+            this.cliArguments.isBlurbMapOverriding = true;
+            return this;
+        }
+
+        /**
+         * Unmark the {@code blurbMap} as overriding.
+         */
+        public Builder unmarkAsBlurbMapOverriding() {
+            this.cliArguments.isBlurbMapOverriding = false;
+            return this;
+        }
+
+        /**
+         * Mark the {@code oneStopConfig} as specified.
+         */
+        public Builder markAsOneStopConfigSpecified() {
+            this.cliArguments.isOneStopConfigSpecified = true;
+            return this;
+        }
+
+        /**
+         * Unmark the {@code oneStopConfig} as specified.
+         */
+        public Builder unmarkAsOneStopConfigSpecified() {
+            this.cliArguments.isOneStopConfigSpecified = false;
             return this;
         }
 

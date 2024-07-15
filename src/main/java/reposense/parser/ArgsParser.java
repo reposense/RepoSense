@@ -390,6 +390,7 @@ public class ArgsParser {
 
             try {
                 reportConfig = new ReportConfigYamlParser().parse(reportConfigFilePath);
+                builder = builder.markAsOneStopConfigSpecified();
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
             } catch (IllegalArgumentException iae) {
@@ -397,6 +398,7 @@ public class ArgsParser {
             } catch (IOException ioe) {
                 // IOException thrown as report-config.yaml is not found.
                 // Ignore exception as the file is optional.
+                builder = builder.unmarkAsOneStopConfigSpecified();
             }
         }
 
@@ -418,11 +420,12 @@ public class ArgsParser {
 
         try {
             blurbMap = new BlurbMarkdownParser(blurbConfigPath).parse();
+            builder = builder.markAsBlurbMapOverriding();
         } catch (InvalidMarkdownException ex) {
             logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
         } catch (IOException ioe) {
             // IOException thrown as blurbs.md is not found.
-            // Ignore exception as the file is optional.
+            builder = builder.unmarkAsBlurbMapOverriding();
         }
 
         builder.blurbMap(blurbMap);

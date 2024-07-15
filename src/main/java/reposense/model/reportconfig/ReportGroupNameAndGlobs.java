@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import reposense.model.FileType;
+
 /**
  * Contains details about each report group and the corresponding globs.
  */
@@ -47,6 +49,18 @@ public class ReportGroupNameAndGlobs {
         return globs == null ? DEFAULT_GLOBS : globs;
     }
 
+    /**
+     * Converts this {@code ReportGroupNameAndGlobs} into a {@code FileType}.
+     *
+     * @return Adapted {@code FileType} object.
+     */
+    public FileType toFileType() {
+        return new FileType(
+                this.getGroupName(),
+                this.getGlobs()
+        );
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -60,10 +74,5 @@ public class ReportGroupNameAndGlobs {
         }
 
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "RGNAG { group-name: " + this.groupName + ", globs: " + this.globs + "}";
     }
 }

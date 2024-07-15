@@ -1,7 +1,6 @@
 title: RepoSense Report Test Repo
 repos:
   - repo: https://github.com/reposense/testrepo-Delta.git
-    blurb: "The main branch"
     groups:
       - group-name: code
         globs:
@@ -16,6 +15,7 @@ repos:
           - "**.md"
     branches:
       - branch: master
+        blurb: "The main branch"
         authors:
           - author-git-host-id: fzdy1914
             author-display-name: WANG CHAO

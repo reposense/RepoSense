@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ReportBranchData {
     public static final String DEFAULT_BRANCH = "main";
+    public static final String DEFAULT_BLURB = "My project";
     public static final List<ReportAuthorDetails> DEFAULT_REPORT_AUTHOR_DETAILS = new ArrayList<>(
             ReportAuthorDetails.DEFAULT_INSTANCES
     );
@@ -25,6 +26,7 @@ public class ReportBranchData {
 
     static {
         DEFAULT_INSTANCE.branch = ReportBranchData.DEFAULT_BRANCH;
+        DEFAULT_INSTANCE.blurb = DEFAULT_BLURB;
         DEFAULT_INSTANCE.ignoreGlobList = ReportBranchData.DEFAULT_IGNORE_GLOB_LIST;
         DEFAULT_INSTANCE.ignoreAuthorList = ReportBranchData.DEFAULT_IGNORE_AUTHORS_LIST;
         DEFAULT_INSTANCE.reportAuthorDetails = ReportAuthorDetails.DEFAULT_INSTANCES;
@@ -32,6 +34,9 @@ public class ReportBranchData {
 
     @JsonProperty("branch")
     private String branch;
+
+    @JsonProperty("blurb")
+    private String blurb;
 
     @JsonProperty("authors")
     private List<ReportAuthorDetails> reportAuthorDetails;
@@ -44,6 +49,10 @@ public class ReportBranchData {
 
     public String getBranch() {
         return branch == null ? DEFAULT_BRANCH : branch;
+    }
+
+    public String getBlurb() {
+        return blurb == null ? DEFAULT_BLURB : blurb;
     }
 
     public List<ReportAuthorDetails> getReportAuthorDetails() {
@@ -67,6 +76,7 @@ public class ReportBranchData {
         if (obj instanceof ReportBranchData) {
             ReportBranchData rbd = (ReportBranchData) obj;
             return this.getBranch().equals(rbd.getBranch())
+                    && this.getBlurb().equals(rbd.getBlurb())
                     && this.getReportAuthorDetails().equals(rbd.getReportAuthorDetails())
                     && this.getIgnoreGlobList().equals(rbd.getIgnoreGlobList())
                     && this.getIgnoreAuthorList().equals(rbd.getIgnoreAuthorList());

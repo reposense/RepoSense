@@ -1,7 +1,6 @@
 title: RepoSense Report Test Title
 repos:
   - repo: https://github.com/user/repo.git
-    blurb: "My project"
     groups:
       - group-name: code
         globs:
@@ -16,6 +15,7 @@ repos:
           - "**.md"
     branches:
       - branch: main
+        blurb: "My project"
         authors:
           - author-git-host-id: johnDoe
             author-display-name: John Doe
