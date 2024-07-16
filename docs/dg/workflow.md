@@ -26,7 +26,7 @@ Our workflow is mostly based on the guidelines given at se-education.org/guides.
 
 ## Find the suitable pull requests
 
-* If you are contributing to RepoSense for the first time, you can check the list of [backend issues](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Aa-Backend+label%3Ad.FirstTimers) or [frontend issues](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers+label%3Aa-FrontEnd) for first timers.
+* If you are contributing to RepoSense for the first time, you can check the list of [issues that are suitable for first timers](https://github.com/reposense/RepoSense/issues?q=is%3Aopen+is%3Aissue+label%3Ad.FirstTimers).
 
 <box type="info" seamless>
 
