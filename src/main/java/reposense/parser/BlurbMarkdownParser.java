@@ -93,6 +93,10 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
             // extract the url record first
             // this is guaranteed to be in the first line or else we fail
             UrlRecord urlRecord = this.getUrlRecord(mdLines, counter);
+            // if delimiter is the last non-blank line, null is returned
+            if (urlRecord == null) {
+                break;
+            }
             url = urlRecord.getUrl();
             counter = urlRecord.getNextPosition();
 
@@ -120,9 +124,16 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
         // checks if url is valid
         // adapted from https://www.baeldung.com/java-validate-url
         try {
-            String url = lines.get(position).strip();
+            String url;
+            // skips blank lines
+            for (url = ""; url.length() == 0; url = lines.get(position++).strip()) {
+                // checks if delimiter is the last non-blank line
+                if (position >= lines.size()) {
+                    return null;
+                }
+            }
             new URL(url).toURI();
-            return new UrlRecord(lines.get(position), position + 1);
+            return new UrlRecord(url, position);
         } catch (MalformedURLException | URISyntaxException ex) {
             throw new InvalidMarkdownException("URL provided is not valid!");
         }
