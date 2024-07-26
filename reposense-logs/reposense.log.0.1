@@ -1,0 +1,965 @@
+Jul 26, 2024 8:00:23 PM reposense.system.LogsManager addFileHandler
+INFO: Log temp folder has been successfully created
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Alpha.git...
+Jul 26, 2024 8:00:23 PM reposense.report.RepoCloner spawnCloneProcess
+INFO: Cloning in parallel from https://github.com/reposense/testrepo-Empty.git...
+Jul 26, 2024 8:00:23 PM reposense.report.RepoCloner waitForCloneProcess
+INFO: Waiting for cloning of https://github.com/reposense/testrepo-Empty.git to complete...
+Jul 26, 2024 8:00:25 PM reposense.report.RepoCloner waitForCloneProcess
+INFO: Cloning of https://github.com/reposense/testrepo-Empty.git completed!
+Jul 26, 2024 8:00:25 PM reposense.report.RepoCloner getClonedRepoLocation
+WARNING: Exception met while trying to get current branch of https://github.com/reposense/testrepo-Empty.git (HEAD), will skip this repo.
+reposense.git.exception.GitBranchException: Index 1 out of bounds for length 1
+	at reposense.git.GitBranch.getCurrentBranch(GitBranch.java:29)
+	at reposense.report.RepoCloner.getClonedRepoLocation(RepoCloner.java:133)
+	at reposense.report.RepoClonerTest.repoCloner_emptyRepo_failsGracefully(RepoClonerTest.java:30)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:140)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:84)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:214)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:210)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:135)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:66)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.executeNonConcurrentTasks(ForkJoinPoolHierarchicalTestExecutorService.java:155)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:135)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:189)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinTask.doJoin(ForkJoinTask.java:396)
+	at java.base/java.util.concurrent.ForkJoinTask.join(ForkJoinTask.java:721)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.joinConcurrentTasksInReverseOrderToEnableWorkStealing(ForkJoinPoolHierarchicalTestExecutorService.java:162)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:136)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:189)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:183)
+
+Jul 26, 2024 8:00:25 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:25 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:25 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:25 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:25 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:25 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:25 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:25 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:25 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:26 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success)...
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:26 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-UncommonDefaultBranch.git...
+Jul 26, 2024 8:00:26 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Alpha.git as it was cloned before.
+Jul 26, 2024 8:00:26 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success)...
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Alpha.git as it was cloned before.
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:26 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (1647-FileAnalyzerTest-analyzeTextFile_fileExceedingFileSizeLimit_success)...
+Jul 26, 2024 8:00:26 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Alpha.git as it was cloned before.
+Jul 26, 2024 8:00:26 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:26 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeAuthor@users.noreply.github.com found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:26 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeAuthor@users.noreply.gitlab.com found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:26 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:26 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:26 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:26 PM reposense.authorship.FileInfoExtractor generateFileInfo
+WARNING: File "largeFile.json" has 1983071B size. The file size limit is set at 500000B. Skipping analysis of this file...
+Jul 26, 2024 8:00:26 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (1636-FileAnalyzerTest-analyzeFile_filesWithEmptyEmailCommit_success)...
+Jul 26, 2024 8:00:26 PM reposense.report.RepoCloner spawnCloneProcess
+INFO: Cloning in parallel from repos\repoclone test\dummy-repo...
+Jul 26, 2024 8:00:27 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias yong24s@users.noreply.github.com found. The alias will belong to the last author - yong24s
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias yong24s@users.noreply.gitlab.com found. The alias will belong to the last author - yong24s
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias yong24s found. The alias will belong to the last author - yong24s
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias yong hao teng found. The alias will belong to the last author - yong24s
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias yong24s@users.noreply.github.com found. The alias will belong to the last author - yong24s
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias yong24s@users.noreply.gitlab.com found. The alias will belong to the last author - yong24s
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_overrideKeyword_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  File Size Limit,  Ignore Commits List
+Jul 26, 2024 8:00:27 PM reposense.parser.RepoConfigCsvParser matchValueAndKeyword
+WARNING: Ignoring unknown value no in yes column.
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Skip Ignored File Analysis,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore File Size Limit,  Ignore Commits List
+Jul 26, 2024 8:00:27 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:27 PM reposense.parser.RepoConfigCsvParser matchValueAndKeyword
+WARNING: Ignoring unknown value no in yes column.
+Jul 26, 2024 8:00:27 PM reposense.parser.RepoConfigCsvParser matchValueAndKeyword
+WARNING: Ignoring unknown value no in yes column.
+Jul 26, 2024 8:00:27 PM reposense.parser.RepoConfigCsvParser matchValueAndKeyword
+WARNING: Ignoring unknown value affirmative in yes column.
+Jul 26, 2024 8:00:27 PM reposense.parser.RepoConfigCsvParser matchValueAndKeyword
+WARNING: Ignoring unknown value affirmative in yes column.
+Jul 26, 2024 8:00:27 PM reposense.parser.RepoConfigCsvParser matchValueAndKeyword
+WARNING: Ignoring unknown value affirmative in yes column.
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_redundantLines_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Ignore Commits List
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 7 in CSV file, repoconfig_redundantLines_test.csv, is malformed.
+Content: [EMPTY LINE]
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 8 in CSV file, repoconfig_redundantLines_test.csv, is malformed.
+Content: [EMPTY LINE]
+Jul 26, 2024 8:00:27 PM reposense.authorship.FileInfoExtractor generateFileInfo
+WARNING: File "largeFile.json" has 1983071B size. The file size limit is set at 500000B. Exact line diffs will be excluded from report...
+Jul 26, 2024 8:00:27 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (1192-CommitInfoAnalyzerTest-analyzeCommits_commitsWithBinaryContribution_success)...
+Jul 26, 2024 8:00:27 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Alpha.git as it was cloned before.
+Jul 26, 2024 8:00:27 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Alpha.git as it was cloned before.
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 11 in CSV file, repoconfig_redundantLines_test.csv, is malformed.
+Content: [EMPTY LINE]
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 12 in CSV file, repoconfig_redundantLines_test.csv, is malformed.
+Content: [EMPTY LINE]
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 13 in CSV file, repoconfig_redundantLines_test.csv, is malformed.
+Content: [EMPTY LINE]
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 14 in CSV file, repoconfig_redundantLines_test.csv, is malformed.
+Content: [EMPTY LINE]
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 15 in CSV file, repoconfig_redundantLines_test.csv, is malformed.
+Content: [EMPTY LINE]
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_invalidFileSizeLimit_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  File Size Limit,  Ignore Commits List
+Jul 26, 2024 8:00:27 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Alpha.git as it was cloned before.
+Jul 26, 2024 8:00:27 PM reposense.parser.RepoConfigCsvParser processLine
+WARNING: Values in "File Size Limit" column should be positive integers.
+Jul 26, 2024 8:00:27 PM reposense.parser.RepoConfigCsvParser matchValueAndKeyword
+WARNING: Ignoring unknown value no in yes column.
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_differentColumnOrder_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  Ignore Glob List,  File formats,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias ahmad syafiq found. The alias will belong to the last author - lithiumlkid
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias tianwei found. The alias will belong to the last author - lohtianwei
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias lithiumlkid@users.noreply.github.com found. The alias will belong to the last author - lithiumlkid
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias lithiumlkid@users.noreply.gitlab.com found. The alias will belong to the last author - lithiumlkid
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias codeeong@users.noreply.github.com found. The alias will belong to the last author - codeeong
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias codeeong@users.noreply.gitlab.com found. The alias will belong to the last author - codeeong
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias jordancjq@users.noreply.github.com found. The alias will belong to the last author - jordancjq
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias jordancjq@users.noreply.gitlab.com found. The alias will belong to the last author - jordancjq
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias lohtianwei@users.noreply.github.com found. The alias will belong to the last author - lohtianwei
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias lohtianwei@users.noreply.gitlab.com found. The alias will belong to the last author - lohtianwei
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias zachary tang found. The alias will belong to the last author - zacharytang
+Jul 26, 2024 8:00:27 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias zachary tang found. The alias will belong to the last author - zacharytang
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:27 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:27 PM reposense.git.GitUtil isValidIgnoreGlob
+WARNING: ../** will be skipped as this glob points to the outside of the repository.
+Jul 26, 2024 8:00:28 PM reposense.git.GitUtil isValidIgnoreGlob
+WARNING: \** cannot start with / or \.
+Jul 26, 2024 8:00:28 PM reposense.git.GitUtil isValidIgnoreGlob
+WARNING: /newPos/* cannot start with / or \.
+Jul 26, 2024 8:00:28 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:28 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (1192-CommitInfoAnalyzerTest-analyzeCommits_commitsWithBinaryContribution_success)...
+Jul 26, 2024 8:00:28 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Beta.git...
+Jul 26, 2024 8:00:28 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, author-config.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_ignoreFileSizeLimit_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Skip Ignored File Analysis,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  File Size Limit,  Ignore File Size Limit,  Ignore Commits List
+Jul 26, 2024 8:00:28 PM reposense.parser.RepoConfigCsvParser processLine
+WARNING: Ignoring skip ignored file analysis column since file size limit is ignored
+Jul 26, 2024 8:00:28 PM reposense.parser.RepoConfigCsvParser processLine
+WARNING: Ignoring file size limit column since file size limit is ignored
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:28 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: repo
+Jul 26, 2024 8:00:28 PM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: ../path/to/repo
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /path/to/repo
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: path/to/repo/.git
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: file://path/to/repo.git
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: file://path/to/repo
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: file:///path/to/repo
+Jul 26, 2024 8:00:28 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Alpha.git as it was cloned before.
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, author-config.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_noSpecialCharacter_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Skip Ignored File Analysis,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  File Size Limit,  Ignore Commits List
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: path\to\repo
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: ..\path\to\repo
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: path\to\repo\.git
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: C:\path\to\repo.git
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: ..\path/to\repo
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: file://path\to\repo.git
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: C:\path/to/repo.git
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /path/with/redundant/directories/../.././../to/repo
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: path/with/redundant/directories/../../../../../to/repo
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.git.GitShow getEarliestCommitDate
+WARNING: Commit not found: nonExistentCommitHash
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:28 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_missingOptionalHeader_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors
+Jul 26, 2024 8:00:28 PM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.ArgsParser parse
+INFO: Ignoring argument 'C:\Users\jedko\Documents\Projects\RepoSense\build\resources\test\output' for --view.
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:28 PM reposense.git.GitUtil isValidIgnoreGlob
+WARNING: ../testrepo-Alpha will be skipped as this glob points to the outside of the repository.
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_duplicateHeadersCaseInsensitive_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 2 in CSV file, repoconfig_duplicateHeadersCaseInsensitive_test.csv, is malformed.
+Content: https://github.com/reposense/testrepo-Beta.git,master,something-else,py,java;adoc;md,docs**,yes,abcde12345;67890fdecba,zacharytang,
+Jul 26, 2024 8:00:28 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias zachary tang found. The alias will belong to the last author - zacharytang
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:28 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:28 PM reposense.git.GitShow getEarliestCommitDate
+WARNING: Commit not found: nonExistentCommitHash
+Jul 26, 2024 8:00:28 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:28 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:28 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, author-config.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_zeroValidRecords_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  File formats,  Ignore Glob List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 2 in CSV file, repoconfig_zeroValidRecords_test.csv, is malformed.
+Content: https://github.com/reposense/testrepo-Beta.git,override:java;adoc;md,override:docs**,no,override:abcde12345;67890fdecba,
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 3 in CSV file, repoconfig_zeroValidRecords_test.csv, is malformed.
+Content: https://github.com/reposense/testrepo-Charlie.git,master,,
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 4 in CSV file, repoconfig_zeroValidRecords_test.csv, is malformed.
+Content: ,master,java,docs**,no,823fdd73f7d3feae86d3075ee5706f5f001b73a5,
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repoconfig_duplicateHeadersCaseSensitive_test.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser isLineMalformed
+WARNING: Line 2 in CSV file, repoconfig_duplicateHeadersCaseSensitive_test.csv, is malformed.
+Content: https://github.com/reposense/testrepo-Beta.git,master,py,java;adoc;md,docs**,,yes,abcde12345;67890fdecba,zacharytang,
+Jul 26, 2024 8:00:28 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (1019-CommitInfoAnalyzerTest-emptyCommits)...
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, groupconfig_differentColumnOrder_test.csv, and recognized columns: Globs,  Group Name,  Repository's Location
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, groupconfig_missingOptionalHeader_test.csv, and recognized columns: Globs,  Group Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, groupconfig_emptyLocation_test.csv, and recognized columns: Globs,  Repository's Location,  Group Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, groupconfig_multipleLocation_test.csv, and recognized columns: Globs,  Repository's Location,  Group Name
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_commasAndDoubleQuotes_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_multipleReposInRowMultipleBranchPerRepo_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.git.GitShow getEarliestCommitDate
+WARNING: Commit not found: nonExistentCommitHash
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, author-config.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.model.ConfigRunConfiguration getRepoConfigurations
+WARNING: No valid configurations in the author-config.csv.
+reposense.parser.exceptions.InvalidCsvException: No valid configurations in the author-config.csv.
+	at reposense.parser.CsvParser.parse(CsvParser.java:115)
+	at reposense.model.ConfigRunConfiguration.getRepoConfigurations(ConfigRunConfiguration.java:50)
+	at reposense.parser.ArgsParserTest.parse_configOrLocationsSimilar_success(ArgsParserTest.java:519)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:140)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:84)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:214)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:210)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:135)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:66)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.executeNonConcurrentTasks(ForkJoinPoolHierarchicalTestExecutorService.java:155)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:135)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:189)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:183)
+
+Jul 26, 2024 8:00:28 PM reposense.git.GitUtil isValidIgnoreGlob
+WARNING: ../*.java will be skipped as this glob points to the outside of the repository.
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /Users/sikai/RepoSense
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /Users/sikai/RepoSense
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /Users/sikai/RepoSense
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /Users/sikai/RepoSense
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.ArgsParser parse
+INFO: Ignoring argument 'C:\Users\jedko\Documents\Projects\RepoSense\build\resources\test\output' for --view.
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /Users/sikai/RepoSense
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /Users/sikai/RepoSense
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_noSpecialCharacter_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_emptyLocation_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_multipleEmails_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_differentColumnOrder_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Ignore Glob List,  Author's Display Name,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_specialCharacter_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_missingOptionalHeader_test.csv, and recognized columns: Author's Emails,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias emer7 found. The alias will belong to the last author - emer7
+Jul 26, 2024 8:00:28 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias ongspxm found. The alias will belong to the last author - ongspxm
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_gitHostIdHeader_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Branch,  Author's Git Host ID,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_gitHubIdHeader_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_multipleReposInRowSingleBranchPerRepo_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /Users/sikai/RepoSense
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.git.GitRemote getRemotes
+WARNING: Unable to run git remote command in directory: /Users/sikai/RepoSense
+Jul 26, 2024 8:00:28 PM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, authorconfig_multipleReposInRow_test.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:28 PM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:28 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:29 PM reposense.git.GitUtil isValidIgnoreGlob
+WARNING: /newPos cannot start with / or \.
+Jul 26, 2024 8:00:29 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:29 PM reposense.git.GitUtil isValidIgnoreGlob
+WARNING: .. will be skipped as this glob points to the outside of the repository.
+Jul 26, 2024 8:00:29 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (1019-CommitInfoAnalyzerTest-emptyCommits)...
+Jul 26, 2024 8:00:29 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success)...
+Jul 26, 2024 8:00:29 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:29 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:29 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias ‘Processed�‘Cooked� found. The alias will belong to the last author - ‘Processed�‘Cooked�
+Jul 26, 2024 8:00:29 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias (codeeong) found. The alias will belong to the last author - (codeeong)
+Jul 26, 2024 8:00:29 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias ^:jordancjq;$ found. The alias will belong to the last author - ^:jordancjq;$
+Jul 26, 2024 8:00:29 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success)...
+Jul 26, 2024 8:00:29 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (1019-CommitInfoAnalyzerTest-emptyCommits)...
+Jul 26, 2024 8:00:29 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:29 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:29 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (1019-CommitInfoAnalyzerTest-emptyCommits)...
+Jul 26, 2024 8:00:30 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:30 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:30 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:30 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:30 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:30 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:30 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:30 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:30 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:30 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (empty-commit-message)...
+Jul 26, 2024 8:00:30 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:30 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:30 PM reposense.authorship.FileInfoExtractor generateFileInfo
+WARNING: File "largeFile.json" has 1983071B size. The file size limit is set at 500000B. Exact line diffs will be excluded from report...
+Jul 26, 2024 8:00:30 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (empty-commit-message)...
+Jul 26, 2024 8:00:30 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:30 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (751-CommitInfoAnalyzerTest-analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success)...
+Jul 26, 2024 8:00:31 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:31 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:31 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (751-CommitInfoAnalyzerTest-analyzeCommits_commitsWithEmptyCommitMessageTitleOrBody_success)...
+Jul 26, 2024 8:00:31 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:31 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:31 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:31 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:31 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:31 PM reposense.authorship.FileInfoExtractor generateFileInfo
+WARNING: File "largeFile.json" has 1983071B size. The file size limit is set at 500000B. Exact line diffs will be excluded from report...
+Jul 26, 2024 8:00:31 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:31 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-Delta.git...
+Jul 26, 2024 8:00:31 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (617-FileAnalyzerTest-analyzeFile_emailWithAdditionOperator_success)...
+Jul 26, 2024 8:00:31 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:31 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - -
+Jul 26, 2024 8:00:31 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (617-FileAnalyzerTest-analyzeFile_emailWithAdditionOperator_success)...
+Jul 26, 2024 8:00:31 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:31 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:31 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:31 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:31 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:31 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success)...
+Jul 26, 2024 8:00:31 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:31 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:31 PM reposense.authorship.FileInfoExtractor extractTextFileInfos
+INFO: Extracting relevant file info from https://github.com/reposense/testrepo-Alpha.git (master)...
+Jul 26, 2024 8:00:32 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (751-CommitInfoAnalyzerTest-analyzeCommits_multipleCommitsWithCommitMessageBody_success)...
+Jul 26, 2024 8:00:32 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success)...
+Jul 26, 2024 8:00:32 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (1882-CommitInfoAnalyzerTest-analyzeCommits_mergeCommits_success)...
+Jul 26, 2024 8:00:32 PM reposense.commits.CommitInfoExtractor extractCommitInfos
+INFO: Extracting commits info for https://github.com/reposense/testrepo-Alpha.git (879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success)...
+Jul 26, 2024 8:00:32 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:32 PM reposense.commits.CommitInfoAnalyzer analyzeCommits
+INFO: Analyzing commits info for https://github.com/reposense/testrepo-Alpha.git (879-CommitInfoAnalyzerTest-analyzeCommits_commitsWithMultipleTags_success)...
+Jul 26, 2024 8:00:32 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:32 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:32 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:33 PM reposense.authorship.FileInfoAnalyzer analyzeBinaryFile
+SEVERE: Unable to analyze the file located at "/nonExistingJpgPicture.jpg" as the file is missing from your system. Skipping this file.
+Jul 26, 2024 8:00:33 PM reposense.authorship.FileInfoAnalyzer analyzeBinaryFile
+SEVERE: Unable to analyze the file located at "/nonExistingPngPicture.png" as the file is missing from your system. Skipping this file.
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:33 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias harryggg found. The alias will belong to the last author - harryggg
+Jul 26, 2024 8:00:34 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias fakeauthor found. The alias will belong to the last author - fakeAuthor
+Jul 26, 2024 8:00:35 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:35 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (master).
+Jul 26, 2024 8:00:35 PM reposense.util.TestRepoCloner clone
+INFO: Cloning from https://github.com/reposense/testrepo-minimalstandaloneconfig.git...
+Jul 26, 2024 8:00:36 PM reposense.util.TestRepoCloner clone
+INFO: Cloning completed!
+Jul 26, 2024 8:00:37 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:37 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Beta.git as it was cloned before.
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:37 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (master).
+Jul 26, 2024 8:00:37 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:37 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Beta.git as it was cloned before.
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:37 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (master).
+Jul 26, 2024 8:00:37 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:37 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Beta.git as it was cloned before.
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:37 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (master).
+Jul 26, 2024 8:00:37 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:37 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:37 PM reposense.parser.RepoConfigCsvParser matchValueAndKeyword
+WARNING: Ignoring unknown value no in yes column.
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:37 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:37 PM reposense.parser.RepoConfigCsvParser matchValueAndKeyword
+WARNING: Ignoring unknown value yesss in yes column.
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:37 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore File Size Limit,  Ignore Commits List
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:37 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:37 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:37 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:37 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore File Size Limit,  Ignore Commits List
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Beta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, group-config.csv, and recognized columns: Globs,  Repository's Location,  Group Name
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias ahmad syafiq found. The alias will belong to the last author - lithiumlkid
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, author-config.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:38 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Parsing Blurbs...
+Jul 26, 2024 8:00:38 PM reposense.parser.BlurbMarkdownParser parse
+INFO: Blurbs parsed successfully!
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Beta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:38 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:38 PM reposense.model.AuthorConfiguration checkDuplicateAliases
+WARNING: Duplicate alias ahmad syafiq found. The alias will belong to the last author - lithiumlkid
+Jul 26, 2024 8:00:38 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:39 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, author-config.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Jul 26, 2024 8:00:39 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:39 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:39 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:39 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Beta.git as it was cloned before.
+Jul 26, 2024 8:00:39 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:39 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (master).
+Jul 26, 2024 8:00:39 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).
+Jul 26, 2024 8:00:39 PM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Jul 26, 2024 8:00:39 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Beta.git as it was cloned before.
+Jul 26, 2024 8:00:39 PM reposense.util.TestRepoCloner clone
+INFO: Skipped cloning from https://github.com/reposense/testrepo-Delta.git as it was cloned before.
+Jul 26, 2024 8:00:39 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (master).
+Jul 26, 2024 8:00:39 PM reposense.report.ReportGenerator updateRepoConfig
+INFO: Ignoring standalone config file in https://github.com/reposense/testrepo-Delta.git (master).

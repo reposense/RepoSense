@@ -124,13 +124,14 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
         // checks if url is valid
         // adapted from https://www.baeldung.com/java-validate-url
         try {
-            String url;
+            String url = "";
             // skips blank lines
-            for (url = ""; url.length() == 0; url = lines.get(position++).strip()) {
+            while (url.length() == 0) {
                 // checks if delimiter is the last non-blank line
                 if (position >= lines.size()) {
                     return null;
                 }
+                url = lines.get(position++).strip();
             }
             new URL(url).toURI();
             return new UrlRecord(url, position);
