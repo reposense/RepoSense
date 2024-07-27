@@ -5,6 +5,10 @@ import static reposense.util.StringsUtil.addQuotesForFilePath;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 import reposense.git.model.GitBlameLineInfo;
 import reposense.util.StringsUtil;
@@ -58,6 +62,23 @@ public class GitBlame {
     }
 
     /**
+     * Returns the processed git blame result, created from the raw git blame result.
+     */
+    public static List<GitBlameLineInfo> blameFile(String blameResults) {
+        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResults);
+        List<GitBlameLineInfo> blameFileResult = new ArrayList<>();
+        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
+            String blameResultLine = Arrays.stream(Arrays
+                    .copyOfRange(blameResultLines, lineCount, lineCount + 4))
+                    .reduce("", (curr, next) -> curr + next + "\n");
+            blameResultLine = blameResultLine.substring(0, blameResultLine.length() - 1);
+            GitBlameLineInfo blameLineInfo = processGitBlameResultLine(blameResultLine);
+            blameFileResult.add(blameLineInfo);
+        }
+        return blameFileResult;
+    }
+
+    /**
      * Returns the git blame result for {@code lineNumber} of {@code fileDirectory} at {@code commitHash}.
      */
     public static GitBlameLineInfo blameLine(String root, String commitHash, String fileDirectory, int lineNumber) {
@@ -81,8 +102,8 @@ public class GitBlame {
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
         String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
         String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("[<>]", "");
-        long timestampMilliseconds = Long.parseLong(blameResultLines[3].substring(AUTHOR_TIME_OFFSET));
+        long timestampInSeconds = Long.parseLong(blameResultLines[3].substring(AUTHOR_TIME_OFFSET));
 
-        return new GitBlameLineInfo(commitHash, authorName, authorEmail, timestampMilliseconds);
+        return new GitBlameLineInfo(commitHash, authorName, authorEmail, timestampInSeconds);
     }
 }

@@ -153,21 +153,19 @@ public class FileInfoAnalyzer {
             blameResults = getGitBlameWithPreviousAuthorsResult(config, fileInfo.getPath());
         }
 
-        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResults);
+        List<GitBlameLineInfo> blameResultLines = GitBlame.blameFile(blameResults);
         Path filePath = Paths.get(fileInfo.getPath());
         LocalDateTime sinceDate = config.getSinceDate();
         LocalDateTime untilDate = config.getUntilDate();
 
-        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += BLAME_LINE_INFO_ROW_COUNT) {
-            int lineNumber = lineCount / BLAME_LINE_INFO_ROW_COUNT;
-            GitBlameLineInfo blameLineInfo = GitBlame.blameLine(config.getRepoRoot(), "", fileInfo.getPath(),
-                    lineNumber + 1); // line numbers in git are 1-indexed
+        for (int lineCount = 0; lineCount < blameResultLines.size(); lineCount++) {
+            GitBlameLineInfo blameLineInfo = blameResultLines.get(lineCount);
             String commitHash = blameLineInfo.getCommitHash();
             LocalDateTime commitDate = LocalDateTime.ofInstant(
                     Instant.ofEpochSecond(blameLineInfo.getTimestampInSeconds()), config.getZoneId());
             Author author = config.getAuthor(blameLineInfo.getAuthorName(), blameLineInfo.getAuthorEmail());
 
-            if (!fileInfo.isFileLineTracked(lineNumber) || author.isIgnoringFile(filePath)
+            if (!fileInfo.isFileLineTracked(lineCount) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
                 author = Author.UNKNOWN_AUTHOR;
@@ -179,15 +177,15 @@ public class FileInfoAnalyzer {
                             MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT, config.getRepoName()));
                 }
 
-                fileInfo.setLineLastModifiedDate(lineNumber, commitDate);
+                fileInfo.setLineLastModifiedDate(lineCount, commitDate);
             }
-            fileInfo.setLineAuthor(lineNumber, author);
+            fileInfo.setLineAuthor(lineCount, author);
 
             if (shouldAnalyzeAuthorship && !author.equals(Author.UNKNOWN_AUTHOR)) {
-                String lineContent = fileInfo.getLine(lineNumber + 1).getContent();
+                String lineContent = fileInfo.getLine(lineCount + 1).getContent();
                 boolean isFullCredit = AuthorshipAnalyzer.analyzeAuthorship(config, fileInfo.getPath(), lineContent,
                         commitHash, author, originalityThreshold);
-                fileInfo.setIsFullCredit(lineNumber, isFullCredit);
+                fileInfo.setIsFullCredit(lineCount, isFullCredit);
             }
         }
     }
