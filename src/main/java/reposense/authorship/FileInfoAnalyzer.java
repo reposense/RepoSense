@@ -24,15 +24,12 @@ import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
-import reposense.util.StringsUtil;
 
 /**
  * Analyzes the target and information given in the {@link FileInfo}.
  */
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
-
-    private static final int BLAME_LINE_INFO_ROW_COUNT = 5;
 
     private static final String MESSAGE_FILE_MISSING = "Unable to analyze the file located at \"%s\" "
             + "as the file is missing from your system. Skipping this file.";
