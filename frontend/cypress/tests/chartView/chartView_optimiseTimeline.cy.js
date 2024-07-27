@@ -40,7 +40,7 @@ describe('optimise timeline', () => {
       });
   });
 
-  it('start and end date indicators should exist', () => {
+  it('start and end date indicators should exist when optimise timeline is checked', () => {
     cy.get('#summary label.optimise-timeline > input:visible')
       .should('be.visible')
       .check()
@@ -71,7 +71,7 @@ describe('optimise timeline', () => {
     cy.get('input[name="since"]')
       .type('2018-12-31');
 
-      // change until date
+    // change until date
     cy.get('input[name="until"]')
       .type('2024-01-01');
 
