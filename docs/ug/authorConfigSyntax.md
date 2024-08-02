@@ -34,9 +34,9 @@ To list out one or more branches for a particular `Repository's Location`, we ca
 
 Below is an example:
 
-| Repository's Location                                                  | Branch   | Author's Git Host ID | ... Hidden columns    |
-|------------------------------------------------------------------------|----------|----------------------|-----------------------|
-| `https://github.com/reposense/RepoSense.git~master\|release\|cypress`  | master   | sikai00              | --                    |
+| Repository's Location                                                  | Branch   | Author's Git Host ID | ... Hidden columns |
+|------------------------------------------------------------------------|----------|----------------------|--------------------|
+| `https://github.com/reposense/RepoSense.git~master\|release\|cypress`  |          | sikai00              | --                 |
 
 We have now provided author details for three different branches in a single repo, using a single row.
 
