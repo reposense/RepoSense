@@ -62,6 +62,6 @@ with(this){return _c('h4',{attrs:{"id":"add-blurbs-for-branches"}},[_v("Add blur
 with(this){return _c('p',[_v("A blurb can be added for a repository branch by creating a file titled "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("blurbs.md")]),_v(" in the config directory. The blurbs will be visible when grouping by "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Repo/Branch")]),_v(". The format of the file is given below:")])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.2")]),_v(", generated on Sat, 27 Jul 2024, 12:45:30 UTC]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.5.2")]),_v(", generated on Fri, 2 Aug 2024, 22:57:43 UTC]")])])])}
 }];
   
