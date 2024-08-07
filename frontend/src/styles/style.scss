@@ -170,13 +170,13 @@ header {
   #summary-wrapper {
     height: 100%;
     overflow-y: scroll;
-    text-align: center;
+    text-align: left;
 
-    .timestamp-footer {
-      @include small-font;
+    .timestamp-header {
+      @include mini-font;
       color: mui-color('grey', '700');
-      margin-bottom: 1em;
-      margin-left: 1em;
+      margin-left: 2.4em;
+      margin-top: 1em;
     }
 
     .error-message-box {
@@ -187,7 +187,6 @@ header {
       color: mui-color('red', '900');
       margin-bottom: .9rem;
       padding: .9rem;
-      text-align: left;
 
       &__close-button {
         @include large-font;
