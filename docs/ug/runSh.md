@@ -28,5 +28,5 @@ Depending on which version you wish to use for report generation, add one of the
 * `--release`: Use the latest release (Stable)
 * `--master`: Use the latest version of the master branch
 * `--tag TAG` (e.g. `--tag v1.6.1`): Use the version identified by the Git tag given
-* `--latest TAG`: Gets the latest version with the given version prefix (e.g. `--latest v1.6` gets `v1.6.1`)
+* `--latest TAG_PREFIX`: Gets the latest version with the given tag prefix (e.g. `--latest v1.6` can get `v1.6.1`)
 * `--commit COMMIT` (e.g. `--commit abc123`): Use the version identified by the Git commit SHA given
