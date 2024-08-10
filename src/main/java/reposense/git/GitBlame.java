@@ -67,14 +67,12 @@ public class GitBlame {
      * Returns the processed git blame result, created from the raw git blame result.
      */
     public static List<GitBlameLineInfo> blameFile(String blameResults) {
-        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResults);
+        String[] blameResultsLines = StringsUtil.NEWLINE.split(blameResults);
         List<GitBlameLineInfo> blameFileResult = new ArrayList<>();
-        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += BLAME_LINE_INFO_ROW_COUNT) {
-            String blameResultLine = Arrays.stream(Arrays
-                    .copyOfRange(blameResultLines, lineCount, lineCount + BLAME_LINE_INFO_ROW_COUNT - 1))
-                    .reduce("", (curr, next) -> curr + next + "\n");
-            blameResultLine = blameResultLine.substring(0, blameResultLine.length() - 1);
-            GitBlameLineInfo blameLineInfo = processGitBlameResultLine(blameResultLine, "author");
+        for (int lineCount = 0; lineCount < blameResultsLines.length; lineCount += BLAME_LINE_INFO_ROW_COUNT) {
+            String[] blameResultLines = Arrays
+                    .copyOfRange(blameResultsLines, lineCount, lineCount + BLAME_LINE_INFO_ROW_COUNT - 1);
+            GitBlameLineInfo blameLineInfo = processGitBlameResultLine(blameResultLines, "author");
             blameFileResult.add(blameLineInfo);
         }
         return blameFileResult;
@@ -91,16 +89,15 @@ public class GitBlame {
 
         String blameResult = StringsUtil.filterText(runCommand(rootPath, blameCommand),
                 COMBINATION_WITH_COMMIT_TIME_REGEX);
-
-        return processGitBlameResultLine(blameResult, "committer");
+        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResult);
+        return processGitBlameResultLine(blameResultLines, "committer");
     }
 
     /**
      * Returns the processed result of {@code blameResult}.
      */
-    private static GitBlameLineInfo processGitBlameResultLine(String blameResult, String timeOption) {
+    private static GitBlameLineInfo processGitBlameResultLine(String[] blameResultLines, String timeOption) {
         assert timeOption.equals("author") || timeOption.equals("committer");
-        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResult);
 
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
         String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
