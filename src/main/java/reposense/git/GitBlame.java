@@ -64,18 +64,14 @@ public class GitBlame {
     }
 
     /**
-     * Returns the processed git blame result, created from the raw git blame result.
+     * Returns the processed git blame result for the {@code fileDirectory} performed at the {@code root} directory,
+     * with reference to {@code withPreviousAuthors}.
      */
-    public static List<GitBlameLineInfo> blameFile(String blameResults) {
-        String[] blameResultsLines = StringsUtil.NEWLINE.split(blameResults);
-        List<GitBlameLineInfo> blameFileResult = new ArrayList<>();
-        for (int lineCount = 0; lineCount < blameResultsLines.length; lineCount += BLAME_LINE_INFO_ROW_COUNT) {
-            String[] blameResultLines = Arrays
-                    .copyOfRange(blameResultsLines, lineCount, lineCount + BLAME_LINE_INFO_ROW_COUNT - 1);
-            GitBlameLineInfo blameLineInfo = processGitBlameResultLine(blameResultLines, "author");
-            blameFileResult.add(blameLineInfo);
-        }
-        return blameFileResult;
+    public static List<GitBlameLineInfo> blameFile(String root, String fileDirectory, boolean withPreviousAuthors) {
+        String blameResults = withPreviousAuthors
+                ? blameWithPreviousAuthors(root, fileDirectory)
+                : blame(root, fileDirectory);
+        return processGitBlameResultLines(blameResults);
     }
 
     /**
@@ -94,7 +90,22 @@ public class GitBlame {
     }
 
     /**
-     * Returns the processed result of {@code blameResult}.
+     * Returns the processed result of {@code blameResults}.
+     */
+    private static List<GitBlameLineInfo> processGitBlameResultLines(String blameResults) {
+        String[] blameResultsLines = StringsUtil.NEWLINE.split(blameResults);
+        List<GitBlameLineInfo> blameFileResult = new ArrayList<>();
+        for (int lineCount = 0; lineCount < blameResultsLines.length; lineCount += BLAME_LINE_INFO_ROW_COUNT) {
+            String[] blameResultLines = Arrays
+                    .copyOfRange(blameResultsLines, lineCount, lineCount + BLAME_LINE_INFO_ROW_COUNT - 1);
+            GitBlameLineInfo blameLineInfo = processGitBlameResultLine(blameResultLines, "author");
+            blameFileResult.add(blameLineInfo);
+        }
+        return blameFileResult;
+    }
+
+    /**
+     * Returns the processed result of {@code blameResultLines}, with reference to {@code timeOption}.
      */
     private static GitBlameLineInfo processGitBlameResultLine(String[] blameResultLines, String timeOption) {
         assert timeOption.equals("author") || timeOption.equals("committer");

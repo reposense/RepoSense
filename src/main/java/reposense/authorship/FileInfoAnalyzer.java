@@ -142,21 +142,15 @@ public class FileInfoAnalyzer {
      */
     private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo,
             boolean shouldAnalyzeAuthorship, double originalityThreshold) {
-        String blameResults;
+        List<GitBlameLineInfo> gitBlameLineInfos = GitBlame.blameFile(
+                config.getRepoRoot(), fileInfo.getPath(), config.isFindingPreviousAuthorsPerformed());
 
-        if (!config.isFindingPreviousAuthorsPerformed()) {
-            blameResults = getGitBlameResult(config, fileInfo.getPath());
-        } else {
-            blameResults = getGitBlameWithPreviousAuthorsResult(config, fileInfo.getPath());
-        }
-
-        List<GitBlameLineInfo> blameResultLines = GitBlame.blameFile(blameResults);
         Path filePath = Paths.get(fileInfo.getPath());
         LocalDateTime sinceDate = config.getSinceDate();
         LocalDateTime untilDate = config.getUntilDate();
 
-        for (int lineCount = 0; lineCount < blameResultLines.size(); lineCount++) {
-            GitBlameLineInfo blameLineInfo = blameResultLines.get(lineCount);
+        for (int lineCount = 0; lineCount < gitBlameLineInfos.size(); lineCount++) {
+            GitBlameLineInfo blameLineInfo = gitBlameLineInfos.get(lineCount);
             String commitHash = blameLineInfo.getCommitHash();
             LocalDateTime commitDate = LocalDateTime.ofInstant(
                     Instant.ofEpochSecond(blameLineInfo.getTimestampInSeconds()), config.getZoneId());
@@ -188,18 +182,11 @@ public class FileInfoAnalyzer {
     }
 
     /**
-     * Returns the analysis result from running git blame on {@code filePath} with reference to the root directory
-     * given in {@code config}.
+     * Returns the analysis result from running git blame file on {@code filePath} with reference to the root directory
+     * given in {@code config} and {@code withPreviousAuthors}.
      */
-    private String getGitBlameResult(RepoConfiguration config, String filePath) {
-        return GitBlame.blame(config.getRepoRoot(), filePath);
-    }
-
-    /**
-     * Returns the analysis result from running git blame with finding previous authors enabled on {@code filePath}
-     * with reference to the root directory given in {@code config}.
-     */
-    private String getGitBlameWithPreviousAuthorsResult(RepoConfiguration config, String filePath) {
-        return GitBlame.blameWithPreviousAuthors(config.getRepoRoot(), filePath);
+    private List<GitBlameLineInfo> getGitBlameFileResult(RepoConfiguration config, String filePath,
+            boolean withPreviousAuthors) {
+        return GitBlame.blameFile(config.getRepoRoot(), filePath, withPreviousAuthors);
     }
 }
