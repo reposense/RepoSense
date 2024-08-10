@@ -142,8 +142,8 @@ public class FileInfoAnalyzer {
      */
     private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo,
             boolean shouldAnalyzeAuthorship, double originalityThreshold) {
-        List<GitBlameLineInfo> gitBlameLineInfos = GitBlame.blameFile(
-                config.getRepoRoot(), fileInfo.getPath(), config.isFindingPreviousAuthorsPerformed());
+        List<GitBlameLineInfo> gitBlameLineInfos = getGitBlameFileResult(config, fileInfo.getPath(),
+                config.isFindingPreviousAuthorsPerformed());
 
         Path filePath = Paths.get(fileInfo.getPath());
         LocalDateTime sinceDate = config.getSinceDate();
