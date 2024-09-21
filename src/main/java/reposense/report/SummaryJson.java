@@ -8,8 +8,8 @@ import java.util.Set;
 
 import reposense.model.BlurbMap;
 import reposense.model.RepoConfiguration;
-import reposense.model.ReportConfiguration;
 import reposense.model.SupportedDomainUrlMap;
+import reposense.model.reportconfig.ReportConfiguration;
 
 /**
  * Represents the structure of summary.json file in reposense-report folder.
