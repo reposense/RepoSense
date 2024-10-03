@@ -97,7 +97,7 @@ public class GitBlameTest extends GitTestTemplate {
     }
 
     @Test
-    public void blameFile_withPreviousAuthors_validFile_success() {
+    public void blameFile_validFileWithPreviousAuthors_success() {
         config.setBranch(TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         GitCheckout.checkoutBranch(config.getRepoRoot(), TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH);
         createTestIgnoreRevsFile(AUTHOR_TO_IGNORE_BLAME_COMMIT_LIST_07082021);
@@ -122,7 +122,7 @@ public class GitBlameTest extends GitTestTemplate {
     }
 
     @Test
-    public void blameFile_withPreviousAuthors_nonExistentFile_throwsRunTimeException() {
+    public void blameFile_nonExistentFileWithPreviousAuthors_throwsRunTimeException() {
         Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameFile(config.getRepoRoot(),
                 "nonExistentFile", true));
     }
