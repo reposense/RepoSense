@@ -86,7 +86,7 @@ public class GitBlame {
         String blameResult = StringsUtil.filterText(runCommand(rootPath, blameCommand),
                 COMBINATION_WITH_COMMIT_TIME_REGEX);
         String[] blameResultLines = StringsUtil.NEWLINE.split(blameResult);
-        return processGitBlameResultLine(blameResultLines, "committer");
+        return processGitBlameResultLine(blameResultLines, false);
     }
 
     /**
@@ -98,7 +98,7 @@ public class GitBlame {
         for (int lineCount = 0; lineCount < blameResultsLines.length; lineCount += BLAME_LINE_INFO_ROW_COUNT) {
             String[] blameResultLines = Arrays
                     .copyOfRange(blameResultsLines, lineCount, lineCount + BLAME_LINE_INFO_ROW_COUNT - 1);
-            GitBlameLineInfo blameLineInfo = processGitBlameResultLine(blameResultLines, "author");
+            GitBlameLineInfo blameLineInfo = processGitBlameResultLine(blameResultLines, true);
             blameFileResult.add(blameLineInfo);
         }
         return blameFileResult;
@@ -107,14 +107,12 @@ public class GitBlame {
     /**
      * Returns the processed result of {@code blameResultLines}, with reference to {@code timeOption}.
      */
-    private static GitBlameLineInfo processGitBlameResultLine(String[] blameResultLines, String timeOption) {
-        assert timeOption.equals("author") || timeOption.equals("committer");
-
+    private static GitBlameLineInfo processGitBlameResultLine(String[] blameResultLines, boolean isAuthorTime) {
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
         String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
         String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("[<>]", "");
         long timestampInSeconds;
-        if (timeOption.equals("author")) {
+        if (isAuthorTime) {
             timestampInSeconds = Long.parseLong(blameResultLines[3].substring(AUTHOR_TIME_OFFSET));
         } else {
             timestampInSeconds = Long.parseLong(blameResultLines[5].substring(COMMIT_TIME_OFFSET));
