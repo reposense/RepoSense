@@ -117,11 +117,13 @@ public class GitBlameTest extends GitTestTemplate {
 
     @Test
     public void blameFile_nonExistentFile_throwsRunTimeException() {
-        Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameFile(config.getRepoRoot(), "nonExistentFile", false));
+        Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameFile(config.getRepoRoot(),
+                "nonExistentFile", false));
     }
 
     @Test
     public void blameFile_nonExistentFileWithPreviousAuthors_throwsRunTimeException() {
-        Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameFile(config.getRepoRoot(), "nonExistentFile", true));
+        Assertions.assertThrows(RuntimeException.class, () -> GitBlame.blameFile(config.getRepoRoot(),
+                "nonExistentFile", true));
     }
 }
