@@ -105,7 +105,7 @@ public class GitBlame {
     }
 
     /**
-     * Returns the processed result of {@code blameResultLines}, with reference to {@code timeOption}.
+     * Returns the processed result of {@code blameResultLines}, with reference to {@code isAuthorTime}.
      */
     private static GitBlameLineInfo processGitBlameResultLine(String[] blameResultLines, boolean isAuthorTime) {
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
