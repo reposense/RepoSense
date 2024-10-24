@@ -105,14 +105,15 @@ public class GitBlame {
     }
 
     /**
-     * Returns the processed result of {@code blameResultLines}, with reference to {@code isAuthorTime}.
+     * Returns the processed result of {@code blameResultLines}, with reference to {@code useAuthorTime}.
+     * If {@code useAuthorTime} is false, committer-time will be used for the timestamp.
      */
-    private static GitBlameLineInfo processGitBlameResultLine(String[] blameResultLines, boolean isAuthorTime) {
+    private static GitBlameLineInfo processGitBlameResultLine(String[] blameResultLines, boolean useAuthorTime) {
         String commitHash = blameResultLines[0].substring(0, FULL_COMMIT_HASH_LENGTH);
         String authorName = blameResultLines[1].substring(AUTHOR_NAME_OFFSET);
         String authorEmail = blameResultLines[2].substring(AUTHOR_EMAIL_OFFSET).replaceAll("[<>]", "");
         long timestampInSeconds;
-        if (isAuthorTime) {
+        if (useAuthorTime) {
             timestampInSeconds = Long.parseLong(blameResultLines[3].substring(AUTHOR_TIME_OFFSET));
         } else {
             timestampInSeconds = Long.parseLong(blameResultLines[5].substring(COMMIT_TIME_OFFSET));
