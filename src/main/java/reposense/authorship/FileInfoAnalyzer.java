@@ -18,24 +18,18 @@ import reposense.authorship.model.FileResult;
 import reposense.authorship.model.LineInfo;
 import reposense.git.GitBlame;
 import reposense.git.GitLog;
+import reposense.git.model.GitBlameLineInfo;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
-import reposense.util.StringsUtil;
 
 /**
  * Analyzes the target and information given in the {@link FileInfo}.
  */
 public class FileInfoAnalyzer {
     private static final Logger logger = LogsManager.getLogger(FileInfoAnalyzer.class);
-
-    private static final int AUTHOR_NAME_OFFSET = "author ".length();
-    private static final int AUTHOR_EMAIL_OFFSET = "author-mail ".length();
-    private static final int AUTHOR_TIME_OFFSET = "author-time ".length();
-    private static final int AUTHOR_TIMEZONE_OFFSET = "author-tz ".length();
-    private static final int FULL_COMMIT_HASH_LENGTH = 40;
 
     private static final String MESSAGE_FILE_MISSING = "Unable to analyze the file located at \"%s\" "
             + "as the file is missing from your system. Skipping this file.";
@@ -148,31 +142,21 @@ public class FileInfoAnalyzer {
      */
     private void aggregateBlameAuthorModifiedAndDateInfo(RepoConfiguration config, FileInfo fileInfo,
             boolean shouldAnalyzeAuthorship, double originalityThreshold) {
-        String blameResults;
+        List<GitBlameLineInfo> gitBlameLineInfos = getGitBlameFileResult(config, fileInfo.getPath(),
+                config.isFindingPreviousAuthorsPerformed());
 
-        if (!config.isFindingPreviousAuthorsPerformed()) {
-            blameResults = getGitBlameResult(config, fileInfo.getPath());
-        } else {
-            blameResults = getGitBlameWithPreviousAuthorsResult(config, fileInfo.getPath());
-        }
-
-        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResults);
         Path filePath = Paths.get(fileInfo.getPath());
         LocalDateTime sinceDate = config.getSinceDate();
         LocalDateTime untilDate = config.getUntilDate();
 
-        for (int lineCount = 0; lineCount < blameResultLines.length; lineCount += 5) {
-            String commitHash = blameResultLines[lineCount].substring(0, FULL_COMMIT_HASH_LENGTH);
-            String authorName = blameResultLines[lineCount + 1].substring(AUTHOR_NAME_OFFSET);
-            String authorEmail = blameResultLines[lineCount + 2]
-                    .substring(AUTHOR_EMAIL_OFFSET).replaceAll("<|>", "");
-            long commitDateInMs = Long.parseLong(blameResultLines[lineCount + 3].substring(AUTHOR_TIME_OFFSET)) * 1000;
-            LocalDateTime commitDate = LocalDateTime.ofInstant(Instant.ofEpochMilli(commitDateInMs),
-                    config.getZoneId());
-            Author author = config.getAuthor(authorName, authorEmail);
+        for (int lineCount = 0; lineCount < gitBlameLineInfos.size(); lineCount++) {
+            GitBlameLineInfo blameLineInfo = gitBlameLineInfos.get(lineCount);
+            String commitHash = blameLineInfo.getCommitHash();
+            LocalDateTime commitDate = LocalDateTime.ofInstant(
+                    Instant.ofEpochSecond(blameLineInfo.getTimestampInSeconds()), config.getZoneId());
+            Author author = config.getAuthor(blameLineInfo.getAuthorName(), blameLineInfo.getAuthorEmail());
 
-            int lineNumber = lineCount / 5;
-            if (!fileInfo.isFileLineTracked(lineNumber) || author.isIgnoringFile(filePath)
+            if (!fileInfo.isFileLineTracked(lineCount) || author.isIgnoringFile(filePath)
                     || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
                     || commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
                 author = Author.UNKNOWN_AUTHOR;
@@ -184,32 +168,25 @@ public class FileInfoAnalyzer {
                             MESSAGE_SHALLOW_CLONING_LAST_MODIFIED_DATE_CONFLICT, config.getRepoName()));
                 }
 
-                fileInfo.setLineLastModifiedDate(lineNumber, commitDate);
+                fileInfo.setLineLastModifiedDate(lineCount, commitDate);
             }
-            fileInfo.setLineAuthor(lineNumber, author);
+            fileInfo.setLineAuthor(lineCount, author);
 
             if (shouldAnalyzeAuthorship && !author.equals(Author.UNKNOWN_AUTHOR)) {
-                String lineContent = fileInfo.getLine(lineNumber + 1).getContent();
+                String lineContent = fileInfo.getLine(lineCount + 1).getContent();
                 boolean isFullCredit = AuthorshipAnalyzer.analyzeAuthorship(config, fileInfo.getPath(), lineContent,
                         commitHash, author, originalityThreshold);
-                fileInfo.setIsFullCredit(lineNumber, isFullCredit);
+                fileInfo.setIsFullCredit(lineCount, isFullCredit);
             }
         }
     }
 
     /**
-     * Returns the analysis result from running git blame on {@code filePath} with reference to the root directory
-     * given in {@code config}.
+     * Returns the analysis result from running git blame file on {@code filePath} with reference to the root directory
+     * given in {@code config} and {@code withPreviousAuthors}.
      */
-    private String getGitBlameResult(RepoConfiguration config, String filePath) {
-        return GitBlame.blame(config.getRepoRoot(), filePath);
-    }
-
-    /**
-     * Returns the analysis result from running git blame with finding previous authors enabled on {@code filePath}
-     * with reference to the root directory given in {@code config}.
-     */
-    private String getGitBlameWithPreviousAuthorsResult(RepoConfiguration config, String filePath) {
-        return GitBlame.blameWithPreviousAuthors(config.getRepoRoot(), filePath);
+    private List<GitBlameLineInfo> getGitBlameFileResult(RepoConfiguration config, String filePath,
+            boolean withPreviousAuthors) {
+        return GitBlame.blameFile(config.getRepoRoot(), filePath, withPreviousAuthors);
     }
 }
