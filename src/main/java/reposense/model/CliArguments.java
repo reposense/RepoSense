@@ -51,6 +51,7 @@ public class CliArguments {
     private Path groupConfigFilePath;
     private Path reportConfigFilePath;
     private ReportConfiguration reportConfiguration;
+    private BlurbMap blurbMap;
 
     /**
      * Constructs a {@code CliArguments} object without any parameters.
@@ -161,6 +162,10 @@ public class CliArguments {
         return reportConfiguration;
     }
 
+    public BlurbMap getBlurbMap() {
+        return blurbMap;
+    }
+
     public boolean isViewModeOnly() {
         return isViewModeOnly;
     }
@@ -211,6 +216,7 @@ public class CliArguments {
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
                 && Objects.equals(this.groupConfigFilePath, otherCliArguments.groupConfigFilePath)
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
+                && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
                 && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold);
     }
@@ -484,6 +490,16 @@ public class CliArguments {
          */
         public Builder originalityThreshold(double originalityThreshold) {
             this.cliArguments.originalityThreshold = originalityThreshold;
+            return this;
+        }
+
+        /**
+         * Adds the {@code blurbMap} to CliArguments.
+         *
+         * @param blurbMap The blurb map.
+         */
+        public Builder blurbMap(BlurbMap blurbMap) {
+            this.cliArguments.blurbMap = blurbMap;
             return this;
         }
 

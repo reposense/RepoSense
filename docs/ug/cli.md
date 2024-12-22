@@ -68,7 +68,7 @@ partial credit.
 <div id="section-config">
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
-* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `report-config.json` file.
+* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `report-config.json` file or/and a `blurbs.md` file.
 * Alias: `-c`
 * Example: `java -jar RepoSense.jar --config  ./config`
 
@@ -215,7 +215,7 @@ credit is given.
 ### `--repo`, `--repos`, `-r`
 
 **`--repo REPO_LOCATION`**: Specifies which repositories to analyze.
-* Parameter: `REPO_LOCATION` A list of URLs or the disk location of the git repositories to analyze, separated by spaces.
+* Parameter: `REPO_LOCATION` A list of URLs or the disk location of the Git repositories to analyze, separated by spaces.
 * Alias: `-r`
 * Examples:
   * `--repos https://github.com/reposense/RepoSense.git`

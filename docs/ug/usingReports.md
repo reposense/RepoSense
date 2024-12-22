@@ -18,7 +18,7 @@ Let's look at how to view, interpret, and interact with a RepoSense report.
 As a report consists of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.
 
 * **Situation 1: The report has been hosted on a website**
-  * Simply go to the URL of the report ([example](https://nus-cs2113-ay1920s2.github.io/tp-dashboard)) in your browser.
+  * Simply go to the URL of the report ([example](https://nus-cs2113-ay2324s2.github.io/tp-dashboard)) in your browser.
 * **Situation 2: You generated the report in your computer earlier**
   * Run RepoSense with the `--view` option:<br>
     Format: `java -jar RepoSense.jar --view REPORT_FOLDER`<br>
@@ -94,7 +94,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
   * The keywords used to filter the author and repository are case-insensitive.
-  * Starting a search with `tag:` will filter author and repository by git tags. Similar search rules as above (like separating multiple tag names by space) apply.
+  * Starting a search with `tag:` will filter author and repository by Git tags. Similar search rules as above (like separating multiple tag names by space) apply.
 * `Group by`: grouping criteria for the rows of results.
   * `None`: results will not be grouped in any particular way.
   * `Repo/Branch`: results will be grouped by repositories and its' associating branches.
@@ -129,7 +129,7 @@ Notes:<br>
 
 <box type="tip" seamless>
 
-**RepoSense support _intelligent_ bookmarks**: Note how the browser URL changes as you modify settings in the report. If you send that URL to someone else, that person will be able to use that URL to view the report in the same _view configuration_ you had when you copied the URL. For example, [this URL](https://nus-cs2113-ay1920s2.github.io/tp-dashboard/) and [this URL](https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&sort=groupTitle&sortWithin=title&since=2020-03-01&timeframe=day&mergegroup=true&groupSelect=groupByRepos&breakdown=true) give two different views of the same report.
+**RepoSense support _intelligent_ bookmarks**: Note how the browser URL changes as you modify settings in the report. If you send that URL to someone else, that person will be able to use that URL to view the report in the same _view configuration_ you had when you copied the URL. For example, [this URL](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/) and [this URL](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle%20dsc&sortWithin=title&since=2024-02-23&until=2024-04-26&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&tabOpen=false&checkedFileTypes=docs~functional-code~test-code~other) give two different views of the same report.
 </box>
 
 <!-- ==================================================================================================== -->

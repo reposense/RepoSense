@@ -31,7 +31,7 @@ The report can be customized using several ways, as explained below.
 
 <box type="tip" seamless>
 
-**Managing config files collaboratively**: If you use RepoSense to monitor a large number of programmers, it may be more practical to get the programmers to submit PRs to update the config files as necessary (<tooltip content="a coder realizes some of her code is missing from the report because she used multiple git usernames, and wants to add the additional usernames to the config file">example use case</tooltip>).
+**Managing config files collaboratively**: If you use RepoSense to monitor a large number of programmers, it may be more practical to get the programmers to submit PRs to update the config files as necessary (<tooltip content="a coder realizes some of her code is missing from the report because she used multiple Git usernames, and wants to add the additional usernames to the config file">example use case</tooltip>).
 
 To ensure that their PRs are correct, you can use [Netlify _deploy previews_](https://www.netlify.com/blog/2016/07/20/introducing-deploy-previews-in-netlify/) to preview how the report would look like after the PR has been merged. More details are in the panels below.
 
@@ -58,12 +58,13 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 
 </box>
 
-3\. Add a git `.mailmap` file at the top-level of the repository, specifying mapped authors/commiters and/or e-mail addresses as per [gitmailmap documentation](https://git-scm.com/docs/gitmailmap). Any mappings specified here will be applied by git before all other RepoSense configurations. Configuration via `.mailmap` is particularly useful if you want the mapping to apply for all git commands as well instead of just for RepoSense.
+3\. Add a Git `.mailmap` file at the top-level of the repository, specifying mapped authors/commiters and/or e-mail addresses as per [gitmailmap documentation](https://git-scm.com/docs/gitmailmap). Any mappings specified here will be applied by Git before all other RepoSense configurations. Configuration via `.mailmap` is particularly useful if you want the mapping to apply for all Git commands as well instead of just for RepoSense.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### Add a title
+### Personalizing Reports
 
+#### Add a title
 A title component can be added by creating a file titled `title.md` in the assets directory. You can specify the assets directory according to the reference below:
 {{ embed("Appendix: **CLI syntax reference → `assets` flag**", "cli.md#section-assets") }}
 
@@ -73,3 +74,10 @@ The title can render a combination of Markdown/HTML and plaintext ([example](htt
 Do note that the width of the title is bound by the width of the left panel.
 
 For more information on how to use Markdown, see the [Markdown Guide](https://www.markdownguide.org/).
+
+#### Add blurbs for branches
+A blurb can be added for a repository branch by creating a file titled `blurbs.md` in the config directory. The blurbs will be visible when grouping by `Repo/Branch`. The format of the file is given below:
+{{ embed("Appendix: **Config files format**", "configFiles.md#section-blurbs") }}
+
+Specifying the config directory can be done as follows:
+{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
