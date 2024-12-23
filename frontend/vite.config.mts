@@ -4,6 +4,11 @@ import eslint from 'vite-plugin-eslint2';
 import stylelint from 'vite-plugin-stylelint';
 import path from 'path';
 
+// Extract the repository name from the GITHUB_REPOSITORY environment variable
+const repoName = process.env.GITHUB_REPOSITORY
+  ? `/${process.env.GITHUB_REPOSITORY.split('/').pop()}/`
+  : '/default-repo/'; // Fallback if GITHUB_REPOSITORY is not set
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue(), eslint(), stylelint()],
@@ -17,6 +22,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  base: repoName,
   build: {
     outDir: './build',
     emptyOutDir: true,
