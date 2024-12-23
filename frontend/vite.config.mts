@@ -4,12 +4,11 @@ import eslint from 'vite-plugin-eslint2';
 import stylelint from 'vite-plugin-stylelint';
 import path from 'path';
 
-// Extract the repository name from the GITHUB_REPOSITORY environment variable
-const repoName = process.env.GITHUB_REPOSITORY
+// Extract the repository name from the GITHUB_REPOSITORY environment variable.
+// This is used to set the base path for the GitHub Pages deployment.
+const base = process.env.GITHUB_REPOSITORY
   ? `/${process.env.GITHUB_REPOSITORY.split('/').pop()}/`
   : '/'; // Fallback if GITHUB_REPOSITORY is not set
-
-// const repoName = '/publish-RepoSense/';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -24,7 +23,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: repoName,
+  base: base,
   build: {
     outDir: './build',
     emptyOutDir: true,
