@@ -5,11 +5,11 @@ import stylelint from 'vite-plugin-stylelint';
 import path from 'path';
 
 // Extract the repository name from the GITHUB_REPOSITORY environment variable
-// const repoName = process.env.GITHUB_REPOSITORY
-//   ? `/${process.env.GITHUB_REPOSITORY.split('/').pop()}/`
-//   : '/'; // Fallback if GITHUB_REPOSITORY is not set
+const repoName = process.env.GITHUB_REPOSITORY
+  ? `/${process.env.GITHUB_REPOSITORY.split('/').pop()}/`
+  : '/'; // Fallback if GITHUB_REPOSITORY is not set
 
-const repoName = '/publish-RepoSense/';
+// const repoName = '/publish-RepoSense/';
 
 // https://vitejs.dev/config/
 export default defineConfig({
