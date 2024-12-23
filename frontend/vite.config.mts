@@ -4,11 +4,11 @@ import eslint from 'vite-plugin-eslint2';
 import stylelint from 'vite-plugin-stylelint';
 import path from 'path';
 
-// Extract the repository name from the GITHUB_REPOSITORY environment variable.
-// This is used to set the base path for the GitHub Pages deployment.
-const base = process.env.GITHUB_REPOSITORY
-  ? `/${process.env.GITHUB_REPOSITORY.split('/').pop()}/`
-  : '/'; // Fallback if GITHUB_REPOSITORY is not set
+// VITE_BASE_DIR refers to the root directory of the RepoSense deployment.
+// It needs to be configured for GitHub Pages deployment.
+const base = process.env.VITE_BASE_DIR
+  ? process.env.VITE_BASE_DIR
+  : '/';
 
 // https://vitejs.dev/config/
 export default defineConfig({
