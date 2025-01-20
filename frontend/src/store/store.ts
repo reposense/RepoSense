@@ -61,7 +61,7 @@ export default createStore<StoreState>({
         slice.isOpen = !slice.isOpen;
       }
     },
-    setAllZoomCommitMessageBody(_, { isOpen, commits }: { isOpen: boolean; commits: DailyCommit[] }) {
+    setAllZoomCommitMessageBody(_, { isOpen, commits }: { isOpen: boolean, commits: DailyCommit[] }) {
       commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
           if (slice.isOpen !== undefined) {
@@ -77,7 +77,7 @@ export default createStore<StoreState>({
       file.active = !file.active;
       file.wasCodeLoaded = file.wasCodeLoaded || file.active;
     },
-    setAllAuthorshipFileActiveProperty(_, { isActive, files }: { isActive: boolean; files: AuthorshipFile[] }) {
+    setAllAuthorshipFileActiveProperty(_, { isActive, files }: { isActive: boolean, files: AuthorshipFile[] }) {
       files.forEach((file) => {
         file.active = isActive;
         file.wasCodeLoaded = file.wasCodeLoaded || file.active;
