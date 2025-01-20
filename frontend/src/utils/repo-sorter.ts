@@ -52,10 +52,10 @@ function sortingHelper(element: User[], sortingOption?: string): string | number
 function groupByRepos(
   repos: User[][],
   sortingControl: {
-    sortingOption: string;
-    sortingWithinOption: string;
-    isSortingDsc: string;
-    isSortingWithinDsc: string; },
+    sortingOption: string,
+    sortingWithinOption: string,
+    isSortingDsc: string,
+    isSortingWithinDsc: string, },
 ): User[][] {
   const sortedRepos: User[][] = [];
   const {
@@ -85,8 +85,8 @@ function groupByRepos(
 function groupByNone(
   repos: User[][],
   sortingControl: {
-    sortingOption: string;
-    isSortingDsc: string; },
+    sortingOption: string,
+    isSortingDsc: string, },
 ): User[] {
   const sortedRepos: User[] = [];
   const { sortingOption, isSortingDsc } = sortingControl;
@@ -115,10 +115,10 @@ function groupByNone(
 function groupByAuthors(
   repos: User[][],
   sortingControl: {
-    sortingOption: string;
-    sortingWithinOption: string;
-    isSortingDsc: string;
-    isSortingWithinDsc: string; },
+    sortingOption: string,
+    sortingWithinOption: string,
+    isSortingDsc: string,
+    isSortingWithinDsc: string, },
 ): User[][] {
   const authorMap: { [userName: string]: User[] } = {};
   const filtered: User[][] = [];
@@ -158,11 +158,11 @@ function groupByAuthors(
 function sortFiltered(
   filtered: User[][],
   filterControl: {
-    filterGroupSelection: FilterGroupSelection;
-    sortingOption: string;
-    sortingWithinOption: string;
-    isSortingDsc: string;
-    isSortingWithinDsc: string; },
+    filterGroupSelection: FilterGroupSelection,
+    sortingOption: string,
+    sortingWithinOption: string,
+    isSortingDsc: string,
+    isSortingWithinDsc: string, },
 ): User[][] {
   const { filterGroupSelection } = filterControl;
   let full = [];
