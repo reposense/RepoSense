@@ -59,7 +59,7 @@ The information below is for **Intellij**. If you are using a different IDE, you
 
 When tracing through the program execution, you can cross reference the architecture diagram and Javadoc of the class and method to check your understanding of the procedure.
 </box>
-
+f
 {{ step(3) }} **Gain some hands-on experience**
 
 Here are some small tasks for you to gain some basic knowledge of the code related to the RepoSense backend. You can do each in a separate branch in your local copy of the code.
@@ -149,7 +149,9 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   GsonBuilder gsonBuilder = new GsonBuilder()
           .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
                         -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
-          .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer());
+          .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
+          .registerTypeAdapter(ZoneId.class, (JsonSerializer<ZoneId>) (zoneId, typeOfSrc, context)
+                        -> new JsonPrimitive(zoneId.toString()));
   Gson gson;
   if (isPrettyPrintingUsed) {
       gson = gsonBuilder.setPrettyPrinting().create();
