@@ -98,31 +98,35 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 2">
 
-  After the step in hint 1, the argument is captured by `ArgumentParser`. Now make corresponding changes to `CliArguments.java`, `ConfigCliArguments.java`, and the `parse` method in `ArgsParser.java` to make the return result of `parse` include the new argument.
+  After the step in hint 1, the argument is captured by `ArgumentParser`. Now make corresponding changes to `CliArguments.java` and the `parse` method in `ArgsParser.java` to make the return result of `parse` include the new argument.
 
   1. Add the following content to `CliArguments` to include `isPrettyPrintingUsed` as a new attribute to the class.
 
   ```java
-  protected boolean isPrettyPrintingUsed;
+  private boolean isPrettyPrintingUsed;
 
   public boolean isPrettyPrintingUsed() {
           return isPrettyPrintingUsed;
   }
   ```
 
-  2. In the constructor of `ConfigCliArguments`, add `isPrettyPrintingUsed` as a new parameter of the method, and add the following instruction to the method body.
-
+  2. In the `Builder` class within `CliArguments`, add the following method to set `isPrettyPrintingUsed`.
+  
   ```java
-  this.isPrettyPrintingUsed = isPrettyPrintingUsed;
+  public Builder isPrettyPrintingUsed(boolean isPrettyPrintingUsed) {
+          this.cliArguments.isPrettyPrintingUsed = isPrettyPrintingUsed;
+          return this;
+  }
   ```
 
-  3. In the `parse` method of `ArgsParser`, add the following instruction to get `isJsonPrettyPrintingUsed` from `ArgmentParser`.
+  3. In the `parse` method of `ArgsParser`, add the following instruction to get `isJsonPrettyPrintingUsed` from `ArgumentParser`.
 
   ```java
   boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
   ```
 
-  4. Additionally, change the return statement of the `parse` method so that the `ConfigCliArguments` object returned will now include `isJsonPrettyPrintingUsed`.
+  4. Additionally, add `.isPrettyPrintingUsed(isJsonPrettyPrintingUsed)` to the initialisation of `cliArgumentsBuilder` in the `parse` method of `ArgsParser`.
+
   </panel>
 
   <panel header="Hint 3">
