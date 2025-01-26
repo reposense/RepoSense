@@ -21,7 +21,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Deprecation Notice: MacOS 12 will be deprecated by the end of 2024
         os: [ubuntu-20.04, ubuntu-22.04, macos-13, macos-14, macos-15, windows-2019, windows-2022]
     runs-on: ${{ matrix.os }}
     env:
