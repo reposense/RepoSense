@@ -7,13 +7,13 @@ public class GitBlameLineInfo {
     private final String commitHash;
     private final String authorName;
     private final String authorEmail;
-    private final long timestampMilliseconds;
+    private final long timestampInSeconds;
 
-    public GitBlameLineInfo(String commitHash, String authorName, String authorEmail, long timestampMilliseconds) {
+    public GitBlameLineInfo(String commitHash, String authorName, String authorEmail, long timestampInSeconds) {
         this.commitHash = commitHash;
         this.authorName = authorName;
         this.authorEmail = authorEmail;
-        this.timestampMilliseconds = timestampMilliseconds;
+        this.timestampInSeconds = timestampInSeconds;
     }
 
     public String getCommitHash() {
@@ -28,8 +28,8 @@ public class GitBlameLineInfo {
         return authorEmail;
     }
 
-    public long getTimestampMilliseconds() {
-        return timestampMilliseconds;
+    public long getTimestampInSeconds() {
+        return timestampInSeconds;
     }
 
     @Override
@@ -46,6 +46,6 @@ public class GitBlameLineInfo {
         return commitHash.equals(otherLineInfo.commitHash)
                 && authorName.equals(otherLineInfo.authorName)
                 && authorEmail.equals(otherLineInfo.authorEmail)
-                && timestampMilliseconds == otherLineInfo.timestampMilliseconds;
+                && timestampInSeconds == otherLineInfo.timestampInSeconds;
     }
 }
