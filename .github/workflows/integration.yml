@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04, macos-13, macos-14, macos-15, windows-2019, windows-2022]
+        os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15, windows-2019, windows-2022]
     runs-on: ${{ matrix.os }}
     env:
       HOMEBREW_NO_AUTO_UPDATE: 1 # Prevent time-consuming brew update
@@ -78,7 +78,7 @@ jobs:
       run: ./gradlew clean checkstyleAll test systemTest coverage
 
     - name: Run code coverage
-      if: ${{ success() && ( matrix.os == 'ubuntu-20.04' || matrix.os == 'macos-15' || matrix.os == 'windows-2022' ) }}
+      if: ${{ success() && ( matrix.os == 'ubuntu-24.04' || matrix.os == 'macos-15' || matrix.os == 'windows-2022' ) }}
       uses: codecov/codecov-action@v3
       with:
         directory: ${{ github.workspace }}/build/reports/jacoco/coverage
@@ -86,7 +86,7 @@ jobs:
         fail_ci_if_error: false
 
     - name: Build preview website (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-24.04' }}
       run: |
         git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
         sudo apt-get -y install graphviz
@@ -94,14 +94,14 @@ jobs:
         (cd docs && markbind build)
 
     - name: Save PR number and HEAD commit (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-24.04' }}
       run: |
         mkdir -p ./pr
         echo ${{ github.event.number }} > ./pr/NUMBER
         echo ${{ github.event.pull_request.head.sha }} > ./pr/SHA
 
     - name: Upload artifacts (pull request)
-      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-20.04' }}
+      if: ${{ success() && github.event_name == 'pull_request' && matrix.os == 'ubuntu-24.04' }}
       uses: actions/upload-artifact@v3
       with:
         name: reposense-deployment
