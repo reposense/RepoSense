@@ -21,7 +21,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Deprecation Notice: MacOS 12 will be deprecated by the end of 2024
         os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15, windows-2019, windows-2022]
     runs-on: ${{ matrix.os }}
     env:
@@ -79,7 +78,7 @@ jobs:
       run: ./gradlew clean checkstyleAll test systemTest coverage
 
     - name: Run code coverage
-      if: ${{ success() && ( matrix.os == 'ubuntu-24.04' || matrix.os == 'macos-11' || matrix.os == 'windows-2022' ) }}
+      if: ${{ success() && ( matrix.os == 'ubuntu-24.04' || matrix.os == 'macos-15' || matrix.os == 'windows-2022' ) }}
       uses: codecov/codecov-action@v3
       with:
         directory: ${{ github.workspace }}/build/reports/jacoco/coverage
