@@ -16,7 +16,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -29,14 +28,14 @@ import java.util.zip.ZipOutputStream;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializer;
 
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
+import reposense.util.adapters.DateSerializer;
+import reposense.util.adapters.ZoneSerializer;
 
 /**
  * Contains file processing related functionalities.
@@ -48,7 +47,7 @@ public class FileUtil {
     public static final String ZIP_FILE = "archive.zip";
 
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
-    private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
+    public static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     private static final String BARE_REPO_SUFFIX = "_bare";
@@ -104,11 +103,9 @@ public class FileUtil {
      */
     public static Optional<Path> writeJsonFile(Object object, String path) {
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
-                        -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
+                .registerTypeHierarchyAdapter(LocalDateTime.class, new DateSerializer())
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
-                .registerTypeAdapter(ZoneId.class, (JsonSerializer<ZoneId>) (zoneId, typeOfSrc, context)
-                        -> new JsonPrimitive(zoneId.toString()))
+                .registerTypeHierarchyAdapter(ZoneId.class, new ZoneSerializer())
                 .create();
 
         // Gson serializer from:
