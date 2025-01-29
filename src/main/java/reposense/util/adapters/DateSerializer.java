@@ -11,6 +11,9 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+/**
+ * Overrides the custom gson serializer for LocalDateTine type object.
+ */
 public class DateSerializer implements JsonSerializer<LocalDateTime> {
     @Override
     public JsonElement serialize(LocalDateTime date, Type typeofDate, JsonSerializationContext ctx) {

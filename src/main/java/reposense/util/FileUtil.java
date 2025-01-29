@@ -42,12 +42,12 @@ import reposense.util.adapters.ZoneSerializer;
  */
 public class FileUtil {
     public static final String REPOS_ADDRESS = "repos";
-
+    public static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
     // zip file which contains all the specified file types
     public static final String ZIP_FILE = "archive.zip";
 
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
-    public static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
+
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
 
     private static final String BARE_REPO_SUFFIX = "_bare";
