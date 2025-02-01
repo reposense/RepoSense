@@ -79,7 +79,7 @@ jobs:
 
     - name: Run code coverage
       if: ${{ success() && ( matrix.os == 'ubuntu-24.04' || matrix.os == 'macos-15' || matrix.os == 'windows-2022' ) }}
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         directory: ${{ github.workspace }}/build/reports/jacoco/coverage
         files: coverage.xml
