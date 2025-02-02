@@ -72,7 +72,8 @@ public class RepoSense {
 
             // Prints logger to check latest dates.
             for (RepoConfiguration config: configs) {
-                logger.info("The date of the current config is " + config.getSinceDate().toString());
+                logger.info("The start date of the current config is " + config.getSinceDate().toString());
+                logger.info("The end date of the current config is " + config.getUntilDate().toString());
             }
 
             List<String[]> globalGitConfig = GitConfig.getGlobalGitLfsConfig();
