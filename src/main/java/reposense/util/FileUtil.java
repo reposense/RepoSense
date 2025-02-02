@@ -42,18 +42,15 @@ import reposense.util.adapters.ZoneSerializer;
  */
 public class FileUtil {
     public static final String REPOS_ADDRESS = "repos";
-    public static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
+
     // zip file which contains all the specified file types
     public static final String ZIP_FILE = "archive.zip";
 
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
-
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
-
     private static final String BARE_REPO_SUFFIX = "_bare";
     private static final String PARTIAL_REPO_SUFFIX = "_partial";
     private static final String SHALLOW_PARTIAL_REPO_SUFFIX = "_shallow_partial";
-
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
     private static final String MESSAGE_FAIL_TO_ZIP_FILES =
             "Exception occurred while attempting to zip the report files.";
