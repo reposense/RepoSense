@@ -54,6 +54,8 @@ public class RepoConfiguration {
     private transient boolean isFileSizeLimitOverriding = false;
     private transient boolean isIgnoredFileAnalysisSkipped = false;
 
+    private transient boolean hasUpdatedDate = false;
+
     /**
      * Constructs an empty instance of {@code RepoConfiguration}, which is used by the {@code Builder}
      * to construct new {@code RepoConfiguration} instances.
@@ -409,6 +411,16 @@ public class RepoConfiguration {
             return this;
         }
 
+        public Builder setDatesBasedOnConfig(boolean hasUpdatedDateTime, LocalDateTime since, LocalDateTime until) {
+            this.repoConfiguration.hasUpdatedDate = hasUpdatedDateTime;
+            if (hasUpdatedDateTime) {
+                logger.info("Update repo config based on config");
+                this.repoConfiguration.sinceDate = since;
+                this.repoConfiguration.untilDate = until;
+            }
+            return this;
+        }
+
         /**
          * Builds the {@code RepoConfiguration} object with the necessary configurations.
          *
@@ -449,8 +461,13 @@ public class RepoConfiguration {
     public static void setDatesToRepoConfigs(List<RepoConfiguration> configs,
             LocalDateTime sinceDate, LocalDateTime untilDate) {
         for (RepoConfiguration config : configs) {
-            config.setSinceDate(sinceDate);
-            config.setUntilDate(untilDate);
+            if (!config.hasUpdatedDate) {
+                logger.info("Repo has not been updated");
+                config.setSinceDate(sinceDate);
+                config.setUntilDate(untilDate);
+            } else {
+                logger.info("Repo has been updated");
+            }
         }
     }
 

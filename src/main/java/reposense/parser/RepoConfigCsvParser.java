@@ -2,6 +2,8 @@ package reposense.parser;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
@@ -25,6 +27,11 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String SHALLOW_CLONING_CONFIG_KEYWORD = "yes";
     private static final String FIND_PREVIOUS_AUTHORS_KEYWORD = "yes";
 
+    private static final String LOCAL_DATETIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
+    private static final String DEFAULT_START_TIME = " 00:00:00";
+
+    private static final String DEFAULT_END_TIME = " 23:59:59";
+
     /**
      * Positions of the elements of a line in repo-config.csv config file
      */
@@ -40,6 +47,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String[] SHALLOW_CLONING_CONFIG_HEADER = {"Shallow Cloning"};
     private static final String[] FIND_PREVIOUS_AUTHORS_CONFIG_HEADER = {"Find Previous Authors"};
     private static final String[] FILESIZE_LIMIT_HEADER = {"File Size Limit"};
+    private static final String[] SINCE_HEADER = {"since"};
+    private static final String[] UNTIL_HEADER = {"until"};
 
     public RepoConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
@@ -64,7 +73,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 BRANCH_HEADER, FILE_FORMATS_HEADER, IGNORE_GLOB_LIST_HEADER, IGNORE_STANDALONE_CONFIG_HEADER,
                 IGNORE_FILESIZE_LIMIT_HEADER, IGNORE_COMMIT_LIST_CONFIG_HEADER, IGNORE_AUTHOR_LIST_CONFIG_HEADER,
                 SHALLOW_CLONING_CONFIG_HEADER, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER, FILESIZE_LIMIT_HEADER,
-                SKIP_IGNORED_FILE_ANALYSIS_HEADER
+                SKIP_IGNORED_FILE_ANALYSIS_HEADER, SINCE_HEADER, UNTIL_HEADER
         };
     }
 
@@ -113,6 +122,16 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         List<String> fileSizeLimitStringList = getAsListWithoutOverridePrefix(record, FILESIZE_LIMIT_HEADER);
         long fileSizeLimit = RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 
+        // Retrieve and update date
+        String sinceDate = get(record, SINCE_HEADER);
+        String endDate = get(record, UNTIL_HEADER);
+        LocalDateTime since = null, end = null;
+        boolean hasUpdatedDateTime = !sinceDate.isEmpty() && !endDate.isEmpty();
+        if (hasUpdatedDateTime) {
+            since = LocalDateTime.parse(sinceDate + DEFAULT_START_TIME, DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            end = LocalDateTime.parse(endDate + DEFAULT_END_TIME, DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+        }
+
         // If file diff limit is specified
         if (fileSizeLimitStringList.size() > 0) {
             String fileSizeLimitString = fileSizeLimitStringList.get(0).trim();
@@ -143,7 +162,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         addConfig(results, location, branch, isFormatsOverriding, formats, isIgnoreGlobListOverriding, ignoreGlobList,
                 isIgnoreCommitListOverriding, ignoreCommitList, isIgnoredAuthorsListOverriding, ignoredAuthorsList,
                 isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
-                isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed);
+                isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed,
+                hasUpdatedDateTime, since, end);
     }
 
     /**
@@ -171,7 +191,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             boolean isIgnoredAuthorsListOverriding, List<String> ignoredAuthorsList, boolean isFileSizeLimitIgnored,
             boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
             boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
-            boolean isFindingPreviousAuthorsPerformed) {
+            boolean isFindingPreviousAuthorsPerformed, boolean hasUpdatedDateTime, LocalDateTime since,
+            LocalDateTime until) {
         RepoConfiguration config = new RepoConfiguration.Builder()
                 .location(location)
                 .branch(branch)
@@ -190,6 +211,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 .isIgnoredFileAnalysisSkipped(isIgnoredFileAnalysisSkipped)
                 .ignoredAuthorsList(ignoredAuthorsList)
                 .isIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding)
+                .setDatesBasedOnConfig(hasUpdatedDateTime, since, until)
                 .build();
 
         if (results.contains(config)) {
