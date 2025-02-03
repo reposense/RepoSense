@@ -57,7 +57,6 @@ describe('optimise timeline', () => {
       .find('.summary-chart__ramp .date-indicators span')
       .last()
 
-      // 3/3 on GitHub CI, 3/4 on local
       .should('have.text', '2023-03-03');
   });
 
