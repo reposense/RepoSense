@@ -30,10 +30,11 @@ public class RepoConfiguration {
     private String branch = DEFAULT_BRANCH;
     private String displayName;
     private String outputFolderName;
+    private LocalDateTime sinceDate;
+    private LocalDateTime untilDate;
+
     private transient String extraOutputFolderName = DEFAULT_EXTRA_OUTPUT_FOLDER_NAME;
     private transient ZoneId zoneId;
-    private transient LocalDateTime sinceDate;
-    private transient LocalDateTime untilDate;
     private transient String repoFolderName;
 
     private transient FileTypeManager fileTypeManager = new FileTypeManager(Collections.emptyList());
