@@ -11,7 +11,7 @@ on:
       - gh-pages
 
 env:
-  NODE_VER: '18.x'
+  NODE_VER: '20.x'
   JAVA_DISTRIBUTION: 'zulu'
   JAVA_VER: 11
 
