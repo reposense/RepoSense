@@ -55,7 +55,9 @@ public class RepoConfiguration {
     private transient boolean isFileSizeLimitOverriding = false;
     private transient boolean isIgnoredFileAnalysisSkipped = false;
 
-    private transient boolean hasUpdatedDate = false;
+    private transient boolean hasUpdatedSinceDateInConfig = false;
+
+    private transient boolean hasUpdatedUntilDateInConfig = false;
 
     /**
      * Constructs an empty instance of {@code RepoConfiguration}, which is used by the {@code Builder}
@@ -412,11 +414,17 @@ public class RepoConfiguration {
             return this;
         }
 
-        public Builder setDatesBasedOnConfig(boolean hasUpdatedDateTime, LocalDateTime since, LocalDateTime until) {
-            this.repoConfiguration.hasUpdatedDate = hasUpdatedDateTime;
-            if (hasUpdatedDateTime) {
-                logger.info("Update repo config based on config");
+        public Builder setSinceDateBasedOnConfig(boolean hasUpdatedSinceDateInConfig, LocalDateTime since) {
+            this.repoConfiguration.hasUpdatedSinceDateInConfig = hasUpdatedSinceDateInConfig;
+            if (hasUpdatedSinceDateInConfig) {
                 this.repoConfiguration.sinceDate = since;
+            }
+            return this;
+        }
+
+        public Builder setUntilDateBasedOnConfig(boolean hasUpdatedUntilDateInConfig, LocalDateTime until) {
+            this.repoConfiguration.hasUpdatedUntilDateInConfig = hasUpdatedUntilDateInConfig;
+            if (hasUpdatedUntilDateInConfig) {
                 this.repoConfiguration.untilDate = until;
             }
             return this;
@@ -462,12 +470,12 @@ public class RepoConfiguration {
     public static void setDatesToRepoConfigs(List<RepoConfiguration> configs,
             LocalDateTime sinceDate, LocalDateTime untilDate) {
         for (RepoConfiguration config : configs) {
-            if (!config.hasUpdatedDate) {
-                logger.info("Repo has not been updated");
+            if (!config.hasUpdatedSinceDateInConfig) {
                 config.setSinceDate(sinceDate);
+            }
+
+            if (!config.hasUpdatedUntilDateInConfig) {
                 config.setUntilDate(untilDate);
-            } else {
-                logger.info("Repo has been updated");
             }
         }
     }

@@ -127,10 +127,14 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         String endDate = get(record, UNTIL_HEADER);
         LocalDateTime since = null;
         LocalDateTime end = null;
-        boolean hasUpdatedDateTime = !sinceDate.isEmpty() && !endDate.isEmpty();
-        if (hasUpdatedDateTime) {
+        boolean hasUpdatedSinceDateTime = !sinceDate.isEmpty();
+        boolean hasUpdatedUntilDateTime = !endDate.isEmpty();
+        if (hasUpdatedSinceDateTime) {
             since = LocalDateTime.parse(sinceDate + DEFAULT_START_TIME,
                     DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+        }
+
+        if (hasUpdatedUntilDateTime) {
             end = LocalDateTime.parse(endDate + DEFAULT_END_TIME,
                     DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
         }
@@ -166,7 +170,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isIgnoreCommitListOverriding, ignoreCommitList, isIgnoredAuthorsListOverriding, ignoredAuthorsList,
                 isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
                 isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed,
-                hasUpdatedDateTime, since, end);
+                hasUpdatedSinceDateTime, hasUpdatedUntilDateTime, since, end);
     }
 
     /**
@@ -194,8 +198,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             boolean isIgnoredAuthorsListOverriding, List<String> ignoredAuthorsList, boolean isFileSizeLimitIgnored,
             boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
             boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
-            boolean isFindingPreviousAuthorsPerformed, boolean hasUpdatedDateTime, LocalDateTime since,
-            LocalDateTime until) {
+            boolean isFindingPreviousAuthorsPerformed, boolean hasUpdatedSinceDateTime, boolean hasUpdatedUntilDateTime,
+            LocalDateTime since, LocalDateTime until) {
         RepoConfiguration config = new RepoConfiguration.Builder()
                 .location(location)
                 .branch(branch)
@@ -214,7 +218,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 .isIgnoredFileAnalysisSkipped(isIgnoredFileAnalysisSkipped)
                 .ignoredAuthorsList(ignoredAuthorsList)
                 .isIgnoredAuthorsListOverriding(isIgnoredAuthorsListOverriding)
-                .setDatesBasedOnConfig(hasUpdatedDateTime, since, until)
+                .setSinceDateBasedOnConfig(hasUpdatedSinceDateTime, since)
+                .setUntilDateBasedOnConfig(hasUpdatedUntilDateTime, until)
                 .build();
 
         if (results.contains(config)) {
