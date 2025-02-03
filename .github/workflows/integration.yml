@@ -79,7 +79,7 @@ jobs:
 
     - name: Run code coverage
       if: ${{ success() && ( matrix.os == 'ubuntu-24.04' || matrix.os == 'macos-15' || matrix.os == 'windows-2022' ) }}
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v5
       with:
         directory: ${{ github.workspace }}/build/reports/jacoco/coverage
         files: coverage.xml
@@ -156,7 +156,9 @@ jobs:
       run: chmod +x gradlew
 
     - name: Set up environment
-      run: sudo apt-get install libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb
+      run: |
+        sudo apt-get update
+        sudo apt-get install libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb
 
     - name: Run frontend tests
       run: ./gradlew frontendTest -Pci
