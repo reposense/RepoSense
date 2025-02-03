@@ -1,1 +1,418 @@
-{"authorDailyContributionsMap":{"chan-j-d":[{"date":"2021-08-22","commitResults":[{"hash":"5fdb7b10c2107fdeaff7fcc512fcec41eacc381e","isMergeCommit":false,"messageTitle":"Add space test file","messageBody":"","fileTypesAndContributionMap":{"txt":{"insertions":1,"deletions":0}}}]}],"fakeAuthor":[{"date":"2018-02-08","commitResults":[{"hash":"768015345e70f06add2a8b7d1f901dc07bf70582","isMergeCommit":false,"messageTitle":"fake","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":2,"deletions":1}}}]},{"date":"2018-02-09","commitResults":[{"hash":"cd7f610e0becbdf331d5231887d8010a689f87c7","isMergeCommit":false,"messageTitle":"moved","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":0,"deletions":0}}},{"hash":"c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151","isMergeCommit":false,"messageTitle":"fake annotation:","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":11,"deletions":0}}},{"hash":"2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7","isMergeCommit":false,"messageTitle":"fix annoation","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":2,"deletions":2}}}]},{"date":"2021-04-05","commitResults":[{"hash":"c08107145269d5d5bb42ad78833774b7e5532977","isMergeCommit":false,"messageTitle":"Add test lines for disowned code","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":11,"deletions":0}}}]},{"date":"2021-08-03","commitResults":[{"hash":"f34c20ec2c3be63e0764d4079a575dd75269ffeb","isMergeCommit":false,"messageTitle":"Update annotationTest.java","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":3,"deletions":3}}}]},{"date":"2023-01-31","commitResults":[{"hash":"f768b9b1d9d1478f8ac8cf3b4c7f868479edc07a","isMergeCommit":false,"messageTitle":"Overwrite previous line changes","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":8,"deletions":8}}},{"hash":"abbd5888d5cd4e411c6a8e58e661b0eafdae1335","isMergeCommit":false,"messageTitle":"Overwrite line changes with fakeAuthor","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":8,"deletions":8}}}]}],"-unconventional_author-":[],"WANG CHAO":[{"date":"2021-05-09","commitResults":[{"hash":"3dd8abb745ba50c8c3b6b960b1d0cb0693b68c72","isMergeCommit":true,"messageTitle":"Merge pull request #6 from dcshzj/master","messageBody":"Add test lines for disowned code","fileTypesAndContributionMap":{}}]}],"FH-30":[{"date":"2021-08-25","commitResults":[{"hash":"af6087ebc0c689a9dcf3de0c3b2eb13ff47775d5","isMergeCommit":false,"messageTitle":"Update standalone config to make it consistent with PR#1561","messageBody":"","fileTypesAndContributionMap":{"json":{"insertions":1,"deletions":1}}}]}],"sikai00":[{"date":"2023-01-31","commitResults":[{"hash":"eef537d29bffce38caf206568b166452e8e6c482","isMergeCommit":false,"messageTitle":"Update authorship tags","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":8,"deletions":8}}}]}],"whitespace author":[],"harryggg":[{"date":"2018-02-05","commitResults":[{"hash":"fd425072e12004b71d733a58d819d845509f8db3","isMergeCommit":false,"messageTitle":"Initial commit","messageBody":"","fileTypesAndContributionMap":{"md":{"insertions":1,"deletions":0}}},{"hash":"05310e79fe8e54c5096bacc97b886ab24304d12b","isMergeCommit":false,"messageTitle":"1","messageBody":"","fileTypesAndContributionMap":{"inMasterBranch":{"insertions":0,"deletions":0}}}]},{"date":"2018-02-06","commitResults":[{"hash":"7d7584fc204922cc5ff3bd5ca073cad6bed2c46a","isMergeCommit":false,"messageTitle":"k","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":0,"deletions":0}}},{"hash":"8d0ac2ee20f04dce8df0591caed460bffacb65a4","isMergeCommit":false,"messageTitle":"java","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":3,"deletions":0}}}]},{"date":"2018-02-07","commitResults":[{"hash":"8e4ca1da5d413e9ab84a1e8d1474918afa97f7a1","isMergeCommit":false,"messageTitle":"yo","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":2,"deletions":0}}}]},{"date":"2018-02-09","commitResults":[{"hash":"e3f699fd4ef128eebce98d5b4e5b3bb06a512f49","isMergeCommit":false,"messageTitle":"new","messageBody":"","fileTypesAndContributionMap":{"java":{"insertions":4,"deletions":0}}}]}],"Eugene Peh":[{"date":"2018-10-07","commitResults":[{"hash":"b28dfac5bd449825c1a372e58485833b35fdbd50","isMergeCommit":false,"messageTitle":"Simulate error thrown by issue reposense/RepoSense#360 (#1)","messageBody":"","fileTypesAndContributionMap":{"attach_pid11612":{"insertions":0,"deletions":0}}}]},{"date":"2018-11-08","commitResults":[{"hash":"136c6713fc00cfe79a1598e8ce83c6ef3b878660","isMergeCommit":false,"messageTitle":"Add config.json with invalid fields (#2)","messageBody":"","fileTypesAndContributionMap":{"json":{"insertions":17,"deletions":0}}}]}],"eugenepeh":[{"date":"2018-05-07","commitResults":[{"hash":"2d87a431fcbb8f73a731b6df0fcbee962c85c250","isMergeCommit":false,"messageTitle":"README: update to reflect repository transition","messageBody":"","fileTypesAndContributionMap":{"md":{"insertions":1,"deletions":1}}}]}],"HCY123902":[{"date":"2023-01-31","commitResults":[{"hash":"188e6afc49cafe0cf4c2a88d55e97679fa0b798b","isMergeCommit":true,"messageTitle":"Merge pull request #15 from sikai00/update-authorship-tags","messageBody":"Update authorship tags","fileTypesAndContributionMap":{}}]}]},"authorFileTypeContributionMap":{"chan-j-d":{"txt":1},"fakeAuthor":{"java":10},"-unconventional_author-":{"java":5},"WANG CHAO":{},"FH-30":{"json":1},"sikai00":{},"whitespace author":{"java":3},"harryggg":{"java":14},"Eugene Peh":{"json":16},"eugenepeh":{"md":1},"HCY123902":{}},"authorContributionVariance":{"chan-j-d":5.485453E-4,"fakeAuthor":0.775267,"-unconventional_author-":0.0,"WANG CHAO":0.0,"FH-30":0.002194181,"sikai00":0.14042783,"whitespace author":0.0,"harryggg":0.016435694,"Eugene Peh":0.15853366,"eugenepeh":0.0021941727,"HCY123902":0.0},"authorDisplayNameMap":{"chan-j-d":"chan-j-d","fakeAuthor":"fakeAuthor","-unconventional_author-":"-unconventional_author-","WANG CHAO":"WANG CHAO","FH-30":"FH-30","sikai00":"sikai00","whitespace author":"whitespace author","harryggg":"harryggg","Eugene Peh":"Eugene Peh","eugenepeh":"eugenepeh","HCY123902":"HCY123902"}}
+{
+  "authorDailyContributionsMap": {
+    "chan-j-d": [
+      {
+        "date": "2021-08-22",
+        "commitResults": [
+          {
+            "hash": "5fdb7b10c2107fdeaff7fcc512fcec41eacc381e",
+            "isMergeCommit": false,
+            "messageTitle": "Add space test file",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "txt": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "fakeAuthor": [
+      {
+        "date": "2018-02-08",
+        "commitResults": [
+          {
+            "hash": "768015345e70f06add2a8b7d1f901dc07bf70582",
+            "isMergeCommit": false,
+            "messageTitle": "fake",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 2,
+                "deletions": 1
+              }
+            }
+          }
+        ]
+      },
+      {
+        "date": "2018-02-09",
+        "commitResults": [
+          {
+            "hash": "cd7f610e0becbdf331d5231887d8010a689f87c7",
+            "isMergeCommit": false,
+            "messageTitle": "moved",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 0,
+                "deletions": 0
+              }
+            }
+          },
+          {
+            "hash": "c5a6dc774e22099cd9ddeb0faff1e75f9cf4f151",
+            "isMergeCommit": false,
+            "messageTitle": "fake annotation:",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 11,
+                "deletions": 0
+              }
+            }
+          },
+          {
+            "hash": "2fb6b9b2dd9fa40bf0f9815da2cb0ae8731436c7",
+            "isMergeCommit": false,
+            "messageTitle": "fix annoation",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 2,
+                "deletions": 2
+              }
+            }
+          }
+        ]
+      },
+      {
+        "date": "2021-04-05",
+        "commitResults": [
+          {
+            "hash": "c08107145269d5d5bb42ad78833774b7e5532977",
+            "isMergeCommit": false,
+            "messageTitle": "Add test lines for disowned code",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 11,
+                "deletions": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "date": "2021-08-03",
+        "commitResults": [
+          {
+            "hash": "f34c20ec2c3be63e0764d4079a575dd75269ffeb",
+            "isMergeCommit": false,
+            "messageTitle": "Update annotationTest.java",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 3,
+                "deletions": 3
+              }
+            }
+          }
+        ]
+      },
+      {
+        "date": "2023-01-31",
+        "commitResults": [
+          {
+            "hash": "f768b9b1d9d1478f8ac8cf3b4c7f868479edc07a",
+            "isMergeCommit": false,
+            "messageTitle": "Overwrite previous line changes",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 8,
+                "deletions": 8
+              }
+            }
+          },
+          {
+            "hash": "abbd5888d5cd4e411c6a8e58e661b0eafdae1335",
+            "isMergeCommit": false,
+            "messageTitle": "Overwrite line changes with fakeAuthor",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 8,
+                "deletions": 8
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "-unconventional_author-": [],
+    "WANG CHAO": [
+      {
+        "date": "2021-05-09",
+        "commitResults": [
+          {
+            "hash": "3dd8abb745ba50c8c3b6b960b1d0cb0693b68c72",
+            "isMergeCommit": true,
+            "messageTitle": "Merge pull request #6 from dcshzj/master",
+            "messageBody": "Add test lines for disowned code",
+            "fileTypesAndContributionMap": {}
+          }
+        ]
+      }
+    ],
+    "FH-30": [
+      {
+        "date": "2021-08-25",
+        "commitResults": [
+          {
+            "hash": "af6087ebc0c689a9dcf3de0c3b2eb13ff47775d5",
+            "isMergeCommit": false,
+            "messageTitle": "Update standalone config to make it consistent with PR#1561",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "json": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "sikai00": [
+      {
+        "date": "2023-01-31",
+        "commitResults": [
+          {
+            "hash": "eef537d29bffce38caf206568b166452e8e6c482",
+            "isMergeCommit": false,
+            "messageTitle": "Update authorship tags",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 8,
+                "deletions": 8
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "whitespace author": [],
+    "harryggg": [
+      {
+        "date": "2018-02-05",
+        "commitResults": [
+          {
+            "hash": "fd425072e12004b71d733a58d819d845509f8db3",
+            "isMergeCommit": false,
+            "messageTitle": "Initial commit",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "md": {
+                "insertions": 1,
+                "deletions": 0
+              }
+            }
+          },
+          {
+            "hash": "05310e79fe8e54c5096bacc97b886ab24304d12b",
+            "isMergeCommit": false,
+            "messageTitle": "1",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "inMasterBranch": {
+                "insertions": 0,
+                "deletions": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "date": "2018-02-06",
+        "commitResults": [
+          {
+            "hash": "7d7584fc204922cc5ff3bd5ca073cad6bed2c46a",
+            "isMergeCommit": false,
+            "messageTitle": "k",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 0,
+                "deletions": 0
+              }
+            }
+          },
+          {
+            "hash": "8d0ac2ee20f04dce8df0591caed460bffacb65a4",
+            "isMergeCommit": false,
+            "messageTitle": "java",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 3,
+                "deletions": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "date": "2018-02-07",
+        "commitResults": [
+          {
+            "hash": "8e4ca1da5d413e9ab84a1e8d1474918afa97f7a1",
+            "isMergeCommit": false,
+            "messageTitle": "yo",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 2,
+                "deletions": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "date": "2018-02-09",
+        "commitResults": [
+          {
+            "hash": "e3f699fd4ef128eebce98d5b4e5b3bb06a512f49",
+            "isMergeCommit": false,
+            "messageTitle": "new",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "java": {
+                "insertions": 4,
+                "deletions": 0
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "Eugene Peh": [
+      {
+        "date": "2018-10-07",
+        "commitResults": [
+          {
+            "hash": "b28dfac5bd449825c1a372e58485833b35fdbd50",
+            "isMergeCommit": false,
+            "messageTitle": "Simulate error thrown by issue reposense/RepoSense#360 (#1)",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "attach_pid11612": {
+                "insertions": 0,
+                "deletions": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "date": "2018-11-08",
+        "commitResults": [
+          {
+            "hash": "136c6713fc00cfe79a1598e8ce83c6ef3b878660",
+            "isMergeCommit": false,
+            "messageTitle": "Add config.json with invalid fields (#2)",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "json": {
+                "insertions": 17,
+                "deletions": 0
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "eugenepeh": [
+      {
+        "date": "2018-05-07",
+        "commitResults": [
+          {
+            "hash": "2d87a431fcbb8f73a731b6df0fcbee962c85c250",
+            "isMergeCommit": false,
+            "messageTitle": "README: update to reflect repository transition",
+            "messageBody": "",
+            "fileTypesAndContributionMap": {
+              "md": {
+                "insertions": 1,
+                "deletions": 1
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "HCY123902": [
+      {
+        "date": "2023-01-31",
+        "commitResults": [
+          {
+            "hash": "188e6afc49cafe0cf4c2a88d55e97679fa0b798b",
+            "isMergeCommit": true,
+            "messageTitle": "Merge pull request #15 from sikai00/update-authorship-tags",
+            "messageBody": "Update authorship tags",
+            "fileTypesAndContributionMap": {}
+          }
+        ]
+      }
+    ]
+  },
+  "authorFileTypeContributionMap": {
+    "chan-j-d": {
+      "txt": 1
+    },
+    "fakeAuthor": {
+      "java": 10
+    },
+    "-unconventional_author-": {
+      "java": 5
+    },
+    "WANG CHAO": {},
+    "FH-30": {
+      "json": 1
+    },
+    "sikai00": {},
+    "whitespace author": {
+      "java": 3
+    },
+    "harryggg": {
+      "java": 14
+    },
+    "Eugene Peh": {
+      "json": 16
+    },
+    "eugenepeh": {
+      "md": 1
+    },
+    "HCY123902": {}
+  },
+  "authorContributionVariance": {
+    "chan-j-d": 5.485453E-4,
+    "fakeAuthor": 0.775267,
+    "-unconventional_author-": 0.0,
+    "WANG CHAO": 0.0,
+    "FH-30": 0.002194181,
+    "sikai00": 0.14042783,
+    "whitespace author": 0.0,
+    "harryggg": 0.016435694,
+    "Eugene Peh": 0.15853366,
+    "eugenepeh": 0.0021941727,
+    "HCY123902": 0.0
+  },
+  "authorDisplayNameMap": {
+    "chan-j-d": "chan-j-d",
+    "fakeAuthor": "fakeAuthor",
+    "-unconventional_author-": "-unconventional_author-",
+    "WANG CHAO": "WANG CHAO",
+    "FH-30": "FH-30",
+    "sikai00": "sikai00",
+    "whitespace author": "whitespace author",
+    "harryggg": "harryggg",
+    "Eugene Peh": "Eugene Peh",
+    "eugenepeh": "eugenepeh",
+    "HCY123902": "HCY123902"
+  }
+}

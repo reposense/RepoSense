@@ -1,1 +1,478 @@
-[{"path":"README.md","fileType":"md","lines":[{"lineNumber":1,"author":{"gitId":"eugenepeh"},"content":"This is a test repository for [RepoSense](https://github.com/reposense/RepoSense).","isFullCredit":false}],"authorContributionMap":{"eugenepeh":1}},{"path":"_reposense/config.json","fileType":"json","lines":[{"lineNumber":1,"author":{"gitId":"Eugene Peh"},"content":"{","isFullCredit":false},{"lineNumber":2,"author":{"gitId":"Eugene Peh"},"content":"  \"ignoreGlobList\": [\"about-us/**\", \"**index.html\"],","isFullCredit":false},{"lineNumber":3,"author":{"gitId":"Eugene Peh"},"content":"  \"formats\": [\"html\", \"css\"],","isFullCredit":false},{"lineNumber":4,"author":{"gitId":"FH-30"},"content":"  \"ignoreCommitsList\": [\"\", \"67890def\"],","isFullCredit":false},{"lineNumber":5,"author":{"gitId":"Eugene Peh"},"content":"  \"authors\":","isFullCredit":false},{"lineNumber":6,"author":{"gitId":"Eugene Peh"},"content":"  [","isFullCredit":false},{"lineNumber":7,"author":{"gitId":"Eugene Peh"},"content":"    {","isFullCredit":false},{"lineNumber":8,"author":{"gitId":"Eugene Peh"},"content":"      \"githubId\": \"alice\",","isFullCredit":false},{"lineNumber":9,"author":{"gitId":"Eugene Peh"},"content":"      \"displayName\": \"Alice T.\",","isFullCredit":false},{"lineNumber":10,"author":{"gitId":"Eugene Peh"},"content":"      \"authorNames\": [\"AT\", \"A\"],","isFullCredit":false},{"lineNumber":11,"author":{"gitId":"Eugene Peh"},"content":"      \"ignoreGlobList\": [\"**.css\"]","isFullCredit":false},{"lineNumber":12,"author":{"gitId":"Eugene Peh"},"content":"    },","isFullCredit":false},{"lineNumber":13,"author":{"gitId":"Eugene Peh"},"content":"    {","isFullCredit":false},{"lineNumber":14,"author":{"gitId":"Eugene Peh"},"content":"      \"githubId\": \"bob\"","isFullCredit":false},{"lineNumber":15,"author":{"gitId":"Eugene Peh"},"content":"    }","isFullCredit":false},{"lineNumber":16,"author":{"gitId":"Eugene Peh"},"content":"  ]","isFullCredit":false},{"lineNumber":17,"author":{"gitId":"Eugene Peh"},"content":"}","isFullCredit":false}],"authorContributionMap":{"FH-30":1,"Eugene Peh":16}},{"path":"annotationTest.java","fileType":"java","lines":[{"lineNumber":1,"author":{"gitId":"fakeAuthor"},"content":"fake all the lines in this file is writtened by fakeAuthor","isFullCredit":false},{"lineNumber":2,"author":{"gitId":"fakeAuthor"},"content":"fake","isFullCredit":false},{"lineNumber":3,"author":{"gitId":"fakeAuthor"},"content":"fake","isFullCredit":false},{"lineNumber":4,"author":{"gitId":"fakeAuthor"},"content":"fake","isFullCredit":false},{"lineNumber":5,"author":{"gitId":"harryggg"},"content":"//@@author harryggg","isFullCredit":false},{"lineNumber":6,"author":{"gitId":"harryggg"},"content":"line 1","isFullCredit":false},{"lineNumber":7,"author":{"gitId":"harryggg"},"content":"line 2","isFullCredit":false},{"lineNumber":8,"author":{"gitId":"harryggg"},"content":"line 3","isFullCredit":false},{"lineNumber":9,"author":{"gitId":"harryggg"},"content":"//@@author","isFullCredit":false},{"lineNumber":10,"author":{"gitId":"fakeAuthor"},"content":"fake","isFullCredit":false},{"lineNumber":11,"author":{"gitId":"fakeAuthor"},"content":"fake","isFullCredit":false},{"lineNumber":12,"author":{"gitId":"-unconventional_author-"},"content":"//@@author -unconventional_author-","isFullCredit":false},{"lineNumber":13,"author":{"gitId":"-unconventional_author-"},"content":"unconventional line 1","isFullCredit":false},{"lineNumber":14,"author":{"gitId":"-unconventional_author-"},"content":"System.out.println(\"//@@author invalidAuthorLineFormat\"); unconventional line 2","isFullCredit":false},{"lineNumber":15,"author":{"gitId":"-unconventional_author-"},"content":"unconventional line 3","isFullCredit":false},{"lineNumber":16,"author":{"gitId":"-unconventional_author-"},"content":"//@@author","isFullCredit":false},{"lineNumber":17,"author":{"gitId":"fakeAuthor"},"content":"fake","isFullCredit":false},{"lineNumber":18,"author":{"gitId":"whitespace author"},"content":"//@@author whitespace author","isFullCredit":false},{"lineNumber":19,"author":{"gitId":"whitespace author"},"content":"whitespace line 1","isFullCredit":false},{"lineNumber":20,"author":{"gitId":"whitespace author"},"content":"//@@author","isFullCredit":false},{"lineNumber":21,"author":{"gitId":"fakeAuthor"},"content":"fake","isFullCredit":false},{"lineNumber":22,"author":{"gitId":"fakeAuthor"},"content":"fake","isFullCredit":false}],"authorContributionMap":{"fakeAuthor":9,"-unconventional_author-":5,"whitespace author":3,"harryggg":5}},{"path":"blameTest.java","fileType":"java","lines":[{"lineNumber":1,"author":{"gitId":"harryggg"},"content":"line 1","isFullCredit":false},{"lineNumber":2,"author":{"gitId":"harryggg"},"content":"line 2","isFullCredit":false},{"lineNumber":3,"author":{"gitId":"fakeAuthor"},"content":"fake","isFullCredit":false},{"lineNumber":4,"author":{"gitId":"harryggg"},"content":"line 3","isFullCredit":false}],"authorContributionMap":{"fakeAuthor":1,"harryggg":3}},{"path":"newFile.java","fileType":"java","lines":[{"lineNumber":1,"author":{"gitId":"harryggg"},"content":"line 1","isFullCredit":false},{"lineNumber":2,"author":{"gitId":"harryggg"},"content":"line 2","isFullCredit":false}],"authorContributionMap":{"harryggg":2}},{"path":"newPos/movedFile.java","fileType":"java","lines":[{"lineNumber":1,"author":{"gitId":"harryggg"},"content":"line 1","isFullCredit":false},{"lineNumber":2,"author":{"gitId":"harryggg"},"content":"line 2","isFullCredit":false},{"lineNumber":3,"author":{"gitId":"harryggg"},"content":"line 3","isFullCredit":false},{"lineNumber":4,"author":{"gitId":"harryggg"},"content":"line 4","isFullCredit":false}],"authorContributionMap":{"harryggg":4}},{"path":"space test.txt","fileType":"txt","lines":[{"lineNumber":1,"author":{"gitId":"chan-j-d"},"content":"1","isFullCredit":false}],"authorContributionMap":{"chan-j-d":1}}]
+[
+  {
+    "path": "README.md",
+    "fileType": "md",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "eugenepeh"
+        },
+        "content": "This is a test repository for [RepoSense](https://github.com/reposense/RepoSense).",
+        "isFullCredit": false
+      }
+    ],
+    "authorContributionMap": {
+      "eugenepeh": 1
+    }
+  },
+  {
+    "path": "_reposense/config.json",
+    "fileType": "json",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "{",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "  \"ignoreGlobList\": [\"about-us/**\", \"**index.html\"],",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "  \"formats\": [\"html\", \"css\"],",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "FH-30"
+        },
+        "content": "  \"ignoreCommitsList\": [\"\", \"67890def\"],",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "  \"authors\":",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "  [",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "    {",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "      \"githubId\": \"alice\",",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "      \"displayName\": \"Alice T.\",",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "      \"authorNames\": [\"AT\", \"A\"],",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "      \"ignoreGlobList\": [\"**.css\"]",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "    },",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "    {",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "      \"githubId\": \"bob\"",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "    }",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "  ]",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "Eugene Peh"
+        },
+        "content": "}",
+        "isFullCredit": false
+      }
+    ],
+    "authorContributionMap": {
+      "FH-30": 1,
+      "Eugene Peh": 16
+    }
+  },
+  {
+    "path": "annotationTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake all the lines in this file is writtened by fakeAuthor",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 5,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "//@@author harryggg",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 6,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 1",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 7,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 2",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 8,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 3",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 9,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "//@@author",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 10,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 11,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 12,
+        "author": {
+          "gitId": "-unconventional_author-"
+        },
+        "content": "//@@author -unconventional_author-",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 13,
+        "author": {
+          "gitId": "-unconventional_author-"
+        },
+        "content": "unconventional line 1",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 14,
+        "author": {
+          "gitId": "-unconventional_author-"
+        },
+        "content": "System.out.println(\"//@@author invalidAuthorLineFormat\"); unconventional line 2",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 15,
+        "author": {
+          "gitId": "-unconventional_author-"
+        },
+        "content": "unconventional line 3",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 16,
+        "author": {
+          "gitId": "-unconventional_author-"
+        },
+        "content": "//@@author",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 17,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 18,
+        "author": {
+          "gitId": "whitespace author"
+        },
+        "content": "//@@author whitespace author",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 19,
+        "author": {
+          "gitId": "whitespace author"
+        },
+        "content": "whitespace line 1",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 20,
+        "author": {
+          "gitId": "whitespace author"
+        },
+        "content": "//@@author",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 21,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 22,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake",
+        "isFullCredit": false
+      }
+    ],
+    "authorContributionMap": {
+      "fakeAuthor": 9,
+      "-unconventional_author-": 5,
+      "whitespace author": 3,
+      "harryggg": 5
+    }
+  },
+  {
+    "path": "blameTest.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 1",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 2",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "fakeAuthor"
+        },
+        "content": "fake",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 3",
+        "isFullCredit": false
+      }
+    ],
+    "authorContributionMap": {
+      "fakeAuthor": 1,
+      "harryggg": 3
+    }
+  },
+  {
+    "path": "newFile.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 1",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 2",
+        "isFullCredit": false
+      }
+    ],
+    "authorContributionMap": {
+      "harryggg": 2
+    }
+  },
+  {
+    "path": "newPos/movedFile.java",
+    "fileType": "java",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 1",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 2,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 2",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 3,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 3",
+        "isFullCredit": false
+      },
+      {
+        "lineNumber": 4,
+        "author": {
+          "gitId": "harryggg"
+        },
+        "content": "line 4",
+        "isFullCredit": false
+      }
+    ],
+    "authorContributionMap": {
+      "harryggg": 4
+    }
+  },
+  {
+    "path": "space test.txt",
+    "fileType": "txt",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "chan-j-d"
+        },
+        "content": "1",
+        "isFullCredit": false
+      }
+    ],
+    "authorContributionMap": {
+      "chan-j-d": 1
+    }
+  }
+]
