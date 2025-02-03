@@ -125,11 +125,14 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         // Retrieve and update date
         String sinceDate = get(record, SINCE_HEADER);
         String endDate = get(record, UNTIL_HEADER);
-        LocalDateTime since = null, end = null;
+        LocalDateTime since = null;
+        LocalDateTime end = null;
         boolean hasUpdatedDateTime = !sinceDate.isEmpty() && !endDate.isEmpty();
         if (hasUpdatedDateTime) {
-            since = LocalDateTime.parse(sinceDate + DEFAULT_START_TIME, DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
-            end = LocalDateTime.parse(endDate + DEFAULT_END_TIME, DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            since = LocalDateTime.parse(sinceDate + DEFAULT_START_TIME,
+                    DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            end = LocalDateTime.parse(endDate + DEFAULT_END_TIME,
+                    DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
         }
 
         // If file diff limit is specified
