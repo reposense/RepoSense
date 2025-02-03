@@ -197,7 +197,7 @@ def serveTestReportInBackground = tasks.register('serveTestReportInBackground', 
     workingDir = 'build/serveTestReport'
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    args = ['--config', './exampleconfig', '--since', 'd1', '--view', '-A']
+    args = ['--config', './exampleconfig', '--since', 'd1', '--view', '-A', '-t', 'UTC']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
     waitForPort = 9000
