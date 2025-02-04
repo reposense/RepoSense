@@ -48,9 +48,11 @@ public class FileUtil {
 
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
+
     private static final String BARE_REPO_SUFFIX = "_bare";
     private static final String PARTIAL_REPO_SUFFIX = "_partial";
     private static final String SHALLOW_PARTIAL_REPO_SUFFIX = "_shallow_partial";
+
     private static final String MESSAGE_INVALID_FILE_PATH = "\"%s\" is an invalid file path. Skipping this directory.";
     private static final String MESSAGE_FAIL_TO_ZIP_FILES =
             "Exception occurred while attempting to zip the report files.";
