@@ -151,11 +151,9 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   ```java
   GsonBuilder gsonBuilder = new GsonBuilder()
-          .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
-                        -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
+          .registerTypeHierarchyAdapter(LocalDateTime.class, new DateSerializer())
           .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
-          .registerTypeAdapter(ZoneId.class, (JsonSerializer<ZoneId>) (zoneId, typeOfSrc, context)
-                        -> new JsonPrimitive(zoneId.toString()));
+          .registerTypeHierarchyAdapter(ZoneId.class, new ZoneSerializer())
   Gson gson;
   if (isPrettyPrintingUsed) {
       gson = gsonBuilder.setPrettyPrinting().create();
