@@ -22,6 +22,7 @@ a.broken-link {
 }
 
 hr {
+  // This is needed because normalize.css sets the height to 0px.
   height: 1px;
 }
 
