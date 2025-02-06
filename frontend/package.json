@@ -32,7 +32,7 @@
     "postcss": "^8.4.39",
     "pug-lint-vue": "^0.4.0",
     "seedrandom": "^3.0.5",
-    "vite": "^5.0.0",
+    "vite": "^5.4.14",
     "vue": "~3.4.0",
     "vue-loading-overlay": "^6.0.4",
     "vue-observe-visibility": "^1.0.0",
