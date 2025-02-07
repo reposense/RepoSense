@@ -21,6 +21,11 @@ a.broken-link {
   text-decoration: none;
 }
 
+hr {
+  // This is needed because normalize.css sets the height to 0px.
+  height: 1px;
+}
+
 [v-cloak] {
   display: none;
 }
