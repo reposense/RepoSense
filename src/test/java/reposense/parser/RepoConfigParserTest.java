@@ -59,6 +59,8 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_invalidFileSizeLimit_test.csv");
     private static final Path REPO_CONFIG_IGNORE_FILE_SIZE_LIMIT = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_ignoreFileSizeLimit_test.csv");
+    private static final Path REPO_CONFIG_INVALID_OVERRIDEN_DATE = loadResource(RepoConfigParserTest.class,
+            "CsvParserTest/repocsvconfig_invalidOverriddenDate_test.csv");
     private static final Path REPO_CONFIG_OVERRIDE_DATE = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repocsvconfig_overrideDate_test.csv");
     private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
@@ -421,5 +423,11 @@ public class RepoConfigParserTest {
         RepoConfigCsvParser repoConfigCsvParser =
                 new RepoConfigCsvParser(REPO_CONFIG_UNKNOWN_HEADER_FILE);
         Assertions.assertThrows(InvalidHeaderException.class, () -> repoConfigCsvParser.parse());
+    }
+
+    @Test
+    public void repoCsvConfig_invalidOverridenDates_throwsInvalidCsvException() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_OVERRIDEN_DATE);
+        Assertions.assertThrows(InvalidCsvException.class, repoConfigCsvParser::parse);
     }
 }
