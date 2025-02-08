@@ -151,11 +151,9 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   ```java
   GsonBuilder gsonBuilder = new GsonBuilder()
-          .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
-                        -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
+          .registerTypeHierarchyAdapter(LocalDateTime.class, new DateSerializer())
           .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
-          .registerTypeAdapter(ZoneId.class, (JsonSerializer<ZoneId>) (zoneId, typeOfSrc, context)
-                        -> new JsonPrimitive(zoneId.toString()));
+          .registerTypeHierarchyAdapter(ZoneId.class, new ZoneSerializer())
   Gson gson;
   if (isPrettyPrintingUsed) {
       gson = gsonBuilder.setPrettyPrinting().create();
@@ -269,7 +267,7 @@ It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before work
 <box type="info" seamless>
 
 Vue.js uses JavaScript as its programming language. Before learning **Vue.js**, you may need to first get yourself familiar with JavaScript syntax first.
-You can refer to the [Javascript documentation](https://devdocs.io/javascript/) to learn the basic syntax. There are plenty of other resources available and please feel free to find the resource most suitable for you.
+You can refer to the [Javascript documentation](https://devdocs.io/javascript/) to learn the basic syntax. There are plenty of other resources available and please feel free to find the resource most suitable for you. Do note that RepoSense uses ES6 over CommonJS.
 </box>
 
 RepoSense uses **Vue.js** (Vue3) in its front-end implementation. In particular, major user interface components, such as [summary view](report.html#summary-view-v-summary-js), [authorship view](report.html#authorship-view-v-authorship-js), and [zoom view](report.html#zoom-view-v-zoom-js), are implemented as Vue components. The corresponding source files are in `frontend/src`.
