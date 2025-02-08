@@ -34,7 +34,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String DEFAULT_END_TIME = " 23:59:59";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
             "\"Since Date\" should not be later than \"Until Date\"";
-    private static final String MESSAGE_PARSING_INVALID_FORMAT=
+    private static final String MESSAGE_PARSING_INVALID_FORMAT =
             "The format for since date and until date should be dd/MM/yyyy";
 
     /**
