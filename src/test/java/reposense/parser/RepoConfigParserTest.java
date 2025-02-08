@@ -5,6 +5,8 @@ import static reposense.model.RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -78,6 +80,11 @@ public class RepoConfigParserTest {
 
     private static final int FILE_SIZE_LIMIT_VALUE = 100000;
 
+    private static final LocalDateTime TEST_REPO_DEFAULT_SINCE_DATE = LocalDateTime.of(
+            2025, Month.JANUARY, 17, 0, 0, 0);
+    private static final LocalDateTime TEST_REPO_DEFAULT_UNTIL_DATE = LocalDateTime.of(
+            2025, Month.JANUARY, 19, 23, 59, 59);
+
     private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
 
@@ -131,12 +138,16 @@ public class RepoConfigParserTest {
 
         Assertions.assertTrue(configBeta.isHasUpdatedSinceDateInConfig());
         Assertions.assertTrue(configBeta.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configBeta.getSinceDate(), TEST_REPO_DEFAULT_SINCE_DATE);
+        Assertions.assertEquals(configBeta.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
 
         Assertions.assertTrue(configCharlie.isHasUpdatedSinceDateInConfig());
         Assertions.assertFalse(configCharlie.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configCharlie.getSinceDate(), TEST_REPO_DEFAULT_SINCE_DATE);
 
         Assertions.assertFalse(configAlpha.isHasUpdatedSinceDateInConfig());
         Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configAlpha.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
     }
 
     @Test
