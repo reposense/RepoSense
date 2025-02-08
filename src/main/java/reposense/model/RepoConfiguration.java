@@ -1037,6 +1037,14 @@ public class RepoConfiguration {
         return isFindingPreviousAuthorsPerformed;
     }
 
+    public boolean isHasUpdatedSinceDateInConfig() {
+        return hasUpdatedSinceDateInConfig;
+    }
+
+    public boolean isHasUpdatedUntilDateInConfig() {
+        return hasUpdatedUntilDateInConfig;
+    }
+
     public AuthorConfiguration getAuthorConfig() {
         return authorConfig;
     }

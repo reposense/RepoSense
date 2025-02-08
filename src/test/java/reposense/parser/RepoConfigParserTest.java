@@ -57,6 +57,8 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_invalidFileSizeLimit_test.csv");
     private static final Path REPO_CONFIG_IGNORE_FILE_SIZE_LIMIT = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_ignoreFileSizeLimit_test.csv");
+    private static final Path REPO_CONFIG_OVERRIDE_DATE = loadResource(RepoConfigParserTest.class,
+            "CsvParserTest/repocsvconfig_overrideDate_test.csv");
     private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repoconfig_zeroValidRecords_test.csv");
 
@@ -115,6 +117,26 @@ public class RepoConfigParserTest {
         Assertions.assertFalse(config.isFileSizeLimitOverriding());
         Assertions.assertFalse(config.isFileSizeLimitIgnored());
         Assertions.assertTrue(config.isIgnoredFileAnalysisSkipped());
+    }
+
+    @Test
+    public void repoCsvConfig_includeUpdatedDate_success() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertEquals(3, configs.size());
+        RepoConfiguration configBeta = configs.get(0);
+        RepoConfiguration configCharlie = configs.get(1);
+        RepoConfiguration configAlpha = configs.get(2);
+
+        Assertions.assertTrue(configBeta.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configBeta.isHasUpdatedUntilDateInConfig());
+
+        Assertions.assertTrue(configCharlie.isHasUpdatedSinceDateInConfig());
+        Assertions.assertFalse(configCharlie.isHasUpdatedUntilDateInConfig());
+
+        Assertions.assertFalse(configAlpha.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
     }
 
     @Test
