@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
@@ -13,6 +14,7 @@ import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.parser.exceptions.InvalidLocationException;
+import reposense.parser.exceptions.ParseException;
 import reposense.util.FileUtil;
 import reposense.util.StringsUtil;
 
@@ -29,8 +31,11 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
     private static final String LOCAL_DATETIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
     private static final String DEFAULT_START_TIME = " 00:00:00";
-
     private static final String DEFAULT_END_TIME = " 23:59:59";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
+            "\"Since Date\" should not be later than \"Until Date\"";
+    private static final String MESSAGE_PARSING_INVALID_FORMAT=
+            "The format for since date and until date should be dd/MM/yyyy";
 
     /**
      * Positions of the elements of a line in repo-config.csv config file
@@ -49,6 +54,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String[] FILESIZE_LIMIT_HEADER = {"File Size Limit"};
     private static final String[] SINCE_HEADER = {"since"};
     private static final String[] UNTIL_HEADER = {"until"};
+
 
     public RepoConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
@@ -85,7 +91,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      * @throws InvalidLocationException if the location represented in {@code record} is invalid.
      */
     @Override
-    protected void processLine(List<RepoConfiguration> results, CSVRecord record) throws InvalidLocationException {
+    protected void processLine(List<RepoConfiguration> results, CSVRecord record)
+            throws InvalidLocationException, ParseException {
         // The variable expansion is performed to simulate running the same location from command line.
         // This helps to support things like tilde expansion and other Bash/CMD features.
         RepoLocation location = new RepoLocation(FileUtil.getVariableExpandedFilePath(get(record, LOCATION_HEADER)));
@@ -129,14 +136,23 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         LocalDateTime end = null;
         boolean hasUpdatedSinceDateTime = !sinceDate.isEmpty();
         boolean hasUpdatedUntilDateTime = !endDate.isEmpty();
-        if (hasUpdatedSinceDateTime) {
-            since = LocalDateTime.parse(sinceDate + DEFAULT_START_TIME,
+
+        try {
+            if (hasUpdatedSinceDateTime) {
+                since = LocalDateTime.parse(sinceDate + DEFAULT_START_TIME,
+                        DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            }
+
+            if (hasUpdatedUntilDateTime) {
+                end = LocalDateTime.parse(endDate + DEFAULT_END_TIME,
                     DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            }
+        } catch (DateTimeParseException e) {
+            throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
         }
 
-        if (hasUpdatedUntilDateTime) {
-            end = LocalDateTime.parse(endDate + DEFAULT_END_TIME,
-                    DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+        if (since != null && end != null && since.isAfter(end)) {
+            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
 
         // If file diff limit is specified
