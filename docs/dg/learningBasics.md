@@ -370,6 +370,18 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   In `c-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
 
+<box type="info" seamless>
+We recommend using the shorthand syntax for `v-bind:class`, represented as `:class` when adding the new attribute map.
+The shorthand syntax is more concise and easier to read, and is commonly used in Vue.
+
+Additionally, there are two other directive shorthand syntaxes commonly used in Vue:
+
+- `@class` for `v-on`
+- `#class` for `v-slot`
+
+For more detailed information, please refer to the [Vue Guide](https://vuejs.org/api/built-in-directives.html#v-bind).
+</box>
+
   ```
   'active-text': user.name === activeUser && user.repoName === activeRepo
   ```
