@@ -98,31 +98,35 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   <panel header="Hint 2">
 
-  After the step in hint 1, the argument is captured by `ArgumentParser`. Now make corresponding changes to `CliArguments.java`, `ConfigCliArguments.java`, and the `parse` method in `ArgsParser.java` to make the return result of `parse` include the new argument.
+  After the step in hint 1, the argument is captured by `ArgumentParser`. Now make corresponding changes to `CliArguments.java` and the `parse` method in `ArgsParser.java` to make the return result of `parse` include the new argument.
 
   1. Add the following content to `CliArguments` to include `isPrettyPrintingUsed` as a new attribute to the class.
 
   ```java
-  protected boolean isPrettyPrintingUsed;
+  private boolean isPrettyPrintingUsed;
 
   public boolean isPrettyPrintingUsed() {
           return isPrettyPrintingUsed;
   }
   ```
 
-  2. In the constructor of `ConfigCliArguments`, add `isPrettyPrintingUsed` as a new parameter of the method, and add the following instruction to the method body.
-
+  2. In the `Builder` class within `CliArguments`, add the following method to set `isPrettyPrintingUsed`.
+  
   ```java
-  this.isPrettyPrintingUsed = isPrettyPrintingUsed;
+  public Builder isPrettyPrintingUsed(boolean isPrettyPrintingUsed) {
+          this.cliArguments.isPrettyPrintingUsed = isPrettyPrintingUsed;
+          return this;
+  }
   ```
 
-  3. In the `parse` method of `ArgsParser`, add the following instruction to get `isJsonPrettyPrintingUsed` from `ArgmentParser`.
+  3. In the `parse` method of `ArgsParser`, add the following instruction to get `isJsonPrettyPrintingUsed` from `ArgumentParser`.
 
   ```java
   boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
   ```
 
-  4. Additionally, change the return statement of the `parse` method so that the `ConfigCliArguments` object returned will now include `isJsonPrettyPrintingUsed`.
+  4. Additionally, add `.isPrettyPrintingUsed(isJsonPrettyPrintingUsed)` to the initialisation of `cliArgumentsBuilder` in the `parse` method of `ArgsParser`.
+
   </panel>
 
   <panel header="Hint 3">
@@ -147,9 +151,9 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
 
   ```java
   GsonBuilder gsonBuilder = new GsonBuilder()
-          .registerTypeAdapter(LocalDateTime.class, (JsonSerializer<LocalDateTime>) (date, typeOfSrc, context)
-                        -> new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT))))
-          .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer());
+          .registerTypeHierarchyAdapter(LocalDateTime.class, new DateSerializer())
+          .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
+          .registerTypeHierarchyAdapter(ZoneId.class, new ZoneSerializer())
   Gson gson;
   if (isPrettyPrintingUsed) {
       gson = gsonBuilder.setPrettyPrinting().create();
@@ -263,7 +267,7 @@ It is necessary for you to learn the basics of Vue.js, Pug, and SCSS before work
 <box type="info" seamless>
 
 Vue.js uses JavaScript as its programming language. Before learning **Vue.js**, you may need to first get yourself familiar with JavaScript syntax first.
-You can refer to the [Javascript documentation](https://devdocs.io/javascript/) to learn the basic syntax. There are plenty of other resources available and please feel free to find the resource most suitable for you.
+You can refer to the [Javascript documentation](https://devdocs.io/javascript/) to learn the basic syntax. There are plenty of other resources available and please feel free to find the resource most suitable for you. Do note that RepoSense uses ES6 over CommonJS.
 </box>
 
 RepoSense uses **Vue.js** (Vue3) in its front-end implementation. In particular, major user interface components, such as [summary view](report.html#summary-view-v-summary-js), [authorship view](report.html#authorship-view-v-authorship-js), and [zoom view](report.html#zoom-view-v-zoom-js), are implemented as Vue components. The corresponding source files are in `frontend/src`.
