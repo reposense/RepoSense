@@ -1,0 +1,31 @@
+title: RepoSense Report Test Title
+repos:
+  - repo: https://github.com/user/repo.git
+    groups:
+      - group-name: code
+        globs:
+          - "**.java"
+      - group-name: tests
+        globs:
+          - "src/test**"
+      - group-name: docs
+        globs:
+          - "docs**"
+          - "**.adoc"
+          - "**.md"
+    branches:
+      - branch: main
+        blurb: "My project"
+        authors:
+          - author-git-host-id: johnDoe
+            author-display-name: John Doe
+            author-git-author-name: my home PC
+            author-emails:
+              - john@john.com
+              - johny@mail.com
+              - j@domain.com
+        ignore-glob-list:
+          - "docs**"
+        ignore-authors-list:
+          - author1
+          - author2
