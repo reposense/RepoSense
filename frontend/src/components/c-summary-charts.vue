@@ -334,6 +334,9 @@
             c-stacked-bar-chart(
               :bars="getContributionBars(user.checkedFileTypeContribution)"
             )
+
+      span.since-date {{ sinceDate }}
+      span.until-date {{ untilDate }}
 </template>
 
 <script lang="ts">
@@ -434,6 +437,8 @@ export default defineComponent({
     activeUser: string | null,
     activeTabType: string | null,
     isTabOnMergedGroup: boolean,
+    sinceDate: string,
+    untilDate: string,
   } {
     return {
       drags: [] as Array<number>,
@@ -441,6 +446,8 @@ export default defineComponent({
       activeUser: null as string | null,
       activeTabType: null as string | null,
       isTabOnMergedGroup: false,
+      sinceDate: window.sinceDate,
+      untilDate: window.untilDate,
     };
   },
 
@@ -1029,5 +1036,9 @@ export default defineComponent({
     // This is needed because the parent summary-wrapper center aligns everything
     text-align: initial;
   }
+}
+
+.until-date {
+  float: right;
 }
 </style>
