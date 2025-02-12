@@ -368,7 +368,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   }
   ```
 
-  In `c-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `v-bind:class` attribute map.
+  In `c-summary-charts.vue`, locate `summary-chart__title--name`, and add the following to its `:class` attribute map.
 
 <box type="info" seamless>
 We recommend using the shorthand syntax for `v-bind:class`, represented as `:class` when adding the new attribute map.
