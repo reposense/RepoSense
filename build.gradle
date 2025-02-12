@@ -54,17 +54,20 @@ sourceSets {
 }
 
 def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    description 'Installs frontend dependencies using npm ci to ensure reproducible builds.'
     workingDir 'frontend/'
     args = ['ci']
 }
 
 def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    description 'Builds the frontend assets for production using npm run devbuild.'
     dependsOn installFrontend
     workingDir 'frontend/'
     args = ['run', 'devbuild']
 }
 
 def zipReport = tasks.register('zipReport', Zip) {
+    description 'Bundles the compiled frontend assets into a ZIP archive for inclusion in the backend resources.'
     dependsOn buildFrontend
     from 'frontend/build/'
     archiveBaseName = 'templateZip'
@@ -87,6 +90,7 @@ def copyMainClasses = tasks.register('copyMainClasses', Copy) {
 def compileJava = tasks.compileJava
 
 tasks.named("processSystemtestResources").configure {
+    description 'Processes system test resources, allowing duplicate files to be included.'
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
@@ -94,6 +98,7 @@ tasks.run.dependsOn(zipReport);
 
 run {
     //the second arguments indicates the default value associated with the property.
+    description 'Executes RepoSense with specified command-line arguments after building the frontend and packaging resources.'
     tasks.compileJava.mustRunAfter(zipReport)
     args System.getProperty('args', '').split()
     systemProperty "version", getRepoSenseVersion()
@@ -111,6 +116,7 @@ idea {
 }
 
 test {
+    description 'Runs unit tests with JUnit Jupiter, ensuring individual components function as expected.'
     environment("REPOSENSE_ENVIRONMENT", "TEST")
 
     testLogging {
@@ -132,6 +138,7 @@ test {
 tasks.shadowJar.dependsOn(zipReport);
 
 shadowJar {
+    description 'Assembles a fat JAR including all dependencies and frontend assets for distribution.'
     tasks.compileJava.mustRunAfter(zipReport)
     tasks.processResources.mustRunAfter(zipReport)
     archiveFileName = 'RepoSense.jar'
@@ -143,22 +150,33 @@ shadowJar {
 }
 
 tasks.register('lintFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    description 'Analyzes frontend code with ESLint to enforce coding standards and identify potential issues.'
     dependsOn installFrontend
     workingDir 'frontend/'
     args = ['run', 'lint']
 }
 
-def checkstyleMain = tasks.checkstyleMain
-def checkstyleTest = tasks.checkstyleTest
-def checkstyleSystemtest = tasks.checkstyleSystemtest
+def checkstyleMain = tasks.checkstyleMain {
+    description 'Applies Checkstyle code style checks to the main Java source code.'
+}
+
+def checkstyleTest = tasks.checkstyleTest {
+    description 'Applies Checkstyle code style checks to the test Java source code.'
+}
+
+def checkstyleSystemtest = tasks.checkstyleSystemtest {
+    description 'Applies Checkstyle code style checks to the system test Java source code.'
+}
 
 tasks.register('checkstyleAll', Checkstyle) {
+    description 'Aggregates all Checkstyle checks (main, test, systemtest) into a single task for convenience.'
     dependsOn checkstyleMain, checkstyleTest, checkstyleSystemtest
     tasks.checkstyleTest.mustRunAfter('checkstyleMain')
     tasks.checkstyleSystemtest.mustRunAfter('checkstyleTest')
 }
 
 tasks.register('environmentalChecks', Exec) {
+    description 'Runs OS-specific environment checks to ensure compatibility with RepoSense build processes.'
     workingDir 'config/checks/'
     if (os.isWindows()){
         commandLine 'cmd', '/c', 'run-checks.bat'
@@ -167,8 +185,8 @@ tasks.register('environmentalChecks', Exec) {
     }
 }
 
-
 tasks.register('systemtest', Test) {
+    description 'Executes system tests to validate end-to-end functionality and integration scenarios.'
     testClassesDirs = sourceSets.systemtest.output.classesDirs
     classpath = sourceSets.systemtest.runtimeClasspath
     environment("REPOSENSE_ENVIRONMENT", "TEST")
@@ -204,11 +222,13 @@ def serveTestReportInBackground = tasks.register('serveTestReportInBackground', 
 }
 
 def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    description 'Installs Cypress and its dependencies for frontend testing using npm ci.'
     workingDir 'frontend/cypress/'
     args = ['ci']
 }
 
 tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
     dependsOn installCypress, serveTestReportInBackground
     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
@@ -217,6 +237,7 @@ tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageMa
 }
 
 tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+    description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
     dependsOn installCypress, serveTestReportInBackground
     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
@@ -248,7 +269,9 @@ jacocoTestReport {
     executionData systemtest, frontendTest
 }
 
-tasks.register('coverage', JacocoReport)
+tasks.register('coverage', JacocoReport) {
+    description 'Consolidates coverage data from unit, system, and frontend tests into a comprehensive report.'
+}
 
 coverage.configure {
     sourceDirectories.from files(sourceSets.main.allSource.srcDirs)
@@ -276,6 +299,7 @@ String getRepoSenseVersion() {
 }
 
 def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
+    description 'Synchronizes generated report JSON files into the frontend public directory for development access.'
     from 'reposense-report'
     into 'frontend/public/'
     include '**/*.json'
@@ -288,6 +312,7 @@ def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
 }
 
 def macHotReloadFrontend = tasks.register('macHotReloadFrontend', Exec) {
+    description 'Starts the frontend development server with hot-reloading capabilities on macOS.'
     dependsOn installFrontend
     onlyIf {os.isMacOsX()}
     workingDir 'frontend/'
@@ -295,6 +320,7 @@ def macHotReloadFrontend = tasks.register('macHotReloadFrontend', Exec) {
 }
 
 def windowsHotReloadFrontend = tasks.register('windowsHotReloadFrontend', Exec) {
+    description 'Starts the frontend development server with hot-reloading capabilities on Windows.'
     dependsOn installFrontend
     onlyIf {os.isWindows()}
     workingDir 'frontend/'
@@ -302,6 +328,7 @@ def windowsHotReloadFrontend = tasks.register('windowsHotReloadFrontend', Exec) 
 }
 
 def linuxHotReloadFrontend = tasks.register('linuxHotReloadFrontend', Exec) {
+    description 'Starts the frontend development server with hot-reloading capabilities on Linux.'
     dependsOn installFrontend
     onlyIf {os.isLinux()}
     workingDir 'frontend/'
@@ -309,6 +336,7 @@ def linuxHotReloadFrontend = tasks.register('linuxHotReloadFrontend', Exec) {
 }
 
 tasks.register('hotReloadFrontend') {
+    description 'Orchestrates frontend hot-reloading by syncing reports and starting the dev server based on the OS.'
     dependsOn syncFrontendPublic
     finalizedBy windowsHotReloadFrontend
     finalizedBy macHotReloadFrontend
