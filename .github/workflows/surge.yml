@@ -9,7 +9,6 @@ on:
     types:
       - completed
 
-permissions: read-all
 
 jobs:
   deploy:
@@ -30,7 +29,7 @@ jobs:
         node-version: '20.x'
 
     - name: Download deployment artifacts
-      uses: dawidd6/action-download-artifact@v8
+      uses: dawidd6/action-download-artifact@v6
       with:
         workflow: integration.yml
         run_id: ${{ github.event.workflow_run.id }}
@@ -42,12 +41,13 @@ jobs:
       run: echo 'ACTIONS_PR_NUMBER='$(cat ./pr/NUMBER) >> $GITHUB_OUTPUT
 
     - name: Download deployment status artifacts
-      uses: dawidd6/action-download-artifact@v8
+      uses: dawidd6/action-download-artifact@v6
       with:
         workflow: pending.yml
         pr: ${{ steps.pr-number.outputs.ACTIONS_PR_NUMBER }}
         workflow_conclusion: success
         name: reposense-deployment-id
+        allow_fork: true
         path: ./pr
 
     - name: Update PR checklist for surge.sh as in progress
