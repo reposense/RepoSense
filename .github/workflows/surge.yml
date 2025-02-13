@@ -46,6 +46,7 @@ jobs:
         pr: ${{ steps.pr-number.outputs.ACTIONS_PR_NUMBER }}
         workflow_conclusion: success
         name: reposense-deployment-id
+        allow_fork: true
         path: ./pr
 
     - name: Update PR checklist for surge.sh as in progress
