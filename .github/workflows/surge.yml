@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     env:
-      NODE_VERSION: "20"
+      NODE_VERSION: "lts/*"
       GITHUB_TOKEN: ${{ github.token }}
 
     steps:
@@ -40,7 +40,7 @@ jobs:
       run: echo 'ACTIONS_PR_NUMBER='$(cat ./pr/NUMBER) >> $GITHUB_OUTPUT
 
     - name: Download deployment status artifacts
-      uses: dawidd6/action-download-artifact@v6
+      uses: dawidd6/action-download-artifact@v8
       with:
         workflow: pending.yml
         pr: ${{ steps.pr-number.outputs.ACTIONS_PR_NUMBER }}
