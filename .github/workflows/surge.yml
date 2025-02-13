@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
     env:
-      NODE_VERSION: "lts/*"
+      NODE_VERSION: "20"
       GITHUB_TOKEN: ${{ github.token }}
 
     steps:
@@ -28,7 +28,7 @@ jobs:
         node-version: '20.x'
 
     - name: Download deployment artifacts
-      uses: dawidd6/action-download-artifact@v6
+      uses: dawidd6/action-download-artifact@v8
       with:
         workflow: integration.yml
         run_id: ${{ github.event.workflow_run.id }}
