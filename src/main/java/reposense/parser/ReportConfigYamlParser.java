@@ -32,20 +32,14 @@ public class ReportConfigYamlParser extends YamlParser<ReportConfiguration> {
     @Override
     public ReportConfiguration parse(Path path) throws IOException {
         // adapted from https://www.baeldung.com/jackson-yaml
-        ReportConfiguration reportConfigation;
+        ReportConfiguration reportConfiguration;
 
-        try {
-            logger.log(Level.INFO, "Parsing report-config.yaml file...");
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            mapper.findAndRegisterModules();
-            reportConfigation = mapper.readValue(new File(path.toString()), ReportConfiguration.class);
-            logger.log(Level.INFO, "report-config.yaml file parsed successfully!");
-        } catch (IOException ioe) {
-            // if the parse fails for any reason, the default config file is used instead
-            logger.log(Level.WARNING, "Error parsing report-config.yaml: " + ioe.getMessage(), ioe);
-            reportConfigation = new ReportConfiguration();
-        }
+        logger.log(Level.INFO, "Parsing report-config.yaml file...");
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        mapper.findAndRegisterModules();
+        reportConfiguration = mapper.readValue(new File(path.toString()), ReportConfiguration.class);
+        logger.log(Level.INFO, "report-config.yaml file parsed successfully!");
 
-        return reportConfigation;
+        return reportConfiguration;
     }
 }

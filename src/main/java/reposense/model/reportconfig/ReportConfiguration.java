@@ -41,6 +41,10 @@ public class ReportConfiguration {
     public BlurbMap getBlurbMap() {
         BlurbMap blurbMap = new BlurbMap();
 
+        if (reportRepoConfigurations == null) {
+            return blurbMap;
+        }
+
         for (ReportRepoConfiguration repoConfig : reportRepoConfigurations) {
             try {
                 for (ReportRepoConfiguration.MapEntry repoNameBlurbPair

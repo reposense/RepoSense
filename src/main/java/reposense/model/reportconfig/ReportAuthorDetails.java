@@ -11,16 +11,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ReportAuthorDetails {
     public static final List<ReportAuthorDetails> DEFAULT_INSTANCES = new ArrayList<>();
 
-    public static final List<String> DEFAULT_AUTHOR_EMAIL = List.of("john@john.com", "johny@mail.com", "j@domain.com");
-    public static final String DEFAULT_GIT_HOST_ID = "johnDoe";
-    public static final String DEFAULT_DISPLAY_NAME = "John Doe";
-    public static final String DEFAULT_GIT_AUTHOR_NAME = "my home PC";
+    public static final List<String> DEFAULT_AUTHOR_EMAIL = List.of();
+    public static final String DEFAULT_GIT_HOST_ID = "";
+    public static final String DEFAULT_DISPLAY_NAME = "";
+    public static final String DEFAULT_GIT_AUTHOR_NAME = "";
 
     private static final List<String> DEFAULT_AUTHOR_EMAIL_1 = List.of("1229983126@qq.com");
     private static final String DEFAULT_GIT_HOST_ID_1 = "fzdy1914";
     private static final String DEFAULT_DISPLAY_NAME_1 = "WANG CHAO";
     private static final String DEFAULT_GIT_AUTHOR_NAME_1 = "WANG CHAO";
-    private static final List<String> DEFAULT_AUTHOR_EMAIL_2 = List.of("");
+    private static final List<String> DEFAULT_AUTHOR_EMAIL_2 = List.of("123@gmail.com");
     private static final String DEFAULT_GIT_HOST_ID_2 = "FH-30";
     private static final String DEFAULT_DISPLAY_NAME_2 = "Francis Hodianto";
     private static final String DEFAULT_GIT_AUTHOR_NAME_2 = "Francis Hodianto";
@@ -38,9 +38,6 @@ public class ReportAuthorDetails {
         rad2.authorGitHostId = DEFAULT_GIT_HOST_ID_2;
         rad2.authorGitAuthorName = DEFAULT_GIT_AUTHOR_NAME_2;
         rad2.authorDisplayName = DEFAULT_DISPLAY_NAME_2;
-
-        DEFAULT_INSTANCES.add(rad1);
-        DEFAULT_INSTANCES.add(rad2);
     }
 
     @JsonProperty("author-emails")

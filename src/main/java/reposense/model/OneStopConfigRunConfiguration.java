@@ -43,27 +43,36 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
             // iterate for each branch and for each author
             for (ReportBranchData rbd : rrc.getBranches()) {
                 logger.info("Parsing " + rbd.getBranch() + "...");
+                // create the repoconfiguration object
+                // we will need to add the group configuration details to the repo configuration builder
+                RepoConfiguration.Builder builder = new RepoConfiguration.Builder()
+                        .location(repoLocation);
+
+                // set the relevant branch details for the repo
+                builder = builder.branch(rbd.getBranch())
+                        .ignoreGlobList(rbd.getIgnoreGlobList())
+                        .ignoredAuthorsList(rbd.getIgnoreAuthorList())
+                        .fileSizeLimit(rbd.getFileSizeLimit())
+                        .isStandaloneConfigIgnored(true); // remove this when we deprecated the standalone config
+
+
+                AuthorConfiguration authorConfiguration = new AuthorConfiguration(repoLocation, rbd.getBranch());
                 for (ReportAuthorDetails rad : rbd.getReportAuthorDetails()) {
                     logger.info("Parsing " + rad.getAuthorGitHostId() + "...");
-                    // create the repoconfiguration object
-                    // we will need to add the group configuration details to the repo configuration builder
-                    RepoConfiguration.Builder builder = new RepoConfiguration.Builder()
-                            .location(repoLocation);
 
-                    // set the relevant branch details for the repo
-                    builder = builder.branch(rbd.getBranch())
-                                     .ignoreGlobList(rbd.getIgnoreGlobList())
-                                     .ignoredAuthorsList(rbd.getIgnoreAuthorList());
 
                     // prepare the author details
                     Author author = new Author(rad.getAuthorGitHostId());
                     author.setEmails(rad.getAuthorEmails());
                     author.setDisplayName(rad.getAuthorDisplayName());
                     author.setAuthorAliases(List.of(rad.getAuthorGitAuthorName()));
-                    authorConfigs.add(new AuthorConfiguration(repoLocation, rbd.getBranch()));
 
-                    repoConfigs.add(builder.build());
+                    authorConfiguration.addAuthor(author);
+
+
                 }
+                authorConfigs.add(authorConfiguration);
+                repoConfigs.add(builder.build());
             }
         }
 

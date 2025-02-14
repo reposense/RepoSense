@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import reposense.model.reportconfig.ReportConfiguration;
@@ -40,8 +41,7 @@ public class CliArguments {
     private double originalityThreshold;
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
-    private boolean isBlurbMapOverriding;
-    private boolean isOneStopConfigSpecified;
+    private boolean isOneStopConfigFilePresent;
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -169,12 +169,21 @@ public class CliArguments {
         return blurbMap;
     }
 
-    public boolean isBlurbMapOverriding() {
-        return isBlurbMapOverriding;
+    /**
+     * Merges the {@code blurbMap} from the blurbs file with the blurb map in {@code reportConfiguration}.
+     *
+     * @return the merged blurb map.
+     */
+    public BlurbMap mergeWithRepoConfigBlurbMap() {
+        BlurbMap repoConfigBlurbMap = reportConfiguration.getBlurbMap();
+        for (Map.Entry<String, String> entry : blurbMap.getAllMappings().entrySet()) {
+            repoConfigBlurbMap.withRecord(entry.getKey(), entry.getValue());
+        }
+        return repoConfigBlurbMap;
     }
 
-    public boolean isOneStopConfigSpecified() {
-        return isOneStopConfigSpecified;
+    public boolean isOneStopConfigFilePresent() {
+        return isOneStopConfigFilePresent;
     }
 
     public boolean isViewModeOnly() {
@@ -230,7 +239,7 @@ public class CliArguments {
                 && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
                 && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
-                && this.isBlurbMapOverriding == otherCliArguments.isBlurbMapOverriding;
+                && this.isOneStopConfigFilePresent == otherCliArguments.isOneStopConfigFilePresent;
     }
 
     /**
@@ -515,37 +524,17 @@ public class CliArguments {
             return this;
         }
 
+
         /**
-         * Mark the {@code blurbMap} as overriding.
+         * Adds the {@code isOneStopConfigFilePresent} to CliArguments.
+         *
+         * @param isOneStopConfigFilePresent Is blurb map overriding.
          */
-        public Builder markAsBlurbMapOverriding() {
-            this.cliArguments.isBlurbMapOverriding = true;
+        public Builder isOneStopConfigFilePresent(boolean isOneStopConfigFilePresent) {
+            this.cliArguments.isOneStopConfigFilePresent = isOneStopConfigFilePresent;
             return this;
         }
 
-        /**
-         * Unmark the {@code blurbMap} as overriding.
-         */
-        public Builder unmarkAsBlurbMapOverriding() {
-            this.cliArguments.isBlurbMapOverriding = false;
-            return this;
-        }
-
-        /**
-         * Mark the {@code oneStopConfig} as specified.
-         */
-        public Builder markAsOneStopConfigSpecified() {
-            this.cliArguments.isOneStopConfigSpecified = true;
-            return this;
-        }
-
-        /**
-         * Unmark the {@code oneStopConfig} as specified.
-         */
-        public Builder unmarkAsOneStopConfigSpecified() {
-            this.cliArguments.isOneStopConfigSpecified = false;
-            return this;
-        }
 
         /**
          * Builds CliArguments.

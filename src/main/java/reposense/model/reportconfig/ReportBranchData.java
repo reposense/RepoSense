@@ -10,17 +10,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ReportBranchData {
     public static final String DEFAULT_BRANCH = "main";
-    public static final String DEFAULT_BLURB = "My project";
-    public static final List<ReportAuthorDetails> DEFAULT_REPORT_AUTHOR_DETAILS = new ArrayList<>(
-            ReportAuthorDetails.DEFAULT_INSTANCES
-    );
-    public static final List<String> DEFAULT_IGNORE_GLOB_LIST = List.of(
-            "docs**"
-    );
-    public static final List<String> DEFAULT_IGNORE_AUTHORS_LIST = List.of(
-            "author1",
-            "author2"
-    );
+    public static final String DEFAULT_BLURB = "";
+    public static final List<ReportAuthorDetails> DEFAULT_REPORT_AUTHOR_DETAILS = new ArrayList<>();
+    public static final List<String> DEFAULT_IGNORE_GLOB_LIST = List.of();
+    public static final List<String> DEFAULT_IGNORE_AUTHORS_LIST = List.of();
+    public static final Long DEFAULT_FILE_SIZE_LIMIT = 1000000L;
 
     public static final ReportBranchData DEFAULT_INSTANCE = new ReportBranchData();
 
@@ -30,6 +24,7 @@ public class ReportBranchData {
         DEFAULT_INSTANCE.ignoreGlobList = ReportBranchData.DEFAULT_IGNORE_GLOB_LIST;
         DEFAULT_INSTANCE.ignoreAuthorList = ReportBranchData.DEFAULT_IGNORE_AUTHORS_LIST;
         DEFAULT_INSTANCE.reportAuthorDetails = ReportAuthorDetails.DEFAULT_INSTANCES;
+        DEFAULT_INSTANCE.fileSizeLimit = DEFAULT_FILE_SIZE_LIMIT;
     }
 
     @JsonProperty("branch")
@@ -46,6 +41,9 @@ public class ReportBranchData {
 
     @JsonProperty("ignore-authors-list")
     private List<String> ignoreAuthorList;
+
+    @JsonProperty("file-size-limit")
+    private Long fileSizeLimit;
 
     public String getBranch() {
         return branch == null ? DEFAULT_BRANCH : branch;
@@ -67,6 +65,10 @@ public class ReportBranchData {
         return ignoreAuthorList == null ? DEFAULT_IGNORE_AUTHORS_LIST : ignoreAuthorList;
     }
 
+    public Long getFileSizeLimit() {
+        return fileSizeLimit == null ? DEFAULT_FILE_SIZE_LIMIT : fileSizeLimit;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) {
@@ -79,7 +81,8 @@ public class ReportBranchData {
                     && this.getBlurb().equals(rbd.getBlurb())
                     && this.getReportAuthorDetails().equals(rbd.getReportAuthorDetails())
                     && this.getIgnoreGlobList().equals(rbd.getIgnoreGlobList())
-                    && this.getIgnoreAuthorList().equals(rbd.getIgnoreAuthorList());
+                    && this.getIgnoreAuthorList().equals(rbd.getIgnoreAuthorList())
+                    && this.getFileSizeLimit().equals(rbd.getFileSizeLimit());
         }
 
         return false;

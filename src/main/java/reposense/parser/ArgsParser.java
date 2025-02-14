@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.JsonSyntaxException;
@@ -390,7 +391,7 @@ public class ArgsParser {
 
             try {
                 reportConfig = new ReportConfigYamlParser().parse(reportConfigFilePath);
-                builder = builder.markAsOneStopConfigSpecified();
+                builder.isOneStopConfigFilePresent(true);
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
             } catch (IllegalArgumentException iae) {
@@ -398,7 +399,8 @@ public class ArgsParser {
             } catch (IOException ioe) {
                 // IOException thrown as report-config.yaml is not found.
                 // Ignore exception as the file is optional.
-                builder = builder.unmarkAsOneStopConfigSpecified();
+                logger.log(Level.WARNING, "Error parsing report-config.yaml: " + ioe.getMessage(), ioe);
+                builder.isOneStopConfigFilePresent(false);
             }
         }
 
@@ -420,12 +422,10 @@ public class ArgsParser {
 
         try {
             blurbMap = new BlurbMarkdownParser(blurbConfigPath).parse();
-            builder = builder.markAsBlurbMapOverriding();
         } catch (InvalidMarkdownException ex) {
             logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
         } catch (IOException ioe) {
             // IOException thrown as blurbs.md is not found.
-            builder = builder.unmarkAsBlurbMapOverriding();
         }
 
         builder.blurbMap(blurbMap);

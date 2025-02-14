@@ -6,11 +6,11 @@ package reposense.model;
 public class RunConfigurationDecider {
     public static RunConfiguration getRunConfiguration(CliArguments cliArguments) {
         if (cliArguments.getLocations() != null) {
-            if (cliArguments.isOneStopConfigSpecified()) {
-                return new OneStopConfigRunConfiguration(cliArguments);
-            }
-
             return new CliRunConfiguration(cliArguments);
+        }
+
+        if (cliArguments.isOneStopConfigFilePresent()) {
+            return new OneStopConfigRunConfiguration(cliArguments);
         }
 
         return new ConfigRunConfiguration(cliArguments);

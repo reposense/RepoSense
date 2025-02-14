@@ -12,9 +12,7 @@ import reposense.model.FileType;
  */
 public class ReportGroupNameAndGlobs {
     public static final String DEFAULT_GROUP_NAME = "code";
-    public static final List<String> DEFAULT_GLOBS = List.of(
-            "**.java"
-    );
+    public static final List<String> DEFAULT_GLOBS = List.of();
     public static final List<ReportGroupNameAndGlobs> DEFAULT_INSTANCES = new ArrayList<>();
 
     static {
@@ -29,10 +27,6 @@ public class ReportGroupNameAndGlobs {
         ReportGroupNameAndGlobs rg3 = new ReportGroupNameAndGlobs();
         rg3.groupName = "docs";
         rg3.globs = List.of("docs**", "**.adoc", "**.md");
-
-        DEFAULT_INSTANCES.add(rg1);
-        DEFAULT_INSTANCES.add(rg2);
-        DEFAULT_INSTANCES.add(rg3);
     }
 
     @JsonProperty("group-name")

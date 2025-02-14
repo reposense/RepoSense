@@ -16,10 +16,8 @@ import reposense.model.RepoLocation;
  */
 public class ReportRepoConfiguration {
     public static final String DEFAULT_REPO = "https://github.com/user/repo";
-    public static final List<ReportGroupNameAndGlobs> DEFAULT_GROUP_DETAILS = ReportGroupNameAndGlobs.DEFAULT_INSTANCES;
-    public static final List<ReportBranchData> DEFAULT_BRANCHES = List.of(
-            ReportBranchData.DEFAULT_INSTANCE
-    );
+    public static final List<ReportGroupNameAndGlobs> DEFAULT_GROUP_DETAILS = List.of();
+    public static final List<ReportBranchData> DEFAULT_BRANCHES = List.of();
     public static final ReportRepoConfiguration DEFAULT_INSTANCE = new ReportRepoConfiguration();
 
     static {
@@ -71,7 +69,7 @@ public class ReportRepoConfiguration {
      */
     public List<MapEntry> getFullyQualifiedRepoNamesWithBlurbs() {
         List<MapEntry> repoNames = new ArrayList<>();
-        Pattern pattern = Pattern.compile(".git");
+        Pattern pattern = Pattern.compile("\\.git$");
         Matcher matcher = pattern.matcher(getRepo());
 
         if (!matcher.find()) {
@@ -81,7 +79,7 @@ public class ReportRepoConfiguration {
         }
 
         for (ReportBranchData rbd : this.getBranches()) {
-            String qualifiedName = getRepo().substring(0, matcher.start()) + "/" + rbd.getBranch();
+            String qualifiedName = getRepo().substring(0, matcher.start()) + "/tree/" + rbd.getBranch();
             repoNames.add(new MapEntry(qualifiedName, rbd.getBlurb()));
         }
 
