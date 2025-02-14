@@ -11,7 +11,7 @@
 <div id="section-setting-up">
 
 <box type="important">
-Netlify bundles Java 8 by default in the build image. With the move to Java 11 and Java 17, this method will not be supported going forward
+Note that Netlify has a low limit for free tier users (only 300 _build minutes_ per month as at June 2020 -- a single report generation can take 2-3 build minutes, longer if your report includes many/big repositories). Due to this, we will not be supporting this method going forward.
 </box>
 
 <box type="warning" seamless>
