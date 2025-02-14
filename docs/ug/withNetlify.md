@@ -10,6 +10,10 @@
 
 <div id="section-setting-up">
 
+<box type="important">
+Netlify bundles Java 8 by default in the build image. With the move to Java 11 and Java 17, this method will not be supported going forward 
+</box>
+
 <box type="warning" seamless>
 
 Note that Netlify has a low limit for free tier users (only 300 _build minutes_ per month as at June 2020 -- a single report generation can take 2-3 build minutes, longer if your report includes many/big repositories).
@@ -22,7 +26,7 @@ Note that Netlify has a low limit for free tier users (only 300 _build minutes_ 
 {{ step(1) }} **Fork the _publish-RepoSense_ repository** using this [link](https://github.com/RepoSense/publish-RepoSense/fork). Optionally, you can rename the fork to match your RepoSense report e.g., `project-code-dashboard`.
 
 {{ step(2) }} **Set up Netlify for your fork** as described in this [guide](https://www.netlify.com/blog/2016/09/29/a-step-by-step-guide-deploying-on-netlify/).<br>
-   ==You will need to use the following in `Step 5: Configure Your Settings` of that guide instead==:
+   ==You need to replace `Step 5: Configure Your Settings` with a self-configured build script==:  
    Add the following `netlify.toml` to your main repo:  
    ```toml
    [build]
