@@ -58,5 +58,5 @@ For other types of repositories, external links are disabled.
 
 {{ embed("Appendix: **Using RepoSense with Travis → Setting up**", "withTravis.md#section-setting-up") }}
 
-**You may also consider using Netlify to deploy your report. However, we may not support this method going forward**
+You may also consider using Netlify to deploy your report. **However, we may not support this method going forward.**
 {{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}
