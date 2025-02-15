@@ -5,13 +5,15 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
-import reposense.parser.ReportConfigJsonParser;
+import reposense.parser.ReportConfigYamlParser;
 
 /**
  * Represents command line arguments user supplied when running the program.
@@ -39,6 +41,7 @@ public class CliArguments {
     private double originalityThreshold;
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
+    private boolean isOneStopConfigFilePresent;
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -166,6 +169,23 @@ public class CliArguments {
         return blurbMap;
     }
 
+    /**
+     * Merges the {@code blurbMap} from the blurbs file with the blurb map in {@code reportConfiguration}.
+     *
+     * @return the merged blurb map.
+     */
+    public BlurbMap mergeWithRepoConfigBlurbMap() {
+        BlurbMap repoConfigBlurbMap = reportConfiguration.getBlurbMap();
+        for (Map.Entry<String, String> entry : blurbMap.getAllMappings().entrySet()) {
+            repoConfigBlurbMap.withRecord(entry.getKey(), entry.getValue());
+        }
+        return repoConfigBlurbMap;
+    }
+
+    public boolean isOneStopConfigFilePresent() {
+        return isOneStopConfigFilePresent;
+    }
+
     public boolean isViewModeOnly() {
         return isViewModeOnly;
     }
@@ -218,7 +238,8 @@ public class CliArguments {
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
                 && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
-                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold);
+                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
+                && this.isOneStopConfigFilePresent == otherCliArguments.isOneStopConfigFilePresent;
     }
 
     /**
@@ -459,7 +480,7 @@ public class CliArguments {
             this.cliArguments.groupConfigFilePath = configFolderPath.resolve(
                     GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
             this.cliArguments.reportConfigFilePath = configFolderPath.resolve(
-                    ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+                    ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
             return this;
         }
 
@@ -502,6 +523,18 @@ public class CliArguments {
             this.cliArguments.blurbMap = blurbMap;
             return this;
         }
+
+
+        /**
+         * Adds the {@code isOneStopConfigFilePresent} to CliArguments.
+         *
+         * @param isOneStopConfigFilePresent Is blurb map overriding.
+         */
+        public Builder isOneStopConfigFilePresent(boolean isOneStopConfigFilePresent) {
+            this.cliArguments.isOneStopConfigFilePresent = isOneStopConfigFilePresent;
+            return this;
+        }
+
 
         /**
          * Builds CliArguments.

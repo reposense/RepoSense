@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.JsonSyntaxException;
@@ -28,7 +29,7 @@ import reposense.RepoSense;
 import reposense.model.BlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.FileType;
-import reposense.model.ReportConfiguration;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.parser.exceptions.ParseException;
 import reposense.parser.types.AlphanumericArgumentType;
@@ -93,6 +94,7 @@ public class ArgsParser {
             "Config path not provided, using the config folder as default.";
     private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
+    private static final String MESSAGE_INVALID_CONFIG_YAML = "%s Ignoring the report config provided.";
     private static final String MESSAGE_INVALID_MARKDOWN_BLURBS = "%s Ignoring the blurb file provided.";
     private static final String MESSAGE_SINCE_D1_WITH_PERIOD = "You may be using --since d1 with the --period flag. "
             + "This may result in an incorrect date range being analysed.";
@@ -385,19 +387,23 @@ public class ArgsParser {
 
         // Report config is ignored if --repos is provided
         if (locations == null) {
-            Path reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+            Path reportConfigFilePath = configFolderPath.resolve(ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
 
             try {
-                reportConfig = new ReportConfigJsonParser().parse(reportConfigFilePath);
+                reportConfig = new ReportConfigYamlParser().parse(reportConfigFilePath);
+                builder.isOneStopConfigFilePresent(true);
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
             } catch (IllegalArgumentException iae) {
-                logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
+                logger.warning(String.format(MESSAGE_INVALID_CONFIG_YAML, iae.getMessage()));
             } catch (IOException ioe) {
-                // IOException thrown as report-config.json is not found.
+                // IOException thrown as report-config.yaml is not found.
                 // Ignore exception as the file is optional.
+                logger.log(Level.WARNING, "Error parsing report-config.yaml: " + ioe.getMessage(), ioe);
+                builder.isOneStopConfigFilePresent(false);
             }
         }
+
         builder.reportConfiguration(reportConfig);
     }
 
@@ -420,7 +426,6 @@ public class ArgsParser {
             logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
         } catch (IOException ioe) {
             // IOException thrown as blurbs.md is not found.
-            // Ignore exception as the file is optional.
         }
 
         builder.blurbMap(blurbMap);
