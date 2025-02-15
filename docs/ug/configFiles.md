@@ -31,20 +31,20 @@ Given below are the details of the various config files used by RepoSense.
 **`repo-config.csv` file contains repo-level config data.** Each row represents a repository's configuration ([example](repo-config.csv)).
 
 
-| Column Name | Explanation |
-|-------------|-------------|
-| Repository's Location {{ mandatory }} | The `Remote Repo URL` or `Disk Path` to the Git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar` |
-| Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo |
-| File formats<sup>*+</sup> | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats |
-| Find Previous Authors | Enter **`yes`** to utilize Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available). |
-| Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author e.g., `test/**;temp/**`. Refer to the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) for the path glob syntax. |
-| Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files. |
-| Ignore Commits List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive). |
-| Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name). |
-| Shallow Cloning | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead. |
-| File Size Limit<sup>+</sup> | Enter a file size limit for the repository in bytes as a single number without units (for a size limit of 1MB for example, enter 1000000). This file size limit will override the default file size limit (500KB). Files exceeding the file size limit will be marked as ignored and only the file name and line count will be reflected in the report. |
-| Ignore File Size Limit | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`. |
-| Skip Ignored File Analysis | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is skipped, all information about the file will be omitted from the generated report. This option can significantly improve report generation time. |
+| Column Name                           | Explanation                                                                                                                                                                                                                                                                                                                                             |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Repository's Location {{ mandatory }} | The `Remote Repo URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`                                                                                                                                                                                                             |
+| Branch                                | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo                                                                                                                                                                                                                                                  |
+| File formats<sup>*+</sup>             | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats                                                                                                                                                               |
+| Find Previous Authors                 | Enter **`yes`** to utilize Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available).                                                                                                                     |
+| Ignore Glob List<sup>*+</sup>         | The list of file path globs to ignore during analysis for each author e.g., `test/**;temp/**`. Refer to the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) for the path glob syntax.                                                                                                                           |
+| Ignore standalone config              | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.                                                                                                                          |
+| Ignore Commits List<sup>*+</sup>      | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).                                                                                                             |
+| Ignore Authors List<sup>*+</sup>      | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).                                                                                                                                                                                                                   |
+| Shallow Cloning                       | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead.                                  |
+| File Size Limit<sup>+</sup>           | Enter a file size limit for the repository in bytes as a single number without units (for a size limit of 1MB for example, enter 1000000). This file size limit will override the default file size limit (500KB). Files exceeding the file size limit will be marked as ignored and only the file name and line count will be reflected in the report. |
+| Ignore File Size Limit                | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`.                                                                                                                                                                                                                       |
+| Skip Ignored File Analysis            | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is skipped, all information about the file will be omitted from the generated report. This option can significantly improve report generation time.                                                                                                |
 
 <box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
@@ -94,11 +94,11 @@ If `author-config.csv` is not given and the repo has not provided author details
 
 Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
 
-| Column Name | Explanation |
-|-------------|-------------|
-| Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
-| Group Name {{ mandatory }} | Name of the group, e.g.,`test`. |
-| Globs * {{ mandatory }} | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
+| Column Name                | Explanation                                                                           |
+|----------------------------|---------------------------------------------------------------------------------------|
+| Repository's Location      | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`                |
+| Group Name {{ mandatory }} | Name of the group, e.g.,`test`.                                                       |
+| Globs * {{ mandatory }}    | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
@@ -107,12 +107,35 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 
 <!-- ==================================================================================================== -->
 
-## `report-config.json`
+## `report-config.yaml`
 
-You can optionally use `report-config.json` to customize report generation by providing the following information. ([example](report-config.json))
+You can also optionally use a `report-config.yaml` file to quickly define the repository information for the repositories you are interested in tracking and generate your very own code portfolio.
+
+View this [example](report-config.yaml) for a better understanding of what repository information is required.
+
+Note: All fields should be defined, and left blank if not used.
 
 **Fields to provide**:
-* `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report"
+* `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report".
+* `repos`: A list of repositories to include for analysis.
+  * `repo`: The URL to your repository of interest.
+  * `groups`: A list of the different custom groupings.
+      * `group-name`: Name of the group.
+      * `globs`: The list of file path globs to include for specified group.
+  * `branches`: A list of branches to analyse for each repository.
+    * `branch`: The name of the branch.
+    * `authors`: A list of authors to analyse on the branch.
+      * `author-git-host-id`: Git host username of the author.
+      * `author-display-name`: Display name of the author.
+      * `author-git-author-name`: Author's Git host name.
+      * `author-emails`: A list of emails associated with an author.
+    * `file-formats`: File formats to analyze.
+    * `ignore-glob-list`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
+    * `ignore-standalone-config`: Ignores the different standalone configuration files when analysing this branch
+    * `ignore-commits-list`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
+    * `ignore-authors-list`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
+    * `is-shallow-cloning`: Indicates whether to clone the repository using Git's shallow cloning functionality.
+    * `is-find-previous-authors`: Indicates whether to find previous authors of the repository/branch. 
 
 <!-- ==================================================================================================== -->
 
