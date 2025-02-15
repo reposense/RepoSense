@@ -32,8 +32,6 @@ As RepoSense reports are in a web page format, you can publish a report by simpl
 
 {{ embed("Appendix: **Using RepoSense with GitHub Actions**", "withGithubActions.md") }}
 
-{{ embed("Appendix: **Using RepoSense with Travis**", "withTravis.md") }}
-
 {{ embed("Appendix: **Using RepoSense with Netlify**", "withNetlify.md") }}
 
 <!-- ------------------------------------------------------------------------------------------------------ -->

@@ -57,5 +57,3 @@ For other types of repositories, external links are disabled.
 **You can also use the following options.** While they are more work to set up, they are more suitable as a permanent solution due to their generous free tier.
 
 {{ embed("Appendix: **Using RepoSense with GitHub Actions → Setting up**", "withGithubActions.md#section-setting-up") }}
-
-{{ embed("Appendix: **Using RepoSense with Travis → Setting up**", "withTravis.md#section-setting-up") }}
