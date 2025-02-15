@@ -1,34 +1,34 @@
 <template lang="pug">
 .segment(
-  v-bind:class="{ untouched: !segment.knownAuthor, active: isOpen, isNotFullCredit: !segment.isFullCredit }",
-  v-bind:style="{ 'border-left': `0.25rem solid ${authorColors[segment.knownAuthor]}` }",
-  v-bind:title="`${segment.isFullCredit ? 'Author' : 'Co-author'}: ${segment.knownAuthor || \"Unknown\"}`"
+  :class="{ untouched: !segment.knownAuthor, active: isOpen, isNotFullCredit: !segment.isFullCredit }",
+  :style="{ 'border-left': `0.25rem solid ${authorColors[segment.knownAuthor]}` }",
+  :title="`${segment.isFullCredit ? 'Author' : 'Co-author'}: ${segment.knownAuthor || \"Unknown\"}`"
 )
   .closer(v-if="canOpen",
-    v-on:click="toggleCode", ref="topButton")
+    @click="toggleCode", ref="topButton")
     font-awesome-icon.icon(
       v-show="!isOpen",
       icon="plus-circle",
-      v-bind:title="'Click to open code'"
+      :title="'Click to open code'"
     )
     font-awesome-icon.icon(
       v-show="isOpen",
       icon="chevron-circle-down",
-      v-bind:title="'Click to hide code'"
+      :title="'Click to hide code'"
     )
   div(v-if="isOpen", v-hljs="path")
     //- author color is applied only when the author color exists, else it takes the default mui color value
     .code(
-      v-for="(line, index) in segment.lines", v-bind:key="index",
-      v-bind:style="{ 'background-color': `${authorColors[segment.knownAuthor]}${transparencyValue}` }"
+      v-for="(line, index) in segment.lines", :key="index",
+      :style="{ 'background-color': `${authorColors[segment.knownAuthor]}${transparencyValue}` }"
     )
       .line-number {{ `${segment.lineNumbers[index]}\n` }}
       .line-content {{ `${line}\n` }}
-  .closer.bottom(v-if="canOpen", v-on:click="toggleCode")
+  .closer.bottom(v-if="canOpen", @click="toggleCode")
     font-awesome-icon.icon(
       v-show="isOpen",
       icon="chevron-circle-up",
-      v-bind:title="'Click to hide code'"
+      :title="'Click to hide code'"
     )
 </template>
 

@@ -1,24 +1,24 @@
 <template lang="pug">
 #app
   loading-overlay.overlay-loader(
-    v-bind:active='loadingOverlayCount > 0',
-    v-bind:opacity='loadingOverlayOpacity'
+    :active='loadingOverlayCount > 0',
+    :opacity='loadingOverlayOpacity'
   )
-    template(v-slot:default)
+    template(#default)
       i.overlay-loading-icon.fa.fa-spinner.fa-spin()
-    template(v-slot:after)
+    template(#after)
       h3 {{ loadingOverlayMessage }}
 
   router-view(
-    v-bind:update-report-zip="updateReportZip",
-    v-bind:repos="repos",
-    v-bind:users="users",
-    v-bind:user-updated="userUpdated",
-    v-bind:loading-overlay-opacity="loadingOverlayOpacity",
-    v-bind:tab-type="tabType",
-    v-bind:creation-date="creationDate",
-    v-bind:report-generation-time="reportGenerationTime",
-    v-bind:error-messages="errorMessages"
+    :update-report-zip="updateReportZip",
+    :repos="repos",
+    :users="users",
+    :user-updated="userUpdated",
+    :loading-overlay-opacity="loadingOverlayOpacity",
+    :tab-type="tabType",
+    :creation-date="creationDate",
+    :report-generation-time="reportGenerationTime",
+    :error-messages="errorMessages"
     )
 </template>
 
