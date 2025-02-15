@@ -1,21 +1,21 @@
 <template lang="pug">
 #app-wrapper(
-  v-bind:style="appStyles",
+  :style="appStyles",
   @mousemove="mouseMove",
   @mouseup="deregisterMouseMove",
   @mouseleave="deregisterMouseMove"
 )
-  #tab-resize-guide(v-bind:style="guideStyles")
+  #tab-resize-guide(:style="guideStyles")
   .left-resize-container
     slot(name="left")
   #tab-resize(
     @mousedown.left="registerMouseMove",
     v-show="isTabActive"
   )
-    .tab-close(v-on:click="closeTab")
+    .tab-close(@click="closeTab")
       i.fas.fa-caret-right
   .right-resize-container(
-    v-bind:style="rightContainerStyles",
+    :style="rightContainerStyles",
     v-if="isTabActive"
   )
     slot(name="right")
