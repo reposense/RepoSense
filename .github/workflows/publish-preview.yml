@@ -42,5 +42,18 @@ jobs:
         user_email: 'github-actions[bot]@users.noreply.github.com'
         commit_message: Rebuild pages at
 
+    - name: Extract PR number
+      id: pr-number
+      run: echo 'ACTIONS_PR_NUMBER='$(cat ./pr/NUMBER) >> $GITHUB_OUTPUT
+
     - name: Test connection to deployed website
-      run: wget -S https://${{github.repository_owner}}.github.io/${{github.repository}}/pull/${{github.event.number}}
+      run: curl -L https://${{github.repository_owner}}.github.io/${{github.event.repository.name}}/pull/${{ steps.pr-number.outputs.ACTIONS_PR_NUMBER }}
+
+    - name: Test deployed web page
+      uses: treosh/lighthouse-ci-action@v12
+      with:
+        urls: https://${{github.repository_owner}}.github.io/${{github.repository}}/pull/${{github.event.number}}
+        uploadArtifacts: true
+
+    - name: Display Lighthouse summary
+      run: cat .lighthouseci/manifest.json | jq '.'
