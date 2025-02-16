@@ -275,6 +275,8 @@ window.api = {
           repoName: `${repo.displayName}`,
           location: `${repo.location.location}`,
           checkedFileTypeContribution: undefined,
+          sinceDate: repo.sinceDate,
+          untilDate: repo.untilDate,
         };
 
         res.push(user);
