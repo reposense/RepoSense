@@ -47,12 +47,12 @@ jobs:
       run: echo 'ACTIONS_PR_NUMBER='$(cat ./pr/NUMBER) >> $GITHUB_OUTPUT
 
     - name: Test connection to deployed website
-      run: curl -L https://${{github.repository_owner}}.github.io/${{github.event.repository.name}}
+      run: curl -L https://${{github.repository_owner}}.github.io/${{github.event.repository.name}}/public
 
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
       with:
-        urls: https://${{github.repository_owner}}.github.io/${{github.event.repository.name}}
+        urls: https://${{github.repository_owner}}.github.io/${{github.event.repository.name}}/public
         uploadArtifacts: true
 
     - name: Display Lighthouse summary
