@@ -30,6 +30,9 @@ jobs:
         name: reposense-deployment
         path: .
 
+    - name: Check existence of files
+      run: ls -al
+
     - name: Deploy GitHub pages
       uses: peaceiris/actions-gh-pages@v3
       with:
@@ -38,3 +41,6 @@ jobs:
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
         commit_message: Rebuild pages at
+
+    - name: Test connection to deployed website
+      run: wget -S https://${{github.repository_owner}}.github.io/${{github.repository}}/pull/${{github.event.number}}
