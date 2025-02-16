@@ -1,43 +1,43 @@
 <template lang="pug">
-.file(v-bind:ref="file.path")
+.file(:ref="file.path")
   .title(
-    v-bind:class="{'sticky': file.active}",
-    v-bind:ref="`${file.path}-title`"
+    :class="{'sticky': file.active}",
+    :ref="`${file.path}-title`"
     )
-    span.caret(v-on:click="toggleFileActiveProperty(file)")
+    span.caret(@click="toggleFileActiveProperty(file)")
       .tooltip(
         v-show="file.active",
-        v-on:mouseover="onTitleTooltipHover(`${file.path}-hide-file-tooltip`, `${file.path}-title`)",
-        v-on:mouseout="resetTitleTooltip(`${file.path}-hide-file-tooltip`, `${file.path}-title`)"
+        @mouseover="onTitleTooltipHover(`${file.path}-hide-file-tooltip`, `${file.path}-title`)",
+        @mouseout="resetTitleTooltip(`${file.path}-hide-file-tooltip`, `${file.path}-title`)"
       )
         font-awesome-icon(icon="caret-down", fixed-width)
-        span.tooltip-text(v-bind:ref="`${file.path}-hide-file-tooltip`") Click to hide file details
+        span.tooltip-text(:ref="`${file.path}-hide-file-tooltip`") Click to hide file details
       .tooltip(
         v-show="!file.active",
-        v-on:mouseover="onTitleTooltipHover(`${file.path}-show-file-tooltip`, `${file.path}-title`)",
-        v-on:mouseout="resetTitleTooltip(`${file.path}-show-file-tooltip`, `${file.path}-title`)"
+        @mouseover="onTitleTooltipHover(`${file.path}-show-file-tooltip`, `${file.path}-title`)",
+        @mouseout="resetTitleTooltip(`${file.path}-show-file-tooltip`, `${file.path}-title`)"
       )
         font-awesome-icon(icon="caret-right", fixed-width)
-        span.tooltip-text(v-bind:ref="`${file.path}-show-file-tooltip`") Click to show file details
+        span.tooltip-text(:ref="`${file.path}-show-file-tooltip`") Click to show file details
     span.index {{ index + 1 }}. &nbsp;
     span.path
       span(
-        v-bind:class="{'selected-parameter':\
+        :class="{'selected-parameter':\
           filesSortType === 'path' || filesSortType === 'fileName'}"
       ) {{ getFirstPartOfPath(file) }}&nbsp;
       span.in(v-if="filesSortType === 'fileName'") in&nbsp;
       span(v-if="filesSortType === 'fileName'") {{ getSecondPartOfPath(file) }}&nbsp;
     span.fileTypeLabel(
       v-if="!file.isBinary && !file.isIgnored",
-      v-bind:style="{\
+      :style="{\
         'background-color': fileTypeColors[file.fileType],\
         'color': getFontColor(fileTypeColors[file.fileType])\
         }",
-      v-bind:class="{'selected-label':\
+      :class="{'selected-label':\
         filesSortType === 'linesOfCode' || filesSortType === 'fileType'}"
     )
       span(
-        v-bind:class="{'selected-parameter':\
+        :class="{'selected-parameter':\
           filesSortType === 'linesOfCode' || filesSortType === 'fileType'}"
       ) {{ getFirstPartOfLabel(file) }}&nbsp;
       span {{ getSecondPartOfLabel(file) }}
@@ -47,39 +47,39 @@
     ) ignored ({{ file.lineCount }}) &nbsp;
     span.icons
       a(
-        v-bind:class="!isBrokenLink(getHistoryLink(file)) ? '' : 'broken-link'",
-        v-bind:href="getHistoryLink(file)", target="_blank"
+        :class="!isBrokenLink(getHistoryLink(file)) ? '' : 'broken-link'",
+        :href="getHistoryLink(file)", target="_blank"
       )
         .tooltip(
-          v-on:mouseover="onTitleTooltipHover(`${file.path}-view-history-tooltip`, `${file.path}-title`)",
-          v-on:mouseout="resetTitleTooltip(`${file.path}-view-history-tooltip`, `${file.path}-title`)"
+          @mouseover="onTitleTooltipHover(`${file.path}-view-history-tooltip`, `${file.path}-title`)",
+          @mouseout="resetTitleTooltip(`${file.path}-view-history-tooltip`, `${file.path}-title`)"
         )
           font-awesome-icon.button(icon="history")
           span.tooltip-text(
-            v-bind:ref="`${file.path}-view-history-tooltip`"
+            :ref="`${file.path}-view-history-tooltip`"
           ) {{getLinkMessage(getHistoryLink(file), 'Click to view the history view of file')}}
       a(
         v-if='!file.isBinary',
-        v-bind:class="!isBrokenLink(getBlameLink(file)) ? '' : 'broken-link'",
-        v-bind:href="getBlameLink(file)", target="_blank",
+        :class="!isBrokenLink(getBlameLink(file)) ? '' : 'broken-link'",
+        :href="getBlameLink(file)", target="_blank",
         title="click to view the blame view of file"
       )
         .tooltip(
-          v-on:mouseover="onTitleTooltipHover(`${file.path}-view-blame-tooltip`, `${file.path}-title`)",
-          v-on:mouseout="resetTitleTooltip(`${file.path}-view-blame-tooltip`, `${file.path}-title`)"
+          @mouseover="onTitleTooltipHover(`${file.path}-view-blame-tooltip`, `${file.path}-title`)",
+          @mouseout="resetTitleTooltip(`${file.path}-view-blame-tooltip`, `${file.path}-title`)"
         )
           font-awesome-icon.button(icon="user-edit")
           span.tooltip-text(
-            v-bind:ref="`${file.path}-view-blame-tooltip`"
+            :ref="`${file.path}-view-blame-tooltip`"
           ) {{getLinkMessage(getBlameLink(file), 'Click to view the blame view of file')}}
     .author-breakdown(v-if="info.isMergeGroup")
       .author-breakdown__legend(
         v-for="author in getAuthors(file)",
-        v-bind:key="author"
+        :key="author"
       )
         font-awesome-icon(
           icon="circle",
-          v-bind:style="{ 'color': authorColors[author] }"
+          :style="{ 'color': authorColors[author] }"
         )
         span &nbsp; {{ author }} &nbsp;
   pre.file-content(v-if="file.isBinary", v-show="file.active")
@@ -90,7 +90,7 @@
     .ignored-segment
       .ignore-text File is ignored.
   pre.hljs.file-content(v-else-if="file.wasCodeLoaded", v-show="file.active")
-    c-segment-collection(v-bind:segments="file.segments", v-bind:path="file.path")
+    c-segment-collection(:segments="file.segments", :path="file.path")
 </template>
 
 <script lang="ts">
