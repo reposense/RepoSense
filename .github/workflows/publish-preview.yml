@@ -5,6 +5,7 @@ on:
     workflows: ["Continuous Integration"]
     types:
       -   completed
+  workflow_dispatch:
 
 jobs:
   deploy:
