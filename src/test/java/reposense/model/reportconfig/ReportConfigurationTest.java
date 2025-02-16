@@ -1,18 +1,20 @@
 package reposense.model.reportconfig;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ReportConfigurationTest {
     @Test
     public void getTitle_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ReportConfiguration().getTitle(), ReportConfiguration.DEFAULT_TITLE);
+        Assertions.assertSame(ReportConfiguration.DEFAULT_TITLE, new ReportConfiguration().getTitle());
     }
 
     @Test
     public void getReportRepoConfigurations_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ReportConfiguration().getReportRepoConfigurations(),
-                ReportConfiguration.DEFAULT_REPORT_REPO_CONFIGS);
+        Assertions.assertSame(new ArrayList<>(),
+                new ReportConfiguration().getReportRepoConfigurations());
     }
 
     @Test

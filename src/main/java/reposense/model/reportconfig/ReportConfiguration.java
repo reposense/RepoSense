@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import reposense.model.BlurbMap;
@@ -16,22 +17,22 @@ import reposense.system.LogsManager;
  */
 public class ReportConfiguration {
     public static final String DEFAULT_TITLE = "RepoSense Report";
-    public static final List<ReportRepoConfiguration> DEFAULT_REPORT_REPO_CONFIGS = new ArrayList<>();
-    public static final ReportConfiguration DEFAULT_INSTANCE = new ReportConfiguration();
 
     private static final Logger logger = LogsManager.getLogger(ReportConfiguration.class);
 
-    static {
-        DEFAULT_REPORT_REPO_CONFIGS.add(ReportRepoConfiguration.DEFAULT_INSTANCE);
-        ReportConfiguration.DEFAULT_INSTANCE.title = DEFAULT_TITLE;
-        ReportConfiguration.DEFAULT_INSTANCE.reportRepoConfigurations = DEFAULT_REPORT_REPO_CONFIGS;
-    }
-
-    @JsonProperty("title")
     private String title;
 
-    @JsonProperty("repos")
     private List<ReportRepoConfiguration> reportRepoConfigurations;
+
+    public ReportConfiguration() {}
+
+    @JsonCreator
+    public ReportConfiguration(
+            @JsonProperty("title") String title,
+            @JsonProperty("repos") List<ReportRepoConfiguration> reportRepoConfigurations) {
+        this.title = title == null ? DEFAULT_TITLE : title;
+        this.reportRepoConfigurations = reportRepoConfigurations == null ? new ArrayList<>() : reportRepoConfigurations;
+    }
 
     /**
      * Converts the {@code ReportRepoConfiguration} list into a {@code BlurbMap}.
@@ -40,10 +41,6 @@ public class ReportConfiguration {
      */
     public BlurbMap getBlurbMap() {
         BlurbMap blurbMap = new BlurbMap();
-
-        if (reportRepoConfigurations == null) {
-            return blurbMap;
-        }
 
         for (ReportRepoConfiguration repoConfig : reportRepoConfigurations) {
             try {
@@ -60,11 +57,11 @@ public class ReportConfiguration {
     }
 
     public String getTitle() {
-        return title == null ? DEFAULT_TITLE : title;
+        return title;
     }
 
     public List<ReportRepoConfiguration> getReportRepoConfigurations() {
-        return reportRepoConfigurations == null ? DEFAULT_REPORT_REPO_CONFIGS : reportRepoConfigurations;
+        return reportRepoConfigurations;
     }
 
     @Override

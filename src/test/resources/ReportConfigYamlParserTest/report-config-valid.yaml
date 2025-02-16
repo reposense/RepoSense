@@ -1,4 +1,4 @@
-title: RepoSense Report Test Repo
+title: RepoSense Report
 repos:
   - repo: https://github.com/reposense/testrepo-Delta.git
     groups:
@@ -15,19 +15,10 @@ repos:
           - "**.md"
     branches:
       - branch: master
-        blurb: "The main branch"
+        blurb: "My project"
         authors:
-          - author-git-host-id: fzdy1914
-            author-display-name: WANG CHAO
-            author-git-author-name: WANG CHAO
-            author-emails:
-              - 1229983126@qq.com
           - author-git-host-id: FH-30
             author-display-name: Francis Hodianto
             author-git-author-name: Francis Hodianto
             author-emails:
-              -
-        ignore-glob-list:
-          -
         ignore-authors-list:
-          -

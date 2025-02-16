@@ -3,6 +3,7 @@ package reposense.parser;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,24 +22,24 @@ public class ReportConfigYamlParserTest {
     @Test
     public void reportConfig_parseEmptyYamlFile_getDefaultTitle() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigYamlParser().parse(EMPTY_REPORT_CONFIG);
-        Assertions.assertEquals(reportConfig.getTitle(), ReportConfiguration.DEFAULT_TITLE);
-        Assertions.assertEquals(reportConfig.getReportRepoConfigurations(),
-                ReportConfiguration.DEFAULT_REPORT_REPO_CONFIGS);
+        Assertions.assertEquals(ReportConfiguration.DEFAULT_TITLE, reportConfig.getTitle());
+        Assertions.assertEquals(new ArrayList<>(),
+                reportConfig.getReportRepoConfigurations());
     }
 
     @Test
     public void reportConfig_parseInvalidYamlFile_getDefaultTitle() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigYamlParser().parse(INVALID_REPORT_CONFIG);
-        Assertions.assertEquals(reportConfig.getTitle(), ReportConfiguration.DEFAULT_TITLE);
-        Assertions.assertEquals(reportConfig.getReportRepoConfigurations(),
-                ReportConfiguration.DEFAULT_REPORT_REPO_CONFIGS);
+        Assertions.assertEquals(ReportConfiguration.DEFAULT_TITLE, reportConfig.getTitle());
+        Assertions.assertEquals(new ArrayList<>(),
+                reportConfig.getReportRepoConfigurations());
     }
 
     @Test
     public void reportConfig_parseValidYamlFile_getCustomTitle() throws Exception {
         ReportConfiguration reportConfig = new ReportConfigYamlParser().parse(VALID_REPORT_CONFIG);
-        Assertions.assertNotEquals(reportConfig.getTitle(), ReportConfiguration.DEFAULT_TITLE);
-        Assertions.assertNotEquals(reportConfig.getReportRepoConfigurations(),
-                ReportConfiguration.DEFAULT_REPORT_REPO_CONFIGS);
+        Assertions.assertNotEquals(ReportConfiguration.DEFAULT_TITLE, reportConfig.getTitle());
+        Assertions.assertEquals(new ArrayList<>(),
+                reportConfig.getReportRepoConfigurations());
     }
 }

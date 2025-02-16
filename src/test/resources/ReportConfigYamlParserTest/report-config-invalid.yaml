@@ -1,31 +1,24 @@
-titles: RepoSense Report
-repo:
-  - repos: https://github.com/reposense/testrepo-Delta.git
-    blurbs: "The main branch"
-    group:
-      - grame: code
+title: RepoSense Report
+repos:
+  - repo: https://github.com/reposense/testrepo-Delta.git
+    groups:
+      - group-name: code
         globs:
           - "**.java"
       - group-name: tests
         globs:
           - "src/test**"
       - group-name: docs
-        gl:
+        globs:
           - "docs**"
           - "**.adoc"
           - "**.md"
-    bhes:
+    branches:
       - branch: master
-        autho:thor-name: WANG CHAO
-            author-emails:
-              - 1229983126@qq.com
+        blurb: "My project"
+        aut:::thors:
           - author-git-host-id: FH-30
             author-display-name: Francis Hodianto
             author-git-author-name: Francis Hodianto
             author-emails:
-              -
-        file-formats:
-          - override:java
-          - md
-        is-shallow-cloning: false
-        is-find-previous-authors: false
+        ignore-authors-list:

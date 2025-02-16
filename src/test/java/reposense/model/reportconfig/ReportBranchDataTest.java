@@ -1,24 +1,26 @@
 package reposense.model.reportconfig;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ReportBranchDataTest {
     @Test
     public void getBranch_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ReportBranchData().getBranch(), ReportBranchData.DEFAULT_BRANCH);
+        Assertions.assertSame(ReportBranchData.DEFAULT_BRANCH, new ReportBranchData().getBranch());
     }
 
     @Test
     public void getIgnoreGlobList_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ReportBranchData().getIgnoreGlobList(), ReportBranchData.DEFAULT_IGNORE_GLOB_LIST);
+        Assertions.assertSame(new ArrayList<>(), new ReportBranchData().getIgnoreGlobList());
     }
 
 
     @Test
     public void getIgnoreAuthorList_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ReportBranchData().getIgnoreAuthorList(),
-                ReportBranchData.DEFAULT_IGNORE_AUTHORS_LIST);
+        Assertions.assertSame(new ArrayList<>(),
+                new ReportBranchData().getIgnoreAuthorList());
     }
 
     @Test

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import reposense.model.GroupConfiguration;
@@ -15,25 +16,25 @@ import reposense.model.RepoLocation;
  * configuration.
  */
 public class ReportRepoConfiguration {
-    public static final String DEFAULT_REPO = "https://github.com/user/repo";
-    public static final List<ReportGroupNameAndGlobs> DEFAULT_GROUP_DETAILS = List.of();
-    public static final List<ReportBranchData> DEFAULT_BRANCHES = List.of();
-    public static final ReportRepoConfiguration DEFAULT_INSTANCE = new ReportRepoConfiguration();
 
-    static {
-        DEFAULT_INSTANCE.repo = DEFAULT_REPO;
-        DEFAULT_INSTANCE.groups = DEFAULT_GROUP_DETAILS;
-        DEFAULT_INSTANCE.branches = DEFAULT_BRANCHES;
-    }
-
-    @JsonProperty("repo")
     private String repo;
 
-    @JsonProperty("groups")
     private List<ReportGroupNameAndGlobs> groups;
 
-    @JsonProperty("branches")
     private List<ReportBranchData> branches;
+
+    public ReportRepoConfiguration() {}
+
+    @JsonCreator
+    public ReportRepoConfiguration(
+            @JsonProperty("repo") String repo,
+            @JsonProperty("groups") List<ReportGroupNameAndGlobs> groups,
+            @JsonProperty("branches") List<ReportBranchData> branches) {
+        this.repo = repo == null ? "" : repo;
+        this.groups = groups == null ? new ArrayList<>() : groups;
+        this.branches = branches == null ? new ArrayList<>() : branches;
+    }
+
 
     /**
      * Represents a single mapped entry between a fully qualified repository name and its associated blurb.
@@ -57,7 +58,7 @@ public class ReportRepoConfiguration {
     }
 
     public String getRepo() {
-        return repo == null ? DEFAULT_REPO : repo;
+        return repo;
     }
 
     /**
@@ -87,7 +88,7 @@ public class ReportRepoConfiguration {
     }
 
     public List<ReportGroupNameAndGlobs> getGroupDetails() {
-        return groups == null ? DEFAULT_GROUP_DETAILS : groups;
+        return groups;
     }
 
     /**
@@ -106,7 +107,7 @@ public class ReportRepoConfiguration {
     }
 
     public List<ReportBranchData> getBranches() {
-        return branches == null ? DEFAULT_BRANCHES : branches;
+        return branches;
     }
 
     @Override

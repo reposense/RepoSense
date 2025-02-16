@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 public class ReportGroupNameAndGlobsTest {
     @Test
     public void getRepo_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ReportGroupNameAndGlobs().getGroupName(), ReportGroupNameAndGlobs.DEFAULT_GROUP_NAME);
+        Assertions.assertSame(null, new ReportGroupNameAndGlobs().getGroupName());
     }
 
     @Test
     public void getReportGroupNameAndGlobsList_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ReportGroupNameAndGlobs().getGlobs(),
-                ReportGroupNameAndGlobs.DEFAULT_GLOBS);
+        Assertions.assertSame(null,
+                new ReportGroupNameAndGlobs().getGlobs());
     }
 
     @Test
