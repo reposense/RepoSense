@@ -42,10 +42,6 @@ jobs:
         user_email: 'github-actions[bot]@users.noreply.github.com'
         commit_message: Rebuild pages at
 
-    - name: Extract PR number
-      id: pr-number
-      run: echo 'ACTIONS_PR_NUMBER='$(cat ./pr/NUMBER) >> $GITHUB_OUTPUT
-
     - name: Test connection to deployed website
       run: curl -L https://${{github.repository_owner}}.github.io/${{github.event.repository.name}}/
 
