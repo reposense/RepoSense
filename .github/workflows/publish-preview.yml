@@ -30,10 +30,6 @@ jobs:
         name: reposense-deployment
         path: .
 
-    - name: Unzip deployment artifacts
-      run: |
-        unzip ./reposense-deployment.zip
-
     - name: Deploy GitHub pages
       uses: peaceiris/actions-gh-pages@v3
       with:
