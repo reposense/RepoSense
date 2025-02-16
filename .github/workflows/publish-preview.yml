@@ -5,7 +5,6 @@ on:
     workflows: ["Continuous Integration"]
     types:
       -   completed
-  workflow_dispatch:
 
 jobs:
   deploy:
@@ -30,10 +29,6 @@ jobs:
         run_id: ${{ github.event.workflow_run.id }}
         name: reposense-deployment
         path: .
-
-    - name: Unzip deployment artifacts
-      run: |
-        unzip ./reposense-deployment.zip
 
     - name: Deploy GitHub pages
       uses: peaceiris/actions-gh-pages@v3
