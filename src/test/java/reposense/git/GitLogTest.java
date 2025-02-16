@@ -73,7 +73,14 @@ public class GitLogTest extends GitTestTemplate {
     public void gitLog_includeAllJavaFilesAuthorIgnoreMovedFile_success() {
         config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         Author ignoreMovedFileAuthor = getAlphaAllAliasAuthor();
-        ignoreMovedFileAuthor.setIgnoreGlobList(Collections.singletonList("**movedFile.java"));
+        ignoreMovedFileAuthor = new Author(
+                ignoreMovedFileAuthor,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("**movedFile.java"),
+                null);
 
         String content = GitLog.getWithFiles(config, ignoreMovedFileAuthor);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(4, content));
@@ -83,7 +90,15 @@ public class GitLogTest extends GitTestTemplate {
     public void gitLog_authorIgnoreAllJavaFiles_success() {
         config.setFormats(FileType.convertFormatStringsToFileTypes(Collections.singletonList("java")));
         Author ignoreAllJavaFilesAuthor = getAlphaAllAliasAuthor();
-        ignoreAllJavaFilesAuthor.setIgnoreGlobList(Collections.singletonList("*.java"));
+        ignoreAllJavaFilesAuthor = new Author(
+                ignoreAllJavaFilesAuthor,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("*.java"),
+                null);
+
 
         String content = GitLog.getWithFiles(config, ignoreAllJavaFilesAuthor);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(0, content));
@@ -92,24 +107,59 @@ public class GitLogTest extends GitTestTemplate {
     @Test
     public void gitLog_validIgnoreGlobs_success() {
         Author author = getAlphaAllAliasAuthor();
+        author = new Author(
+                author,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("annotationTest.java"),
+                null);
 
-        author.setIgnoreGlobList(Collections.singletonList("annotationTest.java"));
         String content = GitLog.getWithFiles(config, author);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
 
-        author.setIgnoreGlobList(Collections.singletonList("**Test**"));
+        author = new Author(
+                author,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("**Test**"),
+                null);
         content = GitLog.getWithFiles(config, author);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(5, content));
 
-        author.setIgnoreGlobList(Collections.singletonList("README.md"));
+        author = new Author(
+                author,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("README.md"),
+                null);
         content = GitLog.getWithFiles(config, author);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
 
-        author.setIgnoreGlobList(Collections.singletonList("**.java"));
+        author = new Author(
+                author,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("**.java"),
+                null);
         content = GitLog.getWithFiles(config, author);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(1, content));
 
-        author.setIgnoreGlobList(Collections.singletonList("./newPos"));
+        author = new Author(
+                author,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("./newPos"),
+                null);
         content = GitLog.getWithFiles(config, author);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(6, content));
     }
@@ -118,27 +168,54 @@ public class GitLogTest extends GitTestTemplate {
     public void gitLog_invalidIgnoreGlobs_filtered() {
         Author author = getAlphaAllAliasAuthor();
 
-        author.setIgnoreGlobList(Collections.singletonList("../testrepo-Alpha"));
+        author = new Author(
+                author,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("../testrepo-Alpha"),
+                null);
         String content = GitLog.getWithFiles(config, author);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
-        author.setIgnoreGlobList(Collections.singletonList("../*.java"));
+        author = new Author(
+                author,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("../*.java"),
+                null);
         content = GitLog.getWithFiles(config, author);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
-        author.setIgnoreGlobList(Collections.singletonList("/newPos"));
+        author = new Author(
+                author,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList("/newPos"),
+                null);
         content = GitLog.getWithFiles(config, author);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
 
-        author.setIgnoreGlobList(Collections.singletonList(".."));
+        author = new Author(
+                author,
+                null,
+                null,
+                null,
+                null,
+                Collections.singletonList(".."),
+                null);
         content = GitLog.getWithFiles(config, author);
         Assertions.assertTrue(TestUtil.compareNumberFilesChanged(7, content));
     }
 
     @Test
     public void gitLog_authorWithAllCharactersRegexAlias_emptyResult() {
-        Author authorWithAllCharactersRegexAlias = new Author("none");
-        authorWithAllCharactersRegexAlias.setAuthorAliases(Collections.singletonList(".*"));
+        Author authorWithAllCharactersRegexAlias = new Author("none", null, null, Collections.singletonList(".*"), null, null);
 
         String content = GitLog.get(config, authorWithAllCharactersRegexAlias);
         Assertions.assertTrue(content.isEmpty());

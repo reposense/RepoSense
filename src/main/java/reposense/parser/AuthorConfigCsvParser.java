@@ -2,7 +2,6 @@ package reposense.parser;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
@@ -90,26 +89,24 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      * @throws InvalidLocationException if {@code location} is invalid.
      */
     private void registerLocationAndBranch(List<AuthorConfiguration> results, String gitId,
-                                              List<String> emails, String displayName,
-                                              List<String> aliases, List<String> ignoreGlobList,
-                                              String currLocation, String currBranch) throws InvalidLocationException {
+                                           List<String> emails, String displayName,
+                                           List<String> aliases, List<String> ignoreGlobList,
+                                           String currLocation, String currBranch) throws InvalidLocationException {
         AuthorConfiguration config = findMatchingAuthorConfiguration(results, currLocation, currBranch);
 
-        Author author = new Author(gitId);
+        Author author = new Author(
+                gitId,
+                emails,
+                !displayName.isEmpty() ? displayName : gitId,
+                aliases,
+                ignoreGlobList,
+                null
+        );
 
         if (config.containsAuthor(author)) {
             logger.warning(String.format(
                     "Skipping author as %s already in repository %s %s",
                     author.getGitId(), config.getLocation(), config.getBranch()));
-        }
-
-        author.setEmails(new ArrayList<>(emails));
-        author.setDisplayName(!displayName.isEmpty() ? displayName : author.getGitId());
-        if (!aliases.isEmpty()) {
-            author.setAuthorAliases(aliases);
-        }
-        if (!ignoreGlobList.isEmpty()) {
-            author.setIgnoreGlobList(ignoreGlobList);
         }
 
         config.addAuthor(author);
@@ -122,7 +119,7 @@ public class AuthorConfigCsvParser extends CsvParser<AuthorConfiguration> {
      * @throws InvalidLocationException if {@code location} is invalid.
      */
     private static AuthorConfiguration findMatchingAuthorConfiguration(List<AuthorConfiguration> results,
-            String location, String branch) throws InvalidLocationException {
+                                                                       String location, String branch) throws InvalidLocationException {
         AuthorConfiguration config = new AuthorConfiguration(new RepoLocation(location), branch);
 
         for (AuthorConfiguration authorConfig : results) {
