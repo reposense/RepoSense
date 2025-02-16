@@ -30,6 +30,9 @@ jobs:
         name: reposense-deployment
         path: .
 
+    - name: Check existence of files
+      run: ls -al
+
     - name: Deploy GitHub pages
       uses: peaceiris/actions-gh-pages@v3
       with:
