@@ -41,8 +41,8 @@
   span {{optimisedMaximumDate}}
 
 .date-indicators(v-else)
-  span {{unoptimisedMinimumDate}}
-  span {{unoptimisedMaximumDate}}
+  span {{sdate}}
+  span {{udate}}
 </template>
 
 <script lang='ts'>
@@ -103,14 +103,6 @@ export default defineComponent({
       default: '',
     },
     optimisedMaximumDate: {
-      type: String,
-      default: '',
-    },
-    unoptimisedMinimumDate: {
-      type: String,
-      default: '',
-    },
-    unoptimisedMaximumDate: {
       type: String,
       default: '',
     },

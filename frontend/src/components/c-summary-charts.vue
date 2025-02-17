@@ -308,8 +308,8 @@
           :groupby="filterGroupSelection",
           :user="user",
           :tframe="filterTimeFrame",
-          :sdate="filterSinceDate",
-          :udate="filterUntilDate",
+          :sdate="getUnoptimisedMinimumDate(user)",
+          :udate="getUnoptimisedMaximumDate(user)",
           :avgsize="avgCommitSize",
           :mergegroup="isGroupMerged(getGroupName(repo))",
           :filtersearch="filterSearch",
@@ -317,8 +317,6 @@
           :optimise-timeline="getIsOptimising(user)",
           :optimised-minimum-date="getOptimisedMinimumDate(user)",
           :optimised-maximum-date="getOptimisedMaximumDate(user)",
-          :unoptimised-minimum-date="getUnoptimisedMinimumDate(user)",
-          :unoptimised-maximum-date="getUnoptimisedMaximumDate(user)",
         )
         .overlay
 
@@ -437,8 +435,6 @@ export default defineComponent({
     activeUser: string | null,
     activeTabType: string | null,
     isTabOnMergedGroup: boolean,
-    sinceDate: string,
-    untilDate: string,
   } {
     return {
       drags: [] as Array<number>,
@@ -446,8 +442,6 @@ export default defineComponent({
       activeUser: null as string | null,
       activeTabType: null as string | null,
       isTabOnMergedGroup: false,
-      sinceDate: window.sinceDate,
-      untilDate: window.untilDate,
     };
   },
 
@@ -1049,9 +1043,5 @@ export default defineComponent({
     // This is needed because the parent summary-wrapper center aligns everything
     text-align: initial;
   }
-}
-
-.until-date {
-  float: right;
 }
 </style>
