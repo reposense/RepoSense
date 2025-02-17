@@ -316,7 +316,9 @@
           :is-widget-mode="isChartGroupWidgetMode",
           :optimise-timeline="getIsOptimising(user)",
           :optimised-minimum-date="getOptimisedMinimumDate(user)",
-          :optimised-maximum-date="getOptimisedMaximumDate(user)"
+          :optimised-maximum-date="getOptimisedMaximumDate(user)",
+          :unoptimised-minimum-date="getUnoptimisedMinimumDate(user)",
+          :unoptimised-maximum-date="getUnoptimisedMaximumDate(user)",
         )
         .overlay
 
@@ -641,13 +643,23 @@ export default defineComponent({
         return ['fas', 'database'];
       }
     },
+
+    getUnoptimisedMinimumDate(user: User): string {
+      return new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate;
+    },
+
+    getUnoptimisedMaximumDate(user: User): string {
+      return new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate;
+    },
+
     getOptimisedMinimumDate(user: User): string {
       if (user.commits.length === 0) {
-        return new Date(this.filterSinceDate) < new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate;
+        return new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate;
       }
 
       return user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr)).date;
     },
+
     getOptimisedMaximumDate(user: User): string {
       if (user.commits.length === 0) {
         return new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate;
@@ -655,6 +667,7 @@ export default defineComponent({
 
       return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr)).date;
     },
+
     getIsOptimising(user: User): boolean {
       return user.commits.length !== 0 && this.optimiseTimeline;
     },
