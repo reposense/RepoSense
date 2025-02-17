@@ -54,3 +54,4 @@ jobs:
 
     - name: Display Lighthouse summary
       run: cat .lighthouseci/manifest.json | jq '.'
+
