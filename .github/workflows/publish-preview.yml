@@ -60,12 +60,14 @@ jobs:
       run: cat .lighthouseci/manifest.json | jq '.'
 
     - name: Checkout gh-pages branch
+      if: always()
       uses: actions/checkout@v4
       with:
         ref: gh-pages
         fetch-depth: 2
 
     - name: Revert last two deploy commits
+      if: always()
       run: |
         echo "Reverting the last two deploy commits..."
         git revert --no-edit HEAD~1..HEAD
