@@ -554,6 +554,7 @@ export default defineComponent({
       // when merging groups
       const groups = this.hasMergedGroups() ? JSON.parse(JSON.stringify(this.repos)) as Array<Repo> : this.repos;
 
+      // TODO: Check if filtering by tags should respect date range.
       if (this.filterSearch.startsWith(tagSearchPrefix)) {
         const searchedTags = this.filterSearch.split(tagSearchPrefix)[1];
         groups.forEach((repo) => {
@@ -585,7 +586,11 @@ export default defineComponent({
           // filtering
           repo.users?.forEach((user) => {
             if (this.isMatchSearchedUser(this.filterSearch, user)) {
-              this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
+              this.getUserCommits(
+                user,
+                new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate,
+                new Date(this.filterUntilDate) > new Date(user.untilDate) ? this.filterUntilDate : user.untilDate,
+              );
               if (this.filterTimeFrame === 'week') {
                 this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
               }
