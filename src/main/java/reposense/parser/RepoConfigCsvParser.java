@@ -52,8 +52,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String[] SHALLOW_CLONING_CONFIG_HEADER = {"Shallow Cloning"};
     private static final String[] FIND_PREVIOUS_AUTHORS_CONFIG_HEADER = {"Find Previous Authors"};
     private static final String[] FILESIZE_LIMIT_HEADER = {"File Size Limit"};
-    private static final String[] SINCE_HEADER = {"since"};
-    private static final String[] UNTIL_HEADER = {"until"};
+    private static final String[] SINCE_HEADER = {"Since Date"};
+    private static final String[] UNTIL_HEADER = {"Until Date"};
 
 
     public RepoConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
