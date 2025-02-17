@@ -316,7 +316,7 @@
           :is-widget-mode="isChartGroupWidgetMode",
           :optimise-timeline="getIsOptimising(user)",
           :optimised-minimum-date="getOptimisedMinimumDate(user)",
-          :optimised-maximum-date="getOptimisedMaximumDate(user)",
+          :optimised-maximum-date="getOptimisedMaximumDate(user)"
         )
         .overlay
 
