@@ -1,0 +1,76 @@
+name: GitHub Actions build preview
+
+concurrency:
+  group: publish_reposense_preview
+  cancel-in-progress: false
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types:
+      -   completed
+
+jobs:
+  deploy:
+    name: deploy to github action
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'zulu'
+        java-version: '11'
+
+    - name: Download deployment artifacts
+      uses: dawidd6/action-download-artifact@v6
+      with:
+        workflow: integration.yml
+        run_id: ${{ github.event.workflow_run.id }}
+        name: reposense-deployment
+        path: .
+
+    - name: Check existence of files
+      run: ls -al
+
+    - name: Deploy GitHub pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./reposense-report
+        user_name: 'github-actions[bot]'
+        user_email: 'github-actions[bot]@users.noreply.github.com'
+        commit_message: Rebuild pages at
+
+    - name: Test connection to deployed website
+      run: curl -L https://${{github.repository_owner}}.github.io/${{github.event.repository.name}}/
+
+
+    - name: Test deployed web page
+      uses: treosh/lighthouse-ci-action@v12
+      with:
+        urls: https://${{github.repository_owner}}.github.io/${{github.event.repository.name}}/
+        uploadArtifacts: true
+
+    - name: Display Lighthouse summary
+      run: cat .lighthouseci/manifest.json | jq '.'
+
+    - name: Checkout gh-pages branch
+      if: always()
+      uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        fetch-depth: 2
+
+    - name: Revert last two deploy commits
+      if: always()
+      run: |
+        echo "Reverting the last two deploy commits..."
+        git revert --no-edit HEAD~1..HEAD
+        git push origin gh-pages
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
