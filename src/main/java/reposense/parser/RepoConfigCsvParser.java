@@ -131,11 +131,11 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
         // Retrieve and update date
         String sinceDate = get(record, SINCE_HEADER);
-        String endDate = get(record, UNTIL_HEADER);
+        String untilDate = get(record, UNTIL_HEADER);
         LocalDateTime since = null;
-        LocalDateTime end = null;
+        LocalDateTime until = null;
         boolean hasUpdatedSinceDateTime = !sinceDate.isEmpty();
-        boolean hasUpdatedUntilDateTime = !endDate.isEmpty();
+        boolean hasUpdatedUntilDateTime = !untilDate.isEmpty();
 
         try {
             if (hasUpdatedSinceDateTime) {
@@ -144,14 +144,14 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             }
 
             if (hasUpdatedUntilDateTime) {
-                end = LocalDateTime.parse(endDate + DEFAULT_END_TIME,
+                until = LocalDateTime.parse(untilDate + DEFAULT_END_TIME,
                     DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
             }
         } catch (DateTimeParseException e) {
             throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
         }
 
-        if (since != null && end != null && since.isAfter(end)) {
+        if (since != null && until != null && since.isAfter(until)) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
 
@@ -186,7 +186,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isIgnoreCommitListOverriding, ignoreCommitList, isIgnoredAuthorsListOverriding, ignoredAuthorsList,
                 isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
                 isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed,
-                hasUpdatedSinceDateTime, hasUpdatedUntilDateTime, since, end);
+                hasUpdatedSinceDateTime, hasUpdatedUntilDateTime, since, until);
     }
 
     /**
