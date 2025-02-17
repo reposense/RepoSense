@@ -3,9 +3,9 @@
   form.summary-picker.mui-form--inline(v-if="!isWidgetMode", onsubmit="return false;")
     .summary-picker__section
       .mui-textfield.search_box
-        input(type="text", v-on:change="updateFilterSearch", v-model="filterSearch")
+        input(type="text", @change="updateFilterSearch", v-model="filterSearch")
         label search
-        button.mui-btn.mui-btn--raised(type="button", v-on:click.prevent="resetFilterSearch") x
+        button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilterSearch") x
       .mui-select.grouping
         select(v-model="filterGroupSelection")
           option(value="groupByNone") None
@@ -13,7 +13,7 @@
           option(value="groupByAuthors") Author
         label group by
       .mui-select.sort-group
-        select(v-model="sortGroupSelection", v-on:change="getFiltered")
+        select(v-model="sortGroupSelection", @change="getFiltered")
           option(value="groupTitle") &uarr; group title
           option(value="groupTitle dsc") &darr; group title
           option(value="totalCommits") &uarr; contribution
@@ -24,8 +24,8 @@
       .mui-select.sort-within-group
         select(
           v-model="sortWithinGroupSelection",
-          v-bind:disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged",
-          v-on:change="getFiltered"
+          :disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged",
+          @change="getFiltered"
         )
           option(value="title") &uarr; title
           option(value="title dsc") &darr; title
@@ -35,60 +35,60 @@
           option(value="variance dsc") &darr; variance
         label sort within groups by
       .mui-select.granularity
-        select(v-model="filterTimeFrame", v-on:change="getFiltered")
+        select(v-model="filterTimeFrame", @change="getFiltered")
           option(value="commit") Commit
           option(value="day") Day
           option(value="week") Week
         label granularity
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
-          v-bind:value="filterSinceDate", v-on:keyup.enter="updateTmpFilterSinceDate",
+          :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="since", v-bind:value="filterSinceDate", v-on:input="updateTmpFilterSinceDate",
-          v-bind:min="minDate", v-bind:max="filterUntilDate")
+        input(v-else, type="date", name="since", :value="filterSinceDate", @input="updateTmpFilterSinceDate",
+          :min="minDate", :max="filterUntilDate")
         label since
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
-          v-bind:value="filterUntilDate", v-on:keyup.enter="updateTmpFilterUntilDate",
+          :value="filterUntilDate", @keyup.enter="updateTmpFilterUntilDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="until", v-bind:value="filterUntilDate", v-on:input="updateTmpFilterUntilDate",
-          v-bind:min="filterSinceDate", v-bind:max="maxDate")
+        input(v-else, type="date", name="until", :value="filterUntilDate", @input="updateTmpFilterUntilDate",
+          :min="filterSinceDate", :max="maxDate")
         label until
       .mui-textfield
-        a(v-on:click="resetDateRange") Reset date range
+        a(@click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
         label.filter-breakdown
           input.mui-checkbox(
             type="checkbox",
             v-model="filterBreakdown",
-            v-on:change="toggleBreakdown"
+            @change="toggleBreakdown"
           )
           span breakdown by file type
         label.merge-group(
-          v-bind:style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
+          :style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
         )
           input.mui-checkbox(
             type="checkbox",
             v-model="allGroupsMerged",
-            v-bind:disabled="filterGroupSelection === 'groupByNone'"
+            :disabled="filterGroupSelection === 'groupByNone'"
           )
           span merge all groups
         label.show-tags
           input.mui-checkbox(
             type="checkbox",
             v-model="viewRepoTags",
-            v-on:change="getFiltered"
+            @change="getFiltered"
           )
           span show tags
         label.optimise-timeline
           input.mui-checkbox(
             type="checkbox",
             v-model="optimiseTimeline",
-            v-on:change="getFiltered"
+            @change="getFiltered"
           )
           span trim timeline
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
-    .error-message-box__close-button(v-on:click="dismissTab($event)") &times;
+    .error-message-box__close-button(@click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
     .error-message-box__failed-repo(
         v-for="errorBlock in errorIsShowingMore\
@@ -102,44 +102,44 @@
       )
         span Oops, an unexpected error occurred. If this is due to a problem in RepoSense, please report in&nbsp;
         a(
-          v-bind:href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
+          :href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
         )
           strong our issue tracker&nbsp;
         span or email us at&nbsp;
         a(
-          v-bind:href="getReportIssueEmailLink(errorBlock.errorMessage)"
+          :href="getReportIssueEmailLink(errorBlock.errorMessage)"
         )
           span {{ getReportIssueEmailAddress() }}
       .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}\
     .error-message-box__show-more-container(v-if="Object.keys(errorMessages).length > numberOfErrorMessagesToShow")
       span(v-if="!errorIsShowingMore") Remaining error messages omitted to save space.&nbsp;
-      a(v-if="!errorIsShowingMore", v-on:click="toggleErrorShowMore()") SHOW ALL...
-      a(v-else, v-on:click="toggleErrorShowMore()") SHOW LESS...
+      a(v-if="!errorIsShowingMore", @click="toggleErrorShowMore()") SHOW ALL...
+      a(v-else, @click="toggleErrorShowMore()") SHOW LESS...
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     c-file-type-checkboxes(
-      v-bind:file-types="fileTypes",
-      v-bind:file-type-colors="fileTypeColors",
+      :file-types="fileTypes",
+      :file-type-colors="fileTypeColors",
       v-model:selected-file-types="checkedFileTypes",
       @update:selected-file-types="getFiltered"
     )
 
   c-summary-charts(
-    v-bind:filtered="filtered",
-    v-bind:checked-file-types="checkedFileTypes",
-    v-bind:avg-contribution-size="avgContributionSize",
-    v-bind:filter-group-selection="filterGroupSelection",
-    v-bind:filter-breakdown="filterBreakdown",
-    v-bind:filter-time-frame="filterTimeFrame",
-    v-bind:filter-since-date="filterSinceDate",
-    v-bind:filter-until-date="filterUntilDate",
-    v-bind:filter-search="filterSearch",
-    v-bind:min-date="minDate",
-    v-bind:max-date="maxDate",
-    v-bind:sort-group-selection="sortGroupSelection",
-    v-bind:chart-group-index="chartGroupIndex",
-    v-bind:chart-index="chartIndex",
-    v-bind:view-repo-tags="viewRepoTags",
-    v-bind:optimise-timeline="optimiseTimeline"
+    :filtered="filtered",
+    :checked-file-types="checkedFileTypes",
+    :avg-contribution-size="avgContributionSize",
+    :filter-group-selection="filterGroupSelection",
+    :filter-breakdown="filterBreakdown",
+    :filter-time-frame="filterTimeFrame",
+    :filter-since-date="filterSinceDate",
+    :filter-until-date="filterUntilDate",
+    :filter-search="filterSearch",
+    :min-date="minDate",
+    :max-date="maxDate",
+    :sort-group-selection="sortGroupSelection",
+    :chart-group-index="chartGroupIndex",
+    :chart-index="chartIndex",
+    :view-repo-tags="viewRepoTags",
+    :optimise-timeline="optimiseTimeline"
   )
 </template>
 
