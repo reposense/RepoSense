@@ -135,6 +135,18 @@ public class RepoConfigurationTest {
     }
 
     @Test
+    public void repoConfig_correctInitialFlagForUpdate_success() throws Exception {
+        RepoConfiguration config = new RepoConfiguration.Builder().
+                location(new RepoLocation(TEST_REPO_DELTA))
+                .branch("master")
+                .build();
+        Assertions.assertFalse(config.isHasUpdatedUntilDateInConfig());
+        Assertions.assertFalse(config.isHasUpdatedSinceDateInConfig());
+
+        config.setUntilDate();
+    }
+
+    @Test
     public void repoConfig_usesStandaloneConfig_success() throws Exception {
         RepoConfiguration actualConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
