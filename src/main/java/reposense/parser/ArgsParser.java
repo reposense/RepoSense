@@ -79,7 +79,7 @@ public class ArgsParser {
     public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
     public static final String[] ANALYZE_AUTHORSHIP_FLAGS = new String[] {"--analyze-authorship", "-A"};
     public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
-    public static final String[] PORTFOLIO_FLAG = new String[] {"--portfolio"};
+    public static final String[] PORTFOLIO_FLAG = new String[] {"--portfolio", "-P"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
