@@ -2,8 +2,8 @@
 .stacked-bar-container
   .stacked-bar__contrib--bar(
     v-for="bar in bars",
-    v-bind:title="bar.tooltipText",
-    v-bind:style="{ width: `${bar.width}%`,\
+    :title="bar.tooltipText",
+    :style="{ width: `${bar.width}%`,\
       'background-color': bar.color }"
   )
 </template>
