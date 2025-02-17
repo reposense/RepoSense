@@ -45,6 +45,7 @@ jobs:
         user_name: 'github-actions[bot]'
         user_email: 'github-actions[bot]@users.noreply.github.com'
         commit_message: Rebuild pages at
+        allow-empty-commit: true
 
     - name: Test connection to deployed website
       run: curl -L https://${{github.repository_owner}}.github.io/${{github.event.repository.name}}/
