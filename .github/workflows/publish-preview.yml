@@ -70,6 +70,8 @@ jobs:
       if: always()
       run: |
         echo "Reverting the last two deploy commits..."
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
         git revert --no-edit HEAD~1..HEAD
         git push origin gh-pages
       env:
