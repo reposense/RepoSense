@@ -130,28 +130,28 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         long fileSizeLimit = RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 
         // Retrieve and update date
-        String sinceDate = get(record, SINCE_HEADER);
-        String untilDate = get(record, UNTIL_HEADER);
-        LocalDateTime since = null;
-        LocalDateTime until = null;
-        boolean hasUpdatedSinceDateTime = !sinceDate.isEmpty();
-        boolean hasUpdatedUntilDateTime = !untilDate.isEmpty();
+        String sinceDateStr = get(record, SINCE_HEADER);
+        String untilDateStr = get(record, UNTIL_HEADER);
+        LocalDateTime sinceDate = null;
+        LocalDateTime untilDate = null;
+        boolean hasUpdatedSinceDateTime = !sinceDateStr.isEmpty();
+        boolean hasUpdatedUntilDateTime = !untilDateStr.isEmpty();
 
         try {
             if (hasUpdatedSinceDateTime) {
-                since = LocalDateTime.parse(sinceDate + DEFAULT_START_TIME,
+                sinceDate = LocalDateTime.parse(sinceDateStr + DEFAULT_START_TIME,
                         DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
             }
 
             if (hasUpdatedUntilDateTime) {
-                until = LocalDateTime.parse(untilDate + DEFAULT_END_TIME,
+                untilDate = LocalDateTime.parse(untilDateStr + DEFAULT_END_TIME,
                     DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
             }
         } catch (DateTimeParseException e) {
             throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
         }
 
-        if (since != null && until != null && since.isAfter(until)) {
+        if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
 
@@ -186,7 +186,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isIgnoreCommitListOverriding, ignoreCommitList, isIgnoredAuthorsListOverriding, ignoredAuthorsList,
                 isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
                 isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed,
-                hasUpdatedSinceDateTime, hasUpdatedUntilDateTime, since, until);
+                hasUpdatedSinceDateTime, hasUpdatedUntilDateTime, sinceDate, untilDate);
     }
 
     /**
