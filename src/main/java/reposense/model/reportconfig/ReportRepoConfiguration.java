@@ -17,24 +17,24 @@ import reposense.model.RepoLocation;
  */
 public class ReportRepoConfiguration {
 
-    private String repo;
+    private final String repo;
 
-    private List<ReportGroupNameAndGlobs> groups;
+    private final List<ReportGroupNameAndGlobs> groups;
 
-    private List<ReportBranchData> branches;
-
-    public ReportRepoConfiguration() {}
+    private final List<ReportBranchData> branches;
 
     @JsonCreator
     public ReportRepoConfiguration(
             @JsonProperty("repo") String repo,
             @JsonProperty("groups") List<ReportGroupNameAndGlobs> groups,
             @JsonProperty("branches") List<ReportBranchData> branches) {
-        this.repo = repo == null ? "" : repo;
+        if (repo == null) {
+            throw new IllegalArgumentException("Repo URL cannot be empty.");
+        }
+        this.repo = repo;
         this.groups = groups == null ? new ArrayList<>() : groups;
         this.branches = branches == null ? new ArrayList<>() : branches;
     }
-
 
     /**
      * Represents a single mapped entry between a fully qualified repository name and its associated blurb.

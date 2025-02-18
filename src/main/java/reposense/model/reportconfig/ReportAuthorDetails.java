@@ -10,14 +10,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Represents an author's details in the report-config.yaml file.
  */
 public class ReportAuthorDetails {
+    private final List<String> authorEmails;
 
-    private List<String> authorEmails;
+    private final String authorGitHostId;
 
-    private String authorGitHostId;
+    private final String authorDisplayName;
 
-    private String authorDisplayName;
-
-    private String authorGitAuthorName;
+    private final String authorGitAuthorName;
 
     @JsonCreator
     public ReportAuthorDetails(
@@ -25,8 +24,11 @@ public class ReportAuthorDetails {
             @JsonProperty("author-git-host-id") String authorGitHostId,
             @JsonProperty("author-display-name") String authorDisplayName,
             @JsonProperty("author-git-author-name") String authorGitAuthorName) {
+        if (authorGitHostId == null) {
+            throw new IllegalArgumentException("Author Git Host ID cannot be empty.");
+        }
+        this.authorGitHostId = authorGitHostId;
         this.authorEmails = authorEmails == null ? new ArrayList<>() : authorEmails;
-        this.authorGitHostId = authorGitHostId == null ? "" : authorGitHostId;
         this.authorDisplayName = authorDisplayName == null ? "" : authorDisplayName;
         this.authorGitAuthorName = authorGitAuthorName == null ? "" : authorGitAuthorName;
     }

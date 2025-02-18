@@ -394,8 +394,10 @@ public class ArgsParser {
                 builder.isOneStopConfigFilePresent(true);
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
+                builder.isOneStopConfigFilePresent(false);
             } catch (IllegalArgumentException iae) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_YAML, iae.getMessage()));
+                builder.isOneStopConfigFilePresent(false);
             } catch (IOException ioe) {
                 // IOException thrown as report-config.yaml is not found.
                 // Ignore exception as the file is optional.

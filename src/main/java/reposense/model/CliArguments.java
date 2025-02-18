@@ -165,16 +165,15 @@ public class CliArguments {
         return reportConfiguration;
     }
 
-    public BlurbMap getBlurbMap() {
-        return blurbMap;
-    }
-
     /**
      * Merges the {@code blurbMap} from the blurbs file with the blurb map in {@code reportConfiguration}.
      *
      * @return the merged blurb map.
      */
     public BlurbMap mergeWithRepoConfigBlurbMap() {
+        if (!isOneStopConfigFilePresent) {
+            return blurbMap;
+        }
         BlurbMap repoConfigBlurbMap = reportConfiguration.getBlurbMap();
         for (Map.Entry<String, String> entry : blurbMap.getAllMappings().entrySet()) {
             repoConfigBlurbMap.withRecord(entry.getKey(), entry.getValue());

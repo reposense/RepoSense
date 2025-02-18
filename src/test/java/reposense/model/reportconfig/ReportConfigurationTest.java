@@ -7,18 +7,19 @@ import org.junit.jupiter.api.Test;
 
 public class ReportConfigurationTest {
     @Test
+    public void constructor_withValidInputs_success() {
+        ReportConfiguration reportConfiguration = new ReportConfiguration("My Report", new ArrayList<>());
+        Assertions.assertNotNull(reportConfiguration);
+    }
+
+    @Test
+    public void constructor_nullReportRepoConfigurations_throwsIllegalArgumentException() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new ReportConfiguration(null, null));
+    }
+
+    @Test
     public void getTitle_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(ReportConfiguration.DEFAULT_TITLE, new ReportConfiguration().getTitle());
-    }
-
-    @Test
-    public void getReportRepoConfigurations_equalsDefaultReturnValue_success() {
-        Assertions.assertSame(new ArrayList<>(),
-                new ReportConfiguration().getReportRepoConfigurations());
-    }
-
-    @Test
-    public void equals_defaultInstancesAreEqual_success() {
-        Assertions.assertEquals(new ReportConfiguration(), new ReportConfiguration());
+        Assertions.assertSame(ReportConfiguration.DEFAULT_TITLE,
+                new ReportConfiguration(null, new ArrayList<>()).getTitle());
     }
 }

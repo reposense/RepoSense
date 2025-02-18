@@ -13,19 +13,17 @@ public class ReportBranchData {
     public static final String DEFAULT_BRANCH = "HEAD";
     public static final Long DEFAULT_FILE_SIZE_LIMIT = 1000000L;
 
-    private String branch;
+    private final String branch;
 
-    private String blurb;
+    private final String blurb;
 
-    private List<ReportAuthorDetails> reportAuthorDetails;
+    private final List<ReportAuthorDetails> reportAuthorDetails;
 
-    private List<String> ignoreGlobList;
+    private final List<String> ignoreGlobList;
 
-    private List<String> ignoreAuthorList;
+    private final List<String> ignoreAuthorList;
 
-    private Long fileSizeLimit;
-
-    public ReportBranchData() {}
+    private final Long fileSizeLimit;
 
     @JsonCreator
     public ReportBranchData(

@@ -1,3 +1,4 @@
+title: RepoSense Report
 repos:
   - repo: https://github.com/reposense/testrepo-Delta.git
     groups:
@@ -17,8 +18,7 @@ repos:
         blurb: "My project"
         authors:
           - author-git-host-id: FH-30
-            author-display-name: Francis Hodianto (FH-30)
+            author-display-name: Francis Hodianto
             author-git-author-name: Francis Hodianto
             author-emails:
         ignore-authors-list:
-          - jordancjq
