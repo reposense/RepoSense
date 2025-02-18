@@ -50,12 +50,13 @@ For other types of repositories, external links are disabled.
 
 **You can generate a RepoSense report remotely without installing/running anything on your computer.** This is particularly useful when you are deciding whether to adopt RepoSense.
 
-**The easiest option is to use Netlify.** The instructions are given below.
-
-{{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}
-
-**You can also use the following options.** While they are more work to set up, they are more suitable as a permanent solution due to their generous free tier.
+**The recommended option is to use GitHub Actions.** The instructions are given below.
 
 {{ embed("Appendix: **Using RepoSense with GitHub Actions → Setting up**", "withGithubActions.md#section-setting-up") }}
 
+**You can also use travis for deployment.** While there are more work to set up, it is more suitable as a permanent solution due to the generous free tier.
+
 {{ embed("Appendix: **Using RepoSense with Travis → Setting up**", "withTravis.md#section-setting-up") }}
+
+You may also consider using Netlify to deploy your report. **However, we may not support this method going forward.**
+{{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}
