@@ -1,0 +1,87 @@
+name: GitHub Actions build preview
+
+concurrency:
+  group: publish_reposense_preview
+  cancel-in-progress: false
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types:
+      -   completed
+
+jobs:
+  deploy:
+
+    name: deploy to github action
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Display current directory
+      run: pwd
+
+    - name: Download deployment artifacts
+      uses: dawidd6/action-download-artifact@v6
+      with:
+        workflow: integration.yml
+        run_id: ${{ github.event.workflow_run.id }}
+        name: reposense-deployment
+        path: .
+
+    - name: Check existence of files
+      run: ls -al ./reposense-report
+
+    - name: Build docker container
+      run: |
+        git clone https://github.com/github/pages-gem
+        cd pages-gem
+        git checkout v232
+        make image
+
+    - name: Run local website on action runner
+      run: |
+        $SITE=./reposense-report
+        docker run --rm -it -p 4000:4000 -v ${SITE}:/src/site gh-pages
+
+#    - name: Deploy GitHub pages
+#      uses: peaceiris/actions-gh-pages@v4
+#      with:
+#        github_token: ${{ secrets.GITHUB_TOKEN }}
+#        publish_dir: ./reposense-report
+#        user_name: 'github-actions[bot]'
+#        user_email: 'github-actions[bot]@users.noreply.github.com'
+#        commit_message: Rebuild pages at
+
+    - name: Test connection to deployed website
+      run: curl -L http://localhost:4000/
+
+    - name: Test deployed web page
+      uses: treosh/lighthouse-ci-action@v12
+      with:
+        urls: http://localhost:4000/
+        uploadArtifacts: true
+
+    - name: Display Lighthouse summary
+      run: cat .lighthouseci/manifest.json | jq '.'
+
+#    - name: Checkout gh-pages branch
+#      if: always()
+#      uses: actions/checkout@v4
+#      with:
+#        ref: gh-pages
+#        fetch-depth: 2
+#
+#    - name: Revert last two deploy commits
+#      if: always()
+#      run: |
+#        echo "Reverting the last two deploy commits..."
+#        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+#        git config --global user.name "github-actions[bot]"
+#        git revert --no-edit HEAD~1..HEAD
+#        git push origin gh-pages
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
