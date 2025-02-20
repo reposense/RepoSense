@@ -65,15 +65,11 @@ public class RepoConfigurationTest {
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
             "https://github.com/reposense/testrepo-minimalstandaloneconfig.git";
 
-    private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
-    private static final Author SECOND_AUTHOR = new Author("codeeong");
-    private static final Author THIRD_AUTHOR = new Author("jordancjq");
-    private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
-
     private static final List<String> FIRST_AUTHOR_ALIASES = Collections.singletonList("Ahmad Syafiq");
     private static final List<String> SECOND_AUTHOR_ALIASES = Collections.emptyList();
     private static final List<String> THIRD_AUTHOR_ALIASES = Collections.singletonList("Jordan Chong");
     private static final List<String> FOURTH_AUTHOR_ALIASES = Collections.singletonList("Tianwei");
+
 
     private static final List<String> REPO_LEVEL_GLOB_LIST = Collections.singletonList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST =
@@ -81,6 +77,11 @@ public class RepoConfigurationTest {
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("", "collated**");
     private static final List<String> THIRD_AUTHOR_GLOB_LIST = Arrays.asList("**[!(.md)]", "collated**");
     private static final List<String> FOURTH_AUTHOR_GLOB_LIST = Collections.singletonList("collated**");
+
+    private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
+    private static final Author SECOND_AUTHOR = new Author("codeeong", Arrays.asList("codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"), null, null, null, null);
+    private static final Author THIRD_AUTHOR = new Author("jordancjq");
+    private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
 
     private static final List<FileType> CONFIG_FORMATS = FileType.convertFormatStringsToFileTypes(Arrays.asList(
             "java", "adoc", "md"));
@@ -97,15 +98,6 @@ public class RepoConfigurationTest {
 
     @BeforeAll
     public static void setUp() throws Exception {
-        FIRST_AUTHOR.setAuthorAliases(FIRST_AUTHOR_ALIASES);
-        SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
-        THIRD_AUTHOR.setAuthorAliases(THIRD_AUTHOR_ALIASES);
-        FOURTH_AUTHOR.setAuthorAliases(FOURTH_AUTHOR_ALIASES);
-
-        FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
-        SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
-        THIRD_AUTHOR.setIgnoreGlobList(THIRD_AUTHOR_GLOB_LIST);
-        FOURTH_AUTHOR.setIgnoreGlobList(FOURTH_AUTHOR_GLOB_LIST);
 
         List<Author> expectedAuthors = new ArrayList<>();
         expectedAuthors.add(FIRST_AUTHOR);
@@ -125,7 +117,6 @@ public class RepoConfigurationTest {
         repoDeltaStandaloneConfig.setAuthorDisplayName(THIRD_AUTHOR, "Jor");
         repoDeltaStandaloneConfig.setAuthorDisplayName(FOURTH_AUTHOR, "Loh");
 
-        SECOND_AUTHOR.setEmails(Arrays.asList("codeeong@gmail.com", "33129797+codeeong@users.noreply.github.com"));
         for (Author author : expectedAuthors) {
             repoDeltaStandaloneConfig.addAuthorEmailsToAuthorMapEntry(author, author.getEmails());
         }
@@ -149,8 +140,15 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_ignoresStandaloneConfig_success() throws Exception {
         List<Author> expectedAuthors = new ArrayList<>();
-        Author author = new Author(FIRST_AUTHOR);
-        author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        Author author = new Author(
+                FIRST_AUTHOR,
+                null,
+                null,
+                null,
+                null,
+                REPO_LEVEL_GLOB_LIST,
+                null
+        );
         expectedAuthors.add(author);
 
         RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
@@ -770,7 +768,16 @@ public class RepoConfigurationTest {
 
             // Authors' original ignoreGlobList contains values from StandaloneConfig repo level, thus need to remove
             expectedAuthorIgnoreGlobList.removeAll(REPO_LEVEL_GLOB_LIST);
-            expectedAuthor.setIgnoreGlobList(expectedAuthorIgnoreGlobList);
+            expectedAuthor = new Author(
+                    expectedAuthor,
+                    null,
+                    null,
+                    null,
+                    null,
+                    expectedAuthorIgnoreGlobList,
+                    null
+            );
+
             expectedAuthorList.add(expectedAuthor);
         }
         expectedConfig.setAuthorList(expectedAuthorList);
@@ -823,8 +830,15 @@ public class RepoConfigurationTest {
     @Test
     public void repoConfig_removeIgnoredAuthors_success() throws Exception {
         List<Author> expectedAuthors = new ArrayList<>();
-        Author author = new Author(FIRST_AUTHOR);
-        author.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
+        Author author = new Author(
+                FIRST_AUTHOR,
+                null,
+                null,
+                null,
+                null,
+                REPO_LEVEL_GLOB_LIST,
+                null
+        );
         expectedAuthors.add(author);
 
         RepoConfiguration expectedConfig = new RepoConfiguration.Builder()

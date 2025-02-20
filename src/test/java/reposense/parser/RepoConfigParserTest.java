@@ -79,13 +79,15 @@ public class RepoConfigParserTest {
     private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
 
-    private static final Author FIRST_AUTHOR = new Author("nbriannl");
-    private static final Author SECOND_AUTHOR = new Author("zacharytang");
     private static final List<String> SECOND_AUTHOR_ALIASES = Arrays.asList("Zachary Tang");
-
-    private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
     private static final List<String> FIRST_AUTHOR_GLOB_LIST = Arrays.asList("**.java", "collated**");
     private static final List<String> SECOND_AUTHOR_GLOB_LIST = Arrays.asList("**.doc", "collated**");
+
+
+    private static final Author FIRST_AUTHOR = new Author("nbriannl", null, null, null, FIRST_AUTHOR_GLOB_LIST, null);
+    private static final Author SECOND_AUTHOR = new Author("zacharytang", null, null, SECOND_AUTHOR_ALIASES, SECOND_AUTHOR_GLOB_LIST, null);
+
+    private static final List<String> REPO_LEVEL_GLOB_LIST = Arrays.asList("collated**");
 
     @Test
     public void repoConfig_noSpecialCharacter_success() throws Exception {
@@ -119,10 +121,6 @@ public class RepoConfigParserTest {
 
     @Test
     public void merge_twoRepoConfigs_success() throws Exception {
-        FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
-        SECOND_AUTHOR.setIgnoreGlobList(SECOND_AUTHOR_GLOB_LIST);
-        SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
-
         List<Author> expectedAuthors = new ArrayList<>();
         expectedAuthors.add(FIRST_AUTHOR);
         expectedAuthors.add(SECOND_AUTHOR);
@@ -162,10 +160,6 @@ public class RepoConfigParserTest {
 
     @Test
     public void merge_emptyLocation_success() throws Exception {
-        FIRST_AUTHOR.setIgnoreGlobList(FIRST_AUTHOR_GLOB_LIST);
-        SECOND_AUTHOR.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
-        SECOND_AUTHOR.setAuthorAliases(SECOND_AUTHOR_ALIASES);
-
         List<Author> expectedBetaAuthors = new ArrayList<>();
         expectedBetaAuthors.add(FIRST_AUTHOR);
         expectedBetaAuthors.add(SECOND_AUTHOR);
