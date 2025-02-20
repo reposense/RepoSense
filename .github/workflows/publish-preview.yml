@@ -57,12 +57,12 @@ jobs:
 #        commit_message: Rebuild pages at
 
     - name: Test connection to deployed website
-      run: curl -L http://localhost:4000/
+      run: curl -L http://0.0.0.0:4000/
 
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
       with:
-        urls: http://localhost:4000/
+        urls: http://0.0.0.0:4000/
         uploadArtifacts: true
 
     - name: Display Lighthouse summary
