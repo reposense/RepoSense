@@ -48,17 +48,12 @@ jobs:
       env:
         SITE: ${{github.workspace}}/reposense-report
 
-#    - name: Deploy GitHub pages
-#      uses: peaceiris/actions-gh-pages@v4
-#      with:
-#        github_token: ${{ secrets.GITHUB_TOKEN }}
-#        publish_dir: ./reposense-report
-#        user_name: 'github-actions[bot]'
-#        user_email: 'github-actions[bot]@users.noreply.github.com'
-#        commit_message: Rebuild pages at
-
     - name: Wait for the service to start
       run: sleep 10
+
+    - name: Test connection to deployed website
+      run: curl -L http://0.0.0.0:4000/
+
 
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
@@ -69,20 +64,3 @@ jobs:
     - name: Display Lighthouse summary
       run: cat .lighthouseci/manifest.json | jq '.'
 
-#    - name: Checkout gh-pages branch
-#      if: always()
-#      uses: actions/checkout@v4
-#      with:
-#        ref: gh-pages
-#        fetch-depth: 2
-#
-#    - name: Revert last two deploy commits
-#      if: always()
-#      run: |
-#        echo "Reverting the last two deploy commits..."
-#        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-#        git config --global user.name "github-actions[bot]"
-#        git revert --no-edit HEAD~1..HEAD
-#        git push origin gh-pages
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
