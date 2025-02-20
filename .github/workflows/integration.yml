@@ -11,7 +11,7 @@ on:
       - gh-pages
 
 env:
-  NODE_VER: '18.x'
+  NODE_VER: '20.x'
   JAVA_DISTRIBUTION: 'zulu'
   JAVA_VER: 11
 
@@ -28,7 +28,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
@@ -116,7 +116,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 

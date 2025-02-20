@@ -2,14 +2,14 @@
 //- use tabindex to enable focus property on div
 .commit-message(
   tabindex="-1",
-  v-bind:key="slice.hash",
-  v-bind:class="{ 'message-body active': slice.messageBody !== '' }"
+  :key="slice.hash",
+  :class="{ 'message-body active': slice.messageBody !== '' }"
 )
   span.code-merge-icon(v-if="slice.isMergeCommit")
     font-awesome-icon(icon="code-merge")
     span &nbsp;
-  a.message-title(v-bind:href="getSliceLink(slice)",
-    v-bind:class="!isBrokenLink(getSliceLink(slice)) ? '' : 'broken-link'", target="_blank")
+  a.message-title(:href="getSliceLink(slice)",
+    :class="!isBrokenLink(getSliceLink(slice)) ? '' : 'broken-link'", target="_blank")
     .within-border {{ slice.messageTitle.substr(0, 50) }}
     .not-within-border(v-if="slice.messageTitle.length > 50")
       |{{ slice.messageTitle.substr(50) }}
@@ -21,7 +21,7 @@
     v-for="fileType in\
       Object.keys(slice.fileTypesAndContributionMap)",
     vbind:key="fileType",
-    v-bind:style="{\
+    :style="{\
       'background-color': fileTypeColors[fileType],\
       'color': getFontColor(fileTypeColors[fileType])\
       }"
@@ -30,21 +30,21 @@
     .tag(
       v-for="tag in slice.tags",
       vbind:key="tag",
-      tabindex="-1", v-bind:class="[`${slice.hash}`, tag]"
+      tabindex="-1", :class="[`${slice.hash}`, tag]"
     )
       font-awesome-icon(icon="tags")
       span &nbsp;{{ tag }}
   a(
     v-if="slice.messageBody !== ''",
-    v-on:click="toggleSelectedCommitMessageBody(slice)"
+    @click="toggleSelectedCommitMessageBody(slice)"
   )
     .tooltip(
-      v-on:mouseover="onTooltipHover(`${slice.hash}-show-hide-message-body`)",
-      v-on:mouseout="resetTooltip(`${slice.hash}-show-hide-message-body`)"
+      @mouseover="onTooltipHover(`${slice.hash}-show-hide-message-body`)",
+      @mouseout="resetTooltip(`${slice.hash}-show-hide-message-body`)"
     )
       font-awesome-icon.commit-message--button(icon="ellipsis-h")
       span.tooltip-text(
-        v-bind:ref="`${slice.hash}-show-hide-message-body`"
+        :ref="`${slice.hash}-show-hide-message-body`"
         ) Click to show/hide the commit message body
   .body(v-if="slice.messageBody !== ''", v-show="slice.isOpen")
     pre {{ slice.messageBody }}
@@ -53,7 +53,7 @@
     v-if="showDiffstat"
   )
     c-stacked-bar-chart(
-      v-bind:bars="getContributionBars(slice)"
+      :bars="getContributionBars(slice)"
     )
 </template>
 
