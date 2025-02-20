@@ -30,18 +30,33 @@ public class ReportConfigYamlParserTest {
     @BeforeAll
     public static void setUp() {
         List<ReportGroupNameAndGlobs> groups = new ArrayList<>();
-        groups.add(new ReportGroupNameAndGlobs("code", List.of("**.java")));
+        List<String> globPatterns = new ArrayList<>();
+        globPatterns.add("**.java");
+        groups.add(new ReportGroupNameAndGlobs("code", globPatterns));
 
-        ReportAuthorDetails author = new ReportAuthorDetails(List.of("fh@gmail.com"), "FH-30",
+        List<String> emailList = new ArrayList<>();
+        emailList.add("fh@gmail.com");
+        ReportAuthorDetails author = new ReportAuthorDetails(emailList, "FH-30",
                 "Francis Hodianto", "Francis Hodianto");
 
-        ReportBranchData branch = new ReportBranchData("master", "My project", List.of(author),
-                List.of("**.java"), List.of("bot"), 2000000L);
+        List<ReportAuthorDetails> authorList = new ArrayList<>();
+        authorList.add(author);
+        List<String> ignoreGlobList = new ArrayList<>();
+        ignoreGlobList.add("**.md");
+        List<String> ignoreAuthorList = new ArrayList<>();
+        ignoreAuthorList.add("bot");
+
+        ReportBranchData branch = new ReportBranchData("master", "My project", authorList,
+                ignoreGlobList, ignoreAuthorList, 2000000L);
+        List<ReportBranchData> branches = new ArrayList<>();
+        branches.add(branch);
 
         ReportRepoConfiguration repo = new ReportRepoConfiguration("https://github.com/reposense/testrepo-Delta.git",
-                groups, List.of(branch));
+                groups, branches);
+        List<ReportRepoConfiguration> repos = new ArrayList<>();
+        repos.add(repo);
 
-        expectedReportConfig = new ReportConfiguration("Test RepoSense Report", List.of(repo));
+        expectedReportConfig = new ReportConfiguration("Test RepoSense Report", repos);
     }
 
     @Test

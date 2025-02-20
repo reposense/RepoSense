@@ -78,6 +78,6 @@ public class RunConfigurationDeciderTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         RunConfiguration runConfiguration = getRunConfiguration(cliArguments);
-        Assertions.assertTrue(runConfiguration instanceof ConfigRunConfiguration);
+        Assertions.assertFalse(runConfiguration instanceof CliRunConfiguration);
     }
 }

@@ -17,6 +17,6 @@ repos:
         ignore-authors-list:
           - bot
         ignore-glob-list:
-          - "**.java"
+          - "**.md"
         file-size-limit: 2000000
 

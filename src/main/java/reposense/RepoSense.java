@@ -54,7 +54,7 @@ public class RepoSense {
 
             configs = RunConfigurationDecider.getRunConfiguration(cliArguments).getRepoConfigurations();
             reportConfig = cliArguments.getReportConfiguration();
-            blurbMap = cliArguments.mergeWithRepoConfigBlurbMap();
+            blurbMap = cliArguments.mergeWithReportConfigBlurbMap();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());

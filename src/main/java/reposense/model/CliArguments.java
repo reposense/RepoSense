@@ -41,7 +41,6 @@ public class CliArguments {
     private double originalityThreshold;
     private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
-    private boolean isOneStopConfigFilePresent;
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -170,8 +169,8 @@ public class CliArguments {
      *
      * @return the merged blurb map.
      */
-    public BlurbMap mergeWithRepoConfigBlurbMap() {
-        if (!isOneStopConfigFilePresent) {
+    public BlurbMap mergeWithReportConfigBlurbMap() {
+        if (reportConfiguration == null) {
             return blurbMap;
         }
         BlurbMap repoConfigBlurbMap = reportConfiguration.getBlurbMap();
@@ -179,10 +178,6 @@ public class CliArguments {
             repoConfigBlurbMap.withRecord(entry.getKey(), entry.getValue());
         }
         return repoConfigBlurbMap;
-    }
-
-    public boolean isOneStopConfigFilePresent() {
-        return isOneStopConfigFilePresent;
     }
 
     public boolean isViewModeOnly() {
@@ -195,6 +190,10 @@ public class CliArguments {
 
     public double getOriginalityThreshold() {
         return originalityThreshold;
+    }
+
+    public boolean isReportConfigRepositoriesConfigured() {
+        return reportConfiguration != null && !reportConfiguration.getReportRepoConfigurations().isEmpty();
     }
 
     @Override
@@ -237,8 +236,7 @@ public class CliArguments {
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
                 && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
-                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
-                && this.isOneStopConfigFilePresent == otherCliArguments.isOneStopConfigFilePresent;
+                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold);
     }
 
     /**
@@ -522,18 +520,6 @@ public class CliArguments {
             this.cliArguments.blurbMap = blurbMap;
             return this;
         }
-
-
-        /**
-         * Adds the {@code isOneStopConfigFilePresent} to CliArguments.
-         *
-         * @param isOneStopConfigFilePresent Is blurb map overriding.
-         */
-        public Builder isOneStopConfigFilePresent(boolean isOneStopConfigFilePresent) {
-            this.cliArguments.isOneStopConfigFilePresent = isOneStopConfigFilePresent;
-            return this;
-        }
-
 
         /**
          * Builds CliArguments.

@@ -13,11 +13,6 @@ public class ReportConfigurationTest {
     }
 
     @Test
-    public void constructor_nullReportRepoConfigurations_throwsIllegalArgumentException() {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> new ReportConfiguration(null, null));
-    }
-
-    @Test
     public void getTitle_equalsDefaultReturnValue_success() {
         Assertions.assertSame(ReportConfiguration.DEFAULT_TITLE,
                 new ReportConfiguration(null, new ArrayList<>()).getTitle());

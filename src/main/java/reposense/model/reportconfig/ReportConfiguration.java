@@ -1,5 +1,6 @@
 package reposense.model.reportconfig;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,11 +30,8 @@ public class ReportConfiguration {
     public ReportConfiguration(
             @JsonProperty("title") String title,
             @JsonProperty("repos") List<ReportRepoConfiguration> reportRepoConfigurations) {
-        if (reportRepoConfigurations == null) {
-            throw new IllegalArgumentException("ReportConfiguration must contain at least one repository.");
-        }
         this.title = title == null ? DEFAULT_TITLE : title;
-        this.reportRepoConfigurations = reportRepoConfigurations;
+        this.reportRepoConfigurations = reportRepoConfigurations == null ? new ArrayList<>() : reportRepoConfigurations;
     }
 
     /**

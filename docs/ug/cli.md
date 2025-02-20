@@ -68,7 +68,7 @@ partial credit.
 <div id="section-config">
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
-* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `report-config.yaml` file.
+* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `report-config.yaml` file or/and a `blurbs.md` file.
 * Alias: `-c`
 * Example: `java -jar RepoSense.jar --config  ./config`
 

@@ -48,8 +48,8 @@ public class ReportRepoConfigurationTest {
     void getFullyQualifiedRepoNamesWithBlurbs_invalidUrl_throwsIllegalArgumentException() {
         ReportRepoConfiguration config = new ReportRepoConfiguration(
                 "https://github.com/test/repo",  // Missing .git
-                new ArrayList<>(),
-                new ArrayList<>()
+                null,
+                null
         );
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> config.getFullyQualifiedRepoNamesWithBlurbs());

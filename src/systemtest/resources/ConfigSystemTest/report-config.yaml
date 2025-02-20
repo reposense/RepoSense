@@ -1,31 +1,22 @@
-title: RepoSense Report Test Title
+title: Test RepoSense Report
 repos:
-  - repo: https://github.com/user/repo.git
+  - repo: https://github.com/reposense/testrepo-Delta.git
     groups:
       - group-name: code
         globs:
           - "**.java"
-      - group-name: tests
-        globs:
-          - "src/test**"
-      - group-name: docs
-        globs:
-          - "docs**"
-          - "**.adoc"
-          - "**.md"
     branches:
-      - branch: main
+      - branch: master
         blurb: "My project"
         authors:
-          - author-git-host-id: johnDoe
-            author-display-name: John Doe
-            author-git-author-name: my home PC
+          - author-git-host-id: FH-30
+            author-display-name: Francis Hodianto
+            author-git-author-name: Francis Hodianto
             author-emails:
-              - john@john.com
-              - johny@mail.com
-              - j@domain.com
-        ignore-glob-list:
-          - "docs**"
+              - fh@gmail.com
         ignore-authors-list:
-          - author1
-          - author2
+          - bot
+        ignore-glob-list:
+          - "**.md"
+        file-size-limit: 2000000
+

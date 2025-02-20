@@ -381,7 +381,6 @@ public class ArgsParser {
      * @param results Parsed results of the user-supplied CLI arguments.
      */
     private static void addReportConfigToBuilder(CliArguments.Builder builder, Namespace results) {
-        ReportConfiguration reportConfig = new ReportConfiguration();
         List<String> locations = results.get(REPO_FLAGS[0]);
         Path configFolderPath = results.get(CONFIG_FLAGS[0]);
 
@@ -390,23 +389,18 @@ public class ArgsParser {
             Path reportConfigFilePath = configFolderPath.resolve(ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
 
             try {
-                reportConfig = new ReportConfigYamlParser().parse(reportConfigFilePath);
-                builder.isOneStopConfigFilePresent(true);
+                ReportConfiguration reportConfig = new ReportConfigYamlParser().parse(reportConfigFilePath);
+                builder.reportConfiguration(reportConfig);
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
-                builder.isOneStopConfigFilePresent(false);
             } catch (IllegalArgumentException iae) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_YAML, iae.getMessage()));
-                builder.isOneStopConfigFilePresent(false);
             } catch (IOException ioe) {
                 // IOException thrown as report-config.yaml is not found.
                 // Ignore exception as the file is optional.
                 logger.log(Level.WARNING, "Error parsing report-config.yaml: " + ioe.getMessage(), ioe);
-                builder.isOneStopConfigFilePresent(false);
             }
         }
-
-        builder.reportConfiguration(reportConfig);
     }
 
     /**
@@ -428,6 +422,7 @@ public class ArgsParser {
             logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
         } catch (IOException ioe) {
             // IOException thrown as blurbs.md is not found.
+            // Ignore exception as the file is optional.
         }
 
         builder.blurbMap(blurbMap);

@@ -1,1 +1,24 @@
-title: RepoSense Test Report
+title: RepoSense Report
+repos:
+  - repo: https://github.com/reposense/testrepo-Delta.git
+    groups:
+      - group-name: code
+        globs:
+          - "**.java"
+      - group-name: tests
+        globs:
+          - "src/test**"
+      - group-name: docs
+        globs:
+          - "docs**"
+          - "**.adoc"
+          - "**.md"
+    branches:
+      - branch: master
+        blurb: "My project"
+        authors:
+          - author-git-host-id: FH-30
+            author-display-name: Francis Hodianto
+            author-git-author-name: Francis Hodianto
+            author-emails:
+        ignore-authors-list:

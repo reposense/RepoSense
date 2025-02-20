@@ -113,29 +113,25 @@ You can also optionally use a `report-config.yaml` file to quickly define the re
 
 View this [example](report-config.yaml) for a better understanding of what repository information is required.
 
-Note: All fields should be defined, and left blank if not used.
+Note: All fields are optional unless specified otherwise.
 
 **Fields to provide**:
 * `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report".
 * `repos`: A list of repositories to include for analysis.
-  * `repo`: The URL to your repository of interest.
+  * `repo` {{ mandatory }}: The URL to your repository of interest.
   * `groups`: A list of the different custom groupings.
-      * `group-name`: Name of the group.
-      * `globs`: The list of file path globs to include for specified group.
+      * `group-name` {{ mandatory }}: Name of the group.
+      * `globs` {{ mandatory }}: The list of file path globs to include for specified group.
   * `branches`: A list of branches to analyse for each repository.
     * `branch`: The name of the branch.
     * `authors`: A list of authors to analyse on the branch.
-      * `author-git-host-id`: Git host username of the author.
+      * `author-git-host-id` {{ mandatory }}: Git host username of the author.
       * `author-display-name`: Display name of the author.
       * `author-git-author-name`: Author's Git host name.
       * `author-emails`: A list of emails associated with an author.
-    * `file-formats`: File formats to analyze.
     * `ignore-glob-list`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-    * `ignore-standalone-config`: Ignores the different standalone configuration files when analysing this branch
-    * `ignore-commits-list`: The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).
     * `ignore-authors-list`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
-    * `is-shallow-cloning`: Indicates whether to clone the repository using Git's shallow cloning functionality.
-    * `is-find-previous-authors`: Indicates whether to find previous authors of the repository/branch. 
+    * `file-size-limit`: A file size limit for the repository in bytes as a single number without units, that will override the default file size limit. If not specified, the default file size limit will continue to be used.
 
 <!-- ==================================================================================================== -->
 
