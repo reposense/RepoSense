@@ -46,18 +46,7 @@ jobs:
       run: |
         export SITE=./reposense-report
         docker run --rm -d -p 4000:4000 -v ${SITE}:/src/site gh-pages
-
-#    - name: Deploy GitHub pages
-#      uses: peaceiris/actions-gh-pages@v4
-#      with:
-#        github_token: ${{ secrets.GITHUB_TOKEN }}
-#        publish_dir: ./reposense-report
-#        user_name: 'github-actions[bot]'
-#        user_email: 'github-actions[bot]@users.noreply.github.com'
-#        commit_message: Rebuild pages at
-
-    - name: Test connection to deployed website
-      run: curl -L http://0.0.0.0:4000/
+        curl -L http://0.0.0.0:4000/
 
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
