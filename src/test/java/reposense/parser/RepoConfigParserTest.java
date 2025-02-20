@@ -5,6 +5,8 @@ import static reposense.model.RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 import static reposense.util.TestUtil.loadResource;
 
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +59,10 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/repoconfig_invalidFileSizeLimit_test.csv");
     private static final Path REPO_CONFIG_IGNORE_FILE_SIZE_LIMIT = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_ignoreFileSizeLimit_test.csv");
+    private static final Path REPO_CONFIG_INVALID_OVERRIDEN_DATE = loadResource(RepoConfigParserTest.class,
+            "CsvParserTest/repocsvconfig_invalidOverriddenDate_test.csv");
+    private static final Path REPO_CONFIG_OVERRIDE_DATE = loadResource(RepoConfigParserTest.class,
+            "CsvParserTest/repocsvconfig_overrideDate_test.csv");
     private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repoconfig_zeroValidRecords_test.csv");
 
@@ -75,6 +81,11 @@ public class RepoConfigParserTest {
             Arrays.asList("abcde12345", "67890fdecba");
 
     private static final int FILE_SIZE_LIMIT_VALUE = 100000;
+
+    private static final LocalDateTime TEST_REPO_DEFAULT_SINCE_DATE = LocalDateTime.of(
+            2025, Month.JANUARY, 17, 0, 0, 0);
+    private static final LocalDateTime TEST_REPO_DEFAULT_UNTIL_DATE = LocalDateTime.of(
+            2025, Month.JANUARY, 19, 23, 59, 59);
 
     private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
@@ -115,6 +126,30 @@ public class RepoConfigParserTest {
         Assertions.assertFalse(config.isFileSizeLimitOverriding());
         Assertions.assertFalse(config.isFileSizeLimitIgnored());
         Assertions.assertTrue(config.isIgnoredFileAnalysisSkipped());
+    }
+
+    @Test
+    public void repoCsvConfig_includeUpdatedDate_success() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertEquals(3, configs.size());
+        RepoConfiguration configBeta = configs.get(0);
+        RepoConfiguration configCharlie = configs.get(1);
+        RepoConfiguration configAlpha = configs.get(2);
+
+        Assertions.assertTrue(configBeta.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configBeta.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configBeta.getSinceDate(), TEST_REPO_DEFAULT_SINCE_DATE);
+        Assertions.assertEquals(configBeta.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
+
+        Assertions.assertTrue(configCharlie.isHasUpdatedSinceDateInConfig());
+        Assertions.assertFalse(configCharlie.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configCharlie.getSinceDate(), TEST_REPO_DEFAULT_SINCE_DATE);
+
+        Assertions.assertFalse(configAlpha.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configAlpha.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
     }
 
     @Test
@@ -388,5 +423,11 @@ public class RepoConfigParserTest {
         RepoConfigCsvParser repoConfigCsvParser =
                 new RepoConfigCsvParser(REPO_CONFIG_UNKNOWN_HEADER_FILE);
         Assertions.assertThrows(InvalidHeaderException.class, () -> repoConfigCsvParser.parse());
+    }
+
+    @Test
+    public void repoCsvConfig_invalidOverridenDates_throwsInvalidCsvException() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_OVERRIDEN_DATE);
+        Assertions.assertThrows(InvalidCsvException.class, repoConfigCsvParser::parse);
     }
 }
