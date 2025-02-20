@@ -54,9 +54,5 @@ For other types of repositories, external links are disabled.
 
 {{ embed("Appendix: **Using RepoSense with GitHub Actions → Setting up**", "withGithubActions.md#section-setting-up") }}
 
-**You can also use travis for deployment.** While there are more work to set up, it is more suitable as a permanent solution due to the generous free tier.
-
-{{ embed("Appendix: **Using RepoSense with Travis → Setting up**", "withTravis.md#section-setting-up") }}
-
 You may also consider using Netlify to deploy your report. **However, we may not support this method going forward.**
 {{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}
