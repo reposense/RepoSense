@@ -44,9 +44,21 @@ jobs:
 
     - name: Run local website on action runner
       run: |
-        export SITE=./reposense-report
         docker run --rm -d -p 4000:4000 -v ${SITE}:/src/site gh-pages
-        curl -L http://0.0.0.0:4000/
+      env:
+        SITE: ${{github.workspace}}/reposense-report
+
+#    - name: Deploy GitHub pages
+#      uses: peaceiris/actions-gh-pages@v4
+#      with:
+#        github_token: ${{ secrets.GITHUB_TOKEN }}
+#        publish_dir: ./reposense-report
+#        user_name: 'github-actions[bot]'
+#        user_email: 'github-actions[bot]@users.noreply.github.com'
+#        commit_message: Rebuild pages at
+
+    - name: Wait for the service to start
+      run: sleep 10
 
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
