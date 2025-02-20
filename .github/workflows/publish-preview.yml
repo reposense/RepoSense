@@ -40,7 +40,7 @@ jobs:
         git clone https://github.com/github/pages-gem
         cd pages-gem
         git checkout v232
-        make image 
+        make image
 
     - name: Run local website on action runner
       run: |
