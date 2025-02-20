@@ -45,7 +45,7 @@ jobs:
     - name: Run local website on action runner
       run: |
         export SITE=./reposense-report
-        docker run --rm -i -p 4000:4000 -v ${SITE}:/src/site gh-pages
+        docker run --rm -d -p 4000:4000 -v ${SITE}:/src/site gh-pages
 
 #    - name: Deploy GitHub pages
 #      uses: peaceiris/actions-gh-pages@v4
