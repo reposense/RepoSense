@@ -35,9 +35,14 @@
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
         }"
       )
+
 .date-indicators(v-if="optimiseTimeline")
   span {{optimisedMinimumDate}}
   span {{optimisedMaximumDate}}
+
+.date-indicators(v-else)
+  span {{sdate}}
+  span {{udate}}
 </template>
 
 <script lang='ts'>
