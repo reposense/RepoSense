@@ -8,7 +8,7 @@ import path from 'path';
 // It needs to be configured for GitHub Pages deployment.
 const base = process.env.VITE_BASE_DIR
   ? process.env.VITE_BASE_DIR
-  : '/';
+  : '';
 
 // https://vitejs.dev/config/
 export default defineConfig({
