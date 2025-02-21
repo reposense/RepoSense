@@ -44,13 +44,13 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
                 logger.info("Parsing " + rbd.getBranch() + "...");
 
                 RepoConfiguration.Builder builder = new RepoConfiguration.Builder()
-                        .location(repoLocation);
-
-                builder = builder.branch(rbd.getBranch())
+                        .location(repoLocation)
+                        .branch(rbd.getBranch())
                         .ignoreGlobList(rbd.getIgnoreGlobList())
                         .ignoredAuthorsList(rbd.getIgnoreAuthorList())
                         .fileSizeLimit(rbd.getFileSizeLimit())
-                        .isStandaloneConfigIgnored(true); // remove this when we deprecated the standalone config
+                        // Needs to be removed this when we deprecate the standalone config
+                        .isStandaloneConfigIgnored(true);
 
                 AuthorConfiguration authorConfiguration = new AuthorConfiguration(repoLocation, rbd.getBranch());
                 for (ReportAuthorDetails rad : rbd.getReportAuthorDetails()) {
@@ -62,7 +62,6 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
                     author.setAuthorAliases(List.of(rad.getAuthorGitAuthorName()));
 
                     authorConfiguration.addAuthor(author);
-
                 }
                 authorConfigs.add(authorConfiguration);
                 repoConfigs.add(builder.build());

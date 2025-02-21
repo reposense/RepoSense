@@ -110,6 +110,7 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 ## `report-config.yaml`
 
 You can also optionally use a `report-config.yaml` file to quickly define the repository information for the repositories you are interested in tracking and generate your very own code portfolio.
+The configurations of this file will override the configurations in the csv files if the file is present and correctly formatted.
 
 View this [example](report-config.yaml) for a better understanding of what repository information is required.
 
@@ -124,6 +125,7 @@ Note: All fields are optional unless specified otherwise.
       * `globs` {{ mandatory }}: The list of file path globs to include for specified group.
   * `branches`: A list of branches to analyse for each repository.
     * `branch`: The name of the branch.
+    * `blurb`: The blurb to display for the branch. To display more detailed blurbs, use the `blurbs.md` file.
     * `authors`: A list of authors to analyse on the branch.
       * `author-git-host-id` {{ mandatory }}: Git host username of the author.
       * `author-display-name`: Display name of the author.

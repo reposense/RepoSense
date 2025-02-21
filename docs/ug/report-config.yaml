@@ -19,4 +19,3 @@ repos:
         ignore-glob-list:
           - "**.md"
         file-size-limit: 2000000
-

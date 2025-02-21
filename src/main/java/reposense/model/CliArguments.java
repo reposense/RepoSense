@@ -192,7 +192,7 @@ public class CliArguments {
         return originalityThreshold;
     }
 
-    public boolean isReportConfigRepositoriesConfigured() {
+    public boolean areReportConfigRepositoriesConfigured() {
         return reportConfiguration != null && !reportConfiguration.getReportRepoConfigurations().isEmpty();
     }
 

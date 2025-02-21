@@ -70,7 +70,7 @@ public class RunConfigurationDeciderTest {
     }
 
     @Test
-    public void parse_reposAndConfigNotSpecified_returnsConfigRunConfiguration() throws Exception {
+    public void parse_reposAndConfigNotSpecified_doesNotReturnCliRunConfiguration() throws Exception {
         String input = new InputBuilder()
                 .addSinceDate("01/07/2017")
                 .addUntilDate("30/11/2017")

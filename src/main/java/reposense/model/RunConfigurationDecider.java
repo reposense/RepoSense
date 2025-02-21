@@ -9,7 +9,7 @@ public class RunConfigurationDecider {
             return new CliRunConfiguration(cliArguments);
         }
 
-        if (cliArguments.isReportConfigRepositoriesConfigured()) {
+        if (cliArguments.areReportConfigRepositoriesConfigured()) {
             return new OneStopConfigRunConfiguration(cliArguments);
         }
 
