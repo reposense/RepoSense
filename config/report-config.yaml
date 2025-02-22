@@ -22,3 +22,7 @@ repos:
             author-git-author-name: Francis Hodianto
             author-emails:
         ignore-authors-list:
+          - bot
+        ignore-glob-list:
+          - "**.md"
+        file-size-limit: 2000000

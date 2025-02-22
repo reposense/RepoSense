@@ -37,4 +37,50 @@ public class ReportBranchDataTest {
         Assertions.assertEquals(new ArrayList<>(), data.getIgnoreAuthorList());
         Assertions.assertEquals(ReportBranchData.DEFAULT_FILE_SIZE_LIMIT, data.getFileSizeLimit());
     }
+
+    @Test
+    public void equals_sameObject_success() {
+        ReportBranchData data1 = new ReportBranchData(
+                "main",
+                "Test blurb",
+                null,
+                List.of("*.log"),
+                List.of("bot"),
+                2000000L
+        );
+
+        ReportBranchData data2 = new ReportBranchData(
+                "main",
+                "Test blurb",
+                null,
+                List.of("*.log"),
+                List.of("bot"),
+                2000000L
+        );
+
+        Assertions.assertEquals(data1, data2);
+    }
+
+    @Test
+    public void equals_differentObject_failure() {
+        ReportBranchData data1 = new ReportBranchData(
+                "main",
+                "Test blurb",
+                null,
+                List.of("*.log"),
+                List.of("bot"),
+                2000000L
+        );
+
+        ReportBranchData data2 = new ReportBranchData(
+                "master",
+                "Test blurb",
+                null,
+                List.of("*.log"),
+                List.of("bot"),
+                2000000L
+        );
+
+        Assertions.assertNotEquals(data1, data2);
+    }
 }

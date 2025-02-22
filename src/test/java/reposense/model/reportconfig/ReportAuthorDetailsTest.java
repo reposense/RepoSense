@@ -33,4 +33,42 @@ public class ReportAuthorDetailsTest {
             );
         });
     }
+
+    @Test
+    public void equals_sameObject_success() {
+        ReportAuthorDetails details1 = new ReportAuthorDetails(
+                List.of("test@example.com"),
+                "gitHostId",
+                "Display Name",
+                "Git Author"
+        );
+
+        ReportAuthorDetails details2 = new ReportAuthorDetails(
+                List.of("test@example.com"),
+                "gitHostId",
+                "Display Name",
+                "Git Author"
+        );
+
+        Assertions.assertEquals(details1, details2);
+    }
+
+    @Test
+    public void equals_differentObject_failure() {
+        ReportAuthorDetails details1 = new ReportAuthorDetails(
+                List.of("test1@example.com"),
+                "gitHostId",
+                "Display Name",
+                "Git Author"
+        );
+
+        ReportAuthorDetails details2 = new ReportAuthorDetails(
+                List.of("test@example.com"),
+                "gitHostId",
+                "Display Name",
+                "Git Author"
+        );
+
+        Assertions.assertNotEquals(details1, details2);
+    }
 }

@@ -6,6 +6,11 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import reposense.model.FileType;
+import reposense.model.GroupConfiguration;
+import reposense.model.RepoLocation;
+import reposense.parser.exceptions.InvalidLocationException;
+
 public class ReportRepoConfigurationTest {
     @Test
     void constructor_nullRepo_throwsIllegalArgumentException() {
@@ -53,5 +58,49 @@ public class ReportRepoConfigurationTest {
         );
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> config.getFullyQualifiedRepoNamesWithBlurbs());
+    }
+
+    @Test
+    void getGroupConfiguration_validGroups_returnsCorrectMapping() throws InvalidLocationException {
+        List<ReportGroupNameAndGlobs> groups = List.of(
+                new ReportGroupNameAndGlobs("group1", List.of("glob1", "glob2")),
+                new ReportGroupNameAndGlobs("group2", List.of("glob3", "glob4"))
+        );
+        ReportRepoConfiguration config = new ReportRepoConfiguration(
+                "https://github.com/test/repo.git", groups, null);
+
+        RepoLocation repoLocation = new RepoLocation("https://github.com/test/repo.git");
+        GroupConfiguration expectedGroupConfiguration = new GroupConfiguration(repoLocation);
+        expectedGroupConfiguration.addGroup(new FileType("group1", List.of("glob1", "glob2")));
+        expectedGroupConfiguration.addGroup(new FileType("group2", List.of("glob3", "glob4")));
+
+        Assertions.assertEquals(expectedGroupConfiguration,
+                config.getGroupConfiguration(new RepoLocation("https://github.com/test/repo.git")));
+    }
+
+    @Test
+    void equals_sameObject_success() {
+        List<ReportGroupNameAndGlobs> groups = List.of(
+                new ReportGroupNameAndGlobs("group1", List.of("glob1", "glob2")),
+                new ReportGroupNameAndGlobs("group2", List.of("glob3", "glob4"))
+        );
+        ReportRepoConfiguration config = new ReportRepoConfiguration(
+                "https://github.com/test/repo.git", groups, null);
+
+        Assertions.assertEquals(config, config);
+    }
+
+    @Test
+    void equals_differentObject_failure() {
+        List<ReportGroupNameAndGlobs> groups = List.of(
+                new ReportGroupNameAndGlobs("group1", List.of("glob1", "glob2")),
+                new ReportGroupNameAndGlobs("group2", List.of("glob3", "glob4"))
+        );
+        ReportRepoConfiguration config1 = new ReportRepoConfiguration(
+                "https://github.com/dev/repo.git", groups, null);
+        ReportRepoConfiguration config2 = new ReportRepoConfiguration(
+                "https://github.com/test/repo.git", groups, null);
+
+        Assertions.assertNotEquals(config1, config2);
     }
 }

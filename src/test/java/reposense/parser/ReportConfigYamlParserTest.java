@@ -74,4 +74,9 @@ public class ReportConfigYamlParserTest {
         ReportConfiguration reportConfig = new ReportConfigYamlParser().parse(VALID_REPORT_CONFIG);
         Assertions.assertEquals(expectedReportConfig, reportConfig);
     }
+
+    @Test
+    public void getType_validType_success() {
+        Assertions.assertEquals(ReportConfiguration.class, new ReportConfigYamlParser().getType());
+    }
 }
