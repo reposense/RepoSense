@@ -6,6 +6,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ReportAuthorDetailsTest {
+    private static final ReportAuthorDetails details1 = new ReportAuthorDetails(
+            List.of("test@example.com"),
+            "gitHostId",
+            "Display Name",
+            "Git Author"
+    );
+
     @Test
     public void constructor_withValidInputs_success() {
         List<String> emails = List.of("test@example.com", "test2@example.com");
@@ -36,13 +43,11 @@ public class ReportAuthorDetailsTest {
 
     @Test
     public void equals_sameObject_success() {
-        ReportAuthorDetails details1 = new ReportAuthorDetails(
-                List.of("test@example.com"),
-                "gitHostId",
-                "Display Name",
-                "Git Author"
-        );
+        Assertions.assertEquals(details1, details1);
+    }
 
+    @Test
+    public void equals_equivalentObject_success() {
         ReportAuthorDetails details2 = new ReportAuthorDetails(
                 List.of("test@example.com"),
                 "gitHostId",
@@ -55,20 +60,13 @@ public class ReportAuthorDetailsTest {
 
     @Test
     public void equals_differentObject_failure() {
-        ReportAuthorDetails details1 = new ReportAuthorDetails(
+        ReportAuthorDetails details2 = new ReportAuthorDetails(
                 List.of("test1@example.com"),
                 "gitHostId",
                 "Display Name",
                 "Git Author"
         );
 
-        ReportAuthorDetails details2 = new ReportAuthorDetails(
-                List.of("test@example.com"),
-                "gitHostId",
-                "Display Name",
-                "Git Author"
-        );
-
-        Assertions.assertNotEquals(details1, details2);
+        Assertions.assertFalse(details1.equals(details2));
     }
 }

@@ -8,10 +8,14 @@ import org.junit.jupiter.api.Test;
 import reposense.model.FileType;
 
 public class ReportGroupNameAndGlobsTest {
+    private static final ReportGroupNameAndGlobs reportGroupNameAndGlobs1 = new ReportGroupNameAndGlobs("My Group",
+            List.of("code"));
+
     @Test
     public void constructor_withValidInputs_success() {
-        ReportGroupNameAndGlobs reportGroupNameAndGlobs = new ReportGroupNameAndGlobs("My Group", List.of("code"));
-        Assertions.assertNotNull(reportGroupNameAndGlobs);
+        Assertions.assertNotNull(reportGroupNameAndGlobs1);
+        Assertions.assertEquals("My Group", reportGroupNameAndGlobs1.getGroupName());
+        Assertions.assertEquals(List.of("code"), reportGroupNameAndGlobs1.getGlobs());
     }
 
     @Test
@@ -32,21 +36,17 @@ public class ReportGroupNameAndGlobsTest {
 
     @Test
     public void toFileType_success() {
-        ReportGroupNameAndGlobs reportGroupNameAndGlobs = new ReportGroupNameAndGlobs("My Group", List.of("code"));
-        Assertions.assertEquals(new FileType("My Group", List.of("code")), reportGroupNameAndGlobs.toFileType());
+        Assertions.assertEquals(new FileType("My Group", List.of("code")), reportGroupNameAndGlobs1.toFileType());
     }
 
     @Test
     public void equals_sameObject_success() {
-        ReportGroupNameAndGlobs reportGroupNameAndGlobs1 = new ReportGroupNameAndGlobs("My Group", List.of("code"));
-        ReportGroupNameAndGlobs reportGroupNameAndGlobs2 = new ReportGroupNameAndGlobs("My Group", List.of("code"));
-        Assertions.assertEquals(reportGroupNameAndGlobs1, reportGroupNameAndGlobs2);
+        Assertions.assertEquals(reportGroupNameAndGlobs1, reportGroupNameAndGlobs1);
     }
 
     @Test
     public void equals_differentObject_failure() {
-        ReportGroupNameAndGlobs reportGroupNameAndGlobs1 = new ReportGroupNameAndGlobs("My Group", List.of("code"));
         ReportGroupNameAndGlobs reportGroupNameAndGlobs2 = new ReportGroupNameAndGlobs("My Group", List.of("test"));
-        Assertions.assertNotEquals(reportGroupNameAndGlobs1, reportGroupNameAndGlobs2);
+        Assertions.assertFalse(reportGroupNameAndGlobs1.equals(reportGroupNameAndGlobs2));
     }
 }

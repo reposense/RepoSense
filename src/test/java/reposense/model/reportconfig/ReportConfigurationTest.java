@@ -63,6 +63,6 @@ public class ReportConfigurationTest {
 
     @Test
     public void equals_withDifferentObject_failure() {
-        Assertions.assertNotEquals(new ReportConfiguration(), expectedReportConfig);
+        Assertions.assertFalse(expectedReportConfig.equals(new ReportConfiguration(null, null)));
     }
 }

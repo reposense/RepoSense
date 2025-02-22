@@ -12,6 +12,11 @@ import reposense.model.RepoLocation;
 import reposense.parser.exceptions.InvalidLocationException;
 
 public class ReportRepoConfigurationTest {
+    private static final List<ReportGroupNameAndGlobs> groups = List.of(
+            new ReportGroupNameAndGlobs("group1", List.of("glob1", "glob2")),
+            new ReportGroupNameAndGlobs("group2", List.of("glob3", "glob4"))
+    );
+
     @Test
     void constructor_nullRepo_throwsIllegalArgumentException() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
@@ -62,10 +67,6 @@ public class ReportRepoConfigurationTest {
 
     @Test
     void getGroupConfiguration_validGroups_returnsCorrectMapping() throws InvalidLocationException {
-        List<ReportGroupNameAndGlobs> groups = List.of(
-                new ReportGroupNameAndGlobs("group1", List.of("glob1", "glob2")),
-                new ReportGroupNameAndGlobs("group2", List.of("glob3", "glob4"))
-        );
         ReportRepoConfiguration config = new ReportRepoConfiguration(
                 "https://github.com/test/repo.git", groups, null);
 
@@ -80,10 +81,6 @@ public class ReportRepoConfigurationTest {
 
     @Test
     void equals_sameObject_success() {
-        List<ReportGroupNameAndGlobs> groups = List.of(
-                new ReportGroupNameAndGlobs("group1", List.of("glob1", "glob2")),
-                new ReportGroupNameAndGlobs("group2", List.of("glob3", "glob4"))
-        );
         ReportRepoConfiguration config = new ReportRepoConfiguration(
                 "https://github.com/test/repo.git", groups, null);
 
@@ -92,15 +89,11 @@ public class ReportRepoConfigurationTest {
 
     @Test
     void equals_differentObject_failure() {
-        List<ReportGroupNameAndGlobs> groups = List.of(
-                new ReportGroupNameAndGlobs("group1", List.of("glob1", "glob2")),
-                new ReportGroupNameAndGlobs("group2", List.of("glob3", "glob4"))
-        );
         ReportRepoConfiguration config1 = new ReportRepoConfiguration(
                 "https://github.com/dev/repo.git", groups, null);
         ReportRepoConfiguration config2 = new ReportRepoConfiguration(
                 "https://github.com/test/repo.git", groups, null);
 
-        Assertions.assertNotEquals(config1, config2);
+        Assertions.assertFalse(config1.equals(config2));
     }
 }

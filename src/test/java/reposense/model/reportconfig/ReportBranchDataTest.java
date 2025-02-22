@@ -7,6 +7,15 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ReportBranchDataTest {
+    private static final ReportBranchData data1 = new ReportBranchData(
+            "main",
+            "Test blurb",
+            null,
+            List.of("*.log"),
+            List.of("bot"),
+            2000000L
+    );
+
     @Test
     public void constructor_withValidInputs_success() {
         String branch = "main";
@@ -40,15 +49,11 @@ public class ReportBranchDataTest {
 
     @Test
     public void equals_sameObject_success() {
-        ReportBranchData data1 = new ReportBranchData(
-                "main",
-                "Test blurb",
-                null,
-                List.of("*.log"),
-                List.of("bot"),
-                2000000L
-        );
+        Assertions.assertEquals(data1, data1);
+    }
 
+    @Test
+    public void equals_equivalentObject_success() {
         ReportBranchData data2 = new ReportBranchData(
                 "main",
                 "Test blurb",
@@ -63,15 +68,6 @@ public class ReportBranchDataTest {
 
     @Test
     public void equals_differentObject_failure() {
-        ReportBranchData data1 = new ReportBranchData(
-                "main",
-                "Test blurb",
-                null,
-                List.of("*.log"),
-                List.of("bot"),
-                2000000L
-        );
-
         ReportBranchData data2 = new ReportBranchData(
                 "master",
                 "Test blurb",
@@ -81,6 +77,6 @@ public class ReportBranchDataTest {
                 2000000L
         );
 
-        Assertions.assertNotEquals(data1, data2);
+        Assertions.assertFalse(data1.equals(data2));
     }
 }
