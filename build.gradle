@@ -1,4 +1,5 @@
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+import org.siouan.frontendgradleplugin.infrastructure.gradle.RunPnpmTaskType
 
 plugins {
     id 'application'
@@ -54,7 +55,6 @@ sourceSets {
 frontend {
     nodeVersion = '20.11.0'
     packageJsonDirectory.set(file("frontend"))
-    assembleScript.set("run devbuild")
 }
 
 tasks.named('installFrontend').configure {
@@ -63,6 +63,12 @@ tasks.named('installFrontend').configure {
 
 tasks.named('assembleFrontend').configure {
     description 'Builds the frontend assets for production using pnpm run devbuild.'
+    dependsOn installFrontend
+    assembleScript = "run devbuild"
+}
+
+tasks.register('buildFrontend').configure {
+    finalizedBy tasks.named('assembleFrontend')
 }
 
 def zipReport = tasks.register('zipReport', Zip) {
@@ -148,10 +154,10 @@ shadowJar {
     }
 }
 
-// tasks.register('lintFrontend', com.siouan.frontendgradleplugin.domain.FrontendTask) {
-//     dependsOn 'installFrontend'
-//     script = 'run lint'
-// }
+ tasks.register('lintFrontend', RunPnpmTaskType) {
+     dependsOn 'installFrontend'
+     script = 'run lint'
+ }
 
 def checkstyleMain = tasks.checkstyleMain {
     description 'Applies Checkstyle code style checks to the main Java source code.'
@@ -218,36 +224,34 @@ def serveTestReportInBackground = tasks.register('serveTestReportInBackground', 
     waitForPort = 9000
 }
 
-// tasks.register('installCypress', org.siouan.frontendgradle.plugin.task.FrontendTask) {
-//     description 'Installs Cypress and its dependencies for frontend testing using pnpm ci.'
-//     workingDir = 'frontend/cypress/'
-//     args = ['ci']
-// }
+ tasks.register('installCypress', RunPnpmTaskType) {
+     description 'Installs Cypress and its dependencies for frontend testing using pnpm ci.'
+     packageJsonDirectory.set(file('frontend/cypress/'))
+     args = 'run'
+ }
 
-// tasks.register('cypress', org.siouan.frontendgradleplugin.task.FrontendTask) {
-//     description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
-//     dependsOn installCypress, serveTestReportInBackground
-//     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+ tasks.register('cypress', RunPnpmTaskType) {
+     description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
+     dependsOn installCypress, serveTestReportInBackground
+     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
-//     workingDir = 'frontend/cypress/'
-//     script = 'run'
-//     args = ['debug']
-// } 
+     packageJsonDirectory.set(file('frontend/cypress/'))
+     args = 'run debug'
+ }
 
-// tasks.register('frontendTest', org.siouan.frontendgradleplugin.task.FrontendTask) {
-//     description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
-//     dependsOn installCypress, serveTestReportInBackground
-//     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+ tasks.register('frontendTest', RunPnpmTaskType) {
+     description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
+     dependsOn installCypress, serveTestReportInBackground
+     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
-//     workingDir = file('frontend/cypress/')
-//     script = 'run'
-//     args = ['tests']
+     packageJsonDirectory.set(file('frontend/cypress/'))
+     args = 'run tests'
 
-//     // Run tests in CI without slow motion
-//     if (project.hasProperty('ci')) {
-//         args = ['ci']
-//     }
-// }
+     // Run tests in CI without slow motion
+     if (project.hasProperty('ci')) {
+         args = 'run ci'
+     }
+ }
 
 tasks.withType(Copy) {
     includeEmptyDirs = true
