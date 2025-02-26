@@ -308,8 +308,8 @@
           :groupby="filterGroupSelection",
           :user="user",
           :tframe="filterTimeFrame",
-          :sdate="filterSinceDate",
-          :udate="filterUntilDate",
+          :sdate="getUnoptimisedMinimumDate(user)",
+          :udate="getUnoptimisedMaximumDate(user)",
           :avgsize="avgCommitSize",
           :mergegroup="isGroupMerged(getGroupName(repo))",
           :filtersearch="filterSearch",
@@ -334,6 +334,7 @@
             c-stacked-bar-chart(
               :bars="getContributionBars(user.checkedFileTypeContribution)"
             )
+
 </template>
 
 <script lang="ts">
@@ -345,7 +346,7 @@ import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
 import cMarkdownChunk from './c-markdown-chunk.vue';
-import { Bar, Repo, User } from '../types/types';
+import { Bar, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
 import { AuthorFileTypeContributions } from '../types/zod/commits-type';
@@ -636,18 +637,31 @@ export default defineComponent({
         return ['fas', 'database'];
       }
     },
+
+    getUnoptimisedMinimumDate(user: User): string {
+      return new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate;
+    },
+
+    getUnoptimisedMaximumDate(user: User): string {
+      return new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate;
+    },
+
     getOptimisedMinimumDate(user: User): string {
-      return user.commits.length === 0
-        ? this.filterSinceDate
-        : user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr))
-          .date;
+      if (user.commits.length === 0) {
+        return new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate;
+      }
+
+      return user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr)).date;
     },
+
     getOptimisedMaximumDate(user: User): string {
-      return user.commits.length === 0
-        ? this.filterUntilDate
-        : user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr))
-          .date;
+      if (user.commits.length === 0) {
+        return new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate;
+      }
+
+      return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr)).date;
     },
+
     getIsOptimising(user: User): boolean {
       return user.commits.length !== 0 && this.optimiseTimeline;
     },
@@ -785,7 +799,7 @@ export default defineComponent({
       const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
       return url.replace(regexToRemoveWidget, '');
     },
-    getRepo(repo: Array<Repo>): Array<Repo> {
+    getRepo(repo: Array<User>): Array<User> {
       if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
         return [repo[this.chartIndex!]];
       }
