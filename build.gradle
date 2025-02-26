@@ -156,7 +156,7 @@ shadowJar {
 
  tasks.register('lintFrontend', RunPnpmTaskType) {
      dependsOn 'installFrontend'
-     script = 'run lint'
+     args = 'run lint'
  }
 
 def checkstyleMain = tasks.checkstyleMain {
