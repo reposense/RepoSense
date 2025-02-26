@@ -415,16 +415,6 @@
         "updating-the-report": "Updating the report"
       },
       "headingKeywords": {}
-    },
-    {
-      "src": "ug/withTravis.md",
-      "title": "Appendix: RepoSense with Travis",
-      "headings": {
-        "appendix-reposense-with-travis": "Appendix: RepoSense with Travis",
-        "setting-up": "Setting up",
-        "updating-the-report": "Updating the report"
-      },
-      "headingKeywords": {}
     }
   ]
 }
