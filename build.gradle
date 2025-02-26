@@ -89,7 +89,7 @@ def copyMainClasses = tasks.register('copyMainClasses', Copy) {
 
 def compileJava = tasks.compileJava
 
-tasks.named("processSystemtestResources", ProcessResources).configure {
+tasks.named("processSystemtestResources").configure {
     description 'Processes system test resources, allowing duplicate files to be included.'
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
