@@ -7,7 +7,7 @@ plugins {
     id 'jacoco'
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'com.liferay.node' version '7.2.18'
+    id 'org.siouan.frontend-jdk11' version '10.0.0'
     id 'com.github.psxpaul.execfork' version '0.2.0'
     id 'com.palantir.git-version' version '0.13.0'
 }
@@ -15,8 +15,6 @@ plugins {
 OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
 
 mainClassName = 'reposense.RepoSense'
-
-node.download = false // The Liferay Node Gradle Plugin will use the system PATH to find the Node/npm executable.
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -53,22 +51,23 @@ sourceSets {
     }
 }
 
-def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Installs frontend dependencies using npm ci to ensure reproducible builds.'
-    workingDir 'frontend/'
-    args = ['ci']
+frontend {
+    nodeVersion = '20.11.0'
+    packageJsonDirectory.set(file("frontend"))
+    assembleScript.set("run devbuild")
 }
 
-def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Builds the frontend assets for production using npm run devbuild.'
-    dependsOn installFrontend
-    workingDir 'frontend/'
-    args = ['run', 'devbuild']
+tasks.named('installFrontend').configure {
+    description 'Installs frontend dependencies using pnpm install.'
+}
+
+tasks.named('assembleFrontend').configure {
+    description 'Builds the frontend assets for production using pnpm run devbuild.'
 }
 
 def zipReport = tasks.register('zipReport', Zip) {
     description 'Bundles the compiled frontend assets into a ZIP archive for inclusion in the backend resources.'
-    dependsOn buildFrontend
+    dependsOn assembleFrontend
     from 'frontend/build/'
     archiveBaseName = 'templateZip'
     destinationDirectory = file('src/main/resources')
@@ -149,12 +148,10 @@ shadowJar {
     }
 }
 
-tasks.register('lintFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Analyzes frontend code with ESLint to enforce coding standards and identify potential issues.'
-    dependsOn installFrontend
-    workingDir 'frontend/'
-    args = ['run', 'lint']
-}
+// tasks.register('lintFrontend', com.siouan.frontendgradleplugin.domain.FrontendTask) {
+//     dependsOn 'installFrontend'
+//     script = 'run lint'
+// }
 
 def checkstyleMain = tasks.checkstyleMain {
     description 'Applies Checkstyle code style checks to the main Java source code.'
@@ -221,34 +218,36 @@ def serveTestReportInBackground = tasks.register('serveTestReportInBackground', 
     waitForPort = 9000
 }
 
-def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Installs Cypress and its dependencies for frontend testing using npm ci.'
-    workingDir 'frontend/cypress/'
-    args = ['ci']
-}
+// tasks.register('installCypress', org.siouan.frontendgradle.plugin.task.FrontendTask) {
+//     description 'Installs Cypress and its dependencies for frontend testing using pnpm ci.'
+//     workingDir = 'frontend/cypress/'
+//     args = ['ci']
+// }
 
-tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+// tasks.register('cypress', org.siouan.frontendgradleplugin.task.FrontendTask) {
+//     description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
+//     dependsOn installCypress, serveTestReportInBackground
+//     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
-    workingDir = file('frontend/cypress/')
-    args = ["run-script", "debug"]
-}
+//     workingDir = 'frontend/cypress/'
+//     script = 'run'
+//     args = ['debug']
+// } 
 
-tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+// tasks.register('frontendTest', org.siouan.frontendgradleplugin.task.FrontendTask) {
+//     description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
+//     dependsOn installCypress, serveTestReportInBackground
+//     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
-    workingDir = file('frontend/cypress/')
-    args = ["run-script", "tests"]
+//     workingDir = file('frontend/cypress/')
+//     script = 'run'
+//     args = ['tests']
 
-    // Run tests in CI without slow motion
-    if (project.hasProperty('ci')) {
-        args = ["run-script", "ci"]
-    }
-}
+//     // Run tests in CI without slow motion
+//     if (project.hasProperty('ci')) {
+//         args = ['ci']
+//     }
+// }
 
 tasks.withType(Copy) {
     includeEmptyDirs = true

@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "tests": "cypress run --browser chrome",
     "ci": "cypress run --env ci=true --browser chrome",
     "debug": "cypress open"

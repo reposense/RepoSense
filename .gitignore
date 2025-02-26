@@ -21,6 +21,7 @@ node_modules
 !/frontend/public/index.html
 /frontend/.eslintcache
 /frontend/.stylelintcache
+/frontend/.frontend-gradle-plugin/
 
 reposense-report/
 docs/_site/
