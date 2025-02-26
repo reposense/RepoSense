@@ -6,7 +6,7 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'com.liferay.node' version '7.2.18'
     id 'com.github.psxpaul.execfork' version '0.2.0'
     id 'com.palantir.git-version' version '0.13.0'
@@ -27,7 +27,7 @@ repositories {
 
 configurations {
     systemtestImplementation.extendsFrom testImplementation
-    systemtestRuntime.extendsFrom testRuntime
+    systemtestRuntime.extendsFrom testRuntimeOnly
 }
 
 dependencies {
@@ -89,7 +89,7 @@ def copyMainClasses = tasks.register('copyMainClasses', Copy) {
 
 def compileJava = tasks.compileJava
 
-tasks.named("processSystemtestResources").configure {
+tasks.named("processSystemtestResources", ProcessResources).configure {
     description 'Processes system test resources, allowing duplicate files to be included.'
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
@@ -255,7 +255,7 @@ tasks.withType(Copy) {
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.11"
 }
 
 jacocoTestReport {
