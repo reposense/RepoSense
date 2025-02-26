@@ -226,6 +226,7 @@ def serveTestReportInBackground = tasks.register('serveTestReportInBackground', 
 
  tasks.register('installCypress', RunPnpmTaskType) {
      description 'Installs Cypress and its dependencies for frontend testing using pnpm ci.'
+     dependsOn 'installPackageManager'
      packageJsonDirectory.set(file('frontend/cypress/'))
      args = 'install'
  }
