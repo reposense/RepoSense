@@ -60,7 +60,7 @@ We have two versions of the website:
    * deployed manually after each new release
 1. **Dev website** at https://reposense.org/RepoSense
    * matches the latest `master` branch
-   * deployed automatically by Travis whenever the `master` branch is updated
+   * deployed automatically by Github Actions whenever the `master` branch is updated
 
 The production website differs from the dev website in some ways, e.g.,
 
