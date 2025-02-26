@@ -85,7 +85,7 @@ public class RepoSense {
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
                     TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
                     cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
-                    blurbMap
+                    blurbMap, cliArguments.isPortfolio()
             );
 
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
