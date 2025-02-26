@@ -271,6 +271,7 @@ jacocoTestReport {
 
 tasks.register('coverage', JacocoReport) {
     description 'Consolidates coverage data from unit, system, and frontend tests into a comprehensive report.'
+    dependsOn test, systemtest
 }
 
 coverage.configure {
