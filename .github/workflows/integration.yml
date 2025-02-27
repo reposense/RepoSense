@@ -47,7 +47,7 @@ jobs:
         node-version: ${{ env.NODE_VER }}
 
     - name: Install pnpm
-      run: npm install -g pnpm
+      run: npm install -g pnpm && pnpm setup
 
     - name: Set up Gradle caching
       uses: actions/cache@v3
