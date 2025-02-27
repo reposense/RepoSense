@@ -90,7 +90,7 @@ jobs:
       run: |
         git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
         sudo apt-get -y install graphviz
-        pnpm install -g markbind-cli
+        npm install -g markbind-cli
         (cd docs && markbind build)
 
     - name: Save PR number and HEAD commit (pull request)
