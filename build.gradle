@@ -316,38 +316,11 @@ def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
     }
 }
 
-def macHotReloadFrontend = tasks.register('macHotReloadFrontend', Exec) {
-    description 'Starts the frontend development server with hot-reloading capabilities on macOS.'
-    dependsOn installFrontend
-    onlyIf {os.isMacOsX()}
-    workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
-}
-
-def windowsHotReloadFrontend = tasks.register('windowsHotReloadFrontend', Exec) {
-    description 'Starts the frontend development server with hot-reloading capabilities on Windows.'
-    dependsOn installFrontend
-    onlyIf {os.isWindows()}
-    workingDir 'frontend/'
-    commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
-}
-
-def linuxHotReloadFrontend = tasks.register('linuxHotReloadFrontend', Exec) {
-    description 'Starts the frontend development server with hot-reloading capabilities on Linux.'
-    dependsOn installFrontend
-    onlyIf {os.isLinux()}
-    workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
-}
-
-tasks.register('hotReloadFrontend') {
+tasks.register('hotReloadFrontend', RunPnpmTaskType) {
     description 'Orchestrates frontend hot-reloading by syncing reports and starting the dev server based on the OS.'
-    dependsOn syncFrontendPublic
-    finalizedBy windowsHotReloadFrontend
-    finalizedBy macHotReloadFrontend
-    finalizedBy linuxHotReloadFrontend
+    dependsOn syncFrontendPublic, installFrontend
+    args = 'run serveOpen'
 }
-// End of hot reload Tasks
 
 void deleteReposAddressDirectory() {
     final String REPOS_ADDRESS = "repos"
