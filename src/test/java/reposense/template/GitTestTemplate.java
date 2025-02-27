@@ -204,8 +204,6 @@ public class GitTestTemplate {
      * will be filtered out in the `git log` command.
      */
     protected Author getAlphaAllAliasAuthor() {
-        Author author = new Author(MAIN_AUTHOR_NAME);
-        author.setAuthorAliases(Arrays.asList(FAKE_AUTHOR_NAME, EUGENE_AUTHOR_NAME, YONG_AUTHOR_NAME));
-        return author;
+        return new Author(MAIN_AUTHOR_NAME, null, null, Arrays.asList(FAKE_AUTHOR_NAME, EUGENE_AUTHOR_NAME, YONG_AUTHOR_NAME), null, null);
     }
 }
