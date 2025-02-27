@@ -111,7 +111,7 @@ Here are some small tasks for you to gain some basic knowledge of the code relat
   ```
 
   2. In the `Builder` class within `CliArguments`, add the following method to set `isPrettyPrintingUsed`.
-  
+
   ```java
   public Builder isPrettyPrintingUsed(boolean isPrettyPrintingUsed) {
           this.cliArguments.isPrettyPrintingUsed = isPrettyPrintingUsed;
