@@ -23,19 +23,19 @@ jobs:
       with:
         node-version: '20.x'
 
-    - name: Set up pnpm caching
+    - name: Set up Node caching
       uses: actions/cache@v3
       with:
-        path: $HOME/.pnpm-store
-        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-pnpm-
+          ${{ runner.os }}-node-
 
     - name: Install Graphviz
       run: sudo apt-get -y install graphviz
 
     - name: Install MarkBind CLI
-      run: pnpm i -g markbind-cli
+      run: npm i -g markbind-cli
 
     - name: Build MarkBind website
       run: cd docs && markbind build --baseUrl /RepoSense

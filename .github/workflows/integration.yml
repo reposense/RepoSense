@@ -56,13 +56,13 @@ jobs:
         restore-keys: |
           ${{ matrix.os }}-gradle-
 
-    - name: Set up pnpm caching
+    - name: Set up Node caching
       uses: actions/cache@v3
       with:
-        path: $HOME/.pnpm-store
-        key: ${{ matrix.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        path: $HOME/.npm
+        key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ matrix.os }}-pnpm-
+          ${{ matrix.os }}-node-
 
     - name: Grant execute permission for gradlew
       if: ${{ runner.os != 'Windows' }}
@@ -144,13 +144,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    - name: Set up pnpm caching
+    - name: Set up Node caching
       uses: actions/cache@v3
       with:
-        path: ~/.pnpm-store
-        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        path: $HOME/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-pnpm-
+          ${{ runner.os }}-node-
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -161,4 +161,4 @@ jobs:
         sudo apt-get install libgtk2.0-0t64 libgtk-3-0t64 libgbm-dev libnotify-dev libnss3 libxss1 libasound2t64 libxtst6 xauth xvfb
 
     - name: Run frontend tests
-      run: ./gradlew frontendTest -Pci --rerun-tasks
+      run: ./gradlew frontendTest -Pci
