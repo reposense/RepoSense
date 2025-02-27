@@ -46,9 +46,6 @@ jobs:
       with:
         node-version: ${{ env.NODE_VER }}
 
-    - name: Install pnpm
-      run: npm install -g pnpm && pnpm setup
-
     - name: Set up Gradle caching
       uses: actions/cache@v3
       with:
@@ -93,7 +90,7 @@ jobs:
       run: |
         git fetch --all && git config --global user.email "-" && git config --global user.name "-" && ./gradlew run -Dargs="--since d1"
         sudo apt-get -y install graphviz
-        pnpm install -g markbind-cli
+        npm install -g markbind-cli
         (cd docs && markbind build)
 
     - name: Save PR number and HEAD commit (pull request)
