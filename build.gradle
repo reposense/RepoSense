@@ -61,19 +61,15 @@ tasks.named('installFrontend').configure {
     description 'Installs frontend dependencies using pnpm install.'
 }
 
-tasks.named('assembleFrontend').configure {
+tasks.register('buildFrontend', RunPnpmTaskType).configure {
     description 'Builds the frontend assets for production using pnpm run devbuild.'
-    dependsOn installFrontend
-    assembleScript = "run devbuild"
-}
-
-tasks.register('buildFrontend').configure {
-    finalizedBy tasks.named('assembleFrontend')
+    dependsOn 'installFrontend'
+    args = 'run devbuild'
 }
 
 def zipReport = tasks.register('zipReport', Zip) {
     description 'Bundles the compiled frontend assets into a ZIP archive for inclusion in the backend resources.'
-    dependsOn assembleFrontend
+    dependsOn buildFrontend
     from 'frontend/build/'
     archiveBaseName = 'templateZip'
     destinationDirectory = file('src/main/resources')
