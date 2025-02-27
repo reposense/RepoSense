@@ -54,7 +54,7 @@ jobs:
 
     - name: Install surge
       if: ${{ success() }}
-      run: npm install -g surge
+      run: pnpm install -g surge
 
     - name: Deploy to surge.sh
       if: ${{ success() }}
