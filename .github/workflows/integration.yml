@@ -56,13 +56,13 @@ jobs:
         restore-keys: |
           ${{ matrix.os }}-gradle-
 
-    - name: Set up Node caching
+    - name: Set up pnpm caching
       uses: actions/cache@v3
       with:
-        path: $HOME/.npm
-        key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        path: $HOME/.pnpm-store
+        key: ${{ matrix.os }}-pnpm-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ matrix.os }}-node-
+          ${{ matrix.os }}-pnpm-
 
     - name: Grant execute permission for gradlew
       if: ${{ runner.os != 'Windows' }}
@@ -147,10 +147,10 @@ jobs:
     - name: Set up Node caching
       uses: actions/cache@v3
       with:
-        path: $HOME/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        path: $HOME/.pnpm-store
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
-          ${{ runner.os }}-node-
+          ${{ runner.os }}-pnpm-
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
