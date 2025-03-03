@@ -30,10 +30,11 @@ public class RepoConfiguration {
     private String branch = DEFAULT_BRANCH;
     private String displayName;
     private String outputFolderName;
+    private LocalDateTime sinceDate;
+    private LocalDateTime untilDate;
+
     private transient String extraOutputFolderName = DEFAULT_EXTRA_OUTPUT_FOLDER_NAME;
     private transient ZoneId zoneId;
-    private transient LocalDateTime sinceDate;
-    private transient LocalDateTime untilDate;
     private transient String repoFolderName;
 
     private transient FileTypeManager fileTypeManager = new FileTypeManager(Collections.emptyList());
@@ -53,6 +54,10 @@ public class RepoConfiguration {
     private transient long fileSizeLimit = DEFAULT_FILE_SIZE_LIMIT;
     private transient boolean isFileSizeLimitOverriding = false;
     private transient boolean isIgnoredFileAnalysisSkipped = false;
+
+    private transient boolean hasUpdatedSinceDateInConfig = false;
+
+    private transient boolean hasUpdatedUntilDateInConfig = false;
 
     /**
      * Constructs an empty instance of {@code RepoConfiguration}, which is used by the {@code Builder}
@@ -409,6 +414,22 @@ public class RepoConfiguration {
             return this;
         }
 
+        public Builder setSinceDateBasedOnConfig(boolean hasUpdatedSinceDateInConfig, LocalDateTime since) {
+            this.repoConfiguration.hasUpdatedSinceDateInConfig = hasUpdatedSinceDateInConfig;
+            if (hasUpdatedSinceDateInConfig) {
+                this.repoConfiguration.sinceDate = since;
+            }
+            return this;
+        }
+
+        public Builder setUntilDateBasedOnConfig(boolean hasUpdatedUntilDateInConfig, LocalDateTime until) {
+            this.repoConfiguration.hasUpdatedUntilDateInConfig = hasUpdatedUntilDateInConfig;
+            if (hasUpdatedUntilDateInConfig) {
+                this.repoConfiguration.untilDate = until;
+            }
+            return this;
+        }
+
         /**
          * Builds the {@code RepoConfiguration} object with the necessary configurations.
          *
@@ -449,8 +470,13 @@ public class RepoConfiguration {
     public static void setDatesToRepoConfigs(List<RepoConfiguration> configs,
             LocalDateTime sinceDate, LocalDateTime untilDate) {
         for (RepoConfiguration config : configs) {
-            config.setSinceDate(sinceDate);
-            config.setUntilDate(untilDate);
+            if (!config.hasUpdatedSinceDateInConfig) {
+                config.setSinceDate(sinceDate);
+            }
+
+            if (!config.hasUpdatedUntilDateInConfig) {
+                config.setUntilDate(untilDate);
+            }
         }
     }
 
@@ -1009,6 +1035,14 @@ public class RepoConfiguration {
 
     public boolean isFindingPreviousAuthorsPerformed() {
         return isFindingPreviousAuthorsPerformed;
+    }
+
+    public boolean isHasUpdatedSinceDateInConfig() {
+        return hasUpdatedSinceDateInConfig;
+    }
+
+    public boolean isHasUpdatedUntilDateInConfig() {
+        return hasUpdatedUntilDateInConfig;
     }
 
     public AuthorConfiguration getAuthorConfig() {
