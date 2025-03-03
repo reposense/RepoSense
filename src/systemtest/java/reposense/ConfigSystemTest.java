@@ -136,7 +136,6 @@ public class ConfigSystemTest {
      * <br>Formats: {@link ConfigSystemTest#TESTING_FILE_FORMATS TESTING_FILE_FORMATS}
      * <br>Timezone: {@link ConfigSystemTest#TEST_TIME_ZONE TEST_TIME_ZONE}
      * <br>Output Folder Path: {@link ConfigSystemTest#OUTPUT_DIRECTORY OUTPUT_DIRECTORY}
-     * <br>Test Mode: {@code Enabled}
      */
     private InputBuilder initInputBuilder() {
         Path configFolder = loadResource(getClass(), "ConfigSystemTest");
@@ -145,7 +144,6 @@ public class ConfigSystemTest {
         return new InputBuilder().addConfig(configFolder)
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
-                .addTestMode()
                 .addOutput(OUTPUT_DIRECTORY);
     }
 
