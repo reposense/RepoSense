@@ -76,6 +76,7 @@ public class ArgsParser {
     public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
     public static final String[] ANALYZE_AUTHORSHIP_FLAGS = new String[] {"--analyze-authorship", "-A"};
     public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
+    public static final String[] PORTFOLIO_FLAG = new String[] {"--portfolio", "-P"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -226,6 +227,11 @@ public class ArgsParser {
                         + "is performed. Author will be given full credit if their contribution exceeds this "
                         + "threshold, else partial credit is given.");
 
+        parser.addArgument(PORTFOLIO_FLAG)
+                .dest(PORTFOLIO_FLAG[0])
+                .action(Arguments.storeTrue())
+                .help("Generates an optimized report for code portfolio pages");
+
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)
                 .dest(CONFIG_FLAGS[0])
@@ -265,6 +271,7 @@ public class ArgsParser {
                 .setDefault(DEFAULT_NUM_ANALYSIS_THREADS)
                 .help(FeatureControl.SUPPRESS);
 
+        // Testing flags
         parser.addArgument(FRESH_CLONING_FLAG)
                 .dest(FRESH_CLONING_FLAG[0])
                 .action(Arguments.storeTrue())
@@ -306,6 +313,7 @@ public class ArgsParser {
         boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
         boolean isAuthorshipAnalyzed = results.get(ANALYZE_AUTHORSHIP_FLAGS[0]);
         double originalityThreshold = results.get(ORIGINALITY_THRESHOLD_FLAGS[0]);
+        boolean isPortfolio = results.get(PORTFOLIO_FLAG[0]);
         int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
         int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
         boolean shouldPerformFreshCloning = results.get(FRESH_CLONING_FLAG[0]);
@@ -327,6 +335,7 @@ public class ArgsParser {
                 .numAnalysisThreads(numAnalysisThreads)
                 .isAuthorshipAnalyzed(isAuthorshipAnalyzed)
                 .originalityThreshold(originalityThreshold)
+                .isPortfolio(isPortfolio)
                 .isFreshClonePerformed(shouldPerformFreshCloning);
 
         LogsManager.setLogFolderLocation(outputFolderPath);

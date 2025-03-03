@@ -210,6 +210,16 @@ credit is given.
 * May analyze the incorrect date range if used with `--since d1`. The program will throw a warning.
 * Cannot be used with both `--since` and `--until`. The program will throw an exception.
 </box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--portfolio`, `-P`
+
+**`--portfolio`**: Generates an optimised report for code portfolio pages.
+* Default: generates the regular report
+* Alias: `-P` (uppercase P)
+* Example: `--portfolio` or `-P`
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--repo`, `--repos`, `-r`

@@ -260,6 +260,15 @@ public class InputBuilder {
     }
 
     /**
+     * Adds the flag to enable code portfolio optimized view.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addPortfolio() {
+        input.append(ArgsParser.PORTFOLIO_FLAG[0] + WHITESPACE);
+        return this;
+    }
+
+    /**
      * Adds {@code content} to the input.
      */
     public InputBuilder add(String content) {

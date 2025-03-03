@@ -37,6 +37,7 @@ public class CliArguments {
     private boolean isFindingPreviousAuthorsPerformed;
     private boolean isAuthorshipAnalyzed;
     private double originalityThreshold;
+    private boolean isPortfolio;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
 
     private List<String> locations;
@@ -173,6 +174,10 @@ public class CliArguments {
         return originalityThreshold;
     }
 
+    public boolean isPortfolio() {
+        return isPortfolio;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -212,7 +217,8 @@ public class CliArguments {
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
                 && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
-                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold);
+                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
+                && this.isPortfolio == otherCliArguments.isPortfolio;
     }
 
     /**
@@ -484,6 +490,16 @@ public class CliArguments {
          */
         public Builder blurbMap(BlurbMap blurbMap) {
             this.cliArguments.blurbMap = blurbMap;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isPortfolio} to CLIArguments.
+         *
+         * @param isPortfolio Is portfolio.
+         */
+        public Builder isPortfolio(boolean isPortfolio) {
+            this.cliArguments.isPortfolio = isPortfolio;
             return this;
         }
 
