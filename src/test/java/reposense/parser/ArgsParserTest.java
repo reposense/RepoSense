@@ -782,6 +782,25 @@ public class ArgsParserTest {
         Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(inputAboveBound)));
     }
 
+    @Test
+    public void parse_withPortfolio_success() throws Exception {
+        String input = new InputBuilder()
+                .addRepos(TEST_REPO_REPOSENSE, TEST_REPO_BETA)
+                .addPortfolio()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assertions.assertTrue(cliArguments.isPortfolio());
+    }
+
+    @Test
+    public void parse_withoutPortfolio_success() throws Exception {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_BETA).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assertions.assertFalse(cliArguments.isPortfolio());
+    }
+
     /**
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
      *
