@@ -19,7 +19,12 @@ You can use [_GitHub Actions_](https://github.com/features/actions) (together wi
 
 ## Setting up
 
-<include src="withTravis.md#section-fork-token" />
+<box type="info" seamless>
+
+The instructions below assume you are using GitHub pages to host your report.
+</box>
+
+{{ step(1)}} **Fork the _publish-RepoSense_ repository** using this [link](https://github.com/RepoSense/publish-RepoSense/fork). Optionally, you can rename the fork to match your RepoSense report e.g., `project-code-dashboard`.
 
 {{ step(2)}} **Activate GitHub Actions on the forked repository:**
 
@@ -28,7 +33,10 @@ You can use [_GitHub Actions_](https://github.com/features/actions) (together wi
 
 {{ step(3)}} **Update report configuration:**
 
-<include src="withTravis.md#section-edit-configs" />
+In your fork, edit `run.sh` (and if applicable, `repo-config.csv`, `author-config.csv`, `group-config.csv`) to customize the command line parameters or repositories to be analyzed.
+
+  {{ embed("Appendix: **`run.sh` format**", 'runSh.md') }}
+  {{ embed("Appendix: **Config files format**", 'configFiles.md') }}
 
 {{ step(4)}} **View the generated report:**
 
