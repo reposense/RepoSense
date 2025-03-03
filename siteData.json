@@ -254,6 +254,7 @@
         "originality-threshold-ot": "--originality-threshold, -ot",
         "output-o": "--output, -o",
         "period-p": "--period, -p",
+        "portfolio-p": "--portfolio, -P",
         "repo-repos-r": "--repo, --repos, -r",
         "shallow-cloning-s": "--shallow-cloning, -S",
         "since-s": "--since, -s",
