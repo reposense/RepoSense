@@ -88,5 +88,5 @@
       "https://www.github.com/user/repo/branch3": "*third blurb*\n\n<strong>third</strong> blurb with HTML content"
     }
   },
-  "isPortfolio": false
+  "isPortfolio": true
 }
