@@ -13,9 +13,7 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Alpha[master]",
-      "outputFolderName": "reposense_testrepo-Alpha_master",
-      "sinceDate":"2017-10-01",
-      "untilDate":"2017-11-01"
+      "outputFolderName": "reposense_testrepo-Alpha_master"
     },
     {
       "location": {
@@ -26,9 +24,7 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Beta[master]",
-      "outputFolderName": "reposense_testrepo-Beta_master",
-      "sinceDate":"2017-10-01",
-      "untilDate":"2017-11-01"
+      "outputFolderName": "reposense_testrepo-Beta_master"
     },
     {
       "location": {
@@ -39,9 +35,7 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Charlie[master]",
-      "outputFolderName": "reposense_testrepo-Charlie_master",
-      "sinceDate":"2017-10-01",
-      "untilDate":"2017-11-01"
+      "outputFolderName": "reposense_testrepo-Charlie_master"
     },
     {
       "location": {
@@ -52,9 +46,7 @@
       },
       "branch": "master",
       "displayName": "reposense/testrepo-Delta[master]",
-      "outputFolderName": "reposense_testrepo-Delta_master",
-      "sinceDate":"2017-10-01",
-      "untilDate":"2017-11-01"
+      "outputFolderName": "reposense_testrepo-Delta_master"
     }
   ],
   "errorSet": [
@@ -67,9 +59,9 @@
       "errorMessage": "Branch \"nonExistentBranch\" does not exist."
     }
   ],
-  "sinceDate": "2017-10-01",
-  "untilDate": "2017-11-01",
-  "isSinceDateProvided": false,
+  "sinceDate": "2017-09-30",
+  "untilDate": "2019-03-02",
+  "isSinceDateProvided": true,
   "isUntilDateProvided": true,
   "supportedDomainUrlMap": {
     "NOT_RECOGNIZED": {
@@ -96,5 +88,5 @@
       "https://www.github.com/user/repo/branch3": "*third blurb*\n\n<strong>third</strong> blurb with HTML content"
     }
   },
-  "isPortfolio": false
+  "isPortfolio": true
 }
