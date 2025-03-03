@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import reposense.model.BlurbMap;
 import reposense.model.RepoBlurbMap;
 import reposense.parser.exceptions.InvalidMarkdownException;
 
