@@ -1,4 +1,5 @@
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+import org.siouan.frontendgradleplugin.infrastructure.gradle.RunPnpmTaskType
 
 plugins {
     id 'application'
@@ -7,7 +8,7 @@ plugins {
     id 'jacoco'
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'com.liferay.node' version '7.2.18'
+    id 'org.siouan.frontend-jdk11' version '10.0.0'
     id 'com.github.psxpaul.execfork' version '0.2.0'
     id 'com.palantir.git-version' version '0.13.0'
 }
@@ -15,8 +16,6 @@ plugins {
 OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
 
 mainClassName = 'reposense.RepoSense'
-
-node.download = false // The Liferay Node Gradle Plugin will use the system PATH to find the Node/npm executable.
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -53,17 +52,19 @@ sourceSets {
     }
 }
 
-def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Installs frontend dependencies using npm ci to ensure reproducible builds.'
-    workingDir 'frontend/'
-    args = ['ci']
+frontend {
+    nodeVersion = '20.11.0'
+    packageJsonDirectory.set(file("frontend"))
 }
 
-def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Builds the frontend assets for production using npm run devbuild.'
-    dependsOn installFrontend
-    workingDir 'frontend/'
-    args = ['run', 'devbuild']
+tasks.named('installFrontend').configure {
+    description 'Installs frontend dependencies using pnpm install.'
+}
+
+tasks.register('buildFrontend', RunPnpmTaskType).configure {
+    description 'Builds the frontend assets for production using pnpm run devbuild.'
+    dependsOn 'installFrontend'
+    args = 'run devbuild'
 }
 
 def zipReport = tasks.register('zipReport', Zip) {
@@ -149,12 +150,10 @@ shadowJar {
     }
 }
 
-tasks.register('lintFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Analyzes frontend code with ESLint to enforce coding standards and identify potential issues.'
-    dependsOn installFrontend
-    workingDir 'frontend/'
-    args = ['run', 'lint']
-}
+ tasks.register('lintFrontend', RunPnpmTaskType) {
+     dependsOn 'installFrontend'
+     args = 'run lint'
+ }
 
 def checkstyleMain = tasks.checkstyleMain {
     description 'Applies Checkstyle code style checks to the main Java source code.'
@@ -221,34 +220,35 @@ def serveTestReportInBackground = tasks.register('serveTestReportInBackground', 
     waitForPort = 9000
 }
 
-def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Installs Cypress and its dependencies for frontend testing using npm ci.'
-    workingDir 'frontend/cypress/'
-    args = ['ci']
-}
+ tasks.register('installCypress', RunPnpmTaskType) {
+     description 'Installs Cypress and its dependencies for frontend testing using pnpm ci.'
+     dependsOn 'installPackageManager'
+     packageJsonDirectory.set(file('frontend/cypress/'))
+     args = 'install'
+ }
 
-tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+ tasks.register('cypress', RunPnpmTaskType) {
+     description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
+     dependsOn installCypress, serveTestReportInBackground
+     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
-    workingDir = file('frontend/cypress/')
-    args = ["run-script", "debug"]
-}
+     packageJsonDirectory.set(file('frontend/cypress/'))
+     args = 'run debug'
+ }
 
-tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+ tasks.register('frontendTest', RunPnpmTaskType) {
+     description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
+     dependsOn installCypress, serveTestReportInBackground
+     tasks.serveTestReportInBackground.mustRunAfter(installCypress)
 
-    workingDir = file('frontend/cypress/')
-    args = ["run-script", "tests"]
+     packageJsonDirectory.set(file('frontend/cypress/'))
+     args = 'run tests'
 
-    // Run tests in CI without slow motion
-    if (project.hasProperty('ci')) {
-        args = ["run-script", "ci"]
-    }
-}
+     // Run tests in CI without slow motion
+     if (project.hasProperty('ci')) {
+         args = 'run ci'
+     }
+ }
 
 tasks.withType(Copy) {
     includeEmptyDirs = true
@@ -312,38 +312,11 @@ def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
     }
 }
 
-def macHotReloadFrontend = tasks.register('macHotReloadFrontend', Exec) {
-    description 'Starts the frontend development server with hot-reloading capabilities on macOS.'
-    dependsOn installFrontend
-    onlyIf {os.isMacOsX()}
-    workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
-}
-
-def windowsHotReloadFrontend = tasks.register('windowsHotReloadFrontend', Exec) {
-    description 'Starts the frontend development server with hot-reloading capabilities on Windows.'
-    dependsOn installFrontend
-    onlyIf {os.isWindows()}
-    workingDir 'frontend/'
-    commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
-}
-
-def linuxHotReloadFrontend = tasks.register('linuxHotReloadFrontend', Exec) {
-    description 'Starts the frontend development server with hot-reloading capabilities on Linux.'
-    dependsOn installFrontend
-    onlyIf {os.isLinux()}
-    workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
-}
-
-tasks.register('hotReloadFrontend') {
+tasks.register('hotReloadFrontend', RunPnpmTaskType) {
     description 'Orchestrates frontend hot-reloading by syncing reports and starting the dev server based on the OS.'
-    dependsOn syncFrontendPublic
-    finalizedBy windowsHotReloadFrontend
-    finalizedBy macHotReloadFrontend
-    finalizedBy linuxHotReloadFrontend
+    dependsOn syncFrontendPublic, installFrontend
+    args = 'run serveOpen'
 }
-// End of hot reload Tasks
 
 void deleteReposAddressDirectory() {
     final String REPOS_ADDRESS = "repos"

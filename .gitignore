@@ -15,12 +15,14 @@ repos/
 logs/
 out/
 
+node/
 node_modules
 /frontend/public/
 !/frontend/public/favicon.ico
 !/frontend/public/index.html
 /frontend/.eslintcache
 /frontend/.stylelintcache
+.frontend-gradle-plugin/
 
 reposense-report/
 docs/_site/
