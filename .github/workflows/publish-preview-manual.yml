@@ -3,6 +3,11 @@ name: GitHub Actions preview build manual
 on:
   workflow_dispatch:
 
+env:
+  NODE_VER: '20.x'
+  JAVA_DISTRIBUTION: 'zulu'
+  JAVA_VER: 11
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
