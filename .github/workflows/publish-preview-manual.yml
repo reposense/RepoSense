@@ -1,0 +1,81 @@
+name: GitHub Actions preview build manual
+
+on:
+  workflow_dispatch:
+
+env:
+  NODE_VER: '20.x'
+  JAVA_DISTRIBUTION: 'zulu'
+  JAVA_VER: 11
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        distribution: ${{ env.JAVA_DISTRIBUTION }}
+        java-version: ${{ env.JAVA_VER }}
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VER }}
+
+    - name: Set up Gradle caching
+      uses: actions/cache@v3
+      with:
+        path: |
+          $HOME/.gradle/caches
+          $HOME/.gradle/wrapper
+        key: ${{ matrix.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+        restore-keys: |
+          ${{ matrix.os }}-gradle-
+
+    - name: Set up Node caching
+      uses: actions/cache@v3
+      with:
+        path: $HOME/.npm
+        key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ matrix.os }}-node-
+
+    - name: Grant execute permission for gradlew
+      if: ${{ runner.os != 'Windows' }}
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew run
+
+    - name: Build docker container
+      run: |
+        git clone https://github.com/github/pages-gem
+        cd pages-gem
+        git checkout v232
+        make image
+
+    - name: Run local website on action runner
+      run: |
+        docker run --rm -d -p 4000:4000 -v ${SITE}:/src/site gh-pages
+      env:
+        SITE: ${{github.workspace}}/reposense-report
+
+    - name: Wait for the service to start
+      run: sleep 10
+
+    - name: Test connection to deployed website
+      run: curl -L http://0.0.0.0:4000/
+
+    - name: Test deployed web page
+      uses: treosh/lighthouse-ci-action@v12
+      with:
+        urls: http://0.0.0.0:4000/
+        uploadArtifacts: true
+
+    - name: Display Lighthouse summary
+      run: cat .lighthouseci/manifest.json | jq '.'

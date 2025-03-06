@@ -1,0 +1,210 @@
+3月 06, 2025 8:11:11 下午 reposense.system.LogsManager addFileHandler
+信息: Log temp folder has been successfully created
+3月 06, 2025 8:11:11 下午 reposense.parser.ArgsParser parse
+信息: Config path not provided, using the config folder as default.
+3月 06, 2025 8:11:11 下午 reposense.parser.BlurbMarkdownParser parse
+信息: Parsing Blurbs...
+3月 06, 2025 8:11:11 下午 reposense.parser.BlurbMarkdownParser parse
+信息: Blurbs parsed successfully!
+3月 06, 2025 8:11:11 下午 reposense.parser.CsvParser validateHeader
+信息: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Since Date,  Ignore Commits List,  Until Date
+3月 06, 2025 8:11:11 下午 reposense.parser.CsvParser validateHeader
+信息: Parsed header of CSV file, author-config.csv, and recognized columns: Author's Emails,  Repository's Location,  Branch,  Author's Git Host ID,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+3月 06, 2025 8:11:11 下午 reposense.model.AuthorConfiguration checkDuplicateAliases
+警告: Duplicate alias skyblaise found. The alias will belong to the last author - skyblaise
+3月 06, 2025 8:11:11 下午 reposense.model.AuthorConfiguration checkDuplicateAliases
+警告: Duplicate alias luo zhijie found. The alias will belong to the last author - luozhijie-tom
+3月 06, 2025 8:11:11 下午 reposense.model.AuthorConfiguration checkDuplicateAliases
+警告: Duplicate alias skyblaise found. The alias will belong to the last author - skyblaise
+3月 06, 2025 8:11:11 下午 reposense.model.AuthorConfiguration checkDuplicateAliases
+警告: Duplicate alias luo zhijie found. The alias will belong to the last author - luozhijie-tom
+3月 06, 2025 8:11:11 下午 reposense.parser.CsvParser validateHeader
+信息: Parsed header of CSV file, group-config.csv, and recognized columns: Globs,  Repository's Location,  Group Name
+3月 06, 2025 8:11:11 下午 reposense.report.RepoCloner spawnCloneProcess
+信息: Cloning in parallel from https://bitbucket.org/skyblaise/testrepo-bitbucket.git...
+3月 06, 2025 8:11:11 下午 reposense.report.RepoCloner spawnCloneProcess
+信息: Cloning in parallel from https://github.com/reposense/RepoSense.git...
+3月 06, 2025 8:11:11 下午 reposense.report.RepoCloner spawnCloneProcess
+信息: Cloning in parallel from https://github.com/reposense/testrepo-Delta.git...
+3月 06, 2025 8:11:11 下午 reposense.report.RepoCloner spawnCloneProcess
+信息: Cloning in parallel from https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code...
+3月 06, 2025 8:11:11 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Waiting for cloning of https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code to complete...
+3月 06, 2025 8:11:11 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Waiting for cloning of https://github.com/reposense/RepoSense.git to complete...
+3月 06, 2025 8:11:11 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Waiting for cloning of https://github.com/reposense/testrepo-Delta.git to complete...
+3月 06, 2025 8:11:11 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Waiting for cloning of https://bitbucket.org/skyblaise/testrepo-bitbucket.git to complete...
+3月 06, 2025 8:11:13 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Cloning of https://bitbucket.org/skyblaise/testrepo-bitbucket.git completed!
+3月 06, 2025 8:11:13 下午 reposense.report.RepoCloner spawnCloneProcess
+信息: Cloning in parallel from https://github.com/reposense/testrepo-Alpha.git...
+3月 06, 2025 8:11:13 下午 reposense.report.ReportGenerator analyzeRepos
+信息: [1/12] Analyzing https://bitbucket.org/skyblaise/testrepo-bitbucket.git (master)...
+3月 06, 2025 8:11:13 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Waiting for cloning of https://github.com/reposense/testrepo-Alpha.git to complete...
+3月 06, 2025 8:11:14 下午 reposense.report.ReportGenerator updateRepoConfig
+信息: https://bitbucket.org/skyblaise/testrepo-bitbucket.git (master) does not contain a standalone config file.
+3月 06, 2025 8:11:14 下午 reposense.authorship.FileInfoExtractor extractTextFileInfos
+信息: Extracting relevant file info from https://bitbucket.org/skyblaise/testrepo-bitbucket.git (master)...
+3月 06, 2025 8:11:14 下午 reposense.commits.CommitInfoExtractor extractCommitInfos
+信息: Extracting commits info for https://bitbucket.org/skyblaise/testrepo-bitbucket.git (master)...
+3月 06, 2025 8:11:14 下午 reposense.commits.CommitInfoAnalyzer analyzeCommits
+信息: Analyzing commits info for https://bitbucket.org/skyblaise/testrepo-bitbucket.git (master)...
+3月 06, 2025 8:11:14 下午 reposense.report.ReportGenerator analyzeRepo
+信息: Analysis of https://bitbucket.org/skyblaise/testrepo-bitbucket.git (master) completed!
+3月 06, 2025 8:11:15 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Cloning of https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code completed!
+3月 06, 2025 8:11:15 下午 reposense.report.ReportGenerator analyzeRepos
+信息: [2/12] Analyzing https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code (master)...
+3月 06, 2025 8:11:15 下午 reposense.report.RepoCloner spawnCloneProcess
+信息: Cloning in parallel from https://github.com/reposense/testrepo-Empty.git...
+3月 06, 2025 8:11:15 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Waiting for cloning of https://github.com/reposense/testrepo-Empty.git to complete...
+3月 06, 2025 8:11:15 下午 reposense.report.ReportGenerator updateRepoConfig
+信息: https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code (master) does not contain a standalone config file.
+3月 06, 2025 8:11:15 下午 reposense.authorship.FileInfoExtractor extractTextFileInfos
+信息: Extracting relevant file info from https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code (master)...
+3月 06, 2025 8:11:15 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Cloning of https://github.com/reposense/testrepo-Alpha.git completed!
+3月 06, 2025 8:11:15 下午 reposense.report.ReportGenerator analyzeRepos
+信息: [3/12] Analyzing https://github.com/reposense/testrepo-Alpha.git (master)...
+3月 06, 2025 8:11:15 下午 reposense.report.RepoCloner spawnCloneProcess
+警告: Exception met while trying to clone the repo "reposense/RepoSense[master]", will skip this repo.
+java.io.IOException: Fail to delete directory repos\reposense_RepoSense\RepoSense_bare\objects\pack
+	at reposense.util.FileUtil.deleteDirectory(FileUtil.java:162)
+	at reposense.util.FileUtil.deleteDirectory(FileUtil.java:155)
+	at reposense.util.FileUtil.deleteDirectory(FileUtil.java:155)
+	at reposense.report.RepoCloner.spawnCloneProcess(RepoCloner.java:171)
+	at reposense.report.RepoCloner.cloneBare(RepoCloner.java:82)
+	at reposense.report.ReportGenerator.cloneRepo(ReportGenerator.java:275)
+	at reposense.report.ReportGenerator.lambda$cloneAndAnalyzeRepos$0(ReportGenerator.java:219)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1700)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+
+3月 06, 2025 8:11:15 下午 reposense.report.RepoCloner spawnCloneProcess
+信息: Cloning in parallel from https://gitlab.com/reposense/testrepo-gitlab.git...
+3月 06, 2025 8:11:15 下午 reposense.report.RepoCloner deleteDirectory
+警告: Error deleting report directory.
+java.io.IOException: Fail to delete directory repos\reposense_RepoSense\RepoSense_bare\objects\pack
+	at reposense.util.FileUtil.deleteDirectory(FileUtil.java:162)
+	at reposense.util.FileUtil.deleteDirectory(FileUtil.java:155)
+	at reposense.util.FileUtil.deleteDirectory(FileUtil.java:155)
+	at reposense.util.FileUtil.deleteDirectory(FileUtil.java:155)
+	at reposense.report.RepoCloner.deleteDirectory(RepoCloner.java:352)
+	at reposense.report.RepoCloner.cleanupRepo(RepoCloner.java:151)
+	at reposense.report.ReportGenerator.analyzeRepos(ReportGenerator.java:304)
+	at reposense.report.ReportGenerator.lambda$cloneAndAnalyzeRepos$1(ReportGenerator.java:226)
+	at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:642)
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:478)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+
+3月 06, 2025 8:11:15 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Waiting for cloning of https://gitlab.com/reposense/testrepo-gitlab.git to complete...
+3月 06, 2025 8:11:15 下午 reposense.report.ReportGenerator updateRepoConfig
+警告: The provided commit hash, , contains illegal characters. Ignoring the config provided by https://github.com/reposense/testrepo-Alpha.git (master).
+3月 06, 2025 8:11:15 下午 reposense.report.ReportGenerator updateAuthorList
+信息: https://github.com/reposense/testrepo-Alpha.git (master) has no authors specified, using all authors by default.
+3月 06, 2025 8:11:15 下午 reposense.report.ReportGenerator analyzeRepos
+警告: No authors found with commits for https://github.com/reposense/testrepo-Alpha.git (master).
+3月 06, 2025 8:11:16 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Cloning of https://github.com/reposense/testrepo-Empty.git completed!
+3月 06, 2025 8:11:16 下午 reposense.report.RepoCloner getClonedRepoLocation
+警告: Exception met while trying to get current branch of https://github.com/reposense/testrepo-Empty.git (master), will skip this repo.
+reposense.git.exception.GitBranchException: Index 1 out of bounds for length 1
+	at reposense.git.GitBranch.getCurrentBranch(GitBranch.java:29)
+	at reposense.report.RepoCloner.getClonedRepoLocation(RepoCloner.java:133)
+	at reposense.report.ReportGenerator.cloneRepo(ReportGenerator.java:276)
+	at reposense.report.ReportGenerator.lambda$cloneAndAnalyzeRepos$0(ReportGenerator.java:219)
+	at java.base/java.util.concurrent.CompletableFuture$AsyncSupply.run(CompletableFuture.java:1700)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+
+3月 06, 2025 8:11:16 下午 reposense.report.RepoCloner spawnCloneProcess
+信息: Cloning in parallel from https://github.com/reposense/testrepo-Beta.git...
+3月 06, 2025 8:11:16 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Waiting for cloning of https://github.com/reposense/testrepo-Beta.git to complete...
+3月 06, 2025 8:11:17 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Cloning of https://gitlab.com/reposense/testrepo-gitlab.git completed!
+3月 06, 2025 8:11:17 下午 reposense.report.ReportGenerator analyzeRepos
+信息: [4/12] Analyzing https://gitlab.com/reposense/testrepo-gitlab.git (main)...
+3月 06, 2025 8:11:17 下午 reposense.report.ReportGenerator updateRepoConfig
+信息: https://gitlab.com/reposense/testrepo-gitlab.git (main) does not contain a standalone config file.
+3月 06, 2025 8:11:17 下午 reposense.authorship.FileInfoExtractor extractTextFileInfos
+信息: Extracting relevant file info from https://gitlab.com/reposense/testrepo-gitlab.git (main)...
+3月 06, 2025 8:11:17 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Cloning of https://github.com/reposense/testrepo-Delta.git completed!
+3月 06, 2025 8:11:17 下午 reposense.report.ReportGenerator analyzeRepos
+信息: [5/12] Analyzing https://github.com/reposense/testrepo-Delta.git (master)...
+3月 06, 2025 8:11:17 下午 reposense.commits.CommitInfoExtractor extractCommitInfos
+信息: Extracting commits info for https://gitlab.com/reposense/testrepo-gitlab.git (main)...
+3月 06, 2025 8:11:17 下午 reposense.commits.CommitInfoAnalyzer analyzeCommits
+信息: Analyzing commits info for https://gitlab.com/reposense/testrepo-gitlab.git (main)...
+3月 06, 2025 8:11:17 下午 reposense.report.ReportGenerator analyzeRepo
+信息: Analysis of https://gitlab.com/reposense/testrepo-gitlab.git (main) completed!
+3月 06, 2025 8:11:17 下午 reposense.commits.CommitInfoExtractor extractCommitInfos
+信息: Extracting commits info for https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code (master)...
+3月 06, 2025 8:11:17 下午 reposense.commits.CommitInfoAnalyzer analyzeCommits
+信息: Analyzing commits info for https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code (master)...
+3月 06, 2025 8:11:17 下午 reposense.report.ReportGenerator analyzeRepo
+信息: Analysis of https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code (master) completed!
+3月 06, 2025 8:11:17 下午 reposense.authorship.FileInfoExtractor extractTextFileInfos
+信息: Extracting relevant file info from https://github.com/reposense/testrepo-Delta.git (master)...
+3月 06, 2025 8:11:18 下午 reposense.commits.CommitInfoExtractor extractCommitInfos
+信息: Extracting commits info for https://github.com/reposense/testrepo-Delta.git (master)...
+3月 06, 2025 8:11:18 下午 reposense.commits.CommitInfoAnalyzer analyzeCommits
+信息: Analyzing commits info for https://github.com/reposense/testrepo-Delta.git (master)...
+3月 06, 2025 8:11:18 下午 reposense.report.ReportGenerator analyzeRepo
+信息: Analysis of https://github.com/reposense/testrepo-Delta.git (master) completed!
+3月 06, 2025 8:11:18 下午 reposense.report.ReportGenerator analyzeRepos
+信息: [6/12] Analyzing https://github.com/reposense/testrepo-Delta.git (nonExistentBranch)...
+3月 06, 2025 8:11:18 下午 reposense.report.ReportGenerator analyzeRepos
+严重: Branch nonExistentBranch does not exist in https://github.com/reposense/testrepo-Delta.git! Analysis terminated.
+reposense.git.exception.GitBranchException: reposense.system.CommandRunnerProcessException: Error returned from command git rev-parse --verify nonExistentBranch on path repos\reposense_testrepo-Delta\testrepo-Delta_bare :
+fatal: Needed a single revision
+
+	at reposense.git.GitRevParse.assertBranchExists(GitRevParse.java:24)
+	at reposense.report.ReportGenerator.analyzeRepos(ReportGenerator.java:317)
+	at reposense.report.ReportGenerator.lambda$cloneAndAnalyzeRepos$1(ReportGenerator.java:226)
+	at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:642)
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:478)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+
+3月 06, 2025 8:11:18 下午 reposense.report.ReportGenerator analyzeRepos
+信息: [7/12] Analyzing https://github.com/reposense/testrepo-Delta.git (add-binary-file)...
+3月 06, 2025 8:11:19 下午 reposense.authorship.FileInfoExtractor extractTextFileInfos
+信息: Extracting relevant file info from https://github.com/reposense/testrepo-Delta.git (add-binary-file)...
+3月 06, 2025 8:11:19 下午 reposense.report.RepoCloner waitForCloneProcess
+信息: Cloning of https://github.com/reposense/testrepo-Beta.git completed!
+3月 06, 2025 8:11:19 下午 reposense.report.ReportGenerator analyzeRepos
+信息: [8/12] Analyzing https://github.com/reposense/testrepo-Beta.git (master)...
+3月 06, 2025 8:11:19 下午 reposense.report.ReportGenerator updateRepoConfig
+信息: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (master).
+3月 06, 2025 8:11:19 下午 reposense.authorship.FileInfoExtractor extractTextFileInfos
+信息: Extracting relevant file info from https://github.com/reposense/testrepo-Beta.git (master)...
+3月 06, 2025 8:11:20 下午 reposense.commits.CommitInfoExtractor extractCommitInfos
+信息: Extracting commits info for https://github.com/reposense/testrepo-Beta.git (master)...
+3月 06, 2025 8:11:20 下午 reposense.commits.CommitInfoAnalyzer analyzeCommits
+信息: Analyzing commits info for https://github.com/reposense/testrepo-Beta.git (master)...
+3月 06, 2025 8:11:20 下午 reposense.report.ReportGenerator analyzeRepo
+信息: Analysis of https://github.com/reposense/testrepo-Beta.git (master) completed!
+3月 06, 2025 8:11:20 下午 reposense.report.ReportGenerator analyzeRepos
+信息: [9/12] Analyzing https://github.com/reposense/testrepo-Beta.git (add-config-json)...
+3月 06, 2025 8:11:21 下午 reposense.report.ReportGenerator updateRepoConfig
+信息: Ignoring standalone config file in https://github.com/reposense/testrepo-Beta.git (add-config-json).
+3月 06, 2025 8:11:21 下午 reposense.authorship.FileInfoExtractor extractTextFileInfos
+信息: Extracting relevant file info from https://github.com/reposense/testrepo-Beta.git (add-config-json)...
+3月 06, 2025 8:11:21 下午 reposense.commits.CommitInfoExtractor extractCommitInfos
+信息: Extracting commits info for https://github.com/reposense/testrepo-Beta.git (add-config-json)...
+3月 06, 2025 8:11:21 下午 reposense.commits.CommitInfoAnalyzer analyzeCommits
+信息: Analyzing commits info for https://github.com/reposense/testrepo-Beta.git (add-config-json)...
+3月 06, 2025 8:11:21 下午 reposense.report.ReportGenerator analyzeRepo
+信息: Analysis of https://github.com/reposense/testrepo-Beta.git (add-config-json) completed!
