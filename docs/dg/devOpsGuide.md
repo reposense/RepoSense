@@ -90,4 +90,4 @@ Currently, deployments are kept forever, even after the pull request is merged o
 ## Post-deployment test
 Publish-RepoSense is our default tool for deploying RepoSense reports. We have automated the testing of deployments via this tool before each merge to strengthen our CI/CD processes. This is automatically performed by the job "GitHub Actions build preview" using the [`publish-preview.yml`](ttps://github.com/reposense/RepoSense/blob/master/config/gh-actions/publish-preview.yml).
 
-The action will simulate a `jekyll build` environment using docker container on the GitHub action runner and audit the webpage using `lighthoucse-ci`, detecting potential issues in rendering the dashboard in actual github environments.  
+The action will simulate a `jekyll build` environment using docker container on the GitHub action runner and audit the webpage using `lighthoucse-ci`, detecting potential issues in rendering the dashboard in actual github environments.
