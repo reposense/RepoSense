@@ -21,9 +21,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Display current directory
-      run: pwd
-
     - name: Download deployment artifacts
       uses: dawidd6/action-download-artifact@v6
       with:
@@ -31,9 +28,6 @@ jobs:
         run_id: ${{ github.event.workflow_run.id }}
         name: reposense-deployment
         path: .
-
-    - name: Check existence of files
-      run: ls -al ./reposense-report
 
     - name: Build docker container
       run: |
