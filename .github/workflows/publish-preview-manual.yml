@@ -21,7 +21,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
-        ref: ref/pull/${{ github.event.inputs.pr_number }}/merge
+        ref: refs/pull/${{ github.event.inputs.pr_number }}/merge
         fetch-depth: 0
 
     - name: Set up JDK 11
