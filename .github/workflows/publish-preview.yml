@@ -1,0 +1,58 @@
+name: GitHub Actions build preview
+
+concurrency:
+  group: publish_reposense_preview
+  cancel-in-progress: false
+
+on:
+  workflow_run:
+    workflows: ["Continuous Integration"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: deploy to github action
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Download deployment artifacts
+      uses: dawidd6/action-download-artifact@v6
+      with:
+        workflow: integration.yml
+        run_id: ${{ github.event.workflow_run.id }}
+        name: reposense-deployment
+        path: .
+
+    - name: Build docker container
+      run: |
+        git clone https://github.com/github/pages-gem
+        cd pages-gem
+        git checkout v232
+        make image
+
+    - name: Run local website on action runner
+      run: |
+        docker run --rm -d -p 4000:4000 -v ${SITE}:/src/site gh-pages
+      env:
+        SITE: ${{github.workspace}}/reposense-report
+
+    - name: Wait for the service to start
+      run: sleep 10
+
+    - name: Test connection to deployed website
+      run: curl -L http://0.0.0.0:4000/
+
+    - name: Test deployed web page
+      uses: treosh/lighthouse-ci-action@v12
+      with:
+        urls: http://0.0.0.0:4000/
+        uploadArtifacts: true
+
+    - name: Display Lighthouse summary
+      run: cat .lighthouseci/manifest.json | jq '.'
+
