@@ -52,9 +52,7 @@ public class StandaloneConfigJsonParserTest {
 
     @BeforeAll
     public static void setUp() throws Exception {
-        Author author = new Author("yong24s");
-        author.setAuthorAliases(Arrays.asList("Yong Hao TENG"));
-        author.setIgnoreGlobList(Arrays.asList("**.css", "**.html", "**.jade", "**.js"));
+        Author author = new Author("yong24s", null, null, Arrays.asList("Yong Hao TENG"), Arrays.asList("**.css", "**.html", "**.jade", "**.js"), null);
 
         expectedGithubIdOnlyRepoconfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_DUMMY_LOCATION)).build();

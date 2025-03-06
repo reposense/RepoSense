@@ -4,13 +4,15 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
- * Represents a Git Author.
+ * Represents an immutable Git Author.
  */
-public class Author {
+public final class Author {
     public static final String NAME_NO_AUTHOR_WITH_COMMITS_FOUND =
             "NO AUTHOR WITH COMMITS FOUND WITHIN THIS PERIOD OF TIME";
     private static final String UNKNOWN_AUTHOR_GIT_ID = "-";
@@ -23,47 +25,84 @@ public class Author {
     private static final String COMMON_EMAIL_REGEX =
             "^([a-zA-Z0-9_\\-\\.\\+]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
     private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
-
     public static final Author UNKNOWN_AUTHOR = new Author(UNKNOWN_AUTHOR_GIT_ID);
 
     private final String gitId;
-
-    private transient List<String> emails;
-    private transient String displayName;
-    private transient List<String> authorAliases;
-    private transient List<String> ignoreGlobList;
-    private transient PathMatcher ignoreGlobMatcher;
+    private final List<String> emails;
+    private final String displayName;
+    private final List<String> authorAliases;
+    private final List<String> ignoreGlobList;
+    private final PathMatcher ignoreGlobMatcher;
 
     public Author(String gitId) {
         this.gitId = gitId;
-        this.emails = new ArrayList<>();
+        List<String> emailList = new ArrayList<>();
+        addStandardGitHostEmails(emailList);
+        this.emails = List.copyOf(emailList);
         this.displayName = gitId;
         this.authorAliases = new ArrayList<>();
         this.ignoreGlobList = new ArrayList<>();
+        this.ignoreGlobMatcher = createPathMatcher(this.ignoreGlobList);
+    }
 
-        addStandardGitHostEmails(this.emails);
-        updateIgnoreGlobMatcher();
+    public Author(String gitId, List<String> emails, String displayName, List<String> authorAliases, List<String> ignoreGlobList, PathMatcher ignoreGlobMatcher) {
+        this.gitId = Optional.ofNullable(gitId).orElseThrow(() -> new IllegalArgumentException("gitId cannot be null"));
+
+        this.emails = Optional.ofNullable(emails)
+                .map(e -> {
+                    List<String> emailsCopy = List.copyOf(e);
+                    validateEmails(emailsCopy);
+                    addStandardGitHostEmails(emailsCopy);
+                    return emailsCopy;
+                }).orElseGet(Collections::emptyList);
+
+
+        this.displayName = Optional.ofNullable(displayName)
+                .filter(d -> !d.isEmpty())
+                .orElse(this.gitId);
+        this.authorAliases = List.copyOf(Optional.ofNullable(authorAliases).orElseGet(Collections::emptyList));
+        this.ignoreGlobList = List.copyOf(Optional.ofNullable(ignoreGlobList)
+                .map(i -> {
+                    validateIgnoreGlobs(i);
+                    return i;
+                }).orElseGet(Collections::emptyList));
+
+        this.ignoreGlobMatcher = Optional.ofNullable(ignoreGlobMatcher).orElse(createPathMatcher(this.ignoreGlobList));
     }
 
     public Author(StandaloneAuthor sa) {
-        String gitId = sa.getGitId();
-        List<String> emails = new ArrayList<>(sa.getEmails());
-        String displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGitId();
-        List<String> authorAliases = sa.getAuthorNames();
-        List<String> ignoreGlobList = sa.getIgnoreGlobList();
+        this.gitId = sa.getGitId();
 
-        this.gitId = gitId;
-        this.displayName = displayName;
-        this.authorAliases = authorAliases;
+        List<String> emailsCopy = List.copyOf(sa.getEmails());
+        validateEmails(emailsCopy);
+        addStandardGitHostEmails(emailsCopy);
+        this.emails = emailsCopy;
 
-        setEmails(emails);
-        setIgnoreGlobList(ignoreGlobList);
+        this.displayName = !sa.getDisplayName().isEmpty() ? sa.getDisplayName() : sa.getGitId();
+
+        this.authorAliases = List.copyOf(sa.getAuthorNames());
+
+        List<String> globList = List.copyOf(sa.getIgnoreGlobList());
+        validateIgnoreGlobs(globList);
+        this.ignoreGlobList = List.copyOf(globList);
+        this.ignoreGlobMatcher = createPathMatcher(this.ignoreGlobList);
+    }
+
+    public Author(Author another, String gitId, List<String> emails, String displayName, List<String> authorAliases, List<String> ignoreGlobList, PathMatcher ignoreGlobMatcher) {
+        this(
+                Optional.ofNullable(gitId).orElse(another.gitId),
+                Optional.ofNullable(emails).orElse(another.emails),
+                Optional.ofNullable(displayName).orElse(another.displayName),
+                Optional.ofNullable(authorAliases).orElse(another.authorAliases),
+                Optional.ofNullable(ignoreGlobList).orElse(another.ignoreGlobList),
+                Optional.ofNullable(ignoreGlobMatcher).orElse(another.ignoreGlobMatcher)
+                );
     }
 
     public Author(Author another) {
         this.gitId = another.gitId;
         this.emails = another.emails;
-        this.displayName = another.gitId;
+        this.displayName = another.displayName;
         this.authorAliases = another.authorAliases;
         this.ignoreGlobList = another.ignoreGlobList;
         this.ignoreGlobMatcher = another.ignoreGlobMatcher;
@@ -74,9 +113,8 @@ public class Author {
      *
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
-    private static void validateEmails(List<String> emails) throws IllegalArgumentException {
+    private static void validateEmails(List<String> emails) {
         Pattern emailPattern = Pattern.compile(COMMON_EMAIL_REGEX);
-
         for (String email : emails) {
             if (!emailPattern.matcher(email).matches()) {
                 throw new IllegalArgumentException(String.format(MESSAGE_UNCOMMON_EMAIL_PATTERN, email));
@@ -89,9 +127,8 @@ public class Author {
      *
      * @throws IllegalArgumentException if any of the values do not meet the criteria.
      */
-    private static void validateIgnoreGlobs(List<String> ignoreGlobList) throws IllegalArgumentException {
+    private static void validateIgnoreGlobs(List<String> ignoreGlobList) {
         Pattern globPattern = Pattern.compile(COMMON_GLOB_REGEX);
-
         for (String glob : ignoreGlobList) {
             if (!globPattern.matcher(glob).matches()) {
                 throw new IllegalArgumentException(String.format(MESSAGE_UNCOMMON_GLOB_PATTERN, glob));
@@ -99,59 +136,65 @@ public class Author {
         }
     }
 
-    public String getGitId() {
-        return gitId;
+    private PathMatcher createPathMatcher(List<String> globList) {
+        String globString = "glob:{" + String.join(",", globList) + "}";
+        return FileSystems.getDefault().getPathMatcher(globString);
     }
 
+    private void addStandardGitHostEmails(List<String> emails) {
+        String standardGitHubEmail = gitId + STANDARD_GITHUB_EMAIL_DOMAIN;
+        String standardGitLabEmail = gitId + STANDARD_GITLAB_EMAIL_DOMAIN;
+        if (!emails.contains(standardGitHubEmail)) {
+            emails.add(standardGitHubEmail);
+        }
+        if (!emails.contains(standardGitLabEmail)) {
+            emails.add(standardGitLabEmail);
+        }
+    }
+
+    // Getters remain unchanged but now return immutable collections
+    public String getGitId() {
+        return gitId;
+
+    }
     public List<String> getEmails() {
         return emails;
     }
 
-    public void setEmails(List<String> emails) {
-        validateEmails(emails);
-        this.emails = new ArrayList<>(emails);
-        addStandardGitHostEmails(this.emails);
-    }
-
     public String getDisplayName() {
-        return displayName;
-    }
+        return this.displayName;
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
     }
-
     public List<String> getAuthorAliases() {
-        return authorAliases;
-    }
-
-    public void setAuthorAliases(List<String> authorAliases) {
-        this.authorAliases = authorAliases;
+        return List.copyOf(this.authorAliases);
     }
 
     public List<String> getIgnoreGlobList() {
-        return ignoreGlobList;
-    }
-
-    public void setIgnoreGlobList(List<String> ignoreGlobList) {
-        validateIgnoreGlobs(ignoreGlobList);
-        this.ignoreGlobList = new ArrayList<>(ignoreGlobList);
-        updateIgnoreGlobMatcher();
+        return List.copyOf(this.ignoreGlobList);
     }
 
     /**
-     * Validates and adds {@code ignoreGlobList} into the {@link Author} class instance variable without duplicates
-     * and updates the ignore glob matcher.
+     * Creates a new Author instance with additional ignore globs.
      */
-    public void importIgnoreGlobList(List<String> ignoreGlobList) {
-        validateIgnoreGlobs(ignoreGlobList);
-        ignoreGlobList.forEach(ignoreGlob -> {
-            if (!this.ignoreGlobList.contains(ignoreGlob)) {
-                this.ignoreGlobList.add(ignoreGlob);
+    public Author withAdditionalIgnoreGlobs(List<String> newIgnoreGlobs) {
+        validateIgnoreGlobs(newIgnoreGlobs);
+        List<String> combinedGlobs = new ArrayList<>(this.ignoreGlobList);
+        newIgnoreGlobs.forEach(glob -> {
+            if (!combinedGlobs.contains(glob)) {
+                combinedGlobs.add(glob);
             }
         });
-        updateIgnoreGlobMatcher();
+
+        return new Author(
+                this.gitId,
+                this.emails,
+                this.displayName,
+                this.authorAliases,
+                combinedGlobs,
+                createPathMatcher(combinedGlobs)
+        );
     }
+
 
     /**
      * Returns true if this author is ignoring the {@code filePath} based on its ignore glob matcher.
@@ -186,27 +229,4 @@ public class Author {
         return gitId;
     }
 
-    /**
-     * Updates the {@link PathMatcher} to the new ignore glob list set.
-     * Called after a new ignore glob list is set.
-     */
-    private void updateIgnoreGlobMatcher() {
-        String globString = "glob:{" + String.join(",", ignoreGlobList) + "}";
-        ignoreGlobMatcher = FileSystems.getDefault().getPathMatcher(globString);
-    }
-
-    /**
-     * Adds the standard github and gitlab emails to {@code emails} if not present.
-     */
-    private void addStandardGitHostEmails(List<String> emails) {
-        String standardGitHubEmail = getGitId() + STANDARD_GITHUB_EMAIL_DOMAIN;
-        String standardGitLabEmail = getGitId() + STANDARD_GITLAB_EMAIL_DOMAIN;
-        if (!emails.contains(standardGitHubEmail)) {
-            emails.add(standardGitHubEmail);
-        }
-        if (!emails.contains(standardGitLabEmail)) {
-            emails.add(standardGitLabEmail);
-        }
-    }
 }
-

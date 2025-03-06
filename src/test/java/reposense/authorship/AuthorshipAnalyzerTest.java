@@ -137,7 +137,7 @@ public class AuthorshipAnalyzerTest extends GitTestTemplate {
         Author fakeAuthor = config.getAuthor("fakeAuthor", "");
 
         // File was renamed analyzeAuthorshipTest2.java -> analyzeAuthorshipTest1.java, ignore previous file name
-        fakeAuthor.importIgnoreGlobList(Arrays.asList(TEST2_FILENAME));
+        fakeAuthor = fakeAuthor.withAdditionalIgnoreGlobs(Arrays.asList(TEST2_FILENAME));
 
         FileInfo fileInfo = analyzeTextFile(TEST1_FILENAME);
 
