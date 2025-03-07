@@ -419,10 +419,10 @@ public class ArgsParser {
         Path configFolderPath = results.get(CONFIG_FLAGS[0]);
 
         // Blurbs are parsed regardless
-        Path blurbConfigPath = configFolderPath.resolve(BlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+        Path blurbConfigPath = configFolderPath.resolve(RepoBlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
 
         try {
-            blurbMap = new BlurbMarkdownParser(blurbConfigPath).parse();
+            blurbMap = new RepoBlurbMarkdownParser(blurbConfigPath).parse();
         } catch (InvalidMarkdownException ex) {
             logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
         } catch (IOException ioe) {
