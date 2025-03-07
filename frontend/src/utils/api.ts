@@ -235,12 +235,16 @@ window.api = {
     });
 
     const blurbMap: { [key: string]: string } = data.blurbs.urlBlurbMap;
+    const authorBlurbMap: {[key: string]: string} = data.authorBlurbs.urlBlurbMap;
+    const chartsBlurbMap: {[key: string]: {[key: string]: string}} = data.chartsBlurbs.urlBlurbMap;
     return {
       creationDate: reportGeneratedTime,
       reportGenerationTime,
       errorMessages,
       names,
       blurbMap,
+      authorBlurbMap,
+      chartsBlurbMap
     };
   },
 

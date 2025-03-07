@@ -48,6 +48,12 @@ export const summarySchema = z.object({
   blurbs: z.object({
     urlBlurbMap: z.record(z.string(), z.string()),
   }),
+  authorBlurbs: z.object({
+    urlBlurbMap: z.record(z.string(), z.string())
+  }),
+  chartsBlurbs: z.object({
+    urlBlurbMap: z.record(z.string(), z.record(z.string(), z.string()))
+  })
 });
 
 // Export typescript types
