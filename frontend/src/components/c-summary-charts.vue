@@ -307,7 +307,7 @@
             font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
       .blurbWrapper(
-        v-if="filterGroupSelection === 'groupByRepos'")      
+        v-if="filterGroupSelection === 'groupByRepos'")
         c-markdown-chunk.blurb(
           :markdown-text="getChartBlurb(user.name, repo[0])"
         )
@@ -1028,8 +1028,8 @@ export default defineComponent({
         return "";
       }
       return blurb;
-    }, 
-
+    },
+    
     getAuthorBlurb(userName: string): string {
       const blurb: string | undefined = this.$store.state.authorBlurbMap[userName]
       if (!blurb) {
