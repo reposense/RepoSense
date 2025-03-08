@@ -1029,7 +1029,6 @@ export default defineComponent({
       }
       return blurb;
     },
-    
     getAuthorBlurb(userName: string): string {
       const blurb: string | undefined = this.$store.state.authorBlurbMap[userName]
       if (!blurb) {
