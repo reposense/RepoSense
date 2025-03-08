@@ -160,7 +160,8 @@
   "isAuthorshipAnalyzed": false,
   "blurbs": {
     "urlBlurbMap": {
-      "https://github.com/reposense/testrepo-Alpha/tree/master": "Master branch of testrepo-Alpha"
+      "https://github.com/reposense/testrepo-Alpha/tree/master": "Master branch of testrepo-Alpha",
+      "https://github.com/reposense/testrepo-Beta/tree/master": "Another test for markdown"
     }
   },
   "authorBlurbs" : {
@@ -171,7 +172,8 @@
   },
   "chartsBlurbs" : {
     "urlBlurbMap": {
-
+      "https://github.com/reposense/testrepo-Beta/tree/master|April0616": "Test again",
+      "https://github.com/reposense/testrepo-Beta/tree/master|nbriannl": "Test again 2222"
     }
   },
   "isPortfolio": false

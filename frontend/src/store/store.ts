@@ -92,7 +92,7 @@ export default createStore<StoreState>({
     setAuthorBlurbMap(state: StoreState, map: {[key: string]: string }) {
       state.authorBlurbMap = map;
     },
-    setChartsBlurbMap(state: StoreState, map: {[key: string]: {[key: string]: string}}) {
+    setChartsBlurbMap(state: StoreState, map: {[key: string]: string}) {
       state.chartsBlurbMap = map;
     }
   },
