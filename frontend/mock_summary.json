@@ -1,0 +1,178 @@
+{
+  "repoSenseVersion": "1c5bce101b",
+  "reportGeneratedTime": "周五, 7 3月 2025 22:46:12 SGT",
+  "reportGenerationTime": " 18.98 second(s)",
+  "zoneId": "Asia/Singapore",
+  "reportTitle": "RepoSense Report",
+  "repos": [
+    {
+      "location": {
+        "location": "https://github.com/reposense/testrepo-Alpha.git",
+        "repoName": "testrepo-Alpha",
+        "organization": "reposense",
+        "domainName": "github"
+      },
+      "branch": "master",
+      "displayName": "reposense/testrepo-Alpha[master]",
+      "outputFolderName": "reposense_testrepo-Alpha_master",
+      "sinceDate": "2025-02-07",
+      "untilDate": "2025-03-07"
+    },
+    {
+      "location": {
+        "location": "https://github.com/reposense/testrepo-Beta.git",
+        "repoName": "testrepo-Beta",
+        "organization": "reposense",
+        "domainName": "github"
+      },
+      "branch": "master",
+      "displayName": "reposense/testrepo-Beta[master]",
+      "outputFolderName": "reposense_testrepo-Beta_master",
+      "sinceDate": "2025-02-07",
+      "untilDate": "2025-03-07"
+    },
+    {
+      "location": {
+        "location": "https://github.com/reposense/testrepo-Beta.git",
+        "repoName": "testrepo-Beta",
+        "organization": "reposense",
+        "domainName": "github"
+      },
+      "branch": "add-config-json",
+      "displayName": "reposense/testrepo-Beta[add-config-json]",
+      "outputFolderName": "reposense_testrepo-Beta_add-config-json",
+      "sinceDate": "2025-02-07",
+      "untilDate": "2025-03-07"
+    },
+    {
+      "location": {
+        "location": "https://github.com/reposense/testrepo-Delta.git",
+        "repoName": "testrepo-Delta",
+        "organization": "reposense",
+        "domainName": "github"
+      },
+      "branch": "master",
+      "displayName": "reposense/testrepo-Delta[master]",
+      "outputFolderName": "reposense_testrepo-Delta_master",
+      "sinceDate": "2025-02-07",
+      "untilDate": "2025-03-07"
+    },
+    {
+      "location": {
+        "location": "https://github.com/reposense/testrepo-Delta.git",
+        "repoName": "testrepo-Delta",
+        "organization": "reposense",
+        "domainName": "github"
+      },
+      "branch": "add-binary-file",
+      "displayName": "reposense/testrepo-Delta[add-binary-file]",
+      "outputFolderName": "reposense_testrepo-Delta_add-binary-file",
+      "sinceDate": "2025-02-07",
+      "untilDate": "2025-03-07"
+    },
+    {
+      "location": {
+        "location": "https://bitbucket.org/skyblaise/testrepo-bitbucket.git",
+        "repoName": "testrepo-bitbucket",
+        "organization": "skyblaise",
+        "domainName": "bitbucket"
+      },
+      "branch": "master",
+      "displayName": "skyblaise/testrepo-bitbucket[master]",
+      "outputFolderName": "skyblaise_testrepo-bitbucket_master",
+      "sinceDate": "2025-02-07",
+      "untilDate": "2025-03-07"
+    },
+    {
+      "location": {
+        "location": "https://gitlab.com/reposense/testrepo-gitlab.git",
+        "repoName": "testrepo-gitlab",
+        "organization": "reposense",
+        "domainName": "gitlab"
+      },
+      "branch": "main",
+      "displayName": "reposense/testrepo-gitlab[main]",
+      "outputFolderName": "reposense_testrepo-gitlab_main",
+      "sinceDate": "2025-02-07",
+      "untilDate": "2025-03-07"
+    }
+  ],
+  "errorSet": [
+    {
+      "repoName": "p-repo-sense-test-repo/code[master]",
+      "errorMessage": "Failed to clone from https://tomluozhijie@git.code.sf.net/p/repo-sense-test-repo/code"
+    },
+    {
+      "repoName": "reposense/RepoSense[master]",
+      "errorMessage": "Failed to clone from https://github.com/reposense/RepoSense.git"
+    },
+    {
+      "repoName": "reposense/RepoSense[master]",
+      "errorMessage": "Failed to clone from ftp://github.com/reposense/RepoSense.git"
+    },
+    {
+      "repoName": "reposense/testrepo-Empty[master]",
+      "errorMessage": "Failed to clone from https://github.com/reposense/testrepo-Empty.git"
+    },
+    {
+      "repoName": "reposense/testrepo-Delta[nonExistentBranch]",
+      "errorMessage": "Branch \"nonExistentBranch\" does not exist."
+    }
+  ],
+  "sinceDate": "2025-02-07",
+  "untilDate": "2025-03-07",
+  "isSinceDateProvided": false,
+  "isUntilDateProvided": false,
+  "supportedDomainUrlMap": {
+    "NOT_RECOGNIZED": {
+      "BRANCH": "",
+      "REPO_URL": "UNSUPPORTED",
+      "BASE_URL": "UNSUPPORTED",
+      "HISTORY_PATH": "",
+      "COMMIT_PATH": "",
+      "BLAME_PATH": ""
+    },
+    "bitbucket": {
+      "BRANCH": "src/$BRANCH",
+      "REPO_URL": "https://bitbucket.org/$ORGANIZATION/$REPO_NAME/",
+      "BASE_URL": "https://bitbucket.org/",
+      "HISTORY_PATH": "history-node/HEAD/$FILE_PATH?at\u003d$BRANCH",
+      "COMMIT_PATH": "commits/$COMMIT_HASH",
+      "BLAME_PATH": "annotate/$BRANCH/$FILE_PATH"
+    },
+    "github": {
+      "BRANCH": "tree/$BRANCH",
+      "REPO_URL": "https://github.com/$ORGANIZATION/$REPO_NAME/",
+      "BASE_URL": "https://github.com/",
+      "HISTORY_PATH": "commits/$BRANCH/$FILE_PATH",
+      "COMMIT_PATH": "commit/$COMMIT_HASH",
+      "BLAME_PATH": "blame/$BRANCH/$FILE_PATH"
+    },
+    "gitlab": {
+      "BRANCH": "-/tree/$BRANCH",
+      "REPO_URL": "https://gitlab.com/$ORGANIZATION/$REPO_NAME/",
+      "BASE_URL": "https://gitlab.com/",
+      "HISTORY_PATH": "-/commits/$BRANCH/$FILE_PATH",
+      "COMMIT_PATH": "-/commit/$COMMIT_HASH",
+      "BLAME_PATH": "-/blame/$BRANCH/$FILE_PATH"
+    }
+  },
+  "isAuthorshipAnalyzed": false,
+  "blurbs": {
+    "urlBlurbMap": {
+      "https://github.com/reposense/testrepo-Alpha/tree/master": "Master branch of testrepo-Alpha"
+    }
+  },
+  "authorBlurbs" : {
+    "urlBlurbMap" : {
+      "zsc990124": "Test Markdown for author blurb ",
+      "CindyTsai1": "Mock data to test frontend rendering of blurbs"
+    }
+  },
+  "chartsBlurbs" : {
+    "urlBlurbMap": {
+
+    }
+  },
+  "isPortfolio": false
+}

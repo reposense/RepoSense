@@ -52,7 +52,7 @@ export const summarySchema = z.object({
     urlBlurbMap: z.record(z.string(), z.string())
   }),
   chartsBlurbs: z.object({
-    urlBlurbMap: z.record(z.string(), z.record(z.string(), z.string()))
+    urlBlurbMap: z.record(z.string(), z.string())
   })
 });
 

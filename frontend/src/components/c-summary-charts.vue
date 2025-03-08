@@ -165,6 +165,12 @@
         :markdown-text="getBlurb(repo[0])"
       )
 
+    .blurbWrapper(
+      v-if="filterGroupSelection === 'groupByAuthors'")
+      c-markdown-chunk.blurb(
+        :markdown-text="getAuthorBlurb(repo[0].name)"
+      )
+
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -1001,10 +1007,18 @@ export default defineComponent({
       }
       const blurb: string | undefined = this.$store.state.blurbMap[link];
       if (!blurb) {
-        return '';
+        return "";
       }
       return blurb;
     },
+
+    getAuthorBlurb(userName: string): string {
+      const blurb: string | undefined = this.$store.state.authorBlurbMap[userName]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    }
   },
 });
 </script>

@@ -38,7 +38,7 @@ interface SummaryDates {
 }
 
 interface StoreState {
-  chartsBlurbMap: { [key: string]: { [key: string]: string } };
+  chartsBlurbMap: { [key: string]: string };
   authorBlurbMap: { [key: string]: string };
   tabAuthorshipInfo: AuthorshipInfo;
   tabZoomInfo: ZoomInfo;
