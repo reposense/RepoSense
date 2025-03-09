@@ -334,7 +334,6 @@
             c-stacked-bar-chart(
               :bars="getContributionBars(user.checkedFileTypeContribution)"
             )
-
 </template>
 
 <script lang="ts">
