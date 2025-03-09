@@ -74,17 +74,43 @@ describe('optimise timeline', () => {
       .type('2019-01-01');
 
     cy.get('#summary-charts .summary-chart')
-        .first()
-        .find('.summary-chart__ramp .date-indicators span')
-        .first()
-        .should('have.text', '2018-12-31');
+      .first()
+      .find('.summary-chart__ramp .date-indicators span')
+      .first()
+      .should('have.text', '2018-12-31');
 
     cy.get('#summary-charts .summary-chart')
-        .first()
-        .find('.summary-chart__ramp .date-indicators span')
-        .last()
-        .should('have.text', '2019-01-01');
+      .first()
+      .find('.summary-chart__ramp .date-indicators span')
+      .last()
+      .should('have.text', '2019-01-01');
+  });
 
+  it('should only include commits within tighter date range from summary.json', () => {
+    // change since date
+    cy.get('input[name="since"]')
+      .type('2018-12-31');
+
+    // change until date
+    cy.get('input[name="until"]')
+      .type('2025-01-01');
+
+    cy.get('#summary-charts .summary-chart')
+      .last()
+      .find('.summary-chart__ramp .ramp .ramp-padding a')
+      .then(($el) => {
+        const rampSlices = $el.length;
+
+        cy.get('#summary label.optimise-timeline > input:visible')
+          .should('be.visible')
+          .check()
+          .should('be.checked');
+
+        cy.get('#summary-charts .summary-chart')
+          .last()
+          .find('.summary-chart__ramp .ramp .ramp-padding a')
+          .should('have.length', rampSlices);
+      });
   });
 
   it('zoom panel range should work correctly when timeline is optimised', () => {
