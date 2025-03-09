@@ -13,7 +13,9 @@
       },
       "branch": "master",
       "displayName": "parent1/test-repo[master]",
-      "outputFolderName": "parent1_test-repo_master"
+      "outputFolderName": "parent1_test-repo_master",
+      "sinceDate": "1970-01-01",
+      "untilDate": "2023-01-31"
     },
     {
       "location": {
@@ -24,7 +26,9 @@
       },
       "branch": "master",
       "displayName": "parent2/test-repo[master]",
-      "outputFolderName": "parent2_test-repo_master"
+      "outputFolderName": "parent2_test-repo_master",
+      "sinceDate": "1970-01-01",
+      "untilDate": "2023-01-31"
     }
   ],
   "errorSet": [],
