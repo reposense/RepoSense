@@ -56,11 +56,10 @@ describe('optimise timeline', () => {
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .last()
-
       .should('have.text', '2023-03-03');
   });
 
-  it('no commits in range should not have date indicators', () => {
+  it('no commits in range should display filter since and until dates', () => {
     cy.get('#summary label.optimise-timeline > input:visible')
       .should('be.visible')
       .check()
@@ -75,9 +74,17 @@ describe('optimise timeline', () => {
       .type('2019-01-01');
 
     cy.get('#summary-charts .summary-chart')
-      .first()
-      .find('.summary-chart__ramp .date-indicators')
-      .should('not.exist');
+        .first()
+        .find('.summary-chart__ramp .date-indicators span')
+        .first()
+        .should('have.text', '2018-12-31');
+
+    cy.get('#summary-charts .summary-chart')
+        .first()
+        .find('.summary-chart__ramp .date-indicators span')
+        .last()
+        .should('have.text', '2019-01-01');
+
   });
 
   it('zoom panel range should work correctly when timeline is optimised', () => {
