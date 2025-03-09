@@ -56,11 +56,10 @@ describe('optimise timeline', () => {
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .last()
-
       .should('have.text', '2023-03-03');
   });
 
-  it('no commits in range should not have date indicators', () => {
+  it('no commits in range should display filter since and until dates', () => {
     cy.get('#summary label.optimise-timeline > input:visible')
       .should('be.visible')
       .check()
@@ -76,8 +75,42 @@ describe('optimise timeline', () => {
 
     cy.get('#summary-charts .summary-chart')
       .first()
-      .find('.summary-chart__ramp .date-indicators')
-      .should('not.exist');
+      .find('.summary-chart__ramp .date-indicators span')
+      .first()
+      .should('have.text', '2018-12-31');
+
+    cy.get('#summary-charts .summary-chart')
+      .first()
+      .find('.summary-chart__ramp .date-indicators span')
+      .last()
+      .should('have.text', '2019-01-01');
+  });
+
+  it('should only include commits within tighter date range from summary.json', () => {
+    // change since date
+    cy.get('input[name="since"]')
+      .type('2018-05-03');
+
+    // change until date
+    cy.get('input[name="until"]')
+      .type('2025-01-01');
+
+    cy.get('#summary-charts .summary-chart')
+      .last()
+      .find('.summary-chart__ramp .ramp .ramp-padding a')
+      .then(($el) => {
+        const rampSlices = $el.length;
+
+        cy.get('#summary label.optimise-timeline > input:visible')
+          .should('be.visible')
+          .check()
+          .should('be.checked');
+
+        cy.get('#summary-charts .summary-chart')
+          .last()
+          .find('.summary-chart__ramp .ramp .ramp-padding a')
+          .should('have.length', rampSlices);
+      });
   });
 
   it('zoom panel range should work correctly when timeline is optimised', () => {
