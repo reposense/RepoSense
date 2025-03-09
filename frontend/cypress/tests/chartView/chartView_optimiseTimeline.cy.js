@@ -89,7 +89,7 @@ describe('optimise timeline', () => {
   it('should only include commits within tighter date range from summary.json', () => {
     // change since date
     cy.get('input[name="since"]')
-      .type('2018-12-31');
+      .type('2018-05-03');
 
     // change until date
     cy.get('input[name="until"]')
