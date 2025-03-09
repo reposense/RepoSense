@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -46,6 +46,7 @@ jobs:
         pr: ${{ steps.pr-number.outputs.ACTIONS_PR_NUMBER }}
         workflow_conclusion: success
         name: reposense-deployment-id
+        allow_forks: true
         path: ./pr
 
     - name: Update PR checklist for surge.sh as in progress

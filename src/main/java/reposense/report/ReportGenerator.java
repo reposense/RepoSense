@@ -115,6 +115,7 @@ public class ReportGenerator {
      * @param shouldAnalyzeAuthorship The boolean variable for whether to further analyze authorship.
      * @param originalityThreshold The double variable for originality threshold in analyze authorship.
      * @param blurbMap The {@code BlurbMap}.
+     * @param isPortfolio The boolean variable for whether to generate code portfolio optimised report.
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exist in jar file.
      * @throws InvalidMarkdownException if the blurb markdown file cannot be parsed properly.
@@ -123,8 +124,8 @@ public class ReportGenerator {
             ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
-            boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold, BlurbMap blurbMap)
-            throws IOException, InvalidMarkdownException {
+            boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold, BlurbMap blurbMap,
+            boolean isPortfolio) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
@@ -143,7 +144,7 @@ public class ReportGenerator {
                 new SummaryJson(configs, reportConfig, generationDate,
                         reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
-                        reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, blurbMap),
+                        reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, blurbMap, isPortfolio),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 
