@@ -33,12 +33,6 @@ The report can be customized using several ways, as explained below.
 
 **Managing config files collaboratively**: If you use RepoSense to monitor a large number of programmers, it may be more practical to get the programmers to submit PRs to update the config files as necessary (<tooltip content="a coder realizes some of her code is missing from the report because she used multiple Git usernames, and wants to add the additional usernames to the config file">example use case</tooltip>).
 
-To ensure that their PRs are correct, you can use [Netlify _deploy previews_](https://www.netlify.com/blog/2016/07/20/introducing-deploy-previews-in-netlify/) to preview how the report would look like after the PR has been merged. More details are in the panels below.
-
-  {{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}
-
-  {{ embed("Appendix: **Using RepoSense with Netlify → PR previews**", "withNetlify.md#section-pr-previews") }}
-
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->

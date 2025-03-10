@@ -53,6 +53,3 @@ For other types of repositories, external links are disabled.
 **The recommended option is to use GitHub Actions.** The instructions are given below.
 
 {{ embed("Appendix: **Using RepoSense with GitHub Actions → Setting up**", "withGithubActions.md#section-setting-up") }}
-
-You may also consider using Netlify to deploy your report. **However, we may not support this method going forward.**
-{{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}

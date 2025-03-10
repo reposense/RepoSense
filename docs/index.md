@@ -79,9 +79,8 @@ This website was built using MarkBind.
 
 [<img src="https://markbind.org/images/logo-lightbackground.png" width="150">](http://markbind.org)
 
-Deploy previews are powered by Netlify and Surge.
+Deploy previews are powered by Surge.
 
-[<img src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"/>](https://www.netlify.com)
 [<img width="55px" src="https://surge.sh/images/logos/svg/surge-logo.svg">](https://surge.sh)
 </small>
 
