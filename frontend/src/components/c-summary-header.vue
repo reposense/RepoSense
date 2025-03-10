@@ -1,18 +1,17 @@
 <template lang="pug">
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
-      .mui-textfield.search_box
+      .mui-textfield.search_box(v-if='!isPortfolio')
         input(type="text", v-model="localFilterSearch")
         label search
         button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilterSearch") x
-      // ?? WATCHER
-      .mui-select.grouping
+      .mui-select.grouping(v-if='!isPortfolio')
         select(v-model="localFilterGroupSelection")
           option(value="groupByNone") None
           option(value="groupByRepos") Repo/Branch
           option(value="groupByAuthors") Author
         label group by
-      .mui-select.sort-group
+      .mui-select.sort-group(v-if='!isPortfolio')
         select(v-model="localSortGroupSelection", @change="$emit('get-filtered')")
           option(value="groupTitle") &uarr; group title
           option(value="groupTitle dsc") &darr; group title
@@ -21,7 +20,7 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort groups by
-      .mui-select.sort-within-group
+      .mui-select.sort-within-group(v-if='!isPortfolio')
         select(
           v-model="localSortWithinGroupSelection",
           :disabled="localFilterGroupSelection === 'groupByNone' || localAllGroupsMerged",
@@ -34,27 +33,27 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort within groups by
-      .mui-select.granularity
+      .mui-select.granularity(v-if='!isPortfolio')
         select(v-model="localFilterTimeFrame", @change="$emit('get-filtered')")
           option(value="commit") Commit
           option(value="day") Day
           option(value="week") Week
         label granularity
-      .mui-textfield
+      .mui-textfield(v-if='!isPortfolio')
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
         input(v-else, type="date", name="since", :value="filterSinceDate", @input="updateTmpFilterSinceDate",
           :min="minDate", :max="filterUntilDate")
         label since
-      .mui-textfield
+      .mui-textfield(v-if='!isPortfolio')
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           :value="filterUntilDate", @keyup.enter="updateTmpFilterUntilDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
         input(v-else, type="date", name="until", :value="filterUntilDate", @input="updateTmpFilterUntilDate",
           :min="filterSinceDate", :max="maxDate")
         label until
-      .mui-textfield
+      .mui-textfield(v-if='!isPortfolio')
         a(@click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
         label.filter-breakdown
@@ -65,6 +64,7 @@
           )
           span breakdown by file type
         label.merge-group(
+          v-if='!isPortfolio'
           :style="localFilterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
         )
           input.mui-checkbox(
@@ -73,7 +73,7 @@
             :disabled="localFilterGroupSelection === 'groupByNone'"
           )
           span merge all groups
-        label.show-tags
+        label.show-tags(v-if='!isPortfolio')
           input.mui-checkbox(
             type="checkbox",
             v-model="localViewRepoTags",
@@ -192,6 +192,10 @@ export default defineComponent({
     'reset-date-range',
     'toggle-breakdown',
   ],
+
+  data(): { isPortfolio: boolean } {
+    return {isPortfolio: window.isPortfolio};
+  },
 
   computed: {
     localFilterSearch: {

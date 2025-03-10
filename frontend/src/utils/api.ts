@@ -218,6 +218,7 @@ window.api = {
     window.isSinceDateProvided = data.isSinceDateProvided;
     window.isUntilDateProvided = data.isUntilDateProvided;
     window.isAuthorshipAnalyzed = data.isAuthorshipAnalyzed;
+    window.isPortfolio = data.isPortfolio;
     document.title = data.reportTitle || document.title;
 
     const errorMessages: { [key: string]: ErrorMessage } = {};
