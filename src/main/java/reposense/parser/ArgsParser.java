@@ -80,6 +80,7 @@ public class ArgsParser {
     public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
     public static final String[] ANALYZE_AUTHORSHIP_FLAGS = new String[] {"--analyze-authorship", "-A"};
     public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
+    public static final String[] PORTFOLIO_FLAG = new String[] {"--portfolio", "-P"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -235,6 +236,11 @@ public class ArgsParser {
                         + "is performed. Author will be given full credit if their contribution exceeds this "
                         + "threshold, else partial credit is given.");
 
+        parser.addArgument(PORTFOLIO_FLAG)
+                .dest(PORTFOLIO_FLAG[0])
+                .action(Arguments.storeTrue())
+                .help("Generates an optimized report for code portfolio pages");
+
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)
                 .dest(CONFIG_FLAGS[0])
@@ -322,6 +328,7 @@ public class ArgsParser {
         boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
         boolean isAuthorshipAnalyzed = results.get(ANALYZE_AUTHORSHIP_FLAGS[0]);
         double originalityThreshold = results.get(ORIGINALITY_THRESHOLD_FLAGS[0]);
+        boolean isPortfolio = results.get(PORTFOLIO_FLAG[0]);
         int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
         int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
 
@@ -342,8 +349,8 @@ public class ArgsParser {
                 .numAnalysisThreads(numAnalysisThreads)
                 .isTestMode(isTestMode)
                 .isAuthorshipAnalyzed(isAuthorshipAnalyzed)
-                .originalityThreshold(originalityThreshold);
-
+                .originalityThreshold(originalityThreshold)
+                .isPortfolio(isPortfolio);
         LogsManager.setLogFolderLocation(outputFolderPath);
 
         if (locations == null && configFolderPath.equals(DEFAULT_CONFIG_PATH)) {
