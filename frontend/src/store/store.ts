@@ -89,11 +89,11 @@ export default createStore<StoreState>({
     setBlurbMap(state: StoreState, blurbMap: { [key: string]: string }) {
       state.blurbMap = blurbMap;
     },
-    setAuthorBlurbMap(state: StoreState, map: {[key: string]: string }) {
-      state.authorBlurbMap = map;
+    setAuthorBlurbMap(state: StoreState, map: {[key: string]: string } | undefined) {
+      state.authorBlurbMap = map ?? {};
     },
-    setChartsBlurbMap(state: StoreState, map: {[key: string]: string}) {
-      state.chartsBlurbMap = map;
+    setChartsBlurbMap(state: StoreState, map: {[key: string]: string} | undefined) {
+      state.chartsBlurbMap = map ?? {};
     }
   },
   actions: {

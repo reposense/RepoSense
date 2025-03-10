@@ -50,10 +50,10 @@ export const summarySchema = z.object({
   }),
   authorBlurbs: z.object({
     urlBlurbMap: z.record(z.string(), z.string())
-  }),
+  }).optional(),
   chartsBlurbs: z.object({
     urlBlurbMap: z.record(z.string(), z.string())
-  })
+  }).optional()
 });
 
 // Export typescript types
