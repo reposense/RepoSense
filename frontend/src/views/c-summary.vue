@@ -1,27 +1,27 @@
 <template lang="pug">
 #summary
   c-summary-header(
-    v-if="!isWidgetMode"
-    v-model:filter-search="filterSearch"
-    v-model:filter-group-selection="filterGroupSelection"
-    v-model:sort-group-selection="sortGroupSelection"
-    v-model:sort-within-group-selection="sortWithinGroupSelection"
-    v-model:filter-time-frame="filterTimeFrame"
-    v-model:filter-breakdown="filterBreakdown"
-    v-model:tmp-filter-since-date="tmpFilterSinceDate"
-    v-model:tmp-filter-until-date="tmpFilterUntilDate"
-    v-model:view-repo-tags="viewRepoTags"
-    v-model:optimise-timeline="optimiseTimeline"
-    v-model:all-groups-merged="allGroupsMerged"
-    v-model:has-modified-since-date="hasModifiedSinceDate"
-    v-model:has-modified-until-date="hasModifiedUntilDate"
-    :min-date="minDate"
-    :max-date="maxDate"
-    :is-safari-browser="isSafariBrowser"
-    :filter-since-date="filterSinceDate"
-    :filter-until-date="filterUntilDate"
-    @get-filtered="getFiltered"
-    @reset-date-range="resetDateRange"
+    v-if="!isWidgetMode",
+    v-model:filter-search="filterSearch",
+    v-model:filter-group-selection="filterGroupSelection",
+    v-model:sort-group-selection="sortGroupSelection",
+    v-model:sort-within-group-selection="sortWithinGroupSelection",
+    v-model:filter-time-frame="filterTimeFrame",
+    v-model:filter-breakdown="filterBreakdown",
+    v-model:tmp-filter-since-date="tmpFilterSinceDate",
+    v-model:tmp-filter-until-date="tmpFilterUntilDate",
+    v-model:view-repo-tags="viewRepoTags",
+    v-model:optimise-timeline="optimiseTimeline",
+    v-model:all-groups-merged="allGroupsMerged",
+    v-model:has-modified-since-date="hasModifiedSinceDate",
+    v-model:has-modified-until-date="hasModifiedUntilDate",
+    :min-date="minDate",
+    :max-date="maxDate",
+    :is-safari-browser="isSafariBrowser",
+    :filter-since-date="filterSinceDate",
+    :filter-until-date="filterUntilDate",
+    @get-filtered="getFiltered",
+    @reset-date-range="resetDateRange",
     @toggle-breakdown="toggleBreakdown"
   )
 

@@ -5,12 +5,14 @@
         input(type="text", v-model="localFilterSearch")
         label search
         button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilterSearch") x
+
       .mui-select.grouping(v-if='!isPortfolio')
         select(v-model="localFilterGroupSelection")
           option(value="groupByNone") None
           option(value="groupByRepos") Repo/Branch
           option(value="groupByAuthors") Author
         label group by
+
       .mui-select.sort-group(v-if='!isPortfolio')
         select(v-model="localSortGroupSelection", @change="$emit('get-filtered')")
           option(value="groupTitle") &uarr; group title
@@ -20,6 +22,7 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort groups by
+
       .mui-select.sort-within-group(v-if='!isPortfolio')
         select(
           v-model="localSortWithinGroupSelection",
@@ -33,12 +36,14 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort within groups by
+
       .mui-select.granularity(v-if='!isPortfolio')
         select(v-model="localFilterTimeFrame", @change="$emit('get-filtered')")
           option(value="commit") Commit
           option(value="day") Day
           option(value="week") Week
         label granularity
+
       .mui-textfield(v-if='!isPortfolio')
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
@@ -55,6 +60,7 @@
         label until
       .mui-textfield(v-if='!isPortfolio')
         a(@click="resetDateRange") Reset date range
+
       .summary-picker__checkboxes.summary-picker__section
         label.filter-breakdown
           input.mui-checkbox(
@@ -63,8 +69,9 @@
             @change="toggleBreakdown"
           )
           span breakdown by file type
+
         label.merge-group(
-          v-if='!isPortfolio'
+          v-if='!isPortfolio',
           :style="localFilterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
         )
           input.mui-checkbox(
@@ -73,6 +80,7 @@
             :disabled="localFilterGroupSelection === 'groupByNone'"
           )
           span merge all groups
+
         label.show-tags(v-if='!isPortfolio')
           input.mui-checkbox(
             type="checkbox",
@@ -80,6 +88,7 @@
             @change="$emit('get-filtered')"
           )
           span show tags
+
         label.optimise-timeline
           input.mui-checkbox(
             type="checkbox",
