@@ -191,7 +191,7 @@
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
-          v-if="filterGroupSelection !== 'groupByAuthors'",
+          v-if="!isPortfolio && filterGroupSelection !== 'groupByAuthors'",
           :class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
@@ -434,6 +434,7 @@ export default defineComponent({
     activeUser: string | null,
     activeTabType: string | null,
     isTabOnMergedGroup: boolean,
+    isPortfolio: boolean,
   } {
     return {
       drags: [] as Array<number>,
@@ -441,6 +442,7 @@ export default defineComponent({
       activeUser: null as string | null,
       activeTabType: null as string | null,
       isTabOnMergedGroup: false,
+      isPortfolio: window.isPortfolio,
     };
   },
 
