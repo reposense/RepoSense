@@ -1,9 +1,8 @@
 <template lang="pug">
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
-      // OK
       .mui-textfield.search_box
-        input(type="text", @change="updateFilterSearch", v-model="localFilterSearch")
+        input(type="text", v-model="localFilterSearch")
         label search
         button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilterSearch") x
       // ?? WATCHER
@@ -13,7 +12,6 @@
           option(value="groupByRepos") Repo/Branch
           option(value="groupByAuthors") Author
         label group by
-      // OK
       .mui-select.sort-group
         select(v-model="localSortGroupSelection", @change="$emit('get-filtered')")
           option(value="groupTitle") &uarr; group title
@@ -23,7 +21,6 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort groups by
-      // OK
       .mui-select.sort-within-group
         select(
           v-model="localSortWithinGroupSelection",
@@ -37,14 +34,12 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort within groups by
-      // OK
       .mui-select.granularity
         select(v-model="localFilterTimeFrame", @change="$emit('get-filtered')")
           option(value="commit") Commit
           option(value="day") Day
           option(value="week") Week
         label granularity
-      // OK
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
@@ -52,7 +47,6 @@
         input(v-else, type="date", name="since", :value="filterSinceDate", @input="updateTmpFilterSinceDate",
           :min="minDate", :max="filterUntilDate")
         label since
-      // OK
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           :value="filterUntilDate", @keyup.enter="updateTmpFilterUntilDate",
@@ -60,11 +54,9 @@
         input(v-else, type="date", name="until", :value="filterUntilDate", @input="updateTmpFilterUntilDate",
           :min="filterSinceDate", :max="maxDate")
         label until
-      // OK
       .mui-textfield
         a(@click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
-        // OK
         label.filter-breakdown
           input.mui-checkbox(
             type="checkbox",
@@ -72,7 +64,6 @@
             @change="toggleBreakdown"
           )
           span breakdown by file type
-        // OK
         label.merge-group(
           :style="localFilterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
         )
@@ -101,7 +92,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import { mapState } from "vuex";
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection } from "../types/summary";
 
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
@@ -210,6 +200,7 @@ export default defineComponent({
       },
       set(value: string) {
         this.$emit('update:filterSearch', value);
+        this.$emit('get-filtered');
       }
     },
 
@@ -285,18 +276,12 @@ export default defineComponent({
         this.$emit('update:allGroupsMerged', value);
       }
     },
-
-    ...mapState(['mergedGroups']),
   },
 
   methods: {
     resetFilterSearch() {
       this.$emit('update:filterSearch', '');
-    },
-
-    updateFilterSearch(evt: Event) {
-      const value = (evt.target as HTMLInputElement).value;
-      this.$emit('update:filterSearch', value);
+      this.$emit('get-filtered');
     },
 
     updateTmpFilterSinceDate(event: Event) {

@@ -1,92 +1,30 @@
 <template lang="pug">
 #summary
-  form.summary-picker.mui-form--inline(v-if="!isWidgetMode", onsubmit="return false;")
-    .summary-picker__section
-      .mui-textfield.search_box
-        input(type="text", @change="updateFilterSearch", v-model="filterSearch")
-        label search
-        button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilterSearch") x
-      .mui-select.grouping
-        select(v-model="filterGroupSelection")
-          option(value="groupByNone") None
-          option(value="groupByRepos") Repo/Branch
-          option(value="groupByAuthors") Author
-        label group by
-      .mui-select.sort-group
-        select(v-model="sortGroupSelection", @change="getFiltered")
-          option(value="groupTitle") &uarr; group title
-          option(value="groupTitle dsc") &darr; group title
-          option(value="totalCommits") &uarr; contribution
-          option(value="totalCommits dsc") &darr; contribution
-          option(value="variance") &uarr; variance
-          option(value="variance dsc") &darr; variance
-        label sort groups by
-      .mui-select.sort-within-group
-        select(
-          v-model="sortWithinGroupSelection",
-          :disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged",
-          @change="getFiltered"
-        )
-          option(value="title") &uarr; title
-          option(value="title dsc") &darr; title
-          option(value="totalCommits") &uarr; contribution
-          option(value="totalCommits dsc") &darr; contribution
-          option(value="variance") &uarr; variance
-          option(value="variance dsc") &darr; variance
-        label sort within groups by
-      .mui-select.granularity
-        select(v-model="filterTimeFrame", @change="getFiltered")
-          option(value="commit") Commit
-          option(value="day") Day
-          option(value="week") Week
-        label granularity
-      .mui-textfield
-        input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
-          :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
-          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="since", :value="filterSinceDate", @input="updateTmpFilterSinceDate",
-          :min="minDate", :max="filterUntilDate")
-        label since
-      .mui-textfield
-        input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
-          :value="filterUntilDate", @keyup.enter="updateTmpFilterUntilDate",
-          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="until", :value="filterUntilDate", @input="updateTmpFilterUntilDate",
-          :min="filterSinceDate", :max="maxDate")
-        label until
-      .mui-textfield
-        a(@click="resetDateRange") Reset date range
-      .summary-picker__checkboxes.summary-picker__section
-        label.filter-breakdown
-          input.mui-checkbox(
-            type="checkbox",
-            v-model="filterBreakdown",
-            @change="toggleBreakdown"
-          )
-          span breakdown by file type
-        label.merge-group(
-          :style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
-        )
-          input.mui-checkbox(
-            type="checkbox",
-            v-model="allGroupsMerged",
-            :disabled="filterGroupSelection === 'groupByNone'"
-          )
-          span merge all groups
-        label.show-tags
-          input.mui-checkbox(
-            type="checkbox",
-            v-model="viewRepoTags",
-            @change="getFiltered"
-          )
-          span show tags
-        label.optimise-timeline
-          input.mui-checkbox(
-            type="checkbox",
-            v-model="optimiseTimeline",
-            @change="getFiltered"
-          )
-          span trim timeline
+  c-summary-header(
+    v-if="!isWidgetMode"
+    v-model:filter-search="filterSearch"
+    v-model:filter-group-selection="filterGroupSelection"
+    v-model:sort-group-selection="sortGroupSelection"
+    v-model:sort-within-group-selection="sortWithinGroupSelection"
+    v-model:filter-time-frame="filterTimeFrame"
+    v-model:filter-breakdown="filterBreakdown"
+    v-model:tmp-filter-since-date="tmpFilterSinceDate"
+    v-model:tmp-filter-until-date="tmpFilterUntilDate"
+    v-model:view-repo-tags="viewRepoTags"
+    v-model:optimise-timeline="optimiseTimeline"
+    v-model:all-groups-merged="allGroupsMerged"
+    v-model:has-modified-since-date="hasModifiedSinceDate"
+    v-model:has-modified-until-date="hasModifiedUntilDate"
+    :min-date="minDate"
+    :max-date="maxDate"
+    :is-safari-browser="isSafariBrowser"
+    :filter-since-date="filterSinceDate"
+    :filter-until-date="filterUntilDate"
+    @get-filtered="getFiltered"
+    @reset-date-range="resetDateRange"
+    @toggle-breakdown="toggleBreakdown"
+  )
+
   .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
     .error-message-box__close-button(@click="dismissTab($event)") &times;
     .error-message-box__message The following issues occurred when analyzing the following repositories:
@@ -149,6 +87,7 @@ import { PropType, defineComponent } from 'vue';
 
 import cSummaryCharts from '../components/c-summary-charts.vue';
 import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
+import cSummaryHeader from '../components/c-summary-header.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import sortFiltered from '../utils/repo-sorter';
 import {
@@ -177,6 +116,7 @@ export default defineComponent({
   components: {
     cSummaryCharts,
     cFileTypeCheckboxes,
+    cSummaryHeader,
   },
   props: {
     repos: {
@@ -397,16 +337,6 @@ export default defineComponent({
     },
 
     // model functions //
-    resetFilterSearch(): void {
-      this.filterSearch = '';
-      this.getFiltered();
-    },
-    updateFilterSearch(evt: Event): void {
-      // Only called from an input onchange event, target guaranteed to be input element
-      this.filterSearch = (evt.target as HTMLInputElement).value;
-      this.getFiltered();
-    },
-
     setSummaryHash(): void {
       const { addHash, encodeHash, removeHash } = window;
 
@@ -910,44 +840,6 @@ export default defineComponent({
       window.removeHash('since');
       window.removeHash('until');
       this.getFiltered();
-    },
-
-    updateTmpFilterSinceDate(event: Event): void {
-      // Only called from an input onchange event, target guaranteed to be input element
-      const since = (event.target as HTMLInputElement).value;
-      this.hasModifiedSinceDate = true;
-
-      if (!this.isSafariBrowser) {
-        this.tmpFilterSinceDate = since;
-        (event.target as HTMLInputElement).value = this.filterSinceDate;
-        this.getFiltered();
-      } else if (dateFormatRegex.test(since) && since >= this.minDate) {
-        this.tmpFilterSinceDate = since;
-        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.getFiltered();
-      } else {
-        // invalid since date detected
-        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
-      }
-    },
-
-    updateTmpFilterUntilDate(event: Event): void {
-      // Only called from an input onchange event, target guaranteed to be input element
-      const until = (event.target as HTMLInputElement).value;
-      this.hasModifiedUntilDate = true;
-
-      if (!this.isSafariBrowser) {
-        this.tmpFilterUntilDate = until;
-        (event.target as HTMLInputElement).value = this.filterUntilDate;
-        this.getFiltered();
-      } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
-        this.tmpFilterUntilDate = until;
-        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.getFiltered();
-      } else {
-        // invalid until date detected
-        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
-      }
     },
 
     updateCheckedFileTypeContribution(ele: User): void {
