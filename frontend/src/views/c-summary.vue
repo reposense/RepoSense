@@ -178,7 +178,7 @@ export default defineComponent({
       sortingWithinOption: '',
       isSortingWithinDsc: '',
       filterTimeFrame: FilterTimeFrame.Commit,
-      filterBreakdown: false,
+      filterBreakdown: window.isPortfolio, // Auto select trim timeline if portfolio
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.isSinceDateProvided,
@@ -194,7 +194,7 @@ export default defineComponent({
       errorIsShowingMore: false,
       numberOfErrorMessagesToShow: 4,
       viewRepoTags: false,
-      optimiseTimeline: false,
+      optimiseTimeline: window.isPortfolio, // Auto select trim timeline if portfolio
     };
   },
   computed: {
