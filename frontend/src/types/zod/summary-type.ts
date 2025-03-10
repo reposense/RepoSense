@@ -48,6 +48,7 @@ export const summarySchema = z.object({
   blurbs: z.object({
     urlBlurbMap: z.record(z.string(), z.string()),
   }),
+  isPortfolio: z.boolean(),
 });
 
 // Export typescript types
