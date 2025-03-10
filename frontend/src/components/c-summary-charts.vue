@@ -1016,7 +1016,7 @@ export default defineComponent({
       }
       const blurb: string | undefined = this.$store.state.blurbMap[link];
       if (!blurb) {
-        return "";
+        return '';
       }
       return blurb;
     },
@@ -1025,7 +1025,7 @@ export default defineComponent({
       const link = this.getRepoLink(repo);
       const blurb: string | undefined = this.$store.state.chartsBlurbMap[`${link}|${userName}`]
       if (!blurb) {
-        return "";
+        return '';
       }
       return blurb;
     },
