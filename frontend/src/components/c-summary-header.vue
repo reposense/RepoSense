@@ -1,21 +1,21 @@
 <template lang="pug">
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
-      // ! ok
+      // OK
       .mui-textfield.search_box
-        input(type="text", @change="updateFilterSearch", v-model="filterSearch")
+        input(type="text", @change="updateFilterSearch", v-model="localFilterSearch")
         label search
         button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilterSearch") x
-      // watcher in parent
+      // ?? WATCHER
       .mui-select.grouping
-        select(v-model="filterGroupSelection")
+        select(v-model="localFilterGroupSelection")
           option(value="groupByNone") None
           option(value="groupByRepos") Repo/Branch
           option(value="groupByAuthors") Author
         label group by
-      //?
+      // OK
       .mui-select.sort-group
-        select(v-model="sortGroupSelection", @change="getFiltered")
+        select(v-model="localSortGroupSelection", @change="$emit('get-filtered')")
           option(value="groupTitle") &uarr; group title
           option(value="groupTitle dsc") &darr; group title
           option(value="totalCommits") &uarr; contribution
@@ -23,11 +23,12 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort groups by
+      // OK
       .mui-select.sort-within-group
         select(
-          v-model="sortWithinGroupSelection",
-          :disabled="filterGroupSelection === 'groupByNone' || allGroupsMerged",
-          @change="getFiltered"
+          v-model="localSortWithinGroupSelection",
+          :disabled="localFilterGroupSelection === 'groupByNone' || localAllGroupsMerged",
+          @change="$emit('get-filtered')"
         )
           option(value="title") &uarr; title
           option(value="title dsc") &darr; title
@@ -36,12 +37,14 @@
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
         label sort within groups by
+      // OK
       .mui-select.granularity
-        select(v-model="filterTimeFrame", @change="getFiltered")
+        select(v-model="localFilterTimeFrame", @change="$emit('get-filtered')")
           option(value="commit") Commit
           option(value="day") Day
           option(value="week") Week
         label granularity
+      // OK
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
@@ -49,6 +52,7 @@
         input(v-else, type="date", name="since", :value="filterSinceDate", @input="updateTmpFilterSinceDate",
           :min="minDate", :max="filterUntilDate")
         label since
+      // OK
       .mui-textfield
         input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
           :value="filterUntilDate", @keyup.enter="updateTmpFilterUntilDate",
@@ -56,81 +60,87 @@
         input(v-else, type="date", name="until", :value="filterUntilDate", @input="updateTmpFilterUntilDate",
           :min="filterSinceDate", :max="maxDate")
         label until
+      // OK
       .mui-textfield
         a(@click="resetDateRange") Reset date range
       .summary-picker__checkboxes.summary-picker__section
+        // OK
         label.filter-breakdown
           input.mui-checkbox(
             type="checkbox",
-            v-model="filterBreakdown",
+            v-model="localFilterBreakdown",
             @change="toggleBreakdown"
           )
           span breakdown by file type
+        // OK
         label.merge-group(
-          :style="filterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
+          :style="localFilterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
         )
           input.mui-checkbox(
             type="checkbox",
-            v-model="allGroupsMerged",
-            :disabled="filterGroupSelection === 'groupByNone'"
+            v-model="localAllGroupsMerged",
+            :disabled="localFilterGroupSelection === 'groupByNone'"
           )
           span merge all groups
         label.show-tags
           input.mui-checkbox(
             type="checkbox",
-            v-model="viewRepoTags",
-            @change="getFiltered"
+            v-model="localViewRepoTags",
+            @change="$emit('get-filtered')"
           )
           span show tags
         label.optimise-timeline
           input.mui-checkbox(
             type="checkbox",
-            v-model="optimiseTimeline",
-            @change="getFiltered"
+            v-model="localOptimiseTimeline",
+            @change="$emit('get-filtered')"
           )
           span trim timeline
 </template>
 
+
 <script lang="ts">
-import {defineComponent} from 'vue';
-import {FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection} from "@/types/summary";
-import {mapState} from "vuex";
+import { defineComponent, PropType } from 'vue';
+import { mapState } from "vuex";
+import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection } from "../types/summary";
+
+const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 export default defineComponent({
   name: 'c-summary-header',
 
   props: {
-    initialFilterSearch: {
+    filterSearch: {
       type: String,
-      default: '',
+      required: true,
     },
-    initialFilterGroupSelection: {
-      type: String as () => FilterGroupSelection,
-      default: FilterGroupSelection.GroupByRepos,
+    filterGroupSelection: {
+      type: String as PropType<FilterGroupSelection>,
+      required: true,
     },
-    initialSortGroupSelection: {
-      type: String as () => SortGroupSelection,
-      default: SortGroupSelection.GroupTitleDsc,
+    sortGroupSelection: {
+      type: String as PropType<SortGroupSelection>,
+      required: true,
     },
-    initialSortWithinGroupSelection: {
-      type: String as () => SortWithinGroupSelection,
-      default: SortWithinGroupSelection.Title,
+    sortWithinGroupSelection: {
+      type: String as PropType<SortWithinGroupSelection>,
+      required: true,
     },
-    initialFilterTimeFrame: {
-      type: String as () => FilterTimeFrame,
-      default: FilterTimeFrame.Commit,
+    filterTimeFrame: {
+      type: String as PropType<FilterTimeFrame>,
+      required: true,
     },
-    initialFilterBreakdown: {
+    filterBreakdown: {
       type: Boolean,
-      default: false,
+      required: true,
     },
-    initialViewRepoTags: {
-      type: Boolean,
-      default: false,
+    tmpFilterSinceDate: {
+      type: String,
+      required: true,
     },
-    initialOptimiseTimeline: {
-      type: Boolean,
-      default: false,
+    tmpFilterUntilDate: {
+      type: String,
+      required: true,
     },
     minDate: {
       type: String,
@@ -140,158 +150,200 @@ export default defineComponent({
       type: String,
       required: true,
     },
-    initialTmpFilterSinceDate: {
-      type: String,
-      default: '',
+    viewRepoTags: {
+      type: Boolean,
+      required: true,
     },
-    initialTmpFilterUntilDate: {
-      type: String,
-      default: '',
+    optimiseTimeline: {
+      type: Boolean,
+      required: true,
+    },
+    allGroupsMerged: {
+      type: Boolean,
+      required: true,
+    },
+    isSafariBrowser: {
+      type: Boolean,
+      required: true,
     },
     hasModifiedSinceDate: {
       type: Boolean,
-      default: false,
+      required: true,
     },
     hasModifiedUntilDate: {
       type: Boolean,
-      default: false,
+      required: true,
+    },
+    filterSinceDate: {
+      type: String,
+      required: true,
+    },
+    filterUntilDate: {
+      type: String,
+      required: true,
     },
   },
 
-  data(): {
-    filterSearch: string,
-    filterGroupSelection: FilterGroupSelection,
-    sortGroupSelection: SortGroupSelection,
-    sortWithinGroupSelection: SortWithinGroupSelection,
-    filterTimeFrame: FilterTimeFrame,
-    filterBreakdown: boolean,
-    viewRepoTags: boolean,
-    optimiseTimeline: boolean,
-    tmpFilterSinceDate: string,
-    tmpFilterUntilDate: string,
-    isSafariBrowser: boolean,
-  } {
-    return {
-      filterSearch: this.initialFilterSearch,
-      filterGroupSelection: this.initialFilterGroupSelection,
-      sortGroupSelection: this.initialSortGroupSelection,
-      sortWithinGroupSelection: this.initialSortWithinGroupSelection,
-      filterTimeFrame: this.initialFilterTimeFrame,
-      filterBreakdown: this.initialFilterBreakdown,
-      viewRepoTags: this.initialViewRepoTags,
-      optimiseTimeline: this.initialOptimiseTimeline,
-      tmpFilterSinceDate: this.initialTmpFilterSinceDate,
-      tmpFilterUntilDate: this.initialTmpFilterUntilDate,
-      isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
-    };
-  },
+  emits: [
+    'update:filterSearch',
+    'update:filterGroupSelection',
+    'update:sortGroupSelection',
+    'update:sortWithinGroupSelection',
+    'update:filterTimeFrame',
+    'update:filterBreakdown',
+    'update:tmpFilterSinceDate',
+    'update:tmpFilterUntilDate',
+    'update:viewRepoTags',
+    'update:optimiseTimeline',
+    'update:allGroupsMerged',
+    'update:hasModifiedSinceDate',
+    'update:hasModifiedUntilDate',
+    'get-filtered',
+    'reset-date-range',
+    'toggle-breakdown',
+  ],
 
   computed: {
-    allGroupsMerged: {
+    localFilterSearch: {
+      get(): string {
+        return this.$props.filterSearch as string;
+      },
+      set(value: string) {
+        this.$emit('update:filterSearch', value);
+      }
+    },
+
+    localFilterGroupSelection: {
+      get(): FilterGroupSelection {
+        return this.$props.filterGroupSelection as FilterGroupSelection;
+      },
+      set(value: FilterGroupSelection) {
+        this.$emit('update:filterGroupSelection', value);
+        this.$emit('get-filtered');
+      }
+    },
+
+    localSortGroupSelection: {
+      get(): SortGroupSelection {
+        return this.$props.sortGroupSelection as SortGroupSelection;
+      },
+      set(value: SortGroupSelection) {
+        this.$emit('update:sortGroupSelection', value);
+      }
+    },
+
+    localSortWithinGroupSelection: {
+      get(): SortWithinGroupSelection {
+        return this.$props.sortWithinGroupSelection as SortWithinGroupSelection;
+      },
+      set(value: SortWithinGroupSelection) {
+        this.$emit('update:sortWithinGroupSelection', value);
+      }
+    },
+
+    localFilterTimeFrame: {
+      get(): FilterTimeFrame {
+        return this.$props.filterTimeFrame as FilterTimeFrame;
+      },
+      set(value: FilterTimeFrame) {
+        this.$emit('update:filterTimeFrame', value);
+      }
+    },
+
+    localFilterBreakdown: {
       get(): boolean {
-        if (this.mergedGroups.length === 0) {
-          return false;
-        }
-        return this.$store.getters.isMergedGroupsComplete;
+        return this.$props.filterBreakdown as boolean;
       },
-      set(value: boolean): void {
-        this.$emit('getFiltered');
-      },
+      set(value: boolean) {
+        this.$emit('update:filterBreakdown', value);
+      }
     },
 
-    filterSinceDate(): string {
-      if (this.tmpFilterSinceDate && this.tmpFilterSinceDate >= this.minDate) {
-        return this.tmpFilterSinceDate;
+    localViewRepoTags: {
+      get(): boolean {
+        return this.$props.viewRepoTags as boolean;
+      },
+      set(value: boolean) {
+        this.$emit('update:viewRepoTags', value);
       }
-      // If user clears the since date field
-      return this.minDate;
     },
 
-    filterUntilDate(): string {
-      if (this.tmpFilterUntilDate && this.tmpFilterUntilDate <= this.maxDate) {
-        return this.tmpFilterUntilDate;
+    localOptimiseTimeline: {
+      get(): boolean {
+        return this.$props.optimiseTimeline as boolean;
+      },
+      set(value: boolean) {
+        this.$emit('update:optimiseTimeline', value);
       }
-      return this.maxDate;
     },
+
+    localAllGroupsMerged: {
+      get(): boolean {
+        return this.$props.allGroupsMerged as boolean;
+      },
+      set(value: boolean) {
+        this.$emit('update:allGroupsMerged', value);
+      }
+    },
+
     ...mapState(['mergedGroups']),
   },
 
   methods: {
     resetFilterSearch() {
-      this.filterSearch = '';
       this.$emit('update:filterSearch', '');
     },
 
     updateFilterSearch(evt: Event) {
       const value = (evt.target as HTMLInputElement).value;
-      this.filterSearch = value;
       this.$emit('update:filterSearch', value);
     },
 
-    onSortGroupChange() {
-      this.$emit('getFiltered');
-    },
-    onSortWithinGroupChange() {
-      this.$emit('getFiltered');
-    },
-    onTimeFrameChange() {
-      this.$emit('getFiltered');
-    },
-    onViewRepoTagsChange() {
-      this.$emit('getFiltered');
-    },
-    onOptimiseTimelineChange() {
-      this.$emit('getFiltered');
-    },
-    toggleBreakdown() {
-      this.$emit('toggleBreakdown');
-    },
-    resetDateRange() {
-      this.$emit('resetDateRange');
-    },
     updateTmpFilterSinceDate(event: Event) {
+      // Only called from an input onchange event, target guaranteed to be input element
       const since = (event.target as HTMLInputElement).value;
+      this.$emit('update:hasModifiedSinceDate', true);
 
       if (!this.isSafariBrowser) {
-        this.tmpFilterSinceDate = since;
         this.$emit('update:tmpFilterSinceDate', since);
-        this.$emit('update:hasModifiedSinceDate', true);
         (event.target as HTMLInputElement).value = this.filterSinceDate;
-        this.$emit('getFiltered');
+        this.$emit('get-filtered');
       } else if (dateFormatRegex.test(since) && since >= this.minDate) {
-        this.tmpFilterSinceDate = since;
         this.$emit('update:tmpFilterSinceDate', since);
-        this.$emit('update:hasModifiedSinceDate', true);
         (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.$emit('getFiltered');
+        this.$emit('get-filtered');
       } else {
         // invalid since date detected
         (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
       }
     },
+
     updateTmpFilterUntilDate(event: Event) {
+      // Only called from an input onchange event, target guaranteed to be input element
       const until = (event.target as HTMLInputElement).value;
+      this.$emit('update:hasModifiedUntilDate', true);
 
       if (!this.isSafariBrowser) {
-        this.tmpFilterUntilDate = until;
         this.$emit('update:tmpFilterUntilDate', until);
-        this.$emit('update:hasModifiedUntilDate', true);
         (event.target as HTMLInputElement).value = this.filterUntilDate;
-        this.$emit('getFiltered');
+        this.$emit('get-filtered');
       } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
-        this.tmpFilterUntilDate = until;
         this.$emit('update:tmpFilterUntilDate', until);
-        this.$emit('update:hasModifiedUntilDate', true);
         (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.$emit('getFiltered');
+        this.$emit('get-filtered');
       } else {
         // invalid until date detected
         (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
       }
-  }
+    },
+
+    resetDateRange() {
+      this.$emit('reset-date-range');
+    },
+
+    toggleBreakdown() {
+      this.$emit('toggle-breakdown');
+    },
+  },
 });
 </script>
-
-<style lang="scss" scoped>
-
-</style>
