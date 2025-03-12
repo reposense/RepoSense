@@ -275,7 +275,7 @@ public class ArgsParser {
         parser.addArgument(FRESH_CLONING_FLAG)
                 .dest(FRESH_CLONING_FLAG[0])
                 .action(Arguments.storeTrue())
-                .help("Enables fresh cloning. Requires testing mode to be enabled.");
+                .help("Enables fresh cloning.");
 
         return parser;
     }
