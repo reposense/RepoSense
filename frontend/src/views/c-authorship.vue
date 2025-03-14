@@ -353,9 +353,9 @@ export default defineComponent({
         this.indicateSearchBar();
         this.searchBarValue = hash.authorshipFilesGlob?? hash.filteredFileName;
         if (!(hash.authorshipFilesGlob)) {
-          window.addHash("authorshipFilesGlobs", hash.filteredFileName);
+          window.addHash("authorshipFilesGlob", hash.filteredFileName);
         }
-      }   
+      } 
 
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
@@ -387,7 +387,7 @@ export default defineComponent({
       addHash('tabRepo', this.info.repo);
       addHash('authorshipIsMergeGroup', this.info.isMergeGroup);
       this.updateFileTypeHash();
-      if (window.hashParams.filteredFileName) {
+      if (window.hashParams.filteredFileName || window.hashParams.authorshipFilesGlob) {
         addHash('authorshipFilesGlob', window.hashParams.filteredFileName);
         this.searchBarValue = window.hashParams.filteredFileName;
         this.indicateSearchBar();

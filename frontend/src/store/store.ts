@@ -88,7 +88,7 @@ export default createStore<StoreState>({
     },
     updateAuthorshipRefreshState(state: StoreState, b: boolean) {
       state.tabAuthorshipInfo.isRefresh = b;
-    } 
+    }
   },
   actions: {
     // Actions are called with dispatch
