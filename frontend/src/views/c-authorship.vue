@@ -151,7 +151,7 @@ function authorshipInitialState(): {
     toReverseSortFiles: true,
     isBinaryFilesChecked: false,
     isIgnoredFilesChecked: false,
-    searchBarValue: '',
+    searchBarValue: window.hashParams.authorshipFilesGlob??"",
     authorDisplayName: '',
     authors: new Set<string>(),
     selectedColors: ['#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3', '#adff2f', '#808000', '#800000',
@@ -349,6 +349,14 @@ export default defineComponent({
 
       this.toReverseSortFiles = hash.reverseAuthorshipOrder !== 'false';
 
+      if ('authorshipFilesGlob' in hash || hash.filteredFileName) {
+        this.indicateSearchBar();
+        this.searchBarValue = hash.authorshipFilesGlob?? hash.filteredFileName;
+        if (!(hash.authorshipFilesGlob)) {
+          window.addHash("authorshipFilesGlobs", hash.filteredFileName);
+        }
+      }   
+
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
           .split(window.HASH_DELIMITER)
@@ -363,11 +371,6 @@ export default defineComponent({
 
       if (hash.authorshipIsIgnoredFilesChecked) {
         this.isIgnoredFilesChecked = hash.authorshipIsIgnoredFilesChecked === 'true';
-      }
-
-      if ('authorshipFilesGlob' in hash) {
-        this.indicateSearchBar();
-        this.searchBarValue = hash.authorshipFilesGlob;
       }
     },
 
@@ -384,6 +387,11 @@ export default defineComponent({
       addHash('tabRepo', this.info.repo);
       addHash('authorshipIsMergeGroup', this.info.isMergeGroup);
       this.updateFileTypeHash();
+      if (window.hashParams.filteredFileName) {
+        addHash('authorshipFilesGlob', window.hashParams.filteredFileName);
+        this.searchBarValue = window.hashParams.filteredFileName;
+        this.indicateSearchBar();
+      }
     },
 
     removeAuthorshipHashes(): void {

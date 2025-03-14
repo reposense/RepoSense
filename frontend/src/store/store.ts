@@ -86,6 +86,9 @@ export default createStore<StoreState>({
     setBlurbMap(state: StoreState, blurbMap: { [key: string]: string }) {
       state.blurbMap = blurbMap;
     },
+    updateAuthorshipRefreshState(state: StoreState, b: boolean) {
+      state.tabAuthorshipInfo.isRefresh = b;
+    } 
   },
   actions: {
     // Actions are called with dispatch

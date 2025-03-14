@@ -1,7 +1,12 @@
+<!-- eslint-disable no-console -->
 <template lang="pug">
 #summary
   form.summary-picker.mui-form--inline(v-if="!isWidgetMode", onsubmit="return false;")
     .summary-picker__section
+      .mui-textfield.search_box
+        input(type="text", @change="setFilteredFileName", v-model="filteredFileName")
+        label filter file
+        button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
       .mui-textfield.search_box
         input(type="text", @change="updateFilterSearch", v-model="filterSearch")
         label search
@@ -224,6 +229,7 @@ export default defineComponent({
     numberOfErrorMessagesToShow: number,
     viewRepoTags: boolean,
     optimiseTimeline: boolean,
+    filteredFileName: string
   } {
     return {
       checkedFileTypes: [] as Array<string>,
@@ -255,6 +261,7 @@ export default defineComponent({
       numberOfErrorMessagesToShow: 4,
       viewRepoTags: false,
       optimiseTimeline: false,
+      filteredFileName: ''
     };
   },
   computed: {
@@ -401,10 +408,27 @@ export default defineComponent({
       this.filterSearch = '';
       this.getFiltered();
     },
+
     updateFilterSearch(evt: Event): void {
       // Only called from an input onchange event, target guaranteed to be input element
       this.filterSearch = (evt.target as HTMLInputElement).value;
       this.getFiltered();
+    },
+
+    resetFilteredFileName() : void {
+      this.filteredFileName = '';
+      window.removeHash('authorshipFilesGlob');
+      this.$store.commit("updateAuthorshipRefreshState", false);
+      this.getFiltered();
+      window.location.reload();
+    },
+
+    setFilteredFileName(evt: Event) : void {
+      this.filteredFileName = (evt.target as HTMLInputElement).value;
+      this.$store.commit("updateAuthorshipRefreshState", true);
+      window.addHash('authorshipFilesGlob', this.filteredFileName);
+      this.getFiltered();
+      window.location.reload();
     },
 
     setSummaryHash(): void {
@@ -453,6 +477,7 @@ export default defineComponent({
         removeHash('optimiseTimeline');
       }
 
+      window.addHash('filteredFileName', this.filteredFileName);
       encodeHash();
     },
 
@@ -506,6 +531,9 @@ export default defineComponent({
       }
       if (hash.optimiseTimeline) {
         this.optimiseTimeline = convertBool(hash.optimiseTimeline);
+      }
+      if (hash.filteredFileName) {
+        this.filteredFileName = hash.filteredFileName;
       }
     },
 
