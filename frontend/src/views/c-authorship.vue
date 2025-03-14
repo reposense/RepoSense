@@ -355,7 +355,7 @@ export default defineComponent({
         if (!(hash.authorshipFilesGlob)) {
           window.addHash("authorshipFilesGlob", hash.filteredFileName);
         }
-      } 
+      }
 
       if (hash.authorshipFileTypes) {
         this.selectedFileTypes = hash.authorshipFileTypes
