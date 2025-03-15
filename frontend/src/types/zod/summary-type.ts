@@ -12,6 +12,8 @@ const repoSchema = z.object({
   branch: z.string(),
   displayName: z.string(),
   outputFolderName: z.string(),
+  sinceDate: z.string(),
+  untilDate: z.string(),
 });
 
 const errorSchema = z.object({
