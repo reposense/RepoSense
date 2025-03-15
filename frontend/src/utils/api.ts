@@ -235,12 +235,22 @@ window.api = {
     });
 
     const blurbMap: { [key: string]: string } = data.blurbs.urlBlurbMap;
+    const authorBlurbMap: {[key: string]: string} | undefined =
+      data.authorBlurbs && data.authorBlurbs.urlBlurbMap
+      ? data.authorBlurbs.urlBlurbMap
+      : undefined;
+    const chartsBlurbMap: {[key: string]: string} | undefined =
+      data.chartsBlurbs && data.chartsBlurbs.urlBlurbMap
+      ? data.chartsBlurbs.urlBlurbMap
+      : undefined;
     return {
       creationDate: reportGeneratedTime,
       reportGenerationTime,
       errorMessages,
       names,
       blurbMap,
+      authorBlurbMap,
+      chartsBlurbMap
     };
   },
 
