@@ -59,7 +59,7 @@ describe('optimise timeline', () => {
       .should('have.text', '2023-03-03');
   });
 
-  it('no commits in range should display filter since and until dates', () => {
+  it('no commits in range should display tightest date range', () => {
     cy.get('#summary label.optimise-timeline > input:visible')
       .should('be.visible')
       .check()
@@ -67,23 +67,23 @@ describe('optimise timeline', () => {
 
     // change since date
     cy.get('input[name="since"]')
-      .type('2018-12-31');
+      .type('2019-01-30');
 
     // change until date
     cy.get('input[name="until"]')
-      .type('2019-01-01');
+      .type('2019-01-31');
 
     cy.get('#summary-charts .summary-chart')
-      .first()
+      .last()
       .find('.summary-chart__ramp .date-indicators span')
       .first()
-      .should('have.text', '2018-12-31');
+      .should('have.text', '2019-01-31');
 
     cy.get('#summary-charts .summary-chart')
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .last()
-      .should('have.text', '2019-01-01');
+      .should('have.text', '2019-01-31');
   });
 
   it('should only include commits within tighter date range from summary.json', () => {
