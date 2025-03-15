@@ -77,7 +77,6 @@
       "title": "Appendix: CLI syntax reference",
       "headings": {
         "appendix-cli-syntax-reference": "Appendix: CLI syntax reference",
-        "test-mode": "--test-mode",
         "fresh-cloning": "--fresh-cloning"
       },
       "headingKeywords": {}
