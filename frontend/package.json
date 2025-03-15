@@ -19,11 +19,9 @@
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/vue-fontawesome": "^3.0.6",
-    "@types/markdown-it": "^13.0.7",
-    "@types/minimatch": "^5.1.2",
     "@types/seedrandom": "^3.0.8",
     "@vitejs/plugin-vue": "^5.0.0",
-    "highlight.js": "^10.5.0",
+    "highlight.js": "^11.11.1",
     "jszip": "^3.5.0",
     "markdown-it": "^14.1.0",
     "minimatch": "^9.0.0",
@@ -41,6 +39,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/markdown-it": "^13.0.7",
+    "@types/minimatch": "^5.1.2",
     "@stylistic/stylelint-plugin": "^2.1.0",
     "@stylistic/eslint-plugin": "^1.7.0",
     "@types/node": "^20.12.4",

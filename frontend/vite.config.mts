@@ -27,6 +27,14 @@ export default defineConfig({
   build: {
     outDir: './build',
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vue-vendor': ['vue', 'vue-router', 'vuex'],
+          'utilities': ['markdown-it', 'highlight.js'],
+        }
+      }
+    }
   },
   server: {
     port: 9000,

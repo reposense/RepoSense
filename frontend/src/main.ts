@@ -2,7 +2,8 @@ import { createApp, DirectiveBinding } from 'vue';
 import { dom } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ObserveVisibility } from 'vue-observe-visibility';
-import hljs from 'highlight.js';
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
 import router from './router/index';
 import 'muicss/dist/css/mui.min.css';
 import 'normalize.css/normalize.css';
@@ -16,6 +17,8 @@ import './utils/load-font-awesome-icons';
 
 import App from './app.vue';
 import store from './store/store';
+
+hljs.registerLanguage('javascript', javascript);
 
 dom.watch();
 
