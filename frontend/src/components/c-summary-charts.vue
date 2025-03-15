@@ -647,7 +647,7 @@ export default defineComponent({
 
     getOptimisedMinimumDate(user: User): string {
       if (user.commits.length === 0) {
-        return new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate;
+        return this.getUnoptimisedMinimumDate(user);
       }
 
       return user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr)).date;
@@ -655,7 +655,7 @@ export default defineComponent({
 
     getOptimisedMaximumDate(user: User): string {
       if (user.commits.length === 0) {
-        return new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate;
+        return this.getUnoptimisedMaximumDate(user);
       }
 
       return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr)).date;
