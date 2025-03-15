@@ -1,12 +1,14 @@
 <template lang="pug">
-.title(v-html="markdownText", v-if="markdownText != ''")
+.title
+  c-markdown-chunk(:markdown-text="markdownText")
 </template>
 
 <script lang="ts">
-import MarkdownIt from 'markdown-it';
 import { defineComponent } from 'vue';
+import CMarkdownChunk from "./c-markdown-chunk.vue";
 
 export default defineComponent({
+  components: {CMarkdownChunk},
   data() {
     return {
       markdownText: '',
@@ -19,8 +21,7 @@ export default defineComponent({
       }
       return response.text();
     }).then((text) => {
-      const md = new MarkdownIt({ html: true });
-      this.markdownText = md.render(text);
+      this.markdownText = text;
     }).catch((error) => {
       this.markdownText = (error as Error).toString();
     });
