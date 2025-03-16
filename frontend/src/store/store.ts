@@ -19,7 +19,10 @@ export default createStore<StoreState>({
     loadingOverlayMessage: '',
     isTabActive: true,
     blurbMap: {},
+    authorBlurbMap: {},
+    chartsBlurbMap: {}
   } as StoreState,
+
   mutations: {
     updateTabZoomInfo(state: StoreState, info: ZoomInfo) {
       state.tabZoomInfo = info;
@@ -86,6 +89,12 @@ export default createStore<StoreState>({
     setBlurbMap(state: StoreState, blurbMap: { [key: string]: string }) {
       state.blurbMap = blurbMap;
     },
+    setAuthorBlurbMap(state: StoreState, map: {[key: string]: string } | undefined) {
+      state.authorBlurbMap = map ?? {};
+    },
+    setChartsBlurbMap(state: StoreState, map: {[key: string]: string} | undefined) {
+      state.chartsBlurbMap = map ?? {};
+    }
   },
   actions: {
     // Actions are called with dispatch

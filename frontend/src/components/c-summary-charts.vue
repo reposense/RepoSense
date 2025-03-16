@@ -165,6 +165,12 @@
         :markdown-text="getBlurb(repo[0])"
       )
 
+    .blurbWrapper(
+      v-if="filterGroupSelection === 'groupByAuthors'")
+      c-markdown-chunk.blurb(
+        :markdown-text="getAuthorBlurb(repo[0].name)"
+      )
+
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
@@ -300,7 +306,16 @@
           )
             font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
-
+      .blurbWrapper(
+        v-if="filterGroupSelection === 'groupByRepos'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(user.name, repo[0])"
+        )
+      .blurbWrapper(
+        v-if="filterGroupSelection === 'groupByAuthors'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(repo[0].name, user)"
+        )
       .summary-chart__ramp(
         @click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
       )
@@ -1005,6 +1020,22 @@ export default defineComponent({
       }
       return blurb;
     },
+
+    getChartBlurb(userName: string, repo: User) : string {
+      const link = this.getRepoLink(repo);
+      const blurb: string | undefined = this.$store.state.chartsBlurbMap[`${link}|${userName}`]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    },
+    getAuthorBlurb(userName: string): string {
+      const blurb: string | undefined = this.$store.state.authorBlurbMap[userName]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    }
   },
 });
 </script>
