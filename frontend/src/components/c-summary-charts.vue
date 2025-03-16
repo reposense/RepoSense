@@ -187,7 +187,7 @@
         :class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo \
           && !isChartGroupWidgetMode }"
       )
-        .summary-chart__title--index(v-if="!isChartWidgetMode") {{ j+1 }}
+        .summary-chart__title--index(v-if="!isChartWidgetMode && !isPortfolio") {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
