@@ -125,8 +125,15 @@ public class ReportGenerator {
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold, BlurbMap blurbMap,
-            boolean isPortfolio) throws IOException, InvalidMarkdownException {
+            boolean isPortfolio, boolean isOnlyTextRefreshed) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
+        if (isOnlyTextRefreshed) {
+            //check whether summaryjson exists
+            //call summary json parse file
+            //write new summary json
+        }
+
+
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
         }

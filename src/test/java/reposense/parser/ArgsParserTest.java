@@ -801,6 +801,22 @@ public class ArgsParserTest {
         Assertions.assertFalse(cliArguments.isPortfolio());
     }
 
+    @Test
+    public void parse_withRefreshTextOnly_success() throws Exception {
+        String input = new InputBuilder().addOnlyTextRefreshed().build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assertions.assertTrue(cliArguments.isOnlyTextRefreshed());
+    }
+
+    @Test
+    public void parse_withoutRefreshTextOnly_success() throws Exception {
+        String input = new InputBuilder().build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assertions.assertFalse(cliArguments.isOnlyTextRefreshed());
+    }
+
     /**
      * Ensures that {@code actualSinceDate} is exactly one month before {@code untilDate}.
      *
