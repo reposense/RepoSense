@@ -21,6 +21,8 @@
           option(value="totalCommits dsc") &darr; contribution
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
+          option(value="customSortOrder") &uarr; custom
+          option(value="customSortOrder dsc") &darr; custom
         label sort groups by
 
       .mui-select.sort-within-group(v-if='!isPortfolio')

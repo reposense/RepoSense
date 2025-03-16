@@ -56,6 +56,7 @@ export interface User {
 
 // We add these three fields in loadCommits and loadAuthorship of utils/api.ts
 export interface Repo extends RepoRaw {
+  customSortOrder?: number;
   commits?: Commits;
   files?: FileResult[];
   users?: User[];
