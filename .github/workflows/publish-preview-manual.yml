@@ -94,11 +94,10 @@ jobs:
     - name: Test connection to deployed website
       run: curl -L http://0.0.0.0:4000/$VITE_BASE_DIR
 
-
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
       with:
-        urls: http://0.0.0.0:4000/${VITE_BASE_DIR}
+        urls: http://0.0.0.0:4000/${{ env.VITE_BASE_DIR }}
         uploadArtifacts: true
 
     - name: Display Lighthouse summary
