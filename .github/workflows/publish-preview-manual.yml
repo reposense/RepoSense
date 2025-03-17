@@ -23,6 +23,16 @@ jobs:
       with:
         ref: refs/pull/${{ github.event.inputs.pr_number }}/merge
         fetch-depth: 0
+        
+    - name: Set up Vite environment
+      run: |
+        export VITE_BASE_DIR="/$(basename $GITHUB_REPOSITORY)"
+        echo "VITE_BASE_DIR: $VITE_BASE_DIR"
+
+    - name: Set up Vite environment
+      run: |
+        export VITE_BASE_DIR="/$(basename $GITHUB_REPOSITORY)"
+        echo "VITE_BASE_DIR: $VITE_BASE_DIR"
 
     - name: Set up Vite environment
       run: |
@@ -86,6 +96,7 @@ jobs:
 
     - name: Test connection to deployed website
       run: curl -L http://0.0.0.0:4000/$(basename $GITHUB_REPOSITORY)
+
 
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
