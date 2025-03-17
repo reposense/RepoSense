@@ -24,6 +24,11 @@ jobs:
         ref: refs/pull/${{ github.event.inputs.pr_number }}/merge
         fetch-depth: 0
 
+    - name: Set up Vite environment
+      run: |
+        export VITE_BASE_DIR="/$(basename $GITHUB_REPOSITORY)"
+        echo "VITE_BASE_DIR: $VITE_BASE_DIR"
+
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
