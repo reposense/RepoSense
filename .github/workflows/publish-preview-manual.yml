@@ -65,16 +65,18 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew run
 
-    - name: Build docker container
-      run: |
-        git clone https://github.com/github/pages-gem
-        cd pages-gem
-        git checkout v232
-        make image
+#    - name: Build docker container
+#      run: |
+#        git clone https://github.com/github/pages-gem
+#        cd pages-gem
+#        git checkout v232
+#        make image
 
     - name: Run local website on action runner
       run: |
-        docker run --rm -d -p 4000:4000 -v ${SITE}:/src/site gh-pages
+        cd ${SITE}
+        bundle install
+        bundle exec jekyll serve
       env:
         SITE: ${{github.workspace}}/reposense-report
 
@@ -82,7 +84,7 @@ jobs:
       run: sleep 10
 
     - name: Test connection to deployed website
-      run: curl -L http://0.0.0.0:4000/
+      run: curl -L http://0.0.0.0:4000/$GITHUB_REPOSITORY
 
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
