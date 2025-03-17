@@ -4,9 +4,10 @@
   "description": "[![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)",
   "author": "",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "serve": "vite",
     "build": "vite build",
-    "lint": "eslint src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss} && npm run puglint",
+    "lint": "eslint src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss} && pnpm puglint",
     "devbuild": "vite build --mode development",
     "lintfix": "eslint --fix src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss}",
     "puglint": "pug-lint-vue src",
@@ -76,5 +77,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reposense/RepoSense.git"
-  }
+  },
+  "packageManager": "pnpm@10.0.0"
 }
