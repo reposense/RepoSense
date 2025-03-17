@@ -78,7 +78,7 @@ public class RepoBlurbMarkdownParser extends MarkdownParser<RepoBlurbMap> implem
 
         // if the file is empty, then we throw the exception and let the adder handle
         if (mdLines.isEmpty()) {
-            throw new InvalidMarkdownException("Empty blurbs.md file");
+            throw new InvalidMarkdownException("Empty repo-blurbs.md file");
         }
 
         // prepare the blurb map

@@ -11,17 +11,17 @@ import org.junit.jupiter.api.Test;
 
 import reposense.parser.exceptions.InvalidMarkdownException;
 
-public class BlurbMarkdownParserTest {
-    private static final Path EMPTY_BLURB_TESTER = loadResource(BlurbMarkdownParserTest.class,
+public class RepoBlurbMarkdownParserTest {
+    private static final Path EMPTY_BLURB_TESTER = loadResource(RepoBlurbMarkdownParserTest.class,
             "BlurbMarkdownParserTest/empty_blurbs.md");
-    private static final Path MALFORMED_URL_TESTER = loadResource(BlurbMarkdownParserTest.class,
-            "BlurbMarkdownParserTest/malformed_url_blurb.md");
-    private static final Path MALFORMED_DELIMITER_TESTER = loadResource(BlurbMarkdownParserTest.class,
-            "BlurbMarkdownParserTest/malformed_delimiter_blurb.md");
-    private static final Path MULTILINE_BLURB_TESTER = loadResource(BlurbMarkdownParserTest.class,
-            "BlurbMarkdownParserTest/multiline_blurb.md");
+    private static final Path MALFORMED_URL_TESTER = loadResource(RepoBlurbMarkdownParserTest.class,
+            "BlurbMarkdownParserTest/RepoBlurbMarkdownParserTest/malformed_url_blurb.md");
+    private static final Path MALFORMED_DELIMITER_TESTER = loadResource(RepoBlurbMarkdownParserTest.class,
+            "BlurbMarkdownParserTest/RepoBlurbMarkdownParserTest/malformed_delimiter_blurb.md");
+    private static final Path MULTILINE_BLURB_TESTER = loadResource(RepoBlurbMarkdownParserTest.class,
+            "BlurbMarkdownParserTest/RepoBlurbMarkdownParserTest/multiline_blurb.md");
     private static final Path MULTIPLE_BLURB_TESTER = loadResource(RepoBlurbMarkdownParser.class,
-            "BlurbMarkdownParserTest/multiple_blurbs.md");
+            "BlurbMarkdownParserTest/RepoBlurbMarkdownParserTest/multiple_blurbs.md");
 
     @Test
     public void parse_emptyBlurbTest_throwsException() {

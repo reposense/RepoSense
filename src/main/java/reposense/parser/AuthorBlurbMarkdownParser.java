@@ -118,7 +118,7 @@ public class AuthorBlurbMarkdownParser extends MarkdownParser<AuthorBlurbMap> im
         }
 
         // return the built author blurb map instance
-        logger.log(Level.INFO, "Authors Blurbs parsed successfully.");
+        logger.log(Level.INFO, "Authors Blurbs parsed successfully!");
         return authorBlurbMap;
     }
 

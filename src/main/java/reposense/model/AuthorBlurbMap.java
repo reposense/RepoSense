@@ -36,9 +36,9 @@ public class AuthorBlurbMap implements BlurbMap {
             return true;
         }
 
-        if (obj instanceof BlurbMap) {
-            BlurbMap bm = (BlurbMap) obj;
-            return bm.equals(this.authorBlurbMap);
+        if (obj instanceof AuthorBlurbMap) {
+            AuthorBlurbMap bm = (AuthorBlurbMap) obj;
+            return bm.authorBlurbMap.equals(this.authorBlurbMap);
         }
 
         return false;
