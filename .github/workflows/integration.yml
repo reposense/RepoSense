@@ -64,11 +64,6 @@ jobs:
         restore-keys: |
           ${{ matrix.os }}-node-
 
-    - name: Set up Vite environment
-      run: |
-        export VITE_BASE_DIR="/$(basename $GITHUB_REPOSITORY)"
-        echo "VITE_BASE_DIR: $VITE_BASE_DIR"
-
     - name: Grant execute permission for gradlew
       if: ${{ runner.os != 'Windows' }}
       run: chmod +x gradlew # Windows does not need this
