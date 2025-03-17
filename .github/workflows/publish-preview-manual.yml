@@ -29,6 +29,9 @@ jobs:
       with:
         ruby-version: '3.2'
 
+    - name: Install Jekyll
+      run: gem install jekyll
+
     - name: Initialize Jekyll site
       run: |
           jekyll new --skip-bundle ${{ github.workspace }}/reposense-report
