@@ -54,8 +54,8 @@ function groupByRepos(
   sortingControl: {
     sortingOption: string,
     sortingWithinOption: string,
-    isSortingDsc: string,
-    isSortingWithinDsc: string, },
+    isSortingDsc: boolean,
+    isSortingWithinDsc: boolean, },
 ): User[][] {
   const sortedRepos: User[][] = [];
   const {
@@ -65,20 +65,13 @@ function groupByRepos(
   const sortOption = sortingOption === 'groupTitle' ? 'searchPath' : sortingOption;
   repos.forEach((users) => {
     if (sortWithinOption === 'totalCommits') {
-      users.sort(window.comparator((ele) => ele.checkedFileTypeContribution ?? 0));
+      users.sort(window.comparator((ele) => ele.checkedFileTypeContribution ?? 0, isSortingWithinDsc));
     } else {
-      users.sort(window.comparator((ele) => getComparablePrimitive(ele, sortWithinOption)));
-    }
-
-    if (isSortingWithinDsc) {
-      users.reverse();
+      users.sort(window.comparator((ele) => getComparablePrimitive(ele, sortWithinOption), isSortingWithinDsc));
     }
     sortedRepos.push(users);
   });
-  sortedRepos.sort(window.comparator(sortingHelper, sortOption));
-  if (isSortingDsc) {
-    sortedRepos.reverse();
-  }
+  sortedRepos.sort(window.comparator(sortingHelper, isSortingDsc, sortOption));
   return sortedRepos;
 }
 
@@ -86,7 +79,7 @@ function groupByNone(
   repos: User[][],
   sortingControl: {
     sortingOption: string,
-    isSortingDsc: string, },
+    isSortingDsc: boolean, },
 ): User[] {
   const sortedRepos: User[] = [];
   const { sortingOption, isSortingDsc } = sortingControl;
@@ -104,10 +97,7 @@ function groupByNone(
       return repo.checkedFileTypeContribution ?? 0;
     }
     return getComparablePrimitive(repo, sortingOption);
-  }));
-  if (isSortingDsc) {
-    sortedRepos.reverse();
-  }
+  }, isSortingDsc));
 
   return sortedRepos;
 }
@@ -117,8 +107,8 @@ function groupByAuthors(
   sortingControl: {
     sortingOption: string,
     sortingWithinOption: string,
-    isSortingDsc: string,
-    isSortingWithinDsc: string, },
+    isSortingDsc: boolean,
+    isSortingWithinDsc: boolean, },
 ): User[][] {
   const authorMap: { [userName: string]: User[] } = {};
   const filtered: User[][] = [];
@@ -138,20 +128,16 @@ function groupByAuthors(
   });
   Object.keys(authorMap).forEach((author) => {
     if (sortWithinOption === 'totalCommits') {
-      authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution ?? 0));
+      authorMap[author].sort(window.comparator((repo) => repo.checkedFileTypeContribution ?? 0, isSortingWithinDsc));
     } else {
-      authorMap[author].sort(window.comparator((repo) => getComparablePrimitive(repo, sortingWithinOption)));
-    }
-    if (isSortingWithinDsc) {
-      authorMap[author].reverse();
+      authorMap[author].sort(window.comparator((repo) =>
+          getComparablePrimitive(repo, sortingWithinOption), isSortingWithinDsc)
+      );
     }
     filtered.push(authorMap[author]);
   });
 
-  filtered.sort(window.comparator(sortingHelper, sortOption));
-  if (isSortingDsc) {
-    filtered.reverse();
-  }
+  filtered.sort(window.comparator(sortingHelper, isSortingDsc, sortOption));
   return filtered;
 }
 
@@ -161,8 +147,8 @@ function sortFiltered(
     filterGroupSelection: FilterGroupSelection,
     sortingOption: string,
     sortingWithinOption: string,
-    isSortingDsc: string,
-    isSortingWithinDsc: string, },
+    isSortingDsc: boolean,
+    isSortingWithinDsc: boolean, },
 ): User[][] {
   const { filterGroupSelection } = filterControl;
   let full = [];

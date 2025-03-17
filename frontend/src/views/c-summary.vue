@@ -203,9 +203,9 @@ export default defineComponent({
     sortGroupSelection: SortGroupSelection,
     sortWithinGroupSelection: SortWithinGroupSelection,
     sortingOption: string,
-    isSortingDsc: string,
+    isSortingDsc: boolean,
     sortingWithinOption: string,
-    isSortingWithinDsc: string,
+    isSortingWithinDsc: boolean,
     filterTimeFrame: FilterTimeFrame,
     filterBreakdown: boolean,
     tmpFilterSinceDate: string,
@@ -234,9 +234,9 @@ export default defineComponent({
       sortGroupSelection: SortGroupSelection.GroupTitleDsc, // UI for sorting groups
       sortWithinGroupSelection: SortWithinGroupSelection.Title, // UI for sorting within groups
       sortingOption: '',
-      isSortingDsc: '',
+      isSortingDsc: false,
       sortingWithinOption: '',
-      isSortingWithinDsc: '',
+      isSortingWithinDsc: false,
       filterTimeFrame: FilterTimeFrame.Commit,
       filterBreakdown: false,
       tmpFilterSinceDate: '',
@@ -897,8 +897,13 @@ export default defineComponent({
     },
 
     getOptionWithOrder(): void {
-      [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
-      [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
+      const [sortingOption, isSortingDsc] = this.sortGroupSelection.split(' ');
+      this.sortingOption = sortingOption;
+      this.isSortingDsc = isSortingDsc === 'dsc';
+
+      const [sortingWithinOption, isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
+      this.sortingWithinOption = sortingWithinOption;
+      this.isSortingWithinDsc = isSortingWithinDsc === 'dsc';
     },
 
     // updating filters programically //

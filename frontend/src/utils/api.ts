@@ -84,7 +84,7 @@ window.decodeHash = function decodeHash() {
   window.hashParams = hashParams;
 };
 
-window.comparator = (fn, sortingOption = '') => function compare(a, b) {
+window.comparator = (fn, isDesc: boolean, sortingOption = '') => function compare(a, b): -1 | 0 | 1 {
   let a1;
   let b1;
   if (sortingOption) {
@@ -100,12 +100,13 @@ window.comparator = (fn, sortingOption = '') => function compare(a, b) {
   if (typeof b1 === 'string') {
     b1 = b1.toLowerCase();
   }
+
+  const descMultiplier = isDesc ? -1: 1;
+
   if (a1 === b1) {
     return 0;
-  } if (a1 < b1) {
-    return -1;
   }
-  return 1;
+  return (a1 < b1 ? -1 : 1) * descMultiplier as -1 | 0 | 1;
 };
 
 window.filterUnsupported = function filterUnsupported(string) {
