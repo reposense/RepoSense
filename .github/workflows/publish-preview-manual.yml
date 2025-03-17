@@ -29,6 +29,12 @@ jobs:
       with:
         ruby-version: '3.2'
 
+    - name: Initialize Jekyll site
+      run: |
+          jekyll new --skip-bundle ${{ github.workspace }}/reposense-report
+      env:
+          JEKYLL_ENV: production
+
     - name: Set up Vite environment
       run: |
         export VITE_BASE_DIR="/$(basename $GITHUB_REPOSITORY)"
@@ -69,13 +75,6 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew run
-
-#    - name: Build docker container
-#      run: |
-#        git clone https://github.com/github/pages-gem
-#        cd pages-gem
-#        git checkout v232
-#        make image
 
     - name: Run local website on action runner
       run: |
