@@ -42,7 +42,6 @@ import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.AuthorBlurbMap;
-import reposense.model.BlurbMap;
 import reposense.model.CommitHash;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
@@ -127,8 +126,9 @@ public class ReportGenerator {
             ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
-            boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold, RepoBlurbMap repoBlurbMap,
-            AuthorBlurbMap authorBlurbMap, boolean isPortfolio) throws IOException, InvalidMarkdownException {
+            boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold,
+            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap,
+            boolean isPortfolio) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
@@ -147,7 +147,8 @@ public class ReportGenerator {
                 new SummaryJson(configs, reportConfig, generationDate,
                         reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
-                        reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, repoBlurbMap, authorBlurbMap, isPortfolio),
+                        reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, repoBlurbMap,
+                        authorBlurbMap, isPortfolio),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 

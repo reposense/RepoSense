@@ -1,6 +1,7 @@
 package reposense.parser;
 
 import java.io.IOException;
+
 import reposense.model.BlurbMap;
 import reposense.parser.exceptions.InvalidMarkdownException;
 
@@ -15,6 +16,7 @@ public interface BlurbMarkdownParser {
      *
      * @return {@code BlurbMap} object.
      * @throws IOException if there are any issues opening or parsing the {@code blurbs.md} file.
+     * @throws InvalidMarkdownException if the markdown file is not in the correct format.
      */
     BlurbMap parse() throws IOException, InvalidMarkdownException;
 }

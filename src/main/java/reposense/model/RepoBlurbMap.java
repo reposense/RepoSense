@@ -1,12 +1,14 @@
 package reposense.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Represents the mapping between the repo URL to the associated blurb.
  */
-public class RepoBlurbMap implements BlurbMap{
+public class RepoBlurbMap implements BlurbMap {
     @JsonProperty("urlBlurbMap")
     private final Map<String, String> urlBlurbMap;
 
@@ -42,4 +44,3 @@ public class RepoBlurbMap implements BlurbMap{
         return false;
     }
 }
-:w

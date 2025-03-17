@@ -26,7 +26,6 @@ import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
 import reposense.model.AuthorBlurbMap;
-import reposense.model.BlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.FileType;
 import reposense.model.RepoBlurbMap;

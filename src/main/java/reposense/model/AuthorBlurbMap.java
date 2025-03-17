@@ -5,7 +5,10 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class AuthorBlurbMap implements BlurbMap{
+/**
+ * Represents the mapping between the author name to the associated blurb.
+ */
+public class AuthorBlurbMap implements BlurbMap {
     @JsonProperty("authorBlurbMap")
     private final Map<String, String> authorBlurbMap;
 

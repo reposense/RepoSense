@@ -6,9 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import reposense.model.BlurbMap;
-import reposense.model.RepoBlurbMap;
 import reposense.model.AuthorBlurbMap;
+import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
 import reposense.model.ReportConfiguration;
 import reposense.model.SupportedDomainUrlMap;
@@ -39,8 +38,8 @@ public class SummaryJson {
     public SummaryJson(List<RepoConfiguration> repos, ReportConfiguration reportConfig, String reportGeneratedTime,
                        LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided,
                        boolean isUntilDateProvided, String repoSenseVersion, Set<Map<String, String>> errorSet,
-                       String reportGenerationTime, ZoneId zoneId, boolean isAuthorshipAnalyzed, RepoBlurbMap repoBlurbs,
-                       AuthorBlurbMap authorBlurbs, boolean isPortfolio) {
+                       String reportGenerationTime, ZoneId zoneId, boolean isAuthorshipAnalyzed,
+                       RepoBlurbMap repoBlurbs, AuthorBlurbMap authorBlurbs, boolean isPortfolio) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;

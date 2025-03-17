@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
 import reposense.model.AuthorBlurbMap;
-import reposense.model.BlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;

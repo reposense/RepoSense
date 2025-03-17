@@ -2,9 +2,6 @@ package reposense.parser;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -12,19 +9,19 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import reposense.model.Author;
 import reposense.model.AuthorBlurbMap;
-import reposense.model.BlurbMap;
-import reposense.model.RepoBlurbMap;
 import reposense.parser.exceptions.InvalidMarkdownException;
 
 /**
- * Parses the Markdown file and retrieve mappings from author to blurbs from the blurbs
+ * Parses the Markdown file and retrieve mappings from author to blurbs from the blurbs.
  */
 public class AuthorBlurbMarkdownParser extends MarkdownParser<AuthorBlurbMap> implements BlurbMarkdownParser {
     public static final Pattern DELIMITER = Pattern.compile("<!--author-->(.*)");
     public static final String DEFAULT_BLURB_FILENAME = "author-blurbs.md";
 
+    /**
+     * Represents a record containing the author git id and the next position to read from the markdown file.
+     */
     public static final class AuthorRecord {
         private final String authorGitId;
         /**
@@ -98,9 +95,8 @@ public class AuthorBlurbMarkdownParser extends MarkdownParser<AuthorBlurbMap> im
             // Extract the author git id first (should be at the first line)
             AuthorRecord authorRecord = this.getAuthorRecord(mdlines, counter);
 
-            // if delimiter is the last non-blank line, null is returned
             if (authorRecord == null) {
-               break;
+                break;
             }
 
             authorGitId = authorRecord.getAuthorGitId();
@@ -131,8 +127,9 @@ public class AuthorBlurbMarkdownParser extends MarkdownParser<AuthorBlurbMap> im
      *
      * @param lines the list of lines in the markdown file
      * @param position the current position in the markdown file
-     *
-     * @return the {@code AuthorRecord} containing the author git id and the next position to read from the markdown file
+     * @return the {@code AuthorRecord} containing the author git id and the next position to read from the
+     *         markdown file
+     * @throws InvalidMarkdownException if the markdown file is not in the correct format
      */
     private AuthorRecord getAuthorRecord(List<String> lines, int position) throws InvalidMarkdownException {
         // Extract the author git id
