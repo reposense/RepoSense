@@ -84,7 +84,7 @@ jobs:
         gem install bundler  
         cd ${SITE}
         bundle install
-        bundle exec jekyll serve
+        bundle exec jekyll serve --detach
       env:
         SITE: ${{github.workspace}}/reposense-report
 
