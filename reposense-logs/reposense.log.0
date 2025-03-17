@@ -1,0 +1,272 @@
+Mar 17, 2025 10:58:35 AM reposense.system.LogsManager addFileHandler
+INFO: Log temp folder has been successfully created
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.ArgsParser parse
+INFO: Ignoring argument '/Users/joannehing/Documents/CS3281/RepoSense/build/resources/test/output' for --view.
+Mar 17, 2025 10:58:35 AM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, repo-config.csv, and recognized columns: Ignore Standalone Config,  Repository's Location,  Branch,  Shallow Cloning,  File formats,  Ignore Glob List,  Ignore Authors List,  Find Previous Authors,  Ignore Commits List
+Mar 17, 2025 10:58:35 AM reposense.parser.CsvParser validateHeader
+INFO: Parsed header of CSV file, author-config.csv, and recognized columns: Author's Emails,  Repository's Location,  Author's GitHub ID,  Branch,  Author's Display Name,  Ignore Glob List,  Author's Git Author Name
+Mar 17, 2025 10:58:35 AM reposense.model.ConfigRunConfiguration getRepoConfigurations
+WARNING: No valid configurations in the author-config.csv.
+reposense.parser.exceptions.InvalidCsvException: No valid configurations in the author-config.csv.
+	at reposense.parser.CsvParser.parse(CsvParser.java:115)
+	at reposense.model.ConfigRunConfiguration.getRepoConfigurations(ConfigRunConfiguration.java:50)
+	at reposense.parser.ArgsParserTest.parse_configOrLocationsSimilar_success(ArgsParserTest.java:519)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+	at org.junit.platform.commons.util.ReflectionUtils.invokeMethod(ReflectionUtils.java:725)
+	at org.junit.jupiter.engine.execution.MethodInvocation.proceed(MethodInvocation.java:60)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$ValidatingInvocation.proceed(InvocationInterceptorChain.java:131)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.intercept(TimeoutExtension.java:149)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestableMethod(TimeoutExtension.java:140)
+	at org.junit.jupiter.engine.extension.TimeoutExtension.interceptTestMethod(TimeoutExtension.java:84)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker$ReflectiveInterceptorCall.lambda$ofVoidMethod$0(ExecutableInvoker.java:115)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.lambda$invoke$0(ExecutableInvoker.java:105)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain$InterceptedInvocation.proceed(InvocationInterceptorChain.java:106)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.proceed(InvocationInterceptorChain.java:64)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.chainAndInvoke(InvocationInterceptorChain.java:45)
+	at org.junit.jupiter.engine.execution.InvocationInterceptorChain.invoke(InvocationInterceptorChain.java:37)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:104)
+	at org.junit.jupiter.engine.execution.ExecutableInvoker.invoke(ExecutableInvoker.java:98)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeTestMethod$7(TestMethodTestDescriptor.java:214)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeTestMethod(TestMethodTestDescriptor.java:210)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:135)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:66)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.executeNonConcurrentTasks(ForkJoinPoolHierarchicalTestExecutorService.java:155)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:135)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService.invokeAll(ForkJoinPoolHierarchicalTestExecutorService.java:129)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.ForkJoinPoolHierarchicalTestExecutorService$ExclusiveTask.compute(ForkJoinPoolHierarchicalTestExecutorService.java:185)
+	at java.base/java.util.concurrent.RecursiveAction.exec(RecursiveAction.java:189)
+	at java.base/java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:290)
+	at java.base/java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec(ForkJoinPool.java:1020)
+	at java.base/java.util.concurrent.ForkJoinPool.scan(ForkJoinPool.java:1656)
+	at java.base/java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1594)
+	at java.base/java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:183)
+
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.ArgsParser parse
+INFO: Ignoring argument '/Users/joannehing/Documents/CS3281/RepoSense/build/resources/test/output' for --view.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.ArgsParser parse
+INFO: Config path not provided, using the config folder as default.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:58:35 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:59:47 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:59:47 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:59:47 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:59:47 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.
+Mar 17, 2025 10:59:47 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Parsing Repositories Blurbs...
+Mar 17, 2025 10:59:47 AM reposense.parser.RepoBlurbMarkdownParser parse
+INFO: Repositories Blurbs parsed successfully!
+Mar 17, 2025 10:59:47 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Parsing Authors Blurbs...
+Mar 17, 2025 10:59:47 AM reposense.parser.AuthorBlurbMarkdownParser parse
+INFO: Authors Blurbs parsed successfully.

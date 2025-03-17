@@ -34,11 +34,12 @@ public class RepoBlurbMap implements BlurbMap{
             return true;
         }
 
-        if (obj instanceof BlurbMap) {
-            BlurbMap bm = (BlurbMap) obj;
-            return bm.equals(this.urlBlurbMap);
+        if (obj instanceof RepoBlurbMap) {
+            RepoBlurbMap bm = (RepoBlurbMap) obj;
+            return bm.urlBlurbMap.equals(this.urlBlurbMap);
         }
 
         return false;
     }
 }
+:w
