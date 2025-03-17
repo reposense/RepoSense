@@ -85,12 +85,12 @@ jobs:
       run: sleep 10
 
     - name: Test connection to deployed website
-      run: curl -L http://0.0.0.0:4000/$GITHUB_REPOSITORY
+      run: curl -L http://0.0.0.0:4000/$(basename $GITHUB_REPOSITORY)
 
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
       with:
-        urls: http://0.0.0.0:4000/
+        urls: http://0.0.0.0:4000/$(basename $GITHUB_REPOSITORY)
         uploadArtifacts: true
 
     - name: Display Lighthouse summary
