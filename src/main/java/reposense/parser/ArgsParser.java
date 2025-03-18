@@ -446,7 +446,7 @@ public class ArgsParser {
         Path configFolderPath = results.get(CONFIG_FLAGS[0]);
 
         // Blurbs are parsed regardless
-        Path blurbConfigPath = configFolderPath.resolve(RepoBlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+        Path blurbConfigPath = configFolderPath.resolve(AuthorBlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
 
         try {
             authorBlurbMap = new AuthorBlurbMarkdownParser(blurbConfigPath).parse();

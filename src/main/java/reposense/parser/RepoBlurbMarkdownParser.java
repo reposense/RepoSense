@@ -148,12 +148,11 @@ public class RepoBlurbMarkdownParser extends MarkdownParser<RepoBlurbMap> implem
         while (posCounter < lineSize) {
             String currLine = lines.get(posCounter);
 
-            if (RepoBlurbMarkdownParser.DELIMITER.matcher(currLine).matches()) {
+            if (DELIMITER.matcher(currLine).matches()) {
                 break;
-            } else {
-                currLine += "\n";
-                blurbs.add(currLine);
             }
+            currLine += "\n";
+            blurbs.add(currLine);
 
             posCounter++;
         }

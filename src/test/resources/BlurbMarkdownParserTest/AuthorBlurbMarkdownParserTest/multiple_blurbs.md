@@ -1,10 +1,9 @@
-codeeong
-dummy text for ths first blurb
+testAuthor1
+dummy text for the first blurb
 <!--author-->
-ProcessedCooked
+testAuthor2
 dummy text for the second blurb
 <!--author-->
-
-jordancjq
+testAuthor3
 dummy text for the third blurb
 <!--author-->

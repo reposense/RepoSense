@@ -135,13 +135,19 @@ public class AuthorBlurbMarkdownParser extends MarkdownParser<AuthorBlurbMap> im
         // Extract the author git id
         String authorGitId = "";
 
-        while (authorGitId.length() == 0) {
-            // Check is deliminiter is found
-            if (position >= lines.size()) {
-                return null;
+        while (position < lines.size()) {
+            String line = lines.get(position++).strip();
+
+            // Skip delimiter lines
+            if (DELIMITER.matcher(line).matches()) {
+                continue;
             }
 
-            authorGitId = lines.get(position++).strip();
+            // Found a non-empty author ID
+            if (!line.isEmpty()) {
+                authorGitId = line;
+                break;
+            }
         }
 
         return new AuthorRecord(authorGitId, position);
@@ -155,12 +161,12 @@ public class AuthorBlurbMarkdownParser extends MarkdownParser<AuthorBlurbMap> im
         while (posCounter < lineSize) {
             String currLine = lines.get(posCounter);
 
-            if (RepoBlurbMarkdownParser.DELIMITER.matcher(currLine).matches()) {
+            if (DELIMITER.matcher(currLine).matches()) {
                 break;
-            } else {
-                currLine += "\n";
-                blurbs.add(currLine);
             }
+
+            currLine += "\n";
+            blurbs.add(currLine);
 
             posCounter++;
         }
