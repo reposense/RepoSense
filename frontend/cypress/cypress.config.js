@@ -12,4 +12,7 @@ module.exports = defineConfig({
     specPattern: 'tests/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'support.js',
   },
+  env: {
+    portfolioBaseUrl: 'http://localhost:9001',
+  }
 })
