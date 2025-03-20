@@ -18,7 +18,6 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.impl.action.VersionArgumentAction;
-import net.sourceforge.argparse4j.inf.ArgumentGroup;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.FeatureControl;
@@ -53,7 +52,6 @@ public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
     public static final int DEFAULT_NUM_CLONING_THREADS = 4;
     public static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
-    public static final boolean DEFAULT_IS_TEST_MODE = false;
     public static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
     public static final double DEFAULT_ORIGINALITY_THRESHOLD = 0.51;
 
@@ -76,7 +74,6 @@ public class ArgsParser {
     public static final String[] FIND_PREVIOUS_AUTHORS_FLAGS = new String[] {"--find-previous-authors", "-F"};
     public static final String[] CLONING_THREADS_FLAG = new String[] {"--cloning-threads"};
     public static final String[] ANALYSIS_THREADS_FLAG = new String[] {"--analysis-threads"};
-    public static final String[] TEST_MODE_FLAG = new String[] {"--test-mode"};
     public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
     public static final String[] ANALYZE_AUTHORSHIP_FLAGS = new String[] {"--analyze-authorship", "-A"};
     public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
@@ -88,7 +85,6 @@ public class ArgsParser {
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
-    private static final String MESSAGE_HEADER_TESTING = "test mode arguments";
     private static final String MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
             "\"Since Date\", \"Until Date\", and \"Period\" cannot be applied together.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
@@ -122,9 +118,6 @@ public class ArgsParser {
         MutuallyExclusiveGroup mutexParser2 = parser
                 .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
                 .required(false);
-
-        ArgumentGroup argumentGroup = parser
-                .addArgumentGroup(MESSAGE_HEADER_TESTING);
 
         // Boolean flags
         parser.addArgument(HELP_FLAGS)
@@ -280,15 +273,10 @@ public class ArgsParser {
                 .help(FeatureControl.SUPPRESS);
 
         // Testing flags
-        argumentGroup.addArgument(TEST_MODE_FLAG)
-                .dest(TEST_MODE_FLAG[0])
-                .action(Arguments.storeTrue())
-                .help("Enables testing mode.");
-
-        argumentGroup.addArgument(FRESH_CLONING_FLAG)
+        parser.addArgument(FRESH_CLONING_FLAG)
                 .dest(FRESH_CLONING_FLAG[0])
                 .action(Arguments.storeTrue())
-                .help("Enables fresh cloning. Requires testing mode to be enabled.");
+                .help("Enables fresh cloning.");
 
         return parser;
     }
@@ -324,12 +312,12 @@ public class ArgsParser {
         boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
         boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
         boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
-        boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
         boolean isAuthorshipAnalyzed = results.get(ANALYZE_AUTHORSHIP_FLAGS[0]);
         double originalityThreshold = results.get(ORIGINALITY_THRESHOLD_FLAGS[0]);
         boolean isPortfolio = results.get(PORTFOLIO_FLAG[0]);
         int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
         int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
+        boolean shouldPerformFreshCloning = results.get(FRESH_CLONING_FLAG[0]);
 
         CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
                 .configFolderPath(configFolderPath)
@@ -346,10 +334,11 @@ public class ArgsParser {
                 .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors)
                 .numCloningThreads(numCloningThreads)
                 .numAnalysisThreads(numAnalysisThreads)
-                .isTestMode(isTestMode)
                 .isAuthorshipAnalyzed(isAuthorshipAnalyzed)
                 .originalityThreshold(originalityThreshold)
-                .isPortfolio(isPortfolio);
+                .isPortfolio(isPortfolio)
+                .isFreshClonePerformed(shouldPerformFreshCloning);
+
         LogsManager.setLogFolderLocation(outputFolderPath);
 
         if (locations == null && configFolderPath.equals(DEFAULT_CONFIG_PATH)) {
@@ -372,11 +361,6 @@ public class ArgsParser {
             logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
         }
         cliArgumentsBuilder.isAutomaticallyLaunching(isAutomaticallyLaunching);
-
-        boolean shouldPerformFreshCloning = isTestMode
-                ? results.get(FRESH_CLONING_FLAG[0])
-                : DEFAULT_SHOULD_FRESH_CLONE;
-        cliArgumentsBuilder.isFreshClonePerformed(shouldPerformFreshCloning);
 
         return cliArgumentsBuilder.build();
     }
