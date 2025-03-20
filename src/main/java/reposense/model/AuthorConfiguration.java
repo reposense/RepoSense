@@ -304,12 +304,12 @@ public class AuthorConfiguration {
      * If no matching {@link Author} is found, {@link Author#UNKNOWN_AUTHOR} is returned.
      */
     public Author getAuthor(String name, String email) {
-        if (authorNamesToAuthorMap.containsKey(name.toLowerCase())) {
-            return authorNamesToAuthorMap.get(name.toLowerCase());
-        }
-
         if (authorEmailsToAuthorMap.containsKey(email)) {
             return authorEmailsToAuthorMap.get(email);
+        }
+
+        if (authorNamesToAuthorMap.containsKey(name.toLowerCase())) {
+            return authorNamesToAuthorMap.get(name.toLowerCase());
         }
 
         Matcher matcher = EMAIL_PLUS_OPERATOR_PATTERN.matcher(email);
