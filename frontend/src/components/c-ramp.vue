@@ -35,9 +35,13 @@
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
         }"
       )
-.date-indicators(v-if="optimiseTimeline")
-  span {{optimisedMinimumDate}}
-  span {{optimisedMaximumDate}}
+
+.date-indicators
+  template(v-if="isFilteredDatesOutOfRange()")
+    span.warn Filter dates out of repository's date range.
+  template(v-else)
+    span {{displayMinDate}}
+    span {{displayMaxDate}}
 </template>
 
 <script lang='ts'>
@@ -113,6 +117,12 @@ export default defineComponent({
   },
 
   computed: {
+    displayMinDate(): String {
+      return this.optimiseTimeline ? this.optimisedMinimumDate : this.sdate;
+    },
+    displayMaxDate(): String {
+      return this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
+    },
     mergeCommitRampSize(): number {
       return this.rampSize * 20;
     },
@@ -246,6 +256,10 @@ export default defineComponent({
       }
       return undefined;
     },
+
+    isFilteredDatesOutOfRange(): boolean {
+      return this.user.sinceDate > this.udate || this.user.untilDate < this.sdate;
+    }
   },
 });
 </script>
