@@ -47,6 +47,11 @@ public class ReportGroupNameAndGlobsTest {
     @Test
     public void equals_differentObject_failure() {
         ReportGroupNameAndGlobs reportGroupNameAndGlobs2 = new ReportGroupNameAndGlobs("My Group", List.of("test"));
-        Assertions.assertFalse(reportGroupNameAndGlobs1.equals(reportGroupNameAndGlobs2));
+        Assertions.assertNotEquals(reportGroupNameAndGlobs1, reportGroupNameAndGlobs2);
+    }
+
+    @Test
+    public void equals_differentClass_failure() {
+        Assertions.assertNotEquals(new Object(), reportGroupNameAndGlobs1);
     }
 }

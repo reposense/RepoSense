@@ -77,6 +77,11 @@ public class ReportBranchDataTest {
                 2000000L
         );
 
-        Assertions.assertFalse(data1.equals(data2));
+        Assertions.assertNotEquals(data1, data2);
+    }
+
+    @Test
+    public void equals_differentClass_failure() {
+        Assertions.assertNotEquals(data1, new Object());
     }
 }

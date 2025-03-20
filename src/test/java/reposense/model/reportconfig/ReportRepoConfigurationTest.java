@@ -94,6 +94,12 @@ public class ReportRepoConfigurationTest {
         ReportRepoConfiguration config2 = new ReportRepoConfiguration(
                 "https://github.com/test/repo.git", groups, null);
 
-        Assertions.assertFalse(config1.equals(config2));
+        Assertions.assertNotEquals(config1, config2);
+    }
+
+    @Test
+    public void equals_differentClass_failure() {
+        Assertions.assertNotEquals(new Object(), new ReportRepoConfiguration(
+                "https://github.com/dev/repo.git", groups, null));
     }
 }

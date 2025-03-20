@@ -94,7 +94,6 @@ public class ArgsParser {
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
     private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
-    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
     private static final String MESSAGE_INVALID_CONFIG_YAML = "%s Ignoring the report config provided.";
     private static final String MESSAGE_INVALID_MARKDOWN_BLURBS = "%s Ignoring the blurb file provided.";
     private static final String MESSAGE_SINCE_D1_WITH_PERIOD = "You may be using --since d1 with the --period flag. "
@@ -400,12 +399,10 @@ public class ArgsParser {
                 builder.reportConfiguration(reportConfig);
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
-            } catch (IllegalArgumentException iae) {
-                logger.warning(String.format(MESSAGE_INVALID_CONFIG_YAML, iae.getMessage()));
             } catch (IOException ioe) {
-                // IOException thrown as report-config.yaml is not found.
-                // Ignore exception as the file is optional.
-                logger.log(Level.WARNING, "Error parsing report-config.yaml: " + ioe.getMessage(), ioe);
+                // IOException thrown as report-config.yaml is not found or fields are invalid.
+                logger.log(Level.WARNING, "Error parsing report-config.yaml: " + ioe.getMessage() + "\n"
+                        + String.format(MESSAGE_INVALID_CONFIG_YAML, reportConfigFilePath));
             }
         }
     }

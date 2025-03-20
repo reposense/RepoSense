@@ -12,6 +12,7 @@ import reposense.model.BlurbMap;
 public class ReportConfigurationTest {
 
     private static ReportConfiguration expectedReportConfig;
+    private static ReportConfiguration invalidReportConfig;
 
     @BeforeAll
     public static void setUp() {
@@ -34,6 +35,13 @@ public class ReportConfigurationTest {
 
         List<ReportRepoConfiguration> repos = List.of(repo);
         expectedReportConfig = new ReportConfiguration("Test RepoSense Report", repos);
+
+        // Invalid repo with missing .git
+        ReportRepoConfiguration invalidRepo = new ReportRepoConfiguration("https://github.com/reposense/testrepo-Delta",
+                groups, branches);
+
+        List<ReportRepoConfiguration> invalidRepos = List.of(invalidRepo);
+        invalidReportConfig = new ReportConfiguration("Test RepoSense Report", invalidRepos);
     }
 
     @Test
@@ -57,12 +65,27 @@ public class ReportConfigurationTest {
     }
 
     @Test
+    public void getBlurbMap_withInvalidInputs_returnEmptyBlurbMap() {
+        BlurbMap expectedBlurbMap = new BlurbMap();
+        expectedBlurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "My project");
+
+        Assertions.assertNotEquals(expectedBlurbMap, invalidReportConfig.getBlurbMap());
+        Assertions.assertEquals(new BlurbMap(), invalidReportConfig.getBlurbMap());
+    }
+
+    @Test
     public void equals_withSameObject_success() {
         Assertions.assertEquals(expectedReportConfig, expectedReportConfig);
     }
 
     @Test
     public void equals_withDifferentObject_failure() {
-        Assertions.assertFalse(expectedReportConfig.equals(new ReportConfiguration(null, null)));
+        Assertions.assertNotEquals(new ReportConfiguration(null, null), expectedReportConfig);
     }
+
+    @Test
+    public void equals_differentClass_failure() {
+        Assertions.assertNotEquals(new Object(), expectedReportConfig);
+    }
+
 }

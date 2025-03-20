@@ -67,6 +67,11 @@ public class ReportAuthorDetailsTest {
                 "Git Author"
         );
 
-        Assertions.assertFalse(details1.equals(details2));
+        Assertions.assertNotEquals(details1, details2);
+    }
+
+    @Test
+    public void equals_differentClass_failure() {
+        Assertions.assertNotEquals(details1, new Object());
     }
 }
