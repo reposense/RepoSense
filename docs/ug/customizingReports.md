@@ -64,9 +64,18 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 
 ### Personalizing Reports
 
+#### Add favicon.ico
+Ensure you have a valid favicon.ico file. This icon will appear in the browser tab when your report is viewed. Copy or move your favicon.ico file into the `assets` folder of the config directory 
+
+Specifying the config directory can be done as follows:
+{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
+
 #### Add a title
-A title component can be added by creating a file titled `title.md` in the assets directory. You can specify the assets directory according to the reference below:
-{{ embed("Appendix: **CLI syntax reference → `assets` flag**", "cli.md#section-assets") }}
+A title component can be added by creating a file titled `title.md` in the config directory.
+
+[//]: # (You can specify the assets directory according to the reference below: {{ embed&#40;"Appendix: **CLI syntax reference → `assets` flag**", "cli.md#section-assets"&#41; }})
+Specifying the config directory can be done as follows:
+{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
 
 The title can render a combination of Markdown/HTML and plaintext ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/title.md)), and will appear on the top of the left panel as shown below:
 ![Title Component Example](../images/title-example.png)
