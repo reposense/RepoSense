@@ -85,7 +85,7 @@ public class ReportConfigurationTest {
 
     @Test
     public void equals_differentClass_failure() {
-        Assertions.assertNotEquals(new Object(), expectedReportConfig);
+        Assertions.assertNotEquals(expectedReportConfig, new Object());
     }
 
 }

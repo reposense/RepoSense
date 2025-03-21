@@ -99,7 +99,7 @@ public class ReportRepoConfigurationTest {
 
     @Test
     public void equals_differentClass_failure() {
-        Assertions.assertNotEquals(new Object(), new ReportRepoConfiguration(
-                "https://github.com/dev/repo.git", groups, null));
+        Assertions.assertNotEquals(new ReportRepoConfiguration(
+                "https://github.com/dev/repo.git", groups, null), new Object());
     }
 }

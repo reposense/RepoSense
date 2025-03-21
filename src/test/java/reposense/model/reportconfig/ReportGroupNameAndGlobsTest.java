@@ -52,6 +52,6 @@ public class ReportGroupNameAndGlobsTest {
 
     @Test
     public void equals_differentClass_failure() {
-        Assertions.assertNotEquals(new Object(), reportGroupNameAndGlobs1);
+        Assertions.assertNotEquals(reportGroupNameAndGlobs1, new Object());
     }
 }
