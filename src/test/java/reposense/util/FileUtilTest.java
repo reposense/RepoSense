@@ -98,7 +98,22 @@ public class FileUtilTest {
 
         FileUtil.deleteFileFromZipFile(TEST_ZIP_PATH, TEST_FILE_NAME);
 
-        assert(originalZipFileSize == Files.size(TEST_ZIP_PATH));
+        Assertions.assertEquals(originalZipFileSize, Files.size(TEST_ZIP_PATH));
+    }
+
+    @Test
+    public void deleteFileFromZipFile_invalidFile_fail() throws Exception {
+        long originalZipFileSize = Files.size(TEST_ZIP_PATH);
+        FileUtil.deleteFileFromZipFile(TEST_ZIP_PATH, "invalidFileName.txt");
+        Assertions.assertEquals(originalZipFileSize, Files.size(TEST_ZIP_PATH));
+    }
+
+    @Test
+    public void addOrReplaceFileInZipFile_invalidFile_fail() throws Exception {
+        long originalZipFileSize = Files.size(TEST_ZIP_PATH);
+        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY,
+                        "invalidFileName.txt", TEST_ZIP_FILE_NAME);
+        Assertions.assertEquals(originalZipFileSize, Files.size(TEST_ZIP_PATH));
     }
 
     @Test
@@ -124,7 +139,7 @@ public class FileUtilTest {
                 TEST_ZIP_FILE_NAME);
 
 
-        assert(originalZipFileSize < Files.size(TEST_ZIP_PATH));
+        Assertions.assertTrue(originalZipFileSize < Files.size(TEST_ZIP_PATH));
     }
 
     @Test
@@ -141,7 +156,7 @@ public class FileUtilTest {
                 TEST_ZIP_FILE_NAME);
 
 
-        assert(originalZipFileSize < Files.size(TEST_ZIP_PATH));
+        Assertions.assertTrue(originalZipFileSize < Files.size(TEST_ZIP_PATH));
     }
 
 

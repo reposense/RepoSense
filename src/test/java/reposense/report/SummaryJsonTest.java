@@ -20,6 +20,7 @@ import reposense.model.BlurbMap;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.ReportConfiguration;
+import reposense.model.SupportedDomainUrlMap;
 import reposense.parser.SummaryJsonParserTest;
 
 public class SummaryJsonTest {
@@ -88,5 +89,16 @@ public class SummaryJsonTest {
         Assertions.assertEquals(expectedUpdatedSummaryJson.getReportGenerationTime(),
                 updatedSummaryJson.getReportGenerationTime());
 
+    }
+
+    @Test
+    public void equals_differentClass_returnFalse() {
+        Assertions.assertNotEquals(expectedUpdatedSummaryJson, new Object());
+    }
+
+    @Test
+    public void getSupportedDomainUrlMap_success() {
+        Map<String, Map<String, String>> supportedDomainUrlMap = expectedUpdatedSummaryJson.getSupportedDomainUrlMap();
+        Assertions.assertEquals(supportedDomainUrlMap, SupportedDomainUrlMap.getDefaultDomainUrlMap());
     }
 }
