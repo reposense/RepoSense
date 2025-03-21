@@ -39,8 +39,8 @@ public class FileUtilTest {
     );
     private static final Path EXPECTED_RELEVANT_FOLDER_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "expectedRelevantUnzippedFiles");
-    private static final Path EXPECTED_REPLACED_SUMMARY_JSON_FOLDER_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
-            "expectedReplacedSummaryJson");
+    private static final Path EXPECTED_REPLACED_SUMMARY_JSON_FOLDER_PATH =
+            Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "expectedReplacedSummaryJson");
     private static final String TEST_FILE_NAME = "/filename.txt";
     private static final Path TEST_FILE_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), TEST_FILE_NAME);
 
@@ -171,7 +171,8 @@ public class FileUtilTest {
                 ".json");
         FileUtil.handleZipFilesAndFolders(null, FILE_UTIL_TEST_DIRECTORY, true, ".json");
         FileUtil.unzip(ARCHIVE_ZIP_PATH, UNZIPPED_DIRECTORY_PATH);
-        Assertions.assertTrue(TestUtil.compareDirectories(EXPECTED_REPLACED_SUMMARY_JSON_FOLDER_PATH, UNZIPPED_DIRECTORY_PATH));
+        Assertions.assertTrue(TestUtil.compareDirectories(EXPECTED_REPLACED_SUMMARY_JSON_FOLDER_PATH,
+                UNZIPPED_DIRECTORY_PATH));
     }
 
 
