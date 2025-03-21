@@ -22,6 +22,14 @@ The report can be customized using several ways, as explained below.
   {{ embed("Appendix: **CLI syntax reference**", "cli.md") }}
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
+### Customize using report-config.yaml
+
+**Another more user-friendly way to customize the report is by using the `report-config.yaml` file.** In this case you need to use the `--config` flag instead of the `--repo` flag when running RepoSense, as follows:
+
+  {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
+
+Please note that this format will override the configurations in the CSV config files.
+<!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### Customize using CSV config files
 

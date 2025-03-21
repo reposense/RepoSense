@@ -16,6 +16,11 @@ public class BlurbMap {
         this.urlBlurbMap = new HashMap<>();
     }
 
+    /**
+     * Return a copy of the mapping between the repo URL to the associated blurb.
+     *
+     * @return a {@code Map<String, String>} containing the mapping between the repo URL to the associated blurb.
+     */
     public Map<String, String> getAllMappings() {
         return new HashMap<>(this.urlBlurbMap);
     }
