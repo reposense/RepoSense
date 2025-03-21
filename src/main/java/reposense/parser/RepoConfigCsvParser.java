@@ -54,10 +54,16 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String[] FILESIZE_LIMIT_HEADER = {"File Size Limit"};
     private static final String[] SINCE_HEADER = {"Since Date"};
     private static final String[] UNTIL_HEADER = {"Until Date"};
+    private boolean isPortflio = false;
 
 
     public RepoConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
+    }
+
+    public RepoConfigCsvParser(Path csvFilePath, boolean isPortfolio) throws FileNotFoundException{
+        super(csvFilePath);
+        this.isPortflio = isPortfolio;
     }
 
     /**
