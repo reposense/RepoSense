@@ -15,6 +15,7 @@ import java.time.ZoneId;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import reposense.model.BlurbMap;
@@ -55,6 +56,24 @@ class ReportGeneratorTest {
         assertNull(reportFoldersAndFiles);
         assertEquals(blurbMap, actualSummaryJson.getBlurbs());
         assertTrue(compareFileContents(TITLE_MD_PATH, TEST_TITLE_MD_PATH));
+    }
+
+    @Test
+    void generateReposReport_isOnlyTextRefreshedTrue_invalidPath_throwsIOException() throws Exception {
+        ReportGenerator reportGenerator = new ReportGenerator();
+        TimeUtil.startTimer();
+        BlurbMap blurbMap = new BlurbMap();
+        blurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "This is a test blurb");
+        Assertions.assertThrows(
+                IOException.class,
+                () -> reportGenerator.generateReposReport(List.of(), ASSETS_PATH.toString(),
+                        ASSETS_PATH.toString(), new ReportConfiguration(), REPORT_GENERATED_TIME,
+                        LocalDate.parse("2025-02-16").atStartOfDay(), LocalDate.parse("2025-03-16").atStartOfDay(),
+                        false, false, 4, 12, TimeUtil::getElapsedTime,
+                        ZoneId.of("Asia/Singapore"), false, false, 0.51,
+                        blurbMap, false, true)
+        );
+
     }
 
     @AfterEach

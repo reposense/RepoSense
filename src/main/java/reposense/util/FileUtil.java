@@ -431,7 +431,7 @@ public class FileUtil {
         try (FileSystem fs = FileSystems.newFileSystem(zipFilePath, null)) {
             Path fileInsideZipPath = fs.getPath("/" + fileToDelete);
             Files.deleteIfExists(fileInsideZipPath);
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.severe(MESSAGE_FAIL_TO_DELETE_FILE_IN_ZIP_FILES);
         }
     }

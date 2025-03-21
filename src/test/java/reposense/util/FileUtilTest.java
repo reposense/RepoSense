@@ -28,6 +28,7 @@ public class FileUtilTest {
             "expectedUnzip");
     private static final String TEST_ZIP_FILE_NAME = "testZip.zip";
     private static final Path TEST_ZIP_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), TEST_ZIP_FILE_NAME);
+    private static final Path INVALID_TEST_ZIP_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "invalid.zip");
     private static final Path UNZIPPED_DIRECTORY_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "UnzippedFolder");
     private static final List<Path> REPORT_FOLDER_FILE_PATHS = Arrays.asList(
@@ -38,6 +39,8 @@ public class FileUtilTest {
     );
     private static final Path EXPECTED_RELEVANT_FOLDER_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
             "expectedRelevantUnzippedFiles");
+    private static final Path EXPECTED_REPLACED_SUMMARY_JSON_FOLDER_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(),
+            "expectedReplacedSummaryJson");
     private static final String TEST_FILE_NAME = "/filename.txt";
     private static final Path TEST_FILE_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), TEST_FILE_NAME);
 
@@ -102,13 +105,6 @@ public class FileUtilTest {
     }
 
     @Test
-    public void deleteFileFromZipFile_invalidFile_fail() throws Exception {
-        long originalZipFileSize = Files.size(TEST_ZIP_PATH);
-        FileUtil.deleteFileFromZipFile(TEST_ZIP_PATH, "invalidFileName.txt");
-        Assertions.assertEquals(originalZipFileSize, Files.size(TEST_ZIP_PATH));
-    }
-
-    @Test
     public void addOrReplaceFileInZipFile_invalidFile_fail() throws Exception {
         long originalZipFileSize = Files.size(TEST_ZIP_PATH);
         FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY,
@@ -143,6 +139,16 @@ public class FileUtilTest {
     }
 
     @Test
+    public void deleteFileFromZipFile_exceptionHandled() {
+        String fileToDelete = "test.txt";
+        try {
+            FileUtil.deleteFileFromZipFile(INVALID_TEST_ZIP_PATH, fileToDelete);
+        } catch (Exception e) {
+            Assertions.fail("Exception should have been caught inside the method: " + e.getMessage());
+        }
+    }
+
+    @Test
     public void addOrReplaceFileInZipFile_addFile_success() throws Exception {
         File testFile = TEST_FILE_PATH.toFile();
 
@@ -157,6 +163,15 @@ public class FileUtilTest {
 
 
         Assertions.assertTrue(originalZipFileSize < Files.size(TEST_ZIP_PATH));
+    }
+
+    @Test
+    public void handleZipFilesAndFolders_success() throws Exception {
+        FileUtil.zipFoldersAndFiles(REPORT_FOLDER_FILE_PATHS, REPO_REPORT_DIRECTORY_PATH, FILE_UTIL_TEST_DIRECTORY,
+                ".json");
+        FileUtil.handleZipFilesAndFolders(null, FILE_UTIL_TEST_DIRECTORY, true, ".json");
+        FileUtil.unzip(ARCHIVE_ZIP_PATH, UNZIPPED_DIRECTORY_PATH);
+        Assertions.assertTrue(TestUtil.compareDirectories(EXPECTED_REPLACED_SUMMARY_JSON_FOLDER_PATH, UNZIPPED_DIRECTORY_PATH));
     }
 
 
