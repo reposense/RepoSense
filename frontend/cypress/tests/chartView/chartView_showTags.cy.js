@@ -81,17 +81,17 @@ describe('show tags', () => {
       .first()
       .find('.summary-chart__title--tags')
       .find('a')
-      .should('have.length', 0);
+      .should('have.length', 4);
 
     cy.get('.summary-chart')
       .eq(1)
       .find('.summary-chart__title--tags')
       .find('a')
-      .should('have.length.gt', 0);
+      .should('have.length', 0);
 
     cy.get('.icon-button.fa-list-ul')
       .should('exist')
-      .eq(1)
+      .eq(0)
       .click();
 
     const correctTags = [];
@@ -101,7 +101,7 @@ describe('show tags', () => {
       .each(($tag) => correctTags.push($tag.text().trim()))
       .then(() => {
         cy.get('.summary-chart')
-          .eq(1)
+          .eq(0)
           .find('.summary-chart__title--tags')
           .find('.tag')
           .each(($tag) => {
@@ -109,7 +109,7 @@ describe('show tags', () => {
           });
 
         cy.get('.summary-chart')
-          .eq(1)
+          .eq(0)
           .find('.summary-chart__title--tags')
           .find('.tag')
           .should('have.length', correctTags.length);
