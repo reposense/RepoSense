@@ -2,26 +2,10 @@
 #summary
   c-summary-header(
     v-if="!isWidgetMode",
-    v-model:filter-search="filterSearch",
-    v-model:filter-group-selection="filterGroupSelection",
-    v-model:sort-group-selection="sortGroupSelection",
-    v-model:sort-within-group-selection="sortWithinGroupSelection",
-    v-model:filter-time-frame="filterTimeFrame",
     v-model:filter-breakdown="filterBreakdown",
-    v-model:tmp-filter-since-date="tmpFilterSinceDate",
-    v-model:tmp-filter-until-date="tmpFilterUntilDate",
-    v-model:view-repo-tags="viewRepoTags",
     v-model:optimise-timeline="optimiseTimeline",
-    v-model:all-groups-merged="allGroupsMerged",
-    v-model:has-modified-since-date="hasModifiedSinceDate",
-    v-model:has-modified-until-date="hasModifiedUntilDate",
-    :min-date="minDate",
-    :max-date="maxDate",
     :is-safari-browser="isSafariBrowser",
-    :filter-since-date="filterSinceDate",
-    :filter-until-date="filterUntilDate",
     @get-filtered="getFiltered",
-    @reset-date-range="resetDateRange",
     @toggle-breakdown="toggleBreakdown"
   )
 
@@ -61,22 +45,16 @@
       @update:selected-file-types="getFiltered"
     )
 
+  // TODO: min-date, max-date, filter-since-date, filter-until-date
   c-summary-charts(
     :filtered="filtered",
     :checked-file-types="checkedFileTypes",
     :avg-contribution-size="avgContributionSize",
-    :filter-group-selection="filterGroupSelection",
     :filter-breakdown="filterBreakdown",
-    :filter-time-frame="filterTimeFrame",
     :filter-since-date="filterSinceDate",
     :filter-until-date="filterUntilDate",
-    :filter-search="filterSearch",
     :min-date="minDate",
     :max-date="maxDate",
-    :sort-group-selection="sortGroupSelection",
-    :chart-group-index="chartGroupIndex",
-    :chart-index="chartIndex",
-    :view-repo-tags="viewRepoTags",
     :optimise-timeline="optimiseTimeline"
   )
 </template>
@@ -339,7 +317,6 @@ export default defineComponent({
       this.$store.commit('updateFileTypeColors', this.fileTypeColors);
     },
 
-    // TODO: ???
     getUserCommits(user: User, sinceDate: string, untilDate: string): null {
       user.commits = [];
       const userFirst = user.dailyCommits[0];

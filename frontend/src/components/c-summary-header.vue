@@ -111,55 +111,55 @@ export default defineComponent({
   props: {
     filterSearch: {
       type: String,
-      required: true,
+      default: '',
     },
     filterGroupSelection: {
       type: String as PropType<FilterGroupSelection>,
-      required: true,
+      default: FilterGroupSelection.GroupByRepos,
     },
     sortGroupSelection: {
       type: String as PropType<SortGroupSelection>,
-      required: true,
+      default: SortGroupSelection.GroupTitleDsc,
     },
     sortWithinGroupSelection: {
       type: String as PropType<SortWithinGroupSelection>,
-      required: true,
+      default: SortWithinGroupSelection.Title,
     },
     filterTimeFrame: {
       type: String as PropType<FilterTimeFrame>,
-      required: true,
+      default: FilterTimeFrame.Commit,
     },
     filterBreakdown: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     tmpFilterSinceDate: {
       type: String,
-      required: true,
+      default: '',
     },
     tmpFilterUntilDate: {
       type: String,
-      required: true,
+      default: '',
     },
     minDate: {
       type: String,
-      required: true,
+      default: '',
     },
     maxDate: {
       type: String,
-      required: true,
+      default: '',
     },
     viewRepoTags: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     optimiseTimeline: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     allGroupsMerged: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     isSafariBrowser: {
       type: Boolean,
@@ -167,19 +167,19 @@ export default defineComponent({
     },
     hasModifiedSinceDate: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     hasModifiedUntilDate: {
       type: Boolean,
-      required: true,
+      default: false,
     },
     filterSinceDate: {
       type: String,
-      required: true,
+      default: '',
     },
     filterUntilDate: {
       type: String,
-      required: true,
+      default: '',
     },
   },
 
