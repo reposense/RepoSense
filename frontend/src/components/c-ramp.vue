@@ -36,12 +36,13 @@
         }"
       )
 
-.date-indicators
-  template(v-if="isFilteredDatesOutOfRange()")
-    span.warn Filter dates out of repository's date range.
-  template(v-else)
-    span {{displayMinDate}}
-    span {{displayMaxDate}}
+.date-indicators(v-if="isPortfolio")
+  span {{displayMinDate}}
+  span {{displayMaxDate}}
+
+.date-indicators(v-else-if="optimiseTimeline")
+  span {{optimisedMinimumDate}}
+  span {{optimisedMaximumDate}}
 </template>
 
 <script lang='ts'>
@@ -109,10 +110,12 @@ export default defineComponent({
   data(): {
     rampSize: number,
     optimisedPadding: number,
+    isPortfolio: boolean,
   } {
     return {
       rampSize: 0.01 as number,
       optimisedPadding: 3, // as % of total timeline,
+      isPortfolio: window.isPortfolio,
     };
   },
 
@@ -256,10 +259,6 @@ export default defineComponent({
       }
       return undefined;
     },
-
-    isFilteredDatesOutOfRange(): boolean {
-      return this.user.sinceDate > this.udate || this.user.untilDate < this.sdate;
-    }
   },
 });
 </script>

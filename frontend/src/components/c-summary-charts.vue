@@ -640,11 +640,11 @@ export default defineComponent({
     },
 
     getUnoptimisedMinimumDate(user: User): string {
-      return new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate;
+      return this.isPortfolio ? user.sinceDate : this.filterSinceDate;
     },
 
     getUnoptimisedMaximumDate(user: User): string {
-      return new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate;
+      return this.isPortfolio ? user.untilDate : this.filterUntilDate;
     },
 
     getOptimisedMinimumDate(user: User): string {
