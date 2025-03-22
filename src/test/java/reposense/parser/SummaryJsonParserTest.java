@@ -22,7 +22,6 @@ import reposense.model.ReportConfiguration;
 import reposense.report.SummaryJson;
 
 public class SummaryJsonParserTest {
-
     private static final Path VALID_SUMMARY_JSON = loadResource(
             SummaryJsonParserTest.class, "SummaryJsonParserTest/valid-summary.json");
     private static final Path INVALID_SUMMARY_JSON = loadResource(
@@ -67,7 +66,6 @@ public class SummaryJsonParserTest {
         expectedValidSummaryJson = new SummaryJson(repos, reportConfig, reportGeneratedTime, sinceDate, untilDate,
                 isSinceDateProvided, isUntilDateProvided, repoSenseVersion, errorSet, reportGenerationTime, zoneId,
                 isAuthorshipAnalyzed, blurbs, isPortfolio);
-
     }
 
     @Test
@@ -79,7 +77,6 @@ public class SummaryJsonParserTest {
     @Test
     public void summaryJson_parseInvalidJsonFile_success() throws Exception {
         SummaryJson parsedSummaryJson = new SummaryJsonParser().parse(INVALID_SUMMARY_JSON);
-
         Assertions.assertNotNull(parsedSummaryJson);
         Assertions.assertNull(parsedSummaryJson.getRepoSenseVersion());
     }

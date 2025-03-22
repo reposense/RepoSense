@@ -24,7 +24,6 @@ import reposense.model.SupportedDomainUrlMap;
 import reposense.parser.SummaryJsonParserTest;
 
 public class SummaryJsonTest {
-
     private static final Path VALID_SUMMARY_JSON = loadResource(
             SummaryJsonParserTest.class, "SummaryJsonParserTest/valid-summary.json");
     private static SummaryJson expectedUpdatedSummaryJson;
@@ -42,6 +41,7 @@ public class SummaryJsonTest {
         boolean isSinceDateProvided = false;
         boolean isUntilDateProvided = false;
         boolean isAuthorshipAnalyzed = false;
+        boolean isPortfolio = false;
 
         RepoLocation repoLocation = new RepoLocation("https://github.com/reposense/testrepo-Alpha.git");
         RepoConfiguration repoConfig = new RepoConfiguration.Builder()
@@ -61,12 +61,9 @@ public class SummaryJsonTest {
 
         BLURBS.withRecord("https://github.com/reposense/testrepo-Alpha/tree/master", "This is a test blurb");
 
-        boolean isPortfolio = false;
-
         expectedUpdatedSummaryJson = new SummaryJson(repos, reportConfig, REPORT_GENERATED_TIME, sinceDate, untilDate,
                 isSinceDateProvided, isUntilDateProvided, repoSenseVersion, errorSet, REPORT_GENERATION_TIME, zoneId,
                 isAuthorshipAnalyzed, BLURBS, isPortfolio);
-
     }
 
     @Test
@@ -74,7 +71,6 @@ public class SummaryJsonTest {
         SummaryJson updatedSummaryJson = SummaryJson.updateSummaryJson(VALID_SUMMARY_JSON, BLURBS,
                 REPORT_GENERATED_TIME, REPORT_GENERATION_TIME);
 
-        //compare the updated summary json with the expected summary json
         Assertions.assertNotNull(updatedSummaryJson);
         Assertions.assertEquals(expectedUpdatedSummaryJson.getBlurbs(), updatedSummaryJson.getBlurbs());
         Assertions.assertEquals(expectedUpdatedSummaryJson.getReportGeneratedTime(),

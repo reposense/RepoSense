@@ -16,7 +16,6 @@ import reposense.report.SummaryJson;
 import reposense.util.adapters.DateDeserializer;
 import reposense.util.adapters.ZoneDeserializer;
 
-
 /**
  * Parses json file from {@link Path} and creates a new {@link SummaryJson} object.
  */
