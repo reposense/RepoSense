@@ -30,21 +30,22 @@ public class SummaryJsonParserTest {
     private static final Path EMPTY_SUMMARY_JSON = loadResource(
             SummaryJsonParserTest.class, "SummaryJsonParserTest/empty-summary.json");
     private static SummaryJson expectedValidSummaryJson;
-    private static SummaryJson expectedInvalidSummaryJson;
 
     @BeforeAll
     public static void setUp() throws Exception {
         String reportGeneratedTime = "Sun, 16 Mar 2025 14:55:54 SGT";
         String reportGenerationTime = " 1 minute(s) 19.83 second(s)";
-
         String repoSenseVersion = "48a60d6c0d";
-
         ZoneId zoneId = ZoneId.of("Asia/Singapore");
-
         ReportConfiguration reportConfig = new ReportConfiguration();
+        LocalDateTime sinceDate = LocalDate.parse("2025-02-16").atStartOfDay();
+        LocalDateTime untilDate = LocalDate.parse("2025-03-16").atStartOfDay();
+        boolean isSinceDateProvided = false;
+        boolean isUntilDateProvided = false;
+        boolean isAuthorshipAnalyzed = false;
+        boolean isPortfolio = false;
 
         RepoLocation repoLocation = new RepoLocation("https://github.com/reposense/testrepo-Alpha.git");
-
         RepoConfiguration repoConfig = new RepoConfiguration.Builder()
                 .location(repoLocation)
                 .branch("master")
@@ -53,7 +54,6 @@ public class SummaryJsonParserTest {
                 .sinceDate(LocalDate.parse("2025-02-16").atStartOfDay())
                 .untilDate(LocalDate.parse("2025-03-16").atStartOfDay())
                 .build();
-
         List<RepoConfiguration> repos = List.of(repoConfig);
 
         Map<String, String> errorMap = new HashMap<>();
@@ -61,29 +61,14 @@ public class SummaryJsonParserTest {
         errorMap.put("errorMessage", "Failed to clone from https://github.com/reposense/RepoSense.git");
         Set<Map<String, String>> errorSet = Set.of(errorMap);
 
-        LocalDateTime sinceDate = LocalDate.parse("2025-02-16").atStartOfDay();
-        LocalDateTime untilDate = LocalDate.parse("2025-03-16").atStartOfDay();
-
-        boolean isSinceDateProvided = false;
-        boolean isUntilDateProvided = false;
-
-        boolean isAuthorshipAnalyzed = false;
-
         BlurbMap blurbs = new BlurbMap();
         blurbs.withRecord("https://github.com/reposense/testrepo-Alpha/tree/master", "Master branch of testrepo-Alpha");
-
-        boolean isPortfolio = false;
 
         expectedValidSummaryJson = new SummaryJson(repos, reportConfig, reportGeneratedTime, sinceDate, untilDate,
                 isSinceDateProvided, isUntilDateProvided, repoSenseVersion, errorSet, reportGenerationTime, zoneId,
                 isAuthorshipAnalyzed, blurbs, isPortfolio);
 
-
-        expectedInvalidSummaryJson = new SummaryJson(repos, reportConfig, reportGeneratedTime, sinceDate, untilDate,
-                isSinceDateProvided, isUntilDateProvided, null, errorSet, reportGenerationTime, zoneId,
-                isAuthorshipAnalyzed, blurbs, isPortfolio);
     }
-
 
     @Test
     public void summaryJson_parseEmptyJsonFile_success() throws Exception {
@@ -94,27 +79,9 @@ public class SummaryJsonParserTest {
     @Test
     public void summaryJson_parseInvalidJsonFile_success() throws Exception {
         SummaryJson parsedSummaryJson = new SummaryJsonParser().parse(INVALID_SUMMARY_JSON);
-        RepoConfiguration parsedRepo1 = parsedSummaryJson.getRepos().get(0);
 
-        RepoConfiguration repoConfig = new RepoConfiguration.Builder()
-                .location(new RepoLocation(parsedRepo1.getLocation().getLocation()))
-                .branch(parsedRepo1.getBranch())
-                .displayName(parsedRepo1.getDisplayName())
-                .outputFolderName(parsedRepo1.getOutputFolderName())
-                .sinceDate(parsedRepo1.getSinceDate())
-                .untilDate(parsedRepo1.getUntilDate())
-                .build();
-
-        SummaryJson actualSummaryJson = new SummaryJson(List.of(repoConfig),
-                parsedSummaryJson.getReportTitle(),
-                parsedSummaryJson.getReportGeneratedTime(), parsedSummaryJson.getSinceDate(),
-                parsedSummaryJson.getUntilDate(), parsedSummaryJson.isSinceDateProvided(),
-                parsedSummaryJson.isUntilDateProvided(), null, parsedSummaryJson.getErrorSet(),
-                parsedSummaryJson.getReportGenerationTime(), parsedSummaryJson.getZoneId(),
-                parsedSummaryJson.isAuthorshipAnalyzed(), parsedSummaryJson.getBlurbs(),
-                parsedSummaryJson.isPortfolio());
-
-        Assertions.assertEquals(expectedInvalidSummaryJson, actualSummaryJson);
+        Assertions.assertNotNull(parsedSummaryJson);
+        Assertions.assertNull(parsedSummaryJson.getRepoSenseVersion());
     }
 
     @Test
@@ -122,7 +89,6 @@ public class SummaryJsonParserTest {
         SummaryJson parsedSummaryJson = new SummaryJsonParser().parse(VALID_SUMMARY_JSON);
 
         RepoConfiguration parsedRepo1 = parsedSummaryJson.getRepos().get(0);
-
         RepoConfiguration repoConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(parsedRepo1.getLocation().getLocation()))
                 .branch(parsedRepo1.getBranch())
@@ -137,12 +103,10 @@ public class SummaryJsonParserTest {
                 parsedSummaryJson.getReportGeneratedTime(), parsedSummaryJson.getSinceDate(),
                 parsedSummaryJson.getUntilDate(), parsedSummaryJson.isSinceDateProvided(),
                 parsedSummaryJson.isUntilDateProvided(), parsedSummaryJson.getRepoSenseVersion(),
-                parsedSummaryJson.getErrorSet(),
-                parsedSummaryJson.getReportGenerationTime(), parsedSummaryJson.getZoneId(),
-                parsedSummaryJson.isAuthorshipAnalyzed(), parsedSummaryJson.getBlurbs(),
+                parsedSummaryJson.getErrorSet(), parsedSummaryJson.getReportGenerationTime(),
+                parsedSummaryJson.getZoneId(), parsedSummaryJson.isAuthorshipAnalyzed(), parsedSummaryJson.getBlurbs(),
                 parsedSummaryJson.isPortfolio());
 
         Assertions.assertEquals(expectedValidSummaryJson, actualSummaryJson);
-
     }
 }

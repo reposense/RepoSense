@@ -410,6 +410,18 @@ public class FileUtil {
     }
 
     /**
+     * Deletes a file from the zip file if it exists.
+     */
+    public static void deleteFileFromZipFileIfExists(Path zipFilePath, String fileToDelete) {
+        try (FileSystem fs = FileSystems.newFileSystem(zipFilePath, null)) {
+            Path fileInsideZipPath = fs.getPath("/" + fileToDelete);
+            Files.deleteIfExists(fileInsideZipPath);
+        } catch (Exception e) {
+            logger.severe(MESSAGE_FAIL_TO_DELETE_FILE_IN_ZIP_FILES);
+        }
+    }
+
+    /**
      * Handles the file zipping logic.
      * If there is a flag which indicates that only text is refreshed, only summary.json is overwritten.
      */
@@ -424,16 +436,5 @@ public class FileUtil {
         zipFoldersAndFiles(pathsToZip, sourceAndOutputPath, fileTypes);
     }
 
-    /**
-     * Deletes a file from the zip file.
-     */
-    public static void deleteFileFromZipFile(Path zipFilePath, String fileToDelete) {
-        try (FileSystem fs = FileSystems.newFileSystem(zipFilePath, null)) {
-            Path fileInsideZipPath = fs.getPath("/" + fileToDelete);
-            Files.deleteIfExists(fileInsideZipPath);
-        } catch (Exception e) {
-            logger.severe(MESSAGE_FAIL_TO_DELETE_FILE_IN_ZIP_FILES);
-        }
-    }
 
 }

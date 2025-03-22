@@ -35,13 +35,15 @@ public class SummaryJsonTest {
     @BeforeAll
     public static void setUp() throws Exception {
         String repoSenseVersion = "48a60d6c0d";
-
         ZoneId zoneId = ZoneId.of("Asia/Singapore");
-
         ReportConfiguration reportConfig = new ReportConfiguration();
+        LocalDateTime sinceDate = LocalDate.parse("2025-02-16").atStartOfDay();
+        LocalDateTime untilDate = LocalDate.parse("2025-03-16").atStartOfDay();
+        boolean isSinceDateProvided = false;
+        boolean isUntilDateProvided = false;
+        boolean isAuthorshipAnalyzed = false;
 
         RepoLocation repoLocation = new RepoLocation("https://github.com/reposense/testrepo-Alpha.git");
-
         RepoConfiguration repoConfig = new RepoConfiguration.Builder()
                 .location(repoLocation)
                 .branch("master")
@@ -50,21 +52,12 @@ public class SummaryJsonTest {
                 .sinceDate(LocalDate.parse("2025-02-16").atStartOfDay())
                 .untilDate(LocalDate.parse("2025-03-16").atStartOfDay())
                 .build();
-
         List<RepoConfiguration> repos = List.of(repoConfig);
 
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("repoName", "reposense/RepoSense[master]");
         errorMap.put("errorMessage", "Failed to clone from https://github.com/reposense/RepoSense.git");
         Set<Map<String, String>> errorSet = Set.of(errorMap);
-
-        LocalDateTime sinceDate = LocalDate.parse("2025-02-16").atStartOfDay();
-        LocalDateTime untilDate = LocalDate.parse("2025-03-16").atStartOfDay();
-
-        boolean isSinceDateProvided = false;
-        boolean isUntilDateProvided = false;
-
-        boolean isAuthorshipAnalyzed = false;
 
         BLURBS.withRecord("https://github.com/reposense/testrepo-Alpha/tree/master", "This is a test blurb");
 

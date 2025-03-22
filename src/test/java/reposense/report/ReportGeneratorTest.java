@@ -40,11 +40,11 @@ class ReportGeneratorTest {
 
     @Test
     void generateReposReport_isOnlyTextRefreshedTrue_success() throws Exception {
-        ReportGenerator reportGenerator = new ReportGenerator();
-        TimeUtil.startTimer();
         BlurbMap blurbMap = new BlurbMap();
         blurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "This is a test blurb");
-        List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(List.of(), OUTPUT_PATH.toString(),
+        TimeUtil.startTimer();
+
+        List<Path> reportFoldersAndFiles = new ReportGenerator().generateReposReport(List.of(), OUTPUT_PATH.toString(),
                 ASSETS_PATH.toString(), new ReportConfiguration(), REPORT_GENERATED_TIME,
                 LocalDate.parse("2025-02-16").atStartOfDay(), LocalDate.parse("2025-03-16").atStartOfDay(),
                 false, false, 4, 12, TimeUtil::getElapsedTime,
@@ -72,7 +72,6 @@ class ReportGeneratorTest {
                         ZoneId.of("Asia/Singapore"), false, false, 0.51,
                         blurbMap, false, true)
         );
-
     }
 
     @AfterEach

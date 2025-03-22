@@ -77,7 +77,7 @@ public class ArgsParser {
     public static final String[] ANALYZE_AUTHORSHIP_FLAGS = new String[] {"--analyze-authorship", "-A"};
     public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
     public static final String[] PORTFOLIO_FLAG = new String[] {"--portfolio", "-P"};
-    public static final String[] REFRESH_ONLY_TEXT_FLAG = new String[] {"--text", "-R"};
+    public static final String[] REFRESH_ONLY_TEXT_FLAG = new String[] {"--text", "-T"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 

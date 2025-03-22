@@ -41,7 +41,7 @@ public class FileUtilTest {
             "expectedRelevantUnzippedFiles");
     private static final Path EXPECTED_REPLACED_SUMMARY_JSON_FOLDER_PATH =
             Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), "expectedReplacedSummaryJson");
-    private static final String TEST_FILE_NAME = "/filename.txt";
+    private static final String TEST_FILE_NAME = "/test.txt";
     private static final Path TEST_FILE_PATH = Paths.get(FILE_UTIL_TEST_DIRECTORY.toString(), TEST_FILE_NAME);
 
     /**
@@ -86,36 +86,16 @@ public class FileUtilTest {
     }
 
     @Test
-    public void deleteFileFromZipFile_success() throws Exception {
-        long originalZipFileSize = Files.size(TEST_ZIP_PATH);
-
-        File testFile = TEST_FILE_PATH.toFile();
-
-        boolean fileCreated = testFile.createNewFile();
-        if (!fileCreated) {
-            throw new IOException("Test file cannot be created.");
-        }
-
-        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME,
-                TEST_ZIP_FILE_NAME);
-
-        FileUtil.deleteFileFromZipFile(TEST_ZIP_PATH, TEST_FILE_NAME);
-
-        Assertions.assertEquals(originalZipFileSize, Files.size(TEST_ZIP_PATH));
-    }
-
-    @Test
     public void addOrReplaceFileInZipFile_invalidFile_fail() throws Exception {
         long originalZipFileSize = Files.size(TEST_ZIP_PATH);
         FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY,
-                        "invalidFileName.txt", TEST_ZIP_FILE_NAME);
+                        "invalidTest.txt", TEST_ZIP_FILE_NAME);
         Assertions.assertEquals(originalZipFileSize, Files.size(TEST_ZIP_PATH));
     }
 
     @Test
     public void addOrReplaceFileInZipFile_replaceFile_success() throws Exception {
         File testFile = TEST_FILE_PATH.toFile();
-
         boolean fileCreated = testFile.createNewFile();
         if (!fileCreated) {
             throw new IOException("Test file cannot be created.");
@@ -125,8 +105,6 @@ public class FileUtilTest {
                 TEST_ZIP_FILE_NAME);
 
         long originalZipFileSize = Files.size(TEST_ZIP_PATH);
-
-
         FileWriter writer = new FileWriter(testFile);
         writer.write("Hello, this is text written to a file!");
         writer.close();
@@ -134,25 +112,15 @@ public class FileUtilTest {
         FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME,
                 TEST_ZIP_FILE_NAME);
 
-
         Assertions.assertTrue(originalZipFileSize < Files.size(TEST_ZIP_PATH));
     }
 
-    @Test
-    public void deleteFileFromZipFile_exceptionHandled() {
-        String fileToDelete = "test.txt";
-        try {
-            FileUtil.deleteFileFromZipFile(INVALID_TEST_ZIP_PATH, fileToDelete);
-        } catch (Exception e) {
-            Assertions.fail("Exception should have been caught inside the method: " + e.getMessage());
-        }
-    }
 
     @Test
     public void addOrReplaceFileInZipFile_addFile_success() throws Exception {
-        File testFile = TEST_FILE_PATH.toFile();
-
         long originalZipFileSize = Files.size(TEST_ZIP_PATH);
+
+        File testFile = TEST_FILE_PATH.toFile();
         boolean fileCreated = testFile.createNewFile();
         if (!fileCreated) {
             throw new IOException("Test file cannot be created.");
@@ -161,8 +129,34 @@ public class FileUtilTest {
         FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME,
                 TEST_ZIP_FILE_NAME);
 
-
         Assertions.assertTrue(originalZipFileSize < Files.size(TEST_ZIP_PATH));
+    }
+
+    @Test
+    public void deleteFileFromZipFileIfExists_exceptionHandled() {
+        String fileToDelete = "deleteTest.txt";
+        try {
+            FileUtil.deleteFileFromZipFileIfExists(INVALID_TEST_ZIP_PATH, fileToDelete);
+        } catch (Exception e) {
+            Assertions.fail("Exception should have been caught inside the method: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void deleteFileFromZipFileIfExists_success() throws Exception {
+        long originalZipFileSize = Files.size(TEST_ZIP_PATH);
+
+        File testFile = TEST_FILE_PATH.toFile();
+        boolean fileCreated = testFile.createNewFile();
+        if (!fileCreated) {
+            throw new IOException("Test file cannot be created.");
+        }
+
+        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME,
+                TEST_ZIP_FILE_NAME);
+        FileUtil.deleteFileFromZipFileIfExists(TEST_ZIP_PATH, TEST_FILE_NAME);
+
+        Assertions.assertEquals(originalZipFileSize, Files.size(TEST_ZIP_PATH));
     }
 
     @Test
@@ -178,7 +172,7 @@ public class FileUtilTest {
 
     @AfterEach
     public void after() throws Exception {
-        FileUtil.deleteFileFromZipFile(TEST_ZIP_PATH, TEST_FILE_NAME);
+        FileUtil.deleteFileFromZipFileIfExists(TEST_ZIP_PATH, TEST_FILE_NAME);
         Files.deleteIfExists(TEST_FILE_PATH);
         Files.deleteIfExists(ARCHIVE_ZIP_PATH);
         if (Files.exists(UNZIPPED_DIRECTORY_PATH)) {

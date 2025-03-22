@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 import reposense.model.BlurbMap;
@@ -73,7 +72,7 @@ public class SummaryJson {
     public boolean equals(Object obj) {
         if (obj instanceof SummaryJson) {
             SummaryJson other = (SummaryJson) obj;
-            return Objects.equals(repoSenseVersion, other.repoSenseVersion)
+            return repoSenseVersion.equals(other.repoSenseVersion)
                     && reportGeneratedTime.equals(other.reportGeneratedTime)
                     && reportGenerationTime.equals(other.reportGenerationTime)
                     && zoneId.equals(other.zoneId)
@@ -98,12 +97,7 @@ public class SummaryJson {
      * replaces the blurbs, reportGeneratedTime, and reportGenerationTime fields with the provided values,
      * and returns the updated object.
      *
-     * @param path the path to the existing summary.json file
-     * @param newBlurbMap the new {@link BlurbMap} to replace the existing blurbs field
-     * @param newReportGeneratedTime the new timestamp to replace reportGeneratedTime
-     * @param newReportGenerationTime the new duration to replace reportGenerationTime
-     * @return a new {@link SummaryJson} object with updated values
-     * @throws IOException if there is an error reading the file
+     * @throws IOException if there is an error reading the file.
      */
     public static SummaryJson updateSummaryJson(Path path, BlurbMap newBlurbMap, String newReportGeneratedTime,
                                                 String newReportGenerationTime) throws IOException {
