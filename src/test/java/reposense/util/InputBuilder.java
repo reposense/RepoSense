@@ -268,6 +268,11 @@ public class InputBuilder {
         return this;
     }
 
+    public InputBuilder addOnlyTextRefreshed() {
+        input.append(ArgsParser.REFRESH_ONLY_TEXT_FLAG[0] + WHITESPACE);
+        return this;
+    }
+
     /**
      * Adds {@code content} to the input.
      */

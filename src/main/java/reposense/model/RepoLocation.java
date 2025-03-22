@@ -110,6 +110,10 @@ public class RepoLocation {
         return domainName;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
     /**
      * Returns true if {@code repoArgument} is a valid local repository argument.
      * This implementation follows directly from the {@code git clone}

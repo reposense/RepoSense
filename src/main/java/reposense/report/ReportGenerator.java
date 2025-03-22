@@ -125,10 +125,22 @@ public class ReportGenerator {
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold, BlurbMap blurbMap,
-            boolean isPortfolio) throws IOException, InvalidMarkdownException {
+            boolean isPortfolio, boolean isOnlyTextRefreshed) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
+        }
+
+        if (isOnlyTextRefreshed) {
+            Path summaryJsonPath = Paths.get(outputPath + "/" + SummaryJson.SUMMARY_JSON_FILE_NAME);
+            if (!Files.exists(summaryJsonPath)) {
+                throw new IOException("summary.json does not exist in the output folder. Aborting report generation.");
+            }
+            SummaryJson updatedSummaryJson = SummaryJson.updateSummaryJson(summaryJsonPath, blurbMap, generationDate,
+                    reportGenerationTimeProvider.get());
+
+            FileUtil.writeJsonFile(updatedSummaryJson, getSummaryResultPath(outputPath));
+            return null;
         }
 
         earliestSinceDate = null;
