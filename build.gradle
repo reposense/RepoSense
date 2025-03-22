@@ -76,8 +76,8 @@ def zipReport = tasks.register('zipReport', Zip) {
 
 def copyCypressConfig = tasks.register('copyCypressConfig', Copy) {
     description 'Copies the config files used by the backend to generate the test report for Cypress testing into an isolated working directory'
-    from 'frontend/cypress/config'
-    into 'build/serveTestReport/exampleconfig'
+    from 'frontend/cypress/configs'
+    into 'build/serveTestReport/configs'
 }
 
 def copyMainClasses = tasks.register('copyMainClasses', Copy) {
@@ -216,7 +216,7 @@ def generateTestReportDefault = tasks.register('generateTestReportDefault', Java
     workingDir = 'build/serveTestReport'
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    args = ['--config', './exampleconfig', '--output', './default', '--since', 'd1', '-A', '-t', 'UTC']
+    args = ['--config', './configs/default', '--output', './default', '--since', 'd1', '-A', '-t', 'UTC']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
 }
@@ -230,7 +230,7 @@ def generateTestReportPortfolio = tasks.register('generateTestReportPortfolio', 
     workingDir = 'build/serveTestReport'
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    args = ['--config', './exampleconfig', '--output', './portfolio', '--since', 'd1', '-A', '-t', 'UTC', '-P']
+    args = ['--config', './configs/portfolio', '--output', './portfolio', '--since', 'd1', '-A', '-t', 'UTC', '-P']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
 }
