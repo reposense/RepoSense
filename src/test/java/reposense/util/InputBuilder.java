@@ -224,15 +224,6 @@ public class InputBuilder {
     }
 
     /**
-     * Adds the flag to enable test mode.
-     * This method should only be called once in one build.
-     */
-    public InputBuilder addTestMode() {
-        input.append(ArgsParser.TEST_MODE_FLAG[0] + WHITESPACE);
-        return this;
-    }
-
-    /**
      * Adds the flag to include modified date in lines.
      * This method should only be called once in one build.
      */
