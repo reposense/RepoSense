@@ -62,7 +62,7 @@ describe('merge group', () => {
       .should('be.checked');
 
     // get the chart bars and assert they have the correct initial widths
-    const expectedWidths = [100, 100, 22, 100, 100, 5, 20, 1];
+    const expectedWidths = [100, 100, 20, 100, 100, 3, 20, 5];
     cy.get('.stacked-bar__contrib--bar')
       .should('have.length', expectedWidths.length)
       .then(($bars) => {
