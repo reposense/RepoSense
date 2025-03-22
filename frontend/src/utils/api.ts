@@ -244,7 +244,7 @@ window.api = {
     };
   },
 
-  async loadCommits(repoName) {
+  async loadCommits(repoName: string, customSortOrder: number) {
     const folderName = window.REPOS[repoName].outputFolderName;
     const json = await this.loadJSON(`${folderName}/commits.json`);
     const commits = commitsSchema.parse(json);
@@ -281,6 +281,8 @@ window.api = {
       }
     });
 
+
+    repo.customSortOrder = customSortOrder;
     repo.commits = commits;
     repo.users = res;
 
