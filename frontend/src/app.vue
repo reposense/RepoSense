@@ -123,6 +123,8 @@ const app = defineComponent({
           errorMessages,
           names,
           blurbMap,
+          authorBlurbMap,
+          chartsBlurbMap
         } = summary;
         this.creationDate = creationDate;
         this.reportGenerationTime = reportGenerationTime;
@@ -136,6 +138,8 @@ const app = defineComponent({
         this.renderTabHash();
         this.userUpdated = true;
         this.$store.commit('setBlurbMap', blurbMap);
+        this.$store.commit('setAuthorBlurbMap', authorBlurbMap);
+        this.$store.commit('setChartsBlurbMap', chartsBlurbMap);
       } catch (error) {
         window.alert(error);
       } finally {
