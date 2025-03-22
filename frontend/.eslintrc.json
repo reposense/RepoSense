@@ -67,7 +67,10 @@
       "extends": [
         "airbnb-typescript/base",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@stylistic/disable-legacy"
+        "plugin:@stylistic/disable-legacy",
+        "plugin:vue/vue3-recommended",
+        "plugin:vue-pug/vue3-recommended"
+
       ],
       "parserOptions": {
         "project": ["./tsconfig.json"]
