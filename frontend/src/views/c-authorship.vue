@@ -6,13 +6,13 @@
     .toolbar--multiline
       a(
         v-if="activeFilesCount < selectedFiles.length",
-        v-on:click="toggleAllFileActiveProperty(true)"
+        @click="toggleAllFileActiveProperty(true)"
       ) show all file details
-      a(v-if="activeFilesCount > 0", v-on:click="toggleAllFileActiveProperty(false)") hide all file details
+      a(v-if="activeFilesCount > 0", @click="toggleAllFileActiveProperty(false)") hide all file details
   .panel-heading
     a.group-name(
-      v-bind:href="info.location", target="_blank",
-      v-bind:title="'Click to open the repo'"
+      :href="info.location", target="_blank",
+      :title="'Click to open the repo'"
     ) {{ info.repo }}
     .author(v-if="!info.isMergeGroup")
       span &#8627; &nbsp;
@@ -33,72 +33,72 @@
           label sort by
         .mui-select.sort-order
           select(v-model="toReverseSortFiles")
-            option(v-bind:value='true') Descending
-            option(v-bind:value='false') Ascending
+            option(:value='true') Descending
+            option(:value='false') Ascending
           label order
       .searchbox
         input.radio-button--search(
           type="radio",
           value="search",
           v-model="filterType",
-          v-on:change="indicateSearchBar"
+          @change="indicateSearchBar"
         )
         .mui-form--inline
           input#search(
             type="search",
             placeholder="Filter by glob",
             ref="searchBar",
-            v-bind:value="searchBarValue",
-            v-on:keyup.enter="indicateSearchBar(); updateSearchBarValue();"
+            :value="searchBarValue",
+            @keyup.enter="indicateSearchBar(); updateSearchBarValue();"
           )
           button#submit-button(
             type="button",
-            v-on:click="indicateSearchBar(); updateSearchBarValue();"
+            @click="indicateSearchBar(); updateSearchBarValue();"
           ) Filter
       .fileTypes
         input.radio-button--checkbox(
           type="radio",
           value="checkboxes",
           v-model="filterType",
-          v-on:change="indicateCheckBoxes"
+          @change="indicateCheckBoxes"
         )
         c-file-type-checkboxes(
-          v-bind:file-types="fileTypes",
-          v-bind:file-type-colors="fileTypeColors",
+          :file-types="fileTypes",
+          :file-type-colors="fileTypeColors",
           v-model:selected-file-types="selectedFileTypes",
           @update:selected-file-types="indicateCheckBoxes",
-          v-bind:all-checkbox-label="allCheckboxLabel",
-          v-bind:file-type-checkbox-labels="checkboxLabels"
+          :all-checkbox-label="allCheckboxLabel",
+          :file-type-checkbox-labels="checkboxLabels"
         )
         .checkboxes.mui-form--inline
           label.binary-fileType(v-if="binaryFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isBinaryChecked")
             span(
-              v-bind:title="`${binaryFilesCount} \
+              :title="`${binaryFilesCount} \
               binary files (not included in total line count)`"
             )
               span {{ binaryFilesCount }} binary file(s)
           label.ignored-fileType(v-if="ignoredFilesCount > 0")
             input.mui-checkbox--fileType(type="checkbox", v-model="isIgnoredChecked")
             span(
-              v-bind:title="`${ignoredFilesCount} \
+              :title="`${ignoredFilesCount} \
               ignored files (included in total line count)`"
             )
               span {{ ignoredFilesCount }} ignored file(s)
 
   .background-color-legend(v-if="isAuthorshipAnalyzed")
     .bold Legend:
-    .color-circle.full-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
+    .color-circle.full-credit-color(:class="{'isMergeGroup': info.isMergeGroup}")
     span [darker shades] Mostly contributed by author.
-    .color-circle.partial-credit-color(v-bind:class="{'isMergeGroup': info.isMergeGroup}")
+    .color-circle.partial-credit-color(:class="{'isMergeGroup': info.isMergeGroup}")
     span [lighter shades] Contributed by author, with non-trivial contribution from others.
 
   .files(v-if="isLoaded")
     .empty(v-if="info.files.length === 0") nothing to see here :(
-    template(v-for="(file, index) in selectedFiles", v-bind:key="file.path")
-      c-authorship-file(v-bind:file="file", v-bind:index="index",
-        v-bind:files-sort-type="this.filesSortType", v-bind:info="this.info",
-        v-bind:author-colors="this.authorColors", v-bind:file-type-colors="this.fileTypeColors",
+    template(v-for="(file, index) in selectedFiles", :key="file.path")
+      c-authorship-file(:file="file", :index="index",
+        :files-sort-type="this.filesSortType", :info="this.info",
+        :author-colors="this.authorColors", :file-type-colors="this.fileTypeColors",
         @toggle-file-active-property="toggleFileActiveProperty")
 </template>
 

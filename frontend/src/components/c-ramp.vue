@@ -2,18 +2,18 @@
 .ramp
   template(v-if="tframe === 'commit'")
     .ramp-padding(
-        v-bind:style="optimiseTimeline ? {width: `${100 - optimisedPadding * 2}%`, left: `${optimisedPadding}%`} : ''"
+        :style="optimiseTimeline ? {width: `${100 - optimisedPadding * 2}%`, left: `${optimisedPadding}%`} : ''"
       )
       template(v-for="(slice, j) in user.commits")
         template(v-for="(commit, k) in slice.commitResults")
           a.ramp__slice(
             draggable="false",
-            v-on:click="rampClick",
-            v-bind:href="getLink(commit)", target="_blank",
-            v-bind:title="getContributionMessageByCommit(slice, commit)",
-            v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
+            @click="rampClick",
+            :href="getLink(commit)", target="_blank",
+            :title="getContributionMessageByCommit(slice, commit)",
+            :class="`ramp__slice--color${getRampColor(commit, slice)}`,\
               !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
-            v-bind:style="{\
+            :style="{\
               zIndex: user.commits.length - j,\
               borderLeftWidth: `${getWidth(commit)}em`,\
               right: `${((getSlicePos(slice.date)\
@@ -22,14 +22,14 @@
           )
 
   template(v-else)
-    a(v-bind:href="getReportLink()", target="_blank")
+    a(:href="getReportLink()", target="_blank")
       .ramp__slice(
         draggable="false",
         v-for="(slice, j) in user.commits",
-        v-bind:title="getContributionMessage(slice)",
-        v-on:click="openTabZoom(user, slice, $event)",
-        v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
-        v-bind:style="{\
+        :title="getContributionMessage(slice)",
+        @click="openTabZoom(user, slice, $event)",
+        :class="`ramp__slice--color${getSliceColor(slice)}`",
+        :style="{\
           zIndex: user.commits.length - j,\
           borderLeftWidth: `${getWidth(slice)}em`,\
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \

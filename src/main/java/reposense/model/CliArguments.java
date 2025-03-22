@@ -37,7 +37,7 @@ public class CliArguments {
     private boolean isFindingPreviousAuthorsPerformed;
     private boolean isAuthorshipAnalyzed;
     private double originalityThreshold;
-    private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
+    private boolean isPortfolio;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
 
     private List<String> locations;
@@ -122,10 +122,6 @@ public class CliArguments {
         return isFindingPreviousAuthorsPerformed;
     }
 
-    public boolean isTestMode() {
-        return isTestMode;
-    }
-
     public boolean isFreshClonePerformed() {
         return isFreshClonePerformed;
     }
@@ -178,6 +174,10 @@ public class CliArguments {
         return originalityThreshold;
     }
 
+    public boolean isPortfolio() {
+        return isPortfolio;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -207,7 +207,6 @@ public class CliArguments {
                 && Objects.equals(this.zoneId, otherCliArguments.zoneId)
                 && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed
                 && this.isFileSizeLimitIgnored == otherCliArguments.isFileSizeLimitIgnored
-                && this.isTestMode == otherCliArguments.isTestMode
                 && this.isFreshClonePerformed == otherCliArguments.isFreshClonePerformed
                 && Objects.equals(this.locations, otherCliArguments.locations)
                 && this.isViewModeOnly == otherCliArguments.isViewModeOnly
@@ -218,7 +217,8 @@ public class CliArguments {
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
                 && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
-                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold);
+                && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
+                && this.isPortfolio == otherCliArguments.isPortfolio;
     }
 
     /**
@@ -392,16 +392,6 @@ public class CliArguments {
         }
 
         /**
-         * Adds the {@code isTestMode} to CliArguments.
-         *
-         * @param isTestMode Is test mode.
-         */
-        public Builder isTestMode(boolean isTestMode) {
-            this.cliArguments.isTestMode = isTestMode;
-            return this;
-        }
-
-        /**
          * Adds the {@code isFreshClonePerformed} to CliArguments.
          *
          * @param isFreshClonePerformed Is fresh clone performed.
@@ -500,6 +490,16 @@ public class CliArguments {
          */
         public Builder blurbMap(BlurbMap blurbMap) {
             this.cliArguments.blurbMap = blurbMap;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isPortfolio} to CLIArguments.
+         *
+         * @param isPortfolio Is portfolio.
+         */
+        public Builder isPortfolio(boolean isPortfolio) {
+            this.cliArguments.isPortfolio = isPortfolio;
             return this;
         }
 
