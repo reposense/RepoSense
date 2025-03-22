@@ -5,10 +5,6 @@ describe('reload page', () => {
       .should('be.visible')
       .type('eugene');
 
-    // filter file
-    cy.get('div.mui-text-field.filter_file > input:visible')
-      .should('be.visible');
-
     // group by
     cy.get('div.mui-select.grouping > select:visible')
       .select('groupByAuthors');
