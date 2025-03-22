@@ -1,4 +1,33 @@
 describe('render filter hash', () => {
+  it('filter files: url params should persist after change and reload', () => {
+    cy.get('div.mui-textfield.filter_file > input:visible')
+      .should('be.visible')
+      .invoke('val')
+      .should('eq', '');
+
+    cy.get('div.mui-textfield.filter_file > input:visible')
+      .should('be.visible')
+      .type('**java**{enter}');
+
+    cy.url()
+      .should('contain', 'filteredFileName=**java**');
+
+    cy.url()
+      .should('contain', 'authorshipFilesGlob=**java**');
+
+    cy.reload();
+
+    cy.url()
+      .should('contain', 'filteredFileName=**java**');
+
+    cy.url()
+      .should('contain', 'authorshipFilesGlob=**java**');
+
+    cy.get('div.mui-textfield.filter_file > input:visible')
+      .should('be.visible')
+      .type('{enter}');
+  })
+
   it('search: url params should persist after change and reload', () => {
     /* Check initial state */
     cy.get('div.mui-textfield.search_box > input:visible')
