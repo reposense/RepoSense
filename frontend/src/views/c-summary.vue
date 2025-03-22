@@ -1,9 +1,8 @@
-<!-- eslint-disable no-console -->
 <template lang="pug">
 #summary
   form.summary-picker.mui-form--inline(v-if="!isWidgetMode", onsubmit="return false;")
     .summary-picker__section
-      .mui-textfield.search_box
+      .mui-textfield.filter_file
         input(type="text", @change="setFilteredFileName", v-model="filteredFileName")
         label filter file
         button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
