@@ -41,9 +41,14 @@
       "BLAME_PATH": "blame/$BRANCH/$FILE_PATH"
     }
   },
-  "blurbs": {
+  "repoBlurbs": {
     "urlBlurbMap": {
       "https://github.com/reposense/testrepo-Alpha/tree/master": "Master branch of testrepo-Alpha"
+    }
+  },
+  "authorBlurbs": {
+    "authorBlurbMap": {
+      "nbriannl": "Test for author-blurbs.md"
     }
   },
   "isPortfolio": false
