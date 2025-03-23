@@ -9,8 +9,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import com.sun.source.doctree.AuthorTree;
-
 import reposense.parser.exceptions.InvalidMarkdownException;
 
 public class AuthorBlurbMarkdownParserTest {
@@ -18,7 +16,7 @@ public class AuthorBlurbMarkdownParserTest {
             "BlurbMarkdownParserTest/empty_blurbs.md");
     private static final Path MALFORMED_DELIMITER_TESTER = loadResource(AuthorBlurbMarkdownParserTest.class,
             "BlurbMarkdownParserTest/AuthorBlurbMarkdownParserTest/malformed_delimiter_blurb.md");
-    private  static final Path MULTILINE_BLURB_TESTER = loadResource(AuthorBlurbMarkdownParser.class,
+    private static final Path MULTILINE_BLURB_TESTER = loadResource(AuthorBlurbMarkdownParser.class,
             "BlurbMarkdownParserTest/AuthorBlurbMarkdownParserTest/multiline_blurb.md");
     private static final Path MULTIPLE_BLURB_TESTER = loadResource(AuthorBlurbMarkdownParser.class,
             "BlurbMarkdownParserTest/AuthorBlurbMarkdownParserTest/multiple_blurbs.md");
@@ -52,15 +50,15 @@ public class AuthorBlurbMarkdownParserTest {
         Assertions.assertTrue(bm.containsKey("testAuthor1"));
         Assertions.assertEquals(
                 bm.get("testAuthor1"),
-                "dummy test for multiline\n" +
-                        "A\n" +
-                        "long\n" +
-                        "line\n" +
-                        "of\n" +
-                        "description\n" +
-                        "of\n" +
-                        "testrepo\n" +
-                        "Alpha"
+                "dummy test for multiline\n"
+                        + "A\n"
+                        + "long\n"
+                        + "line\n"
+                        + "of\n"
+                        + "description\n"
+                        + "of\n"
+                        + "testrepo\n"
+                        + "Alpha"
         );
     }
 
