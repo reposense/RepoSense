@@ -39,6 +39,7 @@ public class CliArguments {
     private double originalityThreshold;
     private boolean isPortfolio;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
+    private boolean isOnlyTextRefreshed;
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -178,6 +179,10 @@ public class CliArguments {
         return isPortfolio;
     }
 
+    public boolean isOnlyTextRefreshed() {
+        return isOnlyTextRefreshed;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -218,7 +223,8 @@ public class CliArguments {
                 && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
                 && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
-                && this.isPortfolio == otherCliArguments.isPortfolio;
+                && this.isPortfolio == otherCliArguments.isPortfolio
+                && this.isOnlyTextRefreshed == otherCliArguments.isOnlyTextRefreshed;
     }
 
     /**
@@ -500,6 +506,16 @@ public class CliArguments {
          */
         public Builder isPortfolio(boolean isPortfolio) {
             this.cliArguments.isPortfolio = isPortfolio;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isTextRefreshedOnly} to CLIArguments.
+         *
+         * @param isOnlyTextRefreshed Is text refreshed only.
+         */
+        public Builder isOnlyTextRefreshed(boolean isOnlyTextRefreshed) {
+            this.cliArguments.isOnlyTextRefreshed = isOnlyTextRefreshed;
             return this;
         }
 

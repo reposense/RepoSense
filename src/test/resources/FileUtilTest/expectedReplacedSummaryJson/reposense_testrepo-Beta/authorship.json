@@ -1,0 +1,19 @@
+[
+  {
+    "path": "README.adoc",
+    "lines": [
+      {
+        "lineNumber": 1,
+        "author": {
+          "gitId": "nbriannl"
+        },
+        "content": "# UniFy"
+      }
+    ],
+    "authorContributionMap": {
+      "null": 1,
+      "April0616": 63,
+      "-": 17
+    }
+  }
+]
