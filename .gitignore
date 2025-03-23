@@ -18,6 +18,7 @@ out/
 node_modules
 /frontend/public/
 !/frontend/public/favicon.ico
+!/frontend/public/logo.png
 !/frontend/public/index.html
 /frontend/.eslintcache
 /frontend/.stylelintcache

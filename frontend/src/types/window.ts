@@ -41,6 +41,7 @@ declare global {
     DAY_IN_MS: number;
     HASH_DELIMITER: string;
     REPOS: { [key: string]: Repo };
+    LOGO_PATH: string;
     hashParams: { [key: string]: string };
     isMacintosh: boolean;
     REPORT_ZIP: JSZip | null;
