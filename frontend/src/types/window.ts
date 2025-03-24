@@ -25,6 +25,8 @@ interface Api {
     errorMessages: { [key: string]: ErrorMessage },
     names: string[],
     blurbMap: { [key: string]: string },
+    authorBlurbMap: {[key: string]: string} | undefined,
+    chartsBlurbMap: {[key: string]: string} | undefined,
   } | null>;
   loadCommits: (repoName: string) => Promise<User[]>;
   loadAuthorship: (repoName: string) => Promise<AuthorshipSchema>;
