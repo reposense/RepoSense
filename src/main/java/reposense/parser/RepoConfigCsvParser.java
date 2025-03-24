@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
 
+import reposense.model.CliArguments;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
@@ -61,9 +62,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         super(csvFilePath);
     }
 
-    public RepoConfigCsvParser(Path csvFilePath, boolean isPortfolio) throws FileNotFoundException{
+    public RepoConfigCsvParser(Path csvFilePath, CliArguments cliArguments) throws FileNotFoundException{
         super(csvFilePath);
-        this.isPortflio = isPortfolio;
+        this.isPortflio = cliArguments.isPortfolio();
     }
 
     /**
@@ -136,29 +137,26 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         long fileSizeLimit = RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 
         // Retrieve and update date
-        String sinceDateStr = get(record, SINCE_HEADER);
-        String untilDateStr = get(record, UNTIL_HEADER);
         LocalDateTime sinceDate = null;
         LocalDateTime untilDate = null;
-        boolean hasUpdatedSinceDateTime = !sinceDateStr.isEmpty();
-        boolean hasUpdatedUntilDateTime = !untilDateStr.isEmpty();
+        boolean hasUpdatedSinceDateTime = false;
+        boolean hasUpdatedUntilDateTime = false;
 
-        try {
-            if (hasUpdatedSinceDateTime) {
-                sinceDate = LocalDateTime.parse(sinceDateStr + DEFAULT_START_TIME,
-                        DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+        if (this.isPortflio) {
+            sinceDate = this.extractCsvSinceDate(record);
+            untilDate = this.extractCsvUntilDate(record);
+
+            if (sinceDate != null) {
+                hasUpdatedSinceDateTime = true;
             }
 
-            if (hasUpdatedUntilDateTime) {
-                untilDate = LocalDateTime.parse(untilDateStr + DEFAULT_END_TIME,
-                    DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            if (untilDate != null) {
+                hasUpdatedUntilDateTime = true;
             }
-        } catch (DateTimeParseException e) {
-            throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
-        }
 
-        if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
-            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
+            if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
+                throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
+            }
         }
 
         // If file diff limit is specified
@@ -193,6 +191,42 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
                 isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed,
                 hasUpdatedSinceDateTime, hasUpdatedUntilDateTime, sinceDate, untilDate);
+    }
+
+    /**
+     * Extracts since date from csv file.
+     */
+    private LocalDateTime extractCsvSinceDate(CSVRecord record) throws ParseException {
+        String sinceDateStr = get(record, SINCE_HEADER);
+        boolean hasUpdatedSinceDateTime = !sinceDateStr.isEmpty();
+        try {
+            if (hasUpdatedSinceDateTime) {
+                return LocalDateTime.parse(sinceDateStr + DEFAULT_START_TIME,
+                        DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            } else {
+                return null;
+            }
+        } catch (DateTimeParseException e) {
+            throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
+        }
+    }
+
+    /**
+     * Extracts end date from csv file.
+     */
+    private LocalDateTime extractCsvUntilDate(CSVRecord record) throws ParseException {
+        String untilDateStr = get(record, UNTIL_HEADER);
+        boolean hasUpdatedUntilDateTime = !untilDateStr.isEmpty();
+        try {
+            if (hasUpdatedUntilDateTime) {
+                return LocalDateTime.parse(untilDateStr + DEFAULT_END_TIME,
+                        DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            } else {
+                return null;
+            }
+        } catch (DateTimeParseException e) {
+            throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
+        }
     }
 
     /**

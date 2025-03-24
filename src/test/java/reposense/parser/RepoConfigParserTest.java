@@ -130,7 +130,9 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoCsvConfig_includeUpdatedDate_success() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE);
+        String input = new InputBuilder().addPortfolio().build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE, cliArguments);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertEquals(3, configs.size());
@@ -150,6 +152,24 @@ public class RepoConfigParserTest {
         Assertions.assertFalse(configAlpha.isHasUpdatedSinceDateInConfig());
         Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
         Assertions.assertEquals(configAlpha.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
+    }
+
+    @Test
+    public void repoCsvConfig_notIncludeUpdatedDate_success() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertEquals(3, configs.size());
+        RepoConfiguration configBeta = configs.get(0);
+        RepoConfiguration configCharlie = configs.get(1);
+        RepoConfiguration configAlpha = configs.get(2);
+
+        Assertions.assertFalse(configBeta.isHasUpdatedSinceDateInConfig());
+        Assertions.assertFalse(configBeta.isHasUpdatedUntilDateInConfig());
+        Assertions.assertFalse(configAlpha.isHasUpdatedSinceDateInConfig());
+        Assertions.assertFalse(configAlpha.isHasUpdatedUntilDateInConfig());
+        Assertions.assertFalse(configCharlie.isHasUpdatedSinceDateInConfig());
+        Assertions.assertFalse(configCharlie.isHasUpdatedUntilDateInConfig());
     }
 
     @Test
@@ -427,7 +447,10 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoCsvConfig_invalidOverridenDates_throwsInvalidCsvException() throws Exception {
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_OVERRIDEN_DATE);
+        String input = new InputBuilder().addPortfolio().build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_INVALID_OVERRIDEN_DATE,
+                                                    cliArguments);
         Assertions.assertThrows(InvalidCsvException.class, repoConfigCsvParser::parse);
     }
 }

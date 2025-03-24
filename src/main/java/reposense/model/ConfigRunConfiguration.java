@@ -38,7 +38,7 @@ public class ConfigRunConfiguration implements RunConfiguration {
     public List<RepoConfiguration> getRepoConfigurations()
             throws IOException, InvalidCsvException, InvalidHeaderException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath(),
-                cliArguments.isPortfolio()).parse();
+                cliArguments).parse();
         List<AuthorConfiguration> authorConfigs;
         List<GroupConfiguration> groupConfigs;
 
