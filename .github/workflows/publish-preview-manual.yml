@@ -81,7 +81,7 @@ jobs:
 
     - name: Run local website on action runner
       run: |
-        gem install bundler
+        gem install bundler  
         cd ${SITE}
         bundle install
         bundle exec jekyll serve --detach
@@ -92,7 +92,7 @@ jobs:
       run: sleep 10
 
     - name: Test connection to deployed website
-      run: curl -L http://0.0.0.0:4000/${{ env.VITE_BASE_DIR }}
+      run: curl -L http://0.0.0.0:4000/$VITE_BASE_DIR
 
     - name: Test deployed web page
       uses: treosh/lighthouse-ci-action@v12
