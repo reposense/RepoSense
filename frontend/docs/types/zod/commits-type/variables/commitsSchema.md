@@ -1,0 +1,11 @@
+[**Documentation**](../../../../README.md)
+
+***
+
+[Documentation](../../../../README.md) / [types/zod/commits-type](../README.md) / commitsSchema
+
+# Variable: commitsSchema
+
+> `const` **commitsSchema**: `ZodObject`\<\{ `authorContributionVariance`: `ZodRecord`\<`ZodString`, `ZodNumber`\>; `authorDailyContributionsMap`: `ZodRecord`\<`ZodString`, `ZodArray`\<`ZodObject`\<\{ `commitResults`: `ZodArray`\<`ZodObject`\<\{ `fileTypesAndContributionMap`: `ZodRecord`\<`ZodString`, `ZodObject`\<..., ..., ..., ..., ...\>\>; `hash`: `ZodString`; `isMergeCommit`: `ZodBoolean`; `messageBody`: `ZodString`; `messageTitle`: `ZodString`; `tags`: `ZodOptional`\<`ZodArray`\<..., ...\>\>; \}, `"strip"`, `ZodTypeAny`, \{ `fileTypesAndContributionMap`: `Record`\<`string`, \{ `deletions`: ...; `insertions`: ...; \}\>; `hash`: `string`; `isMergeCommit`: `boolean`; `messageBody`: `string`; `messageTitle`: `string`; `tags`: ...[]; \}, \{ `fileTypesAndContributionMap`: `Record`\<`string`, \{ `deletions`: ...; `insertions`: ...; \}\>; `hash`: `string`; `isMergeCommit`: `boolean`; `messageBody`: `string`; `messageTitle`: `string`; `tags`: ...[]; \}\>, `"many"`\>; `date`: `ZodString`; \}, `"strip"`, `ZodTypeAny`, \{ `commitResults`: `object`[]; `date`: `string`; \}, \{ `commitResults`: `object`[]; `date`: `string`; \}\>, `"many"`\>\>; `authorDisplayNameMap`: `ZodRecord`\<`ZodString`, `ZodString`\>; `authorFileTypeContributionMap`: `ZodRecord`\<`ZodString`, `ZodRecord`\<`ZodString`, `ZodNumber`\>\>; \}, `"strip"`, `ZodTypeAny`, \{ `authorContributionVariance`: `Record`\<`string`, `number`\>; `authorDailyContributionsMap`: `Record`\<`string`, `object`[]\>; `authorDisplayNameMap`: `Record`\<`string`, `string`\>; `authorFileTypeContributionMap`: `Record`\<`string`, `Record`\<`string`, `number`\>\>; \}, \{ `authorContributionVariance`: `Record`\<`string`, `number`\>; `authorDailyContributionsMap`: `Record`\<`string`, `object`[]\>; `authorDisplayNameMap`: `Record`\<`string`, `string`\>; `authorFileTypeContributionMap`: `Record`\<`string`, `Record`\<`string`, `number`\>\>; \}\>
+
+Defined in: [src/types/zod/commits-type.ts:26](https://github.com/joeng03/RepoSense/blob/3f722058ea4a4c6de9dfb6b764fc6baf0e159e62/frontend/src/types/zod/commits-type.ts#L26)

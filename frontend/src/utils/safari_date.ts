@@ -1,17 +1,37 @@
 // date keys for handling safari date input //
-function isIntegerKey(key: string) {
+
+/**
+ * Checks if a key represents an integer when coerced to a number.
+ * @param {string} key - The keyboard key to check.
+ * @returns {boolean} True if the key is a valid integer, false otherwise.
+ */
+export function isIntegerKey(key: string) {
   return !Number.isNaN(+key);
 }
 
-function isArrowOrEnterKey(key: string) {
+/**
+ * Determines if a key is an arrow key or the Enter key.
+ * @param {string} key - The keyboard key to check.
+ * @returns {boolean} True if the key is an arrow key or Enter, false otherwise.
+ */
+export function isArrowOrEnterKey(key: string) {
   return key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight' || key === 'ArrowUp' || key === 'Enter';
 }
 
-function isBackSpaceOrDeleteKey(key: string) {
+/**
+ * Checks if a key is Backspace or Delete.
+ * @param {string} key - The keyboard key to check.
+ * @returns {boolean} True if the key is Backspace or Delete, false otherwise.
+ */
+export function isBackSpaceOrDeleteKey(key: string) {
   return key === 'Backspace' || key === 'Delete';
 }
 
-function validateInputDate(event: KeyboardEvent) {
+/**
+ * Validates input for a date field, allowing only integers, navigation keys, and deletion keys.
+ * @param {KeyboardEvent} event - The keyboard event triggered by user input.
+ */
+export function validateInputDate(event: KeyboardEvent) {
   const key = event.key;
   // only allow integer, backspace, delete, arrow or enter keys
   if (!(isIntegerKey(key) || isBackSpaceOrDeleteKey(key) || isArrowOrEnterKey(key))) {
@@ -19,7 +39,11 @@ function validateInputDate(event: KeyboardEvent) {
   }
 }
 
-function deleteDashInputDate(event: KeyboardEvent) {
+/**
+ * Handles deletion of a dash character in a date input field by removing the preceding character as well.
+ * @param {KeyboardEvent} event - The keyboard event triggered by user input.
+ */
+export function deleteDashInputDate(event: KeyboardEvent) {
   const key = event.key;
   // remove two chars before the cursor's position if deleting dash character
   if (isBackSpaceOrDeleteKey(key) && event.target !== null && 'value' in event.target
@@ -32,12 +56,20 @@ function deleteDashInputDate(event: KeyboardEvent) {
   }
 }
 
-function formatInputDateOnKeyDown(event: KeyboardEvent) {
+/**
+ * Formats a date input field on keydown by validating input and handling dash deletion.
+ * @param {KeyboardEvent} event - The keyboard event triggered by user input.
+ */
+export function formatInputDateOnKeyDown(event: KeyboardEvent) {
   validateInputDate(event);
   deleteDashInputDate(event);
 }
 
-function appendDashInputDate(event: KeyboardEvent) {
+/**
+ * Appends a dash to a date input field when the input matches specific patterns (e.g., 'yyyy' or 'yyyy-mm').
+ * @param {KeyboardEvent} event - The keyboard event triggered by user input.
+ */
+export function appendDashInputDate(event: KeyboardEvent) {
   // append dash to date with format yyyy-mm-dd
   if (event.target !== null && 'value' in event.target) {
     const date = event.target.value as string;
@@ -49,6 +81,10 @@ function appendDashInputDate(event: KeyboardEvent) {
   }
 }
 
+/**
+ * Assigns date formatting functions to the global window object.
+ * @type {Object}
+ */
 Object.assign(window, { formatInputDateOnKeyDown, appendDashInputDate });
 
 export default 'test';

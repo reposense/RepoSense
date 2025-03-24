@@ -12,7 +12,8 @@
     "plugin:@stylistic/disable-legacy"
   ],
   "plugins": [
-    "@stylistic"
+    "@stylistic",
+    "eslint-plugin-tsdoc"
   ],
   "rules": {
     "vue/component-definition-name-casing": [
