@@ -45,16 +45,15 @@
       @update:selected-file-types="getFiltered"
     )
 
-  // TODO: min-date, max-date, filter-since-date, filter-until-date
   c-summary-charts(
     :filtered="filtered",
     :checked-file-types="checkedFileTypes",
     :avg-contribution-size="avgContributionSize",
     :filter-breakdown="filterBreakdown",
-    :filter-since-date="filterSinceDate",
-    :filter-until-date="filterUntilDate",
-    :min-date="minDate",
-    :max-date="maxDate",
+    :filter-since-date="since",
+    :filter-until-date="until",
+    :min-date="since",
+    :max-date="until",
     :optimise-timeline="optimiseTimeline"
   )
 </template>
@@ -114,25 +113,25 @@ export default defineComponent({
     fileTypeColors: { [key: string]: string },
     isSafariBrowser: boolean,
     filterGroupSelectionWatcherFlag: boolean,
-    chartGroupIndex: number | undefined,
-    chartIndex: number | undefined,
     errorIsShowingMore: boolean,
     numberOfErrorMessagesToShow: number,
     optimiseTimeline: boolean,
+    since: string,
+    until: string,
   } {
     return {
       checkedFileTypes: [] as Array<string>,
       fileTypes: [] as Array<string>,
       filtered: [] as Array<Array<User>>,
-      filterBreakdown: window.isPortfolio, // Auto select trim timeline if portfolio
+      filterBreakdown: window.isPortfolio, // Auto select filter breakdown if portfolio
       fileTypeColors: {} as { [key: string]: string },
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
-      chartGroupIndex: undefined as number | undefined,
-      chartIndex: undefined as number | undefined,
       errorIsShowingMore: false,
       numberOfErrorMessagesToShow: 4,
       optimiseTimeline: window.isPortfolio, // Auto select trim timeline if portfolio
+      since: '',
+      until: '',
     };
   },
   computed: {

@@ -178,7 +178,7 @@ export default defineComponent({
       sortingWithinOption: '',
       isSortingWithinDsc: '',
       filterTimeFrame: FilterTimeFrame.Commit,
-      filterBreakdown: window.isPortfolio, // Auto select trim timeline if portfolio
+      filterBreakdown: window.isPortfolio, // Auto select filter breakdown if portfolio
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.isSinceDateProvided,
