@@ -86,7 +86,7 @@ export default createStore<StoreState>({
         file.wasCodeLoaded = file.wasCodeLoaded || file.active;
       });
     },
-    setBlurbMap(state: StoreState, map: { [key: string]: string }) {
+    setRepoBlurbMap(state: StoreState, map: { [key: string]: string }) {
       state.repoBlurbMap = map;
     },
     setAuthorBlurbMap(state: StoreState, map: {[key: string]: string } | undefined) {

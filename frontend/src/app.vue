@@ -137,7 +137,7 @@ const app = defineComponent({
         this.getUsers();
         this.renderTabHash();
         this.userUpdated = true;
-        this.$store.commit('setBlurbMap', repoBlurbMap);
+        this.$store.commit('setRepoBlurbMap', repoBlurbMap);
         this.$store.commit('setAuthorBlurbMap', authorBlurbMap);
         this.$store.commit('setChartsBlurbMap', chartsBlurbMap);
       } catch (error) {
