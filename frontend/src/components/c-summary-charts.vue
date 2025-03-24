@@ -162,7 +162,7 @@
       v-if="filterGroupSelection === 'groupByRepos'",
     )
       c-markdown-chunk.blurb(
-        :markdown-text="getBlurb(repo[0])"
+        :markdown-text="getRepoBlurb(repo[0])"
       )
 
     .blurbWrapper(
@@ -1009,12 +1009,12 @@ export default defineComponent({
         .filter(Boolean) as Array<string>;
     },
 
-    getBlurb(repo: User): string {
+    getRepoBlurb(repo: User): string {
       const link = this.getRepoLink(repo);
       if (!link) {
         return '';
       }
-      const blurb: string | undefined = this.$store.state.blurbMap[link];
+      const blurb: string | undefined = this.$store.state.repoBlurbMap[link];
       if (!blurb) {
         return '';
       }
@@ -1029,6 +1029,7 @@ export default defineComponent({
       }
       return blurb;
     },
+
     getAuthorBlurb(userName: string): string {
       const blurb: string | undefined = this.$store.state.authorBlurbMap[userName]
       if (!blurb) {

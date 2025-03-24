@@ -18,7 +18,7 @@ export default createStore<StoreState>({
     loadingOverlayCount: 0,
     loadingOverlayMessage: '',
     isTabActive: true,
-    blurbMap: {},
+    repoBlurbMap: {},
     authorBlurbMap: {},
     chartsBlurbMap: {}
   } as StoreState,
@@ -86,8 +86,8 @@ export default createStore<StoreState>({
         file.wasCodeLoaded = file.wasCodeLoaded || file.active;
       });
     },
-    setBlurbMap(state: StoreState, blurbMap: { [key: string]: string }) {
-      state.blurbMap = blurbMap;
+    setBlurbMap(state: StoreState, map: { [key: string]: string }) {
+      state.repoBlurbMap = map;
     },
     setAuthorBlurbMap(state: StoreState, map: {[key: string]: string } | undefined) {
       state.authorBlurbMap = map ?? {};

@@ -234,10 +234,10 @@ window.api = {
       names.push(repoName);
     });
 
-    const blurbMap: { [key: string]: string } = data.blurbs.urlBlurbMap;
+    const repoBlurbMap: { [key: string]: string } = data.repoBlurbs.urlBlurbMap;
     const authorBlurbMap: {[key: string]: string} | undefined =
-      data.authorBlurbs && data.authorBlurbs.urlBlurbMap
-      ? data.authorBlurbs.urlBlurbMap
+      data.authorBlurbs && data.authorBlurbs.authorBlurbMap
+      ? data.authorBlurbs.authorBlurbMap
       : undefined;
     const chartsBlurbMap: {[key: string]: string} | undefined =
       data.chartsBlurbs && data.chartsBlurbs.urlBlurbMap
@@ -248,7 +248,7 @@ window.api = {
       reportGenerationTime,
       errorMessages,
       names,
-      blurbMap,
+      repoBlurbMap,
       authorBlurbMap,
       chartsBlurbMap
     };

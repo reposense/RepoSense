@@ -38,8 +38,6 @@ interface SummaryDates {
 }
 
 interface StoreState {
-  chartsBlurbMap: { [key: string]: string };
-  authorBlurbMap: { [key: string]: string };
   tabAuthorshipInfo: AuthorshipInfo;
   tabZoomInfo: ZoomInfo;
   summaryDates: SummaryDates;
@@ -49,7 +47,9 @@ interface StoreState {
   loadingOverlayCount: number;
   loadingOverlayMessage: string;
   isTabActive: boolean;
-  blurbMap: { [key: string]: string };
+  repoBlurbMap: { [key: string]: string };
+  authorBlurbMap: { [key: string]: string };
+  chartsBlurbMap: { [key: string]: string };
 }
 
 declare module '@vue/runtime-core' {
