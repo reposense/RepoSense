@@ -96,11 +96,11 @@ If `author-config.csv` is not given and the repo has not provided author details
 
 Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
 
-| Column Name | Explanation |
-|-------------|-------------|
-| Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
-| Group Name {{ mandatory }} | Name of the group, e.g.,`test`. |
-| Globs * {{ mandatory }} | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
+| Column Name                | Explanation                                                                           |
+|----------------------------|---------------------------------------------------------------------------------------|
+| Repository's Location      | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`                |
+| Group Name {{ mandatory }} | Name of the group, e.g.,`test`.                                                       |
+| Globs * {{ mandatory }}    | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
@@ -109,12 +109,33 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 
 <!-- ==================================================================================================== -->
 
-## `report-config.json`
+## `report-config.yaml`
 
-You can optionally use `report-config.json` to customize report generation by providing the following information. ([example](report-config.json))
+You can also optionally use a `report-config.yaml` file to quickly define the repository information for the repositories you are interested in tracking and generating your very own code portfolio.
+The configurations of this file will override the configurations in the csv files if the file is present and correctly formatted.
+
+View this [example](report-config.yaml) for a better understanding of what repository information is required.
+
+Note: All fields are optional unless specified otherwise.
 
 **Fields to provide**:
-* `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report"
+* `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report".
+* `repos`: A list of repositories to include for analysis.
+  * `repo` {{ mandatory }}: The URL to your repository of interest.
+  * `groups`: A list of the different custom groupings.
+      * `group-name` {{ mandatory }}: Name of the group.
+      * `globs` {{ mandatory }}: The list of file path globs to include for specified group.
+  * `branches`: A list of branches to analyse for each repository.
+    * `branch`: The name of the branch.
+    * `blurb`: The blurb to display for the branch. To display more detailed blurbs, use the `blurbs.md` file.
+    * `authors`: A list of authors to analyse on the branch.
+      * `author-git-host-id` {{ mandatory }}: Git host username of the author.
+      * `author-display-name`: Display name of the author.
+      * `author-git-author-name`: Author's Git host name.
+      * `author-emails`: A list of emails associated with an author.
+    * `ignore-glob-list`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
+    * `ignore-authors-list`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
+    * `file-size-limit`: A file size limit for the repository in bytes as a single number without units, that will override the default file size limit. If not specified, the default file size limit will continue to be used.
 
 <!-- ==================================================================================================== -->
 

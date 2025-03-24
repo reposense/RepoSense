@@ -8,8 +8,8 @@ import java.util.Set;
 
 import reposense.model.BlurbMap;
 import reposense.model.RepoConfiguration;
-import reposense.model.ReportConfiguration;
 import reposense.model.SupportedDomainUrlMap;
+import reposense.model.reportconfig.ReportConfiguration;
 
 /**
  * Represents the structure of summary.json file in reposense-report folder.
@@ -41,7 +41,7 @@ public class SummaryJson {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;
-        this.reportTitle = reportConfig.getTitle();
+        this.reportTitle = reportConfig == null ? ReportConfiguration.DEFAULT_TITLE : reportConfig.getTitle();
         this.sinceDate = sinceDate;
         this.untilDate = untilDate;
         this.isSinceDateProvided = isSinceDateProvided;
