@@ -62,7 +62,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         super(csvFilePath);
     }
 
-    public RepoConfigCsvParser(Path csvFilePath, CliArguments cliArguments) throws FileNotFoundException{
+    public RepoConfigCsvParser(Path csvFilePath, CliArguments cliArguments) throws FileNotFoundException {
         super(csvFilePath);
         this.isPortflio = cliArguments.isPortfolio();
     }
@@ -195,6 +195,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
     /**
      * Extracts since date from csv file.
+     *
+     * @throws ParseException if the format of since date is not recognizable.
      */
     private LocalDateTime extractCsvSinceDate(CSVRecord record) throws ParseException {
         String sinceDateStr = get(record, SINCE_HEADER);
@@ -213,6 +215,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
 
     /**
      * Extracts end date from csv file.
+     *
+     * @throws ParseException if the format of until date is not recognizable.
      */
     private LocalDateTime extractCsvUntilDate(CSVRecord record) throws ParseException {
         String untilDateStr = get(record, UNTIL_HEADER);
