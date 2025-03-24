@@ -1,0 +1,8 @@
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List,Shallow Cloning,Find Previous Authors,Since Date,Until Date
+https://github.com/reposense/testrepo-Empty.git,master,,,,,,,,,
+https://github.com/reposense/testrepo-Empty2.git,master,,,,,,,,,
+https://github.com/reposense/testrepo-Empty3.git,master,,,,,,,,,
+https://github.com/reposense/testrepo-Empty4.git,master,,,,,,,,,
+https://github.com/reposense/testrepo-Empty5.git,master,,,,,,,,,
+https://github.com/reposense/publish-RepoSense.git,master,,,,,,,,20/01/2019,29/12/2019
+https://github.com/reposense/RepoSense-auth-helper.git,master,,,,,,,,01/02/2023,02/02/2023

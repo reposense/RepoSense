@@ -10,7 +10,9 @@
     "devbuild": "vite build --mode development",
     "lintfix": "eslint --fix src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss}",
     "puglint": "pug-lint-vue src",
-    "serveOpen": "vite --open"
+    "serveOpen": "vite --open",
+    "serveTestDefault": "vite --mode test-default --port 9000 --open",
+    "serveTestPortfolio": "vite --mode test-portfolio --port 9001 --open"
   },
   "main": "index.js",
   "dependencies": {

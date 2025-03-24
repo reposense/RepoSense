@@ -35,7 +35,12 @@
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
         }"
       )
-.date-indicators(v-if="optimiseTimeline")
+
+.date-indicators(v-if="isPortfolio")
+  span {{displayMinDate}}
+  span {{displayMaxDate}}
+
+.date-indicators(v-else-if="optimiseTimeline")
   span {{optimisedMinimumDate}}
   span {{optimisedMaximumDate}}
 </template>
@@ -105,14 +110,22 @@ export default defineComponent({
   data(): {
     rampSize: number,
     optimisedPadding: number,
+    isPortfolio: boolean,
   } {
     return {
       rampSize: 0.01 as number,
       optimisedPadding: 3, // as % of total timeline,
+      isPortfolio: window.isPortfolio,
     };
   },
 
   computed: {
+    displayMinDate(): String {
+      return this.optimiseTimeline ? this.optimisedMinimumDate : this.sdate;
+    },
+    displayMaxDate(): String {
+      return this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
+    },
     mergeCommitRampSize(): number {
       return this.rampSize * 20;
     },

@@ -56,7 +56,6 @@ describe('optimise timeline', () => {
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .last()
-
       .should('have.text', '2023-03-03');
   });
 
