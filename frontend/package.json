@@ -34,7 +34,7 @@
     "postcss": "^8.4.39",
     "pug-lint-vue": "^0.4.0",
     "seedrandom": "^3.0.5",
-    "vite": "^5.4.14",
+    "vite": "^6.2.2",
     "vue": "~3.4.0",
     "vue-loading-overlay": "^6.0.4",
     "vue-observe-visibility": "^1.0.0",
@@ -43,8 +43,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@stylistic/stylelint-plugin": "^2.1.0",
     "@stylistic/eslint-plugin": "^1.7.0",
+    "@stylistic/stylelint-plugin": "^2.1.0",
     "@types/node": "^20.12.4",
     "@vue/eslint-config-typescript": "^13.0.0",
     "eslint": "^8.57.0",
@@ -64,8 +64,8 @@
     "stylelint-webpack-plugin": "^5.0.0",
     "typescript": "~4.9.5",
     "typescript-eslint": "^7.3.1",
-    "vite-plugin-eslint2": "^4.4.0",
-    "vite-plugin-stylelint": "^5.3.1"
+    "vite-plugin-eslint2": "^5.0.3",
+    "vite-plugin-stylelint": "^6.0.0"
   },
   "bugs": {
     "url": "https://github.com/reposense/RepoSense/issues"
