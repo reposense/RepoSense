@@ -142,7 +142,16 @@ public class RepoConfigurationTest {
                 .build();
         Assertions.assertFalse(config.isHasUpdatedUntilDateInConfig());
         Assertions.assertFalse(config.isHasUpdatedSinceDateInConfig());
+    }
 
+    @Test
+    public void repoConfig_correctInitialFlagForUpdate2_success() throws Exception {
+        RepoConfiguration config = new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_BETA))
+                .branch("master")
+                .build();
+        Assertions.assertFalse(config.isHasUpdatedUntilDateInConfig());
+        Assertions.assertFalse(config.isHasUpdatedSinceDateInConfig());
     }
 
     @Test
