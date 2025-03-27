@@ -15,7 +15,6 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import net.bytebuddy.asm.Advice;
 import reposense.model.Author;
 import reposense.model.AuthorConfiguration;
 import reposense.model.CliArguments;
@@ -88,13 +87,13 @@ public class RepoConfigParserTest {
             2025, Month.JANUARY, 17, 0, 0, 0);
     private static final LocalDateTime TEST_REPO_DEFAULT_UNTIL_DATE = LocalDateTime.of(
             2025, Month.JANUARY, 19, 23, 59, 59);
-
-    private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
-    private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
     private static final LocalDateTime TEST_ARTIFICIAL_SINCE_DATE = LocalDateTime.of(
             2002, Month.SEPTEMBER, 21, 0, 0, 0);
     private static final LocalDateTime TEST_ARTIFICIAL_UNTIL_DATE = LocalDateTime.of(
             2003, Month.JANUARY, 29, 23, 59, 59);
+
+    private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
+    private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
 
     private static final Author FIRST_AUTHOR = new Author("nbriannl");
     private static final Author SECOND_AUTHOR = new Author("zacharytang");
