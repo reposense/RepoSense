@@ -91,11 +91,11 @@ const home = defineComponent({
       required: true,
     },
     repos: {
-      type: Object, //{ [key: string]: Repo }
+      type: Object,
       required: true,
     },
     users: {
-      type: Array, //Array<Repo>
+      type: Array<Repo>,
       required: true,
     },
     userUpdated: {
