@@ -146,13 +146,8 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             sinceDate = this.extractCsvSinceDate(record);
             untilDate = this.extractCsvUntilDate(record);
 
-            if (sinceDate != null) {
-                hasUpdatedSinceDateTime = true;
-            }
-
-            if (untilDate != null) {
-                hasUpdatedUntilDateTime = true;
-            }
+            hasUpdatedSinceDateTime = (sinceDate != null);
+            hasUpdatedUntilDateTime = (untilDate != null);
 
             if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
                 throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
@@ -220,9 +215,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     private LocalDateTime extractCsvUntilDate(CSVRecord record) throws ParseException {
         String untilDateStr = get(record, UNTIL_HEADER);
-        boolean hasUpdatedUntilDateTime = !untilDateStr.isEmpty();
+
         try {
-            if (hasUpdatedUntilDateTime) {
+            if (!untilDateStr.isEmpty()) {
                 return LocalDateTime.parse(untilDateStr + DEFAULT_END_TIME,
                         DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
             } else {
