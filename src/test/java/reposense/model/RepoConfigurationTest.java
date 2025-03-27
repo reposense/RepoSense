@@ -59,11 +59,16 @@ public class RepoConfigurationTest {
     private static final Path FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
             "RepoConfigurationTest/repoconfig_findPreviousAuthorsOverrideCsv_test");
+    private static final Path NO_OVERRIDE_FOR_NON_PORTFOLIO_TEST_CONFIG_FILES =
+            loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_nonportfolio_test");
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
             "https://github.com/reposense/testrepo-minimalstandaloneconfig.git";
+    private static final String TEST_NON_PORTFOLIO_OVERRIDE_SINCE_DATE = "29/01/2003";
+
 
     private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
@@ -142,7 +147,6 @@ public class RepoConfigurationTest {
                 .build();
         Assertions.assertFalse(config.isHasUpdatedUntilDateInConfig());
         Assertions.assertFalse(config.isHasUpdatedSinceDateInConfig());
-
     }
 
     @Test
@@ -750,6 +754,38 @@ public class RepoConfigurationTest {
         Assertions.assertNotEquals(validLocationDefaultBranchRepoConfig, validLocationValidBranchRepoConfig);
     }
 
+
+    @Test
+    public void dateRangesSetter_csvNotOverrideSinceUntilFlags() throws Exception {
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_BETA))
+                .branch("master")
+                .fileTypeManager(Collections.emptyList())
+                .ignoreGlobList(Collections.emptyList())
+                .fileSizeLimit(RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT)
+                .isStandaloneConfigIgnored(false)
+                .isFileSizeLimitIgnored(false)
+                .ignoreCommitList(Collections.emptyList())
+                .isFormatsOverriding(true)
+                .isIgnoreGlobListOverriding(true)
+                .isIgnoreCommitListOverriding(true)
+                .isFileSizeLimitOverriding(false)
+                .isShallowCloningPerformed(false)
+                .isFindingPreviousAuthorsPerformed(false)
+                .isIgnoredFileAnalysisSkipped(false)
+                .ignoredAuthorsList(Arrays.asList("lithiumlkid"))
+                .isIgnoredAuthorsListOverriding(true)
+                .setUntilDateBasedOnConfig(false, null)
+                .setSinceDateBasedOnConfig(false, null)
+                .build();
+
+        String inputs = new InputBuilder()
+                .addSinceDate("29/01/2003")
+                .addConfig(Path.of(""))
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(inputs));
+    }
+
     @Test
     public void repoConfig_overrideStandaloneConfig_success() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
@@ -971,4 +1007,6 @@ public class RepoConfigurationTest {
     public void repoBuilder_buildWithInvalid_failure() {
         Assertions.assertThrows(ConfigurationBuildException.class, () -> new RepoConfiguration.Builder().build());
     }
+
+
 }
