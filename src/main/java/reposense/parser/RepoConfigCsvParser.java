@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
 
+import reposense.model.CliArguments;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
@@ -54,10 +55,16 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String[] FILESIZE_LIMIT_HEADER = {"File Size Limit"};
     private static final String[] SINCE_HEADER = {"Since Date"};
     private static final String[] UNTIL_HEADER = {"Until Date"};
+    private boolean isPortflio = false;
 
 
     public RepoConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
         super(csvFilePath);
+    }
+
+    public RepoConfigCsvParser(Path csvFilePath, CliArguments cliArguments) throws FileNotFoundException {
+        super(csvFilePath);
+        this.isPortflio = cliArguments.isPortfolio();
     }
 
     /**
@@ -130,29 +137,21 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         long fileSizeLimit = RepoConfiguration.DEFAULT_FILE_SIZE_LIMIT;
 
         // Retrieve and update date
-        String sinceDateStr = get(record, SINCE_HEADER);
-        String untilDateStr = get(record, UNTIL_HEADER);
         LocalDateTime sinceDate = null;
         LocalDateTime untilDate = null;
-        boolean hasUpdatedSinceDateTime = !sinceDateStr.isEmpty();
-        boolean hasUpdatedUntilDateTime = !untilDateStr.isEmpty();
+        boolean hasUpdatedSinceDateTime = false;
+        boolean hasUpdatedUntilDateTime = false;
 
-        try {
-            if (hasUpdatedSinceDateTime) {
-                sinceDate = LocalDateTime.parse(sinceDateStr + DEFAULT_START_TIME,
-                        DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+        if (this.isPortflio) {
+            sinceDate = this.extractCsvSinceDate(record);
+            untilDate = this.extractCsvUntilDate(record);
+
+            hasUpdatedSinceDateTime = (sinceDate != null);
+            hasUpdatedUntilDateTime = (untilDate != null);
+
+            if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
+                throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
             }
-
-            if (hasUpdatedUntilDateTime) {
-                untilDate = LocalDateTime.parse(untilDateStr + DEFAULT_END_TIME,
-                    DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
-            }
-        } catch (DateTimeParseException e) {
-            throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
-        }
-
-        if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
-            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
 
         // If file diff limit is specified
@@ -187,6 +186,46 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
                 isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed,
                 hasUpdatedSinceDateTime, hasUpdatedUntilDateTime, sinceDate, untilDate);
+    }
+
+    /**
+     * Extracts since date from csv file.
+     *
+     * @throws ParseException if the format of since date is not recognizable.
+     */
+    private LocalDateTime extractCsvSinceDate(CSVRecord record) throws ParseException {
+        String sinceDateStr = get(record, SINCE_HEADER);
+        boolean hasUpdatedSinceDateTime = !sinceDateStr.isEmpty();
+        try {
+            if (hasUpdatedSinceDateTime) {
+                return LocalDateTime.parse(sinceDateStr + DEFAULT_START_TIME,
+                        DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            } else {
+                return null;
+            }
+        } catch (DateTimeParseException e) {
+            throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
+        }
+    }
+
+    /**
+     * Extracts end date from csv file.
+     *
+     * @throws ParseException if the format of until date is not recognizable.
+     */
+    private LocalDateTime extractCsvUntilDate(CSVRecord record) throws ParseException {
+        String untilDateStr = get(record, UNTIL_HEADER);
+
+        try {
+            if (!untilDateStr.isEmpty()) {
+                return LocalDateTime.parse(untilDateStr + DEFAULT_END_TIME,
+                        DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+            } else {
+                return null;
+            }
+        } catch (DateTimeParseException e) {
+            throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
+        }
     }
 
     /**

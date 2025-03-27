@@ -6,6 +6,7 @@ import static reposense.util.TestUtil.loadResource;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,16 +60,35 @@ public class RepoConfigurationTest {
     private static final Path FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
             "RepoConfigurationTest/repoconfig_findPreviousAuthorsOverrideCsv_test");
+    private static final Path NO_OVERRIDE_FOR_NON_PORTFOLIO_TEST_CONFIG_FILES =
+            loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_nonportfolio_test");
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
             "https://github.com/reposense/testrepo-minimalstandaloneconfig.git";
+    private static final String TEST_NON_PORTFOLIO_OVERRIDE_SINCE_DATE = "29/01/2003";
+
 
     private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
     private static final Author THIRD_AUTHOR = new Author("jordancjq");
     private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
+
+    private static final LocalDateTime TEST_ARTIFICIAL_SINCE_DATE = LocalDateTime.of(
+            2002, Month.SEPTEMBER, 21, 0, 0, 0);
+    private static final LocalDateTime TEST_ARTIFICIAL_UNTIL_DATE = LocalDateTime.of(
+            2003, Month.JANUARY, 29, 23, 59, 59);
+    private static final LocalDateTime TEST_CSV_SINCE_DATE = LocalDateTime.of(
+            2025, Month.JANUARY, 17, 0, 0, 0
+    );
+    private static final LocalDateTime TEST_CSV_UNTIL_DATE = LocalDateTime.of(
+            2025, Month.JANUARY, 19, 23, 59, 59
+    );
+
+    private static final String TEST_ARTIFICIAL_SINCE_DATE_STRING = "21/09/2002";
+    private static final String TEST_ARTIFICIAL_UNTIL_DATE_STRING = "29/01/2003";
 
     private static final List<String> FIRST_AUTHOR_ALIASES = Collections.singletonList("Ahmad Syafiq");
     private static final List<String> SECOND_AUTHOR_ALIASES = Collections.emptyList();
@@ -142,7 +162,6 @@ public class RepoConfigurationTest {
                 .build();
         Assertions.assertFalse(config.isHasUpdatedUntilDateInConfig());
         Assertions.assertFalse(config.isHasUpdatedSinceDateInConfig());
-
     }
 
     @Test
@@ -751,6 +770,65 @@ public class RepoConfigurationTest {
     }
 
     @Test
+    public void dateRangesSetter_csvNotOverrideSinceUntilFlags_success() throws Exception {
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_BETA))
+                .branch("master")
+                .build();
+
+        expectedConfig.setSinceDate(TEST_ARTIFICIAL_SINCE_DATE);
+        expectedConfig.setUntilDate(TEST_ARTIFICIAL_UNTIL_DATE);
+
+        String inputs = new InputBuilder()
+                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE_STRING)
+                .addUntilDate(TEST_ARTIFICIAL_UNTIL_DATE_STRING)
+                .addConfig(NO_OVERRIDE_FOR_NON_PORTFOLIO_TEST_CONFIG_FILES)
+                .build();
+
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(inputs));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath(), cliArguments).parse();
+        RepoConfiguration.setDatesToRepoConfigs(actualConfigs,
+                    cliArguments.getSinceDate(),
+                    cliArguments.getUntilDate());
+
+        Assertions.assertEquals(actualConfigs.get(0).getSinceDate(), expectedConfig.getSinceDate());
+        Assertions.assertEquals(actualConfigs.get(0).getUntilDate(), expectedConfig.getUntilDate());
+        Assertions.assertFalse(actualConfigs.get(0).isHasUpdatedUntilDateInConfig());
+        Assertions.assertFalse(actualConfigs.get(0).isHasUpdatedSinceDateInConfig());
+    }
+
+    @Test
+    public void dateRangesSetter_csvOverrideSinceUntilFlagsForPortfolio_success() throws Exception {
+        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_BETA))
+                .branch("master")
+                .build();
+
+        expectedConfig.setSinceDate(TEST_CSV_SINCE_DATE);
+        expectedConfig.setUntilDate(TEST_CSV_UNTIL_DATE);
+
+        String inputs = new InputBuilder()
+                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE_STRING)
+                .addUntilDate(TEST_ARTIFICIAL_UNTIL_DATE_STRING)
+                .addConfig(NO_OVERRIDE_FOR_NON_PORTFOLIO_TEST_CONFIG_FILES)
+                .addPortfolio()
+                .build();
+
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(inputs));
+        List<RepoConfiguration> actualConfigs =
+                new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath(), cliArguments).parse();
+        RepoConfiguration.setDatesToRepoConfigs(actualConfigs,
+                cliArguments.getSinceDate(),
+                cliArguments.getUntilDate());
+
+        Assertions.assertEquals(actualConfigs.get(0).getSinceDate(), expectedConfig.getSinceDate());
+        Assertions.assertEquals(actualConfigs.get(0).getUntilDate(), expectedConfig.getUntilDate());
+        Assertions.assertTrue(actualConfigs.get(0).isHasUpdatedUntilDateInConfig());
+        Assertions.assertTrue(actualConfigs.get(0).isHasUpdatedSinceDateInConfig());
+    }
+
+    @Test
     public void repoConfig_overrideStandaloneConfig_success() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))
@@ -971,4 +1049,6 @@ public class RepoConfigurationTest {
     public void repoBuilder_buildWithInvalid_failure() {
         Assertions.assertThrows(ConfigurationBuildException.class, () -> new RepoConfiguration.Builder().build());
     }
+
+
 }
