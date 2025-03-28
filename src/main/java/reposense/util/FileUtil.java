@@ -149,18 +149,21 @@ public class FileUtil {
      */
     public static void deleteDirectory(String root) throws IOException {
         File rootDirectory = Paths.get(root).toFile();
-        if (rootDirectory.exists()) {
-            for (File file : rootDirectory.listFiles()) {
-                if (file.isDirectory()) {
-                    deleteDirectory(file.toString());
-                } else {
-                    file.delete();
-                }
+
+        if (!rootDirectory.exists()) {
+            return;
+        }
+
+        for (File file : rootDirectory.listFiles()) {
+            if (file.isDirectory()) {
+                deleteDirectory(file.toString());
+            } else {
+                file.delete();
             }
-            rootDirectory.delete();
-            if (rootDirectory.exists()) {
-                throw new IOException(String.format("Fail to delete directory %s", rootDirectory));
-            }
+        }
+
+        if (!rootDirectory.delete()) {
+            throw new IOException(String.format("Fail to delete directory %s", rootDirectory));
         }
     }
 
