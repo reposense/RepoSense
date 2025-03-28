@@ -1,6 +1,3 @@
-nbriannl
-Test for author-blurbs.md
-<!--author-->
 skyblaise
 dummy text for the first blurb
 <!--author-->
