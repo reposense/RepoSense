@@ -141,6 +141,10 @@
     :view-repo-tags="viewRepoTags",
     :optimise-timeline="optimiseTimeline"
   )
+
+  .logo(v-if="isWidgetMode")
+    a(:href="getRepoSenseHomeLink()", target="_blank")
+      img(:src="getLogoPath()", :width=20, :height=20)
 </template>
 
 <script lang='ts'>
@@ -395,7 +399,16 @@ export default defineComponent({
     getReportIssueMessage(message: string): string {
       return encodeURI(message);
     },
-
+    getRepoSenseHomeLink(): string {
+      const version = window.repoSenseVersion;
+      if (!version) {
+        return `${window.HOME_PAGE_URL}/RepoSense/`;
+      }
+      return `${window.HOME_PAGE_URL}`;
+    },
+    getLogoPath(): string {
+      return window.LOGO_PATH;
+    },
     // model functions //
     resetFilterSearch(): void {
       this.filterSearch = '';
@@ -1045,5 +1058,11 @@ export default defineComponent({
   display: flex;
   justify-content: flex-end;
   margin-top: .3rem;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
 }
 </style>
