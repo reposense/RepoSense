@@ -24,6 +24,8 @@ public class CommitInfoExtractor {
 
     private static final Pattern TRAILING_NEWLINES_PATTERN = Pattern.compile("\n+$");
 
+    private static final int VALID_COMMIT_INFO_LENGTH = 2;
+
     /**
      * Extracts out and returns the raw information of each commit for the repo in {@code config}.
      */
@@ -50,7 +52,7 @@ public class CommitInfoExtractor {
         ArrayList<CommitInfo> commitInfos = new ArrayList<>();
         String[] rawCommitInfos = gitLogResult.split(GitLog.COMMIT_INFO_DELIMITER);
 
-        if (rawCommitInfos.length < 2) {
+        if (rawCommitInfos.length < VALID_COMMIT_INFO_LENGTH) {
             //no log (maybe because no contribution for that file type)
             return commitInfos;
         }
