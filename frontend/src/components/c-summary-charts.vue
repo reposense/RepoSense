@@ -162,7 +162,13 @@
       v-if="filterGroupSelection === 'groupByRepos'",
     )
       c-markdown-chunk.blurb(
-        :markdown-text="getBlurb(repo[0])"
+        :markdown-text="getRepoBlurb(repo[0])"
+      )
+
+    .blurbWrapper(
+      v-if="filterGroupSelection === 'groupByAuthors'")
+      c-markdown-chunk.blurb(
+        :markdown-text="getAuthorBlurb(repo[0].name)"
       )
 
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
@@ -300,7 +306,16 @@
           )
             font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
-
+      .blurbWrapper(
+        v-if="filterGroupSelection === 'groupByRepos'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(user.name, repo[0])"
+        )
+      .blurbWrapper(
+        v-if="filterGroupSelection === 'groupByAuthors'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(repo[0].name, user)"
+        )
       .summary-chart__ramp(
         @click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
       )
@@ -994,17 +1009,34 @@ export default defineComponent({
         .filter(Boolean) as Array<string>;
     },
 
-    getBlurb(repo: User): string {
+    getRepoBlurb(repo: User): string {
       const link = this.getRepoLink(repo);
       if (!link) {
         return '';
       }
-      const blurb: string | undefined = this.$store.state.blurbMap[link];
+      const blurb: string | undefined = this.$store.state.repoBlurbMap[link];
       if (!blurb) {
         return '';
       }
       return blurb;
     },
+
+    getChartBlurb(userName: string, repo: User) : string {
+      const link = this.getRepoLink(repo);
+      const blurb: string | undefined = this.$store.state.chartsBlurbMap[`${link}|${userName}`]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    },
+
+    getAuthorBlurb(userName: string): string {
+      const blurb: string | undefined = this.$store.state.authorBlurbMap[userName]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    }
   },
 });
 </script>
