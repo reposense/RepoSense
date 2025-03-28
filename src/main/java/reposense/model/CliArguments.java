@@ -38,7 +38,6 @@ public class CliArguments {
     private boolean isAuthorshipAnalyzed;
     private double originalityThreshold;
     private boolean isPortfolio;
-    private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
 
     private List<String> locations;
@@ -52,7 +51,8 @@ public class CliArguments {
     private Path groupConfigFilePath;
     private Path reportConfigFilePath;
     private ReportConfiguration reportConfiguration;
-    private BlurbMap blurbMap;
+    private RepoBlurbMap repoBlurbMap;
+    private AuthorBlurbMap authorBlurbMap;
 
     /**
      * Constructs a {@code CliArguments} object without any parameters.
@@ -123,10 +123,6 @@ public class CliArguments {
         return isFindingPreviousAuthorsPerformed;
     }
 
-    public boolean isTestMode() {
-        return isTestMode;
-    }
-
     public boolean isFreshClonePerformed() {
         return isFreshClonePerformed;
     }
@@ -163,8 +159,12 @@ public class CliArguments {
         return reportConfiguration;
     }
 
-    public BlurbMap getBlurbMap() {
-        return blurbMap;
+    public RepoBlurbMap getRepoBlurbMap() {
+        return repoBlurbMap;
+    }
+
+    public AuthorBlurbMap getAuthorBlurbMap() {
+        return authorBlurbMap;
     }
 
     public boolean isViewModeOnly() {
@@ -212,7 +212,6 @@ public class CliArguments {
                 && Objects.equals(this.zoneId, otherCliArguments.zoneId)
                 && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed
                 && this.isFileSizeLimitIgnored == otherCliArguments.isFileSizeLimitIgnored
-                && this.isTestMode == otherCliArguments.isTestMode
                 && this.isFreshClonePerformed == otherCliArguments.isFreshClonePerformed
                 && Objects.equals(this.locations, otherCliArguments.locations)
                 && this.isViewModeOnly == otherCliArguments.isViewModeOnly
@@ -221,7 +220,8 @@ public class CliArguments {
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
                 && Objects.equals(this.groupConfigFilePath, otherCliArguments.groupConfigFilePath)
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
-                && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
+                && Objects.equals(this.repoBlurbMap, otherCliArguments.repoBlurbMap)
+                && Objects.equals(this.authorBlurbMap, otherCliArguments.authorBlurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
                 && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
                 && this.isPortfolio == otherCliArguments.isPortfolio;
@@ -398,16 +398,6 @@ public class CliArguments {
         }
 
         /**
-         * Adds the {@code isTestMode} to CliArguments.
-         *
-         * @param isTestMode Is test mode.
-         */
-        public Builder isTestMode(boolean isTestMode) {
-            this.cliArguments.isTestMode = isTestMode;
-            return this;
-        }
-
-        /**
          * Adds the {@code isFreshClonePerformed} to CliArguments.
          *
          * @param isFreshClonePerformed Is fresh clone performed.
@@ -500,12 +490,18 @@ public class CliArguments {
         }
 
         /**
-         * Adds the {@code blurbMap} to CliArguments.
-         *
-         * @param blurbMap The blurb map.
+         * Adds the {@code repoBlurbMap} to CliArguments.
          */
-        public Builder blurbMap(BlurbMap blurbMap) {
-            this.cliArguments.blurbMap = blurbMap;
+        public Builder repoBlurbMap(RepoBlurbMap repoBlurbMap) {
+            this.cliArguments.repoBlurbMap = repoBlurbMap;
+            return this;
+        }
+
+        /**
+         * Adds the {@code authorBlurbMap} to CliArguments.
+         */
+        public Builder authorBlurbMap(AuthorBlurbMap authorBlurbMap) {
+            this.cliArguments.authorBlurbMap = authorBlurbMap;
             return this;
         }
 

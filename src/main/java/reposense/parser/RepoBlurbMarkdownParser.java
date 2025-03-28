@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import reposense.model.BlurbMap;
 import reposense.model.RepoBlurbMap;
 import reposense.parser.exceptions.InvalidMarkdownException;
 
@@ -79,7 +78,7 @@ public class RepoBlurbMarkdownParser extends MarkdownParser<RepoBlurbMap> implem
 
         // if the file is empty, then we throw the exception and let the adder handle
         if (mdLines.isEmpty()) {
-            throw new InvalidMarkdownException("Empty blurbs.md file");
+            throw new InvalidMarkdownException("Empty repo-blurbs.md file");
         }
 
         // prepare the blurb map
@@ -149,12 +148,11 @@ public class RepoBlurbMarkdownParser extends MarkdownParser<RepoBlurbMap> implem
         while (posCounter < lineSize) {
             String currLine = lines.get(posCounter);
 
-            if (RepoBlurbMarkdownParser.DELIMITER.matcher(currLine).matches()) {
+            if (DELIMITER.matcher(currLine).matches()) {
                 break;
-            } else {
-                currLine += "\n";
-                blurbs.add(currLine);
             }
+            currLine += "\n";
+            blurbs.add(currLine);
 
             posCounter++;
         }
