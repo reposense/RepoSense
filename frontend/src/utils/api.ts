@@ -104,9 +104,9 @@ window.comparator = (fn, isDesc = false, sortingOption = '') => function compare
   const descMultiplier = isDesc ? -1: 1;
 
   if (a1 === b1) {
-    return  0;
+    return 0;
   }
-  return (a1 < b1 ? -1 : 1) * descMultiplier as -1 | 0 | 1;
+  return (a1 < b1 ? -1 : 1) * descMultiplier as -1 | 1;
 };
 
 window.filterUnsupported = function filterUnsupported(string) {
