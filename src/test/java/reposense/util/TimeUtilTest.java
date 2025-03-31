@@ -48,7 +48,7 @@ public class TimeUtilTest {
 
     @Test
     public void parseDate_validDateAndTime_success() throws Exception {
-        String originalDateAndTime = "20/05/2020 00:00:00";
+        String originalDateAndTime = "20/05/2020T00:00:00";
         LocalDateTime expectedDate = TestUtil.getSinceDate(2020, Month.MAY.getValue(), 20);
         LocalDateTime actualDate = TimeUtil.parseDate(originalDateAndTime);
         Assertions.assertEquals(expectedDate, actualDate);

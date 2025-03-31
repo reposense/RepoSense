@@ -40,7 +40,14 @@ public class SinceDateArgumentType extends DateArgumentType {
             return Optional.of(ARBITRARY_FIRST_COMMIT_DATE_LOCAL);
         }
         String sinceDate = TimeUtil.extractDate(value);
-        return super.convert(parser, arg, sinceDate + " 00:00:00");
+
+        if (sinceDate.matches(DATETIME_WITHOUT_HOURS_REGEX)) {
+            sinceDate += "T00:00:00";
+        } else if (sinceDate.matches(DATETIME_WITHOUT_SECONDS_REGEX)) {
+            sinceDate += ":00";
+        }
+
+        return super.convert(parser, arg, sinceDate);
     }
 
     /**

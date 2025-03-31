@@ -18,10 +18,10 @@ import reposense.system.LogsManager;
 public class TimeUtil {
     private static Long startTime;
     private static final String DATE_FORMAT_REGEX =
-            "^((0?[1-9]|[12][0-9]|3[01])\\/(0?[1-9]|1[012])\\/(19|2[0-9])[0-9]{2})";
+            "^((0?[1-9]|[12][0-9]|3[01])\\/(0?[1-9]|1[012])\\/(19|2[0-9])[0-9]{2}(([T ])([01][0-9]|2[0-3]):([0-5][0-9])(:([0-5][0-9]))?)?)";
 
     // "uuuu" is used for year since "yyyy" does not work with ResolverStyle.STRICT
-    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu HH:mm:ss");
+    private static final DateTimeFormatter CLI_ARGS_DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/uuuu'T'HH:mm:ss");
 
     private static final String EARLIEST_VALID_DATE = "1970-01-01T00:00:00";
     private static final String LATEST_VALID_DATE = "2099-12-31T23:59:59";
@@ -83,6 +83,7 @@ public class TimeUtil {
      * Returns a valid {@link LocalDateTime} that is set to 23:59:59 for the given {@code untilDate}.
      */
     public static LocalDateTime getUntilDate(LocalDateTime untilDate) {
+
         return getValidDate(untilDate).withHour(23).withMinute(59).withSecond(59);
     }
 
