@@ -81,7 +81,7 @@ jobs:
 
     - name: Run local website on action runner
       run: |
-        gem install bundler  
+        gem install bundler
         cd ${SITE}
         bundle install
         bundle exec jekyll serve --detach
