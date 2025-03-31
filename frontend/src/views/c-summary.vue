@@ -156,7 +156,7 @@ export default defineComponent({
     minDate: string,
     maxDate: string,
     fileTypeColors: { [key: string]: string },
-    isSafariBrowser: boolean,
+    inputDateNotSupported: boolean,
     filterGroupSelectionWatcherFlag: boolean,
     chartGroupIndex: number | undefined,
     chartIndex: number | undefined,
@@ -187,7 +187,7 @@ export default defineComponent({
       minDate: window.sinceDate,
       maxDate: window.untilDate,
       fileTypeColors: {} as { [key: string]: string },
-      isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
+      inputDateNotSupported: this.isSafariBrowserAndVersionLessThan_14_1(),
       filterGroupSelectionWatcherFlag: false,
       chartGroupIndex: undefined as number | undefined,
       chartIndex: undefined as number | undefined,
@@ -307,6 +307,21 @@ export default defineComponent({
     }, 0);
   },
   methods: {
+    isSafariBrowserAndVersionLessThan_14_1(): boolean{
+      const userAgent = navigator.userAgent;
+      const safariVersionRegex = /Version\/([\d.]+).*Safari./;
+      const versionMatch = userAgent.match(safariVersionRegex);
+
+      if (!versionMatch || !versionMatch[1]) {
+        return false; // Not Safari or version parsing failed
+      }
+
+      const versionParts = versionMatch[1].split('.').map(Number);
+      const major = versionParts[0];
+      const minor = versionParts[1] || 0;
+
+      return major < 14 || major == 14 && minor < 1;
+    },
     dismissTab(event: Event): void {
       if (event.target instanceof Element && event.target.parentNode instanceof HTMLElement) {
         event.target.parentNode.style.display = 'none';
@@ -849,6 +864,44 @@ export default defineComponent({
       window.removeHash('since');
       window.removeHash('until');
       this.getFiltered();
+    },
+
+    updateTmpFilterSinceDate(event: Event): void {
+      // Only called from an input onchange event, target guaranteed to be input element
+      const since = (event.target as HTMLInputElement).value;
+      this.hasModifiedSinceDate = true;
+
+      if (!this.inputDateNotSupported) {
+        this.tmpFilterSinceDate = since;
+        (event.target as HTMLInputElement).value = this.filterSinceDate;
+        this.getFiltered();
+      } else if (dateFormatRegex.test(since) && since >= this.minDate) {
+        this.tmpFilterSinceDate = since;
+        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
+        this.getFiltered();
+      } else {
+        // invalid since date detected
+        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
+      }
+    },
+
+    updateTmpFilterUntilDate(event: Event): void {
+      // Only called from an input onchange event, target guaranteed to be input element
+      const until = (event.target as HTMLInputElement).value;
+      this.hasModifiedUntilDate = true;
+
+      if (!this.inputDateNotSupported) {
+        this.tmpFilterUntilDate = until;
+        (event.target as HTMLInputElement).value = this.filterUntilDate;
+        this.getFiltered();
+      } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
+        this.tmpFilterUntilDate = until;
+        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
+        this.getFiltered();
+      } else {
+        // invalid until date detected
+        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
+      }
     },
 
     updateCheckedFileTypeContribution(ele: User): void {

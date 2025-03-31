@@ -21,6 +21,7 @@ node_modules
 !/frontend/public/index.html
 /frontend/.eslintcache
 /frontend/.stylelintcache
+/frontend/cypress/cypress/downloads/
 
 reposense-report/
 docs/_site/
