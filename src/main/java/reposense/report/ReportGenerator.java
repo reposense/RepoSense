@@ -82,6 +82,8 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
     private static final String MESSAGE_MISSING_TEMPLATE =
             "Unable to find template file. Proceeding to generate report...";
+    private static final String MESSAGE_SKIP_REPORT_GENERATION =
+            "Refresh Only Text flag is present. Skipping report generation...";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
@@ -140,6 +142,7 @@ public class ReportGenerator {
                     reportGenerationTimeProvider.get());
 
             FileUtil.writeJsonFile(updatedSummaryJson, getSummaryResultPath(outputPath));
+            logger.info(MESSAGE_SKIP_REPORT_GENERATION);
             return null;
         }
 

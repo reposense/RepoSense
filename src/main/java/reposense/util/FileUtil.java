@@ -395,6 +395,13 @@ public class FileUtil {
     }
 
     /**
+     * Adds a file in the zip file located in the same directory. If it exists, it overwrites the existing file.
+     */
+    public static void addOrReplaceFileInZipFile(Path sourceAndOutputPath, String fileName, String zipFileName) {
+        addOrReplaceFileInZipFile(sourceAndOutputPath, sourceAndOutputPath, fileName, zipFileName);
+    }
+
+    /**
      * Adds a file in the zip file. If it exists, it overwrites the existing file.
      */
     public static void addOrReplaceFileInZipFile(Path sourcePath, Path outputPath, String fileName,
@@ -428,8 +435,7 @@ public class FileUtil {
     public static void handleZipFilesAndFolders(List<Path> pathsToZip, Path sourceAndOutputPath,
                                                 boolean refreshOnlyText, String... fileTypes) {
         if (refreshOnlyText) {
-            addOrReplaceFileInZipFile(sourceAndOutputPath, sourceAndOutputPath, SummaryJson.SUMMARY_JSON_FILE_NAME,
-                    ZIP_FILE);
+            addOrReplaceFileInZipFile(sourceAndOutputPath, SummaryJson.SUMMARY_JSON_FILE_NAME, ZIP_FILE);
             return;
         }
 

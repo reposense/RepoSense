@@ -88,8 +88,7 @@ public class FileUtilTest {
     @Test
     public void addOrReplaceFileInZipFile_invalidFile_fail() throws Exception {
         long originalZipFileSize = Files.size(TEST_ZIP_PATH);
-        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY,
-                        "invalidTest.txt", TEST_ZIP_FILE_NAME);
+        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, "invalidTest.txt", TEST_ZIP_FILE_NAME);
         Assertions.assertEquals(originalZipFileSize, Files.size(TEST_ZIP_PATH));
     }
 
@@ -101,16 +100,14 @@ public class FileUtilTest {
             throw new IOException("Test file cannot be created.");
         }
 
-        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME,
-                TEST_ZIP_FILE_NAME);
+        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME, TEST_ZIP_FILE_NAME);
 
         long originalZipFileSize = Files.size(TEST_ZIP_PATH);
         FileWriter writer = new FileWriter(testFile);
         writer.write("Hello, this is text written to a file!");
         writer.close();
 
-        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME,
-                TEST_ZIP_FILE_NAME);
+        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME, TEST_ZIP_FILE_NAME);
 
         Assertions.assertTrue(originalZipFileSize < Files.size(TEST_ZIP_PATH));
     }
@@ -126,8 +123,7 @@ public class FileUtilTest {
             throw new IOException("Test file cannot be created.");
         }
 
-        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME,
-                TEST_ZIP_FILE_NAME);
+        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME, TEST_ZIP_FILE_NAME);
 
         Assertions.assertTrue(originalZipFileSize < Files.size(TEST_ZIP_PATH));
     }
@@ -152,8 +148,7 @@ public class FileUtilTest {
             throw new IOException("Test file cannot be created.");
         }
 
-        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME,
-                TEST_ZIP_FILE_NAME);
+        FileUtil.addOrReplaceFileInZipFile(FILE_UTIL_TEST_DIRECTORY, TEST_FILE_NAME, TEST_ZIP_FILE_NAME);
         FileUtil.deleteFileFromZipFileIfExists(TEST_ZIP_PATH, TEST_FILE_NAME);
 
         Assertions.assertEquals(originalZipFileSize, Files.size(TEST_ZIP_PATH));
