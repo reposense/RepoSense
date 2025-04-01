@@ -54,7 +54,7 @@ declare global {
     removeHash: (key: string) => void;
     encodeHash: () => void;
     decodeHash: () => void;
-    comparator: <T> (fn: SortingFunction<T>, sortingOption?: string) => ComparatorFunction<T>;
+    comparator: <T> (fn: SortingFunction<T>, isDesc?: boolean, sortingOption?: string) => ComparatorFunction<T>;
     filterUnsupported: (string: string) => string | undefined;
     getAuthorLink: (repoId: string, author: string) => string | undefined;
     getRepoLinkUnfiltered: (repoId: string) => string;
