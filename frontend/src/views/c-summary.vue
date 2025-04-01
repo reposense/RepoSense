@@ -108,7 +108,7 @@ import {
   FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection,
 } from '../types/summary';
 
-const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
+const dateFormatRegex = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))(T([01]\d|2[0-3]):([0-5]\d)(:([0-5]\d))?)?$/;
 
 export default defineComponent({
   name: 'c-summary',
@@ -141,9 +141,9 @@ export default defineComponent({
     sortGroupSelection: SortGroupSelection,
     sortWithinGroupSelection: SortWithinGroupSelection,
     sortingOption: string,
-    isSortingDsc: string,
+    isSortingDsc: boolean,
     sortingWithinOption: string,
-    isSortingWithinDsc: string,
+    isSortingWithinDsc: boolean,
     filterTimeFrame: FilterTimeFrame,
     filterBreakdown: boolean,
     tmpFilterSinceDate: string,
@@ -172,9 +172,9 @@ export default defineComponent({
       sortGroupSelection: SortGroupSelection.GroupTitleDsc, // UI for sorting groups
       sortWithinGroupSelection: SortWithinGroupSelection.Title, // UI for sorting within groups
       sortingOption: '',
-      isSortingDsc: '',
+      isSortingDsc: false,
       sortingWithinOption: '',
-      isSortingWithinDsc: '',
+      isSortingWithinDsc: false,
       filterTimeFrame: FilterTimeFrame.Commit,
       filterBreakdown: false,
       tmpFilterSinceDate: '',
@@ -318,7 +318,7 @@ export default defineComponent({
       const major = versionParts[0];
       const minor = versionParts[1] || 0;
 
-      return major < 14 || major == 14 && minor < 1;
+      return major < 14 || major === 14 && minor < 1;
     },
     dismissTab(event: Event): void {
       if (event.target instanceof Element && event.target.parentNode instanceof HTMLElement) {
@@ -850,11 +850,16 @@ export default defineComponent({
     },
 
     getOptionWithOrder(): void {
-      [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
-      [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
+      const [sortingOption, isSortingDsc] = this.sortGroupSelection.split(' ');
+      this.sortingOption = sortingOption;
+      this.isSortingDsc = isSortingDsc === 'dsc';
+
+      const [sortingWithinOption, isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
+      this.sortingWithinOption = sortingWithinOption;
+      this.isSortingWithinDsc = isSortingWithinDsc === 'dsc';
     },
 
-    // updating filters programically //
+    // updating filters programmatically //
     resetDateRange(): void {
       this.hasModifiedSinceDate = false;
       this.hasModifiedUntilDate = false;
