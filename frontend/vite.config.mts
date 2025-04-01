@@ -36,6 +36,15 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: './build',
       emptyOutDir: true,
+      chunkSizeWarningLimit: 1000,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vue-vendor': ['vue', 'vue-router', 'vuex'],
+            'highlight-js': ['highlight.js']
+          },
+        },
+      },
     },
     server: {
       port: 9000,
