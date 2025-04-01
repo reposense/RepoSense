@@ -105,8 +105,8 @@ describe('show ramp chart for period', () => {
       .first()
       .invoke('attr', 'title')
       .should(
-          'eq',
-          '[2019-03-25T00:00:00] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines '
+        'eq',
+        '[2019-03-25T00:00:00] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines '
       );
   });
 
