@@ -56,7 +56,7 @@ describe('optimise timeline', () => {
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .last()
-      .should('have.text', '2023-03-03');
+      .should('have.text', '2023-03-03T00:00:00');
   });
 
   it('no commits in range should not have date indicators', () => {

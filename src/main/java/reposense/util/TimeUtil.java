@@ -83,7 +83,6 @@ public class TimeUtil {
      * Returns a valid {@link LocalDateTime} that is set to 23:59:59 for the given {@code untilDate}.
      */
     public static LocalDateTime getUntilDate(LocalDateTime untilDate) {
-
         return getValidDate(untilDate).withHour(23).withMinute(59).withSecond(59);
     }
 

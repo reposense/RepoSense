@@ -380,7 +380,7 @@ public class ArgsParserTest {
     @Test
     public void untilDate_withExtraTime_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER
-                .addUntilDate("\"30/11/2017 10:10:10\"")
+                .addUntilDate("\"30/11/2017T10:10:10\"")
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
