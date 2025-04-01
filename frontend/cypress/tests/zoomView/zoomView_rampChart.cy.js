@@ -104,7 +104,10 @@ describe('show ramp chart for period', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2019-03-25T00:00:00] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines ');
+      .should(
+          'eq',
+          '[2019-03-25T00:00:00] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines '
+      );
   });
 
   // Assumptions: The first author on the summary panel
