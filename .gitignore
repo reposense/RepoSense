@@ -24,5 +24,6 @@ node_modules
 /frontend/cypress/cypress/downloads/
 
 reposense-report/
+reposense-logs/
 docs/_site/
 bin/
