@@ -1,0 +1,6 @@
+Apr 01, 2025 4:28:52 PM reposense.system.LogsManager addFileHandler
+INFO: Log temp folder has been successfully created
+Apr 01, 2025 4:28:55 PM reposense.util.TimeUtil getValidDate
+WARNING: Date of 1969-01-01T00:00 must not be earlier than 1970-01-01T00:00:00, resetting it to earliest valid date
+Apr 01, 2025 4:28:55 PM reposense.util.TimeUtil getValidDate
+WARNING: Date of 2100-01-01T00:00 must not be later than 2099-12-31T23:59:59, resetting it to latest valid date
