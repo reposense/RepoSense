@@ -384,9 +384,7 @@ public class ArgsParserTest {
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-
-        int[] TEN_H_TEN_M_TEN_S = new int[] {10, 10, 10};
-        LocalDateTime expectedUntilDate = TestUtil.getDate(2017, Month.NOVEMBER.getValue(), 30, TEN_H_TEN_M_TEN_S);
+        LocalDateTime expectedUntilDate = TestUtil.getDate(2017, Month.NOVEMBER.getValue(), 30, new int[] {10, 10, 10});
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 
