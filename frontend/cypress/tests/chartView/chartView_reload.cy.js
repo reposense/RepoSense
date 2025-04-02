@@ -59,10 +59,10 @@ describe('reload page', () => {
       .should('have.value', 'week');
 
     cy.get('input[name="since"]:visible')
-      .should('have.value', '2018-06-10T00:00');
+      .should('have.value', '2018-06-10');
 
     cy.get('input[name="until"]:visible')
-      .should('have.value', '2019-06-10T00:00');
+      .should('have.value', '2019-06-10');
 
     cy.get('#summary label.filter-breakdown > input:visible')
       .should('be.checked');

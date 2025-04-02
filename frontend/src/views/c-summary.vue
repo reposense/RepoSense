@@ -87,6 +87,7 @@ import { PropType, defineComponent } from 'vue';
 
 import cSummaryCharts from '../components/c-summary-charts.vue';
 import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
+import cSummaryHeader from '../components/c-summary-header.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import sortFiltered from '../utils/repo-sorter';
 import {
@@ -115,6 +116,7 @@ export default defineComponent({
   components: {
     cSummaryCharts,
     cFileTypeCheckboxes,
+    cSummaryHeader,
   },
   props: {
     repos: {
@@ -348,6 +350,7 @@ export default defineComponent({
     getReportIssueMessage(message: string): string {
       return encodeURI(message);
     },
+    // model functions //
     setSummaryHash(): void {
       const { addHash, encodeHash, removeHash } = window;
 
@@ -529,7 +532,7 @@ export default defineComponent({
               this.getUserCommits(
                 user,
       new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate,
-       new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate,
+      new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate,
               );
               if (this.filterTimeFrame === 'week') {
                 this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);

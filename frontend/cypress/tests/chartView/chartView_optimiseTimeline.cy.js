@@ -50,7 +50,7 @@ describe('optimise timeline', () => {
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .first()
-      .should('have.text', '2018-05-03');
+      .should('have.text', '2018-05-03T00:00:00');
 
     cy.get('#summary-charts .summary-chart')
       .first()
@@ -109,7 +109,7 @@ describe('optimise timeline', () => {
 
     // verifies the date range is correctly optimised
     cy.get('#tab-zoom .period')
-      .should('contain', '2018-05-03 to 2023-03-03');
+      .should('contain', '2018-05-03T00:00:00 to 2023-03-03T00:00:00');
 
     // verifies the ramp chart is optimised and has no empty space on the right
     cy.get('#tab-zoom .ramp a')
@@ -143,7 +143,7 @@ describe('optimise timeline', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .invoke('attr', 'title')
       .then((title) => {
-        cy.wrap(title).should('eq', '[2019-08-18] AboutUs: update team members (#867): +94 -12 lines ');
+        cy.wrap(title).should('eq', '[2019-08-18T00:00:00] AboutUs: update team members (#867): +94 -12 lines ');
       });
   });
 });
