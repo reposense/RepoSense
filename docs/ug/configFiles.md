@@ -46,7 +46,7 @@ Given below are the details of the various config files used by RepoSense.
 | Ignore File Size Limit                | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`.                                                                                                                                                                                                                       |
 | Skip Ignored File Analysis            | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is skipped, all information about the file will be omitted from the generated report. This option can significantly improve report generation time.                                                                                                |
 | Since Date                            | Enter since date in the format of `yyyy/mm/dd` to signify the start date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                               |
-| Until Date                            | Enter since date in the format of `yyyy/mm/dd` to signify the end date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                                 |
+| Until Date                            | Enter until date in the format of `yyyy/mm/dd` to signify the end date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                                 |
 
 <box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
@@ -112,9 +112,7 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 ## `report-config.yaml`
 
 You can also optionally use a `report-config.yaml` file to quickly define the repository information for the repositories you are interested in tracking and generating your very own code portfolio.
-The configurations of this file will override the configurations in the csv files if the file is present and correctly formatted.
-
-View this [example](report-config.yaml) for a better understanding of what repository information is required.
+The configurations of this file will override the CSV files if the `repos` field of the file is present and correctly formatted.
 
 Note: All fields are optional unless specified otherwise.
 
@@ -122,10 +120,10 @@ Note: All fields are optional unless specified otherwise.
 * `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report".
 * `repos`: A list of repositories to include for analysis.
   * `repo` {{ mandatory }}: The URL to your repository of interest.
-  * `groups`: A list of the different custom groupings.
-      * `group-name` {{ mandatory }}: Name of the group.
-      * `globs` {{ mandatory }}: The list of file path globs to include for specified group.
-  * `branches`: A list of branches to analyse for each repository.
+  * `groups`: A list of the different custom code groupings.
+    * `group-name` {{ mandatory }}: Name of the group.
+    * `globs` {{ mandatory }}: The list of file path globs to include for specified group.
+  * `branches` {{ mandatory }}: A list of branches to analyse for each repository.
     * `branch`: The name of the branch.
     * `blurb`: The blurb to display for the branch. To display more detailed blurbs, use the `blurbs.md` file.
     * `authors`: A list of authors to analyse on the branch.
@@ -134,8 +132,10 @@ Note: All fields are optional unless specified otherwise.
       * `author-git-author-name`: Author's Git host name.
       * `author-emails`: A list of emails associated with an author.
     * `ignore-glob-list`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-    * `ignore-authors-list`: The list of authors to ignore during analysis. Authors specified in `authors` field or `author-config.csv` will be also be omitted if they are in this list. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
+    * `ignore-authors-list`: The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
     * `file-size-limit`: A file size limit for the repository in bytes as a single number without units, that will override the default file size limit. If not specified, the default file size limit will continue to be used.
+
+Please refer to this [guide](./reportConfig.html) to get started.
 
 <!-- ==================================================================================================== -->
 
