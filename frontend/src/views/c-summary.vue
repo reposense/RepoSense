@@ -176,7 +176,7 @@ export default defineComponent({
       sortingWithinOption: '',
       isSortingWithinDsc: false,
       filterTimeFrame: FilterTimeFrame.Commit,
-      filterBreakdown: false,
+      filterBreakdown: window.isPortfolio, // Auto select filter breakdown if portfolio
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.isSinceDateProvided,
@@ -192,7 +192,7 @@ export default defineComponent({
       errorIsShowingMore: false,
       numberOfErrorMessagesToShow: 4,
       viewRepoTags: false,
-      optimiseTimeline: false,
+      optimiseTimeline: window.isPortfolio, // Auto select trim timeline if portfolio
     };
   },
   computed: {
@@ -348,18 +348,6 @@ export default defineComponent({
     getReportIssueMessage(message: string): string {
       return encodeURI(message);
     },
-
-    // model functions //
-    resetFilterSearch(): void {
-      this.filterSearch = '';
-      this.getFiltered();
-    },
-    updateFilterSearch(evt: Event): void {
-      // Only called from an input onchange event, target guaranteed to be input element
-      this.filterSearch = (evt.target as HTMLInputElement).value;
-      this.getFiltered();
-    },
-
     setSummaryHash(): void {
       const { addHash, encodeHash, removeHash } = window;
 
@@ -538,7 +526,11 @@ export default defineComponent({
           // filtering
           repo.users?.forEach((user) => {
             if (this.isMatchSearchedUser(this.filterSearch, user)) {
-              this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
+              this.getUserCommits(
+                user,
+      new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate,
+       new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate,
+              );
               if (this.filterTimeFrame === 'week') {
                 this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
               }
@@ -869,45 +861,6 @@ export default defineComponent({
       window.removeHash('until');
       this.getFiltered();
     },
-
-    updateTmpFilterSinceDate(event: Event): void {
-      // Only called from an input onchange event, target guaranteed to be input element
-      const since = (event.target as HTMLInputElement).value;
-      this.hasModifiedSinceDate = true;
-
-      if (!this.inputDateNotSupported) {
-        this.tmpFilterSinceDate = since;
-        (event.target as HTMLInputElement).value = this.filterSinceDate;
-        this.getFiltered();
-      } else if (dateFormatRegex.test(since) && since >= this.minDate) {
-        this.tmpFilterSinceDate = since;
-        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.getFiltered();
-      } else {
-        // invalid since date detected
-        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
-      }
-    },
-
-    updateTmpFilterUntilDate(event: Event): void {
-      // Only called from an input onchange event, target guaranteed to be input element
-      const until = (event.target as HTMLInputElement).value;
-      this.hasModifiedUntilDate = true;
-
-      if (!this.inputDateNotSupported) {
-        this.tmpFilterUntilDate = until;
-        (event.target as HTMLInputElement).value = this.filterUntilDate;
-        this.getFiltered();
-      } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
-        this.tmpFilterUntilDate = until;
-        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.getFiltered();
-      } else {
-        // invalid until date detected
-        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
-      }
-    },
-
     updateCheckedFileTypeContribution(ele: User): void {
       let validCommits = 0;
       Object.keys(ele.fileTypeContribution).forEach((fileType) => {

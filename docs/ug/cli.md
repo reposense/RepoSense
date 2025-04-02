@@ -254,10 +254,16 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 ### `--since`, `-s`
 
 **`--since START_DATE`**: Specifies the start date for the period to be analyzed.
-* Parameter: `START_DATE` The first day of the period to be analyzed, in the format `DD/MM/YYYY`.<br>
-  Default: one month before the current date
+* Parameter: `START_DATE` The first day of the period to be analyzed, in one of the following formats:<br>
+  ```
+  1. DD/MM/YYYY
+  2. DD/MM/YYYY'T'HH:mm
+  3. DD/MM/YYYY'T'HH:mm:ss
+  ```
+  Default: one month before the current date. 
+  If hour/minute/seconds not supplied then default to 0 for each of them.
 * Alias: `-s`
-* Example:`--since 21/10/2017` or `-s 21/10/2017`
+* Example:`--since 21/10/2017T03:09` or `-s 21/10/2017T03:09`
 
 <box type="info" seamless>
 
@@ -280,10 +286,16 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 ### `--until`, `-u`
 
 **`--until END_DATE`**: Specifies the end date of the analysis period.
-* Parameter: `END_DATE` The last date of the period to be analyzed, in the format `DD/MM/YYYY`.<br>
-  Default: current date
+* Parameter: `END_DATE` The last date of the period to be analyzed, in one of the following formats:<br>
+  ```
+  1. DD/MM/YYYY
+  2. DD/MM/YYYY'T'HH:mm
+  3. DD/MM/YYYY'T'HH:mm:ss
+  ```
+  Default: current date 
+  If hour/minute/seconds not supplied then default to 23, 59, 59 respectively
 * Alias: `-u`
-* Example:`--until 21/10/2017` or `-u 21/10/2017`
+* Example:`--until 21/10/2017T01:02:00` or `-u 21/10/2017T01:02:00`
 
 <box type="info" seamless>
 
