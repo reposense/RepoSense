@@ -11,11 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ReportAuthorDetails {
     private final List<String> authorEmails;
-
     private final String authorGitHostId;
-
     private final String authorDisplayName;
-
     private final String authorGitAuthorName;
 
     @JsonCreator

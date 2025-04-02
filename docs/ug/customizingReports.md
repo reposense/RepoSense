@@ -24,7 +24,7 @@ The report can be customized using several ways, as explained below.
 <!-- ------------------------------------------------------------------------------------------------------ -->
 ### Customize using report-config.yaml
 
-**Another more user-friendly way to customize the report is by using the `report-config.yaml` file.** In this case you need to use the `--config` flag instead of the `--repo` flag when running RepoSense.
+**The `report-config.yaml` file provides a more user-friendly way for users to customise their reports in more detail compared to the CLI flags.**
 
 Please refer to this [page](./reportConfig.html) to get started.
 

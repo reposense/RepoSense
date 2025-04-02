@@ -12,7 +12,6 @@ import reposense.model.FileType;
  */
 public class ReportGroupNameAndGlobs {
     private final String groupName;
-
     private final List<String> globs;
 
     @JsonCreator

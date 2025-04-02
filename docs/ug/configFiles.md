@@ -116,26 +116,7 @@ The configurations of this file will override the CSV files if the `repos` field
 
 Note: All fields are optional unless specified otherwise.
 
-**Fields to provide**:
-* `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report".
-* `repos`: A list of repositories to include for analysis.
-  * `repo` {{ mandatory }}: The URL to your repository of interest.
-  * `groups`: A list of the different custom code groupings.
-    * `group-name` {{ mandatory }}: Name of the group.
-    * `globs` {{ mandatory }}: The list of file path globs to include for specified group.
-  * `branches` {{ mandatory }}: A list of branches to analyse for each repository.
-    * `branch`: The name of the branch.
-    * `blurb`: The blurb to display for the branch. To display more detailed blurbs, use the `blurbs.md` file.
-    * `authors`: A list of authors to analyse on the branch.
-      * `author-git-host-id` {{ mandatory }}: Git host username of the author.
-      * `author-display-name`: Display name of the author.
-      * `author-git-author-name`: Author's Git host name.
-      * `author-emails`: A list of emails associated with an author.
-    * `ignore-glob-list`: Folders/files to ignore, specified using the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-    * `ignore-authors-list`: The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).
-    * `file-size-limit`: A file size limit for the repository in bytes as a single number without units, that will override the default file size limit. If not specified, the default file size limit will continue to be used.
-
-Please refer to this [guide](./reportConfig.html) to get started.
+Please refer to this [guide](./reportConfig.html#advanced-report-configuration).
 
 <!-- ==================================================================================================== -->
 

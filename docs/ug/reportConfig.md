@@ -13,7 +13,8 @@ RepoSense allows you to easily showcase your coding portfolio by generating visu
 
 ## What is `report-config.yaml`?
 
-The `report-config.yaml` file is a simple configuration file that lets you define which repositories you want to include in your RepoSense report. It's designed to be user-friendly, especially for beginners who want to quickly set up a code portfolio without dealing with complex configurations.
+The `report-config.yaml` file is a simple configuration file that lets you define which repositories you want to include in your RepoSense report in more detail compared to the CLI flags. 
+It's designed to be user-friendly, especially for beginners who want to quickly set up a code portfolio without dealing with complex configurations.
 
 ## Quick Start Guide
 
@@ -41,7 +42,7 @@ repos:
 
 The `author-display-name`, `author-git-author-name` and `author-emails` fields are optional.
 
-However, users are advised to add the Git author name `author-git-author-name` and emails `author-emails` in their Git configuration related to their desired commits so that 
+However, users are encouraged to add their Git author name `author-git-author-name` and emails `author-emails` in their Git configuration related to their commits so that 
 the commits can be successfully captured.
 </box>
 
@@ -109,7 +110,7 @@ repos:
           - author-git-host-id: lyuanww
             author-display-name: Li Yuan
             author-emails:
-              - lyw@gmail.com
+              - user@gmail.com
               - e0123456@u.nus.edu
   - repo: https://github.com/lyuanww/ip.git
     groups:
@@ -123,7 +124,7 @@ repos:
           - author-git-host-id: lyuanww
             author-display-name: Li Yuan
             author-emails:
-              - lyw@gmail.com
+              - user@gmail.com
               - e0123456@u.nus.edu
   - repo: https://github.com/lyuanww/tp.git
     groups:
@@ -137,7 +138,7 @@ repos:
           - author-git-host-id: lyuanww
             author-display-name: Li Yuan
             author-emails:
-              - lyw@gmail.com
+              - user@gmail.com
               - e0123456@u.nus.edu
 ```
 ### Sample report generated
@@ -190,8 +191,8 @@ repos:
 ### Top-Level Fields
 
 * `title`: Sets the title of your generated report, which appears as the title of the deployed dashboard.
-    * Default: "RepoSense Report"
-* `repos`: A list of repositories to include in your analysis.
+    * Default: "RepoSense Report".
+* `repos`: A list of repositories to include in your analysis..
     * This field is an array, so you can include multiple repositories.
 
 ### Repository-Level Fields
@@ -203,14 +204,14 @@ For each repository in the `repos` list, you can specify:
 * `groups`: Allows you to define custom groupings of files for more organized analysis.
   * This is useful for separating code files, test files, documentation, etc.
   * Each group has:
-      * `group-name` {{ mandatory }}: A name for the group (e.g., "code", "tests", "docs")
-      * `globs` {{ mandatory }}: File patterns to include in this group using [glob format](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob)
+      * `group-name` {{ mandatory }}: A name for the group (e.g., "code", "tests", "docs").
+      * `globs` {{ mandatory }}: File patterns to include in this group using [glob format](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
 * `branches` {{ mandatory }}: The branches you want to analyze in the repository.
     * For each branch, you specify:
-        * `branch`: The name of the branch (e.g., "master", "main", "develop")
-          * Default: The default branch of the repository
-        * `blurb`: A short description of the branch that appears in the report
-            * For more detailed descriptions, you can use a separate `blurbs.md` file
+        * `branch`: The name of the branch (e.g., "master", "main", "develop").
+          * Default: The default branch of the repository.
+        * `blurb`: A short description of the branch that appears in the report.
+            * For more detailed descriptions, you can use a separate `blurbs.md` file.
 
 ### Author Configuration
 
@@ -218,19 +219,19 @@ Within each branch, you can specify:
 
 * `authors`: A list of authors whose contributions you want to track. If none specified, all authors will be shown.
     * For each author:
-        * `author-git-host-id` {{ mandatory }}: The GitHub username of the author
-        * `author-display-name`: The name to display in the report (can be different from the GitHub username)
-        * `author-git-author-name`: The name used in Git commits
-        * `author-emails`: A list of email addresses associated with the author's commits
+        * `author-git-host-id` {{ mandatory }}: The GitHub username of the author.
+        * `author-display-name`: The name to display in the report (can be different from the GitHub username).
+        * `author-git-author-name`: The name used in Git commits.
+        * `author-emails`: A list of email addresses associated with the author's commits.
 
 ### Filtering Options
 
 * `ignore-authors-list`: Authors to exclude from the analysis.
-    * Specified by their Git Author Name
-    * Useful for excluding bots or automated commit accounts
+    * Specified by their Git Author Name.
+    * Useful for excluding bots or automated commit accounts.
 * `ignore-glob-list`: Files or directories to exclude from analysis.
-    * Uses the [glob format](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob)
-    * Example: `"**.in"` excludes all files with the ".in" extension
+    * Uses the [glob format](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
+    * Example: `"**.in"` excludes all files with the ".in" extension.
 * `file-size-limit`: Maximum file size (in bytes) for analysis.
-    * Files larger than this limit will be ignored
-    * Overrides the default file size limit
+    * Files larger than this limit will be ignored.
+    * Overrides the default file size limit.

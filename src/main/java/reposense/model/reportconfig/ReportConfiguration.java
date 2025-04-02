@@ -21,7 +21,6 @@ public class ReportConfiguration {
     private static final Logger logger = LogsManager.getLogger(ReportConfiguration.class);
 
     private String title;
-
     private List<ReportRepoConfiguration> reportRepoConfigurations;
 
     public ReportConfiguration() {}

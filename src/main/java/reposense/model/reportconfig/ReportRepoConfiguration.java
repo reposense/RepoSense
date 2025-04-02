@@ -16,11 +16,8 @@ import reposense.model.RepoLocation;
  * configuration.
  */
 public class ReportRepoConfiguration {
-
     private final String repo;
-
     private final List<ReportGroupNameAndGlobs> groups;
-
     private final List<ReportBranchData> branches;
 
     @JsonCreator
