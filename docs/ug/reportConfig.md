@@ -188,6 +188,8 @@ repos:
 ```
 
 ## Field Descriptions
+Note: All fields are optional unless specified otherwise.
+
 ### Top-Level Fields
 
 * `title`: Sets the title of your generated report, which appears as the title of the deployed dashboard.

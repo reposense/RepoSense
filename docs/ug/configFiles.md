@@ -114,8 +114,6 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 You can also optionally use a `report-config.yaml` file to quickly define the repository information for the repositories you are interested in tracking and generating your very own code portfolio.
 The configurations of this file will override the CSV files if the `repos` field of the file is present and correctly formatted.
 
-Note: All fields are optional unless specified otherwise.
-
 Please refer to this [guide](./reportConfig.html#advanced-report-configuration).
 
 <!-- ==================================================================================================== -->
