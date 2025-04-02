@@ -232,7 +232,7 @@ describe('render filter hash', () => {
     /* Check initial state */
     cy.get('input[name="since"]:visible')
       .invoke('val')
-      .should('eq', '2018-05-03');
+      .should('eq', '2018-05-03T00:00');
 
     cy.url()
       .should('contain', 'since=2018-05-03');

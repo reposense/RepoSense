@@ -17,7 +17,7 @@
     v-model:has-modified-until-date="hasModifiedUntilDate",
     :min-date="minDate",
     :max-date="maxDate",
-    :is-safari-browser="isSafariBrowser",
+    :input-date-not-supported="inputDateNotSupported",
     :filter-since-date="filterSinceDate",
     :filter-until-date="filterUntilDate",
     @get-filtered="getFiltered",

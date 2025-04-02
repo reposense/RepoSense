@@ -67,11 +67,11 @@ describe('optimise timeline', () => {
 
     // change since date
     cy.get('input[name="since"]')
-      .type('2018-12-31');
+      .type('2018-12-31T00:00');
 
     // change until date
     cy.get('input[name="until"]')
-      .type('2019-01-01');
+      .type('2019-01-01T00:00');
 
     cy.get('#summary-charts .summary-chart')
       .first()
