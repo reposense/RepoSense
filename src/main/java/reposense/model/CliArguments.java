@@ -40,7 +40,6 @@ public class CliArguments {
     private boolean isAuthorshipAnalyzed;
     private double originalityThreshold;
     private boolean isPortfolio;
-    private boolean isTestMode = ArgsParser.DEFAULT_IS_TEST_MODE;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
 
     private List<String> locations;
@@ -123,10 +122,6 @@ public class CliArguments {
 
     public boolean isFindingPreviousAuthorsPerformed() {
         return isFindingPreviousAuthorsPerformed;
-    }
-
-    public boolean isTestMode() {
-        return isTestMode;
     }
 
     public boolean isFreshClonePerformed() {
@@ -230,7 +225,6 @@ public class CliArguments {
                 && Objects.equals(this.zoneId, otherCliArguments.zoneId)
                 && this.isFindingPreviousAuthorsPerformed == otherCliArguments.isFindingPreviousAuthorsPerformed
                 && this.isFileSizeLimitIgnored == otherCliArguments.isFileSizeLimitIgnored
-                && this.isTestMode == otherCliArguments.isTestMode
                 && this.isFreshClonePerformed == otherCliArguments.isFreshClonePerformed
                 && Objects.equals(this.locations, otherCliArguments.locations)
                 && this.isViewModeOnly == otherCliArguments.isViewModeOnly
@@ -412,16 +406,6 @@ public class CliArguments {
          */
         public Builder isFindingPreviousAuthorsPerformed(boolean isFindingPreviousAuthorsPerformed) {
             this.cliArguments.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
-            return this;
-        }
-
-        /**
-         * Adds the {@code isTestMode} to CliArguments.
-         *
-         * @param isTestMode Is test mode.
-         */
-        public Builder isTestMode(boolean isTestMode) {
-            this.cliArguments.isTestMode = isTestMode;
             return this;
         }
 
