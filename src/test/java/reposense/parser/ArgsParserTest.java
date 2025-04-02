@@ -385,7 +385,8 @@ public class ArgsParserTest {
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
-        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
+        int[] TEN_H_TEN_M_TEN_S = new int[] {10, 10, 10};
+        LocalDateTime expectedUntilDate = TestUtil.getDate(2017, Month.NOVEMBER.getValue(), 30, TEN_H_TEN_M_TEN_S);
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 

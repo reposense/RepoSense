@@ -19,9 +19,9 @@ public class UntilDateArgumentType extends DateArgumentType {
         String untilDate = TimeUtil.extractDate(value);
 
         if (untilDate.matches(DATETIME_WITHOUT_HOURS_REGEX)) {
-            untilDate += "T00:00:00";
+            untilDate += "T23:59:59";
         } else if (untilDate.matches(DATETIME_WITHOUT_SECONDS_REGEX)) {
-            untilDate += ":00";
+            untilDate += ":59";
         }
 
         return super.convert(parser, arg, untilDate);
