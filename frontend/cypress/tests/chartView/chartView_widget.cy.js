@@ -1,5 +1,5 @@
 describe("widget mode copy and logo verification", () => {
-  it("Copies the iframe and checks for logo", () => {
+  it("clipboard button copies iframe tag and iframe source displays logo", () => {
     // Stub the clipboard API to capture copied content
     cy.window().then((win) => {
       cy.stub(win.navigator.clipboard, "writeText").as("clipboardWrite");
