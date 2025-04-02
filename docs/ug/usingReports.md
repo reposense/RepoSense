@@ -90,7 +90,7 @@ We allow contribution bars to overflow into multiple lines (rather than adjust t
 #### Tool bar
 
 The `Tool Bar` at the top of the Chart panel provides a set of configuration options that control the Chart panel.
-* `filter file`: filters the files and globs by keyword.
+* `Filter File`: filters the files and globs by keyword.
   * Specifies a glob (e.g., **/TaskList.java)
   * users can see the code changes to all the files matching the glob across all repositories by opening the code panel
   * Useful for users to see how others have implemented something
