@@ -81,6 +81,16 @@ public class ReportConfigSystemTest {
                 "ReportConfigSystemTest/sinceBeginningDateRangeWithShallowCloning/expected");
     }
 
+    @Test
+    public void test30DaysFromUntilDateWithShallowCloning() {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addUntilDate("31/8/2024")
+                .addShallowCloning();
+
+        runTest(inputBuilder, true,
+                "ReportConfigSystemTest/30daysFromUntilDateWithShallowCloning/expected");
+    }
+
     /**
      * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
      * since date to capture from the first commit.
