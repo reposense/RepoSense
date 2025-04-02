@@ -143,12 +143,15 @@ repos:
 ### Sample report generated
 ![report](../images/report-config-report.png)
 
+## Further customising your report
 
-# Advanced Report Configuration
+Optionally, you can provide more detailed descriptions to your report. Please refer to this [section](./customizingReports.md#add-a-title).
+
+## Advanced Report Configuration
 
 For users who need more advanced configuration options, `report-config.yaml` offers many additional features beyond the basic setup. The following section explains the complete syntax and capabilities.
 
-## Complete `report-config.yaml` Syntax
+### Complete `report-config.yaml` Syntax
 
 ```yaml
 title: RepoSense Report
@@ -184,7 +187,6 @@ repos:
 ```
 
 ## Field Descriptions
-
 ### Top-Level Fields
 
 * `title`: Sets the title of your generated report, which appears as the title of the deployed dashboard.
