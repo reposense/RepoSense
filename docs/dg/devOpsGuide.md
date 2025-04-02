@@ -37,7 +37,7 @@ Some of the jobs execute some commands that are too complicated to be included i
 
 This workflow is run for both incoming pull requests to any branch as well as direct commits to any branch in the repository.
 
-Cypress frontend tests are run against reports generated from config files in `frontend/cypress/config`. It uses the `cypress` branch of the RepoSense repository which is kept independent of `master` and should be updated only when there are new frontend tests that need to be accommodated.
+Cypress frontend tests are run against reports generated from config files in `frontend/cypress/configs`.
 
 ### Report and documentation previews
 

@@ -12,6 +12,8 @@ const repoSchema = z.object({
   branch: z.string(),
   displayName: z.string(),
   outputFolderName: z.string(),
+  sinceDate: z.string(),
+  untilDate: z.string(),
 });
 
 const errorSchema = z.object({
@@ -54,6 +56,7 @@ export const summarySchema = z.object({
   chartsBlurbs: z.object({
     urlBlurbMap: z.record(z.string(), z.string())
   }).optional()
+  isPortfolio: z.boolean(),
 });
 
 // Export typescript types

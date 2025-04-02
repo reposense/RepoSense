@@ -193,11 +193,11 @@
         :class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo \
           && !isChartGroupWidgetMode }"
       )
-        .summary-chart__title--index(v-if="!isChartWidgetMode") {{ j+1 }}
+        .summary-chart__title--index(v-if="!isChartWidgetMode && !isPortfolio") {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
-          v-if="filterGroupSelection !== 'groupByAuthors'",
+          v-if="!isPortfolio && filterGroupSelection !== 'groupByAuthors'",
           :class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
@@ -323,8 +323,8 @@
           :groupby="filterGroupSelection",
           :user="user",
           :tframe="filterTimeFrame",
-          :sdate="filterSinceDate",
-          :udate="filterUntilDate",
+          :sdate="getUnoptimisedMinimumDate(user)",
+          :udate="getUnoptimisedMaximumDate(user)",
           :avgsize="avgCommitSize",
           :mergegroup="isGroupMerged(getGroupName(repo))",
           :filtersearch="filterSearch",
@@ -360,7 +360,7 @@ import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
 import cMarkdownChunk from './c-markdown-chunk.vue';
-import { Bar, Repo, User } from '../types/types';
+import { Bar, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
 import { AuthorFileTypeContributions } from '../types/zod/commits-type';
@@ -449,6 +449,7 @@ export default defineComponent({
     activeUser: string | null,
     activeTabType: string | null,
     isTabOnMergedGroup: boolean,
+    isPortfolio: boolean,
   } {
     return {
       drags: [] as Array<number>,
@@ -456,6 +457,7 @@ export default defineComponent({
       activeUser: null as string | null,
       activeTabType: null as string | null,
       isTabOnMergedGroup: false,
+      isPortfolio: window.isPortfolio,
     };
   },
 
@@ -651,18 +653,31 @@ export default defineComponent({
         return ['fas', 'database'];
       }
     },
+
+    getUnoptimisedMinimumDate(user: User): string {
+      return this.isPortfolio ? user.sinceDate : this.filterSinceDate;
+    },
+
+    getUnoptimisedMaximumDate(user: User): string {
+      return this.isPortfolio ? user.untilDate : this.filterUntilDate;
+    },
+
     getOptimisedMinimumDate(user: User): string {
-      return user.commits.length === 0
-        ? this.filterSinceDate
-        : user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr))
-          .date;
+      if (user.commits.length === 0) {
+        return this.getUnoptimisedMinimumDate(user);
+      }
+
+      return user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr)).date;
     },
+
     getOptimisedMaximumDate(user: User): string {
-      return user.commits.length === 0
-        ? this.filterUntilDate
-        : user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr))
-          .date;
+      if (user.commits.length === 0) {
+        return this.getUnoptimisedMaximumDate(user);
+      }
+
+      return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr)).date;
     },
+
     getIsOptimising(user: User): boolean {
       return user.commits.length !== 0 && this.optimiseTimeline;
     },
@@ -735,8 +750,8 @@ export default defineComponent({
         zAvgCommitSize: avgCommitSize,
         zUser: clonedUser,
         zLocation: this.getRepoLink(user),
-        zSince: since,
-        zUntil: until,
+        zSince: since || user.sinceDate,
+        zUntil: until || user.untilDate,
         zIsMerged: isMerged,
         zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
@@ -800,7 +815,7 @@ export default defineComponent({
       const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
       return url.replace(regexToRemoveWidget, '');
     },
-    getRepo(repo: Array<Repo>): Array<Repo> {
+    getRepo(repo: Array<User>): Array<User> {
       if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
         return [repo[this.chartIndex!]];
       }
