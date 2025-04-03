@@ -9,12 +9,16 @@ pageNav: 3
 
 <h1 class="display-4"><md>{{ title }}</md></h1>
 
-RepoSense allows you to easily showcase your coding portfolio by generating visualization reports of your contributions across different repositories. This guide will help you set up your first RepoSense report using the `report-config.yaml` file.
+RepoSense allows you to easily showcase your coding portfolio by generating visualization reports of your contributions across different repositories. 
+This guide will help you set up your first RepoSense report using the `report-config.yaml` file.
 
 ## What is `report-config.yaml`?
 
 The `report-config.yaml` file is a simple configuration file that lets you define which repositories you want to include in your RepoSense report in more detail compared to the CLI flags. 
 It's designed to be user-friendly, especially for beginners who want to quickly set up a code portfolio without dealing with complex configurations.
+
+For more sophisticated use cases that require additional flexibility, 
+RepoSense's [CSV config files](./customizingReports.html#customize-using-csv-config-files) offer an alternative configuration approach with expanded capabilities.
 
 ## Quick Start Guide
 
@@ -144,7 +148,7 @@ repos:
 ### Sample report generated
 ![report](../images/report-config-report.png)
 
-## Further customising your report
+## Further customizing your report
 
 Optionally, you can provide more detailed descriptions to your report. Please refer to this [section](./customizingReports.md#add-a-title).
 
