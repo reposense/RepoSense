@@ -17,8 +17,8 @@ public class TimeUtilTest {
 
     @Test
     public void extractDate_validDateAndTime_success() {
-        String originalDateAndTime = "20/05/2020 12:34:56";
-        String expectedDate = "20/05/2020 12:34:56";
+        String originalDateAndTime = "20/05/2020T12:34:56";
+        String expectedDate = "20/05/2020T12:34:56";
         String actualDate = TimeUtil.extractDate(originalDateAndTime);
         Assertions.assertEquals(expectedDate, actualDate);
     }
@@ -32,8 +32,8 @@ public class TimeUtilTest {
 
     @Test
     public void extractDate_validSingleDigitDateAndTime_success() {
-        String originalDateAndTime = "1/1/2022 12:34:56";
-        String expectedDate = "1/1/2022 12:34:56";
+        String originalDateAndTime = "1/1/2022T12:34:56";
+        String expectedDate = "1/1/2022T12:34:56";
         String actualDate = TimeUtil.extractDate(originalDateAndTime);
         Assertions.assertEquals(expectedDate, actualDate);
     }
