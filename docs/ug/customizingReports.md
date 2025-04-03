@@ -65,7 +65,7 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 ### Personalizing Reports
 
 #### Add favicon.ico
-Ensure you have a valid favicon.ico file. This icon will appear in the browser tab when your report is viewed. Copy or move your favicon.ico file into the `assets` folder of the config directory 
+Ensure you have a valid `favicon.ico` file. This icon will appear in the browser tab when your report is viewed. Copy or move your `favicon.ico file` into the `assets` folder of the config directory 
 
 Specifying the config directory can be done as follows:
 {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
@@ -73,7 +73,6 @@ Specifying the config directory can be done as follows:
 #### Add a title
 A title component can be added by creating a file titled `title.md` in the config directory.
 
-[//]: # (You can specify the assets directory according to the reference below: {{ embed&#40;"Appendix: **CLI syntax reference → `assets` flag**", "cli.md#section-assets"&#41; }})
 Specifying the config directory can be done as follows:
 {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
 
