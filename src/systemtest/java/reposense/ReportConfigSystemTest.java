@@ -26,7 +26,7 @@ public class ReportConfigSystemTest {
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("py", "sh");
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
 
-    private static final String OUTPUT_DIRECTORY = "rc_temp";
+    private static final String OUTPUT_DIRECTORY = "ft_temp";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
 
     private static boolean didNotCloneRepoNormally = true;

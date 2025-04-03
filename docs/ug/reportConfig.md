@@ -14,10 +14,10 @@ This guide will help you set up your first RepoSense report using the `report-co
 
 ## What is `report-config.yaml`?
 
-The `report-config.yaml` file is a simple configuration file that lets you define which repositories you want to include in your RepoSense report in more detail compared to the CLI flags. 
+The `report-config.yaml` file is a simple configuration file that lets you define which repositories you want to include in your RepoSense report in more detail compared to the CLI flags.
 It's designed to be user-friendly, especially for beginners who want to quickly set up a code portfolio without dealing with complex configurations.
 
-For more sophisticated use cases that require additional flexibility, 
+For more sophisticated use cases that require additional flexibility,
 RepoSense's [CSV config files](./customizingReports.html#customize-using-csv-config-files) offer an alternative configuration approach with expanded capabilities.
 
 ## Quick Start Guide
@@ -46,7 +46,7 @@ repos:
 
 The `author-display-name`, `author-git-author-name` and `author-emails` fields are optional.
 
-However, users are encouraged to add their Git author name `author-git-author-name` and emails `author-emails` in their Git configuration related to their commits so that 
+However, users are encouraged to add their Git author name `author-git-author-name` and emails `author-emails` in their Git configuration related to their commits so that
 the commits can be successfully captured.
 </box>
 
@@ -64,7 +64,7 @@ repos:
         authors:
           - author-git-host-id: johnDoe
             author-display-name: John Doe
-            
+
   - repo: https://github.com/john/tp.git
     branches:
       - branch: master

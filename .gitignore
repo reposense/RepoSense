@@ -8,7 +8,6 @@
 *.tmp
 
 ft_temp/
-rc_temp/
 /target/
 .gradle/
 build/
