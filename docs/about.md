@@ -62,27 +62,27 @@ Contributor [2024 January - 2024 April]<br/>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Alexander Liswandy](https://www.github.com/Airiinnn)
-**Role**: Contributor [2025 January - ]<br/>
+**Role**: Developer [2025 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Chen Yixun](https://www.github.com/CYX22222003)
-**Role**: Contributor [2025 January - ]<br/>
+**Role**: Developer [2025 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Hing Yen Xing](https://www.github.com/JoanneHing)
-**Role**: Contributor [2025 January - ]<br/>
+**Role**: Developer [2025 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Ng Yin Joe](https://www.github.com/joeng03)
-**Role**: Contributor [2025 January - ]<br/>
+**Role**: Developer [2025 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Wong Li Yuan](https://www.github.com/lyuanww)
-**Role**: Contributor [2025 January - ]<br/>
+**Role**: Developer [2025 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
