@@ -72,6 +72,7 @@ declare global {
     isSinceDateProvided: boolean;
     isUntilDateProvided: boolean;
     isAuthorshipAnalyzed: boolean;
+    isPortfolio: boolean;
     DOMAIN_URL_MAP: DomainUrlMap;
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     app: any;
