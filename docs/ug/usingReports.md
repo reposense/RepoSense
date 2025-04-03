@@ -90,10 +90,20 @@ We allow contribution bars to overflow into multiple lines (rather than adjust t
 #### Tool bar
 
 The `Tool Bar` at the top of the Chart panel provides a set of configuration options that control the Chart panel.
-* `Filter File`: filters the files and globs by keyword.
-  * Specifies a glob (e.g., **/TaskList.java)
-  * Users can see the code changes to all the files matching the glob across all repositories by opening the code panel
-  * Useful for users to see how others have implemented something
+
+* `Filter Files` function allows users to refine and focus their view on specific files across all repositories by applying keyword-based filters using glob patterns. This feature is particularly beneficial for developers seeking to analyze code changes in files that match certain naming conventions or extensions.
+  * Glob Pattern Filtering: Users can specify patterns to match filenames. For example:
+    * `**/TaskList.java`: Targets all files named TaskList.java in any directory or subdirectory.
+    * `**/*.js`: Selects all JavaScript files across all directories.
+    * `src/**/*.py`: Finds all Python files within the src directory and its subdirectories.
+
+  * Glob patterns use wildcards to match filenames:
+    * `*`: Matches any sequence of characters within a single directory level.
+    * `**`: Matches any sequence of characters across multiple directory levels.
+    * `?`: Matches any single character.
+    * `[abc]`: Matches any single character within the brackets.
+    * `[!abc]`: Matches any single character not within the brackets. 
+    These patterns provide flexibility in locating files based on specific naming conventions or extensions.
 * `Search`: filters the author and repository by keywords.
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.

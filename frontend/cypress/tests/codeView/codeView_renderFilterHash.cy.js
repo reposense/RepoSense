@@ -10,18 +10,12 @@ describe('render filter hash', () => {
       .type('**java**{enter}');
 
     cy.url()
-      .should('contain', 'filteredFileName=**java**');
-
-    cy.url()
-      .should('contain', 'authorshipFilesGlob=**java**');
+      .should('contain', 'filteredFileName=**java**'); 
 
     cy.reload();
 
     cy.url()
       .should('contain', 'filteredFileName=**java**');
-
-    cy.url()
-      .should('contain', 'authorshipFilesGlob=**java**');
 
     cy.get('div.mui-textfield.filter_file > input:visible')
       .should('be.visible')

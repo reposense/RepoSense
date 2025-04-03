@@ -3,7 +3,7 @@
     .summary-picker__section
       .mui-textfield.filter_file(v-if='!isPortfolio')
         input(type="text", @change="setFilteredFileName", v-model="filteredFileName")
-        label filter file
+        label filter files
         button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
 
       .mui-textfield.search_box(v-if='!isPortfolio')
