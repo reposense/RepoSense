@@ -12,10 +12,10 @@ describe('render filter hash', () => {
     cy.url()
       .should('contain', 'filteredFileName=**java**');
 
-    // cy.reload();
+    cy.reload();
 
-    // cy.url()
-    //   .should('contain', 'filteredFileName=**java**');
+    cy.url()
+      .should('contain', 'filteredFileName=**java**');
   })
 
   it('search: url params should persist after change and reload', () => {
