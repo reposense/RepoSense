@@ -295,7 +295,8 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
   ```
 Default:
 - If `END_DATE` is not specified, it defaults to the current date at `23:59:59`.
-- If hours/ minutes/ seconds are not provided, they will default to `23`, `59`, and `59`, respectively.   * Alias: `-u`
+- If hours/ minutes/ seconds are not provided, they will default to `23`, `59`, and `59`, respectively.
+* Alias: `-u`
 * Example:`--until 21/10/2017T01:02:00` or `-u 21/10/2017T01:02:00`
 
 <box type="info" seamless>
