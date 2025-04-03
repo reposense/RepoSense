@@ -18,55 +18,87 @@ RepoSense is a project based in the [National University of Singapore, School of
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Charisma Kausar](https://www.github.com/ckcherry23)
-**Role**: Senior Developer [2024 January - ]<br/>
+**Role**: Project Lead [2024 April - ]<br/>
+Senior Developer [2024 January - 2024 April]<br/>
 Contributor [2022 December - 2024 January]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [David Gareth Ong](https://www.github.com/vvidday)
-**Role**: Senior Developer [2024 January - ]<br/>
-Contributor [2023 January - 2024 January]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
 ### [Gokul Rajiv](https://github.com/gok99)
-**Role**: Senior Developer [2024 January - ]<br/>
+**Role**: Project Lead [2024 April - ]<br/>
+Senior Developer [2024 January - 2024 April]<br/>
 Contributor [2022 January - 2024 January]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### [Marcus Tang Xin Kye](https://www.github.com/MarcusTXK)
-**Role**: Senior Developer [2024 January - ]<br/>
-Contributor [2023 January - 2024 January]<br/>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-## [Chang Si Kai](https://github.com/sikai00)
-**Role**: Contributor [2023 Jan - ]<br/>
+### [Chang Si Kai](https://github.com/sikai00)
+**Role**: Senior Developer [2023 April - ]<br/>
+Contributor [2023 Jan - 2023 April]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Alvis Ng](https://www.github.com/supermii2)
-**Role**: Contributor [2024 January - ]<br/>
+**Role**: Senior Developer [2024 April - ]<br/>
+Contributor [2024 January - 2024 April]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [George Tay Quan Yao](https://www.github.com/jonasongg)
-**Role**: Contributor [2024 January - ]<br/>
+**Role**: Senior Developer [2024 April - ]<br/>
+Contributor [2024 January - 2024 April]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Jonas Ong Si Wei](https://www.github.com/jonasongg)
-**Role**: Contributor [2024 January - ]<br/>
+**Role**: Senior Developer [2024 April - ]<br/>
+Contributor [2024 January - 2024 April]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Poon Yip Hang, Ryan](https://www.github.com/sopa301)
-**Role**: Contributor [2024 January - ]<br/>
+**Role**: Senior Developer [2024 April - ]<br/>
+Contributor [2024 January - 2024 April]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Alexander Liswandy](https://www.github.com/Airiinnn)
+**Role**: Contributor [2025 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Chen Yixun](https://www.github.com/CYX22222003)
+**Role**: Contributor [2025 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Hing Yen Xing](https://www.github.com/JoanneHing)
+**Role**: Contributor [2025 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Ng Yin Joe](https://www.github.com/joeng03)
+**Role**: Contributor [2025 January - ]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Wong Li Yuan](https://www.github.com/lyuanww)
+**Role**: Contributor [2025 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ## Past Members
+
+### [David Gareth Ong](https://www.github.com/vvidday)
+**Role**: Senior Developer [2024 January - 2024 April]<br/>
+Contributor [2023 January - 2024 January]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### [Marcus Tang Xin Kye](https://www.github.com/MarcusTXK)
+**Role**: Senior Developer [2024 January - 2024 April]<br/>
+Contributor [2023 January - 2024 January]<br/>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Wang Chao](https://github.com/fzdy1914)
 ![](https://avatars3.githubusercontent.com/u/35621726?s=150&v=4)<br/>
