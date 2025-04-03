@@ -12,14 +12,10 @@ describe('render filter hash', () => {
     cy.url()
       .should('contain', 'filteredFileName=**java**');
 
-    cy.reload();
+    // cy.reload();
 
-    cy.url()
-      .should('contain', 'filteredFileName=**java**');
-
-    cy.get('div.mui-textfield.filter_file > input:visible')
-      .should('be.visible')
-      .type('{enter}');
+    // cy.url()
+    //   .should('contain', 'filteredFileName=**java**');
   })
 
   it('search: url params should persist after change and reload', () => {

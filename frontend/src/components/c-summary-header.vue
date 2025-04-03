@@ -2,7 +2,7 @@
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
       .mui-textfield.filter_file(v-if='!isPortfolio')
-        input(type="text", @change="setFilteredFileName", v-model="filteredFileName")
+        input(type="text", @change="setFilteredFileName", v-model="localFilteredFileName")
         label filter files
         button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
 
@@ -234,6 +234,15 @@ export default defineComponent({
       set(value: FilterGroupSelection) {
         this.$emit('update:filterGroupSelection', value);
         this.$emit('get-filtered');
+      }
+    },
+
+    localFilteredFileName: {
+      get() {
+        return this.$props.filteredFileName as string
+      },
+      set(newValue: string) {
+        this.$emit('update:filteredFileName', newValue)
       }
     },
 
