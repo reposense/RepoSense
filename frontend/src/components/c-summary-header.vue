@@ -163,7 +163,7 @@ export default defineComponent({
     },
     inputDateNotSupported: {
       type: Boolean,
-      default: false,
+      required: true,
     },
     hasModifiedSinceDate: {
       type: Boolean,
