@@ -87,6 +87,7 @@ import { PropType, defineComponent } from 'vue';
 
 import cSummaryCharts from '../components/c-summary-charts.vue';
 import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
+import cSummaryHeader from '../components/c-summary-header.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
 import sortFiltered from '../utils/repo-sorter';
 import {
@@ -115,6 +116,7 @@ export default defineComponent({
   components: {
     cSummaryCharts,
     cFileTypeCheckboxes,
+    cSummaryHeader,
   },
   props: {
     repos: {
@@ -141,9 +143,9 @@ export default defineComponent({
     sortGroupSelection: SortGroupSelection,
     sortWithinGroupSelection: SortWithinGroupSelection,
     sortingOption: string,
-    isSortingDsc: string,
+    isSortingDsc: boolean,
     sortingWithinOption: string,
-    isSortingWithinDsc: string,
+    isSortingWithinDsc: boolean,
     filterTimeFrame: FilterTimeFrame,
     filterBreakdown: boolean,
     tmpFilterSinceDate: string,
@@ -172,11 +174,11 @@ export default defineComponent({
       sortGroupSelection: SortGroupSelection.GroupTitleDsc, // UI for sorting groups
       sortWithinGroupSelection: SortWithinGroupSelection.Title, // UI for sorting within groups
       sortingOption: '',
-      isSortingDsc: '',
+      isSortingDsc: false,
       sortingWithinOption: '',
-      isSortingWithinDsc: '',
+      isSortingWithinDsc: false,
       filterTimeFrame: FilterTimeFrame.Commit,
-      filterBreakdown: false,
+      filterBreakdown: window.isPortfolio, // Auto select filter breakdown if portfolio
       tmpFilterSinceDate: '',
       tmpFilterUntilDate: '',
       hasModifiedSinceDate: window.isSinceDateProvided,
@@ -192,7 +194,7 @@ export default defineComponent({
       errorIsShowingMore: false,
       numberOfErrorMessagesToShow: 4,
       viewRepoTags: false,
-      optimiseTimeline: false,
+      optimiseTimeline: window.isPortfolio, // Auto select trim timeline if portfolio
     };
   },
   computed: {
@@ -335,16 +337,6 @@ export default defineComponent({
     },
 
     // model functions //
-    resetFilterSearch(): void {
-      this.filterSearch = '';
-      this.getFiltered();
-    },
-    updateFilterSearch(evt: Event): void {
-      // Only called from an input onchange event, target guaranteed to be input element
-      this.filterSearch = (evt.target as HTMLInputElement).value;
-      this.getFiltered();
-    },
-
     setSummaryHash(): void {
       const { addHash, encodeHash, removeHash } = window;
 
@@ -523,7 +515,11 @@ export default defineComponent({
           // filtering
           repo.users?.forEach((user) => {
             if (this.isMatchSearchedUser(this.filterSearch, user)) {
-              this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
+              this.getUserCommits(
+                  user,
+        new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate,
+         new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate,
+              );
               if (this.filterTimeFrame === 'week') {
                 this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
               }
@@ -835,11 +831,16 @@ export default defineComponent({
     },
 
     getOptionWithOrder(): void {
-      [this.sortingOption, this.isSortingDsc] = this.sortGroupSelection.split(' ');
-      [this.sortingWithinOption, this.isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
+      const [sortingOption, isSortingDsc] = this.sortGroupSelection.split(' ');
+      this.sortingOption = sortingOption;
+      this.isSortingDsc = isSortingDsc === 'dsc';
+
+      const [sortingWithinOption, isSortingWithinDsc] = this.sortWithinGroupSelection.split(' ');
+      this.sortingWithinOption = sortingWithinOption;
+      this.isSortingWithinDsc = isSortingWithinDsc === 'dsc';
     },
 
-    // updating filters programically //
+    // updating filters programmatically //
     resetDateRange(): void {
       this.hasModifiedSinceDate = false;
       this.hasModifiedUntilDate = false;
@@ -848,44 +849,6 @@ export default defineComponent({
       window.removeHash('since');
       window.removeHash('until');
       this.getFiltered();
-    },
-
-    updateTmpFilterSinceDate(event: Event): void {
-      // Only called from an input onchange event, target guaranteed to be input element
-      const since = (event.target as HTMLInputElement).value;
-      this.hasModifiedSinceDate = true;
-
-      if (!this.isSafariBrowser) {
-        this.tmpFilterSinceDate = since;
-        (event.target as HTMLInputElement).value = this.filterSinceDate;
-        this.getFiltered();
-      } else if (dateFormatRegex.test(since) && since >= this.minDate) {
-        this.tmpFilterSinceDate = since;
-        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.getFiltered();
-      } else {
-        // invalid since date detected
-        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
-      }
-    },
-
-    updateTmpFilterUntilDate(event: Event): void {
-      // Only called from an input onchange event, target guaranteed to be input element
-      const until = (event.target as HTMLInputElement).value;
-      this.hasModifiedUntilDate = true;
-
-      if (!this.isSafariBrowser) {
-        this.tmpFilterUntilDate = until;
-        (event.target as HTMLInputElement).value = this.filterUntilDate;
-        this.getFiltered();
-      } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
-        this.tmpFilterUntilDate = until;
-        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.getFiltered();
-      } else {
-        // invalid until date detected
-        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
-      }
     },
 
     updateCheckedFileTypeContribution(ele: User): void {
