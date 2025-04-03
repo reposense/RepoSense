@@ -15,6 +15,7 @@
     v-model:all-groups-merged="allGroupsMerged",
     v-model:has-modified-since-date="hasModifiedSinceDate",
     v-model:has-modified-until-date="hasModifiedUntilDate",
+    v-model:filtered-file-name="filteredFileName",
     :min-date="minDate",
     :max-date="maxDate",
     :is-safari-browser="isSafariBrowser",

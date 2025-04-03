@@ -5,6 +5,7 @@
         input(type="text", @change="setFilteredFileName", v-model="filteredFileName")
         label filter file
         button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
+
       .mui-textfield.search_box(v-if='!isPortfolio')
         input(type="text", v-model="localFilterSearch")
         label search
@@ -185,6 +186,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    filteredFileName: {
+      type: String,
+      default: '',
+    }
   },
 
   emits: [
@@ -201,6 +206,7 @@ export default defineComponent({
     'update:allGroupsMerged',
     'update:hasModifiedSinceDate',
     'update:hasModifiedUntilDate',
+    'update:filteredFileName',
     'get-filtered',
     'reset-date-range',
     'toggle-breakdown',
@@ -302,18 +308,18 @@ export default defineComponent({
     },
 
     resetFilteredFileName() : void {
-      this.filteredFileName = '';
+      this.$emit('update:filteredFileName', '');
       window.removeHash('authorshipFilesGlob');
       this.$store.commit("updateAuthorshipRefreshState", false);
-      this.getFiltered();
+      this.$emit('get-filtered');
       window.location.reload();
     },
 
     setFilteredFileName(evt: Event) : void {
-      this.filteredFileName = (evt.target as HTMLInputElement).value;
+      this.$emit("update:filteredFileName", (evt.target as HTMLInputElement).value);
       this.$store.commit("updateAuthorshipRefreshState", true);
       window.addHash('authorshipFilesGlob', this.filteredFileName);
-      this.getFiltered();
+      this.$emit('get-filtered');
       window.location.reload();
     },
 
