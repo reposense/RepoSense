@@ -17,6 +17,13 @@ public class UntilDateArgumentType extends DateArgumentType {
     public Optional<LocalDateTime> convert(ArgumentParser parser, Argument arg, String value)
             throws ArgumentParserException {
         String untilDate = TimeUtil.extractDate(value);
-        return super.convert(parser, arg, untilDate + " 23:59:59");
+
+        if (untilDate.matches(DATETIME_WITHOUT_HOURS_REGEX)) {
+            untilDate += "T23:59:59";
+        } else if (untilDate.matches(DATETIME_WITHOUT_SECONDS_REGEX)) {
+            untilDate += ":59";
+        }
+
+        return super.convert(parser, arg, untilDate);
     }
 }
