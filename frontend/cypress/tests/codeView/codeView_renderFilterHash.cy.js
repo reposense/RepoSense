@@ -10,7 +10,7 @@ describe('render filter hash', () => {
       .type('**java**{enter}');
 
     cy.url()
-      .should('contain', 'filteredFileName=**java**'); 
+      .should('contain', 'filteredFileName=**java**');
 
     cy.reload();
 
