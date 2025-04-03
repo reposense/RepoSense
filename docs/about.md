@@ -18,46 +18,44 @@ RepoSense is a project based in the [National University of Singapore, School of
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Charisma Kausar](https://www.github.com/ckcherry23)
-**Role**: Project Lead [2024 April - ]<br/>
+**Role**: Project Lead [2024 May - ]<br/>
 Senior Developer [2024 January - 2024 April]<br/>
-Contributor [2022 December - 2024 January]<br/>
+Developer [2022 December - 2023 December]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Gokul Rajiv](https://github.com/gok99)
-**Role**: Project Lead [2024 April - ]<br/>
+**Role**: Project Lead [2024 May - ]<br/>
 Senior Developer [2024 January - 2024 April]<br/>
-Contributor [2022 January - 2024 January]<br/>
+Developer [2022 January - 2023 December]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Chang Si Kai](https://github.com/sikai00)
-**Role**: Senior Developer [2023 April - ]<br/>
-Contributor [2023 Jan - 2023 April]<br/>
+**Role**: Senior Developer [2025 January - ]<br/>
+Developer [2023 January - 2024 December]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Alvis Ng](https://www.github.com/supermii2)
-**Role**: Senior Developer [2024 April - ]<br/>
-Contributor [2024 January - 2024 April]<br/>
+**Role**: Developer [2024 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [George Tay Quan Yao](https://www.github.com/jonasongg)
-**Role**: Senior Developer [2024 April - ]<br/>
-Contributor [2024 January - 2024 April]<br/>
+**Role**: Developer [2024 January - ]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Jonas Ong Si Wei](https://www.github.com/jonasongg)
-**Role**: Senior Developer [2024 April - ]<br/>
-Contributor [2024 January - 2024 April]<br/>
+**Role**: Senior Developer [2025 January - ]<br/>
+Developer [2024 January - 2024 December]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### [Poon Yip Hang, Ryan](https://www.github.com/sopa301)
-**Role**: Senior Developer [2024 April - ]<br/>
-Contributor [2024 January - 2024 April]<br/>
+**Role**: Senior Developer [2025 January - ]<br/>
+Developer [2024 January - 2024 December]<br/>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
