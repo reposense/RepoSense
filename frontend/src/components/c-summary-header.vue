@@ -1,6 +1,10 @@
 <template lang="pug">
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
+      .mui-textfield.filter_file(v-if='!isPortfolio')
+        input(type="text", @change="setFilteredFileName", v-model="filteredFileName")
+        label filter file
+        button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
       .mui-textfield.search_box(v-if='!isPortfolio')
         input(type="text", v-model="localFilterSearch")
         label search
@@ -295,6 +299,22 @@ export default defineComponent({
     resetFilterSearch() {
       this.$emit('update:filterSearch', '');
       this.$emit('get-filtered');
+    },
+
+    resetFilteredFileName() : void {
+      this.filteredFileName = '';
+      window.removeHash('authorshipFilesGlob');
+      this.$store.commit("updateAuthorshipRefreshState", false);
+      this.getFiltered();
+      window.location.reload();
+    },
+
+    setFilteredFileName(evt: Event) : void {
+      this.filteredFileName = (evt.target as HTMLInputElement).value;
+      this.$store.commit("updateAuthorshipRefreshState", true);
+      window.addHash('authorshipFilesGlob', this.filteredFileName);
+      this.getFiltered();
+      window.location.reload();
     },
 
     updateTmpFilterSinceDate(event: Event) {
