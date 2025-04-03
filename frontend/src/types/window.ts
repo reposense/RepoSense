@@ -26,7 +26,7 @@ interface Api {
     names: string[],
     blurbMap: { [key: string]: string },
   } | null>;
-  loadCommits: (repoName: string, customSortOrder: number) => Promise<User[]>;
+  loadCommits: (repoName: string, defaultSortOrder: number) => Promise<User[]>;
   loadAuthorship: (repoName: string) => Promise<AuthorshipSchema>;
   setContributionOfCommitResultsAndInsertRepoId: (dailyCommits: AuthorDailyContributions[], repoId: string) => void;
 }
