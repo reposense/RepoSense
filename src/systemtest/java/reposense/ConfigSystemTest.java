@@ -24,18 +24,8 @@ import reposense.util.SystemTestUtil;
 @Execution(ExecutionMode.SAME_THREAD)
 public class ConfigSystemTest {
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
-    /*
-     NOTE: For "Asia/Singapore" timezone, on dates before 01-01-1982,
-     where Singapore and Malaysia switched from UTC+07:30 to UTC+08:00,
-     all date conversions will result in +7.5 hours instead of +8 hours.
-
-     For example, the Unix epoch 1970-01-01 00:00:00 will be
-     1970-01-01 07:30:00 with "Asia/Singapore" timezone, but
-     1970-01-01 08:00:00 with "UTC+08" timezone.
-
-     Reference: https://en.wikipedia.org/wiki/UTC%2B07:30.
-     */
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
+
     private static final String OUTPUT_DIRECTORY = "ft_temp";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
 

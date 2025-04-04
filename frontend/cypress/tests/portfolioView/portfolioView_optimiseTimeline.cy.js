@@ -52,13 +52,13 @@ describe('optimise timeline',
         .first()
         .find('.summary-chart__ramp .date-indicators span')
         .first()
-        .should('have.text', '2019-01-20T00:00:00');
+        .should('have.text', '2019-01-20');
 
       cy.get('#summary-charts .summary-chart')
         .first()
         .find('.summary-chart__ramp .date-indicators span')
         .last()
-        .should('have.text', '2019-12-29T23:59:59');
+        .should('have.text', '2019-12-29');
 
       cy.get('#summary label.optimise-timeline > input:visible')
         .should('be.visible')
@@ -69,13 +69,13 @@ describe('optimise timeline',
         .first()
         .find('.summary-chart__ramp .date-indicators span')
         .first()
-        .should('have.text', '2019-01-21T00:00:00');
+        .should('have.text', '2019-01-21');
 
       cy.get('#summary-charts .summary-chart')
         .first()
         .find('.summary-chart__ramp .date-indicators span')
         .last()
-        .should('have.text', '2019-06-10T00:00:00');
+        .should('have.text', '2019-06-10');
     });
 
     it('zoom panel range should work correctly when timeline is not optimised', () => {
@@ -116,7 +116,7 @@ describe('optimise timeline',
 
       // verifies the date range is correctly optimised
       cy.get('#tab-zoom .period')
-        .should('contain', '2019-01-21T00:00:00 to 2019-06-10T00:00:00');
+        .should('contain', '2019-01-21 to 2019-06-10');
 
       // verifies the ramp chart is optimised and has no empty space on the right
       cy.get('#tab-zoom .ramp a')
