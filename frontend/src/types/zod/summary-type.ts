@@ -55,7 +55,7 @@ export const summarySchema = z.object({
   }).optional(),
   chartsBlurbs: z.object({
     urlBlurbMap: z.record(z.string(), z.string())
-  }).optional()
+  }).optional(),
   isPortfolio: z.boolean(),
 });
 
