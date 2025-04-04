@@ -54,7 +54,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('eugenepeh');
 
     cy.get('input[name="since"]:visible')
-      .type('2018-06-11T00:00:00');
+      .type('2018-06-11');
 
     cy.get('.icon-button.fa-list-ul')
       .should('exist')
@@ -70,7 +70,7 @@ describe('date changes in chart view should reflect in zoom', () => {
           .invoke('attr', 'title')
           .then((titleStr) => {
             const date = extractDate(titleStr);
-            cy.wrap(date).should('be.gte', new Date('2018-06-11T00:00:00'));
+            cy.wrap(date).should('be.gte', new Date('2018-06-11'));
           });
       });
   });
@@ -81,7 +81,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('yong24s');
 
     cy.get('input[name="since"]:visible')
-      .type('2018-05-20T00:00:00');
+      .type('2018-05-20');
 
     cy.get('.icon-button.fa-list-ul')
       .should('exist')
@@ -97,7 +97,7 @@ describe('date changes in chart view should reflect in zoom', () => {
           .invoke('attr', 'title')
           .then((titleStr) => {
             const date = extractDate(titleStr);
-            cy.wrap(date).should('be.gte', new Date('2018-05-20T00:00:00'));
+            cy.wrap(date).should('be.gte', new Date('2018-05-20'));
           });
       });
   });
@@ -109,7 +109,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('eugenepeh');
 
     cy.get('input[name="until"]:visible')
-      .type('2019-08-19T00:00:00');
+      .type('2019-08-19');
 
     cy.get('.icon-button.fa-list-ul')
       .should('exist')
@@ -125,7 +125,7 @@ describe('date changes in chart view should reflect in zoom', () => {
           .invoke('attr', 'title')
           .then((titleStr) => {
             const date = extractDate(titleStr);
-            cy.wrap(date).should('be.lte', new Date('2019-08-19T00:00:00'));
+            cy.wrap(date).should('be.lte', new Date('2019-08-19'));
           });
       });
   });
@@ -137,7 +137,7 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('ongspxm');
 
     cy.get('input[name="until"]:visible')
-      .type('2018-07-20T00:00:00');
+      .type('2018-07-20');
 
     cy.get('.icon-button.fa-list-ul')
       .should('exist')
@@ -153,7 +153,7 @@ describe('date changes in chart view should reflect in zoom', () => {
           .invoke('attr', 'title')
           .then((titleStr) => {
             const date = extractDate(titleStr);
-            cy.wrap(date).should('be.lte', new Date('2018-07-20T00:00:00'));
+            cy.wrap(date).should('be.lte', new Date('2018-07-20'));
           });
       });
   });
@@ -165,10 +165,10 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('eugenepeh');
 
     cy.get('input[name="since"]:visible')
-      .type('2018-08-27T00:00:00');
+      .type('2018-08-27');
 
     cy.get('input[name="until"]:visible')
-      .type('2019-03-09T00:00:00');
+      .type('2019-03-09');
 
     cy.get('.icon-button.fa-list-ul')
       .should('exist')
@@ -184,7 +184,7 @@ describe('date changes in chart view should reflect in zoom', () => {
           .invoke('attr', 'title')
           .then((titleStr) => {
             const date = extractDate(titleStr);
-            cy.wrap(date).should('be.lte', new Date('2019-03-09T00:00:00'));
+            cy.wrap(date).should('be.lte', new Date('2019-03-09'));
           });
       });
 
@@ -194,7 +194,7 @@ describe('date changes in chart view should reflect in zoom', () => {
           .invoke('attr', 'title')
           .then((titleStr) => {
             const date = extractDate(titleStr);
-            cy.wrap(date).should('be.gte', new Date('2018-08-27T00:00:00'));
+            cy.wrap(date).should('be.gte', new Date('2018-08-27'));
           });
       });
   });
@@ -206,10 +206,10 @@ describe('date changes in chart view should reflect in zoom', () => {
       .type('jamessspanggg');
 
     cy.get('input[name="since"]:visible')
-      .type('2019-07-22T00:00:00');
+      .type('2019-07-22');
 
     cy.get('input[name="until"]:visible')
-      .type('2019-08-01T00:00:00');
+      .type('2019-08-01');
 
     cy.get('.icon-button.fa-list-ul')
       .should('exist')
@@ -225,7 +225,7 @@ describe('date changes in chart view should reflect in zoom', () => {
           .invoke('attr', 'title')
           .then((titleStr) => {
             const date = extractDate(titleStr);
-            cy.wrap(date).should('be.lte', new Date('2019-08-01T00:00:00'));
+            cy.wrap(date).should('be.lte', new Date('2019-08-01'));
           });
       });
 
@@ -235,7 +235,7 @@ describe('date changes in chart view should reflect in zoom', () => {
           .invoke('attr', 'title')
           .then((titleStr) => {
             const date = extractDate(titleStr);
-            cy.wrap(date).should('be.gte', new Date('2019-07-22T00:00:00'));
+            cy.wrap(date).should('be.gte', new Date('2019-07-22'));
           });
       });
   });
@@ -252,7 +252,7 @@ describe('range changes in chartview should reflect in zoom', () => {
       .should('be.visible')
       .type('jamessspanggg');
     cy.get('input[name="until"]:visible')
-      .type('2023-12-31T00:00:00');
+      .type('2023-12-31');
 
     cy.get('body')
       .get('#summary-charts .summary-chart__ramp .ramp')
@@ -266,11 +266,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2021-01-04T00:00:00] Update `About us` page (#1393): +55 -30 lines ');
+      .should('eq', '[2021-01-04] Update `About us` page (#1393): +55 -30 lines ');
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2019-12-20T00:00:00] [#46] Show total time after batch processing (#758): +43 -0 lines ');
+      .should('eq', '[2019-12-20] [#46] Show total time after batch processing (#758): +43 -0 lines ');
   });
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
@@ -281,7 +281,7 @@ describe('range changes in chartview should reflect in zoom', () => {
       .should('be.visible')
       .type('jamessspanggg');
     cy.get('input[name="until"]:visible')
-      .type('2023-12-31T00:00:00');
+      .type('2023-12-31');
 
     cy.get('body')
       .get('#summary-charts .summary-chart__ramp .ramp')
@@ -295,11 +295,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2020-05-23T00:00:00] [#1241] Restore checked file types (#1256): +14 -1 lines ');
+      .should('eq', '[2020-05-23] [#1241] Restore checked file types (#1256): +14 -1 lines ');
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2019-12-20T00:00:00] [#46] Show total time after batch processing (#758): +43 -0 lines ');
+      .should('eq', '[2019-12-20] [#46] Show total time after batch processing (#758): +43 -0 lines ');
   });
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
@@ -310,7 +310,7 @@ describe('range changes in chartview should reflect in zoom', () => {
       .should('be.visible')
       .type('jamessspanggg');
     cy.get('input[name="until"]:visible')
-      .type('2023-12-31T00:00:00');
+      .type('2023-12-31');
 
     cy.get('body')
       .get('#summary-charts .summary-chart__ramp .ramp')
@@ -324,11 +324,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2021-01-04T00:00:00] Update `About us` page (#1393): +55 -30 lines ');
+      .should('eq', '[2021-01-04] Update `About us` page (#1393): +55 -30 lines ');
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-09-27T00:00:00] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
+      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
@@ -339,7 +339,7 @@ describe('range changes in chartview should reflect in zoom', () => {
       .should('be.visible')
       .type('jamessspanggg');
     cy.get('input[name="until"]:visible')
-      .type('2023-12-31T00:00:00');
+      .type('2023-12-31');
 
     cy.get('body')
       .get('#summary-charts .summary-chart__ramp .ramp')
@@ -355,12 +355,12 @@ describe('range changes in chartview should reflect in zoom', () => {
       .invoke('attr', 'title')
       .should(
         'eq',
-        '[2021-01-04T00:00:00] Update `About us` page (#1393): +55 -30 lines ',
+        '[2021-01-04] Update `About us` page (#1393): +55 -30 lines ',
       );
 
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-09-27T00:00:00] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
+      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
 });
