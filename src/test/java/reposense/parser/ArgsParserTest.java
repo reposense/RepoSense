@@ -98,7 +98,7 @@ public class ArgsParserTest {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .addOutput(OUTPUT_DIRECTORY_ABSOLUTE)
                 .addSinceDate("01/07/2017")
-                .addUntilDate("30/11/2017T23:59")
+                .addUntilDate("30/11/2017")
                 .addFormats("java adoc html css js")
                 .addIgnoreStandaloneConfig()
                 .addIgnoreFilesizeLimit()
@@ -166,7 +166,7 @@ public class ArgsParserTest {
     public void parse_withExtraWhitespaces_success() throws Exception {
         String input = new InputBuilder().addConfig(CONFIG_FOLDER_ABSOLUTE).addWhiteSpace(5)
                 .addOutput(OUTPUT_DIRECTORY_ABSOLUTE).addWhiteSpace(4)
-                .addSinceDate("01/07/2017T00:00").addWhiteSpace(3)
+                .addSinceDate("01/07/2017").addWhiteSpace(3)
                 .addUntilDate("30/11/2017").addWhiteSpace(6)
                 .addFormats("java   adoc  html      css js   ")
                 .addIgnoreStandaloneConfig().addWhiteSpace(1)
@@ -380,11 +380,12 @@ public class ArgsParserTest {
     @Test
     public void untilDate_withExtraTime_success() throws Exception {
         String input = DEFAULT_INPUT_BUILDER
-                .addUntilDate("\"30/11/2017T10:10:10\"")
+                .addUntilDate("\"30/11/2017 10:10:10\"")
                 .addTimezone(DEFAULT_TIME_ZONE_STRING)
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        LocalDateTime expectedUntilDate = TestUtil.getDate(2017, Month.NOVEMBER.getValue(), 30, new int[] {10, 10, 10});
+
+        LocalDateTime expectedUntilDate = TestUtil.getUntilDate(2017, Month.NOVEMBER.getValue(), 30);
         Assertions.assertEquals(expectedUntilDate, cliArguments.getUntilDate());
     }
 

@@ -434,7 +434,7 @@ public class ArgsParser {
         LocalDateTime currentDate = TimeUtil.getCurrentDate(zoneId);
 
         if (isSinceDateProvided) {
-            sinceDate = TimeUtil.getValidDate(cliSinceDate.get());
+            sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
             // For --since d1, need to adjust the arbitrary date based on timezone
             if (TimeUtil.isEqualToArbitraryFirstDateUtc(sinceDate)) {
                 isUsingArbitraryDate = true;
@@ -455,7 +455,7 @@ public class ArgsParser {
         }
 
         if (isUntilDateProvided) {
-            untilDate = TimeUtil.getValidDate(cliUntilDate.get());
+            untilDate = TimeUtil.getUntilDate(cliUntilDate.get());
         } else {
             untilDate = (isSinceDateProvided && isPeriodProvided)
                     ? TimeUtil.getDatePlusNDays(cliSinceDate.get(), cliPeriod.get())
