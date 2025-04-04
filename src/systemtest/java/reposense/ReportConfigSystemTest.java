@@ -26,7 +26,7 @@ public class ReportConfigSystemTest {
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("py", "sh");
     private static final String TEST_TIME_ZONE = "Asia/Singapore";
 
-    private static final String OUTPUT_DIRECTORY = "ft_temp";
+    private static final String OUTPUT_DIRECTORY = "rc_temp";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
 
     private static boolean didNotCloneRepoNormally = true;
@@ -104,6 +104,22 @@ public class ReportConfigSystemTest {
 
         runTest(inputBuilder, false,
                 "ReportConfigSystemTest/sinceBeginningDateRangeWithPortfolio/expected");
+    }
+
+
+    /**
+     * System test with a specified since date and until date, with the last modified date time in each
+     * line of code.
+     */
+    @Test
+    public void testDateRangeWithModifiedDateTimeInLines() {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addSinceDate("1/1/2024")
+                .addUntilDate("31/12/2024")
+                .addLastModifiedDateFlags();
+
+        runTest(inputBuilder, false,
+                "ReportConfigSystemTest/dateRangeWithModifiedDateTimeInLines/expected");
     }
 
     /**
