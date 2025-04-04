@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.csv.CSVRecord;
 
@@ -56,6 +57,10 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String[] SINCE_HEADER = {"Since Date"};
     private static final String[] UNTIL_HEADER = {"Until Date"};
     private boolean isPortflio = false;
+    private boolean isCliSinceProvided = false;
+    private boolean isCliUntilProvided = false;
+    private LocalDateTime cliSinceDate;
+    private LocalDateTime cliUntilDate;
 
 
     public RepoConfigCsvParser(Path csvFilePath) throws FileNotFoundException {
@@ -65,6 +70,10 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     public RepoConfigCsvParser(Path csvFilePath, CliArguments cliArguments) throws FileNotFoundException {
         super(csvFilePath);
         this.isPortflio = cliArguments.isPortfolio();
+        this.isCliSinceProvided = cliArguments.isSinceDateProvided();
+        this.isCliUntilProvided = cliArguments.isUntilDateProvided();
+        this.cliSinceDate = cliArguments.getSinceDate();
+        this.cliUntilDate = cliArguments.getUntilDate();
     }
 
     /**
@@ -72,7 +81,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     @Override
     protected String[][] mandatoryHeaders() {
-        return new String[][] {
+        return new String[][]{
                 LOCATION_HEADER,
         };
     }
@@ -82,7 +91,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     @Override
     protected String[][] optionalHeaders() {
-        return new String[][] {
+        return new String[][]{
                 BRANCH_HEADER, FILE_FORMATS_HEADER, IGNORE_GLOB_LIST_HEADER, IGNORE_STANDALONE_CONFIG_HEADER,
                 IGNORE_FILESIZE_LIMIT_HEADER, IGNORE_COMMIT_LIST_CONFIG_HEADER, IGNORE_AUTHOR_LIST_CONFIG_HEADER,
                 SHALLOW_CLONING_CONFIG_HEADER, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER, FILESIZE_LIMIT_HEADER,
@@ -99,7 +108,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     @Override
     protected void processLine(List<RepoConfiguration> results, CSVRecord record)
-            throws InvalidLocationException, ParseException {
+            throws ParseException {
         // The variable expansion is performed to simulate running the same location from command line.
         // This helps to support things like tilde expansion and other Bash/CMD features.
         RepoLocation location = new RepoLocation(FileUtil.getVariableExpandedFilePath(get(record, LOCATION_HEADER)));
@@ -142,16 +151,36 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         boolean hasUpdatedSinceDateTime = false;
         boolean hasUpdatedUntilDateTime = false;
 
-        if (this.isPortflio) {
-            sinceDate = this.extractCsvSinceDate(record);
-            untilDate = this.extractCsvUntilDate(record);
+        sinceDate = this.extractCsvSinceDate(record);
+        untilDate = this.extractCsvUntilDate(record);
 
-            hasUpdatedSinceDateTime = (sinceDate != null);
-            hasUpdatedUntilDateTime = (untilDate != null);
+        hasUpdatedSinceDateTime = (sinceDate != null);
+        hasUpdatedUntilDateTime = (untilDate != null);
 
-            if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
-                throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
+        if (isCliSinceProvided && isCliUntilProvided) {
+            if (hasUpdatedUntilDateTime){
+                this.checkValidDatesWithCLI(sinceDate);
+            } else {
+                sinceDate = cliSinceDate;
             }
+
+            if (hasUpdatedUntilDateTime) {
+                this.checkValidDatesWithCLI(untilDate);
+            } else {
+                untilDate = cliUntilDate;
+            }
+        } else {
+            if (!hasUpdatedSinceDateTime) {
+                sinceDate = cliSinceDate;
+            }
+
+            if (!hasUpdatedUntilDateTime) {
+                untilDate = cliUntilDate;
+            }
+        }
+
+        if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
+            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
 
         // If file diff limit is specified
@@ -186,6 +215,17 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 isFileSizeLimitIgnored, isIgnoredFileAnalysisSkipped, isFileSizeLimitOverriding, fileSizeLimit,
                 isStandaloneConfigIgnored, isShallowCloningPerformed, isFindingPreviousAuthorsPerformed,
                 hasUpdatedSinceDateTime, hasUpdatedUntilDateTime, sinceDate, untilDate);
+    }
+
+    /**
+     * Checks dates is within since date and until date provided by CLI flags.
+     *
+     * @throws ParseException if it is not within the range.
+     */
+    private void checkValidDatesWithCLI(LocalDateTime date) throws ParseException {
+        if (date == null || date.isAfter(cliUntilDate) || cliSinceDate.isAfter(date)) {
+            throw new ParseException("");
+        }
     }
 
     /**
@@ -248,13 +288,13 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      * Does nothing if the repo already exists in {@code results}.
      */
     private void addConfig(List<RepoConfiguration> results, RepoLocation location, String branch,
-            boolean isFormatsOverriding, List<FileType> formats, boolean isIgnoreGlobListOverriding,
-            List<String> ignoreGlobList, boolean isIgnoreCommitListOverriding, List<CommitHash> ignoreCommitList,
-            boolean isIgnoredAuthorsListOverriding, List<String> ignoredAuthorsList, boolean isFileSizeLimitIgnored,
-            boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
-            boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
-            boolean isFindingPreviousAuthorsPerformed, boolean hasUpdatedSinceDateTime, boolean hasUpdatedUntilDateTime,
-            LocalDateTime since, LocalDateTime until) {
+                           boolean isFormatsOverriding, List<FileType> formats, boolean isIgnoreGlobListOverriding,
+                           List<String> ignoreGlobList, boolean isIgnoreCommitListOverriding, List<CommitHash> ignoreCommitList,
+                           boolean isIgnoredAuthorsListOverriding, List<String> ignoredAuthorsList, boolean isFileSizeLimitIgnored,
+                           boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
+                           boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
+                           boolean isFindingPreviousAuthorsPerformed, boolean hasUpdatedSinceDateTime, boolean hasUpdatedUntilDateTime,
+                           LocalDateTime since, LocalDateTime until) {
         RepoConfiguration config = new RepoConfiguration.Builder()
                 .location(location)
                 .branch(branch)
