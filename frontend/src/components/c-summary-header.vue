@@ -5,8 +5,7 @@
         label filter files
         .tooltip(
           @mouseover="onTooltipHover('filter-files-label')",
-          @mouseout="resetTooltip('filter-files-label')",
-        )
+          @mouseout="resetTooltip('filter-files-label')")
           input(
             type="search",
             @change="setFilteredFileName",
