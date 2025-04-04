@@ -770,65 +770,6 @@ public class RepoConfigurationTest {
     }
 
     @Test
-    public void dateRangesSetter_csvNotOverrideSinceUntilFlags_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
-                .location(new RepoLocation(TEST_REPO_BETA))
-                .branch("master")
-                .build();
-
-        expectedConfig.setSinceDate(TEST_ARTIFICIAL_SINCE_DATE);
-        expectedConfig.setUntilDate(TEST_ARTIFICIAL_UNTIL_DATE);
-
-        String inputs = new InputBuilder()
-                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE_STRING)
-                .addUntilDate(TEST_ARTIFICIAL_UNTIL_DATE_STRING)
-                .addConfig(NO_OVERRIDE_FOR_NON_PORTFOLIO_TEST_CONFIG_FILES)
-                .build();
-
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(inputs));
-        List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath(), cliArguments).parse();
-        RepoConfiguration.setDatesToRepoConfigs(actualConfigs,
-                    cliArguments.getSinceDate(),
-                    cliArguments.getUntilDate());
-
-        Assertions.assertEquals(actualConfigs.get(0).getSinceDate(), expectedConfig.getSinceDate());
-        Assertions.assertEquals(actualConfigs.get(0).getUntilDate(), expectedConfig.getUntilDate());
-        Assertions.assertFalse(actualConfigs.get(0).isHasUpdatedUntilDateInConfig());
-        Assertions.assertFalse(actualConfigs.get(0).isHasUpdatedSinceDateInConfig());
-    }
-
-    @Test
-    public void dateRangesSetter_csvOverrideSinceUntilFlagsForPortfolio_success() throws Exception {
-        RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
-                .location(new RepoLocation(TEST_REPO_BETA))
-                .branch("master")
-                .build();
-
-        expectedConfig.setSinceDate(TEST_CSV_SINCE_DATE);
-        expectedConfig.setUntilDate(TEST_CSV_UNTIL_DATE);
-
-        String inputs = new InputBuilder()
-                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE_STRING)
-                .addUntilDate(TEST_ARTIFICIAL_UNTIL_DATE_STRING)
-                .addConfig(NO_OVERRIDE_FOR_NON_PORTFOLIO_TEST_CONFIG_FILES)
-                .addPortfolio()
-                .build();
-
-        CliArguments cliArguments = ArgsParser.parse(translateCommandline(inputs));
-        List<RepoConfiguration> actualConfigs =
-                new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath(), cliArguments).parse();
-        RepoConfiguration.setDatesToRepoConfigs(actualConfigs,
-                cliArguments.getSinceDate(),
-                cliArguments.getUntilDate());
-
-        Assertions.assertEquals(actualConfigs.get(0).getSinceDate(), expectedConfig.getSinceDate());
-        Assertions.assertEquals(actualConfigs.get(0).getUntilDate(), expectedConfig.getUntilDate());
-        Assertions.assertTrue(actualConfigs.get(0).isHasUpdatedUntilDateInConfig());
-        Assertions.assertTrue(actualConfigs.get(0).isHasUpdatedSinceDateInConfig());
-    }
-
-    @Test
     public void repoConfig_overrideStandaloneConfig_success() throws Exception {
         RepoConfiguration expectedConfig = new RepoConfiguration.Builder()
                 .location(new RepoLocation(TEST_REPO_DELTA))

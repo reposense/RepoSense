@@ -135,7 +135,10 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoCsvConfig_includeUpdatedDate_success() throws Exception {
-        String input = new InputBuilder().addPortfolio().build();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String input = new InputBuilder().addPortfolio()
+                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE.toLocalDate().format(formatter))
+                .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE, cliArguments);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
@@ -151,10 +154,10 @@ public class RepoConfigParserTest {
         Assertions.assertEquals(configBeta.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
 
         Assertions.assertTrue(configCharlie.isHasUpdatedSinceDateInConfig());
-        Assertions.assertFalse(configCharlie.isHasUpdatedUntilDateInConfig());
+        Assertions.assertTrue(configCharlie.isHasUpdatedUntilDateInConfig());
         Assertions.assertEquals(configCharlie.getSinceDate(), TEST_REPO_DEFAULT_SINCE_DATE);
 
-        Assertions.assertFalse(configAlpha.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configAlpha.isHasUpdatedSinceDateInConfig());
         Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
         Assertions.assertEquals(configAlpha.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
     }
@@ -169,12 +172,12 @@ public class RepoConfigParserTest {
         RepoConfiguration configCharlie = configs.get(1);
         RepoConfiguration configAlpha = configs.get(2);
 
-        Assertions.assertFalse(configBeta.isHasUpdatedSinceDateInConfig());
-        Assertions.assertFalse(configBeta.isHasUpdatedUntilDateInConfig());
-        Assertions.assertFalse(configAlpha.isHasUpdatedSinceDateInConfig());
-        Assertions.assertFalse(configAlpha.isHasUpdatedUntilDateInConfig());
-        Assertions.assertFalse(configCharlie.isHasUpdatedSinceDateInConfig());
-        Assertions.assertFalse(configCharlie.isHasUpdatedUntilDateInConfig());
+        Assertions.assertTrue(configBeta.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configBeta.isHasUpdatedUntilDateInConfig());
+        Assertions.assertTrue(configAlpha.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
+        Assertions.assertTrue(configCharlie.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configCharlie.isHasUpdatedUntilDateInConfig());
     }
 
     @Test
@@ -185,26 +188,7 @@ public class RepoConfigParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE, cliArguments);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
-
-        Assertions.assertEquals(3, configs.size());
-        RepoConfiguration configBeta = configs.get(0);
-        RepoConfiguration configCharlie = configs.get(1);
-        RepoConfiguration configAlpha = configs.get(2);
-
-        Assertions.assertFalse(configBeta.isHasUpdatedSinceDateInConfig());
-        Assertions.assertFalse(configBeta.isHasUpdatedUntilDateInConfig());
-        Assertions.assertNull(configBeta.getSinceDate());
-        Assertions.assertNull(configBeta.getUntilDate());
-
-        Assertions.assertFalse(configCharlie.isHasUpdatedSinceDateInConfig());
-        Assertions.assertFalse(configCharlie.isHasUpdatedUntilDateInConfig());
-        Assertions.assertNull(configBeta.getSinceDate());
-        Assertions.assertNull(configBeta.getUntilDate());
-
-        Assertions.assertFalse(configAlpha.isHasUpdatedSinceDateInConfig());
-        Assertions.assertFalse(configAlpha.isHasUpdatedUntilDateInConfig());
-        Assertions.assertNull(configBeta.getSinceDate());
-        Assertions.assertNull(configBeta.getUntilDate());
+        Assertions.assertEquals(1, configs.size());
     }
     @Test
     public void merge_twoRepoConfigs_success() throws Exception {

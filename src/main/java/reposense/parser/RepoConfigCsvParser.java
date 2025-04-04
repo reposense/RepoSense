@@ -179,6 +179,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             }
         }
 
+        hasUpdatedSinceDateTime = true;
+        hasUpdatedUntilDateTime = true;
+
         if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
             throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
