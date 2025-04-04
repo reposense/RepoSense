@@ -142,7 +142,6 @@ public class RepoConfigurationTest {
                 .build();
         Assertions.assertFalse(config.isHasUpdatedUntilDateInConfig());
         Assertions.assertFalse(config.isHasUpdatedSinceDateInConfig());
-
     }
 
     @Test
