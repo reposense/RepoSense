@@ -1,7 +1,7 @@
 describe('include merge commits in chart view', () => {
   it('show merge commits in summary chart', () => {
     // ramp chart should have merge commit slices
-    cy.get('[title="[2023-03-03T00:00:00] Merge branch \'new-branch\' into cypress: +0 -0 lines "]')
+    cy.get('[title="[2023-03-03] Merge branch \'new-branch\' into cypress: +0 -0 lines "]')
       .should('have.class', 'ramp__slice')
       .should('exist');
   });
@@ -19,7 +19,7 @@ describe('include merge commits in chart view', () => {
       .should('not.be.checked');
 
     // ramp chart should not have merge commit slices
-    cy.get('[title="[2023-03-03T00:00:00] Merge branch \'new-branch\' into cypress: +0 -0 lines "]')
+    cy.get('[title="[2023-03-03] Merge branch \'new-branch\' into cypress: +0 -0 lines "]')
       .should('not.exist');
   });
 });
