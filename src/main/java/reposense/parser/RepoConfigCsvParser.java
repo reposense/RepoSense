@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Objects;
 
 import org.apache.commons.csv.CSVRecord;
 
@@ -156,14 +155,14 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         hasUpdatedUntilDateTime = (untilDate != null);
 
         if (isCliSinceProvided && isCliUntilProvided) {
-            if (hasUpdatedUntilDateTime){
-                this.checkValidDatesWithCLI(sinceDate);
+            if (hasUpdatedUntilDateTime) {
+                this.checkValidDatesWithCli(sinceDate);
             } else {
                 sinceDate = cliSinceDate;
             }
 
             if (hasUpdatedUntilDateTime) {
-                this.checkValidDatesWithCLI(untilDate);
+                this.checkValidDatesWithCli(untilDate);
             } else {
                 untilDate = cliUntilDate;
             }
@@ -223,7 +222,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      *
      * @throws ParseException if it is not within the range.
      */
-    private void checkValidDatesWithCLI(LocalDateTime date) throws ParseException {
+    private void checkValidDatesWithCli(LocalDateTime date) throws ParseException {
         if (date == null || date.isAfter(cliUntilDate) || cliSinceDate.isAfter(date)) {
             throw new ParseException("");
         }
@@ -289,13 +288,15 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      * Does nothing if the repo already exists in {@code results}.
      */
     private void addConfig(List<RepoConfiguration> results, RepoLocation location, String branch,
-                           boolean isFormatsOverriding, List<FileType> formats, boolean isIgnoreGlobListOverriding,
-                           List<String> ignoreGlobList, boolean isIgnoreCommitListOverriding, List<CommitHash> ignoreCommitList,
-                           boolean isIgnoredAuthorsListOverriding, List<String> ignoredAuthorsList, boolean isFileSizeLimitIgnored,
-                           boolean isIgnoredFileAnalysisSkipped, boolean isFileSizeLimitOverriding, long fileSizeLimit,
+                           boolean isFormatsOverriding, List<FileType> formats,
+                           boolean isIgnoreGlobListOverriding, List<String> ignoreGlobList,
+                           boolean isIgnoreCommitListOverriding, List<CommitHash> ignoreCommitList,
+                           boolean isIgnoredAuthorsListOverriding, List<String> ignoredAuthorsList,
+                           boolean isFileSizeLimitIgnored, boolean isIgnoredFileAnalysisSkipped,
+                           boolean isFileSizeLimitOverriding, long fileSizeLimit,
                            boolean isStandaloneConfigIgnored, boolean isShallowCloningPerformed,
-                           boolean isFindingPreviousAuthorsPerformed, boolean hasUpdatedSinceDateTime, boolean hasUpdatedUntilDateTime,
-                           LocalDateTime since, LocalDateTime until) {
+                           boolean isFindingPreviousAuthorsPerformed, boolean hasUpdatedSinceDateTime,
+                           boolean hasUpdatedUntilDateTime, LocalDateTime since, LocalDateTime until) {
         RepoConfiguration config = new RepoConfiguration.Builder()
                 .location(location)
                 .branch(branch)
