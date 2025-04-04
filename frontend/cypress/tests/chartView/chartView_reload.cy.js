@@ -27,11 +27,11 @@ describe('reload page', () => {
 
     // since date
     cy.get('input[name="since"]:visible')
-      .type('2018-06-10T00:01:02');
+      .type('2018-06-10');
 
     // until date
     cy.get('input[name="until"]:visible')
-      .type('2019-06-10T00:03:04');
+      .type('2019-06-10');
 
     // break down by file type
     cy.get('#summary label.filter-breakdown > input:visible')
@@ -63,10 +63,10 @@ describe('reload page', () => {
       .should('have.value', 'week');
 
     cy.get('input[name="since"]:visible')
-      .should('have.value', '2018-06-10T00:01:02');
+      .should('have.value', '2018-06-10');
 
     cy.get('input[name="until"]:visible')
-      .should('have.value', '2019-06-10T00:03:04');
+      .should('have.value', '2019-06-10');
 
     cy.get('#summary label.filter-breakdown > input:visible')
       .should('be.checked');
