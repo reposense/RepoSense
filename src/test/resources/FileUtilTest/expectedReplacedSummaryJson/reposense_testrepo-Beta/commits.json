@@ -1,0 +1,30 @@
+{
+  "authorWeeklyIntervalContributions": {
+    "zacharytang": [
+      {
+        "insertions": 892,
+        "deletions": 93,
+        "sinceDate": "2017-10-04",
+        "untilDate": "2017-10-11"
+      }
+    ]
+  },
+  "authorFinalContributionMap": {
+    "zacharytang": 2700,
+    "CindyTsai1": 3020,
+    "nbriannl": 3149,
+    "April0616": 4100
+  },
+  "authorContributionVariance": {
+    "zacharytang": 57758.867,
+    "CindyTsai1": 74183.34,
+    "nbriannl": 39395.08,
+    "April0616": 70279.97
+  },
+  "authorDisplayNameMap": {
+    "zacharytang": "Zac",
+    "CindyTsai1": "Cin",
+    "nbriannl": "Nbr",
+    "April0616": "Fan"
+  }
+}

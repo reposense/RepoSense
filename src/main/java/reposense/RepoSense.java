@@ -85,11 +85,11 @@ public class RepoSense {
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
                     TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
                     cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
-                    blurbMap, cliArguments.isPortfolio()
+                    blurbMap, cliArguments.isPortfolio(), cliArguments.isOnlyTextRefreshed()
             );
 
-            FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
-                    ".json");
+            FileUtil.handleZipFilesAndFolders(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+                    cliArguments.isOnlyTextRefreshed(), ".json");
 
             // Set back to user's initial global git lfs config
             GitConfig.setGlobalGitLfsConfig(globalGitConfig);

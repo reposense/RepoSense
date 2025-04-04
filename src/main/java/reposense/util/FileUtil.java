@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
+import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
@@ -32,6 +33,7 @@ import com.google.gson.GsonBuilder;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
+import reposense.report.SummaryJson;
 import reposense.system.CommandRunner;
 import reposense.system.LogsManager;
 import reposense.util.adapters.DateSerializer;
@@ -58,6 +60,10 @@ public class FileUtil {
             "Exception occurred while attempting to zip the report files.";
     private static final String MESSAGE_FAIL_TO_COPY_ASSETS =
             "Exception occurred while attempting to copy custom assets.";
+    private static final String MESSAGE_FAIL_TO_ADD_OR_REPLACE_FILE_IN_ZIP_FILES =
+            "Exception occurred while attempting to add or replace file in the zip file.";
+    private static final String MESSAGE_FAIL_TO_DELETE_FILE_IN_ZIP_FILES =
+            "Exception occurred while attempting to delete file in the zip file.";
 
     /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
@@ -387,4 +393,54 @@ public class FileUtil {
         }
         return isValidPathLocation;
     }
+
+    /**
+     * Adds a file in the zip file located in the same directory. If it exists, it overwrites the existing file.
+     */
+    public static void addOrReplaceFileInZipFile(Path sourceAndOutputPath, String fileName, String zipFileName) {
+        addOrReplaceFileInZipFile(sourceAndOutputPath, sourceAndOutputPath, fileName, zipFileName);
+    }
+
+    /**
+     * Adds a file in the zip file. If it exists, it overwrites the existing file.
+     */
+    public static void addOrReplaceFileInZipFile(Path sourcePath, Path outputPath, String fileName,
+                                                 String zipFileName) {
+        Path sourceFilePath = Paths.get(sourcePath.toString(), fileName);
+        Path zipFilePath = Paths.get(outputPath.toString(), zipFileName);
+        try (FileSystem fs = FileSystems.newFileSystem(zipFilePath, null)) {
+            Path fileInsideZipPath = fs.getPath("/" + fileName);
+            Files.copy(sourceFilePath, fileInsideZipPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            logger.severe(MESSAGE_FAIL_TO_ADD_OR_REPLACE_FILE_IN_ZIP_FILES);
+        }
+    }
+
+    /**
+     * Deletes a file from the zip file if it exists.
+     */
+    public static void deleteFileFromZipFileIfExists(Path zipFilePath, String fileToDelete) {
+        try (FileSystem fs = FileSystems.newFileSystem(zipFilePath, null)) {
+            Path fileInsideZipPath = fs.getPath("/" + fileToDelete);
+            Files.deleteIfExists(fileInsideZipPath);
+        } catch (Exception e) {
+            logger.severe(MESSAGE_FAIL_TO_DELETE_FILE_IN_ZIP_FILES);
+        }
+    }
+
+    /**
+     * Handles the file zipping logic.
+     * If there is a flag which indicates that only text is refreshed, only summary.json is overwritten.
+     */
+    public static void handleZipFilesAndFolders(List<Path> pathsToZip, Path sourceAndOutputPath,
+                                                boolean refreshOnlyText, String... fileTypes) {
+        if (refreshOnlyText) {
+            addOrReplaceFileInZipFile(sourceAndOutputPath, SummaryJson.SUMMARY_JSON_FILE_NAME, ZIP_FILE);
+            return;
+        }
+
+        zipFoldersAndFiles(pathsToZip, sourceAndOutputPath, fileTypes);
+    }
+
+
 }
