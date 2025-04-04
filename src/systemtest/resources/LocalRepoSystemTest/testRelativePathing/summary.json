@@ -42,12 +42,12 @@
     }
   },
   "repoBlurbs": {
-    "urlBlurbMap": {
+    "blurbMap": {
       "https://github.com/reposense/testrepo-Alpha/tree/master": "Master branch of testrepo-Alpha"
     }
   },
   "authorBlurbs": {
-    "authorBlurbMap": {
+    "blurbMap": {
       "nbriannl": "Test for author-blurbs.md"
     }
   },
