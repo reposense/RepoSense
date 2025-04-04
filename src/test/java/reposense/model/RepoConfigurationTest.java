@@ -991,5 +991,4 @@ public class RepoConfigurationTest {
         Assertions.assertThrows(ConfigurationBuildException.class, () -> new RepoConfiguration.Builder().build());
     }
 
-
 }
