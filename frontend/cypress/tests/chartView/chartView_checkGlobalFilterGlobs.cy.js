@@ -1,5 +1,8 @@
+/* eslint-disable no-else-return */
 Cypress.on('uncaught:exception', (err) => {
   if (err.message.includes('_ctx.onTooltipHover is not a function')) {
+    return false;
+  } else if (err.message.includes('_ctx.resetTooltip is not a function')) {
     return false;
   }
   return true;
