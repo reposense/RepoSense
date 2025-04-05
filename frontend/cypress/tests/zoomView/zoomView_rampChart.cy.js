@@ -25,11 +25,11 @@ describe('show ramp chart for period', () => {
   it('show ramp chart for selected commits when date range changed', () => {
     // change since date
     cy.get('input[name="since"]:visible')
-      .type('2018-06-10');
+      .type('2018-06-10T00:00:00');
 
     // change until date
     cy.get('input[name="until"]:visible')
-      .type('2019-06-10');
+      .type('2019-06-10T00:00:00');
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
@@ -82,11 +82,11 @@ describe('show ramp chart for period', () => {
   it('ramps should be between start date and end date', () => {
     // change since date
     cy.get('input[name="since"]:visible')
-      .type('2018-06-10');
+      .type('2018-06-10T00:00:00');
 
     // change until date
     cy.get('input[name="until"]:visible')
-      .type('2019-06-10');
+      .type('2019-06-10T00:00:00');
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
@@ -98,13 +98,16 @@ describe('show ramp chart for period', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2018-06-12] Setup AppVeyor CI (#142): +19 -0 lines ');
+      .should('eq', '[2018-06-12T00:00:00] Setup AppVeyor CI (#142): +19 -0 lines ');
 
     // last ramp should be for commit before end date
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2019-03-25] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines ');
+      .should(
+        'eq',
+        '[2019-03-25T00:00:00] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines '
+      );
   });
 
   // Assumptions: The first author on the summary panel
@@ -112,7 +115,7 @@ describe('show ramp chart for period', () => {
   it('ramp should have expected properties', () => {
     // change until date
     cy.get('input[name="until"]:visible')
-      .type('2019-06-10');
+      .type('2019-06-10T00:00:00');
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
@@ -136,11 +139,11 @@ describe('show ramp chart for period', () => {
   it('deletes commit ramp should have expected properties', () => {
     // change since date
     cy.get('input[name="since"]:visible')
-      .type('2019-07-16');
+      .type('2019-07-16T00:00:00');
 
     // change until date
     cy.get('input[name="until"]:visible')
-      .type('2019-07-29');
+      .type('2019-07-29T00:00:00');
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
@@ -149,7 +152,7 @@ describe('show ramp chart for period', () => {
       .click();
 
     // deletes commit ramp should have expected color
-    cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls '
+    cy.get('[title="[2019-07-24T00:00:00] [#828] Revert \\"v_summary.js: remove redundant calls '
      + 'to getFiltered() (#800)\\" (#832): +0 -9 lines "]')
       .eq(1)
       .should('have.class', 'ramp__slice')
@@ -161,7 +164,7 @@ describe('show ramp chart for period', () => {
   it('merge commit ramp should have expected properties', () => {
     // change until date
     cy.get('input[name="until"]:visible')
-      .type('2024-03-04');
+      .type('2024-03-04T00:00:00');
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
@@ -188,7 +191,7 @@ describe('show ramp chart for period', () => {
   it('ramps from different days should have expected relative properties', () => {
     // change until date
     cy.get('input[name="until"]:visible')
-      .type('2019-06-10');
+      .type('2019-06-10T00:00:00');
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
@@ -232,7 +235,7 @@ describe('show ramp chart for period', () => {
   it('ramps from the same day should have expected relative properties', () => {
     // change until date
     cy.get('input[name="until"]:visible')
-      .type('2023-03-04');
+      .type('2023-03-04T00:00:00');
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
@@ -276,7 +279,7 @@ describe('show ramp chart for period', () => {
   it('ramp should link to commit webpage', () => {
     // change until date
     cy.get('input[name="until"]:visible')
-      .type('2019-06-10');
+      .type('2019-06-10T00:00:00');
 
     // open the commit panel
     cy.get('.icon-button.fa-list-ul')
