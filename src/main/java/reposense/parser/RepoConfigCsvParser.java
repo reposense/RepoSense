@@ -38,6 +38,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
             "\"Since Date\" should not be later than \"Until Date\"";
     private static final String MESSAGE_PARSING_INVALID_FORMAT =
             "The format for since date and until date should be dd/MM/yyyy";
+    private static final String MESSAGE_CLI_CSV_CONFLICT = "you specified in CLI a date range of --SINCE to --UNTIL, "
+            + "but your CSV config specifies a date range that extends outside --SINCE or --UNTIL. "
+            + "Either modify your CLI flags or your CSV date range.";
 
     /**
      * Positions of the elements of a line in repo-config.csv config file
@@ -221,11 +224,11 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     /**
      * Checks dates is within since date and until date provided by CLI flags.
      *
-     * @throws ParseException if it is not within the range.
+     * @throws InvalidDatesException if it is not within the range.
      */
-    private void checkValidDatesWithCli(LocalDateTime date) throws ParseException {
+    private void checkValidDatesWithCli(LocalDateTime date) throws InvalidDatesException {
         if (date == null || date.isAfter(cliUntilDate) || cliSinceDate.isAfter(date)) {
-            throw new ParseException("");
+            throw new InvalidDatesException(MESSAGE_CLI_CSV_CONFLICT);
         }
     }
 
