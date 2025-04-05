@@ -247,7 +247,7 @@ window.api = {
     };
   },
 
-  async loadCommits(repoName) {
+  async loadCommits(repoName: string, defaultSortOrder: number) {
     const folderName = window.REPOS[repoName].outputFolderName;
     const json = await this.loadJSON(`${folderName}/commits.json`);
     const commits = commitsSchema.parse(json);
@@ -280,6 +280,7 @@ window.api = {
           checkedFileTypeContribution: undefined,
           sinceDate: repo.sinceDate,
           untilDate: repo.untilDate,
+          defaultSortOrder,
         };
 
         res.push(user);
