@@ -237,13 +237,23 @@ window.api = {
       names.push(repoName);
     });
 
-    const blurbMap: { [key: string]: string } = data.blurbs.urlBlurbMap;
+    const repoBlurbMap: { [key: string]: string } = data.repoBlurbs.blurbMap;
+    const authorBlurbMap: {[key: string]: string} | undefined =
+      data.authorBlurbs && data.authorBlurbs.blurbMap
+      ? data.authorBlurbs.blurbMap
+      : undefined;
+    const chartsBlurbMap: {[key: string]: string} | undefined =
+      data.chartsBlurbs && data.chartsBlurbs.blurbMap
+      ? data.chartsBlurbs.blurbMap
+      : undefined;
     return {
       creationDate: reportGeneratedTime,
       reportGenerationTime,
       errorMessages,
       names,
-      blurbMap,
+      repoBlurbMap,
+      authorBlurbMap,
+      chartsBlurbMap
     };
   },
 
