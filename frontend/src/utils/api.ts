@@ -15,6 +15,7 @@ window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
 window.REPORT_ZIP = null;
+window.LOGO_PATH = "logo.png"
 
 const HASH_ANCHOR = '?';
 const REPORT_DIR = '.';
