@@ -280,14 +280,13 @@ window.api = {
           checkedFileTypeContribution: undefined,
           sinceDate: repo.sinceDate,
           untilDate: repo.untilDate,
+          defaultSortOrder,
         };
 
         res.push(user);
       }
     });
 
-
-    repo.defaultSortOrder = defaultSortOrder;
     repo.commits = commits;
     repo.users = res;
 

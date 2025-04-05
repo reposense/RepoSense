@@ -52,14 +52,14 @@ export interface User {
   variance: number;
   sinceDate: string;
   untilDate: string;
+  defaultSortOrder: number;
 }
 
-// We add these three fields in loadCommits and loadAuthorship of utils/api.ts
+// We add defaultSortOrder, commits, users in loadCommits and files in loadAuthorship of utils/api.ts
 export interface Repo extends RepoRaw {
-  defaultSortOrder?: number;
   commits?: Commits;
-  files?: FileResult[];
   users?: User[];
+  files?: FileResult[];
 }
 
 export interface AuthorshipFileSegment {
