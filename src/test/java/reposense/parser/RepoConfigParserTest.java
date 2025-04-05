@@ -263,7 +263,7 @@ public class RepoConfigParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE, cliArguments);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
-        Assertions.assertEquals(1, configs.size());
+        Assertions.assertEquals(3, configs.size());
     }
 
     @Test
