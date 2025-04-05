@@ -4,7 +4,6 @@ Cypress.on('uncaught:exception', (err) => {
   }
   return true;
 });
-  
 
 describe('Global filter globs display test', () => {
   it('the global globs search bar should exists', () => {
@@ -19,7 +18,7 @@ describe('Global filter globs display test', () => {
 
   it('the global globs search should be able to clear the input', () => {
     cy.get('input[type="search"]').type('example');
-    cy.get('button.mui-btn--raised').click();
+    cy.get('button.mui-btn--raised').eq(0).click();
     cy.get('input[type="search"]').should('have.value', '');
   })
 })
