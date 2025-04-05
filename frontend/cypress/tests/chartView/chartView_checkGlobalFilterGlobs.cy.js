@@ -1,11 +1,17 @@
 describe('Global filter globs display test', () => {
-  it('should display tooltip message on hover and hide it on mouseout', () => {
-    cy.get('.mui-textfield.filter_file .tooltip').trigger('mouseover')
+  it('the global globs search bar should exists', () => {
+    cy.get('input[type="search"]').should('be.visible');
+  })
 
-    cy.get('span.tooltip-text').should('be.visible').and('contain', 'Type a glob keyword to filter the list')
+  it('the input to filter globs should be displayed', () => {
+    cy.get('input[type="search"]').type('filterKeyword');
+    cy.get('.file-list-item').should('contain', 'filterKeyword');
 
-    cy.get('.mui-textfield.filter_file .tooltip').trigger('mouseout')
+  })
 
-    cy.get('span.tooltip-text').should('not.be.visible')
+  it('the global globs search should be able to clear the input', () => {
+    cy.get('input[type="search"]').type('example');
+    cy.get('button.mui-btn--raised').click();
+    cy.get('input[type="search"]').should('have.value', '');
   })
 })
