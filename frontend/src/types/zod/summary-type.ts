@@ -48,13 +48,13 @@ export const summarySchema = z.object({
   isAuthorshipAnalyzed: z.boolean().default(false), // for backwards compatability
   supportedDomainUrlMap: supportedDomainUrlMapSchema,
   repoBlurbs: z.object({
-    urlBlurbMap: z.record(z.string(), z.string()),
+    blurbMap: z.record(z.string(), z.string()),
   }),
   authorBlurbs: z.object({
-    authorBlurbMap: z.record(z.string(), z.string())
+    blurbMap: z.record(z.string(), z.string())
   }).optional(),
   chartsBlurbs: z.object({
-    urlBlurbMap: z.record(z.string(), z.string())
+    blurbMap: z.record(z.string(), z.string())
   }).optional(),
   isPortfolio: z.boolean(),
 });
