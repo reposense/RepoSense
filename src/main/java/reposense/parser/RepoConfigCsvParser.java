@@ -14,6 +14,7 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidLocationException;
 import reposense.parser.exceptions.ParseException;
 import reposense.util.FileUtil;
@@ -78,7 +79,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     @Override
     protected String[][] mandatoryHeaders() {
-        return new String[][]{
+        return new String[][] {
                 LOCATION_HEADER,
         };
     }
@@ -88,7 +89,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     @Override
     protected String[][] optionalHeaders() {
-        return new String[][]{
+        return new String[][] {
                 BRANCH_HEADER, FILE_FORMATS_HEADER, IGNORE_GLOB_LIST_HEADER, IGNORE_STANDALONE_CONFIG_HEADER,
                 IGNORE_FILESIZE_LIMIT_HEADER, IGNORE_COMMIT_LIST_CONFIG_HEADER, IGNORE_AUTHOR_LIST_CONFIG_HEADER,
                 SHALLOW_CLONING_CONFIG_HEADER, FIND_PREVIOUS_AUTHORS_CONFIG_HEADER, FILESIZE_LIMIT_HEADER,
@@ -105,7 +106,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
      */
     @Override
     protected void processLine(List<RepoConfiguration> results, CSVRecord record)
-            throws ParseException {
+            throws ParseException, InvalidDatesException {
         // The variable expansion is performed to simulate running the same location from command line.
         // This helps to support things like tilde expansion and other Bash/CMD features.
         RepoLocation location = new RepoLocation(FileUtil.getVariableExpandedFilePath(get(record, LOCATION_HEADER)));
@@ -180,7 +181,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         hasUpdatedUntilDateTime = true;
 
         if (sinceDate != null && untilDate != null && sinceDate.isAfter(untilDate)) {
-            throw new ParseException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
+            throw new InvalidDatesException(MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE);
         }
 
         // If file diff limit is specified
@@ -231,9 +232,9 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     /**
      * Extracts since date from csv file.
      *
-     * @throws ParseException if the format of since date is not recognizable.
+     * @throws InvalidDatesException if the format of since date is not recognizable.
      */
-    private LocalDateTime extractCsvSinceDate(CSVRecord record) throws ParseException {
+    private LocalDateTime extractCsvSinceDate(CSVRecord record) throws InvalidDatesException {
         String sinceDateStr = get(record, SINCE_HEADER);
         boolean hasUpdatedSinceDateTime = !sinceDateStr.isEmpty();
         try {
@@ -244,16 +245,16 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 return null;
             }
         } catch (DateTimeParseException e) {
-            throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
+            throw new InvalidDatesException(MESSAGE_PARSING_INVALID_FORMAT);
         }
     }
 
     /**
      * Extracts end date from csv file.
      *
-     * @throws ParseException if the format of until date is not recognizable.
+     * @throws InvalidDatesException if the format of until date is not recognizable.
      */
-    private LocalDateTime extractCsvUntilDate(CSVRecord record) throws ParseException {
+    private LocalDateTime extractCsvUntilDate(CSVRecord record) throws InvalidDatesException {
         String untilDateStr = get(record, UNTIL_HEADER);
 
         try {
@@ -264,7 +265,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
                 return null;
             }
         } catch (DateTimeParseException e) {
-            throw new ParseException(MESSAGE_PARSING_INVALID_FORMAT);
+            throw new InvalidDatesException(MESSAGE_PARSING_INVALID_FORMAT);
         }
     }
 

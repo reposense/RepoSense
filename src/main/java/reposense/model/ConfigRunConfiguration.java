@@ -11,6 +11,7 @@ import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.system.LogsManager;
 
@@ -36,7 +37,7 @@ public class ConfigRunConfiguration implements RunConfiguration {
      */
     @Override
     public List<RepoConfiguration> getRepoConfigurations()
-            throws IOException, InvalidCsvException, InvalidHeaderException {
+            throws IOException, InvalidCsvException, InvalidHeaderException, InvalidDatesException {
         List<RepoConfiguration> repoConfigs = new RepoConfigCsvParser(cliArguments.getRepoConfigFilePath(),
                 cliArguments).parse();
         List<AuthorConfiguration> authorConfigs;

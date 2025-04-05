@@ -25,6 +25,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.parser.exceptions.ParseException;
 import reposense.system.LogsManager;
@@ -44,6 +45,10 @@ public abstract class CsvParser<T> {
             + "Content: %s";
     private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT = "Error parsing line %d in CSV file, %s.\n"
             + "Content: %s\n"
+            + "Error: %s";
+    private static final String MESSAGE_LINE_DATE_EXCEPTION_FORMAT= "Error configuring dates of "
+            + "line %d in CSV file, %s.\n"
+            + "Contents: %s\n"
             + "Error: %s";
     private static final String MESSAGE_EMPTY_CSV_FORMAT = "The CSV file, %s, is empty.";
     private static final String MESSAGE_MANDATORY_HEADER_MISSING = "Required column header, %s, not found in "
@@ -80,7 +85,7 @@ public abstract class CsvParser<T> {
      * @throws InvalidCsvException if the csv is malformed.
      * @throws InvalidHeaderException if header of csv file cannot be read.
      */
-    public List<T> parse() throws IOException, InvalidCsvException, InvalidHeaderException {
+    public List<T> parse() throws IOException, InvalidCsvException, InvalidHeaderException, InvalidDatesException {
         List<T> results = new ArrayList<>();
         Iterable<CSVRecord> records;
 
@@ -105,6 +110,9 @@ public abstract class CsvParser<T> {
                             csvFilePath.getFileName(), getRowContentAsRawString(record), pe.getMessage()));
                 } catch (IllegalArgumentException iae) {
                     logger.log(Level.WARNING, iae.getMessage(), iae);
+                } catch (InvalidDatesException ide) {
+                    logger.warning(String.format(MESSAGE_LINE_DATE_EXCEPTION_FORMAT, getLineNumber(record),
+                            csvFilePath.getFileName(), getRowContentAsRawString(record), ide.getMessage()));
                 }
             }
         } catch (IOException ioe) {
@@ -338,5 +346,6 @@ public abstract class CsvParser<T> {
      *
      * @throws ParseException if any line does not get read successfully.
      */
-    protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException;
+    protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException,
+            InvalidDatesException;
 }
