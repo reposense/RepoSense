@@ -72,7 +72,7 @@ describe('search bar', () => {
   it("searching tag that only exists in two authors' commits shows two results", () => {
     cy.get('#app #tab-resize .tab-close').click();
     cy.get('#summary-wrapper input[type=text]')
-      .eq(1)
+      .eq(0)
       .type('tag: v1.10')
       .type('{enter}');
 
