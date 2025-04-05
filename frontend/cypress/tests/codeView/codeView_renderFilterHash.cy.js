@@ -1,6 +1,6 @@
 describe('render filter hash', () => {
   it('filter files: url params should persist after change and reload', () => {
-    cy.get('div.mui-textfield.filter_file.tooltip > input:visible')
+    cy.get('div.mui-textfield.filter_file .tooltip > input:visible')
       .should('be.visible')
       .invoke('val')
       .should('eq', '');
