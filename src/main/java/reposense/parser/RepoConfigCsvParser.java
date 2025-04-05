@@ -156,7 +156,7 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
         hasUpdatedUntilDateTime = (untilDate != null);
 
         if (isCliSinceProvided && isCliUntilProvided) {
-            if (hasUpdatedUntilDateTime) {
+            if (hasUpdatedSinceDateTime) {
                 this.checkValidDatesWithCli(sinceDate);
             } else {
                 sinceDate = cliSinceDate;
