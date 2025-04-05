@@ -43,6 +43,7 @@ declare global {
     DAY_IN_MS: number;
     HASH_DELIMITER: string;
     REPOS: { [key: string]: Repo };
+    LOGO_PATH: string;
     hashParams: { [key: string]: string };
     isMacintosh: boolean;
     REPORT_ZIP: JSZip | null;
@@ -54,7 +55,7 @@ declare global {
     removeHash: (key: string) => void;
     encodeHash: () => void;
     decodeHash: () => void;
-    comparator: <T> (fn: SortingFunction<T>, sortingOption?: string) => ComparatorFunction<T>;
+    comparator: <T> (fn: SortingFunction<T>, isDesc?: boolean, sortingOption?: string) => ComparatorFunction<T>;
     filterUnsupported: (string: string) => string | undefined;
     getAuthorLink: (repoId: string, author: string) => string | undefined;
     getRepoLinkUnfiltered: (repoId: string) => string;
@@ -72,6 +73,7 @@ declare global {
     isSinceDateProvided: boolean;
     isUntilDateProvided: boolean;
     isAuthorshipAnalyzed: boolean;
+    isPortfolio: boolean;
     DOMAIN_URL_MAP: DomainUrlMap;
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     app: any;
