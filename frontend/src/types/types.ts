@@ -50,6 +50,8 @@ export interface User {
   repoName: string;
   searchPath: string;
   variance: number;
+  sinceDate: string;
+  untilDate: string;
 }
 
 // We add these three fields in loadCommits and loadAuthorship of utils/api.ts
