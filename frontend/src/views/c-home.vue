@@ -105,7 +105,7 @@ const home = defineComponent({
       required: true,
     },
     users: {
-      type: Array,
+      type: Array<Repo>,
       required: true,
     },
     userUpdated: {

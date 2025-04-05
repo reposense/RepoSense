@@ -1,6 +1,18 @@
 <template lang="pug">
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
+      .mui-textfield.filter_file(v-if='!isPortfolio')
+        label filter files
+        .tooltip(
+          @mouseover="onTooltipHover('filter-files-label')",
+          @mouseout="resetTooltip('filter-files-label')")
+          input(
+            type="search",
+            @change="setFilteredFileName",
+            v-model="localFilteredFileName")
+          button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
+          span.tooltip-text(:ref='filter-files-label') Type a glob keyword to filter the list
+
       .mui-textfield.search_box(v-if='!isPortfolio')
         input(type="text", v-model="localFilterSearch")
         label search
@@ -181,6 +193,10 @@ export default defineComponent({
       type: String,
       default: '',
     },
+    filteredFileName: {
+      type: String,
+      default: '',
+    }
   },
 
   emits: [
@@ -197,6 +213,7 @@ export default defineComponent({
     'update:allGroupsMerged',
     'update:hasModifiedSinceDate',
     'update:hasModifiedUntilDate',
+    'update:filteredFileName',
     'get-filtered',
     'reset-date-range',
     'toggle-breakdown',
@@ -224,6 +241,15 @@ export default defineComponent({
       set(value: FilterGroupSelection) {
         this.$emit('update:filterGroupSelection', value);
         this.$emit('get-filtered');
+      }
+    },
+
+    localFilteredFileName: {
+      get() {
+        return this.$props.filteredFileName as string
+      },
+      set(newValue: string) {
+        this.$emit('update:filteredFileName', newValue)
       }
     },
 
@@ -295,6 +321,22 @@ export default defineComponent({
     resetFilterSearch() {
       this.$emit('update:filterSearch', '');
       this.$emit('get-filtered');
+    },
+
+    resetFilteredFileName() : void {
+      this.$emit('update:filteredFileName', '');
+      window.removeHash('authorshipFilesGlob');
+      this.$store.commit("updateAuthorshipRefreshState", false);
+      this.$emit('get-filtered');
+      window.location.reload();
+    },
+
+    setFilteredFileName(evt: Event) : void {
+      this.$emit("update:filteredFileName", (evt.target as HTMLInputElement).value);
+      this.$store.commit("updateAuthorshipRefreshState", true);
+      window.addHash('authorshipFilesGlob', this.filteredFileName);
+      this.$emit('get-filtered');
+      window.location.reload();
     },
 
     updateTmpFilterSinceDate(event: Event) {
