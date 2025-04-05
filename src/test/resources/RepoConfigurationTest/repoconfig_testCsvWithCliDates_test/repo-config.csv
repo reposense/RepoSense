@@ -1,0 +1,4 @@
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List,Shallow Cloning,Find Previous Authors,Since Date,Until Date
+https://github.com/reposense/testrepo-Delta.git,master,java;adoc;md,collated**,,,,,yes,19/01/2025,19/01/2025
+https://github.com/reposense/testrepo-Beta.git,master,java;adoc;md,collated**,,,,,yes,17/01/2025,17/01/2025
+https://github.com/reposense/testrepo-Alpha.git,master,java;adoc;md,collated**,,,,,yes,18/01/2025,18/01/2025
