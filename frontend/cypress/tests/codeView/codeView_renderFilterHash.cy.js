@@ -5,7 +5,7 @@ describe('render filter hash', () => {
       .invoke('val')
       .should('eq', '');
 
-    cy.get('div.mui-textfield.filter_file.tooltip > input:visible')
+    cy.get('div.mui-textfield.filter_file .tooltip > input:visible')
       .should('be.visible')
       .type('**java**{enter}');
 
