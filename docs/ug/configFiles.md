@@ -53,6 +53,15 @@ The Shallow Cloning option is incompatible with the "--last-modified-date" CLI f
 </box>
 
 <box type="info" seamless>
+Behavior of since dates and until dates specified in CSV and CLI flags:
+
+1. Dates in CSV line present, both CLI flags present: Range of commits will be taken from CSV line, and CSV line will be validated against CLI line. <b>CSV dates should be used to limit date range of CLI</b>
+2. Dates in CSV line present, one of CLI flags absent: Range of commits taken from CSV line. Overall range is the union of all ranges across CSV-specified repos.
+3. Both dates in CSV line absent (already implemented): Range of commits taken from CLI (if any, else default values for CLI).
+4. One of dates in CSV line absent: The missing date will be substituted by default date OR the one specified in CSV flags. 
+</box>
+
+<box type="info" seamless>
 If Ignore File Size Limit is yes, the File Size Limit and Skip Ignored File Analysis columns are ignored.
 </box>
 
