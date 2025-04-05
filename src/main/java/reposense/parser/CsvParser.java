@@ -46,7 +46,7 @@ public abstract class CsvParser<T> {
     private static final String MESSAGE_LINE_PARSE_EXCEPTION_FORMAT = "Error parsing line %d in CSV file, %s.\n"
             + "Content: %s\n"
             + "Error: %s";
-    private static final String MESSAGE_LINE_DATE_EXCEPTION_FORMAT= "Error configuring dates of "
+    private static final String MESSAGE_LINE_DATE_EXCEPTION_FORMAT = "Error configuring dates of "
             + "line %d in CSV file, %s.\n"
             + "Contents: %s\n"
             + "Error: %s";
@@ -84,6 +84,7 @@ public abstract class CsvParser<T> {
      * @throws IOException if there are errors accessing the given csv file.
      * @throws InvalidCsvException if the csv is malformed.
      * @throws InvalidHeaderException if header of csv file cannot be read.
+     * @throws InvalidDatesException if csv dates conflict with cli dates.
      */
     public List<T> parse() throws IOException, InvalidCsvException, InvalidHeaderException, InvalidDatesException {
         List<T> results = new ArrayList<>();
@@ -345,6 +346,7 @@ public abstract class CsvParser<T> {
      * {@code record} and add created objects into {@code results}.
      *
      * @throws ParseException if any line does not get read successfully.
+     * @throws InvalidDatesException if any CLI and CSV conflicts happen.
      */
     protected abstract void processLine(List<T> results, final CSVRecord record) throws ParseException,
             InvalidDatesException;

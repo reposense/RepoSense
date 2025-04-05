@@ -103,7 +103,11 @@ public class RepoSense {
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
-        } catch (IOException | ParseException | InvalidCsvException | InvalidHeaderException | InvalidDatesException e) {
+        } catch (IOException
+                 | ParseException
+                 | InvalidCsvException
+                 | InvalidHeaderException
+                 | InvalidDatesException e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
