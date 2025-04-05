@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,6 +64,14 @@ public class RepoConfigurationTest {
     private static final Path NO_OVERRIDE_FOR_NON_PORTFOLIO_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
             "RepoConfigurationTest/repoconfig_nonportfolio_test");
+    private static final Path REPO_TEST_CSV_NO_CLI_DATES = loadResource(
+            RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_testCsvNoCliDates_test/repo-config.csv"
+    );
+    private static final Path REPO_TEST_CSV_WITH_CLI_DATES = loadResource(
+            RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_testCsvWithCliDates_test/repo-config.csv"
+    );
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
@@ -76,19 +85,16 @@ public class RepoConfigurationTest {
     private static final Author THIRD_AUTHOR = new Author("jordancjq");
     private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
 
-    private static final LocalDateTime TEST_ARTIFICIAL_SINCE_DATE = LocalDateTime.of(
-            2002, Month.SEPTEMBER, 21, 0, 0, 0);
-    private static final LocalDateTime TEST_ARTIFICIAL_UNTIL_DATE = LocalDateTime.of(
-            2003, Month.JANUARY, 29, 23, 59, 59);
-    private static final LocalDateTime TEST_CSV_SINCE_DATE = LocalDateTime.of(
+    private static final LocalDateTime TEST_CSV_EARLIEST_SINCE_DATE = LocalDateTime.of(
+            2003, Month.JANUARY, 29, 0, 0, 0);
+    private static final LocalDateTime TEST_CSV_LATEST_UNTIL_DATE = LocalDateTime.of(
+            2025, Month.SEPTEMBER, 21, 23, 59, 59);
+    private static final LocalDateTime TEST_CLI_SINCE_DATE = LocalDateTime.of(
             2025, Month.JANUARY, 17, 0, 0, 0
     );
-    private static final LocalDateTime TEST_CSV_UNTIL_DATE = LocalDateTime.of(
+    private static final LocalDateTime TEST_CLI_UNTIL_DATE = LocalDateTime.of(
             2025, Month.JANUARY, 19, 23, 59, 59
     );
-
-    private static final String TEST_ARTIFICIAL_SINCE_DATE_STRING = "21/09/2002";
-    private static final String TEST_ARTIFICIAL_UNTIL_DATE_STRING = "29/01/2003";
 
     private static final List<String> FIRST_AUTHOR_ALIASES = Collections.singletonList("Ahmad Syafiq");
     private static final List<String> SECOND_AUTHOR_ALIASES = Collections.emptyList();
@@ -162,6 +168,34 @@ public class RepoConfigurationTest {
                 .build();
         Assertions.assertFalse(config.isHasUpdatedUntilDateInConfig());
         Assertions.assertFalse(config.isHasUpdatedSinceDateInConfig());
+    }
+
+    @Test
+    public void repoConfig_suitableDateRangeWhenNoCliDates_success() throws Exception {
+        String input = new InputBuilder().build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_TEST_CSV_NO_CLI_DATES,
+                cliArguments);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+        Assertions.assertEquals(TEST_CSV_EARLIEST_SINCE_DATE,
+                RepoConfiguration.findGlobalSinceDate(configs, cliArguments));
+        Assertions.assertEquals(TEST_CSV_LATEST_UNTIL_DATE,
+                RepoConfiguration.findGlobalUntilDate(configs, cliArguments));
+    }
+
+    @Test
+    public void repoConfig_suitableDateRangeWhenCliDates_success() throws Exception {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String input = new InputBuilder()
+                .addUntilDate(TEST_CLI_UNTIL_DATE.toLocalDate().format(dateTimeFormatter))
+                .addSinceDate(TEST_CLI_SINCE_DATE.toLocalDate().format(dateTimeFormatter))
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_TEST_CSV_WITH_CLI_DATES,
+                cliArguments);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+        Assertions.assertEquals(TEST_CLI_SINCE_DATE, RepoConfiguration.findGlobalSinceDate(configs, cliArguments));
+        Assertions.assertEquals(TEST_CLI_UNTIL_DATE, RepoConfiguration.findGlobalUntilDate(configs, cliArguments));
     }
 
     @Test
