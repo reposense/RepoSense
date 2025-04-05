@@ -47,7 +47,7 @@ The issues for first timers usually have guidance provided in the comment or hav
   * In particular, run `gradlew checkstyleAll` to check the style of all the relevant Java code. This will check the Java code in the following order: main code -> test code -> systemtest code.
   * If you only want to check the main code, run `gradlew checkstyleMain`. Likewise, for test code, run `gradlew checkstyleTest` and for systemtest code, run `gradlew checkstyleSystemtest`.
   * You can also run any of the combination of the above, such as `gradlew checkstyleMain checkstyleTest` or `gradlew checkstyleTest checkstyleSystemtest`.
-* **To check Vue files for style errors**, run `gradlew lintFrontend` from the project root directory. You can also run `npm run lintfix` in the `frontend` folder to automatically fix some of the JavaScript and CSS lint errors.
+* **To check Vue files for style errors**, run `gradlew lintFrontend` from the project root directory. You can also run `pnpm run lintfix` in the `frontend` folder to automatically fix some of the JavaScript and CSS lint errors.
 * **To perform environmental checks for style errors**, run `gradlew environmentalChecks` from the project root directory. This checks if all files end with a newline, if prohibited line endings (`\r\n`) are present and if trailing whitespaces are present.
 
 <!-- ==================================================================================================== -->

@@ -7,16 +7,17 @@ plugins {
     id 'jacoco'
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'com.liferay.node' version '7.2.18'
     id 'com.github.psxpaul.execfork' version '0.2.0'
     id 'com.palantir.git-version' version '0.13.0'
 }
 
 OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
 
-mainClassName = 'reposense.RepoSense'
+def execCommandLine = {
+    String cmd -> os.isWindows() ? ["cmd", "/c", cmd] : cmd.split(" ")
+}
 
-node.download = false // The Liferay Node Gradle Plugin will use the system PATH to find the Node/npm executable.
+mainClassName = 'reposense.RepoSense'
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
@@ -53,17 +54,17 @@ sourceSets {
     }
 }
 
-def installFrontend = tasks.register('installFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Installs frontend dependencies using npm ci to ensure reproducible builds.'
+def installFrontend = tasks.register('installFrontend', Exec) {
+    description 'Installs frontend dependencies using pnpm ci to ensure reproducible builds.'
     workingDir 'frontend/'
-    args = ['ci']
+    commandLine = execCommandLine('pnpm install --frozen-lockfile')
 }
 
-def buildFrontend = tasks.register('buildFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Builds the frontend assets for production using npm run devbuild.'
+def buildFrontend = tasks.register('buildFrontend', Exec) {
+    description 'Builds the frontend assets for production using pnpm run devbuild.'
     dependsOn installFrontend
     workingDir 'frontend/'
-    args = ['run', 'devbuild']
+    commandLine = execCommandLine('pnpm run devbuild')
 }
 
 def zipReport = tasks.register('zipReport', Zip) {
@@ -149,11 +150,11 @@ shadowJar {
     }
 }
 
-tasks.register('lintFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+tasks.register('lintFrontend', Exec) {
     description 'Analyzes frontend code with ESLint to enforce coding standards and identify potential issues.'
     dependsOn installFrontend
     workingDir 'frontend/'
-    args = ['run', 'lint']
+    commandLine = execCommandLine('pnpm run lint')
 }
 
 def checkstyleMain = tasks.checkstyleMain {
@@ -239,7 +240,7 @@ def serveTestReportDefault = tasks.register('serveTestReportDefault', com.github
     dependsOn generateTestReportDefault
 
     workingDir = './frontend'
-    executable = 'npm'
+    executable = 'pnpm'
     args = ['run', 'serveTestDefault']
 }
 
@@ -247,38 +248,39 @@ def serveTestReportPortfolio = tasks.register('serveTestReportPortfolio', com.gi
     dependsOn generateTestReportPortfolio
 
     workingDir = './frontend'
-    executable = 'npm'
+    executable = 'pnpm'
     args = ['run', 'serveTestPortfolio']
 }
 
-def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
-    description 'Installs Cypress and its dependencies for frontend testing using npm ci.'
+def installCypress = tasks.register('installCypress', Exec) {
+    description 'Installs Cypress and its dependencies for frontend testing using pnpm ci.'
     workingDir 'frontend/cypress/'
-    args = ['ci']
+    commandLine = ['pnpm', 'install', '--frozen-lockfile']
+    // environment("PATH", "$projectDir/frontend/node_modules/.bin:" + System.getenv("PATH"))
 }
 
-tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+tasks.register('cypress', Exec) {
     description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
     dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio
     tasks.serveTestReportDefault.mustRunAfter(installCypress)
     tasks.serveTestReportPortfolio.mustRunAfter(installCypress)
 
-    workingDir = file('frontend/cypress/')
-    args = ["run-script", "debug"]
+    workingDir = 'frontend/cypress/'
+    commandLine = execCommandLine('pnpm run debug')
 }
 
-tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+tasks.register('frontendTest', Exec) {
     description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
     dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio
     tasks.serveTestReportDefault.mustRunAfter(installCypress)
     tasks.serveTestReportPortfolio.mustRunAfter(installCypress)
 
-    workingDir = file('frontend/cypress/')
-    args = ["run-script", "tests"]
+    workingDir = 'frontend/cypress/'
+    commandLine = execCommandLine('pnpm run tests')
 
     // Run tests in CI without slow motion
     if (project.hasProperty('ci')) {
-        args = ["run-script", "ci"]
+        commandLine = execCommandLine('pnpm run ci')
     }
 }
 
@@ -344,36 +346,35 @@ def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
     }
 }
 
-def macHotReloadFrontend = tasks.register('macHotReloadFrontend', Exec) {
-    description 'Starts the frontend development server with hot-reloading capabilities on macOS.'
-    dependsOn installFrontend
-    onlyIf {os.isMacOsX()}
-    workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
-}
+// def macHotReloadFrontend = tasks.register('macHotReloadFrontend', Exec) {
+//     description 'Starts the frontend development server with hot-reloading capabilities on macOS.'
+//     dependsOn installFrontend
+//     onlyIf {os.isMacOsX()}
+//     workingDir 'frontend/'
+//     commandLine 'npm', 'run', 'serveOpen'
+// }
 
-def windowsHotReloadFrontend = tasks.register('windowsHotReloadFrontend', Exec) {
-    description 'Starts the frontend development server with hot-reloading capabilities on Windows.'
-    dependsOn installFrontend
-    onlyIf {os.isWindows()}
-    workingDir 'frontend/'
-    commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
-}
+// def windowsHotReloadFrontend = tasks.register('windowsHotReloadFrontend', Exec) {
+//     description 'Starts the frontend development server with hot-reloading capabilities on Windows.'
+//     dependsOn installFrontend
+//     onlyIf {os.isWindows()}
+//     workingDir 'frontend/'
+//     commandLine 'cmd','/c', 'START', '"hotreload RepoSense frontend"', 'npm', 'run', 'serveOpen'
+// }
 
-def linuxHotReloadFrontend = tasks.register('linuxHotReloadFrontend', Exec) {
-    description 'Starts the frontend development server with hot-reloading capabilities on Linux.'
-    dependsOn installFrontend
-    onlyIf {os.isLinux()}
-    workingDir 'frontend/'
-    commandLine 'npm', 'run', 'serveOpen'
-}
+// def linuxHotReloadFrontend = tasks.register('linuxHotReloadFrontend', Exec) {
+//     description 'Starts the frontend development server with hot-reloading capabilities on Linux.'
+//     dependsOn installFrontend
+//     onlyIf {os.isLinux()}
+//     workingDir 'frontend/'
+//     commandLine 'npm', 'run', 'serveOpen'
+// }
 
-tasks.register('hotReloadFrontend') {
-    description 'Orchestrates frontend hot-reloading by syncing reports and starting the dev server based on the OS.'
-    dependsOn syncFrontendPublic
-    finalizedBy windowsHotReloadFrontend
-    finalizedBy macHotReloadFrontend
-    finalizedBy linuxHotReloadFrontend
+tasks.register('hotReloadFrontend', Exec) {
+    description 'Orchestrates frontend hot-reloading by syncing reports and starting the dev server.'
+    dependsOn syncFrontendPublic, installFrontend
+    workingDir 'frontend/'
+    commandLine = execCommandLine('pnpm run serveOpen')
 }
 // End of hot reload Tasks
 

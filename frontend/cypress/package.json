@@ -1,10 +1,16 @@
 {
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "tests": "cypress run --browser chrome",
     "ci": "cypress run --env ci=true --browser chrome",
     "debug": "cypress open"
   },
   "devDependencies": {
-    "cypress": "^13.6.4"
+    "cypress": "^14.0.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "cypress"
+    ]
   }
 }

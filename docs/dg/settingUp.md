@@ -12,10 +12,11 @@
 * **JDK `11.0.21+9`** up to **`17`** ([download :fas-download:](https://www.oracle.com/technetwork/java/javase/downloads/index.html)).
 * **Node.js** **`20`** up to the latest minor version of **`23`** ([download :fas-download:](https://www.npmjs.com/get-npm)).
 * **Git `2.23`** or later ([download :fas-download:](https://git-scm.com/downloads)).
+* **pnpm `10`** or later ([download :fas-download:](https://pnpm.io/installation)).
 
   <box type="info" seamless>
 
-  Type `java -version`, `node -v` and `git --version` respectively on your OS terminal and ensure that you have the correct version of each prerequisite installed.
+  Type `java -version`, `node -v`, `git --version` and `pnpm -v` respectively on your OS terminal and ensure that you have the correct version of each prerequisite installed.
   </box>
 
 <!-- ==================================================================================================== -->

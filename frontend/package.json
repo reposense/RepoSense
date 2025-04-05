@@ -4,9 +4,10 @@
   "description": "[![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)",
   "author": "",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "serve": "vite",
     "build": "vite build",
-    "lint": "eslint src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss,css} && npm run puglint",
+    "lint": "eslint src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss,css} && pnpm run puglint",
     "devbuild": "vite build --mode development",
     "lintfix": "eslint --fix src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss,css}",
     "puglint": "pug-lint-vue src",
@@ -43,10 +44,10 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@stylistic/eslint-plugin": "^1.7.0",
+    "@stylistic/stylelint-plugin": "^2.1.0",
     "@types/markdown-it": "^13.0.7",
     "@types/minimatch": "^5.1.2",
-    "@stylistic/stylelint-plugin": "^2.1.0",
-    "@stylistic/eslint-plugin": "^1.7.0",
     "@types/node": "^20.12.4",
     "@vue/eslint-config-typescript": "^13.0.0",
     "eslint": "^8.57.0",
@@ -80,5 +81,15 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/reposense/RepoSense.git"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@fortawesome/fontawesome-common-types",
+      "@fortawesome/fontawesome-svg-core",
+      "@fortawesome/free-brands-svg-icons",
+      "@fortawesome/free-solid-svg-icons",
+      "core-js",
+      "esbuild"
+    ]
   }
 }
