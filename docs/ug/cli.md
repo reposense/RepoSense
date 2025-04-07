@@ -266,7 +266,6 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 * If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.
 * If `d1` is specified as the start date (`--since d1` or `-s d1`), then the program will search for the earliest commit date of all repositories and use that as the start date.
 * If `d1` is specified together with `--period`, then the program will warn that the date range being analyzed may be incorrect.
-
 </box>
 </div>
 <!-- ------------------------------------------------------------------------------------------------------ -->

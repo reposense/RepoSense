@@ -124,7 +124,7 @@ public class ReportConfigSystemTest {
 
     /**
      * Returns a {@link InputBuilder} that is initialized with some default values.
-     * <br>Config Folder Path: {@code ConfigSystemTest}
+     * <br>Config Folder Path: {@code ReportConfigSystemTest}
      * <br>Formats: {@link ReportConfigSystemTest#TESTING_FILE_FORMATS TESTING_FILE_FORMATS}
      * <br>Timezone: {@link ReportConfigSystemTest#TEST_TIME_ZONE TEST_TIME_ZONE}
      * <br>Output Folder Path: {@link ReportConfigSystemTest#OUTPUT_DIRECTORY OUTPUT_DIRECTORY}

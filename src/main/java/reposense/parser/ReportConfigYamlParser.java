@@ -16,6 +16,8 @@ import reposense.model.reportconfig.ReportConfiguration;
  */
 public class ReportConfigYamlParser extends YamlParser<ReportConfiguration> {
     public static final String REPORT_CONFIG_FILENAME = "report-config.yaml";
+    public static final String REPORT_CONFIG_PARSED_SUCCESSFULLY_MESSAGE =
+            "report-config.yaml file parsed successfully!";
 
     @Override
     public Type getType() {
@@ -38,7 +40,7 @@ public class ReportConfigYamlParser extends YamlParser<ReportConfiguration> {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         mapper.findAndRegisterModules();
         reportConfiguration = mapper.readValue(new File(path.toString()), ReportConfiguration.class);
-        logger.log(Level.INFO, "report-config.yaml file parsed successfully!");
+        logger.log(Level.INFO, REPORT_CONFIG_PARSED_SUCCESSFULLY_MESSAGE);
 
         return reportConfiguration;
     }
