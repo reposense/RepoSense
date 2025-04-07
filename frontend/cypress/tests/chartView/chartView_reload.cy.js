@@ -6,7 +6,7 @@ describe('reload page', () => {
       .type('eugene');
 
     // filter file
-    cy.get('div.mui-textfield.filter_file .tooltip > input:visible')
+    cy.get('.tooltip .mui-textfield.filter_file > input:visible')
       .should('be.visible');
 
     // group by
