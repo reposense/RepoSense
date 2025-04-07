@@ -71,6 +71,8 @@ If Ignore File Size Limit is yes, the File Size Limit and Skip Ignored File Anal
 <box type="info" seamless>
 
 When using [standalone config](#config-json-standalone-config-file) (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
+
+The `default` sort option in the frontend sorts the repos by the order of rows in `repo-config.csv`.
 </box>
 
 <!-- ==================================================================================================== -->
