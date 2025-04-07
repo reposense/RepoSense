@@ -1024,5 +1024,4 @@ public class RepoConfigurationTest {
     public void repoBuilder_buildWithInvalid_failure() {
         Assertions.assertThrows(ConfigurationBuildException.class, () -> new RepoConfiguration.Builder().build());
     }
-
 }
