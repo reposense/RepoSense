@@ -7,7 +7,6 @@ import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -103,9 +102,20 @@ public class ReportGenerator {
     private CliArguments cliArguments = null;
     private ProgressTracker progressTracker = null;
 
+    /**
+     * Overloads the complex generateReposReport.
+     *
+     * @param configs The list of repos to analyze.
+     * @param cliArguments The general cliArguments class.
+     * @param reportConfig The configuration for output report.
+     * @param blurbMap The blurbMap class.
+     * @return the list of file paths that were generated.
+     * @throws IOException if template zip file does not exist in jar file.
+     * @throws InvalidMarkdownException if blurbMarkdown is problematic.
+     */
     public List<Path> generateReposReport(List<RepoConfiguration> configs,
-           CliArguments cliArguments, ReportConfiguration reportConfig,
-           BlurbMap blurbMap) throws IOException, InvalidMarkdownException {
+            CliArguments cliArguments, ReportConfiguration reportConfig,
+            BlurbMap blurbMap) throws IOException, InvalidMarkdownException {
         this.cliArguments = cliArguments;
         return this.generateReposReport(configs,
                 cliArguments.getOutputFilePath().toAbsolutePath().toString(),
@@ -276,7 +286,7 @@ public class ReportGenerator {
                 .map(AnalyzeJobOutput::getLocation)
                 .collect(Collectors.toList());
 
-         List<RepoConfiguration> successfulConfigs = configs.stream()
+        List<RepoConfiguration> successfulConfigs = configs.stream()
                 .filter(config -> cloneSuccessfulLocations.contains(config.getLocation()))
                 .collect(Collectors.toList());
 
