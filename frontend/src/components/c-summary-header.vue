@@ -3,7 +3,8 @@
     .summary-picker__section
       .tooltip(
           @mouseover="onTooltipHover('filterFilesLabel')",
-          @mouseout="resetTooltip('filterFilesLabel')")
+          @mouseout="resetTooltip('filterFilesLabel')"
+        )
         .mui-textfield.filter_file(v-if='!isPortfolio')
           label filter files
           input(
