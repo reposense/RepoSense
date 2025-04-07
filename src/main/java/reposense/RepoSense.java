@@ -80,17 +80,8 @@ public class RepoSense {
             }
 
             ReportGenerator reportGenerator = new ReportGenerator();
-            List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
-                    cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                    cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
-                    formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
-                    globalSinceDate, globalUntilDate,
-                    cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
-                    cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
-                    cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
-                    blurbMap, cliArguments.isPortfolio()
-            );
+            List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs, cliArguments,
+                    reportConfig, blurbMap);
 
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
