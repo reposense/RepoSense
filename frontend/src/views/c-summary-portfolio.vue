@@ -9,34 +9,11 @@
     @toggle-breakdown="toggleBreakdown"
   )
 
-  .error-message-box(v-if="Object.entries(errorMessages).length && !isWidgetMode")
-    .error-message-box__close-button(@click="dismissTab($event)") &times;
-    .error-message-box__message The following issues occurred when analyzing the following repositories:
-    .error-message-box__failed-repo(
-        v-for="errorBlock in errorIsShowingMore\
-          ? errorMessages\
-          : Object.values(errorMessages).slice(0, numberOfErrorMessagesToShow)"
-      )
-      font-awesome-icon(icon="exclamation")
-      span.error-message-box__failed-repo--name {{ errorBlock.repoName }}
-      .error-message-box__failed-repo--reason(
-        v-if="errorBlock.errorMessage.startsWith('Unexpected error stack trace')"
-      )
-        span Oops, an unexpected error occurred. If this is due to a problem in RepoSense, please report in&nbsp;
-        a(
-          :href="getReportIssueGitHubLink(errorBlock.errorMessage)", target="_blank"
-        )
-          strong our issue tracker&nbsp;
-        span or email us at&nbsp;
-        a(
-          :href="getReportIssueEmailLink(errorBlock.errorMessage)"
-        )
-          span {{ getReportIssueEmailAddress() }}
-      .error-message-box__failed-repo--reason(v-else) {{ errorBlock.errorMessage }}\
-    .error-message-box__show-more-container(v-if="Object.keys(errorMessages).length > numberOfErrorMessagesToShow")
-      span(v-if="!errorIsShowingMore") Remaining error messages omitted to save space.&nbsp;
-      a(v-if="!errorIsShowingMore", @click="toggleErrorShowMore()") SHOW ALL...
-      a(v-else, @click="toggleErrorShowMore()") SHOW LESS...
+  c-error-message-box(
+    v-if="!isWidgetMode",
+    :error-messages="errorMessages"
+  )
+
   .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     c-file-type-checkboxes(
       :file-types="fileTypes",
@@ -61,6 +38,7 @@
 <script lang='ts'>
 import { PropType, defineComponent } from 'vue';
 
+import cErrorMessageBox from '../components/c-error-message-box.vue';
 import cSummaryCharts from '../components/c-summary-charts.vue';
 import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import cSummaryHeader from '../components/c-summary-header.vue';
@@ -85,6 +63,7 @@ import {
 export default defineComponent({
   name: 'c-summary-portfolio',
   components: {
+    cErrorMessageBox,
     cSummaryCharts,
     cFileTypeCheckboxes,
     cSummaryHeader,
@@ -113,8 +92,6 @@ export default defineComponent({
     fileTypeColors: { [key: string]: string },
     isSafariBrowser: boolean,
     filterGroupSelectionWatcherFlag: boolean,
-    errorIsShowingMore: boolean,
-    numberOfErrorMessagesToShow: number,
     optimiseTimeline: boolean,
     since: string,
     until: string,
@@ -127,8 +104,6 @@ export default defineComponent({
       fileTypeColors: {} as { [key: string]: string },
       isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
-      errorIsShowingMore: false,
-      numberOfErrorMessagesToShow: 4,
       optimiseTimeline: window.isPortfolio, // Auto select trim timeline if portfolio
       since: '',
       until: '',
@@ -173,35 +148,6 @@ export default defineComponent({
     }, 0);
   },
   methods: {
-    dismissTab(event: Event): void {
-      if (event.target instanceof Element && event.target.parentNode instanceof HTMLElement) {
-        event.target.parentNode.style.display = 'none';
-      }
-    },
-
-    // view functions //
-    getReportIssueGitHubLink(stackTrace: string): string {
-      return `${window.REPOSENSE_REPO_URL}/issues/new?title=${this.getReportIssueTitle()
-      }&body=${this.getReportIssueMessage(stackTrace)}`;
-    },
-
-    getReportIssueEmailAddress(): string {
-      return 'seer@comp.nus.edu.sg';
-    },
-
-    getReportIssueEmailLink(stackTrace: string): string {
-      return `mailto:${this.getReportIssueEmailAddress()}?subject=${this.getReportIssueTitle()
-      }&body=${this.getReportIssueMessage(stackTrace)}`;
-    },
-
-    getReportIssueTitle(): string {
-      return `${encodeURI('Unexpected error with RepoSense version ')}${window.repoSenseVersion}`;
-    },
-
-    getReportIssueMessage(message: string): string {
-      return encodeURI(message);
-    },
-
     // model functions //
     setSummaryHash(): void {
       const { addHash, encodeHash, removeHash } = window;
@@ -453,10 +399,6 @@ export default defineComponent({
           : user.name === zAuthor;
       }
       return user.repoName === zRepo && user.name === zAuthor;
-    },
-
-    toggleErrorShowMore(): void {
-      this.errorIsShowingMore = !this.errorIsShowingMore;
     },
 
     isAllFileTypesChecked(): boolean {
