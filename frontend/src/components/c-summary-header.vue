@@ -2,9 +2,9 @@
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
       .tooltip(
-          @mouseover="onTooltipHover('filterFilesLabel')",
-          @mouseout="resetTooltip('filterFilesLabel')"
-        )
+        @mouseover="onTooltipHover('filter-files-label')",
+        @mouseout="resetTooltip('filter-files-label')"
+      )
         .mui-textfield.filter_file(v-if='!isPortfolio')
           label filter files
           input(
