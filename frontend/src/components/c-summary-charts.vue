@@ -158,14 +158,14 @@
           font-awesome-icon(icon="tags")
           span &nbsp;{{ tag }}
 
-    .blurbWrapper(
+    .blurb-wrapper(
       v-if="filterGroupSelection === 'groupByRepos'",
     )
       c-markdown-chunk.blurb(
         :markdown-text="getRepoBlurb(repo[0])"
       )
 
-    .blurbWrapper(
+    .blurb-wrapper(
       v-if="filterGroupSelection === 'groupByAuthors'")
       c-markdown-chunk.blurb(
         :markdown-text="getAuthorBlurb(repo[0].name)"
@@ -306,12 +306,12 @@
           )
             font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
-      .blurbWrapper(
+      .blurb-wrapper(
         v-if="filterGroupSelection === 'groupByRepos'")
         c-markdown-chunk.blurb(
           :markdown-text="getChartBlurb(user.name, repo[0])"
         )
-      .blurbWrapper(
+      .blurb-wrapper(
         v-if="filterGroupSelection === 'groupByAuthors'")
         c-markdown-chunk.blurb(
           :markdown-text="getChartBlurb(repo[0].name, user)"
@@ -1060,7 +1060,7 @@ export default defineComponent({
 @import '../styles/tags.scss';
 @import '../styles/_colors.scss';
 
-.blurbWrapper {
+.blurb-wrapper {
   padding-bottom: 5px;
 
   .blurb {
