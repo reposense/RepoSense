@@ -43,13 +43,13 @@ public class RepoConfigParserTest {
             "RepoConfigParserTest/require_trailing_whitespaces/repoconfig_redundantLines_test.csv");
     private static final Path REPO_CONFIG_UNRECOGNIZED_VALUES_FOR_YES_KEYWORD_HEADERS_FILE =
             loadResource(RepoConfigParserTest.class,
-                    "RepoConfigParserTest/repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv");
+            "RepoConfigParserTest/repoconfig_unrecognizedValuesForYesKeywordHeaders_test.csv");
     private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_SENSITIVE_FILE =
             loadResource(RepoConfigParserTest.class,
-                    "RepoConfigParserTest/repoconfig_duplicateHeadersCaseSensitive_test.csv");
+            "RepoConfigParserTest/repoconfig_duplicateHeadersCaseSensitive_test.csv");
     private static final Path REPO_CONFIG_DUPLICATE_HEADERS_CASE_INSENSITIVE_FILE =
             loadResource(RepoConfigParserTest.class,
-                    "RepoConfigParserTest/repoconfig_duplicateHeadersCaseInsensitive_test.csv");
+            "RepoConfigParserTest/repoconfig_duplicateHeadersCaseInsensitive_test.csv");
     private static final Path REPO_CONFIG_DIFFERENT_COLUMN_ORDER_FILE = loadResource(RepoConfigParserTest.class,
             "RepoConfigParserTest/repoconfig_differentColumnOrder_test.csv");
     private static final Path REPO_CONFIG_OPTIONAL_HEADER_MISSING_FILE = loadResource(RepoConfigParserTest.class,
