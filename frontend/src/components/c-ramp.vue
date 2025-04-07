@@ -237,6 +237,8 @@ export default defineComponent({
       if (this.isDeletesContribution(slice)) {
         return '-deletes';
       }
+
+      // Force interpretation in UTC to preserve local day boundaries as dates are in local time format
       const timeMs = this.fromramp
           ? (new Date(`${this.sdate}Z`)).getTime()
           : (new Date(`${slice.date}Z`)).getTime();
