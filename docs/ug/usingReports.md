@@ -117,6 +117,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
   * `Group title`: groups will be sorted by the title of the group (in bold text) in alphabetical order.
   * `Contribution`: groups will be sorted by the combined contributions within a group, in the order of number of lines added.
   * `Variance`: groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. A detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
+  * `Default`: groups will be sorted by the order of rows in `repo-config.csv`.
 * `Sort within groups by`: sorting criteria within each group.
   * `Title`: each group will be internally sorted by its title in alphabetical order.
   * `Contribution`: each group will be internally sorted by individual contributions in the order of number of lines added.

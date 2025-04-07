@@ -34,6 +34,8 @@
           option(value="totalCommits dsc") &darr; contribution
           option(value="variance") &uarr; variance
           option(value="variance dsc") &darr; variance
+          option(value="defaultSortOrder") &uarr; default
+          option(value="defaultSortOrder dsc") &darr; default
         label sort groups by
 
       .mui-select.sort-within-group(v-if='!isPortfolio')
@@ -58,18 +60,18 @@
         label granularity
 
       .mui-textfield(v-if='!isPortfolio')
-        input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
+        input(v-if="inputDateNotSupported", type="text", placeholder="yyyy-mm-dd",
           :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="since", :value="filterSinceDate", @input="updateTmpFilterSinceDate",
-          :min="minDate", :max="filterUntilDate")
+        input(v-else, type="datetime-local", name="since", step="1", :value="filterSinceDate",
+          @input="updateTmpFilterSinceDate", :min="minDate", :max="filterUntilDate")
         label since
       .mui-textfield(v-if='!isPortfolio')
-        input(v-if="isSafariBrowser", type="text", placeholder="yyyy-mm-dd",
+        input(v-if="inputDateNotSupported", type="text", placeholder="yyyy-mm-dd",
           :value="filterUntilDate", @keyup.enter="updateTmpFilterUntilDate",
           onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="date", name="until", :value="filterUntilDate", @input="updateTmpFilterUntilDate",
-          :min="filterSinceDate", :max="maxDate")
+        input(v-else, type="datetime-local", name="until", step="1", :value="filterUntilDate",
+          @input="updateTmpFilterUntilDate", :min="filterSinceDate", :max="maxDate")
         label until
       .mui-textfield(v-if='!isPortfolio')
         a(@click="resetDateRange") Reset date range
@@ -178,7 +180,7 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
-    isSafariBrowser: {
+    inputDateNotSupported: {
       type: Boolean,
       required: true,
     },
@@ -349,8 +351,8 @@ export default defineComponent({
       const since = (event.target as HTMLInputElement).value;
       this.$emit("update:hasModifiedSinceDate", true);
 
-      if (!this.isSafariBrowser) {
-        this.$emit("update:tmpFilterSinceDate", since);
+      if (!this.inputDateNotSupported) {
+        this.$emit('update:tmpFilterSinceDate', since);
         (event.target as HTMLInputElement).value = this.filterSinceDate;
         this.$emit("get-filtered");
       } else if (dateFormatRegex.test(since) && since >= this.minDate) {
@@ -370,8 +372,8 @@ export default defineComponent({
       const until = (event.target as HTMLInputElement).value;
       this.$emit("update:hasModifiedUntilDate", true);
 
-      if (!this.isSafariBrowser) {
-        this.$emit("update:tmpFilterUntilDate", until);
+      if (!this.inputDateNotSupported) {
+        this.$emit('update:tmpFilterUntilDate', until);
         (event.target as HTMLInputElement).value = this.filterUntilDate;
         this.$emit("get-filtered");
       } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
