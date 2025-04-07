@@ -15,6 +15,7 @@ window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
 window.REPORT_ZIP = null;
+window.LOGO_PATH = "logo.png"
 
 const HASH_ANCHOR = '?';
 const REPORT_DIR = '.';
@@ -219,6 +220,7 @@ window.api = {
     window.isSinceDateProvided = data.isSinceDateProvided;
     window.isUntilDateProvided = data.isUntilDateProvided;
     window.isAuthorshipAnalyzed = data.isAuthorshipAnalyzed;
+    window.isPortfolio = data.isPortfolio;
     document.title = data.reportTitle || document.title;
 
     const errorMessages: { [key: string]: ErrorMessage } = {};
@@ -276,6 +278,8 @@ window.api = {
           repoName: `${repo.displayName}`,
           location: `${repo.location.location}`,
           checkedFileTypeContribution: undefined,
+          sinceDate: repo.sinceDate,
+          untilDate: repo.untilDate,
         };
 
         res.push(user);

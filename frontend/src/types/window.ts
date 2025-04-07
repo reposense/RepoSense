@@ -41,6 +41,7 @@ declare global {
     DAY_IN_MS: number;
     HASH_DELIMITER: string;
     REPOS: { [key: string]: Repo };
+    LOGO_PATH: string;
     hashParams: { [key: string]: string };
     isMacintosh: boolean;
     REPORT_ZIP: JSZip | null;
@@ -70,6 +71,7 @@ declare global {
     isSinceDateProvided: boolean;
     isUntilDateProvided: boolean;
     isAuthorshipAnalyzed: boolean;
+    isPortfolio: boolean;
     DOMAIN_URL_MAP: DomainUrlMap;
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     app: any;
