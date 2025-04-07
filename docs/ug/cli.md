@@ -262,7 +262,7 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
   ```
   Default:
   - If `START_DATE` is not specified, it defaults to one month before the current date at `00:00:00`.
-  - If hours/ minutes/ seconds are not provided, each will default to `00`.  
+  - If hours/ minutes/ seconds are not provided, each will default to `00`.
 * Alias: `-s`
 * Example:`--since 21/10/2017T03:09` or `-s 21/10/2017T03:09`
 

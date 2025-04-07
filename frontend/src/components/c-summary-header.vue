@@ -11,7 +11,7 @@
             @change="setFilteredFileName",
             v-model="localFilteredFileName"
             )
-          button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x    
+          button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x  
           span.tooltip-text(ref='filterFilesLabel') Type a glob keyword to filter the list
 
       .mui-textfield.search_box(v-if='!isPortfolio')

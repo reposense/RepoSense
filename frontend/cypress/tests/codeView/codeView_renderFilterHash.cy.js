@@ -10,12 +10,12 @@ Cypress.on('uncaught:exception', (err) => {
 
 describe('render filter hash', () => {
   it('filter files: url params should persist after change and reload', () => {
-    cy.get('div.mui-textfield.filter_file .tooltip > input:visible')
+    cy.get('.mui-textfield.filter_file > input:visible')
       .should('be.visible')
       .invoke('val')
       .should('eq', '');
 
-    cy.get('div.mui-textfield.filter_file .tooltip > input:visible')
+    cy.get('.mui-textfield.filter_file > input:visible')
       .should('be.visible')
       .type('**java**{enter}');
 

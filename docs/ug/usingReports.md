@@ -102,7 +102,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
     * `**`: Matches any sequence of characters across multiple directory levels.
     * `?`: Matches any single character.
     * `[abc]`: Matches any single character within the brackets.
-    * `[!abc]`: Matches any single character not within the brackets. 
+    * `[!abc]`: Matches any single character not within the brackets.
     These patterns provide flexibility in locating files based on specific naming conventions or extensions.
 * `Search`: filters the author and repository by keywords.
   * Multiple keywords/terms can be used, separated by spaces.
