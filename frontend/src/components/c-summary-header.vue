@@ -2,8 +2,8 @@
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
       .tooltip(
-          @mouseover="onTooltipHover('filter-files-label')",
-          @mouseout="resetTooltip('filter-files-label')")
+          @mouseover="onTooltipHover('filterFilesLabel')",
+          @mouseout="resetTooltip('filterFilesLabel')")
         .mui-textfield.filter_file(v-if='!isPortfolio')
           label filter files
           input(
@@ -12,7 +12,7 @@
             v-model="localFilteredFileName"
             )
           button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x    
-          span.tooltip-text(:ref='filter-files-label') Type a glob keyword to filter the list
+          span.tooltip-text(ref='filterFilesLabel') Type a glob keyword to filter the list
 
       .mui-textfield.search_box(v-if='!isPortfolio')
         input(type="text", v-model="localFilterSearch")
