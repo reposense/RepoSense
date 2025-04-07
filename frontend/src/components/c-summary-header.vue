@@ -115,6 +115,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
+import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import {
   FilterGroupSelection,
   FilterTimeFrame,
@@ -126,7 +128,7 @@ const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 export default defineComponent({
   name: "c-summary-header",
-
+  mixins: [brokenLinkDisabler, tooltipPositioner],
   props: {
     filterSearch: {
       type: String,
