@@ -8,7 +8,7 @@
         .mui-textfield.filter_file(v-if='!isPortfolio')
           label filter files
           input(
-            type="search",
+            type="text",
             @change="setFilteredFileName",
             v-model="localFilteredFileName"
             )
