@@ -2,7 +2,6 @@ package reposense;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,6 +16,7 @@ import reposense.model.ReportConfiguration;
 import reposense.model.RunConfigurationDecider;
 import reposense.parser.ArgsParser;
 import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.parser.exceptions.ParseException;
@@ -76,17 +76,8 @@ public class RepoSense {
             }
 
             ReportGenerator reportGenerator = new ReportGenerator();
-            List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
-                    cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                    cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
-                    formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
-                    cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                    cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
-                    cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
-                    cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
-                    blurbMap, cliArguments.isPortfolio()
-            );
+            List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs, cliArguments,
+                    reportConfig, blurbMap);
 
             FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     ".json");
@@ -99,14 +90,17 @@ public class RepoSense {
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
-        } catch (IOException | ParseException | InvalidCsvException | InvalidHeaderException e) {
+        } catch (IOException
+                 | ParseException
+                 | InvalidCsvException
+                 | InvalidHeaderException
+                 | InvalidDatesException e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
         } catch (InvalidMarkdownException ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
-
         LogsManager.moveLogFileToOutputFolder();
     }
 
