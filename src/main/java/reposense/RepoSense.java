@@ -2,7 +2,6 @@ package reposense;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
@@ -70,8 +69,6 @@ public class RepoSense {
                     cliArguments.isShallowCloningPerformed());
             RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
                     cliArguments.isFindingPreviousAuthorsPerformed());
-            LocalDateTime globalSinceDate = RepoConfiguration.findGlobalSinceDate(configs, cliArguments);
-            LocalDateTime globalUntilDate = RepoConfiguration.findGlobalUntilDate(configs, cliArguments);
 
             List<String[]> globalGitConfig = GitConfig.getGlobalGitLfsConfig();
             if (globalGitConfig.size() != 0) {

@@ -139,7 +139,7 @@ public class ReportGenerator {
      * @param assetsPath The location at which assets for generating the report are stored.
      * @param reportConfig The config for the output report.
      * @param generationDate The time at which the report was generated.
-     * @param cliSinceDate The date-time from which to start analyzing commits.
+     * @param sinceDate The date-time from which to start analyzing commits.
      * @param untilDate The cut-off date-time for analyzing commits.
      * @param isSinceDateProvided The boolean variable for whether client provided a sinceDate.
      * @param isUntilDateProvided The boolean variable for whether client provided an untilDate.
@@ -157,7 +157,7 @@ public class ReportGenerator {
      * @throws InvalidMarkdownException if the blurb markdown file cannot be parsed properly.
      */
     public List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
-            ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
+            ReportConfiguration reportConfig, String generationDate, LocalDateTime sinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold, BlurbMap blurbMap,
@@ -173,8 +173,9 @@ public class ReportGenerator {
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath, numCloningThreads,
                 numAnalysisThreads, shouldFreshClone, shouldAnalyzeAuthorship, originalityThreshold);
 
-        LocalDateTime reportSinceDate = TimeUtil.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId)
-                ? earliestSinceDate : cliSinceDate;
+        this.globalSinceDate = TimeUtil.isEqualToArbitraryFirstDateConverted(this.globalSinceDate, zoneId)
+                ? earliestSinceDate : this.globalSinceDate;
+
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
