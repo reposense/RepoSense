@@ -18,8 +18,11 @@ export default createStore<StoreState>({
     loadingOverlayCount: 0,
     loadingOverlayMessage: '',
     isTabActive: true,
-    blurbMap: {},
+    repoBlurbMap: {},
+    authorBlurbMap: {},
+    chartsBlurbMap: {}
   } as StoreState,
+
   mutations: {
     updateTabZoomInfo(state: StoreState, info: ZoomInfo) {
       state.tabZoomInfo = info;
@@ -83,11 +86,17 @@ export default createStore<StoreState>({
         file.wasCodeLoaded = file.wasCodeLoaded || file.active;
       });
     },
-    setBlurbMap(state: StoreState, blurbMap: { [key: string]: string }) {
-      state.blurbMap = blurbMap;
+    setRepoBlurbMap(state: StoreState, map: { [key: string]: string }) {
+      state.repoBlurbMap = map;
+    },
+    setAuthorBlurbMap(state: StoreState, map: {[key: string]: string } | undefined) {
+      state.authorBlurbMap = map ?? {};
     },
     updateAuthorshipRefreshState(state: StoreState, b: boolean) {
       state.tabAuthorshipInfo.isRefresh = b;
+    },
+    setChartsBlurbMap(state: StoreState, map: {[key: string]: string} | undefined) {
+      state.chartsBlurbMap = map ?? {};
     }
   },
   actions: {
