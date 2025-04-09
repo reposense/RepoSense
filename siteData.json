@@ -226,6 +226,11 @@
       "headingKeywords": {}
     },
     {
+      "src": "ug/author-blurbs.md",
+      "headings": {},
+      "headingKeywords": {}
+    },
+    {
       "src": "ug/authorConfigSyntax.md",
       "title": "Appendix: `author-config.csv` advanced syntax",
       "headings": {
@@ -234,11 +239,6 @@
         "using-github-branch-url-as-repository-s-location": "Using GitHub branch URL as Repository's Location",
         "combining-the-advanced-syntax": "Combining the advanced syntax"
       },
-      "headingKeywords": {}
-    },
-    {
-      "src": "ug/blurbs.md",
-      "headings": {},
       "headingKeywords": {}
     },
     {
@@ -280,7 +280,9 @@
         "report-config-json": "report-config.json",
         "config-json-standalone-config-file": "config.json (standalone config file)",
         "a-note-about-git-author-name": "A note about Git author name",
-        "blurbs-md": "blurbs.md"
+        "blurbs-markdown-files": "Blurbs Markdown files",
+        "repo-blurbs-md": "repo-blurbs.md",
+        "author-blurbs-md": "author-blurbs.md"
       },
       "headingKeywords": {}
     },
@@ -335,6 +337,11 @@
         "2-generate-your-own-reports": "2 Generate your own reports",
         "3-share-your-reports": "3 Share your reports"
       },
+      "headingKeywords": {}
+    },
+    {
+      "src": "ug/repo-blurbs.md",
+      "headings": {},
       "headingKeywords": {}
     },
     {
