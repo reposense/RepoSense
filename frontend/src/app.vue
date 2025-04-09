@@ -122,20 +122,24 @@ const app = defineComponent({
           reportGenerationTime,
           errorMessages,
           names,
-          blurbMap,
+          repoBlurbMap,
+          authorBlurbMap,
+          chartsBlurbMap
         } = summary;
         this.creationDate = creationDate;
         this.reportGenerationTime = reportGenerationTime;
         this.errorMessages = errorMessages;
         this.repos = window.REPOS;
-        await Promise.all(names.map((name) => (
-          window.api.loadCommits(name)
+        await Promise.all(names.map((name, idx) => (
+          window.api.loadCommits(name, idx)
         )));
         this.loadingOverlayOpacity = 0.5;
         this.getUsers();
         this.renderTabHash();
         this.userUpdated = true;
-        this.$store.commit('setBlurbMap', blurbMap);
+        this.$store.commit('setRepoBlurbMap', repoBlurbMap);
+        this.$store.commit('setAuthorBlurbMap', authorBlurbMap);
+        this.$store.commit('setChartsBlurbMap', chartsBlurbMap);
       } catch (error) {
         window.alert(error);
       } finally {
@@ -144,9 +148,9 @@ const app = defineComponent({
     },
     getUsers(): void {
       const full: Array<Repo> = [];
-      Object.keys(this.repos).forEach((repo) => {
-        if (this.repos[repo].users) {
-          full.push(this.repos[repo]);
+      Object.values(this.repos).forEach((repoData) => {
+        if (repoData.users) {
+          full.push(repoData)
         }
       });
       this.users = full;

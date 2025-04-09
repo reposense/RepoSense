@@ -16,7 +16,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import reposense.model.BlurbMap;
+import reposense.model.AuthorBlurbMap;
+import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.ReportConfiguration;
@@ -29,7 +30,8 @@ public class SummaryJsonTest {
     private static SummaryJson expectedUpdatedSummaryJson;
     private static final String REPORT_GENERATED_TIME = "Wed, 1 Jan 2025 00:00:00 SGT";
     private static final String REPORT_GENERATION_TIME = " 1 minute(s) 0.01 second(s)";
-    private static final BlurbMap BLURBS = new BlurbMap();
+    private static final RepoBlurbMap REPO_BLURBS = new RepoBlurbMap();
+    private static final AuthorBlurbMap AUTHOR_BLURBS = new AuthorBlurbMap();
 
     @BeforeAll
     public static void setUp() throws Exception {
@@ -59,20 +61,23 @@ public class SummaryJsonTest {
         errorMap.put("errorMessage", "Failed to clone from https://github.com/reposense/RepoSense.git");
         Set<Map<String, String>> errorSet = Set.of(errorMap);
 
-        BLURBS.withRecord("https://github.com/reposense/testrepo-Alpha/tree/master", "This is a test blurb");
+        REPO_BLURBS.withRecord("https://github.com/reposense/testrepo-Alpha/tree/master", "This is a test blurb");
+        AUTHOR_BLURBS.withRecord("nbriannl", "Test for author-blurbs.md");
+
 
         expectedUpdatedSummaryJson = new SummaryJson(repos, reportConfig, REPORT_GENERATED_TIME, sinceDate, untilDate,
                 isSinceDateProvided, isUntilDateProvided, repoSenseVersion, errorSet, REPORT_GENERATION_TIME, zoneId,
-                isAuthorshipAnalyzed, BLURBS, isPortfolio);
+                isAuthorshipAnalyzed, REPO_BLURBS, AUTHOR_BLURBS, isPortfolio);
     }
 
     @Test
     public void updateSummaryJson_success() throws IOException {
-        SummaryJson updatedSummaryJson = SummaryJson.updateSummaryJson(VALID_SUMMARY_JSON, BLURBS,
+        SummaryJson updatedSummaryJson = SummaryJson.updateSummaryJson(VALID_SUMMARY_JSON, REPO_BLURBS, AUTHOR_BLURBS,
                 REPORT_GENERATED_TIME, REPORT_GENERATION_TIME);
 
         Assertions.assertNotNull(updatedSummaryJson);
-        Assertions.assertEquals(expectedUpdatedSummaryJson.getBlurbs(), updatedSummaryJson.getBlurbs());
+        Assertions.assertEquals(expectedUpdatedSummaryJson.getRepoBlurbs(), updatedSummaryJson.getRepoBlurbs());
+        Assertions.assertEquals(expectedUpdatedSummaryJson.getAuthorBlurbs(), updatedSummaryJson.getAuthorBlurbs());
         Assertions.assertEquals(expectedUpdatedSummaryJson.getReportGeneratedTime(),
                 updatedSummaryJson.getReportGeneratedTime());
         Assertions.assertEquals(expectedUpdatedSummaryJson.getReportGenerationTime(),

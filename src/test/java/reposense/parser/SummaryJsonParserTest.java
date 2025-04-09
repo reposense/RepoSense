@@ -15,7 +15,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import reposense.model.BlurbMap;
+import reposense.model.AuthorBlurbMap;
+import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
 import reposense.model.ReportConfiguration;
@@ -38,7 +39,7 @@ public class SummaryJsonParserTest {
         ZoneId zoneId = ZoneId.of("Asia/Singapore");
         ReportConfiguration reportConfig = new ReportConfiguration();
         LocalDateTime sinceDate = LocalDate.parse("2025-02-16").atStartOfDay();
-        LocalDateTime untilDate = LocalDate.parse("2025-03-16").atStartOfDay();
+        LocalDateTime untilDate = LocalDateTime.parse("2025-03-16T23:59:59");
         boolean isSinceDateProvided = false;
         boolean isUntilDateProvided = false;
         boolean isAuthorshipAnalyzed = false;
@@ -51,7 +52,7 @@ public class SummaryJsonParserTest {
                 .displayName("reposense/testrepo-Alpha[master]")
                 .outputFolderName("reposense_testrepo-Alpha_master")
                 .sinceDate(LocalDate.parse("2025-02-16").atStartOfDay())
-                .untilDate(LocalDate.parse("2025-03-16").atStartOfDay())
+                .untilDate(LocalDateTime.parse("2025-03-16T23:59:59"))
                 .build();
         List<RepoConfiguration> repos = List.of(repoConfig);
 
@@ -60,12 +61,16 @@ public class SummaryJsonParserTest {
         errorMap.put("errorMessage", "Failed to clone from https://github.com/reposense/RepoSense.git");
         Set<Map<String, String>> errorSet = Set.of(errorMap);
 
-        BlurbMap blurbs = new BlurbMap();
-        blurbs.withRecord("https://github.com/reposense/testrepo-Alpha/tree/master", "Master branch of testrepo-Alpha");
+        RepoBlurbMap repoBlurbs = new RepoBlurbMap();
+        repoBlurbs.withRecord("https://github.com/reposense/testrepo-Alpha/tree/master",
+                "Master branch of testrepo-Alpha");
+
+        AuthorBlurbMap authorBlurbs = new AuthorBlurbMap();
+        authorBlurbs.withRecord("nbriannl", "Test for author-blurbs.md");
 
         expectedValidSummaryJson = new SummaryJson(repos, reportConfig, reportGeneratedTime, sinceDate, untilDate,
                 isSinceDateProvided, isUntilDateProvided, repoSenseVersion, errorSet, reportGenerationTime, zoneId,
-                isAuthorshipAnalyzed, blurbs, isPortfolio);
+                isAuthorshipAnalyzed, repoBlurbs, authorBlurbs, isPortfolio);
     }
 
     @Test
@@ -101,7 +106,8 @@ public class SummaryJsonParserTest {
                 parsedSummaryJson.getUntilDate(), parsedSummaryJson.isSinceDateProvided(),
                 parsedSummaryJson.isUntilDateProvided(), parsedSummaryJson.getRepoSenseVersion(),
                 parsedSummaryJson.getErrorSet(), parsedSummaryJson.getReportGenerationTime(),
-                parsedSummaryJson.getZoneId(), parsedSummaryJson.isAuthorshipAnalyzed(), parsedSummaryJson.getBlurbs(),
+                parsedSummaryJson.getZoneId(), parsedSummaryJson.isAuthorshipAnalyzed(),
+                parsedSummaryJson.getRepoBlurbs(), parsedSummaryJson.getAuthorBlurbs(),
                 parsedSummaryJson.isPortfolio());
 
         Assertions.assertEquals(expectedValidSummaryJson, actualSummaryJson);

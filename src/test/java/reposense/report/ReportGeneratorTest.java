@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -18,7 +19,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import reposense.model.BlurbMap;
+import reposense.model.AuthorBlurbMap;
+import reposense.model.RepoBlurbMap;
 import reposense.model.ReportConfiguration;
 import reposense.parser.SummaryJsonParser;
 import reposense.util.TimeUtil;
@@ -40,21 +42,24 @@ class ReportGeneratorTest {
 
     @Test
     void generateReposReport_isOnlyTextRefreshedTrue_success() throws Exception {
-        BlurbMap blurbMap = new BlurbMap();
-        blurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "This is a test blurb");
+        RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
+        repoBlurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "This is a test blurb");
+        AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
+        authorBlurbMap.withRecord("nbriannl", "Test for author-blurbs.md");
         TimeUtil.startTimer();
 
         List<Path> reportFoldersAndFiles = new ReportGenerator().generateReposReport(List.of(), OUTPUT_PATH.toString(),
                 ASSETS_PATH.toString(), new ReportConfiguration(), REPORT_GENERATED_TIME,
-                LocalDate.parse("2025-02-16").atStartOfDay(), LocalDate.parse("2025-03-16").atStartOfDay(),
+                LocalDate.parse("2025-02-16").atStartOfDay(), LocalDateTime.parse("2025-03-16T23:59:59"),
                 false, false, 4, 12, TimeUtil::getElapsedTime,
                 ZoneId.of("Asia/Singapore"), false, false, 0.51,
-                blurbMap, false, true);
+                repoBlurbMap, authorBlurbMap, false, true);
 
         SummaryJson actualSummaryJson = new SummaryJsonParser().parse(SUMMARY_JSON_PATH);
 
         assertNull(reportFoldersAndFiles);
-        assertEquals(blurbMap, actualSummaryJson.getBlurbs());
+        assertEquals(repoBlurbMap, actualSummaryJson.getRepoBlurbs());
+        assertEquals(authorBlurbMap, actualSummaryJson.getAuthorBlurbs());
         assertTrue(compareFileContents(TITLE_MD_PATH, TEST_TITLE_MD_PATH));
     }
 
@@ -62,15 +67,16 @@ class ReportGeneratorTest {
     void generateReposReport_isOnlyTextRefreshedTrueButInvalidPath_throwsIoException() throws Exception {
         ReportGenerator reportGenerator = new ReportGenerator();
         TimeUtil.startTimer();
-        BlurbMap blurbMap = new BlurbMap();
-        blurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "This is a test blurb");
+        RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
+        repoBlurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "This is a test blurb");
+        AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
         Assertions.assertThrows(
                 IOException.class, () -> reportGenerator.generateReposReport(List.of(), ASSETS_PATH.toString(),
                         ASSETS_PATH.toString(), new ReportConfiguration(), REPORT_GENERATED_TIME,
                         LocalDate.parse("2025-02-16").atStartOfDay(), LocalDate.parse("2025-03-16").atStartOfDay(),
                         false, false, 4, 12, TimeUtil::getElapsedTime,
                         ZoneId.of("Asia/Singapore"), false, false, 0.51,
-                        blurbMap, false, true)
+                        repoBlurbMap, authorBlurbMap, false, true)
         );
     }
 
