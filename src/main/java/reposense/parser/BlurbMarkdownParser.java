@@ -2,9 +2,6 @@ package reposense.parser;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -16,36 +13,58 @@ import reposense.model.BlurbMap;
 import reposense.parser.exceptions.InvalidMarkdownException;
 
 /**
- * Parses the Markdown file and retrieves the mappings from URLs to blurbs from the blurbs
- * configuration file.
+ * Abstract class for parsing Markdown files for blurbs.
+ *
+ * @param <T> The type of blurb map (repos or authors).
+ * @param <K> The type of blurb map key (URL for repo, gitId for author).
  */
-public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
-    public static final Pattern DELIMITER = Pattern.compile("<!--repo-->(.*)");
-    public static final String DEFAULT_BLURB_FILENAME = "blurbs.md";
+public abstract class BlurbMarkdownParser<T extends BlurbMap, K> extends MarkdownParser<BlurbMap> {
+    protected Pattern delimiter;
+    protected String blurbFileName;
 
-    private static final class UrlRecord {
-        private final String url;
+    public BlurbMarkdownParser(Path markdownPath, Pattern delimiter,
+                               String blurbFileName) throws FileNotFoundException {
+        super(markdownPath);
+        this.delimiter = delimiter;
+        this.blurbFileName = blurbFileName;
+    }
+
+    /**
+     * Static class for the blurb key record.
+     *
+     * @param <K> The type of key (URL for repo, String(gitId) for author).
+     */
+    protected static class KeyRecord<K> {
+        private final K key;
+
+        /**
+         * The next position to read from the markdown file.
+         */
         private final int nextPosition;
 
-        public UrlRecord(String url, int nextPosition) {
-            this.url = url;
+        public KeyRecord(K key, int nextPosition) {
+            this.key = key;
             this.nextPosition = nextPosition;
         }
 
-        public String getUrl() {
-            return url;
+        public K getKey() {
+            return key;
         }
+
 
         public int getNextPosition() {
             return nextPosition;
         }
     }
 
-    private static final class BlurbRecord {
+    /**
+     * Static class for the blurb record.
+     */
+    private static final class BlurbsRecord {
         private final List<String> blurb;
         private final int nextPosition;
 
-        public BlurbRecord(List<String> blurb, int nextPosition) {
+        public BlurbsRecord(List<String> blurb, int nextPosition) {
             this.blurb = blurb;
             this.nextPosition = nextPosition;
         }
@@ -59,105 +78,117 @@ public class BlurbMarkdownParser extends MarkdownParser<BlurbMap> {
         }
     }
 
-    public BlurbMarkdownParser(Path markdownPath) throws FileNotFoundException {
-        super(markdownPath);
-    }
-
     /**
-     * Parses the markdown file containing the url to blurb mapping and returns a
-     * {@code BlurbMap} containing the mappings between the url and blurbs.
+     * Parses the markdown file containing key-to-blurb mappings and returns a
+     * BlurbMap containing these mappings.
      *
-     * @return {@code BlurbMap} object.
-     * @throws IOException if there are any issues opening or parsing the {@code blurbs.md} file.
+     * @return A BlurbMap object.
+     * @throws IOException if there are issues opening or parsing the markdown file.
+     * @throws InvalidMarkdownException if the markdown file is not in the correct format.
      */
     @Override
-    public BlurbMap parse() throws IOException, InvalidMarkdownException {
-        logger.log(Level.INFO, "Parsing Blurbs...");
-        // read all the lines first
+    public T parse() throws IOException, InvalidMarkdownException {
+        logger.log(Level.INFO, "Parsing blurbs...");
+        // Read all the lines first
         List<String> mdLines = Files.readAllLines(this.markdownPath);
 
-        // if the file is empty, then we throw the exception and let the adder handle
+        // If the file is empty, throw exception
         if (mdLines.isEmpty()) {
-            throw new InvalidMarkdownException("Empty blurbs.md file");
+            throw new InvalidMarkdownException("Empty blurb markdown file");
         }
 
-        // prepare the blurb map
-        BlurbMap blurbMap = new BlurbMap();
+        // Prepare the blurb map
+        T blurbMap = createBlurbMap();
 
-        // define temporary local variables to track blurbs
-        String url = "";
         StringBuilder blurb = new StringBuilder();
         int counter = 0;
 
         while (counter < mdLines.size()) {
-            // extract the url record first
-            // this is guaranteed to be in the first line or else we fail
-            UrlRecord urlRecord = this.getUrlRecord(mdLines, counter);
-            // if delimiter is the last non-blank line, null is returned
-            if (urlRecord == null) {
+            // Extract the key first (author git id or repository URL)
+            KeyRecord<K> keyRecord = extractKey(mdLines, counter);
+
+            // If no more keys found, we're done
+            if (keyRecord == null) {
                 break;
             }
-            url = urlRecord.getUrl();
-            counter = urlRecord.getNextPosition();
 
-            // then extract the blurb record next
-            // we extract until the delimiter is found and then we will stop
-            BlurbRecord blurbRecord = this.getBlurbRecord(mdLines, counter);
+            K key = keyRecord.getKey();
+            counter = keyRecord.getNextPosition();
+
+            // Extract the blurb content
+            BlurbsRecord blurbRecord = getBlurbRecord(mdLines, counter);
             List<String> blurbExtracted = blurbRecord.getBlurb();
-            for (String string : blurbExtracted) {
-                blurb.append(string);
+            for (String line : blurbExtracted) {
+                blurb.append(line);
             }
+
             counter = blurbRecord.getNextPosition();
 
-            // add the recorded entry into the BlurbMap
-            // strip the trailing /n
-            blurbMap.withRecord(url, blurb.toString().stripTrailing());
+            // Add the recorded entry into the blurb map
+            addRecord(blurbMap, key, blurb.toString().stripTrailing());
             blurb.setLength(0);
         }
 
-        // return the built BlurbMap instance
         logger.log(Level.INFO, "Blurbs parsed successfully!");
         return blurbMap;
     }
 
-    private UrlRecord getUrlRecord(List<String> lines, int position) throws InvalidMarkdownException {
-        // checks if url is valid
-        // adapted from https://www.baeldung.com/java-validate-url
-        try {
-            String url = "";
-            // skips blank lines
-            while (url.length() == 0) {
-                // checks if delimiter is the last non-blank line
-                if (position >= lines.size()) {
-                    return null;
-                }
-                url = lines.get(position++).strip();
-            }
-            new URL(url).toURI();
-            return new UrlRecord(url, position);
-        } catch (MalformedURLException | URISyntaxException ex) {
-            throw new InvalidMarkdownException("URL provided is not valid!");
-        }
-    }
+    /**
+     * Creates a new instance of the blurb map.
+     *
+     * @return A new instance of the blurb map.
+     */
+    protected abstract T createBlurbMap();
 
-    private BlurbRecord getBlurbRecord(List<String> lines, int position) {
+    /**
+     * Extract the blurb record key from the markdown file.
+     *
+     * @param mdLines The list of lines in the markdown file.
+     * @param position The current position in the markdown file.
+     *
+     * @return The {@code KeyRecord} containing the key and the next position to read from the markdown file.
+     *
+     * @throws InvalidMarkdownException if the key is not valid.
+     */
+    protected abstract KeyRecord<K> extractKey(List<String> mdLines, int position) throws InvalidMarkdownException;
+
+    /**
+     * Adds a record to the blurb map.
+     *
+     * @param blurbMap The blurb map to add the record to.
+     * @param key The key for the blurb record.
+     * @param blurb The blurb content.
+     */
+    protected abstract void addRecord(T blurbMap, K key, String blurb);
+
+    /**
+     * Extract the blurb content from the markdown file.
+     *
+     * @param lines The list of lines in the markdown file.
+     * @param position The current position in the markdown file.
+     *
+     * @return The {@code BlurbRecord} containing the blurb content and the next position to read from the
+     *         markdown file.
+     */
+    protected BlurbsRecord getBlurbRecord(List<String> lines, int position) {
+        // Extract the blurb content
         int lineSize = lines.size();
         int posCounter = position;
-        List<String> blurbs = new ArrayList<>();
+        List<String> blurb = new ArrayList<>();
 
         while (posCounter < lineSize) {
             String currLine = lines.get(posCounter);
 
-            if (BlurbMarkdownParser.DELIMITER.matcher(currLine).matches()) {
+            if (delimiter.matcher(currLine).matches()) {
                 break;
-            } else {
-                currLine += "\n";
-                blurbs.add(currLine);
             }
+
+            currLine += "\n";
+            blurb.add(currLine);
 
             posCounter++;
         }
 
-        return new BlurbRecord(blurbs, posCounter + 1);
+        return new BlurbsRecord(blurb, posCounter);
     }
 }
