@@ -76,8 +76,8 @@ def zipReport = tasks.register('zipReport', Zip) {
 
 def copyCypressConfig = tasks.register('copyCypressConfig', Copy) {
     description 'Copies the config files used by the backend to generate the test report for Cypress testing into an isolated working directory'
-    from 'frontend/cypress/config'
-    into 'build/serveTestReport/exampleconfig'
+    from 'frontend/cypress/configs'
+    into 'build/serveTestReport/configs'
 }
 
 def copyMainClasses = tasks.register('copyMainClasses', Copy) {
@@ -207,18 +207,48 @@ tasks.register('systemtest', Test) {
     }
 }
 
-def serveTestReportInBackground = tasks.register('serveTestReportInBackground', com.github.psxpaul.task.JavaExecFork) {
+def generateTestReportDefault = tasks.register('generateTestReportDefault', JavaExec) {
     description 'Creates a background server process for the test report that is to be used by Cypress'
     dependsOn zipReport, compileJava, processResources, copyCypressConfig, copyMainClasses
     tasks.compileJava.mustRunAfter(zipReport)
     tasks.processResources.mustRunAfter(zipReport)
+
     workingDir = 'build/serveTestReport'
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    args = ['--config', './exampleconfig', '--since', 'd1', '--view', '-A', '-t', 'UTC']
+    args = ['--config', './configs/default', '--output', './default', '--since', 'd1', '-A', '-t', 'UTC']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
-    waitForPort = 9000
+}
+
+def generateTestReportPortfolio = tasks.register('generateTestReportPortfolio', JavaExec) {
+    description 'Creates a background server process for the test report that is to be used by Cypress'
+    dependsOn zipReport, compileJava, processResources, copyCypressConfig, copyMainClasses
+    tasks.compileJava.mustRunAfter(zipReport)
+    tasks.processResources.mustRunAfter(zipReport)
+
+    workingDir = 'build/serveTestReport'
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    args = ['--config', './configs/portfolio', '--output', './portfolio', '--since', 'd1', '-A', '-t', 'UTC', '-P']
+    String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
+    jvmArgs = [ versionJvmArgs ]
+}
+
+def serveTestReportDefault = tasks.register('serveTestReportDefault', com.github.psxpaul.task.ExecFork) {
+    dependsOn generateTestReportDefault
+
+    workingDir = './frontend'
+    executable = 'npm'
+    args = ['run', 'serveTestDefault']
+}
+
+def serveTestReportPortfolio = tasks.register('serveTestReportPortfolio', com.github.psxpaul.task.ExecFork) {
+    dependsOn generateTestReportPortfolio
+
+    workingDir = './frontend'
+    executable = 'npm'
+    args = ['run', 'serveTestPortfolio']
 }
 
 def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
@@ -229,8 +259,9 @@ def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins
 
 tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+    dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio
+    tasks.serveTestReportDefault.mustRunAfter(installCypress)
+    tasks.serveTestReportPortfolio.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
@@ -238,8 +269,9 @@ tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageMa
 
 tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+    dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio
+    tasks.serveTestReportDefault.mustRunAfter(installCypress)
+    tasks.serveTestReportPortfolio.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "tests"]

@@ -158,11 +158,17 @@
           font-awesome-icon(icon="tags")
           span &nbsp;{{ tag }}
 
-    .blurbWrapper(
+    .blurb-wrapper(
       v-if="filterGroupSelection === 'groupByRepos'",
     )
       c-markdown-chunk.blurb(
-        :markdown-text="getBlurb(repo[0])"
+        :markdown-text="getRepoBlurb(repo[0])"
+      )
+
+    .blurb-wrapper(
+      v-if="filterGroupSelection === 'groupByAuthors'")
+      c-markdown-chunk.blurb(
+        :markdown-text="getAuthorBlurb(repo[0].name)"
       )
 
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
@@ -187,11 +193,11 @@
         :class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo \
           && !isChartGroupWidgetMode }"
       )
-        .summary-chart__title--index(v-if="!isChartWidgetMode") {{ j+1 }}
+        .summary-chart__title--index(v-if="!isChartWidgetMode && !isPortfolio") {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
-          v-if="filterGroupSelection !== 'groupByAuthors'",
+          v-if="!isPortfolio && filterGroupSelection !== 'groupByAuthors'",
           :class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
@@ -300,7 +306,16 @@
           )
             font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
-
+      .blurb-wrapper(
+        v-if="filterGroupSelection === 'groupByRepos'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(user.name, repo[0])"
+        )
+      .blurb-wrapper(
+        v-if="filterGroupSelection === 'groupByAuthors'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(repo[0].name, user)"
+        )
       .summary-chart__ramp(
         @click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
       )
@@ -308,8 +323,8 @@
           :groupby="filterGroupSelection",
           :user="user",
           :tframe="filterTimeFrame",
-          :sdate="filterSinceDate",
-          :udate="filterUntilDate",
+          :sdate="getUnoptimisedMinimumDate(user)",
+          :udate="getUnoptimisedMaximumDate(user)",
           :avgsize="avgCommitSize",
           :mergegroup="isGroupMerged(getGroupName(repo))",
           :filtersearch="filterSearch",
@@ -345,7 +360,7 @@ import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
 import cMarkdownChunk from './c-markdown-chunk.vue';
-import { Bar, Repo, User } from '../types/types';
+import { Bar, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
 import { AuthorFileTypeContributions } from '../types/zod/commits-type';
@@ -434,6 +449,7 @@ export default defineComponent({
     activeUser: string | null,
     activeTabType: string | null,
     isTabOnMergedGroup: boolean,
+    isPortfolio: boolean,
   } {
     return {
       drags: [] as Array<number>,
@@ -441,6 +457,7 @@ export default defineComponent({
       activeUser: null as string | null,
       activeTabType: null as string | null,
       isTabOnMergedGroup: false,
+      isPortfolio: window.isPortfolio,
     };
   },
 
@@ -636,18 +653,31 @@ export default defineComponent({
         return ['fas', 'database'];
       }
     },
+
+    getUnoptimisedMinimumDate(user: User): string {
+      return this.isPortfolio ? user.sinceDate : this.filterSinceDate;
+    },
+
+    getUnoptimisedMaximumDate(user: User): string {
+      return this.isPortfolio ? user.untilDate : this.filterUntilDate;
+    },
+
     getOptimisedMinimumDate(user: User): string {
-      return user.commits.length === 0
-        ? this.filterSinceDate
-        : user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr))
-          .date;
+      if (user.commits.length === 0) {
+        return this.getUnoptimisedMinimumDate(user);
+      }
+
+      return user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr)).date;
     },
+
     getOptimisedMaximumDate(user: User): string {
-      return user.commits.length === 0
-        ? this.filterUntilDate
-        : user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr))
-          .date;
+      if (user.commits.length === 0) {
+        return this.getUnoptimisedMaximumDate(user);
+      }
+
+      return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr)).date;
     },
+
     getIsOptimising(user: User): boolean {
       return user.commits.length !== 0 && this.optimiseTimeline;
     },
@@ -720,8 +750,8 @@ export default defineComponent({
         zAvgCommitSize: avgCommitSize,
         zUser: clonedUser,
         zLocation: this.getRepoLink(user),
-        zSince: since,
-        zUntil: until,
+        zSince: since || user.sinceDate,
+        zUntil: until || user.untilDate,
         zIsMerged: isMerged,
         zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
@@ -785,7 +815,7 @@ export default defineComponent({
       const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
       return url.replace(regexToRemoveWidget, '');
     },
-    getRepo(repo: Array<Repo>): Array<Repo> {
+    getRepo(repo: Array<User>): Array<User> {
       if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
         return [repo[this.chartIndex!]];
       }
@@ -994,17 +1024,34 @@ export default defineComponent({
         .filter(Boolean) as Array<string>;
     },
 
-    getBlurb(repo: User): string {
+    getRepoBlurb(repo: User): string {
       const link = this.getRepoLink(repo);
       if (!link) {
         return '';
       }
-      const blurb: string | undefined = this.$store.state.blurbMap[link];
+      const blurb: string | undefined = this.$store.state.repoBlurbMap[link];
       if (!blurb) {
         return '';
       }
       return blurb;
     },
+
+    getChartBlurb(userName: string, repo: User) : string {
+      const link = this.getRepoLink(repo);
+      const blurb: string | undefined = this.$store.state.chartsBlurbMap[`${link}|${userName}`]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    },
+
+    getAuthorBlurb(userName: string): string {
+      const blurb: string | undefined = this.$store.state.authorBlurbMap[userName]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    }
   },
 });
 </script>
@@ -1013,7 +1060,7 @@ export default defineComponent({
 @import '../styles/tags.scss';
 @import '../styles/_colors.scss';
 
-.blurbWrapper {
+.blurb-wrapper {
   padding-bottom: 5px;
 
   .blurb {

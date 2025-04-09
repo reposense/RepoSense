@@ -14,8 +14,8 @@
       "branch": "master",
       "displayName": "reposense/testrepo-Alpha[master]",
       "outputFolderName": "reposense_testrepo-Alpha_master",
-      "sinceDate": "1970-01-01",
-      "untilDate": "2019-03-02"
+      "sinceDate": "1970-01-01T07:30:00",
+      "untilDate": "2019-03-02T23:59:59"
     },
     {
       "location": {
@@ -27,8 +27,8 @@
       "branch": "master",
       "displayName": "reposense/testrepo-Beta[master]",
       "outputFolderName": "reposense_testrepo-Beta_master",
-      "sinceDate": "1970-01-01",
-      "untilDate": "2019-03-02"
+      "sinceDate": "1970-01-01T07:30:00",
+      "untilDate": "2019-03-02T23:59:59"
     },
     {
       "location": {
@@ -40,8 +40,8 @@
       "branch": "master",
       "displayName": "reposense/testrepo-Charlie[master]",
       "outputFolderName": "reposense_testrepo-Charlie_master",
-      "sinceDate": "1970-01-01",
-      "untilDate": "2019-03-02"
+      "sinceDate": "1970-01-01T07:30:00",
+      "untilDate": "2019-03-02T23:59:59"
     },
     {
       "location": {
@@ -53,8 +53,8 @@
       "branch": "master",
       "displayName": "reposense/testrepo-Delta[master]",
       "outputFolderName": "reposense_testrepo-Delta_master",
-      "sinceDate": "1970-01-01",
-      "untilDate": "2019-03-02"
+      "sinceDate": "1970-01-01T07:30:00",
+      "untilDate": "2019-03-02T23:59:59"
     }
   ],
   "errorSet": [
@@ -67,8 +67,8 @@
       "errorMessage": "Branch \"nonExistentBranch\" does not exist."
     }
   ],
-  "sinceDate": "2017-09-30",
-  "untilDate": "2019-03-02",
+  "sinceDate": "2017-09-30T00:00:00",
+  "untilDate": "2019-03-02T23:59:59",
   "isSinceDateProvided": true,
   "isUntilDateProvided": true,
   "supportedDomainUrlMap": {
@@ -89,11 +89,18 @@
       "BLAME_PATH": "blame/$BRANCH/$FILE_PATH"
     }
   },
-  "blurbs": {
-    "urlBlurbMap": {
+  "repoBlurbs": {
+    "blurbMap": {
       "https://www.github.com/user/repo/branch": "first blurb",
       "https://www.github.com/user/repo/branch2": "## **second** blurb\n\n![link](link) to repository\n\nthis is what i have done for my cs2103t project",
       "https://www.github.com/user/repo/branch3": "*third blurb*\n\n<strong>third</strong> blurb with HTML content"
+    }
+  },
+  "authorBlurbs": {
+    "blurbMap": {
+      "author1": "first blurb",
+      "author2": "## **second** blurb\n\n![link](link) to repository\n\nI had contributed to this project by doing this and that",
+      "author3": "*third blurb*\n\n<strong>third</strong> blurb with HTML content"
     }
   },
   "isPortfolio": true
