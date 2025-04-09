@@ -77,6 +77,7 @@ partial credit.
 * Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
 * If both `repo-config.csv` and `report-config.yaml` are present in the config file, `report-config.yaml` will take precedence as long as the `repos` field is correctly formatted.
+* Config files must follow [this](./configFiles.html) format.
 </box>
 </div>
 
@@ -275,6 +276,21 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 * If `d1` is specified together with `--period`, then the program will warn that the date range being analyzed may be incorrect.
 </box>
 </div>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--text`, `-T`
+
+**`--text`**: Refreshes text content (title.md, repo-blurbs.md and author-blurbs.md) without reanalyzing repository data.
+* Alias: `-T` (uppercase T)
+
+<box type="info" seamless>
+
+* This flag is used to update only the text content (title.md, repo-blurbs.md and author-blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
+* Ensure that there is an existing valid report generated before using this flag.
+* Cannot be used with any other flags except from `--view`, `--assets` and `--config`.
+</box>
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--timezone`, `-t`
