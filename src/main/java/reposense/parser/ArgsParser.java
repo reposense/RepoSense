@@ -237,7 +237,7 @@ public class ArgsParser {
         parser.addArgument(REFRESH_ONLY_TEXT_FLAG)
                 .dest(REFRESH_ONLY_TEXT_FLAG[0])
                 .action(Arguments.storeTrue())
-                .help("Refreshes the text content of the report only, without analyzing the repositories again.");
+                .help("Refreshes only the text content of the report, without analyzing the repositories again.");
 
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)
