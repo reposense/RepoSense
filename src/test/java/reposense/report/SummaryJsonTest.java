@@ -52,7 +52,7 @@ public class SummaryJsonTest {
                 .displayName("reposense/testrepo-Alpha[master]")
                 .outputFolderName("reposense_testrepo-Alpha_master")
                 .sinceDate(LocalDate.parse("2025-02-16").atStartOfDay())
-                .untilDate(LocalDate.parse("2025-03-16").atStartOfDay())
+                .untilDate(LocalDateTime.parse("2025-03-16T23:59:59"))
                 .build();
         List<RepoConfiguration> repos = List.of(repoConfig);
 
