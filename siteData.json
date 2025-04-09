@@ -262,6 +262,7 @@
         "repo-repos-r": "--repo, --repos, -r",
         "shallow-cloning-s": "--shallow-cloning, -S",
         "since-s": "--since, -s",
+        "text-t": "--text, -T",
         "timezone-t": "--timezone, -t",
         "until-u": "--until, -u",
         "version-v": "--version, -V",
