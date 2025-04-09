@@ -282,7 +282,7 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 
 <box type="info" seamless>
 
-* This flag is used to update only the text content (title.md and blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
+* This flag is used to update only the text content (title.md, repo-blurbs.md and author-blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
 * Ensure that there is an existing valid report generated before using this flag.
 * Cannot be used with any other flags except from `--view`, `--assets` and `--config`.
 </box>
