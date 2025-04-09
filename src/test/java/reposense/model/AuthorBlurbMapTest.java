@@ -3,12 +3,12 @@ package reposense.model;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class BlurbMapTest {
+public class AuthorBlurbMapTest {
     @Test
     public void blurbBuilder_testIfBuildsSuccessfully_success() {
-        BlurbMap builder = new BlurbMap();
+        AuthorBlurbMap builder = new AuthorBlurbMap();
         builder.withRecord("hello", "world");
-        BlurbMap newBuilder = new BlurbMap();
+        AuthorBlurbMap newBuilder = new AuthorBlurbMap();
         newBuilder.withRecord("hello", "world");
 
         Assertions.assertEquals(builder, newBuilder);
@@ -16,15 +16,15 @@ public class BlurbMapTest {
 
     @Test
     public void blurbBuilder_testIfBuildsEmpty_success() {
-        BlurbMap map1 = new BlurbMap();
-        BlurbMap map2 = new BlurbMap();
+        AuthorBlurbMap map1 = new AuthorBlurbMap();
+        AuthorBlurbMap map2 = new AuthorBlurbMap();
         Assertions.assertEquals(map1, map2);
     }
 
     @Test
     public void blurbBuilder_testIfUnequal_success() {
-        BlurbMap builder1 = new BlurbMap();
-        BlurbMap builder2 = new BlurbMap();
+        AuthorBlurbMap builder1 = new AuthorBlurbMap();
+        AuthorBlurbMap builder2 = new AuthorBlurbMap();
 
         builder1.withRecord("this", "builder");
         builder2.withRecord("other", "builder");
