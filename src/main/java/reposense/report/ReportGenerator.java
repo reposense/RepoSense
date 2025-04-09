@@ -83,6 +83,8 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
     private static final String MESSAGE_MISSING_TEMPLATE =
             "Unable to find template file. Proceeding to generate report...";
+    private static final String MESSAGE_SKIP_REPORT_GENERATION =
+            "Refresh Only Text flag is present. Skipping report generation...";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
@@ -128,10 +130,23 @@ public class ReportGenerator {
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold,
             RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap,
-            boolean isPortfolio) throws IOException, InvalidMarkdownException {
+            boolean isPortfolio, boolean isOnlyTextRefreshed) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
             FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
+        }
+
+        if (isOnlyTextRefreshed) {
+            Path summaryJsonPath = Paths.get(outputPath + "/" + SummaryJson.SUMMARY_JSON_FILE_NAME);
+            if (!Files.exists(summaryJsonPath)) {
+                throw new IOException("summary.json does not exist in the output folder. Aborting report generation.");
+            }
+            SummaryJson updatedSummaryJson = SummaryJson.updateSummaryJson(summaryJsonPath, repoBlurbMap,
+                    authorBlurbMap, generationDate, reportGenerationTimeProvider.get());
+
+            FileUtil.writeJsonFile(updatedSummaryJson, getSummaryResultPath(outputPath));
+            logger.info(MESSAGE_SKIP_REPORT_GENERATION);
+            return null;
         }
 
         earliestSinceDate = null;
