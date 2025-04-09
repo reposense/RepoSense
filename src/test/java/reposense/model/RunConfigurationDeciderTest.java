@@ -39,9 +39,6 @@ public class RunConfigurationDeciderTest {
     private static final String TEST_REPO_REPOSENSE = "https://github.com/reposense/RepoSense.git";
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
 
-
-
-
     @BeforeEach
     public void before() {
         DEFAULT_INPUT_BUILDER.reset().addConfig(CONFIG_FOLDER_ABSOLUTE);

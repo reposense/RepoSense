@@ -56,7 +56,7 @@ public class RepoSense {
 
             configs = RunConfigurationDecider.getRunConfiguration(cliArguments).getRepoConfigurations();
             reportConfig = cliArguments.getReportConfiguration();
-            repoBlurbMap = cliArguments.mergeWithReportConfigBlurbMap();
+            repoBlurbMap = cliArguments.mergeWithReportConfigRepoBlurbMap();
             authorBlurbMap = cliArguments.getAuthorBlurbMap();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());

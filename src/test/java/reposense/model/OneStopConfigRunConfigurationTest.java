@@ -15,10 +15,10 @@ import reposense.parser.exceptions.InvalidLocationException;
 
 class OneStopConfigRunConfigurationTest {
 
-    private static CliArguments testCliArguments;
+    private static CliArguments testSetUp;
     private static List<RepoConfiguration> expectedRepoConfigurations;
 
-    public static void setUpTestCliArguments() {
+    public static void setUpActualRepoConfigurations() {
         CliArguments.Builder testCliBuilder = new CliArguments.Builder();
 
         List<String> globPatterns = List.of("**.java");
@@ -41,7 +41,7 @@ class OneStopConfigRunConfigurationTest {
         List<ReportRepoConfiguration> repos = List.of(repo);
         ReportConfiguration expectedReportConfig = new ReportConfiguration("Test RepoSense Report", repos);
         testCliBuilder.reportConfiguration(expectedReportConfig);
-        testCliArguments = testCliBuilder.build();
+        testSetUp = testCliBuilder.build();
     }
 
     public static void setUpExpectedRepoConfigurations() throws InvalidLocationException {
@@ -81,10 +81,10 @@ class OneStopConfigRunConfigurationTest {
 
     @Test
     public void getRepoConfigurations_withValidInputs_returnsRepoConfigurations() throws InvalidLocationException {
-        setUpTestCliArguments();
+        setUpActualRepoConfigurations();
         setUpExpectedRepoConfigurations();
 
-        OneStopConfigRunConfiguration config = new OneStopConfigRunConfiguration(testCliArguments);
+        OneStopConfigRunConfiguration config = new OneStopConfigRunConfiguration(testSetUp);
         List<RepoConfiguration> actualRepoConfigurations = config.getRepoConfigurations();
         Assertions.assertEquals(expectedRepoConfigurations, actualRepoConfigurations);
     }

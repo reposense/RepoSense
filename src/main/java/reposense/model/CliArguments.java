@@ -174,15 +174,15 @@ public class CliArguments {
      *
      * @return the merged blurb map.
      */
-    public RepoBlurbMap mergeWithReportConfigBlurbMap() {
+    public RepoBlurbMap mergeWithReportConfigRepoBlurbMap() {
         if (reportConfiguration == null) {
             return repoBlurbMap;
         }
-        RepoBlurbMap repoConfigBlurbMap = reportConfiguration.getRepoBlurbMap();
+        RepoBlurbMap repoConfigRepoBlurbMap = reportConfiguration.getRepoBlurbMap();
         for (Map.Entry<String, String> entry : repoBlurbMap.getAllMappings().entrySet()) {
-            repoConfigBlurbMap.withRecord(entry.getKey(), entry.getValue());
+            repoConfigRepoBlurbMap.withRecord(entry.getKey(), entry.getValue());
         }
-        return repoConfigBlurbMap;
+        return repoConfigRepoBlurbMap;
     }
 
     public boolean isViewModeOnly() {

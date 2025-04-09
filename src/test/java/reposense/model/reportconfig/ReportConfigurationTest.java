@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import reposense.model.BlurbMap;
+import reposense.model.RepoBlurbMap;
 
 public class ReportConfigurationTest {
 
@@ -58,19 +58,19 @@ public class ReportConfigurationTest {
 
     @Test
     public void getBlurbMap_withValidInputs_success() {
-        BlurbMap expectedBlurbMap = new BlurbMap();
+        RepoBlurbMap expectedBlurbMap = new RepoBlurbMap();
         expectedBlurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "My project");
 
-        Assertions.assertEquals(expectedBlurbMap, expectedReportConfig.getBlurbMap());
+        Assertions.assertEquals(expectedBlurbMap, expectedReportConfig.getRepoBlurbMap());
     }
 
     @Test
     public void getBlurbMap_withInvalidInputs_returnEmptyBlurbMap() {
-        BlurbMap expectedBlurbMap = new BlurbMap();
+        RepoBlurbMap expectedBlurbMap = new RepoBlurbMap();
         expectedBlurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "My project");
 
-        Assertions.assertNotEquals(expectedBlurbMap, invalidReportConfig.getBlurbMap());
-        Assertions.assertEquals(new BlurbMap(), invalidReportConfig.getBlurbMap());
+        Assertions.assertNotEquals(expectedBlurbMap, invalidReportConfig.getRepoBlurbMap());
+        Assertions.assertEquals(new RepoBlurbMap(), invalidReportConfig.getRepoBlurbMap());
     }
 
     @Test
