@@ -272,6 +272,21 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 * If `d1` is specified as the start date (`--since d1` or `-s d1`), then the program will search for the earliest commit date of all repositories and use that as the start date.
 * If `d1` is specified together with `--period`, then the program will warn that the date range being analyzed may be incorrect.
 </box>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--text`, `-T`
+
+**`--text`**: Refreshes text content (title.md, repo-blurbs.md and author-blurbs.md) without reanalyzing repository data.
+* Alias: `-T` (uppercase T)
+
+<box type="info" seamless>
+
+* This flag is used to update only the text content (title.md, repo-blurbs.md and author-blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
+* Ensure that there is an existing valid report generated before using this flag.
+* Cannot be used with any other flags except from `--view`, `--assets` and `--config`.
+</box>
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--timezone`, `-t`
