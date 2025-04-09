@@ -17,7 +17,7 @@
     v-model:has-modified-until-date="hasModifiedUntilDate",
     :min-date="minDate",
     :max-date="maxDate",
-    :is-safari-browser="isSafariBrowser",
+    :input-date-not-supported="inputDateNotSupported",
     :filter-since-date="filterSinceDate",
     :filter-until-date="filterUntilDate",
     @get-filtered="getFiltered",
@@ -79,6 +79,10 @@
     :view-repo-tags="viewRepoTags",
     :optimise-timeline="optimiseTimeline"
   )
+
+  .logo(v-if="isWidgetMode")
+    a(:href="getRepoSenseHomeLink()", target="_blank")
+      img(:src="getLogoPath()", :width=20, :height=20)
 </template>
 
 <script lang='ts'>
@@ -109,7 +113,7 @@ import {
   FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection,
 } from '../types/summary';
 
-const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
+const dateFormatRegex = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))(T([01]\d|2[0-3]):([0-5]\d)(:([0-5]\d))?)?$/;
 
 export default defineComponent({
   name: 'c-summary',
@@ -156,7 +160,7 @@ export default defineComponent({
     minDate: string,
     maxDate: string,
     fileTypeColors: { [key: string]: string },
-    isSafariBrowser: boolean,
+    inputDateNotSupported: boolean,
     filterGroupSelectionWatcherFlag: boolean,
     chartGroupIndex: number | undefined,
     chartIndex: number | undefined,
@@ -187,7 +191,7 @@ export default defineComponent({
       minDate: window.sinceDate,
       maxDate: window.untilDate,
       fileTypeColors: {} as { [key: string]: string },
-      isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
+      inputDateNotSupported: this.isSafariBrowserAndVersionLessThan_14_1(),
       filterGroupSelectionWatcherFlag: false,
       chartGroupIndex: undefined as number | undefined,
       chartIndex: undefined as number | undefined,
@@ -307,6 +311,21 @@ export default defineComponent({
     }, 0);
   },
   methods: {
+    isSafariBrowserAndVersionLessThan_14_1(): boolean{
+      const userAgent = navigator.userAgent;
+      const safariVersionRegex = /Version\/([\d.]+).*Safari./;
+      const versionMatch = userAgent.match(safariVersionRegex);
+
+      if (!versionMatch || !versionMatch[1]) {
+        return false; // Not Safari or version parsing failed
+      }
+
+      const versionParts = versionMatch[1].split('.').map(Number);
+      const major = versionParts[0];
+      const minor = versionParts[1] || 0;
+
+      return major < 14 || major === 14 && minor < 1;
+    },
     dismissTab(event: Event): void {
       if (event.target instanceof Element && event.target.parentNode instanceof HTMLElement) {
         event.target.parentNode.style.display = 'none';
@@ -335,7 +354,16 @@ export default defineComponent({
     getReportIssueMessage(message: string): string {
       return encodeURI(message);
     },
-
+    getRepoSenseHomeLink(): string {
+      const version = window.repoSenseVersion;
+      if (!version) {
+        return `${window.HOME_PAGE_URL}/RepoSense/`;
+      }
+      return `${window.HOME_PAGE_URL}`;
+    },
+    getLogoPath(): string {
+      return window.LOGO_PATH;
+    },
     // model functions //
     setSummaryHash(): void {
       const { addHash, encodeHash, removeHash } = window;
@@ -517,8 +545,8 @@ export default defineComponent({
             if (this.isMatchSearchedUser(this.filterSearch, user)) {
               this.getUserCommits(
                 user,
-                new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate,
-                new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate,
+      new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate,
+      new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate,
               );
               if (this.filterTimeFrame === 'week') {
                 this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
@@ -850,7 +878,6 @@ export default defineComponent({
       window.removeHash('until');
       this.getFiltered();
     },
-
     updateCheckedFileTypeContribution(ele: User): void {
       let validCommits = 0;
       Object.keys(ele.fileTypeContribution).forEach((fileType) => {
@@ -946,5 +973,11 @@ export default defineComponent({
   display: flex;
   justify-content: flex-end;
   margin-top: .3rem;
+}
+
+.logo {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5px;
 }
 </style>

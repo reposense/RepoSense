@@ -15,6 +15,7 @@ window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
 window.REPORT_ZIP = null;
+window.LOGO_PATH = "logo.png"
 
 const HASH_ANCHOR = '?';
 const REPORT_DIR = '.';
@@ -236,17 +237,21 @@ window.api = {
       names.push(repoName);
     });
 
-    const blurbMap: { [key: string]: string } = data.blurbs.urlBlurbMap;
+    const repoBlurbMap: { [key: string]: string } = data.repoBlurbs.blurbMap;
+    const authorBlurbMap: {[key: string]: string} | undefined = data.authorBlurbs?.blurbMap;
+    const chartsBlurbMap: {[key: string]: string} | undefined = data.chartsBlurbs?.blurbMap;
     return {
       creationDate: reportGeneratedTime,
       reportGenerationTime,
       errorMessages,
       names,
-      blurbMap,
+      repoBlurbMap,
+      authorBlurbMap,
+      chartsBlurbMap
     };
   },
 
-  async loadCommits(repoName) {
+  async loadCommits(repoName: string, defaultSortOrder: number) {
     const folderName = window.REPOS[repoName].outputFolderName;
     const json = await this.loadJSON(`${folderName}/commits.json`);
     const commits = commitsSchema.parse(json);
@@ -279,6 +284,7 @@ window.api = {
           checkedFileTypeContribution: undefined,
           sinceDate: repo.sinceDate,
           untilDate: repo.untilDate,
+          defaultSortOrder,
         };
 
         res.push(user);

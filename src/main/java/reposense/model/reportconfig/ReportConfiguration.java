@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import reposense.model.BlurbMap;
+import reposense.model.RepoBlurbMap;
 import reposense.system.LogsManager;
 
 /**
@@ -38,8 +38,8 @@ public class ReportConfiguration {
      *
      * @return {@code BlurbMap} containing the repository name and its associated blurb.
      */
-    public BlurbMap getBlurbMap() {
-        BlurbMap blurbMap = new BlurbMap();
+    public RepoBlurbMap getRepoBlurbMap() {
+        RepoBlurbMap blurbMap = new RepoBlurbMap();
 
         for (ReportRepoConfiguration repoConfig : reportRepoConfigurations) {
             try {

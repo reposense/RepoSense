@@ -25,9 +25,10 @@ import net.sourceforge.argparse4j.inf.FeatureControl;
 import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
-import reposense.model.BlurbMap;
+import reposense.model.AuthorBlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.FileType;
+import reposense.model.RepoBlurbMap;
 import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.parser.exceptions.ParseException;
@@ -346,7 +347,8 @@ public class ArgsParser {
         }
 
         addReportConfigToBuilder(cliArgumentsBuilder, results);
-        addBlurbMapToBuilder(cliArgumentsBuilder, results);
+        addRepoBlurbMapToBuilder(cliArgumentsBuilder, results);
+        addAuthorBlurbMapToBuilder(cliArgumentsBuilder, results);
         addAnalysisDatesToBuilder(cliArgumentsBuilder, results);
 
         boolean isViewModeOnly = reportFolderPath != null
@@ -392,20 +394,20 @@ public class ArgsParser {
     }
 
     /**
-     * Adds the blurbMap field to the given {@code builder}.
+     * Adds the repoblurbMap field to the given {@code builder}.
      *
      * @param builder Builder to be supplied with the reportConfig field.
      * @param results Parsed results of the user-supplied CLI arguments.
      */
-    private static void addBlurbMapToBuilder(CliArguments.Builder builder, Namespace results) {
-        BlurbMap blurbMap = new BlurbMap();
+    private static void addRepoBlurbMapToBuilder(CliArguments.Builder builder, Namespace results) {
+        RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
         Path configFolderPath = results.get(CONFIG_FLAGS[0]);
 
         // Blurbs are parsed regardless
-        Path blurbConfigPath = configFolderPath.resolve(BlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+        Path blurbConfigPath = configFolderPath.resolve(RepoBlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
 
         try {
-            blurbMap = new BlurbMarkdownParser(blurbConfigPath).parse();
+            repoBlurbMap = new RepoBlurbMarkdownParser(blurbConfigPath).parse();
         } catch (InvalidMarkdownException ex) {
             logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
         } catch (IOException ioe) {
@@ -413,7 +415,32 @@ public class ArgsParser {
             // Ignore exception as the file is optional.
         }
 
-        builder.blurbMap(blurbMap);
+        builder.repoBlurbMap(repoBlurbMap);
+    }
+
+    /**
+     * Adds the authorblurbMap field to the given {@code builder}.
+     *
+     * @param builder Builder to be supplied with the reportConfig field.
+     * @param results Parsed results of the user-supplied CLI arguments.
+     */
+    private static void addAuthorBlurbMapToBuilder(CliArguments.Builder builder, Namespace results) {
+        AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
+        Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+
+        // Blurbs are parsed regardless
+        Path blurbConfigPath = configFolderPath.resolve(AuthorBlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+
+        try {
+            authorBlurbMap = new AuthorBlurbMarkdownParser(blurbConfigPath).parse();
+        } catch (InvalidMarkdownException ex) {
+            logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
+        } catch (IOException ioe) {
+            // IOException thrown as blurbs.md is not found.
+            // Ignore exception as the file is optional.
+        }
+
+        builder.authorBlurbMap(authorBlurbMap);
     }
 
     /**
@@ -445,7 +472,7 @@ public class ArgsParser {
         LocalDateTime currentDate = TimeUtil.getCurrentDate(zoneId);
 
         if (isSinceDateProvided) {
-            sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
+            sinceDate = TimeUtil.getValidDate(cliSinceDate.get());
             // For --since d1, need to adjust the arbitrary date based on timezone
             if (TimeUtil.isEqualToArbitraryFirstDateUtc(sinceDate)) {
                 isUsingArbitraryDate = true;
@@ -466,7 +493,7 @@ public class ArgsParser {
         }
 
         if (isUntilDateProvided) {
-            untilDate = TimeUtil.getUntilDate(cliUntilDate.get());
+            untilDate = TimeUtil.getValidDate(cliUntilDate.get());
         } else {
             untilDate = (isSinceDateProvided && isPeriodProvided)
                     ? TimeUtil.getDatePlusNDays(cliSinceDate.get(), cliPeriod.get())
