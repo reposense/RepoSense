@@ -93,6 +93,11 @@ specify the period for report generation, you can use the `--since` and `--until
 
 </box>
 
+<box type="info" seamless>
+
+Additionally, you can add a `--portfolio` flag to generate a more optimized view of your report.
+</box>
+
 That's it! RepoSense will analyze the repositories you specified and generate a report that visualizes your contributions.
 
 ## Example Configuration

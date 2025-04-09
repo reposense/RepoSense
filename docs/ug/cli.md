@@ -76,7 +76,7 @@ partial credit.
 
 * Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
-* If both `repo-config.csv` and `report-config.yaml` are present in the config file, `report-config.yaml` will take precedence as long as the `repos` field is correctly formatted.
+* If both `repo-config.csv` and `report-config.yaml` are present in the config file, `report-config.yaml` will take precedence over **all CSV files** as long as the `repos` field is correctly formatted.
 * Config files must follow [this](./configFiles.html) format.
 </box>
 </div>
