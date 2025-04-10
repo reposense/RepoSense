@@ -35,7 +35,12 @@
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
         }"
       )
-.date-indicators(v-if="optimiseTimeline")
+
+.date-indicators(v-if="isPortfolio")
+  span {{displayMinDate}}
+  span {{displayMaxDate}}
+
+.date-indicators(v-else-if="optimiseTimeline")
   span {{optimisedMinimumDate}}
   span {{optimisedMaximumDate}}
 </template>
@@ -105,14 +110,22 @@ export default defineComponent({
   data(): {
     rampSize: number,
     optimisedPadding: number,
+    isPortfolio: boolean,
   } {
     return {
       rampSize: 0.01 as number,
       optimisedPadding: 3, // as % of total timeline,
+      isPortfolio: window.isPortfolio,
     };
   },
 
   computed: {
+    displayMinDate(): String {
+      return this.optimiseTimeline ? this.optimisedMinimumDate : this.sdate;
+    },
+    displayMaxDate(): String {
+      return this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
+    },
     mergeCommitRampSize(): number {
       return this.rampSize * 20;
     },
@@ -224,9 +237,11 @@ export default defineComponent({
       if (this.isDeletesContribution(slice)) {
         return '-deletes';
       }
+
+      // Force interpretation in UTC to preserve local day boundaries as dates are in local time format
       const timeMs = this.fromramp
-          ? (new Date(this.sdate)).getTime()
-          : (new Date(slice.date)).getTime();
+          ? (new Date(`${this.sdate}Z`)).getTime()
+          : (new Date(`${slice.date}Z`)).getTime();
 
       return (timeMs / window.DAY_IN_MS) % 5;
     },
