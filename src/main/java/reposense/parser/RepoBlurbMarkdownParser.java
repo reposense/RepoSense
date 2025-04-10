@@ -48,8 +48,6 @@ public class RepoBlurbMarkdownParser extends BlurbMarkdownParser<RepoBlurbMap, S
 
                 url = lines.get(position++).strip();
             }
-            System.out.println("url is " + url);
-            System.out.println("position is " + position);
             new URL(url).toURI();
             return new KeyRecord<>(url, position);
         } catch (MalformedURLException | URISyntaxException ex) {

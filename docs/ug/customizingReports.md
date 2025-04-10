@@ -75,9 +75,16 @@ Do note that the width of the title is bound by the width of the left panel.
 
 For more information on how to use Markdown, see the [Markdown Guide](https://www.markdownguide.org/).
 
-#### Add blurbs for branches
-A blurb can be added for a repository branch by creating a file titled `blurbs.md` in the config directory. The blurbs will be visible when grouping by `Repo/Branch`. The format of the file is given below:
-{{ embed("Appendix: **Config files format**", "configFiles.md#section-blurbs") }}
+#### Add blurbs for branches or authors
+A blurb can be added for a repository or author by creating the respective blurb markdown files in the config directory.
+- For a repository:
+  - Create a file titled `repo-blurbs.md` in the config directory. The format of the file is given below:
+    {{ embed("Appendix: **Config files format**", "configFiles.md#section-repo-blurbs") }}
+  - The blurbs will be visible when grouping by `Repo/Branch`.
+- For an author:
+  - Create a file titled `author-blurbs.md` in the config directory. The format of the file is given below:
+    {{ embed("Appendix: **Config files format**", "configFiles.md#section-author-blurbs") }}
+  - The blurbs will be visible when grouping by `Author`.
 
 Specifying the config directory can be done as follows:
 {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
