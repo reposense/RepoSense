@@ -81,7 +81,7 @@ public class RepoSense {
             ReportGenerator reportGenerator = new ReportGenerator();
             List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
                     cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                    cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
+                    cliArguments.getConfigFolderPath().toAbsolutePath().toString(), reportConfig,
                     formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                     cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                     cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),

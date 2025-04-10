@@ -20,7 +20,6 @@ public class CliArguments {
     private static final Path EMPTY_PATH = Paths.get("");
 
     private Path outputFilePath;
-    private Path assetsFilePath;
     private LocalDateTime sinceDate;
     private LocalDateTime untilDate;
     private boolean isSinceDateProvided;
@@ -66,10 +65,6 @@ public class CliArguments {
 
     public Path getOutputFilePath() {
         return outputFilePath;
-    }
-
-    public Path getAssetsFilePath() {
-        return assetsFilePath;
     }
 
     public LocalDateTime getSinceDate() {
@@ -250,16 +245,6 @@ public class CliArguments {
          */
         public Builder outputFilePath(Path outputFilePath) {
             this.cliArguments.outputFilePath = outputFilePath;
-            return this;
-        }
-
-        /**
-         * Adds the {@code assetsFilePath} to CliArguments.
-         *
-         * @param assetsFilePath The assets file path.
-         */
-        public Builder assetsFilePath(Path assetsFilePath) {
-            this.cliArguments.assetsFilePath = assetsFilePath;
             return this;
         }
 
