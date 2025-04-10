@@ -15,6 +15,7 @@
     v-model:all-groups-merged="allGroupsMerged",
     v-model:has-modified-since-date="hasModifiedSinceDate",
     v-model:has-modified-until-date="hasModifiedUntilDate",
+    v-model:filtered-file-name="filteredFileName",
     :min-date="minDate",
     :max-date="maxDate",
     :input-date-not-supported="inputDateNotSupported",
@@ -168,6 +169,7 @@ export default defineComponent({
     numberOfErrorMessagesToShow: number,
     viewRepoTags: boolean,
     optimiseTimeline: boolean,
+    filteredFileName: string
   } {
     return {
       checkedFileTypes: [] as Array<string>,
@@ -199,6 +201,7 @@ export default defineComponent({
       numberOfErrorMessagesToShow: 4,
       viewRepoTags: false,
       optimiseTimeline: window.isPortfolio, // Auto select trim timeline if portfolio
+      filteredFileName: ''
     };
   },
   computed: {
@@ -365,6 +368,33 @@ export default defineComponent({
       return window.LOGO_PATH;
     },
     // model functions //
+    resetFilterSearch(): void {
+      this.filterSearch = '';
+      this.getFiltered();
+    },
+
+    updateFilterSearch(evt: Event): void {
+      // Only called from an input onchange event, target guaranteed to be input element
+      this.filterSearch = (evt.target as HTMLInputElement).value;
+      this.getFiltered();
+    },
+
+    resetFilteredFileName() : void {
+      this.filteredFileName = '';
+      window.removeHash('authorshipFilesGlob');
+      this.$store.commit("updateAuthorshipRefreshState", false);
+      this.getFiltered();
+      window.location.reload();
+    },
+
+    setFilteredFileName(evt: Event) : void {
+      this.filteredFileName = (evt.target as HTMLInputElement).value;
+      this.$store.commit("updateAuthorshipRefreshState", true);
+      window.addHash('authorshipFilesGlob', this.filteredFileName);
+      this.getFiltered();
+      window.location.reload();
+    },
+
     setSummaryHash(): void {
       const { addHash, encodeHash, removeHash } = window;
 
@@ -411,6 +441,7 @@ export default defineComponent({
         removeHash('optimiseTimeline');
       }
 
+      window.addHash('filteredFileName', this.filteredFileName);
       encodeHash();
     },
 
@@ -464,6 +495,9 @@ export default defineComponent({
       }
       if (hash.optimiseTimeline) {
         this.optimiseTimeline = convertBool(hash.optimiseTimeline);
+      }
+      if (hash.filteredFileName) {
+        this.filteredFileName = hash.filteredFileName;
       }
     },
 

@@ -237,13 +237,17 @@ window.api = {
       names.push(repoName);
     });
 
-    const blurbMap: { [key: string]: string } = data.blurbs.urlBlurbMap;
+    const repoBlurbMap: { [key: string]: string } = data.repoBlurbs.blurbMap;
+    const authorBlurbMap: {[key: string]: string} | undefined = data.authorBlurbs?.blurbMap;
+    const chartsBlurbMap: {[key: string]: string} | undefined = data.chartsBlurbs?.blurbMap;
     return {
       creationDate: reportGeneratedTime,
       reportGenerationTime,
       errorMessages,
       names,
-      blurbMap,
+      repoBlurbMap,
+      authorBlurbMap,
+      chartsBlurbMap
     };
   },
 

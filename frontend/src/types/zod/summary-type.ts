@@ -47,9 +47,15 @@ export const summarySchema = z.object({
   isUntilDateProvided: z.boolean(),
   isAuthorshipAnalyzed: z.boolean().default(false), // for backwards compatability
   supportedDomainUrlMap: supportedDomainUrlMapSchema,
-  blurbs: z.object({
-    urlBlurbMap: z.record(z.string(), z.string()),
+  repoBlurbs: z.object({
+    blurbMap: z.record(z.string(), z.string()),
   }),
+  authorBlurbs: z.object({
+    blurbMap: z.record(z.string(), z.string())
+  }).optional(),
+  chartsBlurbs: z.object({
+    blurbMap: z.record(z.string(), z.string())
+  }).optional(),
   isPortfolio: z.boolean(),
 });
 
