@@ -6,6 +6,7 @@
   {name: "Sharing reports", link: "ug/sharingReports.html"},
   {name: "Appendices"},
   {level: 2, name: "CLI syntax reference", link: "ug/cli.html"},
+  {level: 2, name: "Getting started with `report-config.yaml`", link: "ug/reportConfig.html"},
   {level: 2, name: "Config files format", link: "ug/configFiles.html"},
   {level: 2, name: "Advanced syntax: `author-config.csv`", link: "ug/authorConfigSyntax.html"},
   {level: 2, name: "Using `@@author` tags", link: "ug/usingAuthorTags.html"},

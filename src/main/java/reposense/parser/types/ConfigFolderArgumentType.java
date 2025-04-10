@@ -10,13 +10,14 @@ import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.ArgumentType;
 import reposense.parser.RepoConfigCsvParser;
+import reposense.parser.ReportConfigYamlParser;
 
 /**
  * Checks the argument of {@code --config} flag.
  */
 public class ConfigFolderArgumentType implements ArgumentType<Path> {
     private static final String PARSE_EXCEPTION_MESSAGE_MISSING_REQUIRED_CONFIG_FILES =
-            "The required config file %s is not found in the specified folder.";
+            "The required config file %s or %s is not found in the specified folder.";
 
     @Override
     public Path convert(ArgumentParser parser, Argument arg, String value) throws ArgumentParserException {
@@ -27,7 +28,11 @@ public class ConfigFolderArgumentType implements ArgumentType<Path> {
             return Paths.get(value);
         }
 
+        if (Files.exists(Paths.get(value).resolve(ReportConfigYamlParser.REPORT_CONFIG_FILENAME))) {
+            return Paths.get(value);
+        }
+
         throw new ArgumentParserException(String.format(PARSE_EXCEPTION_MESSAGE_MISSING_REQUIRED_CONFIG_FILES,
-                RepoConfigCsvParser.REPO_CONFIG_FILENAME), parser);
+                RepoConfigCsvParser.REPO_CONFIG_FILENAME, ReportConfigYamlParser.REPORT_CONFIG_FILENAME), parser);
     }
 }

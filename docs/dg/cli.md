@@ -17,7 +17,7 @@ syntax reference under Appendix section of User Guide.
 
 <box type="info" seamless>
 
-* Used in `ConfigSystemTest`.
+* Used in `ConfigSystemTest` and `ReportConfigSystemTest`.
 * Some test cases performs shallow cloning while some does not. Fresh cloning ensures that the test cases that does
 not perform shallow cloning will clone the repo again if the previous test case uses shallow cloning, ensuring
 correctness of the analysis.

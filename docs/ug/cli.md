@@ -68,7 +68,7 @@ partial credit.
 <div id="section-config">
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
-* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `report-config.json` file or/and a `blurbs.md` file.
+* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file or/and a `report-config.yaml` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `blurbs.md` file.
 * Alias: `-c`
 * Example: `java -jar RepoSense.jar --config  ./config`
 
@@ -76,6 +76,7 @@ partial credit.
 
 * Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
+* If both `repo-config.csv` and `report-config.yaml` are present in the config file, `report-config.yaml` will take precedence over **all CSV files** as long as the `repos` field is correctly formatted.
 * Config files must follow [this](./configFiles.html) format.
 </box>
 </div>
@@ -253,6 +254,8 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 
 ### `--since`, `-s`
 
+<div id="section-since-date">
+
 **`--since START_DATE`**: Specifies the start date for the period to be analyzed.
 * Parameter: `START_DATE` The first day of the period to be analyzed (with optional time specification), in one of the following formats:<br>
   ```
@@ -272,6 +275,7 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 * If `d1` is specified as the start date (`--since d1` or `-s d1`), then the program will search for the earliest commit date of all repositories and use that as the start date.
 * If `d1` is specified together with `--period`, then the program will warn that the date range being analyzed may be incorrect.
 </box>
+</div>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -301,6 +305,8 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 
 ### `--until`, `-u`
 
+<div id="section-until-date">
+
 **`--until END_DATE`**: Specifies the end date of the analysis period.
 * Parameter: `END_DATE` The last date of the period to be analyzed (with optional time specification), in one of the following formats:<br>
   ```
@@ -318,6 +324,7 @@ Default:
 
 Note: If the end date is not specified, the date of generating the report will be taken as the end date.
 </box>
+</div>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
