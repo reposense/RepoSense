@@ -408,7 +408,7 @@ public class FileUtil {
                                                  String zipFileName) {
         Path sourceFilePath = Paths.get(sourcePath.toString(), fileName);
         Path zipFilePath = Paths.get(outputPath.toString(), zipFileName);
-        try (FileSystem fs = FileSystems.newFileSystem(zipFilePath, null)) {
+        try (FileSystem fs = FileSystems.newFileSystem(zipFilePath, (ClassLoader) null)) {
             Path fileInsideZipPath = fs.getPath("/" + fileName);
             Files.copy(sourceFilePath, fileInsideZipPath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -420,7 +420,7 @@ public class FileUtil {
      * Deletes a file from the zip file if it exists.
      */
     public static void deleteFileFromZipFileIfExists(Path zipFilePath, String fileToDelete) {
-        try (FileSystem fs = FileSystems.newFileSystem(zipFilePath, null)) {
+        try (FileSystem fs = FileSystems.newFileSystem(zipFilePath, (ClassLoader) null)) {
             Path fileInsideZipPath = fs.getPath("/" + fileToDelete);
             Files.deleteIfExists(fileInsideZipPath);
         } catch (Exception e) {
