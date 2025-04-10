@@ -1,6 +1,20 @@
 <template lang="pug">
   form.summary-picker.mui-form--inline(onsubmit="return false;")
     .summary-picker__section
+      .tooltip(
+        @mouseover="onTooltipHover('filter-files-label')",
+        @mouseout="resetTooltip('filter-files-label')"
+      )
+        .mui-textfield.filter_file(v-if='!isPortfolio')
+          label filter files
+          input(
+            type="text",
+            @change="setFilteredFileName",
+            v-model="localFilteredFileName"
+            )
+          button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
+          span.tooltip-text(ref='filter-files-label') Enter a glob to filter the files
+
       .mui-textfield.search_box(v-if='!isPortfolio')
         input(type="text", v-model="localFilterSearch")
         label search
@@ -100,20 +114,26 @@
           span trim timeline
 </template>
 
-
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection, SortWithinGroupSelection } from "../types/summary";
+import { defineComponent, PropType } from "vue";
+import brokenLinkDisabler from '../mixin/brokenLinkMixin';
+import tooltipPositioner from '../mixin/dynamicTooltipMixin';
+import {
+  FilterGroupSelection,
+  FilterTimeFrame,
+  SortGroupSelection,
+  SortWithinGroupSelection,
+} from "../types/summary";
 
 const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 
 export default defineComponent({
-  name: 'c-summary-header',
-
+  name: "c-summary-header",
+  mixins: [brokenLinkDisabler, tooltipPositioner],
   props: {
     filterSearch: {
       type: String,
-      default: '',
+      default: "",
     },
     filterGroupSelection: {
       type: String as PropType<FilterGroupSelection>,
@@ -137,19 +157,19 @@ export default defineComponent({
     },
     tmpFilterSinceDate: {
       type: String,
-      default: '',
+      default: "",
     },
     tmpFilterUntilDate: {
       type: String,
-      default: '',
+      default: "",
     },
     minDate: {
       type: String,
-      default: '',
+      default: "",
     },
     maxDate: {
       type: String,
-      default: '',
+      default: "",
     },
     viewRepoTags: {
       type: Boolean,
@@ -177,35 +197,40 @@ export default defineComponent({
     },
     filterSinceDate: {
       type: String,
-      default: '',
+      default: "",
     },
     filterUntilDate: {
       type: String,
-      default: '',
+      default: "",
+    },
+    filteredFileName: {
+      type: String,
+      default: "",
     },
   },
 
   emits: [
-    'update:filterSearch',
-    'update:filterGroupSelection',
-    'update:sortGroupSelection',
-    'update:sortWithinGroupSelection',
-    'update:filterTimeFrame',
-    'update:filterBreakdown',
-    'update:tmpFilterSinceDate',
-    'update:tmpFilterUntilDate',
-    'update:viewRepoTags',
-    'update:optimiseTimeline',
-    'update:allGroupsMerged',
-    'update:hasModifiedSinceDate',
-    'update:hasModifiedUntilDate',
-    'get-filtered',
-    'reset-date-range',
-    'toggle-breakdown',
+    "update:filterSearch",
+    "update:filterGroupSelection",
+    "update:sortGroupSelection",
+    "update:sortWithinGroupSelection",
+    "update:filterTimeFrame",
+    "update:filterBreakdown",
+    "update:tmpFilterSinceDate",
+    "update:tmpFilterUntilDate",
+    "update:viewRepoTags",
+    "update:optimiseTimeline",
+    "update:allGroupsMerged",
+    "update:hasModifiedSinceDate",
+    "update:hasModifiedUntilDate",
+    "update:filteredFileName",
+    "get-filtered",
+    "reset-date-range",
+    "toggle-breakdown",
   ],
 
   data(): { isPortfolio: boolean } {
-    return {isPortfolio: window.isPortfolio};
+    return { isPortfolio: window.isPortfolio };
   },
 
   computed: {
@@ -214,9 +239,9 @@ export default defineComponent({
         return this.$props.filterSearch as string;
       },
       set(value: string) {
-        this.$emit('update:filterSearch', value);
-        this.$emit('get-filtered');
-      }
+        this.$emit("update:filterSearch", value);
+        this.$emit("get-filtered");
+      },
     },
 
     localFilterGroupSelection: {
@@ -224,9 +249,18 @@ export default defineComponent({
         return this.$props.filterGroupSelection as FilterGroupSelection;
       },
       set(value: FilterGroupSelection) {
-        this.$emit('update:filterGroupSelection', value);
-        this.$emit('get-filtered');
-      }
+        this.$emit("update:filterGroupSelection", value);
+        this.$emit("get-filtered");
+      },
+    },
+
+    localFilteredFileName: {
+      get() {
+        return this.$props.filteredFileName as string;
+      },
+      set(newValue: string) {
+        this.$emit("update:filteredFileName", newValue);
+      },
     },
 
     localSortGroupSelection: {
@@ -234,8 +268,8 @@ export default defineComponent({
         return this.$props.sortGroupSelection as SortGroupSelection;
       },
       set(value: SortGroupSelection) {
-        this.$emit('update:sortGroupSelection', value);
-      }
+        this.$emit("update:sortGroupSelection", value);
+      },
     },
 
     localSortWithinGroupSelection: {
@@ -243,8 +277,8 @@ export default defineComponent({
         return this.$props.sortWithinGroupSelection as SortWithinGroupSelection;
       },
       set(value: SortWithinGroupSelection) {
-        this.$emit('update:sortWithinGroupSelection', value);
-      }
+        this.$emit("update:sortWithinGroupSelection", value);
+      },
     },
 
     localFilterTimeFrame: {
@@ -252,8 +286,8 @@ export default defineComponent({
         return this.$props.filterTimeFrame as FilterTimeFrame;
       },
       set(value: FilterTimeFrame) {
-        this.$emit('update:filterTimeFrame', value);
-      }
+        this.$emit("update:filterTimeFrame", value);
+      },
     },
 
     localFilterBreakdown: {
@@ -261,8 +295,8 @@ export default defineComponent({
         return this.$props.filterBreakdown as boolean;
       },
       set(value: boolean) {
-        this.$emit('update:filterBreakdown', value);
-      }
+        this.$emit("update:filterBreakdown", value);
+      },
     },
 
     localViewRepoTags: {
@@ -270,8 +304,8 @@ export default defineComponent({
         return this.$props.viewRepoTags as boolean;
       },
       set(value: boolean) {
-        this.$emit('update:viewRepoTags', value);
-      }
+        this.$emit("update:viewRepoTags", value);
+      },
     },
 
     localOptimiseTimeline: {
@@ -279,8 +313,8 @@ export default defineComponent({
         return this.$props.optimiseTimeline as boolean;
       },
       set(value: boolean) {
-        this.$emit('update:optimiseTimeline', value);
-      }
+        this.$emit("update:optimiseTimeline", value);
+      },
     },
 
     localAllGroupsMerged: {
@@ -288,61 +322,81 @@ export default defineComponent({
         return this.$props.allGroupsMerged as boolean;
       },
       set(value: boolean) {
-        this.$emit('update:allGroupsMerged', value);
-      }
+        this.$emit("update:allGroupsMerged", value);
+      },
     },
   },
 
   methods: {
     resetFilterSearch() {
-      this.$emit('update:filterSearch', '');
-      this.$emit('get-filtered');
+      this.$emit("update:filterSearch", "");
+      this.$emit("get-filtered");
+    },
+
+    resetFilteredFileName(): void {
+      this.$emit("update:filteredFileName", "");
+      window.removeHash("authorshipFilesGlob");
+      this.$store.commit("updateAuthorshipRefreshState", false);
+      this.$emit("get-filtered");
+      window.location.reload();
+    },
+
+    setFilteredFileName(evt: Event): void {
+      this.$emit("update:filteredFileName", (evt.target as HTMLInputElement).value);
+      this.$store.commit("updateAuthorshipRefreshState", true);
+      window.addHash("authorshipFilesGlob", this.filteredFileName);
+      this.$emit("get-filtered");
+      window.location.reload();
     },
 
     updateTmpFilterSinceDate(event: Event) {
       // Only called from an input onchange event, target guaranteed to be input element
       const since = (event.target as HTMLInputElement).value;
-      this.$emit('update:hasModifiedSinceDate', true);
+      this.$emit("update:hasModifiedSinceDate", true);
 
       if (!this.inputDateNotSupported) {
         this.$emit('update:tmpFilterSinceDate', since);
         (event.target as HTMLInputElement).value = this.filterSinceDate;
-        this.$emit('get-filtered');
+        this.$emit("get-filtered");
       } else if (dateFormatRegex.test(since) && since >= this.minDate) {
-        this.$emit('update:tmpFilterSinceDate', since);
-        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.$emit('get-filtered');
+        this.$emit("update:tmpFilterSinceDate", since);
+        (event.currentTarget as HTMLInputElement).style.removeProperty(
+          "border-bottom-color"
+        );
+        this.$emit("get-filtered");
       } else {
         // invalid since date detected
-        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
+        (event.currentTarget as HTMLInputElement).style.borderBottomColor = "red";
       }
     },
 
     updateTmpFilterUntilDate(event: Event) {
       // Only called from an input onchange event, target guaranteed to be input element
       const until = (event.target as HTMLInputElement).value;
-      this.$emit('update:hasModifiedUntilDate', true);
+      this.$emit("update:hasModifiedUntilDate", true);
 
       if (!this.inputDateNotSupported) {
         this.$emit('update:tmpFilterUntilDate', until);
         (event.target as HTMLInputElement).value = this.filterUntilDate;
-        this.$emit('get-filtered');
+        this.$emit("get-filtered");
       } else if (dateFormatRegex.test(until) && until <= this.maxDate) {
-        this.$emit('update:tmpFilterUntilDate', until);
-        (event.currentTarget as HTMLInputElement).style.removeProperty('border-bottom-color');
-        this.$emit('get-filtered');
+        this.$emit("update:tmpFilterUntilDate", until);
+        (event.currentTarget as HTMLInputElement).style.removeProperty(
+          "border-bottom-color"
+        );
+        this.$emit("get-filtered");
       } else {
         // invalid until date detected
-        (event.currentTarget as HTMLInputElement).style.borderBottomColor = 'red';
+        (event.currentTarget as HTMLInputElement).style.borderBottomColor = "red";
       }
     },
 
     resetDateRange() {
-      this.$emit('reset-date-range');
+      this.$emit("reset-date-range");
     },
 
     toggleBreakdown() {
-      this.$emit('toggle-breakdown');
+      this.$emit("toggle-breakdown");
     },
   },
 });
