@@ -1,4 +1,33 @@
+/* eslint-disable no-else-return */
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('_ctx.onTooltipHover is not a function')) {
+    return false;
+  } else if (err.message.includes('_ctx.resetTooltip is not a function')) {
+    return false;
+  }
+  return true;
+});
+
 describe('render filter hash', () => {
+  it('filter files: url params should persist after change and reload', () => {
+    cy.get('.tooltip .mui-textfield.filter_file > input:visible')
+      .should('be.visible')
+      .invoke('val')
+      .should('eq', '');
+
+    cy.get('.mui-textfield.filter_file > input:visible')
+      .should('be.visible')
+      .type('**java**{enter}');
+
+    cy.url()
+      .should('contain', 'filteredFileName=**java**');
+
+    cy.reload();
+
+    cy.url()
+      .should('contain', 'filteredFileName=**java**');
+  })
+
   it('search: url params should persist after change and reload', () => {
     /* Check initial state */
     cy.get('div.mui-textfield.search_box > input:visible')

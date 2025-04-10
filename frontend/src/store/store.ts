@@ -92,6 +92,9 @@ export default createStore<StoreState>({
     setAuthorBlurbMap(state: StoreState, map: {[key: string]: string } | undefined) {
       state.authorBlurbMap = map ?? {};
     },
+    updateAuthorshipRefreshState(state: StoreState, b: boolean) {
+      state.tabAuthorshipInfo.isRefresh = b;
+    },
     setChartsBlurbMap(state: StoreState, map: {[key: string]: string} | undefined) {
       state.chartsBlurbMap = map ?? {};
     }
