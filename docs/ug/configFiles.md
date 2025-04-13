@@ -237,6 +237,6 @@ This file allows you to specify blurbs for authors. These blurbs will be display
 * First line in section: Author's Git Host ID.
 * Second line onwards: Blurb content.
 * Delimiter: `<!--author-->`. Everything on the line after the delimiter will be ignored.
-* Sample: [author-blurbs.md(https://github.com/reposense/RepoSense/blob/master/docs/ug/author-blurbs.md)]
+* Sample: [author-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/author-blurbs.md)
 
 </div>
