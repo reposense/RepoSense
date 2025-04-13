@@ -155,7 +155,7 @@ repos:
 
 ## Further Customizing Your Report
 
-Optionally, you can provide more detailed descriptions to your report. Please refer to this [section](./customizingReports.md#personalizing-reports).
+Optionally, you can provide more detailed descriptions to your report such as an introduction at the top of your dashboard or explanatory blurbs for each repository. Please refer to this [section](./customizingReports.md#personalizing-reports).
 
 ## Advanced Report Configuration
 
