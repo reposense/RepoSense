@@ -18,7 +18,7 @@ The `report-config.yaml` file is a simple configuration file that lets you defin
 It's designed to be user-friendly, especially for beginners who want to quickly set up a code portfolio without dealing with complex configurations.
 
 For more sophisticated use cases that require additional flexibility,
-RepoSense's [CSV config files](./customizingReports.html#customize-using-csv-config-files) offer an alternative configuration approach with expanded capabilities.
+RepoSense's [CSV configuration files](./customizingReports.html#customize-using-csv-config-files) offer an alternative configuration approach with expanded capabilities.
 
 ## Quick Start Guide
 
@@ -76,17 +76,18 @@ repos:
 
 ### Step 3: Generate your report
 
-Run RepoSense with your `report-config.yaml` in your `CONFIG_DIRECTORY` using the command:
+To run RepoSense with `report-config.yaml`:
 
-`java -jar RepoSense.jar --config CONFIG_DIRECTORY`
-
-{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
+1. Create a `config` folder in the same directory as the RepoSense.jar file.
+2. Add your `report-config.yaml` to the `config` folder.
+3. Run the command:`java -jar RepoSense.jar`
 
 <box type="warning" seamless>
+
 Please note that the above command will only analyse your commits one month before the current date. If you would like to
 specify the period for report generation, you can use the `--since` and `--until` flags.
 
-`java -jar RepoSense.jar --config CONFIG_DIRECTORY --since START_DATE --until END_DATE`
+`java -jar RepoSense.jar --since START_DATE --until END_DATE`
 
 {{ embed("Appendix: **CLI syntax reference → `since` flag**", "cli.md#section-since-date") }}
 {{ embed("Appendix: **CLI syntax reference → `until` flag**", "cli.md#section-until-date") }}
