@@ -36,13 +36,9 @@
         }"
       )
 
-.date-indicators(v-if="isPortfolio")
-  span {{displayMinDate}}
-  span {{displayMaxDate}}
-
-.date-indicators(v-else-if="optimiseTimeline")
-  span {{optimisedMinimumDate}}
-  span {{optimisedMaximumDate}}
+.date-indicators(v-if="isDisplayDateIndicators")
+  span {{sdate}}
+  span {{udate}}
 </template>
 
 <script lang='ts'>
@@ -120,18 +116,15 @@ export default defineComponent({
   },
 
   computed: {
-    displayMinDate(): String {
-      return this.optimiseTimeline ? this.optimisedMinimumDate : this.sdate;
-    },
-    displayMaxDate(): String {
-      return this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
-    },
     mergeCommitRampSize(): number {
       return this.rampSize * 20;
     },
     deletesContributionRampSize(): number {
       return this.rampSize * 20;
     },
+    isDisplayDateIndicators(): boolean {
+      return this.optimiseTimeline || this.isPortfolio;
+    }
   },
 
   methods: {
@@ -207,20 +200,15 @@ export default defineComponent({
 
     // position for commit granularity
     getCommitPos(i: number, total: number): number {
-      const totalTime = this.optimiseTimeline
-        ? this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate)
-        : this.getTotalForPos(this.sdate, this.udate);
-      return (((total - i - 1) * window.DAY_IN_MS) / total)
-          / (totalTime + window.DAY_IN_MS);
+      const totalTime = this.getTotalForPos(this.sdate, this.udate);
+
+      return (((total - i - 1) * window.DAY_IN_MS) / total) / (totalTime + window.DAY_IN_MS);
     },
     // position for day granularity
     getSlicePos(date: string): number {
-      const toDate = this.optimiseTimeline ? this.optimisedMaximumDate : this.udate;
-      const total = this.optimiseTimeline
-        ? this.getTotalForPos(this.optimisedMinimumDate, this.optimisedMaximumDate)
-        : this.getTotalForPos(this.sdate, this.udate);
+      const totalTime = this.getTotalForPos(this.sdate, this.udate);
 
-      return (new Date(toDate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
+      return (new Date(this.udate).valueOf() - new Date(date).valueOf()) / (totalTime + window.DAY_IN_MS);
     },
 
     // get duration in miliseconds between 2 date
