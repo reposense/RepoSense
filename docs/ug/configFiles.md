@@ -63,7 +63,7 @@ Behavior of since dates and until dates specified in CSV and CLI flags:
 
    **Validation**:
 
-   The CSV “since” and “until” dates must fall within the boundaries defined by the CLI flags. If the CSV date range extends before the CLI “since” date or beyond the CLI “until” date, that repository’s data will be considered invalid and will not be processed.
+   The CSV “since” and “until” dates must fall within the boundaries defined by the CLI flags. If the CSV date range extends before the CLI “since” date or beyond the CLI “until” date, that repository’s data will be considered invalid and will not be processed. An error message will be displayed.
 
    **Example**:
 
@@ -79,7 +79,7 @@ Behavior of since dates and until dates specified in CSV and CLI flags:
    
    **Behavior**:
    
-   The commit range is fully determined by the dates specified in the CSV file.
+   The range of commits retrieved for the repo is fully determined by the dates specified in the CSV file.
 
    **UI Adjustment**:
 
@@ -95,7 +95,7 @@ Behavior of since dates and until dates specified in CSV and CLI flags:
 
    **Behavior**:
    
-   If either the “since” or “until” date is omitted in the CSV file, the missing value will be replaced by a default value, or the corresponding value from the CLI flag (if specified).
+   If either the “since” or “until” date is omitted in the CSV file, the missing value will be replaced by a default value (i.e. the commits within the most recent one month), or the corresponding value from the CLI flag (if specified).
 </box>
 
 <box type="info" seamless>
