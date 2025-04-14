@@ -65,7 +65,7 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 ### Personalizing Reports
 
 #### Add favicon.ico
-Ensure you have a valid `favicon.ico` file. This icon will appear in the browser tab when your report is viewed. Copy or move your `favicon.ico file` into the `assets` folder of the config directory 
+There is a default `favicon.ico` file provided in the template zip folder. If you want to self-configure the `favicon.ico`, please ensure that the file is valid and has the file name of `favicon.ico`. This icon will appear in the browser tab when your report is viewed. Copy or move your `favicon.ico file` into the `assets` folder of the config directory 
 
 Specifying the config directory can be done as follows:
 {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
