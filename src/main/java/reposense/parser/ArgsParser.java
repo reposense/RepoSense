@@ -25,6 +25,7 @@ import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
 import reposense.model.AuthorBlurbMap;
+import reposense.model.ChartBlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.FileType;
 import reposense.model.RepoBlurbMap;
@@ -356,6 +357,7 @@ public class ArgsParser {
         addReportConfigToBuilder(cliArgumentsBuilder, results);
         addRepoBlurbMapToBuilder(cliArgumentsBuilder, results);
         addAuthorBlurbMapToBuilder(cliArgumentsBuilder, results);
+        addChartBlurbMapToBuilder(cliArgumentsBuilder, results);
         addAnalysisDatesToBuilder(cliArgumentsBuilder, results);
 
         boolean isViewModeOnly = reportFolderPath != null
@@ -403,7 +405,7 @@ public class ArgsParser {
     }
 
     /**
-     * Adds the repoblurbMap field to the given {@code builder}.
+     * Adds the repoBlurbMap field to the given {@code builder}.
      *
      * @param builder Builder to be supplied with the reportConfig field.
      * @param results Parsed results of the user-supplied CLI arguments.
@@ -428,7 +430,7 @@ public class ArgsParser {
     }
 
     /**
-     * Adds the authorblurbMap field to the given {@code builder}.
+     * Adds the authorBlurbMap field to the given {@code builder}.
      *
      * @param builder Builder to be supplied with the reportConfig field.
      * @param results Parsed results of the user-supplied CLI arguments.
@@ -450,6 +452,31 @@ public class ArgsParser {
         }
 
         builder.authorBlurbMap(authorBlurbMap);
+    }
+
+    /**
+     * Adds the chartBlurbMap field to the given {@code builder}.
+     *
+     * @param builder Builder to be supplied with the reportConfig field.
+     * @param results Parsed results of the user-supplied CLI arguments.
+     */
+    private static void addChartBlurbMapToBuilder(CliArguments.Builder builder, Namespace results) {
+        ChartBlurbMap chartBlurbMap = new ChartBlurbMap();
+        Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+
+        // Blurbs are parsed regardless
+        Path blurbConfigPath = configFolderPath.resolve(ChartBlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+
+        try {
+            chartBlurbMap = new ChartBlurbMarkdownParser(blurbConfigPath).parse();
+        } catch (InvalidMarkdownException ex) {
+            logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
+        } catch (IOException ioe) {
+            // IOException thrown as blurbs.md is not found.
+            // Ignore exception as the file is optional.
+        }
+
+        builder.chartBlurbMap(chartBlurbMap);
     }
 
     /**

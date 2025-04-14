@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import reposense.model.AuthorBlurbMap;
+import reposense.model.ChartBlurbMap;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
@@ -68,9 +69,13 @@ public class SummaryJsonParserTest {
         AuthorBlurbMap authorBlurbs = new AuthorBlurbMap();
         authorBlurbs.withRecord("nbriannl", "Test for author-blurbs.md");
 
+        ChartBlurbMap chartBlurbs = new ChartBlurbMap();
+        chartBlurbs.withRecord("https://github.com/reposense/testrepo-Alpha/tree/master|nbriannl",
+                "Test for chart-blurbs.md");
+
         expectedValidSummaryJson = new SummaryJson(repos, reportConfig, reportGeneratedTime, sinceDate, untilDate,
                 isSinceDateProvided, isUntilDateProvided, repoSenseVersion, errorSet, reportGenerationTime, zoneId,
-                isAuthorshipAnalyzed, repoBlurbs, authorBlurbs, isPortfolio);
+                isAuthorshipAnalyzed, repoBlurbs, authorBlurbs, chartBlurbs, isPortfolio);
     }
 
     @Test
@@ -108,7 +113,7 @@ public class SummaryJsonParserTest {
                 parsedSummaryJson.getErrorSet(), parsedSummaryJson.getReportGenerationTime(),
                 parsedSummaryJson.getZoneId(), parsedSummaryJson.isAuthorshipAnalyzed(),
                 parsedSummaryJson.getRepoBlurbs(), parsedSummaryJson.getAuthorBlurbs(),
-                parsedSummaryJson.isPortfolio());
+                parsedSummaryJson.getChartBlurbs(), parsedSummaryJson.isPortfolio());
 
         Assertions.assertEquals(expectedValidSummaryJson, actualSummaryJson);
     }

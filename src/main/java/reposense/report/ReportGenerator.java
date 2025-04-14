@@ -42,6 +42,7 @@ import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.AuthorBlurbMap;
+import reposense.model.ChartBlurbMap;
 import reposense.model.CommitHash;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
@@ -119,6 +120,7 @@ public class ReportGenerator {
      * @param originalityThreshold The double variable for originality threshold in analyze authorship.
      * @param repoBlurbMap The {@code RepoBlurbMap}.
      * @param authorBlurbMap The {@code AuthorBlurbMap}
+     * @param chartBlurbMap The {@code ChartBlurbMap}
      * @param isPortfolio The boolean variable for whether to generate code portfolio optimised report.
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exist in jar file.
@@ -129,7 +131,7 @@ public class ReportGenerator {
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold,
-            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap,
+            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap, ChartBlurbMap chartBlurbMap,
             boolean isPortfolio, boolean isOnlyTextRefreshed) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(assetsPath))) {
@@ -142,7 +144,7 @@ public class ReportGenerator {
                 throw new IOException("summary.json does not exist in the output folder. Aborting report generation.");
             }
             SummaryJson updatedSummaryJson = SummaryJson.updateSummaryJson(summaryJsonPath, repoBlurbMap,
-                    authorBlurbMap, generationDate, reportGenerationTimeProvider.get());
+                    authorBlurbMap, chartBlurbMap, generationDate, reportGenerationTimeProvider.get());
 
             FileUtil.writeJsonFile(updatedSummaryJson, getSummaryResultPath(outputPath));
             logger.info(MESSAGE_SKIP_REPORT_GENERATION);
@@ -163,7 +165,7 @@ public class ReportGenerator {
                         reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, repoBlurbMap,
-                        authorBlurbMap, isPortfolio),
+                        authorBlurbMap, chartBlurbMap, isPortfolio),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 

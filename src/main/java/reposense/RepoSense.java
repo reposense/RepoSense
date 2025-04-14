@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
 import reposense.model.AuthorBlurbMap;
+import reposense.model.ChartBlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
@@ -48,6 +49,7 @@ public class RepoSense {
             ReportConfiguration reportConfig = new ReportConfiguration();
             RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
             AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
+            ChartBlurbMap chartBlurbMap = new ChartBlurbMap();
 
             if (cliArguments.isViewModeOnly()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
@@ -58,6 +60,7 @@ public class RepoSense {
             reportConfig = cliArguments.getReportConfiguration();
             repoBlurbMap = cliArguments.getRepoBlurbMap();
             authorBlurbMap = cliArguments.getAuthorBlurbMap();
+            chartBlurbMap  = cliArguments.getChartBlurbMap();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
@@ -88,7 +91,8 @@ public class RepoSense {
                     cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
                     TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
                     cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
-                    repoBlurbMap, authorBlurbMap, cliArguments.isPortfolio(), cliArguments.isOnlyTextRefreshed()
+                    repoBlurbMap, authorBlurbMap, chartBlurbMap,
+                    cliArguments.isPortfolio(), cliArguments.isOnlyTextRefreshed()
             );
 
             FileUtil.handleZipFilesAndFolders(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),

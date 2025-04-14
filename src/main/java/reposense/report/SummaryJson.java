@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import reposense.model.AuthorBlurbMap;
+import reposense.model.ChartBlurbMap;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
 import reposense.model.ReportConfiguration;
@@ -36,13 +37,15 @@ public class SummaryJson {
     private final boolean isAuthorshipAnalyzed;
     private final RepoBlurbMap repoBlurbs;
     private final AuthorBlurbMap authorBlurbs;
+    private final ChartBlurbMap chartBlurbs;
     private final boolean isPortfolio;
 
     public SummaryJson(List<RepoConfiguration> repos, String reportTitle, String reportGeneratedTime,
                        LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided,
                        boolean isUntilDateProvided, String repoSenseVersion, Set<Map<String, String>> errorSet,
                        String reportGenerationTime, ZoneId zoneId, boolean isAuthorshipAnalyzed,
-                       RepoBlurbMap repoBlurbs, AuthorBlurbMap authorBlurbs, boolean isPortfolio) {
+                       RepoBlurbMap repoBlurbs, AuthorBlurbMap authorBlurbs, ChartBlurbMap chartBlurbs,
+                       boolean isPortfolio) {
         this.repos = repos;
         this.reportGeneratedTime = reportGeneratedTime;
         this.reportGenerationTime = reportGenerationTime;
@@ -58,6 +61,7 @@ public class SummaryJson {
         this.isAuthorshipAnalyzed = isAuthorshipAnalyzed;
         this.repoBlurbs = repoBlurbs;
         this.authorBlurbs = authorBlurbs;
+        this.chartBlurbs = chartBlurbs;
         this.isPortfolio = isPortfolio;
     }
 
@@ -65,10 +69,11 @@ public class SummaryJson {
                        LocalDateTime sinceDate, LocalDateTime untilDate, boolean isSinceDateProvided,
                        boolean isUntilDateProvided, String repoSenseVersion, Set<Map<String, String>> errorSet,
                        String reportGenerationTime, ZoneId zoneId, boolean isAuthorshipAnalyzed,
-                       RepoBlurbMap repoBlurbs, AuthorBlurbMap authorBlurbs, boolean isPortfolio) {
+                       RepoBlurbMap repoBlurbs, AuthorBlurbMap authorBlurbs, ChartBlurbMap chartBlurbs,
+                       boolean isPortfolio) {
         this(repos, reportConfig.getTitle(), reportGeneratedTime, sinceDate, untilDate, isSinceDateProvided,
                 isUntilDateProvided, repoSenseVersion, errorSet, reportGenerationTime, zoneId, isAuthorshipAnalyzed,
-                repoBlurbs, authorBlurbs, isPortfolio);
+                repoBlurbs, authorBlurbs, chartBlurbs, isPortfolio);
     }
 
     @Override
@@ -90,6 +95,7 @@ public class SummaryJson {
                     && isAuthorshipAnalyzed == other.isAuthorshipAnalyzed
                     && repoBlurbs.equals(other.repoBlurbs)
                     && authorBlurbs.equals(other.authorBlurbs)
+                    && chartBlurbs.equals(other.chartBlurbs)
                     && isPortfolio == other.isPortfolio;
         }
         return false;
@@ -104,7 +110,9 @@ public class SummaryJson {
      * @throws IOException if there is an error reading the file.
      */
     public static SummaryJson updateSummaryJson(Path path, RepoBlurbMap newRepoBlurbMap,
-                                                AuthorBlurbMap newAuthorBlurbMap, String newReportGeneratedTime,
+                                                AuthorBlurbMap newAuthorBlurbMap,
+                                                ChartBlurbMap newChartBlurbMap,
+                                                String newReportGeneratedTime,
                                                 String newReportGenerationTime) throws IOException {
 
         SummaryJson oldSummaryJson = new SummaryJsonParser().parse(path);
@@ -113,7 +121,7 @@ public class SummaryJson {
                 oldSummaryJson.sinceDate, oldSummaryJson.untilDate, oldSummaryJson.isSinceDateProvided,
                 oldSummaryJson.isUntilDateProvided, oldSummaryJson.repoSenseVersion, oldSummaryJson.errorSet,
                 newReportGenerationTime, oldSummaryJson.zoneId, oldSummaryJson.isAuthorshipAnalyzed, newRepoBlurbMap,
-                newAuthorBlurbMap, oldSummaryJson.isPortfolio);
+                newAuthorBlurbMap, newChartBlurbMap, oldSummaryJson.isPortfolio);
     }
 
     public List<RepoConfiguration> getRepos() {
@@ -174,6 +182,10 @@ public class SummaryJson {
 
     public AuthorBlurbMap getAuthorBlurbs() {
         return authorBlurbs;
+    }
+
+    public ChartBlurbMap getChartBlurbs() {
+        return chartBlurbs;
     }
 
     public boolean isPortfolio() {

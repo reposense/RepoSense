@@ -1,2 +1,8 @@
-package reposense.model;public class ChartBlurbMap {
+package reposense.model;
+
+public class ChartBlurbMap extends AbstractBlurbMap {
+
+    public ChartBlurbMap() {
+        super();
+    }
 }
