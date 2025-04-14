@@ -1,0 +1,26 @@
+title: RepoSense Report
+repos:
+  - repo: https://github.com/reposense/publish-RepoSense.git
+    groups:
+      - group-name: code
+        globs:
+          - "**.java"
+      - group-name: tests
+        globs:
+          - "src/test**"
+      - group-name: docs
+        globs:
+          - "docs**"
+          - "**.adoc"
+          - "**.md"
+    branches:
+      - branch: master
+        blurb: "My project"
+        authors:
+          - author-git-host-id: jedkohjk
+            author-display-name: jedkohjk
+            author-git-author-name: jedkohjk
+            author-emails:
+        ignore-authors-list:
+        ignore-glob-list:
+        file-size-limit: 2000000
