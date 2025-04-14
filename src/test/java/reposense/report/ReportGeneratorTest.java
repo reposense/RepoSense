@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import reposense.model.AuthorBlurbMap;
 import reposense.model.ChartBlurbMap;
 import reposense.model.RepoBlurbMap;
-import reposense.model.ReportConfiguration;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.SummaryJsonParser;
 import reposense.util.TimeUtil;
 

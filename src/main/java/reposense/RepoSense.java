@@ -15,8 +15,8 @@ import reposense.model.ChartBlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
-import reposense.model.ReportConfiguration;
 import reposense.model.RunConfigurationDecider;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.exceptions.InvalidCsvException;
 import reposense.parser.exceptions.InvalidHeaderException;
@@ -58,7 +58,7 @@ public class RepoSense {
 
             configs = RunConfigurationDecider.getRunConfiguration(cliArguments).getRepoConfigurations();
             reportConfig = cliArguments.getReportConfiguration();
-            repoBlurbMap = cliArguments.getRepoBlurbMap();
+            repoBlurbMap = cliArguments.mergeWithReportConfigRepoBlurbMap();
             authorBlurbMap = cliArguments.getAuthorBlurbMap();
             chartBlurbMap = cliArguments.getChartBlurbMap();
 

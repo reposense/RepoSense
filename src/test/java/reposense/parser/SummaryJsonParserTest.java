@@ -20,7 +20,6 @@ import reposense.model.ChartBlurbMap;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.model.ReportConfiguration;
 import reposense.report.SummaryJson;
 
 public class SummaryJsonParserTest {
@@ -38,7 +37,7 @@ public class SummaryJsonParserTest {
         String reportGenerationTime = " 1 minute(s) 19.83 second(s)";
         String repoSenseVersion = "48a60d6c0d";
         ZoneId zoneId = ZoneId.of("Asia/Singapore");
-        ReportConfiguration reportConfig = new ReportConfiguration();
+        String reportTitle = "RepoSense Report";
         LocalDateTime sinceDate = LocalDate.parse("2025-02-16").atStartOfDay();
         LocalDateTime untilDate = LocalDateTime.parse("2025-03-16T23:59:59");
         boolean isSinceDateProvided = false;
@@ -106,13 +105,13 @@ public class SummaryJsonParserTest {
                 .build();
 
         SummaryJson actualSummaryJson = new SummaryJson(List.of(repoConfig),
-                new ReportConfiguration(parsedSummaryJson.getReportTitle()),
-                parsedSummaryJson.getReportGeneratedTime(), parsedSummaryJson.getSinceDate(),
-                parsedSummaryJson.getUntilDate(), parsedSummaryJson.isSinceDateProvided(),
-                parsedSummaryJson.isUntilDateProvided(), parsedSummaryJson.getRepoSenseVersion(),
-                parsedSummaryJson.getErrorSet(), parsedSummaryJson.getReportGenerationTime(),
-                parsedSummaryJson.getZoneId(), parsedSummaryJson.isAuthorshipAnalyzed(),
-                parsedSummaryJson.getRepoBlurbs(), parsedSummaryJson.getAuthorBlurbs(),
+                parsedSummaryJson.getReportTitle(), parsedSummaryJson.getReportGeneratedTime(),
+                parsedSummaryJson.getSinceDate(), parsedSummaryJson.getUntilDate(),
+                parsedSummaryJson.isSinceDateProvided(), parsedSummaryJson.isUntilDateProvided(),
+                parsedSummaryJson.getRepoSenseVersion(), parsedSummaryJson.getErrorSet(),
+                parsedSummaryJson.getReportGenerationTime(), parsedSummaryJson.getZoneId(),
+                parsedSummaryJson.isAuthorshipAnalyzed(), parsedSummaryJson.getRepoBlurbs(),
+                parsedSummaryJson.getAuthorBlurbs(), parsedSummaryJson.isPortfolio());
                 parsedSummaryJson.getChartBlurbs(), parsedSummaryJson.isPortfolio());
 
         Assertions.assertEquals(expectedValidSummaryJson, actualSummaryJson);

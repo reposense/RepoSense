@@ -21,8 +21,8 @@ import reposense.model.ChartBlurbMap;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.model.ReportConfiguration;
 import reposense.model.SupportedDomainUrlMap;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.SummaryJsonParserTest;
 
 public class SummaryJsonTest {

@@ -5,13 +5,15 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
-import reposense.parser.ReportConfigJsonParser;
+import reposense.parser.ReportConfigYamlParser;
 
 /**
  * Represents command line arguments user supplied when running the program.
@@ -173,6 +175,22 @@ public class CliArguments {
         return chartBlurbMap;
     }
 
+    /**
+     * Merges the {@code blurbMap} from the blurbs file with the blurb map in {@code reportConfiguration}.
+     *
+     * @return the merged blurb map.
+     */
+    public RepoBlurbMap mergeWithReportConfigRepoBlurbMap() {
+        if (reportConfiguration == null) {
+            return repoBlurbMap;
+        }
+        RepoBlurbMap repoConfigRepoBlurbMap = reportConfiguration.getRepoBlurbMap();
+        for (Map.Entry<String, String> entry : repoBlurbMap.getAllMappings().entrySet()) {
+            repoConfigRepoBlurbMap.withRecord(entry.getKey(), entry.getValue());
+        }
+        return repoConfigRepoBlurbMap;
+    }
+
     public boolean isViewModeOnly() {
         return isViewModeOnly;
     }
@@ -183,6 +201,10 @@ public class CliArguments {
 
     public double getOriginalityThreshold() {
         return originalityThreshold;
+    }
+
+    public boolean areReportConfigRepositoriesConfigured() {
+        return reportConfiguration != null && !reportConfiguration.getReportRepoConfigurations().isEmpty();
     }
 
     public boolean isPortfolio() {
@@ -467,7 +489,7 @@ public class CliArguments {
             this.cliArguments.groupConfigFilePath = configFolderPath.resolve(
                     GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
             this.cliArguments.reportConfigFilePath = configFolderPath.resolve(
-                    ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+                    ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
             return this;
         }
 
