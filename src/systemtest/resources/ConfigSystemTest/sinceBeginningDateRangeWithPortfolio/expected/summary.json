@@ -98,9 +98,16 @@
   },
   "authorBlurbs": {
     "blurbMap": {
-      "author1": "first blurb",
       "author2": "## **second** blurb\n\n![link](link) to repository\n\nI had contributed to this project by doing this and that",
+      "author1": "first blurb",
       "author3": "*third blurb*\n\n<strong>third</strong> blurb with HTML content"
+    }
+  },
+  "chartBlurbs": {
+    "blurbMap": {
+      "https://www.github.com/user/repo/branch2|author2": "## **second** blurb\n\n![link](link) to repository\n\nthis is what i have done for my cs2103t project",
+      "https://www.github.com/user/repo/branch3|author3": "*third blurb*\n\n<strong>third</strong> blurb with HTML content",
+      "https://www.github.com/user/repo/branch|author1": "first blurb"
     }
   },
   "isPortfolio": true

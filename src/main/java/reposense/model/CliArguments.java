@@ -56,6 +56,7 @@ public class CliArguments {
     private ReportConfiguration reportConfiguration;
     private RepoBlurbMap repoBlurbMap;
     private AuthorBlurbMap authorBlurbMap;
+    private ChartBlurbMap chartBlurbMap;
 
     /**
      * Constructs a {@code CliArguments} object without any parameters.
@@ -170,6 +171,10 @@ public class CliArguments {
         return authorBlurbMap;
     }
 
+    public ChartBlurbMap getChartBlurbMap() {
+        return chartBlurbMap;
+    }
+
     /**
      * Merges the {@code blurbMap} from the blurbs file with the blurb map in {@code reportConfiguration}.
      *
@@ -249,6 +254,7 @@ public class CliArguments {
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
                 && Objects.equals(this.repoBlurbMap, otherCliArguments.repoBlurbMap)
                 && Objects.equals(this.authorBlurbMap, otherCliArguments.authorBlurbMap)
+                && Objects.equals(this.chartBlurbMap, otherCliArguments.chartBlurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
                 && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
                 && this.isPortfolio == otherCliArguments.isPortfolio
@@ -530,6 +536,14 @@ public class CliArguments {
          */
         public Builder authorBlurbMap(AuthorBlurbMap authorBlurbMap) {
             this.cliArguments.authorBlurbMap = authorBlurbMap;
+            return this;
+        }
+
+        /**
+         * Adds the {@code chartBlurbMap} to CliArguments.
+         */
+        public Builder chartBlurbMap(ChartBlurbMap chartBlurbMap) {
+            this.cliArguments.chartBlurbMap = chartBlurbMap;
             return this;
         }
 
