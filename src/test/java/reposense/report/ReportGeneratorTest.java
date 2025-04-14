@@ -16,7 +16,6 @@ import java.time.ZoneId;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import reposense.model.AuthorBlurbMap;
@@ -57,7 +56,7 @@ class ReportGeneratorTest {
                 LocalDate.parse("2025-02-16").atStartOfDay(), LocalDateTime.parse("2025-03-16T23:59:59"),
                 false, false, 4, 12, TimeUtil::getElapsedTime,
                 ZoneId.of("Asia/Singapore"), false, false, 0.51,
-                repoBlurbMap, authorBlurbMap, chartBlurbMap,  false, true);
+                repoBlurbMap, authorBlurbMap, chartBlurbMap, false, true);
 
         SummaryJson actualSummaryJson = new SummaryJsonParser().parse(SUMMARY_JSON_PATH);
 

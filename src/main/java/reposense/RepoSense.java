@@ -60,7 +60,7 @@ public class RepoSense {
             reportConfig = cliArguments.getReportConfiguration();
             repoBlurbMap = cliArguments.getRepoBlurbMap();
             authorBlurbMap = cliArguments.getAuthorBlurbMap();
-            chartBlurbMap  = cliArguments.getChartBlurbMap();
+            chartBlurbMap = cliArguments.getChartBlurbMap();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());

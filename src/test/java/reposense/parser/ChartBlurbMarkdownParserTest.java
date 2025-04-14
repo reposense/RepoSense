@@ -35,14 +35,16 @@ public class ChartBlurbMarkdownParserTest {
     @Test
     public void parse_incompleteKeyBlurbUrl_throwsException() {
         Assertions.assertThrows(
-                InvalidMarkdownException.class, () -> new RepoBlurbMarkdownParser(INCOMPLETE_KEY_BLURB_URL_TESTER).parse()
+                InvalidMarkdownException.class, () -> new RepoBlurbMarkdownParser(INCOMPLETE_KEY_BLURB_URL_TESTER)
+                        .parse()
         );
     }
 
     @Test
     public void parse_incompleteKeyBlurbAuthor_throwsException() {
         Assertions.assertThrows(
-                InvalidMarkdownException.class, () -> new RepoBlurbMarkdownParser(INCOMPLETE_KEY_BLURB_AUTHOR_TESTER).parse()
+                InvalidMarkdownException.class, () -> new RepoBlurbMarkdownParser(INCOMPLETE_KEY_BLURB_AUTHOR_TESTER)
+                        .parse()
         );
     }
 

@@ -61,8 +61,8 @@ public class ChartBlurbMarkdownParser extends BlurbMarkdownParser<ChartBlurbMap,
      * The repoURL should be a valid URL and the authorGitId should be present.
      *
      * @param key The key to validate.
-     * @throws InvalidMarkdownException if the key format is invalid.
      * @return true if the key is valid, false otherwise.
+     * @throws InvalidMarkdownException if the key format is invalid.
      */
     private boolean isValidKey(String key) throws InvalidMarkdownException {
         String[] parts = key.split("\\|");
@@ -72,18 +72,18 @@ public class ChartBlurbMarkdownParser extends BlurbMarkdownParser<ChartBlurbMap,
             return false;
         }
 
-        String repoURL = parts[0].strip();
+        String repoUrl = parts[0].strip();
         String authorGitId = parts[1].strip();
 
         // Check if the repoURL is a valid URL
-        if (repoURL.isEmpty() || authorGitId.isEmpty()) {
+        if (repoUrl.isEmpty() || authorGitId.isEmpty()) {
             return false;
         }
 
         // Validate the repoURL format
         // Adapted from https://www.baeldung.com/java-validate-url
         try {
-            new URL(repoURL).toURI();
+            new URL(repoUrl).toURI();
             return true;
         } catch (MalformedURLException | URISyntaxException e) {
             return false;
