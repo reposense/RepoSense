@@ -299,6 +299,18 @@ public class ReportGenerator {
                 .stream()
                 .flatMap(jobOutput -> jobOutput.getFiles().stream())
                 .collect(Collectors.toList());
+        List<RepoLocation> cloneSuccessfulLocations = jobOutputs
+                .stream()
+                .filter(AnalyzeJobOutput::isCloneSuccessful)
+                .map(AnalyzeJobOutput::getLocation)
+                .collect(Collectors.toList());
+
+        List<RepoConfiguration> successfulConfigs = configs.stream()
+                .filter(config -> cloneSuccessfulLocations.contains(config.getLocation()))
+                .collect(Collectors.toList());
+
+        this.globalSinceDate = RepoConfiguration.findGlobalSinceDate(successfulConfigs, this.cliArguments);
+        this.globalUntilDate = RepoConfiguration.findGlobalUntilDate(successfulConfigs, this.cliArguments);
 
         List<RepoLocation> cloneFailLocations = jobOutputs
                 .stream()
