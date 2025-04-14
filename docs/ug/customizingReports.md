@@ -15,6 +15,21 @@ The report can be customized using several ways, as explained below.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### Configuration Options Overview
+
+RepoSense offers multiple ways to customize your reports, with varying levels of complexity and flexibility:
+
+1. **CLI flags** - The simplest, most direct approach for basic customization
+2. **report-config.yaml** - A user-friendly single file for typical use cases
+3. **CSV config files** - A more powerful option with granular control for advanced scenarios
+
+When deciding which configuration method to use:
+- **CLI flags** are ideal for quick, one-off reports with minimal customization.
+- **report-config.yaml** is recommended for most users as it provides a good balance of usability and features in a single file.
+- **CSV config files** offer the most flexibility for complex scenarios, such as managing large teams or requiring fine-grained control.
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### Customize using CLI flags
 
 **The simplest approach is to provide additional flags when running RepoSense.** The various flags are given in the panel below.
@@ -23,9 +38,20 @@ The report can be customized using several ways, as explained below.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### Customize using report-config.yaml
+
+**The `report-config.yaml` file provides a more user-friendly way for users to customize their reports in more detail compared to the CLI flags.**
+
+Please refer to this [page](./reportConfig.html) to get started.
+
+Note that configurations in `report-config.yaml` will override the configurations in the CSV config files when both are present.
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### Customize using CSV config files
 
-**Another, more powerful, way to customize the report is by using dedicated config files.** In this case you need to use the `--config` flag instead of the `--repo` flag when running RepoSense, as follows:
+**Another, more powerful, way to customize the report is by using dedicated config files.** You can refer to this [section](./configFiles.html) to find out more about the CSV file formats.
+
+In this case you need to use the `--config` flag instead of the `--repo` flag when running RepoSense, as follows:
 
   {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
 
