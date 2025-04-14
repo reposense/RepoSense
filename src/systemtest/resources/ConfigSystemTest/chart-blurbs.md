@@ -6,7 +6,7 @@ https://www.github.com/user/repo/branch2|author2
 
 ![link](link) to repository
 
-I had contributed to this project by doing this and that
+this is what i have done for my cs2103t project
 <!--chart-->
 
 https://www.github.com/user/repo/branch3|author3

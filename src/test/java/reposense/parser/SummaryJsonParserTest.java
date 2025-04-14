@@ -72,7 +72,7 @@ public class SummaryJsonParserTest {
         chartBlurbs.withRecord("https://github.com/reposense/testrepo-Alpha/tree/master|nbriannl",
                 "Test for chart-blurbs.md");
 
-        expectedValidSummaryJson = new SummaryJson(repos, reportConfig, reportGeneratedTime, sinceDate, untilDate,
+        expectedValidSummaryJson = new SummaryJson(repos, reportTitle, reportGeneratedTime, sinceDate, untilDate,
                 isSinceDateProvided, isUntilDateProvided, repoSenseVersion, errorSet, reportGenerationTime, zoneId,
                 isAuthorshipAnalyzed, repoBlurbs, authorBlurbs, chartBlurbs, isPortfolio);
     }
@@ -111,8 +111,8 @@ public class SummaryJsonParserTest {
                 parsedSummaryJson.getRepoSenseVersion(), parsedSummaryJson.getErrorSet(),
                 parsedSummaryJson.getReportGenerationTime(), parsedSummaryJson.getZoneId(),
                 parsedSummaryJson.isAuthorshipAnalyzed(), parsedSummaryJson.getRepoBlurbs(),
-                parsedSummaryJson.getAuthorBlurbs(), parsedSummaryJson.isPortfolio());
-                parsedSummaryJson.getChartBlurbs(), parsedSummaryJson.isPortfolio());
+                parsedSummaryJson.getAuthorBlurbs(), parsedSummaryJson.getChartBlurbs(),
+                parsedSummaryJson.isPortfolio());
 
         Assertions.assertEquals(expectedValidSummaryJson, actualSummaryJson);
     }
