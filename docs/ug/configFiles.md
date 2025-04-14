@@ -46,7 +46,7 @@ Given below are the details of the various config files used by RepoSense.
 | Ignore File Size Limit                | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`.                                                                                                                                                                                                                       |
 | Skip Ignored File Analysis            | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is skipped, all information about the file will be omitted from the generated report. This option can significantly improve report generation time.                                                                                                |
 | Since Date                            | Enter since date in the format of `yyyy/mm/dd` to signify the start date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                               |
-| Until Date                            | Enter since date in the format of `yyyy/mm/dd` to signify the end date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                                 |
+| Until Date                            | Enter until date in the format of `yyyy/mm/dd` to signify the end date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                                 |
 
 <box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
@@ -98,11 +98,11 @@ If `author-config.csv` is not given and the repo has not provided author details
 
 Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
 
-| Column Name | Explanation |
-|-------------|-------------|
-| Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
-| Group Name {{ mandatory }} | Name of the group, e.g.,`test`. |
-| Globs * {{ mandatory }} | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
+| Column Name                | Explanation                                                                           |
+|----------------------------|---------------------------------------------------------------------------------------|
+| Repository's Location      | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`                |
+| Group Name {{ mandatory }} | Name of the group, e.g.,`test`.                                                       |
+| Globs * {{ mandatory }}    | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
@@ -111,12 +111,12 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 
 <!-- ==================================================================================================== -->
 
-## `report-config.json`
+## `report-config.yaml`
 
-You can optionally use `report-config.json` to customize report generation by providing the following information. ([example](report-config.json))
+You can also optionally use a `report-config.yaml` file to quickly define the repository information for the repositories you are interested in tracking and generating your very own code portfolio.
+The configurations of this file will override the CSV files if the `repos` field of the file is present and correctly formatted.
 
-**Fields to provide**:
-* `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report"
+Please refer to this [guide](./reportConfig.html#advanced-report-configuration).
 
 <!-- ==================================================================================================== -->
 
@@ -237,6 +237,6 @@ This file allows you to specify blurbs for authors. These blurbs will be display
 * First line in section: Author's Git Host ID.
 * Second line onwards: Blurb content.
 * Delimiter: `<!--author-->`. Everything on the line after the delimiter will be ignored.
-* Sample: [author-blurbs.md(https://github.com/reposense/RepoSense/blob/master/docs/ug/author-blurbs.md)]
+* Sample: [author-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/author-blurbs.md)
 
 </div>
