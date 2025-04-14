@@ -278,7 +278,7 @@
         "repo-config-csv": "repo-config.csv",
         "author-config-csv": "author-config.csv",
         "group-config-csv": "group-config.csv",
-        "report-config-json": "report-config.json",
+        "report-config-yaml": "report-config.yaml",
         "config-json-standalone-config-file": "config.json (standalone config file)",
         "a-note-about-git-author-name": "A note about Git author name",
         "blurbs-markdown-files": "Blurbs Markdown files",
@@ -292,7 +292,9 @@
       "title": "Customizing reports",
       "headings": {
         "customizing-reports": "Customizing reports",
+        "configuration-options-overview": "Configuration Options Overview",
         "customize-using-cli-flags": "Customize using CLI flags",
+        "customize-using-report-config-yaml": "Customize using report-config.yaml",
         "customize-using-csv-config-files": "Customize using CSV config files",
         "get-target-repos-to-provide-more-info": "Get target repos to provide more info",
         "personalizing-reports": "Personalizing Reports"
@@ -343,6 +345,25 @@
     {
       "src": "ug/repo-blurbs.md",
       "headings": {},
+      "headingKeywords": {}
+    },
+    {
+      "src": "ug/reportConfig.md",
+      "title": "Appendix: Getting started with `report-config.yaml`",
+      "headings": {
+        "appendix-getting-started-with-report-config-yaml": "Appendix: Getting started with report-config.yaml",
+        "what-is-report-config-yaml": "What is report-config.yaml?",
+        "quick-start-guide": "Quick Start Guide",
+        "step-1-create-a-report-config-yaml-file": "Step 1: Create a report-config.yaml file",
+        "step-2-add-your-repositories": "Step 2: Add your repositories",
+        "step-3-generate-your-report": "Step 3: Generate your report",
+        "example-configuration": "Example Configuration",
+        "sample-report-generated": "Sample report generated",
+        "further-customizing-your-report": "Further Customizing Your Report",
+        "advanced-report-configuration": "Advanced Report Configuration",
+        "complete-report-config-yaml-example": "Complete report-config.yaml Example",
+        "field-descriptions": "Field Descriptions"
+      },
       "headingKeywords": {}
     },
     {
