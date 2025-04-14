@@ -39,6 +39,7 @@ public class CliArguments {
     private double originalityThreshold;
     private boolean isPortfolio;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
+    private boolean isOnlyTextRefreshed;
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -51,7 +52,8 @@ public class CliArguments {
     private Path groupConfigFilePath;
     private Path reportConfigFilePath;
     private ReportConfiguration reportConfiguration;
-    private BlurbMap blurbMap;
+    private RepoBlurbMap repoBlurbMap;
+    private AuthorBlurbMap authorBlurbMap;
 
     /**
      * Constructs a {@code CliArguments} object without any parameters.
@@ -158,8 +160,12 @@ public class CliArguments {
         return reportConfiguration;
     }
 
-    public BlurbMap getBlurbMap() {
-        return blurbMap;
+    public RepoBlurbMap getRepoBlurbMap() {
+        return repoBlurbMap;
+    }
+
+    public AuthorBlurbMap getAuthorBlurbMap() {
+        return authorBlurbMap;
     }
 
     public boolean isViewModeOnly() {
@@ -176,6 +182,10 @@ public class CliArguments {
 
     public boolean isPortfolio() {
         return isPortfolio;
+    }
+
+    public boolean isOnlyTextRefreshed() {
+        return isOnlyTextRefreshed;
     }
 
     @Override
@@ -215,10 +225,12 @@ public class CliArguments {
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
                 && Objects.equals(this.groupConfigFilePath, otherCliArguments.groupConfigFilePath)
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
-                && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
+                && Objects.equals(this.repoBlurbMap, otherCliArguments.repoBlurbMap)
+                && Objects.equals(this.authorBlurbMap, otherCliArguments.authorBlurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
                 && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
-                && this.isPortfolio == otherCliArguments.isPortfolio;
+                && this.isPortfolio == otherCliArguments.isPortfolio
+                && this.isOnlyTextRefreshed == otherCliArguments.isOnlyTextRefreshed;
     }
 
     /**
@@ -484,12 +496,18 @@ public class CliArguments {
         }
 
         /**
-         * Adds the {@code blurbMap} to CliArguments.
-         *
-         * @param blurbMap The blurb map.
+         * Adds the {@code repoBlurbMap} to CliArguments.
          */
-        public Builder blurbMap(BlurbMap blurbMap) {
-            this.cliArguments.blurbMap = blurbMap;
+        public Builder repoBlurbMap(RepoBlurbMap repoBlurbMap) {
+            this.cliArguments.repoBlurbMap = repoBlurbMap;
+            return this;
+        }
+
+        /**
+         * Adds the {@code authorBlurbMap} to CliArguments.
+         */
+        public Builder authorBlurbMap(AuthorBlurbMap authorBlurbMap) {
+            this.cliArguments.authorBlurbMap = authorBlurbMap;
             return this;
         }
 
@@ -500,6 +518,16 @@ public class CliArguments {
          */
         public Builder isPortfolio(boolean isPortfolio) {
             this.cliArguments.isPortfolio = isPortfolio;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isTextRefreshedOnly} to CLIArguments.
+         *
+         * @param isOnlyTextRefreshed Is text refreshed only.
+         */
+        public Builder isOnlyTextRefreshed(boolean isOnlyTextRefreshed) {
+            this.cliArguments.isOnlyTextRefreshed = isOnlyTextRefreshed;
             return this;
         }
 

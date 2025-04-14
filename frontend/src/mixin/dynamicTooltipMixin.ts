@@ -13,6 +13,9 @@ export default defineComponent({
       tooltipTextElement.classList.remove('bottom-aligned');
     },
     isElementAboveViewport(el: Element): boolean {
+      if (!el) {
+        return false;
+      }
       return el.getBoundingClientRect().top <= 0;
     },
     /**
