@@ -11,8 +11,8 @@ import java.util.Set;
 import reposense.model.AuthorBlurbMap;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
-import reposense.model.ReportConfiguration;
 import reposense.model.SupportedDomainUrlMap;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.SummaryJsonParser;
 
 /**
@@ -66,9 +66,10 @@ public class SummaryJson {
                        boolean isUntilDateProvided, String repoSenseVersion, Set<Map<String, String>> errorSet,
                        String reportGenerationTime, ZoneId zoneId, boolean isAuthorshipAnalyzed,
                        RepoBlurbMap repoBlurbs, AuthorBlurbMap authorBlurbs, boolean isPortfolio) {
-        this(repos, reportConfig.getTitle(), reportGeneratedTime, sinceDate, untilDate, isSinceDateProvided,
-                isUntilDateProvided, repoSenseVersion, errorSet, reportGenerationTime, zoneId, isAuthorshipAnalyzed,
-                repoBlurbs, authorBlurbs, isPortfolio);
+
+        this(repos, reportConfig == null ? ReportConfiguration.DEFAULT_TITLE : reportConfig.getTitle(),
+                reportGeneratedTime, sinceDate, untilDate, isSinceDateProvided, isUntilDateProvided, repoSenseVersion,
+                errorSet, reportGenerationTime, zoneId, isAuthorshipAnalyzed, repoBlurbs, authorBlurbs, isPortfolio);
     }
 
     @Override
