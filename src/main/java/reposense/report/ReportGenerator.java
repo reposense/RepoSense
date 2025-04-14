@@ -44,7 +44,6 @@ import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.AuthorBlurbMap;
-import reposense.model.BlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.CommitHash;
 import reposense.model.RepoBlurbMap;
