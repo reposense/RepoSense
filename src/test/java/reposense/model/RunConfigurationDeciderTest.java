@@ -25,13 +25,19 @@ public class RunConfigurationDeciderTest {
     private static final Path PROJECT_DIRECTORY = Paths.get(System.getProperty("user.dir"));
     private static final Path CONFIG_FOLDER_ABSOLUTE = loadResource(ArgsParserTest.class, "cli_location_test");
 
+    private static final Path ONLY_REPORT_CONFIG_TITLE_FOLDER = loadResource(RunConfigurationDeciderTest.class,
+            "RunConfigurationDeciderTest/only-report-config-title");
+    private static final Path BOTH_CONFIGS_FOLDER = loadResource(RunConfigurationDeciderTest.class,
+            "RunConfigurationDeciderTest/both-configs");
+    private static final Path NO_REPORT_CONFIG_FOLDER = loadResource(RunConfigurationDeciderTest.class,
+            "RunConfigurationDeciderTest/no-report-config");
+
     private static final String NONEXISTENT_DIRECTORY = "some_non_existent_dir/";
 
     private static final InputBuilder DEFAULT_INPUT_BUILDER = new InputBuilder();
 
     private static final String TEST_REPO_REPOSENSE = "https://github.com/reposense/RepoSense.git";
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
-
 
     @BeforeEach
     public void before() {
@@ -70,10 +76,49 @@ public class RunConfigurationDeciderTest {
     }
 
     @Test
-    public void parse_reposAndConfigNotSpecified_returnsConfigRunConfiguration() throws Exception {
+    public void parse_reposAndConfigNotSpecified_doesNotReturnCliRunConfiguration() throws Exception {
         String input = new InputBuilder()
                 .addSinceDate("01/07/2017")
                 .addUntilDate("30/11/2017")
+                .addView()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RunConfiguration runConfiguration = getRunConfiguration(cliArguments);
+        Assertions.assertFalse(runConfiguration instanceof CliRunConfiguration);
+    }
+
+    @Test
+    public void parse_bothConfigsPresent_returnsOneStopConfigRunConfiguration() throws Exception {
+        String input = new InputBuilder()
+                .addSinceDate("01/07/2017")
+                .addUntilDate("30/11/2017")
+                .addConfig(BOTH_CONFIGS_FOLDER)
+                .addView()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RunConfiguration runConfiguration = getRunConfiguration(cliArguments);
+        Assertions.assertTrue(runConfiguration instanceof OneStopConfigRunConfiguration);
+    }
+
+    @Test
+    public void parse_reposAndConfigNotSpecifiedOnlyReportConfigTitle_returnsConfigRunConfiguration() throws Exception {
+        String input = new InputBuilder()
+                .addSinceDate("01/07/2017")
+                .addUntilDate("30/11/2017")
+                .addConfig(ONLY_REPORT_CONFIG_TITLE_FOLDER)
+                .addView()
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RunConfiguration runConfiguration = getRunConfiguration(cliArguments);
+        Assertions.assertTrue(runConfiguration instanceof ConfigRunConfiguration);
+    }
+
+    @Test
+    public void parse_reposAndConfigNotSpecifiedNoReportConfig_returnsConfigRunConfiguration() throws Exception {
+        String input = new InputBuilder()
+                .addSinceDate("01/07/2017")
+                .addUntilDate("30/11/2017")
+                .addConfig(NO_REPORT_CONFIG_FOLDER)
                 .addView()
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
