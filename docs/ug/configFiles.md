@@ -55,16 +55,47 @@ The Shallow Cloning option is incompatible with the "--last-modified-date" CLI f
 <box type="info" seamless>
 Behavior of since dates and until dates specified in CSV and CLI flags:
 
-1. Both since and until dates in CSV line present, both since and until CLI flags present: Range of commits will be taken from CSV line, and <b>Valid CSV dates should be within date range of CLI dates</b>. Repo will not be processed if CSV dates are invalid
+1. *Both CSV Dates and CLI Flags Are Provided*
    
-   E.g. CLI since date: 21/09/2024, CLI until date: 29/01/2025.
+   **Behavior**:
 
-    Invalid CSV dates: [01/02/2025, 02/02/2025], [01/09/2024, 01/01/2025].
+   When both the CSV file and the CLI include values for the “since” and “until” dates, the commit range for an individual repository is taken directly from its CSV dates.
 
-    Valid CSV dates: [30/09/2024, 01/01/2025].
-2. Dates in CSV line present, one of CLI flags absent: Range of commits taken from CSV line. In this case the range that can be adjusted in the UI is ranging from the earliest since date among all valid repos to the latest until date.
-3. Both dates in CSV line absent (already implemented): Range of commits taken from CLI (if any, else default values for CLI).
-4. One of dates in CSV line absent: The missing date will be substituted by default date OR the one specified in CSV flags. 
+   **Validation**:
+
+   The CSV “since” and “until” dates must fall within the boundaries defined by the CLI flags. If the CSV date range extends before the CLI “since” date or beyond the CLI “until” date, that repository’s data will be considered invalid and will not be processed.
+
+   **Example**:
+
+   CLI Dates: Since: 21/09/2024; Until: 29/01/2025
+
+   CSV Date Ranges:
+
+   Invalid: [01/02/2025, 02/02/2025] (exceeds the CLI "until" date), [01/09/2024, 01/01/2025] (starts before the CLI "since" date)
+
+   Valid: [30/09/2024, 01/01/2025]
+
+2. CSV Dates Are Fully Provided, but One CLI Flag Is Missing
+   
+   **Behavior**:
+   
+   The commit range is fully determined by the dates specified in the CSV file.
+
+   **UI Adjustment**:
+
+   In the user interface, the adjustable date range will automatically span from the earliest “since” date to the latest “until” date across all repositories with valid CSV dates.
+
+3. Both CSV Dates Are Absent
+   
+   **Behavior**:
+   
+   When no dates are provided in the CSV file, the commit range is based on the CLI flags. If the CLI flags are not provided either, then the tool falls back on the predefined default date values.
+
+4. One CSV Date Is Missing 
+
+   **Behavior**:
+   
+   If either the “since” or “until” date is omitted in the CSV file, the missing value will be replaced by a default value, or the corresponding value from the CLI flag (if specified).
 </box>
 
 <box type="info" seamless>
