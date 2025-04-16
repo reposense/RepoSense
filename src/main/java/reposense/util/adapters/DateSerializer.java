@@ -13,9 +13,9 @@ import com.google.gson.JsonSerializer;
  * Overrides the custom gson serializer for LocalDateTine type object.
  */
 public class DateSerializer implements JsonSerializer<LocalDateTime> {
-    private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd";
+    private static final String GITHUB_API_DATETIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
     @Override
     public JsonElement serialize(LocalDateTime date, Type typeofDate, JsonSerializationContext ctx) {
-        return new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT)));
+        return new JsonPrimitive(date.format(DateTimeFormatter.ofPattern(GITHUB_API_DATETIME_FORMAT)));
     }
 }

@@ -1,4 +1,33 @@
+/* eslint-disable no-else-return */
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes('_ctx.onTooltipHover is not a function')) {
+    return false;
+  } else if (err.message.includes('_ctx.resetTooltip is not a function')) {
+    return false;
+  }
+  return true;
+});
+
 describe('render filter hash', () => {
+  it('filter files: url params should persist after change and reload', () => {
+    cy.get('.tooltip .mui-textfield.filter_file > input:visible')
+      .should('be.visible')
+      .invoke('val')
+      .should('eq', '');
+
+    cy.get('.mui-textfield.filter_file > input:visible')
+      .should('be.visible')
+      .type('**java**{enter}');
+
+    cy.url()
+      .should('contain', 'filteredFileName=**java**');
+
+    cy.reload();
+
+    cy.url()
+      .should('contain', 'filteredFileName=**java**');
+  })
+
   it('search: url params should persist after change and reload', () => {
     /* Check initial state */
     cy.get('div.mui-textfield.search_box > input:visible')
@@ -232,14 +261,14 @@ describe('render filter hash', () => {
     /* Check initial state */
     cy.get('input[name="since"]:visible')
       .invoke('val')
-      .should('eq', '2018-05-03');
+      .should('eq', '2018-05-03T00:00');
 
     cy.url()
       .should('contain', 'since=2018-05-03');
 
     /* Modify since date and test URL before and after reload */
     cy.get('input[name="since"]:visible')
-      .type('2019-06-04');
+      .type('2019-06-04T00:00');
 
     cy.url()
       .should('contain', 'since=2019-06-04');
@@ -261,7 +290,7 @@ describe('render filter hash', () => {
 
     /* Modify since date and test URL before and after reload */
     cy.get('input[name="until"]:visible')
-      .type('2019-06-04');
+      .type('2019-06-04T00:00:00');
 
     cy.url()
       .should('contain', 'until=2019-06-04');

@@ -7,8 +7,8 @@ plugins {
     id 'jacoco'
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
-    id 'com.liferay.node' version '7.2.18'
-    id 'com.github.psxpaul.execfork' version '0.2.0'
+    id 'com.liferay.node' version '7.2.19'
+    id 'com.github.psxpaul.execfork' version '0.2.2'
     id 'com.palantir.git-version' version '0.13.0'
 }
 
@@ -35,9 +35,9 @@ dependencies {
     implementation  group: 'com.google.code.gson' ,name: 'gson', version:'2.9.0'
     implementation  group: 'net.freeutils', name: 'jlhttp', version: '2.6'
     implementation  group: 'net.sourceforge.argparse4j', name: 'argparse4j', version: '0.9.0'
-    implementation  group: 'org.apache.ant', name: 'ant', version: '1.10.12'
+    implementation  group: 'org.apache.ant', name: 'ant', version: '1.10.15'
     implementation  group: 'org.apache.commons', name: 'commons-csv', version: '1.9.0'
-    implementation  group: 'org.fusesource.jansi', name: 'jansi', version: '2.4.0'
+    implementation  group: 'org.fusesource.jansi', name: 'jansi', version: '2.4.1'
     implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.17.0'
 
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitVersion
@@ -76,8 +76,8 @@ def zipReport = tasks.register('zipReport', Zip) {
 
 def copyCypressConfig = tasks.register('copyCypressConfig', Copy) {
     description 'Copies the config files used by the backend to generate the test report for Cypress testing into an isolated working directory'
-    from 'frontend/cypress/config'
-    into 'build/serveTestReport/exampleconfig'
+    from 'frontend/cypress/configs'
+    into 'build/serveTestReport/configs'
 }
 
 def copyMainClasses = tasks.register('copyMainClasses', Copy) {
@@ -207,18 +207,48 @@ tasks.register('systemtest', Test) {
     }
 }
 
-def serveTestReportInBackground = tasks.register('serveTestReportInBackground', com.github.psxpaul.task.JavaExecFork) {
+def generateTestReportDefault = tasks.register('generateTestReportDefault', JavaExec) {
     description 'Creates a background server process for the test report that is to be used by Cypress'
     dependsOn zipReport, compileJava, processResources, copyCypressConfig, copyMainClasses
     tasks.compileJava.mustRunAfter(zipReport)
     tasks.processResources.mustRunAfter(zipReport)
+
     workingDir = 'build/serveTestReport'
     main = mainClassName
     classpath = sourceSets.main.runtimeClasspath
-    args = ['--config', './exampleconfig', '--since', 'd1', '--view', '-A', '-t', 'UTC']
+    args = ['--config', './configs/default', '--output', './default', '--since', 'd1', '-A', '-t', 'UTC']
     String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
     jvmArgs = [ versionJvmArgs ]
-    waitForPort = 9000
+}
+
+def generateTestReportPortfolio = tasks.register('generateTestReportPortfolio', JavaExec) {
+    description 'Creates a background server process for the test report that is to be used by Cypress'
+    dependsOn zipReport, compileJava, processResources, copyCypressConfig, copyMainClasses
+    tasks.compileJava.mustRunAfter(zipReport)
+    tasks.processResources.mustRunAfter(zipReport)
+
+    workingDir = 'build/serveTestReport'
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+    args = ['--config', './configs/portfolio', '--output', './portfolio', '--since', 'd1', '-A', '-t', 'UTC', '-P']
+    String versionJvmArgs = '-Dversion=' + getRepoSenseVersion()
+    jvmArgs = [ versionJvmArgs ]
+}
+
+def serveTestReportDefault = tasks.register('serveTestReportDefault', com.github.psxpaul.task.ExecFork) {
+    dependsOn generateTestReportDefault
+
+    workingDir = './frontend'
+    executable = 'npm'
+    args = ['run', 'serveTestDefault']
+}
+
+def serveTestReportPortfolio = tasks.register('serveTestReportPortfolio', com.github.psxpaul.task.ExecFork) {
+    dependsOn generateTestReportPortfolio
+
+    workingDir = './frontend'
+    executable = 'npm'
+    args = ['run', 'serveTestPortfolio']
 }
 
 def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
@@ -229,8 +259,9 @@ def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins
 
 tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+    dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio
+    tasks.serveTestReportDefault.mustRunAfter(installCypress)
+    tasks.serveTestReportPortfolio.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
@@ -238,8 +269,9 @@ tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageMa
 
 tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
-    dependsOn installCypress, serveTestReportInBackground
-    tasks.serveTestReportInBackground.mustRunAfter(installCypress)
+    dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio
+    tasks.serveTestReportDefault.mustRunAfter(installCypress)
+    tasks.serveTestReportPortfolio.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "tests"]
@@ -255,7 +287,7 @@ tasks.withType(Copy) {
 }
 
 jacoco {
-    toolVersion = "0.8.11"
+    toolVersion = "0.8.13"
 }
 
 jacocoTestReport {
