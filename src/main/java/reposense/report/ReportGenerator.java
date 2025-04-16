@@ -96,7 +96,7 @@ public class ReportGenerator {
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
     private static final String LOG_UNEXPECTED_ERROR = "Unexpected error stack trace for %s:\n>%s";
     private static final List<String> assetsFilesWhiteList =
-            Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico", "title.md"}));
+            Collections.unmodifiableList(Arrays.asList(new String[] {"assets/favicon.ico", "title.md"}));
 
     private LocalDateTime earliestSinceDate = null;
 
@@ -122,7 +122,7 @@ public class ReportGenerator {
         this.cliArguments = cliArguments;
         return this.generateReposReport(configs,
                 cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
+                cliArguments.getConfigFolderPath().toAbsolutePath().toString(), reportConfig,
                 formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
                 cliArguments.getSinceDate(), cliArguments.getUntilDate(),
                 cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
@@ -139,10 +139,10 @@ public class ReportGenerator {
      *
      * @param configs The list of repos to analyze.
      * @param outputPath The location at which to save the report.
-     * @param assetsPath The location at which assets for generating the report are stored.
+     * @param configAssetsPath The location at which assets for generating the report are stored.
      * @param reportConfig The config for the output report.
      * @param generationDate The time at which the report was generated.
-     * @param sinceDate The date-time from which to start analyzing commits.
+     * @param cliSinceDate The date-time from which to start analyzing commits.
      * @param untilDate The cut-off date-time for analyzing commits.
      * @param isSinceDateProvided The boolean variable for whether client provided a sinceDate.
      * @param isUntilDateProvided The boolean variable for whether client provided an untilDate.
@@ -160,16 +160,16 @@ public class ReportGenerator {
      * @throws IOException if templateZip.zip does not exist in jar file.
      * @throws InvalidMarkdownException if the blurb markdown file cannot be parsed properly.
      */
-    public List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
-            ReportConfiguration reportConfig, String generationDate, LocalDateTime sinceDate,
+    public List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String configAssetsPath,
+            ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold,
             RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap,
             boolean isPortfolio, boolean isOnlyTextRefreshed) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
-        if (Files.exists(Paths.get(assetsPath))) {
-            FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
+        if (Files.exists(Paths.get(configAssetsPath))) {
+            FileUtil.copyDirectoryContents(configAssetsPath, outputPath, assetsFilesWhiteList);
         }
 
         if (isOnlyTextRefreshed) {
