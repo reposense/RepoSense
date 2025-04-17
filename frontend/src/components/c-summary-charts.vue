@@ -245,8 +245,8 @@
           onclick="deactivateAllOverlays()",
           @click="openTabZoom(\
             user,\
-            getSinceDate(repo[0]),\
-            getUntilDate(repo[0]),\
+            getSinceDate(user),\
+            getUntilDate(user),\
             isGroupMerged(getGroupName(repo))\
           )"
         )
