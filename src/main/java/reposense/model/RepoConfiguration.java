@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -478,6 +479,48 @@ public class RepoConfiguration {
                 config.setUntilDate(untilDate);
             }
         }
+    }
+
+    /**
+     * Generates since dates for all repos.
+     *
+     * @param configs Repo configuration generated based on CLI or CSV
+     * @param cliArguments Cli agruments
+     * @return CLI since date is both CLI since and until flags are provided
+     * (in this case CSV dates will within that range),
+     * the earliest since date if any of the flags is not provided.
+     */
+    public static LocalDateTime findGlobalSinceDate(List<RepoConfiguration> configs, CliArguments cliArguments) {
+        if (cliArguments.isUntilDateProvided() && cliArguments.isSinceDateProvided()) {
+            return cliArguments.getSinceDate();
+        }
+
+        return configs.stream()
+                .map(RepoConfiguration::getSinceDate)
+                .filter(Objects::nonNull)
+                .min(LocalDateTime::compareTo)
+                .orElse(null);
+    }
+
+    /**
+     * Generates until dates for all repos.
+     *
+     * @param configs Repo configuration generated based on CLI or CSV
+     * @param cliArguments Cli agruments
+     * @return CLI until date is both CLI since and until flags are provided
+     * (in this case CSV dates will within that range),
+     * the latest until date if any of the flags is not provided.
+     */
+    public static LocalDateTime findGlobalUntilDate(List<RepoConfiguration> configs, CliArguments cliArguments) {
+        if (cliArguments.isUntilDateProvided() && cliArguments.isSinceDateProvided()) {
+            return cliArguments.getUntilDate();
+        }
+
+        return configs.stream()
+                .map(RepoConfiguration::getUntilDate)
+                .filter(Objects::nonNull)
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
     }
 
     public static void setZoneIdToRepoConfigs(List<RepoConfiguration> configs, ZoneId zoneId) {
