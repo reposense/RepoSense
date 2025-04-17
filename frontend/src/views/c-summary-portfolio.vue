@@ -91,19 +91,6 @@ export default defineComponent({
   },
 
   methods: {
-    // view functions //
-    getRepoSenseHomeLink(): string {
-      const version = window.repoSenseVersion;
-      if (!version) {
-        return `${window.HOME_PAGE_URL}/RepoSense/`;
-      }
-      return `${window.HOME_PAGE_URL}`;
-    },
-
-    getLogoPath(): string {
-      return window.LOGO_PATH;
-    },
-
     // model functions //
     setSummaryHash(): void {
       const { addHash, encodeHash, removeHash } = window;
@@ -181,8 +168,8 @@ export default defineComponent({
         filterGroupSelection: FilterGroupSelection.GroupByRepos,
         sortingOption: SortGroupSelection.GroupTitleDsc.split(' ')[0],
         sortingWithinOption: SortWithinGroupSelection.Title,
-        isSortingDsc: '',
-        isSortingWithinDsc: '',
+        isSortingDsc: false,
+        isSortingWithinDsc: false,
       };
 
       this.filtered = sortFiltered(this.filtered, filterControl);

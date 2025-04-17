@@ -90,14 +90,6 @@ export default defineComponent({
     },
   },
 
-  mounted(): void {
-    // Delay execution of filterGroupSelection watcher
-    // to prevent clearing of merged groups
-    setTimeout(() => {
-      this.filterGroupSelectionWatcherFlag = true;
-    }, 0);
-  },
-
   methods: {
     // view functions //
     getRepoSenseHomeLink(): string {

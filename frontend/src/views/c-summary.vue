@@ -101,6 +101,7 @@ export default defineComponent({
     cSummaryHeader,
   },
 
+  // Common summary functionality in summaryMixin.ts
   mixins: [summaryMixin],
 
   data(): {
@@ -230,6 +231,14 @@ export default defineComponent({
       const zoomInfo = Object.assign({}, this.$store.state.tabZoomInfo);
       this.restoreZoomFiltered(zoomInfo);
     }
+  },
+
+  mounted(): void {
+    // Delay execution of filterGroupSelection watcher
+    // to prevent clearing of merged groups
+    setTimeout(() => {
+      this.filterGroupSelectionWatcherFlag = true;
+    }, 0);
   },
 
   methods: {
@@ -416,11 +425,7 @@ export default defineComponent({
           // filtering
           repo.users?.forEach((user) => {
             if (this.isMatchSearchedUser(this.filterSearch, user)) {
-              this.getUserCommits(
-                user,
-                new Date(this.filterSinceDate) > new Date(user.sinceDate) ? this.filterSinceDate : user.sinceDate,
-                new Date(this.filterUntilDate) < new Date(user.untilDate) ? this.filterUntilDate : user.untilDate,
-              );
+              this.getUserCommits(user, this.filterSinceDate, this.filterUntilDate);
               if (this.filterTimeFrame === 'week') {
                 this.splitCommitsWeek(user, this.filterSinceDate, this.filterUntilDate);
               }
