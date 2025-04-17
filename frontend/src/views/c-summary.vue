@@ -15,9 +15,10 @@
     v-model:all-groups-merged="allGroupsMerged",
     v-model:has-modified-since-date="hasModifiedSinceDate",
     v-model:has-modified-until-date="hasModifiedUntilDate",
+    v-model:filtered-file-name="filteredFileName",
     :min-date="minDate",
     :max-date="maxDate",
-    :is-safari-browser="isSafariBrowser",
+    :input-date-not-supported="inputDateNotSupported",
     :filter-since-date="filterSinceDate",
     :filter-until-date="filterUntilDate",
     @get-filtered="getFiltered",
@@ -88,7 +89,7 @@ import {
 } from '../types/summary';
 import summaryMixin from "../mixin/summaryMixin";
 
-const dateFormatRegex = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
+const dateFormatRegex = /^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))(T([01]\d|2[0-3]):([0-5]\d)(:([0-5]\d))?)?$/;
 
 export default defineComponent({
   name: 'c-summary',
@@ -122,6 +123,7 @@ export default defineComponent({
     chartGroupIndex: number | undefined,
     chartIndex: number | undefined,
     viewRepoTags: boolean,
+    filteredFileName: string,
   } {
     return {
       filterSearch: '',
@@ -143,6 +145,7 @@ export default defineComponent({
       chartGroupIndex: undefined as number | undefined,
       chartIndex: undefined as number | undefined,
       viewRepoTags: false,
+      filteredFileName: ''
     };
   },
 
@@ -277,6 +280,7 @@ export default defineComponent({
         removeHash('optimiseTimeline');
       }
 
+      window.addHash('filteredFileName', this.filteredFileName);
       encodeHash();
     },
 
@@ -330,6 +334,9 @@ export default defineComponent({
       }
       if (hash.optimiseTimeline) {
         this.optimiseTimeline = convertBool(hash.optimiseTimeline);
+      }
+      if (hash.filteredFileName) {
+        this.filteredFileName = hash.filteredFileName;
       }
     },
 

@@ -24,9 +24,11 @@ interface Api {
     reportGenerationTime: string,
     errorMessages: { [key: string]: ErrorMessage },
     names: string[],
-    blurbMap: { [key: string]: string },
+    repoBlurbMap: { [key: string]: string },
+    authorBlurbMap: {[key: string]: string} | undefined,
+    chartsBlurbMap: {[key: string]: string} | undefined,
   } | null>;
-  loadCommits: (repoName: string) => Promise<User[]>;
+  loadCommits: (repoName: string, defaultSortOrder: number) => Promise<User[]>;
   loadAuthorship: (repoName: string) => Promise<AuthorshipSchema>;
   setContributionOfCommitResultsAndInsertRepoId: (dailyCommits: AuthorDailyContributions[], repoId: string) => void;
 }

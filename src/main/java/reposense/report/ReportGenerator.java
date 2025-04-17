@@ -41,12 +41,13 @@ import reposense.git.exception.CommitNotFoundException;
 import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
-import reposense.model.BlurbMap;
+import reposense.model.AuthorBlurbMap;
 import reposense.model.CommitHash;
+import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
-import reposense.model.ReportConfiguration;
 import reposense.model.StandaloneConfig;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
@@ -82,6 +83,8 @@ public class ReportGenerator {
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
     private static final String MESSAGE_MISSING_TEMPLATE =
             "Unable to find template file. Proceeding to generate report...";
+    private static final String MESSAGE_SKIP_REPORT_GENERATION =
+            "Refresh Only Text flag is present. Skipping report generation...";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
@@ -89,7 +92,7 @@ public class ReportGenerator {
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
     private static final String LOG_UNEXPECTED_ERROR = "Unexpected error stack trace for %s:\n>%s";
     private static final List<String> assetsFilesWhiteList =
-            Collections.unmodifiableList(Arrays.asList(new String[] {"favicon.ico", "title.md"}));
+            Collections.unmodifiableList(Arrays.asList(new String[] {"assets/favicon.ico", "title.md"}));
 
     private LocalDateTime earliestSinceDate = null;
     private ProgressTracker progressTracker = null;
@@ -100,7 +103,7 @@ public class ReportGenerator {
      *
      * @param configs The list of repos to analyze.
      * @param outputPath The location at which to save the report.
-     * @param assetsPath The location at which assets for generating the report are stored.
+     * @param configAssetsPath The location at which assets for generating the report are stored.
      * @param reportConfig The config for the output report.
      * @param generationDate The time at which the report was generated.
      * @param cliSinceDate The date-time from which to start analyzing commits.
@@ -114,21 +117,36 @@ public class ReportGenerator {
      * @param shouldFreshClone The boolean variable for whether to clone a repo again during tests.
      * @param shouldAnalyzeAuthorship The boolean variable for whether to further analyze authorship.
      * @param originalityThreshold The double variable for originality threshold in analyze authorship.
-     * @param blurbMap The {@code BlurbMap}.
+     * @param repoBlurbMap The {@code RepoBlurbMap}.
+     * @param authorBlurbMap The {@code AuthorBlurbMap}
      * @param isPortfolio The boolean variable for whether to generate code portfolio optimised report.
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exist in jar file.
      * @throws InvalidMarkdownException if the blurb markdown file cannot be parsed properly.
      */
-    public List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String assetsPath,
+    public List<Path> generateReposReport(List<RepoConfiguration> configs, String outputPath, String configAssetsPath,
             ReportConfiguration reportConfig, String generationDate, LocalDateTime cliSinceDate,
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
-            boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold, BlurbMap blurbMap,
-            boolean isPortfolio) throws IOException, InvalidMarkdownException {
+            boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold,
+            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap,
+            boolean isPortfolio, boolean isOnlyTextRefreshed) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
-        if (Files.exists(Paths.get(assetsPath))) {
-            FileUtil.copyDirectoryContents(assetsPath, outputPath, assetsFilesWhiteList);
+        if (Files.exists(Paths.get(configAssetsPath))) {
+            FileUtil.copyDirectoryContents(configAssetsPath, outputPath, assetsFilesWhiteList);
+        }
+
+        if (isOnlyTextRefreshed) {
+            Path summaryJsonPath = Paths.get(outputPath + "/" + SummaryJson.SUMMARY_JSON_FILE_NAME);
+            if (!Files.exists(summaryJsonPath)) {
+                throw new IOException("summary.json does not exist in the output folder. Aborting report generation.");
+            }
+            SummaryJson updatedSummaryJson = SummaryJson.updateSummaryJson(summaryJsonPath, repoBlurbMap,
+                    authorBlurbMap, generationDate, reportGenerationTimeProvider.get());
+
+            FileUtil.writeJsonFile(updatedSummaryJson, getSummaryResultPath(outputPath));
+            logger.info(MESSAGE_SKIP_REPORT_GENERATION);
+            return null;
         }
 
         earliestSinceDate = null;
@@ -137,14 +155,15 @@ public class ReportGenerator {
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath, numCloningThreads,
                 numAnalysisThreads, shouldFreshClone, shouldAnalyzeAuthorship, originalityThreshold);
 
-        LocalDateTime reportSinceDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId))
+        LocalDateTime reportSinceDate = TimeUtil.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId)
                 ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
                         reportSinceDate, untilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
-                        reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, blurbMap, isPortfolio),
+                        reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, repoBlurbMap,
+                        authorBlurbMap, isPortfolio),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 

@@ -37,7 +37,6 @@ export default defineComponent({
     filtered: User[][],
     filterBreakdown: boolean,
     fileTypeColors: { [key: string]: string },
-    isSafariBrowser: boolean,
     filterGroupSelectionWatcherFlag: boolean,
     optimiseTimeline: boolean,
   } {
@@ -47,7 +46,6 @@ export default defineComponent({
       filtered: [],
       filterBreakdown: window.isPortfolio, // Auto select filter breakdown if portfolio
       fileTypeColors: {} as { [key: string]: string },
-      isSafariBrowser: /.*Version.*Safari.*/.test(navigator.userAgent),
       filterGroupSelectionWatcherFlag: false,
       optimiseTimeline: window.isPortfolio, // Auto select trim timeline if portfolio
     };
@@ -73,6 +71,22 @@ export default defineComponent({
         return 0;
       }
       return totalLines / totalCount;
+    },
+
+    inputDateNotSupported(): boolean{
+      const userAgent = navigator.userAgent;
+      const safariVersionRegex = /Version\/([\d.]+).*Safari./;
+      const versionMatch = userAgent.match(safariVersionRegex);
+
+      if (!versionMatch || !versionMatch[1]) {
+        return false; // Not Safari or version parsing failed
+      }
+
+      const versionParts = versionMatch[1].split('.').map(Number);
+      const major = versionParts[0];
+      const minor = versionParts[1] || 0;
+
+      return major < 14 || major === 14 && minor < 1;
     },
   },
 

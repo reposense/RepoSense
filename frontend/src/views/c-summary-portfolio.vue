@@ -4,7 +4,7 @@
     v-if="!isWidgetMode",
     v-model:filter-breakdown="filterBreakdown",
     v-model:optimise-timeline="optimiseTimeline",
-    :is-safari-browser="isSafariBrowser",
+    :input-date-not-supported="inputDateNotSupported",
     @get-filtered="getFiltered",
     @toggle-breakdown="toggleBreakdown"
   )
