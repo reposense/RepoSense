@@ -90,6 +90,20 @@ We allow contribution bars to overflow into multiple lines (rather than adjust t
 #### Tool bar
 
 The `Tool Bar` at the top of the Chart panel provides a set of configuration options that control the Chart panel.
+
+* `Filter Files` function allows users to refine and focus their view on specific files across all repositories by applying keyword-based filters using glob patterns. This feature is particularly beneficial for developers seeking to analyze code changes in files that match certain naming conventions or extensions.
+  * Glob Pattern Filtering: Users can specify patterns to match filenames. For example:
+    * `**/TaskList.java`: Targets all files named TaskList.java in any directory or subdirectory.
+    * `**/*.js`: Selects all JavaScript files across all directories.
+    * `src/**/*.py`: Finds all Python files within the src directory and its subdirectories.
+
+  * Glob patterns use wildcards to match filenames:
+    * `*`: Matches any sequence of characters within a single directory level.
+    * `**`: Matches any sequence of characters across multiple directory levels.
+    * `?`: Matches any single character.
+    * `[abc]`: Matches any single character within the brackets.
+    * `[!abc]`: Matches any single character not within the brackets.
+    These patterns provide flexibility in locating files based on specific naming conventions or extensions.
 * `Search`: filters the author and repository by keywords.
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
@@ -103,6 +117,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
   * `Group title`: groups will be sorted by the title of the group (in bold text) in alphabetical order.
   * `Contribution`: groups will be sorted by the combined contributions within a group, in the order of number of lines added.
   * `Variance`: groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. A detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
+  * `Default`: groups will be sorted by the order of rows in `repo-config.csv`.
 * `Sort within groups by`: sorting criteria within each group.
   * `Title`: each group will be internally sorted by its title in alphabetical order.
   * `Contribution`: each group will be internally sorted by individual contributions in the order of number of lines added.

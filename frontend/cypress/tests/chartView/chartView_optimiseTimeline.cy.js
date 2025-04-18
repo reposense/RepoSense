@@ -50,14 +50,13 @@ describe('optimise timeline', () => {
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .first()
-      .should('have.text', '2018-05-03');
+      .should('have.text', '2018-05-03T00:00:00');
 
     cy.get('#summary-charts .summary-chart')
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .last()
-
-      .should('have.text', '2023-03-03');
+      .should('have.text', '2023-03-03T00:00:00');
   });
 
   it('no commits in range should not have date indicators', () => {
@@ -68,11 +67,11 @@ describe('optimise timeline', () => {
 
     // change since date
     cy.get('input[name="since"]')
-      .type('2018-12-31');
+      .type('2018-12-31T00:00');
 
     // change until date
     cy.get('input[name="until"]')
-      .type('2019-01-01');
+      .type('2019-01-01T00:00');
 
     cy.get('#summary-charts .summary-chart')
       .first()
@@ -110,7 +109,7 @@ describe('optimise timeline', () => {
 
     // verifies the date range is correctly optimised
     cy.get('#tab-zoom .period')
-      .should('contain', '2018-05-03 to 2023-03-03');
+      .should('contain', '2018-05-03T00:00:00 to 2023-03-03T00:00:00');
 
     // verifies the ramp chart is optimised and has no empty space on the right
     cy.get('#tab-zoom .ramp a')
@@ -144,7 +143,7 @@ describe('optimise timeline', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .invoke('attr', 'title')
       .then((title) => {
-        cy.wrap(title).should('eq', '[2019-08-18] AboutUs: update team members (#867): +94 -12 lines ');
+        cy.wrap(title).should('eq', '[2019-08-18T00:00:00] AboutUs: update team members (#867): +94 -12 lines ');
       });
   });
 });

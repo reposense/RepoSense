@@ -2,7 +2,6 @@ package reposense;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
@@ -10,13 +9,15 @@ import java.util.logging.Logger;
 
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
-import reposense.model.BlurbMap;
+import reposense.model.AuthorBlurbMap;
 import reposense.model.CliArguments;
+import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
-import reposense.model.ReportConfiguration;
 import reposense.model.RunConfigurationDecider;
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.parser.exceptions.ParseException;
@@ -45,7 +46,8 @@ public class RepoSense {
             CliArguments cliArguments = ArgsParser.parse(args);
             List<RepoConfiguration> configs = null;
             ReportConfiguration reportConfig = new ReportConfiguration();
-            BlurbMap blurbMap = new BlurbMap();
+            RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
+            AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
 
             if (cliArguments.isViewModeOnly()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
@@ -54,7 +56,8 @@ public class RepoSense {
 
             configs = RunConfigurationDecider.getRunConfiguration(cliArguments).getRepoConfigurations();
             reportConfig = cliArguments.getReportConfiguration();
-            blurbMap = cliArguments.getBlurbMap();
+            repoBlurbMap = cliArguments.mergeWithReportConfigRepoBlurbMap();
+            authorBlurbMap = cliArguments.getAuthorBlurbMap();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
@@ -77,19 +80,10 @@ public class RepoSense {
 
             ReportGenerator reportGenerator = new ReportGenerator();
             List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
-                    cliArguments.getOutputFilePath().toAbsolutePath().toString(),
-                    cliArguments.getAssetsFilePath().toAbsolutePath().toString(), reportConfig,
-                    formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
-                    cliArguments.getSinceDate(), cliArguments.getUntilDate(),
-                    cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
-                    cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
-                    TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
-                    cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
-                    blurbMap, cliArguments.isPortfolio()
-            );
+                    cliArguments, reportConfig, repoBlurbMap, authorBlurbMap);
 
-            FileUtil.zipFoldersAndFiles(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
-                    ".json");
+            FileUtil.handleZipFilesAndFolders(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
+                    cliArguments.isOnlyTextRefreshed(), ".json");
 
             // Set back to user's initial global git lfs config
             GitConfig.setGlobalGitLfsConfig(globalGitConfig);
@@ -99,14 +93,17 @@ public class RepoSense {
             if (cliArguments.isAutomaticallyLaunching()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
-        } catch (IOException | ParseException | InvalidCsvException | InvalidHeaderException e) {
+        } catch (IOException
+                 | ParseException
+                 | InvalidCsvException
+                 | InvalidHeaderException
+                 | InvalidDatesException e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.
         } catch (InvalidMarkdownException ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
         }
-
         LogsManager.moveLogFileToOutputFolder();
     }
 

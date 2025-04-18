@@ -8,6 +8,7 @@
 *.tmp
 
 ft_temp/
+rc_temp/
 /target/
 .gradle/
 build/
@@ -18,10 +19,13 @@ out/
 node_modules
 /frontend/public/
 !/frontend/public/favicon.ico
+!/frontend/public/logo.png
 !/frontend/public/index.html
 /frontend/.eslintcache
 /frontend/.stylelintcache
+/frontend/cypress/cypress/downloads/
 
 reposense-report/
+reposense-logs/
 docs/_site/
 bin/
