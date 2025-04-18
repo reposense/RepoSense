@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -42,6 +44,7 @@ import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.AuthorBlurbMap;
+import reposense.model.CliArguments;
 import reposense.model.CommitHash;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
@@ -60,6 +63,7 @@ import reposense.util.TimeUtil;
  * Contains report generation related functionalities.
  */
 public class ReportGenerator {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E, d MMM yyyy HH:mm:ss z");
     private static final String REPOSENSE_CONFIG_FOLDER = "_reposense";
     private static final String REPOSENSE_CONFIG_FILE = "config.json";
     private static final Logger logger = LogsManager.getLogger(ReportGenerator.class);
@@ -95,7 +99,39 @@ public class ReportGenerator {
             Collections.unmodifiableList(Arrays.asList(new String[] {"assets/favicon.ico", "title.md"}));
 
     private LocalDateTime earliestSinceDate = null;
+
+    private LocalDateTime globalSinceDate = null;
+    private LocalDateTime globalUntilDate = null;
+    private CliArguments cliArguments = null;
     private ProgressTracker progressTracker = null;
+
+    /**
+     * Overloads the complex generateReposReport.
+     *
+     * @param configs The list of repos to analyze.
+     * @param cliArguments The general cliArguments class.
+     * @param reportConfig The configuration for output report.
+     * @param repoBlurbMap The blurbMap class.
+     * @return the list of file paths that were generated.
+     * @throws IOException if template zip file does not exist in jar file.
+     * @throws InvalidMarkdownException if blurbMarkdown is problematic.
+     */
+    public List<Path> generateReposReport(List<RepoConfiguration> configs,
+            CliArguments cliArguments, ReportConfiguration reportConfig,
+            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap) throws IOException, InvalidMarkdownException {
+        this.cliArguments = cliArguments;
+        return this.generateReposReport(configs,
+                cliArguments.getOutputFilePath().toAbsolutePath().toString(),
+                cliArguments.getConfigFolderPath().toAbsolutePath().toString(), reportConfig,
+                formatter.format(ZonedDateTime.now(cliArguments.getZoneId())),
+                cliArguments.getSinceDate(), cliArguments.getUntilDate(),
+                cliArguments.isSinceDateProvided(), cliArguments.isUntilDateProvided(),
+                cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
+                TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
+                cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
+                repoBlurbMap, authorBlurbMap, cliArguments.isPortfolio(), cliArguments.isOnlyTextRefreshed()
+        );
+    }
 
     /**
      * Generates the authorship and commits JSON file for each repo in {@code configs} at {@code outputPath}, as
@@ -155,12 +191,13 @@ public class ReportGenerator {
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath, numCloningThreads,
                 numAnalysisThreads, shouldFreshClone, shouldAnalyzeAuthorship, originalityThreshold);
 
-        LocalDateTime reportSinceDate = TimeUtil.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId)
-                ? earliestSinceDate : cliSinceDate;
+        this.globalSinceDate = TimeUtil.isEqualToArbitraryFirstDateConverted(this.globalSinceDate, zoneId)
+                ? earliestSinceDate : this.globalSinceDate;
+
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
-                        reportSinceDate, untilDate, isSinceDateProvided,
+                        this.globalSinceDate, this.globalUntilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, repoBlurbMap,
                         authorBlurbMap, isPortfolio),
@@ -262,6 +299,18 @@ public class ReportGenerator {
                 .stream()
                 .flatMap(jobOutput -> jobOutput.getFiles().stream())
                 .collect(Collectors.toList());
+        List<RepoLocation> cloneSuccessfulLocations = jobOutputs
+                .stream()
+                .filter(AnalyzeJobOutput::isCloneSuccessful)
+                .map(AnalyzeJobOutput::getLocation)
+                .collect(Collectors.toList());
+
+        List<RepoConfiguration> successfulConfigs = configs.stream()
+                .filter(config -> cloneSuccessfulLocations.contains(config.getLocation()))
+                .collect(Collectors.toList());
+
+        this.globalSinceDate = RepoConfiguration.findGlobalSinceDate(successfulConfigs, this.cliArguments);
+        this.globalUntilDate = RepoConfiguration.findGlobalUntilDate(successfulConfigs, this.cliArguments);
 
         List<RepoLocation> cloneFailLocations = jobOutputs
                 .stream()

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import reposense.parser.exceptions.InvalidCsvException;
+import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidHeaderException;
 import reposense.parser.exceptions.ParseException;
 
@@ -13,6 +14,6 @@ import reposense.parser.exceptions.ParseException;
 public interface RunConfiguration {
 
     List<RepoConfiguration> getRepoConfigurations()
-            throws ParseException, IOException, InvalidCsvException, InvalidHeaderException;
+            throws ParseException, IOException, InvalidCsvException, InvalidHeaderException, InvalidDatesException;
 
 }
