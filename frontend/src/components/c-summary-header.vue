@@ -61,14 +61,14 @@ form.summary-picker.mui-form--inline(onsubmit="return false;")
       label granularity
 
     .mui-textfield(v-if='!isPortfolio')
-      input(v-if="inputDateNotSupported", type="text", placeholder="yyyy-mm-dd",
+      input(v-if="!isInputDateSupported", type="text", placeholder="yyyy-mm-dd",
         :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
         onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
       input(v-else, type="datetime-local", name="since", step="1", :value="filterSinceDate",
         @input="updateTmpFilterSinceDate", :min="minDate", :max="filterUntilDate")
       label since
     .mui-textfield(v-if='!isPortfolio')
-      input(v-if="inputDateNotSupported", type="text", placeholder="yyyy-mm-dd",
+      input(v-if="!isInputDateSupported", type="text", placeholder="yyyy-mm-dd",
         :value="filterUntilDate", @keyup.enter="updateTmpFilterUntilDate",
         onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
       input(v-else, type="datetime-local", name="until", step="1", :value="filterUntilDate",
@@ -131,7 +131,7 @@ export default defineComponent({
   name: "c-summary-header",
   mixins: [brokenLinkDisabler, tooltipPositioner],
   props: {
-    inputDateNotSupported: {
+    isInputDateSupported: {
       type: Boolean,
       required: true,
     },
@@ -354,7 +354,7 @@ export default defineComponent({
       const since = (event.target as HTMLInputElement).value;
       this.$emit("update:hasModifiedSinceDate", true);
 
-      if (!this.inputDateNotSupported) {
+      if (this.isInputDateSupported) {
         this.$emit('update:tmpFilterSinceDate', since);
         (event.target as HTMLInputElement).value = this.filterSinceDate;
         this.$emit("get-filtered");
@@ -375,7 +375,7 @@ export default defineComponent({
       const until = (event.target as HTMLInputElement).value;
       this.$emit("update:hasModifiedUntilDate", true);
 
-      if (!this.inputDateNotSupported) {
+      if (this.isInputDateSupported) {
         this.$emit('update:tmpFilterUntilDate', until);
         (event.target as HTMLInputElement).value = this.filterUntilDate;
         this.$emit("get-filtered");

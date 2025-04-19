@@ -4,7 +4,7 @@
     v-if="!isWidgetMode",
     v-model:filter-breakdown="filterBreakdown",
     v-model:optimise-timeline="optimiseTimeline",
-    :input-date-not-supported="inputDateNotSupported",
+    :is-input-date-supported="isInputDateSupported",
     @get-filtered="getFiltered",
     @toggle-breakdown="toggleBreakdown"
   )

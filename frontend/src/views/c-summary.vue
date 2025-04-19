@@ -18,7 +18,7 @@
     v-model:filtered-file-name="filteredFileName",
     :min-date="minDate",
     :max-date="maxDate",
-    :input-date-not-supported="inputDateNotSupported",
+    :is-input-date-supported="isInputDateSupported",
     :filter-since-date="filterSinceDate",
     :filter-until-date="filterUntilDate",
     @get-filtered="getFiltered",
