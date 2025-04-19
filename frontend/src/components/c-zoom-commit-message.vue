@@ -62,7 +62,6 @@ import { defineComponent, PropType } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
-import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
 import {
   Bar,
@@ -74,7 +73,6 @@ export default defineComponent({
   name: 'c-zoom-commit-message',
   components: {
     FontAwesomeIcon,
-    cRamp,
     cStackedBarChart,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
