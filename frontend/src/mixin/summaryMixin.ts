@@ -73,14 +73,14 @@ export default defineComponent({
       return totalLines / totalCount;
     },
 
-    isInputDateSupported(): boolean{
+    isInputDateSupported(): boolean {
       // Safari versions below 14.1 not supported
       const userAgent = navigator.userAgent;
       const safariVersionRegex = /Version\/([\d.]+).*Safari./;
       const versionMatch = userAgent.match(safariVersionRegex);
 
       if (!versionMatch || !versionMatch[1]) {
-        return false; // Not Safari or version parsing failed
+        return true; // Not Safari or version parsing failed
       }
 
       const versionParts = versionMatch[1].split('.').map(Number);
