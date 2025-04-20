@@ -567,9 +567,9 @@ export default defineComponent({
             allFileTypesContributionBars.push({
               width,
               color: this.fileTypeColors[fileType],
-              tooltipText: `${fileType}: ${fileTypeContribution[fileType]} lines, \
-                total: ${checkedFileTypeContribution} lines (contribution from ${this.minDate} to
-                  ${this.maxDate})`,
+              tooltipText: `${fileType}: ${fileTypeContribution[fileType]} lines, `
+                + `total: ${checkedFileTypeContribution} lines `
+                + `(contribution from ${this.minDate} to ${this.maxDate})`,
             });
           });
         });
