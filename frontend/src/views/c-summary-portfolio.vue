@@ -130,8 +130,8 @@ export default defineComponent({
       errorIsShowingMore: false,
       numberOfErrorMessagesToShow: 4,
       optimiseTimeline: window.isPortfolio, // Auto select trim timeline if portfolio
-      since: '',
-      until: '',
+      since: window.sinceDate,
+      until: window.untilDate,
     };
   },
   computed: {
