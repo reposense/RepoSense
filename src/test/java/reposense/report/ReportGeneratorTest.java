@@ -10,9 +10,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -39,6 +39,7 @@ class ReportGeneratorTest {
             "ReportGeneratorTest/test_assets/title.md");
 
     private static final String REPORT_GENERATED_TIME = "Wed, 1 Jan 2025 00:00:00 SGT";
+    private static final String GITHUB_API_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     @Test
     void generateReposReport_isOnlyTextRefreshedTrue_success() throws Exception {
@@ -53,7 +54,8 @@ class ReportGeneratorTest {
 
         List<Path> reportFoldersAndFiles = new ReportGenerator().generateReposReport(List.of(), OUTPUT_PATH.toString(),
                 ASSETS_PATH.toString(), new ReportConfiguration(), REPORT_GENERATED_TIME,
-                LocalDate.parse("2025-02-16").atStartOfDay(), LocalDateTime.parse("2025-03-16T23:59:59"),
+                LocalDateTime.parse("2025-02-16T00:00:00", DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT)),
+                LocalDateTime.parse("2025-03-16T23:59:59", DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT)),
                 false, false, 4, 12, TimeUtil::getElapsedTime,
                 ZoneId.of("Asia/Singapore"), false, false, 0.51,
                 repoBlurbMap, authorBlurbMap, chartBlurbMap, false, true);
@@ -66,6 +68,23 @@ class ReportGeneratorTest {
         assertTrue(compareFileContents(TITLE_MD_PATH, TEST_TITLE_MD_PATH));
     }
 
+    @Test
+    void generateReposReport_isOnlyTextRefreshedTrueButInvalidPath_throwsIoException() throws Exception {
+        ReportGenerator reportGenerator = new ReportGenerator();
+        TimeUtil.startTimer();
+        RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
+        repoBlurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "This is a test blurb");
+        AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
+        Assertions.assertThrows(
+                IOException.class, () -> reportGenerator.generateReposReport(List.of(), ASSETS_PATH.toString(),
+                        ASSETS_PATH.toString(), new ReportConfiguration(), REPORT_GENERATED_TIME,
+                        LocalDateTime.parse("2025-02-16T00:00:00", DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT)),
+                        LocalDateTime.parse("2025-03-16T23:59:59", DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT)),
+                        false, false, 4, 12, TimeUtil::getElapsedTime,
+                        ZoneId.of("Asia/Singapore"), false, false, 0.51,
+                        repoBlurbMap, authorBlurbMap, false, true)
+        );
+    }
 
     @AfterEach
     void reset() throws IOException {

@@ -53,6 +53,52 @@ The Shallow Cloning option is incompatible with the "--last-modified-date" CLI f
 </box>
 
 <box type="info" seamless>
+Behavior of since dates and until dates specified in CSV and CLI flags:
+
+1. *Both CSV Dates and CLI Flags Are Provided*
+   
+   **Behavior**:
+
+   When both the CSV file and the CLI include values for the “since” and “until” dates, the commit range for an individual repository is taken directly from its CSV dates.
+
+   **Validation**:
+
+   The CSV “since” and “until” dates must fall within the boundaries defined by the CLI flags. If the CSV date range extends before the CLI “since” date or beyond the CLI “until” date, that repository’s data will be considered invalid and will not be processed. An error message will be displayed.
+
+   **Example**:
+
+   CLI Dates: Since: 21/09/2024; Until: 29/01/2025
+
+   CSV Date Ranges:
+
+   Invalid: [01/02/2025, 02/02/2025] (exceeds the CLI "until" date), [01/09/2024, 01/01/2025] (starts before the CLI "since" date)
+
+   Valid: [30/09/2024, 01/01/2025]
+
+2. CSV Dates Are Fully Provided, but One CLI Flag Is Missing
+   
+   **Behavior**:
+   
+   The range of commits retrieved for the repo is fully determined by the dates specified in the CSV file.
+
+   **UI Adjustment**:
+
+   In the user interface, the adjustable date range will automatically span from the earliest “since” date to the latest “until” date across all repositories with valid CSV dates.
+
+3. Both CSV Dates Are Absent
+   
+   **Behavior**:
+   
+   When no dates are provided in the CSV file, the commit range is based on the CLI flags. If the CLI flags are not provided either, then the tool falls back on the predefined default date values.
+
+4. One CSV Date Is Missing 
+
+   **Behavior**:
+   
+   If either the “since” or “until” date is omitted in the CSV file, the missing value will be replaced by a default value (i.e. the commits within the most recent one month), or the corresponding value from the CLI flag (if specified).
+</box>
+
+<box type="info" seamless>
 If Ignore File Size Limit is yes, the File Size Limit and Skip Ignored File Analysis columns are ignored.
 </box>
 
@@ -222,6 +268,8 @@ Note: Symbols such as `"`, `!`, `/` etc. in your author name will be omitted, wh
 You can optionally use blurbs markdown files to add blurbs in Markdown syntax for repository branches or authors.
 
 ### `repo-blurbs.md`
+<div id="section-repo-blurbs">
+
 This file allows you to specify blurbs for repository branches. These blurbs will be displayed when grouping by `Repo/Branch`.
 
 **Format**:
@@ -229,8 +277,11 @@ This file allows you to specify blurbs for repository branches. These blurbs wil
 * Second line onwards: Blurb content.
 * Delimiter: `<!--repo-->`. Everything on the line after the delimiter will be ignored.
 * Sample: [repo-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/repo-blurbs.md)
+</div>
 
 ### `author-blurbs.md`
+<div id="section-author-blurbs">
+
 This file allows you to specify blurbs for authors. These blurbs will be displayed when grouping by `Author`.
 
 **Format**:
@@ -238,5 +289,5 @@ This file allows you to specify blurbs for authors. These blurbs will be display
 * Second line onwards: Blurb content.
 * Delimiter: `<!--author-->`. Everything on the line after the delimiter will be ignored.
 * Sample: [author-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/author-blurbs.md)
-
 </div>
+
