@@ -84,7 +84,7 @@ class ReportGeneratorTest {
                         LocalDateTime.parse("2025-03-16T23:59:59", DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT)),
                         false, false, 4, 12, TimeUtil::getElapsedTime,
                         ZoneId.of("Asia/Singapore"), false, false, 0.51,
-                        repoBlurbMap, authorBlurbMap, chartBlurbMap,false, true)
+                        repoBlurbMap, authorBlurbMap, chartBlurbMap, false, true)
         );
     }
 
