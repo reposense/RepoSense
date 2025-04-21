@@ -119,7 +119,7 @@ public class ReportGenerator {
      */
     public List<Path> generateReposReport(List<RepoConfiguration> configs,
             CliArguments cliArguments, ReportConfiguration reportConfig,
-            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap) throws IOException, InvalidMarkdownException {
+            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap, ChartBlurbMap chartBlurbMap) throws IOException, InvalidMarkdownException {
         this.cliArguments = cliArguments;
         return this.generateReposReport(configs,
                 cliArguments.getOutputFilePath().toAbsolutePath().toString(),
@@ -130,7 +130,7 @@ public class ReportGenerator {
                 cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
                 TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
                 cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
-                repoBlurbMap, authorBlurbMap, cliArguments.isPortfolio(), cliArguments.isOnlyTextRefreshed()
+                repoBlurbMap, authorBlurbMap, chartBlurbMap,cliArguments.isPortfolio(), cliArguments.isOnlyTextRefreshed()
         );
     }
 
