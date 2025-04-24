@@ -39,6 +39,8 @@ export default defineComponent({
     fileTypeColors: { [key: string]: string },
     filterGroupSelectionWatcherFlag: boolean,
     optimiseTimeline: boolean,
+    chartGroupIndex: number | undefined,
+    chartIndex: number | undefined,
   } {
     return {
       checkedFileTypes: [],
@@ -48,6 +50,8 @@ export default defineComponent({
       fileTypeColors: {} as { [key: string]: string },
       filterGroupSelectionWatcherFlag: false,
       optimiseTimeline: window.isPortfolio, // Auto select trim timeline if portfolio
+      chartGroupIndex: undefined as number | undefined,
+      chartIndex: undefined as number | undefined,
     };
   },
 

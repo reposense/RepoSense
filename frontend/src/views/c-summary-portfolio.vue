@@ -31,7 +31,9 @@
     :filter-until-date="until",
     :min-date="since",
     :max-date="until",
-    :optimise-timeline="optimiseTimeline"
+    :optimise-timeline="optimiseTimeline",
+    :chart-group-index="chartGroupIndex",
+    :chart-index="chartIndex",
   )
 
   .logo(v-if="isWidgetMode")
@@ -96,6 +98,7 @@ export default defineComponent({
       const { addHash, encodeHash, removeHash } = window;
 
       addHash('breakdown', this.filterBreakdown);
+      addHash('optimiseTimeline', this.optimiseTimeline);
 
       if (this.filterBreakdown) {
         const checkedFileTypesHash = this.checkedFileTypes.length > 0
@@ -104,12 +107,6 @@ export default defineComponent({
         addHash('checkedFileTypes', checkedFileTypesHash);
       } else {
         removeHash('checkedFileTypes');
-      }
-
-      if (this.optimiseTimeline) {
-        addHash('optimiseTimeline', 'true');
-      } else {
-        removeHash('optimiseTimeline');
       }
 
       encodeHash();
@@ -130,6 +127,15 @@ export default defineComponent({
 
       if (hash.optimiseTimeline) {
         this.optimiseTimeline = convertBool(hash.optimiseTimeline);
+      }
+
+      // Widget data
+      if (hash.chartGroupIndex) {
+        this.chartGroupIndex = parseInt(hash.chartGroupIndex, 10);
+      }
+
+      if (hash.chartIndex) {
+        this.chartIndex = parseInt(hash.chartIndex, 10);
       }
     },
 
@@ -166,7 +172,7 @@ export default defineComponent({
 
       const filterControl = {
         filterGroupSelection: FilterGroupSelection.GroupByRepos,
-        sortingOption: SortGroupSelection.GroupTitleDsc.split(' ')[0],
+        sortingOption: SortGroupSelection.GroupTitle,
         sortingWithinOption: SortWithinGroupSelection.Title,
         isSortingDsc: false,
         isSortingWithinDsc: false,
