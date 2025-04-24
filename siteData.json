@@ -242,6 +242,11 @@
       "headingKeywords": {}
     },
     {
+      "src": "ug/chart-blurbs.md",
+      "headings": {},
+      "headingKeywords": {}
+    },
+    {
       "src": "ug/cli.md",
       "title": "Appendix: CLI syntax reference",
       "headings": {
@@ -283,7 +288,8 @@
         "a-note-about-git-author-name": "A note about Git author name",
         "blurbs-markdown-files": "Blurbs Markdown files",
         "repo-blurbs-md": "repo-blurbs.md",
-        "author-blurbs-md": "author-blurbs.md"
+        "author-blurbs-md": "author-blurbs.md",
+        "chart-blurbs-md": "chart-blurbs.md"
       },
       "headingKeywords": {}
     },
