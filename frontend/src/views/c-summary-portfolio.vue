@@ -33,7 +33,7 @@
     :max-date="until",
     :optimise-timeline="optimiseTimeline",
     :chart-group-index="chartGroupIndex",
-    :chart-index="chartIndex",
+    :chart-index="chartIndex"
   )
 
   .logo(v-if="isWidgetMode")
