@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import reposense.model.AuthorBlurbMap;
+import reposense.model.ChartBlurbMap;
 import reposense.model.RepoBlurbMap;
 import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.SummaryJsonParser;
@@ -47,6 +48,9 @@ class ReportGeneratorTest {
         repoBlurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "This is a test blurb");
         AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
         authorBlurbMap.withRecord("nbriannl", "Test for author-blurbs.md");
+        ChartBlurbMap chartBlurbMap = new ChartBlurbMap();
+        chartBlurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master|nbriannl",
+                "This is a test blurb for chart-blurbs.md");
         TimeUtil.startTimer();
 
         List<Path> reportFoldersAndFiles = new ReportGenerator().generateReposReport(List.of(), OUTPUT_PATH.toString(),
@@ -55,7 +59,7 @@ class ReportGeneratorTest {
                 LocalDateTime.parse("2025-03-16T23:59:59", DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT)),
                 false, false, 4, 12, TimeUtil::getElapsedTime,
                 ZoneId.of("Asia/Singapore"), false, false, 0.51,
-                repoBlurbMap, authorBlurbMap, false, true);
+                repoBlurbMap, authorBlurbMap, chartBlurbMap, false, true);
 
         SummaryJson actualSummaryJson = new SummaryJsonParser().parse(SUMMARY_JSON_PATH);
 
@@ -72,6 +76,7 @@ class ReportGeneratorTest {
         RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
         repoBlurbMap.withRecord("https://github.com/reposense/testrepo-Delta/tree/master", "This is a test blurb");
         AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
+        ChartBlurbMap chartBlurbMap = new ChartBlurbMap();
         Assertions.assertThrows(
                 IOException.class, () -> reportGenerator.generateReposReport(List.of(), ASSETS_PATH.toString(),
                         ASSETS_PATH.toString(), new ReportConfiguration(), REPORT_GENERATED_TIME,
@@ -79,7 +84,7 @@ class ReportGeneratorTest {
                         LocalDateTime.parse("2025-03-16T23:59:59", DateTimeFormatter.ofPattern(GITHUB_API_DATE_FORMAT)),
                         false, false, 4, 12, TimeUtil::getElapsedTime,
                         ZoneId.of("Asia/Singapore"), false, false, 0.51,
-                        repoBlurbMap, authorBlurbMap, false, true)
+                        repoBlurbMap, authorBlurbMap, chartBlurbMap, false, true)
         );
     }
 

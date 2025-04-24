@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import net.sourceforge.argparse4j.helper.HelpScreenException;
 import reposense.git.GitConfig;
 import reposense.model.AuthorBlurbMap;
+import reposense.model.ChartBlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.RepoBlurbMap;
 import reposense.model.RepoConfiguration;
@@ -48,6 +49,7 @@ public class RepoSense {
             ReportConfiguration reportConfig = new ReportConfiguration();
             RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
             AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
+            ChartBlurbMap chartBlurbMap = new ChartBlurbMap();
 
             if (cliArguments.isViewModeOnly()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
@@ -58,6 +60,7 @@ public class RepoSense {
             reportConfig = cliArguments.getReportConfiguration();
             repoBlurbMap = cliArguments.mergeWithReportConfigRepoBlurbMap();
             authorBlurbMap = cliArguments.getAuthorBlurbMap();
+            chartBlurbMap = cliArguments.getChartBlurbMap();
 
             RepoConfiguration.setFormatsToRepoConfigs(configs, cliArguments.getFormats());
             RepoConfiguration.setDatesToRepoConfigs(configs, cliArguments.getSinceDate(), cliArguments.getUntilDate());
@@ -80,7 +83,7 @@ public class RepoSense {
 
             ReportGenerator reportGenerator = new ReportGenerator();
             List<Path> reportFoldersAndFiles = reportGenerator.generateReposReport(configs,
-                    cliArguments, reportConfig, repoBlurbMap, authorBlurbMap);
+                    cliArguments, reportConfig, repoBlurbMap, authorBlurbMap, chartBlurbMap);
 
             FileUtil.handleZipFilesAndFolders(reportFoldersAndFiles, cliArguments.getOutputFilePath().toAbsolutePath(),
                     cliArguments.isOnlyTextRefreshed(), ".json");
