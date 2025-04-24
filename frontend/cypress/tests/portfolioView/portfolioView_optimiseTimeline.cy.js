@@ -154,4 +154,5 @@ describe('optimise timeline',
           cy.wrap(title).should('eq', '[2019-08-18] AboutUs: update team members (#867): +94 -12 lines ');
         });
     });
-  });
+  },
+);
