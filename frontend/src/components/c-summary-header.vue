@@ -1,117 +1,117 @@
 <template lang="pug">
-  form.summary-picker.mui-form--inline(onsubmit="return false;")
-    .summary-picker__section
-      .tooltip(
-        @mouseover="onTooltipHover('filter-files-label')",
-        @mouseout="resetTooltip('filter-files-label')"
+form.summary-picker.mui-form--inline(onsubmit="return false;")
+  .summary-picker__section
+    .tooltip(
+      @mouseover="onTooltipHover('filter-files-label')",
+      @mouseout="resetTooltip('filter-files-label')"
+    )
+      .mui-textfield.filter_file(v-if='!isPortfolio')
+        label filter files
+        input(
+          type="text",
+          @change="setFilteredFileName",
+          v-model="localFilteredFileName"
+          )
+        button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
+        span.tooltip-text(ref='filter-files-label') Enter a glob to filter the files
+
+    .mui-textfield.search_box(v-if='!isPortfolio')
+      input(type="text", v-model="localFilterSearch")
+      label search
+      button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilterSearch") x
+
+    .mui-select.grouping(v-if='!isPortfolio')
+      select(v-model="localFilterGroupSelection")
+        option(value="groupByNone") None
+        option(value="groupByRepos") Repo/Branch
+        option(value="groupByAuthors") Author
+      label group by
+
+    .mui-select.sort-group(v-if='!isPortfolio')
+      select(v-model="localSortGroupSelection", @change="$emit('get-filtered')")
+        option(value="groupTitle") &uarr; group title
+        option(value="groupTitle dsc") &darr; group title
+        option(value="totalCommits") &uarr; contribution
+        option(value="totalCommits dsc") &darr; contribution
+        option(value="variance") &uarr; variance
+        option(value="variance dsc") &darr; variance
+        option(value="defaultSortOrder") &uarr; default
+        option(value="defaultSortOrder dsc") &darr; default
+      label sort groups by
+
+    .mui-select.sort-within-group(v-if='!isPortfolio')
+      select(
+        v-model="localSortWithinGroupSelection",
+        :disabled="localFilterGroupSelection === 'groupByNone' || localAllGroupsMerged",
+        @change="$emit('get-filtered')"
       )
-        .mui-textfield.filter_file(v-if='!isPortfolio')
-          label filter files
-          input(
-            type="text",
-            @change="setFilteredFileName",
-            v-model="localFilteredFileName"
-            )
-          button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
-          span.tooltip-text(ref='filter-files-label') Enter a glob to filter the files
+        option(value="title") &uarr; title
+        option(value="title dsc") &darr; title
+        option(value="totalCommits") &uarr; contribution
+        option(value="totalCommits dsc") &darr; contribution
+        option(value="variance") &uarr; variance
+        option(value="variance dsc") &darr; variance
+      label sort within groups by
 
-      .mui-textfield.search_box(v-if='!isPortfolio')
-        input(type="text", v-model="localFilterSearch")
-        label search
-        button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilterSearch") x
+    .mui-select.granularity(v-if='!isPortfolio')
+      select(v-model="localFilterTimeFrame", @change="$emit('get-filtered')")
+        option(value="commit") Commit
+        option(value="day") Day
+        option(value="week") Week
+      label granularity
 
-      .mui-select.grouping(v-if='!isPortfolio')
-        select(v-model="localFilterGroupSelection")
-          option(value="groupByNone") None
-          option(value="groupByRepos") Repo/Branch
-          option(value="groupByAuthors") Author
-        label group by
+    .mui-textfield(v-if='!isPortfolio')
+      input(v-if="!isInputDateSupported", type="text", placeholder="yyyy-mm-dd",
+        :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
+        onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+      input(v-else, type="datetime-local", name="since", step="1", :value="filterSinceDate",
+        @input="updateTmpFilterSinceDate", :min="minDate", :max="filterUntilDate")
+      label since
+    .mui-textfield(v-if='!isPortfolio')
+      input(v-if="!isInputDateSupported", type="text", placeholder="yyyy-mm-dd",
+        :value="filterUntilDate", @keyup.enter="updateTmpFilterUntilDate",
+        onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
+      input(v-else, type="datetime-local", name="until", step="1", :value="filterUntilDate",
+        @input="updateTmpFilterUntilDate", :min="filterSinceDate", :max="maxDate")
+      label until
+    .mui-textfield(v-if='!isPortfolio')
+      a(@click="resetDateRange") Reset date range
 
-      .mui-select.sort-group(v-if='!isPortfolio')
-        select(v-model="localSortGroupSelection", @change="$emit('get-filtered')")
-          option(value="groupTitle") &uarr; group title
-          option(value="groupTitle dsc") &darr; group title
-          option(value="totalCommits") &uarr; contribution
-          option(value="totalCommits dsc") &darr; contribution
-          option(value="variance") &uarr; variance
-          option(value="variance dsc") &darr; variance
-          option(value="defaultSortOrder") &uarr; default
-          option(value="defaultSortOrder dsc") &darr; default
-        label sort groups by
+    .summary-picker__checkboxes.summary-picker__section
+      label.filter-breakdown
+        input.mui-checkbox(
+          type="checkbox",
+          v-model="localFilterBreakdown",
+          @change="toggleBreakdown"
+        )
+        span breakdown by file type
 
-      .mui-select.sort-within-group(v-if='!isPortfolio')
-        select(
-          v-model="localSortWithinGroupSelection",
-          :disabled="localFilterGroupSelection === 'groupByNone' || localAllGroupsMerged",
+      label.merge-group(
+        v-if='!isPortfolio',
+        :style="localFilterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
+      )
+        input.mui-checkbox(
+          type="checkbox",
+          v-model="localAllGroupsMerged",
+          :disabled="localFilterGroupSelection === 'groupByNone'"
+        )
+        span merge all groups
+
+      label.show-tags(v-if='!isPortfolio')
+        input.mui-checkbox(
+          type="checkbox",
+          v-model="localViewRepoTags",
           @change="$emit('get-filtered')"
         )
-          option(value="title") &uarr; title
-          option(value="title dsc") &darr; title
-          option(value="totalCommits") &uarr; contribution
-          option(value="totalCommits dsc") &darr; contribution
-          option(value="variance") &uarr; variance
-          option(value="variance dsc") &darr; variance
-        label sort within groups by
+        span show tags
 
-      .mui-select.granularity(v-if='!isPortfolio')
-        select(v-model="localFilterTimeFrame", @change="$emit('get-filtered')")
-          option(value="commit") Commit
-          option(value="day") Day
-          option(value="week") Week
-        label granularity
-
-      .mui-textfield(v-if='!isPortfolio')
-        input(v-if="inputDateNotSupported", type="text", placeholder="yyyy-mm-dd",
-          :value="filterSinceDate", @keyup.enter="updateTmpFilterSinceDate",
-          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="datetime-local", name="since", step="1", :value="filterSinceDate",
-          @input="updateTmpFilterSinceDate", :min="minDate", :max="filterUntilDate")
-        label since
-      .mui-textfield(v-if='!isPortfolio')
-        input(v-if="inputDateNotSupported", type="text", placeholder="yyyy-mm-dd",
-          :value="filterUntilDate", @keyup.enter="updateTmpFilterUntilDate",
-          onkeydown="formatInputDateOnKeyDown(event)", oninput="appendDashInputDate(event)", maxlength=10)
-        input(v-else, type="datetime-local", name="until", step="1", :value="filterUntilDate",
-          @input="updateTmpFilterUntilDate", :min="filterSinceDate", :max="maxDate")
-        label until
-      .mui-textfield(v-if='!isPortfolio')
-        a(@click="resetDateRange") Reset date range
-
-      .summary-picker__checkboxes.summary-picker__section
-        label.filter-breakdown
-          input.mui-checkbox(
-            type="checkbox",
-            v-model="localFilterBreakdown",
-            @change="toggleBreakdown"
-          )
-          span breakdown by file type
-
-        label.merge-group(
-          v-if='!isPortfolio',
-          :style="localFilterGroupSelection === 'groupByNone' ? { opacity:0.5 } : { opacity:1.0 }"
+      label.optimise-timeline
+        input.mui-checkbox(
+          type="checkbox",
+          v-model="localOptimiseTimeline",
+          @change="$emit('get-filtered')"
         )
-          input.mui-checkbox(
-            type="checkbox",
-            v-model="localAllGroupsMerged",
-            :disabled="localFilterGroupSelection === 'groupByNone'"
-          )
-          span merge all groups
-
-        label.show-tags(v-if='!isPortfolio')
-          input.mui-checkbox(
-            type="checkbox",
-            v-model="localViewRepoTags",
-            @change="$emit('get-filtered')"
-          )
-          span show tags
-
-        label.optimise-timeline
-          input.mui-checkbox(
-            type="checkbox",
-            v-model="localOptimiseTimeline",
-            @change="$emit('get-filtered')"
-          )
-          span trim timeline
+        span trim timeline
 </template>
 
 <script lang="ts">
@@ -131,6 +131,10 @@ export default defineComponent({
   name: "c-summary-header",
   mixins: [brokenLinkDisabler, tooltipPositioner],
   props: {
+    isInputDateSupported: {
+      type: Boolean,
+      required: true,
+    },
     filterSearch: {
       type: String,
       default: "",
@@ -182,10 +186,6 @@ export default defineComponent({
     allGroupsMerged: {
       type: Boolean,
       default: false,
-    },
-    inputDateNotSupported: {
-      type: Boolean,
-      required: true,
     },
     hasModifiedSinceDate: {
       type: Boolean,
@@ -354,7 +354,7 @@ export default defineComponent({
       const since = (event.target as HTMLInputElement).value;
       this.$emit("update:hasModifiedSinceDate", true);
 
-      if (!this.inputDateNotSupported) {
+      if (this.isInputDateSupported) {
         this.$emit('update:tmpFilterSinceDate', since);
         (event.target as HTMLInputElement).value = this.filterSinceDate;
         this.$emit("get-filtered");
@@ -375,7 +375,7 @@ export default defineComponent({
       const until = (event.target as HTMLInputElement).value;
       this.$emit("update:hasModifiedUntilDate", true);
 
-      if (!this.inputDateNotSupported) {
+      if (this.isInputDateSupported) {
         this.$emit('update:tmpFilterUntilDate', until);
         (event.target as HTMLInputElement).value = this.filterUntilDate;
         this.$emit("get-filtered");
