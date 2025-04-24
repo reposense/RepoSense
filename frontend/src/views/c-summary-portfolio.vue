@@ -75,8 +75,8 @@ export default defineComponent({
     until: string,
   } {
     return {
-      since: '',
-      until: '',
+      since: window.sinceDate,
+      until: window.untilDate,
     };
   },
 
