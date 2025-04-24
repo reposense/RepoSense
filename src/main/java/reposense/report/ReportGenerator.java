@@ -44,6 +44,7 @@ import reposense.git.exception.GitBranchException;
 import reposense.git.exception.GitCloneException;
 import reposense.model.Author;
 import reposense.model.AuthorBlurbMap;
+import reposense.model.ChartBlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.CommitHash;
 import reposense.model.RepoBlurbMap;
@@ -118,7 +119,8 @@ public class ReportGenerator {
      */
     public List<Path> generateReposReport(List<RepoConfiguration> configs,
             CliArguments cliArguments, ReportConfiguration reportConfig,
-            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap) throws IOException, InvalidMarkdownException {
+            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap, ChartBlurbMap chartBlurbMap)
+            throws IOException, InvalidMarkdownException {
         this.cliArguments = cliArguments;
         return this.generateReposReport(configs,
                 cliArguments.getOutputFilePath().toAbsolutePath().toString(),
@@ -129,7 +131,8 @@ public class ReportGenerator {
                 cliArguments.getNumCloningThreads(), cliArguments.getNumAnalysisThreads(),
                 TimeUtil::getElapsedTime, cliArguments.getZoneId(), cliArguments.isFreshClonePerformed(),
                 cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
-                repoBlurbMap, authorBlurbMap, cliArguments.isPortfolio(), cliArguments.isOnlyTextRefreshed()
+                repoBlurbMap, authorBlurbMap, chartBlurbMap, cliArguments.isPortfolio(),
+                cliArguments.isOnlyTextRefreshed()
         );
     }
 
@@ -155,6 +158,7 @@ public class ReportGenerator {
      * @param originalityThreshold The double variable for originality threshold in analyze authorship.
      * @param repoBlurbMap The {@code RepoBlurbMap}.
      * @param authorBlurbMap The {@code AuthorBlurbMap}
+     * @param chartBlurbMap The {@code ChartBlurbMap}
      * @param isPortfolio The boolean variable for whether to generate code portfolio optimised report.
      * @return the list of file paths that were generated.
      * @throws IOException if templateZip.zip does not exist in jar file.
@@ -165,7 +169,7 @@ public class ReportGenerator {
             LocalDateTime untilDate, boolean isSinceDateProvided, boolean isUntilDateProvided, int numCloningThreads,
             int numAnalysisThreads, Supplier<String> reportGenerationTimeProvider, ZoneId zoneId,
             boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold,
-            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap,
+            RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap, ChartBlurbMap chartBlurbMap,
             boolean isPortfolio, boolean isOnlyTextRefreshed) throws IOException, InvalidMarkdownException {
         prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(configAssetsPath))) {
@@ -178,7 +182,7 @@ public class ReportGenerator {
                 throw new IOException("summary.json does not exist in the output folder. Aborting report generation.");
             }
             SummaryJson updatedSummaryJson = SummaryJson.updateSummaryJson(summaryJsonPath, repoBlurbMap,
-                    authorBlurbMap, generationDate, reportGenerationTimeProvider.get());
+                    authorBlurbMap, chartBlurbMap, generationDate, reportGenerationTimeProvider.get());
 
             FileUtil.writeJsonFile(updatedSummaryJson, getSummaryResultPath(outputPath));
             logger.info(MESSAGE_SKIP_REPORT_GENERATION);
@@ -200,7 +204,7 @@ public class ReportGenerator {
                         this.globalSinceDate, this.globalUntilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, repoBlurbMap,
-                        authorBlurbMap, isPortfolio),
+                        authorBlurbMap, chartBlurbMap, isPortfolio),
                 getSummaryResultPath(outputPath));
         summaryPath.ifPresent(reportFoldersAndFiles::add);
 
