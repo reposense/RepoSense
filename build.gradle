@@ -9,7 +9,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'com.liferay.node' version '7.2.19'
     id 'com.github.psxpaul.execfork' version '0.2.2'
-    id 'com.palantir.git-version' version '0.13.0'
+    id 'com.palantir.git-version' version '0.15.0'
 }
 
 OperatingSystem os = DefaultNativePlatform.currentOperatingSystem;
