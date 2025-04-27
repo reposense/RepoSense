@@ -47,7 +47,7 @@ jobs:
         node-version: ${{ env.NODE_VER }}
 
     - name: Set up Gradle caching
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           $HOME/.gradle/caches
@@ -57,7 +57,7 @@ jobs:
           ${{ matrix.os }}-gradle-
 
     - name: Set up Node caching
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: $HOME/.npm
         key: ${{ matrix.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -135,7 +135,7 @@ jobs:
         node-version: ${{ env.NODE_VER }}
 
     - name: Set up Gradle caching
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           $HOME/.gradle/caches
@@ -145,7 +145,7 @@ jobs:
           ${{ runner.os }}-gradle-
 
     - name: Set up Node caching
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: $HOME/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
