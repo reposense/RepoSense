@@ -5,6 +5,11 @@
   ],
   "packageRules": [
     {
+      "groupName": "all non-major dependencies except typescript",
+      "groupSlug": "all-minor-patch",
+      "matchPackageNames": [
+        "!typescript"
+      ],
       "matchDepTypes": [
         "dependencies",
         "devDependencies"
