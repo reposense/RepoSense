@@ -121,8 +121,6 @@ export default defineComponent({
     filterHash: string,
     minDate: string,
     maxDate: string,
-    chartGroupIndex: number | undefined,
-    chartIndex: number | undefined,
     viewRepoTags: boolean,
     filteredFileName: string,
   } {
@@ -143,8 +141,6 @@ export default defineComponent({
       filterHash: '',
       minDate: window.sinceDate,
       maxDate: window.untilDate,
-      chartGroupIndex: undefined as number | undefined,
-      chartIndex: undefined as number | undefined,
       viewRepoTags: false,
       filteredFileName: ''
     };
