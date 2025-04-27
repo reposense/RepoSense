@@ -291,3 +291,14 @@ This file allows you to specify blurbs for authors. These blurbs will be display
 * Sample: [author-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/author-blurbs.md)
 </div>
 
+### `chart-blurbs.md`
+<div id="section-chart-blurbs">
+
+This file allow you to specify blurbs for specific charts. These blurbs will be displayed with the charts.
+
+**Format**:
+* First line in section: Link to the repository branch|Author's Git Host ID. (Note the `|` between repository's link and author's Git Host ID)
+* Second line onwards: Blurb content.
+* Delimiter: `<!--chart-->`. Everything on the line after the delimiter will be ignored.
+* Sample: [chart-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/chart-blurbs.md))
+</div>
