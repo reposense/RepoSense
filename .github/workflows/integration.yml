@@ -42,7 +42,7 @@ jobs:
       run: echo "Actual JDK in use -- "; java -version
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VER }}
 
@@ -130,7 +130,7 @@ jobs:
       run: echo "Actual JDK in use -- "; java -version
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ env.NODE_VER }}
 
