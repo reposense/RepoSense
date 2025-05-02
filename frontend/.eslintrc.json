@@ -1,6 +1,8 @@
 {
   "env": {
-    "browser": true
+    "browser": true,
+    "node": true,
+    "es2022": true
   },
   "extends": [
     "airbnb-base",
@@ -80,7 +82,23 @@
             ]
           }
         ],
-        "@stylistic/member-delimiter-style": "error",
+        "@stylistic/member-delimiter-style": [
+          "error",
+          {
+            "overrides": {
+              "typeLiteral": {
+                "singleline": {
+                  "delimiter": "comma",
+                  "requireLast": false
+                },
+                "multiline": {
+                  "delimiter": "comma",
+                  "requireLast": true
+                }
+              }
+            }
+          }
+        ],
         "@stylistic/type-annotation-spacing": "error",
         "@typescript-eslint/array-type": [
           "error",

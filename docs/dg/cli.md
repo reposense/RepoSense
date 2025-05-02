@@ -11,31 +11,15 @@ syntax reference under Appendix section of User Guide.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### `--test-mode`
-
-**`--test-mode`**: Enables test mode behavior.
-
-<box type="info" seamless>
-
-* Used in `ConfigSystemTest`.
-* Can be used for behaviors specific to test code.
-  * E.g. `--fresh-cloning`. Fresh cloning is always `false` when running RepoSense normally, and is only used in
-  system tests.
-
-</box>
-
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
 ### `--fresh-cloning`
 
 **`--fresh-cloning`**: Clones the repo again if it has been cloned before.
 
 <box type="info" seamless>
 
-* Used in `ConfigSystemTest`.
+* Used in `ConfigSystemTest` and `ReportConfigSystemTest`.
 * Some test cases performs shallow cloning while some does not. Fresh cloning ensures that the test cases that does
 not perform shallow cloning will clone the repo again if the previous test case uses shallow cloning, ensuring
 correctness of the analysis.
-* Requires `--test-mode` flag to be enabled.
 
 </box>

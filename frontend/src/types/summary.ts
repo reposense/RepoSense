@@ -11,6 +11,8 @@ export enum SortGroupSelection {
   TotalCommitsDsc = 'totalCommits dsc',
   Variance = 'variance',
   VarianceDsc = 'variance dsc',
+  Default = 'defaultSortOrder',
+  DefaultDsc = 'defaultSortOrder dsc'
 }
 
 export enum SortWithinGroupSelection {

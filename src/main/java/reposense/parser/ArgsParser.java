@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.JsonSyntaxException;
@@ -18,20 +19,22 @@ import net.sourceforge.argparse4j.helper.HelpScreenException;
 import net.sourceforge.argparse4j.impl.Arguments;
 import net.sourceforge.argparse4j.impl.action.HelpArgumentAction;
 import net.sourceforge.argparse4j.impl.action.VersionArgumentAction;
-import net.sourceforge.argparse4j.inf.ArgumentGroup;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.FeatureControl;
 import net.sourceforge.argparse4j.inf.MutuallyExclusiveGroup;
 import net.sourceforge.argparse4j.inf.Namespace;
 import reposense.RepoSense;
+import reposense.model.AuthorBlurbMap;
+import reposense.model.ChartBlurbMap;
 import reposense.model.CliArguments;
 import reposense.model.FileType;
-import reposense.model.ReportConfiguration;
+import reposense.model.RepoBlurbMap;
+import reposense.model.reportconfig.ReportConfiguration;
+import reposense.parser.exceptions.InvalidMarkdownException;
 import reposense.parser.exceptions.ParseException;
 import reposense.parser.types.AlphanumericArgumentType;
 import reposense.parser.types.AnalysisThreadsArgumentType;
-import reposense.parser.types.AssetsFolderArgumentType;
 import reposense.parser.types.CloningThreadsArgumentType;
 import reposense.parser.types.ConfigFolderArgumentType;
 import reposense.parser.types.OutputFolderArgumentType;
@@ -50,7 +53,6 @@ public class ArgsParser {
     public static final String DEFAULT_REPORT_NAME = "reposense-report";
     public static final int DEFAULT_NUM_CLONING_THREADS = 4;
     public static final int DEFAULT_NUM_ANALYSIS_THREADS = Runtime.getRuntime().availableProcessors();
-    public static final boolean DEFAULT_IS_TEST_MODE = false;
     public static final boolean DEFAULT_SHOULD_FRESH_CLONE = false;
     public static final double DEFAULT_ORIGINALITY_THRESHOLD = 0.51;
 
@@ -59,7 +61,6 @@ public class ArgsParser {
     public static final String[] REPO_FLAGS = new String[] {"--repo", "--repos", "-r"};
     public static final String[] VIEW_FLAGS = new String[] {"--view", "-v"};
     public static final String[] OUTPUT_FLAGS = new String[] {"--output", "-o"};
-    public static final String[] ASSETS_FLAGS = new String[] {"--assets", "-a"};
     public static final String[] SINCE_FLAGS = new String[] {"--since", "-s"};
     public static final String[] UNTIL_FLAGS = new String[] {"--until", "-u"};
     public static final String[] PERIOD_FLAGS = new String[] {"--period", "-p"};
@@ -73,10 +74,11 @@ public class ArgsParser {
     public static final String[] FIND_PREVIOUS_AUTHORS_FLAGS = new String[] {"--find-previous-authors", "-F"};
     public static final String[] CLONING_THREADS_FLAG = new String[] {"--cloning-threads"};
     public static final String[] ANALYSIS_THREADS_FLAG = new String[] {"--analysis-threads"};
-    public static final String[] TEST_MODE_FLAG = new String[] {"--test-mode"};
     public static final String[] FRESH_CLONING_FLAG = new String[] {"--fresh-cloning"};
     public static final String[] ANALYZE_AUTHORSHIP_FLAGS = new String[] {"--analyze-authorship", "-A"};
     public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
+    public static final String[] PORTFOLIO_FLAG = new String[] {"--portfolio", "-P"};
+    public static final String[] REFRESH_ONLY_TEXT_FLAG = new String[] {"--text", "-T"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -84,13 +86,13 @@ public class ArgsParser {
     private static final String PROGRAM_DESCRIPTION =
             "RepoSense is a contribution analysis tool for Git repositories.";
     private static final String MESSAGE_HEADER_MUTEX = "mutual exclusive arguments";
-    private static final String MESSAGE_HEADER_TESTING = "test mode arguments";
     private static final String MESSAGE_HAVE_SINCE_DATE_UNTIL_DATE_AND_PERIOD =
             "\"Since Date\", \"Until Date\", and \"Period\" cannot be applied together.";
     private static final String MESSAGE_USING_DEFAULT_CONFIG_PATH =
             "Config path not provided, using the config folder as default.";
     private static final String MESSAGE_INVALID_CONFIG_PATH = "%s is malformed.";
-    private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the report config provided.";
+    private static final String MESSAGE_INVALID_CONFIG_YAML = "%s Ignoring the report config provided.";
+    private static final String MESSAGE_INVALID_MARKDOWN_BLURBS = "%s Ignoring the blurb file provided.";
     private static final String MESSAGE_SINCE_D1_WITH_PERIOD = "You may be using --since d1 with the --period flag. "
             + "This may result in an incorrect date range being analysed.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
@@ -117,9 +119,6 @@ public class ArgsParser {
         MutuallyExclusiveGroup mutexParser2 = parser
                 .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
                 .required(false);
-
-        ArgumentGroup argumentGroup = parser
-                .addArgumentGroup(MESSAGE_HEADER_TESTING);
 
         // Boolean flags
         parser.addArgument(HELP_FLAGS)
@@ -158,14 +157,6 @@ public class ArgsParser {
                 .setDefault(Paths.get(ArgsParser.DEFAULT_REPORT_NAME))
                 .help("The directory to output the report folder, reposense-report. "
                         + "If not provided, the report folder will be created in the current working directory.");
-
-        parser.addArgument(ASSETS_FLAGS)
-                .dest(ASSETS_FLAGS[0])
-                .metavar("PATH")
-                .type(new AssetsFolderArgumentType())
-                .setDefault(DEFAULT_ASSETS_PATH)
-                .help("The directory to place assets files to customize report generation. "
-                        + "If not provided, the assets folder in the current working directory will be used.");
 
         parser.addArgument(SINCE_FLAGS)
                 .dest(SINCE_FLAGS[0])
@@ -230,6 +221,16 @@ public class ArgsParser {
                         + "is performed. Author will be given full credit if their contribution exceeds this "
                         + "threshold, else partial credit is given.");
 
+        parser.addArgument(PORTFOLIO_FLAG)
+                .dest(PORTFOLIO_FLAG[0])
+                .action(Arguments.storeTrue())
+                .help("Generates an optimized report for code portfolio pages");
+
+        parser.addArgument(REFRESH_ONLY_TEXT_FLAG)
+                .dest(REFRESH_ONLY_TEXT_FLAG[0])
+                .action(Arguments.storeTrue())
+                .help("Refreshes only the text content of the report, without analyzing the repositories again.");
+
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)
                 .dest(CONFIG_FLAGS[0])
@@ -270,15 +271,10 @@ public class ArgsParser {
                 .help(FeatureControl.SUPPRESS);
 
         // Testing flags
-        argumentGroup.addArgument(TEST_MODE_FLAG)
-                .dest(TEST_MODE_FLAG[0])
-                .action(Arguments.storeTrue())
-                .help("Enables testing mode.");
-
-        argumentGroup.addArgument(FRESH_CLONING_FLAG)
+        parser.addArgument(FRESH_CLONING_FLAG)
                 .dest(FRESH_CLONING_FLAG[0])
                 .action(Arguments.storeTrue())
-                .help("Enables fresh cloning. Requires testing mode to be enabled.");
+                .help("Enables fresh cloning.");
 
         return parser;
     }
@@ -306,7 +302,6 @@ public class ArgsParser {
         Path reportFolderPath = results.get(VIEW_FLAGS[0]);
         Path outputFolderPath = results.get(OUTPUT_FLAGS[0]);
         ZoneId zoneId = results.get(TIMEZONE_FLAGS[0]);
-        Path assetsFolderPath = results.get(ASSETS_FLAGS[0]);
         List<String> locations = results.get(REPO_FLAGS[0]);
         List<FileType> formats = FileType.convertFormatStringsToFileTypes(results.get(FORMAT_FLAGS[0]));
         boolean isStandaloneConfigIgnored = results.get(IGNORE_CONFIG_FLAGS[0]);
@@ -314,18 +309,19 @@ public class ArgsParser {
         boolean shouldIncludeLastModifiedDate = results.get(LAST_MODIFIED_DATE_FLAGS[0]);
         boolean shouldPerformShallowCloning = results.get(SHALLOW_CLONING_FLAGS[0]);
         boolean shouldFindPreviousAuthors = results.get(FIND_PREVIOUS_AUTHORS_FLAGS[0]);
-        boolean isTestMode = results.get(TEST_MODE_FLAG[0]);
         boolean isAuthorshipAnalyzed = results.get(ANALYZE_AUTHORSHIP_FLAGS[0]);
         double originalityThreshold = results.get(ORIGINALITY_THRESHOLD_FLAGS[0]);
+        boolean isPortfolio = results.get(PORTFOLIO_FLAG[0]);
         int numCloningThreads = results.get(CLONING_THREADS_FLAG[0]);
         int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
+        boolean shouldPerformFreshCloning = results.get(FRESH_CLONING_FLAG[0]);
+        boolean shouldRefreshOnlyText = results.get(REFRESH_ONLY_TEXT_FLAG[0]);
 
         CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
                 .configFolderPath(configFolderPath)
                 .reportDirectoryPath(reportFolderPath)
                 .outputFilePath(outputFolderPath)
                 .zoneId(zoneId)
-                .assetsFilePath(assetsFolderPath)
                 .locations(locations)
                 .formats(formats)
                 .isStandaloneConfigIgnored(isStandaloneConfigIgnored)
@@ -335,9 +331,11 @@ public class ArgsParser {
                 .isFindingPreviousAuthorsPerformed(shouldFindPreviousAuthors)
                 .numCloningThreads(numCloningThreads)
                 .numAnalysisThreads(numAnalysisThreads)
-                .isTestMode(isTestMode)
                 .isAuthorshipAnalyzed(isAuthorshipAnalyzed)
-                .originalityThreshold(originalityThreshold);
+                .originalityThreshold(originalityThreshold)
+                .isPortfolio(isPortfolio)
+                .isFreshClonePerformed(shouldPerformFreshCloning)
+                .isOnlyTextRefreshed(shouldRefreshOnlyText);
 
         LogsManager.setLogFolderLocation(outputFolderPath);
 
@@ -346,6 +344,9 @@ public class ArgsParser {
         }
 
         addReportConfigToBuilder(cliArgumentsBuilder, results);
+        addRepoBlurbMapToBuilder(cliArgumentsBuilder, results);
+        addAuthorBlurbMapToBuilder(cliArgumentsBuilder, results);
+        addChartBlurbMapToBuilder(cliArgumentsBuilder, results);
         addAnalysisDatesToBuilder(cliArgumentsBuilder, results);
 
         boolean isViewModeOnly = reportFolderPath != null
@@ -360,11 +361,6 @@ public class ArgsParser {
         }
         cliArgumentsBuilder.isAutomaticallyLaunching(isAutomaticallyLaunching);
 
-        boolean shouldPerformFreshCloning = isTestMode
-                ? results.get(FRESH_CLONING_FLAG[0])
-                : DEFAULT_SHOULD_FRESH_CLONE;
-        cliArgumentsBuilder.isFreshClonePerformed(shouldPerformFreshCloning);
-
         return cliArgumentsBuilder.build();
     }
 
@@ -375,26 +371,99 @@ public class ArgsParser {
      * @param results Parsed results of the user-supplied CLI arguments.
      */
     private static void addReportConfigToBuilder(CliArguments.Builder builder, Namespace results) {
-        ReportConfiguration reportConfig = new ReportConfiguration();
         List<String> locations = results.get(REPO_FLAGS[0]);
         Path configFolderPath = results.get(CONFIG_FLAGS[0]);
 
         // Report config is ignored if --repos is provided
         if (locations == null) {
-            Path reportConfigFilePath = configFolderPath.resolve(ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+            Path reportConfigFilePath = configFolderPath.resolve(ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
 
             try {
-                reportConfig = new ReportConfigJsonParser().parse(reportConfigFilePath);
+                ReportConfiguration reportConfig = new ReportConfigYamlParser().parse(reportConfigFilePath);
+                builder.reportConfiguration(reportConfig);
             } catch (JsonSyntaxException jse) {
                 logger.warning(String.format(MESSAGE_INVALID_CONFIG_PATH, reportConfigFilePath));
-            } catch (IllegalArgumentException iae) {
-                logger.warning(String.format(MESSAGE_INVALID_CONFIG_JSON, iae.getMessage()));
             } catch (IOException ioe) {
-                // IOException thrown as report-config.json is not found.
-                // Ignore exception as the file is optional.
+                // IOException thrown as report-config.yaml is not found or fields are invalid.
+                logger.log(Level.WARNING, "Error parsing report-config.yaml: " + ioe.getMessage() + "\n"
+                        + String.format(MESSAGE_INVALID_CONFIG_YAML, reportConfigFilePath));
             }
         }
-        builder.reportConfiguration(reportConfig);
+    }
+
+    /**
+     * Adds the repoBlurbMap field to the given {@code builder}.
+     *
+     * @param builder Builder to be supplied with the reportConfig field.
+     * @param results Parsed results of the user-supplied CLI arguments.
+     */
+    private static void addRepoBlurbMapToBuilder(CliArguments.Builder builder, Namespace results) {
+        RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
+        Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+
+        // Blurbs are parsed regardless
+        Path blurbConfigPath = configFolderPath.resolve(RepoBlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+
+        try {
+            repoBlurbMap = new RepoBlurbMarkdownParser(blurbConfigPath).parse();
+        } catch (InvalidMarkdownException ex) {
+            logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
+        } catch (IOException ioe) {
+            // IOException thrown as blurbs.md is not found.
+            // Ignore exception as the file is optional.
+        }
+
+        builder.repoBlurbMap(repoBlurbMap);
+    }
+
+    /**
+     * Adds the authorBlurbMap field to the given {@code builder}.
+     *
+     * @param builder Builder to be supplied with the reportConfig field.
+     * @param results Parsed results of the user-supplied CLI arguments.
+     */
+    private static void addAuthorBlurbMapToBuilder(CliArguments.Builder builder, Namespace results) {
+        AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
+        Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+
+        // Blurbs are parsed regardless
+        Path blurbConfigPath = configFolderPath.resolve(AuthorBlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+
+        try {
+            authorBlurbMap = new AuthorBlurbMarkdownParser(blurbConfigPath).parse();
+        } catch (InvalidMarkdownException ex) {
+            logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
+        } catch (IOException ioe) {
+            // IOException thrown as blurbs.md is not found.
+            // Ignore exception as the file is optional.
+        }
+
+        builder.authorBlurbMap(authorBlurbMap);
+    }
+
+    /**
+     * Adds the chartBlurbMap field to the given {@code builder}.
+     *
+     * @param builder Builder to be supplied with the reportConfig field.
+     * @param results Parsed results of the user-supplied CLI arguments.
+     */
+    private static void addChartBlurbMapToBuilder(CliArguments.Builder builder, Namespace results) {
+        ChartBlurbMap chartBlurbMap = new ChartBlurbMap();
+        Path configFolderPath = results.get(CONFIG_FLAGS[0]);
+
+        // Blurbs are parsed regardless
+        Path blurbConfigPath = configFolderPath.resolve(ChartBlurbMarkdownParser.DEFAULT_BLURB_FILENAME);
+
+        try {
+            chartBlurbMap = new ChartBlurbMarkdownParser(blurbConfigPath).parse();
+        } catch (InvalidMarkdownException ex) {
+            logger.warning(String.format(MESSAGE_INVALID_MARKDOWN_BLURBS, ex.getMessage()));
+        } catch (IOException ioe) {
+            // IOException thrown as blurbs.md is not found.
+            // Ignore exception as the file is optional.
+        }
+
+        builder.chartBlurbMap(chartBlurbMap);
     }
 
     /**
@@ -426,7 +495,7 @@ public class ArgsParser {
         LocalDateTime currentDate = TimeUtil.getCurrentDate(zoneId);
 
         if (isSinceDateProvided) {
-            sinceDate = TimeUtil.getSinceDate(cliSinceDate.get());
+            sinceDate = TimeUtil.getValidDate(cliSinceDate.get());
             // For --since d1, need to adjust the arbitrary date based on timezone
             if (TimeUtil.isEqualToArbitraryFirstDateUtc(sinceDate)) {
                 isUsingArbitraryDate = true;
@@ -447,7 +516,7 @@ public class ArgsParser {
         }
 
         if (isUntilDateProvided) {
-            untilDate = TimeUtil.getUntilDate(cliUntilDate.get());
+            untilDate = TimeUtil.getValidDate(cliUntilDate.get());
         } else {
             untilDate = (isSinceDateProvided && isPeriodProvided)
                     ? TimeUtil.getDatePlusNDays(cliSinceDate.get(), cliPeriod.get())

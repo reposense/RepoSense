@@ -224,15 +224,6 @@ public class InputBuilder {
     }
 
     /**
-     * Adds the flag to enable test mode.
-     * This method should only be called once in one build.
-     */
-    public InputBuilder addTestMode() {
-        input.append(ArgsParser.TEST_MODE_FLAG[0] + WHITESPACE);
-        return this;
-    }
-
-    /**
      * Adds the flag to include modified date in lines.
      * This method should only be called once in one build.
      */
@@ -265,6 +256,20 @@ public class InputBuilder {
      */
     public InputBuilder addOriginalityThreshold(double threshold) {
         input.append(ArgsParser.ORIGINALITY_THRESHOLD_FLAGS[0] + WHITESPACE + threshold + WHITESPACE);
+        return this;
+    }
+
+    /**
+     * Adds the flag to enable code portfolio optimized view.
+     * This method should only be called once in one build.
+     */
+    public InputBuilder addPortfolio() {
+        input.append(ArgsParser.PORTFOLIO_FLAG[0] + WHITESPACE);
+        return this;
+    }
+
+    public InputBuilder addOnlyTextRefreshed() {
+        input.append(ArgsParser.REFRESH_ONLY_TEXT_FLAG[0] + WHITESPACE);
         return this;
     }
 

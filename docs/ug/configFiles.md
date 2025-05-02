@@ -31,23 +31,71 @@ Given below are the details of the various config files used by RepoSense.
 **`repo-config.csv` file contains repo-level config data.** Each row represents a repository's configuration ([example](repo-config.csv)).
 
 
-| Column Name | Explanation |
-|-------------|-------------|
-| Repository's Location {{ mandatory }} | The `Remote Repo URL` or `Disk Path` to the git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar` |
-| Branch | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo |
-| File formats<sup>*+</sup> | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats |
-| Find Previous Authors | Enter **`yes`** to utilize Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available). |
-| Ignore Glob List<sup>*+</sup> | The list of file path globs to ignore during analysis for each author e.g., `test/**;temp/**`. Refer to the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) for the path glob syntax. |
-| Ignore standalone config | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files. |
-| Ignore Commits List<sup>*+</sup> | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive). |
-| Ignore Authors List<sup>*+</sup> | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name). |
-| Shallow Cloning | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead. |
-| File Size Limit<sup>+</sup> | Enter a file size limit for the repository in bytes as a single number without units (for a size limit of 1MB for example, enter 1000000). This file size limit will override the default file size limit (500KB). Files exceeding the file size limit will be marked as ignored and only the file name and line count will be reflected in the report. |
-| Ignore File Size Limit | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`. |
-| Skip Ignored File Analysis | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is skipped, all information about the file will be omitted from the generated report. This option can significantly improve report generation time. |
+| Column Name                           | Explanation                                                                                                                                                                                                                                                                                                                                             |
+|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Repository's Location {{ mandatory }} | The `Remote Repo URL` or `Disk Path` to the Git repository e.g., `https://github.com/foo/bar.git` or `C:\Users\user\Desktop\GitHub\foo\bar`                                                                                                                                                                                                             |
+| Branch                                | The branch to analyze in the target repository e.g., `master`. Default: the default branch of the repo                                                                                                                                                                                                                                                  |
+| File formats<sup>*+</sup>             | The file extensions to analyze. Binary file formats, such as `png` and `jpg`, will be automatically labelled as the file type `binary` in the generated report. Default: all file formats                                                                                                                                                               |
+| Find Previous Authors                 | Enter **`yes`** to utilize Git blame's ignore revisions functionality, RepoSense will attempt to blame the line changes caused by commits in the ignore commit list to the previous authors who altered those lines (if available).                                                                                                                     |
+| Ignore Glob List<sup>*+</sup>         | The list of file path globs to ignore during analysis for each author e.g., `test/**;temp/**`. Refer to the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob) for the path glob syntax.                                                                                                                           |
+| Ignore standalone config              | To ignore the standalone config file (if any) in target repository, enter **`yes`**. If the cell is empty, the standalone config file in the repo (if any) will take precedence over configurations provided in the csv files.                                                                                                                          |
+| Ignore Commits List<sup>*+</sup>      | The list of commits to ignore during analysis. For accurate results, the commits should be provided with their full hash. Additionally, a range of commits can be specified using the `..` notation e.g. `abc123..def456` (both inclusive).                                                                                                             |
+| Ignore Authors List<sup>*+</sup>      | The list of authors to ignore during analysis. Authors should be specified by their [Git Author Name](#a-note-about-git-author-name).                                                                                                                                                                                                                   |
+| Shallow Cloning                       | Enter **`yes`** to clone the repository using Git's shallow cloning functionality. This option can significantly reduce the time taken to clone large repositories. However, the option should ideally be disabled for smaller repositories where the `.git` file is smaller than 500 MB, as it would create overhead.                                  |
+| File Size Limit<sup>+</sup>           | Enter a file size limit for the repository in bytes as a single number without units (for a size limit of 1MB for example, enter 1000000). This file size limit will override the default file size limit (500KB). Files exceeding the file size limit will be marked as ignored and only the file name and line count will be reflected in the report. |
+| Ignore File Size Limit                | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`.                                                                                                                                                                                                                       |
+| Skip Ignored File Analysis            | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is skipped, all information about the file will be omitted from the generated report. This option can significantly improve report generation time.                                                                                                |
+| Since Date                            | Enter since date in the format of `yyyy/mm/dd` to signify the start date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                               |
+| Until Date                            | Enter until date in the format of `yyyy/mm/dd` to signify the end date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                                 |
 
 <box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
+</box>
+
+<box type="info" seamless>
+Behavior of since dates and until dates specified in CSV and CLI flags:
+
+1. *Both CSV Dates and CLI Flags Are Provided*
+   
+   **Behavior**:
+
+   When both the CSV file and the CLI include values for the “since” and “until” dates, the commit range for an individual repository is taken directly from its CSV dates.
+
+   **Validation**:
+
+   The CSV “since” and “until” dates must fall within the boundaries defined by the CLI flags. If the CSV date range extends before the CLI “since” date or beyond the CLI “until” date, that repository’s data will be considered invalid and will not be processed. An error message will be displayed.
+
+   **Example**:
+
+   CLI Dates: Since: 21/09/2024; Until: 29/01/2025
+
+   CSV Date Ranges:
+
+   Invalid: [01/02/2025, 02/02/2025] (exceeds the CLI "until" date), [01/09/2024, 01/01/2025] (starts before the CLI "since" date)
+
+   Valid: [30/09/2024, 01/01/2025]
+
+2. CSV Dates Are Fully Provided, but One CLI Flag Is Missing
+   
+   **Behavior**:
+   
+   The range of commits retrieved for the repo is fully determined by the dates specified in the CSV file.
+
+   **UI Adjustment**:
+
+   In the user interface, the adjustable date range will automatically span from the earliest “since” date to the latest “until” date across all repositories with valid CSV dates.
+
+3. Both CSV Dates Are Absent
+   
+   **Behavior**:
+   
+   When no dates are provided in the CSV file, the commit range is based on the CLI flags. If the CLI flags are not provided either, then the tool falls back on the predefined default date values.
+
+4. One CSV Date Is Missing 
+
+   **Behavior**:
+   
+   If either the “since” or “until” date is omitted in the CSV file, the missing value will be replaced by a default value (i.e. the commits within the most recent one month), or the corresponding value from the CLI flag (if specified).
 </box>
 
 <box type="info" seamless>
@@ -60,6 +108,8 @@ If Ignore File Size Limit is yes, the File Size Limit and Skip Ignored File Anal
 <box type="info" seamless>
 
 When using [standalone config](#config-json-standalone-config-file) (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
+
+The `default` sort option in the frontend sorts the repos by the order of rows in `repo-config.csv`.
 </box>
 
 <!-- ==================================================================================================== -->
@@ -75,7 +125,7 @@ Optionally, you can use an `author-config.csv` (which should be in the same dire
 | Author's Git Host ID<sup>#</sup> {{ mandatory }} | Username of the target author's profile on GitHub, GitLab or Bitbucket, e.g.`JohnDoe`.                                                                                                           |
 | Author's Emails<sup>*</sup>                      | Associated emails of the author. For GitHub users, this can be found in your [GitHub settings](https://github.com/settings/emails).                                                              |
 | Author's Display Name                            | The name to display for the author. Default: author's username.                                                                                                                                  |
-| Author's Git Author Name<sup>*</sup>             | The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).                                                                                |
+| Author's Git Author Name<sup>*</sup>             | The meaning of _Git Author Name_ is explained in [_A note about Git author name_](#a-note-about-git-author-name).                                                                                |
 | Ignore Glob List<sup>*</sup>                     | Files to ignore for this author, in addition to files ignored by the patterns specified in `repo-config.csv`. The path glob syntax is the same as that of Ignore Glob List in `repo-config.csv`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
@@ -94,11 +144,11 @@ If `author-config.csv` is not given and the repo has not provided author details
 
 Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
 
-| Column Name | Explanation |
-|-------------|-------------|
-| Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
-| Group Name {{ mandatory }} | Name of the group, e.g.,`test`. |
-| Globs * {{ mandatory }} | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
+| Column Name                | Explanation                                                                           |
+|----------------------------|---------------------------------------------------------------------------------------|
+| Repository's Location      | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`                |
+| Group Name {{ mandatory }} | Name of the group, e.g.,`test`.                                                       |
+| Globs * {{ mandatory }}    | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
@@ -107,12 +157,12 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 
 <!-- ==================================================================================================== -->
 
-## `report-config.json`
+## `report-config.yaml`
 
-You can optionally use `report-config.json` to customize report generation by providing the following information. ([example](report-config.json))
+You can also optionally use a `report-config.yaml` file to quickly define the repository information for the repositories you are interested in tracking and generating your very own code portfolio.
+The configurations of this file will override the CSV files if the `repos` field of the file is present and correctly formatted.
 
-**Fields to provide**:
-* `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report"
+Please refer to this [guide](./reportConfig.html#advanced-report-configuration).
 
 <!-- ==================================================================================================== -->
 
@@ -122,7 +172,7 @@ You can optionally use `report-config.json` to customize report generation by pr
 
 Repo owners can provide the following additional information to RepoSense using a config file that we call the **_standalone config file_**:
 * which files/authors/commits to analyze/omit
-* which git and git host usernames belong to which authors
+* which Git and Git host usernames belong to which authors
 * the display of an author
 
 To use this feature, add a `_reposense/config.json` to the root of your repo using the format in the example below ([another example](https://github.com/reposense/RepoSense/blob/master/_reposense/config.json)) and **commit it** (reason: RepoSense can see committed code only):
@@ -160,9 +210,9 @@ Note: all fields are optional unless specified otherwise.
 **Fields to provide _author-level_ info**:<br>
 Note: `authors` field should contain _all_ authors that should be captured in the analysis.
 * `gitId`: Username of the author. {{ mandatory }} field.
-* `emails`: Associated git emails of the author. For GitHub, this can be found in your [GitHub settings](https://github.com/settings/emails).
+* `emails`: Associated Git emails of the author. For GitHub, this can be found in your [GitHub settings](https://github.com/settings/emails).
 * `displayName`: Name to display on the report for this author.
-* `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use their remote Git Host username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about git author name_](#a-note-about-git-author-name).
+* `authorNames`: Git Author Name(s) used in the author's commits. By default, RepoSense assumes an author would use their remote Git Host username as the Git username too. The meaning of _Git Author Name_ is explained in [_A note about Git author name_](#a-note-about-git-author-name).
 * `ignoreGlobList`: _Additional_ (i.e. on top of the repo-level `ignoreGlobList`) folders/files to ignore for a specific author. The path glob syntax is specified by the [_glob format_](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob). In the example above, the actual `ignoreGlobList` for `alice` would be `["about-us/**", "**index.html", "**.css"]`.
 
 To verify your standalone configuration is as intended, add the `_reposense/config.json` to your local copy of repo and run RepoSense against it as follows:<br>
@@ -170,7 +220,7 @@ To verify your standalone configuration is as intended, add the `_reposense/conf
 * Example: `java -jar RepoSense.jar --repo c:/myRepose/foo/bar`<br>
 After that, view the report to see if the configuration you specified in the config file is being reflected correctly in the report.
 
-## A note about git author name
+## A note about Git author name
 
 `Git Author Name` refers to the customizable author's display name set in the local `.gitconfig` file. For example, in the Git Log's display:
 ``` {.no-line-numbers}
@@ -189,15 +239,15 @@ Date:   Fri Feb 9 19:13:13 2018 +0800
  ...
 ```
 `ActualGitHostId` and `ConfiguredAuthorName` are both `Git Author Name` of the same author.<br>
-To find the author name that you are currently using for your current git repository, run the following command within your git repository:
+To find the author name that you are currently using for your current Git repository, run the following command within your Git repository:
 ``` shell {.no-line-numbers}
 git config user.name
 ```
-To set the author name to the value you want (e.g., to set it to your GitHub username) for your current git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
+To set the author name to the value you want (e.g., to set it to your GitHub username) for your current Git repository, you can use the following command ([more info](https://www.git-tower.com/learn/git/faq/change-author-name-email)):
 ``` shell {.no-line-numbers}
 git config user.name "YOUR_AUTHOR_NAME”
 ```
-To set the author name to use a default value you want for future git repositories, you can use the following command:
+To set the author name to use a default value you want for future Git repositories, you can use the following command:
 ``` shell {.no-line-numbers}
 git config --global user.name "YOUR_AUTHOR_NAME”
 ```
@@ -208,4 +258,47 @@ RepoSense expects the Git Author Name to be the same as author's username on the
 Note: Symbols such as `"`, `!`, `/` etc. in your author name will be omitted, which may reduce the accuracy of the analysis if 2 names in the repository are approximately similar.
 </box>
 
+</div>
+
+<!-- ==================================================================================================== -->
+
+<div id="section-blurbs">
+
+## Blurbs Markdown files
+You can optionally use blurbs markdown files to add blurbs in Markdown syntax for repository branches or authors.
+
+### `repo-blurbs.md`
+<div id="section-repo-blurbs">
+
+This file allows you to specify blurbs for repository branches. These blurbs will be displayed when grouping by `Repo/Branch`.
+
+**Format**:
+* First line in section: Link to the repository branch.
+* Second line onwards: Blurb content.
+* Delimiter: `<!--repo-->`. Everything on the line after the delimiter will be ignored.
+* Sample: [repo-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/repo-blurbs.md)
+</div>
+
+### `author-blurbs.md`
+<div id="section-author-blurbs">
+
+This file allows you to specify blurbs for authors. These blurbs will be displayed when grouping by `Author`.
+
+**Format**:
+* First line in section: Author's Git Host ID.
+* Second line onwards: Blurb content.
+* Delimiter: `<!--author-->`. Everything on the line after the delimiter will be ignored.
+* Sample: [author-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/author-blurbs.md)
+</div>
+
+### `chart-blurbs.md`
+<div id="section-chart-blurbs">
+
+This file allow you to specify blurbs for specific charts. These blurbs will be displayed with the charts.
+
+**Format**:
+* First line in section: Link to the repository branch|Author's Git Host ID. (Note the `|` between repository's link and author's Git Host ID)
+* Second line onwards: Blurb content.
+* Delimiter: `<!--chart-->`. Everything on the line after the delimiter will be ignored.
+* Sample: [chart-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/chart-blurbs.md))
 </div>

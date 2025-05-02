@@ -18,7 +18,11 @@ export default createStore<StoreState>({
     loadingOverlayCount: 0,
     loadingOverlayMessage: '',
     isTabActive: true,
+    repoBlurbMap: {},
+    authorBlurbMap: {},
+    chartsBlurbMap: {}
   } as StoreState,
+
   mutations: {
     updateTabZoomInfo(state: StoreState, info: ZoomInfo) {
       state.tabZoomInfo = info;
@@ -60,7 +64,7 @@ export default createStore<StoreState>({
         slice.isOpen = !slice.isOpen;
       }
     },
-    setAllZoomCommitMessageBody(_, { isOpen, commits }: { isOpen: boolean; commits: DailyCommit[] }) {
+    setAllZoomCommitMessageBody(_, { isOpen, commits }: { isOpen: boolean, commits: DailyCommit[] }) {
       commits.forEach((commit) => {
         commit.commitResults.forEach((slice) => {
           if (slice.isOpen !== undefined) {
@@ -76,12 +80,24 @@ export default createStore<StoreState>({
       file.active = !file.active;
       file.wasCodeLoaded = file.wasCodeLoaded || file.active;
     },
-    setAllAuthorshipFileActiveProperty(_, { isActive, files }: { isActive: boolean; files: AuthorshipFile[] }) {
+    setAllAuthorshipFileActiveProperty(_, { isActive, files }: { isActive: boolean, files: AuthorshipFile[] }) {
       files.forEach((file) => {
         file.active = isActive;
         file.wasCodeLoaded = file.wasCodeLoaded || file.active;
       });
     },
+    setRepoBlurbMap(state: StoreState, map: { [key: string]: string }) {
+      state.repoBlurbMap = map;
+    },
+    setAuthorBlurbMap(state: StoreState, map: {[key: string]: string } | undefined) {
+      state.authorBlurbMap = map ?? {};
+    },
+    updateAuthorshipRefreshState(state: StoreState, b: boolean) {
+      state.tabAuthorshipInfo.isRefresh = b;
+    },
+    setChartsBlurbMap(state: StoreState, map: {[key: string]: string} | undefined) {
+      state.chartsBlurbMap = map ?? {};
+    }
   },
   actions: {
     // Actions are called with dispatch

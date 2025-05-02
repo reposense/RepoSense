@@ -47,6 +47,9 @@ interface StoreState {
   loadingOverlayCount: number;
   loadingOverlayMessage: string;
   isTabActive: boolean;
+  repoBlurbMap: { [key: string]: string };
+  authorBlurbMap: { [key: string]: string };
+  chartsBlurbMap: { [key: string]: string };
 }
 
 declare module '@vue/runtime-core' {

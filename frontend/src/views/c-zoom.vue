@@ -1,16 +1,17 @@
 <template lang="pug">
 #zoom(v-if="filteredUser")
-  .panel-title
-    span Commits Panel
-  .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
-    a(
-      v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
-      v-on:click="toggleAllCommitMessagesBody(true); toggleDiffstatView(true);"
-    ) show all commit details
-    a(
-      v-if="expandedCommitMessagesCount > 0",
-      v-on:click="toggleAllCommitMessagesBody(false); toggleDiffstatView(false);"
-    ) hide all commit details
+  h2
+    .panel-title
+      span Commits Panel
+    .toolbar--multiline(v-if="filteredUser.commits.length && totalCommitMessageBodyCount")
+      a(
+        v-if="expandedCommitMessagesCount < totalCommitMessageBodyCount",
+        @click="toggleAllCommitMessagesBody(true); toggleDiffstatView(true);"
+      ) show all commit details
+      a(
+        v-if="expandedCommitMessagesCount > 0",
+        @click="toggleAllCommitMessagesBody(false); toggleDiffstatView(false);"
+      ) hide all commit details
   .panel-heading
     .group-name
       span(
@@ -18,8 +19,8 @@
       ) {{ filteredUser.displayName }} ({{ filteredUser.name }})
       a(
         v-else,
-        v-bind:href="info.zLocation", target="_blank",
-        v-bind:title="'Click to open the repo'"
+        :href="info.zLocation", target="_blank",
+        :title="'Click to open the repo'"
       )
         span {{ filteredUser.repoName }}
     .author(v-if="!info.zIsMerged")
@@ -38,21 +39,21 @@
             .tag(
               v-for="tag in commitResult.tags",
               vbind:key="tag",
-              v-on:click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
+              @click="scrollToCommit(tag, `tag ${commitResult.hash}`)"
             )
               font-awesome-icon(icon="tags")
               span &nbsp;{{ tag }}
 
   c-ramp(
-    v-bind:groupby="info.zFilterGroup",
-    v-bind:user="filteredUser",
-    v-bind:tframe="info.zTimeFrame",
-    v-bind:sdate="info.zSince",
-    v-bind:udate="info.zUntil",
-    v-bind:avgsize="info.zAvgCommitSize",
-    v-bind:mergegroup="info.zIsMerge",
-    v-bind:fromramp="info.zFromRamp",
-    v-bind:filtersearch="info.zFilterSearch")
+    :groupby="info.zFilterGroup",
+    :user="filteredUser",
+    :tframe="info.zTimeFrame",
+    :sdate="info.zSince",
+    :udate="info.zUntil",
+    :avgsize="info.zAvgCommitSize",
+    :mergegroup="info.zIsMerge",
+    :fromramp="info.zFromRamp",
+    :filtersearch="info.zFilterSearch")
 
   .sorting.mui-form--inline
     .mui-select.sort-by
@@ -62,24 +63,24 @@
       label sort by
     .mui-select.sort-order
       select(v-model="toReverseSortedCommits")
-        option(v-bind:value='true') Descending
-        option(v-bind:value='false') Ascending
+        option(:value='true') Descending
+        option(:value='false') Ascending
       label order
   .fileTypes
     c-file-type-checkboxes(
-      v-bind:file-types="fileTypes",
-      v-bind:file-type-colors="fileTypeColors",
+      :file-types="fileTypes",
+      :file-type-colors="fileTypeColors",
       v-model:selected-file-types="selectedFileTypes",
       @update:selected-file-types="updateSelectedFileTypesHash"
     )
 
-  .zoom__day(v-for="day in selectedCommits", v-bind:key="day.date")
+  .zoom__day(v-for="day in selectedCommits", :key="day.date")
     h3(v-if="info.zTimeFrame === 'week'") Week of {{ day.date }}
     h3(v-else) {{ day.date }}
-    template(v-for="slice in day.commitResults", v-bind:key="slice.hash")
-      c-zoom-commit-message(v-bind:slice="slice",
-        v-bind:selected-file-types="selectedFileTypes", v-bind:file-type-colors="fileTypeColors",
-        v-bind:info="info", v-bind:show-diffstat="showDiffstat")
+    template(v-for="slice in day.commitResults", :key="slice.hash")
+      c-zoom-commit-message(:slice="slice",
+        :selected-file-types="selectedFileTypes", :file-type-colors="fileTypeColors",
+        :info="info", :show-diffstat="showDiffstat")
 </template>
 
 <script lang="ts">

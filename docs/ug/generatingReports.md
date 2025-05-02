@@ -20,7 +20,7 @@ Let's look at different ways to generate RepoSense reports.
 
 <box type="info" seamless>
 
-RepoSense is built to analyze any type of git repo, remote or local. It works best when analyzing remote repositories hosted on GitHub, GitLab or BitBucket.
+RepoSense is built to analyze any type of Git repo, remote or local. It works best when analyzing remote repositories hosted on GitHub, GitLab or BitBucket.
 For other types of repositories, external links are disabled.
 </box>
 
@@ -30,7 +30,7 @@ For other types of repositories, external links are disabled.
 
 1. **Ensure you have the prerequisites**:
    * **Java 11** or later ([download :fas-download:](https://www.java.com/en/)).
-   * **git `2.23`** or later on the command line. ([download :fas-download:](https://git-scm.com/downloads)).<br> run `git --version` in your OS terminal to confirm the version.
+   * **Git `2.23`** or later on the command line. ([download :fas-download:](https://git-scm.com/downloads)).<br> run `git --version` in your OS terminal to confirm the version.
 
 1. **Download the latest JAR file** from our [releases](https://github.com/reposense/RepoSense/releases/latest).
 
@@ -50,12 +50,9 @@ For other types of repositories, external links are disabled.
 
 **You can generate a RepoSense report remotely without installing/running anything on your computer.** This is particularly useful when you are deciding whether to adopt RepoSense.
 
-**The easiest option is to use Netlify.** The instructions are given below.
-
-{{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}
-
-**You can also use the following options.** While they are more work to set up, they are more suitable as a permanent solution due to their generous free tier.
+**The recommended option is to use GitHub Actions.** The instructions are given below.
 
 {{ embed("Appendix: **Using RepoSense with GitHub Actions → Setting up**", "withGithubActions.md#section-setting-up") }}
 
-{{ embed("Appendix: **Using RepoSense with Travis → Setting up**", "withTravis.md#section-setting-up") }}
+You may also consider using Netlify to deploy your report. **However, we may not support this method going forward.**
+{{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}

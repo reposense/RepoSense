@@ -2,143 +2,147 @@
 #summary-charts
   .summary-charts(
     v-for="(repo, i) in filteredRepos",
-    v-bind:ref="'summary-charts-' + i",
-    v-bind:style="isChartGroupWidgetMode ? {'marginBottom': 0} : {}"
+    :ref="'summary-charts-' + i",
+    :style="isChartGroupWidgetMode ? {'marginBottom': 0} : {}"
     )
     .summary-charts__title(
       v-if="filterGroupSelection !== 'groupByNone'",
-      v-bind:ref="'summary-charts-title-' + i",
-      v-bind:class="{ 'active-background': \
+      :ref="'summary-charts-title-' + i",
+      :class="{ 'active-background': \
         isSelectedGroup(repo[0].name, repo[0].repoName) && !isChartGroupWidgetMode}"
     )
       .summary-charts__title--index(v-if="!isChartGroupWidgetMode") {{ i+1 }}
       .summary-charts__title--groupname(
-        v-bind:style="isChartGroupWidgetMode ? {'paddingLeft': 0} : {}"
+        :style="isChartGroupWidgetMode ? {'paddingLeft': 0} : {}"
         )
         template(v-if="filterGroupSelection === 'groupByRepos'") {{ repo[0].repoName }}
         template(
           v-else-if="filterGroupSelection === 'groupByAuthors'",
-          v-bind:class=" { warn: repo[0].name === '-' }"
+          :class=" { warn: repo[0].name === '-' }"
         ) {{ getAuthorDisplayName(repo) }} ({{ repo[0].name }})
       .summary-charts__title--contribution
         .tooltip(
-          v-on:mouseover="onTooltipHover(`summary-charts-${i}-total-contribution`)",
-          v-on:mouseout="resetTooltip(`summary-charts-${i}-total-contribution`)"
+          @mouseover="onTooltipHover(`summary-charts-${i}-total-contribution`)",
+          @mouseout="resetTooltip(`summary-charts-${i}-total-contribution`)"
         )
           | [{{ getGroupTotalContribution(repo) }} lines]
           span.tooltip-text(
             v-if="filterGroupSelection === 'groupByRepos' && !isChartGroupWidgetMode",
-            v-bind:ref="`summary-charts-${i}-total-contribution`"
+            :ref="`summary-charts-${i}-total-contribution`"
           ) Total contribution of group
           span.tooltip-text(
             v-else-if="filterGroupSelection === 'groupByAuthors' && !isChartGroupWidgetMode",
-            v-bind:ref="`summary-charts-${i}-total-contribution`"
+            :ref="`summary-charts-${i}-total-contribution`"
           ) Total contribution of author
       a(
         v-if="!isGroupMerged(getGroupName(repo)) && !isChartGroupWidgetMode",
-        v-on:click="handleMergeGroup(getGroupName(repo))"
+        @click="handleMergeGroup(getGroupName(repo))"
       )
         .tooltip(
-          v-on:mouseover="onTooltipHover(`summary-charts-${i}-merge-group`)",
-          v-on:mouseout="resetTooltip(`summary-charts-${i}-merge-group`)"
+          @mouseover="onTooltipHover(`summary-charts-${i}-merge-group`)",
+          @mouseout="resetTooltip(`summary-charts-${i}-merge-group`)"
         )
           font-awesome-icon.icon-button(:icon="['fas', 'chevron-up']")
-          span.tooltip-text(v-bind:ref="`summary-charts-${i}-merge-group`") Click to merge group
+          span.tooltip-text(:ref="`summary-charts-${i}-merge-group`") Click to merge group
       a(
         v-if="isGroupMerged(getGroupName(repo)) && !isChartGroupWidgetMode",
-        v-on:click="handleExpandGroup(getGroupName(repo))"
+        @click="handleExpandGroup(getGroupName(repo))"
       )
         .tooltip(
-          v-on:mouseover="onTooltipHover(`summary-charts-${i}-expand-group`)",
-          v-on:mouseout="resetTooltip(`summary-charts-${i}-expand-group`)"
+          @mouseover="onTooltipHover(`summary-charts-${i}-expand-group`)",
+          @mouseout="resetTooltip(`summary-charts-${i}-expand-group`)"
         )
           font-awesome-icon.icon-button(:icon="['fas', 'chevron-down']")
-          span.tooltip-text(v-bind:ref="`summary-charts-${i}-expand-group`") Click to expand group
+          span.tooltip-text(:ref="`summary-charts-${i}-expand-group`") Click to expand group
       a(
         v-if="filterGroupSelection === 'groupByRepos'",
-        v-bind:class="!isBrokenLink(getRepoLink(repo[0])) ? '' : 'broken-link'",
-        v-bind:href="getRepoLink(repo[0])", target="_blank"
+        :class="!isBrokenLink(getRepoLink(repo[0])) ? '' : 'broken-link'",
+        :href="getRepoLink(repo[0])", target="_blank"
       )
         .tooltip(
-          v-on:mouseover="onTooltipHover(`summary-charts-${i}-repo-link`)",
-          v-on:mouseout="resetTooltip(`summary-charts-${i}-repo-link`)"
+          @mouseover="onTooltipHover(`summary-charts-${i}-repo-link`)",
+          @mouseout="resetTooltip(`summary-charts-${i}-repo-link`)"
         )
           font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
           span.tooltip-text(
             v-if="!isChartGroupWidgetMode",
-            v-bind:ref="`summary-charts-${i}-repo-link`"
+            :ref="`summary-charts-${i}-repo-link`"
           ) {{getGroupRepoLinkMessage(repo[0])}}
       a(
         v-else-if="filterGroupSelection === 'groupByAuthors'",
-        v-bind:class="!isBrokenLink(getAuthorProfileLink(repo[0], repo[0].name)) ? '' : 'broken-link'",
-        v-bind:href="getAuthorProfileLink(repo[0], repo[0].name)", target="_blank"
+        :class="!isBrokenLink(getAuthorProfileLink(repo[0], repo[0].name)) ? '' : 'broken-link'",
+        :href="getAuthorProfileLink(repo[0], repo[0].name)", target="_blank"
       )
         .tooltip(
-          v-on:mouseover="onTooltipHover(`summary-charts-${i}-author-link`)",
-          v-on:mouseout="resetTooltip(`summary-charts-${i}-author-link`)"
+          @mouseover="onTooltipHover(`summary-charts-${i}-author-link`)",
+          @mouseout="resetTooltip(`summary-charts-${i}-author-link`)"
         )
           font-awesome-icon.icon-button(icon="user")
           span.tooltip-text(
             v-if="!isChartGroupWidgetMode",
-            v-bind:ref="`summary-charts-${i}-author-link`"
+            :ref="`summary-charts-${i}-author-link`"
           ) {{getAuthorProfileLinkMessage(repo[0])}}
       template(v-if="isGroupMerged(getGroupName(repo))")
         a(
           v-if="filterGroupSelection !== 'groupByAuthors' && !isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabAuthorship(repo[0], repo, 0, isGroupMerged(getGroupName(repo)))"
+          @click="openTabAuthorship(repo[0], repo, 0, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip(
-            v-on:mouseover="onTooltipHover(`summary-charts-${i}-group-code`)",
-            v-on:mouseout="resetTooltip(`summary-charts-${i}-group-code`)"
+            @mouseover="onTooltipHover(`summary-charts-${i}-group-code`)",
+            @mouseout="resetTooltip(`summary-charts-${i}-group-code`)"
           )
             font-awesome-icon.icon-button(
               icon="code",
-              v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true) }"
+              :class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'authorship', true) }"
             )
-            span.tooltip-text(v-bind:ref="`summary-charts-${i}-group-code`") Click to view group's code
+            span.tooltip-text(:ref="`summary-charts-${i}-group-code`") Click to view group's code
         a(
           v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(repo[0], filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
+          @click="openTabZoom(\
+            repo[0],\
+            getSinceDate(repo[0]),\
+            getUntilDate(repo[0]),\
+            isGroupMerged(getGroupName(repo))\
+          )"
         )
           .tooltip(
-            v-on:mouseover="onTooltipHover(`summary-charts-${i}-commit-breakdown`)",
-            v-on:mouseout="resetTooltip(`summary-charts-${i}-commit-breakdown`)"
+            @mouseover="onTooltipHover(`summary-charts-${i}-commit-breakdown`)",
+            @mouseout="resetTooltip(`summary-charts-${i}-commit-breakdown`)"
           )
             font-awesome-icon.icon-button(
               icon="list-ul",
-              v-bind:class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
+              :class="{ 'active-icon': isSelectedTab(repo[0].name, repo[0].repoName, 'zoom', true) }"
             )
-            span.tooltip-text(v-bind:ref="`summary-charts-${i}-commit-breakdown`") Click to view breakdown of commits
+            span.tooltip-text(:ref="`summary-charts-${i}-commit-breakdown`") Click to view breakdown of commits
       a(
         v-if="isChartGroupWidgetMode && !isChartWidgetMode",
-        v-bind:href="getReportLink()", target="_blank"
+        :href="getReportLink()", target="_blank"
       )
         .tooltip(
-          v-on:mouseover="onTooltipHover(`summary-charts-${i}-commit-breakdown-group-widget`)",
-          v-on:mouseout="resetTooltip(`summary-charts-${i}-commit-breakdown-group-widget`)"
+          @mouseover="onTooltipHover(`summary-charts-${i}-commit-breakdown-group-widget`)",
+          @mouseout="resetTooltip(`summary-charts-${i}-commit-breakdown-group-widget`)"
         )
           font-awesome-icon.icon-button(
             icon="arrow-up-right-from-square",
           )
           span.tooltip-text(
             v-if="!isChartGroupWidgetMode",
-            v-bind:ref="`summary-charts-${i}-commit-breakdown-group-widget`"
+            :ref="`summary-charts-${i}-commit-breakdown-group-widget`"
           ) Click to view breakdown of commits on RepoSense
       a(
         v-if="!isChartGroupWidgetMode",
-        v-on:click="getEmbeddedIframe(i)"
+        @click="getEmbeddedIframe(i)"
       )
-        .tooltip(v-bind:id="'tooltip-' + i",
-          v-on:mouseover="onTooltipHover(`summary-charts-${i}-copy-iframe`)",
-          v-on:mouseout="resetTooltip(`summary-charts-${i}-copy-iframe`)"
+        .tooltip(:id="'tooltip-' + i",
+          @mouseover="onTooltipHover(`summary-charts-${i}-copy-iframe`)",
+          @mouseout="resetTooltip(`summary-charts-${i}-copy-iframe`)"
         )
           font-awesome-icon.icon-button(icon="clipboard")
-          span.tooltip-text(v-bind:ref="`summary-charts-${i}-copy-iframe`") Click to copy iframe link for group
-
+          span.tooltip-text(:ref="`summary-charts-${i}-copy-iframe`") Click to copy iframe link for group
       .tooltip.summary-chart__title--percentile(
-          v-if="sortGroupSelection.includes('totalCommits')"
+        v-if="sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(i) }} %&nbsp
         span.tooltip-text.right-aligned {{ getPercentileExplanation(i) }}
       .summary-charts__title--tags(
@@ -146,129 +150,149 @@
       )
         a.tag(
           v-for="tag in getTags(repo)",
-          v-bind:href="getTagLink(repo[0], tag)",
+          :href="getTagLink(repo[0], tag)",
           target="_blank",
           vbind:key="tag",
           tabindex="-1"
         )
           font-awesome-icon(icon="tags")
           span &nbsp;{{ tag }}
+
+    .blurb-wrapper(
+      v-if="filterGroupSelection === 'groupByRepos'",
+    )
+      c-markdown-chunk.blurb(
+        :markdown-text="getRepoBlurb(repo[0])"
+      )
+
+    .blurb-wrapper(
+      v-if="filterGroupSelection === 'groupByAuthors'")
+      c-markdown-chunk.blurb(
+        :markdown-text="getAuthorBlurb(repo[0].name)"
+      )
+
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
       template(v-if="filterGroupSelection !== 'groupByNone'")
         .summary-charts__fileType--breakdown__legend(
           v-for="fileType in getFileTypes(repo)",
-          v-bind:key="fileType"
+          :key="fileType"
         )
           font-awesome-icon(
             icon="circle",
-            v-bind:style="{ 'color': fileTypeColors[fileType] }"
+            :style="{ 'color': fileTypeColors[fileType] }"
           )
           span &nbsp; {{ fileType }} &nbsp;
+
     .summary-chart(
       v-for="(user, j) in getRepo(repo)",
-      v-bind:style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
-      v-bind:ref="'summary-chart-' + j",
-      v-bind:id="user.name === activeUser && user.repoName === activeRepo ? 'selectedChart' : null"
+      :style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
+      :ref="'summary-chart-' + j",
+      :id="user.name === activeUser && user.repoName === activeRepo ? 'selectedChart' : null"
       )
       .summary-chart__title(
         v-if="!isGroupMerged(getGroupName(repo))",
-        v-bind:class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo \
+        :class="{ 'active-background': user.name === activeUser && user.repoName === activeRepo \
           && !isChartGroupWidgetMode }"
       )
-        .summary-chart__title--index(v-if="!isChartWidgetMode") {{ j+1 }}
+        .summary-chart__title--index(v-if="!isChartWidgetMode && !isPortfolio") {{ j+1 }}
         .summary-chart__title--repo(v-if="filterGroupSelection === 'groupByNone'") {{ user.repoName }}
         .summary-chart__title--author-repo(v-if="filterGroupSelection === 'groupByAuthors'") {{ user.repoName }}
         .summary-chart__title--name(
-          v-if="filterGroupSelection !== 'groupByAuthors'",
-          v-bind:class="{ warn: user.name === '-' }"
+          v-if="!isPortfolio && filterGroupSelection !== 'groupByAuthors'",
+          :class="{ warn: user.name === '-' }"
         ) {{ user.displayName }} ({{ user.name }})
         .summary-chart__title--contribution.mini-font [{{ user.checkedFileTypeContribution }} lines]
         a(
           v-if="filterGroupSelection !== 'groupByRepos'",
-          v-bind:class="!isBrokenLink(getRepoLink(user)) ? '' : 'broken-link'",
-          v-bind:href="getRepoLink(user)", target="_blank"
+          :class="!isBrokenLink(getRepoLink(user)) ? '' : 'broken-link'",
+          :href="getRepoLink(user)", target="_blank"
         )
           .tooltip(
-            v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-repo-link`)",
-            v-on:mouseout="resetTooltip(`repo-${i}-author-${j}-repo-link`)"
+            @mouseover="onTooltipHover(`repo-${i}-author-${j}-repo-link`)",
+            @mouseout="resetTooltip(`repo-${i}-author-${j}-repo-link`)"
           )
             font-awesome-icon.icon-button(:icon="getRepoIcon(repo[0])")
             span.tooltip-text(
               v-if="!isChartGroupWidgetMode",
-              v-bind:ref="`repo-${i}-author-${j}-repo-link`"
+              :ref="`repo-${i}-author-${j}-repo-link`"
             ) {{getRepoLinkMessage(user)}}
         a(
           v-if="filterGroupSelection !== 'groupByAuthors'",
-          v-bind:class="!isBrokenLink(getAuthorProfileLink(user, user.name)) ? '' : 'broken-link'",
-          v-bind:href="getAuthorProfileLink(user, user.name)", target="_blank"
+          :class="!isBrokenLink(getAuthorProfileLink(user, user.name)) ? '' : 'broken-link'",
+          :href="getAuthorProfileLink(user, user.name)", target="_blank"
         )
           .tooltip(
-            v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-author-link`)",
-            v-on:mouseout="resetTooltip(`repo-${i}-author-${j}-author-link`)"
+            @mouseover="onTooltipHover(`repo-${i}-author-${j}-author-link`)",
+            @mouseout="resetTooltip(`repo-${i}-author-${j}-author-link`)"
           )
             font-awesome-icon.icon-button(icon="user")
             span.tooltip-text(
               v-if="!isChartGroupWidgetMode",
-              v-bind:ref="`repo-${i}-author-${j}-author-link`"
+              :ref="`repo-${i}-author-${j}-author-link`"
             ) {{getAuthorProfileLinkMessage(user)}}
         a(
           v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
+          @click="openTabAuthorship(user, repo, j, isGroupMerged(getGroupName(repo)))"
         )
           .tooltip(
-            v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-author-contribution`)",
-            v-on:mouseout="resetTooltip(`repo-${i}-author-${j}-author-contribution`)"
+            @mouseover="onTooltipHover(`repo-${i}-author-${j}-author-contribution`)",
+            @mouseout="resetTooltip(`repo-${i}-author-${j}-author-contribution`)"
           )
             font-awesome-icon.icon-button(
               icon="code",
-              v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'authorship', false) }"
+              :class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'authorship', false) }"
             )
             span.tooltip-text(
-              v-bind:ref="`repo-${i}-author-${j}-author-contribution`"
+              :ref="`repo-${i}-author-${j}-author-contribution`"
               ) Click to view author's contribution.
         a(
           v-if="!isChartGroupWidgetMode",
           onclick="deactivateAllOverlays()",
-          v-on:click="openTabZoom(user, filterSinceDate, filterUntilDate, isGroupMerged(getGroupName(repo)))"
+          @click="openTabZoom(\
+            user,\
+            getSinceDate(user),\
+            getUntilDate(user),\
+            isGroupMerged(getGroupName(repo))\
+          )"
         )
           .tooltip(
-            v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-commit-breakdown`)",
-            v-on:mouseout="resetTooltip(`repo-${i}-author-${j}-commit-breakdown`)"
+            @mouseover="onTooltipHover(`repo-${i}-author-${j}-commit-breakdown`)",
+            @mouseout="resetTooltip(`repo-${i}-author-${j}-commit-breakdown`)"
           )
             font-awesome-icon.icon-button(
               icon="list-ul",
-              v-bind:class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'zoom', false) }"
+              :class="{ 'active-icon': isSelectedTab(user.name, user.repoName, 'zoom', false) }"
             )
             span.tooltip-text(
-              v-bind:ref="`repo-${i}-author-${j}-commit-breakdown`"
+              :ref="`repo-${i}-author-${j}-commit-breakdown`"
             ) Click to view breakdown of commits
         a(
           v-if="isChartGroupWidgetMode",
-          v-bind:href="getReportLink()", target="_blank"
+          :href="getReportLink()", target="_blank"
         )
           .tooltip(
-            v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-commit-breakdown-group-widget`)",
-            v-on:mouseout="resetTooltip(`repo-${i}-author-${j}-commit-breakdown-group-widget`)"
+            @mouseover="onTooltipHover(`repo-${i}-author-${j}-commit-breakdown-group-widget`)",
+            @mouseout="resetTooltip(`repo-${i}-author-${j}-commit-breakdown-group-widget`)"
           )
             font-awesome-icon.icon-button(
               icon="arrow-up-right-from-square",
             )
             span.tooltip-text(
               v-if="!isChartGroupWidgetMode",
-              v-bind:ref="`repo-${i}-author-${j}-commit-breakdown-group-widget`"
+              :ref="`repo-${i}-author-${j}-commit-breakdown-group-widget`"
             ) Click to view breakdown of commits on RepoSense
         a(
           v-if="!isChartGroupWidgetMode",
-          v-on:click="getEmbeddedIframe(i , j)"
+          @click="getEmbeddedIframe(i , j)"
         )
           .tooltip(
-            v-bind:id="'tooltip-' + i + '-' + j",
-            v-on:mouseover="onTooltipHover(`repo-${i}-author-${j}-iframe-link`)",
-            v-on:mouseout="resetTooltip(`repo-${i}-author-${j}-iframe-link`)"
+            :id="'tooltip-' + i + '-' + j",
+            @mouseover="onTooltipHover(`repo-${i}-author-${j}-iframe-link`)",
+            @mouseout="resetTooltip(`repo-${i}-author-${j}-iframe-link`)"
           )
             font-awesome-icon.icon-button(icon="clipboard")
-            span.tooltip-text(v-bind:ref="`repo-${i}-author-${j}-iframe-link`") Click to copy iframe link
+            span.tooltip-text(:ref="`repo-${i}-author-${j}-iframe-link`") Click to copy iframe link
         .tooltip.summary-chart__title--percentile(
           v-if="filterGroupSelection === 'groupByNone' && sortGroupSelection.includes('totalCommits')"
         ) {{ getPercentile(j) }} %&nbsp
@@ -276,42 +300,53 @@
         .summary-chart__title--tags(v-if="isViewingTagsByAuthor")
           a.tag(
             v-for="tag in getTags(repo, user)",
-            v-bind:href="getTagLink(user, tag)",
+            :href="getTagLink(user, tag)",
             target="_blank",
             vbind:key="tag",
             tabindex="-1"
           )
             font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
-
+      .blurb-wrapper(
+        v-if="filterGroupSelection === 'groupByRepos'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(user.name, repo[0])"
+        )
+      .blurb-wrapper(
+        v-if="filterGroupSelection === 'groupByAuthors'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(repo[0].name, user)"
+        )
       .summary-chart__ramp(
-        v-on:click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
+        @click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
       )
         c-ramp(
-          v-bind:groupby="filterGroupSelection",
-          v-bind:user="user",
-          v-bind:tframe="filterTimeFrame",
-          v-bind:sdate="filterSinceDate",
-          v-bind:udate="filterUntilDate",
-          v-bind:avgsize="avgCommitSize",
-          v-bind:mergegroup="isGroupMerged(getGroupName(repo))",
-          v-bind:filtersearch="filterSearch",
-          v-bind:is-widget-mode="isChartGroupWidgetMode")
+          :groupby="filterGroupSelection",
+          :user="user",
+          :tframe="filterTimeFrame",
+          :sdate="getSinceDate(user)",
+          :udate="getUntilDate(user)",
+          :avgsize="avgCommitSize",
+          :mergegroup="isGroupMerged(getGroupName(repo))",
+          :filtersearch="filterSearch",
+          :is-widget-mode="isChartGroupWidgetMode",
+          :optimise-timeline="getIsOptimising(user)"
+        )
         .overlay
 
       .summary-chart__contribution
         template(v-if="filterBreakdown")
           .summary-chart__contrib
             c-stacked-bar-chart(
-              v-bind:bars="getFileTypeContributionBars(user.fileTypeContribution, user.checkedFileTypeContribution)"
+              :bars="getFileTypeContributionBars(user.fileTypeContribution, user.checkedFileTypeContribution)"
             )
         template(v-else)
           .summary-chart__contrib(
-            v-bind:title="`Total contribution from ${minDate} to ${maxDate}: \
+            :title="`Total contribution from ${minDate} to ${maxDate}: \
               ${user.checkedFileTypeContribution} lines`"
           )
             c-stacked-bar-chart(
-              v-bind:bars="getContributionBars(user.checkedFileTypeContribution)"
+              :bars="getContributionBars(user.checkedFileTypeContribution)"
             )
 </template>
 
@@ -323,7 +358,8 @@ import brokenLinkDisabler from '../mixin/brokenLinkMixin';
 import tooltipPositioner from '../mixin/dynamicTooltipMixin';
 import cRamp from './c-ramp.vue';
 import cStackedBarChart from './c-stacked-bar-chart.vue';
-import { Bar, Repo, User } from '../types/types';
+import cMarkdownChunk from './c-markdown-chunk.vue';
+import { Bar, User } from '../types/types';
 import { FilterGroupSelection, FilterTimeFrame, SortGroupSelection } from '../types/summary';
 import { StoreState, ZoomInfo } from '../types/vuex.d';
 import { AuthorFileTypeContributions } from '../types/zod/commits-type';
@@ -333,6 +369,7 @@ export default defineComponent({
   components: {
     cRamp,
     cStackedBarChart,
+    cMarkdownChunk,
   },
   mixins: [brokenLinkDisabler, tooltipPositioner],
   props: {
@@ -400,6 +437,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    optimiseTimeline: {
+      type: Boolean,
+      default: false,
+    },
   },
   data(): {
     drags: Array<number>,
@@ -407,6 +448,7 @@ export default defineComponent({
     activeUser: string | null,
     activeTabType: string | null,
     isTabOnMergedGroup: boolean,
+    isPortfolio: boolean,
   } {
     return {
       drags: [] as Array<number>,
@@ -414,6 +456,7 @@ export default defineComponent({
       activeUser: null as string | null,
       activeTabType: null as string | null,
       isTabOnMergedGroup: false,
+      isPortfolio: window.isPortfolio,
     };
   },
 
@@ -523,9 +566,9 @@ export default defineComponent({
             allFileTypesContributionBars.push({
               width,
               color: this.fileTypeColors[fileType],
-              tooltipText: `${fileType}: ${fileTypeContribution[fileType]} lines, \
-                total: ${checkedFileTypeContribution} lines (contribution from ${this.minDate} to
-                  ${this.maxDate})`,
+              tooltipText: `${fileType}: ${fileTypeContribution[fileType]} lines, `
+                + `total: ${checkedFileTypeContribution} lines `
+                + `(contribution from ${this.minDate} to ${this.maxDate})`,
             });
           });
         });
@@ -610,6 +653,38 @@ export default defineComponent({
       }
     },
 
+    getSinceDate(user: User): string {
+      if (this.getIsOptimising(user)) {
+        // Get the earliest commit date
+        return user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr)).date;
+      }
+
+      if (this.isPortfolio) {
+        // Portfolio mode disregards filter date ranges
+        return user.sinceDate;
+      }
+
+      return this.filterSinceDate;
+    },
+
+    getUntilDate(user: User): string {
+      if (this.getIsOptimising(user)) {
+        // Get the latest commit date
+        return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr)).date;
+      }
+
+      if (this.isPortfolio) {
+        // Portfolio mode disregards filter date ranges
+        return user.untilDate;
+      }
+
+      return this.filterUntilDate;
+    },
+
+    getIsOptimising(user: User): boolean {
+      return user.commits.length !== 0 && this.optimiseTimeline;
+    },
+
     getTagLink(repo: User, tag: string): string | undefined {
       return window.filterUnsupported(`${window.getRepoLinkUnfiltered(repo.repoId)}releases/tag/${tag}`);
     },
@@ -648,12 +723,13 @@ export default defineComponent({
 
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
-        // additional day was added to include the date represented by filterUntilDate
-        const tdiff = (new Date(this.filterUntilDate)).valueOf() - (new Date(this.filterSinceDate)).valueOf()
-            + window.DAY_IN_MS;
+        const fromDate = (new Date(this.getSinceDate(user))).valueOf();
+        const toDate = (new Date(this.getUntilDate(user))).valueOf();
+
+        const tdiff = toDate - fromDate + window.DAY_IN_MS;
         const idxs = this.drags.map((x) => (x * tdiff) / 100);
-        const tsince = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[0]);
-        const tuntil = window.getDateStr(new Date(this.filterSinceDate).getTime() + idxs[1]);
+        const tsince = window.getDateStr(fromDate + idxs[0]);
+        const tuntil = window.getDateStr(fromDate + idxs[1]);
         this.drags = [];
         this.openTabZoom(user, tsince, tuntil, isMerged);
       }
@@ -673,8 +749,8 @@ export default defineComponent({
         zAvgCommitSize: avgCommitSize,
         zUser: clonedUser,
         zLocation: this.getRepoLink(user),
-        zSince: since,
-        zUntil: until,
+        zSince: since || user.sinceDate,
+        zUntil: until || user.untilDate,
         zIsMerged: isMerged,
         zFileTypeColors: this.fileTypeColors,
         zFromRamp: false,
@@ -738,7 +814,7 @@ export default defineComponent({
       const regexToRemoveWidget = /([?&])((chartIndex|chartGroupIndex)=\d+)/g;
       return url.replace(regexToRemoveWidget, '');
     },
-    getRepo(repo: Array<Repo>): Array<Repo> {
+    getRepo(repo: Array<User>): Array<User> {
       if (this.isChartGroupWidgetMode && this.isChartWidgetMode) {
         return [repo[this.chartIndex!]];
       }
@@ -942,14 +1018,62 @@ export default defineComponent({
     },
 
     getTags(repo: Array<User>, user?: User): Array<string> {
-      if (user) repo = repo.filter((r) => r.name === user.name);
+      if (user) repo = repo.filter((r) => r.name === user.name && r.repoId === user.repoId);
       return [...new Set(repo.flatMap((r) => r.commits).flatMap((c) => c.commitResults).flatMap((r) => r.tags))]
         .filter(Boolean) as Array<string>;
     },
+
+    getRepoBlurb(repo: User): string {
+      const link = this.getRepoLink(repo);
+      if (!link) {
+        return '';
+      }
+      const blurb: string | undefined = this.$store.state.repoBlurbMap[link];
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    },
+
+    getChartBlurb(userName: string, repo: User) : string {
+      const link = this.getRepoLink(repo);
+      const blurb: string | undefined = this.$store.state.chartsBlurbMap[`${link}|${userName}`]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    },
+
+    getAuthorBlurb(userName: string): string {
+      const blurb: string | undefined = this.$store.state.authorBlurbMap[userName]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    }
   },
 });
 </script>
 
 <style lang="scss" scoped>
 @import '../styles/tags.scss';
+@import '../styles/_colors.scss';
+
+.blurb-wrapper {
+  padding-bottom: 5px;
+
+  .blurb {
+    background-color: #F6F8FA;
+    border-color: #E9EBEF;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    overflow-y: hidden;
+    // This is needed because the inline style of normalize.css adds bottom margins to all p tags, including the
+    // ones in the blurb.
+    padding-top: 10px;
+    // This is needed because the parent summary-wrapper center aligns everything
+    text-align: initial;
+  }
+}
 </style>

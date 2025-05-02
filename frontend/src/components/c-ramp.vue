@@ -1,37 +1,44 @@
 <template lang="pug">
 .ramp
   template(v-if="tframe === 'commit'")
-    template(v-for="(slice, j) in user.commits")
-      template(v-for="(commit, k) in slice.commitResults")
-        a.ramp__slice(
-          draggable="false",
-          v-on:click="rampClick",
-          v-bind:href="getLink(commit)", target="_blank",
-          v-bind:title="getContributionMessageByCommit(slice, commit)",
-          v-bind:class="`ramp__slice--color${getRampColor(commit, slice)}`,\
-            !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
-          v-bind:style="{\
-            zIndex: user.commits.length - j,\
-            borderLeftWidth: `${getWidth(commit)}em`,\
-            right: `${((getSlicePos(slice.date)\
-              + (getCommitPos(k, slice.commitResults.length))) * 100)}%`\
-            }"
-        )
+    .ramp-padding(
+        :style="optimiseTimeline ? {width: `${100 - optimisedPadding * 2}%`, left: `${optimisedPadding}%`} : ''"
+      )
+      template(v-for="(slice, j) in user.commits")
+        template(v-for="(commit, k) in slice.commitResults")
+          a.ramp__slice(
+            draggable="false",
+            @click="rampClick",
+            :href="getLink(commit)", target="_blank",
+            :title="getContributionMessageByCommit(slice, commit)",
+            :class="`ramp__slice--color${getRampColor(commit, slice)}`,\
+              !isBrokenLink(getLink(commit)) ? '' : 'broken-link'",
+            :style="{\
+              zIndex: user.commits.length - j,\
+              borderLeftWidth: `${getWidth(commit)}em`,\
+              right: `${((getSlicePos(slice.date)\
+                + (getCommitPos(k, slice.commitResults.length))) * 100)}%`\
+              }"
+          )
 
   template(v-else)
-    a(v-bind:href="getReportLink()", target="_blank")
+    a(:href="getReportLink()", target="_blank")
       .ramp__slice(
         draggable="false",
         v-for="(slice, j) in user.commits",
-        v-bind:title="getContributionMessage(slice)",
-        v-on:click="openTabZoom(user, slice, $event)",
-        v-bind:class="`ramp__slice--color${getSliceColor(slice)}`",
-        v-bind:style="{\
+        :title="getContributionMessage(slice)",
+        @click="openTabZoom(user, slice, $event)",
+        :class="`ramp__slice--color${getSliceColor(slice)}`",
+        :style="{\
           zIndex: user.commits.length - j,\
           borderLeftWidth: `${getWidth(slice)}em`,\
           right: `${(getSlicePos(tframe === 'day' ? slice.date : slice.endDate) * 100)}%` \
-          }"
+        }"
       )
+
+.date-indicators(v-if="isDisplayDateIndicators")
+  span {{sdate}}
+  span {{udate}}
 </template>
 
 <script lang='ts'>
@@ -83,10 +90,28 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    optimiseTimeline: {
+      type: Boolean,
+      default: false,
+    },
+    optimisedMinimumDate: {
+      type: String,
+      default: '',
+    },
+    optimisedMaximumDate: {
+      type: String,
+      default: '',
+    },
   },
-  data(): {rampSize: number} {
+  data(): {
+    rampSize: number,
+    optimisedPadding: number,
+    isPortfolio: boolean,
+  } {
     return {
       rampSize: 0.01 as number,
+      optimisedPadding: 3, // as % of total timeline,
+      isPortfolio: window.isPortfolio,
     };
   },
 
@@ -97,6 +122,9 @@ export default defineComponent({
     deletesContributionRampSize(): number {
       return this.rampSize * 20;
     },
+    isDisplayDateIndicators(): boolean {
+      return this.optimiseTimeline || this.isPortfolio;
+    }
   },
 
   methods: {
@@ -172,13 +200,15 @@ export default defineComponent({
 
     // position for commit granularity
     getCommitPos(i: number, total: number): number {
-      return (((total - i - 1) * window.DAY_IN_MS) / total)
-          / (this.getTotalForPos(this.sdate, this.udate) + window.DAY_IN_MS);
+      const totalTime = this.getTotalForPos(this.sdate, this.udate);
+
+      return (((total - i - 1) * window.DAY_IN_MS) / total) / (totalTime + window.DAY_IN_MS);
     },
     // position for day granularity
     getSlicePos(date: string): number {
-      const total = this.getTotalForPos(this.sdate, this.udate);
-      return (new Date(this.udate).valueOf() - new Date(date).valueOf()) / (total + window.DAY_IN_MS);
+      const totalTime = this.getTotalForPos(this.sdate, this.udate);
+
+      return (new Date(this.udate).valueOf() - new Date(date).valueOf()) / (totalTime + window.DAY_IN_MS);
     },
 
     // get duration in miliseconds between 2 date
@@ -195,9 +225,11 @@ export default defineComponent({
       if (this.isDeletesContribution(slice)) {
         return '-deletes';
       }
+
+      // Force interpretation in UTC to preserve local day boundaries as dates are in local time format
       const timeMs = this.fromramp
-          ? (new Date(this.sdate)).getTime()
-          : (new Date(slice.date)).getTime();
+          ? (new Date(`${this.sdate}Z`)).getTime()
+          : (new Date(`${slice.date}Z`)).getTime();
 
       return (timeMs / window.DAY_IN_MS) % 5;
     },
@@ -266,5 +298,17 @@ export default defineComponent({
       border-bottom: $height rgba(mui-color('red'), .7) solid;
     }
   }
+}
+
+.ramp-padding {
+  height: 100%;
+  position: relative;
+}
+
+.date-indicators {
+  color: mui-color('grey', '700');
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1px;
 }
 </style>

@@ -8,7 +8,11 @@ module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {},
     baseUrl: 'http://localhost:9000',
+    chromeWebSecurity: false,
     specPattern: 'tests/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'support.js',
   },
+  env: {
+    portfolioBaseUrl: 'http://localhost:9001',
+  }
 })

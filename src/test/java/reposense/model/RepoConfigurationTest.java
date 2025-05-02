@@ -6,7 +6,9 @@ import static reposense.util.TestUtil.loadResource;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,16 +61,40 @@ public class RepoConfigurationTest {
     private static final Path FIND_PREVIOUS_AUTHORS_FLAG_OVERRIDE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class,
             "RepoConfigurationTest/repoconfig_findPreviousAuthorsOverrideCsv_test");
+    private static final Path NO_OVERRIDE_FOR_NON_PORTFOLIO_TEST_CONFIG_FILES =
+            loadResource(RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_nonportfolio_test");
+    private static final Path REPO_TEST_CSV_NO_CLI_DATES = loadResource(
+            RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_testCsvNoCliDates_test/repo-config.csv"
+    );
+    private static final Path REPO_TEST_CSV_WITH_CLI_DATES = loadResource(
+            RepoConfigurationTest.class,
+            "RepoConfigurationTest/repoconfig_testCsvWithCliDates_test/repo-config.csv"
+    );
 
     private static final String TEST_REPO_BETA = "https://github.com/reposense/testrepo-Beta.git";
     private static final String TEST_REPO_DELTA = "https://github.com/reposense/testrepo-Delta.git";
     private static final String TEST_REPO_MINIMAL_STANDALONE_CONFIG =
             "https://github.com/reposense/testrepo-minimalstandaloneconfig.git";
+    private static final String TEST_NON_PORTFOLIO_OVERRIDE_SINCE_DATE = "29/01/2003";
+
 
     private static final Author FIRST_AUTHOR = new Author("lithiumlkid");
     private static final Author SECOND_AUTHOR = new Author("codeeong");
     private static final Author THIRD_AUTHOR = new Author("jordancjq");
     private static final Author FOURTH_AUTHOR = new Author("lohtianwei");
+
+    private static final LocalDateTime TEST_CSV_EARLIEST_SINCE_DATE = LocalDateTime.of(
+            2003, Month.JANUARY, 29, 0, 0, 0);
+    private static final LocalDateTime TEST_CSV_LATEST_UNTIL_DATE = LocalDateTime.of(
+            2025, Month.SEPTEMBER, 21, 23, 59, 59);
+    private static final LocalDateTime TEST_CLI_SINCE_DATE = LocalDateTime.of(
+            2025, Month.JANUARY, 17, 0, 0, 0
+    );
+    private static final LocalDateTime TEST_CLI_UNTIL_DATE = LocalDateTime.of(
+            2025, Month.JANUARY, 19, 23, 59, 59
+    );
 
     private static final List<String> FIRST_AUTHOR_ALIASES = Collections.singletonList("Ahmad Syafiq");
     private static final List<String> SECOND_AUTHOR_ALIASES = Collections.emptyList();
@@ -132,6 +158,44 @@ public class RepoConfigurationTest {
 
         repoDeltaStandaloneConfig.setIgnoreGlobList(REPO_LEVEL_GLOB_LIST);
         repoDeltaStandaloneConfig.setFormats(CONFIG_FORMATS);
+    }
+
+    @Test
+    public void repoConfig_correctInitialFlagForUpdate_success() throws Exception {
+        RepoConfiguration config = new RepoConfiguration.Builder()
+                .location(new RepoLocation(TEST_REPO_DELTA))
+                .branch("master")
+                .build();
+        Assertions.assertFalse(config.isHasUpdatedUntilDateInConfig());
+        Assertions.assertFalse(config.isHasUpdatedSinceDateInConfig());
+    }
+
+    @Test
+    public void repoConfig_suitableDateRangeWhenNoCliDates_success() throws Exception {
+        String input = new InputBuilder().build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_TEST_CSV_NO_CLI_DATES,
+                cliArguments);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+        Assertions.assertEquals(TEST_CSV_EARLIEST_SINCE_DATE,
+                RepoConfiguration.findGlobalSinceDate(configs, cliArguments));
+        Assertions.assertEquals(TEST_CSV_LATEST_UNTIL_DATE,
+                RepoConfiguration.findGlobalUntilDate(configs, cliArguments));
+    }
+
+    @Test
+    public void repoConfig_suitableDateRangeWhenCliDates_success() throws Exception {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String input = new InputBuilder()
+                .addUntilDate(TEST_CLI_UNTIL_DATE.toLocalDate().format(dateTimeFormatter))
+                .addSinceDate(TEST_CLI_SINCE_DATE.toLocalDate().format(dateTimeFormatter))
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_TEST_CSV_WITH_CLI_DATES,
+                cliArguments);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+        Assertions.assertEquals(TEST_CLI_SINCE_DATE, RepoConfiguration.findGlobalSinceDate(configs, cliArguments));
+        Assertions.assertEquals(TEST_CLI_UNTIL_DATE, RepoConfiguration.findGlobalUntilDate(configs, cliArguments));
     }
 
     @Test

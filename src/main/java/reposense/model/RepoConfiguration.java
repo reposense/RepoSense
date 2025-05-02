@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -30,10 +31,11 @@ public class RepoConfiguration {
     private String branch = DEFAULT_BRANCH;
     private String displayName;
     private String outputFolderName;
+    private LocalDateTime sinceDate;
+    private LocalDateTime untilDate;
+
     private transient String extraOutputFolderName = DEFAULT_EXTRA_OUTPUT_FOLDER_NAME;
     private transient ZoneId zoneId;
-    private transient LocalDateTime sinceDate;
-    private transient LocalDateTime untilDate;
     private transient String repoFolderName;
 
     private transient FileTypeManager fileTypeManager = new FileTypeManager(Collections.emptyList());
@@ -53,6 +55,10 @@ public class RepoConfiguration {
     private transient long fileSizeLimit = DEFAULT_FILE_SIZE_LIMIT;
     private transient boolean isFileSizeLimitOverriding = false;
     private transient boolean isIgnoredFileAnalysisSkipped = false;
+
+    private transient boolean hasUpdatedSinceDateInConfig = false;
+
+    private transient boolean hasUpdatedUntilDateInConfig = false;
 
     /**
      * Constructs an empty instance of {@code RepoConfiguration}, which is used by the {@code Builder}
@@ -409,6 +415,22 @@ public class RepoConfiguration {
             return this;
         }
 
+        public Builder setSinceDateBasedOnConfig(boolean hasUpdatedSinceDateInConfig, LocalDateTime since) {
+            this.repoConfiguration.hasUpdatedSinceDateInConfig = hasUpdatedSinceDateInConfig;
+            if (hasUpdatedSinceDateInConfig) {
+                this.repoConfiguration.sinceDate = since;
+            }
+            return this;
+        }
+
+        public Builder setUntilDateBasedOnConfig(boolean hasUpdatedUntilDateInConfig, LocalDateTime until) {
+            this.repoConfiguration.hasUpdatedUntilDateInConfig = hasUpdatedUntilDateInConfig;
+            if (hasUpdatedUntilDateInConfig) {
+                this.repoConfiguration.untilDate = until;
+            }
+            return this;
+        }
+
         /**
          * Builds the {@code RepoConfiguration} object with the necessary configurations.
          *
@@ -449,9 +471,56 @@ public class RepoConfiguration {
     public static void setDatesToRepoConfigs(List<RepoConfiguration> configs,
             LocalDateTime sinceDate, LocalDateTime untilDate) {
         for (RepoConfiguration config : configs) {
-            config.setSinceDate(sinceDate);
-            config.setUntilDate(untilDate);
+            if (!config.hasUpdatedSinceDateInConfig) {
+                config.setSinceDate(sinceDate);
+            }
+
+            if (!config.hasUpdatedUntilDateInConfig) {
+                config.setUntilDate(untilDate);
+            }
         }
+    }
+
+    /**
+     * Generates since dates for all repos.
+     *
+     * @param configs Repo configuration generated based on CLI or CSV
+     * @param cliArguments Cli agruments
+     * @return CLI since date is both CLI since and until flags are provided
+     * (in this case CSV dates will within that range),
+     * the earliest since date if any of the flags is not provided.
+     */
+    public static LocalDateTime findGlobalSinceDate(List<RepoConfiguration> configs, CliArguments cliArguments) {
+        if (cliArguments.isUntilDateProvided() && cliArguments.isSinceDateProvided()) {
+            return cliArguments.getSinceDate();
+        }
+
+        return configs.stream()
+                .map(RepoConfiguration::getSinceDate)
+                .filter(Objects::nonNull)
+                .min(LocalDateTime::compareTo)
+                .orElse(null);
+    }
+
+    /**
+     * Generates until dates for all repos.
+     *
+     * @param configs Repo configuration generated based on CLI or CSV
+     * @param cliArguments Cli agruments
+     * @return CLI until date is both CLI since and until flags are provided
+     * (in this case CSV dates will within that range),
+     * the latest until date if any of the flags is not provided.
+     */
+    public static LocalDateTime findGlobalUntilDate(List<RepoConfiguration> configs, CliArguments cliArguments) {
+        if (cliArguments.isUntilDateProvided() && cliArguments.isSinceDateProvided()) {
+            return cliArguments.getUntilDate();
+        }
+
+        return configs.stream()
+                .map(RepoConfiguration::getUntilDate)
+                .filter(Objects::nonNull)
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
     }
 
     public static void setZoneIdToRepoConfigs(List<RepoConfiguration> configs, ZoneId zoneId) {
@@ -1009,6 +1078,14 @@ public class RepoConfiguration {
 
     public boolean isFindingPreviousAuthorsPerformed() {
         return isFindingPreviousAuthorsPerformed;
+    }
+
+    public boolean isHasUpdatedSinceDateInConfig() {
+        return hasUpdatedSinceDateInConfig;
+    }
+
+    public boolean isHasUpdatedUntilDateInConfig() {
+        return hasUpdatedUntilDateInConfig;
     }
 
     public AuthorConfiguration getAuthorConfig() {

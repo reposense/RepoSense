@@ -15,6 +15,7 @@ window.REPOS = {};
 window.hashParams = {};
 window.isMacintosh = navigator.platform.includes('Mac');
 window.REPORT_ZIP = null;
+window.LOGO_PATH = "logo.png"
 
 const HASH_ANCHOR = '?';
 const REPORT_DIR = '.';
@@ -84,7 +85,7 @@ window.decodeHash = function decodeHash() {
   window.hashParams = hashParams;
 };
 
-window.comparator = (fn, sortingOption = '') => function compare(a, b) {
+window.comparator = (fn, isDesc = false, sortingOption = '') => function compare(a, b): -1 | 0 | 1 {
   let a1;
   let b1;
   if (sortingOption) {
@@ -100,12 +101,13 @@ window.comparator = (fn, sortingOption = '') => function compare(a, b) {
   if (typeof b1 === 'string') {
     b1 = b1.toLowerCase();
   }
+
+  const descMultiplier = isDesc ? -1: 1;
+
   if (a1 === b1) {
     return 0;
-  } if (a1 < b1) {
-    return -1;
   }
-  return 1;
+  return (a1 < b1 ? -1 : 1) * descMultiplier as -1 | 1;
 };
 
 window.filterUnsupported = function filterUnsupported(string) {
@@ -218,6 +220,7 @@ window.api = {
     window.isSinceDateProvided = data.isSinceDateProvided;
     window.isUntilDateProvided = data.isUntilDateProvided;
     window.isAuthorshipAnalyzed = data.isAuthorshipAnalyzed;
+    window.isPortfolio = data.isPortfolio;
     document.title = data.reportTitle || document.title;
 
     const errorMessages: { [key: string]: ErrorMessage } = {};
@@ -233,15 +236,22 @@ window.api = {
       window.REPOS[repoName] = repo;
       names.push(repoName);
     });
+
+    const repoBlurbMap: { [key: string]: string } = data.repoBlurbs.blurbMap;
+    const authorBlurbMap: {[key: string]: string} | undefined = data.authorBlurbs?.blurbMap;
+    const chartsBlurbMap: {[key: string]: string} | undefined = data.chartsBlurbs?.blurbMap;
     return {
       creationDate: reportGeneratedTime,
       reportGenerationTime,
       errorMessages,
       names,
+      repoBlurbMap,
+      authorBlurbMap,
+      chartsBlurbMap
     };
   },
 
-  async loadCommits(repoName) {
+  async loadCommits(repoName: string, defaultSortOrder: number) {
     const folderName = window.REPOS[repoName].outputFolderName;
     const json = await this.loadJSON(`${folderName}/commits.json`);
     const commits = commitsSchema.parse(json);
@@ -272,6 +282,9 @@ window.api = {
           repoName: `${repo.displayName}`,
           location: `${repo.location.location}`,
           checkedFileTypeContribution: undefined,
+          sinceDate: repo.sinceDate,
+          untilDate: repo.untilDate,
+          defaultSortOrder,
         };
 
         res.push(user);

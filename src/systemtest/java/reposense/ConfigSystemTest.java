@@ -24,8 +24,18 @@ import reposense.util.SystemTestUtil;
 @Execution(ExecutionMode.SAME_THREAD)
 public class ConfigSystemTest {
     private static final List<String> TESTING_FILE_FORMATS = Arrays.asList("java", "adoc");
-    private static final String TEST_TIME_ZONE = "Asia/Singapore";
+    /*
+     NOTE: For "Asia/Singapore" timezone, on dates before 01-01-1982,
+     where Singapore and Malaysia switched from UTC+07:30 to UTC+08:00,
+     all date conversions will result in +7.5 hours instead of +8 hours.
 
+     For example, the Unix epoch 1970-01-01 00:00:00 will be
+     1970-01-01 07:30:00 with "Asia/Singapore" timezone, but
+     1970-01-01 08:00:00 with "UTC+08" timezone.
+
+     Reference: https://en.wikipedia.org/wiki/UTC%2B07:30.
+     */
+    private static final String TEST_TIME_ZONE = "Asia/Singapore";
     private static final String OUTPUT_DIRECTORY = "ft_temp";
     private static final Path REPORT_DIRECTORY_PATH = Paths.get(OUTPUT_DIRECTORY, "reposense-report");
 
@@ -131,12 +141,26 @@ public class ConfigSystemTest {
     }
 
     /**
+     * System test with a specified until date and a {@link SinceDateArgumentType#FIRST_COMMIT_DATE_SHORTHAND}
+     * since date to capture from the first commit.
+     */
+    @Test
+    public void testSinceBeginningDateRangeWithPortfolio() {
+        InputBuilder inputBuilder = initInputBuilder()
+                .addSinceDate(SinceDateArgumentType.FIRST_COMMIT_DATE_SHORTHAND)
+                .addUntilDate("2/3/2019")
+                .addPortfolio();
+
+        runTest(inputBuilder, false,
+                "ConfigSystemTest/sinceBeginningDateRangeWithPortfolio/expected");
+    }
+
+    /**
      * Returns a {@link InputBuilder} that is initialized with some default values.
      * <br>Config Folder Path: {@code ConfigSystemTest}
      * <br>Formats: {@link ConfigSystemTest#TESTING_FILE_FORMATS TESTING_FILE_FORMATS}
      * <br>Timezone: {@link ConfigSystemTest#TEST_TIME_ZONE TEST_TIME_ZONE}
      * <br>Output Folder Path: {@link ConfigSystemTest#OUTPUT_DIRECTORY OUTPUT_DIRECTORY}
-     * <br>Test Mode: {@code Enabled}
      */
     private InputBuilder initInputBuilder() {
         Path configFolder = loadResource(getClass(), "ConfigSystemTest");
@@ -145,7 +169,6 @@ public class ConfigSystemTest {
         return new InputBuilder().addConfig(configFolder)
                 .addFormats(formats)
                 .addTimezone(TEST_TIME_ZONE)
-                .addTestMode()
                 .addOutput(OUTPUT_DIRECTORY);
     }
 

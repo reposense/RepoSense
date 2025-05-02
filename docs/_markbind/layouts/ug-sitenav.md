@@ -6,12 +6,12 @@
   {name: "Sharing reports", link: "ug/sharingReports.html"},
   {name: "Appendices"},
   {level: 2, name: "CLI syntax reference", link: "ug/cli.html"},
+  {level: 2, name: "Getting started with `report-config.yaml`", link: "ug/reportConfig.html"},
   {level: 2, name: "Config files format", link: "ug/configFiles.html"},
   {level: 2, name: "Advanced syntax: `author-config.csv`", link: "ug/authorConfigSyntax.html"},
   {level: 2, name: "Using `@@author` tags", link: "ug/usingAuthorTags.html"},
   {level: 2, name: "RepoSense with Netlify", link: "ug/withNetlify.html"},
   {level: 2, name: "RepoSense with GitHub Actions", link: "ug/withGithubActions.html"},
-  {level: 2, name: "RepoSense with Travis", link: "ug/withTravis.html"},
   {level: 2, name: "`run.sh` format", link: "ug/runSh.html"},
   {level: 2, name: "FAQ", link: "ug/faq.html"},
   {level: 2, name: "Troubleshooting", link: "ug/troubleshooting.html"}

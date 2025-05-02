@@ -18,7 +18,7 @@ Let's look at how to view, interpret, and interact with a RepoSense report.
 As a report consists of web pages, it can be viewed using a Web Browser. Here are the ways to view the report in different situations.
 
 * **Situation 1: The report has been hosted on a website**
-  * Simply go to the URL of the report ([example](https://nus-cs2113-ay1920s2.github.io/tp-dashboard)) in your browser.
+  * Simply go to the URL of the report ([example](https://nus-cs2113-ay2324s2.github.io/tp-dashboard)) in your browser.
 * **Situation 2: You generated the report in your computer earlier**
   * Run RepoSense with the `--view` option:<br>
     Format: `java -jar RepoSense.jar --view REPORT_FOLDER`<br>
@@ -90,11 +90,25 @@ We allow contribution bars to overflow into multiple lines (rather than adjust t
 #### Tool bar
 
 The `Tool Bar` at the top of the Chart panel provides a set of configuration options that control the Chart panel.
+
+* `Filter Files` function allows users to refine and focus their view on specific files across all repositories by applying keyword-based filters using glob patterns. This feature is particularly beneficial for developers seeking to analyze code changes in files that match certain naming conventions or extensions.
+  * Glob Pattern Filtering: Users can specify patterns to match filenames. For example:
+    * `**/TaskList.java`: Targets all files named TaskList.java in any directory or subdirectory.
+    * `**/*.js`: Selects all JavaScript files across all directories.
+    * `src/**/*.py`: Finds all Python files within the src directory and its subdirectories.
+
+  * Glob patterns use wildcards to match filenames:
+    * `*`: Matches any sequence of characters within a single directory level.
+    * `**`: Matches any sequence of characters across multiple directory levels.
+    * `?`: Matches any single character.
+    * `[abc]`: Matches any single character within the brackets.
+    * `[!abc]`: Matches any single character not within the brackets.
+    These patterns provide flexibility in locating files based on specific naming conventions or extensions.
 * `Search`: filters the author and repository by keywords.
   * Multiple keywords/terms can be used, separated by spaces.
   * Entries that contain _any_ (not necessarily _all_) of the search terms will be displayed.
   * The keywords used to filter the author and repository are case-insensitive.
-  * Starting a search with `tag:` will filter author and repository by git tags. Similar search rules as above (like separating multiple tag names by space) apply.
+  * Starting a search with `tag:` will filter author and repository by Git tags. Similar search rules as above (like separating multiple tag names by space) apply.
 * `Group by`: grouping criteria for the rows of results.
   * `None`: results will not be grouped in any particular way.
   * `Repo/Branch`: results will be grouped by repositories and its' associating branches.
@@ -103,6 +117,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
   * `Group title`: groups will be sorted by the title of the group (in bold text) in alphabetical order.
   * `Contribution`: groups will be sorted by the combined contributions within a group, in the order of number of lines added.
   * `Variance`: groups will be sorted by how far the daily contributions are spread out from their average value among all authors involved. A detailed definition of variance is located [here](https://en.wikipedia.org/wiki/Variance).
+  * `Default`: groups will be sorted by the order of rows in `repo-config.csv`.
 * `Sort within groups by`: sorting criteria within each group.
   * `Title`: each group will be internally sorted by its title in alphabetical order.
   * `Contribution`: each group will be internally sorted by individual contributions in the order of number of lines added.
@@ -119,6 +134,7 @@ The `Tool Bar` at the top of the Chart panel provides a set of configuration opt
 * `Merge group`: merges all the ramp charts of each group into a single ramp chart; aggregates the contribution of each group.
     * viewing of authored code of the group as a whole is available when `group by repos`.
 * `Show tags`: shows the tags of all the repos under a group
+* `Trim timeline`: trims the starting and ending portion of each ramp where no commits were made; only the part of each ramp where commits were made will be shown.
 
 Notes:<br>
 [1] **`Sort groups by`**: each main group has its own index and percentile according to its ranking position after sorting (e.g., if the groups are sorted by contribution in descending order, a 25% percentile indicates that the group is in the top 25% of the whole cohort in terms of contribution)<br>.
@@ -128,7 +144,7 @@ Notes:<br>
 
 <box type="tip" seamless>
 
-**RepoSense support _intelligent_ bookmarks**: Note how the browser URL changes as you modify settings in the report. If you send that URL to someone else, that person will be able to use that URL to view the report in the same _view configuration_ you had when you copied the URL. For example, [this URL](https://nus-cs2113-ay1920s2.github.io/tp-dashboard/) and [this URL](https://nus-cs2113-ay1920s2.github.io/tp-dashboard/#search=&sort=groupTitle&sortWithin=title&since=2020-03-01&timeframe=day&mergegroup=true&groupSelect=groupByRepos&breakdown=true) give two different views of the same report.
+**RepoSense support _intelligent_ bookmarks**: Note how the browser URL changes as you modify settings in the report. If you send that URL to someone else, that person will be able to use that URL to view the report in the same _view configuration_ you had when you copied the URL. For example, [this URL](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/) and [this URL](https://nus-cs2113-ay2324s2.github.io/tp-dashboard/?search=&sort=groupTitle%20dsc&sortWithin=title&since=2024-02-23&until=2024-04-26&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&tabOpen=false&checkedFileTypes=docs~functional-code~test-code~other) give two different views of the same report.
 </box>
 
 <!-- ==================================================================================================== -->
