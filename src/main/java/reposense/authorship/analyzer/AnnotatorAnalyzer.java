@@ -22,6 +22,7 @@ import reposense.model.AuthorConfiguration;
 public class AnnotatorAnalyzer {
     private static final String AUTHOR_TAG = "@@author";
     private static final String REGEX_AUTHOR_TAG_FORMAT = "@@author(\\s+.*)?";
+    private static final int MIN_AUTHOR_SPLIT_LENGTH = 2;
 
     private static final String[][] COMMENT_FORMATS = {
             {"//", null},
@@ -103,7 +104,7 @@ public class AnnotatorAnalyzer {
         return Optional.of(line)
                 // gets component after AUTHOR_TAG
                 .map(l -> l.split(AUTHOR_TAG))
-                .filter(array -> array.length >= 2)
+                .filter(array -> array.length >= MIN_AUTHOR_SPLIT_LENGTH)
                 // separates by end-comment format to obtain the author's name at the zeroth index
                 .map(array -> COMMENT_FORMATS[getCommentTypeIndex(line)][1] != null
                         ? array[1].trim().split(COMMENT_FORMATS[getCommentTypeIndex(line)][1])
