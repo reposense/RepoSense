@@ -49,11 +49,11 @@ import reposense.model.ReportConfiguration;
 import reposense.model.StandaloneConfig;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.parser.exceptions.InvalidMarkdownException;
+import reposense.parser.types.SinceDateArgumentType;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 import reposense.util.ProgressTracker;
-import reposense.util.TimeUtil;
 
 /**
  * Contains report generation related functionalities.
@@ -137,7 +137,7 @@ public class ReportGenerator {
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath, numCloningThreads,
                 numAnalysisThreads, shouldFreshClone, shouldAnalyzeAuthorship, originalityThreshold);
 
-        LocalDateTime reportSinceDate = (TimeUtil.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId))
+        LocalDateTime reportSinceDate = (SinceDateArgumentType.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId))
                 ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(

@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import reposense.parser.types.SinceDateArgumentType;
 import reposense.system.LogsManager;
 
 /**
@@ -131,36 +130,6 @@ public class TimeUtil {
      */
     public static LocalDateTime getCurrentDate(ZoneId zoneId) {
         return LocalDateTime.now(zoneId).withHour(23).withMinute(59).withSecond(59).withNano(0);
-    }
-
-    /**
-     * Returns the {@link LocalDateTime} of {@code ARBITRARY_FIRST_COMMIT_DATE} in the UTC time zone.
-     */
-    public static LocalDateTime getArbitraryFirstCommitDateLocal() {
-        return SinceDateArgumentType.getArbitraryFirstCommitDateLocal();
-    }
-
-    /**
-     * Returns the {@link LocalDateTime} of {@code ARBITRARY_FIRST_COMMIT_DATE} adjusted for the time zone based on
-     * {@code toZoneId}.
-     */
-    public static LocalDateTime getArbitraryFirstCommitDateConverted(ZoneId toZoneId) {
-        return SinceDateArgumentType.getArbitraryFirstCommitDateConverted(toZoneId);
-    }
-
-    /**
-     * Checks whether the given {@code dateTime} is the {@code ARBITRARY_FIRST_COMMIT_DATE} in UTC time.
-     */
-    public static boolean isEqualToArbitraryFirstDateUtc(LocalDateTime dateTime) {
-        return dateTime.equals(getArbitraryFirstCommitDateLocal());
-    }
-
-    /**
-     * Checks whether the given {@code dateTime} is the {@code ARBITRARY_FIRST_COMMIT_DATE} in the time zone given by
-     * {@code zoneId}.
-     */
-    public static boolean isEqualToArbitraryFirstDateConverted(LocalDateTime dateTime, ZoneId zoneId) {
-        return dateTime.equals(getArbitraryFirstCommitDateConverted(zoneId));
     }
 
     /**

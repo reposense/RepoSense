@@ -58,4 +58,19 @@ public class SinceDateArgumentType extends DateArgumentType {
     public static LocalDateTime getArbitraryFirstCommitDateConverted(ZoneId toZoneId) {
         return ARBITRARY_FIRST_COMMIT_DATE_UTC.withZoneSameInstant(toZoneId).toLocalDateTime();
     }
+
+    /**
+     * Checks whether the given {@code dateTime} is the {@code ARBITRARY_FIRST_COMMIT_DATE} in UTC time.
+     */
+    public static boolean isEqualToArbitraryFirstDateUtc(LocalDateTime dateTime) {
+        return dateTime.equals(getArbitraryFirstCommitDateLocal());
+    }
+
+    /**
+     * Checks whether the given {@code dateTime} is the {@code ARBITRARY_FIRST_COMMIT_DATE} in the time zone given by
+     * {@code zoneId}.
+     */
+    public static boolean isEqualToArbitraryFirstDateConverted(LocalDateTime dateTime, ZoneId zoneId) {
+        return dateTime.equals(getArbitraryFirstCommitDateConverted(zoneId));
+    }
 }
