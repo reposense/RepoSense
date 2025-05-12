@@ -4,7 +4,6 @@ import static reposense.util.StringsUtil.removeQuote;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -25,14 +24,12 @@ import reposense.model.CommitHash;
 import reposense.model.FileType;
 import reposense.model.RepoConfiguration;
 import reposense.system.LogsManager;
+import reposense.util.GitDateUtil;
 
 /**
  * Analyzes commit information found in the git log.
  */
 public class CommitInfoAnalyzer {
-    public static final DateTimeFormatter GIT_STRICT_ISO_DATE_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
-
     private static final String TAB_SPLITTER = "\t";
     private static final String MOVED_FILE_INDICATION = "=> ";
     private static final String BINARY_FILE_CONTRIBUTION = "-";
@@ -91,7 +88,7 @@ public class CommitInfoAnalyzer {
 
         ZonedDateTime date = null;
         try {
-            date = ZonedDateTime.parse(elements[DATE_INDEX], GIT_STRICT_ISO_DATE_FORMAT);
+            date = GitDateUtil.parseGitStrictIsoDate(elements[DATE_INDEX]);
         } catch (DateTimeParseException pe) {
             logger.log(Level.WARNING, "Unable to parse the date from git log result for commit.", pe);
         }
