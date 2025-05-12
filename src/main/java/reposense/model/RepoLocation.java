@@ -21,8 +21,6 @@ import reposense.util.SystemUtil;
  * Represents a repository location.
  */
 public class RepoLocation {
-    protected static final String UNSUPPORTED_DOMAIN_NAME = "NOT_RECOGNIZED";
-
     private static final String MESSAGE_INVALID_LOCATION = "%s is an invalid location.";
     private static final String MESSAGE_INVALID_REMOTE_URL = "%s is an invalid remote URL.";
 
@@ -70,7 +68,7 @@ public class RepoLocation {
         String[] remoteRepoNameAndOrg;
         String[] outputFolderRepoNameAndOrg;
         if (location.isEmpty()) {
-            remoteRepoNameAndOrg = new String[] {"", "", UNSUPPORTED_DOMAIN_NAME};
+            remoteRepoNameAndOrg = new String[] {"", "", SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME};
             outputFolderRepoNameAndOrg = remoteRepoNameAndOrg;
         } else if (isLocalRepo(location)) {
             outputFolderRepoNameAndOrg = getLocalRepoNameAndOrg(location);
@@ -166,7 +164,7 @@ public class RepoLocation {
 
         String tempRepoName = localRepoMatcher.group(GROUP_REPO_NAME);
         String tempOrganization = getOrganizationFromMatcher(localRepoMatcher);
-        return new String[] {tempRepoName, tempOrganization, UNSUPPORTED_DOMAIN_NAME};
+        return new String[] {tempRepoName, tempOrganization, SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME};
     }
 
     /**
@@ -232,7 +230,7 @@ public class RepoLocation {
         String domainName = domainNameMatcher.group(GROUP_DOMAIN_NAME);
         return isSupportedDomainName(domainName)
                 ? domainName
-                : UNSUPPORTED_DOMAIN_NAME;
+                : SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME;
     }
 
     private static boolean isSupportedDomainName(String domainName) {

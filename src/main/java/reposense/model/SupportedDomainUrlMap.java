@@ -10,6 +10,7 @@ import java.util.TreeSet;
  * Represents the map of supported remote repo domain names.
  */
 public class SupportedDomainUrlMap {
+    protected static final String UNSUPPORTED_DOMAIN_NAME = "NOT_RECOGNIZED";
 
     private static final String BASE_URL_KEY = "BASE_URL";
     private static final String REPO_URL_KEY = "REPO_URL";
@@ -78,11 +79,11 @@ public class SupportedDomainUrlMap {
     protected SupportedDomainUrlMap() {
         domainUrlMap = new HashMap<>();
         domainAccessedSet = new TreeSet<>();
-        domainAccessedSet.add(RepoLocation.UNSUPPORTED_DOMAIN_NAME);
+        domainAccessedSet.add(UNSUPPORTED_DOMAIN_NAME);
         domainUrlMap.put("github", GITHUB_MAP);
         domainUrlMap.put("gitlab", GITLAB_MAP);
         domainUrlMap.put("bitbucket", BITBUCKET_MAP);
-        domainUrlMap.put(RepoLocation.UNSUPPORTED_DOMAIN_NAME, NOT_SUPPORTED_MAP);
+        domainUrlMap.put(UNSUPPORTED_DOMAIN_NAME, NOT_SUPPORTED_MAP);
     }
 
     public Map<String, Map<String, String>> getRequiredDomainUrlMap() {
@@ -120,7 +121,7 @@ public class SupportedDomainUrlMap {
      */
     public static void clearAccessedSet() {
         DEFAULT_DOMAIN_URL_MAP.domainAccessedSet.clear();
-        DEFAULT_DOMAIN_URL_MAP.domainAccessedSet.add(RepoLocation.UNSUPPORTED_DOMAIN_NAME);
+        DEFAULT_DOMAIN_URL_MAP.domainAccessedSet.add(UNSUPPORTED_DOMAIN_NAME);
     }
 
     /**

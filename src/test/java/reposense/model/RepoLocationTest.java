@@ -1,6 +1,5 @@
 package reposense.model;
 
-import static reposense.model.RepoLocation.UNSUPPORTED_DOMAIN_NAME;
 import static reposense.model.RepoLocation.getDomainNameFromDomain;
 import static reposense.model.RepoLocation.isLocalRepo;
 
@@ -34,7 +33,7 @@ public class RepoLocationTest {
     private static final String EXPECTED_REPO_NAME = "repo";
     private static final String EXPECTED_ORGANIZATION = "path-to";
     private static final String EXPECTED_DOMAIN_NAME = "github";
-    private static final String EXPECTED_UNRECOGNISED_DOMAIN_NAME = UNSUPPORTED_DOMAIN_NAME;
+    private static final String EXPECTED_UNRECOGNISED_DOMAIN_NAME = SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME;
 
     @Test
     public void repoLocation_parseEmptyString_success() throws Exception {
@@ -178,7 +177,7 @@ public class RepoLocationTest {
         Assertions.assertEquals("bitbucket", getDomainNameFromDomain("ww2.bitbucket.com"));
 
         // valid but unsupported
-        Assertions.assertEquals(UNSUPPORTED_DOMAIN_NAME, getDomainNameFromDomain("opensource.ncsa.illinois.edu"));
+        Assertions.assertEquals(SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME, getDomainNameFromDomain("opensource.ncsa.illinois.edu"));
     }
 
     @Test
