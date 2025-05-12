@@ -59,8 +59,8 @@ public class AnnotatorAnalyzer {
             String lineContent = lineInfo.getContent();
             if (lineContent.contains(AUTHOR_TAG) && isValidCommentLine(lineContent)) {
                 Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig);
-                boolean isEndOfAnnotatedSegment = currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
-                boolean isUnknownAuthorSegment = !currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
+                boolean isEndOfAnnotatedSegment = currentAnnotatedAuthor.isPresent() && newAnnotatedAuthor.isEmpty();
+                boolean isUnknownAuthorSegment = currentAnnotatedAuthor.isEmpty() && newAnnotatedAuthor.isEmpty();
 
                 if (isEndOfAnnotatedSegment) {
                     lineInfo.updateAuthorAndCredit(currentAnnotatedAuthor.get(), shouldAnalyzeAuthorship);
