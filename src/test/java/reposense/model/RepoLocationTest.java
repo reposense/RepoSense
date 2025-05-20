@@ -177,7 +177,8 @@ public class RepoLocationTest {
         Assertions.assertEquals("bitbucket", getDomainNameFromDomain("ww2.bitbucket.com"));
 
         // valid but unsupported
-        Assertions.assertEquals(SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME, getDomainNameFromDomain("opensource.ncsa.illinois.edu"));
+        Assertions.assertEquals(SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME,
+                getDomainNameFromDomain("opensource.ncsa.illinois.edu"));
     }
 
     @Test

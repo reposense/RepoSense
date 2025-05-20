@@ -1,9 +1,9 @@
 package reposense.model;
 
+import static reposense.model.SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import static reposense.model.SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

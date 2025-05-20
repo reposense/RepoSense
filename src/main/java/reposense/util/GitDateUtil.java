@@ -5,11 +5,12 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Contains git date related functionalities.
+ */
 public class GitDateUtil {
     public static final DateTimeFormatter GIT_STRICT_ISO_DATE_FORMAT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssz");
-
-    private GitDateUtil() {}
 
     /**
      * Returns a {@link ZonedDateTime} from a string {@code gitStrictIsoDate}.
