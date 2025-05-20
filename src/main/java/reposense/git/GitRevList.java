@@ -109,7 +109,7 @@ public class GitRevList {
         String revListCommand = "git rev-list --max-parents=0 HEAD";
         Path rootPath = Paths.get(root);
         String output = runCommand(rootPath, revListCommand);
-        return Arrays.asList(StringsUtil.NEWLINE.split(output));
+        return Arrays.asList(StringsUtil.splitByNewline(output));
     }
 
     /**

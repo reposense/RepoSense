@@ -33,9 +33,9 @@ public class GitShortlog {
             return Collections.emptyList();
         }
 
-        String[] lines = StringsUtil.NEWLINE.split(summary);
+        String[] lines = StringsUtil.splitByNewline(summary);
         return Arrays.stream(lines)
-                .map(line -> new Author(StringsUtil.TAB.split(line)[1]))
+                .map(line -> new Author(StringsUtil.splitByTab(line, 1)))
                 .collect(Collectors.toList());
     }
 

@@ -6,12 +6,46 @@ import java.util.regex.Pattern;
  * Contains strings related utilities.
  */
 public class StringsUtil {
-    public static final Pattern NEWLINE = Pattern.compile("\n");
-    public static final Pattern TAB = Pattern.compile("\t");
-    public static final Pattern SPACE = Pattern.compile(" ");
-
-    public static final Pattern NUMERIC = Pattern.compile("^\\d+$");
+    private static final Pattern NEWLINE = Pattern.compile("\n");
+    private static final Pattern TAB = Pattern.compile("\t");
+    private static final Pattern SPACE = Pattern.compile(" ");
+    private static final Pattern NUMERIC = Pattern.compile("^\\d+$");
     private static final Pattern SPECIAL_SYMBOLS = Pattern.compile("[@;:&/\\\\!<>{}%#\"\\-='()\\[\\].+*?^$|]");
+
+    /**
+     * Returns the list of segments after splitting the input by new line characters.
+     */
+    public static String[] splitByNewline(String text) {
+        return NEWLINE.split(text);
+    }
+
+    /**
+     * Returns the list of segments after splitting the input by tab characters.
+     */
+    public static String[] splitByTab(String text) {
+        return TAB.split(text);
+    }
+
+    /**
+     * Returns the segment at the specified index after splitting the input by tab characters.
+     */
+    public static String splitByTab(String text, int index) {
+        return TAB.split(text)[index].trim();
+    }
+
+    /**
+     * Returns the list of segments after splitting the input by space characters.
+     */
+    public static String[] splitBySpace(String text) {
+        return SPACE.split(text);
+    }
+
+    /**
+     * Returns the segment at the specified index after splitting the input by space characters.
+     */
+    public static String splitBySpace(String text, int index) {
+        return SPACE.split(text)[index].trim();
+    }
 
     /**
      * Filters the {@code text}, returning only the lines that matches the given {@code regex}.

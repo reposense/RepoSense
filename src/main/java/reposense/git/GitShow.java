@@ -37,7 +37,7 @@ public class GitShow {
 
         try {
             String output = runCommand(rootPath, showCommand);
-            List<CommitHash> commitHashes = Arrays.stream(StringsUtil.NEWLINE.split(output))
+            List<CommitHash> commitHashes = Arrays.stream(StringsUtil.splitByNewline(output))
                     .map(CommitHash::new).collect(Collectors.toList());
             if (commitHashes.size() > 1) {
                 logger.warning(String.format("%s can be expanded to %d different commits, "

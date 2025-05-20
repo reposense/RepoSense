@@ -106,7 +106,7 @@ public class AuthorshipAnalyzer {
             parentCommits = GIT_LOG_CACHE.get(gitLogCacheKey);
         } else {
             String gitLogResults = GitLog.getParentCommits(config.getRepoRoot(), commitHash);
-            parentCommits = StringsUtil.SPACE.split(gitLogResults);
+            parentCommits = StringsUtil.splitBySpace(gitLogResults);
             GIT_LOG_CACHE.put(gitLogCacheKey, parentCommits);
         }
 
@@ -190,7 +190,7 @@ public class AuthorshipAnalyzer {
                 continue;
             }
 
-            String[] linesChanged = StringsUtil.NEWLINE.split(hunk);
+            String[] linesChanged = StringsUtil.splitByNewline(hunk);
             int currentPreImageLineNumber = getPreImageStartingLineNumber(linesChanged[LINES_CHANGED_HEADER_INDEX]);
 
             // skip the lines changed header, index starts from 1

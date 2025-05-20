@@ -85,7 +85,7 @@ public class GitBlame {
 
         String blameResult = StringsUtil.filterText(runCommand(rootPath, blameCommand),
                 COMBINATION_WITH_COMMIT_TIME_REGEX);
-        String[] blameResultLines = StringsUtil.NEWLINE.split(blameResult);
+        String[] blameResultLines = StringsUtil.splitByNewline(blameResult);
         return processGitBlameResultLine(blameResultLines, false);
     }
 
@@ -93,7 +93,7 @@ public class GitBlame {
      * Returns the processed result of {@code blameResults}.
      */
     private static List<GitBlameLineInfo> processGitBlameResultLines(String blameResults) {
-        String[] blameResultsLines = StringsUtil.NEWLINE.split(blameResults);
+        String[] blameResultsLines = StringsUtil.splitByNewline(blameResults);
         List<GitBlameLineInfo> blameFileResult = new ArrayList<>();
         for (int lineCount = 0; lineCount < blameResultsLines.length; lineCount += BLAME_LINE_INFO_ROW_COUNT) {
             String[] blameResultLines = Arrays

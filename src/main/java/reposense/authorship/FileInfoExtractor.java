@@ -147,7 +147,7 @@ public class FileInfoExtractor {
         // Gets rid of files with invalid directory name and filters by the {@code isBinaryFile} flag
         return modifiedFileList.stream()
                 .filter(file -> isBinaryFile == file.startsWith(BINARY_FILE_LINE_DIFF_RESULT))
-                .map(file -> StringsUtil.TAB.split(file)[2])
+                .map(file -> StringsUtil.splitByTab(file, 2))
                 .filter(FileUtil::isValidPathWithLogging)
                 .map(Paths::get)
                 .collect(Collectors.toCollection(HashSet::new));
@@ -165,7 +165,7 @@ public class FileInfoExtractor {
         // skips the header, index starts from 1
         for (int sectionIndex = 1; sectionIndex < linesChangedChunk.length; sectionIndex++) {
             String linesChangedInSection = linesChangedChunk[sectionIndex];
-            String[] linesChanged = StringsUtil.NEWLINE.split(linesChangedInSection);
+            String[] linesChanged = StringsUtil.splitByNewline(linesChangedInSection);
             int startingLineNumber = getStartingLineNumber(linesChanged[LINE_CHANGED_HEADER_INDEX]);
 
             // mark all untouched lines between sections as untracked

@@ -32,7 +32,7 @@ public class GitCatFile {
         try {
             String output = runCommand(rootPath, catFileCommand);
             List<String> parentCommits = new ArrayList<>();
-            for (String line : StringsUtil.NEWLINE.split(output)) {
+            for (String line : StringsUtil.splitByNewline(output)) {
                 if (line.startsWith("parent")) {
                     parentCommits.add(line.substring(7).trim());
                 }
