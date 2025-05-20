@@ -76,4 +76,5 @@ describe('portfolio view filter breakdown',
       cy.get('#summary div.fileTypes input[id="all"]')
         .should('not.be.checked');
     });
-  });
+  },
+);

@@ -268,6 +268,8 @@ Note: Symbols such as `"`, `!`, `/` etc. in your author name will be omitted, wh
 You can optionally use blurbs markdown files to add blurbs in Markdown syntax for repository branches or authors.
 
 ### `repo-blurbs.md`
+<div id="section-repo-blurbs">
+
 This file allows you to specify blurbs for repository branches. These blurbs will be displayed when grouping by `Repo/Branch`.
 
 **Format**:
@@ -275,8 +277,11 @@ This file allows you to specify blurbs for repository branches. These blurbs wil
 * Second line onwards: Blurb content.
 * Delimiter: `<!--repo-->`. Everything on the line after the delimiter will be ignored.
 * Sample: [repo-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/repo-blurbs.md)
+</div>
 
 ### `author-blurbs.md`
+<div id="section-author-blurbs">
+
 This file allows you to specify blurbs for authors. These blurbs will be displayed when grouping by `Author`.
 
 **Format**:
@@ -284,5 +289,16 @@ This file allows you to specify blurbs for authors. These blurbs will be display
 * Second line onwards: Blurb content.
 * Delimiter: `<!--author-->`. Everything on the line after the delimiter will be ignored.
 * Sample: [author-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/author-blurbs.md)
+</div>
 
+### `chart-blurbs.md`
+<div id="section-chart-blurbs">
+
+This file allow you to specify blurbs for specific charts. These blurbs will be displayed with the charts.
+
+**Format**:
+* First line in section: Link to the repository branch|Author's Git Host ID. (Note the `|` between repository's link and author's Git Host ID)
+* Second line onwards: Blurb content.
+* Delimiter: `<!--chart-->`. Everything on the line after the delimiter will be ignored.
+* Sample: [chart-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/chart-blurbs.md))
 </div>

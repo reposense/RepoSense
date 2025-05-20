@@ -35,5 +35,5 @@ describe('portfolio view',
       cy.get('#summary .summary-chart__title--name')
         .should('not.exist');
     });
-  }
+  },
 );

@@ -66,7 +66,6 @@ public class AuthorBlurbMarkdownParserTest {
     public void parse_multipleBlurbTest_success() throws Exception {
         AuthorBlurbMarkdownParser bmp = new AuthorBlurbMarkdownParser(MULTIPLE_BLURB_TESTER);
         Map<String, String> bm = bmp.parse().getAllMappings();
-        System.out.println(bm);
         Assertions.assertTrue(bm.keySet().containsAll(
                 List.of("testAuthor1", "testAuthor2", "testAuthor3")));
         Assertions.assertEquals(
