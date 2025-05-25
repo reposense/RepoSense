@@ -102,8 +102,8 @@
           onclick="deactivateAllOverlays()",
           @click="openTabZoom(\
             repo[0],\
-            getIsOptimising(repo[0]) ? getOptimisedMinimumDate(repo[0]) : filterSinceDate,\
-            getIsOptimising(repo[0]) ? getOptimisedMaximumDate(repo[0]) : filterUntilDate,\
+            getSinceDate(repo[0]),\
+            getUntilDate(repo[0]),\
             isGroupMerged(getGroupName(repo))\
           )"
         )
@@ -158,11 +158,17 @@
           font-awesome-icon(icon="tags")
           span &nbsp;{{ tag }}
 
-    .blurbWrapper(
+    .blurb-wrapper(
       v-if="filterGroupSelection === 'groupByRepos'",
     )
       c-markdown-chunk.blurb(
-        :markdown-text="getBlurb(repo[0])"
+        :markdown-text="getRepoBlurb(repo[0])"
+      )
+
+    .blurb-wrapper(
+      v-if="filterGroupSelection === 'groupByAuthors'")
+      c-markdown-chunk.blurb(
+        :markdown-text="getAuthorBlurb(repo[0].name)"
       )
 
     .summary-charts__fileType--breakdown(v-if="filterBreakdown")
@@ -176,6 +182,7 @@
             :style="{ 'color': fileTypeColors[fileType] }"
           )
           span &nbsp; {{ fileType }} &nbsp;
+
     .summary-chart(
       v-for="(user, j) in getRepo(repo)",
       :style="isChartGroupWidgetMode && j === getRepo(repo).length - 1 ? {'marginBottom': 0} : {}",
@@ -244,8 +251,8 @@
           onclick="deactivateAllOverlays()",
           @click="openTabZoom(\
             user,\
-            getIsOptimising(user) ? getOptimisedMinimumDate(user) : filterSinceDate,\
-            getIsOptimising(user) ? getOptimisedMaximumDate(user) : filterUntilDate,\
+            getSinceDate(user),\
+            getUntilDate(user),\
             isGroupMerged(getGroupName(repo))\
           )"
         )
@@ -300,7 +307,16 @@
           )
             font-awesome-icon(icon="tags")
             span &nbsp;{{ tag }}
-
+      .blurb-wrapper(
+        v-if="filterGroupSelection === 'groupByRepos'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(user.name, repo[0])"
+        )
+      .blurb-wrapper(
+        v-if="filterGroupSelection === 'groupByAuthors'")
+        c-markdown-chunk.blurb(
+          :markdown-text="getChartBlurb(repo[0].name, user)"
+        )
       .summary-chart__ramp(
         @click="openTabZoomSubrange(user, $event, isGroupMerged(getGroupName(repo)))"
       )
@@ -308,15 +324,13 @@
           :groupby="filterGroupSelection",
           :user="user",
           :tframe="filterTimeFrame",
-          :sdate="getUnoptimisedMinimumDate(user)",
-          :udate="getUnoptimisedMaximumDate(user)",
+          :sdate="getSinceDate(user)",
+          :udate="getUntilDate(user)",
           :avgsize="avgCommitSize",
           :mergegroup="isGroupMerged(getGroupName(repo))",
           :filtersearch="filterSearch",
           :is-widget-mode="isChartGroupWidgetMode",
-          :optimise-timeline="getIsOptimising(user)",
-          :optimised-minimum-date="getOptimisedMinimumDate(user)",
-          :optimised-maximum-date="getOptimisedMaximumDate(user)"
+          :optimise-timeline="getIsOptimising(user)"
         )
         .overlay
 
@@ -552,9 +566,9 @@ export default defineComponent({
             allFileTypesContributionBars.push({
               width,
               color: this.fileTypeColors[fileType],
-              tooltipText: `${fileType}: ${fileTypeContribution[fileType]} lines, \
-                total: ${checkedFileTypeContribution} lines (contribution from ${this.minDate} to
-                  ${this.maxDate})`,
+              tooltipText: `${fileType}: ${fileTypeContribution[fileType]} lines, `
+                + `total: ${checkedFileTypeContribution} lines `
+                + `(contribution from ${this.minDate} to ${this.maxDate})`,
             });
           });
         });
@@ -639,28 +653,32 @@ export default defineComponent({
       }
     },
 
-    getUnoptimisedMinimumDate(user: User): string {
-      return this.isPortfolio ? user.sinceDate : this.filterSinceDate;
-    },
-
-    getUnoptimisedMaximumDate(user: User): string {
-      return this.isPortfolio ? user.untilDate : this.filterUntilDate;
-    },
-
-    getOptimisedMinimumDate(user: User): string {
-      if (user.commits.length === 0) {
-        return this.getUnoptimisedMinimumDate(user);
+    getSinceDate(user: User): string {
+      if (this.getIsOptimising(user)) {
+        // Get the earliest commit date
+        return user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr)).date;
       }
 
-      return user.commits.reduce((prev, curr) => (new Date(prev.date) < new Date(curr.date) ? prev : curr)).date;
-    },
-
-    getOptimisedMaximumDate(user: User): string {
-      if (user.commits.length === 0) {
-        return this.getUnoptimisedMaximumDate(user);
+      if (this.isPortfolio) {
+        // Portfolio mode disregards filter date ranges
+        return user.sinceDate;
       }
 
-      return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr)).date;
+      return this.filterSinceDate;
+    },
+
+    getUntilDate(user: User): string {
+      if (this.getIsOptimising(user)) {
+        // Get the latest commit date
+        return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr)).date;
+      }
+
+      if (this.isPortfolio) {
+        // Portfolio mode disregards filter date ranges
+        return user.untilDate;
+      }
+
+      return this.filterUntilDate;
     },
 
     getIsOptimising(user: User): boolean {
@@ -705,12 +723,8 @@ export default defineComponent({
 
       // skip if accidentally clicked on ramp chart
       if (this.drags.length === 2 && this.drags[1] - this.drags[0]) {
-        const fromDate = (new Date(this.getIsOptimising(user)
-          ? this.getOptimisedMinimumDate(user)
-          : this.filterSinceDate)).valueOf();
-        const toDate = (new Date(this.getIsOptimising(user)
-          ? this.getOptimisedMaximumDate(user)
-          : this.filterUntilDate)).valueOf();
+        const fromDate = (new Date(this.getSinceDate(user))).valueOf();
+        const toDate = (new Date(this.getUntilDate(user))).valueOf();
 
         const tdiff = toDate - fromDate + window.DAY_IN_MS;
         const idxs = this.drags.map((x) => (x * tdiff) / 100);
@@ -1009,17 +1023,34 @@ export default defineComponent({
         .filter(Boolean) as Array<string>;
     },
 
-    getBlurb(repo: User): string {
+    getRepoBlurb(repo: User): string {
       const link = this.getRepoLink(repo);
       if (!link) {
         return '';
       }
-      const blurb: string | undefined = this.$store.state.blurbMap[link];
+      const blurb: string | undefined = this.$store.state.repoBlurbMap[link];
       if (!blurb) {
         return '';
       }
       return blurb;
     },
+
+    getChartBlurb(userName: string, repo: User) : string {
+      const link = this.getRepoLink(repo);
+      const blurb: string | undefined = this.$store.state.chartsBlurbMap[`${link}|${userName}`]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    },
+
+    getAuthorBlurb(userName: string): string {
+      const blurb: string | undefined = this.$store.state.authorBlurbMap[userName]
+      if (!blurb) {
+        return '';
+      }
+      return blurb;
+    }
   },
 });
 </script>
@@ -1028,7 +1059,7 @@ export default defineComponent({
 @import '../styles/tags.scss';
 @import '../styles/_colors.scss';
 
-.blurbWrapper {
+.blurb-wrapper {
   padding-bottom: 5px;
 
   .blurb {

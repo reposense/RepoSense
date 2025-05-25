@@ -68,7 +68,7 @@ partial credit.
 <div id="section-config">
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
-* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `report-config.json` file or/and a `blurbs.md` file.
+* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file or/and a `report-config.yaml` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `blurbs.md` file.
 * Alias: `-c`
 * Example: `java -jar RepoSense.jar --config  ./config`
 
@@ -76,6 +76,7 @@ partial credit.
 
 * Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
+* If both `repo-config.csv` and `report-config.yaml` are present in the config file, `report-config.yaml` will take precedence over **all CSV files** as long as the `repos` field is correctly formatted.
 * Config files must follow [this](./configFiles.html) format.
 </box>
 </div>
@@ -253,11 +254,20 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 
 ### `--since`, `-s`
 
+<div id="section-since-date">
+
 **`--since START_DATE`**: Specifies the start date for the period to be analyzed.
-* Parameter: `START_DATE` The first day of the period to be analyzed, in the format `DD/MM/YYYY`.<br>
-  Default: one month before the current date
+* Parameter: `START_DATE` The first day of the period to be analyzed (with optional time specification), in one of the following formats:<br>
+  ```
+  1. DD/MM/YYYY
+  2. DD/MM/YYYY'T'HH:mm
+  3. DD/MM/YYYY'T'HH:mm:ss
+  ```
+  Default:
+  - If `START_DATE` is not specified, it defaults to one month before the current date at `00:00:00`.
+  - If hours/ minutes/ seconds are not provided, each will default to `00`.
 * Alias: `-s`
-* Example:`--since 21/10/2017` or `-s 21/10/2017`
+* Example:`--since 21/10/2017T03:09` or `-s 21/10/2017T03:09`
 
 <box type="info" seamless>
 
@@ -265,6 +275,22 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 * If `d1` is specified as the start date (`--since d1` or `-s d1`), then the program will search for the earliest commit date of all repositories and use that as the start date.
 * If `d1` is specified together with `--period`, then the program will warn that the date range being analyzed may be incorrect.
 </box>
+</div>
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+### `--text`, `-T`
+
+**`--text`**: Refreshes text content (title.md, repo-blurbs.md and author-blurbs.md) without reanalyzing repository data.
+* Alias: `-T` (uppercase T)
+
+<box type="info" seamless>
+
+* This flag is used to update only the text content (title.md, repo-blurbs.md and author-blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
+* Ensure that there is an existing valid report generated before using this flag.
+* Cannot be used with any other flags except from `--view`, `--assets` and `--config`.
+</box>
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--timezone`, `-t`
@@ -279,16 +305,26 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 
 ### `--until`, `-u`
 
+<div id="section-until-date">
+
 **`--until END_DATE`**: Specifies the end date of the analysis period.
-* Parameter: `END_DATE` The last date of the period to be analyzed, in the format `DD/MM/YYYY`.<br>
-  Default: current date
+* Parameter: `END_DATE` The last date of the period to be analyzed (with optional time specification), in one of the following formats:<br>
+  ```
+  1. DD/MM/YYYY
+  2. DD/MM/YYYY'T'HH:mm
+  3. DD/MM/YYYY'T'HH:mm:ss
+  ```
+Default:
+- If `END_DATE` is not specified, it defaults to the current date at `23:59:59`.
+- If hours/ minutes/ seconds are not provided, they will default to `23`, `59`, and `59`, respectively.
 * Alias: `-u`
-* Example:`--until 21/10/2017` or `-u 21/10/2017`
+* Example:`--until 21/10/2017T01:02:00` or `-u 21/10/2017T01:02:00`
 
 <box type="info" seamless>
 
 Note: If the end date is not specified, the date of generating the report will be taken as the end date.
 </box>
+</div>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 

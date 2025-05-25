@@ -4,7 +4,7 @@ describe('portfolio view',
     it('should only display filter breakdown and optimise timeline checkboxes', () => {
       cy.get('#summary > .summary-picker > .summary-picker__section')
         .children()
-        .should('have.length', 1);
+        .should('have.length', 2);
 
       cy.get('#summary .summary-picker__section.summary-picker__checkboxes')
         .children()
@@ -35,5 +35,5 @@ describe('portfolio view',
       cy.get('#summary .summary-chart__title--name')
         .should('not.exist');
     });
-  }
+  },
 );

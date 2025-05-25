@@ -5,13 +5,15 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
+import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.ArgsParser;
 import reposense.parser.AuthorConfigCsvParser;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
-import reposense.parser.ReportConfigJsonParser;
+import reposense.parser.ReportConfigYamlParser;
 
 /**
  * Represents command line arguments user supplied when running the program.
@@ -20,7 +22,6 @@ public class CliArguments {
     private static final Path EMPTY_PATH = Paths.get("");
 
     private Path outputFilePath;
-    private Path assetsFilePath;
     private LocalDateTime sinceDate;
     private LocalDateTime untilDate;
     private boolean isSinceDateProvided;
@@ -39,6 +40,7 @@ public class CliArguments {
     private double originalityThreshold;
     private boolean isPortfolio;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
+    private boolean isOnlyTextRefreshed;
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -51,7 +53,9 @@ public class CliArguments {
     private Path groupConfigFilePath;
     private Path reportConfigFilePath;
     private ReportConfiguration reportConfiguration;
-    private BlurbMap blurbMap;
+    private RepoBlurbMap repoBlurbMap;
+    private AuthorBlurbMap authorBlurbMap;
+    private ChartBlurbMap chartBlurbMap;
 
     /**
      * Constructs a {@code CliArguments} object without any parameters.
@@ -64,10 +68,6 @@ public class CliArguments {
 
     public Path getOutputFilePath() {
         return outputFilePath;
-    }
-
-    public Path getAssetsFilePath() {
-        return assetsFilePath;
     }
 
     public LocalDateTime getSinceDate() {
@@ -158,8 +158,32 @@ public class CliArguments {
         return reportConfiguration;
     }
 
-    public BlurbMap getBlurbMap() {
-        return blurbMap;
+    public RepoBlurbMap getRepoBlurbMap() {
+        return repoBlurbMap;
+    }
+
+    public AuthorBlurbMap getAuthorBlurbMap() {
+        return authorBlurbMap;
+    }
+
+    public ChartBlurbMap getChartBlurbMap() {
+        return chartBlurbMap;
+    }
+
+    /**
+     * Merges the {@code blurbMap} from the blurbs file with the blurb map in {@code reportConfiguration}.
+     *
+     * @return the merged blurb map.
+     */
+    public RepoBlurbMap mergeWithReportConfigRepoBlurbMap() {
+        if (reportConfiguration == null) {
+            return repoBlurbMap;
+        }
+        RepoBlurbMap repoConfigRepoBlurbMap = reportConfiguration.getRepoBlurbMap();
+        for (Map.Entry<String, String> entry : repoBlurbMap.getAllMappings().entrySet()) {
+            repoConfigRepoBlurbMap.withRecord(entry.getKey(), entry.getValue());
+        }
+        return repoConfigRepoBlurbMap;
     }
 
     public boolean isViewModeOnly() {
@@ -174,8 +198,16 @@ public class CliArguments {
         return originalityThreshold;
     }
 
+    public boolean areReportConfigRepositoriesConfigured() {
+        return reportConfiguration != null && !reportConfiguration.getReportRepoConfigurations().isEmpty();
+    }
+
     public boolean isPortfolio() {
         return isPortfolio;
+    }
+
+    public boolean isOnlyTextRefreshed() {
+        return isOnlyTextRefreshed;
     }
 
     @Override
@@ -215,10 +247,13 @@ public class CliArguments {
                 && Objects.equals(this.authorConfigFilePath, otherCliArguments.authorConfigFilePath)
                 && Objects.equals(this.groupConfigFilePath, otherCliArguments.groupConfigFilePath)
                 && Objects.equals(this.reportConfigFilePath, otherCliArguments.reportConfigFilePath)
-                && Objects.equals(this.blurbMap, otherCliArguments.blurbMap)
+                && Objects.equals(this.repoBlurbMap, otherCliArguments.repoBlurbMap)
+                && Objects.equals(this.authorBlurbMap, otherCliArguments.authorBlurbMap)
+                && Objects.equals(this.chartBlurbMap, otherCliArguments.chartBlurbMap)
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
                 && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
-                && this.isPortfolio == otherCliArguments.isPortfolio;
+                && this.isPortfolio == otherCliArguments.isPortfolio
+                && this.isOnlyTextRefreshed == otherCliArguments.isOnlyTextRefreshed;
     }
 
     /**
@@ -238,16 +273,6 @@ public class CliArguments {
          */
         public Builder outputFilePath(Path outputFilePath) {
             this.cliArguments.outputFilePath = outputFilePath;
-            return this;
-        }
-
-        /**
-         * Adds the {@code assetsFilePath} to CliArguments.
-         *
-         * @param assetsFilePath The assets file path.
-         */
-        public Builder assetsFilePath(Path assetsFilePath) {
-            this.cliArguments.assetsFilePath = assetsFilePath;
             return this;
         }
 
@@ -449,7 +474,7 @@ public class CliArguments {
             this.cliArguments.groupConfigFilePath = configFolderPath.resolve(
                     GroupConfigCsvParser.GROUP_CONFIG_FILENAME);
             this.cliArguments.reportConfigFilePath = configFolderPath.resolve(
-                    ReportConfigJsonParser.REPORT_CONFIG_FILENAME);
+                    ReportConfigYamlParser.REPORT_CONFIG_FILENAME);
             return this;
         }
 
@@ -484,12 +509,26 @@ public class CliArguments {
         }
 
         /**
-         * Adds the {@code blurbMap} to CliArguments.
-         *
-         * @param blurbMap The blurb map.
+         * Adds the {@code repoBlurbMap} to CliArguments.
          */
-        public Builder blurbMap(BlurbMap blurbMap) {
-            this.cliArguments.blurbMap = blurbMap;
+        public Builder repoBlurbMap(RepoBlurbMap repoBlurbMap) {
+            this.cliArguments.repoBlurbMap = repoBlurbMap;
+            return this;
+        }
+
+        /**
+         * Adds the {@code authorBlurbMap} to CliArguments.
+         */
+        public Builder authorBlurbMap(AuthorBlurbMap authorBlurbMap) {
+            this.cliArguments.authorBlurbMap = authorBlurbMap;
+            return this;
+        }
+
+        /**
+         * Adds the {@code chartBlurbMap} to CliArguments.
+         */
+        public Builder chartBlurbMap(ChartBlurbMap chartBlurbMap) {
+            this.cliArguments.chartBlurbMap = chartBlurbMap;
             return this;
         }
 
@@ -500,6 +539,16 @@ public class CliArguments {
          */
         public Builder isPortfolio(boolean isPortfolio) {
             this.cliArguments.isPortfolio = isPortfolio;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isTextRefreshedOnly} to CLIArguments.
+         *
+         * @param isOnlyTextRefreshed Is text refreshed only.
+         */
+        public Builder isOnlyTextRefreshed(boolean isOnlyTextRefreshed) {
+            this.cliArguments.isOnlyTextRefreshed = isOnlyTextRefreshed;
             return this;
         }
 

@@ -73,6 +73,11 @@
       display: flex;
     }
 
+    .filter_file {
+      align-items: center;
+      display: flex;
+    }
+
     input {
       @include small-font;
       padding-right: 10px;

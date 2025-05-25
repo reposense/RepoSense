@@ -46,10 +46,56 @@ Given below are the details of the various config files used by RepoSense.
 | Ignore File Size Limit                | Enter **`yes`** to ignore both the default file size limit and the file size limit possibly set by the user in `repo-config.csv`.                                                                                                                                                                                                                       |
 | Skip Ignored File Analysis            | Enter **`yes`** to ignore analysis of files exceeding the file size limit entirely. If file analysis is skipped, all information about the file will be omitted from the generated report. This option can significantly improve report generation time.                                                                                                |
 | Since Date                            | Enter since date in the format of `yyyy/mm/dd` to signify the start date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                               |
-| Until Date                            | Enter since date in the format of `yyyy/mm/dd` to signify the end date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                                 |
+| Until Date                            | Enter until date in the format of `yyyy/mm/dd` to signify the end date of analysis. If the field is ignored, the date will be set to the default one or the date indicated in CLI flags                                                                                                                                                                 |
 
 <box type="info" seamless>
 The Shallow Cloning option is incompatible with the "--last-modified-date" CLI flag.
+</box>
+
+<box type="info" seamless>
+Behavior of since dates and until dates specified in CSV and CLI flags:
+
+1. *Both CSV Dates and CLI Flags Are Provided*
+   
+   **Behavior**:
+
+   When both the CSV file and the CLI include values for the “since” and “until” dates, the commit range for an individual repository is taken directly from its CSV dates.
+
+   **Validation**:
+
+   The CSV “since” and “until” dates must fall within the boundaries defined by the CLI flags. If the CSV date range extends before the CLI “since” date or beyond the CLI “until” date, that repository’s data will be considered invalid and will not be processed. An error message will be displayed.
+
+   **Example**:
+
+   CLI Dates: Since: 21/09/2024; Until: 29/01/2025
+
+   CSV Date Ranges:
+
+   Invalid: [01/02/2025, 02/02/2025] (exceeds the CLI "until" date), [01/09/2024, 01/01/2025] (starts before the CLI "since" date)
+
+   Valid: [30/09/2024, 01/01/2025]
+
+2. CSV Dates Are Fully Provided, but One CLI Flag Is Missing
+   
+   **Behavior**:
+   
+   The range of commits retrieved for the repo is fully determined by the dates specified in the CSV file.
+
+   **UI Adjustment**:
+
+   In the user interface, the adjustable date range will automatically span from the earliest “since” date to the latest “until” date across all repositories with valid CSV dates.
+
+3. Both CSV Dates Are Absent
+   
+   **Behavior**:
+   
+   When no dates are provided in the CSV file, the commit range is based on the CLI flags. If the CLI flags are not provided either, then the tool falls back on the predefined default date values.
+
+4. One CSV Date Is Missing 
+
+   **Behavior**:
+   
+   If either the “since” or “until” date is omitted in the CSV file, the missing value will be replaced by a default value (i.e. the commits within the most recent one month), or the corresponding value from the CLI flag (if specified).
 </box>
 
 <box type="info" seamless>
@@ -62,6 +108,8 @@ If Ignore File Size Limit is yes, the File Size Limit and Skip Ignored File Anal
 <box type="info" seamless>
 
 When using [standalone config](#config-json-standalone-config-file) (if it is not ignored), it is possible to override specific values from the standalone config by prepending the entered value with `override:`.
+
+The `default` sort option in the frontend sorts the repos by the order of rows in `repo-config.csv`.
 </box>
 
 <!-- ==================================================================================================== -->
@@ -96,11 +144,11 @@ If `author-config.csv` is not given and the repo has not provided author details
 
 Optionally, you can provide a `group-config.csv`(which should be in the same directory as `repo-config.csv` file) to provide details on any custom groupings for files in specified repositories ([example](group-config.csv)). It should contain the following columns:
 
-| Column Name | Explanation |
-|-------------|-------------|
-| Repository's Location | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv` |
-| Group Name {{ mandatory }} | Name of the group, e.g.,`test`. |
-| Globs * {{ mandatory }} | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
+| Column Name                | Explanation                                                                           |
+|----------------------------|---------------------------------------------------------------------------------------|
+| Repository's Location      | Same as `repo-config.csv`. Default: all the repos in `repo-config.csv`                |
+| Group Name {{ mandatory }} | Name of the group, e.g.,`test`.                                                       |
+| Globs * {{ mandatory }}    | The list of file path globs to include for specified group, e.g.,`**/test/*;**.java`. |
 
 <sup>* **Multi-value column**: multiple values can be entered in this column using a semicolon `;` as the separator.</sup>
 
@@ -109,12 +157,12 @@ e.g.: `example.java` in `example-repo` can either be in the `test` group or the 
 
 <!-- ==================================================================================================== -->
 
-## `report-config.json`
+## `report-config.yaml`
 
-You can optionally use `report-config.json` to customize report generation by providing the following information. ([example](report-config.json))
+You can also optionally use a `report-config.yaml` file to quickly define the repository information for the repositories you are interested in tracking and generating your very own code portfolio.
+The configurations of this file will override the CSV files if the `repos` field of the file is present and correctly formatted.
 
-**Fields to provide**:
-* `title`: Title of the generated report, which is also the title of the deployed dashboard. Default: "RepoSense Report"
+Please refer to this [guide](./reportConfig.html#advanced-report-configuration).
 
 <!-- ==================================================================================================== -->
 
@@ -216,12 +264,41 @@ Note: Symbols such as `"`, `!`, `/` etc. in your author name will be omitted, wh
 
 <div id="section-blurbs">
 
-## `blurbs.md`
+## Blurbs Markdown files
+You can optionally use blurbs markdown files to add blurbs in Markdown syntax for repository branches or authors.
 
-You can optionally use `blurbs.md` to add blurbs in Markdown syntax for repository branches. These blurbs will be seen when grouping by `Repo/Branch`. ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/blurbs.md))
+### `repo-blurbs.md`
+<div id="section-repo-blurbs">
+
+This file allows you to specify blurbs for repository branches. These blurbs will be displayed when grouping by `Repo/Branch`.
 
 **Format**:
 * First line in section: Link to the repository branch.
 * Second line onwards: Blurb content.
 * Delimiter: `<!--repo-->`. Everything on the line after the delimiter will be ignored.
+* Sample: [repo-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/repo-blurbs.md)
+</div>
+
+### `author-blurbs.md`
+<div id="section-author-blurbs">
+
+This file allows you to specify blurbs for authors. These blurbs will be displayed when grouping by `Author`.
+
+**Format**:
+* First line in section: Author's Git Host ID.
+* Second line onwards: Blurb content.
+* Delimiter: `<!--author-->`. Everything on the line after the delimiter will be ignored.
+* Sample: [author-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/author-blurbs.md)
+</div>
+
+### `chart-blurbs.md`
+<div id="section-chart-blurbs">
+
+This file allow you to specify blurbs for specific charts. These blurbs will be displayed with the charts.
+
+**Format**:
+* First line in section: Link to the repository branch|Author's Git Host ID. (Note the `|` between repository's link and author's Git Host ID)
+* Second line onwards: Blurb content.
+* Delimiter: `<!--chart-->`. Everything on the line after the delimiter will be ignored.
+* Sample: [chart-blurbs.md](https://github.com/reposense/RepoSense/blob/master/docs/ug/chart-blurbs.md))
 </div>
