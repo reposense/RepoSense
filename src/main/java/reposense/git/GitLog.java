@@ -70,8 +70,8 @@ public class GitLog {
         command += " " + addQuotesForFilePath(filePath);
 
         String result = runCommand(rootPath, command);
-        return Arrays.stream(StringsUtil.NEWLINE.split(result))
-                .map(StringsUtil.TAB::split)
+        return Arrays.stream(StringsUtil.splitByNewline(result))
+                .map(StringsUtil::splitByTab)
                 .map(authorAndEmailArray -> authorAndEmailArray.length == 1
                         ? new String[] {authorAndEmailArray[0], DEFAULT_EMAIL_IF_MISSING}
                         : authorAndEmailArray)
