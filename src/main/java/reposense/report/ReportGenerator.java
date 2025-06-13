@@ -59,6 +59,7 @@ import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
 import reposense.util.ProgressTracker;
+import reposense.util.TimeUtil;
 
 /**
  * Contains report generation related functionalities.
@@ -201,7 +202,7 @@ public class ReportGenerator {
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
-                        this.globalSinceDate, this.globalUntilDate, isSinceDateProvided,
+                        reportSinceDate, this.globalUntilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, repoBlurbMap,
                         authorBlurbMap, chartBlurbMap, isPortfolio),
