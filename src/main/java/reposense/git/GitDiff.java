@@ -35,7 +35,7 @@ public class GitDiff {
         String diffCommand = String.format("git diff --ignore-submodules=all --numstat %s %s",
                 EMPTY_TREE_HASH, CHECKED_OUT_COMMIT_REFERENCE);
         String diffResult = runCommand(repoRoot.toAbsolutePath(), diffCommand);
-        return Arrays.asList(StringsUtil.NEWLINE.split(diffResult));
+        return Arrays.asList(StringsUtil.splitByNewline(diffResult));
     }
 
     /**

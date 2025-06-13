@@ -78,7 +78,7 @@ public class CommitHash {
 
         String[] startAndEnd = entry.toString().split("\\.\\.");
         String revList = GitRevList.getCommitHashInRange(root, branchName, startAndEnd[0], startAndEnd[1]);
-        return Arrays.stream(StringsUtil.NEWLINE.split(revList))
+        return Arrays.stream(StringsUtil.splitByNewline(revList))
                 .map(CommitHash::new);
     }
 

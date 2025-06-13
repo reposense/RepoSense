@@ -1,5 +1,7 @@
 package reposense.model;
 
+import static reposense.model.SupportedDomainUrlMap.UNSUPPORTED_DOMAIN_NAME;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +21,7 @@ public class SupportedDomainUrlMapTest {
         SupportedDomainUrlMap supportedDomainUrlMap = new SupportedDomainUrlMap();
 
         Map<String, Map<String, String>> expectedMap = new HashMap<>();
-        expectedMap.put(RepoLocation.UNSUPPORTED_DOMAIN_NAME, SupportedDomainUrlMap.NOT_SUPPORTED_MAP);
+        expectedMap.put(UNSUPPORTED_DOMAIN_NAME, SupportedDomainUrlMap.NOT_SUPPORTED_MAP);
         Assertions.assertEquals(expectedMap, supportedDomainUrlMap.getRequiredDomainUrlMap());
     }
 
@@ -28,7 +30,7 @@ public class SupportedDomainUrlMapTest {
         SupportedDomainUrlMap supportedDomainUrlMap = new SupportedDomainUrlMap();
 
         Map<String, Map<String, String>> expectedMap = new HashMap<>();
-        expectedMap.put(RepoLocation.UNSUPPORTED_DOMAIN_NAME, SupportedDomainUrlMap.NOT_SUPPORTED_MAP);
+        expectedMap.put(UNSUPPORTED_DOMAIN_NAME, SupportedDomainUrlMap.NOT_SUPPORTED_MAP);
 
         supportedDomainUrlMap.isSupportedDomain(UNSUPPORTED_DOMAIN_1);
         // no change expected
