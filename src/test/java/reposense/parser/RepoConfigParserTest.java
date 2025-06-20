@@ -68,10 +68,14 @@ public class RepoConfigParserTest {
             "CsvParserTest/repocsvconfig_invalidOverriddenDate_test.csv");
     private static final Path REPO_CONFIG_OVERRIDE_DATE = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repocsvconfig_overrideDate_test.csv");
+    private static final Path REPO_CONFIG_OVERRIDE_DATE_WITH_TIME = loadResource(RepoConfigParserTest.class,
+            "CsvParserTest/repocsvconfig_overrideDateWithTime_test.csv");
     private static final Path REPO_CONFIG_INVALID_CSV_DATE = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repocsvconfig_invalidCsvDate_test.csv");
     private static final Path REPO_CONFIG_MIXED_VALIDITY_CONFIG = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repocsvconfig_mixedValidityCsvDate_test.csv");
+    private static final Path REPO_CONFIG_MIXED_VALIDITY_WITH_TIME_CONFIG = loadResource(RepoConfigParserTest.class,
+            "CsvParserTest/repocsvconfig_mixedValidityCsvDateWithTime_test.csv");
     private static final Path REPO_CONFIG_ZERO_VALID_RECORDS = loadResource(RepoConfigParserTest.class,
             "CsvParserTest/repoconfig_zeroValidRecords_test.csv");
 
@@ -95,10 +99,18 @@ public class RepoConfigParserTest {
             2025, Month.JANUARY, 17, 0, 0, 0);
     private static final LocalDateTime TEST_REPO_DEFAULT_UNTIL_DATE = LocalDateTime.of(
             2025, Month.JANUARY, 19, 23, 59, 59);
+    private static final LocalDateTime TEST_REPO_SINCE_DATE_WITH_TIME = LocalDateTime.of(
+            2025, Month.JANUARY, 17, 13, 30, 0);
+    private static final LocalDateTime TEST_REPO_UNTIL_DATE_WITH_TIME = LocalDateTime.of(
+            2025, Month.JANUARY, 19, 14, 10, 59);
     private static final LocalDateTime TEST_ARTIFICIAL_SINCE_DATE = LocalDateTime.of(
             2024, Month.SEPTEMBER, 21, 0, 0, 0);
     private static final LocalDateTime TEST_ARTIFICIAL_UNTIL_DATE = LocalDateTime.of(
             2025, Month.JANUARY, 29, 23, 59, 59);
+    private static final LocalDateTime TEST_ARTIFICIAL_SINCE_DATE_WITH_TIME = LocalDateTime.of(
+            2024, Month.SEPTEMBER, 21, 13, 30, 0);
+    private static final LocalDateTime TEST_ARTIFICIAL_UNTIL_DATE_WITH_TIME = LocalDateTime.of(
+            2025, Month.JANUARY, 29, 17, 59, 59);
 
     private static final String TEST_REPO_CHARLIE_LOCATION = "https://github.com/reposense/testrepo-Charlie.git";
     private static final String TEST_REPO_CHARLIE_BRANCH = "HEAD";
@@ -172,6 +184,35 @@ public class RepoConfigParserTest {
     }
 
     @Test
+    public void repoCsvConfig_incompleteCliDatesCsvDatesWithTimeOverride_success() throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String input = new InputBuilder().addPortfolio()
+                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE.toLocalDate().format(formatter))
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE, cliArguments);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertEquals(3, configs.size());
+        RepoConfiguration configBeta = configs.get(0);
+        RepoConfiguration configCharlie = configs.get(1);
+        RepoConfiguration configAlpha = configs.get(2);
+
+        Assertions.assertTrue(configBeta.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configBeta.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configBeta.getSinceDate(), TEST_REPO_DEFAULT_SINCE_DATE);
+        Assertions.assertEquals(configBeta.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
+
+        Assertions.assertTrue(configCharlie.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configCharlie.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configCharlie.getSinceDate(), TEST_REPO_DEFAULT_SINCE_DATE);
+
+        Assertions.assertTrue(configAlpha.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configAlpha.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
+    }
+
+    @Test
     public void repoCsvConfig_completeCliDatesCsvDatesWithinRange_success() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String input = new InputBuilder().addPortfolio()
@@ -204,6 +245,38 @@ public class RepoConfigParserTest {
     }
 
     @Test
+    public void repoCsvConfig_completeCliDatesCsvDatesWithTimesWithinRange_success() throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm");
+        String input = new InputBuilder().addPortfolio()
+                .addUntilDate(TEST_ARTIFICIAL_UNTIL_DATE_WITH_TIME.format(formatter))
+                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE_WITH_TIME.format(formatter))
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE_WITH_TIME, cliArguments);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertEquals(3, configs.size());
+        RepoConfiguration configBeta = configs.get(0);
+        RepoConfiguration configCharlie = configs.get(1);
+        RepoConfiguration configAlpha = configs.get(2);
+
+        Assertions.assertTrue(configBeta.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configBeta.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configBeta.getSinceDate(), TEST_REPO_SINCE_DATE_WITH_TIME);
+        Assertions.assertEquals(configBeta.getUntilDate(), TEST_REPO_UNTIL_DATE_WITH_TIME);
+
+        Assertions.assertTrue(configCharlie.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configCharlie.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configCharlie.getUntilDate(), TEST_ARTIFICIAL_UNTIL_DATE_WITH_TIME);
+        Assertions.assertEquals(configCharlie.getSinceDate(), TEST_REPO_SINCE_DATE_WITH_TIME);
+
+        Assertions.assertTrue(configAlpha.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(configAlpha.getSinceDate(), TEST_ARTIFICIAL_SINCE_DATE_WITH_TIME);
+        Assertions.assertEquals(configAlpha.getUntilDate(), TEST_REPO_UNTIL_DATE_WITH_TIME);
+    }
+
+    @Test
     public void repoCsvConfig_completeCliDatesMixedValidCsv_success() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String input = new InputBuilder().addPortfolio()
@@ -225,6 +298,27 @@ public class RepoConfigParserTest {
     }
 
     @Test
+    public void repoCsvConfig_completeCliDatesAndTimesMixedValidCsv_success() throws Exception {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm");
+        String input = new InputBuilder().addPortfolio()
+                .addUntilDate(TEST_ARTIFICIAL_UNTIL_DATE_WITH_TIME.format(formatter))
+                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE_WITH_TIME.format(formatter))
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(
+                REPO_CONFIG_MIXED_VALIDITY_WITH_TIME_CONFIG,
+                cliArguments);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertEquals(1, configs.size());
+        RepoConfiguration config = configs.get(0);
+        Assertions.assertTrue(config.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(config.isHasUpdatedUntilDateInConfig());
+        Assertions.assertEquals(config.getSinceDate(), TEST_ARTIFICIAL_SINCE_DATE_WITH_TIME);
+        Assertions.assertEquals(config.getUntilDate(), TEST_REPO_UNTIL_DATE_WITH_TIME);
+    }
+
+    @Test
     public void repoCsvConfig_completeCliDatesCsvDatesOutsideRange_success() throws HelpScreenException,
             ParseException, IOException, InvalidDatesException, InvalidCsvException, InvalidHeaderException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -240,6 +334,24 @@ public class RepoConfigParserTest {
     @Test
     public void repoCsvConfig_notIncludedUpdatedDate_success() throws Exception {
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE);
+        List<RepoConfiguration> configs = repoConfigCsvParser.parse();
+
+        Assertions.assertEquals(3, configs.size());
+        RepoConfiguration configBeta = configs.get(0);
+        RepoConfiguration configCharlie = configs.get(1);
+        RepoConfiguration configAlpha = configs.get(2);
+
+        Assertions.assertTrue(configBeta.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configBeta.isHasUpdatedUntilDateInConfig());
+        Assertions.assertTrue(configAlpha.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
+        Assertions.assertTrue(configCharlie.isHasUpdatedSinceDateInConfig());
+        Assertions.assertTrue(configCharlie.isHasUpdatedUntilDateInConfig());
+    }
+
+    @Test
+    public void repoCsvConfig_notIncludedUpdatedDateAndTime_success() throws Exception {
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE_WITH_TIME);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertEquals(3, configs.size());

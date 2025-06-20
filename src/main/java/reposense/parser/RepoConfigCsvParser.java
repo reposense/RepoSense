@@ -4,7 +4,9 @@ import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 import java.util.List;
 
 import org.apache.commons.csv.CSVRecord;
@@ -31,9 +33,6 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private static final String SHALLOW_CLONING_CONFIG_KEYWORD = "yes";
     private static final String FIND_PREVIOUS_AUTHORS_KEYWORD = "yes";
 
-    private static final String LOCAL_DATETIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
-    private static final String DEFAULT_START_TIME = " 00:00:00";
-    private static final String DEFAULT_END_TIME = " 23:59:59";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
             "\"Since Date\" should not be later than \"Until Date\"";
     private static final String MESSAGE_PARSING_INVALID_FORMAT =
@@ -240,10 +239,22 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private LocalDateTime extractCsvSinceDate(CSVRecord record) throws InvalidDatesException {
         String sinceDateStr = get(record, SINCE_HEADER);
         boolean hasUpdatedSinceDateTime = !sinceDateStr.isEmpty();
+
+        DateTimeFormatter flexFormatter = new DateTimeFormatterBuilder()
+                .appendPattern("dd/MM/yyyy")
+                .optionalStart()
+                .appendLiteral('T')
+                .appendPattern("HH:mm")
+                .optionalEnd()
+                .parseDefaulting(ChronoField.HOUR_OF_DAY, 0)
+                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 0)
+                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 0)
+                .toFormatter();
+
         try {
             if (hasUpdatedSinceDateTime) {
-                return LocalDateTime.parse(sinceDateStr + DEFAULT_START_TIME,
-                        DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+                return LocalDateTime.parse(sinceDateStr,
+                        flexFormatter);
             } else {
                 return null;
             }
@@ -260,10 +271,21 @@ public class RepoConfigCsvParser extends CsvParser<RepoConfiguration> {
     private LocalDateTime extractCsvUntilDate(CSVRecord record) throws InvalidDatesException {
         String untilDateStr = get(record, UNTIL_HEADER);
 
+        DateTimeFormatter flexFormatter = new DateTimeFormatterBuilder()
+                .appendPattern("dd/MM/yyyy")
+                .optionalStart()
+                .appendLiteral('T')
+                .appendPattern("HH:mm")
+                .optionalEnd()
+                .parseDefaulting(ChronoField.HOUR_OF_DAY, 23)
+                .parseDefaulting(ChronoField.MINUTE_OF_HOUR, 59)
+                .parseDefaulting(ChronoField.SECOND_OF_MINUTE, 59)
+                .toFormatter();
+
         try {
             if (!untilDateStr.isEmpty()) {
-                return LocalDateTime.parse(untilDateStr + DEFAULT_END_TIME,
-                        DateTimeFormatter.ofPattern(LOCAL_DATETIME_FORMAT));
+                return LocalDateTime.parse(untilDateStr,
+                        flexFormatter);
             } else {
                 return null;
             }
