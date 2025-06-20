@@ -252,7 +252,8 @@ public class RepoConfigParserTest {
                 .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE_WITH_TIME.format(formatter))
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE_WITH_TIME, cliArguments);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE_WITH_TIME,
+                cliArguments);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertEquals(3, configs.size());
