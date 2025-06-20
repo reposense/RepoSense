@@ -187,12 +187,13 @@ public class RepoConfigParserTest {
 
     @Test
     public void repoCsvConfig_incompleteCliDatesCsvDatesWithTimeOverride_success() throws Exception {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm");
         String input = new InputBuilder().addPortfolio()
-                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE.toLocalDate().format(formatter))
+                .addSinceDate(TEST_ARTIFICIAL_SINCE_DATE_WITH_TIME.format(formatter))
                 .build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
-        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE, cliArguments);
+        RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE_WITH_TIME,
+                cliArguments);
         List<RepoConfiguration> configs = repoConfigCsvParser.parse();
 
         Assertions.assertEquals(3, configs.size());
@@ -202,16 +203,16 @@ public class RepoConfigParserTest {
 
         Assertions.assertTrue(configBeta.isHasUpdatedSinceDateInConfig());
         Assertions.assertTrue(configBeta.isHasUpdatedUntilDateInConfig());
-        Assertions.assertEquals(configBeta.getSinceDate(), TEST_REPO_DEFAULT_SINCE_DATE);
-        Assertions.assertEquals(configBeta.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
+        Assertions.assertEquals(configBeta.getSinceDate(), TEST_REPO_SINCE_DATE_WITH_TIME);
+        Assertions.assertEquals(configBeta.getUntilDate(), TEST_REPO_UNTIL_DATE_WITH_TIME);
 
         Assertions.assertTrue(configCharlie.isHasUpdatedSinceDateInConfig());
         Assertions.assertTrue(configCharlie.isHasUpdatedUntilDateInConfig());
-        Assertions.assertEquals(configCharlie.getSinceDate(), TEST_REPO_DEFAULT_SINCE_DATE);
+        Assertions.assertEquals(configCharlie.getSinceDate(), TEST_REPO_SINCE_DATE_WITH_TIME);
 
         Assertions.assertTrue(configAlpha.isHasUpdatedSinceDateInConfig());
         Assertions.assertTrue(configAlpha.isHasUpdatedUntilDateInConfig());
-        Assertions.assertEquals(configAlpha.getUntilDate(), TEST_REPO_DEFAULT_UNTIL_DATE);
+        Assertions.assertEquals(configAlpha.getUntilDate(), TEST_REPO_UNTIL_DATE_WITH_TIME);
     }
 
     @Test
