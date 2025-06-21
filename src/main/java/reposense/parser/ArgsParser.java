@@ -105,6 +105,8 @@ public class ArgsParser {
     private static final Path DEFAULT_ASSETS_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "assets" + File.separator);
 
+    public static final String[] JSON_PRINT_MODE_FLAGS = new String[]{"--use-json-pretty-printing", "-j"}; // added for basics learning
+
     private static ArgumentParser getArgumentParser() {
         ArgumentParser parser = ArgumentParsers
                 .newFor(PROGRAM_USAGE)
@@ -119,6 +121,12 @@ public class ArgsParser {
         MutuallyExclusiveGroup mutexParser2 = parser
                 .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
                 .required(false);
+
+        // LEARNING BASICS
+        parser.addArgument(JSON_PRINT_MODE_FLAGS)
+                .dest(JSON_PRINT_MODE_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to use json pretty printing when generating the json files.");
 
         // Boolean flags
         parser.addArgument(HELP_FLAGS)
@@ -317,6 +325,9 @@ public class ArgsParser {
         boolean shouldPerformFreshCloning = results.get(FRESH_CLONING_FLAG[0]);
         boolean shouldRefreshOnlyText = results.get(REFRESH_ONLY_TEXT_FLAG[0]);
 
+        // added for basics learning
+        boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
+
         CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
                 .configFolderPath(configFolderPath)
                 .reportDirectoryPath(reportFolderPath)
@@ -335,7 +346,8 @@ public class ArgsParser {
                 .originalityThreshold(originalityThreshold)
                 .isPortfolio(isPortfolio)
                 .isFreshClonePerformed(shouldPerformFreshCloning)
-                .isOnlyTextRefreshed(shouldRefreshOnlyText);
+                .isOnlyTextRefreshed(shouldRefreshOnlyText)
+                .isPrettyPrintingUsed(isJsonPrettyPrintingUsed); // basics learning
 
         LogsManager.setLogFolderLocation(outputFolderPath);
 

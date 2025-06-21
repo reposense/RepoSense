@@ -57,6 +57,14 @@ public class CliArguments {
     private AuthorBlurbMap authorBlurbMap;
     private ChartBlurbMap chartBlurbMap;
 
+    // basics learning
+    private boolean isPrettyPrintingUsed;
+
+    // basics learning
+    public boolean isPrettyPrintingUsed() {
+        return isPrettyPrintingUsed;
+    }
+
     /**
      * Constructs a {@code CliArguments} object without any parameters.
      */
@@ -264,6 +272,13 @@ public class CliArguments {
 
         public Builder() {
             this.cliArguments = new CliArguments();
+        }
+
+        // basics learning
+
+        public Builder isPrettyPrintingUsed(boolean isPrettyPrintingUsed) {
+            this.cliArguments.isPrettyPrintingUsed = isPrettyPrintingUsed;
+            return this;
         }
 
         /**
