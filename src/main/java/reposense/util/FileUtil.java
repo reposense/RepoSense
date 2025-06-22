@@ -108,19 +108,12 @@ public class FileUtil {
      * was an error while writing the JSON file.
      */
     public static Optional<Path> writeJsonFile(Object object, String path) {
-        /*
-        Gson gson = new GsonBuilder()
-                .registerTypeHierarchyAdapter(LocalDateTime.class, new DateSerializer())
-                .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
-                .registerTypeHierarchyAdapter(ZoneId.class, new ZoneSerializer())
-                .create();*/
-
-        // basics learning
         GsonBuilder gsonBuilder = new GsonBuilder()
                 .registerTypeHierarchyAdapter(LocalDateTime.class, new DateSerializer())
                 .registerTypeAdapter(FileType.class, new FileType.FileTypeSerializer())
                 .registerTypeHierarchyAdapter(ZoneId.class, new ZoneSerializer());
         Gson gson;
+        // Json pretty printing
         if (isPrettyPrintingUsed) {
             gson = gsonBuilder.setPrettyPrinting().create();
         } else {

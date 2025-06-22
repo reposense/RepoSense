@@ -122,16 +122,16 @@ public class ArgsParser {
                 .addMutuallyExclusiveGroup(MESSAGE_HEADER_MUTEX)
                 .required(false);
 
-        // LEARNING BASICS
-        parser.addArgument(JSON_PRINT_MODE_FLAGS)
-                .dest(JSON_PRINT_MODE_FLAGS[0])
-                .action(Arguments.storeTrue())
-                .help("A flag to use json pretty printing when generating the json files.");
-
         // Boolean flags
         parser.addArgument(HELP_FLAGS)
                 .help("Show help message.")
                 .action(new HelpArgumentAction());
+
+        // Json print mode
+        parser.addArgument(JSON_PRINT_MODE_FLAGS)
+                .dest(JSON_PRINT_MODE_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("A flag to use json pretty printing when generating the json files.");
 
         parser.version("RepoSense " + RepoSense.getVersion());
         parser.addArgument(VERSION_FLAGS)
@@ -325,8 +325,7 @@ public class ArgsParser {
         boolean shouldPerformFreshCloning = results.get(FRESH_CLONING_FLAG[0]);
         boolean shouldRefreshOnlyText = results.get(REFRESH_ONLY_TEXT_FLAG[0]);
 
-        // added for basics learning
-        boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]);
+        boolean isJsonPrettyPrintingUsed = results.get(JSON_PRINT_MODE_FLAGS[0]); // json pretty printing
 
         CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
                 .configFolderPath(configFolderPath)
@@ -347,7 +346,7 @@ public class ArgsParser {
                 .isPortfolio(isPortfolio)
                 .isFreshClonePerformed(shouldPerformFreshCloning)
                 .isOnlyTextRefreshed(shouldRefreshOnlyText)
-                .isPrettyPrintingUsed(isJsonPrettyPrintingUsed); // basics learning
+                .isPrettyPrintingUsed(isJsonPrettyPrintingUsed); // json pretty printing
 
         LogsManager.setLogFolderLocation(outputFolderPath);
 

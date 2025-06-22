@@ -56,7 +56,7 @@ public class RepoSense {
                 return;
             }
 
-            //basics learning
+            // Json pretty printing
             FileUtil.setPrettyPrintingMode(cliArguments.isPrettyPrintingUsed());
 
             configs = RunConfigurationDecider.getRunConfiguration(cliArguments).getRepoConfigurations();

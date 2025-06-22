@@ -41,4 +41,8 @@ public abstract class AbstractBlurbMap implements BlurbMap {
     public int hashCode() {
         return blurbMap.hashCode();
     }
+
+    public String toString() {
+        return blurbMap.toString();
+    }
 }

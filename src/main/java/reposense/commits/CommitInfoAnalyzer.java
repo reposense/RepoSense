@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import reposense.commits.model.CommitInfo;
 import reposense.commits.model.CommitResult;
 import reposense.commits.model.ContributionPair;
+import reposense.commits.model.FileChangeStats;
 import reposense.model.Author;
 import reposense.model.CommitHash;
 import reposense.model.FileType;
@@ -57,6 +58,12 @@ public class CommitInfoAnalyzer {
     private static final int MESSAGE_TITLE_INDEX = 5;
     private static final int MESSAGE_BODY_INDEX = 6;
     private static final int REF_NAME_INDEX = 7;
+
+    private static final String INTEGER_REGEX = "-?\\d+";
+    private static final int NUM_FILES_CHANGED_INDEX = 0;
+    private static final int TOTAL_NUM_INSERTION_INDEX = 1;
+    private static final int TOTAL_NUM_DELETION_INDEX = 2;
+    private static final int FILE_STATS_COUNT = 3;
 
     private static final Pattern MESSAGEBODY_LEADING_PATTERN = Pattern.compile("^ {4}", Pattern.MULTILINE);
 
@@ -118,12 +125,38 @@ public class CommitInfoAnalyzer {
         }
 
         String[] statInfos = statLine.split(NEW_LINE_SPLITTER);
+
+        // Only copy from 0 to the second last element of statInfos (last line of statLine).
+        // Don't include the last element of statInfos in fileTypeContributions as it stores
+        // the total number of files changed, insertions and deletions.
         String[] fileTypeContributions = Arrays.copyOfRange(statInfos, 0, statInfos.length - 1);
         Map<FileType, ContributionPair> fileTypeAndContributionMap =
                 getFileTypesAndContribution(fileTypeContributions, config);
 
+        // Extract number of files changed, total insertions and deletions
+        String fileChangeSummaryString = statInfos[statInfos.length - 1];
+        FileChangeStats fileChangeStats = getFileChangeStats(fileChangeSummaryString);
+
         return new CommitResult(author, hash, isMergeCommit, adjustedDate, messageTitle, messageBody, tags,
-                fileTypeAndContributionMap);
+                fileTypeAndContributionMap, fileChangeStats);
+    }
+
+    private FileChangeStats getFileChangeStats(String fileChangeSummaryString) {
+        String[] patterns = {
+                "(\\d+)\\s+files? changed",         // "X file(s) changed"
+                "(\\d+)\\s+insertions?\\(\\+\\)",    // "Y insertions(+)"
+                "(\\d+)\\s+deletions?\\(-\\)"        // "Z deletions(-)"
+        };
+        int[] stats = new int[patterns.length]; // [filesChanged, insertions, deletions]
+
+        for (int i = 0; i < patterns.length; i++) {
+            Matcher matcher = Pattern.compile(patterns[i]).matcher(fileChangeSummaryString);
+            // Get the integer value from the first parenthesized group in each pattern
+            // If pattern is found, parse the captured number; otherwise keep 0
+            stats[i] = matcher.find() ? Integer.parseInt(matcher.group(1)) : 0;
+        }
+        return new FileChangeStats(stats[NUM_FILES_CHANGED_INDEX], stats[TOTAL_NUM_INSERTION_INDEX],
+                stats[TOTAL_NUM_DELETION_INDEX]);
     }
 
     /**
