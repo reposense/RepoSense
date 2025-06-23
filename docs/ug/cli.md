@@ -264,16 +264,21 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
   3. DD/MM/YYYY'T'HH:mm:ss
   ```
   Default:
-  - If `START_DATE` is not specified, it defaults to one month before the current date at `00:00:00`.
-  - If hours/ minutes/ seconds are not provided, each will default to `00`.
+  - If `START_DATE` is not specified, the program will check for the `sinceDate` field in the configuration file (`repo-config.csv` or `report-config.yaml`) and use it if available.
+  - If no `sinceDate` is provided in either the CLI or configuration file, it defaults to **one month before the current date** at `00:00:00`.
+  - If hours/minutes/seconds are not provided, they will default to `00:00:00`.
+
 * Alias: `-s`
-* Example:`--since 21/10/2017T03:09` or `-s 21/10/2017T03:09`
+* Example: `--since 21/10/2017T03:09` or `-s 21/10/2017T03:09`
 
 <box type="info" seamless>
 
-* If the start date is not specified, only commits made one month before the end date (if specified) or the date of generating the report, will be captured and analyzed.
-* If `d1` is specified as the start date (`--since d1` or `-s d1`), then the program will search for the earliest commit date of all repositories and use that as the start date.
-* If `d1` is specified together with `--period`, then the program will warn that the date range being analyzed may be incorrect.
+* If `d1` is specified as the start date (`--since d1` or `-s d1`), RepoSense will search for the **earliest commit date** across all repositories and use that as the start date. However: 
+  - If the `sinceDate` field is defined in the configuration file (`repo-config.csv` or `report-config.yaml`), it will **override** the behavior of `d1`.
+* If used together with `--period`, the program will warn that the analyzed date range may be incorrect.
+* Precedence: 
+  - CLI-provided `--since` overrides the value in the configuration file (`sinceDate`).
+
 </box>
 </div>
 
@@ -308,21 +313,27 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 <div id="section-until-date">
 
 **`--until END_DATE`**: Specifies the end date of the analysis period.
-* Parameter: `END_DATE` The last date of the period to be analyzed (with optional time specification), in one of the following formats:<br>
+* Parameter: `END_DATE` The last day of the period to be analyzed (with optional time specification), in one of the following formats:<br>
   ```
   1. DD/MM/YYYY
   2. DD/MM/YYYY'T'HH:mm
   3. DD/MM/YYYY'T'HH:mm:ss
   ```
-Default:
-- If `END_DATE` is not specified, it defaults to the current date at `23:59:59`.
-- If hours/ minutes/ seconds are not provided, they will default to `23`, `59`, and `59`, respectively.
+  Default:
+  - If `END_DATE` is not specified, the program will check for the `untilDate` field in the configuration file (`repo-config.csv` or `report-config.yaml`) and use it if available.
+  - If no `untilDate` is provided in either the CLI or configuration file, it defaults to the **current date** at `23:59:59`.
+  - If hours/minutes/seconds are not provided, they will default to `23:59:59`.
+
 * Alias: `-u`
-* Example:`--until 21/10/2017T01:02:00` or `-u 21/10/2017T01:02:00`
+* Example: `--until 21/10/2017T01:02:00` or `-u 21/10/2017T01:02:00`
 
 <box type="info" seamless>
 
-Note: If the end date is not specified, the date of generating the report will be taken as the end date.
+* If the end date is not specified, RepoSense will attempt to use the `untilDate` from the configuration file or default to the date of generating the report.
+
+* Precedence:
+  - CLI-provided `--until` overrides the value in the configuration file (`untilDate`).
+  
 </box>
 </div>
 
