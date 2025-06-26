@@ -62,7 +62,7 @@ describe('widget',
 
         cy.get('.summary-charts__title--groupname')
           .should('have.length', 1)
-          .contains('reposense/repoSense-action[main]');
+          .contains('reposense/RepoSense-auth-helper[master]');
 
         cy.get('.summary-chart')
           .should('have.length', 1);
