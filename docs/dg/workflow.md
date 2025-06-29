@@ -119,7 +119,7 @@ Note that it is **compulsory** to add tests for the new front-end changes that y
 
 ### Running tests
 
-To run all tests locally, run `gradlew frontendTest`.
+To run all tests locally, run `gradlew testFrontend`.
 * Using the above command, tests are run on the CLI in a headless browser without the report being displayed.
 * To run tests in a headed browser, run `gradlew cypress` then select the test file(s) in the Cypress GUI as shown above.
 
