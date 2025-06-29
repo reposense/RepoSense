@@ -40,8 +40,9 @@ describe('widget',
 
     it('user link should open the correct user\'s widget', () => {
       cy.get('.summary-charts')
-        .eq(1)
-        .find('.summary-chart__title .fa-clipboard')
+        .contains('.summary-charts__title--groupname', 'reposense/repoSense-action[main]')
+        .parents('.summary-charts')  
+        .find('.summary-chart__title .fa-clipboard')  
         .first()
         .click()
 
@@ -62,7 +63,7 @@ describe('widget',
 
         cy.get('.summary-charts__title--groupname')
           .should('have.length', 1)
-          .contains('reposense/RepoSense-auth-helper[master]');
+          .contains('reposense/repoSense-action[main]');
 
         cy.get('.summary-chart')
           .should('have.length', 1);
