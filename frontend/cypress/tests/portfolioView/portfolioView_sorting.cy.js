@@ -1,5 +1,5 @@
 describe('sorting',
-  {baseUrl: Cypress.env('portfolioBaseUrl')},
+  { baseUrl: Cypress.env('portfolioBaseUrl') },
   () => {
     beforeEach(() => {
       cy.readFile('configs/portfolio/repo-config.csv').then((csvString) => {
