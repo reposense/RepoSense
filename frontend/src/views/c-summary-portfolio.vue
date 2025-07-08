@@ -172,7 +172,7 @@ export default defineComponent({
 
       const filterControl = {
         filterGroupSelection: FilterGroupSelection.GroupByRepos,
-        sortingOption: SortGroupSelection.GroupTitle,
+        sortingOption: SortGroupSelection.Default,
         sortingWithinOption: SortWithinGroupSelection.Title,
         isSortingDsc: false,
         isSortingWithinDsc: false,
