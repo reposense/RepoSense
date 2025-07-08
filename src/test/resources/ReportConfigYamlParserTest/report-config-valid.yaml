@@ -11,7 +11,8 @@ repos:
         authors:
           - author-git-host-id: FH-30
             author-display-name: Francis Hodianto
-            author-git-author-name: Francis Hodianto
+            author-git-author-name:
+              - Francis Hodianto
             author-emails:
               - fh@gmail.com
         ignore-authors-list:

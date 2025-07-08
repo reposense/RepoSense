@@ -19,7 +19,8 @@ repos:
         authors:
           - author-git-host-id: jedkohjk
             author-display-name: jedkohjk
-            author-git-author-name: jedkohjk
+            author-git-author-name:
+              - jedkohjk
             author-emails:
         ignore-authors-list:
           - bot
