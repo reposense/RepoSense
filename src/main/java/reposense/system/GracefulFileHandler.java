@@ -1,12 +1,12 @@
 package reposense.system;
 
-import net.freeutils.httpserver.HTTPServer;
-import net.freeutils.httpserver.HTTPServer.Request;
-import net.freeutils.httpserver.HTTPServer.Response;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
+
+import net.freeutils.httpserver.HTTPServer;
+import net.freeutils.httpserver.HTTPServer.Request;
+import net.freeutils.httpserver.HTTPServer.Response;
 
 /**
  * Serves static files from disk like FileContextHandler,
@@ -29,6 +29,7 @@ public class GracefulFileHandler implements HTTPServer.ContextHandler {
 
         // If file is optional and doesn't exist, return 204 No Content
         File targetFile = new File(rootDirectory, reqPath);
+
         if (optionalPaths.contains(reqPath) && !targetFile.exists()) {
             System.out.println("Optional file missing: " + reqPath + " — returning 204");
             response.getHeaders().add("Content-Type", "text/plain");

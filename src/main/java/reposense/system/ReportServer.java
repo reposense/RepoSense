@@ -1,7 +1,5 @@
 package reposense.system;
 
-import reposense.system.GracefulFileHandler;
-
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
