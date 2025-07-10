@@ -1,10 +1,13 @@
 package reposense.system;
 
+import reposense.system.GracefulFileHandler;
+
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,8 +33,9 @@ public class ReportServer {
         HTTPServer.VirtualHost host = server.getVirtualHost(null);
 
         try {
+            Set<String> optionalPaths = Set.of("/title.md"); // add more if needed
             // a handler to process the request and give the corresponding response
-            host.addContext("/", new HTTPServer.FileContextHandler(requestPath.toFile()));
+            host.addContext("/", new GracefulFileHandler(requestPath.toFile(), optionalPaths));
             server.start();
             launchBrowser(String.format(LOCAL_HOST_URL, port));
             logger.info("Press Ctrl + C or equivalent to stop the server");
