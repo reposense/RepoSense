@@ -175,7 +175,7 @@ export default defineComponent({
           // in the filterCommitByCheckedFileTypes method above
           user.commits?.push(filteredCommit as Commit);
         }
-        
+
       });
 
       return null;
