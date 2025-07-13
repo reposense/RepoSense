@@ -669,8 +669,9 @@ export default defineComponent({
 
     getUntilDate(user: User): string {
       if (this.getIsOptimising(user)) {
-        // Get the latest commit date
-        return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr)).date;
+        // Get the latest commit datetime
+        return user.commits.reduce((prev, curr) => (new Date(prev.date) > new Date(curr.date) ? prev : curr))
+          .commitResults.reduce((prev, curr) => (new Date(prev.time) > new Date(curr.time) ? prev : curr)).time;
       }
 
       if (this.isPortfolio) {

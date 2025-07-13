@@ -171,7 +171,10 @@ export default defineComponent({
         ).sort(this.sortingFunction);
       } else {
         filteredUser.commits = zUser.commits.filter(
-          (commit: DailyCommit) => commit.date >= zSince && commit.date <= zUntil,
+          (commit: DailyCommit) =>
+            commit.commitResults.filter(
+              (commitResult: CommitResult) => commitResult.time >= zSince && commitResult.time <= zUntil
+            ).length > 0
         ).sort(this.sortingFunction);
       }
 

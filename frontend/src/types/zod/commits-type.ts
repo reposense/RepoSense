@@ -12,6 +12,7 @@ const commitResult = z.object({
   isMergeCommit: z.boolean(),
   tags: z.array(z.string()).optional(),
   fileTypesAndContributionMap: z.record(fileTypesAndContributionSchema),
+  time: z.string()
 });
 
 const authorDailyContributionsSchema = z.object({

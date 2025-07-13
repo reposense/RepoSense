@@ -154,26 +154,28 @@ export default defineComponent({
       }
 
       if (!untilDate) {
-        untilDate = userLast.date;
+        const userLastCommit = userLast.commitResults[userLast.commitResults.length - 1]
+        untilDate = userLastCommit.time;
       }
 
       user.dailyCommits.forEach((commit) => {
-        const {date} = commit;
-        if (date >= sinceDate && date <= untilDate) {
-          const filteredCommit: DailyCommit = JSON.parse(JSON.stringify(commit));
-          this.filterCommitByCheckedFileTypes(filteredCommit);
+        const filteredCommit: DailyCommit = JSON.parse(JSON.stringify(commit));
+        filteredCommit.commitResults = filteredCommit.commitResults.filter(
+          (commitResult: CommitResult) => commitResult.time >= sinceDate && commitResult.time <= untilDate
+        )
+        this.filterCommitByCheckedFileTypes(filteredCommit);
 
-          if (filteredCommit.commitResults.length > 0) {
-            filteredCommit.commitResults.forEach((commitResult) => {
-              if (commitResult.messageBody !== '') {
-                commitResult.isOpen = true;
-              }
-            });
-            // The typecast is safe here as we add the insertions and deletions fields
-            // in the filterCommitByCheckedFileTypes method above
-            user.commits?.push(filteredCommit as Commit);
-          }
+        if (filteredCommit.commitResults.length > 0) {
+          filteredCommit.commitResults.forEach((commitResult) => {
+            if (commitResult.messageBody !== '') {
+              commitResult.isOpen = true;
+            }
+          });
+          // The typecast is safe here as we add the insertions and deletions fields
+          // in the filterCommitByCheckedFileTypes method above
+          user.commits?.push(filteredCommit as Commit);
         }
+        
       });
 
       return null;
