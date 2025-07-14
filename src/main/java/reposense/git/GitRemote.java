@@ -39,7 +39,7 @@ public class GitRemote {
             return remotes;
         }
 
-        Arrays.stream(StringsUtil.NEWLINE.split(result))
+        Arrays.stream(StringsUtil.splitByNewline(result))
                 .map(anyTabPattern::split)
                 .forEach(l -> {
                     if (l.length == 3) {

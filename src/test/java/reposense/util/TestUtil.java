@@ -53,9 +53,9 @@ public class TestUtil {
 
         System.out.println(String.format(MESSAGE_COMPARING_FILES, expected, actual));
 
-        String[] expectedContent = StringsUtil.NEWLINE.split(new String(Files.readAllBytes(expected))
+        String[] expectedContent = StringsUtil.splitByNewline(new String(Files.readAllBytes(expected))
                 .replace("\r", ""));
-        String[] actualContent = StringsUtil.NEWLINE.split(new String(Files.readAllBytes(actual))
+        String[] actualContent = StringsUtil.splitByNewline(new String(Files.readAllBytes(actual))
                 .replace("\r", ""));
 
         for (int i = 0; i < Math.min(expectedContent.length, actualContent.length); i++) {
@@ -196,7 +196,7 @@ public class TestUtil {
      */
     private static Set<String> getFilesChangedInCommit(String rawCommitInfo) {
         Set<String> filesChanged = new HashSet<>();
-        String[] commitInfo = StringsUtil.NEWLINE.split(rawCommitInfo.replaceAll("\n+$", ""));
+        String[] commitInfo = StringsUtil.splitByNewline(rawCommitInfo.replaceAll("\n+$", ""));
         int fileChangedNum = Integer.parseInt(commitInfo[commitInfo.length - 1].trim().split(" ")[0]);
         for (int fileNum = 0; fileNum < fileChangedNum; fileNum++) {
             filesChanged.add(getFileChanged(commitInfo[commitInfo.length - 2 - fileNum]));
@@ -208,7 +208,7 @@ public class TestUtil {
      * Returns the file changed given a {@code rawFileChangedString}.
      */
     private static String getFileChanged(String rawFileChangedString) {
-        String fileChanged = StringsUtil.TAB.split(rawFileChangedString)[STAT_FILE_PATH_INDEX].trim();
+        String fileChanged = StringsUtil.splitByTab(rawFileChangedString, STAT_FILE_PATH_INDEX);
         if (fileChanged.contains(MOVED_FILE_INDICATION)) {
             fileChanged = fileChanged.substring(fileChanged.indexOf(MOVED_FILE_INDICATION)
                     + MOVED_FILE_INDICATION.length());

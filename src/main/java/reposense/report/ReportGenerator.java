@@ -54,6 +54,7 @@ import reposense.model.StandaloneConfig;
 import reposense.model.reportconfig.ReportConfiguration;
 import reposense.parser.StandaloneConfigJsonParser;
 import reposense.parser.exceptions.InvalidMarkdownException;
+import reposense.parser.types.SinceDateArgumentType;
 import reposense.report.exception.NoAuthorsWithCommitsFoundException;
 import reposense.system.LogsManager;
 import reposense.util.FileUtil;
@@ -195,13 +196,13 @@ public class ReportGenerator {
         List<Path> reportFoldersAndFiles = cloneAndAnalyzeRepos(configs, outputPath, numCloningThreads,
                 numAnalysisThreads, shouldFreshClone, shouldAnalyzeAuthorship, originalityThreshold);
 
-        this.globalSinceDate = TimeUtil.isEqualToArbitraryFirstDateConverted(this.globalSinceDate, zoneId)
-                ? earliestSinceDate : this.globalSinceDate;
-
+        LocalDateTime reportSinceDate =
+                SinceDateArgumentType.isEqualToArbitraryFirstDateConverted(cliSinceDate, zoneId)
+                ? earliestSinceDate : cliSinceDate;
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
-                        this.globalSinceDate, this.globalUntilDate, isSinceDateProvided,
+                        reportSinceDate, this.globalUntilDate, isSinceDateProvided,
                         isUntilDateProvided, RepoSense.getVersion(), ErrorSummary.getInstance().getErrorSet(),
                         reportGenerationTimeProvider.get(), zoneId, shouldAnalyzeAuthorship, repoBlurbMap,
                         authorBlurbMap, chartBlurbMap, isPortfolio),

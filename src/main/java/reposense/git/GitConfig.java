@@ -42,7 +42,7 @@ public class GitConfig {
 
         try {
             String gitConfig = getGitGlobalConfig();
-            return Arrays.stream(StringsUtil.NEWLINE.split(gitConfig))
+            return Arrays.stream(StringsUtil.splitByNewline(gitConfig))
                     .map(equals::split)
                     .filter(line -> line[0].equals(FILTER_LFS_SMUDGE_KEY) || line[0].equals((FILTER_LFS_PROCESS_KEY)))
                     .collect(Collectors.toList());
