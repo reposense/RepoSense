@@ -239,7 +239,7 @@ def serveTestReportDefault = tasks.register('serveTestReportDefault', com.github
     dependsOn generateTestReportDefault
 
     workingDir = './frontend'
-    executable = 'npm'
+    executable = 'npm.cmd'
     args = ['run', 'serveTestDefault']
 }
 
@@ -247,7 +247,7 @@ def serveTestReportPortfolio = tasks.register('serveTestReportPortfolio', com.gi
     dependsOn generateTestReportPortfolio
 
     workingDir = './frontend'
-    executable = 'npm'
+    executable = 'npm.cmd'
     args = ['run', 'serveTestPortfolio']
 }
 
