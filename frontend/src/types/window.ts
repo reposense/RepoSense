@@ -26,7 +26,7 @@ interface Api {
     names: string[],
     repoBlurbMap: { [key: string]: string },
     authorBlurbMap: {[key: string]: string} | undefined,
-    chartsBlurbMap: {[key: string]: string} | undefined,
+    chartBlurbMap: {[key: string]: string} | undefined,
   } | null>;
   loadCommits: (repoName: string, defaultSortOrder: number) => Promise<User[]>;
   loadAuthorship: (repoName: string) => Promise<AuthorshipSchema>;

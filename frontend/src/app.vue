@@ -124,7 +124,7 @@ const app = defineComponent({
           names,
           repoBlurbMap,
           authorBlurbMap,
-          chartsBlurbMap
+          chartBlurbMap
         } = summary;
         this.creationDate = creationDate;
         this.reportGenerationTime = reportGenerationTime;
@@ -139,7 +139,7 @@ const app = defineComponent({
         this.userUpdated = true;
         this.$store.commit('setRepoBlurbMap', repoBlurbMap);
         this.$store.commit('setAuthorBlurbMap', authorBlurbMap);
-        this.$store.commit('setChartsBlurbMap', chartsBlurbMap);
+        this.$store.commit('setChartsBlurbMap', chartBlurbMap);
       } catch (error) {
         window.alert(error);
       } finally {

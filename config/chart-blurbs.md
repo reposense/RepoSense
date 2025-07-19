@@ -1,2 +1,2 @@
-https://github.com/reposense/testrepo-Alpha/tree/master|nbriannl
+https://github.com/reposense/testrepo-Beta/tree/add-config-json|nbriannl
 Test for chart-blurbs.md

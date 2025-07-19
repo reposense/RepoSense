@@ -49,7 +49,7 @@ interface StoreState {
   isTabActive: boolean;
   repoBlurbMap: { [key: string]: string };
   authorBlurbMap: { [key: string]: string };
-  chartsBlurbMap: { [key: string]: string };
+  chartBlurbMap: { [key: string]: string };
 }
 
 declare module '@vue/runtime-core' {
