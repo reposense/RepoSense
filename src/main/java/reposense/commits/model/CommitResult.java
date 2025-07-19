@@ -18,9 +18,9 @@ public class CommitResult {
     private final String messageBody;
     private final String[] tags;
     private final Map<FileType, ContributionPair> fileTypesAndContributionMap;
+    private final LocalDateTime time;
 
     private final transient Author author;
-    private final transient LocalDateTime time;
 
     public CommitResult(Author author, String hash, Boolean isMergeCommit, LocalDateTime time, String messageTitle,
             String messageBody, String[] tags, Map<FileType, ContributionPair> fileTypesAndContributionMap) {
