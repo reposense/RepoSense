@@ -20,7 +20,7 @@ export default createStore<StoreState>({
     isTabActive: true,
     repoBlurbMap: {},
     authorBlurbMap: {},
-    chartsBlurbMap: {}
+    chartBlurbMap: {}
   } as StoreState,
 
   mutations: {
@@ -96,7 +96,7 @@ export default createStore<StoreState>({
       state.tabAuthorshipInfo.isRefresh = b;
     },
     setChartsBlurbMap(state: StoreState, map: {[key: string]: string} | undefined) {
-      state.chartsBlurbMap = map ?? {};
+      state.chartBlurbMap = map ?? {};
     }
   },
   actions: {
