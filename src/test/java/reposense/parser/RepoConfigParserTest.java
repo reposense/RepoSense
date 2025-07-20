@@ -521,7 +521,8 @@ public class RepoConfigParserTest {
     @Test
     public void repoCsvConfig_useOfDefaultSinceUntilFlag_success() throws Exception {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String input = new InputBuilder().addSinceDate(TEST_ARTIFICIAL_SINCE_DATE_WITH_TIME.toLocalDate().format(formatter))
+        String input = new InputBuilder().addSinceDate(
+                TEST_ARTIFICIAL_SINCE_DATE_WITH_TIME.toLocalDate().format(formatter))
                 .addUntilDate(TEST_ARTIFICIAL_UNTIL_DATE_WITH_TIME.toLocalDate().format(formatter)).build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
         RepoConfigCsvParser repoConfigCsvParser = new RepoConfigCsvParser(REPO_CONFIG_OVERRIDE_DATE, cliArguments);
