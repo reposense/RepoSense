@@ -1038,7 +1038,7 @@ export default defineComponent({
 
     getChartBlurb(userName: string, repo: User) : string {
       const link = this.getRepoLink(repo);
-      const blurb: string | undefined = this.$store.state.chartsBlurbMap[`${link}|${userName}`]
+      const blurb: string | undefined = this.$store.state.chartBlurbMap[`${link}|${userName}`]
       if (!blurb) {
         return '';
       }
