@@ -6,18 +6,27 @@ describe('author blurbs', () => {
       .should('contain', 'first blurb');
 
     cy.get('.markdown.blurb')
-      .eq(1)
-      .should('contain', 'second blurb');
+        .eq(1)
+        .should('contain', 'second blurb');
 
     cy.get('.markdown.blurb')
-      .eq(2)
-      .should('contain', 'third blurb');
+        .eq(2)
+        .should('contain', 'third blurb');
+
+    cy.get('.markdown.blurb')
+        .eq(3)
+        .should('contain', 'chart blurb testing yamidark');
+
+    cy.get('.markdown.blurb')
+        .eq(4)
+        .should('contain', 'chart blurb testing eugene');
+
   });
 
   it('test correct number of blurbs', () => {
     cy.get('#summary .mui-select.grouping select').select('Author');
     cy.get('.markdown.blurb')
-      .should('have.length', 3);
+      .should('have.length', 5);
   })
 
   it('processes html in blurbs', () => {
