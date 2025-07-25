@@ -7,32 +7,36 @@ describe('author blurbs', () => {
 
     cy.get('.markdown.blurb')
         .eq(1)
-        .should('contain', 'second blurb');
+        .should('contain', 'first chart blurb');
 
     cy.get('.markdown.blurb')
         .eq(2)
-        .should('contain', 'third blurb');
+        .should('contain', 'second blurb');
 
     cy.get('.markdown.blurb')
         .eq(3)
-        .should('contain', 'chart blurb testing yamidark');
+        .should('contain', 'third blurb');
 
     cy.get('.markdown.blurb')
         .eq(4)
-        .should('contain', 'chart blurb testing eugene');
+        .should('contain', 'third chart blurb');
+
+    cy.get('.markdown.blurb')
+        .eq(5)
+        .should('contain', 'second chart blurb');
 
   });
 
   it('test correct number of blurbs', () => {
     cy.get('#summary .mui-select.grouping select').select('Author');
     cy.get('.markdown.blurb')
-      .should('have.length', 5);
+      .should('have.length', 6);
   })
 
   it('processes html in blurbs', () => {
     cy.get('#summary .mui-select.grouping select').select('Author');
     cy.get('.markdown.blurb')
-      .eq(1)
+      .eq(2)
       .find('h1')
       .contains('dummy text for the second blurb');
   })
@@ -40,7 +44,7 @@ describe('author blurbs', () => {
   it('processes markdown in blurbs', () => {
     cy.get('#summary .mui-select.grouping select').select('Author');
     cy.get('.markdown.blurb')
-      .eq(2)
+      .eq(3)
       .find('h2')
       .contains('h2 tag for the third blurb');
   })
