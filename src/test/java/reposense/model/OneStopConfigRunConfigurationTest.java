@@ -26,7 +26,7 @@ class OneStopConfigRunConfigurationTest {
 
         List<String> emailList = List.of("fh@gmail.com");
         ReportAuthorDetails author = new ReportAuthorDetails(emailList, "FH-30",
-                "Francis Hodianto", "Francis Hodianto");
+                "Francis Hodianto", List.of("Francis Hodianto"));
 
         List<ReportAuthorDetails> authorList = List.of(author);
         List<String> ignoreGlobList = List.of("**.md");
