@@ -39,6 +39,11 @@ describe('author blurbs', () => {
       .eq(2)
       .find('h1')
       .contains('dummy text for the second blurb');
+
+    cy.get('.markdown.blurb')
+        .eq(5)
+        .find('h2')
+        .contains('second chart blurb');
   })
 
   it('processes markdown in blurbs', () => {
@@ -47,5 +52,10 @@ describe('author blurbs', () => {
       .eq(3)
       .find('h2')
       .contains('h2 tag for the third blurb');
+
+    cy.get('.markdown.blurb')
+        .eq(3)
+        .find('h3')
+        .contains('h3 third chart blurb');
   })
 })
