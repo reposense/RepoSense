@@ -9,20 +9,20 @@ describe('blurbs', () => {
       .should('contain', 'third chart blurb');
 
     cy.get('.markdown.blurb')
-        .eq(2)
-        .should('contain', 'second blurb');
+      .eq(2)
+      .should('contain', 'second blurb');
 
     cy.get('.markdown.blurb')
       .eq(3)
       .should('contain', 'second chart blurb');
 
     cy.get('.markdown.blurb')
-        .eq(4)
-        .should('contain', 'third blurb');
+      .eq(4)
+      .should('contain', 'third blurb');
 
     cy.get('.markdown.blurb')
-        .eq(5)
-        .should('contain', 'first chart blurb');
+      .eq(5)
+      .should('contain', 'first chart blurb');
 
   });
 
@@ -38,9 +38,9 @@ describe('blurbs', () => {
       .contains('second blurb in h1 tag');
 
     cy.get('.markdown.blurb')
-        .eq(1)
-        .find('h3')
-        .contains('h3 third chart blurb');
+      .eq(1)
+      .find('h3')
+      .contains('h3 third chart blurb');
   });
 
   it('processes html in blurbs', () => {
@@ -50,8 +50,8 @@ describe('blurbs', () => {
       .contains('third blurb in h2 markdown tag');
 
     cy.get('.markdown.blurb')
-        .eq(3)
-        .find('h2')
-        .contains('second chart blurb');
+      .eq(3)
+      .find('h2')
+      .contains('second chart blurb');
   });
 });
