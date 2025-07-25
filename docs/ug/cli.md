@@ -220,7 +220,9 @@ credit is given.
 * Default: generates the regular report
 * Alias: `-P` (uppercase P)
 * Example: `--portfolio` or `-P`
+* **Portfolio Mode** simplifies the dashboard for showcasing individual contributions (e.g., personal portfolio websites, resume links).
 
+See [Portfolio Mode UI](portfolioMode.md) for details on the differences.
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--repo`, `--repos`, `-r`
