@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15, windows-2019, windows-2022]
+        os: [ubuntu-22.04, ubuntu-24.04, macos-13, macos-14, macos-15, windows-2022, windows-2025]
     runs-on: ${{ matrix.os }}
     env:
       HOMEBREW_NO_AUTO_UPDATE: 1 # Prevent time-consuming brew update
