@@ -1,0 +1,32 @@
+## Portfolio Mode UI
+
+Portfolio Mode is designed to provide a clean and minimalistic overview of a contributor's work. It is intended for showcasing individual contributions in personal portfolios, resumes, or public demos.
+
+
+### Key Features:
+| Feature                       | Normal Mode                                                 | Portfolio Mode
+|-------------------------------|-------------------------------------------------------------|--------------------------------|
+| Filters                       | Allow searches, grouping and time period selection          | Simplified filters, non-essential toggles are hidden.             |
+| Visual Focus                  | Code review and auditing.                                   | Visual summary of personal contributions (clean & minimal) |
+| Intended Use                  | Code analysis and detailed review.                          | Personal portfolio showcase, resume link, project website.   |
+| Commits Panel                 | Full commit messages, number of lines added/removed are shown. | No Changes |
+| Code Panels                   | Shows all contributions and file changes                    | No changes. |
+
+
+### UI Comparison:
+| Normal Mode (Default)                             | Portfolio Mode (`--portfolio`)                             |
+|---------------------------------------------------|------------------------------------------------------------|
+| ![Normal Mode Contributions Screenshot](../images/reposense-normal-mode-author-contributions.png) | ![Portfolio Mode Contributions Screenshot](../images/reposense-portfolio-mode-author-contributions.png)   |
+| ![Normal Mode Commits Screenshot](../images/reposense-normal-mode-author-commits.png) | ![Portfolio Mode Commits Screenshot](../images/reposense-portfolio-mode-author-commits.png)   |
+
+---
+
+### When to use Portfolio Mode?
+Use Portfolio Mode when you want to present:
+- Your contribution timeline and work summary cleanly.
+- A version of the dashboard suited for personal portfolios.
+
+### Notes
+- Portfolio Mode does not alter the commit details panel or contribution panels.
+- The simplification is purely in the left sidebar (summary panel), ensuring a clean first impression.
+- You can still use other CLI flags (e.g. `--since`, `--until`) in combination with `--portfolio`.
