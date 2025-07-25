@@ -37,7 +37,7 @@ public class ReportConfigYamlParserTest {
         List<String> emailList = new ArrayList<>();
         emailList.add("fh@gmail.com");
         ReportAuthorDetails author = new ReportAuthorDetails(emailList, "FH-30",
-                "Francis Hodianto", "Francis Hodianto");
+                "Francis Hodianto", List.of("Francis Hodianto"));
 
         List<ReportAuthorDetails> authorList = new ArrayList<>();
         authorList.add(author);
