@@ -36,7 +36,8 @@ repos:
         authors:
           - author-git-host-id: Your username on GitHub, GitLab or Bitbucket
             author-display-name: Your display name
-            author-git-author-name: Author Name Of Your Git Configuration
+            author-git-author-name: 
+              - Author Name Of Your Git Configuration
             author-emails:
               - emails-of-your-commits@email.com
               - emails-of-your-git-configuration@email.com

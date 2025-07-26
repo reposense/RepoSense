@@ -235,11 +235,13 @@ def generateTestReportPortfolio = tasks.register('generateTestReportPortfolio', 
     jvmArgs = [ versionJvmArgs ]
 }
 
+def isWindows = System.getProperty('os.name').toLowerCase().contains('windows')
+
 def serveTestReportDefault = tasks.register('serveTestReportDefault', com.github.psxpaul.task.ExecFork) {
     dependsOn generateTestReportDefault
 
     workingDir = './frontend'
-    executable = 'npm'
+    executable = isWindows ? 'npm.cmd' :'npm'
     args = ['run', 'serveTestDefault']
 }
 
@@ -247,7 +249,7 @@ def serveTestReportPortfolio = tasks.register('serveTestReportPortfolio', com.gi
     dependsOn generateTestReportPortfolio
 
     workingDir = './frontend'
-    executable = 'npm'
+    executable = isWindows ? 'npm.cmd' :'npm'
     args = ['run', 'serveTestPortfolio']
 }
 
@@ -341,6 +343,7 @@ def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
         include 'index.html'
         include 'favicon.ico'
         include 'title.md'
+        include 'logo.png'
     }
 }
 

@@ -239,7 +239,7 @@ window.api = {
 
     const repoBlurbMap: { [key: string]: string } = data.repoBlurbs.blurbMap;
     const authorBlurbMap: {[key: string]: string} | undefined = data.authorBlurbs?.blurbMap;
-    const chartsBlurbMap: {[key: string]: string} | undefined = data.chartsBlurbs?.blurbMap;
+    const chartBlurbMap: {[key: string]: string} | undefined = data.chartBlurbs?.blurbMap;
     return {
       creationDate: reportGeneratedTime,
       reportGenerationTime,
@@ -247,7 +247,7 @@ window.api = {
       names,
       repoBlurbMap,
       authorBlurbMap,
-      chartsBlurbMap
+      chartBlurbMap
     };
   },
 
