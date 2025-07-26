@@ -13,21 +13,21 @@ public class ReportAuthorDetails {
     private final List<String> authorEmails;
     private final String authorGitHostId;
     private final String authorDisplayName;
-    private final String authorGitAuthorName;
+    private final List<String> authorGitAuthorNames;
 
     @JsonCreator
     public ReportAuthorDetails(
             @JsonProperty("author-emails") List<String> authorEmails,
             @JsonProperty("author-git-host-id") String authorGitHostId,
             @JsonProperty("author-display-name") String authorDisplayName,
-            @JsonProperty("author-git-author-name") String authorGitAuthorName) {
+            @JsonProperty("author-git-author-name") List<String> authorGitAuthorNames) {
         if (authorGitHostId == null) {
             throw new IllegalArgumentException("Author Git Host ID cannot be empty.");
         }
         this.authorGitHostId = authorGitHostId;
         this.authorEmails = authorEmails == null ? new ArrayList<>() : authorEmails;
         this.authorDisplayName = authorDisplayName == null ? "" : authorDisplayName;
-        this.authorGitAuthorName = authorGitAuthorName == null ? "" : authorGitAuthorName;
+        this.authorGitAuthorNames = authorGitAuthorNames == null ? new ArrayList<>() : authorGitAuthorNames;
     }
 
     public List<String> getAuthorEmails() {
@@ -42,8 +42,8 @@ public class ReportAuthorDetails {
         return authorDisplayName;
     }
 
-    public String getAuthorGitAuthorName() {
-        return authorGitAuthorName;
+    public List<String> getAuthorGitAuthorNames() {
+        return authorGitAuthorNames;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ReportAuthorDetails {
             return rad.getAuthorEmails().equals(this.getAuthorEmails())
                     && rad.getAuthorGitHostId().equals(this.getAuthorGitHostId())
                     && rad.getAuthorDisplayName().equals(this.getAuthorDisplayName())
-                    && rad.getAuthorGitAuthorName().equals(this.getAuthorGitAuthorName());
+                    && rad.getAuthorGitAuthorNames().equals(this.getAuthorGitAuthorNames());
         }
 
         return false;
