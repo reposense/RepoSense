@@ -1,14 +1,8 @@
 name: Auto-trigger publish-RepoSense Test Workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      pr_number:
-        description: "Pull request number"
-        required: true
-      commit_sha:
-        description: "Commit SHA"
-        required: true
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   trigger:
