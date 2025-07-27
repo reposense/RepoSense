@@ -1,1 +1,17 @@
 title: RepoSense Report
+repos:
+  - repo: https://github.com/lihongong/Tetris-JavaFX
+    groups:
+      - group-name: code
+        globs:
+          - "**.java"
+    branches:
+      - branch: main
+        blurb: "A Tetris Game in JavaFX."
+        authors:
+          - author-git-host-id: lihongong
+            author-display-name: Ong Li Hong
+            author-emails:
+              - lihongong90@gmail.com
+              - e1129850@u.nus.edu
+      
