@@ -1,4 +1,4 @@
-name: Trigger publish-RepoSense Test Workflow
+name: Auto-trigger publish-RepoSense Test Workflow
 
 on:
   workflow_dispatch:
@@ -13,8 +13,8 @@ on:
 jobs:
   trigger:
     runs-on: ubuntu-latest
-  
-    steps: 
+
+    steps:
       - name: Trigger publish-RepoSense Test Workflow
         run: |
           repo_owner="feliciahmq"
