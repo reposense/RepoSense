@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Trigger publish-RepoSense Test Workflow
         run: |
-          repo_owner="feliciahmq"
+          repo_owner="reposense"
           repo_name="publish-RepoSense"
           event_type="trigger-regression-test"
           pr="${{ github.event.number }}"
