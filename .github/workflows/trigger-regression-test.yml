@@ -26,7 +26,7 @@ jobs:
           curl -L \
             -X POST \
             -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: Bearer ${{ secrets.REPO_DISPATCH_TOKEN }}" \
+            -H "Authorization: token ${{ secrets.REPO_DISPATCH_TOKEN }}" \
             https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
             -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"sha\": \"$sha\", \"pr\": \"$pr\", \"run_lighthouse\": true}}"
 
