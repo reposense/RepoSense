@@ -17,6 +17,18 @@ public class LocalDateTimeParser {
     private static final String MESSAGE_PARSING_INVALID_FORMAT =
             "Invalid date: '%s'. The format should be dd/MM/yyyy, dd/MM/yyyy HH:mm, dd/MM/yyyy HH:mm:ss.";
 
+    /**
+     * Parses a date string into {@link LocalDateTime}.
+     * Supported formats:
+     * - dd/MM/yyyy
+     * - dd/MM/yyyy HH:mm
+     * - dd/MM/yyyy HH:mm:ss
+     * If time is omitted, {@code isStartOfDay} decides if time is set to 00:00:00 or 23:59:59.
+     * @param input The date string.
+     * @param isStartOfDay True for 00:00:00, false for 23:59:59 when time is missing.
+     * @return Parsed {@link LocalDateTime}.
+     * @throws InvalidDatesException If format is invalid.
+     */
     public static LocalDateTime parse(String input, boolean isStartOfDay) throws InvalidDatesException {
         boolean hasTimeComponent = input.matches(HAS_TIME_COMPONENT_REGEX);
         if (hasTimeComponent) {
@@ -26,7 +38,7 @@ public class LocalDateTimeParser {
         }
     }
 
-    public static LocalDateTime parseDateOnly(String date, boolean isStartOfDay) throws InvalidDatesException {
+    private static LocalDateTime parseDateOnly(String date, boolean isStartOfDay) throws InvalidDatesException {
         String dateTime;
         if (isStartOfDay) {
             dateTime = date + DEFAULT_START_TIME;
@@ -40,7 +52,7 @@ public class LocalDateTimeParser {
             throw new InvalidDatesException(String.format(MESSAGE_PARSING_INVALID_FORMAT, dateTime));
         }
     }
-    public static LocalDateTime parseDateAndTime(String dateTime) throws InvalidDatesException {
+    private static LocalDateTime parseDateAndTime(String dateTime) throws InvalidDatesException {
         DateTimeFormatter[] formatters = { DATE_TIME_SECONDS, DATE_TIME_MINUTES };
 
         for (DateTimeFormatter formatter : formatters) {
