@@ -59,13 +59,7 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
                         // Needs to be removed this when we deprecate the standalone config
                         .isStandaloneConfigIgnored(true);
 
-                LocalDateTime configSinceDate = rbd.getSinceDate();
-                LocalDateTime configUntilDate = rbd.getUntilDate();
-                LocalDateTime chosenSinceDate = getValidDate(configSinceDate, true);
-                LocalDateTime chosenUntilDate = getValidDate(configUntilDate, false);
-
-                builder.setSinceDateBasedOnConfig(true, chosenSinceDate);
-                builder.setUntilDateBasedOnConfig(true, chosenUntilDate);
+                setSinceUntilDate(builder, rbd);
 
                 AuthorConfiguration authorConfiguration = new AuthorConfiguration(repoLocation, rbd.getBranch());
                 for (ReportAuthorDetails rad : rbd.getReportAuthorDetails()) {
@@ -89,6 +83,17 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
 
         logger.info("Finished parsing OneStopConfigRunConfiguration!");
         return repoConfigs;
+    }
+
+    private void setSinceUntilDate(RepoConfiguration.Builder builder, ReportBranchData rbd)
+            throws InvalidDatesException {
+        LocalDateTime configSinceDate = rbd.getSinceDate();
+        LocalDateTime configUntilDate = rbd.getUntilDate();
+        LocalDateTime chosenSinceDate = getValidDate(configSinceDate, true);
+        LocalDateTime chosenUntilDate = getValidDate(configUntilDate, false);
+
+        builder.setSinceDateBasedOnConfig(true, chosenSinceDate);
+        builder.setUntilDateBasedOnConfig(true, chosenUntilDate);
     }
 
     private LocalDateTime getValidDate(LocalDateTime configDate, boolean isSinceDate)
