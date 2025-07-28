@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import reposense.model.RepoBlurbMap;
-import reposense.parser.exceptions.InvalidDatesException;
 
 public class ReportConfigurationTest {
 

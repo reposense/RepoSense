@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import reposense.parser.exceptions.InvalidDatesException;
 
 public class ReportBranchDataTest {
     private static final ReportBranchData data1 = new ReportBranchData(

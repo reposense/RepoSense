@@ -15,7 +15,6 @@ import reposense.model.reportconfig.ReportBranchData;
 import reposense.model.reportconfig.ReportConfiguration;
 import reposense.model.reportconfig.ReportGroupNameAndGlobs;
 import reposense.model.reportconfig.ReportRepoConfiguration;
-import reposense.parser.exceptions.InvalidDatesException;
 
 public class ReportConfigYamlParserTest {
 

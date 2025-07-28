@@ -39,7 +39,6 @@ public class ReportBranchData {
             @JsonProperty("file-size-limit") Long fileSizeLimit,
             @JsonProperty("since") String sinceDate,
             @JsonProperty("until") String untilDate) {
-        System.out.println("in constructor");
         this.branch = branch == null ? DEFAULT_BRANCH : branch;
         this.blurb = blurb == null ? "" : blurb;
         this.reportAuthorDetails = reportAuthorDetails == null ? new ArrayList<>() : reportAuthorDetails;

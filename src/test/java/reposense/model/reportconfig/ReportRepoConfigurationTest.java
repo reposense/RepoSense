@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
-import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidLocationException;
 
 public class ReportRepoConfigurationTest {
