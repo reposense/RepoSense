@@ -1,5 +1,6 @@
 package reposense.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import reposense.model.reportconfig.ReportBranchData;
 import reposense.model.reportconfig.ReportConfiguration;
 import reposense.model.reportconfig.ReportGroupNameAndGlobs;
 import reposense.model.reportconfig.ReportRepoConfiguration;
+import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidLocationException;
 
 class OneStopConfigRunConfigurationTest {
@@ -31,8 +33,11 @@ class OneStopConfigRunConfigurationTest {
         List<ReportAuthorDetails> authorList = List.of(author);
         List<String> ignoreGlobList = List.of("**.md");
         List<String> ignoreAuthorList = List.of("bot");
+        String sinceDate = "25/10/2024";
+        String untilDate = "30/10/2024";
+
         ReportBranchData branch = new ReportBranchData("master", "My project", authorList,
-                ignoreGlobList, ignoreAuthorList, 2000000L);
+                    ignoreGlobList, ignoreAuthorList, 2000000L, sinceDate, untilDate);
 
         List<ReportBranchData> branches = List.of(branch);
         ReportRepoConfiguration repo = new ReportRepoConfiguration("https://github.com/reposense/testrepo-Delta.git",
@@ -85,7 +90,12 @@ class OneStopConfigRunConfigurationTest {
         setUpExpectedRepoConfigurations();
 
         OneStopConfigRunConfiguration config = new OneStopConfigRunConfiguration(testSetUp);
-        List<RepoConfiguration> actualRepoConfigurations = config.getRepoConfigurations();
-        Assertions.assertEquals(expectedRepoConfigurations, actualRepoConfigurations);
+        try {
+            List<RepoConfiguration> actualRepoConfigurations = config.getRepoConfigurations();
+            Assertions.assertEquals(expectedRepoConfigurations, actualRepoConfigurations);
+        } catch (InvalidDatesException e) {
+            Assertions.fail("Unexpected InvalidDatesException thrown: " + e.getMessage());
+        }
+
     }
 }

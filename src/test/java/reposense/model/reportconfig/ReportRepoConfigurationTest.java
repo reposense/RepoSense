@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import reposense.model.FileType;
 import reposense.model.GroupConfiguration;
 import reposense.model.RepoLocation;
+import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidLocationException;
 
 public class ReportRepoConfigurationTest {
@@ -36,9 +37,10 @@ public class ReportRepoConfigurationTest {
     @Test
     void getFullyQualifiedRepoNamesWithBlurbs_validUrl_returnsCorrectMapping() {
         List<ReportBranchData> branches = List.of(
-                new ReportBranchData("main", "Main branch", null, null, null, null),
-                new ReportBranchData("dev", "Development branch", null, null, null, null)
+                new ReportBranchData("main", "Main branch", null, null, null, null, "10/10/2024", "11/11/2024"),
+                new ReportBranchData("dev", "Development branch", null, null, null, null, "10/10/2024", "11/11/2024")
         );
+
         ReportRepoConfiguration config = new ReportRepoConfiguration(
                 "https://github.com/test/repo.git",
                 new ArrayList<>(),

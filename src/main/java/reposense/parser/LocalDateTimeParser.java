@@ -7,13 +7,15 @@ import java.time.format.DateTimeParseException;
 import reposense.parser.exceptions.InvalidDatesException;
 
 public class LocalDateTimeParser {
-    private static final DateTimeFormatter DATE_TIME_SECONDS = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-    private static final DateTimeFormatter DATE_TIME_MINUTES = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter DATE_TIME_SECONDS =
+            DateTimeFormatter.ofPattern("[d][dd]/[M][MM]/yyyy HH:mm:ss");
+    private static final DateTimeFormatter DATE_TIME_MINUTES =
+            DateTimeFormatter.ofPattern("[d][dd]/[M][MM]/yyyy HH:mm");
     private static final String DEFAULT_START_TIME = " 00:00:00";
     private static final String DEFAULT_END_TIME = " 23:59:59";
     private static final String HAS_TIME_COMPONENT_REGEX = ".*\\d{2}:\\d{2}.*"; // Checks for at least HH:mm
-    private static final String MESSAGE_PARSING_INVALID_FORMAT
-            = "Invalid date: '%s'. The format should be dd/MM/yyyy, dd/MM/yyyy HH:mm, dd/MM/yyyy HH:mm:ss.";
+    private static final String MESSAGE_PARSING_INVALID_FORMAT =
+            "Invalid date: '%s'. The format should be dd/MM/yyyy, dd/MM/yyyy HH:mm, dd/MM/yyyy HH:mm:ss.";
 
     public static LocalDateTime parse(String input, boolean isStartOfDay) throws InvalidDatesException {
         boolean hasTimeComponent = input.matches(HAS_TIME_COMPONENT_REGEX);

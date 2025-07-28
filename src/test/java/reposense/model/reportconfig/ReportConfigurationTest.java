@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import reposense.model.RepoBlurbMap;
+import reposense.parser.exceptions.InvalidDatesException;
 
 public class ReportConfigurationTest {
 
@@ -26,8 +27,11 @@ public class ReportConfigurationTest {
         List<ReportAuthorDetails> authorList = List.of(author);
         List<String> ignoreGlobList = List.of("**.md");
         List<String> ignoreAuthorList = List.of("bot");
+        String sinceDateStr = "10/5/2025 12:10:30";
+        String untilDateStr = "30/5/2025";
+
         ReportBranchData branch = new ReportBranchData("master", "My project", authorList,
-                ignoreGlobList, ignoreAuthorList, 2000000L);
+                ignoreGlobList, ignoreAuthorList, 2000000L, sinceDateStr, untilDateStr);
 
         List<ReportBranchData> branches = List.of(branch);
         ReportRepoConfiguration repo = new ReportRepoConfiguration("https://github.com/reposense/testrepo-Delta.git",

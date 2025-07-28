@@ -38,7 +38,7 @@ public class ReportBranchData {
             @JsonProperty("ignore-authors-list") List<String> ignoreAuthorList,
             @JsonProperty("file-size-limit") Long fileSizeLimit,
             @JsonProperty("since") String sinceDate,
-            @JsonProperty("until") String untilDate) throws InvalidDatesException {
+            @JsonProperty("until") String untilDate) {
         System.out.println("in constructor");
         this.branch = branch == null ? DEFAULT_BRANCH : branch;
         this.blurb = blurb == null ? "" : blurb;

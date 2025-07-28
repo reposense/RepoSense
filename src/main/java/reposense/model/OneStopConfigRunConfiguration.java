@@ -22,6 +22,9 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
             "you specified in CLI a date range of --SINCE to --UNTIL, "
             + "but your CSV config specifies a date range that extends outside --SINCE or --UNTIL. "
             + "Either modify your CLI flags or your CSV date range.";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE
+            = "\"Since Date\" should not be later than \"Until Date\"";
+
     private final CliArguments cliArguments;
 
     public OneStopConfigRunConfiguration(CliArguments cliArguments) {
@@ -89,6 +92,12 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
         LocalDateTime configUntilDate = rbd.getUntilDate();
         LocalDateTime chosenSinceDate = getValidDate(configSinceDate, true);
         LocalDateTime chosenUntilDate = getValidDate(configUntilDate, false);
+
+        assert chosenSinceDate != null && chosenUntilDate != null;
+
+        if (chosenSinceDate.isAfter(chosenUntilDate)) {
+            throw new InvalidDatesException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
+        }
 
         builder.setSinceDateBasedOnConfig(true, chosenSinceDate);
         builder.setUntilDateBasedOnConfig(true, chosenUntilDate);

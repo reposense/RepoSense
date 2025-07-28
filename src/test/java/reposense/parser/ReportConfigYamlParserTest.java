@@ -15,6 +15,7 @@ import reposense.model.reportconfig.ReportBranchData;
 import reposense.model.reportconfig.ReportConfiguration;
 import reposense.model.reportconfig.ReportGroupNameAndGlobs;
 import reposense.model.reportconfig.ReportRepoConfiguration;
+import reposense.parser.exceptions.InvalidDatesException;
 
 public class ReportConfigYamlParserTest {
 
@@ -46,8 +47,9 @@ public class ReportConfigYamlParserTest {
         List<String> ignoreAuthorList = new ArrayList<>();
         ignoreAuthorList.add("bot");
 
-        ReportBranchData branch = new ReportBranchData("master", "My project", authorList,
-                ignoreGlobList, ignoreAuthorList, 2000000L);
+        ReportBranchData branch = new ReportBranchData("master", "My project", authorList, ignoreGlobList,
+                ignoreAuthorList, 2000000L, "1/1/2024", "11/11/2024");
+
         List<ReportBranchData> branches = new ArrayList<>();
         branches.add(branch);
 
