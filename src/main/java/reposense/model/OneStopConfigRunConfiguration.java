@@ -69,7 +69,7 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
                     Author author = new Author(rad.getAuthorGitHostId());
                     author.setEmails(rad.getAuthorEmails());
                     author.setDisplayName(rad.getAuthorDisplayName());
-                    author.setAuthorAliases(List.of(rad.getAuthorGitAuthorName()));
+                    author.setAuthorAliases(rad.getAuthorGitAuthorNames());
 
                     authorConfiguration.addAuthor(author);
                 }
