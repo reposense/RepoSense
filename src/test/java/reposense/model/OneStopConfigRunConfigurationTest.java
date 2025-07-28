@@ -37,7 +37,7 @@ class OneStopConfigRunConfigurationTest {
         String untilDate = "30/10/2024";
 
         ReportBranchData branch = new ReportBranchData("master", "My project", authorList,
-                    ignoreGlobList, ignoreAuthorList, 2000000L, sinceDate, untilDate);
+                ignoreGlobList, ignoreAuthorList, 2000000L, sinceDate, untilDate);
 
         List<ReportBranchData> branches = List.of(branch);
         ReportRepoConfiguration repo = new ReportRepoConfiguration("https://github.com/reposense/testrepo-Delta.git",
