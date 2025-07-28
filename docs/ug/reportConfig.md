@@ -234,15 +234,15 @@ For each repository in the `repos` list, you can specify:
 <box type="info" seamless>
 Behavior When Both Report Config Dates & CLI Flags Are Provided:
 
-- If both `since` / `until` dates are specified in the Report Config and CLI, the **Report Config dates take precedence** for that repository.
-- The Report Config date range must fall within the **CLI date boundaries**. If it exceeds, the program exits with an error.
+- If both `since` / `until` dates are specified in the Config and CLI, the **Config dates take precedence** for that repository.
+- The Config date range must fall within the **CLI date boundaries**. If it exceeds, the program exits with an error.
     - Example:
         - CLI Date - Since: 10/10/2024, Until: 20/10/2024
         - Valid Config Date - Since: 11/10/2024, Until: 19/10/2024
         - Invalid Config Date - Since: 9/10/2024, Until: 21/10/2024
-- If only one of the CLI flags is provided, the Report Config dates will not be restricted by the missing CLI flag.
-- If Report Config dates are missing, the CLI flags are used.
-- If neither Report Config nor CLI provides dates, default date ranges are used.
+- If only one of the CLI flags is provided, the Config dates will not be restricted by the missing CLI flag.
+- If Config dates are missing, the CLI flags are used.
+- If neither Config nor CLI provides dates, default date ranges are used.
 </box>
 
 #### Author Configuration
