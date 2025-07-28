@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import net.bytebuddy.asm.Advice;
 import reposense.model.reportconfig.ReportAuthorDetails;
 import reposense.model.reportconfig.ReportBranchData;
 import reposense.model.reportconfig.ReportConfiguration;
 import reposense.model.reportconfig.ReportRepoConfiguration;
-import reposense.parser.LocalDateTimeParser;
 import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidLocationException;
 import reposense.system.LogsManager;
