@@ -219,13 +219,9 @@
   }
 
   #tab-resize-guide { // Black line
-    background-color: mui-color('black');
-    cursor: row-resize !important;
-    display: none;
     height: 2px !important;
-    position: relative;
+    left: 0;
     width: 100% !important;
-    z-index: z-index('center-divider');
   }
 
   #tab-resize { // Black bar
