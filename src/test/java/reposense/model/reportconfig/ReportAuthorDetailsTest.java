@@ -10,7 +10,7 @@ public class ReportAuthorDetailsTest {
             List.of("test@example.com"),
             "gitHostId",
             "Display Name",
-            "Git Author"
+            List.of("Git Author")
     );
 
     @Test
@@ -20,13 +20,13 @@ public class ReportAuthorDetailsTest {
                 emails,
                 "Git Host Id",
                 "Display Name",
-                "Git Author"
+                List.of("Git Author")
         );
 
         Assertions.assertEquals(emails, details.getAuthorEmails());
         Assertions.assertEquals("Git Host Id", details.getAuthorGitHostId());
         Assertions.assertEquals("Display Name", details.getAuthorDisplayName());
-        Assertions.assertEquals("Git Author", details.getAuthorGitAuthorName());
+        Assertions.assertEquals("Git Author", details.getAuthorGitAuthorNames().get(0));
     }
 
     @Test
@@ -36,7 +36,7 @@ public class ReportAuthorDetailsTest {
                     List.of("test@example.com"),
                     null,
                     "Display Name",
-                    "Git Author"
+                    List.of("Git Author")
             );
         });
     }
@@ -52,7 +52,7 @@ public class ReportAuthorDetailsTest {
                 List.of("test@example.com"),
                 "gitHostId",
                 "Display Name",
-                "Git Author"
+                List.of("Git Author")
         );
 
         Assertions.assertEquals(details1, details2);
@@ -64,7 +64,7 @@ public class ReportAuthorDetailsTest {
                 List.of("test1@example.com"),
                 "gitHostId",
                 "Display Name",
-                "Git Author"
+                List.of("Git Author")
         );
 
         Assertions.assertNotEquals(details1, details2);

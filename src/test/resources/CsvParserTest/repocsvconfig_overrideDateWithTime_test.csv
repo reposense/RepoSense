@@ -1,0 +1,4 @@
+Repository's Location,Branch,File formats,Ignore Glob List,Ignore standalone config,Ignore Commits List,Ignore Authors List,Shallow Cloning,Find Previous Authors,Since Date,Until Date
+https://github.com/reposense/testrepo-Beta.git,main,,,,,,,,21/09/2024T13:31,29/01/2025T17:58
+https://github.com/reposense/testrepo-Charlie.git,main,,,,,,,,21/09/2024T13:31,
+https://github.com/reposense/testrepo-Alpha.git,main,,,,,,,,,29/01/2025T17:58
