@@ -2,6 +2,10 @@
 
 Portfolio Mode is designed to provide a clean and minimalistic overview of a contributor's work. It is intended for showcasing individual contributions in personal portfolios, resumes, or public demos.
 
+### When to use Portfolio Mode?
+Use Portfolio Mode when you want to present:
+- Your contribution timeline and work summary cleanly.
+- A version of the dashboard suited for personal portfolios.
 
 ### Key Features:
 | Feature                       | Normal Mode                                                 | Portfolio Mode
@@ -21,12 +25,5 @@ Portfolio Mode is designed to provide a clean and minimalistic overview of a con
 
 ---
 
-### When to use Portfolio Mode?
-Use Portfolio Mode when you want to present:
-- Your contribution timeline and work summary cleanly.
-- A version of the dashboard suited for personal portfolios.
-
 ### Notes
-- Portfolio Mode does not alter the commit details panel or contribution panels.
-- The simplification is purely in the left sidebar (summary panel), ensuring a clean first impression.
 - You can still use other CLI flags (e.g. `--since`, `--until`) in combination with `--portfolio`.
