@@ -219,7 +219,13 @@
   }
 
   #tab-resize-guide { // Black line
-    transform: rotate(90deg);
+    background-color: mui-color('black');
+    cursor: row-resize !important;
+    display: none;
+    height: 2px !important;
+    position: relative;
+    width: 100% !important;
+    z-index: z-index('center-divider');
   }
 
   #tab-resize { // Black bar
