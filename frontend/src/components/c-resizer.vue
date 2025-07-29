@@ -82,18 +82,18 @@ export default defineComponent({
 
     guideStyles(): string {
       if (this.isResizing) {
-        // if (this.isPortrait) {
-        //   return `display: block; bottom: ${this.guideHeight * 100}%;`;
-        // }
+        if (this.isPortrait) {
+          return `display: block; bottom: ${this.guideHeight * 100}%;`;
+        }
         return `display: block; right: ${this.guideWidth * 100}%;`;
       }
       return '';
     },
 
     rightContainerStyles(): string {
-      // if (this.isPortrait) {
-      //   return `flex: 0 0 100%; height: ${this.flexWidth * 100}%;`;
-      // }
+      if (this.isPortrait) {
+        return `flex: 0 0 100%; height: ${this.flexWidth * 100}%;`;
+      }
       return `flex: 0 0 ${this.flexWidth * 100}%;`;
     },
 
@@ -101,7 +101,7 @@ export default defineComponent({
       if (this.isResizing) {
         return throttledEvent(25, (event: MouseEvent) => {
           if (this.isPortrait) {
-            this.guideWidth = (
+            this.guideHeight = (
               Math.min(
                 Math.max(
                   window.innerHeight - event.clientY,
@@ -139,7 +139,7 @@ export default defineComponent({
     deregisterMouseMove(): void {
       this.isResizing = false;
       if (this.isPortrait) {
-        this.flexWidth = (this.guideWidth * window.innerHeight
+        this.flexWidth = (this.guideHeight * window.innerHeight
             + (GUIDE_BAR_WIDTH / 2)) / window.innerHeight;
       } else {
         this.flexWidth = (this.guideWidth * window.innerWidth
