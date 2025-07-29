@@ -72,9 +72,9 @@ export default defineComponent({
 
     appStyles(): string {
       if (this.isResizing) {
-        // if (this.isPortrait) {
-        //   return 'user-select: none; cursor: row-resize;';
-        // }
+        if (this.isPortrait) {
+          return 'user-select: none; cursor: row-resize;';
+        }
         return 'user-select: none; cursor: col-resize;';
       }
       return '';
