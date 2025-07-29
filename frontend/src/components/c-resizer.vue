@@ -49,46 +49,80 @@ export default defineComponent({
 
   data(): {
     guideWidth: number,
+    guideHeight: number,
     flexWidth: number,
-    isResizing: boolean
+    isResizing: boolean,
+    windowWidth: number,
+    windowHeight: number,
   } {
     return {
       guideWidth: (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2)) / window.innerWidth,
+      guideHeight: (0.5 * window.innerHeight - (GUIDE_BAR_WIDTH / 2)) / window.innerHeight,
       flexWidth: 0.5,
       isResizing: false,
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
     };
   },
 
   computed: {
+    isPortrait(): boolean {
+      return this.windowHeight > this.windowWidth;
+    },
+
     appStyles(): string {
-      return this.isResizing
-        ? 'user-select: none; cursor: col-resize;'
-        : '';
+      if (this.isResizing) {
+        // if (this.isPortrait) {
+        //   return 'user-select: none; cursor: row-resize;';
+        // }
+        return 'user-select: none; cursor: col-resize;';
+      }
+      return '';
     },
 
     guideStyles(): string {
-      return this.isResizing
-        ? `display: block; right: ${this.guideWidth * 100}%;`
-        : '';
+      if (this.isResizing) {
+        // if (this.isPortrait) {
+        //   return `display: block; bottom: ${this.guideHeight * 100}%;`;
+        // }
+        return `display: block; right: ${this.guideWidth * 100}%;`;
+      }
+      return '';
     },
 
     rightContainerStyles(): string {
+      // if (this.isPortrait) {
+      //   return `flex: 0 0 100%; height: ${this.flexWidth * 100}%;`;
+      // }
       return `flex: 0 0 ${this.flexWidth * 100}%;`;
     },
 
     mouseMove(): Function {
       if (this.isResizing) {
         return throttledEvent(25, (event: MouseEvent) => {
-          this.guideWidth = (
-            Math.min(
-              Math.max(
-                window.innerWidth - event.clientX,
-                SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-              ),
-              window.innerWidth - SCROLL_BAR_WIDTH,
-            )
-            - (GUIDE_BAR_WIDTH / 2)
-          ) / window.innerWidth;
+          if (this.isPortrait) {
+            this.guideWidth = (
+              Math.min(
+                Math.max(
+                  window.innerHeight - event.clientY,
+                  SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+                ),
+                window.innerHeight - SCROLL_BAR_WIDTH,
+              )
+                - (GUIDE_BAR_WIDTH / 2)
+            ) / window.innerHeight;
+          } else {
+            this.guideWidth = (
+              Math.min(
+                Math.max(
+                  window.innerWidth - event.clientX,
+                  SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+                ),
+                window.innerWidth - SCROLL_BAR_WIDTH,
+              )
+                - (GUIDE_BAR_WIDTH / 2)
+            ) / window.innerWidth;
+          }
         });
       }
       return () => {};
@@ -104,8 +138,14 @@ export default defineComponent({
 
     deregisterMouseMove(): void {
       this.isResizing = false;
-      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
-        / window.innerWidth;
+      if (this.isPortrait) {
+        this.flexWidth = (this.guideWidth * window.innerHeight
+            + (GUIDE_BAR_WIDTH / 2)) / window.innerHeight;
+      } else {
+        this.flexWidth = (this.guideWidth * window.innerWidth
+            + (GUIDE_BAR_WIDTH / 2)) / window.innerWidth;
+      }
+
     },
 
     closeTab(): void {
