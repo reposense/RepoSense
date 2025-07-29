@@ -91,9 +91,9 @@ export default defineComponent({
     },
 
     rightContainerStyles(): string {
-      // if (this.isPortrait) {
-      //   return `flex: 0 0 100%; height: ${this.flexWidth * 100}%;`;
-      // }
+      if (this.isPortrait) {
+        return `flex: 0 0 ${this.flexWidth * 100}%; height: ${this.flexWidth * 100}%;`;
+      }
       return `flex: 0 0 ${this.flexWidth * 100}%;`;
     },
 
