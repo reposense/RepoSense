@@ -198,9 +198,7 @@
 
 /* Responsive override for mobile (up-down stacking) */
 @media (max-width: 768px) and (orientation: portrait) {
-
-
-
+  
   #app-wrapper {
     flex-direction: column; // Makes it stack top down
     overflow: hidden; // Fix the issue with extra scrollbar
@@ -226,7 +224,7 @@
 
   #tab-resize { // Black bar
 
-    cursor: row-resize;
+    cursor: row-resize !important;
     flex: 0 0 13.25px;
     height: 13.25px !important; // need important to override
     width: 100% !important;
