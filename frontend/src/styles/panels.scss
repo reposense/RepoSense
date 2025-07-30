@@ -198,52 +198,44 @@
 
 /* Responsive override for mobile (up-down stacking) */
 @media (max-width: 768px) and (orientation: portrait) {
-  
+
   #app-wrapper {
     flex-direction: column; // Makes it stack top down
     overflow: hidden; // Fix the issue with extra scrollbar
-  }
 
-  .left-resize-container { // Top
-    min-height: 0; // Locks it in place
-    flex-grow: 1;
-    height: 0;
-  }
+    // Left right corresponds to top bottom in mobile
+    .left-resize-container,
+    .right-resize-container {
+      min-height: 0;
+      flex-grow: 1;
+      height: 0;
+    }
 
-  .right-resize-container { // Bottom
-    min-height: 0; // Locks it in place
-    flex-grow: 1;
-    height: 0;
-  }
+    #tab-resize-guide { // Black line
+      height: 2px;
+      left: 0;
+      width: 100%;
+    }
 
-  #tab-resize-guide { // Black line
-    height: 2px !important;
-    left: 0;
-    width: 100% !important;
-  }
+    #tab-resize { // Black bar
+      cursor: row-resize;
+      flex: 0 0 13.25px;
+      height: 13.25px;
+      width: 100%;
+      min-height: 0;
+      // Center horizontally
+      left: 0;
+      right: 0;
+      margin: auto;
+      position: relative;
 
-  #tab-resize { // Black bar
-
-    cursor: row-resize !important;
-    flex: 0 0 13.25px;
-    height: 13.25px !important; // need important to override
-    width: 100% !important;
-    min-height: 0 !important;
-
-    // Center horizontally
-    left: 0;
-    right: 0;
-    margin: auto;
-
-    position: relative;
-
-    .tab-close {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) rotate(90deg);
+      .tab-close {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
     }
   }
-
 
 }
