@@ -132,13 +132,19 @@ export default defineComponent({
   },
 
   mounted() {
-    window.addEventListener('resize', () => {
-      this.windowWidth = window.innerWidth;
-      this.windowHeight = window.innerHeight;
-    });
+    window.addEventListener('resize', this.handleResize);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
   },
 
   methods: {
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+      this.windowHeight = window.innerHeight;
+    },
+
     registerMouseMove(): void {
       this.isResizing = true;
     },
