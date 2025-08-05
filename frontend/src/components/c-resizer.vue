@@ -154,7 +154,6 @@ export default defineComponent({
       } else {
         this.flexWidth = this.guideWidth;
       }
-
     },
 
     closeTab(): void {
