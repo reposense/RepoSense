@@ -150,9 +150,11 @@ export default defineComponent({
     deregisterMouseMove(): void {
       this.isResizing = false;
       if (this.isPortrait) {
-        this.flexHeight = this.guideHeight;
+        this.flexWidth = (this.guideHeight * window.innerHeight
+            + (GUIDE_BAR_WIDTH / 2)) / window.innerHeight;
       } else {
-        this.flexWidth = this.guideWidth;
+        this.flexWidth = (this.guideWidth * window.innerWidth
+            + (GUIDE_BAR_WIDTH / 2)) / window.innerWidth;
       }
     },
 
