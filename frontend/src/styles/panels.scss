@@ -197,19 +197,10 @@
 }
 
 /* Responsive override for mobile (up-down stacking) */
-@media (max-width: 768px) and (orientation: portrait) {
-
+@media (width <= 768px) and (orientation: portrait) {
   #app-wrapper {
     flex-direction: column; // Makes it stack top down
     overflow: hidden; // Fix the issue with extra scrollbar
-
-    // Left right corresponds to top bottom in mobile
-    .left-resize-container,
-    .right-resize-container {
-      min-height: 0;
-      flex-grow: 1;
-      height: 0;
-    }
 
     #tab-resize-guide { // Black line
       height: 2px;
@@ -217,21 +208,28 @@
       width: 100%;
     }
 
+    // Left right corresponds to top bottom in mobile
+    .left-resize-container,
+    .right-resize-container {
+      flex-grow: 1;
+      height: 0;
+      min-height: 0;
+    }
+
     #tab-resize { // Black bar
       cursor: row-resize;
       flex: 0 0 13.25px;
       height: 13.25px;
-      width: 100%;
-      min-height: 0;
-      // Center horizontally
       left: 0;
-      right: 0;
       margin: auto;
+      min-height: 0;
       position: relative;
+      right: 0;
+      width: 100%;
 
       .tab-close {
-        position: absolute;
         left: 50%;
+        position: absolute;
         top: 50%;
         transform: translate(-50%, -50%) rotate(90deg);
       }
