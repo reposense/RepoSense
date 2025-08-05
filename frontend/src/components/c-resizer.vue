@@ -52,6 +52,7 @@ export default defineComponent({
     guideWidth: number,
     guideHeight: number,
     flexWidth: number,
+    flexHeight: number,
     isResizing: boolean,
     windowWidth: number,
     windowHeight: number,
@@ -60,6 +61,7 @@ export default defineComponent({
       guideWidth: (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2)) / window.innerWidth,
       guideHeight: (0.5 * window.innerHeight - (GUIDE_BAR_WIDTH / 2)) / window.innerHeight,
       flexWidth: 0.5,
+      flexHeight: 0.5,
       isResizing: false,
       windowWidth: window.innerWidth,
       windowHeight: window.innerHeight,
@@ -93,7 +95,7 @@ export default defineComponent({
 
     rightContainerStyles(): string {
       if (this.isPortrait) {
-        return `flex: 0 0 ${this.flexWidth * 100}%; height: ${this.flexWidth * 100}%;`;
+        return `flex: 0 0 ${this.flexHeight * 100}%; height: ${this.flexHeight * 100}%;`;
       }
       return `flex: 0 0 ${this.flexWidth * 100}%;`;
     },
@@ -153,11 +155,9 @@ export default defineComponent({
     deregisterMouseMove(): void {
       this.isResizing = false;
       if (this.isPortrait) {
-        this.flexWidth = (this.guideHeight * window.innerHeight
-            + (GUIDE_BAR_WIDTH / 2)) / window.innerHeight;
+        this.flexHeight = this.guideHeight;
       } else {
-        this.flexWidth = (this.guideWidth * window.innerWidth
-            + (GUIDE_BAR_WIDTH / 2)) / window.innerWidth;
+        this.flexWidth = this.guideWidth;
       }
 
     },
