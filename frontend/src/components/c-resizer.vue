@@ -104,27 +104,9 @@ export default defineComponent({
       if (this.isResizing) {
         return throttledEvent(25, (event: MouseEvent) => {
           if (this.isPortrait) {
-            this.guideHeight = (
-              Math.min(
-                Math.max(
-                  window.innerHeight - event.clientY,
-                  SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-                ),
-                window.innerHeight - SCROLL_BAR_WIDTH,
-              )
-                - (GUIDE_BAR_WIDTH / 2)
-            ) / window.innerHeight;
+            this.guideHeight = this.calculateGuideRatio(window.innerHeight, event.clientY);
           } else {
-            this.guideWidth = (
-              Math.min(
-                Math.max(
-                  window.innerWidth - event.clientX,
-                  SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-                ),
-                window.innerWidth - SCROLL_BAR_WIDTH,
-              )
-                - (GUIDE_BAR_WIDTH / 2)
-            ) / window.innerWidth;
+            this.guideWidth = this.calculateGuideRatio(window.innerWidth, event.clientX);
           }
         });
       }
@@ -143,6 +125,19 @@ export default defineComponent({
   },
 
   methods: {
+    calculateGuideRatio(windowSize: number, coordinate: number): number {
+      return (
+        Math.min(
+          Math.max(
+            windowSize - coordinate,
+            SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+          ),
+          windowSize - SCROLL_BAR_WIDTH,
+        )
+        - (GUIDE_BAR_WIDTH / 2)
+      ) / windowSize;
+    },
+
     handleResize() {
       this.windowWidth = window.innerWidth;
       this.windowHeight = window.innerHeight;
