@@ -70,7 +70,7 @@ export default defineComponent({
 
   computed: {
     isPortrait(): boolean {
-      return this.windowWidth < MAX_PORTRAIT_WIDTH && this.windowHeight > this.windowWidth;
+      return this.windowWidth <= MAX_PORTRAIT_WIDTH && this.windowHeight > this.windowWidth;
     },
 
     appStyles(): string {
