@@ -56,7 +56,7 @@ describe('optimise timeline', () => {
       .first()
       .find('.summary-chart__ramp .date-indicators span')
       .last()
-      .should('have.text', '2023-03-03T00:00:00');
+      .should('have.text', '2023-03-03T21:50:37');
   });
 
   it('no commits in range should not have date indicators', () => {
@@ -109,7 +109,7 @@ describe('optimise timeline', () => {
 
     // verifies the date range is correctly optimised
     cy.get('#tab-zoom .period')
-      .should('contain', '2018-05-03T00:00:00 to 2023-03-03T00:00:00');
+      .should('contain', '2018-05-03T00:00:00 to 2023-03-03T21:50:37');
 
     // verifies the ramp chart is optimised and has no empty space on the right
     cy.get('#tab-zoom .ramp a')
