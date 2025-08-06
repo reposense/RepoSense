@@ -1,0 +1,28 @@
+name: Auto-trigger publish-RepoSense Test Workflow
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger publish-RepoSense Test Workflow
+        run: |
+          repo_owner="reposense"
+          repo_name="publish-RepoSense"
+          event_type="trigger-regression-test"
+          pr="${{ github.event.number }}"
+          sha="${{ github.event.pull_request.head.sha }}"
+
+          echo "Triggering with PR: $pr, SHA: $sha"
+
+          curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.REPO_DISPATCH_TOKEN }}" \
+            https://api.github.com/repos/$repo_owner/$repo_name/dispatches \
+            -d "{\"event_type\": \"$event_type\", \"client_payload\": {\"sha\": \"$sha\", \"pr\": \"$pr\", \"run_lighthouse\": true}}"
+
