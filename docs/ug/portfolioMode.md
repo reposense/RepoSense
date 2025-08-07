@@ -13,8 +13,6 @@ Use Portfolio Mode when you want to present:
 | Filters                       | Allow searches, grouping and time period selection          | Simplified filters, non-essential toggles are hidden.             |
 | Visual Focus                  | Code review and auditing.                                   | Visual summary of personal contributions (clean & minimal) |
 | Intended Use                  | Code analysis and detailed review.                          | Personal portfolio showcase, resume link, project website.   |
-| Commits Panel                 | Full commit messages, number of lines added/removed are shown. | No Changes |
-| Code Panels                   | Shows all contributions and file changes                    | No changes. |
 
 
 ### UI Comparison:
