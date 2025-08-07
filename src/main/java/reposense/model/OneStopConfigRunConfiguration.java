@@ -22,8 +22,8 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
             "you specified in CLI a date range of --SINCE to --UNTIL, "
             + "but your report config specifies a date range that extends outside --SINCE or --UNTIL. "
             + "Either modify your CLI flags or your report config date range.";
-    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE
-            = "\"Since Date\" should not be later than \"Until Date\"";
+    private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
+            "\"Since Date\" should not be later than \"Until Date\"";
 
     private final CliArguments cliArguments;
 

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import reposense.parser.LocalDateTimeParser;
 import reposense.parser.exceptions.InvalidDatesException;
 import reposense.system.LogsManager;

@@ -9,13 +9,13 @@ import reposense.parser.exceptions.InvalidDatesException;
 /**
  * Parses date strings into {@link LocalDateTime} objects.
  *
- * <p>Supported formats:
+ * <p>Supported formats:</p>
  * <ul>
  *   <li>dd/MM/yyyy</li>
  *   <li>dd/MM/yyyy HH:mm</li>
  *   <li>dd/MM/yyyy HH:mm:ss</li>
  * </ul>
- * If time is missing, it defaults to either 00:00:00 or 23:59:59.
+ * <p>If time is missing, it defaults to either 00:00:00 or 23:59:59.</p>
  */
 public class LocalDateTimeParser {
     private static final DateTimeFormatter DATE_TIME_SECONDS =
@@ -31,7 +31,7 @@ public class LocalDateTimeParser {
     /**
      * Parses a date string into a {@link LocalDateTime}.
      *
-     * <p>If time is missing, 00:00:00 or 23:59:59 is added based on {@code isStartOfDay}.
+     * <p>If time component is missing, 00:00:00 or 23:59:59 is added based on {@code isStartOfDay}</p>.
      *
      * @param input The date string.
      *
