@@ -186,32 +186,39 @@ public class FileUtil {
      *
      * @throws IOException if {@code is} refers to an invalid path.
      */
-    public static void unzip(InputStream is, Path outputPath) throws IOException {
+   public static void unzip(InputStream is, Path outputPath) throws IOException {
         try (ZipInputStream zis = new ZipInputStream(is)) {
             ZipEntry entry;
             Files.createDirectories(outputPath);
             while ((entry = zis.getNextEntry()) != null) {
                 Path path = Paths.get(outputPath.toString(), entry.getName());
+                
+                // Security check: Validate that the path is within the destination directory
+                Path normalizedPath = path.normalize();
+                if (!normalizedPath.startsWith(outputPath.normalize())) {
+                    throw new IOException("Bad zip entry - path traversal attempt detected: " + entry.getName());
+                }
+                
                 // create the directories of the zip directory
                 if (entry.isDirectory()) {
-                    Files.createDirectories(path.toAbsolutePath());
+                    Files.createDirectories(normalizedPath.toAbsolutePath());
                     zis.closeEntry();
                     continue;
                 }
-                if (!Files.exists(path.getParent())) {
-                    Files.createDirectories(path.getParent());
+                if (!Files.exists(normalizedPath.getParent())) {
+                    Files.createDirectories(normalizedPath.getParent());
                 }
-                try (OutputStream output = Files.newOutputStream(path)) {
+                try (OutputStream output = Files.newOutputStream(normalizedPath)) {
+                    byte[] dataBuffer = new byte[1024];
                     int length;
-                    while ((length = zis.read(buffer.array())) > 0) {
-                        output.write(buffer.array(), 0, length);
+                    while ((length = zis.read(dataBuffer)) > 0) {
+                        output.write(dataBuffer, 0, length);
                     }
                 }
                 zis.closeEntry();
             }
         }
     }
-
     /**
      * Copies the template files from the {@code is} to the {@code outputPath}.
      *
