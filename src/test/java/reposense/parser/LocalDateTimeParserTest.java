@@ -1,10 +1,11 @@
 package reposense.parser;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import reposense.parser.exceptions.InvalidDatesException;
 
-import java.time.LocalDateTime;
+import reposense.parser.exceptions.InvalidDatesException;
 
 public class LocalDateTimeParserTest {
     @Test

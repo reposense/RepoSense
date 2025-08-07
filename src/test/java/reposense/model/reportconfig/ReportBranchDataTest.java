@@ -30,7 +30,8 @@ public class ReportBranchDataTest {
         String sinceDateStr = "10/5/2025 12:10:30";
         String untilDateStr = "30/5/2025";
 
-        ReportBranchData data = new ReportBranchData(branch, blurb, authors, ignoreGlobs, ignoreAuthors, fileSize, sinceDateStr, untilDateStr);
+        ReportBranchData data = new ReportBranchData(branch, blurb, authors, ignoreGlobs, ignoreAuthors, fileSize,
+                sinceDateStr, untilDateStr);
 
         Assertions.assertEquals(branch, data.getBranch());
         Assertions.assertEquals(blurb, data.getBlurb());
@@ -110,8 +111,8 @@ public class ReportBranchDataTest {
                 "10/04/2025 12:10:10", // dd/MM/yyyy HH:mm:ss
                 "1/5/2025 13:10" // dd/MM/yyyy HH:mm, single digit day and month are allowed
         );
-        Assertions.assertEquals(data.getSinceDate(), LocalDateTime.of(2025, 4, 10, 12, 10 ,10));
-        Assertions.assertEquals(data.getUntilDate(), LocalDateTime.of(2025, 5, 1, 13, 10 ,0));
+        Assertions.assertEquals(data.getSinceDate(), LocalDateTime.of(2025, 4, 10, 12, 10 , 10));
+        Assertions.assertEquals(data.getUntilDate(), LocalDateTime.of(2025, 5, 1, 13, 10 , 0));
     }
 
     @Test
