@@ -184,6 +184,8 @@ repos:
     branches:
       - branch: master
         blurb: "My project"
+        since: 10/10/2024 12:30:30
+        until: 1/1/2025
         authors:
           - author-git-host-id: jedkohjk
             author-display-name: jedkohjk
@@ -225,6 +227,24 @@ For each repository in the `repos` list, you can specify:
           * Default: The default branch of the repository.
         * `blurb`: A short description of the branch that appears in the report.
             * For more detailed descriptions, you can use a separate `blurbs.md` file.
+        * `since/until`: Specify commit date ranges in one of the following formats:
+            * dd/MM/yyyy
+            * dd/MM/yyyy HH:mm
+            * dd/MM/yyyy HH:mm:ss
+
+<box type="info" seamless>
+Behavior When Both Report Config Dates & CLI Flags Are Provided:
+
+- If both `since` / `until` dates are specified in the Config and CLI, the **Config dates take precedence** for that repository.
+- The Config date range must fall within the **CLI date boundaries**. If it exceeds, the program exits with an error.
+    - Example:
+        - CLI Date - Since: 10/10/2024, Until: 20/10/2024
+        - Valid Config Date - Since: 11/10/2024, Until: 19/10/2024
+        - Invalid Config Date - Since: 9/10/2024, Until: 21/10/2024
+- If only one of the CLI flags is provided, the Config dates will not be restricted by the missing CLI flag.
+- If Config dates are missing, the CLI flags are used.
+- If neither Config nor CLI provides dates, default date ranges are used.
+</box>
 
 #### Author Configuration
 
