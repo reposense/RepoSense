@@ -2,6 +2,9 @@ const TOLERANCE = 0.05;
 const WAITING_DELAY = 50;
 const LANDSCAPE_VIEWPORT = { width: 1200, height: 800 };
 const PORTRAIT_VIEWPORT  = { width: 600,  height: 800 };
+const BOUNDARY_LANDSCAPE = { width: 769, height: 800 }; // Just above breakpoint
+const BOUNDARY_PORTRAIT = { width: 768, height: 800 };  // Exactly at breakpoint
+const BOUNDARY_NARROW = { width: 767, height: 800 };    // Just below breakpoint
 const DEFAULT_RATIO = 0.5;
 
 describe('Viewport and Orientation Tests', () => {
@@ -22,6 +25,31 @@ describe('Viewport and Orientation Tests', () => {
 
     cy.get('#app-wrapper')
       .should('have.css', 'flex-direction', 'column');
+  });
+
+  it('tests layout behavior at 768px boundary', () => {
+    cy.get('.icon-button.fa-code').first().click();
+
+    // Test exactly at 768px - should be portrait
+    cy.viewport(BOUNDARY_PORTRAIT.width, BOUNDARY_PORTRAIT.height);
+    cy.get('#app-wrapper')
+      .should('have.css', 'flex-direction', 'column');
+    cy.get('#tab-resize')
+      .should('have.css', 'cursor', 'row-resize');
+
+    // Test just below 768px (767px) - should be portrait
+    cy.viewport(BOUNDARY_NARROW.width, BOUNDARY_NARROW.height);
+    cy.get('#app-wrapper')
+      .should('have.css', 'flex-direction', 'column');
+    cy.get('#tab-resize')
+      .should('have.css', 'cursor', 'row-resize');
+
+    // Test just above 768px (769px) - should be landscape
+    cy.viewport(BOUNDARY_LANDSCAPE.width, BOUNDARY_LANDSCAPE.height);
+    cy.get('#app-wrapper')
+      .should('have.css', 'flex-direction', 'row');
+    cy.get('#tab-resize')
+      .should('have.css', 'cursor', 'col-resize');
   });
 
   it('resizer cursor changes between orientations', () => {
