@@ -349,6 +349,17 @@
       "headingKeywords": {}
     },
     {
+      "src": "ug/portfolioMode.md",
+      "headings": {
+        "portfolio-mode-ui": "Portfolio Mode UI",
+        "when-to-use-portfolio-mode": "When to use Portfolio Mode?",
+        "key-features": "Key Features:",
+        "ui-comparison": "UI Comparison:",
+        "notes": "Notes"
+      },
+      "headingKeywords": {}
+    },
+    {
       "src": "ug/repo-blurbs.md",
       "headings": {},
       "headingKeywords": {}
