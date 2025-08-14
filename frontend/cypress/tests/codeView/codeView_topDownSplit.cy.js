@@ -1,5 +1,5 @@
 const TOLERANCE = 0.05;
-const WAITING_DELAY = 200;
+const WAITING_DELAY = 50;
 const LANDSCAPE_VIEWPORT = { width: 1200, height: 800 };
 const PORTRAIT_VIEWPORT  = { width: 600,  height: 800 };
 const DEFAULT_RATIO = 0.5;
@@ -63,7 +63,6 @@ describe('Viewport and Orientation Tests', () => {
       const actualRatio = this.actualLandscapeWidth / this.totalLandscapeWidth;
       expect(actualRatio).to.be.closeTo(0.3, TOLERANCE);
     });
-
 
     // Save current dimensions
     cy.get('.left-resize-container').invoke('outerWidth').as('landscapeWidth');
