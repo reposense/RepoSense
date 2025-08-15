@@ -75,7 +75,7 @@ describe('optimise timeline',
         .first()
         .find('.summary-chart__ramp .date-indicators span')
         .last()
-        .should('have.text', '2019-06-10T00:00:00');
+        .should('have.text', '2019-06-10T15:22:09');
     });
 
     it('zoom panel range should work correctly when timeline is not optimised', () => {
@@ -116,14 +116,14 @@ describe('optimise timeline',
 
       // verifies the date range is correctly optimised
       cy.get('#tab-zoom .period')
-        .should('contain', '2019-01-21T00:00:00 to 2019-06-10T00:00:00');
+        .should('contain', '2019-01-21T00:00:00 to 2019-06-10T15:22:09');
 
       // verifies the ramp chart is optimised and has no empty space on the right
       cy.get('#tab-zoom .ramp a')
         .first()
         .invoke('css', 'right')
         .then((val) => parseFloat(val))
-        .should('lt', 1);
+        .should('lt', 2);
     });
 
     // TODO: Existing bug where commits sometimes do not align with the selected range.

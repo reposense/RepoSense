@@ -363,4 +363,46 @@ describe('range changes in chartview should reflect in zoom', () => {
       .invoke('attr', 'title')
       .should('eq', '[2020-09-27T00:00:00] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
+
+  it('filtering commits by datetime', () => {
+    cy.get('input[name="since"]:visible')
+      .type('2019-08-18T13:00:00');
+
+    cy.get('body')
+      .get('#summary-charts .summary-chart__ramp .ramp .ramp-padding')
+      .first()
+      .children()
+      .its('length')
+      .should('eq', 4)
+
+    cy.get('input[name="since"]:visible')
+      .type('2019-08-18T14:00:00');
+
+    cy.get('body')
+      .get('#summary-charts .summary-chart__ramp .ramp .ramp-padding')
+      .first()
+      .children()
+      .its('length')
+      .should('eq', 3)
+
+    cy.get('.icon-button.fa-list-ul')
+      .first()
+      .click();
+
+    cy.get('#tab-zoom')
+      .should('be.visible');
+
+    cy.get('#tab-zoom .ramp .ramp__slice')
+      .first()
+      .invoke('attr', 'title')
+      .should(
+        'eq',
+        '[2023-03-03T00:00:00] Merge branch \'new-branch\' into cypress: +0 -0 lines ',
+      );
+
+    cy.get('#tab-zoom .ramp .ramp__slice')
+      .last()
+      .invoke('attr', 'title')
+      .should('eq', '[2019-12-24T00:00:00] README: add acknowledgements section (#978): +7 -0 lines ');
+  });
 });
