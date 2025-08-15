@@ -197,7 +197,7 @@
 }
 
 /* Responsive override for mobile or narrow viewports up-down stacking) */
-/* To keep in sync with MAX_PORTRAIT_WIDTH in c-resizer.vue*/
+/* To keep in sync with MAX_PORTRAIT_WIDTH in c-resizer.vue */
 @media (width <= 768px) and (orientation: portrait) {
   #app-wrapper {
     flex-direction: column;
