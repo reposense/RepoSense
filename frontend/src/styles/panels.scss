@@ -196,13 +196,14 @@
   }
 }
 
-/* Responsive override for mobile (up-down stacking) */
+/* Responsive override for mobile or narrow viewports up-down stacking) */
+/* To keep in sync with MAX_PORTRAIT_WIDTH in c-resizer.vue*/
 @media (width <= 768px) and (orientation: portrait) {
   #app-wrapper {
-    flex-direction: column; // Makes it stack top down
-    overflow: hidden; // Fix the issue with extra scrollbar
+    flex-direction: column;
+    overflow: hidden; // Prevents extra scrollbar from showing
 
-    #tab-resize-guide { // Black line
+    #tab-resize-guide {
       height: 2px;
       left: 0;
       width: 100%;
@@ -216,7 +217,7 @@
       min-height: 0;
     }
 
-    #tab-resize { // Black bar
+    #tab-resize {
       cursor: row-resize;
       flex: 0 0 13.25px;
       height: 13.25px;
