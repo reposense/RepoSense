@@ -241,7 +241,7 @@ For each repository in the `repos` list, you can specify:
 <box type="info" seamless>
 Behavior When Both Report Config Dates & CLI Flags Are Provided:
 
-- If both `since` / `until` dates are specified in the Config and CLI, the **Config dates take precedence** for that repository.
+- If `since` date is specified in both `report-config.yaml` and CLI, the **Config dates take precedence** for that repository. The same applies to `until` date.
 - The Config date range must fall within the **CLI date boundaries**. If it exceeds, the program exits with an error.
     - Example:
         - CLI Date - Since: 10/10/2024, Until: 20/10/2024
