@@ -15,8 +15,8 @@ public class ReportBranchDataTest {
             List.of("*.log"),
             List.of("bot"),
             2000000L,
-            "2025/04/10",
-            "2025/05/10"
+            "10/04/2025",
+            "10/05/2025"
     );
 
     @Test
@@ -70,8 +70,8 @@ public class ReportBranchDataTest {
                 List.of("*.log"),
                 List.of("bot"),
                 2000000L,
-                "2025/04/10",
-                "2025/05/10"
+                "10/04/2025",
+                "10/05/2025"
         );
 
         Assertions.assertEquals(data1, data2);
@@ -87,8 +87,8 @@ public class ReportBranchDataTest {
                 List.of("*.log"),
                 List.of("bot"),
                 2000000L,
-                "2025/04/10",
-                "2025/05/10"
+                "10/04/2025",
+                "10/05/2025"
         );
 
         Assertions.assertNotEquals(data1, data2);
