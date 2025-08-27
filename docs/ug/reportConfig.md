@@ -227,10 +227,12 @@ For each repository in the `repos` list, you can specify:
           * Default: The default branch of the repository.
         * `blurb`: A short description of the branch that appears in the report.
             * For more detailed descriptions, you can use a separate `blurbs.md` file.
-        * `since/until`: Specify commit date ranges in one of the following formats:
-            * dd/MM/yyyy
-            * dd/MM/yyyy HH:mm
-            * dd/MM/yyyy HH:mm:ss
+        * `since`: Start date of commits to include in the analysis. Accepted formats:
+            * Date only: `dd/MM/yyyy`
+            * Date and time: `dd/MM/yyyy HH:mm` or `dd/MM/yyyy HH:mm:ss`
+        * `until`: End date of commits to include in the analysis. Accepted formats:
+            * Date only: `dd/MM/yyyy`
+            * Date and time: `dd/MM/yyyy HH:mm` or `dd/MM/yyyy HH:mm:ss`
 
 <box type="info" seamless>
 Behavior When Both Report Config Dates & CLI Flags Are Provided:

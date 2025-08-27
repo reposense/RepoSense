@@ -27,8 +27,8 @@ public class ReportBranchData {
     private final List<String> ignoreGlobList;
     private final List<String> ignoreAuthorList;
     private final Long fileSizeLimit;
-    private LocalDateTime sinceDate;
-    private LocalDateTime untilDate;
+    private final LocalDateTime sinceDate;
+    private final LocalDateTime untilDate;
 
     @JsonCreator
     public ReportBranchData(
@@ -119,7 +119,9 @@ public class ReportBranchData {
                     && this.getReportAuthorDetails().equals(rbd.getReportAuthorDetails())
                     && this.getIgnoreGlobList().equals(rbd.getIgnoreGlobList())
                     && this.getIgnoreAuthorList().equals(rbd.getIgnoreAuthorList())
-                    && this.getFileSizeLimit().equals(rbd.getFileSizeLimit());
+                    && this.getFileSizeLimit().equals(rbd.getFileSizeLimit())
+                    && this.getSinceDate().equals(rbd.getSinceDate())
+                    && this.getUntilDate().equals(rbd.getUntilDate());
         }
 
         return false;
