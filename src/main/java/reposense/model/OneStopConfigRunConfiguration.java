@@ -106,7 +106,7 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
     /**
      * Determines the effective date to use based on the report config and CLI arguments.
      * If the report config date is not provided, the corresponding CLI date is used.
-     * 
+     *
      * @param configDate the date specified in the report config (might be {@code null}).
      * @return the valid date to be used (either from config or CLI).
      * @throws InvalidDatesException if the config date falls outside the CLI date range.
