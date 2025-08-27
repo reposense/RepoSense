@@ -201,7 +201,8 @@ repos:
 ```
 
 ### Field Descriptions
-Note: All fields are optional unless specified otherwise.
+
+**Note: All fields are optional unless specified otherwise.**
 
 #### Top-Level Fields
 
@@ -228,11 +229,14 @@ For each repository in the `repos` list, you can specify:
         * `blurb`: A short description of the branch that appears in the report.
             * For more detailed descriptions, you can use a separate `blurbs.md` file.
         * `since`: Start date of commits to include in the analysis. Accepted formats:
-            * Date only: `dd/MM/yyyy`
-            * Date and time: `dd/MM/yyyy HH:mm` or `dd/MM/yyyy HH:mm:ss`
+          * Date only  
+            * `dd/MM/yyyy`  
+          * Date and time  
+            * `dd/MM/yyyy HH:mm` or
+            * `dd/MM/yyyy HH:mm:ss`
+
         * `until`: End date of commits to include in the analysis. Accepted formats:
-            * Date only: `dd/MM/yyyy`
-            * Date and time: `dd/MM/yyyy HH:mm` or `dd/MM/yyyy HH:mm:ss`
+          * **same as the above**
 
 <box type="info" seamless>
 Behavior When Both Report Config Dates & CLI Flags Are Provided:
