@@ -28,6 +28,7 @@ import { defineComponent } from 'vue';
 const DRAG_BAR_WIDTH = 13.25;
 const SCROLL_BAR_WIDTH = 17;
 const GUIDE_BAR_WIDTH = 2;
+const MAX_PORTRAIT_WIDTH = 768;
 
 /** The following eslint suppression suppresses a rare false positive case where event cannot be accessed due to
  *  handler being a lambda function parameter. The explicit lambda function here allows us to easily discern handler's
@@ -49,46 +50,64 @@ export default defineComponent({
 
   data(): {
     guideWidth: number,
+    guideHeight: number,
     flexWidth: number,
-    isResizing: boolean
+    flexHeight: number,
+    isResizing: boolean,
+    windowWidth: number,
+    windowHeight: number,
   } {
     return {
       guideWidth: (0.5 * window.innerWidth - (GUIDE_BAR_WIDTH / 2)) / window.innerWidth,
+      guideHeight: (0.5 * window.innerHeight - (GUIDE_BAR_WIDTH / 2)) / window.innerHeight,
       flexWidth: 0.5,
+      flexHeight: 0.5,
       isResizing: false,
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
     };
   },
 
   computed: {
+    isPortrait(): boolean {
+      return this.windowWidth <= MAX_PORTRAIT_WIDTH && this.windowHeight > this.windowWidth;
+    },
+
     appStyles(): string {
-      return this.isResizing
-        ? 'user-select: none; cursor: col-resize;'
-        : '';
+      if (this.isResizing) {
+        if (this.isPortrait) {
+          return 'user-select: none; cursor: row-resize;';
+        }
+        return 'user-select: none; cursor: col-resize;';
+      }
+      return '';
     },
 
     guideStyles(): string {
-      return this.isResizing
-        ? `display: block; right: ${this.guideWidth * 100}%;`
-        : '';
+      if (this.isResizing) {
+        if (this.isPortrait) {
+          return `display: block; bottom: ${this.guideHeight * 100}%;`;
+        }
+        return `display: block; right: ${this.guideWidth * 100}%;`;
+      }
+      return '';
     },
 
     rightContainerStyles(): string {
+      if (this.isPortrait) {
+        return `flex: 0 0 ${this.flexHeight * 100}%; height: ${this.flexHeight * 100}%;`;
+      }
       return `flex: 0 0 ${this.flexWidth * 100}%;`;
     },
 
     mouseMove(): Function {
       if (this.isResizing) {
         return throttledEvent(25, (event: MouseEvent) => {
-          this.guideWidth = (
-            Math.min(
-              Math.max(
-                window.innerWidth - event.clientX,
-                SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
-              ),
-              window.innerWidth - SCROLL_BAR_WIDTH,
-            )
-            - (GUIDE_BAR_WIDTH / 2)
-          ) / window.innerWidth;
+          if (this.isPortrait) {
+            this.guideHeight = this.calculateGuideRatio(window.innerHeight, event.clientY);
+          } else {
+            this.guideWidth = this.calculateGuideRatio(window.innerWidth, event.clientX);
+          }
         });
       }
       return () => {};
@@ -97,15 +116,46 @@ export default defineComponent({
     ...mapState(['isTabActive']),
   },
 
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+
   methods: {
+    calculateGuideRatio(windowSize: number, coordinate: number): number {
+      return (
+        Math.min(
+          Math.max(
+            windowSize - coordinate,
+            SCROLL_BAR_WIDTH + DRAG_BAR_WIDTH,
+          ),
+          windowSize - SCROLL_BAR_WIDTH,
+        )
+        - (GUIDE_BAR_WIDTH / 2)
+      ) / windowSize;
+    },
+
+    handleResize() {
+      this.windowWidth = window.innerWidth;
+      this.windowHeight = window.innerHeight;
+    },
+
     registerMouseMove(): void {
       this.isResizing = true;
     },
 
     deregisterMouseMove(): void {
       this.isResizing = false;
-      this.flexWidth = (this.guideWidth * window.innerWidth + (GUIDE_BAR_WIDTH / 2))
-        / window.innerWidth;
+      if (this.isPortrait) {
+        this.flexHeight = (this.guideHeight * window.innerHeight
+            + (GUIDE_BAR_WIDTH / 2)) / window.innerHeight;
+      } else {
+        this.flexWidth = (this.guideWidth * window.innerWidth
+            + (GUIDE_BAR_WIDTH / 2)) / window.innerWidth;
+      }
     },
 
     closeTab(): void {

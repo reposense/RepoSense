@@ -195,3 +195,46 @@
     margin-left: 2rem;
   }
 }
+
+/* Responsive override for mobile or narrow viewports up-down stacking) */
+/* To keep in sync with MAX_PORTRAIT_WIDTH in c-resizer.vue */
+@media (width <= 768px) and (orientation: portrait) {
+  #app-wrapper {
+    flex-direction: column;
+    overflow: hidden; // Prevents extra scrollbar from showing
+
+    #tab-resize-guide {
+      height: 2px;
+      left: 0;
+      width: 100%;
+    }
+
+    // Left right corresponds to top bottom in mobile
+    .left-resize-container,
+    .right-resize-container {
+      flex-grow: 1;
+      height: 0;
+      min-height: 0;
+    }
+
+    #tab-resize {
+      cursor: row-resize;
+      flex: 0 0 13.25px;
+      height: 13.25px;
+      left: 0;
+      margin: auto;
+      min-height: 0;
+      position: relative;
+      right: 0;
+      width: 100%;
+
+      .tab-close {
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+    }
+  }
+
+}
