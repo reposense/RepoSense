@@ -269,7 +269,7 @@ tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageMa
     args = ["run-script", "debug"]
 }
 
-tasks.register('frontendTest', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
+tasks.register('testFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
     dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio
     tasks.serveTestReportDefault.mustRunAfter(installCypress)
@@ -300,7 +300,7 @@ jacocoTestReport {
         html.destination file("${buildDir}/jacocoHtml")
     }
 
-    executionData systemtest, frontendTest
+    executionData systemtest, testFrontend
 }
 
 tasks.register('coverage', JacocoReport) {
@@ -386,4 +386,4 @@ void deleteReposAddressDirectory() {
     reposDirectory.deleteDir()
 }
 
-defaultTasks 'clean', 'build', 'systemtest', 'frontendTest', 'coverage'
+defaultTasks 'clean', 'build', 'systemtest', 'testFrontend', 'coverage'
