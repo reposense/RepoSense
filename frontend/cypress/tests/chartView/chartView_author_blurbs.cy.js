@@ -31,7 +31,7 @@ describe('author blurbs', () => {
     cy.get('#summary .mui-select.grouping select').select('Author');
     cy.get('.markdown.blurb')
       .should('have.length', 6);
-  })
+  });
 
   it('processes html in blurbs', () => {
     cy.get('#summary .mui-select.grouping select').select('Author');
@@ -58,4 +58,4 @@ describe('author blurbs', () => {
       .find('h3')
       .contains('h3 third chart blurb');
   })
-})
+});
