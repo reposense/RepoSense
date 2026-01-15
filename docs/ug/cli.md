@@ -201,7 +201,7 @@ credit is given.
 ### `--period`, `-p`
 
 **`--period PERIOD`**: Specifies the period of analysis window.
-* Parameter: `PERIOD` The period of analysis window, in the format `nd` (for n days) or `nw` (for n weeks). It is used to calculate end date if only start date is specified, or calculate end date if only start date is specified.
+* Parameter: `PERIOD` The period of analysis window, in the format `nd` (for n days) or `nw` (for n weeks). It is used to calculate end date if only start date is specified, or calculate start date if only end date is specified.
 * Alias: `-p`
 * Example: `--period 30d` or `--period 4w`
 
@@ -220,7 +220,9 @@ credit is given.
 * Default: generates the regular report
 * Alias: `-P` (uppercase P)
 * Example: `--portfolio` or `-P`
+* **Portfolio Mode** simplifies the dashboard for showcasing individual contributions (e.g., personal portfolio websites, resume links).
 
+See [Portfolio Mode UI](portfolioMode.md) for details on the differences.
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--repo`, `--repos`, `-r`
