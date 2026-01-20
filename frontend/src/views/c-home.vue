@@ -4,7 +4,7 @@
     c-resizer
       template(#left)
         #summary-wrapper
-          c-title(ref="cTitle")
+          c-intro(ref="cIntro")
           c-summary.tab-padding(
             v-if="!isPortfolio",
             ref="summary",
@@ -75,20 +75,20 @@
       input(type="file", accept=".zip", @change="updateReportZip")
 </template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue';
+<script lang="ts">
+import { defineComponent } from "vue";
 
-import cTitle from '../components/c-title.vue';
-import cResizer from '../components/c-resizer.vue';
-import cZoom from './c-zoom.vue';
-import cSummary from './c-summary.vue';
-import cSummaryPortfolio from './c-summary-portfolio.vue';
-import cAuthorship from './c-authorship.vue';
+import cIntro from "../components/c-intro.vue";
+import cResizer from "../components/c-resizer.vue";
+import cZoom from "./c-zoom.vue";
+import cSummary from "./c-summary.vue";
+import cSummaryPortfolio from "./c-summary-portfolio.vue";
+import cAuthorship from "./c-authorship.vue";
 
 const home = defineComponent({
-  name: 'c-home',
+  name: "c-home",
   components: {
-    cTitle,
+    cIntro,
     cResizer,
     cZoom,
     cSummary,
@@ -136,7 +136,7 @@ const home = defineComponent({
   computed: {
     isPortfolio(): boolean {
       return window.isPortfolio;
-    }
+    },
   },
   methods: {
     getRepoSenseHomeLink(): string {
@@ -152,7 +152,7 @@ const home = defineComponent({
       if (!version) {
         return `${window.REPOSENSE_REPO_URL}`;
       }
-      if (version.startsWith('v')) {
+      if (version.startsWith("v")) {
         return `${window.REPOSENSE_REPO_URL}/releases/tag/${version}`;
       }
       return `${window.REPOSENSE_REPO_URL}/commit/${version}`;

@@ -9,6 +9,6 @@ beforeEach(() => {
   cy.visit('/');
   cy.intercept({
     method: 'GET',
-    url: '/title.md',
-  }, '# RepoSense Intro').as('getTitleMd');
+    url: '/intro.md',
+  }, '# RepoSense Intro').as('getIntroMd');
 });
