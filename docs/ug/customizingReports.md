@@ -1,7 +1,7 @@
 {% set title = "Customizing reports" %}
 <frontmatter>
-  title: "{{ title | safe }}"
-  pageNav: 3
+title: "{{ title | safe }}"
+pageNav: 3
 </frontmatter>
 
 {% from 'scripts/macros.njk' import embed, step with context %}
@@ -11,6 +11,7 @@
 <div class="lead">
 
 The report can be customized using several ways, as explained below.
+
 </div>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
@@ -24,6 +25,7 @@ RepoSense offers multiple ways to customize your reports, with varying levels of
 3. **CSV config files** - A more powerful option with granular control for advanced scenarios
 
 When deciding which configuration method to use:
+
 - **CLI flags** are ideal for quick, one-off reports with minimal customization.
 - **report-config.yaml** is recommended for most users as it provides a good balance of usability and features in a single file.
 - **CSV config files** offer the most flexibility for complex scenarios, such as managing large teams or requiring fine-grained control.
@@ -34,7 +36,7 @@ When deciding which configuration method to use:
 
 **The simplest approach is to provide additional flags when running RepoSense.** The various flags are given in the panel below.
 
-  {{ embed("Appendix: **CLI syntax reference**", "cli.md") }}
+{{ embed("Appendix: **CLI syntax reference**", "cli.md") }}
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -45,6 +47,7 @@ When deciding which configuration method to use:
 Please refer to this [page](./reportConfig.html) to get started.
 
 Note that configurations in `report-config.yaml` will override the configurations in the CSV config files when both are present.
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### Customize using CSV config files
@@ -53,7 +56,7 @@ Note that configurations in `report-config.yaml` will override the configuration
 
 In this case you need to use the `--config` flag instead of the `--repo` flag when running RepoSense, as follows:
 
-  {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
+{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
 
 <box type="tip" seamless>
 
@@ -61,22 +64,23 @@ In this case you need to use the `--config` flag instead of the `--repo` flag wh
 
 To ensure that their PRs are correct, you can use [Netlify _deploy previews_](https://www.netlify.com/blog/2016/07/20/introducing-deploy-previews-in-netlify/) to preview how the report would look like after the PR has been merged. More details are in the panels below.
 
-  {{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}
+{{ embed("Appendix: **Using RepoSense with Netlify → Setting up**", "withNetlify.md#section-setting-up") }}
 
-  {{ embed("Appendix: **Using RepoSense with Netlify → PR previews**", "withNetlify.md#section-pr-previews") }}
+{{ embed("Appendix: **Using RepoSense with Netlify → PR previews**", "withNetlify.md#section-pr-previews") }}
 
 </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### Get target repos to provide more info
+
 **If feasible, you can also customize the target repos to play well with RepoSense** in the following two ways:
 
 1\. Add a _standalone config file_ to the repo to provide more config details to RepoSense. The format of the file is given below.
-  {{ embed("Appendix: **Standalone config file format**", "configFiles.md#section-standalone") }}
+{{ embed("Appendix: **Standalone config file format**", "configFiles.md#section-standalone") }}
 
 2\. To have more precise control over which code segment is attributed to which author, authors can annotate their code using `@@author` tags, as explained below.
-  {{ embed("Appendix: **Using `@@author` tags**", "usingAuthorTags.md") }}
+{{ embed("Appendix: **Using `@@author` tags**", "usingAuthorTags.md") }}
 
 <box type="info" seamless>
 
@@ -91,26 +95,30 @@ In both instances, it is **necessary to commit any changes** for them to be dete
 ### Personalizing Reports
 
 #### Add favicon.ico
-There is a default `favicon.ico` file provided in the template zip folder. If you want to self-configure the `favicon.ico`, please ensure that the file is valid and has the file name of `favicon.ico`. This icon will appear in the browser tab when your report is viewed. Copy or move your `favicon.ico file` into the `assets` folder of the config directory 
+
+There is a default `favicon.ico` file provided in the template zip folder. If you want to self-configure the `favicon.ico`, please ensure that the file is valid and has the file name of `favicon.ico`. This icon will appear in the browser tab when your report is viewed. Copy or move your `favicon.ico file` into the `assets` folder of the config directory
 
 Specifying the config directory can be done as follows:
 {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
 
-#### Add a title
-A title component can be added by creating a file titled `title.md` in the config directory.
+#### Add an intro
+
+Add the introductory section of the dashboard by creating an `intro.md` file in the config directory. Existing `title.md` files still work for now, but will be deprecated in favour of `intro.md`.
 
 Specifying the config directory can be done as follows:
 {{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
 
-The title can render a combination of Markdown/HTML and plaintext ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/title.md)), and will appear on the top of the left panel as shown below:
-![Title Component Example](../images/title-example.png)
+The intro can render a combination of Markdown/HTML and plaintext ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/title.md)), and will appear on the top of the left panel as shown below:
+![Intro Component Example](../images/title-example.png)
 
-Do note that the width of the title is bound by the width of the left panel.
+Do note that the width of the intro is bound by the width of the left panel.
 
 For more information on how to use Markdown, see the [Markdown Guide](https://www.markdownguide.org/).
 
 #### Add blurbs for branches, authors or charts
+
 A blurb can be added for a repository or author by creating the respective blurb markdown files in the config directory.
+
 - For a repository:
   - Create a file titled `repo-blurbs.md` in the config directory. The format of the file is given below:
     {{ embed("Appendix: **Config files format**", "configFiles.md#section-repo-blurbs") }}
