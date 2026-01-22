@@ -116,7 +116,6 @@ Binary file formats, such as `jpg`, `png`,`exe`,`zip`, `rar`, `docx`, and `pptx`
 
 Cannot be used with any other flags. This flag takes precedence over all other flags.
 </box>
-
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--ignore-standalone-config`, `-i`
@@ -165,7 +164,7 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 
 * Cannot be used with `--shallow-cloning`. This may result in an incorrect last modified date.
 * The last modified dates will be in the same timezone specified with the `--timezone` flag.
-  </box>
+</box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -174,6 +173,7 @@ This flag overrides the `Ignore file size limit` field in the CSV config file.
 **`--originality-threshold [VALUE]`**: Specifies the cut-off point for partial and full credit
 in `--analyze-authorship`. Author will be given full credit if their contribution exceeds this threshold, else partial
 credit is given.
+
 * Parameter: `VALUE` Optional. Acceptable range: [0.0, 1.0].<br>
   Default: `0.51`
 * Alias: `-ot`
@@ -184,7 +184,7 @@ credit is given.
 * Requires `--analyze-authorship` flag.
 * An author's contribution, or `originality score`, is calculated using Levenshtein Distance (Edit Distance) algorithm.
   We compare the difference between current code line and its previous versions.
-  </box>
+</box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -210,7 +210,7 @@ credit is given.
 * If both start date and end date are not specified, the date of generating the report will be taken as the end date.
 * May analyze the incorrect date range if used with `--since d1`. The program will throw a warning.
 * Cannot be used with both `--since` and `--until`. The program will throw an exception.
-  </box>
+</box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -223,7 +223,6 @@ credit is given.
 * **Portfolio Mode** simplifies the dashboard for showcasing individual contributions (e.g., personal portfolio websites, resume links).
 
 See [Portfolio Mode UI](portfolioMode.md) for details on the differences.
-
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--repo`, `--repos`, `-r`
@@ -232,14 +231,13 @@ See [Portfolio Mode UI](portfolioMode.md) for details on the differences.
 * Parameter: `REPO_LOCATION` A list of URLs or the disk location of the Git repositories to analyze, separated by spaces.
 * Alias: `-r`
 * Examples:
-  - `--repos https://github.com/reposense/RepoSense.git`
-  - `--repo https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar`: analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
+  * `--repos https://github.com/reposense/RepoSense.git`
+  * `--repo https://github.com/reposense/RepoSense.git c:/myRepose/foo/bar`: analyzes the two specified repos (one remote, one local) and generates one report containing details of both.
 
 <box type="info" seamless>
 
 Cannot be used with `--config`. This flag takes precedence over `--config`.
 </box>
-
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### `--shallow-cloning`, `-S`
@@ -293,7 +291,7 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 * This flag is used to update only the text content (intro.md/title.md, repo-blurbs.md and author-blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
 * Ensure that there is an existing valid report generated before using this flag.
 * Cannot be used with any other flags except from `--view`, `--assets` and `--config`.
-  </box>
+</box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -318,7 +316,7 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
   2. DD/MM/YYYY'T'HH:mm
   3. DD/MM/YYYY'T'HH:mm:ss
   ```
-  Default:
+Default:
 - If `END_DATE` is not specified, it defaults to the current date at `23:59:59`.
 - If hours/ minutes/ seconds are not provided, they will default to `23`, `59`, and `59`, respectively.
 * Alias: `-u`
