@@ -210,9 +210,9 @@ Note: All fields are optional unless specified otherwise.
 #### Top-Level Fields
 
 * `title`: Sets the title of your generated report, which appears as the title of the deployed dashboard.
-  * Default: "RepoSense Report".
+    * Default: "RepoSense Report".
 * `repos`: A list of repositories to include in your analysis..
-  * This field is an array, so you can include multiple repositories.
+    * This field is an array, so you can include multiple repositories.
 
 #### Repository-Level Fields
 
@@ -223,34 +223,34 @@ For each repository in the `repos` list, you can specify:
 * `groups`: Allows you to define custom groupings of files for more organized analysis.
   * This is useful for separating code files, test files, documentation, etc.
   * Each group has:
-    * `group-name` {{ mandatory }} : A name for the group (e.g., "code", "tests", "docs").
-    * `globs` {{ mandatory }} : File patterns to include in this group using [glob format](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
+      * `group-name` {{ mandatory }} : A name for the group (e.g., "code", "tests", "docs").
+      * `globs` {{ mandatory }} : File patterns to include in this group using [glob format](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
 * `branches` {{ mandatory }} : The branches you want to analyze in the repository.
-  * For each branch, you specify:
-    * `branch`: The name of the branch (e.g., "master", "main", "develop").
-      * Default: The default branch of the repository.
-    * `blurb`: A short description of the branch that appears in the report.
-      * For more detailed descriptions, you can use a separate `blurbs.md` file.
+    * For each branch, you specify:
+        * `branch`: The name of the branch (e.g., "master", "main", "develop").
+          * Default: The default branch of the repository.
+        * `blurb`: A short description of the branch that appears in the report.
+            * For more detailed descriptions, you can use a separate `blurbs.md` file.
 
 #### Author Configuration
 
 Within each branch, you can specify:
 
 * `authors`: A list of authors whose contributions you want to track. If none specified, all authors will be shown.
-  * For each author:
-    * `author-git-host-id` {{ mandatory }} : The GitHub username of the author.
-    * `author-display-name`: The name to display in the report (can be different from the GitHub username).
-    * `author-git-author-name`: The name used in Git commits.
-    * `author-emails`: A list of email addresses associated with the author's commits.
+    * For each author:
+        * `author-git-host-id` {{ mandatory }} : The GitHub username of the author.
+        * `author-display-name`: The name to display in the report (can be different from the GitHub username).
+        * `author-git-author-name`: The name used in Git commits.
+        * `author-emails`: A list of email addresses associated with the author's commits.
 
 #### Filtering Options
 
 * `ignore-authors-list`: Authors to exclude from the analysis.
-  * Specified by their Git Author Name.
-  * Useful for excluding bots or automated commit accounts.
+    * Specified by their Git Author Name.
+    * Useful for excluding bots or automated commit accounts.
 * `ignore-glob-list`: Files or directories to exclude from analysis.
-  * Uses the [glob format](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
-  * Example: `"**.in"` excludes all files with the ".in" extension.
+    * Uses the [glob format](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob).
+    * Example: `"**.in"` excludes all files with the ".in" extension.
 * `file-size-limit`: Maximum file size (in bytes) for analysis.
-  * Files larger than this limit will be ignored.
-  * Overrides the default file size limit.
+    * Files larger than this limit will be ignored.
+    * Overrides the default file size limit.
