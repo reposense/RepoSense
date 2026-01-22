@@ -73,30 +73,30 @@ public class ReportGenerator {
     private static final String TEMPLATE_FILE = "/templateZip.zip";
 
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
-    private static final String MESSAGE_ERROR_CREATING_DIRECTORY = 
-    "Error has occurred while creating repo directory for %s (%s), will skip this repo.";
+    private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
+            "Error has occurred while creating repo directory for %s (%s), will skip this repo.";
     private static final String MESSAGE_NO_STANDALONE_CONFIG = "%s (%s) does not contain a standalone config file.";
     private static final String MESSAGE_IGNORING_STANDALONE_CONFIG = "Ignoring standalone config file in %s (%s).";
     private static final String MESSAGE_MALFORMED_STANDALONE_CONFIG = "%s/%s/%s is malformed for %s (%s).";
-    private static final String MESSAGE_NO_AUTHORS_SPECIFIED = 
-    "%s (%s) has no authors specified, using all authors by default.";
-    private static final String MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND = 
-    "No authors found with commits for %s (%s).";
+    private static final String MESSAGE_NO_AUTHORS_SPECIFIED =
+            "%s (%s) has no authors specified, using all authors by default.";
+    private static final String MESSAGE_NO_AUTHORS_WITH_COMMITS_FOUND =
+            "No authors found with commits for %s (%s).";
     private static final String MESSAGE_START_ANALYSIS = "Analyzing %s (%s)...";
     private static final String MESSAGE_COMPLETE_ANALYSIS = "Analysis of %s (%s) completed!";
     private static final String MESSAGE_REPORT_GENERATED = "The report is generated at %s";
     private static final String MESSAGE_BRANCH_DOES_NOT_EXIST = "Branch %s does not exist in %s! Analysis terminated.";
-    private static final String MESSAGE_MISSING_TEMPLATE = 
-    "Unable to find template file. Proceeding to generate report...";
-    private static final String MESSAGE_SKIP_REPORT_GENERATION = 
-    "Refresh Only Text flag is present. Skipping report generation...";
+    private static final String MESSAGE_MISSING_TEMPLATE =
+            "Unable to find template file. Proceeding to generate report...";
+    private static final String MESSAGE_SKIP_REPORT_GENERATION =
+            "Refresh Only Text flag is present. Skipping report generation...";
 
     private static final String LOG_ERROR_CLONING = "Failed to clone from %s";
     private static final String LOG_ERROR_EXPANDING_COMMIT = "Cannot expand %s, it shall remain unexpanded";
     private static final String LOG_BRANCH_DOES_NOT_EXIST = "Branch \"%s\" does not exist.";
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
     private static final String LOG_UNEXPECTED_ERROR = "Unexpected error stack trace for %s:\n>%s";
-    private static final List<String> assetsFilesWhiteList = 
+     private static final List<String> assetsFilesWhiteList =
             Collections.unmodifiableList(Arrays.asList(new String[] { "assets/favicon.ico", "intro.md" }));
 
     private LocalDateTime earliestSinceDate = null;
@@ -133,7 +133,7 @@ public class ReportGenerator {
                 cliArguments.isAuthorshipAnalyzed(), cliArguments.getOriginalityThreshold(),
                 repoBlurbMap, authorBlurbMap, chartBlurbMap, cliArguments.isPortfolio(),
                 cliArguments.isOnlyTextRefreshed()
-            );
+        );
     }
 
     /**
@@ -274,8 +274,8 @@ public class ReportGenerator {
             // The `CompletableFuture.supplyAsync` method is used to clone the repo in parallel.
             // Note that the `cloneExecutor` is passed as a parameter to ensure that the number of threads used
             // for cloning is no more than `numCloningThreads`.
-            CompletableFuture<CloneJobOutput> cloneFuture = CompletableFuture.supplyAsync(() -> 
-            cloneRepo(configsToAnalyze.get(0), location, shouldFreshClone), cloneExecutor);
+            CompletableFuture<CloneJobOutput> cloneFuture = CompletableFuture.supplyAsync(() ->
+                    cloneRepo(configsToAnalyze.get(0), location, shouldFreshClone), cloneExecutor);
 
             // The `thenApplyAsync` method is used to analyze the cloned repo in parallel.
             // This ensures that the analysis job for each repo will only be run after the repo has been cloned.
@@ -326,8 +326,8 @@ public class ReportGenerator {
                 .stream()
                 .flatMap(jobOutput -> jobOutput.getAnalyseErrors().stream())
                 .collect(Collectors.toList());
-        analysisErrors.forEach(errorInfo -> 
-            handleAnalysisFailed(configs, errorInfo.getFailedConfig(), errorInfo.getErrorMessage()));
+        analysisErrors.forEach(errorInfo ->
+                handleAnalysisFailed(configs, errorInfo.getFailedConfig(), errorInfo.getErrorMessage()));
 
         RepoCloner repoCloner = new RepoCloner();
         repoCloner.cleanup();
@@ -338,7 +338,7 @@ public class ReportGenerator {
      * Clones repo specified by {@code config} at {@code location}.
      * For test environments, cloning is skipped if it has been done before and {@code shouldFreshClone} is false.
      *
-     * @return A {@link CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was 
+     * @return A {@link CloneJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, and the {@code defaultBranch} of the repo.
      */
     private CloneJobOutput cloneRepo(RepoConfiguration config, RepoLocation location, boolean shouldFreshClone) {
@@ -359,7 +359,7 @@ public class ReportGenerator {
      * Further analyzes the authorship of each line in the commit if {@code shouldAnalyzeAuthorship} is true, based on
      * {@code originalityThreshold}.
      *
-     * @return An {@link AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was 
+     * @return An {@link AnalyzeJobOutput} object comprising the {@code location} of the repo, whether the cloning was
      * successful, the list of {@code generatedFiles} by the analysis and a list of {@code analysisErrors} encountered.
      */
     private AnalyzeJobOutput analyzeRepos(String outputPath, List<RepoConfiguration> configsToAnalyze,
@@ -459,8 +459,8 @@ public class ReportGenerator {
      * @throws AssertionError if there is a problem with the file existence check.
      */
     public void updateRepoConfig(RepoConfiguration config) throws AssertionError {
-        Path configJsonPath = 
-            Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
+        Path configJsonPath =
+                Paths.get(config.getRepoRoot(), REPOSENSE_CONFIG_FOLDER, REPOSENSE_CONFIG_FILE).toAbsolutePath();
 
         if (!Files.exists(configJsonPath)) {
             logger.info(String.format(MESSAGE_NO_STANDALONE_CONFIG, config.getLocation(), config.getBranch()));
