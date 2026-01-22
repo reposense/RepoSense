@@ -46,6 +46,7 @@ Please refer to this [page](./reportConfig.html) to get started.
 
 Note that configurations in `report-config.yaml` will override the configurations in the CSV config files when both are present.
 <!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### Customize using CSV config files
 
 **Another, more powerful, way to customize the report is by using dedicated config files.** You can refer to this [section](./configFiles.html) to find out more about the CSV file formats.
