@@ -40,7 +40,7 @@ In your fork, edit `run.sh` (and if applicable, `repo-config.csv`, `author-confi
 
 {{ step(4)}} **View the generated report:**
 
-Your report will be available at `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense` once you [enable GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) with the `gh-pages` branch.
+Your report will be available at `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense` once you [enable GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch) with the `gh-pages` branch.
 
 <box type="tip" seamless>
 
