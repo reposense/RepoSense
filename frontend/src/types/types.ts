@@ -82,18 +82,6 @@ export interface AuthorshipFile {
   wasCodeLoaded: boolean;
 }
 
-export interface Bar {
-  width: number;
-  color?: string;
-  tooltipText?: string;
-}
-
-export interface SegmentState {
-  id: number;
-  author: string | null;
-  isFullCredit: boolean;
-}
-
 export interface GlobalFileEntry {
   repoName: string;
   path: string;
@@ -104,7 +92,24 @@ export interface GlobalFileEntry {
   isBinary: boolean;
   isIgnored: boolean;
   active: boolean;
-  lines?: { lineNumber: number; author: { gitId: string }; content: string; isFullCredit: boolean }[];
+  lines?: {
+    lineNumber: number;
+    author: { gitId: string };
+    content: string;
+    isFullCredit: boolean
+  }[];
   segments?: AuthorshipFileSegment[];
+}
+
+export interface Bar {
+  width: number;
+  color?: string;
+  tooltipText?: string;
+}
+
+export interface SegmentState {
+  id: number;
+  author: string | null;
+  isFullCredit: boolean;
 }
 
