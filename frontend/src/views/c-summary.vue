@@ -16,6 +16,7 @@
     v-model:has-modified-since-date="hasModifiedSinceDate",
     v-model:has-modified-until-date="hasModifiedUntilDate",
     v-model:filtered-file-name="filteredFileName",
+    v-model:file-filter-scope="fileFilterScope",
     :min-date="minDate",
     :max-date="maxDate",
     :is-input-date-supported="isInputDateSupported",
@@ -31,7 +32,12 @@
     :error-messages="errorMessages"
   )
 
-  .fileTypes(v-if="filterBreakdown && !isWidgetMode")
+  c-global-file-browser(
+    v-if="fileFilterScope === 'global' && !isWidgetMode",
+    :files="globalFiles"
+  )
+
+  .fileTypes(v-if="filterBreakdown && !isWidgetMode && fileFilterScope === 'local'")
     c-file-type-checkboxes(
       :file-types="fileTypes",
       :file-type-colors="fileTypeColors",
@@ -40,6 +46,7 @@
     )
 
   c-summary-charts(
+    v-if="fileFilterScope === 'local'",
     :filtered="filtered",
     :checked-file-types="checkedFileTypes",
     :avg-contribution-size="avgContributionSize",
@@ -71,6 +78,7 @@ import cErrorMessageBox from '../components/c-error-message-box.vue';
 import cSummaryCharts from '../components/c-summary-charts.vue';
 import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import cSummaryHeader from '../components/c-summary-header.vue';
+import cGlobalFileBrowser from '../components/c-global-file-browser.vue';
 import sortFiltered from '../utils/repo-sorter';
 import {
   Commit,
@@ -78,6 +86,7 @@ import {
   Repo,
   User,
   isCommit,
+  GlobalFileEntry,
 } from '../types/types';
 import {
   AuthorDailyContributions,
@@ -99,6 +108,7 @@ export default defineComponent({
     cSummaryCharts,
     cFileTypeCheckboxes,
     cSummaryHeader,
+    cGlobalFileBrowser,
   },
 
   // Common summary functionality in summaryMixin.ts
@@ -123,6 +133,8 @@ export default defineComponent({
     maxDate: string,
     viewRepoTags: boolean,
     filteredFileName: string,
+    fileFilterScope: 'global' | 'local',
+    globalFiles: GlobalFileEntry[],
   } {
     return {
       filterSearch: '',
@@ -142,7 +154,9 @@ export default defineComponent({
       minDate: window.sinceDate,
       maxDate: window.untilDate,
       viewRepoTags: false,
-      filteredFileName: ''
+      filteredFileName: '',
+      fileFilterScope: 'local',
+      globalFiles: [],
     };
   },
 
@@ -216,6 +230,22 @@ export default defineComponent({
       handler(): void {
         this.getFiltered();
       },
+    },
+
+    fileFilterScope: {
+      async handler(newValue: 'global' | 'local'): Promise<void> {
+        if (newValue === 'global' && this.globalFiles.length === 0) {
+          this.$store.dispatch('incrementLoadingOverlayCount', 1);
+          try {
+            this.globalFiles = await window.api.loadAllAuthorship();
+          } catch (error) {
+            console.error('Failed to load global authorship:', error);
+          } finally {
+            this.$store.dispatch('incrementLoadingOverlayCount', -1);
+          }
+        }
+      },
+      immediate: false,
     },
   },
 
