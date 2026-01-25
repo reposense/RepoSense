@@ -53,7 +53,7 @@ partial credit.
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
 
-- Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file or/and a `report-config.yaml` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `blurbs.md` file.
+- Parameter: `CONFIG_DIRECTORY` The directory containing the config files.
 - Alias: `-c`
 - Example: `java -jar RepoSense.jar --config  ./config`
 
@@ -61,10 +61,10 @@ partial credit.
 
 - Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 - If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
-- If both `repo-config.csv` and `report-config.yaml` are present in the config file, `report-config.yaml` will take precedence over **all CSV files** as long as the `repos` field is correctly formatted.
-- Config files must follow [this](./configFiles.html) format.
 </box>
 </div>
+
+Refer to the [Advance Customization](./customizingReports.html#advance-customization-using-reposense-configuration-files) section for details on the config files.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -233,8 +233,9 @@ See [Portfolio Mode UI](portfolioMode.md) for details on the differences.
 
 <box type="info" seamless>
 
-Cannot be used with `--config`. This flag takes precedence over `--config`.
-</box>
+- Cannot be used with `--config`. This flag takes precedence over `--config`.
+- If both `--repos` and `--config` are not specified, RepoSense looks for config files in the default `./config` directory.
+  </box>
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
