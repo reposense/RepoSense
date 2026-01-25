@@ -93,3 +93,18 @@ export interface SegmentState {
   author: string | null;
   isFullCredit: boolean;
 }
+
+export interface GlobalFileEntry {
+  repoName: string;
+  path: string;
+  fileType: string;
+  lineCount: number;
+  authors: string[];
+  authorContributionMap: Record<string, number>;
+  isBinary: boolean;
+  isIgnored: boolean;
+  active: boolean;
+  lines?: { lineNumber: number; author: { gitId: string }; content: string; isFullCredit: boolean }[];
+  segments?: AuthorshipFileSegment[];
+}
+

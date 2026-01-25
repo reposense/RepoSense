@@ -3,6 +3,7 @@ import { Repo, User } from './types';
 import { AuthorshipSchema } from './zod/authorship-type';
 import { AuthorDailyContributions } from './zod/commits-type';
 import { DomainUrlMap, ErrorMessage } from './zod/summary-type';
+import { GlobalFileEntry } from "./types";
 
 // Declares the types for all the global variables under the window object
 export {};
@@ -30,6 +31,7 @@ interface Api {
   } | null>;
   loadCommits: (repoName: string, defaultSortOrder: number) => Promise<User[]>;
   loadAuthorship: (repoName: string) => Promise<AuthorshipSchema>;
+  loadAllAuthorship: () => Promise<GlobalFileEntry[]>;
   setContributionOfCommitResultsAndInsertRepoId: (dailyCommits: AuthorDailyContributions[], repoId: string) => void;
 }
 
