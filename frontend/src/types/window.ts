@@ -1,9 +1,8 @@
 import JSZip from 'jszip';
-import { Repo, User } from './types';
+import { Repo, User, GlobalFileEntry } from './types';
 import { AuthorshipSchema } from './zod/authorship-type';
 import { AuthorDailyContributions } from './zod/commits-type';
 import { DomainUrlMap, ErrorMessage } from './zod/summary-type';
-import { GlobalFileEntry } from "./types";
 
 // Declares the types for all the global variables under the window object
 export {};

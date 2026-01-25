@@ -32,11 +32,6 @@
     :error-messages="errorMessages"
   )
 
-  c-global-file-browser(
-    v-if="fileFilterScope === 'global' && !isWidgetMode",
-    :files="globalFiles"
-  )
-
   .fileTypes(v-if="filterBreakdown && !isWidgetMode && fileFilterScope === 'local'")
     c-file-type-checkboxes(
       :file-types="fileTypes",
@@ -45,25 +40,30 @@
       @update:selected-file-types="getFiltered"
     )
 
-  c-summary-charts(
-    v-if="fileFilterScope === 'local'",
-    :filtered="filtered",
-    :checked-file-types="checkedFileTypes",
-    :avg-contribution-size="avgContributionSize",
-    :filter-group-selection="filterGroupSelection",
-    :filter-breakdown="filterBreakdown",
-    :filter-time-frame="filterTimeFrame",
-    :filter-since-date="filterSinceDate",
-    :filter-until-date="filterUntilDate",
-    :filter-search="filterSearch",
-    :min-date="minDate",
-    :max-date="maxDate",
-    :sort-group-selection="sortGroupSelection",
-    :chart-group-index="chartGroupIndex",
-    :chart-index="chartIndex",
-    :view-repo-tags="viewRepoTags",
-    :optimise-timeline="optimiseTimeline"
-  )
+  .summary-content
+    c-summary-charts(
+      :filtered="filtered",
+      :checked-file-types="checkedFileTypes",
+      :avg-contribution-size="avgContributionSize",
+      :filter-group-selection="filterGroupSelection",
+      :filter-breakdown="filterBreakdown",
+      :filter-time-frame="filterTimeFrame",
+      :filter-since-date="filterSinceDate",
+      :filter-until-date="filterUntilDate",
+      :filter-search="filterSearch",
+      :min-date="minDate",
+      :max-date="maxDate",
+      :sort-group-selection="sortGroupSelection",
+      :chart-group-index="chartGroupIndex",
+      :chart-index="chartIndex",
+      :view-repo-tags="viewRepoTags",
+      :optimise-timeline="optimiseTimeline"
+    )
+
+    c-global-file-browser(
+      v-if="fileFilterScope === 'global' && !isWidgetMode",
+      :files="globalFiles"
+    )
 
   .logo(v-if="isWidgetMode")
     a(:href="getRepoSenseHomeLink()", target="_blank")
@@ -707,6 +707,20 @@ export default defineComponent({
 <style lang="scss">
 @import '../styles/_colors.scss';
 @import '../styles/summary-chart.scss';
+
+.summary-content {
+  position: relative;
+}
+
+#global-file-browser {
+  position: fixed;
+  top: 120px;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 100;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, .1);
+}
 
 .error-message-box__show-more-container {
   display: flex;
