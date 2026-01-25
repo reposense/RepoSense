@@ -5,15 +5,16 @@ form.summary-picker.mui-form--inline(onsubmit="return false;")
       @mouseover="onTooltipHover('filter-files-label')",
       @mouseout="resetTooltip('filter-files-label')"
     )
-      .mui-textfield.filter_file(v-if='!isPortfolio')
-        label filter files
-        input(
-          type="text",
-          @change="setFilteredFileName",
-          v-model="localFilteredFileName"
-          )
-        button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
-        span.tooltip-text(ref='filter-files-label') Enter a glob to filter the files
+
+      .mui-select.grouping(v-if='!isPortfolio')
+        label filter mode
+        select(
+          v-model="localFilteredFileName",
+          @change="$emit('get-filtered')"
+        )
+          option(value="global") Global file filter
+          option(value="local") Local file filter
+        span.tooltip-text(ref='filter-files-label') Select the scope of the file filter
 
     .mui-textfield.search_box(v-if='!isPortfolio')
       input(type="text", v-model="localFilterSearch")
