@@ -208,6 +208,10 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    fileFilterScope: {
+      type: String as PropType<'global' | 'local'>,
+      default: "local",
+    },
   },
 
   emits: [
@@ -225,6 +229,7 @@ export default defineComponent({
     "update:hasModifiedSinceDate",
     "update:hasModifiedUntilDate",
     "update:filteredFileName",
+    "update:fileFilterScope",
     "get-filtered",
     "reset-date-range",
     "toggle-breakdown",
@@ -324,6 +329,15 @@ export default defineComponent({
       },
       set(value: boolean) {
         this.$emit("update:allGroupsMerged", value);
+      },
+    },
+
+    fileFilterScope: {
+      get(): 'global' | 'local' {
+        return this.$props.fileFilterScope as 'global' | 'local';
+      },
+      set(value: 'global' | 'local') {
+        this.$emit("update:fileFilterScope", value);
       },
     },
   },

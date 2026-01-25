@@ -29,7 +29,6 @@
           span.line-count(v-if="!file.isBinary && !file.isIgnored") {{ file.lineCount }} lines
           span.binary-badge(v-if="file.isBinary") binary
           span.ignored-badge(v-if="file.isIgnored") ignored
-          span.authors(v-if="file.authors.length > 0") {{ file.authors.length }} author(s)
 
       .file-content(v-if="file.active")
         .loading(v-if="!file.segments") Loading file content...
@@ -256,11 +255,6 @@ export default defineComponent({
     padding: 0.2rem 0.5rem;
     border-radius: 3px;
     font-size: 0.75rem;
-  }
-
-  .authors {
-    color: #28a745;
-    font-weight: 500;
   }
 }
 
