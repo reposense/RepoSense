@@ -310,15 +310,24 @@ window.api = {
   async loadAllAuthorship(): Promise<GlobalFileEntry[]> {
     const allFiles: GlobalFileEntry[] = [];
 
-    for (const repoName in window.REPOS) {
-      // Load authorship if not already loaded
-      if (!window.REPOS[repoName].files) {
-        await this.loadAuthorship(repoName);
-      }
+    // Use Object.keys to avoid for..in ESLint errors
+    const repoNames = Object.keys(window.REPOS);
 
-      // Add null check to satisfy TypeScript
+    // Load all authorship data in parallel to avoid await-in-loop
+    await Promise.all(
+      repoNames.map(async (repoName) => {
+        if (!window.REPOS[repoName].files) {
+          await this.loadAuthorship(repoName);
+        }
+      }),
+    );
+
+    // Now aggregate all files
+    repoNames.forEach((repoName) => {
       const files = window.REPOS[repoName].files;
-      if (!files) continue;  // Skip if still undefined (shouldn't happen)
+      if (!files) {
+        return; // Skip if still undefined (shouldn't happen)
+      }
 
       files.forEach((file) => {
         const totalLines = file.lines ? file.lines.length : 0;
@@ -335,7 +344,7 @@ window.api = {
           lines: file.lines,
         });
       });
-    }
+    });
 
     return allFiles;
   },

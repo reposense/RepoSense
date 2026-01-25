@@ -43,10 +43,11 @@
 </template>
 
 <script lang='ts'>
+/* eslint-disable import/no-relative-packages */
 import { defineComponent, PropType } from 'vue';
+import { minimatch } from 'minimatch';
 import { GlobalFileEntry, AuthorshipFileSegment } from '../types/types';
 import cSegmentCollection from './c-segment-collection.vue';
-import { minimatch } from 'minimatch';
 
 export default defineComponent({
   name: 'c-global-file-browser',
@@ -55,7 +56,7 @@ export default defineComponent({
   },
   props: {
     files: {
-      type: Array as PropType<GlobalFileEntry[]>,
+      type: Array as PropType<Array<GlobalFileEntry>>,
       required: true,
     },
   },
@@ -67,7 +68,7 @@ export default defineComponent({
     };
   },
   computed: {
-    filteredFiles(): GlobalFileEntry[] {
+    filteredFiles(): Array<GlobalFileEntry> {
       const pattern = this.searchPattern.trim() || '*';
       return this.files
         .filter((file: GlobalFileEntry) =>
@@ -104,7 +105,7 @@ export default defineComponent({
       if (!originalFile || !originalFile.lines) return;
 
       // Build segments from lines (group consecutive lines by author)
-      const segments: AuthorshipFileSegment[] = [];
+      const segments: Array<AuthorshipFileSegment> = [];
       let currentSegment: AuthorshipFileSegment | null = null;
 
       originalFile.lines.forEach((line) => {
@@ -147,57 +148,57 @@ export default defineComponent({
 
 <style scoped lang="scss">
 #global-file-browser {
+  background: #fff;
+  border-right: 1px solid #d4d4d4;
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: #fff;
-  border-right: 1px solid #d4d4d4;
 }
 
 .header {
-  padding: 1rem;
   border-bottom: 1px solid #d4d4d4;
+  padding: 1rem;
 
   h3 {
-    margin: 0 0 0.5rem 0;
     font-size: 1.2rem;
+    margin: 0 0 .5rem 0;
   }
 
   .search-container {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: .5rem;
   }
 
   .search-input {
-    width: 100%;
-    padding: 0.5rem;
     border: 1px solid #d4d4d4;
     border-radius: 4px;
-    font-size: 0.9rem;
+    font-size: .9rem;
+    padding: .5rem;
+    width: 100%;
 
     &:focus {
-      outline: none;
       border-color: #007bff;
+      outline: none;
     }
   }
 
   .file-count {
-    font-size: 0.85rem;
     color: #666;
+    font-size: .85rem;
   }
 }
 
 .file-list {
   flex: 1;
   overflow-y: auto;
-  padding: 0.5rem;
+  padding: .5rem;
 }
 
 .file-item {
-  margin-bottom: 0.5rem;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
+  margin-bottom: .5rem;
 
   &.is-expanded {
     border-color: #007bff;
@@ -205,44 +206,44 @@ export default defineComponent({
 }
 
 .file-header {
-  display: flex;
   align-items: center;
-  padding: 0.5rem;
-  cursor: pointer;
   background: #f8f8f8;
-  transition: background 0.2s;
+  cursor: pointer;
+  display: flex;
+  padding: .5rem;
+  transition: background .2s;
 
   &:hover {
     background: #e8e8e8;
   }
 
   .caret {
-    margin-right: 0.5rem;
     color: #666;
+    margin-right: .5rem;
   }
 
   .file-path {
     flex: 1;
     font-family: monospace;
-    font-size: 0.9rem;
+    font-size: .9rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .file-info {
-    display: flex;
-    gap: 0.5rem;
     align-items: center;
-    font-size: 0.85rem;
+    display: flex;
+    font-size: .85rem;
+    gap: .5rem;
   }
 
   .repo-badge {
     background: #007bff;
-    color: white;
-    padding: 0.2rem 0.5rem;
     border-radius: 3px;
-    font-size: 0.75rem;
+    color: white;
+    font-size: .75rem;
+    padding: .2rem .5rem;
   }
 
   .line-count {
@@ -252,30 +253,30 @@ export default defineComponent({
   .binary-badge,
   .ignored-badge {
     background: #ffc107;
-    padding: 0.2rem 0.5rem;
     border-radius: 3px;
-    font-size: 0.75rem;
+    font-size: .75rem;
+    padding: .2rem .5rem;
   }
 }
 
 .file-content {
-  padding: 1rem;
   background: #fff;
   border-top: 1px solid #e0e0e0;
+  padding: 1rem;
 
   .loading {
-    text-align: center;
     color: #666;
     font-style: italic;
+    text-align: center;
   }
 }
 
 .empty-state {
-  flex: 1;
-  display: flex;
   align-items: center;
-  justify-content: center;
   color: #999;
+  display: flex;
+  flex: 1;
   font-style: italic;
+  justify-content: center;
 }
 </style>

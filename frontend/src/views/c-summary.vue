@@ -71,6 +71,7 @@
 </template>
 
 <script lang='ts'>
+/* eslint-disable import/no-relative-packages */
 import { mapState } from 'vuex';
 import { defineComponent } from 'vue';
 
@@ -114,28 +115,7 @@ export default defineComponent({
   // Common summary functionality in summaryMixin.ts
   mixins: [summaryMixin],
 
-  data(): {
-    filterSearch: string,
-    filterGroupSelection: FilterGroupSelection,
-    sortGroupSelection: SortGroupSelection,
-    sortWithinGroupSelection: SortWithinGroupSelection,
-    sortingOption: string,
-    isSortingDsc: boolean,
-    sortingWithinOption: string,
-    isSortingWithinDsc: boolean,
-    filterTimeFrame: FilterTimeFrame,
-    tmpFilterSinceDate: string,
-    tmpFilterUntilDate: string,
-    hasModifiedSinceDate: boolean,
-    hasModifiedUntilDate: boolean,
-    filterHash: string,
-    minDate: string,
-    maxDate: string,
-    viewRepoTags: boolean,
-    filteredFileName: string,
-    fileFilterScope: 'global' | 'local',
-    globalFiles: GlobalFileEntry[],
-  } {
+  data() {
     return {
       filterSearch: '',
       filterGroupSelection: FilterGroupSelection.GroupByRepos,
@@ -155,8 +135,8 @@ export default defineComponent({
       maxDate: window.untilDate,
       viewRepoTags: false,
       filteredFileName: '',
-      fileFilterScope: 'local',
-      globalFiles: [],
+      fileFilterScope: 'local' as 'global' | 'local',
+      globalFiles: [] as Array<GlobalFileEntry>,
     };
   },
 
@@ -239,6 +219,7 @@ export default defineComponent({
           try {
             this.globalFiles = await window.api.loadAllAuthorship();
           } catch (error) {
+            // eslint-disable-next-line no-console
             console.error('Failed to load global authorship:', error);
           } finally {
             this.$store.dispatch('incrementLoadingOverlayCount', -1);

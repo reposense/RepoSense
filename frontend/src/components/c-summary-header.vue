@@ -9,8 +9,8 @@ form.summary-picker.mui-form--inline(onsubmit="return false;")
       .mui-select.grouping(v-if='!isPortfolio')
         label filter mode
         select(
-          v-model="fileFilterScope",
-          @change="$emit('get-filtered')"
+          :value="fileFilterScope",
+          @change="$emit('update:file-filter-scope', ($event.target as HTMLSelectElement).value); $emit('get-filtered')"
         )
           option(value="global") Global
           option(value="local") Local
@@ -229,7 +229,7 @@ export default defineComponent({
     "update:hasModifiedSinceDate",
     "update:hasModifiedUntilDate",
     "update:filteredFileName",
-    "update:fileFilterScope",
+    "update:file-filter-scope",
     "get-filtered",
     "reset-date-range",
     "toggle-breakdown",
@@ -329,15 +329,6 @@ export default defineComponent({
       },
       set(value: boolean) {
         this.$emit("update:allGroupsMerged", value);
-      },
-    },
-
-    fileFilterScope: {
-      get(): 'global' | 'local' {
-        return this.$props.fileFilterScope as 'global' | 'local';
-      },
-      set(value: 'global' | 'local') {
-        this.$emit("update:fileFilterScope", value);
       },
     },
   },

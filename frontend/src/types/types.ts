@@ -92,12 +92,12 @@ export interface GlobalFileEntry {
   isBinary: boolean;
   isIgnored: boolean;
   active: boolean;
-  lines?: {
-    lineNumber: number;
-    author: { gitId: string };
-    content: string;
-    isFullCredit: boolean
-  }[];
+  lines?: Array<{
+    lineNumber: number,
+    author: { gitId: string },
+    content: string,
+    isFullCredit: boolean,
+  }>;
   segments?: AuthorshipFileSegment[];
 }
 
