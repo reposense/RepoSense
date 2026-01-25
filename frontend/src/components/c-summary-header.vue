@@ -10,7 +10,7 @@ form.summary-picker.mui-form--inline(onsubmit="return false;")
         label filter mode
         select(
           :value="fileFilterScope",
-          @change="$emit('update:file-filter-scope', ($event.target as HTMLSelectElement).value); $emit('get-filtered')"
+          @change="$emit('update:file-filter-scope', $event.target.value); $emit('get-filtered')"
         )
           option(value="global") Global
           option(value="local") Local
