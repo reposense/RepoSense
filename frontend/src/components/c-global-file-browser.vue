@@ -23,7 +23,7 @@
             :icon="file.active ? 'caret-down' : 'caret-right'",
             fixed-width
           )
-        span.file-path(:style="{ paddingLeft: getIndentLevel(file.path) + 'px' }") {{ file.path }}
+        span.file-path(:style="{ paddingLeft: '0px' }") {{ file.path }}
         span.file-info
           span.repo-badge {{ file.repoName }}
           span.line-count(v-if="!file.isBinary && !file.isIgnored") {{ file.lineCount }} lines
@@ -227,6 +227,7 @@ export default defineComponent({
     font-family: monospace;
     font-size: .9rem;
     overflow: hidden;
+    text-align: left;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
