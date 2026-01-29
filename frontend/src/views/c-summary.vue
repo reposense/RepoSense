@@ -16,6 +16,7 @@
     v-model:has-modified-since-date="hasModifiedSinceDate",
     v-model:has-modified-until-date="hasModifiedUntilDate",
     v-model:filtered-file-name="filteredFileName",
+    v-model:file-filter-scope="fileFilterScope",
     :min-date="minDate",
     :max-date="maxDate",
     :is-input-date-supported="isInputDateSupported",
@@ -31,7 +32,7 @@
     :error-messages="errorMessages"
   )
 
-  .fileTypes(v-if="filterBreakdown && !isWidgetMode")
+  .fileTypes(v-if="filterBreakdown && !isWidgetMode && fileFilterScope === 'local'")
     c-file-type-checkboxes(
       :file-types="fileTypes",
       :file-type-colors="fileTypeColors",
@@ -39,24 +40,30 @@
       @update:selected-file-types="getFiltered"
     )
 
-  c-summary-charts(
-    :filtered="filtered",
-    :checked-file-types="checkedFileTypes",
-    :avg-contribution-size="avgContributionSize",
-    :filter-group-selection="filterGroupSelection",
-    :filter-breakdown="filterBreakdown",
-    :filter-time-frame="filterTimeFrame",
-    :filter-since-date="filterSinceDate",
-    :filter-until-date="filterUntilDate",
-    :filter-search="filterSearch",
-    :min-date="minDate",
-    :max-date="maxDate",
-    :sort-group-selection="sortGroupSelection",
-    :chart-group-index="chartGroupIndex",
-    :chart-index="chartIndex",
-    :view-repo-tags="viewRepoTags",
-    :optimise-timeline="optimiseTimeline"
-  )
+  .summary-content
+    c-summary-charts(
+      :filtered="filtered",
+      :checked-file-types="checkedFileTypes",
+      :avg-contribution-size="avgContributionSize",
+      :filter-group-selection="filterGroupSelection",
+      :filter-breakdown="filterBreakdown",
+      :filter-time-frame="filterTimeFrame",
+      :filter-since-date="filterSinceDate",
+      :filter-until-date="filterUntilDate",
+      :filter-search="filterSearch",
+      :min-date="minDate",
+      :max-date="maxDate",
+      :sort-group-selection="sortGroupSelection",
+      :chart-group-index="chartGroupIndex",
+      :chart-index="chartIndex",
+      :view-repo-tags="viewRepoTags",
+      :optimise-timeline="optimiseTimeline"
+    )
+
+    c-global-file-browser(
+      v-if="fileFilterScope === 'global' && !isWidgetMode",
+      :files="globalFiles"
+    )
 
   .logo(v-if="isWidgetMode")
     a(:href="getRepoSenseHomeLink()", target="_blank")
@@ -64,6 +71,7 @@
 </template>
 
 <script lang='ts'>
+/* eslint-disable import/no-relative-packages */
 import { mapState } from 'vuex';
 import { defineComponent } from 'vue';
 
@@ -71,6 +79,7 @@ import cErrorMessageBox from '../components/c-error-message-box.vue';
 import cSummaryCharts from '../components/c-summary-charts.vue';
 import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import cSummaryHeader from '../components/c-summary-header.vue';
+import cGlobalFileBrowser from '../components/c-global-file-browser.vue';
 import sortFiltered from '../utils/repo-sorter';
 import {
   Commit,
@@ -78,6 +87,7 @@ import {
   Repo,
   User,
   isCommit,
+  GlobalFileEntry,
 } from '../types/types';
 import {
   AuthorDailyContributions,
@@ -99,31 +109,13 @@ export default defineComponent({
     cSummaryCharts,
     cFileTypeCheckboxes,
     cSummaryHeader,
+    cGlobalFileBrowser,
   },
 
   // Common summary functionality in summaryMixin.ts
   mixins: [summaryMixin],
 
-  data(): {
-    filterSearch: string,
-    filterGroupSelection: FilterGroupSelection,
-    sortGroupSelection: SortGroupSelection,
-    sortWithinGroupSelection: SortWithinGroupSelection,
-    sortingOption: string,
-    isSortingDsc: boolean,
-    sortingWithinOption: string,
-    isSortingWithinDsc: boolean,
-    filterTimeFrame: FilterTimeFrame,
-    tmpFilterSinceDate: string,
-    tmpFilterUntilDate: string,
-    hasModifiedSinceDate: boolean,
-    hasModifiedUntilDate: boolean,
-    filterHash: string,
-    minDate: string,
-    maxDate: string,
-    viewRepoTags: boolean,
-    filteredFileName: string,
-  } {
+  data() {
     return {
       filterSearch: '',
       filterGroupSelection: FilterGroupSelection.GroupByRepos,
@@ -142,7 +134,9 @@ export default defineComponent({
       minDate: window.sinceDate,
       maxDate: window.untilDate,
       viewRepoTags: false,
-      filteredFileName: ''
+      filteredFileName: '',
+      fileFilterScope: 'local' as 'global' | 'local',
+      globalFiles: [] as Array<GlobalFileEntry>,
     };
   },
 
@@ -216,6 +210,23 @@ export default defineComponent({
       handler(): void {
         this.getFiltered();
       },
+    },
+
+    fileFilterScope: {
+      async handler(newValue: 'global' | 'local'): Promise<void> {
+        if (newValue === 'global' && this.globalFiles.length === 0) {
+          this.$store.dispatch('incrementLoadingOverlayCount', 1);
+          try {
+            this.globalFiles = await window.api.loadAllAuthorship();
+          } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error('Failed to load global authorship:', error);
+          } finally {
+            this.$store.dispatch('incrementLoadingOverlayCount', -1);
+          }
+        }
+      },
+      immediate: false,
     },
   },
 
@@ -696,6 +707,20 @@ export default defineComponent({
 <style lang="scss">
 @import '../styles/_colors.scss';
 @import '../styles/summary-chart.scss';
+
+.summary-content {
+  position: relative;
+}
+
+#global-file-browser {
+  position: fixed;
+  top: 120px;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 100;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, .1);
+}
 
 .error-message-box__show-more-container {
   display: flex;

@@ -1,5 +1,5 @@
 import JSZip from 'jszip';
-import { Repo, User } from './types';
+import { Repo, User, GlobalFileEntry } from './types';
 import { AuthorshipSchema } from './zod/authorship-type';
 import { AuthorDailyContributions } from './zod/commits-type';
 import { DomainUrlMap, ErrorMessage } from './zod/summary-type';
@@ -30,6 +30,7 @@ interface Api {
   } | null>;
   loadCommits: (repoName: string, defaultSortOrder: number) => Promise<User[]>;
   loadAuthorship: (repoName: string) => Promise<AuthorshipSchema>;
+  loadAllAuthorship: () => Promise<GlobalFileEntry[]>;
   setContributionOfCommitResultsAndInsertRepoId: (dailyCommits: AuthorDailyContributions[], repoId: string) => void;
 }
 
