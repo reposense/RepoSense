@@ -46,8 +46,9 @@ public class ReportConfigYamlParserTest {
         List<String> ignoreAuthorList = new ArrayList<>();
         ignoreAuthorList.add("bot");
 
-        ReportBranchData branch = new ReportBranchData("master", "My project", authorList,
-                ignoreGlobList, ignoreAuthorList, 2000000L);
+        ReportBranchData branch = new ReportBranchData("master", "My project", authorList, ignoreGlobList,
+                ignoreAuthorList, 2000000L, "1/1/2024", "11/11/2024");
+
         List<ReportBranchData> branches = new ArrayList<>();
         branches.add(branch);
 
