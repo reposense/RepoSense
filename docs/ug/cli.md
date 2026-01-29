@@ -51,7 +51,7 @@ partial credit.
 <div id="section-config">
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
-* Parameter: Parameter: `CONFIG_DIRECTORY` The directory containing the config files.
+* Parameter: `CONFIG_DIRECTORY` The directory containing the config files.
 * Alias: `-c`
 * Example: `java -jar RepoSense.jar --config  ./config`
 
@@ -62,7 +62,7 @@ partial credit.
 </box>
 </div>
 
-Refer to the [Advance Customization](./customizingReports.html#advance-customization-using-reposense-configuration-files) section for details on the config files.
+Refer to the [Advanced Customization](./customizingReports.html#advanced-customization-using-reposense-configuration-files) section for details on the config files.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 

@@ -43,9 +43,9 @@ When deciding which configuration method to use:
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
-### Advance Customization using **RepoSense Configuration Files**
+### Advanced Customization using **RepoSense Configuration Files**
 
-This advance configuration method is more flexible than CLI flags alone, allowing you to define repositories, customize author details, group repositories, and personalize the report — all in dedicated config files.
+This advanced configuration method is more flexible than CLI flags alone, allowing you to define repositories, customize author details, group repositories, and personalize the report — all in dedicated config files.
 
 To use configuration files, specify the config directory when running RepoSense using the `--config` or `-c` flag:
 
