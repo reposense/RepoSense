@@ -44,23 +44,6 @@ If the code is attributed to a different author by the user via `@@author` tag, 
 partial credit.
 </box>
 
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### `--assets`, `-a`
-
-<div id="section-assets">
-
-**`--assets ASSETS_DIRECTORY`**: Specifies where to place assets for report generation.
-* Parameter: `ASSETS_DIRECTORY` The directory containing the assets files. A `favicon.ico` file can be placed here to customize the favicon of the dashboard, while an `intro.md` file can be placed to customize the [intro section](https://reposense.org/ug/customizingReports.html#add-an-intro) of the report using [Markdown syntax](https://www.markdownguide.org/basic-syntax/). Legacy `title.md` files are also accepted for backward compatibility.
-* Alias: `-a`
-* Example: `--assets ./assets` or `-a ./assets`
-
-<box type="info" seamless>
-
-* If `--assets` is not specified, RepoSense looks for assets in the `./assets` directory.
-</box>
-</div>
-
 <!-- --------------------------◘---------------------------------------------------------------------------- -->
 
 ### `--config`, `-c`
@@ -68,7 +51,7 @@ partial credit.
 <div id="section-config">
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
-* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file or/and a `report-config.yaml` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `blurbs.md` file.
+* Parameter: `CONFIG_DIRECTORY` The directory containing the config files.
 * Alias: `-c`
 * Example: `java -jar RepoSense.jar --config  ./config`
 
@@ -76,10 +59,10 @@ partial credit.
 
 * Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
-* If both `repo-config.csv` and `report-config.yaml` are present in the config file, `report-config.yaml` will take precedence over **all CSV files** as long as the `repos` field is correctly formatted.
-* Config files must follow [this](./configFiles.html) format.
 </box>
 </div>
+
+Refer to the [Advanced Customization](./customizingReports.html#advanced-customization-using-reposense-configuration-files) section for details on the config files.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -236,7 +219,8 @@ See [Portfolio Mode UI](portfolioMode.md) for details on the differences.
 
 <box type="info" seamless>
 
-Cannot be used with `--config`. This flag takes precedence over `--config`.
+* Cannot be used with `--config`. This flag takes precedence over `--config`.
+* If both `--repos` and `--config` are not specified, RepoSense will look for config files in the default `./config` directory.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
