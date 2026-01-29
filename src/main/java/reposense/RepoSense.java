@@ -27,6 +27,7 @@ import reposense.system.LogsManager;
 import reposense.system.ReportServer;
 import reposense.util.FileUtil;
 import reposense.util.TimeUtil;
+import reposense.wizard.ConfigWizardServer;
 
 /**
  * The main RepoSense class.
@@ -50,6 +51,11 @@ public class RepoSense {
             RepoBlurbMap repoBlurbMap = new RepoBlurbMap();
             AuthorBlurbMap authorBlurbMap = new AuthorBlurbMap();
             ChartBlurbMap chartBlurbMap = new ChartBlurbMap();
+
+            if (cliArguments.isConfigWizard()) {
+                ConfigWizardServer.startWizard(SERVER_PORT_NUMBER);
+                return;
+            }
 
             if (cliArguments.isViewModeOnly()) {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getReportDirectoryPath().toAbsolutePath());
@@ -97,10 +103,10 @@ public class RepoSense {
                 ReportServer.startServer(SERVER_PORT_NUMBER, cliArguments.getOutputFilePath().toAbsolutePath());
             }
         } catch (IOException
-                 | ParseException
-                 | InvalidCsvException
-                 | InvalidHeaderException
-                 | InvalidDatesException e) {
+                | ParseException
+                | InvalidCsvException
+                | InvalidHeaderException
+                | InvalidDatesException e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         } catch (HelpScreenException e) {
             // help message was printed by the ArgumentParser; it is safe to exit.

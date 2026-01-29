@@ -38,6 +38,10 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: true,
       chunkSizeWarningLimit: 1000,
       rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html'),
+          wizard: path.resolve(__dirname, 'wizard/index.html'),
+        },
         output: {
           manualChunks: {
             'vue-vendor': ['vue', 'vue-router', 'vuex'],
