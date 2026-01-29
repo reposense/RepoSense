@@ -2,18 +2,19 @@
 form.summary-picker.mui-form--inline(onsubmit="return false;")
   .summary-picker__section
     .tooltip(
-      @mouseover="onTooltipHover('filter-files-label')",
-      @mouseout="resetTooltip('filter-files-label')"
+      @mouseover="onTooltipHover('filter-mode-label')",
+      @mouseout="resetTooltip('filter-mode-label')"
     )
-      .mui-textfield.filter_file(v-if='!isPortfolio')
-        label filter files
-        input(
-          type="text",
-          @change="setFilteredFileName",
-          v-model="localFilteredFileName"
-          )
-        button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
-        span.tooltip-text(ref='filter-files-label') Enter a glob to filter the files
+
+      .mui-select.grouping(v-if='!isPortfolio')
+        label filter mode
+        select(
+          :value="fileFilterScope",
+          @change="$emit('update:file-filter-scope', $event.target.value); $emit('get-filtered')"
+        )
+          option(value="global") Global
+          option(value="local") Local
+        span.tooltip-text(ref='filter-mode-label') Select the scope of the file filter
 
     .mui-textfield.search_box(v-if='!isPortfolio')
       input(type="text", v-model="localFilterSearch")
@@ -207,6 +208,10 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    fileFilterScope: {
+      type: String as PropType<'global' | 'local'>,
+      default: "local",
+    },
   },
 
   emits: [
@@ -224,6 +229,7 @@ export default defineComponent({
     "update:hasModifiedSinceDate",
     "update:hasModifiedUntilDate",
     "update:filteredFileName",
+    "update:file-filter-scope",
     "get-filtered",
     "reset-date-range",
     "toggle-breakdown",
