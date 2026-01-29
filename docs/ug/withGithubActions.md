@@ -40,8 +40,7 @@ In your fork, edit `run.sh` (and if applicable, `repo-config.csv`, `author-confi
 
 {{ step(4)}} **View the generated report:**
 
-To access your regenerated RepoSense report, go to the settings of your fork in GitHub, under **GitHub Pages** section, look for `Your site is published at [LINK]`. It should look something like `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense`.
-![GitHub Setting](../images/publishingguide-githubsetting.jpg "GitHub Setting")
+Your report will be available at `https://[YOUR_GITHUB_ID].github.io/publish-RepoSense` once you [enable GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch) with the `gh-pages` branch.
 
 <box type="tip" seamless>
 
