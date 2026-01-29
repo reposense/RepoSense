@@ -252,7 +252,6 @@
       "headings": {
         "appendix-cli-syntax-reference": "Appendix: CLI syntax reference",
         "analyze-authorship-a": "--analyze-authorship, -A",
-        "assets-a": "--assets, -a",
         "config-c": "--config, -c",
         "formats-f": "--formats, -f",
         "find-previous-authors-f": "--find-previous-authors, -F",
@@ -299,11 +298,9 @@
       "headings": {
         "customizing-reports": "Customizing reports",
         "configuration-options-overview": "Configuration Options Overview",
-        "customize-using-cli-flags": "Customize using CLI flags",
-        "customize-using-report-config-yaml": "Customize using report-config.yaml",
-        "customize-using-csv-config-files": "Customize using CSV config files",
-        "get-target-repos-to-provide-more-info": "Get target repos to provide more info",
-        "personalizing-reports": "Personalizing Reports"
+        "basic-customization-using-command-line-flags": "Basic Customization using Command-Line Flags",
+        "advanced-customization-using-reposense-configuration-files": "Advanced Customization using RepoSense Configuration Files",
+        "customize-using-in-repository-configuration": "Customize using In-Repository Configuration"
       },
       "headingKeywords": {}
     },
