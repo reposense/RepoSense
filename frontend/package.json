@@ -35,7 +35,7 @@
     "pug-lint-vue": "^0.4.0",
     "seedrandom": "^3.0.5",
     "vite": "^6.2.2",
-    "vue": "~3.4.0",
+    "vue": "~3.5.0",
     "vue-loading-overlay": "^6.0.4",
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^4.3.0",
