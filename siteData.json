@@ -300,6 +300,7 @@
         "configuration-options-overview": "Configuration Options Overview",
         "basic-customization-using-command-line-flags": "Basic Customization using Command-Line Flags",
         "advanced-customization-using-reposense-configuration-files": "Advanced Customization using RepoSense Configuration Files",
+        "personalizing-reports": "Personalizing Reports",
         "customize-using-in-repository-configuration": "Customize using In-Repository Configuration"
       },
       "headingKeywords": {}
