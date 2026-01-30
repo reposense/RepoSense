@@ -45,6 +45,12 @@ repos:
 
 <box type="info" seamless>
 
+The `title` field controls the browser tab text (the HTML `<title>` element). To customize the description that appears at the top of the dashboard itself, provide an `intro.md` file as described [here](./customizingReports.html#add-an-intro).
+
+</box>
+
+<box type="info" seamless>
+
 The `author-display-name`, `author-git-author-name` and `author-emails` fields are optional.
 
 However, users are encouraged to add their Git author name `author-git-author-name` and emails `author-emails` in their Git configuration related to their commits so that

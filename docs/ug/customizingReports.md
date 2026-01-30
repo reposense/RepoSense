@@ -90,12 +90,24 @@ There is a default `favicon.ico` file provided in the template zip folder. If yo
 
 ##### Add a title
 
-A title component can be added by creating a file titled `title.md` in the config directory.
+### Personalizing Reports
 
-The title can render a combination of Markdown/HTML and plaintext ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/title.md)), and will appear on the top of the left panel as shown below:
-![Title Component Example](../images/title-example.png)
+#### Add favicon.ico
+There is a default `favicon.ico` file provided in the template zip folder. If you want to self-configure the `favicon.ico`, please ensure that the file is valid and has the file name of `favicon.ico`. This icon will appear in the browser tab when your report is viewed. Copy or move your `favicon.ico file` into the `assets` folder of the config directory 
 
-Do note that the width of the title is bound by the width of the left panel.
+Specifying the config directory can be done as follows:
+{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
+
+#### Add an intro
+Add the introductory section of the dashboard by creating an `intro.md` file in the config directory. Existing `title.md` files still work for now, but will be deprecated in favour of `intro.md`.
+
+Specifying the config directory can be done as follows:
+{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
+
+The intro can render a combination of Markdown/HTML and plaintext ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/title.md)), and will appear on the top of the left panel as shown below:
+![Intro Component Example](../images/title-example.png)
+
+Do note that the width of the intro is bound by the width of the left panel.
 
 For more information on how to use Markdown, see the [Markdown Guide](https://www.markdownguide.org/).
 

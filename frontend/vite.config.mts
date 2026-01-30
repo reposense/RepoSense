@@ -24,7 +24,7 @@ export default defineConfig(({ mode }) => {
     plugins: [vue(), eslint(), stylelint()],
     // This is to disable default fallback behaviour of
     // displaying the head tag of the html in case of
-    // missing 'title.md' file
+    // missing 'intro.md' file
     appType: 'mpa',
     resolve: {
       extensions: ['.ts', '.vue'],

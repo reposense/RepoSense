@@ -31,7 +31,7 @@ The section below provides explanations for each of the flags.
 **`--analyze-authorship`**: Performs further analysis to distinguish between partial and full credit attribution for
 lines of code assigned to the author.
 
-* Default: this feature is turned ***off*** by default and the author will receive partial credits for all lines of
+* Default: this feature is turned **_off_** by default and the author will receive partial credits for all lines of
   code, as the code lines are at least partial credit but may not qualify for full credit.
 * Alias: `-A` (upper case)
 * Example: `--analyze-authorship` or `-A`
@@ -267,12 +267,12 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 
 ### `--text`, `-T`
 
-**`--text`**: Refreshes text content (title.md, repo-blurbs.md and author-blurbs.md) without reanalyzing repository data.
+**`--text`**: Refreshes text content (intro.md/title.md, repo-blurbs.md and author-blurbs.md) without reanalyzing repository data.
 * Alias: `-T` (uppercase T)
 
 <box type="info" seamless>
 
-* This flag is used to update only the text content (title.md, repo-blurbs.md and author-blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
+* This flag is used to update only the text content (intro.md/title.md, repo-blurbs.md and author-blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
 * Ensure that there is an existing valid report generated before using this flag.
 * Cannot be used with any other flags except from `--view`, `--assets` and `--config`.
 </box>
