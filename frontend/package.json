@@ -28,7 +28,7 @@
     "highlight.js": "^10.5.0",
     "jszip": "^3.5.0",
     "markdown-it": "^14.1.0",
-    "minimatch": "^9.0.0",
+    "minimatch": "^10.0.0",
     "muicss": "^0.10.3",
     "normalize.css": "^8.0.1",
     "postcss": "^8.4.39",
