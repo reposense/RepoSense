@@ -9,7 +9,8 @@
             v-if="!isPortfolio",
             ref="summary",
             :repos="users",
-            :error-messages="errorMessages"
+            :error-messages="errorMessages",
+            @view-file-browser="$emit('view-file-browser', $event)"
           )
           c-summary-portfolio.tab-padding(
             v-else,
@@ -102,6 +103,7 @@ const home = defineComponent({
     cSummaryPortfolio,
     cAuthorship,
   },
+  emits: ['view-file-browser'],
   props: {
     updateReportZip: {
       type: Function,
