@@ -60,11 +60,6 @@
       :optimise-timeline="optimiseTimeline"
     )
 
-    c-global-file-browser(
-      v-if="fileFilterScope === 'global' && !isWidgetMode",
-      :files="globalFiles"
-    )
-
   .logo(v-if="isWidgetMode")
     a(:href="getRepoSenseHomeLink()", target="_blank")
       img(:src="getLogoPath()", :width=20, :height=20)
@@ -114,6 +109,8 @@ export default defineComponent({
 
   // Common summary functionality in summaryMixin.ts
   mixins: [summaryMixin],
+
+  emits: ['view-file-browser'],
 
   data() {
     return {
@@ -214,16 +211,22 @@ export default defineComponent({
 
     fileFilterScope: {
       async handler(newValue: 'global' | 'local'): Promise<void> {
-        if (newValue === 'global' && this.globalFiles.length === 0) {
-          this.$store.dispatch('incrementLoadingOverlayCount', 1);
-          try {
-            this.globalFiles = await window.api.loadAllAuthorship();
-          } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error('Failed to load global authorship:', error);
-          } finally {
-            this.$store.dispatch('incrementLoadingOverlayCount', -1);
+        if (newValue === 'global') {
+          // Load global files if not already loaded
+          if (this.globalFiles.length === 0) {
+            this.$store.dispatch('incrementLoadingOverlayCount', 1);
+            try {
+              this.globalFiles = await window.api.loadAllAuthorship();
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.error('Failed to load global authorship:', error);
+            } finally {
+              this.$store.dispatch('incrementLoadingOverlayCount', -1);
+            }
           }
+
+          // Open the global file browser tab
+          this.$emit('view-file-browser', this.globalFiles);
         }
       },
       immediate: false,
@@ -713,13 +716,8 @@ export default defineComponent({
 }
 
 #global-file-browser {
-  position: fixed;
-  top: 120px;
-  right: 0;
-  bottom: 0;
-  width: 50%;
-  z-index: 100;
-  box-shadow: -2px 0 8px rgba(0, 0, 0, .1);
+  width: 100%;
+  height: 100%;
 }
 
 .error-message-box__show-more-container {
