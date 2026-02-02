@@ -4,7 +4,7 @@
     c-resizer
       template(#left)
         #summary-wrapper
-          c-title(ref="cTitle")
+          c-intro(ref="cIntro")
           c-summary.tab-padding(
             v-if="!isPortfolio",
             ref="summary",
@@ -84,7 +84,7 @@
 <script lang='ts'>
 import { defineComponent, PropType } from 'vue';
 
-import cTitle from '../components/c-title.vue';
+import cIntro from '../components/c-intro.vue';
 import cResizer from '../components/c-resizer.vue';
 import cZoom from './c-zoom.vue';
 import cSummary from './c-summary.vue';
@@ -97,7 +97,7 @@ const home = defineComponent({
   name: 'c-home',
   components: {
     CGlobalFileBrowser,
-    cTitle,
+    cIntro,
     cResizer,
     cZoom,
     cSummary,

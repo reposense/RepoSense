@@ -96,7 +96,7 @@ public class ReportGenerator {
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
     private static final String LOG_UNEXPECTED_ERROR = "Unexpected error stack trace for %s:\n>%s";
     private static final List<String> assetsFilesWhiteList =
-            Collections.unmodifiableList(Arrays.asList(new String[] {"assets/favicon.ico", "title.md"}));
+             Collections.unmodifiableList(Arrays.asList(new String[] { "assets/favicon.ico", "intro.md" }));
 
     private LocalDateTime earliestSinceDate = null;
 
@@ -170,6 +170,7 @@ public class ReportGenerator {
             boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold,
             RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap, ChartBlurbMap chartBlurbMap,
             boolean isPortfolio, boolean isOnlyTextRefreshed) throws IOException, InvalidMarkdownException {
+
         if (Files.exists(Paths.get(configAssetsPath))) {
             FileUtil.copyDirectoryContents(configAssetsPath, outputPath, assetsFilesWhiteList);
         }
@@ -196,7 +197,6 @@ public class ReportGenerator {
 
         this.globalSinceDate = TimeUtil.isEqualToArbitraryFirstDateConverted(this.globalSinceDate, zoneId)
                 ? earliestSinceDate : this.globalSinceDate;
-
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
