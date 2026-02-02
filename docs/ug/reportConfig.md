@@ -248,17 +248,17 @@ For each repository in the `repos` list, you can specify:
                 * `dd/MM/yyyy HH:mm:ss` (e.g., `05/12/2025 14:32:10`)
 
 <box type="info" seamless>
-Behavior When Both Report Config Dates & CLI Flags Are Provided:
 
-- If `since` date is specified in both `report-config.yaml` and CLI, the **Config dates take precedence** for that repository. The same applies to `until` date.
-- The Config date range must fall within the **CLI date boundaries**. If it exceeds, the program exits with an error.
-    - Example:
-        - CLI Date - Since: 10/10/2024, Until: 20/10/2024
-        - Valid Config Date - Since: 11/10/2024, Until: 19/10/2024
-        - Invalid Config Date - Since: 9/10/2024, Until: 21/10/2024
-- If only one of the CLI flags is provided, the Config dates will not be restricted by the missing CLI flag.
-- If Config dates are missing, the CLI flags are used.
-- If neither Config nor CLI provides dates, default date ranges are used.
+**Behavior of `since`/`until` in report-config.yaml vs. `--since`/`--until` in CLI**
+
+* If `since` date is specified in both `report-config.yaml` and CLI, the config date takes priority for that repository. The same rule applies to the `until` date.
+* Config date range must fall **within** the CLI date range; otherwise the program exits with an error.
+    * Example with CLI `--since` = 10/10/2024, `--until` = 20/10/2024:
+        * Valid config dates: `since` = 11/10/2024, `until` = 19/10/2024
+        * Invalid config dates: `since` = 9/10/2024, `until` = 21/10/2024
+* If only one CLI flag is provided, the missing CLI value does not restrict config dates.
+* If config dates are missing, CLI values are used.
+* If neither provides dates, default ranges are applied.
 </box>
 
 #### Author Configuration
