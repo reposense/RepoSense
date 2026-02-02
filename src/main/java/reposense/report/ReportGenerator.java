@@ -71,7 +71,6 @@ public class ReportGenerator {
 
     // zip file which contains all the report template files
     private static final String TEMPLATE_FILE = "/templateZip.zip";
-
     private static final String MESSAGE_INVALID_CONFIG_JSON = "%s Ignoring the config provided by %s (%s).";
     private static final String MESSAGE_ERROR_CREATING_DIRECTORY =
             "Error has occurred while creating repo directory for %s (%s), will skip this repo.";
@@ -171,7 +170,6 @@ public class ReportGenerator {
             boolean shouldFreshClone, boolean shouldAnalyzeAuthorship, double originalityThreshold,
             RepoBlurbMap repoBlurbMap, AuthorBlurbMap authorBlurbMap, ChartBlurbMap chartBlurbMap,
             boolean isPortfolio, boolean isOnlyTextRefreshed) throws IOException, InvalidMarkdownException {
-        prepareTemplateFile(outputPath);
         if (Files.exists(Paths.get(configAssetsPath))) {
             FileUtil.copyDirectoryContents(configAssetsPath, outputPath, assetsFilesWhiteList);
         }
@@ -188,6 +186,7 @@ public class ReportGenerator {
             logger.info(MESSAGE_SKIP_REPORT_GENERATION);
             return null;
         }
+        prepareTemplateFile(outputPath);
 
         earliestSinceDate = null;
         progressTracker = new ProgressTracker(configs.size());
