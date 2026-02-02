@@ -20,7 +20,7 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
     private static final Logger logger = LogsManager.getLogger(OneStopConfigRunConfiguration.class);
     private static final String MESSAGE_CLI_CONFIG_DATE_CONFLICT =
             "You specified in CLI a date range of --since to --until, "
-            + "but your report config specifies a date range that extends outside --SINCE or --UNTIL. "
+            + "but your report config specifies a date range that extends outside --since or --until. "
             + "Either modify your CLI flags or your report config date range.";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE =
             "\"Since Date\" should not be later than \"Until Date\"";
