@@ -10,7 +10,7 @@
             ref="summary",
             :repos="users",
             :error-messages="errorMessages",
-            @view-file-browser="$emit('view-file-browser', $event)"
+            @view-file-browser="$emit('view-file-browser', $event)",
             @go-back-to-welcome-tab="$emit('go-back-to-welcome-tab')"
           )
           c-summary-portfolio.tab-padding(
@@ -90,7 +90,7 @@ import cZoom from './c-zoom.vue';
 import cSummary from './c-summary.vue';
 import cSummaryPortfolio from './c-summary-portfolio.vue';
 import cAuthorship from './c-authorship.vue';
-import CGlobalFileBrowser from "@/components/c-global-file-browser.vue";
+import CGlobalFileBrowser from "../components/c-global-file-browser.vue";
 import { GlobalFileEntry } from '../types/types';
 
 const home = defineComponent({
@@ -104,8 +104,6 @@ const home = defineComponent({
     cSummaryPortfolio,
     cAuthorship,
   },
-  emits: ['view-file-browser',
-          'go-back-to-welcome-tab'],
   props: {
     updateReportZip: {
       type: Function,
@@ -148,6 +146,9 @@ const home = defineComponent({
       required: true,
     },
   },
+  emits: [
+    'view-file-browser',
+    'go-back-to-welcome-tab'],
   computed: {
     isPortfolio(): boolean {
       return window.isPortfolio;

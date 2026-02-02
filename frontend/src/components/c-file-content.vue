@@ -37,7 +37,7 @@ export default defineComponent({
 .file-content-viewer {
   background: #fff;
   font-family: monospace;
-  font-size: 0.9rem;
+  font-size: .9rem;
   text-align: left;
 }
 
@@ -53,7 +53,7 @@ export default defineComponent({
 .line-number {
   color: mui-color('grey');
   flex-shrink: 0;
-  padding: 0 0.5rem;
+  padding: 0 .5rem;
   text-align: right;
   user-select: none;
   width: 3rem;
@@ -61,7 +61,7 @@ export default defineComponent({
 
 .line-text {
   flex: 1;
-  padding-right: 0.5rem;
+  padding-right: .5rem;
   white-space: pre-wrap;
   word-break: break-word;
 }

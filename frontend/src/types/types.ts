@@ -93,10 +93,10 @@ export interface GlobalFileEntry {
   isIgnored: boolean;
   active: boolean;
   lines?: Array<{
-    lineNumber: number;
-    author: { gitId: string };
-    content: string;
-    isFullCredit: boolean;
+    lineNumber: number,
+    author: { gitId: string },
+    content: string,
+    isFullCredit: boolean,
   }>;
   segments?: AuthorshipFileSegment[];
 }
@@ -112,4 +112,3 @@ export interface SegmentState {
   author: string | null;
   isFullCredit: boolean;
 }
-
