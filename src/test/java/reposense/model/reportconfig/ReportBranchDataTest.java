@@ -7,6 +7,9 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import reposense.parser.LocalDateTimeParser;
+import reposense.parser.exceptions.InvalidDatesException;
+
 public class ReportBranchDataTest {
     private static final ReportBranchData data1 = new ReportBranchData(
             "main",
@@ -16,8 +19,7 @@ public class ReportBranchDataTest {
             List.of("bot"),
             2000000L,
             "10/04/2025",
-            "10/05/2025"
-    );
+            "10/05/2025");
 
     @Test
     public void constructor_withValidInputs_success() {
@@ -39,6 +41,12 @@ public class ReportBranchDataTest {
         Assertions.assertEquals(ignoreGlobs, data.getIgnoreGlobList());
         Assertions.assertEquals(ignoreAuthors, data.getIgnoreAuthorList());
         Assertions.assertEquals(fileSize, data.getFileSizeLimit());
+        try {
+            Assertions.assertEquals(LocalDateTimeParser.parse(sinceDateStr, true), data.getSinceDate());
+            Assertions.assertEquals(LocalDateTimeParser.parse(untilDateStr, false), data.getUntilDate());
+        } catch (InvalidDatesException e) {
+            Assertions.fail("Date parsing should not fail for valid dates");
+        }
     }
 
     @Test
@@ -71,8 +79,7 @@ public class ReportBranchDataTest {
                 List.of("bot"),
                 2000000L,
                 "10/04/2025",
-                "10/05/2025"
-        );
+                "10/05/2025");
 
         Assertions.assertEquals(data1, data2);
     }
@@ -88,8 +95,7 @@ public class ReportBranchDataTest {
                 List.of("bot"),
                 2000000L,
                 "10/04/2025",
-                "10/05/2025"
-        );
+                "10/05/2025");
 
         Assertions.assertNotEquals(data1, data2);
     }
@@ -111,8 +117,8 @@ public class ReportBranchDataTest {
                 "10/04/2025 12:10:10", // dd/MM/yyyy HH:mm:ss
                 "1/5/2025 13:10" // dd/MM/yyyy HH:mm, single digit day and month are allowed
         );
-        Assertions.assertEquals(data.getSinceDate(), LocalDateTime.of(2025, 4, 10, 12, 10 , 10));
-        Assertions.assertEquals(data.getUntilDate(), LocalDateTime.of(2025, 5, 1, 13, 10 , 0));
+        Assertions.assertEquals(data.getSinceDate(), LocalDateTime.of(2025, 4, 10, 12, 10, 10));
+        Assertions.assertEquals(data.getUntilDate(), LocalDateTime.of(2025, 5, 1, 13, 10, 0));
     }
 
     @Test
@@ -131,6 +137,5 @@ public class ReportBranchDataTest {
         Assertions.assertNull(data1.getSinceDate());
         Assertions.assertNull(data1.getUntilDate());
     }
-
 
 }
