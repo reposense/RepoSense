@@ -113,6 +113,7 @@ export default defineComponent({
   .line-content {
     padding-left: 2rem;
     word-break: break-word;
+    white-space: pre-wrap;
   }
 
   &.isNotFullCredit {

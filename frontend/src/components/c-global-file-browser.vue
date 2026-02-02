@@ -31,11 +31,10 @@
           span.ignored-badge(v-if="file.isIgnored") ignored
 
       .file-content(v-if="file.active")
-        .loading(v-if="!file.segments") Loading file content...
-        c-segment-collection(
+        .loading(v-if="!file.lines") Loading file content...
+        c-file-content(
           v-else,
-          :segments="file.segments",
-          :path="file.path"
+          :lines="file.lines"
         )
 
   .empty-state(v-else)
@@ -46,13 +45,13 @@
 /* eslint-disable import/no-relative-packages */
 import { defineComponent, PropType } from 'vue';
 import { minimatch } from 'minimatch';
-import { GlobalFileEntry, AuthorshipFileSegment } from '../types/types';
-import cSegmentCollection from './c-segment-collection.vue';
+import { GlobalFileEntry } from '../types/types';
+import cFileContent from './c-file-content.vue';
 
 export default defineComponent({
   name: 'c-global-file-browser',
   components: {
-    cSegmentCollection,
+    cFileContent,
   },
   props: {
     files: {
@@ -90,13 +89,13 @@ export default defineComponent({
     toggleFile(file: GlobalFileEntry): void {
       file.active = !file.active;
 
-      // Load segments if expanding and not yet loaded
-      if (file.active && !file.segments) {
-        this.loadFileSegments(file);
+      // Load lines if expanding and not yet loaded
+      if (file.active && !file.lines) {
+        this.loadFileLines(file);
       }
     },
 
-    loadFileSegments(file: GlobalFileEntry): void {
+    loadFileLines(file: GlobalFileEntry): void {
       // Find the original file data from window.REPOS
       const repoFiles = window.REPOS[file.repoName].files;
       if (!repoFiles) return;
@@ -104,43 +103,8 @@ export default defineComponent({
       const originalFile = repoFiles.find((f) => f.path === file.path);
       if (!originalFile || !originalFile.lines) return;
 
-      // Build segments from lines (group consecutive lines by author)
-      const segments: Array<AuthorshipFileSegment> = [];
-      let currentSegment: AuthorshipFileSegment | null = null;
-
-      originalFile.lines.forEach((line) => {
-        const author = line.author.gitId;
-        const isFullCredit = line.isFullCredit;
-
-        if (
-          currentSegment &&
-          currentSegment.knownAuthor === author &&
-          currentSegment.isFullCredit === isFullCredit
-        ) {
-          // Continue current segment
-          currentSegment.lineNumbers.push(line.lineNumber);
-          currentSegment.lines.push(line.content);
-        } else {
-          // Start new segment
-          if (currentSegment) {
-            segments.push(currentSegment);
-          }
-          currentSegment = {
-            knownAuthor: author,
-            isFullCredit,
-            lineNumbers: [line.lineNumber],
-            lines: [line.content],
-          };
-        }
-      });
-
-      // Push the last segment
-      if (currentSegment) {
-        segments.push(currentSegment);
-      }
-
-      // Update the file with segments
-      file.segments = segments;
+      // Simply use the lines directly
+      file.lines = originalFile.lines;
     },
   },
 });

@@ -110,7 +110,8 @@ export default defineComponent({
   // Common summary functionality in summaryMixin.ts
   mixins: [summaryMixin],
 
-  emits: ['view-file-browser'],
+  emits: ['view-file-browser',
+          'go-back-to-welcome-tab'],
 
   data() {
     return {
@@ -227,6 +228,8 @@ export default defineComponent({
 
           // Open the global file browser tab
           this.$emit('view-file-browser', this.globalFiles);
+        } else if (newValue == 'local') {
+          this.$emit('go-back-to-welcome-tab');
         }
       },
       immediate: false,

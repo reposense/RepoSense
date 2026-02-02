@@ -20,7 +20,8 @@
     :report-generation-time="reportGenerationTime",
     :error-messages="errorMessages",
     :global-files="globalFiles",
-    @view-file-browser="openFileBrowser"
+    @view-file-browser="openFileBrowser",
+    @go-back-to-welcome-tab="openWelcomeTab"
     )
 </template>
 
@@ -91,6 +92,9 @@ const app = defineComponent({
     openFileBrowser(files: Array<GlobalFileEntry>): void {
       this.globalFiles = files;
       this.activateTab('file-browser');
+    },
+    openWelcomeTab(): void {
+      this.activateTab('empty');
     },
     // model functions //
     updateReportZip(evt: Event): void {
