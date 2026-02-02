@@ -18,7 +18,7 @@
       :class="{ 'is-expanded': file.active }"
     )
       .file-header(@click="toggleFile(file)")
-        span.caret
+        span.caret(v-if="!file.isBinary && !file.isIgnored")
           font-awesome-icon(
             :icon="file.active ? 'caret-down' : 'caret-right'",
             fixed-width
@@ -87,11 +87,13 @@ export default defineComponent({
     },
 
     toggleFile(file: GlobalFileEntry): void {
-      file.active = !file.active;
+      if (!file.isBinary && !file.isIgnored) {
+        file.active = !file.active;
 
-      // Load lines if expanding and not yet loaded
-      if (file.active && !file.lines) {
-        this.loadFileLines(file);
+        // Load lines if expanding and not yet loaded
+        if (file.active && !file.lines) {
+          this.loadFileLines(file);
+        }
       }
     },
 
