@@ -6,7 +6,7 @@ form.summary-picker.mui-form--inline(onsubmit="return false;")
       @mouseout="resetTooltip('filter-mode-label')"
     )
 
-      .mui-select.grouping(v-if='!isPortfolio')
+      .mui-select.filter-mode(v-if='!isPortfolio')
         label filter mode
         select(
           :value="fileFilterScope",

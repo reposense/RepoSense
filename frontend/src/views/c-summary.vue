@@ -32,7 +32,7 @@
     :error-messages="errorMessages"
   )
 
-  .fileTypes(v-if="filterBreakdown && !isWidgetMode && fileFilterScope === 'local'")
+  .fileTypes(v-if="filterBreakdown && !isWidgetMode")
     c-file-type-checkboxes(
       :file-types="fileTypes",
       :file-type-colors="fileTypeColors",
@@ -40,25 +40,24 @@
       @update:selected-file-types="getFiltered"
     )
 
-  .summary-content
-    c-summary-charts(
-      :filtered="filtered",
-      :checked-file-types="checkedFileTypes",
-      :avg-contribution-size="avgContributionSize",
-      :filter-group-selection="filterGroupSelection",
-      :filter-breakdown="filterBreakdown",
-      :filter-time-frame="filterTimeFrame",
-      :filter-since-date="filterSinceDate",
-      :filter-until-date="filterUntilDate",
-      :filter-search="filterSearch",
-      :min-date="minDate",
-      :max-date="maxDate",
-      :sort-group-selection="sortGroupSelection",
-      :chart-group-index="chartGroupIndex",
-      :chart-index="chartIndex",
-      :view-repo-tags="viewRepoTags",
-      :optimise-timeline="optimiseTimeline"
-    )
+  c-summary-charts(
+    :filtered="filtered",
+    :checked-file-types="checkedFileTypes",
+    :avg-contribution-size="avgContributionSize",
+    :filter-group-selection="filterGroupSelection",
+    :filter-breakdown="filterBreakdown",
+    :filter-time-frame="filterTimeFrame",
+    :filter-since-date="filterSinceDate",
+    :filter-until-date="filterUntilDate",
+    :filter-search="filterSearch",
+    :min-date="minDate",
+    :max-date="maxDate",
+    :sort-group-selection="sortGroupSelection",
+    :chart-group-index="chartGroupIndex",
+    :chart-index="chartIndex",
+    :view-repo-tags="viewRepoTags",
+    :optimise-timeline="optimiseTimeline"
+  )
 
   .logo(v-if="isWidgetMode")
     a(:href="getRepoSenseHomeLink()", target="_blank")
@@ -114,7 +113,28 @@ export default defineComponent({
     'view-file-browser',
     'go-back-to-welcome-tab'],
 
-  data() {
+  data(): {
+    filterSearch: string,
+    filterGroupSelection: FilterGroupSelection,
+    sortGroupSelection: SortGroupSelection,
+    sortWithinGroupSelection: SortWithinGroupSelection,
+    sortingOption: string,
+    isSortingDsc: boolean,
+    sortingWithinOption: string,
+    isSortingWithinDsc: boolean,
+    filterTimeFrame: FilterTimeFrame,
+    tmpFilterSinceDate: string,
+    tmpFilterUntilDate: string,
+    hasModifiedSinceDate: boolean,
+    hasModifiedUntilDate: boolean,
+    filterHash: string,
+    minDate: string,
+    maxDate: string,
+    viewRepoTags: boolean,
+    filteredFileName: string,
+    fileFilterScope: 'global' | 'local',
+    globalFiles: Array<GlobalFileEntry>,
+  } {
     return {
       filterSearch: '',
       filterGroupSelection: FilterGroupSelection.GroupByRepos,
@@ -714,10 +734,6 @@ export default defineComponent({
 <style lang="scss">
 @import '../styles/_colors.scss';
 @import '../styles/summary-chart.scss';
-
-.summary-content {
-  position: relative;
-}
 
 #global-file-browser {
   height: 100%;
