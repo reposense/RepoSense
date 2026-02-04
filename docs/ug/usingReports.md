@@ -197,7 +197,7 @@ The `Global File Browser` provides a powerful way to search and browse files acr
 
 To access the Global File Browser:
 
-1. Locate the `Filter Mode` dropdown in the toolbar at the top of the Chart panel.
+1. Locate the `filter mode` dropdown in the toolbar at the top of the Chart panel.
 2. Select `Global` from the dropdown options.
 3. The Global File Browser panel will appear on the right side of the report.
 
@@ -205,7 +205,7 @@ To return to the normal view, select `Local` from the Filter Mode dropdown.
 
 ### Features
 
-<img src="../images/global-file-browser.png" alt="global file browser" width="468">
+![Global file browser](../images/global-file-browser.gif)
 
 The Global File Browser provides the following features:
 
@@ -232,7 +232,6 @@ The Global File Browser provides the following features:
 * Click on any non-binary, non-ignored file to expand and view its contents.
 * The file content is displayed with:
   * Line numbers on the left
-  * Syntax-highlighted code content
   * Hover highlighting for individual lines
 * Click the file header again to collapse the content.
 
