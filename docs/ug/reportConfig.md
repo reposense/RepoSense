@@ -258,7 +258,7 @@ For each repository in the `repos` list, you can specify:
         * Invalid config dates: `since` = 9/10/2024, `until` = 21/10/2024
 * If only one CLI flag is provided, the missing CLI value does not restrict config dates.
 * If config dates are missing, CLI values are used.
-* If neither provides dates, default ranges are applied.
+* If neither provides dates, RepoSense will analyze commits from **one month before the current date until the current date** by default.
 </box>
 
 #### Author Configuration
