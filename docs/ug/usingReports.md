@@ -36,8 +36,7 @@ Here is an example of how a typical report looks like:
 
 ![report](../images/report-features.png)
 
-The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits panel**_](#commits-panel) will appear in place of the _code panel_. All three are explained in the sections below.
-
+The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits panel**_](#commits-panel) or the [_**Global File Browser**_](#global-file-browser) will appear in place of the Code panel.
 <box type="info" seamless>
 
 Links to external webpages (repository link, author's profile, blame view, etc.) is only properly supported when RepoSense analyzes a remote repository belonging to GitHub, GitLab or BitBucket.
@@ -189,3 +188,68 @@ The `Commits panel` allows users to see the commits attributed to a specific aut
 * To promote and encourage the 50/72 rule for commit messages, a dotted vertical line will be shown for:
   * Commit message subject that exceeds 50 characters.
   * Commit message body after the 72nd character mark.
+
+## Global File Browser
+
+The `Global File Browser` provides a powerful way to search and browse files across all repositories in the report. Unlike the local file search which is limited to a single author's contributions within one repository, the Global File Browser allows you to explore files from all repositories simultaneously.
+
+### Accessing the Global File Browser
+
+To access the Global File Browser:
+
+1. Locate the `filter mode` dropdown in the toolbar at the top of the Chart panel.
+2. Select `Global` from the dropdown options.
+3. The Global File Browser panel will appear on the right side of the report.
+
+To return to the normal view, select `Local` from the Filter Mode dropdown.
+
+### Features
+
+![Global file browser](../images/global-file-browser.gif)
+
+The Global File Browser provides the following features:
+
+#### File Search with Glob Patterns
+
+* Use the search input at the top of the panel to filter files using glob patterns.
+* Examples of glob patterns:
+  * `*.vue` - matches all Vue files
+  * `src/**/*.ts` - matches all TypeScript files within the `src` directory and its subdirectories
+  * `**/test*` - matches all files with names starting with "test" in any directory
+* The file count updates in real-time as you type your filter pattern.
+
+#### File List
+
+* Files matching your search pattern are displayed in a scrollable list.
+* Each file entry shows:
+  * **File path**: The relative path of the file within its repository
+  * **Repository badge**: A colored badge indicating which repository the file belongs to
+  * **Line count**: The number of lines in the file
+  * **Binary/Ignored badges**: Indicators for binary or ignored files (these cannot be expanded)
+
+#### Viewing File Contents
+
+* Click on any non-binary, non-ignored file to expand and view its contents.
+* The file content is displayed with:
+  * Line numbers on the left
+  * Hover highlighting for individual lines
+* Click the file header again to collapse the content.
+
+### Use Cases
+
+The Global File Browser is particularly useful for:
+
+* **Cross-repository code search**: Find implementations of a specific pattern or feature across all repositories.
+* **Code review**: Quickly browse through files of a specific type (e.g., all configuration files, all test files) across the entire codebase.
+* **Comparing implementations**: See how different repositories implement similar functionality by filtering for files with similar names or extensions.
+* **Finding specific file types**: Locate all files of a particular type (e.g., `*.md` for documentation, `*.css` for stylesheets) across all analyzed repositories.
+
+<box type="tip" seamless>
+
+**Tip**: Combine glob patterns with specific file extensions to narrow down your search. For example, use `**/*Test*.java` to find all Java test files across all repositories.
+</box>
+
+<box type="info" seamless>
+
+**Note**: Binary files (such as images, executables, and archives) and ignored files cannot be expanded to view their contents. These files are indicated with special badges in the file list.
+</box>
