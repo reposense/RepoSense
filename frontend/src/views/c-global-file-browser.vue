@@ -36,10 +36,11 @@
             span.ignored-badge(v-if="file.isIgnored") ignored
 
         .file-content(v-if="file.active")
-          .loading(v-if="!file.lines") Loading file content...
-          c-file-content(
+          .loading(v-if="!file.segments") Loading file content...
+          c-segment-collection(
             v-else,
-            :lines="file.lines"
+            :segments="file.segments",
+            :path="file.path"
           )
 
     .file-list(v-if="viewMode === 'repo'")
@@ -65,10 +66,11 @@
               span.ignored-badge(v-if="file.isIgnored") ignored
 
           .file-content(v-if="file.active")
-            .loading(v-if="!file.lines") Loading file content...
-            c-file-content(
+            .loading(v-if="!file.segments") Loading file content...
+            c-segment-collection(
               v-else,
-              :lines="file.lines"
+              :segments="file.segments",
+              :path="file.path"
             )
         .more-files(
           v-if="!isRepoExpanded(group.repoName) && group.files.length > 3",
@@ -83,13 +85,19 @@
 /* eslint-disable import/no-relative-packages */
 import { defineComponent, PropType } from 'vue';
 import { minimatch } from 'minimatch';
-import { GlobalFileEntry } from '../types/types';
-import cFileContent from '../components/c-file-content.vue';
+import { GlobalFileEntry, AuthorshipFileSegment } from '../types/types';
+import cSegmentCollection from '../components/c-segment-collection.vue';
+import getNonRepeatingColor from '../utils/random-color-generator';
+
+const selectedColors = [
+  '#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3',
+  '#adff2f', '#808000', '#800000', '#ff8c00', '#c71585',
+];
 
 export default defineComponent({
   name: 'c-global-file-browser',
   components: {
-    cFileContent,
+    cSegmentCollection,
   },
   props: {
     files: {
@@ -144,23 +152,76 @@ export default defineComponent({
       if (!file.isBinary && !file.isIgnored) {
         file.active = !file.active;
 
-        // Load lines if expanding and not yet loaded
-        if (file.active && !file.lines) {
-          this.loadFileLines(file);
+        if (file.active && !file.segments) {
+          this.loadFileSegments(file);
         }
       }
     },
 
-    loadFileLines(file: GlobalFileEntry): void {
-      // Find the original file data from window.REPOS
-      const repoFiles = window.REPOS[file.repoName].files;
-      if (!repoFiles) return;
+    loadFileSegments(file: GlobalFileEntry): void {
+      // Load lines if not already available
+      if (!file.lines) {
+        const repoFiles = window.REPOS[file.repoName].files;
+        if (!repoFiles) return;
 
-      const originalFile = repoFiles.find((f) => f.path === file.path);
-      if (!originalFile || !originalFile.lines) return;
+        const originalFile = repoFiles.find((f) => f.path === file.path);
+        if (!originalFile || !originalFile.lines) return;
 
-      // Simply use the lines directly
-      file.lines = originalFile.lines;
+        file.lines = originalFile.lines;
+      }
+
+      file.segments = this.splitSegments(file.lines!);
+      this.assignAuthorColors(file);
+    },
+
+    splitSegments(lines: Array<{ content: string; author: { gitId: string }; isFullCredit: boolean }>):
+    Array<AuthorshipFileSegment> {
+      const segments: Array<AuthorshipFileSegment> = [];
+      let lastAuthor: string | null = null;
+      let lastIsFullCredit = true;
+
+      lines.forEach((line, lineCount) => {
+        const knownAuthor = line.author.gitId;
+        const { isFullCredit } = line;
+
+        if (segments.length === 0 || lastAuthor !== knownAuthor
+            || lastIsFullCredit !== isFullCredit) {
+          segments.push({
+            knownAuthor,
+            isFullCredit,
+            lineNumbers: [],
+            lines: [],
+          });
+          lastAuthor = knownAuthor;
+          lastIsFullCredit = isFullCredit;
+        }
+
+        const content = line.content || ' ';
+        segments[segments.length - 1].lines.push(content);
+        segments[segments.length - 1].lineNumbers.push(lineCount + 1);
+      });
+
+      return segments;
+    },
+
+    assignAuthorColors(file: GlobalFileEntry): void {
+      const existingColors: { [key: string]: string } = {
+        ...this.$store.state.tabAuthorColors,
+      };
+
+      let colorIndex = Object.keys(existingColors).length;
+      file.authors.forEach((author) => {
+        if (!existingColors[author]) {
+          if (colorIndex < selectedColors.length) {
+            existingColors[author] = selectedColors[colorIndex];
+          } else {
+            existingColors[author] = getNonRepeatingColor(Object.values(existingColors));
+          }
+          colorIndex += 1;
+        }
+      });
+
+      this.$store.commit('updateAuthorColors', existingColors);
     },
 
     toggleRepoGroup(repoName: string): void {
@@ -335,6 +396,16 @@ export default defineComponent({
   border-top: 1px solid #e0e0e0;
   padding: 0;
   text-align: left;
+
+  :deep(.segment .hljs.hljs) {
+    -webkit-scrollbar {
+      display: none;
+    } /* Hide scrollbar for Chrome, Safari and Opera */
+    overflow: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    padding: 0; /* Hide scrollbar for IE, Edge and Firefox */
+    scrollbar-width: none;  /* Firefox */
+  }
 
   .loading {
     color: #666;

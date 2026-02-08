@@ -334,6 +334,7 @@ window.api = {
         isIgnored: file.isIgnored || false,
         active: false,
         lines: file.lines,
+        segments: undefined,
       });
     }
 
