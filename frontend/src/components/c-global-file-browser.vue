@@ -45,11 +45,6 @@
     .file-list(v-if="viewMode === 'repo'")
       .repo-group(v-for="group in groupedByRepo", :key="group.repoName")
         .repo-group-header(@click="toggleRepoGroup(group.repoName)")
-          //span.caret
-          //  font-awesome-icon(
-          //    :icon="isRepoExpanded(group.repoName) ? 'caret-down' : 'caret-right'",
-          //    fixed-width
-          //  )
           span.repo-group-name {{ group.repoName }}
           span.repo-group-count {{ group.files.length }} file(s)
         .file-item(

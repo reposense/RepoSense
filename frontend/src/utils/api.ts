@@ -1,5 +1,5 @@
 import {DailyCommit, CommitResult, User, GlobalFileEntry} from '../types/types';
-import { authorshipSchema } from '../types/zod/authorship-type';
+import {authorshipSchema, FileResult} from '../types/zod/authorship-type';
 import { commitsSchema } from '../types/zod/commits-type';
 import { ErrorMessage, summarySchema } from '../types/zod/summary-type';
 
@@ -322,6 +322,21 @@ window.api = {
       }),
     );
 
+    function pushIndividualFileIntoRepoGroups(repoName: string, file: FileResult, totalLines: number) {
+      allFiles.push({
+        repoName,
+        path: file.path,
+        fileType: file.fileType,
+        lineCount: totalLines,
+        authors: Object.keys(file.authorContributionMap || {}),
+        authorContributionMap: file.authorContributionMap || {},
+        isBinary: file.isBinary || false,
+        isIgnored: file.isIgnored || false,
+        active: false,
+        lines: file.lines,
+      });
+    }
+
     // Now aggregate all files
     repoNames.forEach((repoName) => {
       const files = window.REPOS[repoName].files;
@@ -331,18 +346,7 @@ window.api = {
 
       files.forEach((file) => {
         const totalLines = file.lines ? file.lines.length : 0;
-        allFiles.push({
-          repoName,
-          path: file.path,
-          fileType: file.fileType,
-          lineCount: totalLines,
-          authors: Object.keys(file.authorContributionMap || {}),
-          authorContributionMap: file.authorContributionMap || {},
-          isBinary: file.isBinary || false,
-          isIgnored: file.isIgnored || false,
-          active: false,
-          lines: file.lines,
-        });
+        pushIndividualFileIntoRepoGroups(repoName, file, totalLines);
       });
     });
 
