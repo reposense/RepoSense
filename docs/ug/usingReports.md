@@ -189,27 +189,29 @@ The `Commits panel` allows users to see the commits attributed to a specific aut
   * Commit message subject that exceeds 50 characters.
   * Commit message body after the 72nd character mark.
 
-## Global File Browser
+## Global filter panel
 
-The `Global File Browser` provides a powerful way to search and browse files across all repositories in the report. Unlike the local file search which is limited to a single author's contributions within one repository, the Global File Browser allows you to explore files from all repositories simultaneously.
+The `Global filter panel` provides a powerful way to search and browse files across all repositories in the report. 
+Unlike the local file search which is limited to a single author's contributions within one repository, the Global filter 
+panel allows you to explore files from all repositories simultaneously.
 
-### Accessing the Global File Browser
+#### Accessing the Global filter panel
 
-To access the Global File Browser:
+To access the Global filter panel:
 
-1. Locate the `filter mode` dropdown in the toolbar at the top of the Chart panel.
+1. Locate the `filter mode` dropdown in the toolbar at the top of the _tool bar_.
 2. Select `Global` from the dropdown options.
 3. The Global File Browser panel will appear on the right side of the report.
 
 To return to the normal view, select `Local` from the Filter Mode dropdown.
 
-### Features
+#### Features
 
 ![Global file browser](../images/global-file-browser.gif)
 
 The Global File Browser provides the following features:
 
-#### File Search with Glob Patterns
+##### File Search with Glob Patterns
 
 * Use the search input at the top of the panel to filter files using glob patterns.
 * Examples of glob patterns:
@@ -218,7 +220,7 @@ The Global File Browser provides the following features:
   * `**/test*` - matches all files with names starting with "test" in any directory
 * The file count updates in real-time as you type your filter pattern.
 
-#### File List
+##### File List
 
 * Files matching your search pattern are displayed in a scrollable list.
 * Each file entry shows:
@@ -227,7 +229,7 @@ The Global File Browser provides the following features:
   * **Line count**: The number of lines in the file
   * **Binary/Ignored badges**: Indicators for binary or ignored files (these cannot be expanded)
 
-#### Viewing File Contents
+##### Viewing File Contents
 
 * Click on any non-binary, non-ignored file to expand and view its contents.
 * The file content is displayed with:
@@ -235,7 +237,7 @@ The Global File Browser provides the following features:
   * Hover highlighting for individual lines
 * Click the file header again to collapse the content.
 
-### Use Cases
+#### Use Cases
 
 The Global File Browser is particularly useful for:
 
@@ -246,10 +248,12 @@ The Global File Browser is particularly useful for:
 
 <box type="tip" seamless>
 
-**Tip**: Combine glob patterns with specific file extensions to narrow down your search. For example, use `**/*Test*.java` to find all Java test files across all repositories.
+**Tip**: Combine glob patterns with specific file extensions to narrow down your search. For example, use `**/*Test*.java` 
+to find all Java test files across all repositories.
 </box>
 
 <box type="info" seamless>
 
-**Note**: Binary files (such as images, executables, and archives) and ignored files cannot be expanded to view their contents. These files are indicated with special badges in the file list.
+**Note**: Binary files (such as images, executables, and archives) and ignored files cannot be expanded to view their 
+contents. These files are indicated with special badges in the file list.
 </box>
