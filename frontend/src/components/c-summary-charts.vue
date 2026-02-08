@@ -441,6 +441,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    fileFilterScope: {
+      type: String as PropType<'global' | 'local'>,
+      default: 'local',
+    },
   },
   data(): {
     drags: Array<number>,
@@ -508,7 +512,11 @@ export default defineComponent({
         this.removeSelectedTab();
       }
     },
-
+    fileFilterScope(newValue: 'global' | 'local') {
+      if (newValue === 'global') {
+        this.removeSelectedTab();
+      }
+    },
     // watching so highlighted only when summary charts are rendered
     filteredRepos() {
       this.$nextTick(() => {

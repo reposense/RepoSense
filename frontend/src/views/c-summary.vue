@@ -57,6 +57,7 @@
     :chart-index="chartIndex",
     :view-repo-tags="viewRepoTags",
     :optimise-timeline="optimiseTimeline",
+    :file-filter-scope="fileFilterScope",
     @open-local-tab="resetFileFilterScopeToLocal"
   )
 
