@@ -207,8 +207,6 @@ To return to the normal view, select `Local` from the Filter Mode dropdown.
 
 #### Features
 
-![Global file browser](../images/global-file-browser.gif)
-
 The Global File Browser provides the following features:
 
 ##### File Search with Glob Patterns
