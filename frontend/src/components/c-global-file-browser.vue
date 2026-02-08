@@ -9,33 +9,76 @@
         placeholder="Filter by glob pattern (e.g., *.vue, src/**/*.ts)",
         @input="onSearchInput"
       )
-      .file-count {{ filteredFiles.length }} file(s)
+      .filter-row
+        .view-toggle
+          button.toggle-btn(:class="{ active: viewMode === 'path' }", @click="viewMode = 'path'") Sort By Path
+          button.toggle-btn(:class="{ active: viewMode === 'repo' }", @click="viewMode = 'repo'") Group By Repo
+        .file-count {{ filteredFiles.length }} file(s)
 
-  .file-list(v-if="filteredFiles.length > 0")
-    .file-item(
-      v-for="(file, index) in filteredFiles",
-      :key="`${file.repoName}-${file.path}`",
-      :class="{ 'is-expanded': file.active }"
-    )
-      .file-header(@click="toggleFile(file)")
-        span.caret(v-if="!file.isBinary && !file.isIgnored")
-          font-awesome-icon(
-            :icon="file.active ? 'caret-down' : 'caret-right'",
-            fixed-width
+  template(v-if="filteredFiles.length > 0")
+    .file-list(v-if="viewMode === 'path'")
+      .file-item(
+        v-for="(file, index) in filteredFiles",
+        :key="`${file.repoName}-${file.path}`",
+        :class="{ 'is-expanded': file.active }"
+      )
+        .file-header(@click="toggleFile(file)")
+          span.caret(v-if="!file.isBinary && !file.isIgnored")
+            font-awesome-icon(
+              :icon="file.active ? 'caret-down' : 'caret-right'",
+              fixed-width
+            )
+          span.file-path(:style="{ paddingLeft: '0px' }") {{ file.path }}
+          span.file-info
+            span.repo-badge {{ file.repoName }}
+            span.line-count(v-if="!file.isBinary && !file.isIgnored") {{ file.lineCount }} lines
+            span.binary-badge(v-if="file.isBinary") binary
+            span.ignored-badge(v-if="file.isIgnored") ignored
+
+        .file-content(v-if="file.active")
+          .loading(v-if="!file.lines") Loading file content...
+          c-file-content(
+            v-else,
+            :lines="file.lines"
           )
-        span.file-path(:style="{ paddingLeft: '0px' }") {{ file.path }}
-        span.file-info
-          span.repo-badge {{ file.repoName }}
-          span.line-count(v-if="!file.isBinary && !file.isIgnored") {{ file.lineCount }} lines
-          span.binary-badge(v-if="file.isBinary") binary
-          span.ignored-badge(v-if="file.isIgnored") ignored
 
-      .file-content(v-if="file.active")
-        .loading(v-if="!file.lines") Loading file content...
-        c-file-content(
-          v-else,
-          :lines="file.lines"
+    .file-list(v-if="viewMode === 'repo'")
+      .repo-group(v-for="group in groupedByRepo", :key="group.repoName")
+        .repo-group-header(@click="toggleRepoGroup(group.repoName)")
+          //span.caret
+          //  font-awesome-icon(
+          //    :icon="isRepoExpanded(group.repoName) ? 'caret-down' : 'caret-right'",
+          //    fixed-width
+          //  )
+          span.repo-group-name {{ group.repoName }}
+          span.repo-group-count {{ group.files.length }} file(s)
+        .file-item(
+          v-for="file in getVisibleFiles(group)",
+          :key="`${file.repoName}-${file.path}`",
+          :class="{ 'is-expanded': file.active }"
         )
+          .file-header(@click="toggleFile(file)")
+            span.caret(v-if="!file.isBinary && !file.isIgnored")
+              font-awesome-icon(
+                :icon="file.active ? 'caret-down' : 'caret-right'",
+                fixed-width
+              )
+            span.file-path(:style="{ paddingLeft: '0px' }") {{ file.path }}
+            span.file-info
+              span.line-count(v-if="!file.isBinary && !file.isIgnored") {{ file.lineCount }} lines
+              span.binary-badge(v-if="file.isBinary") binary
+              span.ignored-badge(v-if="file.isIgnored") ignored
+
+          .file-content(v-if="file.active")
+            .loading(v-if="!file.lines") Loading file content...
+            c-file-content(
+              v-else,
+              :lines="file.lines"
+            )
+        .more-files(
+          v-if="!isRepoExpanded(group.repoName) && group.files.length > 3",
+          @click="toggleRepoGroup(group.repoName)"
+        ) and {{ group.files.length - 3 }} more file(s)...
 
   .empty-state(v-else)
     p No files match the current filter
@@ -61,9 +104,13 @@ export default defineComponent({
   },
   data(): {
     searchPattern: string;
+    viewMode: 'path' | 'repo';
+    expandedRepos: Array<string>;
   } {
     return {
       searchPattern: '',
+      viewMode: 'path',
+      expandedRepos: [],
     };
   },
   computed: {
@@ -74,6 +121,18 @@ export default defineComponent({
           minimatch(file.path, pattern, { matchBase: true, dot: true })
         )
         .sort((a: GlobalFileEntry, b: GlobalFileEntry) => a.path.localeCompare(b.path));
+    },
+    groupedByRepo(): Array<{ repoName: string, files: Array<GlobalFileEntry> }> {
+      const repoMap: Record<string, Array<GlobalFileEntry>> = {};
+      this.filteredFiles.forEach((file) => {
+        if (!repoMap[file.repoName]) {
+          repoMap[file.repoName] = [];
+        }
+        repoMap[file.repoName].push(file);
+      });
+      return Object.keys(repoMap)
+        .sort((a, b) => a.localeCompare(b))
+        .map((repoName) => ({ repoName, files: repoMap[repoName] }));
     },
   },
   methods: {
@@ -107,6 +166,26 @@ export default defineComponent({
 
       // Simply use the lines directly
       file.lines = originalFile.lines;
+    },
+
+    toggleRepoGroup(repoName: string): void {
+      const index = this.expandedRepos.indexOf(repoName);
+      if (index >= 0) {
+        this.expandedRepos.splice(index, 1);
+      } else {
+        this.expandedRepos.push(repoName);
+      }
+    },
+
+    isRepoExpanded(repoName: string): boolean {
+      return this.expandedRepos.includes(repoName);
+    },
+
+    getVisibleFiles(group: { repoName: string, files: Array<GlobalFileEntry> }): Array<GlobalFileEntry> {
+      if (this.isRepoExpanded(group.repoName)) {
+        return group.files;
+      }
+      return group.files.slice(0, 3);
     },
   },
 });
@@ -149,9 +228,39 @@ export default defineComponent({
     }
   }
 
+  .filter-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
   .file-count {
     color: #666;
     font-size: .85rem;
+  }
+
+  .view-toggle {
+    display: flex;
+    gap: .25rem;
+  }
+
+  .toggle-btn {
+    background: #f0f0f0;
+    border: 1px solid #d4d4d4;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: .85rem;
+    padding: .3rem .75rem;
+
+    &:hover {
+      background: #e0e0e0;
+    }
+
+    &.active {
+      background: #007bff;
+      border-color: #007bff;
+      color: white;
+    }
   }
 }
 
@@ -237,6 +346,55 @@ export default defineComponent({
     font-style: italic;
     padding: 1rem;
     text-align: center;
+  }
+}
+
+.repo-group {
+  margin-bottom: .75rem;
+}
+
+.repo-group-header {
+  align-items: center;
+  background: #e8eef4;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  font-weight: bold;
+  gap: .5rem;
+  margin-bottom: .25rem;
+  padding: .5rem .75rem;
+  transition: background .2s;
+
+  &:hover {
+    background: #dce4ec;
+  }
+
+  .caret {
+    color: #666;
+  }
+
+  .repo-group-name {
+    flex: 1;
+    font-size: .95rem;
+  }
+
+  .repo-group-count {
+    color: #666;
+    font-size: .85rem;
+    font-weight: normal;
+  }
+}
+
+.more-files {
+  color: #007bff;
+  cursor: pointer;
+  font-size: .85rem;
+  padding: .25rem .75rem .5rem;
+  text-align: left;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 
