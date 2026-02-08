@@ -11,8 +11,10 @@
       )
       .filter-row
         .view-toggle
-          button.toggle-btn(:class="{ active: viewMode === 'path' }", @click="viewMode = 'path'") Sort By Path
-          button.toggle-btn(:class="{ active: viewMode === 'repo' }", @click="viewMode = 'repo'") Group By Repo
+          button.toggle-btn(:class="{ active: viewMode === 'path' }",
+            @click="viewMode = 'path'; collapseFiles()") Sort By Path
+          button.toggle-btn(:class="{ active: viewMode === 'repo' }",
+            @click="viewMode = 'repo'; collapseFiles()") Group By Repo
         .file-count {{ filteredFiles.length }} file(s)
 
   template(v-if="filteredFiles.length > 0")
@@ -45,9 +47,10 @@
 
     .file-list(v-if="viewMode === 'repo'")
       .repo-group(v-for="group in groupedByRepo", :key="group.repoName")
-        .repo-group-header(@click="toggleRepoGroup(group.repoName)")
+        .repo-group-header(@click="toggleAllFiles(group.repoName)")
           span.repo-group-name {{ group.repoName }}
           span.repo-group-count {{ group.files.length }} file(s)
+          .repo-group-is-show-top-badge {{ getRepoDisplayText(group.repoName) }}
         .file-item(
           v-for="file in getVisibleFiles(group)",
           :key="`${file.repoName}-${file.path}`",
@@ -91,7 +94,7 @@ import getNonRepeatingColor from '../utils/random-color-generator';
 
 const selectedColors = [
   '#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3',
-  '#adff2f', '#808000', '#800000', '#ff8c00', '#c71585',
+  '#adff2f', '#808000', '#badfdb', '#f875aa', '#c71585',
 ];
 
 export default defineComponent({
@@ -158,6 +161,12 @@ export default defineComponent({
       }
     },
 
+    getRepoDisplayText(repoName: string): string {
+      return this.isRepoExpanded(repoName)
+          ? 'Showing all files'
+          : 'Showing top 3 files';
+    },
+
     loadFileSegments(file: GlobalFileEntry): void {
       // Load lines if not already available
       if (!file.lines) {
@@ -172,6 +181,23 @@ export default defineComponent({
 
       file.segments = this.splitSegments(file.lines!);
       this.assignAuthorColors(file);
+    },
+
+    toggleAllFiles(repoName: string): void {
+      const shouldOpen = !this.isRepoExpanded(repoName);
+      this.toggleRepoGroup(repoName);
+
+      const filesInRepo = this.filteredFiles.filter(
+        (file) => file.repoName === repoName,
+      );
+
+      filesInRepo.forEach((file) => {
+        file.active = shouldOpen;
+
+        if (shouldOpen && !file.segments) {
+          this.loadFileSegments(file);
+        }
+      });
     },
 
     splitSegments(lines: Array<{ content: string; author: { gitId: string }; isFullCredit: boolean }>):
@@ -417,6 +443,15 @@ export default defineComponent({
 
 .repo-group {
   margin-bottom: .75rem;
+}
+
+.repo-group-is-show-top-badge {
+  background: #28a745;
+  border-radius: 3px;
+  color: white;
+  font-size: .7rem;
+  margin-left: .5rem;
+  padding: .1rem .4rem;
 }
 
 .repo-group-header {
