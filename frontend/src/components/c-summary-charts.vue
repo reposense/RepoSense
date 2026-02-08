@@ -708,6 +708,7 @@ export default defineComponent({
       };
       this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
+      this.$emit('open-local-tab');
     },
 
     openTabZoomSubrange(user: User, evt: MouseEvent, isMerged: boolean): void {
@@ -759,6 +760,7 @@ export default defineComponent({
       };
       this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
+      this.$emit('open-local-tab');
     },
 
     async getEmbeddedIframe(chartGroupIndex: number, chartIndex: number = -1): Promise<void> {

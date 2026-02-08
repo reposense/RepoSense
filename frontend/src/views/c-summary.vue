@@ -56,7 +56,8 @@
     :chart-group-index="chartGroupIndex",
     :chart-index="chartIndex",
     :view-repo-tags="viewRepoTags",
-    :optimise-timeline="optimiseTimeline"
+    :optimise-timeline="optimiseTimeline",
+    @open-local-tab="resetFileFilterScopeToLocal"
   )
 
   .logo(v-if="isWidgetMode")
@@ -134,6 +135,7 @@ export default defineComponent({
     filteredFileName: string,
     fileFilterScope: 'global' | 'local',
     globalFiles: Array<GlobalFileEntry>,
+    isResettingFileFilterScope: boolean,
   } {
     return {
       filterSearch: '',
@@ -156,6 +158,7 @@ export default defineComponent({
       filteredFileName: '',
       fileFilterScope: 'local' as 'global' | 'local',
       globalFiles: [] as Array<GlobalFileEntry>,
+      isResettingFileFilterScope: false,
     };
   },
 
@@ -233,6 +236,10 @@ export default defineComponent({
 
     fileFilterScope: {
       async handler(newValue: 'global' | 'local'): Promise<void> {
+        if (this.isResettingFileFilterScope) {
+          this.isResettingFileFilterScope = false;
+          return;  // Skip the tab-switching side-effect, to avoid any race
+        }
         if (newValue === 'global') {
           // Load global files if not already loaded
           if (this.globalFiles.length === 0) {
@@ -725,6 +732,13 @@ export default defineComponent({
       }
 
       return window.getDateStr(datems);
+    },
+
+    resetFileFilterScopeToLocal(): void {
+      if (this.fileFilterScope !== 'local') {
+        this.isResettingFileFilterScope = true;
+        this.fileFilterScope = 'local';
+      }
     },
   },
 });
