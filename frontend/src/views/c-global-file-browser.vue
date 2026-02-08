@@ -84,7 +84,7 @@
 import { defineComponent, PropType } from 'vue';
 import { minimatch } from 'minimatch';
 import { GlobalFileEntry } from '../types/types';
-import cFileContent from './c-file-content.vue';
+import cFileContent from '../components/c-file-content.vue';
 
 export default defineComponent({
   name: 'c-global-file-browser',

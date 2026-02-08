@@ -75,7 +75,7 @@ import cErrorMessageBox from '../components/c-error-message-box.vue';
 import cSummaryCharts from '../components/c-summary-charts.vue';
 import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import cSummaryHeader from '../components/c-summary-header.vue';
-import cGlobalFileBrowser from '../components/c-global-file-browser.vue';
+import cGlobalFileBrowser from './c-global-file-browser.vue';
 import sortFiltered from '../utils/repo-sorter';
 import {
   Commit,
