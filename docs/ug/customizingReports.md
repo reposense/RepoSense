@@ -24,7 +24,7 @@ RepoSense offers multiple ways to customize your reports, with varying levels of
 2. **RepoSense Configuration Files** - Flexible configuration managed in your config directory:
    - **`report-config.yaml`** - A user-friendly single file for typical use cases
    - **CSV config files** - A more powerful option with granular control for advanced scenarios
-   - **Personalization assets** (`favicon.ico`, `title.md`, and blurbs) - Personalize the report with custom icon, title banner, and descriptive blurbs for repos, authors, and charts.
+   - **Personalization assets** (`favicon.ico`, `intro.md`, and blurbs) - Personalize the report with custom icon, title banner, and descriptive blurbs for repos, authors, and charts.
 3. **In-Repository Configuration** - Configure individual repositories with their own settings and author annotations
 
 When deciding which configuration method to use:
