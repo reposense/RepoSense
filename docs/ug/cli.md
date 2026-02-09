@@ -31,7 +31,7 @@ The section below provides explanations for each of the flags.
 **`--analyze-authorship`**: Performs further analysis to distinguish between partial and full credit attribution for
 lines of code assigned to the author.
 
-* Default: this feature is turned ***off*** by default and the author will receive partial credits for all lines of
+* Default: this feature is turned **_off_** by default and the author will receive partial credits for all lines of
   code, as the code lines are at least partial credit but may not qualify for full credit.
 * Alias: `-A` (upper case)
 * Example: `--analyze-authorship` or `-A`
@@ -44,23 +44,6 @@ If the code is attributed to a different author by the user via `@@author` tag, 
 partial credit.
 </box>
 
-<!-- ------------------------------------------------------------------------------------------------------ -->
-
-### `--assets`, `-a`
-
-<div id="section-assets">
-
-**`--assets ASSETS_DIRECTORY`**: Specifies where to place assets for report generation.
-* Parameter: `ASSETS_DIRECTORY` The directory containing the assets files. A `favicon.ico` file can be placed here to customize the favicon of the dashboard, while a `title.md` file can be placed to customize the [title](https://reposense.org/ug/customizingReports.html#add-a-title) of the report using [Markdown syntax](https://www.markdownguide.org/basic-syntax/).
-* Alias: `-a`
-* Example: `--assets ./assets` or `-a ./assets`
-
-<box type="info" seamless>
-
-* If `--assets` is not specified, RepoSense looks for assets in the `./assets` directory.
-</box>
-</div>
-
 <!-- --------------------------◘---------------------------------------------------------------------------- -->
 
 ### `--config`, `-c`
@@ -68,7 +51,7 @@ partial credit.
 <div id="section-config">
 
 **`--config CONFIG_DIRECTORY`**: Specifies that config files located in `CONFIG_DIRECTORY` should be used to customize the report.
-* Parameter: `CONFIG_DIRECTORY` The directory containing the config files. Should contain a `repo-config.csv` file or/and a `report-config.yaml` file. Optionally, can contain an `author-config.csv` file or/and a `group-config.csv` file or/and a `blurbs.md` file.
+* Parameter: `CONFIG_DIRECTORY` The directory containing the config files.
 * Alias: `-c`
 * Example: `java -jar RepoSense.jar --config  ./config`
 
@@ -76,10 +59,10 @@ partial credit.
 
 * Cannot be used with `--repos`. The `--repos` flag will take precedence over this flag.
 * If both `--repos` and `--config` are not specified, RepoSense looks for config files in the `./config` directory.
-* If both `repo-config.csv` and `report-config.yaml` are present in the config file, `report-config.yaml` will take precedence over **all CSV files** as long as the `repos` field is correctly formatted.
-* Config files must follow [this](./configFiles.html) format.
 </box>
 </div>
+
+Refer to the [Advanced Customization](./customizingReports.html#advanced-customization-using-reposense-configuration-files) section for details on the config files.
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -236,7 +219,8 @@ See [Portfolio Mode UI](portfolioMode.md) for details on the differences.
 
 <box type="info" seamless>
 
-Cannot be used with `--config`. This flag takes precedence over `--config`.
+* Cannot be used with `--config`. This flag takes precedence over `--config`.
+* If both `--repos` and `--config` are not specified, RepoSense will look for config files in the default `./config` directory.
 </box>
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
@@ -283,12 +267,12 @@ Cannot be used with `--last-modified-date`. This may result in an incorrect last
 
 ### `--text`, `-T`
 
-**`--text`**: Refreshes text content (title.md, repo-blurbs.md and author-blurbs.md) without reanalyzing repository data.
+**`--text`**: Refreshes text content (intro.md/title.md, repo-blurbs.md and author-blurbs.md) without reanalyzing repository data.
 * Alias: `-T` (uppercase T)
 
 <box type="info" seamless>
 
-* This flag is used to update only the text content (title.md, repo-blurbs.md and author-blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
+* This flag is used to update only the text content (intro.md/title.md, repo-blurbs.md and author-blurbs.md) of the report. The new report will be generated with the existing data from the previous report.
 * Ensure that there is an existing valid report generated before using this flag.
 * Cannot be used with any other flags except from `--view`, `--assets` and `--config`.
 </box>
