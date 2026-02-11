@@ -146,6 +146,13 @@ export default defineComponent({
       // Debouncing could be added here if needed
     },
 
+    collapseFiles(): void {
+      this.files.forEach((file) => {
+        file.active = false;
+      });
+      this.expandedRepos = [];
+    },
+
     getIndentLevel(path: string): number {
       const depth = (path.match(/\//g) || []).length;
       return depth * 16; // 16px per level
@@ -163,8 +170,8 @@ export default defineComponent({
 
     getRepoDisplayText(repoName: string): string {
       return this.isRepoExpanded(repoName)
-          ? 'Showing all files'
-          : 'Showing top 3 files';
+          ? 'Click to collapse'
+          : 'Click to expand';
     },
 
     loadFileSegments(file: GlobalFileEntry): void {
