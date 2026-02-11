@@ -189,69 +189,95 @@ The `Commits panel` allows users to see the commits attributed to a specific aut
   * Commit message subject that exceeds 50 characters.
   * Commit message body after the 72nd character mark.
 
-## Global filter panel
+## Global file browser panel
 
-The `Global filter panel` provides a powerful way to search and browse files across all repositories in the report. 
-Unlike the local file search which is limited to a single author's contributions within one repository, the Global filter 
-panel allows you to explore files from all repositories simultaneously.
+The `Global File Browser` provides a way to search and browse files across all repositories in the report. Unlike the [Code panel](#code-panel), which shows code attributed to a single author within one repository, the Global File Browser lets you explore files from every repository at once.
 
-#### Accessing the Global filter panel
+#### Accessing the Global File Browser
 
-To access the Global filter panel:
+1. Locate the **filter mode** dropdown at the top of the tool bar.
+2. Select **Global** from the dropdown.
+3. The Global File Browser will appear on the right side of the report, replacing the Code panel.
 
-1. Locate the `filter mode` dropdown in the toolbar at the top of the _tool bar_.
-2. Select `Global` from the dropdown options.
-3. The Global File Browser panel will appear on the right side of the report.
-
-To return to the normal view, select `Local` from the Filter Mode dropdown.
-
-#### Features
-
-The Global File Browser provides the following features:
-
-##### File Search with Glob Patterns
-
-* Use the search input at the top of the panel to filter files using glob patterns.
-* Examples of glob patterns:
-  * `*.vue` - matches all Vue files
-  * `src/**/*.ts` - matches all TypeScript files within the `src` directory and its subdirectories
-  * `**/test*` - matches all files with names starting with "test" in any directory
-* The file count updates in real-time as you type your filter pattern.
-
-##### File List
-
-* Files matching your search pattern are displayed in a scrollable list.
-* Each file entry shows:
-  * **File path**: The relative path of the file within its repository
-  * **Repository badge**: A colored badge indicating which repository the file belongs to
-  * **Line count**: The number of lines in the file
-  * **Binary/Ignored badges**: Indicators for binary or ignored files (these cannot be expanded)
-
-##### Viewing File Contents
-
-* Click on any non-binary, non-ignored file to expand and view its contents.
-* The file content is displayed with:
-  * Line numbers on the left
-  * Hover highlighting for individual lines
-* Click the file header again to collapse the content.
-
-#### Use Cases
-
-The Global File Browser is particularly useful for:
-
-* **Cross-repository code search**: Find implementations of a specific pattern or feature across all repositories.
-* **Code review**: Quickly browse through files of a specific type (e.g., all configuration files, all test files) across the entire codebase.
-* **Comparing implementations**: See how different repositories implement similar functionality by filtering for files with similar names or extensions.
-* **Finding specific file types**: Locate all files of a particular type (e.g., `*.md` for documentation, `*.css` for stylesheets) across all analyzed repositories.
-
-<box type="tip" seamless>
-
-**Tip**: Combine glob patterns with specific file extensions to narrow down your search. For example, use `**/*Test*.java` 
-to find all Java test files across all repositories.
-</box>
+To return to the normal view, select **Local** from the dropdown. You can also click any author's %%:fas-code:%% or %%:fas-list-ul:%% icon in the Chart panel, which automatically switches the filter mode back to Local and opens the corresponding Code or Commits panel.
 
 <box type="info" seamless>
 
-**Note**: Binary files (such as images, executables, and archives) and ignored files cannot be expanded to view their 
-contents. These files are indicated with special badges in the file list.
+When you switch to Global mode, any previously highlighted author in the Chart panel is deselected. Likewise, switching back to Local mode (or clicking an author icon) closes the Global File Browser.
+</box>
+
+#### Filtering files with glob patterns
+
+The search input at the top of the panel filters files using [glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)). The file count updates in real-time as you type.
+
+Supported glob syntax:
+
+| Pattern | Meaning | Example |
+|---------|---------|---------|
+| `*` | Matches any characters within a single directory level | `*.java` matches all Java files |
+| `**` | Matches across multiple directory levels | `src/**/*.ts` matches all TypeScript files under `src/` |
+| `?` | Matches any single character | `?.txt` matches `a.txt` but not `ab.txt` |
+| `[abc]` | Matches any character in the brackets | `[RC]*.md` matches files starting with R or C |
+
+<box type="tip" seamless>
+
+Glob matching uses the `matchBase` option, so a pattern like `*.java` will match `src/main/App.java` even though the file is nested in subdirectories. You do not need to prefix every pattern with `**/`.
+</box>
+
+#### View modes
+
+The Global File Browser offers two view modes, toggled by the buttons below the search input:
+
+##### Sort By Path (default)
+
+Files from all repositories are displayed in a single flat list, sorted alphabetically by file path.
+
+Each file entry shows:
+* A **caret icon** (%%:fas-caret-right:%% / %%:fas-caret-down:%%) indicating whether the file content is collapsed or expanded.
+* The **file path** in monospace font.
+* A **repository badge** showing which repository the file belongs to (e.g., `reposense/RepoSense[master]`).
+* The **line count** (e.g., `42 lines`), or a **binary** / **ignored** badge for files that cannot be expanded.
+
+##### Group By Repo
+
+Files are organized under collapsible repository headers, sorted alphabetically by repository name.
+
+Each repository group shows:
+* The **repository name** and **total file count** in the group header.
+* A **badge** that reads _Click to expand_ or _Click to collapse_, indicating the current state.
+* A **preview** of the top 3 matching files when the group is collapsed.
+* An **"and N more file(s)..."** link if the repository has more than 3 matching files. Clicking this link lists all remaining files (without expanding their contents).
+
+**Expanding all files in a repository group:** Click the **repository group header** to expand (or collapse) _all_ files in that group at once. This opens every file's content simultaneously, which is useful for quickly scanning an entire repository. Each repository group can be expanded and collapsed independently.
+
+<box type="info" seamless>
+
+Switching between _Sort By Path_ and _Group By Repo_ collapses all currently expanded files.
+</box>
+
+#### Viewing file contents
+
+Click on any non-binary, non-ignored file header to expand it and view its contents. Click the same header again to collapse it.
+
+The file content is displayed as **author-colored segments**:
+* Each contiguous block of lines written by the same author is shown as a segment with a **colored left border** identifying the author.
+* Hover over a segment to see a **tooltip** showing the author's name and whether they are the primary author or a co-author.
+
+<box type="info" seamless>
+
+Binary files (such as images, executables, and archives) and ignored files cannot be expanded. These files are indicated with yellow **binary** or **ignored** badges.
+</box>
+
+#### Use cases
+
+The Global File Browser is particularly useful for:
+
+* **Cross-repository code search**: Find files matching a specific pattern (e.g., `*.yml` for CI configs) across all repositories.
+* **Code review**: Quickly browse all files of a specific type and see who wrote each line.
+* **Comparing implementations**: Filter for files with similar names or extensions across different repositories to compare how they are implemented.
+* **Identifying authorship**: Expand files to see author-colored segments, making it easy to identify who contributed which parts of a file.
+
+<box type="tip" seamless>
+
+Combine glob patterns with the Group By Repo view to see how a specific file type is distributed across repositories. For example, filter by `**/*Test*.java` and switch to Group By Repo to see which repositories have Java test files and how many.
 </box>
