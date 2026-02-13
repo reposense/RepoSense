@@ -382,9 +382,11 @@ tasks.register('hotReloadFrontend') {
 // End of hot reload Tasks
 
 void deleteReposAddressDirectory() {
-    final String REPOS_ADDRESS = "reposense-report-generate-repos-temp"
-    def reposDirectory = new File(REPOS_ADDRESS)
-    reposDirectory.deleteDir()
+    final String REPOS_TEMP_PREFIX = "reposense-repos-temp-"
+    def currentDirectory = new File(".")
+    currentDirectory.listFiles()
+            .findAll { it.isDirectory() && it.name.startsWith(REPOS_TEMP_PREFIX) }
+            .each { it.deleteDir() }
 }
 
 defaultTasks 'clean', 'build', 'systemtest', 'testFrontend', 'coverage'
