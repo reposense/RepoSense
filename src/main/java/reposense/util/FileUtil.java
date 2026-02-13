@@ -43,10 +43,12 @@ import reposense.util.adapters.ZoneSerializer;
  * Contains file processing related functionalities.
  */
 public class FileUtil {
-    public static final String REPOS_ADDRESS = "reposense-report-generate-repos-temp";
+    public static final String REPOS_TEMP_PREFIX = "reposense-repos-temp-";
 
     // zip file which contains all the specified file types
     public static final String ZIP_FILE = "archive.zip";
+
+    private static Path repoBasePath;
 
     private static final Logger logger = LogsManager.getLogger(FileUtil.class);
     private static final ByteBuffer buffer = ByteBuffer.allocate(1 << 11); // 2KB
@@ -64,6 +66,60 @@ public class FileUtil {
             "Exception occurred while attempting to add or replace file in the zip file.";
     private static final String MESSAGE_FAIL_TO_DELETE_FILE_IN_ZIP_FILES =
             "Exception occurred while attempting to delete file in the zip file.";
+
+    // Register shutdown hook to ensure temp directory cleanup on JVM termination
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                cleanupRepoBasePath();
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Failed to cleanup temporary repo directory during shutdown.", e);
+            }
+        }, "RepoSense-Temp-Cleanup"));
+    }
+
+    public static Path getRepoBasePath() {
+        return ensureRepoBasePath();
+    }
+
+    /**
+     * Deletes the current temporary repository base directory if it has been created.
+     * Resets the cached base path after cleanup regardless of deletion outcome.
+     */
+    public static void cleanupRepoBasePath() {
+        if (repoBasePath == null) {
+            return;
+        }
+
+        try {
+            deleteDirectory(repoBasePath.toString());
+        } catch (IOException ioe) {
+            logger.log(Level.WARNING, "Failed to delete temporary repo directory: " + repoBasePath, ioe);
+        } finally {
+            repoBasePath = null;
+        }
+    }
+
+    /**
+     * Lazily creates and caches a unique temporary repository base directory in the
+     * current working directory.
+     *
+     * @throws IllegalStateException if the temporary repo directory cannot be created.
+     */
+    private static synchronized Path ensureRepoBasePath() {
+        if (repoBasePath != null) {
+            return repoBasePath;
+        }
+
+        try {
+            Path workingDirectory = Paths.get(System.getProperty("user.dir"));
+            repoBasePath = Files.createTempDirectory(workingDirectory, REPOS_TEMP_PREFIX);
+        } catch (IOException ioe) {
+            throw new IllegalStateException("Unable to create temporary repo directory.", ioe);
+        }
+
+        return repoBasePath;
+    }
 
     /**
      * Zips all files of type {@code fileTypes} that are in the directory {@code pathsToZip} into a single file and
@@ -264,14 +320,14 @@ public class FileUtil {
      * Returns the relative path to the bare repo version of {@code config}.
      */
     public static Path getRepoParentFolder(RepoConfiguration config) {
-        return Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName());
+        return getRepoBasePath().resolve(config.getRepoFolderName());
     }
 
     /**
      * Returns the relative path to the bare repo version of {@code config}.
      */
     public static Path getBareRepoPath(RepoConfiguration config) {
-        return Paths.get(FileUtil.REPOS_ADDRESS,
+        return Paths.get(getRepoBasePath().toString(),
                 config.getRepoFolderName(), config.getRepoName() + BARE_REPO_SUFFIX);
     }
 
@@ -279,7 +335,7 @@ public class FileUtil {
      * Returns the relative path to the partial bare repo version of {@code config}.
      */
     public static Path getPartialBareRepoPath(RepoConfiguration config) {
-        return Paths.get(FileUtil.REPOS_ADDRESS,
+        return Paths.get(getRepoBasePath().toString(),
                 config.getRepoFolderName(), config.getRepoName() + PARTIAL_REPO_SUFFIX);
     }
 
@@ -287,7 +343,7 @@ public class FileUtil {
      * Returns the relative path to the shallow partial bare repo version of {@code config}.
      */
     public static Path getShallowPartialBareRepoPath(RepoConfiguration config) {
-        return Paths.get(FileUtil.REPOS_ADDRESS,
+        return Paths.get(getRepoBasePath().toString(),
                 config.getRepoFolderName(), config.getRepoName() + SHALLOW_PARTIAL_REPO_SUFFIX);
     }
 

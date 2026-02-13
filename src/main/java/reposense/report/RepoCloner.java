@@ -155,7 +155,7 @@ public class RepoCloner {
      * Cleans up after all repos have been cloned and analyzed.
      */
     public void cleanup() {
-        deleteDirectory(FileUtil.REPOS_ADDRESS);
+        FileUtil.cleanupRepoBasePath();
     }
 
     /**
@@ -313,7 +313,8 @@ public class RepoCloner {
      */
     private boolean waitForCloneProcess(RepoConfiguration config) {
         try {
-            Path repoPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName(), config.getRepoName());
+            Path repoPath = FileUtil.getRepoBasePath().resolve(Paths.get(
+                    config.getRepoFolderName(), config.getRepoName()));
 
             if (SystemUtil.isTestEnvironment() && Files.exists(repoPath)) {
                 return true;
