@@ -155,6 +155,11 @@ public class RepoCloner {
      * Cleans up after all repos have been cloned and analyzed.
      */
     public void cleanup() {
+        // In tests, keep cloned repos across runs so system tests can intentionally reuse them
+        // (unless --fresh-cloning is requested). Gradle task hooks handle full cleanup.
+        if (SystemUtil.isTestEnvironment()) {
+            return;
+        }
         FileUtil.cleanupRepoBasePath();
     }
 
