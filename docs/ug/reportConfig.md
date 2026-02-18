@@ -36,7 +36,7 @@ repos:
         authors:
           - author-git-host-id: Your username on GitHub, GitLab or Bitbucket
             author-display-name: Your display name
-            author-git-author-name: 
+            author-git-author-name:
               - Author Name Of Your Git Configuration
             author-emails:
               - emails-of-your-commits@email.com
@@ -190,6 +190,8 @@ repos:
     branches:
       - branch: master
         blurb: "My project"
+        since: 10/10/2024 12:30:30
+        until: 1/1/2025
         authors:
           - author-git-host-id: jedkohjk
             author-display-name: jedkohjk
@@ -205,7 +207,8 @@ repos:
 ```
 
 ### Field Descriptions
-Note: All fields are optional unless specified otherwise.
+
+**Note: All fields are optional unless specified otherwise.**
 
 #### Top-Level Fields
 
@@ -231,6 +234,34 @@ For each repository in the `repos` list, you can specify:
           * Default: The default branch of the repository.
         * `blurb`: A short description of the branch that appears in the report.
             * For more detailed descriptions, you can use a separate `blurbs.md` file.
+        * `since`: Start date of commits to include in the analysis. Accepted formats:
+            * Date format:
+                * `dd/MM/yyyy`
+            * Date and time formats:
+                * `dd/MM/yyyy HH:mm`
+                * `dd/MM/yyyy HH:mm:ss` (e.g., `05/12/2025 14:32:10`)
+        * `until`: End date of commits to include in the analysis. Accepted formats:
+            * Date format:
+                * `dd/MM/yyyy`
+            * Date and time formats:
+                * `dd/MM/yyyy HH:mm`
+                * `dd/MM/yyyy HH:mm:ss` (e.g., `05/12/2025 14:32:10`)
+
+<box type="info" seamless>
+
+**Behavior of `since`/`until` in report-config.yaml vs. `--since`/`--until` in CLI**
+
+* If `since` date is specified in both `report-config.yaml` and CLI, the config date takes priority for that repository. The same rule applies to the `until` date.
+* Config date range must fall **within** the CLI date range; otherwise the program exits with an error.
+    * Example with CLI `--since` = 10/10/2024, `--until` = 20/10/2024:
+        * Valid config dates: `since` = 11/10/2024, `until` = 19/10/2024
+        * Invalid config dates: `since` = 9/10/2024, `until` = 21/10/2024
+* If only one CLI flag is provided, the missing CLI value does not restrict config dates.
+* If config dates are missing, CLI values are used.
+* If CLI values are missing, then config dates will be used.
+* If both CLI values and config provide dates, the config dates are used. However, when both CLI --since and --until flags are provided, each config-provided date must fall within the CLI flag provided range, or else RepoSense throws an error.
+* If neither CLI values nor config provide dates, RepoSense will analyze commits from **one month before the current date until the current date** by default.
+</box>
 
 #### Author Configuration
 
