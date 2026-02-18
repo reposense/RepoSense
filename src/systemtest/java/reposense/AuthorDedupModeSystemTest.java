@@ -1,11 +1,13 @@
 package reposense;
 
+import static org.apache.tools.ant.types.Commandline.translateCommandline;
+import static reposense.util.TestUtil.loadResource;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.apache.tools.ant.types.Commandline.translateCommandline;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +20,6 @@ import reposense.report.ErrorSummary;
 import reposense.util.FileUtil;
 import reposense.util.InputBuilder;
 import reposense.util.SystemTestUtil;
-import static reposense.util.TestUtil.loadResource;
 
 /**
  * System tests for author dedup mode functionality.
