@@ -82,7 +82,7 @@ public class FileUtil {
      * Deletes the current temporary repository base directory if it has been created.
      * Resets the cached base path after cleanup regardless of deletion outcome.
      */
-    public static void cleanupRepoBasePath() {
+    public static synchronized void cleanupRepoBasePath() {
         if (repoBasePath == null) {
             return;
         }
