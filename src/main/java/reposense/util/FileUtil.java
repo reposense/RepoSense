@@ -323,24 +323,24 @@ public class FileUtil {
      * Returns the relative path to the bare repo version of {@code config}.
      */
     public static Path getBareRepoPath(RepoConfiguration config) {
-        return Paths.get(getRepoBasePath().toString(),
-                config.getRepoFolderName(), config.getRepoName() + BARE_REPO_SUFFIX);
+        return getRepoBasePath().resolve(config.getRepoFolderName())
+                .resolve(config.getRepoName() + BARE_REPO_SUFFIX);
     }
 
     /**
      * Returns the relative path to the partial bare repo version of {@code config}.
      */
     public static Path getPartialBareRepoPath(RepoConfiguration config) {
-        return Paths.get(getRepoBasePath().toString(),
-                config.getRepoFolderName(), config.getRepoName() + PARTIAL_REPO_SUFFIX);
+        return getRepoBasePath().resolve(config.getRepoFolderName())
+                .resolve(config.getRepoName() + PARTIAL_REPO_SUFFIX);
     }
 
     /**
      * Returns the relative path to the shallow partial bare repo version of {@code config}.
      */
     public static Path getShallowPartialBareRepoPath(RepoConfiguration config) {
-        return Paths.get(getRepoBasePath().toString(),
-                config.getRepoFolderName(), config.getRepoName() + SHALLOW_PARTIAL_REPO_SUFFIX);
+        return getRepoBasePath().resolve(config.getRepoFolderName())
+                .resolve(config.getRepoName() + SHALLOW_PARTIAL_REPO_SUFFIX);
     }
 
     /**
