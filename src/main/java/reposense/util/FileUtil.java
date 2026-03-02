@@ -78,10 +78,6 @@ public class FileUtil {
         }, "RepoSense-Temp-Cleanup"));
     }
 
-    public static Path getRepoBasePath() {
-        return ensureRepoBasePath();
-    }
-
     /**
      * Deletes the current temporary repository base directory if it has been created.
      * Resets the cached base path after cleanup regardless of deletion outcome.
@@ -106,7 +102,7 @@ public class FileUtil {
      *
      * @throws IllegalStateException if the temporary repo directory cannot be created.
      */
-    private static synchronized Path ensureRepoBasePath() {
+    public static synchronized Path getRepoBasePath() {
         if (repoBasePath != null) {
             return repoBasePath;
         }
