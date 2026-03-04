@@ -112,7 +112,6 @@ export default defineComponent({
 
   .line-content {
     padding-left: 2rem;
-    white-space: pre-wrap;
     word-break: break-word;
   }
 

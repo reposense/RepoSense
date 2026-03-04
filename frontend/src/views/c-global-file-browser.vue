@@ -438,6 +438,7 @@ export default defineComponent({
     -ms-overflow-style: none;  /* IE and Edge */
     padding: 0; /* Hide scrollbar for IE, Edge and Firefox */
     scrollbar-width: none;  /* Firefox */
+    white-space: normal;
   }
 
   .loading {
