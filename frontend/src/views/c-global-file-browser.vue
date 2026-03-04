@@ -142,10 +142,6 @@ export default defineComponent({
     },
   },
   methods: {
-    onSearchInput(): void {
-      // Debouncing could be added here if needed
-    },
-
     collapseFiles(): void {
       this.files.forEach((file) => {
         file.active = false;
