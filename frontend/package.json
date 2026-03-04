@@ -12,7 +12,8 @@
     "puglint": "pug-lint-vue src",
     "serveOpen": "vite --open",
     "serveTestDefault": "vite --mode test-default --port 9000 --open",
-    "serveTestPortfolio": "vite --mode test-portfolio --port 9001 --open"
+    "serveTestPortfolio": "vite --mode test-portfolio --port 9001 --open",
+    "typecheck": "vue-tsc --noEmit"
   },
   "main": "index.js",
   "dependencies": {
