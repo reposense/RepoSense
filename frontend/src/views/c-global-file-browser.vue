@@ -277,5 +277,18 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import "../styles/global-file-browser.scss";
+@import '../styles/global-file-browser.scss';
+
+.file-content {
+  :deep(.segment .hljs.hljs) {
+    -webkit-scrollbar {
+      display: none;
+    } /* Hide scrollbar for Chrome, Safari and Opera */
+    overflow: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    padding: 0; /* Hide scrollbar for IE, Edge and Firefox */
+    scrollbar-width: none;  /* Firefox */
+    white-space: normal;
+  }
+}
 </style>
