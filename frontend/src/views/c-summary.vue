@@ -67,7 +67,6 @@
 </template>
 
 <script lang='ts'>
-/* eslint-disable import/no-relative-packages */
 import { mapState } from 'vuex';
 import { defineComponent } from 'vue';
 

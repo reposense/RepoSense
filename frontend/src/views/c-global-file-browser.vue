@@ -85,7 +85,6 @@
 </template>
 
 <script lang='ts'>
-/* eslint-disable import/no-relative-packages */
 import { defineComponent, PropType } from 'vue';
 import { minimatch } from 'minimatch';
 import { GlobalFileEntry, AuthorshipFileSegment } from '../types/types';
