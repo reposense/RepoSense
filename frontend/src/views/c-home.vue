@@ -90,13 +90,13 @@ import cZoom from './c-zoom.vue';
 import cSummary from './c-summary.vue';
 import cSummaryPortfolio from './c-summary-portfolio.vue';
 import cAuthorship from './c-authorship.vue';
-import CGlobalFileBrowser from "./c-global-file-browser.vue";
+import cGlobalFileBrowser from './c-global-file-browser.vue';
 import { GlobalFileEntry, Repo } from '../types/types';
 
 const home = defineComponent({
   name: 'c-home',
   components: {
-    CGlobalFileBrowser,
+    cGlobalFileBrowser,
     cIntro,
     cResizer,
     cZoom,
