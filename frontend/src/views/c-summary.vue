@@ -750,11 +750,6 @@ export default defineComponent({
 @import '../styles/_colors.scss';
 @import '../styles/summary-chart.scss';
 
-#global-file-browser {
-  height: 100%;
-  width: 100%;
-}
-
 .error-message-box__show-more-container {
   display: flex;
   justify-content: flex-end;
