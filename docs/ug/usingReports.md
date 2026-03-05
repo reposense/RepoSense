@@ -208,16 +208,7 @@ When you switch to global mode, any previously highlighted author in the Chart p
 
 #### Filtering files with glob patterns
 
-The search input at the top of the panel filters files using [glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)). The file count updates in real-time as you type.
-
-Supported glob syntax:
-
-| Pattern | Meaning | Example |
-|---------|---------|---------|
-| `*` | Matches any characters within a single directory level | `*.java` matches all Java files |
-| `**` | Matches across multiple directory levels | `src/**/*.ts` matches all TypeScript files under `src/` |
-| `?` | Matches any single character | `?.txt` matches `a.txt` but not `ab.txt` |
-| `[abc]` | Matches any character in the brackets | `[RC]*.md` matches files starting with R or C |
+The search input at the top of the panel filters files using [glob patterns](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob). The file count updates in real-time as you type.
 
 <box type="tip" seamless>
 
@@ -231,12 +222,6 @@ The global file browser offers two view modes, toggled by the buttons below the 
 ##### Sort By Path (default)
 
 Files from all repositories are displayed in a single flat list, sorted alphabetically by file path.
-
-Each file entry shows:
-* A **caret icon** (%%:fas-caret-right:%% / %%:fas-caret-down:%%) indicating whether the file content is collapsed or expanded.
-* The **file path** in monospace font.
-* A **repository badge** showing which repository the file belongs to (e.g., `reposense/RepoSense[master]`).
-* The **line count** (e.g., `42 lines`), or a **binary** / **ignored** badge for files that cannot be expanded.
 
 ##### Group By Repo
 
