@@ -148,7 +148,9 @@ const home = defineComponent({
   },
   emits: [
     'view-file-browser',
-    'go-back-to-welcome-tab'],
+    'go-back-to-welcome-tab',
+    'open-local-tab',
+  ],
   computed: {
     isPortfolio(): boolean {
       return window.isPortfolio;
