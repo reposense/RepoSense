@@ -260,15 +260,6 @@ export default defineComponent({
       },
     },
 
-    localFilteredFileName: {
-      get() {
-        return this.$props.filteredFileName as string;
-      },
-      set(newValue: string) {
-        this.$emit("update:filteredFileName", newValue);
-      },
-    },
-
     localSortGroupSelection: {
       get(): SortGroupSelection {
         return this.$props.sortGroupSelection as SortGroupSelection;
@@ -337,22 +328,6 @@ export default defineComponent({
     resetFilterSearch() {
       this.$emit("update:filterSearch", "");
       this.$emit("get-filtered");
-    },
-
-    resetFilteredFileName(): void {
-      this.$emit("update:filteredFileName", "");
-      window.removeHash("authorshipFilesGlob");
-      this.$store.commit("updateAuthorshipRefreshState", false);
-      this.$emit("get-filtered");
-      window.location.reload();
-    },
-
-    setFilteredFileName(evt: Event): void {
-      this.$emit("update:filteredFileName", (evt.target as HTMLInputElement).value);
-      this.$store.commit("updateAuthorshipRefreshState", true);
-      window.addHash("authorshipFilesGlob", this.filteredFileName);
-      this.$emit("get-filtered");
-      window.location.reload();
     },
 
     updateTmpFilterSinceDate(event: Event) {
