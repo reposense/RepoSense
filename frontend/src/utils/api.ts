@@ -1,5 +1,5 @@
-import {DailyCommit, CommitResult, User, GlobalFileEntry} from '../types/types';
-import {authorshipSchema, FileResult} from '../types/zod/authorship-type';
+import { DailyCommit, CommitResult, User, GlobalFileEntry } from '../types/types';
+import { authorshipSchema, FileResult } from '../types/zod/authorship-type';
 import { commitsSchema } from '../types/zod/commits-type';
 import { ErrorMessage, summarySchema } from '../types/zod/summary-type';
 
