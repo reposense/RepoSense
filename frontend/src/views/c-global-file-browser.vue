@@ -6,7 +6,7 @@
       input.search-input(
         type="search",
         v-model="searchPattern",
-        placeholder="Filter by glob pattern (e.g., *.vue, src/**/*.ts)",
+        placeholder="Filter by glob pattern (e.g., *.vue, src/**/*.ts)"
       )
       .filter-row
         .view-toggle
@@ -271,6 +271,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @import '../styles/global-file-browser.scss';
+
 .file-content {
   :deep(.segment .hljs.hljs) {
     &::-webkit-scrollbar {
@@ -278,8 +279,8 @@ export default defineComponent({
     } /* Hide scrollbar for Chrome, Safari and Opera */
     overflow: hidden;
     -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
     padding: 0;
+    scrollbar-width: none;  /* Firefox */
     white-space: normal;
   }
 }
