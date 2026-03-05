@@ -149,11 +149,6 @@ export default defineComponent({
       this.expandedRepos = [];
     },
 
-    getIndentLevel(path: string): number {
-      const depth = (path.match(/\//g) || []).length;
-      return depth * 16; // 16px per level
-    },
-
     toggleFile(file: GlobalFileEntry): void {
       if (!file.isBinary && !file.isIgnored) {
         file.active = !file.active;
@@ -278,7 +273,6 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @import '../styles/global-file-browser.scss';
-
 .file-content {
   :deep(.segment .hljs.hljs) {
     -webkit-scrollbar {

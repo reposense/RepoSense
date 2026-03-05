@@ -5,7 +5,7 @@
   "author": "",
   "scripts": {
     "serve": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "lint": "eslint src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss,css} && npm run puglint",
     "devbuild": "vite build --mode development",
     "lintfix": "eslint --fix src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss,css}",
