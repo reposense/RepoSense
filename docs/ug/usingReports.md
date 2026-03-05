@@ -36,7 +36,7 @@ Here is an example of how a typical report looks like:
 
 ![report](../images/report-features.png)
 
-The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits panel**_](#commits-panel) or the [_**Global File Browser**_](#global-file-browser) will appear in place of the Code panel.
+The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits panel**_](#commits-panel) or the [_**Global file browser**_](#global-file-browser) will appear in place of the Code panel.
 <box type="info" seamless>
 
 Links to external webpages (repository link, author's profile, blame view, etc.) is only properly supported when RepoSense analyzes a remote repository belonging to GitHub, GitLab or BitBucket.
@@ -191,19 +191,19 @@ The `Commits panel` allows users to see the commits attributed to a specific aut
 
 ## Global file browser panel
 
-The `Global File Browser` provides a way to search and browse files across all repositories in the report. Unlike the [Code panel](#code-panel), which shows code attributed to a single author within one repository, the Global File Browser lets you explore files from every repository at once.
+The `Global file browser` provides a way to search and browse files across all repositories in the report. Unlike the [Code panel](#code-panel), which shows code attributed to a single author within one repository, the global file browser lets you explore files from every repository at once.
 
 #### Accessing the Global File Browser
 
 1. Locate the **filter mode** dropdown at the top of the tool bar.
 2. Select **Global** from the dropdown.
-3. The Global File Browser will appear on the right side of the report, replacing the Code panel.
+3. The global File Browser will appear on the right side of the report, replacing the Code panel.
 
 To return to the normal view, select **Local** from the dropdown. You can also click any author's %%:fas-code:%% or %%:fas-list-ul:%% icon in the Chart panel, which automatically switches the filter mode back to Local and opens the corresponding Code or Commits panel.
 
 <box type="info" seamless>
 
-When you switch to Global mode, any previously highlighted author in the Chart panel is deselected. Likewise, switching back to Local mode (or clicking an author icon) closes the Global File Browser.
+When you switch to global mode, any previously highlighted author in the Chart panel is deselected. Likewise, switching back to Local mode (or clicking an author icon) closes the global file browser.
 </box>
 
 #### Filtering files with glob patterns
@@ -226,7 +226,7 @@ Glob matching uses the `matchBase` option, so a pattern like `*.java` will match
 
 #### View modes
 
-The Global File Browser offers two view modes, toggled by the buttons below the search input:
+The global file browser offers two view modes, toggled by the buttons below the search input:
 
 ##### Sort By Path (default)
 
@@ -270,7 +270,7 @@ Binary files (such as images, executables, and archives) and ignored files canno
 
 #### Use cases
 
-The Global File Browser is particularly useful for:
+The global file browser is particularly useful for:
 
 * **Cross-repository code search**: Find files matching a specific pattern (e.g., `*.yml` for CI configs) across all repositories.
 * **Code review**: Quickly browse all files of a specific type and see who wrote each line.
