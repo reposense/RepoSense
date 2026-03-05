@@ -50,7 +50,7 @@
         .repo-group-header(@click="toggleAllFiles(group.repoName)")
           span.repo-group-name {{ group.repoName }}
           span.repo-group-count {{ group.files.length }} file(s)
-          .repo-group-is-show-top-badge {{ getRepoDisplayText(group.repoName) }}
+          .repo-group-toggle-badge {{ getRepoDisplayText(group.repoName) }}
         .file-item(
           v-for="file in getVisibleFiles(group)",
           :key="`${file.repoName}-${file.path}`",

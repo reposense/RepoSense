@@ -229,7 +229,7 @@ describe('global browser view - group by repo', () => {
       .as('publishGroup');
 
     cy.get('@publishGroup')
-      .find('.repo-group-is-show-top-badge')
+      .find('.repo-group-toggle-badge')
       .should('contain', 'Click to expand');
 
     cy.get('@publishGroup')
@@ -237,7 +237,7 @@ describe('global browser view - group by repo', () => {
       .click();
 
     cy.get('@publishGroup')
-      .find('.repo-group-is-show-top-badge')
+      .find('.repo-group-toggle-badge')
       .should('contain', 'Click to collapse');
 
     cy.get('@publishGroup')
@@ -245,7 +245,7 @@ describe('global browser view - group by repo', () => {
       .click();
 
     cy.get('@publishGroup')
-      .find('.repo-group-is-show-top-badge')
+      .find('.repo-group-toggle-badge')
       .should('contain', 'Click to expand');
   });
 
