@@ -281,7 +281,7 @@ export default defineComponent({
     -ms-overflow-style: none;  /* IE and Edge */
     padding: 0;
     scrollbar-width: none;  /* Firefox */
-    white-space: normal;
+    white-space: pre-wrap;
   }
 }
 </style>
