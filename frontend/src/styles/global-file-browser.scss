@@ -85,6 +85,10 @@
   &.is-expanded {
     border-color: #007bff;
   }
+
+  &.is-binary, &.is-ignored {
+    background: #e0e0e0;
+  }
 }
 
 .file-header {

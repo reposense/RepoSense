@@ -53,7 +53,11 @@
         .file-item(
           v-for="file in getVisibleFiles(group)",
           :key="`${file.repoName}-${file.path}`",
-          :class="{ 'is-expanded': file.active }"
+          :class=`{
+              'is-expanded': file.active,
+              'is-binary': file.isBinary,
+              'is-ignored': file.isIgnored
+          }`
         )
           .file-header(@click="toggleFile(file)")
             span.caret(v-if="!file.isBinary && !file.isIgnored")
