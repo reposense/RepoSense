@@ -333,12 +333,15 @@ window.api = {
         isBinary: file.isBinary || false,
         isIgnored: file.isIgnored || false,
         active: false,
-        lines: file.lines,
+        // We do not load lines here to avoid unnecessary memory usage.
+        // Lines will be loaded on demand when the user expand the file.
+        // See loadFileSegments in c-global-file-browser.vue for more details.
+        lines: undefined,
         segments: undefined,
       });
     }
 
-    // Now aggregate all files
+    // Aggregate all files
     repoNames.forEach((repoName) => {
       const files = window.REPOS[repoName].files;
       if (!files) {
