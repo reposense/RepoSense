@@ -53,11 +53,7 @@
         .file-item(
           v-for="file in getVisibleFiles(group)",
           :key="`${file.repoName}-${file.path}`",
-          :class=`{
-              'is-expanded': file.active,
-              'is-binary': file.isBinary,
-              'is-ignored': file.isIgnored
-          }`
+          :class="{ 'is-expanded': file.active }"
         )
           .file-header(@click="toggleFile(file)")
             span.caret(v-if="!file.isBinary && !file.isIgnored")
@@ -188,7 +184,7 @@ export default defineComponent({
       this.toggleRepoGroup(repoName);
 
       const filesInRepo = this.filteredFiles.filter(
-        (file) => file.repoName === repoName,
+        (file) => file.repoName === repoName && !file.isBinary && !file.isIgnored,
       );
 
       filesInRepo.forEach((file) => {
