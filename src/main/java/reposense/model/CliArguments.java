@@ -41,6 +41,7 @@ public class CliArguments {
     private boolean isPortfolio;
     private boolean isFreshClonePerformed = ArgsParser.DEFAULT_SHOULD_FRESH_CLONE;
     private boolean isOnlyTextRefreshed;
+    private boolean isAuthorDedupMode;
 
     private List<String> locations;
     private boolean isViewModeOnly;
@@ -210,6 +211,10 @@ public class CliArguments {
         return isOnlyTextRefreshed;
     }
 
+    public boolean isAuthorDedupMode() {
+        return isAuthorDedupMode;
+    }
+
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
@@ -253,7 +258,8 @@ public class CliArguments {
                 && this.isAuthorshipAnalyzed == otherCliArguments.isAuthorshipAnalyzed
                 && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
                 && this.isPortfolio == otherCliArguments.isPortfolio
-                && this.isOnlyTextRefreshed == otherCliArguments.isOnlyTextRefreshed;
+                && this.isOnlyTextRefreshed == otherCliArguments.isOnlyTextRefreshed
+                && this.isAuthorDedupMode == otherCliArguments.isAuthorDedupMode;
     }
 
     /**
@@ -549,6 +555,16 @@ public class CliArguments {
          */
         public Builder isOnlyTextRefreshed(boolean isOnlyTextRefreshed) {
             this.cliArguments.isOnlyTextRefreshed = isOnlyTextRefreshed;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isAuthorDedupMode} to CLIArguments.
+         *
+         * @param isAuthorDedupMode Is author dedup mode.
+         */
+        public Builder isAuthorDedupMode(boolean isAuthorDedupMode) {
+            this.cliArguments.isAuthorDedupMode = isAuthorDedupMode;
             return this;
         }
 
