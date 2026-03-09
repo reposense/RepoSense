@@ -3,15 +3,15 @@ package reposense.wizard;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -47,8 +47,7 @@ public class ConfigWizardServer {
             host.addContext("/api", new ApiHandler(), "GET", "POST");
 
             server.start();
-            // Launch directly to the wizard index
-            launchBrowser(String.format("http://localhost:%s/wizard/", port));
+            launchBrowser(String.format("http://localhost:%s/config-wizard", port));
             logger.info("Press Ctrl + C or equivalent to stop the server");
         } catch (IOException ioe) {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
@@ -106,31 +105,35 @@ public class ConfigWizardServer {
             if (path.equals("/api/generate") && req.getMethod().equals("POST")) {
                 try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
                     String body = reader.lines().collect(Collectors.joining("\n"));
-                    JsonObject jsonBody = JsonParser.parseString(body).getAsJsonObject();
-
                     Gson gson = new Gson();
-                    List<Map<String, Object>> repos = gson.fromJson(jsonBody.get("repos"),
-                            new TypeToken<List<Map<String, Object>>>() {
-                            }.getType());
-                    List<Map<String, Object>> authors = gson.fromJson(jsonBody.get("authors"),
-                            new TypeToken<List<Map<String, Object>>>() {
-                            }.getType());
-                    List<Map<String, Object>> groups = gson.fromJson(jsonBody.get("groups"),
-                            new TypeToken<List<Map<String, Object>>>() {
-                            }.getType());
-                    Map<String, Object> report = gson.fromJson(jsonBody.get("report"),
-                            new TypeToken<Map<String, Object>>() {
-                            }.getType());
+                    Map<String, Object> config = gson.fromJson(body,
+                            new TypeToken<Map<String, Object>>() {}.getType());
 
                     Path outputDir = Paths.get(System.getProperty("user.dir"), "generated-configs");
-                    Files.createDirectories(outputDir);
+                    Path outputPath = outputDir.resolve("report-config.yaml");
+                    ConfigFileWriter.writeReportConfig(config, outputPath);
 
-                    ConfigFileWriter.writeRepoConfig(repos, outputDir.resolve("repo-config.csv"));
-                    ConfigFileWriter.writeAuthorConfig(authors, outputDir.resolve("author-config.csv"));
-                    ConfigFileWriter.writeGroupConfig(groups, outputDir.resolve("group-config.csv"));
-                    ConfigFileWriter.writeReportConfig(report, outputDir.resolve("report-config.yaml"));
+                    resp.send(200, "{\"success\": true, \"path\": \"" + outputPath.toString() + "\"}");
+                    return 200;
+                } catch (Exception e) {
+                    resp.send(500, "{\"error\": \"" + e.getMessage() + "\"}");
+                    return 500;
+                }
+            }
 
-                    resp.send(200, "{\"success\": true, \"path\": \"" + outputDir.toString() + "\"}");
+            if (path.equals("/api/preview") && req.getMethod().equals("POST")) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
+                    String body = reader.lines().collect(Collectors.joining("\n"));
+                    Gson gson = new Gson();
+                    Map<String, Object> config = gson.fromJson(body,
+                            new TypeToken<Map<String, Object>>() {}.getType());
+
+                    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+                    String yaml = mapper.writeValueAsString(config);
+
+                    String escaped = yaml.replace("\\", "\\\\").replace("\"", "\\\"")
+                            .replace("\n", "\\n").replace("\r", "");
+                    resp.send(200, "{\"yaml\": \"" + escaped + "\"}");
                     return 200;
                 } catch (Exception e) {
                     resp.send(500, "{\"error\": \"" + e.getMessage() + "\"}");

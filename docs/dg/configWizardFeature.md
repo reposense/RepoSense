@@ -696,19 +696,20 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 
 ## Implementation Plan
 
-### Phase 1: Backend Infrastructure ✅ (Partially Done)
+### Phase 1: Backend Infrastructure ✅ (Complete)
 
 **Scope:**
 
 - ✅ **CLI Flag**: Add `--config-wizard` flag to `ArgsParser` and route in `RepoSense.main()`
 - ✅ **Wizard Server**: `ConfigWizardServer` serves static assets and handles REST API
 - ✅ **File Writer**: `ConfigFileWriter.writeReportConfig()` writes YAML via Jackson
-- 🔲 **Remove CSV writers**: Delete `writeRepoConfig()`, `writeAuthorConfig()`, `writeGroupConfig()` from `ConfigFileWriter`
-- 🔲 **Simplify `/api/generate`**: Accept a single unified YAML-shaped JSON body, write one file
-- 🔲 **Add `/api/preview` endpoint**: Returns the YAML string for the live preview pane
-- 🔲 **Add `/api/validate-glob` and `/api/validate-date` endpoints**
+- ✅ **Remove CSV writers**: Deleted `writeRepoConfig()`, `writeAuthorConfig()`, `writeGroupConfig()` and `toYes()` from `ConfigFileWriter`; removed `commons-csv` import
+- ✅ **Simplify `/api/generate`**: Accepts a single unified YAML-shaped JSON body, writes one `report-config.yaml` file
+- ✅ **Add `/api/preview` endpoint**: Accepts the same payload, returns serialised YAML string for the live preview pane
+- ✅ **Update browser launch URL**: `ConfigWizardServer` now opens `/config-wizard` instead of `/wizard/`
+- 🔲 **Add `/api/validate-glob` and `/api/validate-date` endpoints** (deferred to Phase 3 alongside Tier 2 validation)
 
-**Deliverable:** Backend that accepts a single YAML-shaped payload and writes `report-config.yaml`.
+**Deliverable:** Backend that accepts a single YAML-shaped payload and writes `report-config.yaml`. ✅
 
 ### Phase 2: Frontend Wizard Core 🔲
 
@@ -818,6 +819,7 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | 26 Jan 2026  | Added two-pane layout using `c-resizer`, separate `frontend/wizard/` app      |
 | 9 Mar 2026   | Scoped to YAML-only output (`report-config.yaml`); removed CSV support        |
 | 9 Mar 2026   | Redesigned step flow to mirror YAML hierarchy (Option B, 4-step wizard)       |
+| 9 Mar 2026   | Phase 1 complete: removed CSV writers, simplified `/api/generate`, added `/api/preview`, updated browser URL to `/config-wizard` |
 
 ### Decision Log
 
