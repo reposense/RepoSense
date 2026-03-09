@@ -40,7 +40,7 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, 'index.html'),
-          wizard: path.resolve(__dirname, 'wizard/index.html'),
+          'config-wizard': path.resolve(__dirname, 'config-wizard/index.html'),
         },
         output: {
           manualChunks: {

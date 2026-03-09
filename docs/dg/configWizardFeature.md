@@ -711,20 +711,21 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 
 **Deliverable:** Backend that accepts a single YAML-shaped payload and writes `report-config.yaml`. ✅
 
-### Phase 2: Frontend Wizard Core 🔲
+### Phase 2: Frontend Wizard Core ✅ (Complete)
 
 **Scope:**
 
-- 🔲 **Remodel `store.ts`**: Change state shape from flat CSV-mirroring arrays to nested YAML-mirroring structure
-- 🔲 **Update `App.vue`**: Change stepper to 4 steps (Report Settings, Repos & Branches, Groups, Review)
-- 🔲 **Implement `ReportStep.vue`**: Step 1 — report title field
-- 🔲 **Implement `ReposStep.vue`**: Step 2 — nested repo → branch → author card UI
-- 🔲 **Implement `GroupsStep.vue`**: Step 3 — per-repo group configuration
-- 🔲 **Implement `ReviewStep.vue`**: Step 4 — YAML preview, validation status, generate button
-- 🔲 **Two-pane layout**: Integrate `c-resizer` for the form/preview split
-- 🔲 **Live preview pane**: Call `/api/preview` on state changes, render YAML
+- ✅ **Remodel `store.ts`**: State shape now mirrors the YAML hierarchy (`repos → branches → authors`, `repos → groups`)
+- ✅ **Update `App.vue`**: 4-step stepper, two-pane layout with inline draggable resizer (note: `c-resizer` was not reused as it is tightly coupled to the main app's Vuex store)
+- ✅ **Implement `ReportStep.vue`**: Step 1 — report title field
+- ✅ **Implement `ReposStep.vue`**: Step 2 — nested repo → branch → author card UI with URL validation
+- ✅ **Implement `GroupsStep.vue`**: Step 3 — per-repo group configuration with Skip option
+- ✅ **Implement `ReviewStep.vue`**: Step 4 — summary, YAML snippet, generate button, success/error state
+- ✅ **Two-pane layout**: Inline CSS flexbox resizer in `App.vue` (drag to adjust left/right pane widths)
+- ✅ **Live preview pane**: Watches `store.config`, debounces calls to `/api/preview`, renders YAML in dark-themed right pane
+- ✅ **New entry point**: All wizard source files moved to `frontend/config-wizard/`; `vite.config.mts` updated to build to `build/config-wizard/`, served at `/config-wizard`
 
-**Deliverable:** Working 4-step wizard UI with live YAML preview.
+**Deliverable:** Working 4-step wizard UI with live YAML preview. ✅
 
 ### Phase 3: Full Field Support & Validation 🔲
 
@@ -820,6 +821,7 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | 9 Mar 2026   | Scoped to YAML-only output (`report-config.yaml`); removed CSV support        |
 | 9 Mar 2026   | Redesigned step flow to mirror YAML hierarchy (Option B, 4-step wizard)       |
 | 9 Mar 2026   | Phase 1 complete: removed CSV writers, simplified `/api/generate`, added `/api/preview`, updated browser URL to `/config-wizard` |
+| 9 Mar 2026   | Phase 2 complete: new `frontend/config-wizard/` app with 4-step wizard, YAML-shaped store, two-pane layout, live preview pane  |
 
 ### Decision Log
 

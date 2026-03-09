@@ -141,6 +141,19 @@ public class ConfigWizardServer {
                 }
             }
 
+            if (path.equals("/api/quit") && req.getMethod().equals("POST")) {
+                resp.send(200, "{\"ok\": true}");
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    System.exit(0);
+                }).start();
+                return 200;
+            }
+
             resp.send(404, "{\"error\": \"Not Found\"}");
             return 404;
         }
