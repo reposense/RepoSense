@@ -252,6 +252,7 @@
       "headings": {
         "appendix-cli-syntax-reference": "Appendix: CLI syntax reference",
         "analyze-authorship-a": "--analyze-authorship, -A",
+        "author-dedup-mode": "--author-dedup-mode",
         "config-c": "--config, -c",
         "formats-f": "--formats, -f",
         "find-previous-authors-f": "--find-previous-authors, -F",
