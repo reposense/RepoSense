@@ -2,6 +2,7 @@ package reposense.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -79,6 +80,7 @@ public class ArgsParser {
     public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
     public static final String[] PORTFOLIO_FLAG = new String[] {"--portfolio", "-P"};
     public static final String[] REFRESH_ONLY_TEXT_FLAG = new String[] {"--text", "-T"};
+    public static final String[] AUTHOR_DEDUP_MODE_FLAGS = new String[] {"--author-dedup-mode"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
 
@@ -99,6 +101,10 @@ public class ArgsParser {
             "\"Since Date\" cannot be later than \"Until Date\".";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
             "\"Since Date\" must not be later than today's date.";
+    private static final String MESSAGE_AUTHOR_DEDUP_MODE_WITHOUT_CONFIG =
+            "--author-dedup-mode flag is used without --config flag. The flag will be ignored.";
+    private static final String MESSAGE_AUTHOR_CONFIG_FILE_NOT_FOUND =
+            "--author-dedup-mode flag is used but author-config.csv file not found at %s. The flag will be ignored.";
     private static final Path EMPTY_PATH = Paths.get("");
     private static final Path DEFAULT_CONFIG_PATH = Paths.get(System.getProperty("user.dir")
             + File.separator + "config" + File.separator);
@@ -231,6 +237,11 @@ public class ArgsParser {
                 .action(Arguments.storeTrue())
                 .help("Refreshes only the text content of the report, without analyzing the repositories again.");
 
+        parser.addArgument(AUTHOR_DEDUP_MODE_FLAGS)
+                .dest(AUTHOR_DEDUP_MODE_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("Deduplicates authors based on the author-config file, while preserving all commit authors.");
+
         // Mutex flags - these will always be the last parameters in help message.
         mutexParser.addArgument(CONFIG_FLAGS)
                 .dest(CONFIG_FLAGS[0])
@@ -316,6 +327,7 @@ public class ArgsParser {
         int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
         boolean shouldPerformFreshCloning = results.get(FRESH_CLONING_FLAG[0]);
         boolean shouldRefreshOnlyText = results.get(REFRESH_ONLY_TEXT_FLAG[0]);
+        boolean isAuthorDedupMode = results.get(AUTHOR_DEDUP_MODE_FLAGS[0]);
 
         CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
                 .configFolderPath(configFolderPath)
@@ -335,7 +347,8 @@ public class ArgsParser {
                 .originalityThreshold(originalityThreshold)
                 .isPortfolio(isPortfolio)
                 .isFreshClonePerformed(shouldPerformFreshCloning)
-                .isOnlyTextRefreshed(shouldRefreshOnlyText);
+                .isOnlyTextRefreshed(shouldRefreshOnlyText)
+                .isAuthorDedupMode(isAuthorDedupMode);
 
         LogsManager.setLogFolderLocation(outputFolderPath);
 
@@ -360,6 +373,20 @@ public class ArgsParser {
             logger.info(String.format("Ignoring argument '%s' for --view.", reportFolderPath.toString()));
         }
         cliArgumentsBuilder.isAutomaticallyLaunching(isAutomaticallyLaunching);
+
+        // Validate author-dedup-mode flag
+        if (isAuthorDedupMode) {
+            // Check if --config flag was explicitly provided
+            if (configFolderPath.equals(DEFAULT_CONFIG_PATH)) {
+                logger.warning(MESSAGE_AUTHOR_DEDUP_MODE_WITHOUT_CONFIG);
+            } else {
+                // Check if author-config.csv exists
+                Path authorConfigPath = configFolderPath.resolve(AuthorConfigCsvParser.AUTHOR_CONFIG_FILENAME);
+                if (!Files.exists(authorConfigPath)) {
+                    logger.warning(String.format(MESSAGE_AUTHOR_CONFIG_FILE_NOT_FOUND, authorConfigPath));
+                }
+            }
+        }
 
         return cliArgumentsBuilder.build();
     }

@@ -75,6 +75,8 @@ public class RepoSense {
                     cliArguments.isShallowCloningPerformed());
             RepoConfiguration.setIsFindingPreviousAuthorsPerformedToRepoConfigs(configs,
                     cliArguments.isFindingPreviousAuthorsPerformed());
+            RepoConfiguration.setIsAuthorDedupModeToRepoConfigs(configs,
+                    cliArguments.isAuthorDedupMode());
 
             List<String[]> globalGitConfig = GitConfig.getGlobalGitLfsConfig();
             if (globalGitConfig.size() != 0) {

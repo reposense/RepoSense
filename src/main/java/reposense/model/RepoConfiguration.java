@@ -48,6 +48,7 @@ public class RepoConfiguration {
     private transient boolean isLastModifiedDateIncluded;
     private transient boolean isShallowCloningPerformed = false;
     private transient boolean isFindingPreviousAuthorsPerformed = false;
+    private transient boolean isAuthorDedupMode = false;
     private transient boolean isFormatsOverriding = false;
     private transient boolean isIgnoreGlobListOverriding;
     private transient boolean isIgnoreCommitListOverriding = false;
@@ -328,7 +329,19 @@ public class RepoConfiguration {
         }
 
         /**
-         * Updates the {@code isFindingPreviousAuthorsPerformed} for {@code RepoConfiguration}.
+         * Updates the {@code isAuthorDedupMode} for {@code RepoConfiguration}.
+         *
+         * @param isAuthorDedupMode Checks if author dedup mode is enabled.
+         * @return This builder object.
+         */
+        public Builder isAuthorDedupMode(boolean isAuthorDedupMode) {
+            this.repoConfiguration.isAuthorDedupMode = isAuthorDedupMode;
+            return this;
+        }
+
+        /**
+         * Updates the {@code isFindingPreviousAuthorsPerformed} for
+         * {@code RepoConfiguration}.
          *
          * @param isFindingPreviousAuthorsPerformed Checks if finding previous authors is performed.
          * @return This builder object.
@@ -530,28 +543,35 @@ public class RepoConfiguration {
     }
 
     public static void setIsLastModifiedDateIncludedToRepoConfigs(List<RepoConfiguration> configs,
-                                                                  boolean isLastModifiedDateIncluded) {
+            boolean isLastModifiedDateIncluded) {
         for (RepoConfiguration config : configs) {
             config.setIsLastModifiedDateIncluded(isLastModifiedDateIncluded);
         }
     }
 
     public static void setIsShallowCloningPerformedToRepoConfigs(List<RepoConfiguration> configs,
-                                                                 boolean isShallowCloningPerformed) {
+            boolean isShallowCloningPerformed) {
         if (isShallowCloningPerformed) {
             configs.stream().forEach(config -> config.setIsShallowCloningPerformed(true));
         }
     }
 
     public static void setIsFindingPreviousAuthorsPerformedToRepoConfigs(List<RepoConfiguration> configs,
-                                                                         boolean isFindingPreviousAuthorsPerformed) {
+            boolean isFindingPreviousAuthorsPerformed) {
         if (isFindingPreviousAuthorsPerformed) {
             configs.stream().forEach(config -> config.setIsFindingPreviousAuthorsPerformed(true));
         }
     }
 
+    public static void setIsAuthorDedupModeToRepoConfigs(List<RepoConfiguration> configs,
+            boolean isAuthorDedupMode) {
+        if (isAuthorDedupMode) {
+            configs.stream().forEach(config -> config.setIsAuthorDedupMode(true));
+        }
+    }
+
     public static void setHasAuthorConfigFileToRepoConfigs(List<RepoConfiguration> configs,
-                                                           boolean setHasAuthorConfigFile) {
+            boolean setHasAuthorConfigFile) {
         configs.stream().forEach(config -> config.setHasAuthorConfigFile(setHasAuthorConfigFile));
     }
 
@@ -568,8 +588,8 @@ public class RepoConfiguration {
                 continue;
             }
 
-            List<RepoConfiguration> locationMatchingRepoConfigs =
-                    getMatchingRepoConfigsByLocation(repoConfigs, authorConfig.getLocation());
+            List<RepoConfiguration> locationMatchingRepoConfigs = getMatchingRepoConfigsByLocation(repoConfigs,
+                    authorConfig.getLocation());
 
             if (locationMatchingRepoConfigs.isEmpty()) {
                 logger.warning(String.format(
@@ -678,7 +698,7 @@ public class RepoConfiguration {
      * {@code ignoreFilesizeLimit} is true.
      */
     public static void setFileSizeLimitIgnoredToRepoConfigs(List<RepoConfiguration> configs,
-                                                            boolean ignoreFileSizeLimit) {
+            boolean ignoreFileSizeLimit) {
         if (ignoreFileSizeLimit) {
             configs.forEach(config -> config.setFileSizeLimitIgnored(true));
         }
@@ -881,6 +901,10 @@ public class RepoConfiguration {
         this.isFindingPreviousAuthorsPerformed = isFindingPreviousAuthorsPerformed;
     }
 
+    public void setIsAuthorDedupMode(boolean isAuthorDedupMode) {
+        this.isAuthorDedupMode = isAuthorDedupMode;
+    }
+
     public boolean isLastModifiedDateIncluded() {
         return this.isLastModifiedDateIncluded;
     }
@@ -1079,6 +1103,10 @@ public class RepoConfiguration {
 
     public boolean isFindingPreviousAuthorsPerformed() {
         return isFindingPreviousAuthorsPerformed;
+    }
+
+    public boolean isAuthorDedupMode() {
+        return isAuthorDedupMode;
     }
 
     public boolean isHasUpdatedSinceDateInConfig() {
