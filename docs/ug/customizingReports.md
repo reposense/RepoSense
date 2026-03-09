@@ -24,7 +24,7 @@ RepoSense offers multiple ways to customize your reports, with varying levels of
 2. **RepoSense Configuration Files** - Flexible configuration managed in your config directory:
    - **`report-config.yaml`** - A user-friendly single file for typical use cases
    - **CSV config files** - A more powerful option with granular control for advanced scenarios
-   - **Personalization assets** (`favicon.ico`, `title.md`, and blurbs) - Personalize the report with custom icon, title banner, and descriptive blurbs for repos, authors, and charts.
+   - **Personalization assets** (`favicon.ico`, `intro.md`, and blurbs) - Personalize the report with custom icon, title banner, and descriptive blurbs for repos, authors, and charts.
 3. **In-Repository Configuration** - Configure individual repositories with their own settings and author annotations
 
 When deciding which configuration method to use:
@@ -88,21 +88,8 @@ To ensure that their PRs are correct, you can use [Netlify _deploy previews_](ht
 
 There is a default `favicon.ico` file provided in the template zip folder. If you want to self-configure the `favicon.ico`, please ensure that the file is valid and has the file name of `favicon.ico`. This icon will appear in the browser tab when your report is viewed. Copy or move your `favicon.ico file` into the `assets` folder of the config directory.
 
-##### Add a title
-
-### Personalizing Reports
-
-#### Add favicon.ico
-There is a default `favicon.ico` file provided in the template zip folder. If you want to self-configure the `favicon.ico`, please ensure that the file is valid and has the file name of `favicon.ico`. This icon will appear in the browser tab when your report is viewed. Copy or move your `favicon.ico file` into the `assets` folder of the config directory 
-
-Specifying the config directory can be done as follows:
-{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
-
-#### Add an intro
+##### Add an intro
 Add the introductory section of the dashboard by creating an `intro.md` file in the config directory. Existing `title.md` files still work for now, but will be deprecated in favour of `intro.md`.
-
-Specifying the config directory can be done as follows:
-{{ embed("Appendix: **CLI syntax reference → `config` flag**", "cli.md#section-config") }}
 
 The intro can render a combination of Markdown/HTML and plaintext ([example](https://github.com/reposense/RepoSense/blob/master/docs/ug/title.md)), and will appear on the top of the left panel as shown below:
 ![Intro Component Example](../images/title-example.png)
