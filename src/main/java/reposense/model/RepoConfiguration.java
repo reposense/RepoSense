@@ -751,7 +751,8 @@ public class RepoConfiguration {
      * Gets the path to the root folder of the repository.
      */
     public String getRepoRoot() {
-        String path = FileUtil.REPOS_ADDRESS + File.separator + getRepoFolderName() + File.separator;
+        String path = FileUtil.getRepoBasePath().resolve(getRepoFolderName()).toString()
+                + File.separator;
 
         if (!getRepoName().isEmpty()) {
             if (!extraOutputFolderName.isEmpty()) {
