@@ -193,11 +193,11 @@ The `Commits panel` allows users to see the commits attributed to a specific aut
 
 The `Global file browser` provides a way to search and browse files across all repositories in the report. Unlike the [Code panel](#code-panel), which shows code attributed to a single author within one repository, the global file browser lets you explore files from every repository at once.
 
-#### Accessing the Global File Browser
+#### Accessing the global file browser
 
 1. Locate the **filter mode** dropdown at the top of the tool bar.
 2. Select **Global** from the dropdown.
-3. The global File Browser will appear on the right side of the report, replacing the Code panel.
+3. The global file browser will appear on the right side of the report, replacing the Code panel.
 
 To return to the normal view, select **Local** from the dropdown. You can also click any author's %%:fas-code:%% or %%:fas-list-ul:%% icon in the Chart panel, which automatically switches the filter mode back to Local and opens the corresponding Code or Commits panel.
 
