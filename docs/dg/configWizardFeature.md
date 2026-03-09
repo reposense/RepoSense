@@ -760,7 +760,16 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 
 ### Short-term (Within 6 months)
 
-1. **CSV Config File Support**
+1. **UI Styling — Match Main RepoSense App**
+
+   The wizard currently uses Vue's `#42b983` green as its accent colour and `Segoe UI` as its font, neither of which are used in the main RepoSense report viewer. To make the wizard feel like a native part of the product, apply the following in two sub-steps:
+
+   - **Step A — Font:** Import `Titillium Web` (the main app's font) via Google Fonts in `config-wizard/index.html` and update `font-family` in `App.vue`.
+   - **Step B — Colours:** Replace the `#42b983` accent throughout the wizard with values from the existing MUI colour palette already defined in `frontend/src/styles/_colors.scss`. Define CSS custom properties (`--color-primary`, `--color-border`, `--color-error`, etc.) at the root of `App.vue` mapping to the chosen MUI hex values, then update all usages in one pass. Suggested candidates: `blue-grey-500` (`#607D8B`) or `teal-500` (`#009688`) as the primary accent — both are present in the MUI palette and consistent with the main app's aesthetic.
+
+   **Files affected:** `config-wizard/index.html`, `config-wizard/App.vue` (CSS custom properties and usages), `config-wizard/components/*.vue` (any hardcoded colour values).
+
+2. **CSV Config File Support**
 
    Add a mode toggle so users can choose YAML or CSV output. The YAML-only implementation lays the groundwork (validation logic, server, step structure) that CSV support can be layered on top of.
 
