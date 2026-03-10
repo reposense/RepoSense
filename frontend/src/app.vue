@@ -18,7 +18,10 @@
     :tab-type="tabType",
     :creation-date="creationDate",
     :report-generation-time="reportGenerationTime",
-    :error-messages="errorMessages"
+    :error-messages="errorMessages",
+    :global-files="globalFiles",
+    @view-file-browser="openFileBrowser",
+    @go-back-to-welcome-tab="openWelcomeTab"
     )
 </template>
 
@@ -27,7 +30,7 @@ import { defineComponent } from 'vue';
 import JSZip from 'jszip';
 import LoadingOverlay from 'vue-loading-overlay';
 import { mapState } from 'vuex';
-import { Repo } from './types/types';
+import { Repo, GlobalFileEntry } from './types/types';
 import { ErrorMessage } from './types/zod/summary-type';
 import { ZoomInfo, AuthorshipInfo } from './types/vuex.d';
 
@@ -46,7 +49,8 @@ const app = defineComponent({
     tabType: string,
     creationDate: string,
     reportGenerationTime: string,
-    errorMessages: { [key: string]: ErrorMessage }
+    errorMessages: { [key: string]: ErrorMessage },
+    globalFiles: Array<GlobalFileEntry>
   } {
     return {
       repos: {} as { [key: string]: Repo },
@@ -59,6 +63,7 @@ const app = defineComponent({
       creationDate: '',
       reportGenerationTime: '',
       errorMessages: {} as { [key: string]: ErrorMessage },
+      globalFiles: [] as Array<GlobalFileEntry>,
     };
   },
   computed: {
@@ -84,6 +89,13 @@ const app = defineComponent({
     this.updateReportDir();
   },
   methods: {
+    openFileBrowser(files: Array<GlobalFileEntry>): void {
+      this.globalFiles = files;
+      this.activateTab('file-browser');
+    },
+    openWelcomeTab(): void {
+      this.activateTab('empty');
+    },
     // model functions //
     updateReportZip(evt: Event): void {
       this.users = [];

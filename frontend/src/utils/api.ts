@@ -1,5 +1,5 @@
-import { DailyCommit, CommitResult, User } from '../types/types';
-import { authorshipSchema } from '../types/zod/authorship-type';
+import { DailyCommit, CommitResult, User, GlobalFileEntry } from '../types/types';
+import { authorshipSchema, FileResult } from '../types/zod/authorship-type';
 import { commitsSchema } from '../types/zod/commits-type';
 import { ErrorMessage, summarySchema } from '../types/zod/summary-type';
 
@@ -306,6 +306,57 @@ window.api = {
         return files;
       });
   },
+
+  async loadAllAuthorship(): Promise<GlobalFileEntry[]> {
+    const allFiles: GlobalFileEntry[] = [];
+
+    // Use Object.keys to avoid for..in ESLint errors
+    const repoNames = Object.keys(window.REPOS);
+
+    // Load all authorship data in parallel to avoid await-in-loop
+    await Promise.all(
+      repoNames.map(async (repoName) => {
+        if (!window.REPOS[repoName].files) {
+          await this.loadAuthorship(repoName);
+        }
+      }),
+    );
+
+    function pushIndividualFileIntoRepoGroups(repoName: string, file: FileResult, totalLines: number) {
+      allFiles.push({
+        repoName,
+        path: file.path,
+        fileType: file.fileType,
+        lineCount: totalLines,
+        authors: Object.keys(file.authorContributionMap || {}),
+        authorContributionMap: file.authorContributionMap || {},
+        isBinary: file.isBinary || false,
+        isIgnored: file.isIgnored || false,
+        active: false,
+        // We do not load lines here to avoid unnecessary memory usage.
+        // Lines will be loaded on demand when the user expand the file.
+        // See loadFileSegments in c-global-file-browser.vue for more details.
+        lines: undefined,
+        segments: undefined,
+      });
+    }
+
+    // Aggregate all files
+    repoNames.forEach((repoName) => {
+      const files = window.REPOS[repoName].files;
+      if (!files) {
+        return; // Skip if still undefined (shouldn't happen)
+      }
+
+      files.forEach((file) => {
+        const totalLines = file.lines ? file.lines.length : 0;
+        pushIndividualFileIntoRepoGroups(repoName, file, totalLines);
+      });
+    });
+
+    return allFiles;
+  },
+
 
   // calculate and set the contribution of each commitResult and insert repoId into commitResult,
   // since not provided in json file

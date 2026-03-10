@@ -46,6 +46,21 @@ partial credit.
 
 <!-- --------------------------◘---------------------------------------------------------------------------- -->
 
+### `--author-dedup-mode`
+
+**`--author-dedup-mode`**: Deduplicates authors based on the `author-config.csv` file, while preserving all commit authors.
+* Default: this feature is turned **_off_** by default
+* Example: `--author-dedup-mode`
+
+<box type="info" seamless>
+
+* Must be used in conjunction with the `--config` flag and requires an `author-config.csv` file to be present.
+* When enabled, all commit authors will be included in the report while respecting the aliases configured in the `author-config.csv` file.
+* Authors not found in the `author-config.csv` file will be added as per normal with their commit names.
+</box>
+
+<!-- --------------------------◘---------------------------------------------------------------------------- -->
+
 ### `--config`, `-c`
 
 <div id="section-config">

@@ -128,6 +128,10 @@ The authorship module retrieves the relevant information from the corresponding 
 The files will be filtered, picking only files the selected author has written in. The lines are then split into chunks of "touched" and "untouched" code segments displayed in the tab view which will be popped up on the right side of the screen.
 
 <!-- ==================================================================================================== -->
+## Global file browser view ([c-global-file-browser.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-global-file-browser.vue))
+The `c-global-file-browser` module is responsible for file filtering across repositories. It allows users to find files by glob and displays the results by path or by repository.
+
+<!-- ==================================================================================================== -->
 
 ## Zoom view ([c-zoom.vue](https://github.com/reposense/RepoSense/blob/master/frontend/src/views/c-zoom.vue))
 

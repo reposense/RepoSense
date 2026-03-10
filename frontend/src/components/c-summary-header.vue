@@ -2,18 +2,19 @@
 form.summary-picker.mui-form--inline(onsubmit="return false;")
   .summary-picker__section
     .tooltip(
-      @mouseover="onTooltipHover('filter-files-label')",
-      @mouseout="resetTooltip('filter-files-label')"
+      @mouseover="onTooltipHover('filter-mode-label')",
+      @mouseout="resetTooltip('filter-mode-label')"
     )
-      .mui-textfield.filter_file(v-if='!isPortfolio')
-        label filter files
-        input(
-          type="text",
-          @change="setFilteredFileName",
-          v-model="localFilteredFileName"
-          )
-        button.mui-btn.mui-btn--raised(type="button", @click.prevent="resetFilteredFileName") x
-        span.tooltip-text(ref='filter-files-label') Enter a glob to filter the files
+
+      .mui-select.filter-mode(v-if='!isPortfolio')
+        label filter mode
+        select(
+          :value="fileFilterScope",
+          @change="$emit('update:file-filter-scope', $event.target.value); $emit('get-filtered')"
+        )
+          option(value="global") Global
+          option(value="local") Local
+        span.tooltip-text(ref='filter-mode-label') Select the scope of the file filter
 
     .mui-textfield.search_box(v-if='!isPortfolio')
       input(type="text", v-model="localFilterSearch")
@@ -207,6 +208,10 @@ export default defineComponent({
       type: String,
       default: "",
     },
+    fileFilterScope: {
+      type: String as PropType<'global' | 'local'>,
+      default: "local",
+    },
   },
 
   emits: [
@@ -224,6 +229,7 @@ export default defineComponent({
     "update:hasModifiedSinceDate",
     "update:hasModifiedUntilDate",
     "update:filteredFileName",
+    "update:file-filter-scope",
     "get-filtered",
     "reset-date-range",
     "toggle-breakdown",
@@ -251,15 +257,6 @@ export default defineComponent({
       set(value: FilterGroupSelection) {
         this.$emit("update:filterGroupSelection", value);
         this.$emit("get-filtered");
-      },
-    },
-
-    localFilteredFileName: {
-      get() {
-        return this.$props.filteredFileName as string;
-      },
-      set(newValue: string) {
-        this.$emit("update:filteredFileName", newValue);
       },
     },
 
@@ -331,22 +328,6 @@ export default defineComponent({
     resetFilterSearch() {
       this.$emit("update:filterSearch", "");
       this.$emit("get-filtered");
-    },
-
-    resetFilteredFileName(): void {
-      this.$emit("update:filteredFileName", "");
-      window.removeHash("authorshipFilesGlob");
-      this.$store.commit("updateAuthorshipRefreshState", false);
-      this.$emit("get-filtered");
-      window.location.reload();
-    },
-
-    setFilteredFileName(evt: Event): void {
-      this.$emit("update:filteredFileName", (evt.target as HTMLInputElement).value);
-      this.$store.commit("updateAuthorshipRefreshState", true);
-      window.addHash("authorshipFilesGlob", this.filteredFileName);
-      this.$emit("get-filtered");
-      window.location.reload();
     },
 
     updateTmpFilterSinceDate(event: Event) {
