@@ -58,6 +58,12 @@
     :optimise-timeline="optimiseTimeline"
   )
 
+  #go-back-button(v-show="showBackToTop", @click="topFunction")
+    font-awesome-icon.icon(
+      icon="arrow-up",
+      title="Back to top",
+    )
+
   .logo(v-if="isWidgetMode")
     a(:href="getRepoSenseHomeLink()", target="_blank")
       img(:src="getLogoPath()", :width=20, :height=20)
@@ -123,6 +129,7 @@ export default defineComponent({
     maxDate: string,
     viewRepoTags: boolean,
     filteredFileName: string,
+    showBackToTop: boolean,
   } {
     return {
       filterSearch: '',
@@ -142,7 +149,8 @@ export default defineComponent({
       minDate: window.sinceDate,
       maxDate: window.untilDate,
       viewRepoTags: false,
-      filteredFileName: ''
+      filteredFileName: '',
+      showBackToTop: false,
     };
   },
 
@@ -229,12 +237,20 @@ export default defineComponent({
     }
   },
 
+  beforeUnmount(): void {
+    const scrollContainer = document.getElementById('summary-wrapper') ?? window;
+    scrollContainer.removeEventListener('scroll', this.scrollFunction);
+  },
+
   mounted(): void {
     // Delay execution of filterGroupSelection watcher
     // to prevent clearing of merged groups
     setTimeout(() => {
       this.filterGroupSelectionWatcherFlag = true;
     }, 0);
+    const scrollContainer = document.getElementById('summary-wrapper') ?? window;
+    scrollContainer.addEventListener('scroll', this.scrollFunction);
+    this.scrollFunction();
   },
 
   methods: {
@@ -688,6 +704,24 @@ export default defineComponent({
 
       return window.getDateStr(datems);
     },
+
+    topFunction() {
+      const container = document.getElementById('summary-wrapper');
+      if (container) {
+        container.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }
+    },
+
+    scrollFunction() {
+      const container = document.getElementById('summary-wrapper');
+      const scrollTop = container
+        ? container.scrollTop
+        : (document.documentElement.scrollTop || document.body.scrollTop);
+      this.showBackToTop = scrollTop > 200;
+    },
   },
 });
 </script>
@@ -707,5 +741,22 @@ export default defineComponent({
   display: flex;
   justify-content: flex-end;
   margin-top: 5px;
+}
+
+#go-back-button {
+  align-content: center;
+  background-color: darkseagreen;
+  border-radius: 50%;
+  bottom: 20px;
+  color: white;
+  cursor: pointer;
+  font-size: 20px;
+  height: 50px;
+  margin-left: auto;
+  place-items: center;
+  position: sticky;
+  right: 20px;
+  width: 50px;
+  z-index: 99;
 }
 </style>
