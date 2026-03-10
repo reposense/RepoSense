@@ -61,7 +61,7 @@
   #go-back-button(v-show="showBackToTop", @click="topFunction")
     font-awesome-icon.icon(
       icon="arrow-up",
-      title="Back to top"
+      title="Back to top",
     )
 
   .logo(v-if="isWidgetMode")
@@ -706,10 +706,13 @@ export default defineComponent({
     },
 
     topFunction() {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      })
+      const container = document.getElementById('summary-wrapper');
+      if (container) {
+        container.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      }
     },
 
     scrollFunction() {
@@ -741,18 +744,19 @@ export default defineComponent({
 }
 
 #go-back-button {
-  background-color: green;
-  border: none;
-  border-radius: 4px;
+  align-content: center;
+  background-color: darkseagreen;
+  border-radius: 50%;
   bottom: 20px;
-  color: blue;
+  color: white;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
+  height: 50px;
   margin-left: auto;
-  outline: none;
-  padding: 15px;
-  position: fixed;
+  place-items: center;
+  position: sticky;
   right: 20px;
+  width: 50px;
   z-index: 99;
 }
 </style>
