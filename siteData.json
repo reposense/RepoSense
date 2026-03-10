@@ -158,6 +158,7 @@
         "filtering-users-and-repositories": "Filtering users and repositories",
         "authorship-view-c-authorship-vue": "Authorship view (c-authorship.vue)",
         "showing-relevant-information-by-authors": "Showing relevant information by authors",
+        "global-file-browser-view-c-global-file-browser-vue": "Global file browser view (c-global-file-browser.vue)",
         "zoom-view-c-zoom-vue": "Zoom view (c-zoom.vue)",
         "ramp-view-c-ramp-vue": "Ramp view (c-ramp.vue)",
         "padding-for-dates": "Padding for dates",
@@ -440,7 +441,8 @@
         "report-structure": "Report structure",
         "chart-panel": "Chart panel",
         "code-panel": "Code panel",
-        "commits-panel": "Commits panel"
+        "commits-panel": "Commits panel",
+        "global-file-browser-panel": "Global file browser panel"
       },
       "headingKeywords": {}
     },
