@@ -1,11 +1,10 @@
 import { reactive } from 'vue';
 
 export interface Author {
-  gitId: string;
-  displayName: string;
-  emails: string[];
-  gitAuthorName: string[];
-  ignoreGlobList: string[];
+  'author-git-host-id': string;
+  'author-display-name': string;
+  'author-emails': string[];
+  'author-git-author-name': string[];
 }
 
 export interface Branch {

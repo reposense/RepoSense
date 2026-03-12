@@ -157,14 +157,6 @@
                     <p class="field-hint">Semicolon-separated</p>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="form-label">Author-level Ignore Glob List</label>
-                  <input
-                    v-model="author.ignoreGlobList"
-                    class="form-input"
-                    placeholder="e.g. test/**;docs/** (semicolon-separated)"
-                  />
-                </div>
               </div>
             </div>
           </div>
@@ -193,7 +185,6 @@ interface LocalAuthor {
   displayName: string;
   emails: string;
   gitAuthorName: string;
-  ignoreGlobList: string;
 }
 
 interface LocalBranch {
@@ -220,7 +211,6 @@ const newAuthor = (): LocalAuthor => ({
   displayName: '',
   emails: '',
   gitAuthorName: '',
-  ignoreGlobList: '',
 });
 
 const newBranch = (): LocalBranch => ({
@@ -255,11 +245,10 @@ const initRepos = (): LocalRepo[] => {
       ignoreAuthorsList: b['ignore-authors-list'].join(';'),
       fileSizeLimit: b['file-size-limit'] != null ? String(b['file-size-limit']) : '',
       authors: b.authors.map((a) => ({
-        gitId: a.gitId,
-        displayName: a.displayName,
-        emails: a.emails.join(';'),
-        gitAuthorName: a.gitAuthorName.join(';'),
-        ignoreGlobList: a.ignoreGlobList.join(';'),
+        gitId: a['author-git-host-id'],
+        displayName: a['author-display-name'],
+        emails: a['author-emails'].join(';'),
+        gitAuthorName: a['author-git-author-name'].join(';'),
       })),
     })),
   }));
@@ -326,11 +315,10 @@ const onNext = () => {
       'ignore-authors-list': split(b.ignoreAuthorsList),
       'file-size-limit': b.fileSizeLimit ? Number(b.fileSizeLimit) : null,
       authors: b.authors.map((a) => ({
-        gitId: a.gitId.trim(),
-        displayName: a.displayName,
-        emails: split(a.emails),
-        gitAuthorName: split(a.gitAuthorName),
-        ignoreGlobList: split(a.ignoreGlobList),
+        'author-git-host-id': a.gitId.trim(),
+        'author-display-name': a.displayName,
+        'author-emails': split(a.emails),
+        'author-git-author-name': split(a.gitAuthorName),
       })),
     })),
   }));

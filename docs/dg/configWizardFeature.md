@@ -169,15 +169,13 @@ repos:
           - bot-user
         file-size-limit: 500000
         authors:
-          - gitId: alice
-            emails:
+          - author-git-host-id: alice
+            author-emails:
               - alice@example.com
-            displayName: Alice Thompson
-            gitAuthorName:
+            author-display-name: Alice Thompson
+            author-git-author-name:
               - alice
               - AT
-            ignoreGlobList:
-              - test/**
 ```
 
 ### Directory Structure
@@ -196,9 +194,9 @@ src/main/java/reposense/wizard/
 frontend/
 ├── src/                       // Existing report viewer code (unchanged)
 │
-├── wizard/                    // Wizard app (separate entry point)
+├── config-wizard/             // Wizard app (separate entry point)
 │   ├── index.html             // Wizard HTML entry point
-│   ├── App.vue                // Root wizard component
+│   ├── App.vue                // Root wizard component, two-pane layout, YAML preview
 │   ├── main.ts                // Wizard entry point
 │   ├── store.ts               // Reactive wizard state (YAML-shaped)
 │   │
@@ -209,7 +207,7 @@ frontend/
 │       ├── GroupsStep.vue     // Step 3: Groups (per repo)
 │       └── ReviewStep.vue     // Step 4: Review & generate
 │
-└── vite.config.mts            // Multi-page build (main + wizard entry points)
+└── vite.config.mts            // Multi-page build (main + config-wizard entry points)
 ```
 
 **Build Output:**
@@ -217,11 +215,11 @@ frontend/
 ```
 frontend/build/
 ├── index.html                 // Report viewer entry
-├── wizard/
-│   └── index.html             // Wizard entry
+├── config-wizard/
+│   └── index.html             // Wizard entry (served at /config-wizard)
 └── assets/
-    ├── wizard-[hash].js
-    ├── wizard-[hash].css
+    ├── config-wizard-[hash].js
+    ├── config-wizard-[hash].css
     └── vue-vendor-[hash].js
 ```
 
@@ -232,24 +230,23 @@ The wizard store mirrors the YAML structure directly, so assembling the final pa
 ```typescript
 // store.ts
 interface Author {
-  gitId: string;
-  emails: string[];
-  displayName: string;
-  gitAuthorName: string[];
-  ignoreGlobList: string[];
+  'author-git-host-id': string;
+  'author-display-name': string;
+  'author-emails': string[];
+  'author-git-author-name': string[];
 }
 
 interface Branch {
   branch: string;
   blurb: string;
-  ignoreGlobList: string[];
-  ignoreAuthorsList: string[];
-  fileSizeLimit: number | null;
+  'ignore-glob-list': string[];
+  'ignore-authors-list': string[];
+  'file-size-limit': number | null;
   authors: Author[];
 }
 
 interface Group {
-  groupName: string;
+  'group-name': string;
   globs: string[];
 }
 
@@ -671,13 +668,12 @@ Validates the complete config by running it through the actual RepoSense YAML pa
 
 #### Per-Author Fields (`repos[i].branches[j].authors[k]`)
 
-| Field            | Support | Validation          | Notes                    |
-| ---------------- | ------- | ------------------- | ------------------------ |
-| `gitId`          | ✅ Full | Non-empty string    | Mandatory                |
-| `emails`         | ✅ Full | Email regex         | Optional, multi-value    |
-| `displayName`    | ✅ Full | Free text           | Optional                 |
-| `gitAuthorName`  | ✅ Full | Free text           | Optional, multi-value    |
-| `ignoreGlobList` | ✅ Full | Glob syntax         | Optional, multi-value    |
+| Field                    | Support | Validation          | Notes                    |
+| ------------------------ | ------- | ------------------- | ------------------------ |
+| `author-git-host-id`     | ✅ Full | Non-empty string    | Mandatory                |
+| `author-emails`          | ✅ Full | Email regex         | Optional, multi-value    |
+| `author-display-name`    | ✅ Full | Free text           | Optional                 |
+| `author-git-author-name` | ✅ Full | Free text           | Optional, multi-value    |
 
 ### Multi-Value Field UI
 
@@ -831,6 +827,7 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | 9 Mar 2026   | Redesigned step flow to mirror YAML hierarchy (Option B, 4-step wizard)       |
 | 9 Mar 2026   | Phase 1 complete: removed CSV writers, simplified `/api/generate`, added `/api/preview`, updated browser URL to `/config-wizard` |
 | 9 Mar 2026   | Phase 2 complete: new `frontend/config-wizard/` app with 4-step wizard, YAML-shaped store, two-pane layout, live preview pane  |
+| 11 Mar 2026   | Bug fix: author fields in `store.ts` and `ReposStep.vue` were using incorrect YAML keys (`gitId`, `displayName`, etc.); corrected to match `ReportAuthorDetails` annotations (`author-git-host-id`, `author-display-name`, `author-emails`, `author-git-author-name`); removed non-existent author-level `ignoreGlobList` field |
 
 ### Decision Log
 
