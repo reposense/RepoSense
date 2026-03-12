@@ -161,51 +161,13 @@ const onSkip = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../styles/variables';
+
 .step-description {
   font-size: 0.85rem;
-  color: #666;
+  color: $color-text-secondary;
   margin-bottom: 1.25rem;
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
-
-.nested-card {
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
-  margin-bottom: 0.75rem;
-  background: #fafafa;
-}
-
-.nested-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.4rem 0.75rem;
-  background: #f0f0f0;
-  border-bottom: 1px solid #e8e8e8;
-  border-radius: 4px 4px 0 0;
-}
-
-.nested-card-title {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #555;
-}
-
-.nested-card-body {
-  padding: 0.75rem;
-}
-
-.empty-hint {
-  font-size: 0.8rem;
-  color: #aaa;
-  font-style: italic;
-  margin-bottom: 0.75rem;
 }
 
 .add-group-btn {

@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $font-body;
+  color: $color-text-primary;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#wizard-app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}

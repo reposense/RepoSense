@@ -1,0 +1,209 @@
+// ============================================================================
+// HEADER
+// ============================================================================
+
+.wizard-header {
+  flex-shrink: 0;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid $color-border;
+  background: $color-bg-white;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.header-logo {
+  height: 2rem;
+  width: auto;
+}
+
+.wizard-header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $color-text-primary;
+}
+
+.quit-btn {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.8rem;
+  border: 1px solid $color-border;
+  border-radius: 4px;
+  background: $color-bg-white;
+  color: $color-text-hint;
+  cursor: pointer;
+  font-family: $font-body;
+
+  &:hover {
+    border-color: $color-error;
+    color: $color-error;
+    background: $color-error-light;
+  }
+}
+
+// ============================================================================
+// STEPPER
+// ============================================================================
+
+.stepper {
+  display: flex;
+  gap: 2rem;
+}
+
+.step-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  color: $color-text-hint;
+  white-space: nowrap;
+
+  &.active {
+    color: $color-primary;
+    font-weight: 600;
+  }
+
+  &.done {
+    color: $color-primary;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: $color-bg-dark;
+  color: $color-text-secondary;
+
+  .step-label.active &,
+  .step-label.done & {
+    background: $color-primary;
+    color: $color-bg-white;
+  }
+}
+
+// ============================================================================
+// TWO-PANE LAYOUT
+// ============================================================================
+
+.pane-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.left-pane {
+  overflow-y: auto;
+  padding: 1.5rem;
+  min-width: 0;
+}
+
+.divider {
+  flex-shrink: 0;
+  width: 6px;
+  background: $color-bg-dark;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+
+  &:hover,
+  &.dragging {
+    background: $color-primary;
+  }
+}
+
+.divider-handle {
+  width: 2px;
+  height: 2rem;
+  background: $color-border-dark;
+  border-radius: 1px;
+
+  .divider:hover &,
+  .divider.dragging & {
+    background: $color-bg-white;
+  }
+}
+
+// ============================================================================
+// YAML PREVIEW PANE
+// ============================================================================
+
+.right-pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: $color-editor-bg;
+  min-width: 0;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background: $color-editor-header;
+  border-bottom: 1px solid $color-editor-border;
+}
+
+.preview-filename {
+  font-size: 0.8rem;
+  color: $color-text-hint;
+  font-family: monospace;
+}
+
+.preview-loading {
+  font-size: 0.75rem;
+  color: $color-text-secondary;
+  font-style: italic;
+}
+
+.copy-btn {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  border: 1px solid $color-editor-border;
+  background: #3a3a3a;
+  color: $color-editor-text;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: $font-body;
+
+  &:hover:not(:disabled) {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: $color-bg-white;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.yaml-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: $color-editor-text;
+  white-space: pre;
+}

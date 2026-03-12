@@ -63,7 +63,9 @@ const onBlur = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../styles/variables';
+
 .tag-chip-input {
   display: flex;
   flex-wrap: wrap;
@@ -71,16 +73,16 @@ const onBlur = () => {
   align-items: center;
   min-height: 2.2rem;
   padding: 0.3rem 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid $color-border;
   border-radius: 4px;
-  background: #fff;
+  background: $color-bg-white;
   cursor: text;
   transition: border-color 0.15s;
-}
 
-.tag-chip-input.focused {
-  border-color: #42b983;
-  outline: none;
+  &.focused {
+    border-color: $color-primary;
+    outline: none;
+  }
 }
 
 .chip {
@@ -88,11 +90,11 @@ const onBlur = () => {
   align-items: center;
   gap: 0.25rem;
   padding: 0.15rem 0.4rem;
-  background: #e8f5f0;
-  border: 1px solid #b2dfcf;
+  background: $color-primary-light;
+  border: 1px solid mui-color('blue-grey', '200');
   border-radius: 3px;
   font-size: 0.8rem;
-  color: #2c3e50;
+  color: $color-text-primary;
   white-space: nowrap;
 }
 
@@ -102,12 +104,12 @@ const onBlur = () => {
   cursor: pointer;
   font-size: 0.9rem;
   line-height: 1;
-  color: #888;
+  color: $color-text-hint;
   padding: 0;
-}
 
-.chip-remove:hover {
-  color: #e74c3c;
+  &:hover {
+    color: $color-error;
+  }
 }
 
 .chip-input {
@@ -116,6 +118,7 @@ const onBlur = () => {
   border: none;
   outline: none;
   font-size: 0.875rem;
+  font-family: $font-body;
   background: transparent;
   padding: 0;
 }

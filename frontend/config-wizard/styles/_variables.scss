@@ -1,0 +1,45 @@
+// Import the main app's MUI colour system — gives access to mui-color() function
+@import '../../src/styles/colors';
+
+// ============================================================================
+// TYPOGRAPHY
+// ============================================================================
+$font-body: 'Titillium Web', sans-serif;
+$font-mono: 'Fira Code', 'Courier New', monospace;
+
+// ============================================================================
+// COLOUR PALETTE — all values sourced via mui-color() to stay in sync
+// ============================================================================
+
+// Primary accent — MUI blue-grey-500 (replaces Vue green #42b983)
+$color-primary:       mui-color('blue-grey', '500');  // #607D8B
+$color-primary-dark:  mui-color('blue-grey', '700');  // #455A64
+$color-primary-light: mui-color('blue-grey', '50');   // #ECEFF1
+
+// Semantic colours
+$color-error:          mui-color('red', '500');        // #F44336
+$color-error-light:    mui-color('red', '50');         // #FFEBEE
+$color-success:        mui-color('green', '800');      // #2E7D32
+$color-success-light:  mui-color('green', '50');       // #E8F5E9
+$color-success-border: mui-color('green', '200');      // #A5D6A7
+$color-warning-light:  mui-color('amber', '50');       // #FFF8E1
+$color-warning-border: mui-color('amber', '200');      // #FFE082
+
+// Text
+$color-text-primary:   mui-color('grey', '800');       // #424242
+$color-text-secondary: mui-color('grey', '600');       // #757575
+$color-text-hint:      mui-color('grey', '500');       // #9E9E9E
+
+// Borders & backgrounds
+$color-border:      mui-color('grey', '300');          // #E0E0E0
+$color-border-dark: mui-color('grey', '400');          // #BDBDBD
+$color-bg-white:    mui-color('white');                // #FFFFFF
+$color-bg-light:    mui-color('grey', '50');           // #FAFAFA
+$color-bg-medium:   mui-color('grey', '100');          // #F5F5F5
+$color-bg-dark:     mui-color('grey', '200');          // #EEEEEE
+
+// YAML editor pane (dark theme — intentionally kept dark, no MUI equivalent)
+$color-editor-bg:     #1E1E1E;
+$color-editor-header: #2D2D2D;
+$color-editor-border: #444444;
+$color-editor-text:   #D4D4D4;

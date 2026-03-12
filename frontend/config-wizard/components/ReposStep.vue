@@ -393,13 +393,15 @@ const onNext = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../styles/variables';
+
 .section-label {
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #888;
+  color: $color-text-hint;
   margin: 1rem 0 0.5rem;
 }
 
@@ -409,44 +411,11 @@ const onNext = () => {
   justify-content: space-between;
 }
 
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
-
-.nested-card {
-  border: 1px solid #e8e8e8;
-  border-radius: 4px;
-  margin-bottom: 0.75rem;
-  background: #fafafa;
-}
-
-.nested-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.4rem 0.75rem;
-  background: #f0f0f0;
-  border-bottom: 1px solid #e8e8e8;
-  border-radius: 4px 4px 0 0;
-}
-
-.nested-card-title {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #555;
-}
-
-.nested-card-body {
-  padding: 0.75rem;
-}
-
 .author-card {
-  border: 1px solid #ddeedd;
+  border: 1px solid mui-color('blue-grey', '200');
   border-radius: 4px;
   margin-bottom: 0.5rem;
-  background: #f0faf5;
+  background: $color-primary-light;
 }
 
 .author-card-header {
@@ -454,20 +423,13 @@ const onNext = () => {
   align-items: center;
   justify-content: space-between;
   padding: 0.4rem 0.75rem;
-  background: #e0f5ec;
-  border-bottom: 1px solid #ddeedd;
+  background: mui-color('blue-grey', '100');
+  border-bottom: 1px solid mui-color('blue-grey', '200');
   border-radius: 4px 4px 0 0;
 }
 
 .author-card-body {
   padding: 0.75rem;
-}
-
-.empty-hint {
-  font-size: 0.8rem;
-  color: #aaa;
-  font-style: italic;
-  margin-bottom: 0.5rem;
 }
 
 .add-branch-btn {

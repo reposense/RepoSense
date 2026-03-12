@@ -188,13 +188,15 @@ const quitWizard = async () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../styles/variables';
+
 .summary-card {
-  border: 1px solid #e0e0e0;
+  border: 1px solid $color-border;
   border-radius: 6px;
   padding: 1rem;
   margin-bottom: 1.25rem;
-  background: #fafafa;
+  background: $color-bg-light;
 }
 
 .summary-row {
@@ -202,18 +204,16 @@ const quitWizard = async () => {
   justify-content: space-between;
   padding: 0.3rem 0;
   font-size: 0.875rem;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid $color-bg-medium;
+
+  &:last-child { border-bottom: none; }
 }
 
-.summary-row:last-child {
-  border-bottom: none;
-}
-
-.summary-label { color: #666; }
-.summary-value { font-weight: 600; color: #2c3e50; }
+.summary-label { color: $color-text-secondary; }
+.summary-value { font-weight: 600; color: $color-text-primary; }
 
 .preview-box {
-  border: 1px solid #e0e0e0;
+  border: 1px solid $color-border;
   border-radius: 6px;
   overflow: hidden;
   margin-bottom: 1.25rem;
@@ -224,84 +224,81 @@ const quitWizard = async () => {
   justify-content: space-between;
   align-items: center;
   padding: 0.4rem 0.75rem;
-  background: #f5f5f5;
-  border-bottom: 1px solid #e0e0e0;
+  background: $color-bg-medium;
+  border-bottom: 1px solid $color-border;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #555;
+  color: $color-text-secondary;
 }
 
 .preview-hint {
   font-weight: normal;
-  color: #aaa;
+  color: $color-text-hint;
   font-style: italic;
 }
 
 .preview-snippet {
   padding: 0.75rem;
   font-size: 0.75rem;
-  font-family: 'Fira Code', 'Courier New', monospace;
+  font-family: $font-mono;
   line-height: 1.5;
-  background: #1e1e1e;
-  color: #d4d4d4;
+  background: $color-editor-bg;
+  color: $color-editor-text;
   max-height: 12rem;
   overflow: hidden;
 }
 
-/* Tier 3 validation status */
 .validation-status {
   margin-bottom: 1rem;
   font-size: 0.875rem;
 }
 
-.status-validating { color: #888; }
-
-.status-valid { color: #2e7d32; font-weight: 500; }
+.status-validating { color: $color-text-hint; }
+.status-valid { color: $color-success; font-weight: 500; }
 
 .status-invalid {
-  background: #fff8e1;
-  border: 1px solid #ffe082;
+  background: $color-warning-light;
+  border: 1px solid $color-warning-border;
   border-radius: 6px;
   padding: 0.75rem;
-  color: #6d4c00;
+  color: mui-color('amber', '900');
+
+  p { margin-bottom: 0.4rem; }
 }
 
-.status-invalid p { margin-bottom: 0.4rem; }
-
-/* Generate result */
 .status-box {
   border-radius: 6px;
   padding: 1rem;
   font-size: 0.875rem;
-}
 
-.status-box.success {
-  background: #e8f5e9;
-  border: 1px solid #a5d6a7;
-  color: #2e7d32;
-}
+  &.success {
+    background: $color-success-light;
+    border: 1px solid $color-success-border;
+    color: $color-success;
+  }
 
-.status-box.error {
-  background: #ffebee;
-  border: 1px solid #ef9a9a;
-  color: #c62828;
+  &.error {
+    background: $color-error-light;
+    border: 1px solid mui-color('red', '200');
+    color: mui-color('red', '800');
+  }
 }
 
 .status-path {
   margin-top: 0.5rem;
   font-size: 0.8rem;
-}
 
-.status-path code {
-  background: rgba(0, 0, 0, 0.06);
-  padding: 0.1rem 0.3rem;
-  border-radius: 3px;
+  code {
+    background: rgba(0, 0, 0, 0.06);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+  }
 }
 
 .next-steps {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
-  border-top: 1px solid #c8e6c9;
+  border-top: 1px solid mui-color('green', '300');
 }
 
 .next-steps-label { font-weight: 600; margin-bottom: 0.4rem; }
@@ -312,6 +309,7 @@ const quitWizard = async () => {
   padding: 0.4rem 0.6rem;
   border-radius: 4px;
   font-size: 0.8rem;
+  font-family: $font-mono;
   word-break: break-all;
 }
 

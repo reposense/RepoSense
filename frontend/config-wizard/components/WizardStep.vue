@@ -33,7 +33,9 @@ defineProps<{
 const emit = defineEmits(['back', 'next', 'skip']);
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../styles/variables';
+
 .wizard-step {
   display: flex;
   flex-direction: column;
@@ -43,18 +45,13 @@ const emit = defineEmits(['back', 'next', 'skip']);
 .step-heading {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: $color-text-primary;
   margin-bottom: 1.25rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid #42b983;
+  border-bottom: 2px solid $color-primary;
 }
 
 .step-content {
   flex: 1;
-}
-
-.btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 </style>
