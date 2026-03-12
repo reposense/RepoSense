@@ -3,6 +3,7 @@
     :step-number="4"
     title="Review & Generate"
     :is-last-step="true"
+    :next-disabled="validationStatus === 'validating' || validationStatus === 'invalid'"
     @back="store.prevStep()"
     @next="onGenerate"
   >
@@ -26,7 +27,7 @@
       </div>
     </div>
 
-    <!-- Inline preview (smaller version for the step) -->
+    <!-- Inline preview snippet -->
     <div class="preview-box">
       <div class="preview-box-header">
         <span>report-config.yaml</span>
@@ -35,7 +36,23 @@
       <pre class="preview-snippet">{{ previewSnippet }}</pre>
     </div>
 
-    <!-- Status -->
+    <!-- Tier 3 validation status -->
+    <div v-if="validationStatus !== 'idle'" class="validation-status">
+      <span v-if="validationStatus === 'validating'" class="status-validating">
+        ⏳ Validating configuration...
+      </span>
+      <span v-else-if="validationStatus === 'valid'" class="status-valid">
+        ✓ Configuration is valid
+      </span>
+      <div v-else-if="validationStatus === 'invalid'" class="status-invalid">
+        <p>✗ Validation failed: {{ validationError }}</p>
+        <button class="btn btn-link" @click="validationStatus = 'valid'">
+          Dismiss and generate anyway
+        </button>
+      </div>
+    </div>
+
+    <!-- Generate result -->
     <div v-if="status" class="status-box" :class="status.type">
       <p>{{ status.message }}</p>
       <p v-if="status.path" class="status-path">
@@ -58,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { store } from '../store';
 import WizardStep from './WizardStep.vue';
 
@@ -87,6 +104,35 @@ const previewSnippet = computed(() => {
   return lines.join('\n');
 });
 
+// Tier 3 validation
+type ValidationStatus = 'idle' | 'validating' | 'valid' | 'invalid';
+const validationStatus = ref<ValidationStatus>('idle');
+const validationError = ref('');
+
+const validateConfig = async (): Promise<boolean> => {
+  validationStatus.value = 'validating';
+  try {
+    const resp = await fetch('/api/validate-config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(store.config),
+    });
+    const data = await resp.json();
+    if (data.valid) {
+      validationStatus.value = 'valid';
+      return true;
+    } else {
+      validationStatus.value = 'invalid';
+      validationError.value = data.error || 'Invalid configuration';
+      return false;
+    }
+  } catch {
+    validationStatus.value = 'invalid';
+    validationError.value = 'Could not reach server for validation';
+    return false;
+  }
+};
+
 interface Status {
   type: 'success' | 'error';
   message: string;
@@ -94,7 +140,18 @@ interface Status {
 }
 const status = ref<Status | null>(null);
 
+// Run Tier 3 automatically when step is mounted
+onMounted(validateConfig);
+
 const onGenerate = async () => {
+  // If still validating, wait — shouldn't normally happen but guards against fast clicks
+  if (validationStatus.value === 'validating') return;
+  // If invalid, user must explicitly dismiss before generating
+  if (validationStatus.value === 'invalid') return;
+  await doGenerate();
+};
+
+const doGenerate = async () => {
   status.value = null;
   try {
     const resp = await fetch('/api/generate', {
@@ -125,7 +182,7 @@ const quitWizard = async () => {
   try {
     await fetch('/api/quit', { method: 'POST' });
   } catch {
-    // server is shutting down, ignore network error
+    // server is shutting down
   }
   window.close();
 };
@@ -152,14 +209,8 @@ const quitWizard = async () => {
   border-bottom: none;
 }
 
-.summary-label {
-  color: #666;
-}
-
-.summary-value {
-  font-weight: 600;
-  color: #2c3e50;
-}
+.summary-label { color: #666; }
+.summary-value { font-weight: 600; color: #2c3e50; }
 
 .preview-box {
   border: 1px solid #e0e0e0;
@@ -197,6 +248,27 @@ const quitWizard = async () => {
   overflow: hidden;
 }
 
+/* Tier 3 validation status */
+.validation-status {
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.status-validating { color: #888; }
+
+.status-valid { color: #2e7d32; font-weight: 500; }
+
+.status-invalid {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 6px;
+  padding: 0.75rem;
+  color: #6d4c00;
+}
+
+.status-invalid p { margin-bottom: 0.4rem; }
+
+/* Generate result */
 .status-box {
   border-radius: 6px;
   padding: 1rem;
@@ -232,10 +304,7 @@ const quitWizard = async () => {
   border-top: 1px solid #c8e6c9;
 }
 
-.next-steps-label {
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-}
+.next-steps-label { font-weight: 600; margin-bottom: 0.4rem; }
 
 .run-command {
   display: block;
@@ -253,12 +322,6 @@ const quitWizard = async () => {
   margin-top: 0.4rem;
 }
 
-.copy-cmd-btn {
-  font-size: 0.8rem;
-}
-
-.close-btn {
-  font-size: 0.8rem;
-  padding: 0.3rem 0.75rem;
-}
+.copy-cmd-btn { font-size: 0.8rem; }
+.close-btn { font-size: 0.8rem; padding: 0.3rem 0.75rem; }
 </style>

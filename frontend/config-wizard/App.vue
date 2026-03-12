@@ -44,6 +44,7 @@
       <div class="right-pane">
         <div class="preview-header">
           <span class="preview-filename">report-config.yaml</span>
+          <span v-if="isPreviewLoading" class="preview-loading">updating...</span>
           <button class="copy-btn" :disabled="!yamlPreview" @click="copyYaml">
             Copy
           </button>
@@ -80,9 +81,11 @@ const onDragMove = (e: MouseEvent) => {
 
 // --- YAML preview ---
 const yamlPreview = ref('');
+const isPreviewLoading = ref(false);
 let previewTimer: ReturnType<typeof setTimeout> | null = null;
 
 const refreshPreview = async () => {
+  isPreviewLoading.value = true;
   try {
     const resp = await fetch('/api/preview', {
       method: 'POST',
@@ -95,6 +98,8 @@ const refreshPreview = async () => {
     }
   } catch {
     // preview failure is non-critical
+  } finally {
+    isPreviewLoading.value = false;
   }
 };
 
@@ -287,6 +292,12 @@ body {
   font-size: 0.8rem;
   color: #aaa;
   font-family: monospace;
+}
+
+.preview-loading {
+  font-size: 0.75rem;
+  color: #666;
+  font-style: italic;
 }
 
 .copy-btn {

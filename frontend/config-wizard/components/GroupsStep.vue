@@ -46,12 +46,14 @@
                 <label class="form-label">
                   Glob Patterns <span class="required">*</span>
                 </label>
-                <input
+                <tag-chip-input
                   v-model="group.globs"
-                  class="form-input"
-                  placeholder="e.g. src/frontend/**;**.vue"
+                  placeholder="e.g. src/frontend/**"
+                  @tag-added="(tag) => validateGlob(tag, `${ri}-${gi}`)"
                 />
-                <p class="field-hint">Semicolon-separated</p>
+                <p v-if="globErrors[`${ri}-${gi}`]" class="field-error">
+                  {{ globErrors[`${ri}-${gi}`] }}
+                </p>
               </div>
             </div>
           </div>
@@ -69,10 +71,11 @@
 import { reactive } from 'vue';
 import { store } from '../store';
 import WizardStep from './WizardStep.vue';
+import TagChipInput from './TagChipInput.vue';
 
 interface LocalGroup {
   groupName: string;
-  globs: string;
+  globs: string[];
 }
 
 interface LocalRepoGroups {
@@ -80,36 +83,48 @@ interface LocalRepoGroups {
   groups: LocalGroup[];
 }
 
-const split = (s: string) => s.split(';').map((t) => t.trim()).filter(Boolean);
+const shortUrl = (url: string) => url.replace(/^https?:\/\//, '').replace(/\.git$/, '');
 
-const shortUrl = (url: string) => {
-  try {
-    return url.replace(/^https?:\/\//, '').replace(/\.git$/, '');
-  } catch {
-    return url;
-  }
-};
-
-// Initialise from store (preserves groups if navigating back)
 const repoGroups = reactive<LocalRepoGroups[]>(
   store.config.repos.map((r) => ({
     repoUrl: r.repo,
     groups: r.groups.map((g) => ({
       groupName: g['group-name'],
-      globs: g.globs.join(';'),
+      globs: [...g.globs],
     })),
   })),
 );
 
-const addGroup = (rg: LocalRepoGroups) => rg.groups.push({ groupName: '', globs: '' });
+const globErrors = reactive<Record<string, string>>({});
+
+const addGroup = (rg: LocalRepoGroups) => rg.groups.push({ groupName: '', globs: [] });
 const removeGroup = (rg: LocalRepoGroups, i: number) => rg.groups.splice(i, 1);
+
+// Tier 1: glob syntax validation (backend)
+const validateGlob = async (pattern: string, key: string) => {
+  try {
+    const resp = await fetch('/api/validate-glob', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pattern }),
+    });
+    const data = await resp.json();
+    if (!data.valid) {
+      globErrors[key] = `Invalid pattern "${pattern}": ${data.error}`;
+    } else {
+      delete globErrors[key];
+    }
+  } catch {
+    // non-critical, silently ignore
+  }
+};
 
 const saveAndAdvance = () => {
   repoGroups.forEach((rg, i) => {
     if (store.config.repos[i]) {
       store.config.repos[i].groups = rg.groups.map((g) => ({
         'group-name': g.groupName,
-        globs: split(g.globs),
+        globs: [...g.globs],
       }));
     }
   });
@@ -117,18 +132,30 @@ const saveAndAdvance = () => {
 };
 
 const onNext = () => {
-  const invalid = repoGroups.some((rg) =>
-    rg.groups.some((g) => !g.groupName.trim() || !g.globs.trim()),
+  if (Object.keys(globErrors).length > 0) {
+    alert('Please fix invalid glob patterns before proceeding.');
+    return;
+  }
+  // Tier 1: required fields
+  const missingFields = repoGroups.some((rg) =>
+    rg.groups.some((g) => !g.groupName.trim() || g.globs.length === 0),
   );
-  if (invalid) {
+  if (missingFields) {
     alert('Every group must have a name and at least one glob pattern.');
     return;
+  }
+  // Tier 2: unique group names per repo
+  for (const rg of repoGroups) {
+    const names = rg.groups.map((g) => g.groupName.trim());
+    if (new Set(names).size !== names.length) {
+      alert(`Repository "${rg.repoUrl}" has duplicate group names.`);
+      return;
+    }
   }
   saveAndAdvance();
 };
 
 const onSkip = () => {
-  // Clear all groups before advancing
   store.config.repos.forEach((r) => { r.groups = []; });
   store.nextStep();
 };

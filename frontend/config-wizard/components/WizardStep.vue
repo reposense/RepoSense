@@ -13,7 +13,7 @@
         <button v-if="canSkip" class="btn btn-secondary" @click="emit('skip')">
           Skip
         </button>
-        <button class="btn btn-primary" @click="emit('next')">
+        <button class="btn btn-primary" :disabled="nextDisabled" @click="emit('next')">
           {{ isLastStep ? 'Generate Config' : 'Next →' }}
         </button>
       </div>
@@ -27,6 +27,7 @@ defineProps<{
   title: string;
   isLastStep?: boolean;
   canSkip?: boolean;
+  nextDisabled?: boolean;
 }>();
 
 const emit = defineEmits(['back', 'next', 'skip']);
@@ -50,5 +51,10 @@ const emit = defineEmits(['back', 'next', 'skip']);
 
 .step-content {
   flex: 1;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 </style>

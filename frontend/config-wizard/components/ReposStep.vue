@@ -16,9 +16,7 @@
 
         <!-- Repo URL -->
         <div class="form-group">
-          <label class="form-label">
-            Repository URL <span class="required">*</span>
-          </label>
+          <label class="form-label">Repository URL <span class="required">*</span></label>
           <input
             v-model="repo.repo"
             class="form-input"
@@ -35,9 +33,7 @@
         <div class="section-label">Branches</div>
         <div v-for="(branch, bi) in repo.branches" :key="bi" class="nested-card">
           <div class="nested-card-header">
-            <span class="nested-card-title">
-              Branch: {{ branch.branch || '(default)' }}
-            </span>
+            <span class="nested-card-title">Branch: {{ branch.branch || '(default)' }}</span>
             <button
               v-if="repo.branches.length > 1"
               class="btn btn-danger"
@@ -54,8 +50,12 @@
                 <input
                   v-model="branch.branch"
                   class="form-input"
+                  :class="{ 'is-invalid': branch.branch.includes(' ') }"
                   placeholder="e.g. main (leave empty for default)"
                 />
+                <p v-if="branch.branch.includes(' ')" class="field-error">
+                  Branch name cannot contain spaces
+                </p>
               </div>
               <div class="form-group">
                 <label class="form-label">File Size Limit (bytes)</label>
@@ -81,18 +81,20 @@
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">Ignore Glob List</label>
-                <input
+                <tag-chip-input
                   v-model="branch.ignoreGlobList"
-                  class="form-input"
-                  placeholder="e.g. node_modules/**;build/** (semicolon-separated)"
+                  placeholder="e.g. node_modules/**"
+                  @tag-added="(tag) => validateGlob(tag, `${ri}-${bi}`)"
                 />
+                <p v-if="globErrors[`${ri}-${bi}`]" class="field-error">
+                  {{ globErrors[`${ri}-${bi}`] }}
+                </p>
               </div>
               <div class="form-group">
                 <label class="form-label">Ignore Authors List</label>
-                <input
+                <tag-chip-input
                   v-model="branch.ignoreAuthorsList"
-                  class="form-input"
-                  placeholder="e.g. bot-user;ci-bot (semicolon-separated)"
+                  placeholder="e.g. bot-user"
                 />
               </div>
             </div>
@@ -112,9 +114,7 @@
                 <span class="nested-card-title">
                   {{ author.gitId || `Author #${ai + 1}` }}
                 </span>
-                <button class="btn btn-danger" @click="removeAuthor(branch, ai)">
-                  Remove
-                </button>
+                <button class="btn btn-danger" @click="removeAuthor(branch, ai)">Remove</button>
               </div>
               <div class="author-card-body">
                 <div class="form-row">
@@ -125,8 +125,12 @@
                     <input
                       v-model="author.gitId"
                       class="form-input"
+                      :class="{ 'is-invalid': author.gitId && author.gitId.includes(' ') }"
                       placeholder="e.g. johndoe"
                     />
+                    <p v-if="author.gitId && author.gitId.includes(' ')" class="field-error">
+                      Git Host ID cannot contain spaces
+                    </p>
                   </div>
                   <div class="form-group">
                     <label class="form-label">Display Name</label>
@@ -140,21 +144,21 @@
                 <div class="form-row">
                   <div class="form-group">
                     <label class="form-label">Emails</label>
-                    <input
+                    <tag-chip-input
                       v-model="author.emails"
-                      class="form-input"
-                      placeholder="e.g. john@example.com;jdoe@work.com"
+                      placeholder="e.g. john@example.com"
+                      @tag-added="(tag) => validateEmail(tag, `${ri}-${bi}-${ai}`)"
                     />
-                    <p class="field-hint">Semicolon-separated</p>
+                    <p v-if="emailErrors[`${ri}-${bi}-${ai}`]" class="field-error">
+                      {{ emailErrors[`${ri}-${bi}-${ai}`] }}
+                    </p>
                   </div>
                   <div class="form-group">
                     <label class="form-label">Git Author Names</label>
-                    <input
+                    <tag-chip-input
                       v-model="author.gitAuthorName"
-                      class="form-input"
-                      placeholder="e.g. john;John Doe"
+                      placeholder="e.g. john"
                     />
-                    <p class="field-hint">Semicolon-separated</p>
                   </div>
                 </div>
               </div>
@@ -178,20 +182,20 @@
 import { reactive } from 'vue';
 import { store } from '../store';
 import WizardStep from './WizardStep.vue';
+import TagChipInput from './TagChipInput.vue';
 
-// Local form types (multi-value fields stored as semicolon-separated strings)
 interface LocalAuthor {
   gitId: string;
   displayName: string;
-  emails: string;
-  gitAuthorName: string;
+  emails: string[];
+  gitAuthorName: string[];
 }
 
 interface LocalBranch {
   branch: string;
   blurb: string;
-  ignoreGlobList: string;
-  ignoreAuthorsList: string;
+  ignoreGlobList: string[];
+  ignoreAuthorsList: string[];
   fileSizeLimit: string;
   authors: LocalAuthor[];
 }
@@ -204,20 +208,18 @@ interface LocalRepo {
   branches: LocalBranch[];
 }
 
-const split = (s: string) => s.split(';').map((t) => t.trim()).filter(Boolean);
-
 const newAuthor = (): LocalAuthor => ({
   gitId: '',
   displayName: '',
-  emails: '',
-  gitAuthorName: '',
+  emails: [],
+  gitAuthorName: [],
 });
 
 const newBranch = (): LocalBranch => ({
   branch: '',
   blurb: '',
-  ignoreGlobList: '',
-  ignoreAuthorsList: '',
+  ignoreGlobList: [],
+  ignoreAuthorsList: [],
   fileSizeLimit: '',
   authors: [],
 });
@@ -230,7 +232,6 @@ const newRepo = (): LocalRepo => ({
   branches: [newBranch()],
 });
 
-// Initialise from store if navigating back
 const initRepos = (): LocalRepo[] => {
   if (store.config.repos.length === 0) return [newRepo()];
   return store.config.repos.map((r) => ({
@@ -241,20 +242,26 @@ const initRepos = (): LocalRepo[] => {
     branches: r.branches.map((b) => ({
       branch: b.branch,
       blurb: b.blurb,
-      ignoreGlobList: b['ignore-glob-list'].join(';'),
-      ignoreAuthorsList: b['ignore-authors-list'].join(';'),
+      ignoreGlobList: [...b['ignore-glob-list']],
+      ignoreAuthorsList: [...b['ignore-authors-list']],
       fileSizeLimit: b['file-size-limit'] != null ? String(b['file-size-limit']) : '',
       authors: b.authors.map((a) => ({
         gitId: a['author-git-host-id'],
         displayName: a['author-display-name'],
-        emails: a['author-emails'].join(';'),
-        gitAuthorName: a['author-git-author-name'].join(';'),
+        emails: [...a['author-emails']],
+        gitAuthorName: [...a['author-git-author-name']],
       })),
     })),
   }));
 };
 
 const repos = reactive<LocalRepo[]>(initRepos());
+
+// Validation error state
+// key: `${ri}-${bi}` for branch glob errors
+const globErrors = reactive<Record<string, string>>({});
+// key: `${ri}-${bi}-${ai}` for author email errors
+const emailErrors = reactive<Record<string, string>>({});
 
 // Mutation helpers
 const addRepo = () => repos.push(newRepo());
@@ -264,7 +271,7 @@ const removeBranch = (repo: LocalRepo, i: number) => repo.branches.splice(i, 1);
 const addAuthor = (branch: LocalBranch) => branch.authors.push(newAuthor());
 const removeAuthor = (branch: LocalBranch, i: number) => branch.authors.splice(i, 1);
 
-// URL validation
+// Tier 1: URL validation (backend)
 const validateRepo = async (repo: LocalRepo) => {
   if (!repo.repo) return;
   repo.validating = true;
@@ -289,36 +296,95 @@ const validateRepo = async (repo: LocalRepo) => {
   }
 };
 
-// Convert local form state → store structure and advance
+// Tier 1: Glob syntax validation (backend) — called when a tag is added
+const validateGlob = async (pattern: string, key: string) => {
+  try {
+    const resp = await fetch('/api/validate-glob', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ pattern }),
+    });
+    const data = await resp.json();
+    if (!data.valid) {
+      globErrors[key] = `Invalid pattern "${pattern}": ${data.error}`;
+    } else {
+      delete globErrors[key];
+    }
+  } catch {
+    // non-critical, silently ignore
+  }
+};
+
+// Tier 1: Email format validation (frontend regex) — called when a tag is added
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const validateEmail = (email: string, key: string) => {
+  if (!EMAIL_RE.test(email)) {
+    emailErrors[key] = `"${email}" is not a valid email address`;
+  } else {
+    delete emailErrors[key];
+  }
+};
+
 const onNext = () => {
-  const anyEmpty = repos.some((r) => !r.repo.trim());
-  if (anyEmpty) {
+  // Tier 1: required fields
+  if (repos.some((r) => !r.repo.trim())) {
     alert('Every repository must have a URL.');
     return;
   }
-  const anyInvalidAuthor = repos.some((r) =>
-    r.branches.some((b) => b.authors.some((a) => !a.gitId.trim())),
-  );
-  if (anyInvalidAuthor) {
-    alert('Every author must have a Git Host ID.');
+  if (repos.some((r) => r.branches.some((b) => b.branch.includes(' ')))) {
+    alert('Branch names cannot contain spaces.');
     return;
+  }
+  if (repos.some((r) => r.branches.some((b) =>
+    b.authors.some((a) => !a.gitId.trim() || a.gitId.includes(' ')),
+  ))) {
+    alert('Every author must have a valid Git Host ID (no spaces).');
+    return;
+  }
+  if (Object.keys(globErrors).length > 0) {
+    alert('Please fix invalid glob patterns before proceeding.');
+    return;
+  }
+  if (Object.keys(emailErrors).length > 0) {
+    alert('Please fix invalid email addresses before proceeding.');
+    return;
+  }
+
+  // Tier 2: duplicate checks
+  const urls = repos.map((r) => r.repo.trim());
+  if (new Set(urls).size !== urls.length) {
+    alert('Duplicate repository URLs are not allowed.');
+    return;
+  }
+  for (const repo of repos) {
+    const branchNames = repo.branches.map((b) => b.branch.trim());
+    if (new Set(branchNames).size !== branchNames.length) {
+      alert(`Repository "${repo.repo}" has duplicate branch names.`);
+      return;
+    }
+    for (const branch of repo.branches) {
+      const authorIds = branch.authors.map((a) => a.gitId.trim());
+      if (new Set(authorIds).size !== authorIds.length) {
+        alert(`Branch "${branch.branch || 'default'}" in "${repo.repo}" has duplicate author IDs.`);
+        return;
+      }
+    }
   }
 
   store.config.repos = repos.map((r) => ({
     repo: r.repo.trim(),
-    // Preserve groups from previous step visits
     groups: store.config.repos.find((sr) => sr.repo === r.repo)?.groups ?? [],
     branches: r.branches.map((b) => ({
-      branch: b.branch,
-      blurb: b.blurb,
-      'ignore-glob-list': split(b.ignoreGlobList),
-      'ignore-authors-list': split(b.ignoreAuthorsList),
+      branch: b.branch.trim() || null,
+      blurb: b.blurb || null,
+      'ignore-glob-list': [...b.ignoreGlobList],
+      'ignore-authors-list': [...b.ignoreAuthorsList],
       'file-size-limit': b.fileSizeLimit ? Number(b.fileSizeLimit) : null,
       authors: b.authors.map((a) => ({
         'author-git-host-id': a.gitId.trim(),
-        'author-display-name': a.displayName,
-        'author-emails': split(a.emails),
-        'author-git-author-name': split(a.gitAuthorName),
+        'author-display-name': a.displayName || null,
+        'author-emails': [...a.emails],
+        'author-git-author-name': [...a.gitAuthorName],
       })),
     })),
   }));

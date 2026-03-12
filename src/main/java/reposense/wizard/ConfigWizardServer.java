@@ -3,11 +3,14 @@ package reposense.wizard;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +25,7 @@ import net.freeutils.httpserver.HTTPServer.ContextHandler;
 import net.freeutils.httpserver.HTTPServer.Request;
 import net.freeutils.httpserver.HTTPServer.Response;
 import reposense.model.RepoLocation;
+import reposense.parser.ReportConfigYamlParser;
 import reposense.system.LogsManager;
 
 /**
@@ -40,10 +44,7 @@ public class ConfigWizardServer {
         HTTPServer.VirtualHost host = server.getVirtualHost(null);
 
         try {
-            // Serve all files from build directory
             host.addContext("/", new HTTPServer.FileContextHandler(BUILD_PATH.toFile()));
-
-            // API endpoints
             host.addContext("/api", new ApiHandler(), "GET", "POST");
 
             server.start();
@@ -70,6 +71,16 @@ public class ConfigWizardServer {
     }
 
     /**
+     * Escapes a string for safe embedding in a JSON value.
+     */
+    private static String escapeJson(String s) {
+        return s.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", " ")
+                .replace("\r", "");
+    }
+
+    /**
      * Handler for REST API requests.
      */
     private static class ApiHandler implements ContextHandler {
@@ -88,17 +99,69 @@ public class ConfigWizardServer {
                     String body = reader.lines().collect(Collectors.joining("\n"));
                     JsonObject jsonBody = JsonParser.parseString(body).getAsJsonObject();
                     String location = jsonBody.get("location").getAsString();
-
                     try {
                         new RepoLocation(location);
                         resp.send(200, "{\"valid\": true}");
                     } catch (Exception e) {
-                        resp.send(200, "{\"valid\": false, \"error\": \"" + e.getMessage() + "\"}");
+                        resp.send(200, "{\"valid\": false, \"error\": \""
+                                + escapeJson(e.getMessage()) + "\"}");
                     }
                     return 200;
                 } catch (Exception e) {
                     resp.send(400, "{\"error\": \"Invalid request body\"}");
                     return 400;
+                }
+            }
+
+            if (path.equals("/api/validate-glob") && req.getMethod().equals("POST")) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
+                    String body = reader.lines().collect(Collectors.joining("\n"));
+                    JsonObject jsonBody = JsonParser.parseString(body).getAsJsonObject();
+                    String pattern = jsonBody.get("pattern").getAsString();
+                    try {
+                        FileSystems.getDefault().getPathMatcher("glob:" + pattern);
+                        resp.send(200, "{\"valid\": true}");
+                    } catch (PatternSyntaxException e) {
+                        resp.send(200, "{\"valid\": false, \"error\": \""
+                                + escapeJson(e.getMessage()) + "\"}");
+                    }
+                    return 200;
+                } catch (Exception e) {
+                    resp.send(400, "{\"error\": \"Invalid request body\"}");
+                    return 400;
+                }
+            }
+
+            if (path.equals("/api/validate-config") && req.getMethod().equals("POST")) {
+                Path tempFile = null;
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
+                    String body = reader.lines().collect(Collectors.joining("\n"));
+                    Gson gson = new Gson();
+                    Map<String, Object> config = gson.fromJson(body,
+                            new TypeToken<Map<String, Object>>() {}.getType());
+
+                    tempFile = Files.createTempFile("reposense-wizard-", ".yaml");
+                    ConfigFileWriter.writeReportConfig(config, tempFile);
+
+                    try {
+                        new ReportConfigYamlParser().parse(tempFile);
+                        resp.send(200, "{\"valid\": true}");
+                    } catch (Exception e) {
+                        String msg = e.getMessage() != null ? escapeJson(e.getMessage()) : "Invalid configuration";
+                        resp.send(200, "{\"valid\": false, \"error\": \"" + msg + "\"}");
+                    }
+                    return 200;
+                } catch (Exception e) {
+                    resp.send(500, "{\"error\": \"" + escapeJson(String.valueOf(e.getMessage())) + "\"}");
+                    return 500;
+                } finally {
+                    if (tempFile != null) {
+                        try {
+                            Files.deleteIfExists(tempFile);
+                        } catch (IOException ignored) {
+                            // ignored
+                        }
+                    }
                 }
             }
 
@@ -116,7 +179,7 @@ public class ConfigWizardServer {
                     resp.send(200, "{\"success\": true, \"path\": \"" + outputPath.toString() + "\"}");
                     return 200;
                 } catch (Exception e) {
-                    resp.send(500, "{\"error\": \"" + e.getMessage() + "\"}");
+                    resp.send(500, "{\"error\": \"" + escapeJson(String.valueOf(e.getMessage())) + "\"}");
                     return 500;
                 }
             }
@@ -136,7 +199,7 @@ public class ConfigWizardServer {
                     resp.send(200, "{\"yaml\": \"" + escaped + "\"}");
                     return 200;
                 } catch (Exception e) {
-                    resp.send(500, "{\"error\": \"" + e.getMessage() + "\"}");
+                    resp.send(500, "{\"error\": \"" + escapeJson(String.valueOf(e.getMessage())) + "\"}");
                     return 500;
                 }
             }

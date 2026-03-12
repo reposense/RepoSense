@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
@@ -21,6 +22,7 @@ public class ConfigFileWriter {
     public static void writeReportConfig(Map<String, Object> config, Path outputPath) throws IOException {
         Files.createDirectories(outputPath.getParent());
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.writeValue(outputPath.toFile(), config);
     }
 }

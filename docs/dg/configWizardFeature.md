@@ -291,9 +291,10 @@ if (cliArguments.isConfigWizard()) {
 | ---------------------- | ------ | -------------------------------- | -------------------------- | ----------------------------------------------- |
 | `/api/validate`        | POST   | Validate a repo location         | `{ location }`             | `{ valid: boolean, error?: string }`            |
 | `/api/generate`        | POST   | Write `report-config.yaml`       | `WizardConfig` (JSON)      | `{ success: boolean, path: string }`            |
-| `/api/validate-glob`   | POST   | Validate a glob pattern          | `{ pattern }`              | `{ valid: boolean, error?: string }`            |
+| `/api/validate-glob`   | POST   | Validate glob pattern syntax     | `{ pattern }`              | `{ valid: boolean, error?: string }`            |
 | `/api/validate-date`   | POST   | Validate date format/logic       | `{ since?, until? }`       | `{ valid: boolean, error?: string }`            |
 | `/api/preview`         | POST   | Generate YAML preview string     | `WizardConfig` (JSON)      | `{ yaml: string }`                              |
+| `/api/validate-config` | POST   | Parse config via RepoSense parser | `WizardConfig` (JSON)      | `{ valid: boolean, error?: string }`            |
 
 ### Reusing Existing Parsers for Validation
 
@@ -723,18 +724,19 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 
 **Deliverable:** Working 4-step wizard UI with live YAML preview. ✅
 
-### Phase 3: Full Field Support & Validation 🔲
+### Phase 3: Full Field Support & Validation ✅ (Complete)
 
 **Scope:**
 
-- 🔲 **Tag-chip inputs**: Implement reusable multi-value input component for emails, glob lists, git names
-- 🔲 **Tier 1 validation**: Inline syntax feedback for all fields (URL, email, glob, branch)
-- 🔲 **Tier 2 validation**: Cross-field checks (duplicate repos/branches/authors, group glob overlap)
-- 🔲 **Tier 3 validation**: Call `/api/generate` in dry-run mode and surface parser errors in Step 4
-- 🔲 **Success screen**: Show generated file path, copy-to-clipboard command, start-over/close options
-- 🔲 **Loading states**: Spinners for URL validation, YAML preview refresh
+- ✅ **Tag-chip inputs**: `TagChipInput.vue` reusable component — add on Enter/comma/semicolon, remove on ×, duplicate tags silently rejected, emits `tag-added` for per-tag validation; replaces semicolon-separated string fields in `ReposStep.vue` and `GroupsStep.vue`
+- ✅ **`/api/validate-glob` endpoint**: Syntactic glob validation using `FileSystems.getDefault().getPathMatcher("glob:" + pattern)`; catches `PatternSyntaxException`; does not check against actual repo file paths (see Future Enhancements)
+- ✅ **`/api/validate-config` endpoint**: Writes wizard payload to a temp file, calls `ReportConfigYamlParser.parse()`, returns parser exceptions as error messages; temp file always deleted in `finally`
+- ✅ **Tier 1 validation**: URL via `/api/validate` on blur; glob via `/api/validate-glob` on tag-add; email regex on frontend on tag-add; branch name and Git Host ID space-check inline
+- ✅ **Tier 2 validation**: Duplicate repo URLs, duplicate branch names per repo, duplicate author IDs per branch, group name uniqueness per repo — all checked in `onNext()` before saving to store
+- ✅ **Tier 3 validation**: Runs automatically on `onMounted` when Step 4 is entered; Generate button is disabled while validating or invalid; parser errors surface with a "Dismiss and generate anyway" escape hatch that re-enables the button
+- ✅ **Loading states**: `isPreviewLoading` flag in `App.vue` shows "updating..." in preview header during YAML refresh; URL validation shows "Validating..." text
 
-**Deliverable:** Complete, production-ready wizard with full field coverage and polished UX.
+**Deliverable:** Complete, production-ready wizard with full field coverage and polished UX. ✅
 
 ### Phase 4: Testing & Documentation 🔲
 
@@ -791,6 +793,26 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 
 ### Long-term (6+ months)
 
+1. **Author ID Existence Validation**
+
+   The wizard currently only checks that `author-git-host-id` is non-empty. A future enhancement could verify that the author has actually committed to the target repository:
+
+   1. After the repo URL and branch are confirmed, run `git log --format='%an' | sort -u` against the cloned repo
+   2. Check if the provided Git Host ID appears in the author list
+   3. Warn: "No commits found for this author in the repository"
+
+   This is deferred for the same reason as glob file-path matching — it requires the repo to be cloned first. A lighter alternative for GitHub repos would be calling `https://api.github.com/users/{username}` to check if the account exists, but this only works for GitHub (not GitLab, Bitbucket, or self-hosted), is subject to rate limiting (60 unauthenticated requests/hour), and only confirms account existence rather than actual commits to the repo. Like glob matching, this should be a warning only — users may legitimately add authors before they have made their first commit.
+
+2. **Glob Pattern Matching Against Actual Repo Files**
+
+   `/api/validate-glob` currently only checks that a glob pattern is syntactically valid. A future enhancement could warn the user if a pattern matches no files in the target repository:
+
+   1. After a repo URL and branch are confirmed, run `git ls-tree -r HEAD --name-only` against the cloned repo
+   2. Test the glob pattern against the resulting file list
+   3. Warn: "This pattern matches 0 files in the repository"
+
+   This is deferred because it requires the repo to already be cloned (slow, network-dependent) and only makes sense after Step 2's URL validation has passed. It is also strictly a warning — the user should still be able to proceed with a zero-match pattern if intentional.
+
 1. **Hosted Cloud Version**
 
    Deploy wizard to `reposense.org/config-wizard` — no local installation required, direct download of generated YAML.
@@ -827,6 +849,9 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | 9 Mar 2026   | Redesigned step flow to mirror YAML hierarchy (Option B, 4-step wizard)       |
 | 9 Mar 2026   | Phase 1 complete: removed CSV writers, simplified `/api/generate`, added `/api/preview`, updated browser URL to `/config-wizard` |
 | 9 Mar 2026   | Phase 2 complete: new `frontend/config-wizard/` app with 4-step wizard, YAML-shaped store, two-pane layout, live preview pane  |
+| 12 Mar 2026  | Phase 3 complete: `TagChipInput.vue`, `/api/validate-glob`, `/api/validate-config`, Tier 1/2/3 validation, loading states |
+| 12 Mar 2026  | Tier 3 validation moved to `onMounted` in `ReviewStep.vue`; Generate button disabled until valid; `WizardStep.vue` gains `nextDisabled` prop |
+| 12 Mar 2026  | Bug fix: empty branch string now converted to `null` in `ReposStep.vue` so parser correctly defaults to `"HEAD"`; `ConfigFileWriter` configured with `NON_NULL` serialisation to omit null fields from generated YAML; `TagChipInput` rejects duplicate tags |
 | 11 Mar 2026   | Bug fix: author fields in `store.ts` and `ReposStep.vue` were using incorrect YAML keys (`gitId`, `displayName`, etc.); corrected to match `ReportAuthorDetails` annotations (`author-git-host-id`, `author-display-name`, `author-emails`, `author-git-author-name`); removed non-existent author-level `ignoreGlobList` field |
 
 ### Decision Log
