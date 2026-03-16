@@ -758,14 +758,16 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 
 ### Short-term (Within 6 months)
 
-1. **UI Styling — Match Main RepoSense App**
+1. ~~**UI Styling — Match Main RepoSense App**~~ ✅ **Complete**
 
-   The wizard currently uses Vue's `#42b983` green as its accent colour and `Segoe UI` as its font, neither of which are used in the main RepoSense report viewer. To make the wizard feel like a native part of the product, apply the following in two sub-steps:
+   Implemented in commit `4c7885ff`. The wizard now uses the same font and colour palette as the main RepoSense report viewer:
 
-   - **Step A — Font:** Import `Titillium Web` (the main app's font) via Google Fonts in `config-wizard/index.html` and update `font-family` in `App.vue`.
-   - **Step B — Colours:** Replace the `#42b983` accent throughout the wizard with values from the existing MUI colour palette already defined in `frontend/src/styles/_colors.scss`. Define CSS custom properties (`--color-primary`, `--color-border`, `--color-error`, etc.) at the root of `App.vue` mapping to the chosen MUI hex values, then update all usages in one pass. Suggested candidates: `blue-grey-500` (`#607D8B`) or `teal-500` (`#009688`) as the primary accent — both are present in the MUI palette and consistent with the main app's aesthetic.
+   - **Font:** `Titillium Web` imported via `@fontsource/titillium-web` in `main.ts` (replaces `Segoe UI`).
+   - **Colours:** All styles extracted into a dedicated SCSS system under `frontend/config-wizard/styles/`. `_variables.scss` imports the main app's `mui-color()` function from `frontend/src/styles/_colors.scss` and maps it to named variables — primary accent is `blue-grey-500` (`#607D8B`), replacing Vue's `#42b983` green. Semantic colours (error, success, warning, text, borders, backgrounds) all sourced from the MUI palette. The YAML preview pane retains a dark theme (`#1E1E1E`) as no MUI equivalent exists.
+   - **Structure:** Inline styles removed from all component files and consolidated into `_base.scss`, `_components.scss`, `_layout.scss`, and `_variables.scss`, imported via `main.scss`.
 
-   **Files affected:** `config-wizard/index.html`, `config-wizard/App.vue` (CSS custom properties and usages), `config-wizard/components/*.vue` (any hardcoded colour values).
+   **Files added:** `config-wizard/styles/_variables.scss`, `_base.scss`, `_components.scss`, `_layout.scss`, `main.scss`
+   **Files updated:** `config-wizard/main.ts`, `App.vue`, `components/*.vue`
 
 2. **CSV Config File Support**
 
@@ -852,7 +854,9 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | 12 Mar 2026  | Phase 3 complete: `TagChipInput.vue`, `/api/validate-glob`, `/api/validate-config`, Tier 1/2/3 validation, loading states |
 | 12 Mar 2026  | Tier 3 validation moved to `onMounted` in `ReviewStep.vue`; Generate button disabled until valid; `WizardStep.vue` gains `nextDisabled` prop |
 | 12 Mar 2026  | Bug fix: empty branch string now converted to `null` in `ReposStep.vue` so parser correctly defaults to `"HEAD"`; `ConfigFileWriter` configured with `NON_NULL` serialisation to omit null fields from generated YAML; `TagChipInput` rejects duplicate tags |
-| 11 Mar 2026   | Bug fix: author fields in `store.ts` and `ReposStep.vue` were using incorrect YAML keys (`gitId`, `displayName`, etc.); corrected to match `ReportAuthorDetails` annotations (`author-git-host-id`, `author-display-name`, `author-emails`, `author-git-author-name`); removed non-existent author-level `ignoreGlobList` field |
+| 12 Mar 2026   | Bug fix: author fields in `store.ts` and `ReposStep.vue` were using incorrect YAML keys (`gitId`, `displayName`, etc.); corrected to match `ReportAuthorDetails` annotations (`author-git-host-id`, `author-display-name`, `author-emails`, `author-git-author-name`); removed non-existent author-level `ignoreGlobList` field |
+| 12 Mar 2026  | UI styling complete: wizard now matches main RepoSense app — `Titillium Web` font via `@fontsource/titillium-web`, MUI colour palette (`blue-grey-500` primary accent) via shared `mui-color()` function, all styles refactored into a dedicated SCSS system (`styles/_variables.scss`, `_base.scss`, `_components.scss`, `_layout.scss`) |
+| 16 Mar 2026  | Bug fix: success screen "Next Steps" command was using non-existent `--repo-config` flag and passing a file path; corrected to `--config <directory>` per `ArgsParser` and CLI docs — `statusDir()` helper in `ReviewStep.vue` strips the filename from the server-returned absolute path |
 
 ### Decision Log
 
@@ -866,6 +870,7 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | **YAML-only output** (no CSV)                             | Simpler scope, YAML is more expressive and hierarchical — CSV support can be added later                   | 9 Mar 2026  |
 | **4-step flow mirroring YAML hierarchy** (Option B)       | Avoids awkward CSV-to-YAML remapping; store state directly mirrors output structure                        | 9 Mar 2026  |
 | Store state shaped as YAML, not flat CSV arrays           | No remapping needed on generate; frontend state IS the YAML structure                                      | 9 Mar 2026  |
+| **Preview updates on `onNext`, not per-keystroke**        | Per-keystroke preview was explored but rejected — step components hold local state (with UI-only fields like `valid`/`validating` and type coercions like `fileSizeLimit` string→number) that must be mapped to the YAML-shaped store. Adding deep watchers to sync local→store continuously duplicated the mapping logic in two places (`watch` + `onNext`), creating a maintenance hazard. The cleaner fix would be binding form fields directly to `store.config`, but that conflates unvalidated in-progress data with committed state. The existing pattern — commit on `onNext`, preview refreshes on step advance — is coherent with standard wizard UX and avoids both problems. | 16 Mar 2026 |
 
 ### Open Questions
 

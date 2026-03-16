@@ -60,7 +60,7 @@
       </p>
       <div v-if="status.type === 'success'" class="next-steps">
         <p class="next-steps-label">Next Steps:</p>
-        <code class="run-command">java -jar RepoSense.jar --repo-config {{ status.path }}</code>
+        <code class="run-command">java -jar RepoSense.jar --config {{ statusDir(status.path!) }}</code>
         <div class="success-actions">
           <button class="btn btn-link copy-cmd-btn" @click="copyCommand(status.path!)">
             Copy command
@@ -174,8 +174,11 @@ const doGenerate = async () => {
   }
 };
 
+// --config takes the directory containing report-config.yaml, not the file path itself
+const statusDir = (filePath: string) => filePath.substring(0, filePath.lastIndexOf('/') + 1) || './';
+
 const copyCommand = (path: string) => {
-  navigator.clipboard.writeText(`java -jar RepoSense.jar --repo-config ${path}`);
+  navigator.clipboard.writeText(`java -jar RepoSense.jar --config ${statusDir(path)}`);
 };
 
 const quitWizard = async () => {

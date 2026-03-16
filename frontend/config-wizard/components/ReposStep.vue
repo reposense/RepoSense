@@ -375,10 +375,14 @@ const onNext = () => {
     repo: r.repo.trim(),
     groups: store.config.repos.find((sr) => sr.repo === r.repo)?.groups ?? [],
     branches: r.branches.map((b) => ({
+      // null causes ReportBranchData to default to "HEAD" (see ReportBranchData.DEFAULT_BRANCH)
       branch: b.branch.trim() || null,
       blurb: b.blurb || null,
       'ignore-glob-list': [...b.ignoreGlobList],
       'ignore-authors-list': [...b.ignoreAuthorsList],
+      // fileSizeLimit is stored as a string in the form input; converted to number here so
+      // Jackson can deserialize it into ReportBranchData's Long field. null causes
+      // ReportBranchData to default to DEFAULT_FILE_SIZE_LIMIT (1000000L).
       'file-size-limit': b.fileSizeLimit ? Number(b.fileSizeLimit) : null,
       authors: b.authors.map((a) => ({
         'author-git-host-id': a.gitId.trim(),
