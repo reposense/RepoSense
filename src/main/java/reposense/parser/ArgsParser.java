@@ -242,7 +242,7 @@ public class ArgsParser {
                 .dest(CONFIG_WIZARD_FLAGS[0])
                 .action(Arguments.storeTrue())
                 .help("Starts a wizard to guide the user through the configuration process.");
-      
+
         parser.addArgument(AUTHOR_DEDUP_MODE_FLAGS)
                 .dest(AUTHOR_DEDUP_MODE_FLAGS[0])
                 .action(Arguments.storeTrue())
@@ -355,7 +355,7 @@ public class ArgsParser {
                 .isPortfolio(isPortfolio)
                 .isFreshClonePerformed(shouldPerformFreshCloning)
                 .isOnlyTextRefreshed(shouldRefreshOnlyText)
-                .isConfigWizard(isConfigWizard);
+                .isConfigWizard(isConfigWizard)
                 .isAuthorDedupMode(isAuthorDedupMode);
 
         LogsManager.setLogFolderLocation(outputFolderPath);

@@ -215,7 +215,7 @@ public class CliArguments {
     public boolean isConfigWizard() {
         return isConfigWizard;
     }
-  
+
     public boolean isAuthorDedupMode() {
         return isAuthorDedupMode;
     }

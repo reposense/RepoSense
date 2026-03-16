@@ -56,7 +56,7 @@ The Shallow Cloning option is incompatible with the "--last-modified-date" CLI f
 Behavior of since dates and until dates specified in CSV and CLI flags:
 
 1. *Both CSV Dates and CLI Flags Are Provided*
-   
+
    **Behavior**:
 
    When both the CSV file and the CLI include values for the “since” and “until” dates, the commit range for an individual repository is taken directly from its CSV dates.
@@ -76,9 +76,9 @@ Behavior of since dates and until dates specified in CSV and CLI flags:
    Valid: [30/09/2024T16:30:00, 01/01/2025T16:30:00]
 
 2. CSV Dates Are Fully Provided, but One CLI Flag Is Missing
-   
+
    **Behavior**:
-   
+
    The range of commits retrieved for the repo is fully determined by the dates specified in the CSV file.
 
    **UI Adjustment**:
@@ -86,15 +86,15 @@ Behavior of since dates and until dates specified in CSV and CLI flags:
    In the user interface, the adjustable date range will automatically span from the earliest “since” date to the latest “until” date across all repositories with valid CSV dates.
 
 3. Both CSV Dates Are Absent
-   
+
    **Behavior**:
-   
+
    When no dates are provided in the CSV file, the commit range is based on the CLI flags. If the CLI flags are not provided either, then the tool falls back on the predefined default date values.
 
-4. One CSV Date Is Missing 
+4. One CSV Date Is Missing
 
    **Behavior**:
-   
+
    If either the “since” or “until” date is omitted in the CSV file, the missing value will be replaced by a default value (i.e. the commits within the most recent one month), or the corresponding value from the CLI flag (if specified).
 </box>
 
