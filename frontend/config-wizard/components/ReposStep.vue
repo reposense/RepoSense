@@ -47,7 +47,7 @@ import { useReposValidation } from '../composables/useReposValidation';
 import WizardStep from './WizardStep.vue';
 import BranchCard from './BranchCard.vue';
 
-const initRepos = (): LocalRepo[] => {
+const initRepos = (): Array<LocalRepo> => {
   if (store.config.repos.length === 0) return [newRepo()];
   return store.config.repos.map((r) => ({
     repo: r.repo,
@@ -80,7 +80,7 @@ const initRepos = (): LocalRepo[] => {
   }));
 };
 
-const repos = reactive<LocalRepo[]>(initRepos());
+const repos = reactive<Array<LocalRepo>>(initRepos());
 
 const {
   getBranchGlobError,
@@ -147,21 +147,21 @@ const onNext = () => {
 @import '../styles/variables';
 
 .section-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: $color-text-hint;
-  margin: 1rem 0 0.5rem;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  margin: 1rem 0 .5rem;
+  text-transform: uppercase;
 }
 
 .add-branch-btn {
-  margin-top: 0.75rem;
+  margin-top: .75rem;
   width: 100%;
 }
 
 .add-repo-btn {
+  margin-top: .5rem;
   width: 100%;
-  margin-top: 0.5rem;
 }
 </style>

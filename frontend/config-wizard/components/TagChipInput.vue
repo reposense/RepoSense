@@ -18,12 +18,12 @@
 import { ref } from 'vue';
 
 const props = defineProps<{
-  modelValue: string[];
+  modelValue: Array<string>;
   placeholder?: string;
 }>();
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string[]];
+  'update:modelValue': [value: Array<string>];
   'tag-added': [value: string];
   'tag-removed': [value: string];
 }>();
@@ -67,17 +67,17 @@ const onBlur = () => {
 @import '../styles/variables';
 
 .tag-chip-input {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
   align-items: center;
-  min-height: 2.2rem;
-  padding: 0.3rem 0.5rem;
+  background: $color-bg-white;
   border: 1px solid $color-border;
   border-radius: 4px;
-  background: $color-bg-white;
   cursor: text;
-  transition: border-color 0.15s;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .3rem;
+  min-height: 2.2rem;
+  padding: .3rem .5rem;
+  transition: border-color .15s;
 
   &.focused {
     border-color: $color-primary;
@@ -86,25 +86,25 @@ const onBlur = () => {
 }
 
 .chip {
-  display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.15rem 0.4rem;
   background: $color-primary-light;
   border: 1px solid mui-color('blue-grey', '200');
   border-radius: 3px;
-  font-size: 0.8rem;
   color: $color-text-primary;
+  display: inline-flex;
+  font-size: .8rem;
+  gap: .25rem;
+  padding: .15rem .4rem;
   white-space: nowrap;
 }
 
 .chip-remove {
   background: none;
   border: none;
-  cursor: pointer;
-  font-size: 0.9rem;
-  line-height: 1;
   color: $color-text-hint;
+  cursor: pointer;
+  font-size: .9rem;
+  line-height: 1;
   padding: 0;
 
   &:hover {
@@ -113,13 +113,13 @@ const onBlur = () => {
 }
 
 .chip-input {
-  flex: 1;
-  min-width: 6rem;
-  border: none;
-  outline: none;
-  font-size: 0.875rem;
-  font-family: $font-body;
   background: transparent;
+  border: none;
+  flex: 1;
+  font-family: $font-body;
+  font-size: .875rem;
+  min-width: 6rem;
+  outline: none;
   padding: 0;
 }
 </style>

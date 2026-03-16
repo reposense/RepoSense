@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { type LocalRepo } from '../types/wizard';
+import { type LocalBranch, type LocalRepo } from '../types/wizard';
 
 export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -24,11 +24,11 @@ const shiftMapKeys = (
   parentFilter?: (segs: string[]) => boolean,
 ) => {
   const toDelete: string[] = [];
-  const toRename: [string, string][] = [];
+  const toRename: Array<[string, string]> = [];
 
-  for (const key of Object.keys(map)) {
+  Object.keys(map).forEach((key) => {
     const segs = key.split('|');
-    if (parentFilter && !parentFilter(segs)) continue;
+    if (parentFilter && !parentFilter(segs)) return;
     const n = parseInt(segs[segIdx], 10);
     if (n === removedVal) {
       toDelete.push(key);
@@ -37,14 +37,14 @@ const shiftMapKeys = (
       newSegs[segIdx] = String(n - 1);
       toRename.push([key, newSegs.join('|')]);
     }
-  }
+  });
 
   // Apply deletions first, then renames (all old keys were collected before any mutation).
-  for (const key of toDelete) delete map[key];
-  for (const [oldKey, newKey] of toRename) {
+  toDelete.forEach((key) => { delete map[key]; });
+  toRename.forEach(([oldKey, newKey]) => {
     map[newKey] = map[oldKey];
     delete map[oldKey];
-  }
+  });
 };
 
 export function useReposValidation(repos: LocalRepo[]) {
@@ -70,13 +70,14 @@ export function useReposValidation(repos: LocalRepo[]) {
   const getBranchEmailErrors = (ri: number, bi: number): Record<string, string> => {
     const prefix = `${ri}|${bi}|`;
     const byAuthor: Record<string, string[]> = {};
-    for (const key of Object.keys(emailErrors)) {
-      if (!key.startsWith(prefix)) continue;
-      const rest = key.slice(prefix.length); // `${ai}|${email}`
-      const pipeIdx = rest.indexOf('|');
-      const ai = rest.substring(0, pipeIdx);
-      (byAuthor[ai] ??= []).push(emailErrors[key]);
-    }
+    Object.keys(emailErrors)
+      .filter((key) => key.startsWith(prefix))
+      .forEach((key) => {
+        const rest = key.slice(prefix.length); // `${ai}|${email}`
+        const pipeIdx = rest.indexOf('|');
+        const ai = rest.substring(0, pipeIdx);
+        (byAuthor[ai] ??= []).push(emailErrors[key]);
+      });
     return Object.fromEntries(
       Object.entries(byAuthor).map(([ai, msgs]) => [ai, msgs.join('; ')]),
     );
@@ -171,15 +172,13 @@ export function useReposValidation(repos: LocalRepo[]) {
   const validateAllEmails = (emails: string[], ri: number, bi: number, ai: number): void => {
     // Clear all existing errors for this author first.
     const prefix = `${ri}|${bi}|${ai}|`;
-    for (const key of Object.keys(emailErrors)) {
-      if (key.startsWith(prefix)) delete emailErrors[key];
-    }
+    Object.keys(emailErrors)
+      .filter((key) => key.startsWith(prefix))
+      .forEach((key) => { delete emailErrors[key]; });
     // Set errors for each currently invalid email.
-    for (const email of emails) {
-      if (!EMAIL_RE.test(email)) {
-        emailErrors[`${prefix}${email}`] = `"${email}" is not a valid email address`;
-      }
-    }
+    emails.filter((email) => !EMAIL_RE.test(email)).forEach((email) => {
+      emailErrors[`${prefix}${email}`] = `"${email}" is not a valid email address`;
+    });
   };
 
   // --- onNext gate ---
@@ -208,18 +207,18 @@ export function useReposValidation(repos: LocalRepo[]) {
     if (Object.keys(emailErrors).length > 0) {
       return 'Please fix invalid email addresses before proceeding.';
     }
-    for (const repo of repos) {
-      for (const branch of repo.branches) {
-        const { sinceDate, sinceTime, untilDate, untilTime } = branch;
-        if (sinceDate && untilDate) {
-          if (sinceDate > untilDate) {
-            return 'Since date must be on or before until date.';
-          }
-          if (sinceDate === untilDate && sinceTime && untilTime && sinceTime > untilTime) {
-            return 'Since time must be on or before until time on the same date.';
-          }
-        }
-      }
+
+    // Date range validation
+    const badDateBranch = repos.flatMap((r) => r.branches).find((b: LocalBranch) => {
+      if (!b.sinceDate || !b.untilDate) return false;
+      if (b.sinceDate > b.untilDate) return true;
+      return b.sinceDate === b.untilDate && !!b.sinceTime && !!b.untilTime
+        && b.sinceTime > b.untilTime;
+    });
+    if (badDateBranch) {
+      return badDateBranch.sinceDate > badDateBranch.untilDate
+        ? 'Since date must be on or before until date.'
+        : 'Since time must be on or before until time on the same date.';
     }
 
     // Tier 2: duplicate checks
@@ -227,17 +226,20 @@ export function useReposValidation(repos: LocalRepo[]) {
     if (new Set(urls).size !== urls.length) {
       return 'Duplicate repository URLs are not allowed.';
     }
-    for (const repo of repos) {
+    const dupBranchRepo = repos.find((repo) => {
       const branchNames = repo.branches.map((b) => b.branch.trim());
-      if (new Set(branchNames).size !== branchNames.length) {
-        return `Repository "${repo.repo}" has duplicate branch names.`;
-      }
-      for (const branch of repo.branches) {
+      return new Set(branchNames).size !== branchNames.length;
+    });
+    if (dupBranchRepo) return `Repository "${dupBranchRepo.repo}" has duplicate branch names.`;
+
+    const dupAuthorEntry = repos.flatMap((repo) => repo.branches.map((branch) => ({ branch, repo })))
+      .find(({ branch }) => {
         const authorIds = branch.authors.map((a) => a.gitId.trim());
-        if (new Set(authorIds).size !== authorIds.length) {
-          return `Branch "${branch.branch || 'default'}" in "${repo.repo}" has duplicate author IDs.`;
-        }
-      }
+        return new Set(authorIds).size !== authorIds.length;
+      });
+    if (dupAuthorEntry) {
+      const { branch, repo } = dupAuthorEntry;
+      return `Branch "${branch.branch || 'default'}" in "${repo.repo}" has duplicate author IDs.`;
     }
 
     return null;

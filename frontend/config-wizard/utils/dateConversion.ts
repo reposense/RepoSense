@@ -2,7 +2,7 @@
  * Converts a stored dd/MM/yyyy[ HH:mm] string back into native input values.
  * Used when re-entering Step 2 after previously saving to the store.
  */
-export const parseStoredDate = (stored: string | null): { date: string; time: string } => {
+export const parseStoredDate = (stored: string | null): { date: string, time: string } => {
   if (!stored) return { date: '', time: '' };
   const [datePart, timePart] = stored.split(' ');
   const [d, m, y] = datePart.split('/');

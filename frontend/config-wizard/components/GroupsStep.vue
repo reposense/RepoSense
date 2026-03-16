@@ -48,17 +48,17 @@ import TagChipInput from './TagChipInput.vue';
 
 interface LocalGroup {
   groupName: string;
-  globs: string[];
+  globs: Array<string>;
 }
 
 interface LocalRepoGroups {
   repoUrl: string;
-  groups: LocalGroup[];
+  groups: Array<LocalGroup>;
 }
 
 const shortUrl = (url: string) => url.replace(/^https?:\/\//, '').replace(/\.git$/, '');
 
-const repoGroups = reactive<LocalRepoGroups[]>(
+const repoGroups = reactive<Array<LocalRepoGroups>>(
   store.config.repos.map((r) => ({
     repoUrl: r.repo,
     groups: r.groups.map((g) => ({
@@ -118,12 +118,13 @@ const onNext = () => {
     return;
   }
   // Tier 2: unique group names per repo
-  for (const rg of repoGroups) {
+  const dupRepo = repoGroups.find((rg) => {
     const names = rg.groups.map((g) => g.groupName.trim());
-    if (new Set(names).size !== names.length) {
-      alert(`Repository "${rg.repoUrl}" has duplicate group names.`);
-      return;
-    }
+    return new Set(names).size !== names.length;
+  });
+  if (dupRepo) {
+    alert(`Repository "${dupRepo.repoUrl}" has duplicate group names.`);
+    return;
   }
   saveAndAdvance();
 };
@@ -138,13 +139,13 @@ const onSkip = () => {
 @import '../styles/variables';
 
 .step-description {
-  font-size: 0.85rem;
   color: $color-text-secondary;
+  font-size: .85rem;
   margin-bottom: 1.25rem;
 }
 
 .add-group-btn {
+  margin-top: .25rem;
   width: 100%;
-  margin-top: 0.25rem;
 }
 </style>

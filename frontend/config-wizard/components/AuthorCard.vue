@@ -45,7 +45,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   remove: [];
-  'validate-emails': [emails: string[]];
+  'validate-emails': [emails: Array<string>];
 }>();
 </script>
 
@@ -53,23 +53,23 @@ const emit = defineEmits<{
 @import '../styles/variables';
 
 .author-card {
+  background: $color-primary-light;
   border: 1px solid mui-color('blue-grey', '200');
   border-radius: 4px;
-  margin-bottom: 0.5rem;
-  background: $color-primary-light;
+  margin-bottom: .5rem;
 }
 
 .author-card-header {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.4rem 0.75rem;
   background: mui-color('blue-grey', '100');
   border-bottom: 1px solid mui-color('blue-grey', '200');
   border-radius: 4px 4px 0 0;
+  display: flex;
+  justify-content: space-between;
+  padding: .4rem .75rem;
 }
 
 .author-card-body {
-  padding: 0.75rem;
+  padding: .75rem;
 }
 </style>

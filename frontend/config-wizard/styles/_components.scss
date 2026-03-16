@@ -7,11 +7,11 @@
 }
 
 .form-label {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 500;
   color: $color-text-secondary;
-  margin-bottom: 0.3rem;
+  display: block;
+  font-size: .85rem;
+  font-weight: 500;
+  margin-bottom: .3rem;
 }
 
 .required {
@@ -19,19 +19,19 @@
 }
 
 .form-input {
-  width: 100%;
-  padding: 0.45rem 0.65rem;
+  background: $color-bg-white;
   border: 1px solid $color-border;
   border-radius: 4px;
-  font-size: 0.875rem;
-  font-family: $font-body;
   color: $color-text-primary;
-  background: $color-bg-white;
-  transition: border-color 0.15s;
+  font-family: $font-body;
+  font-size: .875rem;
+  padding: .45rem .65rem;
+  transition: border-color .15s;
+  width: 100%;
 
   &:focus {
-    outline: none;
     border-color: $color-primary;
+    outline: none;
   }
 
   &.is-invalid {
@@ -44,21 +44,21 @@
 }
 
 .field-hint {
-  font-size: 0.75rem;
   color: $color-text-hint;
-  margin-top: 0.25rem;
+  font-size: .75rem;
+  margin-top: .25rem;
 }
 
 .field-error {
-  font-size: 0.75rem;
   color: $color-error;
-  margin-top: 0.25rem;
+  font-size: .75rem;
+  margin-top: .25rem;
 }
 
 .field-valid {
-  font-size: 0.75rem;
   color: $color-success;
-  margin-top: 0.25rem;
+  font-size: .75rem;
+  margin-top: .25rem;
 }
 
 // ============================================================================
@@ -66,26 +66,26 @@
 // ============================================================================
 
 .card {
+  background: $color-bg-white;
   border: 1px solid $color-border;
   border-radius: 6px;
   margin-bottom: 1rem;
-  background: $color-bg-white;
 }
 
 .card-header {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.6rem 1rem;
   background: $color-bg-medium;
   border-bottom: 1px solid $color-border;
   border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: space-between;
+  padding: .6rem 1rem;
 }
 
 .card-title {
-  font-size: 0.875rem;
-  font-weight: 600;
   color: $color-text-primary;
+  font-size: .875rem;
+  font-weight: 600;
 }
 
 .card-body {
@@ -97,20 +97,20 @@
 // ============================================================================
 
 .btn {
-  padding: 0.4rem 0.9rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  font-family: $font-body;
-  font-weight: 500;
-  cursor: pointer;
   border: 1px solid transparent;
-  transition: background 0.15s, color 0.15s;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: $font-body;
+  font-size: .875rem;
+  font-weight: 500;
+  padding: .4rem .9rem;
+  transition: background .15s, color .15s;
 }
 
 .btn-primary {
   background: $color-primary;
-  color: $color-bg-white;
   border-color: $color-primary;
+  color: $color-bg-white;
 
   &:hover {
     background: $color-primary-dark;
@@ -118,15 +118,15 @@
   }
 
   &:disabled {
-    opacity: 0.5;
     cursor: not-allowed;
+    opacity: .5;
   }
 }
 
 .btn-secondary {
   background: $color-bg-white;
-  color: $color-primary;
   border-color: $color-primary;
+  color: $color-primary;
 
   &:hover {
     background: $color-primary-light;
@@ -135,10 +135,10 @@
 
 .btn-danger {
   background: $color-bg-white;
-  color: $color-error;
   border-color: $color-error;
-  font-size: 0.75rem;
-  padding: 0.2rem 0.5rem;
+  color: $color-error;
+  font-size: .75rem;
+  padding: .2rem .5rem;
 
   &:hover {
     background: $color-error-light;
@@ -149,9 +149,9 @@
   background: none;
   border: none;
   color: $color-primary;
-  font-size: 0.8rem;
   cursor: pointer;
-  padding: 0.2rem 0;
+  font-size: .8rem;
+  padding: .2rem 0;
   text-decoration: underline;
 
   &:hover {
@@ -165,42 +165,42 @@
 
 .form-row {
   display: grid;
+  gap: .75rem;
   grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
 }
 
 .nested-card {
+  background: $color-bg-light;
   border: 1px solid $color-border;
   border-radius: 4px;
-  margin-bottom: 0.75rem;
-  background: $color-bg-light;
+  margin-bottom: .75rem;
 }
 
 .nested-card-header {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.4rem 0.75rem;
   background: $color-bg-dark;
   border-bottom: 1px solid $color-border;
   border-radius: 4px 4px 0 0;
+  display: flex;
+  justify-content: space-between;
+  padding: .4rem .75rem;
 }
 
 .nested-card-title {
-  font-size: 0.8rem;
-  font-weight: 600;
   color: $color-text-secondary;
+  font-size: .8rem;
+  font-weight: 600;
 }
 
 .nested-card-body {
-  padding: 0.75rem;
+  padding: .75rem;
 }
 
 .empty-hint {
-  font-size: 0.8rem;
   color: $color-text-hint;
+  font-size: .8rem;
   font-style: italic;
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
 }
 
 // ============================================================================
@@ -208,15 +208,15 @@
 // ============================================================================
 
 .nav-buttons {
+  align-items: center;
+  border-top: 1px solid $color-border;
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-top: 1.5rem;
   padding-top: 1rem;
-  border-top: 1px solid $color-border;
 }
 
 .nav-right {
   display: flex;
-  gap: 0.5rem;
+  gap: .5rem;
 }

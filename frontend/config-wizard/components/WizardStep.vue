@@ -34,12 +34,12 @@ const emit = defineEmits(['back', 'next', 'skip']);
 }
 
 .step-heading {
+  border-bottom: 2px solid $color-primary;
+  color: $color-text-primary;
   font-size: 1.1rem;
   font-weight: 600;
-  color: $color-text-primary;
   margin-bottom: 1.25rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid $color-primary;
+  padding-bottom: .5rem;
 }
 
 .step-content {

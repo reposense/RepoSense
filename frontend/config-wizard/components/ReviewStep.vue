@@ -95,11 +95,10 @@ const validateConfig = async (): Promise<boolean> => {
     if (data.valid) {
       validationStatus.value = 'valid';
       return true;
-    } else {
-      validationStatus.value = 'invalid';
-      validationError.value = data.error || 'Invalid configuration';
-      return false;
     }
+    validationStatus.value = 'invalid';
+    validationError.value = data.error || 'Invalid configuration';
+    return false;
   } catch {
     validationStatus.value = 'invalid';
     validationError.value = 'Could not reach server for validation';
@@ -117,13 +116,8 @@ const status = ref<Status | null>(null);
 // Run Tier 3 automatically when step is mounted
 onMounted(validateConfig);
 
-const onGenerate = async () => {
-  // If still validating, wait — shouldn't normally happen but guards against fast clicks
-  if (validationStatus.value === 'validating') return;
-  // If invalid, user must explicitly dismiss before generating
-  if (validationStatus.value === 'invalid') return;
-  await doGenerate();
-};
+// --config takes the directory containing report-config.yaml, not the file path itself
+const statusDir = (filePath: string) => filePath.substring(0, filePath.lastIndexOf('/') + 1) || './';
 
 const doGenerate = async () => {
   status.value = null;
@@ -141,15 +135,20 @@ const doGenerate = async () => {
         path: result.path,
       };
     } else {
-      status.value = { type: 'error', message: 'Error: ' + result.error };
+      status.value = { type: 'error', message: `Error: ${result.error}` };
     }
   } catch {
     status.value = { type: 'error', message: 'Failed to communicate with the server.' };
   }
 };
 
-// --config takes the directory containing report-config.yaml, not the file path itself
-const statusDir = (filePath: string) => filePath.substring(0, filePath.lastIndexOf('/') + 1) || './';
+const onGenerate = async () => {
+  // If still validating, wait — shouldn't normally happen but guards against fast clicks
+  if (validationStatus.value === 'validating') return;
+  // If invalid, user must explicitly dismiss before generating
+  if (validationStatus.value === 'invalid') return;
+  await doGenerate();
+};
 
 const copyCommand = (path: string) => {
   navigator.clipboard.writeText(`java -jar RepoSense.jar --config ${statusDir(path)}`);
@@ -169,84 +168,92 @@ const quitWizard = async () => {
 @import '../styles/variables';
 
 .summary-card {
+  background: $color-bg-light;
   border: 1px solid $color-border;
   border-radius: 6px;
-  padding: 1rem;
   margin-bottom: 1.25rem;
-  background: $color-bg-light;
+  padding: 1rem;
 }
 
 .summary-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.3rem 0;
-  font-size: 0.875rem;
   border-bottom: 1px solid $color-bg-medium;
+  display: flex;
+  font-size: .875rem;
+  justify-content: space-between;
+  padding: .3rem 0;
 
   &:last-child { border-bottom: none; }
 }
 
 .summary-label { color: $color-text-secondary; }
-.summary-value { font-weight: 600; color: $color-text-primary; }
+
+.summary-value {
+  color: $color-text-primary;
+  font-weight: 600;
+}
 
 .preview-box {
   border: 1px solid $color-border;
   border-radius: 6px;
-  overflow: hidden;
   margin-bottom: 1.25rem;
+  overflow: hidden;
 }
 
 .preview-box-header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0.4rem 0.75rem;
   background: $color-bg-medium;
   border-bottom: 1px solid $color-border;
-  font-size: 0.8rem;
-  font-weight: 600;
   color: $color-text-secondary;
+  display: flex;
+  font-size: .8rem;
+  font-weight: 600;
+  justify-content: space-between;
+  padding: .4rem .75rem;
 }
 
 .preview-hint {
-  font-weight: normal;
   color: $color-text-hint;
   font-style: italic;
+  font-weight: normal;
 }
 
 .preview-snippet {
-  padding: 0.75rem;
-  font-size: 0.75rem;
-  font-family: $font-mono;
-  line-height: 1.5;
   background: $color-editor-bg;
   color: $color-editor-text;
+  font-family: $font-mono;
+  font-size: .75rem;
+  line-height: 1.5;
   max-height: 12rem;
   overflow: hidden;
+  padding: .75rem;
 }
 
 .validation-status {
+  font-size: .875rem;
   margin-bottom: 1rem;
-  font-size: 0.875rem;
 }
 
 .status-validating { color: $color-text-hint; }
-.status-valid { color: $color-success; font-weight: 500; }
+
+.status-valid {
+  color: $color-success;
+  font-weight: 500;
+}
 
 .status-invalid {
   background: $color-warning-light;
   border: 1px solid $color-warning-border;
   border-radius: 6px;
-  padding: 0.75rem;
   color: mui-color('amber', '900');
+  padding: .75rem;
 
-  p { margin-bottom: 0.4rem; }
+  p { margin-bottom: .4rem; }
 }
 
 .status-box {
   border-radius: 6px;
+  font-size: .875rem;
   padding: 1rem;
-  font-size: 0.875rem;
 
   &.success {
     background: $color-success-light;
@@ -262,41 +269,48 @@ const quitWizard = async () => {
 }
 
 .status-path {
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
+  font-size: .8rem;
+  margin-top: .5rem;
 
   code {
-    background: rgba(0, 0, 0, 0.06);
-    padding: 0.1rem 0.3rem;
+    background: rgba(0, 0, 0, .06);
     border-radius: 3px;
+    padding: .1rem .3rem;
   }
 }
 
 .next-steps {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
   border-top: 1px solid mui-color('green', '300');
+  margin-top: .75rem;
+  padding-top: .75rem;
 }
 
-.next-steps-label { font-weight: 600; margin-bottom: 0.4rem; }
+.next-steps-label {
+  font-weight: 600;
+  margin-bottom: .4rem;
+}
 
 .run-command {
-  display: block;
-  background: rgba(0, 0, 0, 0.06);
-  padding: 0.4rem 0.6rem;
+  background: rgba(0, 0, 0, .06);
   border-radius: 4px;
-  font-size: 0.8rem;
+  display: block;
   font-family: $font-mono;
+  font-size: .8rem;
+  padding: .4rem .6rem;
   word-break: break-all;
 }
 
 .success-actions {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-between;
-  margin-top: 0.4rem;
+  margin-top: .4rem;
 }
 
-.copy-cmd-btn { font-size: 0.8rem; }
-.close-btn { font-size: 0.8rem; padding: 0.3rem 0.75rem; }
+.copy-cmd-btn { font-size: .8rem; }
+
+.close-btn {
+  font-size: .8rem;
+  padding: .3rem .75rem;
+}
 </style>

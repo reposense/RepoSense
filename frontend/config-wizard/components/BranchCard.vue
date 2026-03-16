@@ -105,10 +105,11 @@ const emit = defineEmits<{
   remove: [];
   'validate-glob': [tag: string];
   'clear-glob-error': [tag: string];
-  'validate-emails': [emails: string[], authorIndex: number];
+  'validate-emails': [emails: Array<string>, authorIndex: number];
   'remove-author': [authorIndex: number];
 }>();
 
+// eslint-disable-next-line vue/no-mutating-props
 const addAuthor = () => props.branch.authors.push(newAuthor());
 const removeAuthor = (i: number) => emit('remove-author', i);
 </script>
@@ -117,17 +118,17 @@ const removeAuthor = (i: number) => emit('remove-author', i);
 @import '../styles/variables';
 
 .section-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: $color-text-hint;
-  margin: 1rem 0 0.5rem;
+  font-size: .8rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  margin: 1rem 0 .5rem;
+  text-transform: uppercase;
 }
 
 .authors-label {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-between;
 }
 
@@ -136,12 +137,12 @@ const removeAuthor = (i: number) => emit('remove-author', i);
 }
 
 .time-toggle {
-  margin-top: 0.35rem;
+  margin-top: .35rem;
 }
 
 .time-row {
-  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  display: flex;
+  gap: .5rem;
 }
 </style>
