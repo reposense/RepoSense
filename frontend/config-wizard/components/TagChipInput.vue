@@ -1,20 +1,17 @@
-<template>
-  <div class="tag-chip-input" :class="{ focused: isFocused }" @click="focusInput">
-    <span v-for="(tag, i) in modelValue" :key="i" class="chip">
-      {{ tag }}
-      <button type="button" class="chip-remove" @click.stop="remove(i)">×</button>
-    </span>
-    <input
-      ref="inputRef"
-      v-model="inputValue"
-      class="chip-input"
-      :placeholder="modelValue.length === 0 ? (placeholder ?? '') : ''"
-      @keydown.enter.prevent="add"
-      @keydown="handleKey"
-      @blur="onBlur"
-      @focus="isFocused = true"
-    />
-  </div>
+<template lang="pug">
+.tag-chip-input(:class="{ focused: isFocused }", @click="focusInput")
+  span.chip(v-for="(tag, i) in modelValue", :key="i")
+    | {{ tag }}
+    button.chip-remove(type="button", @click.stop="remove(i)") ×
+  input.chip-input(
+    ref="inputRef",
+    v-model="inputValue",
+    :placeholder="modelValue.length === 0 ? (placeholder ?? '') : ''",
+    @keydown.enter.prevent="add",
+    @keydown="handleKey",
+    @blur="onBlur",
+    @focus="isFocused = true"
+  )
 </template>
 
 <script setup lang="ts">

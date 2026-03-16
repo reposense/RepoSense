@@ -1,20 +1,9 @@
-<template>
-  <wizard-step
-    :step-number="1"
-    title="Report Settings"
-    @next="onNext"
-  >
-    <div class="form-group">
-      <label class="form-label" for="report-title">Report Title</label>
-      <input
-        id="report-title"
-        v-model="title"
-        class="form-input"
-        placeholder="e.g. My Project Report"
-      />
-      <p class="field-hint">Displayed as the heading of the generated report.</p>
-    </div>
-  </wizard-step>
+<template lang="pug">
+wizard-step(:step-number="1", title="Report Settings", @next="onNext")
+  .form-group
+    label.form-label(for="report-title") Report Title
+    input#report-title.form-input(v-model="title", placeholder="e.g. My Project Report")
+    p.field-hint Displayed as the heading of the generated report.
 </template>
 
 <script setup lang="ts">

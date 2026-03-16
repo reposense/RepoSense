@@ -1,61 +1,42 @@
-<template>
-  <div id="wizard-app">
-    <header class="wizard-header">
-      <div class="header-top">
-        <div class="header-brand">
-          <img src="/logo.png" alt="RepoSense" class="header-logo" />
-          <h1>RepoSense Configuration Wizard</h1>
-        </div>
-        <button class="quit-btn" @click="quitWizard">Quit</button>
-      </div>
-      <div class="stepper">
-        <span
-          v-for="(label, i) in STEPS"
-          :key="i"
-          class="step-label"
-          :class="{ active: store.currentStep === i + 1, done: store.currentStep > i + 1 }"
-          @click="store.currentStep > i + 1 ? store.setStep(i + 1) : null"
-        >
-          <span class="step-number">{{ i + 1 }}</span>
-          {{ label }}
-        </span>
-      </div>
-    </header>
-
-    <div
-      class="pane-container"
-      ref="container"
-      @mousemove="onDragMove"
-      @mouseup="onDragEnd"
-      @mouseleave="onDragEnd"
-    >
-      <div class="left-pane" :style="{ flex: `0 0 ${leftWidth}%` }">
-        <report-step v-if="store.currentStep === 1" />
-        <repos-step v-else-if="store.currentStep === 2" />
-        <groups-step v-else-if="store.currentStep === 3" />
-        <review-step v-else-if="store.currentStep === 4" :yaml-preview="yamlPreview" />
-      </div>
-
-      <div
-        class="divider"
-        :class="{ dragging: isDragging }"
-        @mousedown.prevent="onDragStart"
-      >
-        <div class="divider-handle"></div>
-      </div>
-
-      <div class="right-pane">
-        <div class="preview-header">
-          <span class="preview-filename">report-config.yaml</span>
-          <span v-if="isPreviewLoading" class="preview-loading">updating...</span>
-          <button class="copy-btn" :disabled="!yamlPreview" @click="copyYaml">
-            Copy
-          </button>
-        </div>
-        <pre class="yaml-content">{{ yamlPreview || '# Preview will appear here as you fill in the form...' }}</pre>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+#wizard-app
+  header.wizard-header
+    .header-top
+      .header-brand
+        img.header-logo(src="/logo.png", alt="RepoSense")
+        h1 RepoSense Configuration Wizard
+      button.quit-btn(@click="quitWizard") Quit
+    .stepper
+      span.step-label(
+        v-for="(label, i) in STEPS",
+        :key="i",
+        :class="{ active: store.currentStep === i + 1, done: store.currentStep > i + 1 }",
+        @click="store.currentStep > i + 1 ? store.setStep(i + 1) : null"
+      )
+        span.step-number {{ i + 1 }}
+        | {{ label }}
+  .pane-container(
+    ref="container",
+    @mousemove="onDragMove",
+    @mouseup="onDragEnd",
+    @mouseleave="onDragEnd"
+  )
+    .left-pane(:style="{ flex: `0 0 ${leftWidth}%` }")
+      report-step(v-if="store.currentStep === 1")
+      repos-step(v-else-if="store.currentStep === 2")
+      groups-step(v-else-if="store.currentStep === 3")
+      review-step(v-else-if="store.currentStep === 4", :yaml-preview="yamlPreview")
+    .divider(
+      :class="{ dragging: isDragging }",
+      @mousedown.prevent="onDragStart"
+    )
+      .divider-handle
+    .right-pane
+      .preview-header
+        span.preview-filename report-config.yaml
+        span.preview-loading(v-if="isPreviewLoading") updating...
+        button.copy-btn(:disabled="!yamlPreview", @click="copyYaml") Copy
+      pre.yaml-content {{ yamlPreview || '# Preview will appear here as you fill in the form...' }}
 </template>
 
 <script setup lang="ts">

@@ -1,77 +1,51 @@
-<template>
-  <wizard-step
-    :step-number="4"
-    title="Review & Generate"
-    :is-last-step="true"
-    :next-disabled="validationStatus === 'validating' || validationStatus === 'invalid'"
-    @back="store.prevStep()"
-    @next="onGenerate"
-  >
-    <!-- Summary -->
-    <div class="summary-card">
-      <div class="summary-row">
-        <span class="summary-label">Repositories</span>
-        <span class="summary-value">{{ repoCount }}</span>
-      </div>
-      <div class="summary-row">
-        <span class="summary-label">Branches</span>
-        <span class="summary-value">{{ branchCount }}</span>
-      </div>
-      <div class="summary-row">
-        <span class="summary-label">Authors</span>
-        <span class="summary-value">{{ authorCount }}</span>
-      </div>
-      <div class="summary-row">
-        <span class="summary-label">Groups</span>
-        <span class="summary-value">{{ groupCount }}</span>
-      </div>
-    </div>
-
-    <!-- Inline preview snippet -->
-    <div class="preview-box">
-      <div class="preview-box-header">
-        <span>report-config.yaml</span>
-        <span class="preview-hint">Full preview visible in right pane</span>
-      </div>
-      <pre class="preview-snippet">{{ previewSnippet }}</pre>
-    </div>
-
-    <!-- Tier 3 validation status -->
-    <div v-if="validationStatus !== 'idle'" class="validation-status">
-      <span v-if="validationStatus === 'validating'" class="status-validating">
-        ⏳ Validating configuration...
-      </span>
-      <span v-else-if="validationStatus === 'valid'" class="status-valid">
-        ✓ Configuration is valid
-      </span>
-      <div v-else-if="validationStatus === 'invalid'" class="status-invalid">
-        <p>✗ Validation failed: {{ validationError }}</p>
-        <button class="btn btn-link" @click="validationStatus = 'valid'">
-          Dismiss and generate anyway
-        </button>
-      </div>
-    </div>
-
-    <!-- Generate result -->
-    <div v-if="status" class="status-box" :class="status.type">
-      <p>{{ status.message }}</p>
-      <p v-if="status.path" class="status-path">
-        Generated at: <code>{{ status.path }}</code>
-      </p>
-      <div v-if="status.type === 'success'" class="next-steps">
-        <p class="next-steps-label">Next Steps:</p>
-        <code class="run-command">java -jar RepoSense.jar --config {{ statusDir(status.path!) }}</code>
-        <div class="success-actions">
-          <button class="btn btn-link copy-cmd-btn" @click="copyCommand(status.path!)">
-            Copy command
-          </button>
-          <button class="btn btn-danger close-btn" @click="quitWizard">
-            Close Wizard
-          </button>
-        </div>
-      </div>
-    </div>
-  </wizard-step>
+<template lang="pug">
+wizard-step(
+  :step-number="4",
+  title="Review & Generate",
+  :is-last-step="true",
+  :next-disabled="validationStatus === 'validating' || validationStatus === 'invalid'",
+  @back="store.prevStep()",
+  @next="onGenerate"
+)
+  //- Summary
+  .summary-card
+    .summary-row
+      span.summary-label Repositories
+      span.summary-value {{ repoCount }}
+    .summary-row
+      span.summary-label Branches
+      span.summary-value {{ branchCount }}
+    .summary-row
+      span.summary-label Authors
+      span.summary-value {{ authorCount }}
+    .summary-row
+      span.summary-label Groups
+      span.summary-value {{ groupCount }}
+  //- Inline preview snippet
+  .preview-box
+    .preview-box-header
+      span report-config.yaml
+      span.preview-hint Full preview visible in right pane
+    pre.preview-snippet {{ previewSnippet }}
+  //- Tier 3 validation status
+  .validation-status(v-if="validationStatus !== 'idle'")
+    span.status-validating(v-if="validationStatus === 'validating'") ⏳ Validating configuration...
+    span.status-valid(v-else-if="validationStatus === 'valid'") ✓ Configuration is valid
+    .status-invalid(v-else-if="validationStatus === 'invalid'")
+      p ✗ Validation failed: {{ validationError }}
+      button.btn.btn-link(@click="validationStatus = 'valid'") Dismiss and generate anyway
+  //- Generate result
+  .status-box(v-if="status", :class="status.type")
+    p {{ status.message }}
+    p.status-path(v-if="status.path")
+      | Generated at:
+      code {{ status.path }}
+    .next-steps(v-if="status.type === 'success'")
+      p.next-steps-label Next Steps:
+      code.run-command java -jar RepoSense.jar --config {{ statusDir(status.path!) }}
+      .success-actions
+        button.btn.btn-link.copy-cmd-btn(@click="copyCommand(status.path!)") Copy command
+        button.btn.btn-danger.close-btn(@click="quitWizard") Close Wizard
 </template>
 
 <script setup lang="ts">

@@ -1,60 +1,41 @@
-<template>
-  <wizard-step
-    :step-number="2"
-    title="Repos & Branches"
-    @back="store.prevStep()"
-    @next="onNext"
-  >
-    <div v-for="(repo, ri) in repos" :key="ri" class="card">
-      <div class="card-header">
-        <span class="card-title">Repository #{{ ri + 1 }}</span>
-        <button v-if="repos.length > 1" class="btn btn-danger" @click="removeRepo(ri)">
-          Remove
-        </button>
-      </div>
-      <div class="card-body">
-
-        <!-- Repo URL -->
-        <div class="form-group">
-          <label class="form-label">Repository URL <span class="required">*</span></label>
-          <input
-            v-model="repo.repo"
-            class="form-input"
-            :class="{ 'is-invalid': repo.error, 'is-valid': repo.valid }"
-            placeholder="e.g. https://github.com/reposense/RepoSense.git"
-            @blur="validateRepo(repo)"
-          />
-          <p v-if="repo.error" class="field-error">{{ repo.error }}</p>
-          <p v-else-if="repo.validating" class="field-hint">Validating...</p>
-          <p v-else-if="repo.valid" class="field-valid">✓ Valid repository location</p>
-        </div>
-
-        <!-- Branches -->
-        <div class="section-label">Branches</div>
-        <branch-card
-          v-for="(branch, bi) in repo.branches"
-          :key="bi"
-          :branch="branch"
-          :can-remove="repo.branches.length > 1"
-          :glob-error="getBranchGlobError(ri, bi)"
-          :email-errors="getBranchEmailErrors(ri, bi)"
-          @remove="removeBranch(repo, ri, bi)"
-          @validate-glob="(tag) => validateGlob(tag, ri, bi)"
-          @clear-glob-error="(tag) => clearGlobError(tag, ri, bi)"
-          @validate-emails="(emails, ai) => validateAllEmails(emails, ri, bi, ai)"
-          @remove-author="(ai) => removeAuthor(ri, bi, ai)"
-        />
-
-        <button class="btn btn-secondary add-branch-btn" @click="addBranch(repo)">
-          + Add Branch
-        </button>
-      </div>
-    </div>
-
-    <button class="btn btn-secondary add-repo-btn" @click="addRepo">
-      + Add Repository
-    </button>
-  </wizard-step>
+<template lang="pug">
+wizard-step(:step-number="2", title="Repos & Branches", @back="store.prevStep()", @next="onNext")
+  .card(v-for="(repo, ri) in repos", :key="ri")
+    .card-header
+      span.card-title Repository \#{{ ri + 1 }}
+      button.btn.btn-danger(v-if="repos.length > 1", @click="removeRepo(ri)") Remove
+    .card-body
+      //- Repo URL
+      .form-group
+        label.form-label
+          | Repository URL
+          span.required *
+        input.form-input(
+          v-model="repo.repo",
+          :class="{ 'is-invalid': repo.error, 'is-valid': repo.valid }",
+          placeholder="e.g. https://github.com/reposense/RepoSense.git",
+          @blur="validateRepo(repo)"
+        )
+        p.field-error(v-if="repo.error") {{ repo.error }}
+        p.field-hint(v-else-if="repo.validating") Validating...
+        p.field-valid(v-else-if="repo.valid") ✓ Valid repository location
+      //- Branches
+      .section-label Branches
+      branch-card(
+        v-for="(branch, bi) in repo.branches",
+        :key="bi",
+        :branch="branch",
+        :can-remove="repo.branches.length > 1",
+        :glob-error="getBranchGlobError(ri, bi)",
+        :email-errors="getBranchEmailErrors(ri, bi)",
+        @remove="removeBranch(repo, ri, bi)",
+        @validate-glob="(tag) => validateGlob(tag, ri, bi)",
+        @clear-glob-error="(tag) => clearGlobError(tag, ri, bi)",
+        @validate-emails="(emails, ai) => validateAllEmails(emails, ri, bi, ai)",
+        @remove-author="(ai) => removeAuthor(ri, bi, ai)"
+      )
+      button.btn.btn-secondary.add-branch-btn(@click="addBranch(repo)") + Add Branch
+  button.btn.btn-secondary.add-repo-btn(@click="addRepo") + Add Repository
 </template>
 
 <script setup lang="ts">

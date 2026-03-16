@@ -208,6 +208,19 @@ export function useReposValidation(repos: LocalRepo[]) {
     if (Object.keys(emailErrors).length > 0) {
       return 'Please fix invalid email addresses before proceeding.';
     }
+    for (const repo of repos) {
+      for (const branch of repo.branches) {
+        const { sinceDate, sinceTime, untilDate, untilTime } = branch;
+        if (sinceDate && untilDate) {
+          if (sinceDate > untilDate) {
+            return 'Since date must be on or before until date.';
+          }
+          if (sinceDate === untilDate && sinceTime && untilTime && sinceTime > untilTime) {
+            return 'Since time must be on or before until time on the same date.';
+          }
+        }
+      }
+    }
 
     // Tier 2: duplicate checks
     const urls = repos.map((r) => r.repo.trim());

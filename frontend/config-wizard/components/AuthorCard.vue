@@ -1,53 +1,36 @@
-<template>
-  <div class="author-card">
-    <div class="author-card-header">
-      <span class="nested-card-title">{{ author.gitId || `Author #${index + 1}` }}</span>
-      <button class="btn btn-danger" @click="emit('remove')">Remove</button>
-    </div>
-    <div class="author-card-body">
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Git Host ID <span class="required">*</span></label>
-          <input
-            v-model="author.gitId"
-            class="form-input"
-            :class="{ 'is-invalid': author.gitId && author.gitId.includes(' ') }"
-            placeholder="e.g. johndoe"
-          />
-          <p v-if="author.gitId && author.gitId.includes(' ')" class="field-error">
-            Git Host ID cannot contain spaces
-          </p>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Display Name</label>
-          <input
-            v-model="author.displayName"
-            class="form-input"
-            placeholder="e.g. John Doe"
-          />
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Emails</label>
-          <tag-chip-input
-            v-model="author.emails"
-            placeholder="e.g. john@example.com"
-            @tag-added="() => emit('validate-emails', author.emails)"
-            @tag-removed="() => emit('validate-emails', author.emails)"
-          />
-          <p v-if="emailError" class="field-error">{{ emailError }}</p>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Git Author Names</label>
-          <tag-chip-input
-            v-model="author.gitAuthorName"
-            placeholder="e.g. john"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+.author-card
+  .author-card-header
+    span.nested-card-title {{ author.gitId || `Author #${index + 1}` }}
+    button.btn.btn-danger(@click="emit('remove')") Remove
+  .author-card-body
+    .form-row
+      .form-group
+        label.form-label
+          | Git Host ID
+          span.required *
+        input.form-input(
+          v-model="author.gitId",
+          :class="{ 'is-invalid': author.gitId && author.gitId.includes(' ') }",
+          placeholder="e.g. johndoe"
+        )
+        p.field-error(v-if="author.gitId && author.gitId.includes(' ')") Git Host ID cannot contain spaces
+      .form-group
+        label.form-label Display Name
+        input.form-input(v-model="author.displayName", placeholder="e.g. John Doe")
+    .form-row
+      .form-group
+        label.form-label Emails
+        tag-chip-input(
+          v-model="author.emails",
+          placeholder="e.g. john@example.com",
+          @tag-added="() => emit('validate-emails', author.emails)",
+          @tag-removed="() => emit('validate-emails', author.emails)"
+        )
+        p.field-error(v-if="emailError") {{ emailError }}
+      .form-group
+        label.form-label Git Author Names
+        tag-chip-input(v-model="author.gitAuthorName", placeholder="e.g. john")
 </template>
 
 <script setup lang="ts">

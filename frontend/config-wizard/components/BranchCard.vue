@@ -1,127 +1,85 @@
-<template>
-  <div class="nested-card">
-    <div class="nested-card-header">
-      <span class="nested-card-title">Branch: {{ branch.branch || '(default)' }}</span>
-      <button v-if="canRemove" class="btn btn-danger" @click="emit('remove')">Remove</button>
-    </div>
-    <div class="nested-card-body">
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Branch Name</label>
-          <input
-            v-model="branch.branch"
-            class="form-input"
-            :class="{ 'is-invalid': branch.branch.includes(' ') }"
-            placeholder="e.g. main (leave empty for default)"
-          />
-          <p v-if="branch.branch.includes(' ')" class="field-error">
-            Branch name cannot contain spaces
-          </p>
-        </div>
-        <div class="form-group">
-          <label class="form-label">File Size Limit (bytes)</label>
-          <input
-            v-model="branch.fileSizeLimit"
-            type="number"
-            class="form-input"
-            placeholder="e.g. 500000"
-            min="0"
-          />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Blurb</label>
-        <input
-          v-model="branch.blurb"
-          class="form-input"
-          placeholder="Optional description for this branch"
-        />
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Since Date</label>
-          <input type="date" v-model="branch.sinceDate" class="form-input" />
-          <div v-if="branch.sinceDate" class="time-toggle">
-            <button
-              v-if="!branch.showSinceTime"
-              class="btn btn-link"
-              @click="branch.showSinceTime = true"
-            >+ Add time</button>
-            <div v-else class="time-row">
-              <input type="time" v-model="branch.sinceTime" class="form-input form-input--time" />
-              <button
-                class="btn btn-link"
-                @click="branch.showSinceTime = false; branch.sinceTime = ''"
-              >Remove time</button>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Until Date</label>
-          <input type="date" v-model="branch.untilDate" class="form-input" />
-          <div v-if="branch.untilDate" class="time-toggle">
-            <button
-              v-if="!branch.showUntilTime"
-              class="btn btn-link"
-              @click="branch.showUntilTime = true"
-            >+ Add time</button>
-            <div v-else class="time-row">
-              <input type="time" v-model="branch.untilTime" class="form-input form-input--time" />
-              <button
-                class="btn btn-link"
-                @click="branch.showUntilTime = false; branch.untilTime = ''"
-              >Remove time</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Ignore Glob List</label>
-          <tag-chip-input
-            v-model="branch.ignoreGlobList"
-            placeholder="e.g. node_modules/**"
-            @tag-added="(tag) => emit('validate-glob', tag)"
-            @tag-removed="(tag) => emit('clear-glob-error', tag)"
-          />
-          <p v-if="globError" class="field-error">{{ globError }}</p>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Ignore Authors List</label>
-          <tag-chip-input
-            v-model="branch.ignoreAuthorsList"
-            placeholder="e.g. bot-user"
-          />
-        </div>
-      </div>
-
-      <div class="section-label authors-label">
-        Authors
-        <button class="btn btn-link" @click="addAuthor">+ Add Author</button>
-      </div>
-
-      <div v-if="branch.authors.length === 0" class="empty-hint">
-        No authors configured — RepoSense will include all authors.
-      </div>
-
-      <author-card
-        v-for="(author, ai) in branch.authors"
-        :key="ai"
-        :author="author"
-        :index="ai"
-        :email-error="emailErrors[String(ai)] || ''"
-        @remove="removeAuthor(ai)"
-        @validate-emails="(emails) => emit('validate-emails', emails, ai)"
-      />
-    </div>
-  </div>
+<template lang="pug">
+.nested-card
+  .nested-card-header
+    span.nested-card-title Branch: {{ branch.branch || '(default)' }}
+    button.btn.btn-danger(v-if="canRemove", @click="emit('remove')") Remove
+  .nested-card-body
+    .form-row
+      .form-group
+        label.form-label Branch Name
+        input.form-input(
+          v-model="branch.branch",
+          :class="{ 'is-invalid': branch.branch.includes(' ') }",
+          placeholder="e.g. main (leave empty for default)"
+        )
+        p.field-error(v-if="branch.branch.includes(' ')") Branch name cannot contain spaces
+      .form-group
+        label.form-label File Size Limit (bytes)
+        input.form-input(
+          v-model="branch.fileSizeLimit",
+          type="number",
+          placeholder="e.g. 500000",
+          min="0"
+        )
+    .form-group
+      label.form-label Blurb
+      input.form-input(v-model="branch.blurb", placeholder="Optional description for this branch")
+    .form-row
+      .form-group
+        label.form-label Since Date
+        input.form-input(
+          type="date",
+          v-model="branch.sinceDate",
+          :class="{ 'is-invalid': dateRangeError }"
+        )
+        .time-toggle(v-if="branch.sinceDate")
+          button.btn.btn-link(v-if="!branch.showSinceTime", @click="branch.showSinceTime = true") + Add time
+          .time-row(v-else)
+            input.form-input.form-input--time(type="time", v-model="branch.sinceTime")
+            button.btn.btn-link(@click="branch.showSinceTime = false; branch.sinceTime = ''") Remove time
+      .form-group
+        label.form-label Until Date
+        input.form-input(
+          type="date",
+          v-model="branch.untilDate",
+          :class="{ 'is-invalid': dateRangeError }"
+        )
+        .time-toggle(v-if="branch.untilDate")
+          button.btn.btn-link(v-if="!branch.showUntilTime", @click="branch.showUntilTime = true") + Add time
+          .time-row(v-else)
+            input.form-input.form-input--time(type="time", v-model="branch.untilTime")
+            button.btn.btn-link(@click="branch.showUntilTime = false; branch.untilTime = ''") Remove time
+    p.field-error(v-if="dateRangeError") {{ dateRangeError }}
+    .form-row
+      .form-group
+        label.form-label Ignore Glob List
+        tag-chip-input(
+          v-model="branch.ignoreGlobList",
+          placeholder="e.g. node_modules/**",
+          @tag-added="(tag) => emit('validate-glob', tag)",
+          @tag-removed="(tag) => emit('clear-glob-error', tag)"
+        )
+        p.field-error(v-if="globError") {{ globError }}
+      .form-group
+        label.form-label Ignore Authors List
+        tag-chip-input(v-model="branch.ignoreAuthorsList", placeholder="e.g. bot-user")
+    .section-label.authors-label
+      | Authors
+      button.btn.btn-link(@click="addAuthor") + Add Author
+    .empty-hint(v-if="branch.authors.length === 0") No authors configured — RepoSense will include all authors.
+    author-card(
+      v-for="(author, ai) in branch.authors",
+      :key="ai",
+      :author="author",
+      :index="ai",
+      :email-error="emailErrors[String(ai)] || ''",
+      @remove="removeAuthor(ai)",
+      @validate-emails="(emails) => emit('validate-emails', emails, ai)"
+    )
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import { type LocalBranch, newAuthor } from '../types/wizard';
 import TagChipInput from './TagChipInput.vue';
 import AuthorCard from './AuthorCard.vue';
@@ -132,6 +90,16 @@ const props = defineProps<{
   globError: string;
   emailErrors: Record<string, string>;
 }>();
+
+const dateRangeError = computed(() => {
+  const { sinceDate, sinceTime, untilDate, untilTime } = props.branch;
+  if (!sinceDate || !untilDate) return '';
+  if (sinceDate > untilDate) return 'Since date must be on or before until date';
+  if (sinceDate === untilDate && sinceTime && untilTime && sinceTime > untilTime) {
+    return 'Since time must be on or before until time on the same date';
+  }
+  return '';
+});
 
 const emit = defineEmits<{
   remove: [];

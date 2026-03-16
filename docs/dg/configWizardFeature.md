@@ -204,6 +204,8 @@ frontend/
 │   │   └── wizard.ts          // Shared local-state interfaces (LocalAuthor, LocalBranch, LocalRepo) + factory functions
 │   ├── utils/
 │   │   └── dateConversion.ts  // parseStoredDate / toStoredDate helpers (dd/MM/yyyy ↔ yyyy-MM-dd)
+│   ├── composables/
+│   │   └── useReposValidation.ts  // Tier 1/2 validation logic; independently unit-testable
 │   │
 │   └── components/
 │       ├── WizardStep.vue     // Shared step wrapper (nav buttons, title)
@@ -740,7 +742,7 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 
 **Scope:**
 
-- ✅ **Tag-chip inputs**: `TagChipInput.vue` reusable component — add on Enter/comma/semicolon, remove on ×, duplicate tags silently rejected, emits `tag-added` for per-tag validation; replaces semicolon-separated string fields in `ReposStep.vue` and `GroupsStep.vue`
+- ✅ **Tag-chip inputs**: `TagChipInput.vue` reusable component — add on Enter/comma/semicolon, remove on ×, duplicate tags silently rejected, emits `tag-added` for per-tag validation and `tag-removed` for per-chip error cleanup; replaces semicolon-separated string fields in `ReposStep.vue` and `GroupsStep.vue`
 - ✅ **`/api/validate-glob` endpoint**: Syntactic glob validation using `FileSystems.getDefault().getPathMatcher("glob:" + pattern)`; catches `PatternSyntaxException`; does not check against actual repo file paths (see Future Enhancements)
 - ✅ **`/api/validate-config` endpoint**: Writes wizard payload to a temp file, calls `ReportConfigYamlParser.parse()`, returns parser exceptions as error messages; temp file always deleted in `finally`
 - ✅ **Tier 1 validation**: URL via `/api/validate` on blur; glob via `/api/validate-glob` on tag-add; email regex on frontend on tag-add; branch name and Git Host ID space-check inline; `since`/`until` dates use `<input type="date">` + optional `<input type="time">` toggle — native picker guarantees valid dates, eliminating the need for regex validation; values are converted from `yyyy-MM-dd HH:mm` (native format) to `dd/MM/yyyy HH:mm` (parser format) via `toStoredDate()` in `onNext`, and back via `parseStoredDate()` when re-entering the step

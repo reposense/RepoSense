@@ -1,24 +1,15 @@
-<template>
-  <div class="wizard-step">
-    <h2 class="step-heading">{{ title }}</h2>
-    <div class="step-content">
-      <slot></slot>
-    </div>
-    <div class="nav-buttons">
-      <button v-if="stepNumber > 1" class="btn btn-secondary" @click="emit('back')">
-        ← Back
-      </button>
-      <div v-else></div>
-      <div class="nav-right">
-        <button v-if="canSkip" class="btn btn-secondary" @click="emit('skip')">
-          Skip
-        </button>
-        <button class="btn btn-primary" :disabled="nextDisabled" @click="emit('next')">
-          {{ isLastStep ? 'Generate Config' : 'Next →' }}
-        </button>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+.wizard-step
+  h2.step-heading {{ title }}
+  .step-content
+    slot
+  .nav-buttons
+    button.btn.btn-secondary(v-if="stepNumber > 1", @click="emit('back')") ← Back
+    div(v-else)
+    .nav-right
+      button.btn.btn-secondary(v-if="canSkip", @click="emit('skip')") Skip
+      button.btn.btn-primary(:disabled="nextDisabled", @click="emit('next')")
+        | {{ isLastStep ? 'Generate Config' : 'Next →' }}
 </template>
 
 <script setup lang="ts">

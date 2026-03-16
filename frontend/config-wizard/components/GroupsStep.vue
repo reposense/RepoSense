@@ -1,70 +1,43 @@
-<template>
-  <wizard-step
-    :step-number="3"
-    title="Groups"
-    :can-skip="true"
-    @back="store.prevStep()"
-    @next="onNext"
-    @skip="onSkip"
-  >
-    <p class="step-description">
-      Groups classify files in a repository into named categories (e.g. frontend, backend, tests).
-      This step is optional.
-    </p>
-
-    <div v-if="repoGroups.length === 0" class="empty-hint">
-      No repositories configured. Go back to Step 2 to add repositories.
-    </div>
-
-    <div v-for="(rg, ri) in repoGroups" :key="ri" class="card">
-      <div class="card-header">
-        <span class="card-title" :title="rg.repoUrl">{{ shortUrl(rg.repoUrl) }}</span>
-      </div>
-      <div class="card-body">
-        <div v-if="rg.groups.length === 0" class="empty-hint">
-          No groups defined for this repository.
-        </div>
-
-        <div v-for="(group, gi) in rg.groups" :key="gi" class="nested-card">
-          <div class="nested-card-header">
-            <span class="nested-card-title">{{ group.groupName || `Group #${gi + 1}` }}</span>
-            <button class="btn btn-danger" @click="removeGroup(rg, gi)">Remove</button>
-          </div>
-          <div class="nested-card-body">
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">
-                  Group Name <span class="required">*</span>
-                </label>
-                <input
-                  v-model="group.groupName"
-                  class="form-input"
-                  placeholder="e.g. frontend"
-                />
-              </div>
-              <div class="form-group">
-                <label class="form-label">
-                  Glob Patterns <span class="required">*</span>
-                </label>
-                <tag-chip-input
-                  v-model="group.globs"
-                  placeholder="e.g. src/frontend/**"
-                  @tag-added="(tag) => validateGlob(tag, `${ri}-${gi}`)"
-                />
-                <p v-if="globErrors[`${ri}-${gi}`]" class="field-error">
-                  {{ globErrors[`${ri}-${gi}`] }}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <button class="btn btn-secondary add-group-btn" @click="addGroup(rg)">
-          + Add Group
-        </button>
-      </div>
-    </div>
-  </wizard-step>
+<template lang="pug">
+wizard-step(
+  :step-number="3",
+  title="Groups",
+  :can-skip="true",
+  @back="store.prevStep()",
+  @next="onNext",
+  @skip="onSkip"
+)
+  p.step-description
+    | Groups classify files in a repository into named categories (e.g. frontend, backend, tests).
+    | This step is optional.
+  .empty-hint(v-if="repoGroups.length === 0") No repositories configured. Go back to Step 2 to add repositories.
+  .card(v-for="(rg, ri) in repoGroups", :key="ri")
+    .card-header
+      span.card-title(:title="rg.repoUrl") {{ shortUrl(rg.repoUrl) }}
+    .card-body
+      .empty-hint(v-if="rg.groups.length === 0") No groups defined for this repository.
+      .nested-card(v-for="(group, gi) in rg.groups", :key="gi")
+        .nested-card-header
+          span.nested-card-title {{ group.groupName || `Group #${gi + 1}` }}
+          button.btn.btn-danger(@click="removeGroup(rg, gi)") Remove
+        .nested-card-body
+          .form-row
+            .form-group
+              label.form-label
+                | Group Name
+                span.required *
+              input.form-input(v-model="group.groupName", placeholder="e.g. frontend")
+            .form-group
+              label.form-label
+                | Glob Patterns
+                span.required *
+              tag-chip-input(
+                v-model="group.globs",
+                placeholder="e.g. src/frontend/**",
+                @tag-added="(tag) => validateGlob(tag, `${ri}-${gi}`)"
+              )
+              p.field-error(v-if="globErrors[`${ri}-${gi}`]") {{ globErrors[`${ri}-${gi}`] }}
+      button.btn.btn-secondary.add-group-btn(@click="addGroup(rg)") + Add Group
 </template>
 
 <script setup lang="ts">
