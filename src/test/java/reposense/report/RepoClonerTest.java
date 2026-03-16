@@ -9,15 +9,16 @@ import org.junit.jupiter.api.Test;
 
 import reposense.model.RepoConfiguration;
 import reposense.model.RepoLocation;
+import reposense.template.RepoTempCleanupTestTemplate;
 import reposense.util.FileUtil;
 import reposense.util.TestRepoCloner;
 
-public class RepoClonerTest {
+public class RepoClonerTest extends RepoTempCleanupTestTemplate {
 
     private static final String TEST_REPO_EMPTY_GIT_LOCATION = "https://github.com/reposense/testrepo-Empty.git";
     private static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
     private static final Path REPOCLONE_LOCAL_TEST_PATH =
-            Paths.get(FileUtil.REPOS_ADDRESS, "repoclone test/dummy-repo");
+            FileUtil.getRepoBasePath().resolve(Paths.get("repoclone test/dummy-repo"));
 
     @Test
     public void repoCloner_emptyRepo_failsGracefully() throws Exception {

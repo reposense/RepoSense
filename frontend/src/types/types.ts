@@ -82,6 +82,25 @@ export interface AuthorshipFile {
   wasCodeLoaded: boolean;
 }
 
+export interface GlobalFileEntry {
+  repoName: string;
+  path: string;
+  fileType: string;
+  lineCount: number;
+  authors: string[];
+  authorContributionMap: Record<string, number>;
+  isBinary: boolean;
+  isIgnored: boolean;
+  active: boolean;
+  lines?: Array<{
+    lineNumber: number,
+    author: { gitId: string },
+    content: string,
+    isFullCredit: boolean,
+  }>;
+  segments?: AuthorshipFileSegment[];
+}
+
 export interface Bar {
   width: number;
   color?: string;

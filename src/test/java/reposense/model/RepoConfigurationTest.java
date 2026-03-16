@@ -24,11 +24,12 @@ import reposense.parser.ConfigurationBuildException;
 import reposense.parser.GroupConfigCsvParser;
 import reposense.parser.RepoConfigCsvParser;
 import reposense.report.ReportGenerator;
+import reposense.template.RepoTempCleanupTestTemplate;
 import reposense.util.InputBuilder;
 import reposense.util.TestRepoCloner;
 import reposense.util.TestUtil;
 
-public class RepoConfigurationTest {
+public class RepoConfigurationTest extends RepoTempCleanupTestTemplate {
     private static final Path IGNORE_STANDALONE_TEST_CONFIG_FILES =
             loadResource(RepoConfigurationTest.class, "RepoConfigurationTest/repoconfig_ignoreStandAlone_test");
     private static final Path IGNORE_STANDALONE_KEYWORD_TEST_CONFIG_FILES =

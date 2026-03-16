@@ -34,6 +34,7 @@
       }
     }
   ],
+  "pagesExclude": ["node_modules/*"],
   "deploy": {
     "message": "Site Update."
   },

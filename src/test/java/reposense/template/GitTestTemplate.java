@@ -36,7 +36,7 @@ import reposense.util.TestRepoCloner;
  * Contains templates for git testing.
  */
 
-public class GitTestTemplate {
+public class GitTestTemplate extends RepoTempCleanupTestTemplate {
     protected static final String TEST_REPO_GIT_LOCATION = "https://github.com/reposense/testrepo-Alpha.git";
     protected static final String IGNORE_REVS_FILE_NAME = ".git-blame-ignore-revs";
     protected static final String TEST_REPO_BLAME_WITH_PREVIOUS_AUTHORS_BRANCH = "1565-find-previous-authors";

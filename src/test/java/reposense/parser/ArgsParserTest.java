@@ -801,6 +801,25 @@ public class ArgsParserTest {
     }
 
     @Test
+    public void parse_withAuthorDedupMode_success() throws Exception {
+        String input = new InputBuilder()
+                .addRepos(TEST_REPO_REPOSENSE, TEST_REPO_BETA)
+                .add("--author-dedup-mode")
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assertions.assertTrue(cliArguments.isAuthorDedupMode());
+    }
+
+    @Test
+    public void parse_withoutAuthorDedupMode_success() throws Exception {
+        String input = new InputBuilder().addRepos(TEST_REPO_REPOSENSE, TEST_REPO_BETA).build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assertions.assertFalse(cliArguments.isAuthorDedupMode());
+    }
+
+    @Test
     public void parse_withRefreshTextOnly_success() throws Exception {
         String input = new InputBuilder().addOnlyTextRefreshed().build();
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
@@ -814,6 +833,29 @@ public class ArgsParserTest {
         CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
 
         Assertions.assertFalse(cliArguments.isOnlyTextRefreshed());
+    }
+
+    @Test
+    public void parse_withAuthorDedupModeAndConfig_success() throws Exception {
+        String input = new InputBuilder()
+                .addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .add("--author-dedup-mode")
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        Assertions.assertTrue(cliArguments.isAuthorDedupMode());
+    }
+
+    @Test
+    public void parse_withAuthorDedupModeWithoutConfig_success() throws Exception {
+        String input = new InputBuilder()
+                .addRepos(TEST_REPO_REPOSENSE, TEST_REPO_BETA)
+                .add("--author-dedup-mode")
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+
+        // Flag should still be set as true, but a warning should be logged
+        Assertions.assertTrue(cliArguments.isAuthorDedupMode());
     }
 
     /**

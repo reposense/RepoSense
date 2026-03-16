@@ -106,7 +106,7 @@ public class GitClone {
             throws GitCloneException, IOException {
         Path relativePath = FileUtil.getBareRepoPath(config);
         String outputFolderName = Paths.get(config.getRepoFolderName(), config.getRepoName()).toString();
-        Path outputFolderPath = Paths.get(FileUtil.REPOS_ADDRESS, outputFolderName);
+        Path outputFolderPath = FileUtil.getRepoBasePath().resolve(outputFolderName);
 
         if (!SystemUtil.isTestEnvironment()) {
             FileUtil.deleteDirectory(outputFolderPath.toString());

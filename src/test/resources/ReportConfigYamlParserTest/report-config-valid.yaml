@@ -20,4 +20,6 @@ repos:
         ignore-glob-list:
           - "**.md"
         file-size-limit: 2000000
+        since: 1/1/2024
+        until: 11/11/2024
 

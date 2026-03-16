@@ -1,9 +1,9 @@
 describe('search bar', () => {
   it('non-existent author shows no result', () => {
     cy.get('#app #tab-resize .tab-close').click();
-    // First one is the global file search, second one is the search for repos
+    // Get the search box (now the only text input after filter mode became a dropdown)
     cy.get('#summary-wrapper input[type=text]')
-      .eq(1)
+      .eq(0)
       .type('abcdef')
       .type('{enter}');
 
@@ -20,7 +20,7 @@ describe('search bar', () => {
   it('unique author shows one result', () => {
     cy.get('#app #tab-resize .tab-close').click();
     cy.get('#summary-wrapper input[type=text]')
-      .eq(1)
+      .eq(0)
       .type('Metta')
       .type('{enter}');
 
@@ -36,7 +36,7 @@ describe('search bar', () => {
   it('searching by non-existent tag shows no results', () => {
     cy.get('#app #tab-resize .tab-close').click();
     cy.get('#summary-wrapper input[type=text]')
-      .eq(1)
+      .eq(0)
       .type('tag: asdfghjkl')
       .type('{enter}');
 
@@ -50,7 +50,7 @@ describe('search bar', () => {
   it("searching tag that only exists in one author's commits shows one result", () => {
     cy.get('#app #tab-resize .tab-close').click();
     cy.get('#summary-wrapper input[type=text]')
-      .eq(1)
+      .eq(0)
       .type('tag: v1.8')
       .type('{enter}');
 
@@ -73,7 +73,7 @@ describe('search bar', () => {
   it("searching tag that only exists in two authors' commits shows two results", () => {
     cy.get('#app #tab-resize .tab-close').click();
     cy.get('#summary-wrapper input[type=text]')
-      .eq(1)
+      .eq(0)
       .type('tag: v1.10')
       .type('{enter}');
 
@@ -97,7 +97,7 @@ describe('search bar', () => {
   it("search field doesn't start with 'tag:' prefix but still contains it shows no results", () => {
     cy.get('#app #tab-resize .tab-close').click();
     cy.get('#summary-wrapper input[type=text]')
-      .eq(1)
+      .eq(0)
       .type('v1.10 tag: v1.10')
       .type('{enter}');
 
@@ -111,7 +111,7 @@ describe('search bar', () => {
   it("search field doesn't contain 'tag:' at all shows no results", () => {
     cy.get('#app #tab-resize .tab-close').click();
     cy.get('#summary-wrapper input[type=text]')
-      .eq(1)
+      .eq(0)
       .type('v1.10')
       .type('{enter}');
 
@@ -125,7 +125,7 @@ describe('search bar', () => {
   it('searching for multiple tags shows results containing all the tags searched', () => {
     cy.get('#app #tab-resize .tab-close').click();
     cy.get('#summary-wrapper input[type=text]')
-      .eq(1)
+      .eq(0)
       .type('tag: bb v1.10')
       .type('{enter}');
 

@@ -97,7 +97,7 @@ public class ReportGenerator {
     private static final String LOG_ERROR_CLONING_OR_BRANCHING = "Exception met while cloning or checking out.";
     private static final String LOG_UNEXPECTED_ERROR = "Unexpected error stack trace for %s:\n>%s";
     private static final List<String> assetsFilesWhiteList =
-            Collections.unmodifiableList(Arrays.asList(new String[] {"assets/favicon.ico", "title.md"}));
+             Collections.unmodifiableList(Arrays.asList(new String[] { "assets/favicon.ico", "intro.md" }));
 
     private LocalDateTime earliestSinceDate = null;
 
@@ -197,7 +197,6 @@ public class ReportGenerator {
 
         this.globalSinceDate = TimeUtil.isEqualToArbitraryFirstDateConverted(this.globalSinceDate, zoneId)
                 ? earliestSinceDate : this.globalSinceDate;
-
 
         Optional<Path> summaryPath = FileUtil.writeJsonFile(
                 new SummaryJson(configs, reportConfig, generationDate,
@@ -504,6 +503,27 @@ public class ReportGenerator {
             }
 
             config.setAuthorList(authorList);
+        } else if (config.isAuthorDedupMode() && config.getAuthorConfig().hasAuthorConfigFile()) {
+            // In dedup mode, add all commit authors to the config while keeping configured aliases
+            logger.info(String.format("Author dedup mode enabled. Including all commit authors while "
+                    + "preserving configured aliases for %s (%s).", config.getLocation(), config.getBranch()));
+            List<Author> authorList = GitShortlog.getAuthors(config);
+
+            if (authorList.isEmpty()) {
+                throw new NoAuthorsWithCommitsFoundException();
+            }
+
+            // Add all commit authors to the config, but skip those that match configured aliases
+            for (Author commitAuthor : authorList) {
+                String gitId = commitAuthor.getGitId();
+                Author configuredAuthor = config.getAuthorConfig()
+                        .getAuthor(gitId, gitId);
+
+                if (configuredAuthor == Author.UNKNOWN_AUTHOR) {
+                    // Not in configured authors/aliases, add as new author
+                    config.addAuthor(commitAuthor);
+                }
+            }
         }
         config.removeIgnoredAuthors();
     }

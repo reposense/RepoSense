@@ -155,7 +155,12 @@ public class RepoCloner {
      * Cleans up after all repos have been cloned and analyzed.
      */
     public void cleanup() {
-        deleteDirectory(FileUtil.REPOS_ADDRESS);
+        // In tests, keep cloned repos across runs so system tests can intentionally reuse them
+        // (unless --fresh-cloning is requested). Gradle task hooks handle full cleanup.
+        if (SystemUtil.isTestEnvironment()) {
+            return;
+        }
+        FileUtil.cleanupRepoBasePath();
     }
 
     /**
@@ -313,7 +318,8 @@ public class RepoCloner {
      */
     private boolean waitForCloneProcess(RepoConfiguration config) {
         try {
-            Path repoPath = Paths.get(FileUtil.REPOS_ADDRESS, config.getRepoFolderName(), config.getRepoName());
+            Path repoPath = FileUtil.getRepoBasePath().resolve(Paths.get(
+                    config.getRepoFolderName(), config.getRepoName()));
 
             if (SystemUtil.isTestEnvironment() && Files.exists(repoPath)) {
                 return true;
