@@ -503,6 +503,27 @@ public class ReportGenerator {
             }
 
             config.setAuthorList(authorList);
+        } else if (config.isAuthorDedupMode() && config.getAuthorConfig().hasAuthorConfigFile()) {
+            // In dedup mode, add all commit authors to the config while keeping configured aliases
+            logger.info(String.format("Author dedup mode enabled. Including all commit authors while "
+                    + "preserving configured aliases for %s (%s).", config.getLocation(), config.getBranch()));
+            List<Author> authorList = GitShortlog.getAuthors(config);
+
+            if (authorList.isEmpty()) {
+                throw new NoAuthorsWithCommitsFoundException();
+            }
+
+            // Add all commit authors to the config, but skip those that match configured aliases
+            for (Author commitAuthor : authorList) {
+                String gitId = commitAuthor.getGitId();
+                Author configuredAuthor = config.getAuthorConfig()
+                        .getAuthor(gitId, gitId);
+
+                if (configuredAuthor == Author.UNKNOWN_AUTHOR) {
+                    // Not in configured authors/aliases, add as new author
+                    config.addAuthor(commitAuthor);
+                }
+            }
         }
         config.removeIgnoredAuthors();
     }

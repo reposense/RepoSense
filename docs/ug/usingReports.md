@@ -36,8 +36,7 @@ Here is an example of how a typical report looks like:
 
 ![report](../images/report-features.png)
 
-The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits panel**_](#commits-panel) will appear in place of the _code panel_. All three are explained in the sections below.
-
+The report is divided into two sections: [_**Chart panel**_](#chart-panel) and the [_**Code panel**_](#code-panel). In some situations, the [_**Commits panel**_](#commits-panel) or the [_**Global file browser**_](#global-file-browser) will appear in place of the Code panel.
 <box type="info" seamless>
 
 Links to external webpages (repository link, author's profile, blame view, etc.) is only properly supported when RepoSense analyzes a remote repository belonging to GitHub, GitLab or BitBucket.
@@ -189,3 +188,81 @@ The `Commits panel` allows users to see the commits attributed to a specific aut
 * To promote and encourage the 50/72 rule for commit messages, a dotted vertical line will be shown for:
   * Commit message subject that exceeds 50 characters.
   * Commit message body after the 72nd character mark.
+
+## Global file browser panel
+
+The `Global file browser` provides a way to search and browse files across all repositories in the report. Unlike the [Code panel](#code-panel), which shows code attributed to a single author within one repository, the global file browser lets you explore files from every repository at once.
+
+#### Accessing the global file browser
+
+1. Locate the **filter mode** dropdown at the top of the tool bar.
+2. Select **Global** from the dropdown.
+3. The global file browser will appear on the right side of the report, replacing the Code panel.
+
+To return to the normal view, select **Local** from the dropdown. You can also click any author's %%:fas-code:%% or %%:fas-list-ul:%% icon in the Chart panel, which automatically switches the filter mode back to Local and opens the corresponding Code or Commits panel.
+
+<box type="info" seamless>
+
+When you switch to global mode, any previously highlighted author in the Chart panel is deselected. Likewise, switching back to Local mode (or clicking an author icon) closes the global file browser.
+</box>
+
+#### Filtering files with glob patterns
+
+The search input at the top of the panel filters files using [glob patterns](https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob). The file count updates in real-time as you type.
+
+<box type="tip" seamless>
+
+Glob matching uses the `matchBase` option, so a pattern like `*.java` will match `src/main/App.java` even though the file is nested in subdirectories. You do not need to prefix every pattern with `**/`.
+</box>
+
+#### View modes
+
+The global file browser offers two view modes, toggled by the buttons below the search input:
+
+##### Sort By Path (default)
+
+Files from all repositories are displayed in a single flat list, sorted alphabetically by file path.
+
+##### Group By Repo
+
+Files are organized under collapsible repository headers, sorted alphabetically by repository name.
+
+Each repository group shows:
+* The **repository name** and **total file count** in the group header.
+* A **badge** that reads _Click to expand_ or _Click to collapse_, indicating the current state.
+* A **preview** of the top 3 matching files when the group is collapsed.
+* An **"and N more file(s)..."** link if the repository has more than 3 matching files. Clicking this link lists all remaining files (without expanding their contents).
+
+**Expanding all files in a repository group:** Click the **repository group header** to expand (or collapse) _all_ files in that group at once. This opens every file's content simultaneously, which is useful for quickly scanning an entire repository. Each repository group can be expanded and collapsed independently.
+
+<box type="info" seamless>
+
+Switching between _Sort By Path_ and _Group By Repo_ collapses all currently expanded files.
+</box>
+
+#### Viewing file contents
+
+Click on any non-binary, non-ignored file header to expand it and view its contents. Click the same header again to collapse it.
+
+The file content is displayed as **author-colored segments**:
+* Each contiguous block of lines written by the same author is shown as a segment with a **colored left border** identifying the author.
+* Hover over a segment to see a **tooltip** showing the author's name and whether they are the primary author or a co-author.
+
+<box type="info" seamless>
+
+Binary files (such as images, executables, and archives) and ignored files cannot be expanded. These files are indicated with yellow **binary** or **ignored** badges.
+</box>
+
+#### Use cases
+
+The global file browser is particularly useful for:
+
+* **Cross-repository code search**: Find files matching a specific pattern (e.g., `*.yml` for CI configs) across all repositories.
+* **Code review**: Quickly browse all files of a specific type and see who wrote each line.
+* **Comparing implementations**: Filter for files with similar names or extensions across different repositories to compare how they are implemented.
+* **Identifying authorship**: Expand files to see author-colored segments, making it easy to identify who contributed which parts of a file.
+
+<box type="tip" seamless>
+
+Combine glob patterns with the Group By Repo view to see how a specific file type is distributed across repositories. For example, filter by `**/*Test*.java` and switch to Group By Repo to see which repositories have Java test files and how many.
+</box>

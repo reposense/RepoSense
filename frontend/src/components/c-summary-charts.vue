@@ -351,7 +351,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { mapState } from 'vuex';
 
 import brokenLinkDisabler from '../mixin/brokenLinkMixin';
@@ -441,6 +441,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    fileFilterScope: {
+      type: String as PropType<'global' | 'local'>,
+      default: 'local',
+    },
   },
   data(): {
     drags: Array<number>,
@@ -508,7 +512,11 @@ export default defineComponent({
         this.removeSelectedTab();
       }
     },
-
+    fileFilterScope(newValue: 'global' | 'local') {
+      if (newValue === 'global') {
+        this.removeSelectedTab();
+      }
+    },
     // watching so highlighted only when summary charts are rendered
     filteredRepos() {
       this.$nextTick(() => {
@@ -708,6 +716,7 @@ export default defineComponent({
       };
       this.addSelectedTab(user.name, user.repoName, 'authorship', isMerged);
       this.$store.commit('updateTabAuthorshipInfo', info);
+      this.$emit('open-local-tab');
     },
 
     openTabZoomSubrange(user: User, evt: MouseEvent, isMerged: boolean): void {
@@ -759,6 +768,7 @@ export default defineComponent({
       };
       this.addSelectedTab(user.name, user.repoName, 'zoom', isMerged);
       this.$store.commit('updateTabZoomInfo', info);
+      this.$emit('open-local-tab');
     },
 
     async getEmbeddedIframe(chartGroupIndex: number, chartIndex: number = -1): Promise<void> {

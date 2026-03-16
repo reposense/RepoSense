@@ -16,6 +16,7 @@
     v-model:has-modified-since-date="hasModifiedSinceDate",
     v-model:has-modified-until-date="hasModifiedUntilDate",
     v-model:filtered-file-name="filteredFileName",
+    v-model:file-filter-scope="fileFilterScope",
     :min-date="minDate",
     :max-date="maxDate",
     :is-input-date-supported="isInputDateSupported",
@@ -55,7 +56,9 @@
     :chart-group-index="chartGroupIndex",
     :chart-index="chartIndex",
     :view-repo-tags="viewRepoTags",
-    :optimise-timeline="optimiseTimeline"
+    :optimise-timeline="optimiseTimeline",
+    :file-filter-scope="fileFilterScope",
+    @open-local-tab="resetFileFilterScopeToLocal"
   )
 
   .logo(v-if="isWidgetMode")
@@ -78,6 +81,7 @@ import {
   Repo,
   User,
   isCommit,
+  GlobalFileEntry,
 } from '../types/types';
 import {
   AuthorDailyContributions,
@@ -104,6 +108,10 @@ export default defineComponent({
   // Common summary functionality in summaryMixin.ts
   mixins: [summaryMixin],
 
+  emits: [
+    'view-file-browser',
+    'go-back-to-welcome-tab'],
+
   data(): {
     filterSearch: string,
     filterGroupSelection: FilterGroupSelection,
@@ -123,6 +131,9 @@ export default defineComponent({
     maxDate: string,
     viewRepoTags: boolean,
     filteredFileName: string,
+    fileFilterScope: 'global' | 'local',
+    globalFiles: Array<GlobalFileEntry>,
+    isResettingFileFilterScope: boolean,
   } {
     return {
       filterSearch: '',
@@ -142,7 +153,10 @@ export default defineComponent({
       minDate: window.sinceDate,
       maxDate: window.untilDate,
       viewRepoTags: false,
-      filteredFileName: ''
+      filteredFileName: '',
+      fileFilterScope: 'local' as 'global' | 'local',
+      globalFiles: [] as Array<GlobalFileEntry>,
+      isResettingFileFilterScope: false,
     };
   },
 
@@ -216,6 +230,35 @@ export default defineComponent({
       handler(): void {
         this.getFiltered();
       },
+    },
+
+    fileFilterScope: {
+      async handler(newValue: 'global' | 'local'): Promise<void> {
+        if (this.isResettingFileFilterScope) {
+          this.isResettingFileFilterScope = false;
+          return;  // Skip the tab-switching side-effect, to avoid any race
+        }
+        if (newValue === 'global') {
+          // Load global files if not already loaded
+          if (this.globalFiles.length === 0) {
+            this.$store.dispatch('incrementLoadingOverlayCount', 1);
+            try {
+              this.globalFiles = await window.api.loadAllAuthorship();
+            } catch (error) {
+              // eslint-disable-next-line no-console
+              console.error('Failed to load global authorship:', error);
+            } finally {
+              this.$store.dispatch('incrementLoadingOverlayCount', -1);
+            }
+          }
+
+          // Open the global file browser tab
+          this.$emit('view-file-browser', this.globalFiles);
+        } else if (newValue === 'local') {
+          this.$emit('go-back-to-welcome-tab');
+        }
+      },
+      immediate: false,
     },
   },
 
@@ -687,6 +730,13 @@ export default defineComponent({
       }
 
       return window.getDateStr(datems);
+    },
+
+    resetFileFilterScopeToLocal(): void {
+      if (this.fileFilterScope !== 'local') {
+        this.isResettingFileFilterScope = true;
+        this.fileFilterScope = 'local';
+      }
     },
   },
 });

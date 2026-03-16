@@ -122,6 +122,10 @@ describe('optimise timeline', () => {
   it('subzoom panel range should work correctly when timeline is optimised', () => {
     const zoomKey = Cypress.platform === 'darwin' ? '{meta}' : '{ctrl}';
 
+    // Set granularity to commit to show individual commit slices
+    cy.get('div.mui-select.granularity > select:visible')
+      .select('Commit');
+
     cy.get('#summary label.optimise-timeline > input:visible')
       .should('be.visible')
       .check()
