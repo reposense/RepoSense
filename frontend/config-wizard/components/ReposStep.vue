@@ -31,169 +31,19 @@
 
         <!-- Branches -->
         <div class="section-label">Branches</div>
-        <div v-for="(branch, bi) in repo.branches" :key="bi" class="nested-card">
-          <div class="nested-card-header">
-            <span class="nested-card-title">Branch: {{ branch.branch || '(default)' }}</span>
-            <button
-              v-if="repo.branches.length > 1"
-              class="btn btn-danger"
-              @click="removeBranch(repo, bi)"
-            >
-              Remove
-            </button>
-          </div>
-          <div class="nested-card-body">
-
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">Branch Name</label>
-                <input
-                  v-model="branch.branch"
-                  class="form-input"
-                  :class="{ 'is-invalid': branch.branch.includes(' ') }"
-                  placeholder="e.g. main (leave empty for default)"
-                />
-                <p v-if="branch.branch.includes(' ')" class="field-error">
-                  Branch name cannot contain spaces
-                </p>
-              </div>
-              <div class="form-group">
-                <label class="form-label">File Size Limit (bytes)</label>
-                <input
-                  v-model="branch.fileSizeLimit"
-                  type="number"
-                  class="form-input"
-                  placeholder="e.g. 500000"
-                  min="0"
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Blurb</label>
-              <input
-                v-model="branch.blurb"
-                class="form-input"
-                placeholder="Optional description for this branch"
-              />
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">Since Date</label>
-                <input
-                  v-model="branch.since"
-                  class="form-input"
-                  :class="{ 'is-invalid': dateErrors[`${ri}-${bi}-since`] }"
-                  placeholder="dd/MM/yyyy"
-                  @blur="validateDate(branch.since, `${ri}-${bi}-since`)"
-                />
-                <p v-if="dateErrors[`${ri}-${bi}-since`]" class="field-error">
-                  {{ dateErrors[`${ri}-${bi}-since`] }}
-                </p>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Until Date</label>
-                <input
-                  v-model="branch.until"
-                  class="form-input"
-                  :class="{ 'is-invalid': dateErrors[`${ri}-${bi}-until`] }"
-                  placeholder="dd/MM/yyyy"
-                  @blur="validateDate(branch.until, `${ri}-${bi}-until`)"
-                />
-                <p v-if="dateErrors[`${ri}-${bi}-until`]" class="field-error">
-                  {{ dateErrors[`${ri}-${bi}-until`] }}
-                </p>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label class="form-label">Ignore Glob List</label>
-                <tag-chip-input
-                  v-model="branch.ignoreGlobList"
-                  placeholder="e.g. node_modules/**"
-                  @tag-added="(tag) => validateGlob(tag, `${ri}-${bi}`)"
-                />
-                <p v-if="globErrors[`${ri}-${bi}`]" class="field-error">
-                  {{ globErrors[`${ri}-${bi}`] }}
-                </p>
-              </div>
-              <div class="form-group">
-                <label class="form-label">Ignore Authors List</label>
-                <tag-chip-input
-                  v-model="branch.ignoreAuthorsList"
-                  placeholder="e.g. bot-user"
-                />
-              </div>
-            </div>
-
-            <!-- Authors -->
-            <div class="section-label authors-label">
-              Authors
-              <button class="btn btn-link" @click="addAuthor(branch)">+ Add Author</button>
-            </div>
-
-            <div v-if="branch.authors.length === 0" class="empty-hint">
-              No authors configured — RepoSense will include all authors.
-            </div>
-
-            <div v-for="(author, ai) in branch.authors" :key="ai" class="author-card">
-              <div class="author-card-header">
-                <span class="nested-card-title">
-                  {{ author.gitId || `Author #${ai + 1}` }}
-                </span>
-                <button class="btn btn-danger" @click="removeAuthor(branch, ai)">Remove</button>
-              </div>
-              <div class="author-card-body">
-                <div class="form-row">
-                  <div class="form-group">
-                    <label class="form-label">
-                      Git Host ID <span class="required">*</span>
-                    </label>
-                    <input
-                      v-model="author.gitId"
-                      class="form-input"
-                      :class="{ 'is-invalid': author.gitId && author.gitId.includes(' ') }"
-                      placeholder="e.g. johndoe"
-                    />
-                    <p v-if="author.gitId && author.gitId.includes(' ')" class="field-error">
-                      Git Host ID cannot contain spaces
-                    </p>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Display Name</label>
-                    <input
-                      v-model="author.displayName"
-                      class="form-input"
-                      placeholder="e.g. John Doe"
-                    />
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="form-group">
-                    <label class="form-label">Emails</label>
-                    <tag-chip-input
-                      v-model="author.emails"
-                      placeholder="e.g. john@example.com"
-                      @tag-added="(tag) => validateEmail(tag, `${ri}-${bi}-${ai}`)"
-                    />
-                    <p v-if="emailErrors[`${ri}-${bi}-${ai}`]" class="field-error">
-                      {{ emailErrors[`${ri}-${bi}-${ai}`] }}
-                    </p>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Git Author Names</label>
-                    <tag-chip-input
-                      v-model="author.gitAuthorName"
-                      placeholder="e.g. john"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <branch-card
+          v-for="(branch, bi) in repo.branches"
+          :key="bi"
+          :branch="branch"
+          :can-remove="repo.branches.length > 1"
+          :glob-error="getBranchGlobError(ri, bi)"
+          :email-errors="getBranchEmailErrors(ri, bi)"
+          @remove="removeBranch(repo, ri, bi)"
+          @validate-glob="(tag) => validateGlob(tag, ri, bi)"
+          @clear-glob-error="(tag) => clearGlobError(tag, ri, bi)"
+          @validate-emails="(emails, ai) => validateAllEmails(emails, ri, bi, ai)"
+          @remove-author="(ai) => removeAuthor(ri, bi, ai)"
+        />
 
         <button class="btn btn-secondary add-branch-btn" @click="addBranch(repo)">
           + Add Branch
@@ -210,60 +60,11 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import { store } from '../store';
+import { type LocalRepo, newBranch, newRepo } from '../types/wizard';
+import { parseStoredDate, toStoredDate } from '../utils/dateConversion';
+import { useReposValidation } from '../composables/useReposValidation';
 import WizardStep from './WizardStep.vue';
-import TagChipInput from './TagChipInput.vue';
-
-interface LocalAuthor {
-  gitId: string;
-  displayName: string;
-  emails: string[];
-  gitAuthorName: string[];
-}
-
-interface LocalBranch {
-  branch: string;
-  blurb: string;
-  ignoreGlobList: string[];
-  ignoreAuthorsList: string[];
-  fileSizeLimit: string;
-  since: string;
-  until: string;
-  authors: LocalAuthor[];
-}
-
-interface LocalRepo {
-  repo: string;
-  error: string;
-  valid: boolean;
-  validating: boolean;
-  branches: LocalBranch[];
-}
-
-const newAuthor = (): LocalAuthor => ({
-  gitId: '',
-  displayName: '',
-  emails: [],
-  gitAuthorName: [],
-});
-
-const newBranch = (): LocalBranch => ({
-  branch: '',
-  blurb: '',
-  ignoreGlobList: [],
-  ignoreAuthorsList: [],
-  fileSizeLimit: '',
-  since: '',
-  until: '',
-  authors: [],
-});
-
-const newRepo = (): LocalRepo => ({
-  repo: '',
-  error: '',
-  valid: false,
-  validating: false,
-  branches: [newBranch()],
-});
+import BranchCard from './BranchCard.vue';
 
 const initRepos = (): LocalRepo[] => {
   if (store.config.repos.length === 0) return [newRepo()];
@@ -272,160 +73,65 @@ const initRepos = (): LocalRepo[] => {
     error: '',
     valid: true,
     validating: false,
-    branches: r.branches.map((b) => ({
-      branch: b.branch,
-      blurb: b.blurb,
-      ignoreGlobList: [...b['ignore-glob-list']],
-      ignoreAuthorsList: [...b['ignore-authors-list']],
-      fileSizeLimit: b['file-size-limit'] != null ? String(b['file-size-limit']) : '',
-      since: b.since || '',
-      until: b.until || '',
-      authors: b.authors.map((a) => ({
-        gitId: a['author-git-host-id'],
-        displayName: a['author-display-name'],
-        emails: [...a['author-emails']],
-        gitAuthorName: [...a['author-git-author-name']],
-      })),
-    })),
+    branches: r.branches.map((b) => {
+      const since = parseStoredDate(b.since);
+      const until = parseStoredDate(b.until);
+      return {
+        branch: b.branch,
+        blurb: b.blurb,
+        ignoreGlobList: [...b['ignore-glob-list']],
+        ignoreAuthorsList: [...b['ignore-authors-list']],
+        fileSizeLimit: b['file-size-limit'] != null ? String(b['file-size-limit']) : '',
+        sinceDate: since.date,
+        sinceTime: since.time,
+        showSinceTime: !!since.time,
+        untilDate: until.date,
+        untilTime: until.time,
+        showUntilTime: !!until.time,
+        authors: b.authors.map((a) => ({
+          gitId: a['author-git-host-id'],
+          displayName: a['author-display-name'],
+          emails: [...a['author-emails']],
+          gitAuthorName: [...a['author-git-author-name']],
+        })),
+      };
+    }),
   }));
 };
 
 const repos = reactive<LocalRepo[]>(initRepos());
 
-// Validation error state
-// key: `${ri}-${bi}` for branch glob errors
-const globErrors = reactive<Record<string, string>>({});
-// key: `${ri}-${bi}-${ai}` for author email errors
-const emailErrors = reactive<Record<string, string>>({});
-// key: `${ri}-${bi}-since` / `${ri}-${bi}-until` for branch date errors
-const dateErrors = reactive<Record<string, string>>({});
+const {
+  getBranchGlobError,
+  getBranchEmailErrors,
+  cleanupOnRepoRemove,
+  cleanupOnBranchRemove,
+  cleanupOnAuthorRemove,
+  validateRepo,
+  validateGlob,
+  clearGlobError,
+  validateAllEmails,
+  getOnNextError,
+} = useReposValidation(repos);
 
-// Accepted formats: dd/MM/yyyy, dd/MM/yyyy HH:mm, dd/MM/yyyy HH:mm:ss (matches LocalDateTimeParser)
-// Note: safeParseDate() in ReportBranchData silently swallows invalid dates rather than throwing,
-// so Tier 3 validation will NOT catch bad date formats — this frontend check is the only guard.
-const DATE_RE = /^\d{1,2}\/\d{1,2}\/\d{4}( \d{2}:\d{2}(:\d{2})?)?$/;
-const validateDate = (value: string, key: string) => {
-  if (!value.trim()) {
-    delete dateErrors[key];
-    return;
-  }
-  if (!DATE_RE.test(value.trim())) {
-    dateErrors[key] = 'Use format dd/MM/yyyy, dd/MM/yyyy HH:mm, or dd/MM/yyyy HH:mm:ss';
-  } else {
-    delete dateErrors[key];
-  }
-};
-
-// Mutation helpers
+// Mutation helpers — cleanup runs before splice so indices are still valid during key deletion.
 const addRepo = () => repos.push(newRepo());
-const removeRepo = (i: number) => repos.splice(i, 1);
+const removeRepo = (i: number) => { cleanupOnRepoRemove(i); repos.splice(i, 1); };
 const addBranch = (repo: LocalRepo) => repo.branches.push(newBranch());
-const removeBranch = (repo: LocalRepo, i: number) => repo.branches.splice(i, 1);
-const addAuthor = (branch: LocalBranch) => branch.authors.push(newAuthor());
-const removeAuthor = (branch: LocalBranch, i: number) => branch.authors.splice(i, 1);
-
-// Tier 1: URL validation (backend)
-const validateRepo = async (repo: LocalRepo) => {
-  if (!repo.repo) return;
-  repo.validating = true;
-  repo.error = '';
-  repo.valid = false;
-  try {
-    const resp = await fetch('/api/validate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ location: repo.repo }),
-    });
-    const data = await resp.json();
-    if (data.valid) {
-      repo.valid = true;
-    } else {
-      repo.error = data.error || 'Invalid repository location';
-    }
-  } catch {
-    repo.error = 'Could not validate — server unreachable';
-  } finally {
-    repo.validating = false;
-  }
+const removeBranch = (repo: LocalRepo, ri: number, bi: number) => {
+  cleanupOnBranchRemove(ri, bi);
+  repo.branches.splice(bi, 1);
 };
-
-// Tier 1: Glob syntax validation (backend) — called when a tag is added
-const validateGlob = async (pattern: string, key: string) => {
-  try {
-    const resp = await fetch('/api/validate-glob', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pattern }),
-    });
-    const data = await resp.json();
-    if (!data.valid) {
-      globErrors[key] = `Invalid pattern "${pattern}": ${data.error}`;
-    } else {
-      delete globErrors[key];
-    }
-  } catch {
-    // non-critical, silently ignore
-  }
-};
-
-// Tier 1: Email format validation (frontend regex) — called when a tag is added
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const validateEmail = (email: string, key: string) => {
-  if (!EMAIL_RE.test(email)) {
-    emailErrors[key] = `"${email}" is not a valid email address`;
-  } else {
-    delete emailErrors[key];
-  }
+const removeAuthor = (ri: number, bi: number, ai: number) => {
+  cleanupOnAuthorRemove(ri, bi, ai);
+  repos[ri].branches[bi].authors.splice(ai, 1);
 };
 
 const onNext = () => {
-  // Tier 1: required fields
-  if (repos.some((r) => !r.repo.trim())) {
-    alert('Every repository must have a URL.');
+  const error = getOnNextError();
+  if (error) {
+    alert(error);
     return;
-  }
-  if (repos.some((r) => r.branches.some((b) => b.branch.includes(' ')))) {
-    alert('Branch names cannot contain spaces.');
-    return;
-  }
-  if (repos.some((r) => r.branches.some((b) =>
-    b.authors.some((a) => !a.gitId.trim() || a.gitId.includes(' ')),
-  ))) {
-    alert('Every author must have a valid Git Host ID (no spaces).');
-    return;
-  }
-  if (Object.keys(globErrors).length > 0) {
-    alert('Please fix invalid glob patterns before proceeding.');
-    return;
-  }
-  if (Object.keys(emailErrors).length > 0) {
-    alert('Please fix invalid email addresses before proceeding.');
-    return;
-  }
-  if (Object.keys(dateErrors).length > 0) {
-    alert('Please fix invalid date formats before proceeding.');
-    return;
-  }
-
-  // Tier 2: duplicate checks
-  const urls = repos.map((r) => r.repo.trim());
-  if (new Set(urls).size !== urls.length) {
-    alert('Duplicate repository URLs are not allowed.');
-    return;
-  }
-  for (const repo of repos) {
-    const branchNames = repo.branches.map((b) => b.branch.trim());
-    if (new Set(branchNames).size !== branchNames.length) {
-      alert(`Repository "${repo.repo}" has duplicate branch names.`);
-      return;
-    }
-    for (const branch of repo.branches) {
-      const authorIds = branch.authors.map((a) => a.gitId.trim());
-      if (new Set(authorIds).size !== authorIds.length) {
-        alert(`Branch "${branch.branch || 'default'}" in "${repo.repo}" has duplicate author IDs.`);
-        return;
-      }
-    }
   }
 
   store.config.repos = repos.map((r) => ({
@@ -441,8 +147,8 @@ const onNext = () => {
       // Jackson can deserialize it into ReportBranchData's Long field. null causes
       // ReportBranchData to default to DEFAULT_FILE_SIZE_LIMIT (1000000L).
       'file-size-limit': b.fileSizeLimit ? Number(b.fileSizeLimit) : null,
-      since: b.since.trim() || null,
-      until: b.until.trim() || null,
+      since: toStoredDate(b.sinceDate, b.sinceTime),
+      until: toStoredDate(b.untilDate, b.untilTime),
       authors: b.authors.map((a) => ({
         'author-git-host-id': a.gitId.trim(),
         'author-display-name': a.displayName || null,
@@ -466,33 +172,6 @@ const onNext = () => {
   letter-spacing: 0.05em;
   color: $color-text-hint;
   margin: 1rem 0 0.5rem;
-}
-
-.authors-label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.author-card {
-  border: 1px solid mui-color('blue-grey', '200');
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-  background: $color-primary-light;
-}
-
-.author-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.4rem 0.75rem;
-  background: mui-color('blue-grey', '100');
-  border-bottom: 1px solid mui-color('blue-grey', '200');
-  border-radius: 4px 4px 0 0;
-}
-
-.author-card-body {
-  padding: 0.75rem;
 }
 
 .add-branch-btn {

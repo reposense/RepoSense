@@ -200,10 +200,17 @@ frontend/
 │   ├── main.ts                // Wizard entry point
 │   ├── store.ts               // Reactive wizard state (YAML-shaped)
 │   │
+│   ├── types/
+│   │   └── wizard.ts          // Shared local-state interfaces (LocalAuthor, LocalBranch, LocalRepo) + factory functions
+│   ├── utils/
+│   │   └── dateConversion.ts  // parseStoredDate / toStoredDate helpers (dd/MM/yyyy ↔ yyyy-MM-dd)
+│   │
 │   └── components/
 │       ├── WizardStep.vue     // Shared step wrapper (nav buttons, title)
 │       ├── ReportStep.vue     // Step 1: Report settings (title)
-│       ├── ReposStep.vue      // Step 2: Repos, branches, and authors
+│       ├── ReposStep.vue      // Step 2: Repos & branches orchestration; holds validation state
+│       ├── BranchCard.vue     // Presentational: one branch (date pickers, glob/author lists, AuthorCards)
+│       ├── AuthorCard.vue     // Presentational: one author (gitId, emails, git author names)
 │       ├── GroupsStep.vue     // Step 3: Groups (per repo)
 │       └── ReviewStep.vue     // Step 4: Review & generate
 │
@@ -242,6 +249,8 @@ interface Branch {
   'ignore-glob-list': string[];
   'ignore-authors-list': string[];
   'file-size-limit': number | null;
+  since: string | null;   // dd/MM/yyyy[ HH:mm] — matches LocalDateTimeParser
+  until: string | null;
   authors: Author[];
 }
 
@@ -706,7 +715,8 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 - ✅ **Simplify `/api/generate`**: Accepts a single unified YAML-shaped JSON body, writes one `report-config.yaml` file
 - ✅ **Add `/api/preview` endpoint**: Accepts the same payload, returns serialised YAML string for the live preview pane
 - ✅ **Update browser launch URL**: `ConfigWizardServer` now opens `/config-wizard` instead of `/wizard/`
-- 🔲 **Add `/api/validate-glob` and `/api/validate-date` endpoints** (deferred to Phase 3 alongside Tier 2 validation)
+- ✅ **Add `/api/validate-glob` endpoint**: Implemented in Phase 3 (see below)
+- 🔲 **Add `/api/validate-date` endpoint**: Deferred — `since`/`until` use native `<input type="date">` pickers which guarantee valid dates, making a validation endpoint unnecessary (see Phase 3 Tier 1 note)
 
 **Deliverable:** Backend that accepts a single YAML-shaped payload and writes `report-config.yaml`. ✅
 
@@ -733,7 +743,7 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 - ✅ **Tag-chip inputs**: `TagChipInput.vue` reusable component — add on Enter/comma/semicolon, remove on ×, duplicate tags silently rejected, emits `tag-added` for per-tag validation; replaces semicolon-separated string fields in `ReposStep.vue` and `GroupsStep.vue`
 - ✅ **`/api/validate-glob` endpoint**: Syntactic glob validation using `FileSystems.getDefault().getPathMatcher("glob:" + pattern)`; catches `PatternSyntaxException`; does not check against actual repo file paths (see Future Enhancements)
 - ✅ **`/api/validate-config` endpoint**: Writes wizard payload to a temp file, calls `ReportConfigYamlParser.parse()`, returns parser exceptions as error messages; temp file always deleted in `finally`
-- ✅ **Tier 1 validation**: URL via `/api/validate` on blur; glob via `/api/validate-glob` on tag-add; email regex on frontend on tag-add; branch name and Git Host ID space-check inline
+- ✅ **Tier 1 validation**: URL via `/api/validate` on blur; glob via `/api/validate-glob` on tag-add; email regex on frontend on tag-add; branch name and Git Host ID space-check inline; `since`/`until` dates use `<input type="date">` + optional `<input type="time">` toggle — native picker guarantees valid dates, eliminating the need for regex validation; values are converted from `yyyy-MM-dd HH:mm` (native format) to `dd/MM/yyyy HH:mm` (parser format) via `toStoredDate()` in `onNext`, and back via `parseStoredDate()` when re-entering the step
 - ✅ **Tier 2 validation**: Duplicate repo URLs, duplicate branch names per repo, duplicate author IDs per branch, group name uniqueness per repo — all checked in `onNext()` before saving to store
 - ✅ **Tier 3 validation**: Runs automatically on `onMounted` when Step 4 is entered; Generate button is disabled while validating or invalid; parser errors surface with a "Dismiss and generate anyway" escape hatch that re-enables the button
 - ✅ **Loading states**: `isPreviewLoading` flag in `App.vue` shows "updating..." in preview header during YAML refresh; URL validation shows "Validating..." text
@@ -859,7 +869,10 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | 12 Mar 2026   | Bug fix: author fields in `store.ts` and `ReposStep.vue` were using incorrect YAML keys (`gitId`, `displayName`, etc.); corrected to match `ReportAuthorDetails` annotations (`author-git-host-id`, `author-display-name`, `author-emails`, `author-git-author-name`); removed non-existent author-level `ignoreGlobList` field |
 | 12 Mar 2026  | UI styling complete: wizard now matches main RepoSense app — `Titillium Web` font via `@fontsource/titillium-web`, MUI colour palette (`blue-grey-500` primary accent) via shared `mui-color()` function, all styles refactored into a dedicated SCSS system (`styles/_variables.scss`, `_base.scss`, `_components.scss`, `_layout.scss`) |
 | 16 Mar 2026  | Bug fix: success screen "Next Steps" command was using non-existent `--repo-config` flag and passing a file path; corrected to `--config <directory>` per `ArgsParser` and CLI docs — `statusDir()` helper in `ReviewStep.vue` strips the filename from the server-returned absolute path |
-| 16 Mar 2026  | Added `since`/`until` per-branch date range fields (new in master merge): `store.ts` `Branch` interface, `LocalBranch` in `ReposStep.vue`, date inputs with `@blur` regex validation (`dd/MM/yyyy` format); note `safeParseDate()` in `ReportBranchData` silently swallows invalid dates so frontend regex is the sole validation guard |
+| 16 Mar 2026  | Added `since`/`until` per-branch date range fields (new in master merge): `store.ts` `Branch` interface, `LocalBranch` in `ReposStep.vue`, `<input type="date">` + optional `<input type="time">` toggle UI; `toStoredDate()`/`parseStoredDate()` helpers handle conversion between native `yyyy-MM-dd HH:mm` and parser-expected `dd/MM/yyyy HH:mm` formats; native picker eliminates need for regex validation; `branches.map` in `initRepos` uses explicit return body so `parseStoredDate` is called once per field; known edge case: configs manually written with `HH:mm:ss` will silently lose seconds on round-trip (acceptable — picker cannot produce seconds) |
+| 16 Mar 2026  | Modularised `ReposStep.vue` (~550 lines → ~170 lines): extracted `types/wizard.ts` (shared `LocalAuthor`/`LocalBranch`/`LocalRepo` interfaces and factory functions), `utils/dateConversion.ts` (`parseStoredDate`/`toStoredDate`), `components/AuthorCard.vue` (presentational, one author), `components/BranchCard.vue` (presentational, one branch + embedded `AuthorCard`s). Validation error state (`globErrors`, `emailErrors`) intentionally kept in `ReposStep` so `onNext` can gate on them without needing `defineExpose` on children. `getBranchEmailErrors(ri, bi)` slices the flat `emailErrors` map by `${ri}-${bi}-` prefix to pass the correct subset to each `BranchCard`. |
+| 16 Mar 2026  | Extracted all Tier 1/2 validation into `composables/useReposValidation.ts` to make logic independently unit-testable without mounting a component. `getOnNextError()` returns the first error string or `null` (no `alert()` call); `ReposStep` calls `alert()` on the result. |
+| 16 Mar 2026  | Bug fixes in validation error state: (1) stale keys after repo/branch/author removal now cleaned up via `cleanupOnRepoRemove`/`cleanupOnBranchRemove`/`cleanupOnAuthorRemove` (with index shifting so remaining keys stay correct); (2) glob errors now keyed by `${ri}\|${bi}\|${pattern}` so each invalid pattern has its own slot — adding a valid glob no longer dismisses errors for other invalid ones still in the list; (3) email errors use `validateAllEmails(emails[], ri, bi, ai)` called on both `tag-added` and `tag-removed` — re-validates the full current list so removing an invalid chip always clears its error; (4) `validateRepo` now resets `repo.valid = false` when the field is cleared, removing the stale green checkmark. `TagChipInput` gains a `tag-removed` emit to support chip-removal callbacks. |
 
 ### Decision Log
 
@@ -877,10 +890,9 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 
 ### Open Questions
 
-1. Should the wizard server stay alive after config generation, or prompt the user to close?
-2. How to handle very large repos (100+ authors) during any future auto-detection?
-3. Should validation be strict (reject invalid) or permissive (warn but allow)?
-4. Should the `/api/preview` endpoint generate YAML server-side, or should the frontend format it client-side?
+1. How to handle very large repos (100+ authors) during any future auto-detection?
+2. Should validation be strict (reject invalid) or permissive (warn but allow)?
+3. Should the `/api/preview` endpoint generate YAML server-side, or should the frontend format it client-side?
 
 ---
 

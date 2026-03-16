@@ -28,6 +28,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   'update:modelValue': [value: string[]];
   'tag-added': [value: string];
+  'tag-removed': [value: string];
 }>();
 
 const inputValue = ref('');
@@ -45,9 +46,11 @@ const add = () => {
 };
 
 const remove = (i: number) => {
+  const removed = props.modelValue[i];
   const next = [...props.modelValue];
   next.splice(i, 1);
   emit('update:modelValue', next);
+  emit('tag-removed', removed);
 };
 
 const handleKey = (e: KeyboardEvent) => {
