@@ -5,12 +5,12 @@ describe('scroll button', () => {
   });
 
   it('shows the button when scroll more than 200 pixels', () => {
-    cy.get('#summary-wrapper').scrollTo(0, 300);
+    cy.get('#summary-wrapper').scrollTo(0, 300).trigger('scroll');
     cy.get('#summary-wrapper #go-back-button').should('be.visible');
   });
 
   it('button scrolls back to top when clicked', () => {
-    cy.get('#summary-wrapper').scrollTo(0, 300);
+    cy.get('#summary-wrapper').scrollTo(0, 300).trigger('scroll');
     cy.get('#summary-wrapper #go-back-button').should('be.visible');
     cy.get('#summary-wrapper #go-back-button').click();
     cy.get('#summary-wrapper').invoke('scrollTop').should('equal', 0);
