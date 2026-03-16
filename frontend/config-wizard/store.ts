@@ -41,11 +41,11 @@ export const store = reactive({
     repos: [],
   } as WizardConfig,
   nextStep() {
-    this.currentStep++;
+    this.currentStep += 1;
   },
   prevStep() {
     if (this.currentStep > 1) {
-      this.currentStep--;
+      this.currentStep -= 1;
     }
   },
   setStep(step: number) {
