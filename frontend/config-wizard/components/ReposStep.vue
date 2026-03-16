@@ -80,6 +80,35 @@
 
             <div class="form-row">
               <div class="form-group">
+                <label class="form-label">Since Date</label>
+                <input
+                  v-model="branch.since"
+                  class="form-input"
+                  :class="{ 'is-invalid': dateErrors[`${ri}-${bi}-since`] }"
+                  placeholder="dd/MM/yyyy"
+                  @blur="validateDate(branch.since, `${ri}-${bi}-since`)"
+                />
+                <p v-if="dateErrors[`${ri}-${bi}-since`]" class="field-error">
+                  {{ dateErrors[`${ri}-${bi}-since`] }}
+                </p>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Until Date</label>
+                <input
+                  v-model="branch.until"
+                  class="form-input"
+                  :class="{ 'is-invalid': dateErrors[`${ri}-${bi}-until`] }"
+                  placeholder="dd/MM/yyyy"
+                  @blur="validateDate(branch.until, `${ri}-${bi}-until`)"
+                />
+                <p v-if="dateErrors[`${ri}-${bi}-until`]" class="field-error">
+                  {{ dateErrors[`${ri}-${bi}-until`] }}
+                </p>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
                 <label class="form-label">Ignore Glob List</label>
                 <tag-chip-input
                   v-model="branch.ignoreGlobList"
@@ -197,6 +226,8 @@ interface LocalBranch {
   ignoreGlobList: string[];
   ignoreAuthorsList: string[];
   fileSizeLimit: string;
+  since: string;
+  until: string;
   authors: LocalAuthor[];
 }
 
@@ -221,6 +252,8 @@ const newBranch = (): LocalBranch => ({
   ignoreGlobList: [],
   ignoreAuthorsList: [],
   fileSizeLimit: '',
+  since: '',
+  until: '',
   authors: [],
 });
 
@@ -245,6 +278,8 @@ const initRepos = (): LocalRepo[] => {
       ignoreGlobList: [...b['ignore-glob-list']],
       ignoreAuthorsList: [...b['ignore-authors-list']],
       fileSizeLimit: b['file-size-limit'] != null ? String(b['file-size-limit']) : '',
+      since: b.since || '',
+      until: b.until || '',
       authors: b.authors.map((a) => ({
         gitId: a['author-git-host-id'],
         displayName: a['author-display-name'],
@@ -262,6 +297,24 @@ const repos = reactive<LocalRepo[]>(initRepos());
 const globErrors = reactive<Record<string, string>>({});
 // key: `${ri}-${bi}-${ai}` for author email errors
 const emailErrors = reactive<Record<string, string>>({});
+// key: `${ri}-${bi}-since` / `${ri}-${bi}-until` for branch date errors
+const dateErrors = reactive<Record<string, string>>({});
+
+// Accepted formats: dd/MM/yyyy, dd/MM/yyyy HH:mm, dd/MM/yyyy HH:mm:ss (matches LocalDateTimeParser)
+// Note: safeParseDate() in ReportBranchData silently swallows invalid dates rather than throwing,
+// so Tier 3 validation will NOT catch bad date formats — this frontend check is the only guard.
+const DATE_RE = /^\d{1,2}\/\d{1,2}\/\d{4}( \d{2}:\d{2}(:\d{2})?)?$/;
+const validateDate = (value: string, key: string) => {
+  if (!value.trim()) {
+    delete dateErrors[key];
+    return;
+  }
+  if (!DATE_RE.test(value.trim())) {
+    dateErrors[key] = 'Use format dd/MM/yyyy, dd/MM/yyyy HH:mm, or dd/MM/yyyy HH:mm:ss';
+  } else {
+    delete dateErrors[key];
+  }
+};
 
 // Mutation helpers
 const addRepo = () => repos.push(newRepo());
@@ -349,6 +402,10 @@ const onNext = () => {
     alert('Please fix invalid email addresses before proceeding.');
     return;
   }
+  if (Object.keys(dateErrors).length > 0) {
+    alert('Please fix invalid date formats before proceeding.');
+    return;
+  }
 
   // Tier 2: duplicate checks
   const urls = repos.map((r) => r.repo.trim());
@@ -384,6 +441,8 @@ const onNext = () => {
       // Jackson can deserialize it into ReportBranchData's Long field. null causes
       // ReportBranchData to default to DEFAULT_FILE_SIZE_LIMIT (1000000L).
       'file-size-limit': b.fileSizeLimit ? Number(b.fileSizeLimit) : null,
+      since: b.since.trim() || null,
+      until: b.until.trim() || null,
       authors: b.authors.map((a) => ({
         'author-git-host-id': a.gitId.trim(),
         'author-display-name': a.displayName || null,

@@ -13,6 +13,8 @@ export interface Branch {
   'ignore-glob-list': string[];
   'ignore-authors-list': string[];
   'file-size-limit': number | null;
+  since: string | null;
+  until: string | null;
   authors: Author[];
 }
 

@@ -660,12 +660,14 @@ Validates the complete config by running it through the actual RepoSense YAML pa
 
 | Field                 | Support | Validation             | Notes                            |
 | --------------------- | ------- | ---------------------- | -------------------------------- |
-| `branch`              | ✅ Full | Non-empty string       | Optional (defaults to HEAD)      |
-| `blurb`               | ✅ Full | Markdown text          | Optional                         |
-| `ignore-glob-list`    | ✅ Full | Glob syntax validation | Optional, multi-value            |
-| `ignore-authors-list` | ✅ Full | Non-empty strings      | Optional, multi-value            |
-| `file-size-limit`     | ✅ Full | Positive integer       | Optional, bytes                  |
-| `authors`             | ✅ Full | Array structure        | Optional                         |
+| `branch`              | ✅ Full | Non-empty string                          | Optional (defaults to HEAD)      |
+| `blurb`               | ✅ Full | Markdown text                             | Optional                         |
+| `ignore-glob-list`    | ✅ Full | Glob syntax validation                    | Optional, multi-value            |
+| `ignore-authors-list` | ✅ Full | Non-empty strings                         | Optional, multi-value            |
+| `file-size-limit`     | ✅ Full | Positive integer                          | Optional, bytes                  |
+| `since`               | ✅ Full | Frontend regex (`dd/MM/yyyy` format)      | Optional; invalid dates silently ignored by parser — frontend is sole validation guard |
+| `until`               | ✅ Full | Frontend regex (`dd/MM/yyyy` format)      | Optional; invalid dates silently ignored by parser — frontend is sole validation guard |
+| `authors`             | ✅ Full | Array structure                           | Optional                         |
 
 #### Per-Author Fields (`repos[i].branches[j].authors[k]`)
 
@@ -857,6 +859,7 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | 12 Mar 2026   | Bug fix: author fields in `store.ts` and `ReposStep.vue` were using incorrect YAML keys (`gitId`, `displayName`, etc.); corrected to match `ReportAuthorDetails` annotations (`author-git-host-id`, `author-display-name`, `author-emails`, `author-git-author-name`); removed non-existent author-level `ignoreGlobList` field |
 | 12 Mar 2026  | UI styling complete: wizard now matches main RepoSense app — `Titillium Web` font via `@fontsource/titillium-web`, MUI colour palette (`blue-grey-500` primary accent) via shared `mui-color()` function, all styles refactored into a dedicated SCSS system (`styles/_variables.scss`, `_base.scss`, `_components.scss`, `_layout.scss`) |
 | 16 Mar 2026  | Bug fix: success screen "Next Steps" command was using non-existent `--repo-config` flag and passing a file path; corrected to `--config <directory>` per `ArgsParser` and CLI docs — `statusDir()` helper in `ReviewStep.vue` strips the filename from the server-returned absolute path |
+| 16 Mar 2026  | Added `since`/`until` per-branch date range fields (new in master merge): `store.ts` `Branch` interface, `LocalBranch` in `ReposStep.vue`, date inputs with `@blur` regex validation (`dd/MM/yyyy` format); note `safeParseDate()` in `ReportBranchData` silently swallows invalid dates so frontend regex is the sole validation guard |
 
 ### Decision Log
 
