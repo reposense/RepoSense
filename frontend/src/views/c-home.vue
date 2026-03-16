@@ -9,7 +9,9 @@
             v-if="!isPortfolio",
             ref="summary",
             :repos="users",
-            :error-messages="errorMessages"
+            :error-messages="errorMessages",
+            @view-file-browser="$emit('view-file-browser', $event)",
+            @go-back-to-welcome-tab="$emit('go-back-to-welcome-tab')"
           )
           c-summary-portfolio.tab-padding(
             v-else,
@@ -43,6 +45,10 @@
           .tab-content.panel-padding
             .tab-pane
               c-authorship#tab-authorship(v-if="tabType === 'authorship'")
+              c-global-file-browser#tab-file-browser(
+                v-else-if="tabType === 'file-browser'",
+                :files="globalFiles"
+              )
               c-zoom#tab-zoom(v-else-if="tabType === 'zoom'")
               #tab-empty(v-else)
                 .title
@@ -76,7 +82,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import cIntro from '../components/c-intro.vue';
 import cResizer from '../components/c-resizer.vue';
@@ -84,10 +90,13 @@ import cZoom from './c-zoom.vue';
 import cSummary from './c-summary.vue';
 import cSummaryPortfolio from './c-summary-portfolio.vue';
 import cAuthorship from './c-authorship.vue';
+import cGlobalFileBrowser from './c-global-file-browser.vue';
+import { GlobalFileEntry, Repo } from '../types/types';
 
 const home = defineComponent({
   name: 'c-home',
   components: {
+    cGlobalFileBrowser,
     cIntro,
     cResizer,
     cZoom,
@@ -132,7 +141,16 @@ const home = defineComponent({
       type: Object,
       required: true,
     },
+    globalFiles: {
+      type: Array as PropType<Array<GlobalFileEntry>>,
+      required: true,
+    },
   },
+  emits: [
+    'view-file-browser',
+    'go-back-to-welcome-tab',
+    'open-local-tab',
+  ],
   computed: {
     isPortfolio(): boolean {
       return window.isPortfolio;

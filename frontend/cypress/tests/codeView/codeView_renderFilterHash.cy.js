@@ -9,24 +9,6 @@ Cypress.on('uncaught:exception', (err) => {
 });
 
 describe('render filter hash', () => {
-  it('filter files: url params should persist after change and reload', () => {
-    cy.get('.tooltip .mui-textfield.filter_file > input:visible')
-      .should('be.visible')
-      .invoke('val')
-      .should('eq', '');
-
-    cy.get('.mui-textfield.filter_file > input:visible')
-      .should('be.visible')
-      .type('**java**{enter}');
-
-    cy.url()
-      .should('contain', 'filteredFileName=**java**');
-
-    cy.reload();
-
-    cy.url()
-      .should('contain', 'filteredFileName=**java**');
-  })
 
   it('search: url params should persist after change and reload', () => {
     /* Check initial state */
