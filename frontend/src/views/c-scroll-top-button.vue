@@ -7,13 +7,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import {defineComponent} from "vue";
 
 export default defineComponent({
   name: "c-scroll-top-button",
+  props: {
+    scrollContainerId: {
+      type: String,
+      default: null,
+    },
+  },
   data(): {
     showBackToTop: boolean,
-    scrollContainer: Element | Window | null,
+    scrollContainer: Element | null,
   } {
     return {
       showBackToTop: false,
@@ -21,10 +27,13 @@ export default defineComponent({
     };
   },
   mounted() {
-    // Use summary-wrapper if it exists, otherwise fall back to window
-    this.scrollContainer = document.getElementById("summary-wrapper") || window;
-    this.scrollContainer.addEventListener("scroll", this.handleScroll);
-    this.handleScroll(); // Check initial state
+    this.scrollContainer = (this.scrollContainerId
+        ? document.getElementById(this.scrollContainerId)
+        : null);
+    if (this.scrollContainer) {
+      this.scrollContainer.addEventListener("scroll", this.handleScroll);
+      this.handleScroll(); // Check initial state
+    }
   },
   beforeUnmount() {
     if (this.scrollContainer) {
@@ -33,17 +42,11 @@ export default defineComponent({
   },
   methods: {
     handleScroll() {
-      const scrollTop = this.scrollContainer instanceof Window
-        ? this.scrollContainer.scrollY
-        : (this.scrollContainer as Element).scrollTop;
+      const scrollTop = (this.scrollContainer as Element).scrollTop;
       this.showBackToTop = scrollTop > 200;
     },
     topFunction() {
-      if (this.scrollContainer instanceof Window) {
-        this.scrollContainer.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        (this.scrollContainer as Element).scrollTo({ top: 0, behavior: "smooth" });
-      }
+      (this.scrollContainer as Element).scrollTo({top: 0, behavior: "smooth"});
     },
   },
 });
@@ -51,15 +54,16 @@ export default defineComponent({
 
 <style lang="scss">
 #go-back-button {
-  align-content: center;
   background-color: darkseagreen;
   border-radius: 50%;
   bottom: 20px;
   color: white;
   cursor: pointer;
+  display: flex;
   font-size: 20px;
   height: 50px;
   margin-left: auto;
+  place-content: center;
   place-items: center;
   position: sticky;
   right: 20px;

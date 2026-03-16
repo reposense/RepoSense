@@ -61,7 +61,7 @@
     @open-local-tab="resetFileFilterScopeToLocal"
   )
 
-  c-scroll-top-button
+  c-scroll-top-button(scroll-container-id="summary-wrapper")
 
   .logo(v-if="isWidgetMode")
     a(:href="getRepoSenseHomeLink()", target="_blank")
