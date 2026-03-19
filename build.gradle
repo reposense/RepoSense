@@ -253,15 +253,6 @@ def serveTestReportPortfolio = tasks.register('serveTestReportPortfolio', com.gi
     args = ['run', 'serveTestPortfolio']
 }
 
-def serveTestWizard = tasks.register('serveTestWizard', com.github.psxpaul.task.ExecFork) {
-    dependsOn installFrontend
-    waitForPort = 9002
-
-    workingDir = './frontend'
-    executable = isWindows ? 'npm.cmd' : 'npm'
-    args = ['run', 'serveTestWizard']
-}
-
 def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     description 'Installs Cypress and its dependencies for frontend testing using npm ci.'
     workingDir 'frontend/cypress/'
@@ -270,10 +261,9 @@ def installCypress = tasks.register('installCypress', com.liferay.gradle.plugins
 
 tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     description 'Runs Cypress tests in debug mode for interactive troubleshooting and test development.'
-    dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio, serveTestWizard
+    dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio
     tasks.serveTestReportDefault.mustRunAfter(installCypress)
     tasks.serveTestReportPortfolio.mustRunAfter(installCypress)
-    tasks.serveTestWizard.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "debug"]
@@ -281,10 +271,9 @@ tasks.register('cypress', com.liferay.gradle.plugins.node.tasks.ExecutePackageMa
 
 tasks.register('testFrontend', com.liferay.gradle.plugins.node.tasks.ExecutePackageManagerTask) {
     description 'Executes Cypress end-to-end tests; runs in headless CI mode if the "ci" property is specified.'
-    dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio, serveTestWizard
+    dependsOn installCypress, serveTestReportDefault, serveTestReportPortfolio
     tasks.serveTestReportDefault.mustRunAfter(installCypress)
     tasks.serveTestReportPortfolio.mustRunAfter(installCypress)
-    tasks.serveTestWizard.mustRunAfter(installCypress)
 
     workingDir = file('frontend/cypress/')
     args = ["run-script", "tests"]

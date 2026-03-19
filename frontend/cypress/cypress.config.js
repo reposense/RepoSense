@@ -14,6 +14,5 @@ module.exports = defineConfig({
   },
   env: {
     portfolioBaseUrl: 'http://localhost:9001',
-    wizardBaseUrl: 'http://localhost:9002',
   }
 })
