@@ -8,8 +8,7 @@ wizard-step(:step-number="2", title="Repos & Branches", @back="store.prevStep()"
       //- Repo URL
       .form-group
         label.form-label
-          | Repository URL
-          span.required *
+          | Repository URL #[span.required *]
         input.form-input(
           v-model="repo.repo",
           :class="{ 'is-invalid': repo.error, 'is-valid': repo.valid }",

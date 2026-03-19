@@ -7,8 +7,7 @@
     .form-row
       .form-group
         label.form-label
-          | Git Host ID
-          span.required *
+          | Git Host ID #[span.required *]
         input.form-input(
           v-model="author.gitId",
           :class="{ 'is-invalid': author.gitId && author.gitId.includes(' ') }",

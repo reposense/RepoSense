@@ -24,13 +24,11 @@ wizard-step(
           .form-row
             .form-group
               label.form-label
-                | Group Name
-                span.required *
+                | Group Name #[span.required *]
               input.form-input(v-model="group.groupName", placeholder="e.g. frontend")
             .form-group
               label.form-label
-                | Glob Patterns
-                span.required *
+                | Glob Patterns #[span.required *]
               tag-chip-input(
                 v-model="group.globs",
                 placeholder="e.g. src/frontend/**",
