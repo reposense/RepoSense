@@ -51,6 +51,7 @@ public class ConfigWizardService {
      * Validates a config map by writing it to a temp file and parsing it.
      *
      * @return empty Optional if valid, or Optional containing the error message
+     * @throws Exception if writing the temp file fails
      */
     public Optional<String> validateConfig(Map<String, Object> config) throws Exception {
         Path tempFile = Files.createTempFile("reposense-wizard-", ".yaml");
@@ -70,6 +71,8 @@ public class ConfigWizardService {
 
     /**
      * Generates a config file from {@code config} and returns its path.
+     *
+     * @throws Exception if the file cannot be written
      */
     public Path generateConfig(Map<String, Object> config) throws Exception {
         Path outputDir = Paths.get(System.getProperty("user.dir"), "generated-configs");
@@ -80,6 +83,8 @@ public class ConfigWizardService {
 
     /**
      * Returns a YAML preview string for {@code config}.
+     *
+     * @throws Exception if YAML serialisation fails
      */
     public String previewConfig(Map<String, Object> config) throws Exception {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());

@@ -117,6 +117,7 @@ public class ConfigWizardServer {
             }
         }
 
+        /** Escapes a string for safe embedding in a JSON value. */
         private static String escapeJson(String s) {
             return s.replace("\\", "\\\\")
                     .replace("\"", "\\\"")
@@ -124,11 +125,21 @@ public class ConfigWizardServer {
                     .replace("\r", "");
         }
 
+        /**
+         * Handles {@code GET /api/config} — returns server status.
+         *
+         * @throws IOException if sending the response fails
+         */
         private int handleGetConfig(Request req, Response resp) throws IOException {
             resp.send(200, "{\"status\": \"ok\", \"config\": {}}");
             return 200;
         }
 
+        /**
+         * Handles {@code POST /api/validate} — validates a repository location.
+         *
+         * @throws IOException if reading the request body or sending the response fails
+         */
         private int handleValidate(Request req, Response resp) throws IOException {
             try {
                 JsonObject json = JsonParser.parseString(readBody(req)).getAsJsonObject();
@@ -146,6 +157,11 @@ public class ConfigWizardServer {
             }
         }
 
+        /**
+         * Handles {@code POST /api/validate-glob} — validates a glob pattern.
+         *
+         * @throws IOException if reading the request body or sending the response fails
+         */
         private int handleValidateGlob(Request req, Response resp) throws IOException {
             try {
                 JsonObject json = JsonParser.parseString(readBody(req)).getAsJsonObject();
@@ -163,6 +179,11 @@ public class ConfigWizardServer {
             }
         }
 
+        /**
+         * Handles {@code POST /api/validate-config} — validates the full wizard config via the RepoSense parser.
+         *
+         * @throws IOException if reading the request body or sending the response fails
+         */
         private int handleValidateConfig(Request req, Response resp) throws IOException {
             try {
                 Map<String, Object> config = new Gson().fromJson(readBody(req),
@@ -180,6 +201,11 @@ public class ConfigWizardServer {
             }
         }
 
+        /**
+         * Handles {@code POST /api/generate} — writes {@code report-config.yaml} and returns its path.
+         *
+         * @throws IOException if reading the request body or sending the response fails
+         */
         private int handleGenerate(Request req, Response resp) throws IOException {
             try {
                 Map<String, Object> config = new Gson().fromJson(readBody(req),
@@ -193,6 +219,11 @@ public class ConfigWizardServer {
             }
         }
 
+        /**
+         * Handles {@code POST /api/preview} — returns a YAML preview string for the current config.
+         *
+         * @throws IOException if reading the request body or sending the response fails
+         */
         private int handlePreview(Request req, Response resp) throws IOException {
             try {
                 Map<String, Object> config = new Gson().fromJson(readBody(req),
@@ -208,6 +239,11 @@ public class ConfigWizardServer {
             }
         }
 
+        /**
+         * Handles {@code POST /api/quit} — shuts down the server after a short delay.
+         *
+         * @throws IOException if sending the response fails
+         */
         private int handleQuit(Request req, Response resp) throws IOException {
             resp.send(200, "{\"ok\": true}");
             new Thread(() -> {
