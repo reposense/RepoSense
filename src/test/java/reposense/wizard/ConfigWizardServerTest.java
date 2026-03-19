@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration tests for {@link ConfigWizardServer} REST API endpoints.
  *
- * <p>Starts the wizard HTTP server on a random free port and sends real HTTP requests to each
+ * Starts the wizard HTTP server on a random free port and sends real HTTP requests to each
  * endpoint, asserting the JSON responses. No mocking framework is used — this tests the full
  * request-handling path of the embedded {@code ApiHandler}.
  */
