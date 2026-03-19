@@ -752,15 +752,15 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 
 **Deliverable:** Complete, production-ready wizard with full field coverage and polished UX. ✅
 
-### Phase 4: Testing & Documentation 🔲
+### Phase 4: Testing & Documentation ✅
 
 **Scope:**
 
-- 🔲 **Backend unit tests**: `ConfigFileWriter`, `/api/generate`, `/api/validate` endpoints
-- 🔲 **Frontend component tests**: Each step component with valid and invalid inputs
-- 🔲 **Cypress E2E tests**: Full wizard flow from launch to generated file
-- 🔲 **User Guide**: Create `docs/ug/configWizard.md`
-- 🔲 **Update CLI docs**: Add `--config-wizard` to `docs/ug/cli.md`
+- ✅ **Backend unit tests**: `ConfigFileWriter`, `/api/generate`, `/api/validate` endpoints
+- ✅ **Frontend component tests**: Each step component with valid and invalid inputs (covered by Cypress E2E — no separate Vue unit test framework added; see decision log)
+- ✅ **Cypress E2E tests**: Full wizard flow from launch to generated file
+- ✅ **User Guide**: Create `docs/ug/configWizard.md`
+- ✅ **Update CLI docs**: Add `--config-wizard` to `docs/ug/cli.md`
 
 **Deliverable:** Fully verified feature with comprehensive documentation.
 
@@ -875,6 +875,10 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | 16 Mar 2026  | Modularised `ReposStep.vue` (~550 lines → ~170 lines): extracted `types/wizard.ts` (shared `LocalAuthor`/`LocalBranch`/`LocalRepo` interfaces and factory functions), `utils/dateConversion.ts` (`parseStoredDate`/`toStoredDate`), `components/AuthorCard.vue` (presentational, one author), `components/BranchCard.vue` (presentational, one branch + embedded `AuthorCard`s). Validation error state (`globErrors`, `emailErrors`) intentionally kept in `ReposStep` so `onNext` can gate on them without needing `defineExpose` on children. `getBranchEmailErrors(ri, bi)` slices the flat `emailErrors` map by `${ri}-${bi}-` prefix to pass the correct subset to each `BranchCard`. |
 | 16 Mar 2026  | Extracted all Tier 1/2 validation into `composables/useReposValidation.ts` to make logic independently unit-testable without mounting a component. `getOnNextError()` returns the first error string or `null` (no `alert()` call); `ReposStep` calls `alert()` on the result. |
 | 16 Mar 2026  | Bug fixes in validation error state: (1) stale keys after repo/branch/author removal now cleaned up via `cleanupOnRepoRemove`/`cleanupOnBranchRemove`/`cleanupOnAuthorRemove` (with index shifting so remaining keys stay correct); (2) glob errors now keyed by `${ri}\|${bi}\|${pattern}` so each invalid pattern has its own slot — adding a valid glob no longer dismisses errors for other invalid ones still in the list; (3) email errors use `validateAllEmails(emails[], ri, bi, ai)` called on both `tag-added` and `tag-removed` — re-validates the full current list so removing an invalid chip always clears its error; (4) `validateRepo` now resets `repo.valid = false` when the field is cleared, removing the stale green checkmark. `TagChipInput` gains a `tag-removed` emit to support chip-removal callbacks. |
+| 16 Mar 2026  | Pug migration: all 9 config-wizard Vue SFCs converted to `<template lang="pug">` to comply with project style guide (`.pug-lintrc.json` rules: class/ID shorthands, 2-space indent, 120-char max, comma attribute separators). Bug fix during migration: `#[span.required *]` inline-element syntax used for required-field asterisks to preserve the preceding space (Pug does not add whitespace between sibling nodes, so `span.required *` on its own line would produce "Field Name*" without a space). |
+| 16 Mar 2026  | Lint/config infrastructure for `config-wizard/`: (1) `package.json` — `puglint` script extended to cover `config-wizard/`; `lint` script extended to include `config-wizard/**/*.{ts,vue}` in ESLint and `./config-wizard/**/*.{vue,scss,css}` in stylelint; (2) `tsconfig.json` — added `config-wizard/**/*.ts` and `config-wizard/**/*.vue` to `include` so TypeScript resolves composable/util files; (3) `.eslintrc.json` — added override disabling `@typescript-eslint/no-unused-vars` for `config-wizard/**/*.vue` (false positives: `vue-eslint-parser` cannot parse Pug templates so all script-setup imports appear unused); (4) pre-existing stylelint violations (property order, leading zeros, SCSS spacing) in config-wizard styles auto-fixed with `stylelint --fix`. |
+| 16 Mar 2026  | Date range validation: `BranchCard.vue` gains a `dateRangeError` computed that returns an error string when `sinceDate > untilDate`, or when dates are equal and `sinceTime > untilTime`. Both date inputs get `:class="{ 'is-invalid': dateRangeError }"` and a shared `p.field-error` renders below the date row. `useReposValidation.ts` `getOnNextError()` also checks all branches via `flatMap + find` before committing to the store, so the wizard cannot advance past Repos & Branches with an invalid date range. |
+| 19 Mar 2026  | Phase 4 complete: backend integration tests in `ConfigWizardServerTest.java` (HTTP integration, all API endpoints); two additional `ConfigFileWriterTest.java` tests (null omission, correct author YAML keys); Cypress E2E tests in `frontend/cypress/tests/configWizard/` (step 1–4 tests + full happy-path flow, all API calls mocked with `cy.intercept()`); `serveTestWizard` npm script added; `wizardBaseUrl` Cypress env var added; `docs/ug/configWizard.md` user guide created; `--config-wizard` flag documented in `docs/ug/cli.md`. No Vue unit test framework added — Cypress E2E tests serve as de-facto component tests (see decision log). |
 
 ### Decision Log
 
@@ -889,6 +893,8 @@ Users type a value and press Enter or click `[+ Add]` to append. The `[×]` butt
 | **4-step flow mirroring YAML hierarchy** (Option B)       | Avoids awkward CSV-to-YAML remapping; store state directly mirrors output structure                        | 9 Mar 2026  |
 | Store state shaped as YAML, not flat CSV arrays           | No remapping needed on generate; frontend state IS the YAML structure                                      | 9 Mar 2026  |
 | **Preview updates on `onNext`, not per-keystroke**        | Per-keystroke preview was explored but rejected — step components hold local state (with UI-only fields like `valid`/`validating` and type coercions like `fileSizeLimit` string→number) that must be mapped to the YAML-shaped store. Adding deep watchers to sync local→store continuously duplicated the mapping logic in two places (`watch` + `onNext`), creating a maintenance hazard. The cleaner fix would be binding form fields directly to `store.config`, but that conflates unvalidated in-progress data with committed state. The existing pattern — commit on `onNext`, preview refreshes on step advance — is coherent with standard wizard UX and avoids both problems. | 16 Mar 2026 |
+| **No Vue unit test framework added for Phase 4**          | The project has no existing Vitest or Vue Test Utils setup. Adding a full unit test framework solely for 4–5 wizard step components is out of scope for Phase 4. The Cypress E2E tests exercise each step with both valid and invalid inputs (including mocked API error responses), providing equivalent coverage. Adding Vitest is deferred to a future infrastructure improvement. | 19 Mar 2026 |
+| **Backend wizard API tested via HTTP integration tests, not unit tests** | `ApiHandler` is a `private static class` inside `ConfigWizardServer`. Extracting it just for unit testability would be unnecessary refactoring. HTTP integration tests in `ConfigWizardServerTest.java` spin up the real server on an ephemeral port and send real requests, exercising the full handler path without mocking frameworks — consistent with the project's philosophy. | 19 Mar 2026 |
 
 ### Open Questions
 
