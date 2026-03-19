@@ -8,11 +8,12 @@
     "build": "vue-tsc --noEmit && vite build",
     "lint": "eslint src/**/*.{ts,vue} config-wizard/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint ./src/**/*.{vue,scss,css} ./config-wizard/**/*.{vue,scss,css} && npm run puglint",
     "devbuild": "vite build --mode development",
-    "lintfix": "eslint --fix src/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss,css}",
+    "lintfix": "eslint --fix src/**/*.{ts,vue} config-wizard/**/*.{ts,vue} cypress/tests/**/*.js cypress/support.js && stylelint --fix ./src/**/*.{vue,scss,css} ./config-wizard/**/*.{vue,scss,css}",
     "puglint": "pug-lint-vue src config-wizard",
     "serveOpen": "vite --open",
     "serveTestDefault": "vite --mode test-default --port 9000 --open",
     "serveTestPortfolio": "vite --mode test-portfolio --port 9001 --open",
+    "serveTestWizard": "vite --port 9002",
     "typecheck": "vue-tsc --noEmit"
   },
   "main": "index.js",

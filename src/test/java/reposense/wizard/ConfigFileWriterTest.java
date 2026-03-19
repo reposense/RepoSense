@@ -69,4 +69,56 @@ public class ConfigFileWriterTest {
 
         Assertions.assertTrue(Files.exists(outputPath));
     }
+
+    @Test
+    public void writeReportConfig_nullValues_omittedFromYaml() throws IOException {
+        Path outputPath = tempDir.resolve("report-config.yaml");
+        Map<String, Object> config = new HashMap<>();
+        config.put("title", "Test Report");
+        config.put("nullField", null);
+
+        ConfigFileWriter.writeReportConfig(config, outputPath);
+
+        String content = Files.readString(outputPath);
+        Assertions.assertFalse(content.contains("nullField"), "Null fields should be omitted from YAML output");
+        Assertions.assertTrue(content.contains("title"));
+    }
+
+    @Test
+    public void writeReportConfig_correctAuthorYamlKeys_presentInOutput() throws IOException {
+        Path outputPath = tempDir.resolve("report-config.yaml");
+
+        Map<String, Object> author = new HashMap<>();
+        author.put("author-git-host-id", "alice");
+        author.put("author-display-name", "Alice Thompson");
+        author.put("author-emails", List.of("alice@example.com"));
+        author.put("author-git-author-name", List.of("Alice T."));
+
+        Map<String, Object> branch = new HashMap<>();
+        branch.put("branch", "main");
+        branch.put("authors", List.of(author));
+        branch.put("ignore-glob-list", List.of());
+        branch.put("ignore-authors-list", List.of());
+
+        Map<String, Object> repo = new HashMap<>();
+        repo.put("repo", "https://github.com/user/repo.git");
+        repo.put("branches", List.of(branch));
+        repo.put("groups", List.of());
+
+        Map<String, Object> config = new HashMap<>();
+        config.put("title", "Test Report");
+        config.put("repos", List.of(repo));
+
+        ConfigFileWriter.writeReportConfig(config, outputPath);
+
+        String content = Files.readString(outputPath);
+        Assertions.assertTrue(content.contains("author-git-host-id"),
+                "YAML should use 'author-git-host-id' key");
+        Assertions.assertTrue(content.contains("author-display-name"),
+                "YAML should use 'author-display-name' key");
+        Assertions.assertTrue(content.contains("author-emails"),
+                "YAML should use 'author-emails' key");
+        Assertions.assertTrue(content.contains("author-git-author-name"),
+                "YAML should use 'author-git-author-name' key");
+    }
 }
