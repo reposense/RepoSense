@@ -36,9 +36,17 @@ public class ConfigWizardServer {
     private static final Path BUILD_PATH = Paths.get(System.getProperty("user.dir"), "frontend", "build");
 
     /**
-     * Starts the config wizard server at {@code port}.
+     * Starts the config wizard server at {@code port} and opens the browser.
      */
     public static void startWizard(int port) {
+        startWizard(port, true);
+    }
+
+    /**
+     * Starts the config wizard server at {@code port}.
+     * If {@code openBrowser} is true, the default browser is opened at the wizard URL.
+     */
+    public static void startWizard(int port, boolean openBrowser) {
         logger.info("Starting Config Wizard...");
         HTTPServer server = new HTTPServer(port);
         HTTPServer.VirtualHost host = server.getVirtualHost(null);
@@ -48,7 +56,9 @@ public class ConfigWizardServer {
             host.addContext("/api", new ApiHandler(), "GET", "POST");
 
             server.start();
-            launchBrowser(String.format("http://localhost:%s/config-wizard", port));
+            if (openBrowser) {
+                launchBrowser(String.format("http://localhost:%s/config-wizard", port));
+            }
             logger.info("Press Ctrl + C or equivalent to stop the server");
         } catch (IOException ioe) {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);

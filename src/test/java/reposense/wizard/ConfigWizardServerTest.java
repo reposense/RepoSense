@@ -34,7 +34,7 @@ public class ConfigWizardServerTest {
         try (ServerSocket socket = new ServerSocket(0)) {
             port = socket.getLocalPort();
         }
-        ConfigWizardServer.startWizard(port);
+        ConfigWizardServer.startWizard(port, false);
         client = HttpClient.newHttpClient();
         // Allow the embedded server a short moment to finish binding.
         Thread.sleep(500);
