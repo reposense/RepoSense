@@ -3,18 +3,15 @@ package reposense.wizard;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -24,8 +21,6 @@ import net.freeutils.httpserver.HTTPServer;
 import net.freeutils.httpserver.HTTPServer.ContextHandler;
 import net.freeutils.httpserver.HTTPServer.Request;
 import net.freeutils.httpserver.HTTPServer.Response;
-import reposense.model.RepoLocation;
-import reposense.parser.ReportConfigYamlParser;
 import reposense.system.LogsManager;
 
 /**
@@ -81,154 +76,149 @@ public class ConfigWizardServer {
     }
 
     /**
-     * Escapes a string for safe embedding in a JSON value.
-     */
-    private static String escapeJson(String s) {
-        return s.replace("\\", "\\\\")
-                .replace("\"", "\\\"")
-                .replace("\n", " ")
-                .replace("\r", "");
-    }
-
-    /**
-     * Handler for REST API requests.
+     * Handler for REST API requests, dispatching to per-route methods via a route map.
      */
     private static class ApiHandler implements ContextHandler {
+
+        @FunctionalInterface
+        private interface RouteHandler {
+            int handle(Request req, Response resp) throws IOException;
+        }
+
+        private final ConfigWizardService service = new ConfigWizardService();
+        private final Map<String, RouteHandler> routes;
+
+        ApiHandler() {
+            routes = new HashMap<>();
+            routes.put("GET /api/config", this::handleGetConfig);
+            routes.put("POST /api/validate", this::handleValidate);
+            routes.put("POST /api/validate-glob", this::handleValidateGlob);
+            routes.put("POST /api/validate-config", this::handleValidateConfig);
+            routes.put("POST /api/generate", this::handleGenerate);
+            routes.put("POST /api/preview", this::handlePreview);
+            routes.put("POST /api/quit", this::handleQuit);
+        }
+
         @Override
         public int serve(Request req, Response resp) throws IOException {
-            String path = req.getPath();
+            String key = req.getMethod() + " " + req.getPath();
             resp.getHeaders().add("Content-Type", "application/json");
+            RouteHandler handler = routes.get(key);
+            if (handler == null) {
+                resp.send(404, "{\"error\": \"Not Found\"}");
+                return 404;
+            }
+            return handler.handle(req, resp);
+        }
 
-            if (path.equals("/api/config") && req.getMethod().equals("GET")) {
-                resp.send(200, "{\"status\": \"ok\", \"config\": {}}");
+        private String readBody(Request req) throws IOException {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
+                return reader.lines().collect(Collectors.joining("\n"));
+            }
+        }
+
+        private static String escapeJson(String s) {
+            return s.replace("\\", "\\\\")
+                    .replace("\"", "\\\"")
+                    .replace("\n", " ")
+                    .replace("\r", "");
+        }
+
+        private int handleGetConfig(Request req, Response resp) throws IOException {
+            resp.send(200, "{\"status\": \"ok\", \"config\": {}}");
+            return 200;
+        }
+
+        private int handleValidate(Request req, Response resp) throws IOException {
+            try {
+                JsonObject json = JsonParser.parseString(readBody(req)).getAsJsonObject();
+                String location = json.get("location").getAsString();
+                Optional<String> error = service.validateLocation(location);
+                if (!error.isPresent()) {
+                    resp.send(200, "{\"valid\": true}");
+                } else {
+                    resp.send(200, "{\"valid\": false, \"error\": \"" + escapeJson(error.get()) + "\"}");
+                }
                 return 200;
+            } catch (Exception e) {
+                resp.send(400, "{\"error\": \"Invalid request body\"}");
+                return 400;
             }
+        }
 
-            if (path.equals("/api/validate") && req.getMethod().equals("POST")) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
-                    String body = reader.lines().collect(Collectors.joining("\n"));
-                    JsonObject jsonBody = JsonParser.parseString(body).getAsJsonObject();
-                    String location = jsonBody.get("location").getAsString();
-                    try {
-                        new RepoLocation(location);
-                        resp.send(200, "{\"valid\": true}");
-                    } catch (Exception e) {
-                        resp.send(200, "{\"valid\": false, \"error\": \""
-                                + escapeJson(e.getMessage()) + "\"}");
-                    }
-                    return 200;
-                } catch (Exception e) {
-                    resp.send(400, "{\"error\": \"Invalid request body\"}");
-                    return 400;
+        private int handleValidateGlob(Request req, Response resp) throws IOException {
+            try {
+                JsonObject json = JsonParser.parseString(readBody(req)).getAsJsonObject();
+                String pattern = json.get("pattern").getAsString();
+                Optional<String> error = service.validateGlob(pattern);
+                if (!error.isPresent()) {
+                    resp.send(200, "{\"valid\": true}");
+                } else {
+                    resp.send(200, "{\"valid\": false, \"error\": \"" + escapeJson(error.get()) + "\"}");
                 }
-            }
-
-            if (path.equals("/api/validate-glob") && req.getMethod().equals("POST")) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
-                    String body = reader.lines().collect(Collectors.joining("\n"));
-                    JsonObject jsonBody = JsonParser.parseString(body).getAsJsonObject();
-                    String pattern = jsonBody.get("pattern").getAsString();
-                    try {
-                        FileSystems.getDefault().getPathMatcher("glob:" + pattern);
-                        resp.send(200, "{\"valid\": true}");
-                    } catch (PatternSyntaxException e) {
-                        resp.send(200, "{\"valid\": false, \"error\": \""
-                                + escapeJson(e.getMessage()) + "\"}");
-                    }
-                    return 200;
-                } catch (Exception e) {
-                    resp.send(400, "{\"error\": \"Invalid request body\"}");
-                    return 400;
-                }
-            }
-
-            if (path.equals("/api/validate-config") && req.getMethod().equals("POST")) {
-                Path tempFile = null;
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
-                    String body = reader.lines().collect(Collectors.joining("\n"));
-                    Gson gson = new Gson();
-                    Map<String, Object> config = gson.fromJson(body,
-                            new TypeToken<Map<String, Object>>() {}.getType());
-
-                    tempFile = Files.createTempFile("reposense-wizard-", ".yaml");
-                    ConfigFileWriter.writeReportConfig(config, tempFile);
-
-                    try {
-                        new ReportConfigYamlParser().parse(tempFile);
-                        resp.send(200, "{\"valid\": true}");
-                    } catch (Exception e) {
-                        String msg = e.getMessage() != null ? escapeJson(e.getMessage()) : "Invalid configuration";
-                        resp.send(200, "{\"valid\": false, \"error\": \"" + msg + "\"}");
-                    }
-                    return 200;
-                } catch (Exception e) {
-                    resp.send(500, "{\"error\": \"" + escapeJson(String.valueOf(e.getMessage())) + "\"}");
-                    return 500;
-                } finally {
-                    if (tempFile != null) {
-                        try {
-                            Files.deleteIfExists(tempFile);
-                        } catch (IOException ignored) {
-                            // ignored
-                        }
-                    }
-                }
-            }
-
-            if (path.equals("/api/generate") && req.getMethod().equals("POST")) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
-                    String body = reader.lines().collect(Collectors.joining("\n"));
-                    Gson gson = new Gson();
-                    Map<String, Object> config = gson.fromJson(body,
-                            new TypeToken<Map<String, Object>>() {}.getType());
-
-                    Path outputDir = Paths.get(System.getProperty("user.dir"), "generated-configs");
-                    Path outputPath = outputDir.resolve("report-config.yaml");
-                    ConfigFileWriter.writeReportConfig(config, outputPath);
-
-                    resp.send(200, "{\"success\": true, \"path\": \"" + outputPath.toString() + "\"}");
-                    return 200;
-                } catch (Exception e) {
-                    resp.send(500, "{\"error\": \"" + escapeJson(String.valueOf(e.getMessage())) + "\"}");
-                    return 500;
-                }
-            }
-
-            if (path.equals("/api/preview") && req.getMethod().equals("POST")) {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(req.getBody()))) {
-                    String body = reader.lines().collect(Collectors.joining("\n"));
-                    Gson gson = new Gson();
-                    Map<String, Object> config = gson.fromJson(body,
-                            new TypeToken<Map<String, Object>>() {}.getType());
-
-                    ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-                    String yaml = mapper.writeValueAsString(config);
-
-                    String escaped = yaml.replace("\\", "\\\\").replace("\"", "\\\"")
-                            .replace("\n", "\\n").replace("\r", "");
-                    resp.send(200, "{\"yaml\": \"" + escaped + "\"}");
-                    return 200;
-                } catch (Exception e) {
-                    resp.send(500, "{\"error\": \"" + escapeJson(String.valueOf(e.getMessage())) + "\"}");
-                    return 500;
-                }
-            }
-
-            if (path.equals("/api/quit") && req.getMethod().equals("POST")) {
-                resp.send(200, "{\"ok\": true}");
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(300);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
-                    System.exit(0);
-                }).start();
                 return 200;
+            } catch (Exception e) {
+                resp.send(400, "{\"error\": \"Invalid request body\"}");
+                return 400;
             }
+        }
 
-            resp.send(404, "{\"error\": \"Not Found\"}");
-            return 404;
+        private int handleValidateConfig(Request req, Response resp) throws IOException {
+            try {
+                Map<String, Object> config = new Gson().fromJson(readBody(req),
+                        new TypeToken<Map<String, Object>>() {}.getType());
+                Optional<String> error = service.validateConfig(config);
+                if (!error.isPresent()) {
+                    resp.send(200, "{\"valid\": true}");
+                } else {
+                    resp.send(200, "{\"valid\": false, \"error\": \"" + escapeJson(error.get()) + "\"}");
+                }
+                return 200;
+            } catch (Exception e) {
+                resp.send(500, "{\"error\": \"" + escapeJson(String.valueOf(e.getMessage())) + "\"}");
+                return 500;
+            }
+        }
+
+        private int handleGenerate(Request req, Response resp) throws IOException {
+            try {
+                Map<String, Object> config = new Gson().fromJson(readBody(req),
+                        new TypeToken<Map<String, Object>>() {}.getType());
+                Path outputPath = service.generateConfig(config);
+                resp.send(200, "{\"success\": true, \"path\": \"" + escapeJson(outputPath.toString()) + "\"}");
+                return 200;
+            } catch (Exception e) {
+                resp.send(500, "{\"error\": \"" + escapeJson(String.valueOf(e.getMessage())) + "\"}");
+                return 500;
+            }
+        }
+
+        private int handlePreview(Request req, Response resp) throws IOException {
+            try {
+                Map<String, Object> config = new Gson().fromJson(readBody(req),
+                        new TypeToken<Map<String, Object>>() {}.getType());
+                String yaml = service.previewConfig(config);
+                String escaped = yaml.replace("\\", "\\\\").replace("\"", "\\\"")
+                        .replace("\n", "\\n").replace("\r", "");
+                resp.send(200, "{\"yaml\": \"" + escaped + "\"}");
+                return 200;
+            } catch (Exception e) {
+                resp.send(500, "{\"error\": \"" + escapeJson(String.valueOf(e.getMessage())) + "\"}");
+                return 500;
+            }
+        }
+
+        private int handleQuit(Request req, Response resp) throws IOException {
+            resp.send(200, "{\"ok\": true}");
+            new Thread(() -> {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                System.exit(0);
+            }).start();
+            return 200;
         }
     }
 }
