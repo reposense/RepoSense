@@ -185,9 +185,15 @@ public class ConfigWizardServer {
          * @throws IOException if reading the request body or sending the response fails
          */
         private int handleValidateConfig(Request req, Response resp) throws IOException {
+            Map<String, Object> config;
             try {
-                Map<String, Object> config = new Gson().fromJson(readBody(req),
+                config = new Gson().fromJson(readBody(req),
                         new TypeToken<Map<String, Object>>() {}.getType());
+            } catch (Exception e) {
+                resp.send(400, "{\"error\": \"Invalid request body\"}");
+                return 400;
+            }
+            try {
                 Optional<String> error = service.validateConfig(config);
                 if (!error.isPresent()) {
                     resp.send(200, "{\"valid\": true}");

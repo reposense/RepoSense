@@ -25,6 +25,17 @@ public class ConfigWizardService {
      * @return empty Optional if valid, or Optional containing the error message
      */
     public Optional<String> validateLocation(String location) {
+        if (RepoLocation.isLocalRepo(location)) {
+            String pathStr = location.startsWith("file://") ? location.substring(7) : location;
+            try {
+                if (!Files.exists(Paths.get(pathStr))) {
+                    return Optional.of(location + " is an invalid location.");
+                }
+            } catch (java.nio.file.InvalidPathException e) {
+                return Optional.of(location + " is an invalid location.");
+            }
+            return Optional.empty();
+        }
         try {
             new RepoLocation(location);
             return Optional.empty();

@@ -165,7 +165,7 @@ public class ConfigWizardServerTest {
     }
 
     @Test
-    public void validateConfig_missingBody_returns400() throws Exception {
+    public void validateConfig_malformedBody_returns400() throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:" + port + "/api/validate-config"))
                 .header("Content-Type", "application/json")
@@ -173,9 +173,8 @@ public class ConfigWizardServerTest {
                 .build();
         HttpResponse<String> resp = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        // Malformed JSON causes a server-side parse error — expect 500.
-        Assertions.assertTrue(resp.statusCode() == 400 || resp.statusCode() == 500,
-                "Malformed body should result in 4xx or 5xx response");
+        Assertions.assertEquals(400, resp.statusCode(),
+                "Malformed body should result in 400");
     }
 
     // -----------------------------------------------------------------------
