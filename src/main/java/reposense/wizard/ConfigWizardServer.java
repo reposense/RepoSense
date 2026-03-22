@@ -2,7 +2,9 @@ package reposense.wizard;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -22,13 +24,13 @@ import net.freeutils.httpserver.HTTPServer.ContextHandler;
 import net.freeutils.httpserver.HTTPServer.Request;
 import net.freeutils.httpserver.HTTPServer.Response;
 import reposense.system.LogsManager;
+import reposense.util.FileUtil;
 
 /**
  * Handles starting of the server to display the config wizard.
  */
 public class ConfigWizardServer {
     private static final Logger logger = LogsManager.getLogger(ConfigWizardServer.class);
-    private static final Path BUILD_PATH = Paths.get(System.getProperty("user.dir"), "frontend", "build");
 
     /**
      * Starts the config wizard server at {@code port} and opens the browser.
@@ -46,10 +48,18 @@ public class ConfigWizardServer {
         HTTPServer server = new HTTPServer(port);
         HTTPServer.VirtualHost host = server.getVirtualHost(null);
 
-        try {
-            host.addContext("/", new HTTPServer.FileContextHandler(BUILD_PATH.toFile()));
-            host.addContext("/api", new ApiHandler(), "GET", "POST");
+        // Always register the API handler — independent of static file serving.
+        host.addContext("/api", new ApiHandler(), "GET", "POST");
 
+        // Try to serve static wizard assets; log error but don't abort server start.
+        try {
+            Path buildPath = extractWizardAssets();
+            host.addContext("/", new HTTPServer.FileContextHandler(buildPath.toFile()));
+        } catch (IOException ioe) {
+            logger.log(Level.SEVERE, "Failed to extract wizard assets; static files will not be served.", ioe);
+        }
+
+        try {
             server.start();
             if (openBrowser) {
                 launchBrowser(String.format("http://localhost:%s/config-wizard", port));
@@ -58,6 +68,31 @@ public class ConfigWizardServer {
         } catch (IOException ioe) {
             logger.log(Level.SEVERE, ioe.getMessage(), ioe);
         }
+    }
+
+    /**
+     * Extracts wizard frontend assets from the bundled {@code templateZip.zip} on the classpath
+     * to a temporary directory and returns that path. Falls back to {@code frontend/build} in the
+     * working directory when running from source (dev mode).
+     *
+     * @throws IOException if a temporary directory cannot be created or the zip cannot be extracted
+     */
+    private static Path extractWizardAssets() throws IOException {
+        InputStream is = ConfigWizardServer.class.getResourceAsStream("/templateZip.zip");
+        if (is != null) {
+            Path tempDir = Files.createTempDirectory("reposense-wizard-");
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    FileUtil.deleteDirectory(tempDir.toString());
+                } catch (Exception e) {
+                    logger.warning("Failed to delete wizard temp directory: " + e.getMessage());
+                }
+            }));
+            FileUtil.unzip(is, tempDir);
+            return tempDir;
+        }
+        // Dev fallback: serve directly from the frontend build output
+        return Paths.get(System.getProperty("user.dir"), "frontend", "build");
     }
 
     /**
