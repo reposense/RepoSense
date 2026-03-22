@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -102,6 +103,8 @@ public class ArgsParser {
             "\"Since Date\" cannot be later than \"Until Date\".";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
             "\"Since Date\" must not be later than today's date.";
+    private static final String MESSAGE_CONFIG_WIZARD_INCOMPATIBLE_FLAGS =
+            "--config-wizard cannot be used with any other flags.";
     private static final String MESSAGE_AUTHOR_DEDUP_MODE_WITHOUT_CONFIG =
             "--author-dedup-mode flag is used without --config flag. The flag will be ignored.";
     private static final String MESSAGE_AUTHOR_CONFIG_FILE_NOT_FOUND =
@@ -334,6 +337,16 @@ public class ArgsParser {
         boolean shouldPerformFreshCloning = results.get(FRESH_CLONING_FLAG[0]);
         boolean shouldRefreshOnlyText = results.get(REFRESH_ONLY_TEXT_FLAG[0]);
         boolean isConfigWizard = results.get(CONFIG_WIZARD_FLAGS[0]);
+
+        if (isConfigWizard) {
+            boolean hasOtherFlags = Arrays.stream(args)
+                    .filter(arg -> arg.startsWith("--"))
+                    .anyMatch(arg -> !arg.equals(CONFIG_WIZARD_FLAGS[0]));
+            if (hasOtherFlags) {
+                throw new ParseException(MESSAGE_CONFIG_WIZARD_INCOMPATIBLE_FLAGS);
+            }
+        }
+
         boolean isAuthorDedupMode = results.get(AUTHOR_DEDUP_MODE_FLAGS[0]);
 
         CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()

@@ -273,6 +273,11 @@ public class InputBuilder {
         return this;
     }
 
+    public InputBuilder addConfigWizard() {
+        input.append(ArgsParser.CONFIG_WIZARD_FLAGS[0] + WHITESPACE);
+        return this;
+    }
+
     /**
      * Adds {@code content} to the input.
      */
