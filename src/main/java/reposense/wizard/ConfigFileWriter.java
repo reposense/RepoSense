@@ -20,7 +20,9 @@ public class ConfigFileWriter {
      * @throws IOException if there is an error writing to the file.
      */
     public static void writeReportConfig(Map<String, Object> config, Path outputPath) throws IOException {
-        Files.createDirectories(outputPath.getParent());
+        if (outputPath.getParent() != null) {
+            Files.createDirectories(outputPath.getParent());
+        }
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         mapper.writeValue(outputPath.toFile(), config);
