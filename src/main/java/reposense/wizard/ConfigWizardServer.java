@@ -31,6 +31,17 @@ import reposense.util.FileUtil;
  */
 public class ConfigWizardServer {
     private static final Logger logger = LogsManager.getLogger(ConfigWizardServer.class);
+    private static volatile HTTPServer activeServer;
+
+    /**
+     * Stops the currently running wizard server, if any.
+     */
+    public static void stopWizard() {
+        if (activeServer != null) {
+            activeServer.stop();
+            activeServer = null;
+        }
+    }
 
     /**
      * Starts the config wizard server at {@code port} and opens the browser.
@@ -59,6 +70,7 @@ public class ConfigWizardServer {
             logger.log(Level.SEVERE, "Failed to extract wizard assets; static files will not be served.", ioe);
         }
 
+        activeServer = server;
         try {
             server.start();
             if (openBrowser) {
@@ -293,6 +305,7 @@ public class ConfigWizardServer {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
+                ConfigWizardServer.stopWizard();
                 System.exit(0);
             }).start();
             return 200;

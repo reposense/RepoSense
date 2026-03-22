@@ -36,13 +36,24 @@ public class ConfigWizardServerTest {
         }
         ConfigWizardServer.startWizard(port, false);
         client = HttpClient.newHttpClient();
-        // Allow the embedded server a short moment to finish binding.
-        Thread.sleep(500);
+        // Poll until the server responds or ~1 second has elapsed.
+        for (int i = 0; i < 20; i++) {
+            try {
+                HttpRequest req = HttpRequest.newBuilder()
+                        .uri(URI.create("http://localhost:" + port + "/api/config"))
+                        .GET().build();
+                if (client.send(req, HttpResponse.BodyHandlers.ofString()).statusCode() == 200) {
+                    break;
+                }
+            } catch (Exception ignored) {
+                Thread.sleep(50);
+            }
+        }
     }
 
     @AfterAll
-    static void cleanupGeneratedFile() throws IOException {
-        // Remove any file created by the /api/generate endpoint during tests.
+    static void teardown() throws IOException {
+        ConfigWizardServer.stopWizard();
         if (generatedFile != null) {
             Files.deleteIfExists(generatedFile);
         }
