@@ -41,6 +41,7 @@ public class ConfigWizardServerTest {
             try {
                 HttpRequest req = HttpRequest.newBuilder()
                         .uri(URI.create("http://localhost:" + port + "/api/config"))
+                        .header("Connection", "close")
                         .GET().build();
                 if (client.send(req, HttpResponse.BodyHandlers.ofString()).statusCode() == 200) {
                     break;
@@ -67,6 +68,7 @@ public class ConfigWizardServerTest {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:" + port + path))
                 .header("Content-Type", "application/json")
+                .header("Connection", "close")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
         return client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -75,6 +77,7 @@ public class ConfigWizardServerTest {
     private HttpResponse<String> get(String path) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:" + port + path))
+                .header("Connection", "close")
                 .GET()
                 .build();
         return client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -180,6 +183,7 @@ public class ConfigWizardServerTest {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:" + port + "/api/validate-config"))
                 .header("Content-Type", "application/json")
+                .header("Connection", "close")
                 .POST(HttpRequest.BodyPublishers.ofString("not json"))
                 .build();
         HttpResponse<String> resp = client.send(request, HttpResponse.BodyHandlers.ofString());
