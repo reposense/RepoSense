@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -49,6 +50,11 @@ public class ConfigWizardServerTest {
                 Thread.sleep(50);
             }
         }
+    }
+
+    @BeforeEach
+    void freshClient() {
+        client = HttpClient.newHttpClient();
     }
 
     @AfterAll
