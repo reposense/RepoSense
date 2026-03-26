@@ -12,6 +12,7 @@ import reposense.model.reportconfig.ReportRepoConfiguration;
 import reposense.parser.exceptions.InvalidDatesException;
 import reposense.parser.exceptions.InvalidLocationException;
 import reposense.system.LogsManager;
+import reposense.util.TimeUtil;
 
 /**
  * Represents RepoSense run configured by the one-stop configuration file.
@@ -94,6 +95,13 @@ public class OneStopConfigRunConfiguration implements RunConfiguration {
         LocalDateTime chosenUntilDate = getValidDate(configUntilDate, false);
 
         assert chosenSinceDate != null && chosenUntilDate != null;
+
+        // If yaml provides until but not since, and CLI did not explicitly provide --since,
+        // derive since from yaml's until date (1 month before) rather than using the CLI default
+        // (today minus 1 month), which may be after the yaml until date.
+        if (configSinceDate == null && configUntilDate != null && !cliArguments.isSinceDateProvided()) {
+            chosenSinceDate = TimeUtil.getDateMinusAMonth(chosenUntilDate);
+        }
 
         if (chosenSinceDate.isAfter(chosenUntilDate)) {
             throw new InvalidDatesException(MESSAGE_SINCE_DATE_LATER_THAN_UNTIL_DATE);
