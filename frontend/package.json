@@ -13,6 +13,7 @@
     "serveOpen": "vite --open",
     "serveTestDefault": "vite --mode test-default --port 9000 --open",
     "serveTestPortfolio": "vite --mode test-portfolio --port 9001 --open",
+    "serveConfigWizard": "vite preview --port 9002",
     "typecheck": "vue-tsc --noEmit"
   },
   "main": "index.js",

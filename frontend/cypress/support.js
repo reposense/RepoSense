@@ -6,6 +6,9 @@ Cypress.Screenshot.defaults({
 });
 
 beforeEach(() => {
+  if (Cypress.spec.relative.includes('configWizard')) {
+    return;
+  }
   cy.visit('/');
   cy.intercept({
     method: 'GET',
