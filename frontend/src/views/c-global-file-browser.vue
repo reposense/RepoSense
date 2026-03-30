@@ -91,7 +91,7 @@ import { minimatch } from 'minimatch';
 import { GlobalFileEntry, AuthorshipFileSegment } from '../types/types';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
-import cScrollTopButton from "./c-scroll-top-button.vue";
+import cScrollTopButton from './c-scroll-top-button.vue';
 
 const selectedColors = [
   '#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3',

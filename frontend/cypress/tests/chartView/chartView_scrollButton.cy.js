@@ -1,7 +1,7 @@
 describe('scroll button', () => {
   it('button exists', () => {
     cy.get('#summary-wrapper #go-back-button').should('exist');
-  })
+  });
 
   it('button is not shown when only scroll 100 pixels', () => {
     cy.get('#summary-wrapper .summary-charts').should('exist');
@@ -22,4 +22,4 @@ describe('scroll button', () => {
     cy.get('#summary-wrapper #go-back-button').click();
     cy.get('#summary-wrapper').invoke('scrollTop').should('equal', 0);
   });
-})
+});

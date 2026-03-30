@@ -7,14 +7,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "c-scroll-top-button",
+  name: 'c-scroll-top-button',
   props: {
     scrollContainerId: {
       type: String,
-      default: null,
+      default: '',
     },
   },
   data(): {
@@ -31,13 +31,13 @@ export default defineComponent({
         ? document.getElementById(this.scrollContainerId)
         : null);
     if (this.scrollContainer) {
-      this.scrollContainer.addEventListener("scroll", this.handleScroll);
+      this.scrollContainer.addEventListener('scroll', this.handleScroll);
       this.handleScroll(); // Check initial state
     }
   },
   beforeUnmount() {
     if (this.scrollContainer) {
-      this.scrollContainer.removeEventListener("scroll", this.handleScroll);
+      this.scrollContainer.removeEventListener('scroll', this.handleScroll);
     }
   },
   methods: {
@@ -46,13 +46,13 @@ export default defineComponent({
       this.showBackToTop = scrollTop > 200;
     },
     topFunction() {
-      (this.scrollContainer as Element).scrollTo({top: 0, behavior: "smooth"});
+      (this.scrollContainer as Element).scrollTo({top: 0, behavior: 'smooth'});
     },
   },
 });
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 #go-back-button {
   background-color: darkseagreen;
   border-radius: 50%;
