@@ -116,7 +116,7 @@ import { StoreState } from '../types/vuex.d';
 import { FileResult, Line } from '../types/zod/authorship-type';
 import { AuthorshipFile, AuthorshipFileSegment, SegmentState } from '../types/types';
 import { FilesSortType, FilterType } from '../types/authorship';
-import cScrollTopButton from './c-scroll-top-button.vue';
+import cScrollTopButton from '../components/c-scroll-top-button.vue';
 
 const filesSortDict = {
   linesOfCode: (file: AuthorshipFile): number => file.lineCount,

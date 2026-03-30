@@ -62,7 +62,6 @@
   )
 
   c-scroll-top-button(scroll-container-id="summary-wrapper")
-
   .logo(v-if="isWidgetMode")
     a(:href="getRepoSenseHomeLink()", target="_blank")
       img(:src="getLogoPath()", :width=20, :height=20)
@@ -76,7 +75,7 @@ import cErrorMessageBox from '../components/c-error-message-box.vue';
 import cSummaryCharts from '../components/c-summary-charts.vue';
 import cFileTypeCheckboxes from '../components/c-file-type-checkboxes.vue';
 import cSummaryHeader from '../components/c-summary-header.vue';
-import cScrollTopButton from './c-scroll-top-button.vue';
+import cScrollTopButton from '../components/c-scroll-top-button.vue';
 import sortFiltered from '../utils/repo-sorter';
 import {
   Commit,
