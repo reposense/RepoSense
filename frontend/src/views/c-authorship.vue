@@ -100,8 +100,6 @@
         :files-sort-type="this.filesSortType", :info="this.info",
         :author-colors="this.authorColors", :file-type-colors="this.fileTypeColors",
         @toggle-file-active-property="toggleFileActiveProperty")
-
-  c-scroll-top-button(scroll-container-id="tabs-wrapper")
 </template>
 
 <script lang="ts">
@@ -116,7 +114,6 @@ import { StoreState } from '../types/vuex.d';
 import { FileResult, Line } from '../types/zod/authorship-type';
 import { AuthorshipFile, AuthorshipFileSegment, SegmentState } from '../types/types';
 import { FilesSortType, FilterType } from '../types/authorship';
-import cScrollTopButton from '../components/c-scroll-top-button.vue';
 
 const filesSortDict = {
   linesOfCode: (file: AuthorshipFile): number => file.lineCount,
@@ -167,7 +164,6 @@ const repoCache: Array<string> = [];
 export default defineComponent({
   name: 'c-authorship',
   components: {
-    cScrollTopButton,
     cAuthorshipFile,
     cFileTypeCheckboxes,
   },

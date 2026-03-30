@@ -81,8 +81,6 @@
 
   .empty-state(v-else)
     p No files match the current filter
-
-  c-scroll-top-button(scroll-container-id="tabs-wrapper")
 </template>
 
 <script lang='ts'>
@@ -91,7 +89,6 @@ import { minimatch } from 'minimatch';
 import { GlobalFileEntry, AuthorshipFileSegment } from '../types/types';
 import cSegmentCollection from '../components/c-segment-collection.vue';
 import getNonRepeatingColor from '../utils/random-color-generator';
-import cScrollTopButton from '../components/c-scroll-top-button.vue';
 
 const selectedColors = [
   '#1e90ff', '#f08080', '#00ff7f', '#ffd700', '#ba55d3',
@@ -101,7 +98,6 @@ const selectedColors = [
 export default defineComponent({
   name: 'c-global-file-browser',
   components: {
-    cScrollTopButton,
     cSegmentCollection,
   },
   props: {

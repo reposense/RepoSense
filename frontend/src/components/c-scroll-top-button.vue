@@ -1,8 +1,13 @@
 <template lang="pug">
-  #go-back-button(v-show="showBackToTop", @click="topFunction")
+  button.go-back-button(
+    v-show="showBackToTop",
+    type="button",
+    aria-label="Scroll back to top",
+    @click="$emit('scroll-to-top')"
+  )
     font-awesome-icon(
       icon="arrow-up",
-      :title="'Click to scroll back to top'"
+      aria-hidden="true"
     )
 </template>
 
@@ -12,49 +17,19 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'c-scroll-top-button',
   props: {
-    scrollContainerId: {
-      type: String,
-      default: '',
+    showBackToTop: {
+      type: Boolean,
+      default: false,
     },
   },
-  data(): {
-    showBackToTop: boolean,
-    scrollContainer: Element | null,
-  } {
-    return {
-      showBackToTop: false,
-      scrollContainer: null,
-    };
-  },
-  mounted() {
-    this.scrollContainer = (this.scrollContainerId
-        ? document.getElementById(this.scrollContainerId)
-        : null);
-    if (this.scrollContainer) {
-      this.scrollContainer.addEventListener('scroll', this.handleScroll);
-      this.handleScroll(); // Check initial state
-    }
-  },
-  beforeUnmount() {
-    if (this.scrollContainer) {
-      this.scrollContainer.removeEventListener('scroll', this.handleScroll);
-    }
-  },
-  methods: {
-    handleScroll() {
-      const scrollTop = (this.scrollContainer as Element).scrollTop;
-      this.showBackToTop = scrollTop > 200;
-    },
-    topFunction() {
-      (this.scrollContainer as Element).scrollTo({top: 0, behavior: 'smooth'});
-    },
-  },
+  emits: ['scroll-to-top'],
 });
 </script>
 
 <style lang='scss'>
-#go-back-button {
+.go-back-button {
   background-color: darkseagreen;
+  border: 0;
   border-radius: 50%;
   bottom: 20px;
   color: white;
@@ -63,6 +38,7 @@ export default defineComponent({
   font-size: 20px;
   height: 50px;
   margin-left: auto;
+  padding: 0;
   place-content: center;
   place-items: center;
   position: sticky;
