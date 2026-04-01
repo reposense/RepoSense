@@ -876,11 +876,20 @@ public class ArgsParserTest {
     }
 
     @Test
-    public void parse_configWizardWithOtherFlags_throwsParseException() {
+    public void parse_configWizardWithViewFlag_throwsParseException() {
+        String input = new InputBuilder().addConfigWizard()
+                .addView(OUTPUT_DIRECTORY_ABSOLUTE)
+                .build();
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
+    }
+
+    @Test
+    public void parse_configWizardWithOtherFlags_returnsConfigWizardCliArguments() throws Exception {
         String input = new InputBuilder().addConfigWizard()
                 .addConfig(CONFIG_FOLDER_ABSOLUTE)
                 .build();
-        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assertions.assertTrue(cliArguments.isConfigWizard());
     }
 
     /**
