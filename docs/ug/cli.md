@@ -91,7 +91,7 @@ Refer to the [Advanced Customization](./customizingReports.html#advanced-customi
 
 * Starting the wizard opens a local web server on port 9000 and automatically launches `http://localhost:9000/config-wizard` in your default browser.
 * The generated file is written to `./generated-configs/report-config.yaml` in the current working directory.
-* Cannot be used with any other flags.
+* Cannot be used with `--view`. Any other flags passed alongside will be ignored.
 </box>
 
 See [Using the Config Wizard](./configWizard.md) for a step-by-step walkthrough.
