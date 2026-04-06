@@ -343,7 +343,6 @@ def syncFrontendPublic = tasks.register('syncFrontendPublic', Sync) {
         include 'index.html'
         include 'favicon.ico'
         include 'intro.md'
-        include 'title.md'
         include 'logo.png'
     }
 }
