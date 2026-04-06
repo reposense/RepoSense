@@ -8,7 +8,6 @@ import { defineComponent } from "vue";
 import CMarkdownChunk from "./c-markdown-chunk.vue";
 
 const INTRO_FILE_PATH = "intro.md";
-const LEGACY_TITLE_FILE_PATH = "title.md";
 
 export default defineComponent({
   name: "c-intro",
@@ -20,19 +19,7 @@ export default defineComponent({
   },
   async beforeMount() {
     try {
-      const introText = await this.fetchMarkdown(INTRO_FILE_PATH);
-      if (introText) {
-        this.markdownText = introText;
-        return;
-      }
-
-      const legacyText = await this.fetchMarkdown(LEGACY_TITLE_FILE_PATH);
-      if (legacyText) {
-        console.warn(
-          "Detected deprecated title.md. Please rename it to intro.md.",
-        );
-      }
-      this.markdownText = legacyText;
+      this.markdownText = await this.fetchMarkdown(INTRO_FILE_PATH);
     } catch (error) {
       this.markdownText = (error as Error).toString();
     }
