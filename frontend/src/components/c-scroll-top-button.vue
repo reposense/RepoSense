@@ -27,12 +27,15 @@ export default defineComponent({
 </script>
 
 <style lang='scss'>
+@import '../styles/_colors.scss';
+@import '../styles/_z-indices.scss';
+
 .go-back-button {
-  background-color: darkseagreen;
+  background-color: mui-color('green');
   border: 0;
   border-radius: 50%;
   bottom: 20px;
-  color: white;
+  color: mui-color('white');
   cursor: pointer;
   display: flex;
   font-size: 20px;
@@ -44,6 +47,6 @@ export default defineComponent({
   position: sticky;
   right: 20px;
   width: 50px;
-  z-index: 99;
+  z-index: z-index('scroll-back-button');
 }
 </style>

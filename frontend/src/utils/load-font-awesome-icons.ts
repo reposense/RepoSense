@@ -17,8 +17,8 @@ library.add(faExclamation, faSpinner, faCode, faListUl);
 // c-resizer
 library.add(faCaretRight);
 
-// c-summary
-library.add(faExclamation, faArrowUp);
+// c-scroll-top-button
+library.add(faArrowUp);
 
 // c-summary-charts
 library.add(
