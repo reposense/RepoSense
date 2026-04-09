@@ -26,7 +26,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 @import '../styles/_colors.scss';
 @import '../styles/_z-indices.scss';
 
