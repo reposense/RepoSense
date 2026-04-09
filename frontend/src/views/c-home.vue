@@ -158,6 +158,11 @@ const home = defineComponent({
       required: true,
     },
   },
+  emits: [
+    'view-file-browser',
+    'go-back-to-welcome-tab',
+    'open-local-tab',
+  ],
   data(): {
     showSummaryBackToTop: boolean,
     showTabsBackToTop: boolean,
@@ -167,19 +172,14 @@ const home = defineComponent({
       showTabsBackToTop: false,
     };
   },
-  mounted() {
-    this.handleTabsScroll();
-    this.handleSummaryScroll();
-  },
-  emits: [
-    'view-file-browser',
-    'go-back-to-welcome-tab',
-    'open-local-tab',
-  ],
   computed: {
     isPortfolio(): boolean {
       return window.isPortfolio;
     }
+  },
+  mounted() {
+    this.handleTabsScroll();
+    this.handleSummaryScroll();
   },
   methods: {
     getRepoSenseHomeLink(): string {
