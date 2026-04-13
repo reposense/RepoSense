@@ -868,6 +868,30 @@ public class ArgsParserTest {
         Assertions.assertTrue(actualSinceDate.equals(oneMonthBeforeUntilDate));
     }
 
+    @Test
+    public void parse_configWizardAlone_returnsConfigWizardCliArguments() throws Exception {
+        String input = new InputBuilder().addConfigWizard().build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assertions.assertTrue(cliArguments.isConfigWizard());
+    }
+
+    @Test
+    public void parse_configWizardWithViewFlag_throwsParseException() {
+        String input = new InputBuilder().addConfigWizard()
+                .addView(OUTPUT_DIRECTORY_ABSOLUTE)
+                .build();
+        Assertions.assertThrows(ParseException.class, () -> ArgsParser.parse(translateCommandline(input)));
+    }
+
+    @Test
+    public void parse_configWizardWithOtherFlags_returnsConfigWizardCliArguments() throws Exception {
+        String input = new InputBuilder().addConfigWizard()
+                .addConfig(CONFIG_FOLDER_ABSOLUTE)
+                .build();
+        CliArguments cliArguments = ArgsParser.parse(translateCommandline(input));
+        Assertions.assertTrue(cliArguments.isConfigWizard());
+    }
+
     /**
      * Ensures that {@code actualUntilDate} falls on the date of report generation with time at 23:59:59.
      *
