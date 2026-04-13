@@ -27,7 +27,7 @@ repositories {
 
 configurations {
     systemtestImplementation.extendsFrom testImplementation
-    systemtestRuntime.extendsFrom testRuntimeOnly
+    systemtestRuntimeOnly.extendsFrom testRuntimeOnly
 }
 
 dependencies {
