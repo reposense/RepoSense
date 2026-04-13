@@ -1,0 +1,222 @@
+// ============================================================================
+// FORM ELEMENTS
+// ============================================================================
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  color: $color-text-secondary;
+  display: block;
+  font-size: .85rem;
+  font-weight: 500;
+  margin-bottom: .3rem;
+}
+
+.required {
+  color: $color-error;
+}
+
+.form-input {
+  background: $color-bg-white;
+  border: 1px solid $color-border;
+  border-radius: 4px;
+  color: $color-text-primary;
+  font-family: $font-body;
+  font-size: .875rem;
+  padding: .45rem .65rem;
+  transition: border-color .15s;
+  width: 100%;
+
+  &:focus {
+    border-color: $color-primary;
+    outline: none;
+  }
+
+  &.is-invalid {
+    border-color: $color-error;
+  }
+
+  &.is-valid {
+    border-color: $color-primary;
+  }
+}
+
+.field-hint {
+  color: $color-text-hint;
+  font-size: .75rem;
+  margin-top: .25rem;
+}
+
+.field-error {
+  color: $color-error;
+  font-size: .75rem;
+  margin-top: .25rem;
+}
+
+.field-valid {
+  color: $color-success;
+  font-size: .75rem;
+  margin-top: .25rem;
+}
+
+// ============================================================================
+// CARDS
+// ============================================================================
+
+.card {
+  background: $color-bg-white;
+  border: 1px solid $color-border;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.card-header {
+  align-items: center;
+  background: $color-bg-medium;
+  border-bottom: 1px solid $color-border;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  justify-content: space-between;
+  padding: .6rem 1rem;
+}
+
+.card-title {
+  color: $color-text-primary;
+  font-size: .875rem;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 1rem;
+}
+
+// ============================================================================
+// BUTTONS
+// ============================================================================
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: $font-body;
+  font-size: .875rem;
+  font-weight: 500;
+  padding: .4rem .9rem;
+  transition: background .15s, color .15s;
+}
+
+.btn-primary {
+  background: $color-primary;
+  border-color: $color-primary;
+  color: $color-bg-white;
+
+  &:hover {
+    background: $color-primary-dark;
+    border-color: $color-primary-dark;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+  }
+}
+
+.btn-secondary {
+  background: $color-bg-white;
+  border-color: $color-primary;
+  color: $color-primary;
+
+  &:hover {
+    background: $color-primary-light;
+  }
+}
+
+.btn-danger {
+  background: $color-bg-white;
+  border-color: $color-error;
+  color: $color-error;
+  font-size: .75rem;
+  padding: .2rem .5rem;
+
+  &:hover {
+    background: $color-error-light;
+  }
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: $color-primary;
+  cursor: pointer;
+  font-size: .8rem;
+  padding: .2rem 0;
+  text-decoration: underline;
+
+  &:hover {
+    color: $color-primary-dark;
+  }
+}
+
+// ============================================================================
+// NESTED CARDS (shared by ReposStep and GroupsStep)
+// ============================================================================
+
+.form-row {
+  display: grid;
+  gap: .75rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+.nested-card {
+  background: $color-bg-light;
+  border: 1px solid $color-border;
+  border-radius: 4px;
+  margin-bottom: .75rem;
+}
+
+.nested-card-header {
+  align-items: center;
+  background: $color-bg-dark;
+  border-bottom: 1px solid $color-border;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  justify-content: space-between;
+  padding: .4rem .75rem;
+}
+
+.nested-card-title {
+  color: $color-text-secondary;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.nested-card-body {
+  padding: .75rem;
+}
+
+.empty-hint {
+  color: $color-text-hint;
+  font-size: .8rem;
+  font-style: italic;
+  margin-bottom: .5rem;
+}
+
+// ============================================================================
+// NAVIGATION
+// ============================================================================
+
+.nav-buttons {
+  align-items: center;
+  border-top: 1px solid $color-border;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+}
+
+.nav-right {
+  display: flex;
+  gap: .5rem;
+}

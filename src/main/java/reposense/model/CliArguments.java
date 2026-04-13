@@ -32,6 +32,7 @@ public class CliArguments {
     private boolean isAutomaticallyLaunching;
     private boolean isStandaloneConfigIgnored;
     private boolean isFileSizeLimitIgnored;
+    private boolean isConfigWizard;
     private int numCloningThreads;
     private int numAnalysisThreads;
     private ZoneId zoneId;
@@ -211,6 +212,10 @@ public class CliArguments {
         return isOnlyTextRefreshed;
     }
 
+    public boolean isConfigWizard() {
+        return isConfigWizard;
+    }
+
     public boolean isAuthorDedupMode() {
         return isAuthorDedupMode;
     }
@@ -259,6 +264,7 @@ public class CliArguments {
                 && Objects.equals(this.originalityThreshold, otherCliArguments.originalityThreshold)
                 && this.isPortfolio == otherCliArguments.isPortfolio
                 && this.isOnlyTextRefreshed == otherCliArguments.isOnlyTextRefreshed
+                && this.isConfigWizard == otherCliArguments.isConfigWizard
                 && this.isAuthorDedupMode == otherCliArguments.isAuthorDedupMode;
     }
 
@@ -379,6 +385,16 @@ public class CliArguments {
          */
         public Builder isFileSizeLimitIgnored(boolean isFileSizeLimitIgnored) {
             this.cliArguments.isFileSizeLimitIgnored = isFileSizeLimitIgnored;
+            return this;
+        }
+
+        /**
+         * Adds the {@code isConfigWizard} to CliArguments.
+         *
+         * @param isConfigWizard Is configuration wizard mode.
+         */
+        public Builder isConfigWizard(boolean isConfigWizard) {
+            this.cliArguments.isConfigWizard = isConfigWizard;
             return this;
         }
 
