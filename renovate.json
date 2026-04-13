@@ -8,7 +8,15 @@
       "groupName": "all non-major dependencies except typescript",
       "groupSlug": "all-minor-patch",
       "matchPackageNames": [
-        "!typescript"
+        "!typescript",
+        "!eslint",
+        "!eslint-*",
+        "!@eslint/*",
+        "!@stylistic/*",
+        "!stylelint",
+        "!stylelint-*",
+        "!@stylelint/*",
+        "!puglint"
       ],
       "matchDepTypes": [
         "dependencies",
@@ -20,6 +28,30 @@
       ],
       "enabled": true,
       "automerge": true
+    },
+    {
+      "groupName": "linting dependencies",
+      "groupSlug": "linting",
+      "matchPackageNames": [
+        "eslint",
+        "eslint-*",
+        "@eslint/*",
+        "@stylistic/*",
+        "stylelint",
+        "stylelint-*",
+        "@stylelint/*",
+        "puglint"
+      ],
+      "matchDepTypes": [
+        "dependencies",
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "enabled": true,
+      "automerge": false
     },
     {
       "matchPackageNames": [
