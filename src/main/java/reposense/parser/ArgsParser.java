@@ -80,6 +80,7 @@ public class ArgsParser {
     public static final String[] ORIGINALITY_THRESHOLD_FLAGS = new String[] {"--originality-threshold", "-ot"};
     public static final String[] PORTFOLIO_FLAG = new String[] {"--portfolio", "-P"};
     public static final String[] REFRESH_ONLY_TEXT_FLAG = new String[] {"--text", "-T"};
+    public static final String[] CONFIG_WIZARD_FLAGS = new String[] { "--config-wizard" };
     public static final String[] AUTHOR_DEDUP_MODE_FLAGS = new String[] {"--author-dedup-mode"};
 
     private static final Logger logger = LogsManager.getLogger(ArgsParser.class);
@@ -101,6 +102,8 @@ public class ArgsParser {
             "\"Since Date\" cannot be later than \"Until Date\".";
     private static final String MESSAGE_SINCE_DATE_LATER_THAN_TODAY_DATE =
             "\"Since Date\" must not be later than today's date.";
+    private static final String MESSAGE_CONFIG_WIZARD_VIEW_INCOMPATIBLE =
+            "--config-wizard cannot be used with --view.";
     private static final String MESSAGE_AUTHOR_DEDUP_MODE_WITHOUT_CONFIG =
             "--author-dedup-mode flag is used without --config flag. The flag will be ignored.";
     private static final String MESSAGE_AUTHOR_CONFIG_FILE_NOT_FOUND =
@@ -237,6 +240,11 @@ public class ArgsParser {
                 .action(Arguments.storeTrue())
                 .help("Refreshes only the text content of the report, without analyzing the repositories again.");
 
+        parser.addArgument(CONFIG_WIZARD_FLAGS)
+                .dest(CONFIG_WIZARD_FLAGS[0])
+                .action(Arguments.storeTrue())
+                .help("Starts a wizard to guide the user through the configuration process.");
+
         parser.addArgument(AUTHOR_DEDUP_MODE_FLAGS)
                 .dest(AUTHOR_DEDUP_MODE_FLAGS[0])
                 .action(Arguments.storeTrue())
@@ -327,6 +335,12 @@ public class ArgsParser {
         int numAnalysisThreads = results.get(ANALYSIS_THREADS_FLAG[0]);
         boolean shouldPerformFreshCloning = results.get(FRESH_CLONING_FLAG[0]);
         boolean shouldRefreshOnlyText = results.get(REFRESH_ONLY_TEXT_FLAG[0]);
+        boolean isConfigWizard = results.get(CONFIG_WIZARD_FLAGS[0]);
+
+        if (isConfigWizard && reportFolderPath != null && !reportFolderPath.equals(EMPTY_PATH)) {
+            throw new ParseException(MESSAGE_CONFIG_WIZARD_VIEW_INCOMPATIBLE);
+        }
+
         boolean isAuthorDedupMode = results.get(AUTHOR_DEDUP_MODE_FLAGS[0]);
 
         CliArguments.Builder cliArgumentsBuilder = new CliArguments.Builder()
@@ -348,6 +362,7 @@ public class ArgsParser {
                 .isPortfolio(isPortfolio)
                 .isFreshClonePerformed(shouldPerformFreshCloning)
                 .isOnlyTextRefreshed(shouldRefreshOnlyText)
+                .isConfigWizard(isConfigWizard)
                 .isAuthorDedupMode(isAuthorDedupMode);
 
         LogsManager.setLogFolderLocation(outputFolderPath);

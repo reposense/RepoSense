@@ -29,6 +29,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
+    "config-wizard/**/*.ts",
+    "config-wizard/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],

@@ -81,6 +81,23 @@ Refer to the [Advanced Customization](./customizingReports.html#advanced-customi
 
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
+### `--config-wizard`
+
+**`--config-wizard`**: Launches an interactive browser-based wizard for generating a `report-config.yaml` file without writing YAML by hand.
+* Default: the wizard is not launched
+* Example: `java -jar RepoSense.jar --config-wizard`
+
+<box type="info" seamless>
+
+* Starting the wizard opens a local web server on port 9000 and automatically launches `http://localhost:9000/config-wizard` in your default browser.
+* The generated file is written to `./generated-configs/report-config.yaml` in the current working directory.
+* Cannot be used with `--view`. Any other flags passed alongside will be ignored (`--help` and `--version` continue to work as usual).
+</box>
+
+See [Using the Config Wizard](./configWizard.md) for a step-by-step walkthrough.
+
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
 ### `--formats`, `-f`
 
 **`--formats LIST_OF_FORMATS`**: Specifies which file extensions to be included in the analysis.
