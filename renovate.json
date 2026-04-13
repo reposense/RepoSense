@@ -64,5 +64,6 @@
       "automerge": true
     }
   ],
-  "dependencyDashboard": true
+  "dependencyDashboard": true,
+  "baseBranches": ["master", "update-renovate-config"]
 }
