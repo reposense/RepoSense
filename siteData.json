@@ -255,6 +255,7 @@
         "analyze-authorship-a": "--analyze-authorship, -A",
         "author-dedup-mode": "--author-dedup-mode",
         "config-c": "--config, -c",
+        "config-wizard": "--config-wizard",
         "formats-f": "--formats, -f",
         "find-previous-authors-f": "--find-previous-authors, -F",
         "help-h": "--help, -h",
@@ -291,6 +292,30 @@
         "repo-blurbs-md": "repo-blurbs.md",
         "author-blurbs-md": "author-blurbs.md",
         "chart-blurbs-md": "chart-blurbs.md"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "ug/configWizard.md",
+      "title": "Using the Config Wizard",
+      "headings": {
+        "using-the-config-wizard": "Using the Config Wizard",
+        "starting-the-wizard": "Starting the Wizard",
+        "step-1-report-settings": "Step 1: Report Settings",
+        "step-2-repos-and-amp-branches": "Step 2: Repos &amp; Branches",
+        "repository-url": "Repository URL",
+        "branches": "Branches",
+        "authors": "Authors",
+        "step-3-groups-optional": "Step 3: Groups (Optional)",
+        "step-4-review-and-amp-generate": "Step 4: Review &amp; Generate",
+        "configuration-summary": "Configuration Summary",
+        "yaml-preview": "YAML Preview",
+        "validation": "Validation",
+        "generating-the-file": "Generating the File",
+        "generated-output": "Generated Output",
+        "quitting-the-wizard": "Quitting the Wizard",
+        "troubleshooting": "Troubleshooting",
+        "related-pages": "Related Pages"
       },
       "headingKeywords": {}
     },
