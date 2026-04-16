@@ -4,7 +4,7 @@ import {
   faChevronDown, faChevronUp, faCircle, faCode, faCodeMerge,
   faEllipsisH, faExclamation, faHistory, faListUl,
   faPlusCircle, faSpinner, faTags, faUser, faUserEdit,
-  faDatabase, faClipboard, faArrowUpRightFromSquare, faArrowUp,
+  faDatabase, faClipboard, faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -17,8 +17,8 @@ library.add(faExclamation, faSpinner, faCode, faListUl);
 // c-resizer
 library.add(faCaretRight);
 
-// c-scroll-top-button
-library.add(faArrowUp);
+// c-summary
+library.add(faExclamation);
 
 // c-summary-charts
 library.add(

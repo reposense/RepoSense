@@ -60,6 +60,7 @@
     :file-filter-scope="fileFilterScope",
     @open-local-tab="resetFileFilterScopeToLocal"
   )
+
   .logo(v-if="isWidgetMode")
     a(:href="getRepoSenseHomeLink()", target="_blank")
       img(:src="getLogoPath()", :width=20, :height=20)
