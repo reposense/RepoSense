@@ -1,6 +1,6 @@
 {
   "name": "reposense",
-  "version": "1.0.0",
+  "version": "5.0.0",
   "description": "[![Build status](https://ci.appveyor.com/api/projects/status/gsbkj5qby3pjd6nw/branch/master?svg=true)](https://ci.appveyor.com/project/eugenepeh/reposense/branch/master)",
   "author": "",
   "scripts": {
