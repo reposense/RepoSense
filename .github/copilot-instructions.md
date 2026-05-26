@@ -15,7 +15,7 @@
 
 ### Backend
 
-- **Language:** Java 11 (compatible up to Java 17)
+- **Language:** Java 11
 - **Build System:** Gradle
 - **Key Dependencies:**
   - Gson 2.9.0 (JSON serialization/deserialization)
@@ -35,10 +35,14 @@
   - Vue 3
   - Vue Router
   - Vuex (State management)
+  - Zod (Runtime schema validation for JSON report files)
   - ESLint and Stylelint (Linting)
   - Cypress (E2E testing)
   - Highlight.js (Code highlighting)
   - Markdown-it (Markdown parsing)
+  - FontAwesome (Icons)
+  - JSZip (ZIP archive handling)
+  - Minimatch (Glob pattern matching)
 
 ### DevOps & Documentation
 
@@ -69,9 +73,11 @@ RepoSense/
 │   │   ├── views/                     # Page-level components
 │   │   ├── router/                    # Vue Router configuration
 │   │   ├── store/                     # Vuex store
-│   │   ├── types/                     # TypeScript types
+│   │   ├── types/                     # TypeScript types (includes Zod schemas)
 │   │   ├── utils/                     # Utility functions
+│   │   ├── mixin/                     # Vue mixins for shared logic
 │   │   └── main.ts                    # Entry point
+│   ├── config-wizard/                 # Standalone YAML configuration wizard app
 │   ├── cypress/                       # E2E tests
 │   └── package.json
 ├── docs/
@@ -82,7 +88,13 @@ RepoSense/
 │   ├── author-config.csv              # Author configuration template
 │   ├── repo-config.csv                # Repository configuration template
 │   ├── group-config.csv               # Group configuration template
-│   └── report-config.yaml             # Report metadata
+│   ├── report-config.yaml             # Report metadata
+│   ├── author-blurbs.md               # Per-author blurb descriptions
+│   ├── repo-blurbs.md                 # Per-repo blurb descriptions
+│   ├── chart-blurbs.md                # Per-chart blurb descriptions
+│   ├── checks/                        # CI check scripts
+│   ├── checkstyle/                    # Checkstyle configuration
+│   └── gh-actions/                    # GitHub Actions helper scripts
 ├── build.gradle                       # Gradle build configuration
 └── .github/                           # GitHub workflows and templates
 ```
@@ -98,7 +110,10 @@ RepoSense follows a modular architecture with clear separation of concerns:
    - `ArgsParser`: Parses CLI arguments into `CliArguments` object
    - `CsvParser`: Abstract parser for CSV configuration files (author, group, repo configs)
    - `JsonParser`: Abstract parser for JSON configuration files
+   - `YamlParser`: Abstract parser for YAML configuration files
    - `StandaloneConfigJsonParser`: Parses `_reposense/config.json`
+   - `ReportConfigYamlParser`: Parses `report-config.yaml`
+   - `BlurbMarkdownParser` and subtypes (`AuthorBlurbMarkdownParser`, `RepoBlurbMarkdownParser`, `ChartBlurbMarkdownParser`): Parse blurb Markdown files
 
 2. **Git Layer** (`git/` package)
 
@@ -211,6 +226,7 @@ RepoSense follows a modular architecture with clear separation of concerns:
 ./gradlew test                   # Unit tests
 ./gradlew systemtest             # System tests
 ./gradlew test systemtest        # Both
+./gradlew testFrontend           # Run Cypress E2E frontend tests (headless)
 ```
 
 **Code Quality:**
@@ -241,8 +257,11 @@ npm run lintfix                  # Auto-fix frontend lint errors (in frontend/)
 **Testing Frontend:**
 
 ```bash
-# Run E2E tests with Cypress
-./gradlew frontendTest
+# Run E2E tests with Cypress (headless)
+./gradlew testFrontend
+
+# Run Cypress GUI (headed browser)
+./gradlew cypress
 
 # Write tests in: frontend/cypress/tests/
 # Support file: frontend/cypress/support.js
@@ -282,6 +301,9 @@ When generating code, ensure:
 - `CliArguments`: Parsed command-line arguments
 - `RepoConfiguration`: Per-repository analysis configuration
 - `FileTypeManager`: File formats and custom groups
+- `BlurbMap` and subtypes (`AuthorBlurbMap`, `RepoBlurbMap`, `ChartBlurbMap`): Maps of blurb descriptions
+- `RunConfiguration` / `CliRunConfiguration` / `ConfigRunConfiguration`: Run configuration hierarchy
+- `reportconfig/`: Sub-package for report configuration models (`ReportConfiguration`, `ReportRepoConfiguration`, etc.)
 
 **Commits Analysis** (`reposense/commits/`)
 
@@ -313,23 +335,26 @@ When generating code, ensure:
 
 **Key Directories:**
 
-- `components/`: Reusable UI components (c-ramp, c-segment, etc.)
-- `views/`: Page-level components (c-home, c-widget, c-summary, c-authorship, c-zoom)
+- `components/`: Reusable UI components (c-ramp, c-segment, c-summary-charts, c-file-type-checkboxes, etc.)
+- `views/`: Page-level components (c-home, c-widget, c-summary, c-summary-portfolio, c-authorship, c-zoom, c-global-file-browser)
 - `router/`: Vue Router configuration
 - `store/`: Vuex state management (accessed via `window.REPOS`)
-- `types/`: TypeScript interfaces and types
+- `types/`: TypeScript interfaces, types, and Zod schemas (under `types/zod/`)
 - `utils/`: Utility functions including `api.ts` (data loader)
 - `mixin/`: Vue mixins for shared logic
+- `../config-wizard/`: Separate standalone app for generating YAML configuration files
 
 **Core Files:**
 
 - `main.ts`: Sets up plugins and 3rd party components
 - `app.vue`: Renders `router-view`, main application entry point
-- `api.ts`: Loads and parses JSON report files (summary.json, commits.json, authorship.json)
+- `api.ts`: Loads and parses JSON report files (summary.json, commits.json, authorship.json) with Zod schema validation
 - `c-home.vue`: Renders main report (resizer, summary, authorship, zoom)
 - `c-summary.vue`: Loads ramp charts from commits.json
+- `c-summary-portfolio.vue`: Portfolio mode variant of summary view
 - `c-authorship.vue`: Displays file-level authorship from authorship.json
 - `c-zoom.vue`: Filters and displays commits from selected ramp range
+- `c-global-file-browser.vue`: Global search panel for browsing files across repos
 
 **Frontend Data Flow:**
 
@@ -345,7 +370,7 @@ When generating code, ensure:
 **CSV Configuration Files** (in `config/` by default):
 
 - `author-config.csv`: Maps git emails to author names and display names
-- `repo-config.csv`: Specifies repositories to analyze, branches, date ranges
+- `repo-config.csv`: Specifies repositories to analyze, branches, date ranges (supports datetime for `since`/`until`)
 - `group-config.csv`: Groups files by custom categories
 
 **JSON Configuration** (`_reposense/config.json`):
@@ -356,8 +381,19 @@ When generating code, ensure:
 
 **Report Configuration** (`report-config.yaml`):
 
-- Report title and metadata
+- Report title, metadata, and per-repo time period overrides
 - Standalone configuration
+
+**Blurb Files** (Markdown, optional):
+
+- `author-blurbs.md`: Custom descriptions shown per author
+- `repo-blurbs.md`: Custom descriptions shown per repository
+- `chart-blurbs.md`: Custom descriptions shown per chart
+
+**YAML Configuration Wizard** (`frontend/config-wizard/`):
+
+- Standalone web app for interactively generating `report-config.yaml`
+- Built separately with Vite, served via `npm run serveConfigWizard`
 
 ### Multi-threading
 
@@ -493,7 +529,7 @@ Refer to these essential developer guides located in `docs/dg/`:
 - Use JUnit 5 (Jupiter API) with appropriate assertions and parametrized tests
 - Mock external Git operations in unit tests to avoid slow I/O
 - All tests run via GitHub Actions CI/CD on Ubuntu, macOS, and Windows
-- Frontend tests run on separate Cypress job for parallel execution
+- Frontend tests run on separate Cypress job for parallel execution (`gradlew testFrontend`)
 
 ## Implementation Patterns by Component
 
@@ -563,7 +599,9 @@ CommitContributionSummary summary = aggregator.aggregate(results);
 
 - **Integration (`integration.yml`):** Runs unit tests, system tests, and frontend tests on JDK 11 (Ubuntu/macOS/Windows)
 - **Frontend Tests (`cypress`):** Separate Cypress job for parallel E2E test execution
-- **Surge.sh Previews:** Automatically deploys report and docs previews for pull requests
+- **Surge.sh Pending Build (`pending.yml`):** Collects PR info and marks previews as pending
+- **Surge.sh Build Preview (`surge.yml`):** Deploys report and docs previews for pull requests
+- **Clear Deployments (`delete-deploy.yml`):** Clears GitHub environments and posts preview links after PRs close
 - **GitHub Pages (`gh-pages.yml`):** Auto-deploys MarkBind docs to GitHub Pages on master commits
 - **Stale PRs (`stale.yml`):** Auto-closes inactive pull requests
 
@@ -578,7 +616,7 @@ CommitContributionSummary summary = aggregator.aggregate(results);
 2. **Testing:**
 
    - `gradlew test systemtest` - All backend tests must pass
-   - `gradlew frontendTest` - Frontend tests must pass
+   - `gradlew testFrontend` - Frontend tests must pass
    - Coverage tracked via Codecov
 
 3. **Build Validation:**
@@ -622,5 +660,5 @@ For critical bugs found in production:
 
 ---
 
-**Last Updated:** January 2025
+**Last Updated:** April 2026
 **Project:** RepoSense - Contribution Analysis Tool
