@@ -33,7 +33,7 @@
     "minimatch": "^9.0.0",
     "muicss": "^0.10.3",
     "normalize.css": "^8.0.1",
-    "postcss": "^8.4.39",
+    "postcss": "^8.5.23",
     "pug-lint-vue": "^0.4.0",
     "seedrandom": "^3.0.5",
     "vite": "^6.2.2",
