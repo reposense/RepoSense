@@ -69,6 +69,7 @@ The `Chart panel` (an example is shown above) contains a series of _ramp chart_ 
   * At the commit-level of granularity, it links to the commit in the remote repository.
   * At higher levels of granularity, it displays the list of commits in the Code Panel.
 * To make the comparison between two authors easier, the color of the ramps that represent different authors' contributions at the same time period are the same.
+* Ramps that contain only deleted lines are shown in red instead of using the normal time-period colors. Ramps that contain both added and deleted lines still use the normal time-period colors.
 * Ramps representing big contributions can overlap with earlier time periods. This represents the possibility that if the work committed during a specific period is big, it could have started at an earlier time period.
 
 #### Contribution bars
