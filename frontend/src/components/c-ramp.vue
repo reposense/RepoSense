@@ -153,14 +153,19 @@ export default defineComponent({
       return Math.max(newSize * this.rampSize, 0.5);
     },
     getContributionMessageByCommit(slice: Commit, commit: CommitResult): string {
-      return `[${slice.date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
+      const date = this.getDateOnly(slice.date);
+      return `[${date}] ${commit.messageTitle}: +${commit.insertions} -${commit.deletions} lines `;
     },
     getContributionMessage(slice: Commit): string {
+      const startDate = this.getDateOnly(slice.date);
       let title = this.tframe === 'day'
-          ? `[${slice.date}] Daily `
-          : `[${slice.date} till ${slice.endDate}] Weekly `;
+          ? `[${startDate}] Daily `
+          : `[${startDate} till ${this.getDateOnly(slice.endDate)}] Weekly `;
       title += `contribution: +${slice.insertions} -${slice.deletions} lines`;
       return title;
+    },
+    getDateOnly(date?: string): string {
+      return date?.split('T')[0] ?? '';
     },
     openTabZoom(user: User, slice: Commit, evt: MouseEvent): void {
       // prevent opening of zoom tab when cmd/ctrl click

@@ -98,7 +98,7 @@ describe('show ramp chart for period', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2018-06-12T00:00:00] Setup AppVeyor CI (#142): +19 -0 lines ');
+      .should('eq', '[2018-06-12] Setup AppVeyor CI (#142): +19 -0 lines ');
 
     // last ramp should be for commit before end date
     cy.get('#tab-zoom .ramp .ramp__slice')
@@ -106,7 +106,7 @@ describe('show ramp chart for period', () => {
       .invoke('attr', 'title')
       .should(
         'eq',
-        '[2019-03-25T00:00:00] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines '
+        '[2019-03-25] [#622] CsvParser#parse: fix error handling of `processLine` (#623): +30 -10 lines '
       );
   });
 
@@ -152,7 +152,7 @@ describe('show ramp chart for period', () => {
       .click();
 
     // deletes commit ramp should have expected color
-    cy.get('[title="[2019-07-24T00:00:00] [#828] Revert \\"v_summary.js: remove redundant calls '
+    cy.get('[title="[2019-07-24] [#828] Revert \\"v_summary.js: remove redundant calls '
      + 'to getFiltered() (#800)\\" (#832): +0 -9 lines "]')
       .eq(1)
       .should('have.class', 'ramp__slice')

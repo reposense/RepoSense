@@ -266,11 +266,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2021-01-04T00:00:00] Update `About us` page (#1393): +55 -30 lines ');
+      .should('eq', '[2021-01-04] Update `About us` page (#1393): +55 -30 lines ');
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2019-12-20T00:00:00] [#46] Show total time after batch processing (#758): +43 -0 lines ');
+      .should('eq', '[2019-12-20] [#46] Show total time after batch processing (#758): +43 -0 lines ');
   });
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
@@ -295,11 +295,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2020-05-23T00:00:00] [#1241] Restore checked file types (#1256): +14 -1 lines ');
+      .should('eq', '[2020-05-23] [#1241] Restore checked file types (#1256): +14 -1 lines ');
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2019-12-20T00:00:00] [#46] Show total time after batch processing (#758): +43 -0 lines ');
+      .should('eq', '[2019-12-20] [#46] Show total time after batch processing (#758): +43 -0 lines ');
   });
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
@@ -324,11 +324,11 @@ describe('range changes in chartview should reflect in zoom', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .first()
       .invoke('attr', 'title')
-      .should('eq', '[2021-01-04T00:00:00] Update `About us` page (#1393): +55 -30 lines ');
+      .should('eq', '[2021-01-04] Update `About us` page (#1393): +55 -30 lines ');
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-09-27T00:00:00] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
+      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
 
   // Assumptions: Contributer 'jamessspanggg' is the first result,
@@ -355,12 +355,12 @@ describe('range changes in chartview should reflect in zoom', () => {
       .invoke('attr', 'title')
       .should(
         'eq',
-        '[2021-01-04T00:00:00] Update `About us` page (#1393): +55 -30 lines ',
+        '[2021-01-04] Update `About us` page (#1393): +55 -30 lines ',
       );
 
     cy.get('#tab-zoom .ramp .ramp__slice')
       .last()
       .invoke('attr', 'title')
-      .should('eq', '[2020-09-27T00:00:00] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
+      .should('eq', '[2020-09-27] Add optional check for quotes in diff file regex (#1330): +1 -1 lines ');
   });
 });
