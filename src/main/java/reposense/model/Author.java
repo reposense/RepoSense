@@ -14,6 +14,7 @@ public class Author {
     public static final String NAME_NO_AUTHOR_WITH_COMMITS_FOUND =
             "NO AUTHOR WITH COMMITS FOUND WITHIN THIS PERIOD OF TIME";
     private static final String UNKNOWN_AUTHOR_GIT_ID = "-";
+    private static final String OUT_OF_DATE_AUTHOR_GIT_ID = "__OUT_OF_DATE__";
 
     private static final String STANDARD_GITHUB_EMAIL_DOMAIN = "@users.noreply.github.com";
     private static final String STANDARD_GITLAB_EMAIL_DOMAIN = "@users.noreply.gitlab.com";
@@ -25,6 +26,8 @@ public class Author {
     private static final String COMMON_GLOB_REGEX = "^[-a-zA-Z0-9 _/\\\\*!{}\\[\\]!(),:.]*$";
 
     public static final Author UNKNOWN_AUTHOR = new Author(UNKNOWN_AUTHOR_GIT_ID);
+    // Internal marker that prevents annotations from restoring credit outside the date range.
+    public static final Author OUT_OF_DATE = new Author(OUT_OF_DATE_AUTHOR_GIT_ID);
 
     private final String gitId;
 
