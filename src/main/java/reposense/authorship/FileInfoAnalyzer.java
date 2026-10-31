@@ -63,6 +63,11 @@ public class FileInfoAnalyzer {
 
         AnnotatorAnalyzer.aggregateAnnotationAuthorInfo(fileInfo, config.getAuthorConfig(), shouldAnalyzeAuthorship);
 
+        // Keep the date exclusion marker internal; exported reports use the existing unknown-author value.
+        fileInfo.getLines().stream()
+                .filter(line -> line.getAuthor().equals(Author.OUT_OF_DATE))
+                .forEach(line -> line.updateAuthorAndCredit(Author.UNKNOWN_AUTHOR, shouldAnalyzeAuthorship));
+
         if (!config.getAuthorList().isEmpty() && fileInfo.isAllAuthorsIgnored(config.getAuthorList())) {
             return null;
         }
@@ -157,9 +162,12 @@ public class FileInfoAnalyzer {
             Author author = config.getAuthor(blameLineInfo.getAuthorName(), blameLineInfo.getAuthorEmail());
 
             if (!fileInfo.isFileLineTracked(lineCount) || author.isIgnoringFile(filePath)
-                    || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())
-                    || commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
+                    || CommitHash.isInsideCommitList(commitHash, config.getIgnoreCommitList())) {
                 author = Author.UNKNOWN_AUTHOR;
+            }
+
+            if (commitDate.isBefore(sinceDate) || commitDate.isAfter(untilDate)) {
+                author = Author.OUT_OF_DATE;
             }
 
             if (config.isLastModifiedDateIncluded()) {
@@ -172,7 +180,8 @@ public class FileInfoAnalyzer {
             }
             fileInfo.setLineAuthor(lineCount, author);
 
-            if (shouldAnalyzeAuthorship && !author.equals(Author.UNKNOWN_AUTHOR)) {
+            if (shouldAnalyzeAuthorship && !author.equals(Author.UNKNOWN_AUTHOR)
+                    && !author.equals(Author.OUT_OF_DATE)) {
                 String lineContent = fileInfo.getLine(lineCount + 1).getContent();
                 boolean isFullCredit = AuthorshipAnalyzer.analyzeAuthorship(config, fileInfo.getPath(), lineContent,
                         commitHash, author, originalityThreshold);

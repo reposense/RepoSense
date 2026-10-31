@@ -14,6 +14,8 @@
 
 If you want to override the code authorship deduced by RepoSense (which is based on Git blame/log data), you can use `@@author` tags to specify certain code segments that should be credited to a certain author irrespective of Git history. An example scenario where this is useful is when a method was originally written by one author but a second author did some minor refactoring to it; in this case, RepoSense might attribute the code to the second author while you may want to attribute the code to the first author.
 
+Author tags do not override the configured date range: lines with Git blame timestamps outside that range remain uncredited. A tag outside the range can still define the author of eligible lines later in its segment.
+
 There are 2 types of `@@author` tags:
 - Start Tags (format: `@@author AUTHOR_GIT_AUTHOR_NAME`): A start tag indicates the start of a code segment written by the author identified by the `AUTHOR_GIT_AUTHOR_NAME`.
 - End Tags (format: `@@author`): Optional. An end tag indicates the end of a code segment written by the author identified by the `AUTHOR_GIT_AUTHOR_NAME` of the start tag.
