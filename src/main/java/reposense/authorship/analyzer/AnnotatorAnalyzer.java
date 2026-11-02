@@ -55,14 +55,18 @@ public class AnnotatorAnalyzer {
         Optional<Author> currentAnnotatedAuthor = Optional.empty();
         Path filePath = Paths.get(fileInfo.getPath());
         for (LineInfo lineInfo : fileInfo.getLines()) {
+            boolean isOutOfDate = Author.OUT_OF_DATE.equals(lineInfo.getAuthor());
             String lineContent = lineInfo.getContent();
+            // Out-of-date tags still control the attribution of subsequent in-range lines.
             if (lineContent.contains(AUTHOR_TAG) && isValidCommentLine(lineContent)) {
                 Optional<Author> newAnnotatedAuthor = findAuthorInLine(lineContent, authorConfig);
                 boolean isEndOfAnnotatedSegment = currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
                 boolean isUnknownAuthorSegment = !currentAnnotatedAuthor.isPresent() && !newAnnotatedAuthor.isPresent();
 
                 if (isEndOfAnnotatedSegment) {
-                    lineInfo.updateAuthorAndCredit(currentAnnotatedAuthor.get(), shouldAnalyzeAuthorship);
+                    if (!isOutOfDate) {
+                        lineInfo.updateAuthorAndCredit(currentAnnotatedAuthor.get(), shouldAnalyzeAuthorship);
+                    }
                     currentAnnotatedAuthor = Optional.empty();
                 } else if (isUnknownAuthorSegment) {
                     currentAnnotatedAuthor = Optional.of(Author.UNKNOWN_AUTHOR);
@@ -70,7 +74,10 @@ public class AnnotatorAnalyzer {
                     currentAnnotatedAuthor = newAnnotatedAuthor.filter(author -> !author.isIgnoringFile(filePath));
                 }
             }
-            currentAnnotatedAuthor.ifPresent(author -> lineInfo.updateAuthorAndCredit(author, shouldAnalyzeAuthorship));
+            if (!isOutOfDate) {
+                currentAnnotatedAuthor.ifPresent(
+                        author -> lineInfo.updateAuthorAndCredit(author, shouldAnalyzeAuthorship));
+            }
         }
     }
 
