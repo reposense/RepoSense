@@ -147,7 +147,7 @@ describe('optimise timeline', () => {
     cy.get('#tab-zoom .ramp .ramp__slice')
       .invoke('attr', 'title')
       .then((title) => {
-        cy.wrap(title).should('eq', '[2019-08-18T00:00:00] AboutUs: update team members (#867): +94 -12 lines ');
+        cy.wrap(title).should('eq', '[2019-08-18] AboutUs: update team members (#867): +94 -12 lines ');
       });
   });
 });
