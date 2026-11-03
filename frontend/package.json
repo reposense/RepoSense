@@ -42,7 +42,7 @@
     "vue-observe-visibility": "^1.0.0",
     "vue-router": "^4.3.0",
     "vuex": "^4.0.2",
-    "zod": "^3.22.4"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@types/markdown-it": "^13.0.7",
