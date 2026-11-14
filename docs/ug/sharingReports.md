@@ -34,6 +34,17 @@ As RepoSense reports are in a web page format, you can publish a report by simpl
 
 {{ embed("Appendix: **Using RepoSense with Netlify**", "withNetlify.md") }}
 
+#### One-off upload with deed.page
+
+If you only need a link to a report you have already generated (e.g., to share it with tutors for the rest of the semester), you can upload the report folder to [deed.page](https://deed.page) with one command, without creating an account. Choose your own slug, as it becomes part of the URL:
+
+```shell
+tar -C reposense-report -czf report.tar.gz .
+curl -X PUT --data-binary @report.tar.gz -H "Content-Type: application/gzip" "https://deed.page/v1/sites?slug=cs2103-team-report"
+```
+
+The response contains the URL of the published report (e.g., `https://cs2103-team-report.deed.page/`) and a `token`. Keep the token private: sending it in an `Authorization: Bearer <token>` header when you upload again replaces the report at the same URL. Note that this option does not regenerate the report for you, and reports on the free plan show a small deed.page badge. Size limits are listed in the [deed.page docs](https://deed.page/docs).
+
 <!-- ------------------------------------------------------------------------------------------------------ -->
 
 ### Embeddable Widgets
